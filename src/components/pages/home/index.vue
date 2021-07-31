@@ -19,6 +19,8 @@ import { defineComponent, reactive } from 'vue';
 // import HelloWorld from './components/HelloWorld.vue';
 import NavBox from './NavBox.vue';
 import {useRouter} from 'vue-router'
+import * as config from './config'
+import {TNavBox} from '../../../types'
 
 export default defineComponent({
   name: 'App',
@@ -27,78 +29,7 @@ export default defineComponent({
     NavBox,
   },
   setup(props, ctx) {
-    const navBoxList = reactive([
-      {
-        title: 'basic',
-        navList: [
-          {
-            label: 'about',
-            value: 'about',
-            disabled: false,
-          },
-          {
-            label: 'html',
-            value: 'html',
-            disabled: true,
-          },
-          {
-            label: 'js',
-            value: 'js',
-            disabled: true,
-          },
-          {
-            label: 'ts',
-            value: 'ts',
-            disabled: true,
-          },
-          {
-            label: 'vue',
-            value: 'vue',
-            disabled: true,
-          },
-          {
-            label: 'react',
-            value: 'react',
-            disabled: true,
-          },
-          {
-            label: 'angular',
-            value: 'angular',
-            disabled: true,
-          },
-          {
-            label: 'data-structure',
-            value: 'data-structure',
-            disabled: true,
-          },
-        ],
-      },
-      {
-        title: 'promote',
-        navList: [
-          {
-            label: '工程化',
-            value: 'engineered',
-            disabled: true,
-          },
-          {
-            label: 'proxy',
-            value: 'proxy',
-            disabled: true,
-          },
-        ],
-      },
-      {
-        title: 'development',
-        navList: [
-          {
-            label: 'none',
-            value: 'none',
-            disabled: true,
-          },
-        ],
-      },
-    ]);
+    let navBoxList = reactive(config.navBoxList as TNavBox[]);
     let router = useRouter()
     let navItemClickHandler = (v: any) => {
       // emit('selectItem', v)

@@ -1,5 +1,5 @@
 <template>
-  <div>About</div>
+  <div>CaBaseCars</div>
 </template>
 
 <script lang="ts">
@@ -15,7 +15,7 @@ import { defineComponent, onMounted, computed, ref } from "vue";
 // 数据
 
 export default defineComponent({
-  name: "About",
+  name: "CaBaseCars",
   // components: {
     // CaIcon
     //     CaInputNumber,

@@ -66,8 +66,7 @@ export default defineComponent({
     // provide
     // evnet fn
     let itemClickHandler = (item: TNavItem) => {
-    	console.log(item)
-		item.disabled ? null : ctx.emit('selectItem', item.value)
+		  item.disabled ? null : ctx.emit('selectItem', item.value)
     }
     // watch
     // lifeCircle
@@ -90,6 +89,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .nav-box {
 	padding: 20px 12px;
+  box-sizing: border-box;
   h2 {
     text-align: center;
   }
@@ -99,7 +99,7 @@ export default defineComponent({
     .nb__item {
       margin: 6px 10px;
       color: #000;
-      background-color: #982;
+      background-color: #ffb9f0;
       border-radius: 4px;
       font-size: 18px;
       padding: 4px;
