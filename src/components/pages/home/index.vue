@@ -34,10 +34,12 @@ export default defineComponent({
     let navItemClickHandler = (v: any) => {
       // emit('selectItem', v)
       // console.log(v, ctx)
-      router.push({
-        // query: `/${v}`
-        path: `/${v}`
-      })
+      // window.location.href = 'www.lixiaodan.org/static/html.html'
+      window.location.href = '/static/html.html'
+      // router.push({
+      //   // query: `/${v}`
+      //   path: `/${v}`
+      // })
     }
     return {
       navBoxList,
