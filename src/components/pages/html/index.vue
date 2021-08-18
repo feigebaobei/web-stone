@@ -16,6 +16,7 @@
       <li>有些标签不可互相嵌套。如p不可嵌套div</li>
       <li>标签语义化可以方便程序员、浏览器、辅助设备</li>
       <li>不区分大小写</li>
+      <li>每个标签有自己的特性。应根据标签的特性、业务需要选择合适的标签。</li>
     </ul>
     <h1>html & css & javascript</h1>
     <ul>
@@ -26,13 +27,31 @@
     <h1>属性</h1>
     <ul>
       <li>使用`key="value"`形式书写在开始标签内。</li>
+      <li>常用`class id style PROP`</li>
     </ul>
     <h1>标题</h1>
     <ul>
       <li>h1 - h6</li>
       <li>拥有默认样式</li>
     </ul>
-    <h1>基本结构</h1>
+    <h1>格式化功能的标签</h1>
+    <table>
+      <thead>
+      </thead>
+      <tbody>
+        <tr><td>&lt;b&gt;</td><td>定义粗体文本。</td></tr>
+        <tr><td>&lt;big&gt;</td><td>定义大号字。</td></tr>
+        <tr><td>&lt;em&gt;</td><td>定义着重文字。</td></tr>
+        <tr><td>&lt;i&gt;</td><td>定义斜体字。</td></tr>
+        <tr><td>&lt;small&gt;</td><td>定义小号字。</td></tr>
+        <tr><td>&lt;strong&gt;</td><td>定义加重语气。</td></tr>
+        <tr><td>&lt;sub&gt;</td><td>定义下标字。</td></tr>
+        <tr><td>&lt;sup&gt;</td><td>定义上标字。</td></tr>
+        <tr><td>&lt;ins&gt;</td><td>定义插入字。</td></tr>
+        <tr><td>&lt;del&gt;</td><td>定义删除字。</td></tr>
+      </tbody>
+    </table>
+    <h1>页面基本结构</h1>
     <code>
       &lt;html&gt;
         &lt;head&gt;
