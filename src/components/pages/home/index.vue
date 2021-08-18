@@ -33,7 +33,7 @@ export default defineComponent({
     let router = useRouter()
     let navItemClickHandler = (v: any) => {
       // emit('selectItem', v)
-      console.log(v, ctx)
+      // console.log(v, ctx)
       router.push({
         // query: `/${v}`
         path: `/${v}`

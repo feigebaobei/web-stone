@@ -1,5 +1,69 @@
 <template>
   <div class="html">
+  <section>
+    <h1>html</h1>
+    <ul>
+      <li>HTML 指的是超文本标记语言 (Hyper Text Markup Language)</li>
+      <li>HTML 不是一种编程语言，而是一种标记语言 (markup language)</li>
+      <li>标记语言是一套标记标签 (markup tag)</li>
+      <li>HTML 使用标记标签来描述网页</li>
+      <li>它在浏览器中有自己默认样式</li>
+      <li>明确规定需要成对出现，即：开始标签+闭合标签。但是仍有一些标签是自闭合的。因为这些标签有特定含义，不应该包含非特定的内容。如：`img`它是图片域标签。它是自闭合标签，它只能处理图片，不应该包含非图片内容。`br`是拆行标签。它是自闭合标签，它只能拆行，不应该包含非拆行内容。html语言为了防止包含不正确内容的错误，设置了自闭合标签。</li>
+      <li>若无闭合标签，则浏览器会尝试补全标签</li>
+      <li>块级标签是默认独占一行的标签</li>
+      <li>行内标签是默认非独占一行的标签</li>
+      <li>行内标签不包含块级标签</li>
+      <li>有些标签不可互相嵌套。如p不可嵌套div</li>
+      <li>标签语义化可以方便程序员、浏览器、辅助设备</li>
+      <li>不区分大小写</li>
+    </ul>
+    <h1>html & css & javascript</h1>
+    <ul>
+      <li>html就像筋骨</li>
+      <li>css就像衣服</li>
+      <li>javascript（js）就像本领</li>
+    </ul>
+    <h1>属性</h1>
+    <ul>
+      <li>使用`key="value"`形式书写在开始标签内。</li>
+    </ul>
+    <h1>标题</h1>
+    <ul>
+      <li>h1 - h6</li>
+      <li>拥有默认样式</li>
+    </ul>
+    <h1>基本结构</h1>
+    <code>
+      &lt;html&gt;
+        &lt;head&gt;
+          &lt;title&gt;TITLE&lt;/title&gt;
+          &lt;meta charset="UTF-8" /&gt;
+          &lt;link rel="icon" href="/favicon.ico" /&gt;
+          &lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+          <!-- other code -->
+          <!-- other -->
+          &lt;script src="URL"&gt;&lt;/script&gt;
+        &lt;/body&gt;
+      &lt;/html&gt;
+    </code>
+    <ul>
+      <li></li>
+    </ul>
+    <h1>属性</h1>
+    <ul>
+      <li></li>
+    </ul>
+    <h1>属性</h1>
+    <ul>
+      <li></li>
+    </ul>
+    <h1>属性</h1>
+    <ul>
+      <li></li>
+    </ul>
+  </section>
     <code>
 &lt;!--&gt;
 &lt;!DOCTYPE&gt;
@@ -142,7 +206,7 @@ import { defineComponent, onMounted, computed, ref } from "vue";
 // 数据
 
 export default defineComponent({
-  name: "CaBaseCars",
+  name: "html",
   // components: {
     // CaIcon
     //     CaInputNumber,
