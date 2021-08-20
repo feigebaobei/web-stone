@@ -4,7 +4,7 @@
 - 标记语言是一套标记标签 (markup tag)
 - HTML 使用标记标签来描述网页
 - 它在浏览器中有自己默认样式
-- 明确规定需要成对出现，即：开始标签+闭合标签。但是仍有一些标签是自闭合的。因为这些标义，不应该包含非特定的内容。如：`img`它是图片域标签。它是自闭合标签，它只能处理图片，不应该包含非图片内容。`br`是拆行标签。它是自闭合标签，它只能拆行，不应该包含非拆行内容。html语言为了防止包含不正确内容的错误，设置了自闭合标签。</li>
+- 明确规定需要成对出现，即：开始标签+闭合标签。但是仍有一些标签是自闭合的。因为这些标义，不应该包含非特定的内容。如：`img`它是图片域标签。它是自闭合标签，它只能处理图片，不应该包含非图片内容。`br`是拆行标签。它是自闭合标签，它只能拆行，不应该包含非拆行内容。html语言为了防止包含不正确内容的错误，设置了自闭合标签。
 - 若无闭合标签，则浏览器会尝试补全标签
 - 块级标签是默认独占一行的标签
 - 行内标签是默认非独占一行的标签
@@ -119,25 +119,167 @@
 使用 Target 属性，你可以定义被链接的文档在何处显示。
 name 属性规定锚（anchor）的名称。用于要内部链接。
 
-# 链接
 # 图像
+```
+<img src="boat.gif" alt="Big Boat">
+map 图像地图
+area 图像地图的可点击区域。需要<map>组件内使用。
+
+<img
+src="/i/eg_planets.jpg"
+border="0" usemap="#planetmap"
+alt="Planets" />
+<map name="planetmap" id="planetmap">
+<area
+shape="circle"
+coords="180,139,14"
+href ="/example/html/venus.html"
+target ="_blank"
+alt="Venus" />
+<area
+shape="circle"
+coords="129,161,10"
+href ="/example/html/mercur.html"
+target ="_blank"
+alt="Mercury" />
+<area
+shape="rect"
+coords="0,0,110,260"
+href ="/example/html/sun.html"
+target ="_blank"
+alt="Sun" />
+</map>
+```
+
 # 表格
+为了避免这空的单元格不显示，在空单元格中添加一个空格。
+|||
+|-|-|
+|<table>|	定义表格|
+|<caption>|	定义表格标题。|
+|<th>|	定义表格的表头。|
+|<tr>|	定义表格的行。|
+|<td>|	定义表格单元。|
+|<thead>|	定义表格的页眉。|
+|<tbody>|	定义表格的主体。|
+|<tfoot>|	定义表格的页脚。|
+|<col>|	定义用于表格列的属性。|
+|<colgroup>|	定义表格列的组。|
+
+||||
+|-|-|-|
+|align	|right / left / center / justify / char|规定与 col 元素相关的内容的水平对齐方式。|
+|char|character	|规定根据哪个字符来对齐与 col 元素相关的内容。|
+|charoff|	number|	规定第一个对齐字符的偏移量。|
+|span|	number|	规定 col 元素应该横跨的列数。|
+|valign	|top / middle / bottom / baseline|定义与 col 元素相关的内容的垂直对齐方式。|
+|width	| pixels / % / relative_length | 规定 col 元素的宽度。|
+
 # 列表
-# 块
-# 类
-# id
+ul
+  li
+ol
+  li
+有自己的默认样式。
+
+# 类 & id
+class & id
+getElementById()
+
 # 内联框架
+```
+<iframe src="demo_iframe.htm" width="200" height="200"></iframe>
+```
+frameborder 属性规定是否显示 iframe 周围的边框。
+
 # js
+常用于操作dom.
+可根据class/id/tag等得到dom.
+可修改样式。
+详见js
+
 # 路径
+|||
+|-|-|
+|<img src="picture.jpg">	|picture.jpg 位于与当前网页相同的文件夹|
+|<img src="images/picture.jpg">|	picture.jpg 位于当前文件夹的 images 文件夹中|
+|<img src="/images/picture.jpg">|	picture.jpg 当前站点根目录的 images 文件夹中|
+|<img src="../picture.jpg">	|picture.jpg 位于当前文件夹的上一级文件夹中|
+
 # 头部
+|||
+|-|-|
+|`<head>`|	定义关于文档的信息。|
+|`<title>`|	定义文档标题。|
+|`<base>`|	定义页面上所有链接的默认地址或默认目标。|
+|`<link>`|	定义文档与外部资源之间的关系。|
+|`<meta>`|	定义关于 HTML 文档的元数据。|
+|`<script>`|	定义客户端脚本。|
+|`<style>`|	定义文档的样式信息。|
+
 # 布局
 详情请看css
 # 响应式布局
-# 属性
-# 属性
-# 属性
-# 属性
-# 属性
+# 语义
+html5以后html很重视语义。提倡使用正常语义编写代码。兼容非语义代码。
+语义的目的：让程序员、浏览器、辅助设备知道其内部文本是做什么的。
+
+# 实体
+
+||||||
+|-|-|-|-|-|
+|显示结果|	|描述|	实体名称;|实体编号|
+| |	|空格|	&nbsp;|	&#160;|
+|<|	|小于号|	&lt;|	&#60;|
+|>|	|大于号|	&gt;|	&#62;|
+|&|	|和号|	&amp;|	&#38;|
+|"|	|引号|	&quot;|	&#34;|
+|'|	|撇号| 	&apos;| (IE不支持)	&#39;|
+|￠|	|分（cent）|	&cent;|	&#162;|
+|£|	|镑（pound）|	&pound;|	&#163;|
+|¥|	|元（yen）|	&yen;|	&#165;|
+|€|	|欧元（euro）|	&euro;|	&#8364;|
+|§|	|小节|	&sect;|	&#167;|
+|©|	|版权（copyright）|	&copy;|	&#169;|
+|®|	|注册商标|	&reg;|	&#174;|
+|™|	|商标|	&trade;|	&#8482;|
+|×|	|乘号|	&times;|	&#215;|
+|÷|	|除号|	&divide;|	&#247;|
+
+|||||
+|-|-|-|-|
+|©|	&#169;|	&copy;|	COPYRIGHT SIGN|
+|®|	&#174;|	&reg;|	REGISTERED SIGN|
+|€|	&#8364;|	&euro;|	EURO SIGN|
+|™|	&#8482;|	&trade;|	TRADEMARK|
+|←|	&#8592;|	&larr;|	LEFTWARDS ARROW|
+|↑|	&#8593;|	&uarr;|	UPWARDS ARROW|
+|→|	&#8594;|	&rarr;|	RIGHTWARDS ARROW|
+|↓|	&#8595;|	&darr;|	DOWNWARDS ARROW|
+|♠|	&#9824;|	&spades;|	BLACK SPADE SUIT|
+|♣|	&#9827;|	&clubs;|	BLACK CLUB SUIT|
+|♥|	&#9829;|	&hearts;|	BLACK HEART SUIT|
+|♦|	&#9830;|	&diams;|	BLACK DIAMOND SUIT|
+# 符号
+|||||
+|-|-|-|-|
+|∀|	&#8704;|	&forall;|	FOR ALL|
+|∂|	&#8706;|	&part;|	PARTIAL DIFFERENTIAL|
+|∃|	&#8707;|	&exist;|	THERE EXISTS|
+|∅|	&#8709;|	&empty;|	EMPTY SETS|
+|∇|	&#8711;|	&nabla;|	NABLA|
+|∈|	&#8712;|	&isin;|	ELEMENT OF|
+|∉|	&#8713;|	&notin;|	NOT AN ELEMENT OF|
+|∋|	&#8715;|	&ni;|	CONTAINS AS MEMBER|
+|∏|	&#8719;|	&prod;|	N-ARY PRODUCT|
+|∑|	&#8721;|	&sum;|	N-ARY SUMMATION|
+
+# 字符集
+# url
+|http|	超文本传输协议|	以 http:// 开头的普通网页。不加密。|
+|https|	安全超文本传输协议|	安全网页。加密所有信息交换。|
+|ftp|	文件传输协议|	用于将文件下载或上传至网站。|
+|file|	 |	您计算机上的文件。||
 # 属性
 # 属性
 # 属性
