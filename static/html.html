@@ -1070,7 +1070,7 @@ body .markdown-body
 <li>标记语言是一套标记标签 (markup tag)</li>
 <li>HTML 使用标记标签来描述网页</li>
 <li>它在浏览器中有自己默认样式</li>
-<li>明确规定需要成对出现，即：开始标签+闭合标签。但是仍有一些标签是自闭合的。因为这些标义，不应该包含非特定的内容。如：<code>img</code>它是图片域标签。它是自闭合标签，它只能处理图片，不应该包含非图片内容。<code>br</code>是拆行标签。它是自闭合标签，它只能拆行，不应该包含非拆行内容。html语言为了防止包含不正确内容的错误，设置了自闭合标签。</li></li>
+<li>明确规定需要成对出现，即：开始标签+闭合标签。但是仍有一些标签是自闭合的。因为这些标义，不应该包含非特定的内容。如：<code>img</code>它是图片域标签。它是自闭合标签，它只能处理图片，不应该包含非图片内容。<code>br</code>是拆行标签。它是自闭合标签，它只能拆行，不应该包含非拆行内容。html语言为了防止包含不正确内容的错误，设置了自闭合标签。</li>
 <li>若无闭合标签，则浏览器会尝试补全标签</li>
 <li>块级标签是默认独占一行的标签</li>
 <li>行内标签是默认非独占一行的标签</li>
@@ -1339,20 +1339,6 @@ body .markdown-body
 <td></td>
 <td></td>
 </tr>
-<tr>
-<td>外部样式表</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>外部样式表</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
 </tbody>
 </table>
 <h1 id="_10">链接<a class="headerlink" href="#_10" title="Permanent link"></a></h1>
@@ -1361,29 +1347,605 @@ body .markdown-body
 </pre></div>
 使用 Target 属性，你可以定义被链接的文档在何处显示。
 name 属性规定锚（anchor）的名称。用于要内部链接。</p>
-<h1 id="_11">链接<a class="headerlink" href="#_11" title="Permanent link"></a></h1>
-<h1 id="_12">图像<a class="headerlink" href="#_12" title="Permanent link"></a></h1>
-<h1 id="_13">表格<a class="headerlink" href="#_13" title="Permanent link"></a></h1>
-<h1 id="_14">列表<a class="headerlink" href="#_14" title="Permanent link"></a></h1>
-<h1 id="_15">块<a class="headerlink" href="#_15" title="Permanent link"></a></h1>
-<h1 id="_16">类<a class="headerlink" href="#_16" title="Permanent link"></a></h1>
-<h1 id="id">id<a class="headerlink" href="#id" title="Permanent link"></a></h1>
-<h1 id="_17">内联框架<a class="headerlink" href="#_17" title="Permanent link"></a></h1>
+<h1 id="_11">图像<a class="headerlink" href="#_11" title="Permanent link"></a></h1>
+<div class="highlight"><pre>&lt;img src=&quot;boat.gif&quot; alt=&quot;Big Boat&quot;&gt;
+map 图像地图
+area 图像地图的可点击区域。需要&lt;map&gt;组件内使用。
+
+&lt;img
+src=&quot;/i/eg_planets.jpg&quot;
+border=&quot;0&quot; usemap=&quot;#planetmap&quot;
+alt=&quot;Planets&quot; /&gt;
+&lt;map name=&quot;planetmap&quot; id=&quot;planetmap&quot;&gt;
+&lt;area
+shape=&quot;circle&quot;
+coords=&quot;180,139,14&quot;
+href =&quot;/example/html/venus.html&quot;
+target =&quot;_blank&quot;
+alt=&quot;Venus&quot; /&gt;
+&lt;area
+shape=&quot;circle&quot;
+coords=&quot;129,161,10&quot;
+href =&quot;/example/html/mercur.html&quot;
+target =&quot;_blank&quot;
+alt=&quot;Mercury&quot; /&gt;
+&lt;area
+shape=&quot;rect&quot;
+coords=&quot;0,0,110,260&quot;
+href =&quot;/example/html/sun.html&quot;
+target =&quot;_blank&quot;
+alt=&quot;Sun&quot; /&gt;
+&lt;/map&gt;
+</pre></div>
+
+<h1 id="_12">表格<a class="headerlink" href="#_12" title="Permanent link"></a></h1>
+<p>为了避免这空的单元格不显示，在空单元格中添加一个空格。
+|||
+|-|-|
+|<table>|   定义表格|
+|<caption>| 定义表格标题。|
+|<th>|  定义表格的表头。|
+|<tr>|  定义表格的行。|
+|<td>|  定义表格单元。|
+|<thead>|   定义表格的页眉。|
+|<tbody>|   定义表格的主体。|
+|<tfoot>|   定义表格的页脚。|
+|<col>| 定义用于表格列的属性。|
+|<colgroup>|    定义表格列的组。|</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>align</td>
+<td>right / left / center / justify / char</td>
+<td>规定与 col 元素相关的内容的水平对齐方式。</td>
+</tr>
+<tr>
+<td>char</td>
+<td>character</td>
+<td>规定根据哪个字符来对齐与 col 元素相关的内容。</td>
+</tr>
+<tr>
+<td>charoff</td>
+<td>number</td>
+<td>规定第一个对齐字符的偏移量。</td>
+</tr>
+<tr>
+<td>span</td>
+<td>number</td>
+<td>规定 col 元素应该横跨的列数。</td>
+</tr>
+<tr>
+<td>valign</td>
+<td>top / middle / bottom / baseline</td>
+<td>定义与 col 元素相关的内容的垂直对齐方式。</td>
+</tr>
+<tr>
+<td>width</td>
+<td>pixels / % / relative_length</td>
+<td>规定 col 元素的宽度。</td>
+</tr>
+</tbody>
+</table>
+<h1 id="_13">列表<a class="headerlink" href="#_13" title="Permanent link"></a></h1>
+<p>ul
+  li
+ol
+  li
+有自己的默认样式。</p>
+<h1 id="id">类 &amp; id<a class="headerlink" href="#id" title="Permanent link"></a></h1>
+<p>class &amp; id
+getElementById()</p>
+<h1 id="_14">内联框架<a class="headerlink" href="#_14" title="Permanent link"></a></h1>
+<p><div class="highlight"><pre>&lt;iframe src=&quot;demo_iframe.htm&quot; width=&quot;200&quot; height=&quot;200&quot;&gt;&lt;/iframe&gt;
+</pre></div>
+frameborder 属性规定是否显示 iframe 周围的边框。</p>
 <h1 id="js">js<a class="headerlink" href="#js" title="Permanent link"></a></h1>
-<h1 id="_18">路径<a class="headerlink" href="#_18" title="Permanent link"></a></h1>
-<h1 id="_19">头部<a class="headerlink" href="#_19" title="Permanent link"></a></h1>
-<h1 id="_20">布局<a class="headerlink" href="#_20" title="Permanent link"></a></h1>
+<p>常用于操作dom.
+可根据class/id/tag等得到dom.
+可修改样式。
+详见js</p>
+<h1 id="_15">路径<a class="headerlink" href="#_15" title="Permanent link"></a></h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="/home/turbo/code/web-stone/static/picture.jpg"></td>
+<td>picture.jpg 位于与当前网页相同的文件夹</td>
+</tr>
+<tr>
+<td><img src="/home/turbo/code/web-stone/static/images/picture.jpg"></td>
+<td>picture.jpg 位于当前文件夹的 images 文件夹中</td>
+</tr>
+<tr>
+<td><img src="/images/picture.jpg"></td>
+<td>picture.jpg 当前站点根目录的 images 文件夹中</td>
+</tr>
+<tr>
+<td><img src="/home/turbo/code/web-stone/picture.jpg"></td>
+<td>picture.jpg 位于当前文件夹的上一级文件夹中</td>
+</tr>
+</tbody>
+</table>
+<h1 id="_16">头部<a class="headerlink" href="#_16" title="Permanent link"></a></h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;head&gt;</code></td>
+<td>定义关于文档的信息。</td>
+</tr>
+<tr>
+<td><code>&lt;title&gt;</code></td>
+<td>定义文档标题。</td>
+</tr>
+<tr>
+<td><code>&lt;base&gt;</code></td>
+<td>定义页面上所有链接的默认地址或默认目标。</td>
+</tr>
+<tr>
+<td><code>&lt;link&gt;</code></td>
+<td>定义文档与外部资源之间的关系。</td>
+</tr>
+<tr>
+<td><code>&lt;meta&gt;</code></td>
+<td>定义关于 HTML 文档的元数据。</td>
+</tr>
+<tr>
+<td><code>&lt;script&gt;</code></td>
+<td>定义客户端脚本。</td>
+</tr>
+<tr>
+<td><code>&lt;style&gt;</code></td>
+<td>定义文档的样式信息。</td>
+</tr>
+</tbody>
+</table>
+<h1 id="_17">布局<a class="headerlink" href="#_17" title="Permanent link"></a></h1>
 <p>详情请看css</p>
-<h1 id="_21">响应式布局<a class="headerlink" href="#_21" title="Permanent link"></a></h1>
-<h1 id="_22">属性<a class="headerlink" href="#_22" title="Permanent link"></a></h1>
-<h1 id="_23">属性<a class="headerlink" href="#_23" title="Permanent link"></a></h1>
-<h1 id="_24">属性<a class="headerlink" href="#_24" title="Permanent link"></a></h1>
-<h1 id="_25">属性<a class="headerlink" href="#_25" title="Permanent link"></a></h1>
-<h1 id="_26">属性<a class="headerlink" href="#_26" title="Permanent link"></a></h1>
-<h1 id="_27">属性<a class="headerlink" href="#_27" title="Permanent link"></a></h1>
-<h1 id="_28">属性<a class="headerlink" href="#_28" title="Permanent link"></a></h1>
-<h1 id="_29">属性<a class="headerlink" href="#_29" title="Permanent link"></a></h1>
-<h1 id="_30">全标签<a class="headerlink" href="#_30" title="Permanent link"></a></h1>
+<h1 id="_18">响应式布局<a class="headerlink" href="#_18" title="Permanent link"></a></h1>
+<h1 id="_19">语义<a class="headerlink" href="#_19" title="Permanent link"></a></h1>
+<p>html5以后html很重视语义。提倡使用正常语义编写代码。兼容非语义代码。
+语义的目的：让程序员、浏览器、辅助设备知道其内部文本是做什么的。</p>
+<h1 id="_20">实体<a class="headerlink" href="#_20" title="Permanent link"></a></h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>显示结果</td>
+<td></td>
+<td>描述</td>
+<td>实体名称;</td>
+<td>实体编号</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>空格</td>
+<td>&nbsp;</td>
+<td>&#160;</td>
+</tr>
+<tr>
+<td>&lt;</td>
+<td></td>
+<td>小于号</td>
+<td>&lt;</td>
+<td>&#60;</td>
+</tr>
+<tr>
+<td>&gt;</td>
+<td></td>
+<td>大于号</td>
+<td>&gt;</td>
+<td>&#62;</td>
+</tr>
+<tr>
+<td>&amp;</td>
+<td></td>
+<td>和号</td>
+<td>&amp;</td>
+<td>&#38;</td>
+</tr>
+<tr>
+<td>&ldquo;</td>
+<td></td>
+<td>引号</td>
+<td>&quot;</td>
+<td>&#34;</td>
+</tr>
+<tr>
+<td>&lsquo;</td>
+<td></td>
+<td>撇号</td>
+<td>&apos;</td>
+<td>(IE不支持) &#39;</td>
+</tr>
+<tr>
+<td>￠</td>
+<td></td>
+<td>分（cent）</td>
+<td>&cent;</td>
+<td>&#162;</td>
+</tr>
+<tr>
+<td>£</td>
+<td></td>
+<td>镑（pound）</td>
+<td>&pound;</td>
+<td>&#163;</td>
+</tr>
+<tr>
+<td>¥</td>
+<td></td>
+<td>元（yen）</td>
+<td>&yen;</td>
+<td>&#165;</td>
+</tr>
+<tr>
+<td>€</td>
+<td></td>
+<td>欧元（euro）</td>
+<td>&euro;</td>
+<td>&#8364;</td>
+</tr>
+<tr>
+<td>§</td>
+<td></td>
+<td>小节</td>
+<td>&sect;</td>
+<td>&#167;</td>
+</tr>
+<tr>
+<td>©</td>
+<td></td>
+<td>版权（copyright）</td>
+<td>&copy;</td>
+<td>&#169;</td>
+</tr>
+<tr>
+<td>®</td>
+<td></td>
+<td>注册商标</td>
+<td>&reg;</td>
+<td>&#174;</td>
+</tr>
+<tr>
+<td>™</td>
+<td></td>
+<td>商标</td>
+<td>&trade;</td>
+<td>&#8482;</td>
+</tr>
+<tr>
+<td>×</td>
+<td></td>
+<td>乘号</td>
+<td>&times;</td>
+<td>&#215;</td>
+</tr>
+<tr>
+<td>÷</td>
+<td></td>
+<td>除号</td>
+<td>&divide;</td>
+<td>&#247;</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>©</td>
+<td>&#169;</td>
+<td>&copy;</td>
+<td>COPYRIGHT SIGN</td>
+</tr>
+<tr>
+<td>®</td>
+<td>&#174;</td>
+<td>&reg;</td>
+<td>REGISTERED SIGN</td>
+</tr>
+<tr>
+<td>€</td>
+<td>&#8364;</td>
+<td>&euro;</td>
+<td>EURO SIGN</td>
+</tr>
+<tr>
+<td>™</td>
+<td>&#8482;</td>
+<td>&trade;</td>
+<td>TRADEMARK</td>
+</tr>
+<tr>
+<td>←</td>
+<td>&#8592;</td>
+<td>&larr;</td>
+<td>LEFTWARDS ARROW</td>
+</tr>
+<tr>
+<td>↑</td>
+<td>&#8593;</td>
+<td>&uarr;</td>
+<td>UPWARDS ARROW</td>
+</tr>
+<tr>
+<td>→</td>
+<td>&#8594;</td>
+<td>&rarr;</td>
+<td>RIGHTWARDS ARROW</td>
+</tr>
+<tr>
+<td>↓</td>
+<td>&#8595;</td>
+<td>&darr;</td>
+<td>DOWNWARDS ARROW</td>
+</tr>
+<tr>
+<td>♠</td>
+<td>&#9824;</td>
+<td>&spades;</td>
+<td>BLACK SPADE SUIT</td>
+</tr>
+<tr>
+<td>♣</td>
+<td>&#9827;</td>
+<td>&clubs;</td>
+<td>BLACK CLUB SUIT</td>
+</tr>
+<tr>
+<td>♥</td>
+<td>&#9829;</td>
+<td>&hearts;</td>
+<td>BLACK HEART SUIT</td>
+</tr>
+<tr>
+<td>♦</td>
+<td>&#9830;</td>
+<td>&diams;</td>
+<td>BLACK DIAMOND SUIT</td>
+</tr>
+</tbody>
+</table>
+<h1 id="_21">符号<a class="headerlink" href="#_21" title="Permanent link"></a></h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>∀</td>
+<td>&#8704;</td>
+<td>&forall;</td>
+<td>FOR ALL</td>
+</tr>
+<tr>
+<td>∂</td>
+<td>&#8706;</td>
+<td>&part;</td>
+<td>PARTIAL DIFFERENTIAL</td>
+</tr>
+<tr>
+<td>∃</td>
+<td>&#8707;</td>
+<td>&exist;</td>
+<td>THERE EXISTS</td>
+</tr>
+<tr>
+<td>∅</td>
+<td>&#8709;</td>
+<td>&empty;</td>
+<td>EMPTY SETS</td>
+</tr>
+<tr>
+<td>∇</td>
+<td>&#8711;</td>
+<td>&nabla;</td>
+<td>NABLA</td>
+</tr>
+<tr>
+<td>∈</td>
+<td>&#8712;</td>
+<td>&isin;</td>
+<td>ELEMENT OF</td>
+</tr>
+<tr>
+<td>∉</td>
+<td>&#8713;</td>
+<td>&notin;</td>
+<td>NOT AN ELEMENT OF</td>
+</tr>
+<tr>
+<td>∋</td>
+<td>&#8715;</td>
+<td>&ni;</td>
+<td>CONTAINS AS MEMBER</td>
+</tr>
+<tr>
+<td>∏</td>
+<td>&#8719;</td>
+<td>&prod;</td>
+<td>N-ARY PRODUCT</td>
+</tr>
+<tr>
+<td>∑</td>
+<td>&#8721;</td>
+<td>&sum;</td>
+<td>N-ARY SUMMATION</td>
+</tr>
+</tbody>
+</table>
+<h1 id="_22">字符集<a class="headerlink" href="#_22" title="Permanent link"></a></h1>
+<h1 id="url">url<a class="headerlink" href="#url" title="Permanent link"></a></h1>
+<p>|http|  超文本传输协议|    以 http:// 开头的普通网页。不加密。|
+|https| 安全超文本传输协议|  安全网页。加密所有信息交换。|
+|ftp|   文件传输协议| 用于将文件下载或上传至网站。|
+|file|   |  您计算机上的文件。||</p>
+<h1 id="_23">表单<a class="headerlink" href="#_23" title="Permanent link"></a></h1>
+<p>用于搜集不同类型的用户输入。
+当前一般使用前后端分离开发。所以一般不使用要action属性。使用ajax提交数据。
+<div class="highlight"><pre>&lt;form&gt;
+  action 服务器接收表单的地址
+  method get post 提交表单的方式
+  autocomplete 是否打开自动完成功能
+  enctype   application/x-www-form-urlencoded 在发送前编码所有字符（默认）
+            multipart/form-data 不对字符编码。在使用包含文件上传控件的表单时，必须使用该值。
+            text/plain  空格转换为 &quot;+&quot; 加号，但不对特殊字符编码。
+
+&lt;input&gt;
+  type=text / radio / submit / password / checkbox / button
+        / color / date / datetime / datetime-local / email / month
+        / number / range / search / tel / time / url / week
+  name   服务端使用该属性的值去获取表单中相应的数据。该属性在前端用处较少。
+&lt;select&gt;
+  &lt;options&gt;
+&lt;textarea&gt;
+&lt;button&gt;
+&lt;datalist&gt;
+&lt;button&gt;
+&lt;button&gt;
+&lt;button&gt;
+</pre></div>
+|属性|  描述|
+|accept-charset|  规定在被提交表单中使用的字符集（默认：页面字符集）。|
+|action|  规定向何处提交表单的地址（URL）（提交页面）。如果省略 action 属性，则将 action 设置为当前页面。|
+|autocomplete|  规定浏览器应该自动完成表单（默认：开启）。|
+|enctype| 规定被提交数据的编码（默认：url-encoded）。|
+|method|  规定在提交表单时所用的 HTTP 方法（默认：GET）。|
+|name|  规定识别表单的名称（对于 DOM 使用：document.forms.name）。|
+|novalidate|  规定浏览器不验证表单。|
+|target|  规定 action 属性中地址的目标（默认：_self）。|</p>
+<h1 id="canvas">canvas<a class="headerlink" href="#canvas" title="Permanent link"></a></h1>
+<p>使用 JavaScript 在网页上绘制图像。
+canvas是可绘制图像的标签。绘图功能由js做。
+详见canvas</p>
+<h1 id="svg">svg<a class="headerlink" href="#svg" title="Permanent link"></a></h1>
+<p>SVG 指可伸缩矢量图形 (Scalable Vector Graphics)
+SVG 用于定义用于网络的基于矢量的图形
+详见svg</p>
+<h1 id="_24">媒体<a class="headerlink" href="#_24" title="Permanent link"></a></h1>
+<h1 id="_25">对象<a class="headerlink" href="#_25" title="Permanent link"></a></h1>
+<div class="highlight"><pre>&lt;object&gt;
+&lt;embed&gt;
+</pre></div>
+
+<h1 id="_26">地理<a class="headerlink" href="#_26" title="Permanent link"></a></h1>
+<p>Geolocation API 用于获得用户的地理位置。</p>
+<h1 id="_27">拖放<a class="headerlink" href="#_27" title="Permanent link"></a></h1>
+<p><div class="highlight"><pre>&lt;div id=&quot;div1&quot; ondrop=&quot;drop(event)&quot; ondragover=&quot;allowDrop(event)&quot;&gt;&lt;/div&gt;
+&lt;img id=&quot;drag1&quot; src=&quot;img_logo.gif&quot; draggable=&quot;true&quot; ondragstart=&quot;drag(event)&quot; width=&quot;336&quot; height=&quot;69&quot;&gt;
+</pre></div>
+draggable=&rdquo;true&rdquo;   把元素设置为可拖放
+ondragstart 属性调用了一个 drag(event) 函数，规定拖动什么数据。
+dataTransfer.setData() 方法设置被拖动数据的数据类型和值：
+ondragover 事件规定被拖动的数据能够被放置到何处。为了实现拖放，我们必须阻止元素的这种默认的处理方式。这个任务由 ondragover 事件的 event.preventDefault() 方法完成：
+ondrop 属性调用了一个函数，drop(event)：
+详见drag</p>
+<h1 id="_28">本地存储<a class="headerlink" href="#_28" title="Permanent link"></a></h1>
+<p>cookie / sessionStorage / localStorage
+详见前端存储</p>
+<h1 id="_29">应用程序缓存<a class="headerlink" href="#_29" title="Permanent link"></a></h1>
+<p>应用程序缓存为应用带来三个优势：
+- 离线浏览 - 用户可在应用离线时使用它们
+- 速度 - 已缓存资源加载得更快
+- 减少服务器负载 - 浏览器将只从服务器下载更新过或更改过的资源
+<div class="highlight"><pre>下例展示了带有 cache manifest 的 HTML 文档（供离线浏览）：
+实例
+
+&lt;!DOCTYPE HTML&gt;
+&lt;html manifest=&quot;demo.appcache&quot;&gt;
+  &lt;body&gt;
+    文档内容 ......
+  &lt;/body&gt;
+&lt;/html&gt;
+</pre></div>
+manifest 文件的建议文件扩展名是：&rdquo;.appcache&rdquo;。demo如下：
+<div class="highlight"><pre>CACHE MANIFEST
+# 2012-02-21 v1.0.0
+/theme.css
+/logo.gif
+/main.js
+
+NETWORK:
+login.asp
+
+FALLBACK:
+/html/ /offline.html
+</pre></div>
+manifest 文件有三个部分：
+- CACHE MANIFEST - 在此标题下列出的文件将在首次下载后进行缓存
+- NETWORK - 在此标题下列出的文件需要与服务器的连接，且不会被缓存
+- FALLBACK - 在此标题下列出的文件规定当页面无法访问时的回退页面（比如 404 页面）
+详见前端缓存</p>
+<h1 id="web-workers">web workers<a class="headerlink" href="#web-workers" title="Permanent link"></a></h1>
+<p>一般用于大量计算。它调用了浏览器的多线程环境。
+worker无法访问如下对象：
+- window 对象
+- document 对象
+- parent 对象
+详见web worker
+worker之间使用消息传递数据（交接数据管理权）。
+<div class="highlight"><pre>// demo
+</pre></div></p>
+<h1 id="server-sent">server-sent事件<a class="headerlink" href="#server-sent" title="Permanent link"></a></h1>
+<p>指的是网页自动从服务器获得更新。
+以前也可能做到这一点，前提是网页不得不询问是否有可用的更新。通过 Server-Sent 事件，更新能够自动到达。
+<div class="highlight"><pre>var source = new EventSource(&quot;demo_sse.php&quot;);
+source.onmessage = function(event) {
+    document.getElementById(&quot;result&quot;).innerHTML += event.data + &quot;&lt;br&gt;&quot;;
+};
+// 创建一个新的 EventSource 对象，然后规定发送更新的页面的 URL（本例中是 &quot;demo_sse.php&quot;）
+// 每当接收到一次更新，就会发生 onmessage 事件
+// 当 onmessage 事件发生时，把已接收的数据推入 id 为 &quot;result&quot; 的元素中
+</pre></div>
+|事件|  描述|
+|-|  -|
+|onopen|  当通往服务器的连接被打开|
+|onmessage| 当接收到消息|
+|onerror| 当发生错误|</p>
+<h1 id="_30">属性<a class="headerlink" href="#_30" title="Permanent link"></a></h1>
+<h1 id="_31">属性<a class="headerlink" href="#_31" title="Permanent link"></a></h1>
+<h1 id="_32">属性<a class="headerlink" href="#_32" title="Permanent link"></a></h1>
+<h1 id="_33">富文本编辑<a class="headerlink" href="#_33" title="Permanent link"></a></h1>
+<h1 id="_34">全标签<a class="headerlink" href="#_34" title="Permanent link"></a></h1>
 <pre><code>&lt;!--&gt;
 &lt;!DOCTYPE&gt;
 &lt;a&gt;

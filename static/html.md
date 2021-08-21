@@ -19,6 +19,11 @@
 - css就像衣服
 - javascript（js）就像本领
 
+html为js支持很多前提条件。如：
+- 使用canvas支持js绘制图像。
+- 使用Geolocation支持获取地理位置。
+- 使用draggable支持js拖放dom元素。
+
 # 属性
 - 使用`key="value"`形式书写在开始标签内。
 - 常用`class id style PROP`
@@ -108,8 +113,6 @@
 |外部样式表|`<link rel="stylesheet" type="text/css" href="URL">`||||
 |内部样式表|`<style type="text/css">body {color: red;}</style>`||||
 |外部样式表|`<p style="color: red;">string</p>`||||
-|外部样式表|||||
-|外部样式表|||||
 
 # 链接
 ```
@@ -225,7 +228,6 @@ html5以后html很重视语义。提倡使用正常语义编写代码。兼容�
 语义的目的：让程序员、浏览器、辅助设备知道其内部文本是做什么的。
 
 # 实体
-
 ||||||
 |-|-|-|-|-|
 |显示结果|	|描述|	实体名称;|实体编号|
@@ -260,6 +262,7 @@ html5以后html很重视语义。提倡使用正常语义编写代码。兼容�
 |♣|	&#9827;|	&clubs;|	BLACK CLUB SUIT|
 |♥|	&#9829;|	&hearts;|	BLACK HEART SUIT|
 |♦|	&#9830;|	&diams;|	BLACK DIAMOND SUIT|
+
 # 符号
 |||||
 |-|-|-|-|
@@ -280,9 +283,159 @@ html5以后html很重视语义。提倡使用正常语义编写代码。兼容�
 |https|	安全超文本传输协议|	安全网页。加密所有信息交换。|
 |ftp|	文件传输协议|	用于将文件下载或上传至网站。|
 |file|	 |	您计算机上的文件。||
+
+# 表单
+用于搜集不同类型的用户输入。
+当前一般使用前后端分离开发。所以一般不使用要action属性。使用ajax提交数据。
+```
+<form>
+  action 服务器接收表单的地址
+  method get post 提交表单的方式
+  autocomplete 是否打开自动完成功能
+  enctype   application/x-www-form-urlencoded 在发送前编码所有字符（默认）
+            multipart/form-data 不对字符编码。在使用包含文件上传控件的表单时，必须使用该值。
+            text/plain  空格转换为 "+" 加号，但不对特殊字符编码。
+
+<input>
+  type=text / radio / submit / password / checkbox / button
+        / color / date / datetime / datetime-local / email / month
+        / number / range / search / tel / time / url / week
+  name   服务端使用该属性的值去获取表单中相应的数据。该属性在前端用处较少。
+<select>
+  <options>
+<textarea>
+<button>
+<datalist>
+<button>
+<button>
+<button>
+```
+|属性|  描述|
+|accept-charset|  规定在被提交表单中使用的字符集（默认：页面字符集）。|
+|action|  规定向何处提交表单的地址（URL）（提交页面）。如果省略 action 属性，则将 action 设置为当前页面。|
+|autocomplete|  规定浏览器应该自动完成表单（默认：开启）。|
+|enctype| 规定被提交数据的编码（默认：url-encoded）。|
+|method|  规定在提交表单时所用的 HTTP 方法（默认：GET）。|
+|name|  规定识别表单的名称（对于 DOM 使用：document.forms.name）。|
+|novalidate|  规定浏览器不验证表单。|
+|target|  规定 action 属性中地址的目标（默认：_self）。|
+
+# canvas
+使用 JavaScript 在网页上绘制图像。
+canvas是可绘制图像的标签。绘图功能由js做。
+详见canvas
+
+# svg                                                                           
+SVG 指可伸缩矢量图形 (Scalable Vector Graphics)
+SVG 用于定义用于网络的基于矢量的图形
+详见svg
+
+# 媒体
+
+# 对象
+```
+<object>
+<embed>
+```
+
+# 地理
+Geolocation API 用于获得用户的地理位置。
+
+# 拖放
+```
+<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+<img id="drag1" src="img_logo.gif" draggable="true" ondragstart="drag(event)" width="336" height="69">
+```
+draggable="true"   把元素设置为可拖放
+ondragstart 属性调用了一个 drag(event) 函数，规定拖动什么数据。
+dataTransfer.setData() 方法设置被拖动数据的数据类型和值：
+ondragover 事件规定被拖动的数据能够被放置到何处。为了实现拖放，我们必须阻止元素的这种默认的处理方式。这个任务由 ondragover 事件的 event.preventDefault() 方法完成：
+ondrop 属性调用了一个函数，drop(event)：
+详见drag
+
+# 本地存储
+cookie / sessionStorage / localStorage
+详见前端存储
+
+# 应用程序缓存
+应用程序缓存为应用带来三个优势：
+- 离线浏览 - 用户可在应用离线时使用它们
+- 速度 - 已缓存资源加载得更快
+- 减少服务器负载 - 浏览器将只从服务器下载更新过或更改过的资源
+```
+下例展示了带有 cache manifest 的 HTML 文档（供离线浏览）：
+实例
+
+<!DOCTYPE HTML>
+<html manifest="demo.appcache">
+  <body>
+    文档内容 ......
+  </body>
+</html>
+```
+manifest 文件的建议文件扩展名是：".appcache"。demo如下：
+```
+CACHE MANIFEST
+# 2012-02-21 v1.0.0
+/theme.css
+/logo.gif
+/main.js
+
+NETWORK:
+login.asp
+
+FALLBACK:
+/html/ /offline.html
+```
+manifest 文件有三个部分：
+- CACHE MANIFEST - 在此标题下列出的文件将在首次下载后进行缓存
+- NETWORK - 在此标题下列出的文件需要与服务器的连接，且不会被缓存
+- FALLBACK - 在此标题下列出的文件规定当页面无法访问时的回退页面（比如 404 页面）
+详见前端缓存
+
+# web workers
+一般用于大量计算。它调用了浏览器的多线程环境。
+worker无法访问如下对象：
+- window 对象
+- document 对象
+- parent 对象
+详见web worker
+worker之间使用消息传递数据（交接数据管理权）。
+```
+// demo
+
+```
+
+# server-sent事件
+指的是网页自动从服务器获得更新。
+以前也可能做到这一点，前提是网页不得不询问是否有可用的更新。通过 Server-Sent 事件，更新能够自动到达。
+```
+var source = new EventSource("demo_sse.php");
+source.onmessage = function(event) {
+    document.getElementById("result").innerHTML += event.data + "<br>";
+};
+// 创建一个新的 EventSource 对象，然后规定发送更新的页面的 URL（本例中是 "demo_sse.php"）
+// 每当接收到一次更新，就会发生 onmessage 事件
+// 当 onmessage 事件发生时，把已接收的数据推入 id 为 "result" 的元素中
+```
+|事件|  描述|
+|-|  -|
+|onopen|  当通往服务器的连接被打开|
+|onmessage| 当接收到消息|
+|onerror| 当发生错误|
+
+
+
+
+
+
+
+
 # 属性
 # 属性
 # 属性
+# 富文本编辑
+
 # 全标签
     <!-->
     <!DOCTYPE>
