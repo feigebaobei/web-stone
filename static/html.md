@@ -199,15 +199,15 @@ frameborder 属性规定是否显示 iframe 周围的边框。
 常用于操作dom.
 可根据class/id/tag等得到dom.
 可修改样式。
-详见js
+详见[js](/404.html)
 
 # 路径
 |||
 |-|-|
-|<img src="picture.jpg">	|picture.jpg 位于与当前网页相同的文件夹|
-|<img src="images/picture.jpg">|	picture.jpg 位于当前文件夹的 images 文件夹中|
-|<img src="/images/picture.jpg">|	picture.jpg 当前站点根目录的 images 文件夹中|
-|<img src="../picture.jpg">	|picture.jpg 位于当前文件夹的上一级文件夹中|
+|`<img src="picture.jpg">`	|picture.jpg 位于与当前网页相同的文件夹|
+|`<img src="images/picture.jpg">`|	picture.jpg 位于当前文件夹的 images 文件夹中|
+|`<img src="/images/picture.jpg">`|	picture.jpg 当前站点根目录的 images 文件夹中|
+|`<img src="../picture.jpg">`	|picture.jpg 位于当前文件夹的上一级文件夹中|
 
 # 头部
 |||
@@ -221,7 +221,7 @@ frameborder 属性规定是否显示 iframe 周围的边框。
 |`<style>`|	定义文档的样式信息。|
 
 # 布局
-详情请看css
+详见[css](/static/css.html)
 # 响应式布局
 # 语义
 html5以后html很重视语义。提倡使用正常语义编写代码。兼容非语义代码。
@@ -410,12 +410,12 @@ canvas是可绘制图像的标签。绘图功能由js做。
 |getContext()|   |
 |toDataURL()|  |
 
-详见canvas
+详见[canvas](/404.html)
 
 # svg                                                                           
 SVG 指可伸缩矢量图形 (Scalable Vector Graphics)
 SVG 用于定义用于网络的基于矢量的图形
-详见svg
+详见[svg](/404.html)
 
 # 媒体
 视频/音频
@@ -439,11 +439,11 @@ ondragstart 属性调用了一个 drag(event) 函数，规定拖动什么数据�
 dataTransfer.setData() 方法设置被拖动数据的数据类型和值：
 ondragover 事件规定被拖动的数据能够被放置到何处。为了实现拖放，我们必须阻止元素的这种默认的处理方式。这个任务由 ondragover 事件的 event.preventDefault() 方法完成：
 ondrop 属性调用了一个函数，drop(event)：
-详见drag
+详见[drag](/404.html)
 
 # 本地存储
 cookie / sessionStorage / localStorage
-详见前端存储
+详见[前端存储](/404.html)
 
 # 应用程序缓存
 应用程序缓存为应用带来三个优势：
@@ -479,7 +479,7 @@ manifest 文件有三个部分：
 - CACHE MANIFEST - 在此标题下列出的文件将在首次下载后进行缓存
 - NETWORK - 在此标题下列出的文件需要与服务器的连接，且不会被缓存
 - FALLBACK - 在此标题下列出的文件规定当页面无法访问时的回退页面（比如 404 页面）
-详见前端缓存
+详见[前端缓存](/404.html)
 
 # web workers
 一般用于大量计算。它调用了浏览器的多线程环境。
@@ -487,7 +487,7 @@ worker无法访问如下对象：
 - window 对象
 - document 对象
 - parent 对象
-详见web worker
+详见[web worker](/404.html)
 worker之间使用消息传递数据（交接数据管理权）。
 ```
 // demo
@@ -603,7 +603,7 @@ onsubmit|  script|  在提交表单时触发。|
 |onwaiting| script|  当媒介已停止播放但打算继续播放时（比如当媒介暂停已缓冲更多数据）运行脚本|
 
 # 富文本编辑
-详见富文本编辑
+详见[富文本编辑](/404.html)
 
 # 全标签
 ```
