@@ -323,6 +323,93 @@ html5以后html很重视语义。提倡使用正常语义编写代码。兼容�
 # canvas
 使用 JavaScript 在网页上绘制图像。
 canvas是可绘制图像的标签。绘图功能由js做。
+## 颜色、样式和阴影
+|属性|  描述|
+|fillStyle| 设置或返回用于填充绘画的颜色、渐变或模式|
+|strokeStyle| 设置或返回用于笔触的颜色、渐变或模式|
+|shadowColor| 设置或返回用于阴影的颜色|
+|shadowBlur|  设置或返回用于阴影的模糊级别|
+|shadowOffsetX| 设置或返回阴影距形状的水平距离|
+|shadowOffsetY| 设置或返回阴影距形状的垂直距离|
+|方法  |描述|
+|createLinearGradient()|  创建线性渐变（用在画布内容上）|
+|createPattern()| 在指定的方向上重复指定的元素|
+|createRadialGradient()|  创建放射状/环形的渐变（用在画布内容上）|
+|addColorStop()|  规定渐变对象中的颜色和停止位置|
+
+## 线条样式
+|属性|  描述|
+|lineCap| 设置或返回线条的结束端点样式|
+|lineJoin|  设置或返回两条线相交时，所创建的拐角类型|
+|lineWidth| 设置或返回当前的线条宽度|
+|miterLimit|  设置或返回最大斜接长度|
+
+## 矩形
+|方法  |描述|
+|rect()|  创建矩形|
+|fillRect()|  绘制“被填充”的矩形|
+|strokeRect()|  绘制矩形（无填充）|
+|clearRect()| 在给定的矩形内清除指定的像素|
+
+## 路径
+|方法  |描述|
+|fill()|  填充当前绘图（路径）|
+|stroke()|  绘制已定义的路径|
+|beginPath()| 起始一条路径，或重置当前路径|
+|moveTo()|  把路径移动到画布中的指定点，不创建线条|
+|closePath()| 创建从当前点回到起始点的路径|
+|lineTo()|  添加一个新点，然后在画布中创建从该点到最后指定点的线条|
+|clip()|  从原始画布剪切任意形状和尺寸的区域|
+|quadraticCurveTo()|  创建二次贝塞尔曲线|
+|bezierCurveTo()| 创建三次方贝塞尔曲线|
+|arc()| 创建弧/曲线（用于创建圆形或部分圆）|
+|arcTo()| 创建两切线之间的弧/曲线|
+|isPointInPath()| 如果指定的点位于当前路径中，则返回 true，否则返回 false|
+
+## 转换
+|方法  |描述|
+|scale()| 缩放当前绘图至更大或更小|
+|rotate()|  旋转当前绘图|
+|translate()| 重新映射画布上的 (0,0) 位置|
+|transform()| 替换绘图的当前转换矩阵|
+|setTransform()|  将当前转换重置为单位矩阵。然后运行 transform()|
+
+## 文本
+|属性  |描述|
+|font  |设置或返回文本内容的当前字体属性|
+|textAlign |设置或返回文本内容的当前对齐方式|
+|textBaseline  |设置或返回在绘制文本时使用的当前文本基线|
+|方法  |描述|
+|fillText()|  在画布上绘制“被填充的”文本|
+|strokeText()|  在画布上绘制文本（无填充）|
+|measureText()| 返回包含指定文本宽度的对象|
+
+## 图像绘制
+|方法  |描述|
+|drawImage()| 向画布上绘制图像、画布或视频|
+
+## 像素操作
+|属性|  描述|
+|width| 返回 ImageData 对象的宽度|
+|height|  返回 ImageData 对象的高度|
+|data|  返回一个对象，其包含指定的 ImageData 对象的图像数据|
+|方法  |描述|
+|createImageData()| 创建新的、空白的 ImageData 对象|
+|getImageData()|  返回 ImageData 对象，该对象为画布上指定的矩形复制像素数据|
+|putImageData()|  把图像数据（从指定的 ImageData 对象）放回画布上|
+## 合成
+|属性|  描述|
+|globalAlpha| 设置或返回绘图的当前 alpha 或透明值|
+|globalCompositeOperation|  设置或返回新图像如何绘制到已有的图像上|
+
+## 其他
+|方法  |描述|
+|save()|  保存当前环境的状态|
+|restore()| 返回之前保存过的路径状态和属性|
+|createEvent()|  |
+|getContext()|   |
+|toDataURL()|  |
+
 详见canvas
 
 # svg                                                                           
@@ -331,6 +418,7 @@ SVG 用于定义用于网络的基于矢量的图形
 详见svg
 
 # 媒体
+视频/音频
 
 # 对象
 ```
@@ -424,19 +512,101 @@ source.onmessage = function(event) {
 |onmessage| 当接收到消息|
 |onerror| 当发生错误|
 
+# 事件
+## window事件
+|属性|  值| 描述|
+|-|  -| -|
+|onafterprint|  script|  文档打印之后运行的脚本。|
+|onbeforeprint| script|  文档打印之前运行的脚本。|
+|onbeforeunload|  script|  文档卸载之前运行的脚本。|
+|onerror| script|  在错误发生时运行的脚本。|
+|onhaschange| script|  当文档已改变时运行的脚本。|
+|onload|  script|  页面结束加载之后触发。|
+|onmessage| script|  在消息被触发时运行的脚本。|
+|onoffline| script|  当文档离线时运行的脚本。|
+|ononline|  script|  当文档上线时运行的脚本。|
+|onpagehide|  script|  当窗口隐藏时运行的脚本。|
+|onpageshow|  script|  当窗口成为可见时运行的脚本。|
+|onpopstate|  script|  当窗口历史记录改变时运行的脚本。|
+|onredo|  script|  当文档执行撤销（redo）时运行的脚本。|
+|onresize|  script|  当浏览器窗口被调整大小时触发。|
+|onstorage| script|  在| Web Storage 区域更新后运行的脚本。
+|onundo|  script|  在文档执行| undo 时运行的脚本。
+|onunload|  script|  一旦页面已下载时触发（或者浏览器窗口已被关闭）。|
 
+## form事件
+属性|  值| 描述|
+|-|-|-|
+onblur|  script|  元素失去焦点时运行的脚本。|
+onchange|  script|  在元素值被改变时运行的脚本。|
+oncontextmenu| script|  当上下文菜单被触发时运行的脚本。|
+onfocus| script|  当元素获得焦点时运行的脚本。|
+onformchange|  script|  在表单改变时运行的脚本。|
+onforminput| script|  当表单获得用户输入时运行的脚本。|
+oninput| script|  当元素获得用户输入时运行的脚本。|
+oninvalid| script|  当元素无效时运行的脚本。|
+onreset| script|  当表单中的重置按钮被点击时触发。|HTML5 中不支持。
+onselect|  script|  在元素中文本被选中后触发。|
+onsubmit|  script|  在提交表单时触发。|
 
+## keyboard事件
+|属性|  值| 描述|
+|-|-|-|
+|onkeydown| script|  在用户按下按键时触发。|
+|onkeypress|  script|  在用户敲击按钮时触发。|
+|onkeyup| script|  当用户释放按键时触发。|
 
+## mouse事件
+|属性|  值| 描述|
+|-|-|-|
+|onclick| script|  元素上发生鼠标点击时触发。|
+|ondblclick|  script|  元素上发生鼠标双击时触发。|
+|ondrag|  script|  元素被拖动时运行的脚本。|
+|ondragend| script|  在拖动操作末端运行的脚本。|
+|ondragenter| script|  当元素元素已被拖动到有效拖放区域时运行的脚本。|
+|ondragleave| script|  当元素离开有效拖放目标时运行的脚本。|
+|ondragover|  script|  当元素在有效拖放目标上正在被拖动时运行的脚本。|
+|ondragstart| script|  在拖动操作开端运行的脚本。|
+|ondrop|  script|  当被拖元素正在被拖放时运行的脚本。|
+|onmousedown| script|  当元素上按下鼠标按钮时触发。|
+|onmousemove| script|  当鼠标指针移动到元素上时触发。|
+|onmouseout|  script|  当鼠标指针移出元素时触发。|
+|onmouseover| script|  当鼠标指针移动到元素上时触发。|
+|onmouseup| script|  当在元素上释放鼠标按钮时触发。|
+|onmousewheel|  script|  当鼠标滚轮正在被滚动时运行的脚本。|
+|onscroll|  script|  当元素滚动条被滚动时运行的脚本。|
 
+## media事件
+|属性|  值| 描述|
+|onabort| script|  在退出时运行的脚本。|
+|oncanplay| script|  当文件就绪可以开始播放时运行的脚本（缓冲已足够开始时）。|
+|oncanplaythrough|  script|  当媒介能够无需因缓冲而停止即可播放至结尾时运行的脚本。|
+|ondurationchange|  script|  当媒介长度改变时运行的脚本。|
+|onemptied| script|  当发生故障并且文件突然不可用时运行的脚本（比如连接意外断开时）。|
+|onended| script|  当媒介已到达结尾时运行的脚本（可发送类似“感谢观看”之类的消息）。|
+|onerror| script|  当在文件加载期间发生错误时运行的脚本。|
+|onloadeddata|  script|  当媒介数据已加载时运行的脚本。|
+|onloadedmetadata|  script|  当元数据（比如分辨率和时长）被加载时运行的脚本。|
+|onloadstart| script|  在文件开始加载且未实际加载任何数据前运行的脚本。|
+|onpause| script|  当媒介被用户或程序暂停时运行的脚本。|
+|onplay|  script|  当媒介已就绪可以开始播放时运行的脚本。|
+|onplaying| script|  当媒介已开始播放时运行的脚本。|
+|onprogress|  script|  当浏览器正在获取媒介数据时运行的脚本。|
+|onratechange|  script|  每当回放速率改变时运行的脚本（比如当用户切换到慢动作或快进模式）。|
+|onreadystatechange|  script|  每当就绪状态改变时运行的脚本（就绪状态监测媒介数据的状态）。|
+|onseeked|  script|  当| seeking 属性设置为 false（指示定位已结束）时运行的脚本。
+|onseeking| script|  当| seeking 属性设置为 true（指示定位是活动的）时运行的脚本。
+|onstalled| script|  在浏览器不论何种原因未能取回媒介数据时运行的脚本。|
+|onsuspend| script|  在媒介数据完全加载之前不论何种原因终止取回媒介数据时运行的脚本。|
+|ontimeupdate|  script|  当播放位置改变时（比如当用户快进到媒介中一个不同的位置时）运行的脚本。|
+|onvolumechange|  script|  每当音量改变时（包括将音量设置为静音）时运行的脚本。|
+|onwaiting| script|  当媒介已停止播放但打算继续播放时（比如当媒介暂停已缓冲更多数据）运行脚本|
 
-
-
-# 属性
-# 属性
-# 属性
 # 富文本编辑
+详见富文本编辑
 
 # 全标签
+```
     <!-->
     <!DOCTYPE>
     <a>
@@ -561,4 +731,4 @@ source.onmessage = function(event) {
     <video>
     <wbr>
     </code>
-        
+```
