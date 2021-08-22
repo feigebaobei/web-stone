@@ -1,13 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>web of stone</title>
+	<style>
+		body {
+			display: flex;
+			height: 100vh;
+			margin: 0;
+			width: 100%;
+		}
+		.basis,
+		.promote,
+		.development {
+			/*display: flex;*/
+			flex-basis: 30%;
+			flex-grow: 1;
+      		background-color: #8dbaff;
+      		padding: 20px 12px;
+      		box-sizing: border-box;
+		}
+		.promote {
+		    background-color: #81f3cd;
+		}
+		.development {
+		    background-color: #f3f087;
+		}
+		.title {
+			text-align: center;
+		}
+		.nav-item-box {
+			display: flex;
+			flex-wrap: wrap;
+		}
+		.nav-item {
+			margin: 6px 10px;
+			color: #000;
+			background-color: #ffb9f0;
+			border-radius: 4px;
+			font-size: 18px;
+			padding: 4px;
+			cursor: pointer;
+		}
+		.nav-item.is-disabled {
+			color: grey;
+			background-color: #dad5d4;
+		}
+	</style>
+</head>
+<body>
+	<section class="basis">
+		<h1 class="title">basis</h1>
+		<nav class="nav-item-box">
+			<span class="nav-item" onclick="gotoPage('./html.html')">html</span>
+			<span class="nav-item" onclick="gotoPage('./css.html')">css</span>
+			<span class="nav-item" onclick="gotoPage('./js.html')">js</span>
+			<span class="nav-item" onclick="gotoPage('./404.html')">ts</span>
+			<span class="nav-item" onclick="gotoPage('./404.html')">vue</span>
+			<span class="nav-item" onclick="gotoPage('./404.html')">react</span>
+			<span class="nav-item" onclick="gotoPage('./404.html')">angular</span>
+			<span class="nav-item" onclick="gotoPage('./404.html')">data-structure</span>
+		</nav>
+	</section>
+	<section class="promote">
+		<h1 class="title">promote</h1>
+		<nav class="nav-item-box">
+			<span class="nav-item" onclick="gotoPage('./404.html')">工程化</span>
+			<span class="nav-item" onclick="gotoPage('./404.html')">proxy</span>
+		</nav>
+	</section>
+	<section class="development">
+		<h1 class="title">development</h1>
+		<nav class="nav-item-box">
+			<span class="nav-item is-disabled")">none</span>
+		</nav>
+	</section>
+	<script type="text/javascript">
+		function gotoPage(page) {
+			window.location.href = page
+		}
+	</script>
+</body>
 </html>
