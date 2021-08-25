@@ -44,6 +44,7 @@ function、var都会触发变量提升。
 先提升function，再提升var。且存在变量覆盖。
 
 # 事件
+
 # 原型链
 使用对象的`[[prototype]]`属性原型链上源的对象。
 原型链中的对象使用`[[prototype]]`属性“串联”起彼此。
@@ -124,6 +125,28 @@ ClassName.staticFn () {...}
 `funtion`的原型链上游中有`Object`对象。该对象支持设置属性。静态方法就是为一个是funtion的对象设置了一个属性，该属性值是一个方法。
 
 # proxy & reflect
+## proxy
+proxy让代理模式更容易实现。
+常用于做：保护/预检/代理等。
+```
+let o = {
+    a: 's',
+    _b: 1
+}
+var p = new Proxy(o, {
+    get: (target, propKey, receiver) => {
+        if (propKey.startsWith('_')) {
+            return new Error('私有方法不能被外部访问')
+        } elss {
+            return target[propKey]
+        }
+    }
+})
+console.log(p.a)
+console.log(p._b)
+```
+Proxy.revocable(target, handler)
+this指向handler。因为this指向运行时上下文环境。
 ```
 var proxy = new Proxy(target, handler)
 target: Object,
@@ -187,15 +210,24 @@ observedObj.a = 0
 ```
 
 # 宏任务 & 微任务
-宏任务
+## 宏任务，由宿主发起。
+script 可理解为外层代码
 setTimeout
+setInterval
+postMessage
+MessageChannel
+setImmediate (node环境)
 
-微任务
-promise
+## 微任务，由js引擎发起。
+Promise
+MutationObserver
+process.nextTick （node环境）
+
 ## promise
 promise的参数是一个接收`resolve`/`reject`方法的方法。
 一个promise对象有三个状态。初始状态是`pendding`，当执行`resolve`方法时改变为`fulfilled`状态，当执行`reject`方法时改变为`rejected`状态。二个方法都不执行，则一直是`pendding`状态。`resolve`状态触发promise对象的`then`方法。`reject`状态触发promise对象的`catch`方法。
 在定义时开始执行。
+
 ### promise的属性
 ```
 Promise#then()
@@ -236,9 +268,35 @@ return new Promise((s, j) => {
 }
 ```
 
+## eventLoop (异步 & 同步)
+所有js代码按执行时序可分为三部分：同步代码/宏任务/微任务。
+代码从上到下执行。遇到同步代码则依次序执行。遇到宏任务不执行，放入宏任务队列。遇到微任务不执行，入入微任务队列。执行完所有同步代码后执行一个宏任务队列中的宏任务，然后执行完所有微任务。再执行宏任务队列中的一个宏任务，再执行所有微任务。直到宏任务队列为空/微任务队列为空。
 
-# eventLoop (异步 & 同步)
-## Generator & Iterator
+# Symbol
+内置了`Symbol.iterator`属性
+
+# Generator & Iterator
+## Iterator
+它是一个遍历器。
+有iterator接口的对象就是遍历器对象。iterator接口是一个方法。
+内置iterator接口的对象有Array/Set/Map/String/TypedArray/...。
+也可以自定义iterator接口，如：
+```
+let obj = {
+    [Symbol,iterator]: function () {
+        return ['a', 'b', 'c']
+    }
+}
+obj[Symbol.iterator] = () => {
+    return [1, 2, 3]
+}
+for (let v of obj) {
+    console.log('v', v)
+}
+```
+主要使用`for...of`对接iterator接口。
+
+## Generator
 <!-- ## iterator & for...of -->
 ## async & await
 

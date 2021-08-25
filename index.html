@@ -77,41 +77,74 @@
 		</nav>
 	</section>
 	<script type="text/javascript">
-		let p0 = new Promise((s, j) => {
-			setTimeout(() => {
-				s(0)
-			}, 1200)
-		})
-		let p1 = new Promise((s, j) => {
-			setTimeout(() => {
-				s(1)
-			}, 800)
-		})
-		let p2 = new Promise((s, j) => {
-			setTimeout(() => {
-				s(2)
-			}, 1300)
-		})
-		let p3 = new Promise((s, j) => {
-			setTimeout(() => {
-				s(3)
-			}, 1000)
-		})
-		let p4 = new Promise((s, j) => {
-			setTimeout(() => {
-				j(4)
-			}, 1000)
-		})
-		let p5 = new Promise((s, j) => {
-			setTimeout(() => {
-				j(5)
-			}, 300)
-		})
-		Promise.try(p5).then(arr => {
-			console.log(arr)
-		}).catch(e => {
-			console.log(e)
-		})
+		function gotoPage(page) {
+			window.location.href = page
+		}
+	</script>
+
+	<script type="text/javascript">
+		class RangeIterator {
+  constructor(start, stop) {
+    this.value = start;
+    this.stop = stop;
+  }
+
+  [Symbol.iterator]() { 
+  	// return this; 
+  	return {
+  		next: function() {
+  			return {
+  				done: false, value: 5
+  			}
+  		}
+  	}
+  }
+
+  // next() {
+  //   var value = this.value;
+  //   if (value < this.stop) {
+  //     this.value++;
+  //     return {done: false, value: value};
+  //   }
+  //   return {done: true, value: undefined};
+  // }
+}
+
+function range(start, stop) {
+  return new RangeIterator(start, stop);
+}
+// console.log(range(0, 3))
+
+// for (var value of range(0, 3)) {
+//   console.log(value); // 0, 1, 2
+// }
+let obj = {
+
+    [Symbol.iterator]: function () {
+    	let t = 0
+        return {
+	      next: function () {
+	      	if (t++ < 3) {
+	      		return {
+	      			value: t,
+	      			done: false
+	      		}
+	      	} else {
+		        return {
+		          value: 8,
+		          done: true
+		      	}
+	        };
+	      }
+	    };
+    }
+}
+// obj[Symbol.iterator] = function() {
+//     return [1, 2, 3]
+// }
+for (let v of obj) {
+    console.log('v', v)
+}
 	</script>
 </body>
 </html>
