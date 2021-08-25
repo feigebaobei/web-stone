@@ -48,12 +48,29 @@ function、var都会触发变量提升。
 一条链中不能有分支。
 原型链的下游对象可以访问原型链的上游对象的属性。
 
+## new的过程做了什么
+var a = Object.create(Object)
+a[[prototype]] = Foo.prototype
+// or
+// a.__proto__ = Foo.prototype
+Foo.call(a)
+先创建一个实例，再把实例添加到原型链中。
+
 # 作用域链
-函数作用域
-块级作用域
+js在宏观上使用函数作用域，同时支持块级作用域。
+函数作用域。。。。
+块级作用域，只有`let`、`const`。
+
 ## this
+this指向运行时（不是定义时）的上下文环境变量。
+
 ### abc
 即`apply / bind / call`。`abc`是作者起的名字。
+||||
+|-|-|-|
+|apply|fn.apply(otherThis, arrOfArgs)|立即执行|
+|call|fn.call(otherThis, arg0, arg1, ...)|立即执行|
+|bind|fn.bind(otherThis, arg0, arg1, ...)|返回一个方法|
 
 # class
 本质是构造函数的语法糖。
@@ -102,6 +119,68 @@ ClassName.staticFn () {...}
 `funtion`的原型链上游中有`Object`对象。该对象支持设置属性。静态方法就是为一个是funtion的对象设置了一个属性，该属性值是一个方法。
 
 # proxy & reflect
+```
+var proxy = new Proxy(target, handler)
+target: Object,
+handler: 控制对象。
+    {
+        get(target, propKey, receiver) // receiver 读操作所在的对象
+        set(target, propKey, value, receiver)
+        has(target, propKey)
+        deleteProperty(target, propKey)
+        ownKeys(target)
+        getOwnPropertyDescription(target, propKey)
+        defineProperty(target, propKey, propDesc)
+        preventExtensions(target)
+        getPrototypeOf(target)
+        isExtensible(target)
+        setPrototypeOf(target, proto)
+        apply(target, object, args)
+        construct(target, args)
+    }
+```
+reflect
+- 更接近语言本质。
+- 当前操作`Object`的方法同时存在于`Object`、`Reflect`。未来会只在`Reflect`上存在。
+- Reflect与Proxy的方法一一对应。
+- Reflect可保证原生方法被执行，Proxy可保证原生方法不被执行，执行的是代理对象的方法。
+```
+Reflect.get(target, propKey, receiver)
+Reflect.set(target, propKey, value, receiver)
+Reflect.apply(target, thisArg, arrArgs)
+Reflect.construct(target, arrArgs)
+Reflect.defineProperty(target, propKey, value, desc)
+Reflect.deleteProperty(target, propKey)
+Reflect.has(target, propKey)
+Reflect.ownKeys(target)
+Reflect.isExtensible(target)
+Reflect.preventExtensions(target)
+Reflect.getOwnPropertyDescriptor(target, propKey)
+Reflect.getPrototypeOf(target)
+Reflect.setPrototypeOf(target, prototype)
+```
+demo for 观察者模式
+```
+let queuedObservers = new Set()
+let handler = {
+    set: (target, key, value, receiver) => {
+        let result = Reflect.set(target, key, value, receiver)
+        queuedObservers.forEach(observer => observer())
+        return result
+    }
+}
+let observable = obj => {
+    return new Proxy(obj, handler)
+}
+let observe = fn => queuedObservers.add(fn)
+
+let obj = {a: 's'}
+let observedObj = observable(obj)
+let print = () => (console.log('print'))
+observe(print)
+observedObj.a = 0
+```
+
 # 宏任务 & 微任务
 宏任务
 setTimeout

@@ -77,20 +77,39 @@
 		</nav>
 	</section>
 	<script type="text/javascript">
-		function gotoPage(page) {
-			window.location.href = page
-		}
-		class P {
-			constructor (n) {
-				this.name = n
-			}
-			hi () {
-				return this.name
-			}
-		}
-		let p = new P('git')
-		console.log(p)
-		console.log(p.hi())
+		// function gotoPage(page) {
+		// 	window.location.href = page
+		// }
+		// class P {
+		// 	constructor (n) {
+		// 		this.name = n
+		// 	}
+		// 	hi () {
+		// 		return this.name
+		// 	}
+		// }
+		// let p = new P('git')
+		// console.log(p)
+		// console.log(p.hi())
+
+let queuedObservers = new Set()
+let handler = {
+    set: (target, key, value, receiver) => {
+        let result = Reflect.set(target, key, value, receiver)
+        queuedObservers.forEach(observer => observer())
+        return result
+    }
+}
+let observable = obj => {
+    return new Proxy(obj, handler)
+}
+let observe = fn => queuedObservers.add(fn)
+
+let obj = {a: 's'}
+let observedObj = observable(obj)
+let print = () => (console.log('print'))
+observe(print)
+observedObj.a = 0
 	</script>
 </body>
 </html>
