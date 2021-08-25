@@ -8,6 +8,8 @@
 是指可在运行阶段时执行那些在编译阶段执行的操作的编程语言。比如，在 JavaScript 中， 我们可以在程序运行时改变变量的类型，或者为一个对象增加一个新属性或者方法。
 **对象的属性**
 对象是复杂数据类型（亦称：引用数据类型）。对象的每个key对应的值可以是简单数据类型也可以是复杂数据类型。作者把每个key对应的值都称为属性，不论是简单数据类型还是复杂数据类型。
+**原型对象上的方法**
+prop#method。如：`Promise#then`。
 
 # 数据类型
 String
@@ -72,7 +74,10 @@ this指向运行时（不是定义时）的上下文环境变量。
 |call|fn.call(otherThis, arg0, arg1, ...)|立即执行|
 |bind|fn.bind(otherThis, arg0, arg1, ...)|返回一个方法|
 
-# class
+# constructor & class
+## constructor
+es5前的产物。es6以后一般不用。
+## class
 本质是构造函数的语法糖。
 不能变量提升，遵守是块级作用域规则。
 ```
@@ -139,7 +144,7 @@ handler: 控制对象。
         construct(target, args)
     }
 ```
-reflect
+## reflect
 - 更接近语言本质。
 - 当前操作`Object`的方法同时存在于`Object`、`Reflect`。未来会只在`Reflect`上存在。
 - Reflect与Proxy的方法一一对应。
@@ -159,7 +164,7 @@ Reflect.getOwnPropertyDescriptor(target, propKey)
 Reflect.getPrototypeOf(target)
 Reflect.setPrototypeOf(target, prototype)
 ```
-demo for 观察者模式
+## demo for 观察者模式
 ```
 let queuedObservers = new Set()
 let handler = {
@@ -187,10 +192,53 @@ setTimeout
 
 微任务
 promise
+## promise
+promise的参数是一个接收`resolve`/`reject`方法的方法。
+一个promise对象有三个状态。初始状态是`pendding`，当执行`resolve`方法时改变为`fulfilled`状态，当执行`reject`方法时改变为`rejected`状态。二个方法都不执行，则一直是`pendding`状态。`resolve`状态触发promise对象的`then`方法。`reject`状态触发promise对象的`catch`方法。
+在定义时开始执行。
+### promise的属性
+```
+Promise#then()
+Promise#catch()
+Promise#finally()    // 不返回东西。即使写了返回东西的代码也不返回。
+Promise.all(arrP)    // 这各种写法的都是静态属性。若arrP都是fulfilled状态则执行then方法，参数是一个数组。若arrP中有一个rejected状态则立即执行catch，参数是一个值。
+Promise.race(arrP)   // 返回最先改变状态的promise对象，状态由该对象决定。
+Promise.allSettled(arrP) // 当arrP都改变状态后返回结果。
+结果是由{status: 'fulfilled' | 'rejected', value / reason}组成的数组。
+Promise.any(arrP)        // arrP中只要有一个状态为fulfilled则返回该值，触发then()。若全为rejected则返回AggregateError对象，触发catch()。
+Promise.resolve()
+Promise.reject()
+Promise.try()            // 正在开发。
+```
+
+### 使用promise封装ajax
+```
+let fetchData = (url, method) => {
+return new Promise((s, j) => {
+    let handler = function() {
+        if (this.readyState !== 4) {
+            return 
+        } else {
+            if (this.state === 200) {
+                s(this.response)
+            } else {
+                j(new Error(this.statusText))
+            }
+        }
+    }
+    let client = new XMLHttpRequest()
+    client.open(method.toUpperCase(), url)
+    client.onreadystatechange = handler
+    client.responseType = 'json'
+    client.setRequestHeader('Accept', 'application/json')
+    client.send()
+})
+}
+```
 
 
 # eventLoop (异步 & 同步)
-## generator
+## Generator & Iterator
 <!-- ## iterator & for...of -->
 ## async & await
 

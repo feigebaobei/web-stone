@@ -77,39 +77,41 @@
 		</nav>
 	</section>
 	<script type="text/javascript">
-		// function gotoPage(page) {
-		// 	window.location.href = page
-		// }
-		// class P {
-		// 	constructor (n) {
-		// 		this.name = n
-		// 	}
-		// 	hi () {
-		// 		return this.name
-		// 	}
-		// }
-		// let p = new P('git')
-		// console.log(p)
-		// console.log(p.hi())
-
-let queuedObservers = new Set()
-let handler = {
-    set: (target, key, value, receiver) => {
-        let result = Reflect.set(target, key, value, receiver)
-        queuedObservers.forEach(observer => observer())
-        return result
-    }
-}
-let observable = obj => {
-    return new Proxy(obj, handler)
-}
-let observe = fn => queuedObservers.add(fn)
-
-let obj = {a: 's'}
-let observedObj = observable(obj)
-let print = () => (console.log('print'))
-observe(print)
-observedObj.a = 0
+		let p0 = new Promise((s, j) => {
+			setTimeout(() => {
+				s(0)
+			}, 1200)
+		})
+		let p1 = new Promise((s, j) => {
+			setTimeout(() => {
+				s(1)
+			}, 800)
+		})
+		let p2 = new Promise((s, j) => {
+			setTimeout(() => {
+				s(2)
+			}, 1300)
+		})
+		let p3 = new Promise((s, j) => {
+			setTimeout(() => {
+				s(3)
+			}, 1000)
+		})
+		let p4 = new Promise((s, j) => {
+			setTimeout(() => {
+				j(4)
+			}, 1000)
+		})
+		let p5 = new Promise((s, j) => {
+			setTimeout(() => {
+				j(5)
+			}, 300)
+		})
+		Promise.try(p5).then(arr => {
+			console.log(arr)
+		}).catch(e => {
+			console.log(e)
+		})
 	</script>
 </body>
 </html>
