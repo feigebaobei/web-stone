@@ -145,7 +145,7 @@ var p = new Proxy(o, {
 console.log(p.a)
 console.log(p._b)
 ```
-Proxy.revocable(target, handler)
+let {proxy, revoke} = Proxy.revocable(target, handler)
 this指向handler。因为this指向运行时上下文环境。
 ```
 var proxy = new Proxy(target, handler)
@@ -233,7 +233,7 @@ promise的参数是一个接收`resolve`/`reject`方法的方法。
 Promise#then()
 Promise#catch()
 Promise#finally()    // 不返回东西。即使写了返回东西的代码也不返回。
-Promise.all(arrP)    // 这各种写法的都是静态属性。若arrP都是fulfilled状态则执行then方法，参数是一个数组。若arrP中有一个rejected状态则立即执行catch，参数是一个值。
+Promise.all(arrP)    // 这种写法的都是静态属性。若arrP都是fulfilled状态则执行then方法，参数是一个数组。若arrP中有一个rejected状态则立即执行catch，参数是一个值。
 Promise.race(arrP)   // 返回最先改变状态的promise对象，状态由该对象决定。
 Promise.allSettled(arrP) // 当arrP都改变状态后返回结果。
 结果是由{status: 'fulfilled' | 'rejected', value / reason}组成的数组。
@@ -278,32 +278,85 @@ return new Promise((s, j) => {
 # Generator & Iterator
 ## Iterator
 它是一个遍历器。
-有iterator接口的对象就是遍历器对象。iterator接口是一个方法。
+`[Symbol.iterator]`是遍历器接口。
+有iterator接口的对象就是可遍历对象。
+遍历器接口是一个方法。该方法返回遍历器对象（至少包含`next`属性的对象）。
+next属性值是一个方法。该方法返回一个包含当前对象信息的对象。如：
+```
+{
+    value: any, // 当前值,
+    done: boolean, // 是否结束
+}
+```
 内置iterator接口的对象有Array/Set/Map/String/TypedArray/...。
 也可以自定义iterator接口，如：
 ```
-let obj = {
-    [Symbol,iterator]: function () {
-        return ['a', 'b', 'c']
-    }
-}
+let obj = {}
 obj[Symbol.iterator] = () => {
-    return [1, 2, 3]
+    let t = 0
+    return {
+        next: function () {
+        if (t++ < 3) {
+            return {
+                value: t,
+                done: false
+            }
+        } else {
+            return {
+                value: 8,
+                done: true
+            }
+        };
+        }
+    };
 }
 for (let v of obj) {
     console.log('v', v)
 }
 ```
 主要使用`for...of`对接iterator接口。
+### Iterator 的作用有三个：
+一是为各种数据结构，提供一个统一的、简便的访问接口；
+二是使得数据结构的成员能够按某种次序排列；
+三是Iterator 接口主要供for...of消费。
+```
+for (let ele of set)
+for (let [k, v] of map)
+```
+
+### 遍历器对象
+{
+    next: 
+    return:    // 完成遍历前清理或释放资源
+    throw: 
+}
+
+### 触发iterator接口的方法
+- 解构赋值
+- 扩展运算符`...`
+- `yield *`
+- 遍历结构，如`for...of / Array.from / Map() / Set() / WeakMap() / WeakSet() / Promise.all() / Promise.race()`
 
 ## Generator
-<!-- ## iterator & for...of -->
+Generator 函数
+- 是一个状态机，封装了多个内部状态。
+- 会返回一个遍历器对象，
+- `function`关键字与函数名之间有一个星号`*`.
+- 函数体内部使用`yield`表达式，定义不同的内部状态。`generator`方法和`yield`可互相嵌套。
+每个`yield`都定义一个状态。yield后面的值是该状态的值。
+- 是分段执行的，yield表达式是暂停执行的标记，而next方法可以恢复执行。
+```
+```
+
 ## async & await
 
 # decorator
 
 # 位运算
-# title
+# 线程
+js是单线程语言。但是它的宿主环境——browser支持多线程。
+当遇到大量计算时可以使用`web worker`处理。主`worker`创建一个子`worker`，再让子worker处理大量计算，得到计算结果后把由子workern以消息`message`的形式给主worker。
+
 # title
 
 

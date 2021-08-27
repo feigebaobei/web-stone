@@ -83,68 +83,20 @@
 	</script>
 
 	<script type="text/javascript">
-		class RangeIterator {
-  constructor(start, stop) {
-    this.value = start;
-    this.stop = stop;
-  }
-
-  [Symbol.iterator]() { 
-  	// return this; 
-  	return {
-  		next: function() {
-  			return {
-  				done: false, value: 5
-  			}
-  		}
-  	}
-  }
-
-  // next() {
-  //   var value = this.value;
-  //   if (value < this.stop) {
-  //     this.value++;
-  //     return {done: false, value: value};
-  //   }
-  //   return {done: true, value: undefined};
-  // }
+		function* helloWorldGenerator() {
+  yield 'hello';
+  yield 'world';
+  return 'ending';
 }
 
-function range(start, stop) {
-  return new RangeIterator(start, stop);
-}
-// console.log(range(0, 3))
-
-// for (var value of range(0, 3)) {
-//   console.log(value); // 0, 1, 2
-// }
-let obj = {
-
-    [Symbol.iterator]: function () {
-    	let t = 0
-        return {
-	      next: function () {
-	      	if (t++ < 3) {
-	      		return {
-	      			value: t,
-	      			done: false
-	      		}
-	      	} else {
-		        return {
-		          value: 8,
-		          done: true
-		      	}
-	        };
-	      }
-	    };
-    }
-}
-// obj[Symbol.iterator] = function() {
-//     return [1, 2, 3]
-// }
-for (let v of obj) {
-    console.log('v', v)
-}
+var hw = helloWorldGenerator();
+console.log(hw)
+console.log(hw.next())
+console.log(hw.next())
+console.log(hw.next())
+console.log(hw.next())
+console.log(hw.next())
+console.log(hw.next())
 	</script>
 </body>
 </html>

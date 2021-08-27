@@ -10,6 +10,13 @@
     - ts
     - coffeescript
     - flow
+    - 各对象的属性说明
+      - math
+      - object
+      - array
+      - string
+      - number
+      - ...
   - 版本管理
     - git
     - svn
