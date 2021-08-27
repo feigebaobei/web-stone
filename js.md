@@ -280,6 +280,7 @@ return new Promise((s, j) => {
 它是一个遍历器。
 `[Symbol.iterator]`是遍历器接口。
 有iterator接口的对象就是可遍历对象。
+可遍历对象都有`[Symbol.iterator]`属性。
 遍历器接口是一个方法。该方法返回遍历器对象（至少包含`next`属性的对象）。
 next属性值是一个方法。该方法返回一个包含当前对象信息的对象。如：
 ```
@@ -340,13 +341,73 @@ for (let [k, v] of map)
 ## Generator
 Generator 函数
 - 是一个状态机，封装了多个内部状态。
-- 会返回一个遍历器对象，
+- 会返回一个遍历器对象，(至少包含`next`属性，可以包含`throw`/`return`属性的对象)。
 - `function`关键字与函数名之间有一个星号`*`.
+- 调用`next()`时执行到下一个`yield`。当调用`throw()`时，把`done`的属性值改为`true`，遍历结束。当调用`return(v)`时，把`value`的属性值为`v`，`done`的属性值改为`true`，遍历结束。
 - 函数体内部使用`yield`表达式，定义不同的内部状态。`generator`方法和`yield`可互相嵌套。
 每个`yield`都定义一个状态。yield后面的值是该状态的值。
-- 是分段执行的，yield表达式是暂停执行的标记，而next方法可以恢复执行。
+- 是分段执行的，yield表达式是暂停执行的标记，而`next()`可以恢复执行。
+- 可以用于定义iterator接口。
+
 ```
+// 开关机
+function * helloWorldGenerator() {
+    let t = true
+    while (true) {
+        yield t = !t
+    }
+}
+var hw = helloWorldGenerator();
+console.log(hw.next()) // 多执行几次
+
+// 生成fibonacci数列
+function * getFibonacci(num = 10) {
+    let t = 0;
+    let [pre, cur] = [0, 1]
+    while (t++ < num) {
+        yield cur
+        let q = cur
+        cur = q + pre
+        pre = q
+    }
+}
+function getFibArr (num = 10) {
+    return Array.from(getFibonacci(num))
+}
+// 平化数组
+function * faltmizeArr(arr, isDeepFirst = true) {
+    if (isDeepFirst) {
+        for(let ele of arr) {
+            if (Array.isArray(ele)) {
+                yield * faltmizeArr(ele)
+            } else {
+                yield ele
+            }
+        }
+    } else {
+        let s = []
+        for (let ele of arr) {
+            if (Array.isArray(ele)) {
+                s.push(...ele)
+            } else {
+                yield ele
+            }
+        }
+        if (s.length) {
+            yield * faltmizeArr(s, isDeepFirst)
+        }
+    }
+}
 ```
+### Generator#throw
+generator方法的实例可执行`throw()`。然后在generator方法中catch一次错误，若再执行实例的`throw()`，则generator方法不catch，则实例所在环境catch.
+
+### 协程
+"协程"（coroutine），意思是多个线程互相协作，完成异步任务。过程如下：
+1. 协程A开始执行。
+1. 协程A执行到一半，进入暂停，执行权转移到协程B。
+1. （一段时间后）协程B交还执行权。
+1. 协程A恢复执行。
 
 ## async & await
 
@@ -355,8 +416,9 @@ Generator 函数
 # 位运算
 # 线程
 js是单线程语言。但是它的宿主环境——browser支持多线程。
-当遇到大量计算时可以使用`web worker`处理。主`worker`创建一个子`worker`，再让子worker处理大量计算，得到计算结果后把由子workern以消息`message`的形式给主worker。
+当遇到大量计算时可以使用`web worker`处理。主`worker`创建一个子`worker`，再让子worker处理大量计算，主worker会交出数据的控制权给子worker。得到计算结果后把由子workern以消息`message`的形式给主worker。
 
+## 协程
 # title
 
 

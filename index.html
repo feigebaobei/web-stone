@@ -83,20 +83,38 @@
 	</script>
 
 	<script type="text/javascript">
-		function* helloWorldGenerator() {
-  yield 'hello';
-  yield 'world';
-  return 'ending';
-}
+		function * faltmizeArr(arr, isDeepFirst = true) {
+			if (isDeepFirst) {
+				for(let ele of arr) {
+					if (Array.isArray(ele)) {
+						yield * faltmizeArr(ele)
+					} else {
+						yield ele
+					}
+				}
+			} else {
+				let s = []
+				for (let ele of arr) {
+					if (Array.isArray(ele)) {
+						s.push(...ele)
+					} else {
+						yield ele
+					}
+				}
+				if (s.length) {
+					yield * faltmizeArr(s, isDeepFirst)
+				}
+			}
+		}
+		var a = [1,2,3,[4,5,[6]],7,[8,9],10]
+		console.log(Array.from(faltmizeArr(a, false)))
 
-var hw = helloWorldGenerator();
-console.log(hw)
-console.log(hw.next())
-console.log(hw.next())
-console.log(hw.next())
-console.log(hw.next())
-console.log(hw.next())
-console.log(hw.next())
+// console.log(hw.next())
+// console.log(hw.next())
+// console.log(hw.next())
+// console.log(hw.next())
+// console.log(hw.next())
+// console.log(hw.next())
 	</script>
 </body>
 </html>
