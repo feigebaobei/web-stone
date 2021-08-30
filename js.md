@@ -268,6 +268,13 @@ return new Promise((s, j) => {
 }
 ```
 
+### 判断promise对象
+```
+function isPromise(obj) {
+  return 'function' == typeof obj.then;
+}
+```
+
 ## eventLoop (异步 & 同步)
 所有js代码按执行时序可分为三部分：同步代码/宏任务/微任务。
 代码从上到下执行。遇到同步代码则依次序执行。遇到宏任务不执行，放入宏任务队列。遇到微任务不执行，入入微任务队列。执行完所有同步代码后执行一个宏任务队列中的宏任务，然后执行完所有微任务。再执行宏任务队列中的一个宏任务，再执行所有微任务。直到宏任务队列为空/微任务队列为空。
@@ -341,7 +348,7 @@ for (let [k, v] of map)
 ## Generator
 Generator 函数
 - 是一个状态机，封装了多个内部状态。
-- 会返回一个遍历器对象，(至少包含`next`属性，可以包含`throw`/`return`属性的对象)。
+- 会返回一个generator对象（不是遍历器对象），(至少包含`next`属性，可以包含`throw`/`return`属性的对象)。从定义角度认为generator对象包括iterartor对象。
 - `function`关键字与函数名之间有一个星号`*`.
 - 调用`next()`时执行到下一个`yield`。当调用`throw()`时，把`done`的属性值改为`true`，遍历结束。当调用`return(v)`时，把`value`的属性值为`v`，`done`的属性值改为`true`，遍历结束。
 - 函数体内部使用`yield`表达式，定义不同的内部状态。`generator`方法和`yield`可互相嵌套。
@@ -399,15 +406,22 @@ function * faltmizeArr(arr, isDeepFirst = true) {
     }
 }
 ```
+### Generator#return
 ### Generator#throw
 generator方法的实例可执行`throw()`。然后在generator方法中catch一次错误，若再执行实例的`throw()`，则generator方法不catch，则实例所在环境catch.
 
 ### 协程
 "协程"（coroutine），意思是多个线程互相协作，完成异步任务。过程如下：
+
 1. 协程A开始执行。
 1. 协程A执行到一半，进入暂停，执行权转移到协程B。
 1. （一段时间后）协程B交还执行权。
 1. 协程A恢复执行。
+
+整个过程和`web worker`的工作过程很像。
+
+### 流式处理
+### co源码
 
 ## async & await
 
