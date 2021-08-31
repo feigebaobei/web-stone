@@ -468,6 +468,20 @@ function spawn(genF) {
 ```
 
 # decorator
+- 可以用于装饰类、类的方法。不可用于装饰方法。因为方法会被变量提升。类、类的方法不会提升。
+- 当前仍再更新。
+- 装饰器是一个方法。参数有3个target:被装饰的对象（类或类的方法），name:被装饰的属性名，descriptor:属性描述符对象。
+
+## 应用
+- 身份认证
+- 日志记录
+- 数据（参数）合理性检查
+- 缓存装饰器
+
+## 常用的修饰器库
+- [traits-decorator](https://github.com/CocktailJS/traits-decorator)
+- [postal](https://github.com/postaljs/postal.js)
+- [core-decorator](https://github.com/jayphelps/core-decorators.js)
 
 # 位运算
 # 线程
@@ -475,6 +489,24 @@ js是单线程语言。但是它的宿主环境——browser支持多线程。
 当遇到大量计算时可以使用`web worker`处理。主`worker`创建一个子`worker`，再让子worker处理大量计算，主worker会交出数据的控制权给子worker。得到计算结果后把由子workern以消息`message`的形式给主worker。
 
 ## 协程
+# 各对象的属性
+- [string](/js/string.md)
+- [number](/js/number.md)
+- [boolean](/js/boolean.md)
+- [array](/js/array.md)
+- [object](/js/object.md)
+- [symbol](/js/symbol.md)
+- [null](/js/null.md)
+- [undefined](/js/undefined.md)
+- [bigint](/js/bigint.md)
+- [set](/js/set.md)
+- [map](/js/map.md)
+
+# title
+# title
+# title
+# title
+# title
 # title
 
 
