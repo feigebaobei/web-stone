@@ -10,6 +10,7 @@
     - ts
     - coffeescript
     - flow
+    - 判断类型
     - 各对象的属性说明
       - math
       - object
