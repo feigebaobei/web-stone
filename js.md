@@ -413,6 +413,45 @@ generator方法的实例可执行`throw()`。然后在generator方法中catch一
 详见[co](/other/co.html)
 
 ## async & await
+是es7的内容。
+基于`co`模块处理的。
+`async/await`是`generator/yield`的语法糖，本质是`generator/yield/co`。
+`generator/yield/co`的具有的功能在`async/await`中都有。
+
+### async原理
+```
+async function fn(args) {
+  // ...
+}
+// 等同于
+function fn(args) {
+  return spawn(function* () {
+    // ...
+  });
+}
+function spawn(genF) {
+  return new Promise(function(resolve, reject) {
+    const gen = genF();
+    function step(nextF) {
+      let next;
+      try {
+        next = nextF();
+      } catch(e) {
+        return reject(e);
+      }
+      if(next.done) {
+        return resolve(next.value);
+      }
+      Promise.resolve(next.value).then(function(v) {
+        step(function() { return gen.next(v); });
+      }, function(e) {
+        step(function() { return gen.throw(e); });
+      });
+    }
+    step(function() { return gen.next(undefined); });
+  });
+}
+```
 
 # decorator
 

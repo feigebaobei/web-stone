@@ -79,6 +79,7 @@ function onerror(err) {
 co(fn*).then()
 co.wrap(fn*) // promise
 ```
+当`fn*`中的`yield`方法生成的任一`Promise`对象为`rejected`状态时触发`co`方法返回的`Promise`对象的`rejected`状态。
 
 ## 实现原理
 1. co方法接收一个gen方法，返回一个Promise对象。
