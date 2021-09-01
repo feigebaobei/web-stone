@@ -68,3 +68,6 @@ radix 基数
 
 Number#valueOf()
 返回表示指定 Number 对象的原始值的数字
+
+## Number & String
+相互转换
