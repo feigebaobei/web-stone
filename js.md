@@ -79,8 +79,9 @@ this指向运行时（不是定义时）的上下文环境变量。
 ## constructor
 es5前的产物。es6以后一般不用。
 ## class
-本质是构造函数的语法糖。
+与构造函数很像。（不是构造函数的语法糖。）
 不能变量提升，遵守是块级作用域规则。
+class可以使用`decorator`，构造函数不能使用`decorator`。
 ```
 class ClassName {
     constructor (...params) { // 可省略

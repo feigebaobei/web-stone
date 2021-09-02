@@ -70,4 +70,17 @@ Number#valueOf()
 返回表示指定 Number 对象的原始值的数字
 
 ## Number & String
-相互转换
+string => number
+Number(s)
+// 把字符串转换为数字。若可以转换则调用`parseInt`/`parseFloat`。否则返回`NaN`.
+parseInt(s)
+parseFloat(s)
+// 转换第一个无效字符前的字符串
+
+number => string
+n.toString([radix])
+String(n)
+n + ''
+
+### 处理过多小数
+Number(n.toFixed(4))
