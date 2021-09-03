@@ -1,7 +1,6 @@
 # Object
 - 基础类型之一。
 
-
 ```
 {...}
 new Object(any)
@@ -119,21 +118,38 @@ Object.getOwnPropertySymbols(obj)
 obj
 返回指定对象自身的全部`Symbol`属性值组成的数组。
 
-Object.assign()
-Object.assign()
-Object.assign()
-Object.assign()
-Object.assign()
-Object.assign()
-Object.assign()
-Object.seal()
-可改变已有属性
+Object.getPrototypeOf(obj)
+返回原型对象
 
-Object.assign()
-Object.assign()
-Object.assign()
-Object.assign()
+Object.is(v0, v1)
+返回是否相同
 
+Object.isExtensible(obj)
+返回是否可扩展（即：是否可添加新属性）
+
+Object.preventExtensions(obj)
+返回不可扩展的对象
+
+Object.isFrozen(obj)
+返回是冻结
+不可扩展的对象也是冻结的。
+
+Object.keys(obj)
+返回由指定对象的可枚举对象的属性组成的数组。
+
+Object.isSealed(obj)
+返回是否密封
+
+Object.values(obj)
+返回指定对象上可枚举属性值组成的数组。
+
+Object.setPrototypeOf(obj, prototype)
+调用给定对象的原型对象。
+
+Object.seal(obj)
+不可改变已有属性，把对象的所有属性设置为不可配置。
+不可添加新属性。
+返回操作后的对象。
 
 ## 描述符
 ||configurable|enumerable|value|writable|get|set|
