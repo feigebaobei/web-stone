@@ -77,21 +77,62 @@ Object.entires(obj)
 obj
 返回目标对象上可枚举的属性的键值对组成的数组。
 
-Object#assign()
-Object#assign()
-Object#assign()
-Object#assign()
-Object#assign()
-Object#assign()
-Object#assign()
-Object#assign()
-Object#assign()
-Object#assign()
-Object#assign()
-Object#assign()
-Object#assign()
-Object#assign()
-Object#assign()
+Object.freeze(obj)
+obj 目标对象
+不可修改（value/writable/enumerable/configuration）、不能删除已有属性、不能修改该对象的原型
+返回被冻结的对象
+数组的原型链中有`Object`，所以数组可以被冻结。
+freeze是浅冻结。
+```
+// 深冻结
+function deepFreeze(obj) {
+    let propNames = Object.getOwnPropertyNames(obj)
+    propNames.forEach(function(name) {
+        let value = obj[name]
+        if (typeof value === 'object' && value !== null) {
+            deepFreeze(value)
+        }
+    })
+    return Object.freeze(obj)
+}
+```
+
+Object.getOwnPropertyDescriptor(obj, prop)
+obj,
+prop
+返回指定对象的指定属性的属性描述符对象
+```
+{
+    value,
+    writable
+    get
+    set
+    configuration
+    enumerable
+}
+```
+
+Object.getOwnPropertyNames(obj)
+返回指定对象自身拥有的非`symbol`/非不可枚举（非`enumerable: false`）属性名组成的数组。
+
+Object.getOwnPropertySymbols(obj)
+obj
+返回指定对象自身的全部`Symbol`属性值组成的数组。
+
+Object.assign()
+Object.assign()
+Object.assign()
+Object.assign()
+Object.assign()
+Object.assign()
+Object.assign()
+Object.seal()
+可改变已有属性
+
+Object.assign()
+Object.assign()
+Object.assign()
+Object.assign()
 
 
 ## 描述符

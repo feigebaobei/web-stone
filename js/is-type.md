@@ -16,3 +16,4 @@ function isObject(val) {
 }
 ```
 
+function isNull () {}
