@@ -1063,505 +1063,90 @@ body .markdown-body
 .highlight .vi{color:teal}
 .highlight .il{color:#009999}
 .highlight .gc{color:#999;background-color:#EAF2F5}
-</style><title>js</title></head><body><article class="markdown-body"><h1 id="javascript">javascript<a class="headerlink" href="#javascript" title="Permanent link"></a></h1>
+</style><title>math</title></head><body><article class="markdown-body"><h1 id="math">Math<a class="headerlink" href="#math" title="Permanent link"></a></h1>
 <ul>
-<li>(缩写：JS)是一门完备的 动态编程语言。当应用于 HTML 文档时，可为网站提供动态交互特性。由布兰登·艾克（ Brendan Eich，Mozilla 项目、Mozilla 基金会和 Mozilla 公司的联合创始人）发明。</li>
-<li>它是一个面向对象的语言。它比java中的对象更纯粹。js在es5后的有<code>class</code>，也不能说js中有了类。<code>class</code>的本质还是对象（<code>Object</code>）。</li>
-<li>没有继承，有引用。因为没有类，所以没有继承。引用是通过原型链实现引用。</li>
+<li>js的内置对象</li>
+<li>用于<code>Number</code>类型，不支持<code>BigInt</code>.</li>
+<li>包含数学常数属性、数学函数方法。</li>
+<li>常数都是全大写</li>
+<li>角度上使用弧度</li>
 </ul>
-<h1 id="_1">名词说明<a class="headerlink" href="#_1" title="Permanent link"></a></h1>
-<p><strong>动态编程语言</strong>
-是指可在运行阶段时执行那些在编译阶段执行的操作的编程语言。比如，在 JavaScript 中， 我们可以在程序运行时改变变量的类型，或者为一个对象增加一个新属性或者方法。
-<strong>对象的属性</strong>
-对象是复杂数据类型（亦称：引用数据类型）。对象的每个key对应的值可以是简单数据类型也可以是复杂数据类型。作者把每个key对应的值都称为属性，不论是简单数据类型还是复杂数据类型。
-<strong>原型对象上的方法</strong>
-prop#method。如：<code>Promise#then</code>。</p>
-<h1 id="_2">数据类型<a class="headerlink" href="#_2" title="Permanent link"></a></h1>
-<p>String
-Number
-Boolean
-Null
-undefined
-Object
-Symbol
-BigInt</p>
-<h1 id="_3">变量<a class="headerlink" href="#_3" title="Permanent link"></a></h1>
-<h2 id="var-let-const">var &amp; let &amp; const<a class="headerlink" href="#var-let-const" title="Permanent link"></a></h2>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>是否可以变量提升</th>
-<th>作用域</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>var</td>
-<td>y</td>
-<td>函数级作用域</td>
-<td>可多次声明</td>
-</tr>
-<tr>
-<td>let</td>
-<td>n</td>
-<td>块级作用域</td>
-<td>不可多次声明</td>
-</tr>
-<tr>
-<td>const</td>
-<td>n</td>
-<td>块级作用域</td>
-<td>不可多次声明</td>
-</tr>
-</tbody>
-</table>
-<h2 id="_4">声明 &amp; 定义<a class="headerlink" href="#_4" title="Permanent link"></a></h2>
-<p>声明：提出变量名
-初始化：第一次赋值
-定义 = 声明 + 初始化
-<div class="highlight"><pre>var a // 声明
-a = &#39;s&#39; // 初始化
-var n = 0 // 定义
-</pre></div></p>
-<h2 id="_5">变量提升<a class="headerlink" href="#_5" title="Permanent link"></a></h2>
-<p>function、var都会触发变量提升。
-先提升function，再提升var。且存在变量覆盖。</p>
-<h1 id="_6">事件<a class="headerlink" href="#_6" title="Permanent link"></a></h1>
-<h1 id="_7">原型链<a class="headerlink" href="#_7" title="Permanent link"></a></h1>
-<p>使用对象的<code>[[prototype]]</code>属性原型链上源的对象。
-原型链中的对象使用<code>[[prototype]]</code>属性“串联”起彼此。
-一条链中不能有分支。
-原型链的下游对象可以访问原型链的上游对象的属性。</p>
-<h2 id="new">new的过程做了什么<a class="headerlink" href="#new" title="Permanent link"></a></h2>
-<p>var a = Object.create(Object)
-a<a class="wikilink" href="/prototype/">prototype</a> = Foo.prototype
-// or
-// a.<strong>proto</strong> = Foo.prototype
-Foo.call(a)
-先创建一个实例，再把实例添加到原型链中。</p>
-<h1 id="_8">作用域链<a class="headerlink" href="#_8" title="Permanent link"></a></h1>
-<p>js在宏观上使用函数作用域，同时支持块级作用域。
-函数作用域。。。。
-块级作用域，只有<code>let</code>、<code>const</code>。</p>
-<h2 id="this">this<a class="headerlink" href="#this" title="Permanent link"></a></h2>
-<p>this指向运行时（不是定义时）的上下文环境变量。</p>
-<h3 id="abc">abc<a class="headerlink" href="#abc" title="Permanent link"></a></h3>
-<p>即<code>apply / bind / call</code>。<code>abc</code>是作者起的名字。
-||||
-|-|-|-|
-|apply|fn.apply(otherThis, arrOfArgs)|立即执行|
-|call|fn.call(otherThis, arg0, arg1, &hellip;)|立即执行|
-|bind|fn.bind(otherThis, arg0, arg1, &hellip;)|返回一个方法|</p>
-<h1 id="constructor-class">constructor &amp; class<a class="headerlink" href="#constructor-class" title="Permanent link"></a></h1>
-<h2 id="constructor">constructor<a class="headerlink" href="#constructor" title="Permanent link"></a></h2>
-<p>es5前的产物。es6以后一般不用。</p>
-<h2 id="class">class<a class="headerlink" href="#class" title="Permanent link"></a></h2>
-<p>与构造函数很像。（不是构造函数的语法糖。）
-不能变量提升，遵守是块级作用域规则。
-class可以使用<code>decorator</code>，构造函数不能使用<code>decorator</code>。
-<div class="highlight"><pre>class ClassName {
-    constructor (...params) { // 可省略
-        // ...
-        this.a = params[0] // 会在实例对象上设置属性a
-    }
-    t () {                 // 会在实例对象的原型链上的上游对象class ClassName上创建t属性。t属性的值是一个方法。方法中的this遵守作用域规则。执行`instance.t()`时this指向instance对象。
-        // ...
-        return this.a
-    }
-}
+<p>Math.E
+欧拉常数。约等于2.718</p>
+<p>Math.LN2
+2的自然对数 0.693</p>
+<p>Math.LN10
+10的自然对数 2.303</p>
+<p>Math.LOG2E
+1.443</p>
+<p>Math.LOG10E
+0.434</p>
+<p>Math.PI
+Math.SQRT1_2
+二分之一的平方根 0.707</p>
+<p>Math.SQRT2
+2的平方根 1.414</p>
+<p>Math.abs(x)
+Math.acos(x)
+Math.acosh(x)
+反双曲余弦值
+Math.asin(x)
+反正统值
+Math.asinh(x)
+反双曲正弦值
+Math.atan(x)
+Math.atanh(x)
+Math.atan2(y, x)
+返回y/x的反正切值</p>
+<p>Math.cbrt(x)
+返回一个数的立方根</p>
+<p>Math.ceil(x)
+向上取整
+Math.clz32(x)
+返回一个数字在转换成 32 无符号整形数字的二进制形式后, 开头的 0 的个数。</p>
+<p>Math.cos(x)
+Math.cosh(x)
+Math.exp(x)
+E的x次方</p>
+<p>Math.expm1(x)
+返回Math.exp(x) - 1</p>
+<p>Math.floor(x)
+Math.fround(x)
+Math.hypot(&hellip;n)
+返回所有参数平方和的平方根</p>
+<p>Math.imul(x, y)
+Math.log(x)
+Math.log1p(x)
+Math.log10(x)
+Math.log2(x)
+Math.max(&hellip;n)
+Math.min(&hellip;n)
+Math.random()
+返回一个[0， 1)的伪随机数</p>
+<p>Math.round(x)
+Math.sign(x)
+<div class="highlight"><pre>    Math.sign(3.7) // 1
+    Math.sign(-3.7) // -1
+    Math.sign(0) // 0
+    Math.sign(-0) // -0
+    -0 &gt; 0
+    false
+    -0 &lt; 0
+    false
+    -0 == 0
+    true
+    -0 === 0
 </pre></div>
-上述代码可(大致)转换为构造函数代码：
-<div class="highlight"><pre>function ClassName (...params) {
-    this.a = params[0]
-}
-ClassName.prototype.t = funtion () {
-    return this.a
-}
-// 若要使用class则构造者是class ClassName.
-// 若要使用构造器则构造者是方法ClassName
-</pre></div>
-<div class="highlight"><pre>class A {
-    constructor () {...} // 可省略
-    get p () {...}       // 使用存取描述符
-    set p (v) {...}
-    [methodName] () {}   // 使用属性表达式
-    static s () {}       // 静态属性
-    static sa = 0       // 静态属性
-}
-class A extends B {}     // 类A继承类B
-</pre></div>
-静态方法的本质是定义在构造方法上的方法。所以有人理解为不使用实例化就能使用的方法。也有人理解为不能在实例上使用，只能在类上使用的方法。
-如果把静态方法的本质写出来，则如下：
-<div class="highlight"><pre>function ClassName () {...}
-ClassName.staticFn () {...}
-</pre></div>
-为什么可以这样写？
-<code>funtion</code>的原型链上游中有<code>Object</code>对象。该对象支持设置属性。静态方法就是为一个是funtion的对象设置了一个属性，该属性值是一个方法。</p>
-<h1 id="proxy-reflect">proxy &amp; reflect<a class="headerlink" href="#proxy-reflect" title="Permanent link"></a></h1>
-<h2 id="proxy">proxy<a class="headerlink" href="#proxy" title="Permanent link"></a></h2>
-<p>proxy让代理模式更容易实现。
-常用于做：保护/预检/代理等。
-<div class="highlight"><pre>let o = {
-    a: &#39;s&#39;,
-    _b: 1
-}
-var p = new Proxy(o, {
-    get: (target, propKey, receiver) =&gt; {
-        if (propKey.startsWith(&#39;_&#39;)) {
-            return new Error(&#39;私有方法不能被外部访问&#39;)
-        } elss {
-            return target[propKey]
-        }
-    }
-})
-console.log(p.a)
-console.log(p._b)
-</pre></div>
-let {proxy, revoke} = Proxy.revocable(target, handler)
-this指向handler。因为this指向运行时上下文环境。
-<div class="highlight"><pre>var proxy = new Proxy(target, handler)
-target: Object,
-handler: 控制对象。
-    {
-        get(target, propKey, receiver) // receiver 读操作所在的对象
-        set(target, propKey, value, receiver)
-        has(target, propKey)
-        deleteProperty(target, propKey)
-        ownKeys(target)
-        getOwnPropertyDescription(target, propKey)
-        defineProperty(target, propKey, propDesc)
-        preventExtensions(target)
-        getPrototypeOf(target)
-        isExtensible(target)
-        setPrototypeOf(target, proto)
-        apply(target, object, args)
-        construct(target, args)
-    }
-</pre></div></p>
-<h2 id="reflect">reflect<a class="headerlink" href="#reflect" title="Permanent link"></a></h2>
-<ul>
-<li>更接近语言本质。</li>
-<li>当前操作<code>Object</code>的方法同时存在于<code>Object</code>、<code>Reflect</code>。未来会只在<code>Reflect</code>上存在。</li>
-<li>Reflect与Proxy的方法一一对应。</li>
-<li>Reflect可保证原生方法被执行，Proxy可保证原生方法不被执行，执行的是代理对象的方法。
-<div class="highlight"><pre>Reflect.get(target, propKey, receiver)
-Reflect.set(target, propKey, value, receiver)
-Reflect.apply(target, thisArg, arrArgs)
-Reflect.construct(target, arrArgs)
-Reflect.defineProperty(target, propKey, value, desc)
-Reflect.deleteProperty(target, propKey)
-Reflect.has(target, propKey)
-Reflect.ownKeys(target)
-Reflect.isExtensible(target)
-Reflect.preventExtensions(target)
-Reflect.getOwnPropertyDescriptor(target, propKey)
-Reflect.getPrototypeOf(target)
-Reflect.setPrototypeOf(target, prototype)
-</pre></div></li>
-</ul>
-<h2 id="demo-for">demo for 观察者模式<a class="headerlink" href="#demo-for" title="Permanent link"></a></h2>
-<div class="highlight"><pre>let queuedObservers = new Set()
-let handler = {
-    set: (target, key, value, receiver) =&gt; {
-        let result = Reflect.set(target, key, value, receiver)
-        queuedObservers.forEach(observer =&gt; observer())
-        return result
-    }
-}
-let observable = obj =&gt; {
-    return new Proxy(obj, handler)
-}
-let observe = fn =&gt; queuedObservers.add(fn)
-
-let obj = {a: &#39;s&#39;}
-let observedObj = observable(obj)
-let print = () =&gt; (console.log(&#39;print&#39;))
-observe(print)
-observedObj.a = 0
-</pre></div>
-
-<h1 id="_9">宏任务 &amp; 微任务<a class="headerlink" href="#_9" title="Permanent link"></a></h1>
-<h2 id="_10">宏任务，由宿主发起。<a class="headerlink" href="#_10" title="Permanent link"></a></h2>
-<p>script 可理解为外层代码
-setTimeout
-setInterval
-postMessage
-MessageChannel
-setImmediate (node环境)</p>
-<h2 id="js">微任务，由js引擎发起。<a class="headerlink" href="#js" title="Permanent link"></a></h2>
-<p>Promise
-MutationObserver
-process.nextTick （node环境）</p>
-<h2 id="promise">promise<a class="headerlink" href="#promise" title="Permanent link"></a></h2>
-<p>promise的参数是一个接收<code>resolve</code>/<code>reject</code>方法的方法。
-一个promise对象有三个状态。初始状态是<code>pendding</code>，当执行<code>resolve</code>方法时改变为<code>fulfilled</code>状态，当执行<code>reject</code>方法时改变为<code>rejected</code>状态。二个方法都不执行，则一直是<code>pendding</code>状态。<code>resolve</code>状态触发promise对象的<code>then</code>方法。<code>reject</code>状态触发promise对象的<code>catch</code>方法。
-在定义时开始执行。</p>
-<h3 id="promise_1">promise的属性<a class="headerlink" href="#promise_1" title="Permanent link"></a></h3>
-<div class="highlight"><pre>Promise#then()
-Promise#catch()
-Promise#finally()    // 不返回东西。即使写了返回东西的代码也不返回。
-Promise.all(arrP)    // 这种写法的都是静态属性。若arrP都是fulfilled状态则执行then方法，参数是一个数组。若arrP中有一个rejected状态则立即执行catch，参数是一个值。
-Promise.race(arrP)   // 返回最先改变状态的promise对象，状态由该对象决定。
-Promise.allSettled(arrP) // 当arrP都改变状态后返回结果。
-结果是由{status: &#39;fulfilled&#39; | &#39;rejected&#39;, value / reason}组成的数组。
-Promise.any(arrP)        // arrP中只要有一个状态为fulfilled则返回该值，触发then()。若全为rejected则返回AggregateError对象，触发catch()。
-Promise.resolve()
-Promise.reject()
-Promise.try()            // 正在开发。
-</pre></div>
-
-<h3 id="promiseajax">使用promise封装ajax<a class="headerlink" href="#promiseajax" title="Permanent link"></a></h3>
-<div class="highlight"><pre>let fetchData = (url, method) =&gt; {
-return new Promise((s, j) =&gt; {
-    let handler = function() {
-        if (this.readyState !== 4) {
-            return 
-        } else {
-            if (this.state === 200) {
-                s(this.response)
-            } else {
-                j(new Error(this.statusText))
-            }
-        }
-    }
-    let client = new XMLHttpRequest()
-    client.open(method.toUpperCase(), url)
-    client.onreadystatechange = handler
-    client.responseType = &#39;json&#39;
-    client.setRequestHeader(&#39;Accept&#39;, &#39;application/json&#39;)
-    client.send()
-})
-}
-</pre></div>
-
-<h3 id="promise_2">判断promise对象<a class="headerlink" href="#promise_2" title="Permanent link"></a></h3>
-<div class="highlight"><pre>function isPromise(obj) {
-  return &#39;function&#39; == typeof obj.then;
-}
-</pre></div>
-
-<h2 id="eventloop">eventLoop (异步 &amp; 同步)<a class="headerlink" href="#eventloop" title="Permanent link"></a></h2>
-<p>所有js代码按执行时序可分为三部分：同步代码/宏任务/微任务。
-代码从上到下执行。遇到同步代码则依次序执行。遇到宏任务不执行，放入宏任务队列。遇到微任务不执行，入入微任务队列。执行完所有同步代码后执行一个宏任务队列中的宏任务，然后执行完所有微任务。再执行宏任务队列中的一个宏任务，再执行所有微任务。直到宏任务队列为空/微任务队列为空。</p>
-<h1 id="symbol">Symbol<a class="headerlink" href="#symbol" title="Permanent link"></a></h1>
-<p>内置了<code>Symbol.iterator</code>属性</p>
-<h1 id="generator-iterator">Generator &amp; Iterator<a class="headerlink" href="#generator-iterator" title="Permanent link"></a></h1>
-<h2 id="iterator">Iterator<a class="headerlink" href="#iterator" title="Permanent link"></a></h2>
-<p>它是一个遍历器。
-<code>[Symbol.iterator]</code>是遍历器接口。
-有iterator接口的对象就是可遍历对象。
-可遍历对象都有<code>[Symbol.iterator]</code>属性。
-遍历器接口是一个方法。该方法返回遍历器对象（至少包含<code>next</code>属性的对象）。
-next属性值是一个方法。该方法返回一个包含当前对象信息的对象。如：
-<div class="highlight"><pre>{
-    value: any, // 当前值,
-    done: boolean, // 是否结束
-}
-</pre></div>
-内置iterator接口的对象有Array/Set/Map/String/TypedArray/&hellip;。
-也可以自定义iterator接口，如：
-<div class="highlight"><pre>let obj = {}
-obj[Symbol.iterator] = () =&gt; {
-    let t = 0
-    return {
-        next: function () {
-        if (t++ &lt; 3) {
-            return {
-                value: t,
-                done: false
-            }
-        } else {
-            return {
-                value: 8,
-                done: true
-            }
-        };
-        }
-    };
-}
-for (let v of obj) {
-    console.log(&#39;v&#39;, v)
-}
-</pre></div>
-主要使用<code>for...of</code>对接iterator接口。</p>
-<h3 id="iterator_1">Iterator 的作用有三个：<a class="headerlink" href="#iterator_1" title="Permanent link"></a></h3>
-<p>一是为各种数据结构，提供一个统一的、简便的访问接口；
-二是使得数据结构的成员能够按某种次序排列；
-三是Iterator 接口主要供for&hellip;of消费。
-<div class="highlight"><pre>for (let ele of set)
-for (let [k, v] of map)
-</pre></div></p>
-<h3 id="_11">遍历器对象<a class="headerlink" href="#_11" title="Permanent link"></a></h3>
-<p>{
-    next: 
-    return:    // 完成遍历前清理或释放资源
-    throw: 
-}</p>
-<h3 id="iterator_2">触发iterator接口的方法<a class="headerlink" href="#iterator_2" title="Permanent link"></a></h3>
-<ul>
-<li>解构赋值</li>
-<li>扩展运算符<code>...</code></li>
-<li><code>yield *</code></li>
-<li>遍历结构，如<code>for...of / Array.from / Map() / Set() / WeakMap() / WeakSet() / Promise.all() / Promise.race()</code></li>
-</ul>
-<h2 id="generator">Generator<a class="headerlink" href="#generator" title="Permanent link"></a></h2>
-<p>Generator 函数
-- 是一个状态机，封装了多个内部状态。
-- 会返回一个generator对象（不是遍历器对象），(至少包含<code>next</code>属性，可以包含<code>throw</code>/<code>return</code>属性的对象)。从定义角度认为generator对象包括iterartor对象。
-- <code>function</code>关键字与函数名之间有一个星号<code>*</code>.
-- 调用<code>next()</code>时执行到下一个<code>yield</code>。当调用<code>throw()</code>时，把<code>done</code>的属性值改为<code>true</code>，遍历结束。当调用<code>return(v)</code>时，把<code>value</code>的属性值为<code>v</code>，<code>done</code>的属性值改为<code>true</code>，遍历结束。
-- 函数体内部使用<code>yield</code>表达式，定义不同的内部状态。<code>generator</code>方法和<code>yield</code>可互相嵌套。
-每个<code>yield</code>都定义一个状态。yield后面的值是该状态的值。
-- 是分段执行的，yield表达式是暂停执行的标记，而<code>next()</code>可以恢复执行。
-- 可以用于定义iterator接口。</p>
-<div class="highlight"><pre>// 开关机
-function * helloWorldGenerator() {
-    let t = true
-    while (true) {
-        yield t = !t
-    }
-}
-var hw = helloWorldGenerator();
-console.log(hw.next()) // 多执行几次
-
-// 生成fibonacci数列
-function * getFibonacci(num = 10) {
-    let t = 0;
-    let [pre, cur] = [0, 1]
-    while (t++ &lt; num) {
-        yield cur
-        let q = cur
-        cur = q + pre
-        pre = q
-    }
-}
-function getFibArr (num = 10) {
-    return Array.from(getFibonacci(num))
-}
-// 平化数组
-function * faltmizeArr(arr, isDeepFirst = true) {
-    if (isDeepFirst) {
-        for(let ele of arr) {
-            if (Array.isArray(ele)) {
-                yield * faltmizeArr(ele)
-            } else {
-                yield ele
-            }
-        }
-    } else {
-        let s = []
-        for (let ele of arr) {
-            if (Array.isArray(ele)) {
-                s.push(...ele)
-            } else {
-                yield ele
-            }
-        }
-        if (s.length) {
-            yield * faltmizeArr(s, isDeepFirst)
-        }
-    }
-}
-</pre></div>
-
-<h3 id="generatorreturn">Generator#return<a class="headerlink" href="#generatorreturn" title="Permanent link"></a></h3>
-<h3 id="generatorthrow">Generator#throw<a class="headerlink" href="#generatorthrow" title="Permanent link"></a></h3>
-<p>generator方法的实例可执行<code>throw()</code>。然后在generator方法中catch一次错误，若再执行实例的<code>throw()</code>，则generator方法不catch，则实例所在环境catch.</p>
-<h3 id="_12">协程<a class="headerlink" href="#_12" title="Permanent link"></a></h3>
-<p>&ldquo;协程&rdquo;（coroutine），意思是多个线程互相协作，完成异步任务。过程如下：</p>
-<ol>
-<li>协程A开始执行。</li>
-<li>协程A执行到一半，进入暂停，执行权转移到协程B。</li>
-<li>（一段时间后）协程B交还执行权。</li>
-<li>协程A恢复执行。</li>
-</ol>
-<h3 id="co">co模块<a class="headerlink" href="#co" title="Permanent link"></a></h3>
-<p>详见<a href="/other/co.html">co</a></p>
-<p>整个过程和<code>web worker</code>的工作过程很像。</p>
-<h3 id="_13">流式处理<a class="headerlink" href="#_13" title="Permanent link"></a></h3>
-<h3 id="co_1">co源码<a class="headerlink" href="#co_1" title="Permanent link"></a></h3>
-<h2 id="async-await">async &amp; await<a class="headerlink" href="#async-await" title="Permanent link"></a></h2>
-<p>是es7的内容。
-基于<code>co</code>模块处理的。
-<code>async/await</code>是<code>generator/yield</code>的语法糖，本质是<code>generator/yield/co</code>。
-<code>generator/yield/co</code>的具有的功能在<code>async/await</code>中都有。</p>
-<h3 id="async">async原理<a class="headerlink" href="#async" title="Permanent link"></a></h3>
-<div class="highlight"><pre>async function fn(args) {
-  // ...
-}
-// 等同于
-function fn(args) {
-  return spawn(function* () {
-    // ...
-  });
-}
-function spawn(genF) {
-  return new Promise(function(resolve, reject) {
-    const gen = genF();
-    function step(nextF) {
-      let next;
-      try {
-        next = nextF();
-      } catch(e) {
-        return reject(e);
-      }
-      if(next.done) {
-        return resolve(next.value);
-      }
-      Promise.resolve(next.value).then(function(v) {
-        step(function() { return gen.next(v); });
-      }, function(e) {
-        step(function() { return gen.throw(e); });
-      });
-    }
-    step(function() { return gen.next(undefined); });
-  });
-}
-</pre></div>
-
-<h1 id="decorator">decorator<a class="headerlink" href="#decorator" title="Permanent link"></a></h1>
-<ul>
-<li>可以用于装饰类、类的方法。不可用于装饰方法。因为方法会被变量提升。类、类的方法不会提升。</li>
-<li>当前仍再更新。</li>
-<li>装饰器是一个方法。参数有3个target:被装饰的对象（类或类的方法），name:被装饰的属性名，descriptor:属性描述符对象。</li>
-</ul>
-<h2 id="_14">应用<a class="headerlink" href="#_14" title="Permanent link"></a></h2>
-<ul>
-<li>身份认证</li>
-<li>日志记录</li>
-<li>数据（参数）合理性检查</li>
-<li>缓存装饰器</li>
-</ul>
-<h2 id="_15">常用的修饰器库<a class="headerlink" href="#_15" title="Permanent link"></a></h2>
-<ul>
-<li><a href="https://github.com/CocktailJS/traits-decorator">traits-decorator</a></li>
-<li><a href="https://github.com/postaljs/postal.js">postal</a></li>
-<li><a href="https://github.com/jayphelps/core-decorators.js">core-decorator</a></li>
-</ul>
-<h1 id="_16">位运算<a class="headerlink" href="#_16" title="Permanent link"></a></h1>
-<h1 id="_17">线程<a class="headerlink" href="#_17" title="Permanent link"></a></h1>
-<p>js是单线程语言。但是它的宿主环境——browser支持多线程。
-当遇到大量计算时可以使用<code>web worker</code>处理。主<code>worker</code>创建一个子<code>worker</code>，再让子worker处理大量计算，主worker会交出数据的控制权给子worker。得到计算结果后把由子workern以消息<code>message</code>的形式给主worker。</p>
-<h2 id="_18">协程<a class="headerlink" href="#_18" title="Permanent link"></a></h2>
-<h1 id="_19">各对象的属性<a class="headerlink" href="#_19" title="Permanent link"></a></h1>
-<ul>
-<li><a href="/js/string.html">string</a></li>
-<li><a href="/js/number.html">number</a></li>
-<li><a href="/js/boolean.html">boolean</a></li>
-<li><a href="/js/array.html">array</a></li>
-<li><a href="/js/object.html">object</a></li>
-<li><a href="/js/symbol.html">symbol</a></li>
-<li><a href="/js/null.html">null</a></li>
-<li><a href="/js/undefined.html">undefined</a></li>
-<li><a href="/js/bigint.html">bigint</a></li>
-<li><a href="/js/set.html">set</a></li>
-<li><a href="/js/map.html">map</a></li>
-</ul>
-<h1 id="title">title<a class="headerlink" href="#title" title="Permanent link"></a></h1>
-<h1 id="title_1">title<a class="headerlink" href="#title_1" title="Permanent link"></a></h1>
-<h1 id="title_2">title<a class="headerlink" href="#title_2" title="Permanent link"></a></h1>
-<h1 id="title_3">title<a class="headerlink" href="#title_3" title="Permanent link"></a></h1>
-<h1 id="title_4">title<a class="headerlink" href="#title_4" title="Permanent link"></a></h1>
-<h1 id="title_5">title<a class="headerlink" href="#title_5" title="Permanent link"></a></h1></article></body></html>
+Math.sin(x)
+Math.sinh(x)
+Math.sqrt(x)
+平方根
+Math.tan(x)
+Math.tanh(x)
+Math.trunc(x)
+Math.sinh(x)
+Math.sinh(x)
+Math.sinh(x)
+Math.sinh(x)
+<code>**</code>指数运算符
+    与<code>Math.pow()</code>的实现不同。</p></article></body></html>
