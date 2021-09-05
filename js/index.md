@@ -503,7 +503,24 @@ js是单线程语言。但是它的宿主环境——browser支持多线程。
 - [set](/js/set.html)
 - [map](/js/map.html)
 
-# title
+# 对象
+- 本地对象
+    + Object
+    + String
+    + Array
+    + Date
+    + Number
+    + RegExp
+    + Function
+    + Boolean
+    + Error
+- 内置对象
+    + Math
+    + JSON
+- 宿主对象
+    + BOM
+    + DOM
+
 # title
 # title
 # title

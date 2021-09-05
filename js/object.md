@@ -8,14 +8,14 @@ new Object(any)
 
 Object.length
 Object.prototype
-Object#assign(target, ...source)
+Object.assign(target, ...source)
 把source上的属性合并到target上，并返回target.
 
-Object#create(proto, [propertiesObject])
+Object.create(proto, [propertiesObject])
 按指定的原型对象proto、对标对象的属性返回一个新对象。
 会被新对象的`__proto__`属性接收原型对象。
 
-Object#defineProperty(obj, prop, descriptor)
+Object.defineProperty(obj, prop, descriptor)
 obj 目标对象
 prop 目标对象的属性
 descriptor { // 数据描述符
@@ -76,26 +76,6 @@ Object.entires(obj)
 obj
 返回目标对象上可枚举的属性的键值对组成的数组。
 
-Object.freeze(obj)
-obj 目标对象
-不可修改（value/writable/enumerable/configuration）、不能删除已有属性、不能修改该对象的原型
-返回被冻结的对象
-数组的原型链中有`Object`，所以数组可以被冻结。
-freeze是浅冻结。
-```
-// 深冻结
-function deepFreeze(obj) {
-    let propNames = Object.getOwnPropertyNames(obj)
-    propNames.forEach(function(name) {
-        let value = obj[name]
-        if (typeof value === 'object' && value !== null) {
-            deepFreeze(value)
-        }
-    })
-    return Object.freeze(obj)
-}
-```
-
 Object.getOwnPropertyDescriptor(obj, prop)
 obj,
 prop
@@ -121,35 +101,83 @@ obj
 Object.getPrototypeOf(obj)
 返回原型对象
 
+Object.setPrototypeOf(obj, prototype)
+调用给定对象的原型对象。
+
 Object.is(v0, v1)
 返回是否相同
 
-Object.isExtensible(obj)
-返回是否可扩展（即：是否可添加新属性）
-
-Object.preventExtensions(obj)
-返回不可扩展的对象
+Object.freeze(obj)
+obj 目标对象
+不可修改（value/writable/enumerable/configuration）、不能删除已有属性、不能修改该对象的原型
+返回被冻结的对象
+属性描述符会改变为：
+```
+{
+    configurable: false
+    enumerable: true
+    value: 1
+    writable: false
+}
+```
+数组的原型链中有`Object`，所以数组可以被冻结。
+freeze是浅冻结。
+```
+// 深冻结
+function deepFreeze(obj) {
+    let propNames = Object.getOwnPropertyNames(obj)
+    propNames.forEach(function(name) {
+        let value = obj[name]
+        if (typeof value === 'object' && value !== null) {
+            deepFreeze(value)
+        }
+    })
+    return Object.freeze(obj)
+}
+```
 
 Object.isFrozen(obj)
 返回是冻结
 不可扩展的对象也是冻结的。
 
+Object.preventExtensions(obj)
+返回不可扩展的对象
+obj对象上的属性描述符不会改变。
+
+Object.isExtensible(obj)
+返回是否可扩展（即：是否可添加新属性）
+
 Object.keys(obj)
 返回由指定对象的可枚举对象的属性组成的数组。
 
-Object.isSealed(obj)
-返回是否密封
-
 Object.values(obj)
 返回指定对象上可枚举属性值组成的数组。
-
-Object.setPrototypeOf(obj, prototype)
-调用给定对象的原型对象。
 
 Object.seal(obj)
 不可改变已有属性，把对象的所有属性设置为不可配置。
 不可添加新属性。
 返回操作后的对象。
+
+Object.isSealed(obj)
+返回是否密封
+
+Object#toString()
+返回对象的字符串形式
+
+Object#toLocaleString()
+返回当前对象的本地化客串形式。
+
+Object#valueOf()
+返回对象的原始值
+
+Object#hasOwnProperty()
+自身是否拥有指定属性
+
+Object#isPrototypeOf(obj)
+是否在obj对象的原型链中
+
+Object#propertyIsNumberable(prop)
+指定属性是否可枚举
 
 ## 描述符
 ||configurable|enumerable|value|writable|get|set|
