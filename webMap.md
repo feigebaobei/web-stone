@@ -25,6 +25,7 @@
 - promote
   - 工程化
     - eslint / jslent
+    - design-mode
   - 阻爬虫阻截图实现方案
   - 数据可视化
   - 富文本编辑

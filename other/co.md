@@ -79,10 +79,10 @@ function onerror(err) {
 co(fn*).then()
 co.wrap(fn*) // promise
 ```
-当`fn*`中的`yield`方法生成的任一`Promise`对象为`rejected`状态时触发`co`方法返回的`Promise`对象的`rejected`状态。
+当`fn*`中的`yield`方法生成的任一`Promise`对象为`rejected`状态时触发`co`方法返回的`Promise`对象的`rejected`状态。
 
 ## 实现原理
 1. co方法接收一个gen方法，返回一个Promise对象。
-2. 此对象中处理递归处理gen.next()方法。
+2. 此对象中递归处理gen.next()方法。
    1. 把gen.next()的返回值处理为Promise对象。若该对象为fulfilled状态则触发no.1中promise对象的resolve方法，否则触发no.1中promise对象的reject方法。
 递归时使用的三个方法相互调用的方式。
