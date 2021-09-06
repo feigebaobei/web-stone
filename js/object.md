@@ -174,10 +174,11 @@ Object#hasOwnProperty()
 自身是否拥有指定属性
 
 Object#isPrototypeOf(obj)
-是否在obj对象的原型链中
+`a.isPrototypeOf(b)`
+返回a是否在b对象的原型链中
 
 Object#propertyIsNumberable(prop)
-指定属性是否可枚举
+返回指定属性是否可枚举
 
 ## 描述符
 ||configurable|enumerable|value|writable|get|set|
