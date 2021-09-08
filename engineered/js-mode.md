@@ -11,7 +11,7 @@
 每一个模块都有一个`module`对象。该对象有个属性是：`exports`/`require`  
 使用这种规范的代表： node。node把每一个文件都做为一个模块。加载模块使用require，该方法读取一个**文件并执行**，最后返回这个模块内部的exports对象。  
 使用 `module.exports/exports` 和 `require` 抛出和引入。  
-`module.exports`使用方法：`module.exports = {k: (p) => {...}, var, var2}`  
+`module.exports`使用方法：`module.exports = {k: (p)e => {...}, var, var2}`  
 `exports`的使用方法：`exports = {v1, v2, v3}`
 `module.exports`是对象。`exports` 指向 `module.exports`。所以`module.exports`可以抛出变量、对象。`exports`只能抛出对象。  
 commonjs是同步加载的。
