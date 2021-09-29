@@ -8,18 +8,25 @@
 ### feature
 - 类型注解
 - 类型推断
+- 在开发过程中，发现潜在问题。
 - feature2
 
 ## install
-`npm i {{packageName}}`
+`npm i typescript`
 
 ## usage
-同`./demo.md`
 ```
-const {{packageName}} = require('{{packageName}}');
-// or
-// import {{packageName}} from '{{packageName}}';
-// TODO: DEMONSTRATE API
+// 单例模式
+class Demo {
+    private static instance: Demo
+    private constructor() {}
+    static getInstance() {
+        if (!this.instance) {
+            this.instance = new Demo()
+        }
+        return this.instance
+    }
+}
 ```
 
 ## configuration
@@ -29,6 +36,11 @@ const {{packageName}} = require('{{packageName}}');
 ||||||||
 ||||||||
 ||||||||
+## 变量类型
+### never
+- 永远不会有返回值的函数
+- 总是抛出错误的函数
+
 ## api
 `{{packageName}}.fn(param, first: string, second: boolean = true) => void`
 description

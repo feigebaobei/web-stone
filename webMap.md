@@ -22,6 +22,11 @@
     - git
     - svn
   - 通信
+  - 开发
+    - bdd
+      - 按操作方式时间方式开发
+    - ddd
+      - 测试驱动开发
 - promote
   - 工程化
     - eslint / jslent

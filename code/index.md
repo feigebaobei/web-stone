@@ -1,0 +1,7 @@
+- encode
+- decode
+- [ascii]()
+- [base64]()
+- [base32]()
+- [base16]()
+- [encodeUri]()
