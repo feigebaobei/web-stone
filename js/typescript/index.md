@@ -18,6 +18,7 @@
 
 
 ## usage
+dome购见[官网](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html)
 ```
 // 单例模式
 class Demo {
@@ -73,17 +74,12 @@ let gn = new GN<string>()
 ||||||||
 ||||||||
 ||||||||
+详见[配置文件](./config.html)
 ## 变量类型
 ### never
 - 永远不会有返回值的函数
 - 总是抛出错误的函数
-
-## api
-`{{packageName}}.fn(param, first: string, second: boolean = true) => void`
-description
-
-`{{packageName}}.fn(param, [options: {a: string, b?: number}])`
-description
+详见[ts&js比对](./contrast.html)
 
 ## principle
 此包的处理逻辑。
@@ -93,10 +89,7 @@ description
 ```
 
 ## todo
-> 未来迭代计划。
-> 未来迭代计划。
-> 未来迭代计划。
-
+### interface & type
 |interface|type|
 |-|-|
 |定义数据结构|定义数据结构|
@@ -107,4 +100,13 @@ description
 |-|定义类型的别名|
 |扩展接口`interface A extends B`|扩展类型`type A = B & C`|
 |扩展类`interface A extends ClassName {...}`|-|
+
+### *.d.ts文件如何工作？
+`*.d.ts`是声明文件。声明api/代码结构等。一般用于：在引用了外部js代码时需要和声明文件描述api等。一般代码生成，不是手动编写的。
+编写好`*.d.ts`后发布到`@types orgnizatio`
+使用`npm i -s @type/xxx`安装。
+在`*.js`的同级编写`*.d.ts`。
+使用`/// <reference types="..." />`引入其他声明。
+有此文件后可在编辑器中进行溯源。
+写`*.js / *.d.ts`还不如写`*.ts`.
 

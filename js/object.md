@@ -6,16 +6,16 @@
 new Object(any)
 ```
 
-Object.length
-Object.prototype
-Object.assign(target, ...source)
+`Object.length`  
+`Object.prototype`  
+`Object.assign(target, ...source)`  
 把source上的属性合并到target上，并返回target.
 
-Object.create(proto, [propertiesObject])
+`Object.create(proto, [propertiesObject])`  
 按指定的原型对象proto、对标对象的属性返回一个新对象。
 会被新对象的`__proto__`属性接收原型对象。
 
-Object.defineProperty(obj, prop, descriptor)
+`Object.defineProperty(obj, prop, descriptor)`  
 obj 目标对象
 prop 目标对象的属性
 descriptor { // 数据描述符
@@ -46,7 +46,7 @@ Object.defineProperty(o, 'b', {
 })
 ```
 
-Object.defineProperties(object, props)
+`Object.defineProperties(object, props)`  
 object 目标对象
 props: {
     configurable
@@ -72,11 +72,11 @@ Object.defineProperties(obj, {
 });
 ```
 
-Object.entires(obj)
+`Object.entires(obj)`  
 obj
 返回目标对象上可枚举的属性的键值对组成的数组。
 
-Object.getOwnPropertyDescriptor(obj, prop)
+`Object.getOwnPropertyDescriptor(obj, prop)`  
 obj,
 prop
 返回指定对象的指定属性的属性描述符对象
@@ -91,23 +91,23 @@ prop
 }
 ```
 
-Object.getOwnPropertyNames(obj)
+`Object.getOwnPropertyNames(obj)`  
 返回指定对象自身拥有的非`symbol`/非不可枚举（非`enumerable: false`）属性名组成的数组。
 
-Object.getOwnPropertySymbols(obj)
+`Object.getOwnPropertySymbols(obj)`  
 obj
 返回指定对象自身的全部`Symbol`属性值组成的数组。
 
-Object.getPrototypeOf(obj)
+`Object.getPrototypeOf(obj)`  
 返回原型对象
 
-Object.setPrototypeOf(obj, prototype)
+`Object.setPrototypeOf(obj, prototype)`  
 调用给定对象的原型对象。
 
-Object.is(v0, v1)
+`Object.is(v0, v1)`  
 返回是否相同
 
-Object.freeze(obj)
+`Object.freeze(obj)`  
 obj 目标对象
 不可修改（value/writable/enumerable/configuration）、不能删除已有属性、不能修改该对象的原型
 返回被冻结的对象
@@ -136,48 +136,48 @@ function deepFreeze(obj) {
 }
 ```
 
-Object.isFrozen(obj)
+`Object.isFrozen(obj)`  
 返回是冻结
 不可扩展的对象也是冻结的。
 
-Object.preventExtensions(obj)
+`Object.preventExtensions(obj)`  
 返回不可扩展的对象
 obj对象上的属性描述符不会改变。
 
-Object.isExtensible(obj)
+`Object.isExtensible(obj)`  
 返回是否可扩展（即：是否可添加新属性）
 
-Object.keys(obj)
+`Object.keys(obj)`  
 返回由指定对象的可枚举对象的属性组成的数组。
 
-Object.values(obj)
+`Object.values(obj)`  
 返回指定对象上可枚举属性值组成的数组。
 
-Object.seal(obj)
+`Object.seal(obj)`  
 不可改变已有属性，把对象的所有属性设置为不可配置。
 不可添加新属性。
 返回操作后的对象。
 
-Object.isSealed(obj)
+`Object.isSealed(obj)`  
 返回是否密封
 
-Object#toString()
+`Object#toString()`  
 返回对象的字符串形式
 
-Object#toLocaleString()
+`Object#toLocaleString()`  
 返回当前对象的本地化客串形式。
 
-Object#valueOf()
+`Object#valueOf()`  
 返回对象的原始值
 
-Object#hasOwnProperty()
+`Object#hasOwnProperty(prop)`  
 自身是否拥有指定属性
 
-Object#isPrototypeOf(obj)
-`a.isPrototypeOf(b)`
+`Object#isPrototypeOf(obj)`  
+`a.isPrototypeOf(b)`  
 返回a是否在b对象的原型链中
 
-Object#propertyIsNumberable(prop)
+`Object#propertyIsNumberable(prop)`  
 返回指定属性是否可枚举
 
 ## 描述符
@@ -189,7 +189,7 @@ Object#propertyIsNumberable(prop)
 |-  |-|默认值|用于|
 |-  |-|-|-|
 |configurable  |是否可以删除。除value/wriable外的属性是否可以被修改|false|用于|
-|enumerable    |是否可枚举|false|`for...in`/`Object.keys()`|
+|enumerable    |是否可枚举|false|`for...in`/`Object.keys()`  |
 |value  |当前值|undefined|
 |writable   |是否可修改|false|
 |get   |属性的getter方法|undefined|
