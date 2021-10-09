@@ -67,6 +67,10 @@ let gn = new GN<string>()
 
 ```
 
+## 使用ts写一个项目
+ts是一种js的方言。以前使用js怎么写项目，现在使用ts就怎么写项目。区别在于写一些ts特有的东西。如：配置文件。
+
+
 ## configuration
 默认配置文件：`path/to/file.json`。
 |key|description|default|enum|demo|||

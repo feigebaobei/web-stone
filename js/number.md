@@ -25,7 +25,7 @@ b instanceof Number // false
 |Number.prototype|||||
 
 ## 方法
-Number.inNaN(value)
+Number.isNaN(value)
 返回是不是NaN
 
 Number.isFinite(number)
