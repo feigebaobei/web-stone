@@ -19,7 +19,6 @@
 
 ## usage
 dome购见[官网](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html)
-[demo for ts](./demo.html)  
 ```
 // 单例模式
 class Demo {
@@ -69,21 +68,14 @@ let gn = new GN<string>()
 ```
 
 ## 使用ts写一个项目
-ts是一种js的方言。以前使用js怎么写项目，现在使用ts就怎么写项目。区别在于写一些ts特有的东西。如：配置文件。
-
+ts是一种js的方言。以前使用js怎么写项目，现在使用ts就怎么写项目。区别在于写一些ts特有的东西。如：配置文件。  
+[demo for ts](./demo.html)  
 
 ## configuration
 默认配置文件：`path/to/file.json`。
-|key|description|default|enum|demo|||
-|-|-|-|-|-|-|-|
-||||||||
-||||||||
-||||||||
-详见[配置文件](./config.html)
+详见[配置文件](./config.html)  
+
 ## 变量类型
-### never
-- 永远不会有返回值的函数
-- 总是抛出错误的函数
 详见[ts&js比对](./contrast.html)
 
 ## principle

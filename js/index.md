@@ -521,7 +521,18 @@ js是单线程语言。但是它的宿主环境——browser支持多线程。
     + BOM
     + DOM
 
-# title
+# 模块化
+|-|全称|代表|加载方式||||
+|-|-||-|-|-|-|
+|commonjs (cjs)||nodejs|同步加载||||
+|amd|asynchronous module definition|require.js|异步加载||||
+|cmd|common module definition|sea.js|||||
+|umd|universion module definition||||||
+|es6|-|在js语言层面上实现了模块化。|||||
+|iife||||||
+|system||||||
+详见[模块化](./modularity.md)
+
 # title
 # title
 # title
