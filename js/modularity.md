@@ -10,10 +10,47 @@
 |system||jquery||||
 
 ## amd
-
+异步加载，不阻塞页面的加载，能并行加载多个模块，但不能按需加载，必须提前加载所需依赖。  
+define(id?, []?, callback)  
+模块id\依赖其它模块\回调函数  
+require([module], callback)  
+需要引入的模块\回调函数  
+回调函数会在前面的模块都加载成功后再执行。  
+```
+require(['module'], function (module) {
+    module.fn(p)
+})
+```
 ## cmd
+amd：定义时加载。cmd:执行时加载。  
+在定义之初声明所有依赖。可以在任意时机动态引入模块。  
+可以按需加载。  
+由阿里的玉伯提出。  
+```
+define(function(require, exports, module) {...})  
+```
 
 ## umd
+通用模块定义规范
+使同一个代码块在commonjs/cmd/amd中都可运行。可以统一浏览器端、服务端、app端。
+```
+((root, factory) => {
+    if (typeof define === 'function' && define.amd) {
+        // amd
+        define(['jquery'], factory)
+    } else if (typeof exports === 'objects') {
+        // commonjs
+        var $ = require('jquery')
+        module.exports = factory($)
+    } else {
+        root.testModule = factory(root.jQuery)
+    }
+})(this, ($) => {
+    // todo
+})
+```
+它在定义模块的时候回检测当前使用环境和模块的定义方式，将各种模块化定义方式转化为同样一种写法。
+它会把若干种js规范统一为一种（当前环境支持的）。
 
 ## commonjs
 每一个模块都有一个`module`对象。该对象有个属性是：`exports`/`require`  
