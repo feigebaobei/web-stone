@@ -19,6 +19,7 @@
 
 ## usage
 dome购见[官网](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html)
+[demo for ts](./demo.html)  
 ```
 // 单例模式
 class Demo {
