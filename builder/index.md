@@ -3,5 +3,5 @@
 - [grunt](/builder/grunt.html)
 - [gulp](/builder/gulp.html)
 - [snowpack](/builder/snowpack.html)
-- [other](/builder/other.html)
+- [parcel](/builder/parcel.html)
 - [other](/builder/other.html)
