@@ -98,7 +98,7 @@ ts是一种js的方言。以前使用js怎么写项目，现在使用ts就怎么
 |扩展接口`interface A extends B`|扩展类型`type A = B & C`|
 |扩展类`interface A extends ClassName {...}`|-|
 
-### *.d.ts文件如何工作？
+### `*.d.ts`文件如何工作？
 `*.d.ts`是声明文件。声明api/代码结构等。一般用于：在引用了外部js代码时需要和声明文件描述api等。一般代码生成，不是手动编写的。
 编写好`*.d.ts`后发布到`@types orgnizatio`
 使用`npm i -s @type/xxx`安装。

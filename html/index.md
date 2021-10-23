@@ -413,7 +413,7 @@ canvas是可绘制图像的标签。绘图功能由js做。
 
 详见[canvas](/404.html)
 
-# svg                                                                           
+# svg
 SVG 指可伸缩矢量图形 (Scalable Vector Graphics)
 SVG 用于定义用于网络的基于矢量的图形
 详见[svg](/404.html)
