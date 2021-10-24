@@ -491,17 +491,17 @@ js是单线程语言。但是它的宿主环境——browser支持多线程。
 
 ## 协程
 # 各对象的属性
-- [string](/js/string.html)
-- [number](/js/number.html)
-- [boolean](/js/boolean.html)
-- [array](/js/array.html)
-- [object](/js/object.html)
-- [symbol](/js/symbol.html)
+- [string](./string.html)
+- [number](./number.html)
+- [boolean](./boolean.html)
+- [array](./array.html)
+- [object](./object.html)
+- [symbol](./symbol.html)
 - [null]()
 - [undefined]()
-- [bigint](/js/bigint.html)
-- [set](/js/set.html)
-- [map](/js/map.html)
+- [bigint](./bigint.html)
+- [set](./set.html)
+- [map](./map.html)
 
 # 对象
 - 本地对象

@@ -1063,75 +1063,65 @@ body .markdown-body
 .highlight .vi{color:teal}
 .highlight .il{color:#009999}
 .highlight .gc{color:#999;background-color:#EAF2F5}
-</style><title>index</title></head><body><article class="markdown-body"><h1 id="typescript"><code>TypeScript</code><a class="headerlink" href="#typescript" title="Permanent link"></a></h1>
+</style><title>index</title></head><body><article class="markdown-body"><h1 id="snowpack"><code>snowpack</code><a class="headerlink" href="#snowpack" title="Permanent link"></a></h1>
 <h2 id="overview">overview<a class="headerlink" href="#overview" title="Permanent link"></a></h2>
 <blockquote>
-<p>简称ts<br />
-作者认为<code>ts</code>是<code>js</code>的一个方言，地位与<code>coffeescript</code>一样。<br />
-js是强类型语言<br />
-ts比js更强大。已经有很多前端库使用此语言了。  </p>
+<p>esm的打包工具<br />
+与vite是同一团队开发的。  </p>
 </blockquote>
 <h3 id="feature">feature<a class="headerlink" href="#feature" title="Permanent link"></a></h3>
 <ul>
-<li>类型注解</li>
-<li>类型推断</li>
-<li>在开发过程中发现潜在问题。</li>
+<li>较快的打包器。使用的js原生的esm功能。</li>
+<li>一次打包后缓存起来</li>
+<li>在dev环境，浏览器绝不下载2次同一个文件。</li>
+<li>适合htr,快速刷新。</li>
+<li>开箱即用。</li>
+<li>为产出优化</li>
+<li>可插件</li>
+<li>
+<p>默认支持ts/jsx</p>
+</li>
+<li>
+<p>可扫描全部package</p>
+</li>
+<li>支持从node_modules中读取文件。</li>
+<li>每个文件打包成单独的文件。</li>
+<li>每个打包后的文件使用esm的import单独引入。</li>
+<li>当每个文件有变动时重新打包。</li>
 </ul>
 <h2 id="install">install<a class="headerlink" href="#install" title="Permanent link"></a></h2>
-<p><code>npm i typescript</code><br />
-该包是要ts语言的转译器。在命令行中使用<code>tsc</code>调用转译功能。</p>
+<p><code>npm i snowpack</code></p>
 <h2 id="usage">usage<a class="headerlink" href="#usage" title="Permanent link"></a></h2>
-<p>dome详见<a href="https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html">官网</a>
-<div class="highlight"><pre>// 单例模式
-// define
-class Demo {
-    private static instance: Demo
-    private constructor() {}
-    static getInstance() {
-        if (!this.instance) {
-            this.instance = new Demo()
-        }
-        return this.instance
-    }
-}
-// usage
-Demo.getInstance() // instance
-</pre></div></p>
-<p>使用示例：
-<div class="highlight"><pre>// 使用interface
-interface PaintOptions&lt;T&gt; {
-  shape: string;
-  xPos?: number;
-  yPos?: number;
-  readonly resident: { name: string; age: number };
-  age: 2;
-  [index: number]: T;
-}
-type A = PaintOptions &amp; B
-let a = PaintOptions&lt;string&gt;
-
-// 使用方法
-function identity&lt;Type&gt;(arg: Type): Type {
-  return arg;
-}
-// fn &amp; interface
-let fn: I = () =&gt; {...}
-
-// use class
-class GN&lt;T&gt; {
-    value: T,
-    add: (a: number, b: string) =&gt; boolean;
-}
-let gn = new GN&lt;string&gt;()
-</pre></div></p>
-<h2 id="ts">使用ts写一个项目<a class="headerlink" href="#ts" title="Permanent link"></a></h2>
-<p>ts是一种js的方言。以前使用js怎么写项目，现在使用ts就怎么写项目。区别在于写一些ts特有的东西。如：配置文件。<br />
-<a href="/typescript/demo.html">demo for ts</a>  </p>
+<p>同<a href="/builder/snowpack/demo0.html">demo0.md</a></p>
 <h2 id="configuration">configuration<a class="headerlink" href="#configuration" title="Permanent link"></a></h2>
-<p>默认配置文件：<code>path/to/file.json</code>。
-详见<a href="/typescript/config.html">配置文件</a>  </p>
-<h2 id="_1">变量类型<a class="headerlink" href="#_1" title="Permanent link"></a></h2>
-<p>详见<a href="/typescript/contrast.html">ts&amp;js比对</a></p>
+<p>最好让snowpack使用配置文件，snowpack也支持使用cli.
+默认配置文件：<code>path/to/file.json</code>。
+|key|description|default|enum|demo|||
+|-|-|-|-|-|-|-|
+|mount|定义本地目录与打包后的目录的映射||||||
+||||||||
+||||||||</p>
+<h2 id="api">api<a class="headerlink" href="#api" title="Permanent link"></a></h2>
+<p><code>snowpack.fn(param, first: string, second: boolean = true) =&gt; void</code>
+description</p>
+<p><code>snowpack.fn(param, [options: {a: string, b?: number}])</code>
+description</p>
+<h3 id="cli">cli<a class="headerlink" href="#cli" title="Permanent link"></a></h3>
+<p>Commands:
+  snowpack init          Create a new project config file.
+  snowpack prepare       Prepare your project for development (optional).
+  snowpack dev           Develop your project locally.
+  snowpack build         Build your project for production.
+  snowpack add [package] Add a package to your project.
+  snowpack rm [package]  Remove a package from your project.</p>
+<p>Flags:
+  &ndash;config [path]        Set the location of your project config file.
+  &ndash;help                 Show this help message.
+  &ndash;version              Show the current version.
+  &ndash;reload               Clear the local cache (useful for troubleshooting).
+  &ndash;cache-dir-path       Specify a custom cache directory.
+  &ndash;verbose              Enable verbose log messages.
+  &ndash;quiet                Enable minimal log messages.</p>
 <h2 id="principle">principle<a class="headerlink" href="#principle" title="Permanent link"></a></h2>
 <p>此包的处理逻辑。</p>
 <h3 id="uml">uml<a class="headerlink" href="#uml" title="Permanent link"></a></h3>
@@ -1139,54 +1129,9 @@ let gn = new GN&lt;string&gt;()
 </pre></div>
 
 <h2 id="todo">todo<a class="headerlink" href="#todo" title="Permanent link"></a></h2>
-<h3 id="interface-type">interface &amp; type<a class="headerlink" href="#interface-type" title="Permanent link"></a></h3>
-<table>
-<thead>
-<tr>
-<th>interface</th>
-<th>type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>定义数据结构</td>
-<td>定义数据结构</td>
-</tr>
-<tr>
-<td>混合类型<code>I &amp; I</code></td>
-<td>混合类型<code>T &amp; T</code></td>
-</tr>
-<tr>
-<td>可选属性<code>key?: type</code></td>
-<td>可选属性<code>key?: type</code></td>
-</tr>
-<tr>
-<td>索引类型<code>[key: type]</code></td>
-<td>索引类型<code>[key: type]</code></td>
-</tr>
-<tr>
-<td>用于类的implements</td>
-<td>用于类的implements</td>
-</tr>
-<tr>
-<td>-</td>
-<td>定义类型的别名</td>
-</tr>
-<tr>
-<td>扩展接口<code>interface A extends B</code></td>
-<td>扩展类型<code>type A = B &amp; C</code></td>
-</tr>
-<tr>
-<td>扩展类<code>interface A extends ClassName {...}</code></td>
-<td>-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dts"><code>*.d.ts</code>文件如何工作？<a class="headerlink" href="#dts" title="Permanent link"></a></h3>
-<p><code>*.d.ts</code>是声明文件。声明api/代码结构等。一般用于：在引用了外部js代码时需要和声明文件描述api等。一般代码生成，不是手动编写的。
-编写好<code>*.d.ts</code>后发布到<code>@types orgnizatio</code>
-使用<code>npm i -s @type/xxx</code>安装。
-在<code>*.js</code>的同级编写<code>*.d.ts</code>。
-使用<code>/// &lt;reference types="..." /&gt;</code>引入其他声明。
-有此文件后可在编辑器中进行溯源。
-写<code>*.js / *.d.ts</code>还不如写<code>*.ts</code>.</p></article></body></html>
+<p>为类工具全部支持插件。</p>
+<blockquote>
+<p>未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote></article></body></html>

@@ -1,26 +1,26 @@
 # `TypeScript`
 
 ## overview
-> 简称ts
-> 哪怕`ts`再nb，作者也认为它是`js`的一个方言。地位与`coffeescript`一样。
-> js是强类型方言
-> ts比js更强大。
+> 简称ts  
+> 作者认为`ts`是`js`的一个方言，地位与`coffeescript`一样。  
+> js是强类型语言  
+> ts比js更强大。已经有很多前端库使用此语言了。  
 
 ### feature
 - 类型注解
 - 类型推断
-- 在开发过程中，发现潜在问题。
-- feature2
+- 在开发过程中发现潜在问题。
 
 ## install
-`npm i typescript`
+`npm i typescript`  
 该包是要ts语言的转译器。在命令行中使用`tsc`调用转译功能。
 
 
 ## usage
-dome购见[官网](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html)
+dome详见[官网](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html)
 ```
 // 单例模式
+// define
 class Demo {
     private static instance: Demo
     private constructor() {}
@@ -31,6 +31,8 @@ class Demo {
         return this.instance
     }
 }
+// usage
+Demo.getInstance() // instance
 ```
 
 使用示例：
@@ -69,14 +71,14 @@ let gn = new GN<string>()
 
 ## 使用ts写一个项目
 ts是一种js的方言。以前使用js怎么写项目，现在使用ts就怎么写项目。区别在于写一些ts特有的东西。如：配置文件。  
-[demo for ts](./demo.html)  
+[demo for ts](/typescript/demo.html)  
 
 ## configuration
 默认配置文件：`path/to/file.json`。
-详见[配置文件](./config.html)  
+详见[配置文件](/typescript/config.html)  
 
 ## 变量类型
-详见[ts&js比对](./contrast.html)
+详见[ts&js比对](/typescript/contrast.html)
 
 ## principle
 此包的处理逻辑。

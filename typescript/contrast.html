@@ -1063,130 +1063,224 @@ body .markdown-body
 .highlight .vi{color:teal}
 .highlight .il{color:#009999}
 .highlight .gc{color:#999;background-color:#EAF2F5}
-</style><title>index</title></head><body><article class="markdown-body"><h1 id="typescript"><code>TypeScript</code><a class="headerlink" href="#typescript" title="Permanent link"></a></h1>
+</style><title>contrast</title></head><body><article class="markdown-body"><h1 id="js-ts">js &amp; ts<a class="headerlink" href="#js-ts" title="Permanent link"></a></h1>
 <h2 id="overview">overview<a class="headerlink" href="#overview" title="Permanent link"></a></h2>
 <blockquote>
-<p>简称ts<br />
-作者认为<code>ts</code>是<code>js</code>的一个方言，地位与<code>coffeescript</code>一样。<br />
-js是强类型语言<br />
-ts比js更强大。已经有很多前端库使用此语言了。  </p>
+<p>比对js / ts的对应关系
+在ts中定义的所有类型都不会在转译后的js文件中出现。如：union type / 类型别名 / interface等在<em>.ts文件中存在，在转译后的</em>.js文件中就不存在了。
+ts具有静态类型检测功能。当类型为<code>any</code>时，不进行类型检测。尽量不要使用any。
+ts中有js中没有的变量类型。tsc在转译时把此类型转换为js中具有的类型。js是弱类型动态语言。可以改变变量的类型。</p>
 </blockquote>
-<h3 id="feature">feature<a class="headerlink" href="#feature" title="Permanent link"></a></h3>
-<ul>
-<li>类型注解</li>
-<li>类型推断</li>
-<li>在开发过程中发现潜在问题。</li>
-</ul>
-<h2 id="install">install<a class="headerlink" href="#install" title="Permanent link"></a></h2>
-<p><code>npm i typescript</code><br />
-该包是要ts语言的转译器。在命令行中使用<code>tsc</code>调用转译功能。</p>
+<h3 id="_1">转译前后不变的类型<a class="headerlink" href="#_1" title="Permanent link"></a></h3>
+<p>number / string / boolean / null / undefined / symbol / array / bigint / function</p>
 <h2 id="usage">usage<a class="headerlink" href="#usage" title="Permanent link"></a></h2>
-<p>dome详见<a href="https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html">官网</a>
-<div class="highlight"><pre>// 单例模式
-// define
-class Demo {
-    private static instance: Demo
-    private constructor() {}
-    static getInstance() {
-        if (!this.instance) {
-            this.instance = new Demo()
-        }
-        return this.instance
-    }
-}
-// usage
-Demo.getInstance() // instance
+<p>同<code>./demo.md</code>
+<div class="highlight"><pre>const {{packageName}} = require(&#39;{{packageName}}&#39;);
+// or
+// import {{packageName}} from &#39;{{packageName}}&#39;;
+// TODO: DEMONSTRATE API
 </pre></div></p>
-<p>使用示例：
-<div class="highlight"><pre>// 使用interface
-interface PaintOptions&lt;T&gt; {
+<h2 id="_2">变量类型<a class="headerlink" href="#_2" title="Permanent link"></a></h2>
+<p>ts的变量类型都是小写的。</p>
+<h3 id="union-type">union type<a class="headerlink" href="#union-type" title="Permanent link"></a></h3>
+<p>就和没有静态类型检测一样。
+<div class="highlight"><pre>var a: number | string;
+a = 1
+a = &#39;s&#39;
+</pre></div>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">a</span><span class="p">;</span>
+<span class="nx">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="nx">a</span> <span class="o">=</span> <span class="s1">&#39;s&#39;</span><span class="p">;</span>
+</pre></div></p>
+<h3 id="_3">类型别名<a class="headerlink" href="#_3" title="Permanent link"></a></h3>
+<p>describe
+<div class="highlight"><pre>type ID = number | string;
+var k: ID = &#39;s&#39;
+k = 0
+</pre></div>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">k</span> <span class="o">=</span> <span class="s1">&#39;s&#39;</span><span class="p">;</span>
+<span class="nx">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</pre></div></p>
+<h3 id="enum">enum<a class="headerlink" href="#enum" title="Permanent link"></a></h3>
+<p>使用闭包方式定义枚举对象。
+<div class="highlight"><pre>enum UserResponse {
+  No = 0,
+  Yes = 1,
+}
+</pre></div>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">UserResponse</span><span class="p">;</span>
+<span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">UserResponse</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">UserResponse</span><span class="p">[</span><span class="nx">UserResponse</span><span class="p">[</span><span class="s2">&quot;No&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;No&quot;</span><span class="p">;</span>
+    <span class="nx">UserResponse</span><span class="p">[</span><span class="nx">UserResponse</span><span class="p">[</span><span class="s2">&quot;Yes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Yes&quot;</span><span class="p">;</span>
+<span class="p">})(</span><span class="nx">UserResponse</span> <span class="o">||</span> <span class="p">(</span><span class="nx">UserResponse</span> <span class="o">=</span> <span class="p">{}));</span>
+</pre></div></p>
+<h3 id="function">function<a class="headerlink" href="#function" title="Permanent link"></a></h3>
+<p><div class="highlight"><pre>function combine&lt;Type&gt;(arr1: Type[], arr2: Type[]): Type[] {
+  return arr1.concat(arr2);
+}
+</pre></div>
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">combine</span><span class="p">(</span><span class="nx">arr1</span><span class="p">,</span> <span class="nx">arr2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">arr1</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">arr2</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+方法重载：声名多个方法，对应一个方法体。在方法体中根据参数分别执行不同逻辑。
+<div class="highlight"><pre>function getMessage(id: number): Message | undefined;
+function getMessage(type: MessageType): Message[];
+function getMessage(query: any): any {
+  if (typeof query === &quot;number&quot;) {
+    return data.find(message =&gt; message.id === query);
+  } else {
+    return data.filter(message =&gt; message.type === query);
+  }
+}
+</pre></div></p>
+<h3 id="never">never<a class="headerlink" href="#never" title="Permanent link"></a></h3>
+<ul>
+<li>永不返回值</li>
+<li>总返回Error
+<div class="highlight"><pre>function fail(msg: string): never {
+  throw new Error(msg);
+}
+</pre></div>
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">fail</span><span class="p">(</span><span class="nx">msg</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="nx">msg</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div></li>
+</ul>
+<h3 id="interface">interface<a class="headerlink" href="#interface" title="Permanent link"></a></h3>
+<p><div class="highlight"><pre>interface PaintOptions {
   shape: string;
   xPos?: number;
   yPos?: number;
   readonly resident: { name: string; age: number };
   age: 2;
-  [index: number]: T;
+  [index: number]: any;
 }
-type A = PaintOptions &amp; B
-let a = PaintOptions&lt;string&gt;
-
-// 使用方法
-function identity&lt;Type&gt;(arg: Type): Type {
-  return arg;
-}
-// fn &amp; interface
-let fn: I = () =&gt; {...}
-
-// use class
-class GN&lt;T&gt; {
-    value: T,
-    add: (a: number, b: string) =&gt; boolean;
-}
-let gn = new GN&lt;string&gt;()
+</pre></div>
+<div class="highlight"><pre><span class="c1">// 无</span>
+</pre></div>
+不会被转译。</p>
+<h3 id="tuple">tuple<a class="headerlink" href="#tuple" title="Permanent link"></a></h3>
+<p>元组
+<div class="highlight"><pre>type StringNumberPair = [string, number];
+var a : StringNumberPair = [&#39;s&#39;, 2]
+</pre></div>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
 </pre></div></p>
-<h2 id="ts">使用ts写一个项目<a class="headerlink" href="#ts" title="Permanent link"></a></h2>
-<p>ts是一种js的方言。以前使用js怎么写项目，现在使用ts就怎么写项目。区别在于写一些ts特有的东西。如：配置文件。<br />
-<a href="/typescript/demo.html">demo for ts</a>  </p>
-<h2 id="configuration">configuration<a class="headerlink" href="#configuration" title="Permanent link"></a></h2>
-<p>默认配置文件：<code>path/to/file.json</code>。
-详见<a href="/typescript/config.html">配置文件</a>  </p>
-<h2 id="_1">变量类型<a class="headerlink" href="#_1" title="Permanent link"></a></h2>
-<p>详见<a href="/typescript/contrast.html">ts&amp;js比对</a></p>
-<h2 id="principle">principle<a class="headerlink" href="#principle" title="Permanent link"></a></h2>
-<p>此包的处理逻辑。</p>
-<h3 id="uml">uml<a class="headerlink" href="#uml" title="Permanent link"></a></h3>
+<h3 id="keyof">keyof<a class="headerlink" href="#keyof" title="Permanent link"></a></h3>
+<p>取出操作对象的key作为可枚举值。
+<div class="highlight"><pre>type A = {x: number; y: string}
+type P = keyof A // &#39;x&#39; | &#39;y&#39;
+var a: P
+are = &#39;x&#39;
+</pre></div>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">a</span><span class="p">;</span>
+<span class="nx">a</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span>
+</pre></div></p>
+<h3 id="typeof">typeof<a class="headerlink" href="#typeof" title="Permanent link"></a></h3>
+<p>取出操作对象的type。
+<div class="highlight"><pre>let s = &quot;hello&quot;;
+let n: typeof s;
+n=&#39;sd&#39;
+</pre></div>
+<div class="highlight"><pre><span class="kd">let</span> <span class="nx">s</span> <span class="o">=</span> <span class="s2">&quot;hello&quot;</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">n</span><span class="p">;</span>
+<span class="nx">n</span><span class="o">=</span><span class="s1">&#39;sd&#39;</span>
+</pre></div></p>
+<h3 id="unknown">unknown<a class="headerlink" href="#unknown" title="Permanent link"></a></h3>
+<p>不知道是什么类型。
+比<code>any</code>类型安全一些。
+不能赋给除<code>unknown/any</code>外的类型。
+与<code>any</code>相不多</p>
+<h3 id="class">class<a class="headerlink" href="#class" title="Permanent link"></a></h3>
+<p>默认为public
+private   只能在类内部访问
+protected 只能在当前类及子类中被访问
+readonly  只读
+get
+set
+static
 <div class="highlight"><pre>
 </pre></div>
-
+<div class="highlight"><pre>
+</pre></div></p>
+<h4 id="_4">抽象类<a class="headerlink" href="#_4" title="Permanent link"></a></h4>
+<p>定义一个基本类，别的类基于此类进行扩展。此类不包含具体实现。
+有点像类的类。
+<div class="highlight"><pre>abstract class Dp {
+    constructor(public name: string) {}
+    abstract pm(): void // 由子类实现。
+}
+</pre></div></p>
+<h3 id="namespace">namespace<a class="headerlink" href="#namespace" title="Permanent link"></a></h3>
+<p>全名空间使用闭包方式处理。
+<code>/// &lt;reference path="file.d.ts" /&gt;</code>
+<div class="highlight"><pre>namespace Animals {
+  export class Zebra {}
+}
+namespace Animals {
+  export interface Legged {
+    numberOfLegs: number;
+  }
+  export class Dog {}
+}
+</pre></div>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">Animals</span><span class="p">;</span>
+<span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">Animals</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kr">class</span> <span class="nx">Zebra</span> <span class="p">{</span>
+    <span class="p">}</span>
+    <span class="nx">Animals</span><span class="p">.</span><span class="nx">Zebra</span> <span class="o">=</span> <span class="nx">Zebra</span><span class="p">;</span>
+<span class="p">})(</span><span class="nx">Animals</span> <span class="o">||</span> <span class="p">(</span><span class="nx">Animals</span> <span class="o">=</span> <span class="p">{}));</span>
+<span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">Animals</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kr">class</span> <span class="nx">Dog</span> <span class="p">{</span>
+    <span class="p">}</span>
+    <span class="nx">Animals</span><span class="p">.</span><span class="nx">Dog</span> <span class="o">=</span> <span class="nx">Dog</span><span class="p">;</span>
+<span class="p">})(</span><span class="nx">Animals</span> <span class="o">||</span> <span class="p">(</span><span class="nx">Animals</span> <span class="o">=</span> <span class="p">{}));</span>
+</pre></div></p>
+<h2 id="utility-types">utility types<a class="headerlink" href="#utility-types" title="Permanent link"></a></h2>
+<p>操作type的方法。</p>
+<h3 id="particaltype"><code>Partical&lt;Type&gt;</code><a class="headerlink" href="#particaltype" title="Permanent link"></a></h3>
+<p>被操作对象的一部分。</p>
+<h3 id="requiredtype"><code>Required&lt;Type&gt;</code><a class="headerlink" href="#requiredtype" title="Permanent link"></a></h3>
+<p>被操作对象的属性全部为必填项。</p>
+<h3 id="readonlytype"><code>Readonly&lt;Type&gt;</code><a class="headerlink" href="#readonlytype" title="Permanent link"></a></h3>
+<p>被操作对象的全部属性都是只读项。</p>
+<h3 id="recordkeys-type"><code>Record&lt;Keys, Type&gt;</code><a class="headerlink" href="#recordkeys-type" title="Permanent link"></a></h3>
+<p>设置Keys的类型为Type.</p>
+<h3 id="picktype-keys"><code>Pick&lt;Type, Keys&gt;</code><a class="headerlink" href="#picktype-keys" title="Permanent link"></a></h3>
+<p>从操作Type中取出指定的keys组成新的type.</p>
+<h3 id="omittype-keys"><code>Omit&lt;Type, Keys&gt;</code><a class="headerlink" href="#omittype-keys" title="Permanent link"></a></h3>
+<p>从操作Type中取出非指定的keys组成新的type.</p>
+<h3 id="excludetype-excludedunion"><code>Exclude&lt;Type, ExcludedUnion&gt;</code><a class="headerlink" href="#excludetype-excludedunion" title="Permanent link"></a></h3>
+<p>在ExcludedUnion中不出现的Type组成新的type.</p>
+<h3 id="extracttype-union"><code>Extract&lt;Type, Union&gt;</code><a class="headerlink" href="#extracttype-union" title="Permanent link"></a></h3>
+<p>提取所有在Type/Union中都有的type组成新的type.</p>
+<h3 id="nonnullabletype"><code>NonNullable&lt;Type&gt;</code><a class="headerlink" href="#nonnullabletype" title="Permanent link"></a></h3>
+<p>排除type中的<code>null</code>/<code>undefined</code></p>
+<h3 id="parameterstype"><code>Parameters&lt;Type&gt;</code><a class="headerlink" href="#parameterstype" title="Permanent link"></a></h3>
+<p>从一个方法中的取出参数组成元组。</p>
+<h3 id="constructorparameterstype"><code>ConstructorParameters&lt;Type&gt;</code><a class="headerlink" href="#constructorparameterstype" title="Permanent link"></a></h3>
+<p>由构造函数的类型组成的元组或数组。</p>
+<h3 id="returntypetype"><code>ReturnType&lt;Type&gt;</code><a class="headerlink" href="#returntypetype" title="Permanent link"></a></h3>
+<p>方法的返回值的类型组成的新的类型。</p>
+<h3 id="instancetypetype"><code>InstanceType&lt;Type&gt;</code><a class="headerlink" href="#instancetypetype" title="Permanent link"></a></h3>
+<p>构造函数的实例的类型组成的类型。</p>
+<h3 id="thisparametertypetype"><code>ThisParameterType&lt;Type&gt;</code><a class="headerlink" href="#thisparametertypetype" title="Permanent link"></a></h3>
+<p>返回方法的this参数的类型。若无this参数则返回<code>unknown</code>.</p>
+<h3 id="omitthisparametertype"><code>OmitThisParameter&lt;Type&gt;</code><a class="headerlink" href="#omitthisparametertype" title="Permanent link"></a></h3>
+<p>忽略this参数的类型。</p>
+<h3 id="thistypetype"><code>ThisType&lt;Type&gt;</code><a class="headerlink" href="#thistypetype" title="Permanent link"></a></h3>
+<p>在开启<code>noImplicitThis</code>配置项后，充当上下文类型的标记。不返回转换后的类型。</p>
+<h2 id="_5">类型断言<a class="headerlink" href="#_5" title="Permanent link"></a></h2>
+<p><code>as / &lt;type&gt;var</code>
+<div class="highlight"><pre>a as type
+if (a is type)
+if (p in obj)
+</pre></div></p>
 <h2 id="todo">todo<a class="headerlink" href="#todo" title="Permanent link"></a></h2>
-<h3 id="interface-type">interface &amp; type<a class="headerlink" href="#interface-type" title="Permanent link"></a></h3>
-<table>
-<thead>
-<tr>
-<th>interface</th>
-<th>type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>定义数据结构</td>
-<td>定义数据结构</td>
-</tr>
-<tr>
-<td>混合类型<code>I &amp; I</code></td>
-<td>混合类型<code>T &amp; T</code></td>
-</tr>
-<tr>
-<td>可选属性<code>key?: type</code></td>
-<td>可选属性<code>key?: type</code></td>
-</tr>
-<tr>
-<td>索引类型<code>[key: type]</code></td>
-<td>索引类型<code>[key: type]</code></td>
-</tr>
-<tr>
-<td>用于类的implements</td>
-<td>用于类的implements</td>
-</tr>
-<tr>
-<td>-</td>
-<td>定义类型的别名</td>
-</tr>
-<tr>
-<td>扩展接口<code>interface A extends B</code></td>
-<td>扩展类型<code>type A = B &amp; C</code></td>
-</tr>
-<tr>
-<td>扩展类<code>interface A extends ClassName {...}</code></td>
-<td>-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dts"><code>*.d.ts</code>文件如何工作？<a class="headerlink" href="#dts" title="Permanent link"></a></h3>
-<p><code>*.d.ts</code>是声明文件。声明api/代码结构等。一般用于：在引用了外部js代码时需要和声明文件描述api等。一般代码生成，不是手动编写的。
-编写好<code>*.d.ts</code>后发布到<code>@types orgnizatio</code>
-使用<code>npm i -s @type/xxx</code>安装。
-在<code>*.js</code>的同级编写<code>*.d.ts</code>。
-使用<code>/// &lt;reference types="..." /&gt;</code>引入其他声明。
-有此文件后可在编辑器中进行溯源。
-写<code>*.js / *.d.ts</code>还不如写<code>*.ts</code>.</p></article></body></html>
+<blockquote>
+<p>未来迭代计划。
+未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote></article></body></html>

@@ -1,6 +1,6 @@
 # overview
-本示例展示了：
-- 如何使用snowpack
+本示例展示了：  
+- 如何使用snowpack  
 
 # init project
 ```

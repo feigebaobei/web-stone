@@ -1,8 +1,8 @@
 # `snowpack`
 
 ## overview
-> esm的打包工具
-> 与vite是同一团队开发的。
+> esm的打包工具  
+> 与vite是同一团队开发的。  
 
 ### feature
 - 较快的打包器。使用的js原生的esm功能。
@@ -24,13 +24,7 @@
 `npm i snowpack`
 
 ## usage
-同`./demo.md`
-```
-const snowpack = require('snowpack');
-// or
-// import snowpack from 'snowpack';
-// TODO: DEMONSTRATE API
-```
+同[demo0.md](/builder/snowpack/demo0.html)
 
 ## configuration
 最好让snowpack使用配置文件，snowpack也支持使用cli.
