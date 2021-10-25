@@ -1,15 +1,12 @@
 # html
-- HTML 指的是超文本标记语言 (Hyper Text Markup Language)
-- HTML 不是一种编程语言，而是一种标记语言 (markup language)
-- 标记语言是一套标记标签 (markup tag)
+- HTML 指的是超文本标记语言 (Hyper Text Markup Language)。不是一种编程语言，而是一种标记语言 (markup language)，标记语言是一套标记标签 (markup tag)
 - HTML 使用标记标签来描述网页
 - 它在浏览器中有自己默认样式
-- 明确规定需要成对出现，即：开始标签+闭合标签。但是仍有一些标签是自闭合的。因为这些标义，不应该包含非特定的内容。如：`img`它是图片域标签。它是自闭合标签，它只能处理图片，不应该包含非图片内容。`br`是拆行标签。它是自闭合标签，它只能拆行，不应该包含非拆行内容。html语言为了防止包含不正确内容的错误，设置了自闭合标签。
-- 若无闭合标签，则浏览器会尝试补全标签
+- 明确规定需要成对出现，即：开始标签+闭合标签。但是仍有一些标签是自闭合的。因为这些标义，不应该包含非特定的内容。如：`img`它是图片域标签。它是自闭合标签，它只能处理图片，不应该包含非图片内容。`br`是拆行标签。它是自闭合标签，它只能折行，不应该包含非拆行内容。html语言为了防止包含不正确内容的错误，设置了自闭合标签。
+- 若无闭合标签，则浏览器会尝试补全闭合标签
 - 块级标签是默认独占一行的标签
 - 行内标签是默认非独占一行的标签
-- 行内标签不包含块级标签
-- 有些标签不可互相嵌套。如p不可嵌套div
+- 行内标签不包含块级标签。有些标签不可互相嵌套。如p不可嵌套div。
 - 标签语义化可以方便程序员、浏览器、辅助设备
 - 不区分大小写
 - 每个标签有自己的特性。应根据标签的特性、业务需要选择合适的标签。
@@ -153,6 +150,7 @@ target ="_blank"
 alt="Sun" />
 </map>
 ```
+图片热区有时用在地图上。
 
 # 表格
 为了避免这空的单元格不显示，在空单元格中添加一个空格。
@@ -195,11 +193,11 @@ getElementById()
 ```
 frameborder 属性规定是否显示 iframe 周围的边框。
 
-# js
+# javascript
 常用于操作dom.
 可根据class/id/tag等得到dom.
 可修改样式。
-详见[js](/js.html)
+详见[javascript](/javascript/index.html)
 
 # 路径
 |||
@@ -221,7 +219,7 @@ frameborder 属性规定是否显示 iframe 周围的边框。
 |`<style>`| 定义文档的样式信息。|
 
 # 布局
-详见[css](/css.html)
+详见[css/layout](/css/layout.html)
 
 # 响应式布局
 # 语义
@@ -232,54 +230,56 @@ html5以后html很重视语义。提倡使用正常语义编写代码。兼容�
 ||||||
 |-|-|-|-|-|
 |显示结果|  |描述|    实体名称;|实体编号|
-| | |空格|    &nbsp;| &#160;|
-|<| |小于号|   &lt;|   &#60;|
-|>| |大于号|   &gt;|   &#62;|
-|&| |和号|    &amp;|  &#38;|
-|"| |引号|    &quot;| &#34;|
-|'| |撇号|    &apos;| (IE不支持) &#39;|
-|￠| |分（cent）|   &cent;| &#162;|
-|£| |镑（pound）|  &pound;|    &#163;|
-|¥| |元（yen）|    &yen;|  &#165;|
-|€| |欧元（euro）|  &euro;| &#8364;|
-|§| |小节|    &sect;| &#167;|
-|©| |版权（copyright）| &copy;| &#169;|
-|®| |注册商标|  &reg;|  &#174;|
-|™| |商标|    &trade;|    &#8482;|
-|×| |乘号|    &times;|    &#215;|
-|÷| |除号|    &divide;|   &#247;|
+| | |空格|    `&nbsp;`| `&#160;`|
+|<| |小于号|   `&lt;`|   `&#60;`|
+|>| |大于号|   `&gt;`|   `&#62;`|
+|&| |和号|    `&amp;`|  `&#38;`|
+|"| |引号|    `&quot;`| `&#34;`|
+|'| |撇号|    `&apos;`| (IE不支持) `&#39;`|
+|￠| |分（cent）|   `&cent;`| `&#162;`|
+|£| |镑（pound）|  `&pound;`|    `&#163;`|
+|¥| |元（yen）|    `&yen;`|  `&#165;`|
+|€| |欧元（euro）|  `&euro;`| `&#8364;`|
+|§| |小节|    `&sect;`| `&#167;`|
+|©| |版权（copyright）| `&copy;`| `&#169;`|
+|®| |注册商标|  `&reg;`|  `&#174;`|
+|™| |商标|    `&trade;`|    `&#8482;`|
+|×| |乘号|    `&times;`|    `&#215;`|
+|÷| |除号|    `&divide;`|   `&#247;`|
 
 |||||
 |-|-|-|-|
-|©| &#169;| &copy;| COPYRIGHT SIGN|
-|®| &#174;| &reg;|  REGISTERED SIGN|
-|€| &#8364;|    &euro;| EURO SIGN|
-|™| &#8482;|    &trade;|    TRADEMARK|
-|←| &#8592;|    &larr;| LEFTWARDS ARROW|
-|↑| &#8593;|    &uarr;| UPWARDS ARROW|
-|→| &#8594;|    &rarr;| RIGHTWARDS ARROW|
-|↓| &#8595;|    &darr;| DOWNWARDS ARROW|
-|♠| &#9824;|    &spades;|   BLACK SPADE SUIT|
-|♣| &#9827;|    &clubs;|    BLACK CLUB SUIT|
-|♥| &#9829;|    &hearts;|   BLACK HEART SUIT|
-|♦| &#9830;|    &diams;|    BLACK DIAMOND SUIT|
+|©| `&#169;`| `&copy;`| COPYRIGHT SIGN|
+|®| `&#174;`| `&reg;`|  REGISTERED SIGN|
+|€| `&#8364;`|    `&euro;`| EURO SIGN|
+|™| `&#8482;`|    `&trade;`|    TRADEMARK|
+|←| `&#8592;`|    `&larr;`| LEFTWARDS ARROW|
+|↑| `&#8593;`|    `&uarr;`| UPWARDS ARROW|
+|→| `&#8594;`|    `&rarr;`| RIGHTWARDS ARROW|
+|↓| `&#8595;`|    `&darr;`| DOWNWARDS ARROW|
+|♠| `&#9824;`|    `&spades;`|   BLACK SPADE SUIT|
+|♣| `&#9827;`|    `&clubs;`|    BLACK CLUB SUIT|
+|♥| `&#9829;`|    `&hearts;`|   BLACK HEART SUIT|
+|♦| `&#9830;`|    `&diams;`|    BLACK DIAMOND SUIT|
 
 # 符号
 |||||
 |-|-|-|-|
-|∀| &#8704;|    &forall;|   FOR ALL|
-|∂| &#8706;|    &part;| PARTIAL DIFFERENTIAL|
-|∃| &#8707;|    &exist;|    THERE EXISTS|
-|∅| &#8709;|    &empty;|    EMPTY SETS|
-|∇| &#8711;|    &nabla;|    NABLA|
-|∈| &#8712;|    &isin;| ELEMENT OF|
-|∉| &#8713;|    &notin;|    NOT AN ELEMENT OF|
-|∋| &#8715;|    &ni;|   CONTAINS AS MEMBER|
-|∏| &#8719;|    &prod;| N-ARY PRODUCT|
-|∑| &#8721;|    &sum;|  N-ARY SUMMATION|
+|∀| `&#8704;`|    `&forall;`|   FOR ALL|
+|∂| `&#8706;`|    `&part;`| PARTIAL DIFFERENTIAL|
+|∃| `&#8707;`|    `&exist;`|    THERE EXISTS|
+|∅| `&#8709;`|    `&empty;`|    EMPTY SETS|
+|∇| `&#8711;`|    `&nabla;`|    NABLA|
+|∈| `&#8712;`|    `&isin;`| ELEMENT OF|
+|∉| `&#8713;`|    `&notin;`|    NOT AN ELEMENT OF|
+|∋| `&#8715;`|    `&ni;`|   CONTAINS AS MEMBER|
+|∏| `&#8719;`|    `&prod;`| N-ARY PRODUCT|
+|∑| `&#8721;`|    `&sum;`|  N-ARY SUMMATION|
 
 # 字符集
 # url
+||||
+|-|-| -|
 |http|  超文本传输协议|    以 http:// 开头的普通网页。不加密。|
 |https| 安全超文本传输协议|  安全网页。加密所有信息交换。|
 |ftp|   文件传输协议| 用于将文件下载或上传至网站。|
@@ -326,6 +326,7 @@ html5以后html很重视语义。提倡使用正常语义编写代码。兼容�
 canvas是可绘制图像的标签。绘图功能由js做。
 ## 颜色、样式和阴影
 |属性|  描述|
+|-|-|
 |fillStyle| 设置或返回用于填充绘画的颜色、渐变或模式|
 |strokeStyle| 设置或返回用于笔触的颜色、渐变或模式|
 |shadowColor| 设置或返回用于阴影的颜色|
@@ -340,6 +341,7 @@ canvas是可绘制图像的标签。绘图功能由js做。
 
 ## 线条样式
 |属性|  描述|
+|-|  -|
 |lineCap| 设置或返回线条的结束端点样式|
 |lineJoin|  设置或返回两条线相交时，所创建的拐角类型|
 |lineWidth| 设置或返回当前的线条宽度|
@@ -347,6 +349,7 @@ canvas是可绘制图像的标签。绘图功能由js做。
 
 ## 矩形
 |方法  |描述|
+|-  |-|
 |rect()|  创建矩形|
 |fillRect()|  绘制“被填充”的矩形|
 |strokeRect()|  绘制矩形（无填充）|
@@ -354,6 +357,7 @@ canvas是可绘制图像的标签。绘图功能由js做。
 
 ## 路径
 |方法  |描述|
+|-  |-|
 |fill()|  填充当前绘图（路径）|
 |stroke()|  绘制已定义的路径|
 |beginPath()| 起始一条路径，或重置当前路径|
@@ -377,6 +381,7 @@ canvas是可绘制图像的标签。绘图功能由js做。
 
 ## 文本
 |属性  |描述|
+|-  |-|
 |font  |设置或返回文本内容的当前字体属性|
 |textAlign |设置或返回文本内容的当前对齐方式|
 |textBaseline  |设置或返回在绘制文本时使用的当前文本基线|
@@ -387,10 +392,12 @@ canvas是可绘制图像的标签。绘图功能由js做。
 
 ## 图像绘制
 |方法  |描述|
+|-  |-|
 |drawImage()| 向画布上绘制图像、画布或视频|
 
 ## 像素操作
 |属性|  描述|
+|-|  -|
 |width| 返回 ImageData 对象的宽度|
 |height|  返回 ImageData 对象的高度|
 |data|  返回一个对象，其包含指定的 ImageData 对象的图像数据|
@@ -400,23 +407,25 @@ canvas是可绘制图像的标签。绘图功能由js做。
 |putImageData()|  把图像数据（从指定的 ImageData 对象）放回画布上|
 ## 合成
 |属性|  描述|
+|-|  -|
 |globalAlpha| 设置或返回绘图的当前 alpha 或透明值|
 |globalCompositeOperation|  设置或返回新图像如何绘制到已有的图像上|
 
 ## 其他
 |方法  |描述|
+|-  |-|
 |save()|  保存当前环境的状态|
 |restore()| 返回之前保存过的路径状态和属性|
 |createEvent()|  |
 |getContext()|   |
 |toDataURL()|  |
 
-详见[canvas](/404.html)
+详见[canvas](/html/canvas.html)
 
 # svg
 SVG 指可伸缩矢量图形 (Scalable Vector Graphics)
 SVG 用于定义用于网络的基于矢量的图形
-详见[svg](/404.html)
+详见[svg](/html/svg.html)
 
 # 媒体
 视频/音频
@@ -440,7 +449,7 @@ ondragstart 属性调用了一个 drag(event) 函数，规定拖动什么数据�
 dataTransfer.setData() 方法设置被拖动数据的数据类型和值：
 ondragover 事件规定被拖动的数据能够被放置到何处。为了实现拖放，我们必须阻止元素的这种默认的处理方式。这个任务由 ondragover 事件的 event.preventDefault() 方法完成：
 ondrop 属性调用了一个函数，drop(event)：
-详见[drag](/404.html)
+详见[drag](/javascript/event.html)
 
 # 本地存储
 cookie / sessionStorage / localStorage
