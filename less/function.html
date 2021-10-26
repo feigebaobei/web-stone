@@ -1063,44 +1063,138 @@ body .markdown-body
 .highlight .vi{color:teal}
 .highlight .il{color:#009999}
 .highlight .gc{color:#999;background-color:#EAF2F5}
-</style><title>index</title></head><body><article class="markdown-body"><h1 id="_1">布局<a class="headerlink" href="#_1" title="Permanent link"></a></h1>
-<p><a href="/css/layout.html">layout</a></p>
-<h1 id="_2">页面布局<a class="headerlink" href="#_2" title="Permanent link"></a></h1>
-<div class="highlight"><pre>-------------------------------------
---------------头部--------------------
--------------------------------------
-======0000000000000次头部0000000000000
-======+++++++++++++++++++++++++++++++
-======+++++++++++++++++++++++++//////
-==导==++++++++++主++++++++++++++//页//
-======++++++++++++要++++++++++++//面//
-==航==++++++++++++++内++++++++++//目//
-======++++++++++++++++容++++++++//录//
-======+++++++++++++++++++++++++//////
-======+++++++++++++++++++++++++//////
-======+++++++++++++++++++++++++++++++
--------------------------------------
----------------footer----------------
--------------------------------------
+</style><title>function</title></head><body><article class="markdown-body"><h1 id="less">less内置的方法<a class="headerlink" href="#less" title="Permanent link"></a></h1>
+<div class="highlight"><pre>// 逻辑类
+if(condition, v0, v1) condition为真则返回v0,否则返回v1
+boolean(condition) =&gt; boolean
+
+// str类
+escape(str) 返回逃逸字符
+    不编译,/?@&amp;+&#39;~!$
+    编译&lt;space&gt;#^(){}|:&gt;&lt;;[]=
+e(str) 返回逃逸字符
+%(format, ...arguments) 格式化后的string
+    d,D,a,A 代替一个参数
+    s,S 代替任意表达式
+replace(string, pattern, replacement, flags) 替换后的文本。
+
+list类
+length(...args) 参数的数量
+extract(list, index) list中下标为index的值
+range(start, end, step) 从start到end的值，间隔是step
+each(list, rules) 把list中的值分别作用于rules.
+
+@selectors: blue, green, red;
+each(@selectors, {
+    .sel-@{value} {
+        a: b
+    }
+    // 还可以使用 @key @index
+})    
+=&gt;
+.sel-blue {
+    a: b
+}
+.sel-green {
+    a: b
+}
+.sel-red {
+    a: b
+}
+
+math类
+ceil(number)
+floor(number)
+percentage(number) =&gt; 百分比值
+round(number, decimalPlaces) =&gt; number
+sqrt(number) =&gt; number
+abs(number) =&gt; number
+sin(number) =&gt; number
+asin(number) =&gt; number
+cos(number) =&gt; number
+acos(number) =&gt; number
+tan(number) =&gt; number
+atan(number) =&gt; number
+pi() =&gt; pi
+pow(number, number) =&gt; number
+mod(number, number) =&gt; float number
+min(number) =&gt; number
+max(number) =&gt; number
+
+type类
+isnumber(any) =&gt; boolean
+isstring(any) =&gt; boolean
+iscolor(any) =&gt; boolean
+iskeyword(any) =&gt; boolean 是否是变量
+isurl(any) =&gt; boolean
+ispixel(any) =&gt; boolean 是否是像素单位
+isem(any) =&gt; boolean
+ispercentage(any) =&gt; boolean
+isunit(any) =&gt; boolean
+isrulest(any) =&gt; boolean 是否是规则集
+isdefined(any) =&gt; boolean 是否被定义
+
+微方法类
+color(string) =&gt; color
+image-size(string) =&gt; 返回图片的规格
+image-width(string) =&gt; 图片的宽度
+image-height(any)
+convert(number, identifier) 转换单位
+data-uri(mimetype, url) 返回编码后的数据
+defaul() 不会
+unit(dimension) =&gt; 移除或设置单位
+get-unit(number)
+svg-gradient(any) 不会
+
+定义颜色类
+rgb(r, g, b) =&gt; color
+rgba(r, g, b, a) =&gt; color
+argb(a, r, g, b) =&gt; hex
+hsl(h, s, l) =&gt; hsl
+hsla(h, s, l, a) =&gt; hsla
+hsv(h, s, v) =&gt; hsv
+hsva(h, s, v, a) =&gt; hsva
+
+转换颜色类
+hue(hsl) =&gt; hue
+saturation(hsl) =&gt; saturation
+lightness(hsl) =&gt; lightness
+hsvhue(hsv) =&gt; hsvhue
+hsvsaturation(hsv) =&gt; hsvsaturation
+hsvvalue(hsv) =&gt; hsvvalue
+red(rgb) =&gt; red
+green(rgb) =&gt; green
+blue(rgb) =&gt; blue
+alpha(rgba) =&gt; alpha
+luma(color) =&gt; 返回明度百分比值
+luminance(color) =&gt; 返回明度百分比值
+
+操作颜色的方法
+saturate(color, amount, method) =&gt; color 返回提高饱和度的颜色值
+desaturate
+desaturate(color, ammount, method)
+lighten(color, amount, method)
+darken(color, amount, method)
+fadein(color, amount, method)
+fadeout(color, amount, method)
+fade(color, amount, method)
+spin(color, amount, method)
+mix(color0, color1, weight) 混合2个颜色。weight：2个颜色的比重。
+tint(color, method) 使本颜色与白色混合。 =&gt; min(#ffffff, @color, @weight)
+shade(color, amount, method)
+greyscale(color, amount, method)
+contrast(color, dark, light, threshold)
+
+混合颜色的方法
+multiply(color0, color1)
+screen(color0, color1)
+overlay(color0, color1)
+softlight(color0, color1)
+hardlight(color0, color1)
+difference(color0, color1)
+exclusion(color0, color1)
+avaerage(color0, color1)
+negation(color0, color1)
 </pre></div>
 
-<h2 id="rwd">响应式布局 rwd<a class="headerlink" href="#rwd" title="Permanent link"></a></h2>
-<h1 id="_3">预处理器<a class="headerlink" href="#_3" title="Permanent link"></a></h1>
-<h2 id="sass"><a href="/sass/index.html">sass</a><a class="headerlink" href="#sass" title="Permanent link"></a></h2>
-<p>生于2007，最早/最成熟的css预处理器。
-<a href="https://sass-lang.com/documentation">官网</a></p>
-<h2 id="less"><a href="/less/index.html">less</a><a class="headerlink" href="#less" title="Permanent link"></a></h2>
-<p>生于2009，受到sass的影响较大。
-<a href="https://lesscss.org/features/">官网</a></p>
-<h2 id="stylus"><a href="/stylus/index.html">stylus</a><a class="headerlink" href="#stylus" title="Permanent link"></a></h2>
-<p>生于2010，node.js社区。
-<a href="https://stylus-lang.com/">官网</a></p>
-<h2 id="postcss"><a href="/postcss/index.html">postcss</a><a class="headerlink" href="#postcss" title="Permanent link"></a></h2>
-<p><a href="https://www.postcss.com.cn/">官网</a></p>
-<h2 id="turbine"><a href="">turbine</a><a class="headerlink" href="#turbine" title="Permanent link"></a></h2>
-<h2 id="switch-css"><a href="">switch css</a><a class="headerlink" href="#switch-css" title="Permanent link"></a></h2>
-<h2 id="css-cacheer"><a href="">css cacheer</a><a class="headerlink" href="#css-cacheer" title="Permanent link"></a></h2>
-<h2 id="dt-css"><a href="">DT css</a><a class="headerlink" href="#dt-css" title="Permanent link"></a></h2>
-<h2 id="css-crush"><a href="https://the-echoplex.net/csscrush/#api">CSS-Crush</a><a class="headerlink" href="#css-crush" title="Permanent link"></a></h2>
-<h2 id="myth"><a href="https://github.com/segmentio/myth/blob/master/Readme.md">Myth</a><a class="headerlink" href="#myth" title="Permanent link"></a></h2>
-<h2 id="rework"><a href="https://github.com/reworkcss/rework">Rework</a><a class="headerlink" href="#rework" title="Permanent link"></a></h2></article></body></html>
+<h2 id="_1">为什么不设置负去实现降低饱和度、明度等<a class="headerlink" href="#_1" title="Permanent link"></a></h2></article></body></html>

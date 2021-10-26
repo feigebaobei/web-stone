@@ -24,19 +24,19 @@
 ## 响应式布局 rwd
 
 # 预处理器
-## [sass](/css/sass.html)
+## [sass](/sass/index.html)
 生于2007，最早/最成熟的css预处理器。
 [官网](https://sass-lang.com/documentation)
 
-## [less](/css/less/index.html)
+## [less](/less/index.html)
 生于2009，受到sass的影响较大。
 [官网](https://lesscss.org/features/)
 
-## [stylus](/css/stylus.html)
+## [stylus](/stylus/index.html)
 生于2010，node.js社区。
 [官网](https://stylus-lang.com/)
 
-## [postcss](/css/postcss.html)
+## [postcss](/postcss/index.html)
 [官网](https://www.postcss.com.cn/)
 
 ## [turbine]()
@@ -52,6 +52,3 @@
 ## [Myth](https://github.com/segmentio/myth/blob/master/Readme.md)
 
 ## [Rework](https://github.com/reworkcss/rework)
-
-
-

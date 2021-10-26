@@ -70,9 +70,11 @@ width: calc(50% + (@op0- 20px));
 
 # quick start
 常用方式有三种：
+
 - cli
 - 引入包
 - cdn
+
 ## cli用法
 ```
 npm i -g less
@@ -98,6 +100,7 @@ less.render(less, options, (e, output) => {...})
 ## 浏览器端使用
 不推荐此用法。详见[官网说明](https://lesscss.org/usage/#using-less-in-the-browser)  
 建议只在开发环境使用。
+
 - 先设置配置项，再引入`<script src="less.js"></script>`
 
 # cli options
@@ -122,9 +125,10 @@ less.render(less, options, (e, output) => {...})
 |--source-map-url||||
 |--plugin||指定预加载插件||
 
-# [内置方法](/css/less/function.html)
+# [内置方法](/less/function.html)
 
 # plugin
+
 # principle
 ```
 "bin": {
@@ -134,10 +138,7 @@ less.render(less, options, (e, output) => {...})
 "module": "./lib/less-node/index",
 "browser": "./dist/less.js",
 ```
-默认从`index`引入。
-cjs环境从`./lib/less-node/index`引入。`lib`在git仓库中没有。需要打包后生成。
-浏览器环境从`./dist/less.js`引入。`dist`也需要打包后生成。
-命令行在`./bin/lessc`运行。
-
-# title
-# title
+默认从`index`引入。  
+cjs环境从`./lib/less-node/index`引入。`lib`在git仓库中没有。需要打包后生成。  
+浏览器环境从`./dist/less.js`引入。`dist`也需要打包后生成。  
+命令行在`./bin/lessc`运行。  

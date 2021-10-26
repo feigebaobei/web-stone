@@ -1063,44 +1063,241 @@ body .markdown-body
 .highlight .vi{color:teal}
 .highlight .il{color:#009999}
 .highlight .gc{color:#999;background-color:#EAF2F5}
-</style><title>index</title></head><body><article class="markdown-body"><h1 id="_1">布局<a class="headerlink" href="#_1" title="Permanent link"></a></h1>
-<p><a href="/css/layout.html">layout</a></p>
-<h1 id="_2">页面布局<a class="headerlink" href="#_2" title="Permanent link"></a></h1>
-<div class="highlight"><pre>-------------------------------------
---------------头部--------------------
--------------------------------------
-======0000000000000次头部0000000000000
-======+++++++++++++++++++++++++++++++
-======+++++++++++++++++++++++++//////
-==导==++++++++++主++++++++++++++//页//
-======++++++++++++要++++++++++++//面//
-==航==++++++++++++++内++++++++++//目//
-======++++++++++++++++容++++++++//录//
-======+++++++++++++++++++++++++//////
-======+++++++++++++++++++++++++//////
-======+++++++++++++++++++++++++++++++
--------------------------------------
----------------footer----------------
--------------------------------------
+</style><title>index</title></head><body><article class="markdown-body"><h1 id="description">description<a class="headerlink" href="#description" title="Permanent link"></a></h1>
+<ul>
+<li>css 预处理工具</li>
+</ul>
+<h1 id="_1">基本知识<a class="headerlink" href="#_1" title="Permanent link"></a></h1>
+<div class="highlight"><pre>// 变量
+@with: 10px;
+#header {
+    width: @width;
+}
+
+// mixins
+.bordered { // define
+    border: 1px solid black;
+}
+#menu {
+    border() // use
+}
+
+// nesting
+.a {
+    .b {
+        color: red;
+    }
+}
+
+// operations
+@op0: 5cm + 10cm;
+@op1: 2 + 5px -3cm;
+@op2: @op1 * 2;
+
+// calc()
+width: calc(50% + (@op0- 20px));
+
+// escaping
+@min: ~&quot;(min-width: 768px)&quot;;
+.element {
+    @media @min768 { // =&gt; @media (min-width: 768px)
+        font-size: 1.2rem;
+    }
+}
+
+// function
+// 使用less内置的方法
+.a {
+    margin: if((2 &gt; 1), 0, 3px); // 0
+}
+// namespace &amp; accessors
+不会
+
+// map
+#color() {
+    primary: blue;
+}
+.bt {
+    color: #color[primary]
+}
+
+// scope
+略
+
+// comments
+// xxx
+/* xxx */
+
+// import
+@import &quot;./file.less&quot;
+@import &quot;./file.css&quot;
 </pre></div>
 
-<h2 id="rwd">响应式布局 rwd<a class="headerlink" href="#rwd" title="Permanent link"></a></h2>
-<h1 id="_3">预处理器<a class="headerlink" href="#_3" title="Permanent link"></a></h1>
-<h2 id="sass"><a href="/sass/index.html">sass</a><a class="headerlink" href="#sass" title="Permanent link"></a></h2>
-<p>生于2007，最早/最成熟的css预处理器。
-<a href="https://sass-lang.com/documentation">官网</a></p>
-<h2 id="less"><a href="/less/index.html">less</a><a class="headerlink" href="#less" title="Permanent link"></a></h2>
-<p>生于2009，受到sass的影响较大。
-<a href="https://lesscss.org/features/">官网</a></p>
-<h2 id="stylus"><a href="/stylus/index.html">stylus</a><a class="headerlink" href="#stylus" title="Permanent link"></a></h2>
-<p>生于2010，node.js社区。
-<a href="https://stylus-lang.com/">官网</a></p>
-<h2 id="postcss"><a href="/postcss/index.html">postcss</a><a class="headerlink" href="#postcss" title="Permanent link"></a></h2>
-<p><a href="https://www.postcss.com.cn/">官网</a></p>
-<h2 id="turbine"><a href="">turbine</a><a class="headerlink" href="#turbine" title="Permanent link"></a></h2>
-<h2 id="switch-css"><a href="">switch css</a><a class="headerlink" href="#switch-css" title="Permanent link"></a></h2>
-<h2 id="css-cacheer"><a href="">css cacheer</a><a class="headerlink" href="#css-cacheer" title="Permanent link"></a></h2>
-<h2 id="dt-css"><a href="">DT css</a><a class="headerlink" href="#dt-css" title="Permanent link"></a></h2>
-<h2 id="css-crush"><a href="https://the-echoplex.net/csscrush/#api">CSS-Crush</a><a class="headerlink" href="#css-crush" title="Permanent link"></a></h2>
-<h2 id="myth"><a href="https://github.com/segmentio/myth/blob/master/Readme.md">Myth</a><a class="headerlink" href="#myth" title="Permanent link"></a></h2>
-<h2 id="rework"><a href="https://github.com/reworkcss/rework">Rework</a><a class="headerlink" href="#rework" title="Permanent link"></a></h2></article></body></html>
+<h1 id="quick-start">quick start<a class="headerlink" href="#quick-start" title="Permanent link"></a></h1>
+<p>常用方式有三种：</p>
+<ul>
+<li>cli</li>
+<li>引入包</li>
+<li>cdn</li>
+</ul>
+<h2 id="cli">cli用法<a class="headerlink" href="#cli" title="Permanent link"></a></h2>
+<div class="highlight"><pre>npm i -g less
+lessc [option option=parameter ...] &lt;source&gt; [destination]
+lessc styles.less styles.css
+</pre></div>
+
+<h2 id="package">package用法<a class="headerlink" href="#package" title="Permanent link"></a></h2>
+<div class="highlight"><pre>npm i -g less
+let less = require(&#39;less&#39;)
+less.render(&#39;.class {width: (1+1)}&#39;, function (e, output) {
+    // output.css
+    // output.map
+    // output.imports = array of string filename of the imports referenc
+    console.log(output.css)
+})
+
+less.render(less, options).then(output =&gt; {...})
+less.render(less, options, (e, output) =&gt; {...})
+</pre></div>
+
+<h2 id="_2">浏览器端使用<a class="headerlink" href="#_2" title="Permanent link"></a></h2>
+<p>不推荐此用法。详见<a href="https://lesscss.org/usage/#using-less-in-the-browser">官网说明</a><br />
+建议只在开发环境使用。</p>
+<ul>
+<li>先设置配置项，再引入<code>&lt;script src="less.js"&gt;&lt;/script&gt;</code></li>
+</ul>
+<h1 id="cli-options">cli options<a class="headerlink" href="#cli-options" title="Permanent link"></a></h1>
+<table>
+<thead>
+<tr>
+<th>option</th>
+<th>缩写</th>
+<th>说明</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&ndash;include-path</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>&ndash;rootpath</td>
+<td>-rp</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>&ndash;rewrite-url</td>
+<td>-ru</td>
+<td></td>
+<td>off不重写，all全重写，local重写相对路径</td>
+</tr>
+<tr>
+<td>&ndash;math</td>
+<td>-m</td>
+<td>如何计算</td>
+<td>always全计算，parent-division不执行除法，parens/stric计算括号内的表态式，strict-legacy不计算</td>
+</tr>
+<tr>
+<td>&ndash;strict-units</td>
+<td>-su</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>&ndash;ie-compat</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>&ndash;global-var</td>
+<td></td>
+<td>定义全局变量</td>
+<td></td>
+</tr>
+<tr>
+<td>&ndash;modify-var</td>
+<td></td>
+<td>修改全局变量</td>
+<td></td>
+</tr>
+<tr>
+<td>&ndash;url-args</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>&ndash;lint</td>
+<td></td>
+<td>是否执行lint</td>
+<td></td>
+</tr>
+<tr>
+<td>&ndash;insecure</td>
+<td></td>
+<td>是否只允许https hosts</td>
+<td></td>
+</tr>
+<tr>
+<td>&ndash;source-map</td>
+<td></td>
+<td>是否生成source map,指定source map的文件名。</td>
+<td></td>
+</tr>
+<tr>
+<td>&ndash;source-map-rootpath</td>
+<td></td>
+<td>source map的rootpath</td>
+<td></td>
+</tr>
+<tr>
+<td>&ndash;source-map-basepach</td>
+<td></td>
+<td>source map的basepath</td>
+<td></td>
+</tr>
+<tr>
+<td>&ndash;source-map-include-source</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>&ndash;source-map-inline</td>
+<td></td>
+<td>是否使用行内source map</td>
+<td></td>
+</tr>
+<tr>
+<td>&ndash;source-map-url</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>&ndash;plugin</td>
+<td></td>
+<td>指定预加载插件</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h1 id="_3"><a href="/less/function.html">内置方法</a><a class="headerlink" href="#_3" title="Permanent link"></a></h1>
+<h1 id="plugin">plugin<a class="headerlink" href="#plugin" title="Permanent link"></a></h1>
+<h1 id="principle">principle<a class="headerlink" href="#principle" title="Permanent link"></a></h1>
+<p><div class="highlight"><pre>&quot;bin&quot;: {
+    &quot;lessc&quot;: &quot;./bin/lessc&quot;
+},
+&quot;main&quot;: &quot;index&quot;,
+&quot;module&quot;: &quot;./lib/less-node/index&quot;,
+&quot;browser&quot;: &quot;./dist/less.js&quot;,
+</pre></div>
+默认从<code>index</code>引入。<br />
+cjs环境从<code>./lib/less-node/index</code>引入。<code>lib</code>在git仓库中没有。需要打包后生成。<br />
+浏览器环境从<code>./dist/less.js</code>引入。<code>dist</code>也需要打包后生成。<br />
+命令行在<code>./bin/lessc</code>运行。  </p></article></body></html>

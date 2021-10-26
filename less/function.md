@@ -1,35 +1,25 @@
 # less内置的方法
 ```
 // 逻辑类
-if(condition, v0, v1)
-    condition为真则返回v0,否则返回v1
-boolean(condition)
-    返回boolean
+if(condition, v0, v1) condition为真则返回v0,否则返回v1
+boolean(condition) => boolean
 
 // str类
-escape(str)
+escape(str) 返回逃逸字符
     不编译,/?@&+'~!$
     编译<space>#^(){}|:><;[]=
-    返回逃逸字符
-e(str)
-    返回逃逸字符
-%(format, ...arguments)
+e(str) 返回逃逸字符
+%(format, ...arguments) 格式化后的string
     d,D,a,A 代替一个参数
     s,S 代替任意表达式
-    返回格式化后的string
-replace(string, pattern, replacement, flags)
-    返回替换后的文本。
+replace(string, pattern, replacement, flags) 替换后的文本。
 
 list类
-length(...args)
-    返回参数的数量
-extract(list, index)
-    返回list中下标为index的值
-range(start, end, step)
-    返回从start到end的值，间隔是step
-each(list, rules)
-    把list中的值分别作用于rules.
-```
+length(...args) 参数的数量
+extract(list, index) list中下标为index的值
+range(start, end, step) 从start到end的值，间隔是step
+each(list, rules) 把list中的值分别作用于rules.
+
 @selectors: blue, green, red;
 each(@selectors, {
     .sel-@{value} {
@@ -47,7 +37,6 @@ each(@selectors, {
 .sel-red {
     a: b
 }
-```
 
 math类
 ceil(number)
