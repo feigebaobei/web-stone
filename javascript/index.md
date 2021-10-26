@@ -77,7 +77,10 @@ this指向运行时（不是定义时）的上下文环境变量。
 
 # constructor & class
 ## constructor
+（特指构造方法）
 es5前的产物。es6以后一般不用。
+`inst instanceof ClassName`  
+
 ## class
 与构造函数很像。（不是构造函数的语法糖。）
 不能变量提升，遵守是块级作用域规则。
