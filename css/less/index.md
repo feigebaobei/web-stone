@@ -85,8 +85,14 @@ lessc styles.less styles.css
 npm i -g less
 let less = require('less')
 less.render('.class {width: (1+1)}', function (e, output) {
-    console.log(output.c)
+    // output.css
+    // output.map
+    // output.imports = array of string filename of the imports referenc
+    console.log(output.css)
 })
+
+less.render(less, options).then(output => {...})
+less.render(less, options, (e, output) => {...})
 ```
 
 ## 浏览器端使用
@@ -94,71 +100,29 @@ less.render('.class {width: (1+1)}', function (e, output) {
 建议只在开发环境使用。
 - 先设置配置项，再引入`<script src="less.js"></script>`
 
-# [使用方法](http://lesscss.cn/usage/index.html)
-
-# api
-|||||
+# cli options
+|option|缩写|说明|value|
 |-|-|-|-|
-|render(lessStr)||||
-|||||
-|cjs环境||||
-|createFromEnvironment||||
-|lesscHelper||||
-|PluginLoader||||
-|fs||||
-|FileManager||||
-|UrlFileManager||||
-|options||||
-|||||
-|cli环境||||
-|v||||
-|version||||
-|verbose||||
-|s||||
-|silent||||
-|l||||
-|lint||||
-|strict-imports||||
-|h||||
-|help||||
-|x||||
-|compress||||
-|insecure||||
-|M||||
-|depends||||
-|max-line-len||||
-|no-color||||
-|js||||
-|no-js||||
-|include-path||||
-|line-numbers||||
-|source-map||||
-|source-map-rootpath||||
-|source-map-basepath||||
-|source-map-inline||||
-|source-map-map-inline||||
-|source-map-include-source||||
-|source-map-less-inline||||
-|source-map-url||||
-|source-map-no-annotation||||
-|rp||||
-|rootpath||||
-|ie-compat||||
-|relative-urls||||
-|ru||||
-|rewrite-urls||||
-|sm||||
-|strict-math||||
-|m||||
-|math||||
-|su||||
-|strict-units||||
-|global-var||||
-|modify-var||||
-|url-args||||
-|plugin||||
-|||||
-|浏览器环境||||
+|--include-path||||
+|--rootpath|-rp|||
+|--rewrite-url|-ru||off不重写，all全重写，local重写相对路径|
+|--math|-m|如何计算|always全计算，parent-division不执行除法，parens/stric计算括号内的表态式，strict-legacy不计算|
+|--strict-units|-su|||
+|--ie-compat||||
+|--global-var||定义全局变量||
+|--modify-var||修改全局变量||
+|--url-args||||
+|--lint||是否执行lint||
+|--insecure||是否只允许https hosts||
+|--source-map||是否生成source map,指定source map的文件名。||
+|--source-map-rootpath||source map的rootpath||
+|--source-map-basepach||source map的basepath||
+|--source-map-include-source||||
+|--source-map-inline||是否使用行内source map||
+|--source-map-url||||
+|--plugin||指定预加载插件||
+
+# [内置方法](/css/less/function.html)
 
 # plugin
 # principle
