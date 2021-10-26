@@ -1063,129 +1063,323 @@ body .markdown-body
 .highlight .vi{color:teal}
 .highlight .il{color:#009999}
 .highlight .gc{color:#999;background-color:#EAF2F5}
-</style><title>index</title></head><body><article class="markdown-body"><h1 id="_1">布局<a class="headerlink" href="#_1" title="Permanent link"></a></h1>
-<p><a href="/css/layout.html">layout</a>
-常见的布局类型：
-- flex 弹性布局 线性布局 一维布局
-- grid         网格布局 二维布局
-- 静态布局
-- 浮动布局
-- 自适应布局</p>
-<h2 id="flex">flex<a class="headerlink" href="#flex" title="Permanent link"></a></h2>
-<p>flex布局也被称为弹性布局。它在一维空间上设置元素位置/大小。当前浏览器已经普遍支持。需要父/子元素共同设置指定样式属性才能实现效果。</p>
-<h2 id="grid">grid<a class="headerlink" href="#grid" title="Permanent link"></a></h2>
-<p>也被称为网格布局，它是在二维空间上设置元素位置/大小。比flex较难。需要父/子元素共同设置指定样式属性才能实现效果。</p>
-<h2 id="_2">静态布局<a class="headerlink" href="#_2" title="Permanent link"></a></h2>
-<p>就是为指定元素设置指定的值（大小/位置）。如：
-<div class="highlight"><pre>.class {
-    width: 20px;
-    height: 38px;
-}
-</pre></div></p>
-<h2 id="_3">浮动布局<a class="headerlink" href="#_3" title="Permanent link"></a></h2>
-<p>把元素设置为浮动元素。浮动元素会脱离文档流，其父元素无法得到其高度。如：
-<div class="highlight"><pre>.class {
-    float: left;
-}
-</pre></div></p>
-<h2 id="_4">自适应布局<a class="headerlink" href="#_4" title="Permanent link"></a></h2>
-<p>因用户端设备较多。需要为每种设备设置相应的样式。自适应布局可使用一套样式代码同时支持多种设备。
-常使用百分比/媒体查询。如：
-<div class="highlight"><pre>.class {
-    width: 50%;
-}
-@media screen and (max-width: 600px) {
-    width: 100%
-}
-@media screen and (min-width: 600px) {
-    width: 50%
-}
-</pre></div></p>
-<h1 id="_5">页面布局<a class="headerlink" href="#_5" title="Permanent link"></a></h1>
-<div class="highlight"><pre>-------------------------------------
---------------头部--------------------
--------------------------------------
-======0000000000000次头部0000000000000
-======+++++++++++++++++++++++++++++++
-======+++++++++++++++++++++++++//////
-==导==++++++++++主++++++++++++++//页//
-==航==++++++++++++要++++++++++++//面//
-======++++++++++++++内++++++++++//目//
-======++++++++++++++++容++++++++//录//
-======+++++++++++++++++++++++++//////
-======+++++++++++++++++++++++++//////
-======+++++++++++++++++++++++++++++++
--------------------------------------
----------------footer----------------
--------------------------------------
-</pre></div>
-
-<p>水平居中
-text-align: center;</p>
-<p>width: npx;
-margin: 0 auto;</p>
-<p>display: flex;
-justify-content: center;</p>
-<p>竖直居中
-line-height: 100%;
-height: 100%;
-vertical-align: middle;</p>
-<p>display: flex;
-flex-direction: column;
-height: npx;
-justify-content: center</p>
-<p>二列布局
-<div class="highlight"><pre>.parent {
-    display: flex;
-}
-.child0 {
-    flex-basis: 200px;
-    flex-shrink: 0;
-    background: #274;
-}
-.child1 {
-    flex-basis: 80%;
-    flex-grow: 1;
-    background: #624;
-}
-</pre></div></p>
-<p>三列布局
-<div class="highlight"><pre>.parent {
-    display: flex;
-}
-.child0 {
-    flex-basis: 200px;
-    flex-shrink: 0;
-    background: #274;
-}
-.child1 {
-    flex-basis: 80%;
-    flex-grow: 1;
-    background: #624;
-}
-.child2 {
-    flex-basis: 20%;
-    flex-shrink: 0;
-    background: #725;
-}
-</pre></div></p>
-<h2 id="rwd">响应式布局 rwd<a class="headerlink" href="#rwd" title="Permanent link"></a></h2>
-<h1 id="_6">预处理器<a class="headerlink" href="#_6" title="Permanent link"></a></h1>
-<h2 id="sass"><a href="/css/sass.html">sass</a><a class="headerlink" href="#sass" title="Permanent link"></a></h2>
-<p>生于2007，最早/最成熟的css预处理器。
-<a href="https://sass-lang.com/documentation">官网</a></p>
-<h2 id="less"><a href="/css/less.html">less</a><a class="headerlink" href="#less" title="Permanent link"></a></h2>
-<p>生于2009，受到sass的影响较大。
-<a href="https://lesscss.org/features/">官网</a></p>
-<h2 id="stylus"><a href="/css/stylus.html">stylus</a><a class="headerlink" href="#stylus" title="Permanent link"></a></h2>
-<p>生于2010，node.js社区。
-<a href="https://stylus-lang.com/">官网</a></p>
-<h2 id="postcss"><a href="/css/postcss.html">postcss</a><a class="headerlink" href="#postcss" title="Permanent link"></a></h2>
-<p><a href="https://www.postcss.com.cn/">官网</a></p>
-<h2 id="turbine"><a href="">turbine</a><a class="headerlink" href="#turbine" title="Permanent link"></a></h2>
-<h2 id="switch-css"><a href="">switch css</a><a class="headerlink" href="#switch-css" title="Permanent link"></a></h2>
-<h2 id="css-cacheer"><a href="">css cacheer</a><a class="headerlink" href="#css-cacheer" title="Permanent link"></a></h2>
-<h2 id="dt-css"><a href="">DT css</a><a class="headerlink" href="#dt-css" title="Permanent link"></a></h2>
-<h2 id="css-crush"><a href="https://the-echoplex.net/csscrush/#api">CSS-Crush</a><a class="headerlink" href="#css-crush" title="Permanent link"></a></h2>
-<h2 id="myth"><a href="https://github.com/segmentio/myth/blob/master/Readme.md">Myth</a><a class="headerlink" href="#myth" title="Permanent link"></a></h2>
-<h2 id="rework"><a href="https://github.com/reworkcss/rework">Rework</a><a class="headerlink" href="#rework" title="Permanent link"></a></h2></article></body></html>
+</style><title>canvas</title></head><body><article class="markdown-body"><h1 id="canvas">canvas<a class="headerlink" href="#canvas" title="Permanent link"></a></h1>
+<h2 id="_1">颜色、样式和阴影<a class="headerlink" href="#_1" title="Permanent link"></a></h2>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fillStyle</td>
+<td>设置或返回用于填充绘画的颜色、渐变或模式</td>
+</tr>
+<tr>
+<td>strokeStyle</td>
+<td>设置或返回用于笔触的颜色、渐变或模式</td>
+</tr>
+<tr>
+<td>shadowColor</td>
+<td>设置或返回用于阴影的颜色</td>
+</tr>
+<tr>
+<td>shadowBlur</td>
+<td>设置或返回用于阴影的模糊级别</td>
+</tr>
+<tr>
+<td>shadowOffsetX</td>
+<td>设置或返回阴影距形状的水平距离</td>
+</tr>
+<tr>
+<td>shadowOffsetY</td>
+<td>设置或返回阴影距形状的垂直距离</td>
+</tr>
+<tr>
+<td>方法</td>
+<td>描述</td>
+</tr>
+<tr>
+<td>createLinearGradient()</td>
+<td>创建线性渐变（用在画布内容上）</td>
+</tr>
+<tr>
+<td>createPattern()</td>
+<td>在指定的方向上重复指定的元素</td>
+</tr>
+<tr>
+<td>createRadialGradient()</td>
+<td>创建放射状/环形的渐变（用在画布内容上）</td>
+</tr>
+<tr>
+<td>addColorStop()</td>
+<td>规定渐变对象中的颜色和停止位置</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_2">线条样式<a class="headerlink" href="#_2" title="Permanent link"></a></h2>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>lineCap</td>
+<td>设置或返回线条的结束端点样式</td>
+</tr>
+<tr>
+<td>lineJoin</td>
+<td>设置或返回两条线相交时，所创建的拐角类型</td>
+</tr>
+<tr>
+<td>lineWidth</td>
+<td>设置或返回当前的线条宽度</td>
+</tr>
+<tr>
+<td>miterLimit</td>
+<td>设置或返回最大斜接长度</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_3">矩形<a class="headerlink" href="#_3" title="Permanent link"></a></h2>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rect()</td>
+<td>创建矩形</td>
+</tr>
+<tr>
+<td>fillRect()</td>
+<td>绘制“被填充”的矩形</td>
+</tr>
+<tr>
+<td>strokeRect()</td>
+<td>绘制矩形（无填充）</td>
+</tr>
+<tr>
+<td>clearRect()</td>
+<td>在给定的矩形内清除指定的像素</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_4">路径<a class="headerlink" href="#_4" title="Permanent link"></a></h2>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fill()</td>
+<td>填充当前绘图（路径）</td>
+</tr>
+<tr>
+<td>stroke()</td>
+<td>绘制已定义的路径</td>
+</tr>
+<tr>
+<td>beginPath()</td>
+<td>起始一条路径，或重置当前路径</td>
+</tr>
+<tr>
+<td>moveTo()</td>
+<td>把路径移动到画布中的指定点，不创建线条</td>
+</tr>
+<tr>
+<td>closePath()</td>
+<td>创建从当前点回到起始点的路径</td>
+</tr>
+<tr>
+<td>lineTo()</td>
+<td>添加一个新点，然后在画布中创建从该点到最后指定点的线条</td>
+</tr>
+<tr>
+<td>clip()</td>
+<td>从原始画布剪切任意形状和尺寸的区域</td>
+</tr>
+<tr>
+<td>quadraticCurveTo()</td>
+<td>创建二次贝塞尔曲线</td>
+</tr>
+<tr>
+<td>bezierCurveTo()</td>
+<td>创建三次方贝塞尔曲线</td>
+</tr>
+<tr>
+<td>arc()</td>
+<td>创建弧/曲线（用于创建圆形或部分圆）</td>
+</tr>
+<tr>
+<td>arcTo()</td>
+<td>创建两切线之间的弧/曲线</td>
+</tr>
+<tr>
+<td>isPointInPath()</td>
+<td>如果指定的点位于当前路径中，则返回 true，否则返回 false</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_5">转换<a class="headerlink" href="#_5" title="Permanent link"></a></h2>
+<p>|方法  |描述|
+|scale()| 缩放当前绘图至更大或更小|
+|rotate()|  旋转当前绘图|
+|translate()| 重新映射画布上的 (0,0) 位置|
+|transform()| 替换绘图的当前转换矩阵|
+|setTransform()|  将当前转换重置为单位矩阵。然后运行 transform()|</p>
+<h2 id="_6">文本<a class="headerlink" href="#_6" title="Permanent link"></a></h2>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>font</td>
+<td>设置或返回文本内容的当前字体属性</td>
+</tr>
+<tr>
+<td>textAlign</td>
+<td>设置或返回文本内容的当前对齐方式</td>
+</tr>
+<tr>
+<td>textBaseline</td>
+<td>设置或返回在绘制文本时使用的当前文本基线</td>
+</tr>
+<tr>
+<td>方法</td>
+<td>描述</td>
+</tr>
+<tr>
+<td>fillText()</td>
+<td>在画布上绘制“被填充的”文本</td>
+</tr>
+<tr>
+<td>strokeText()</td>
+<td>在画布上绘制文本（无填充）</td>
+</tr>
+<tr>
+<td>measureText()</td>
+<td>返回包含指定文本宽度的对象</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_7">图像绘制<a class="headerlink" href="#_7" title="Permanent link"></a></h2>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>drawImage()</td>
+<td>向画布上绘制图像、画布或视频</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_8">像素操作<a class="headerlink" href="#_8" title="Permanent link"></a></h2>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>width</td>
+<td>返回 ImageData 对象的宽度</td>
+</tr>
+<tr>
+<td>height</td>
+<td>返回 ImageData 对象的高度</td>
+</tr>
+<tr>
+<td>data</td>
+<td>返回一个对象，其包含指定的 ImageData 对象的图像数据</td>
+</tr>
+<tr>
+<td>方法</td>
+<td>描述</td>
+</tr>
+<tr>
+<td>createImageData()</td>
+<td>创建新的、空白的 ImageData 对象</td>
+</tr>
+<tr>
+<td>getImageData()</td>
+<td>返回 ImageData 对象，该对象为画布上指定的矩形复制像素数据</td>
+</tr>
+<tr>
+<td>putImageData()</td>
+<td>把图像数据（从指定的 ImageData 对象）放回画布上</td>
+</tr>
+<tr>
+<td>## 合成</td>
+<td></td>
+</tr>
+<tr>
+<td>属性</td>
+<td>描述</td>
+</tr>
+<tr>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>globalAlpha</td>
+<td>设置或返回绘图的当前 alpha 或透明值</td>
+</tr>
+<tr>
+<td>globalCompositeOperation</td>
+<td>设置或返回新图像如何绘制到已有的图像上</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_9">其他<a class="headerlink" href="#_9" title="Permanent link"></a></h2>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>save()</td>
+<td>保存当前环境的状态</td>
+</tr>
+<tr>
+<td>restore()</td>
+<td>返回之前保存过的路径状态和属性</td>
+</tr>
+<tr>
+<td>createEvent()</td>
+<td></td>
+</tr>
+<tr>
+<td>getContext()</td>
+<td></td>
+</tr>
+<tr>
+<td>toDataURL()</td>
+<td></td>
+</tr>
+</tbody>
+</table></article></body></html>
