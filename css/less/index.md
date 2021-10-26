@@ -1,15 +1,86 @@
 # description
 - css 预处理工具
 
+# 基本知识
+```
+// 变量
+@with: 10px;
+#header {
+    width: @width;
+}
+
+// mixins
+.bordered { // define
+    border: 1px solid black;
+}
+#menu {
+    border() // use
+}
+
+// nesting
+.a {
+    .b {
+        color: red;
+    }
+}
+
+// operations
+@op0: 5cm + 10cm;
+@op1: 2 + 5px -3cm;
+@op2: @op1 * 2;
+
+// calc()
+width: calc(50% + (@op0- 20px));
+
+// escaping
+@min: ~"(min-width: 768px)";
+.element {
+    @media @min768 { // => @media (min-width: 768px)
+        font-size: 1.2rem;
+    }
+}
+
+// function
+// 使用less内置的方法
+.a {
+    margin: if((2 > 1), 0, 3px); // 0
+}
+// namespace & accessors
+不会
+
+// map
+#color() {
+    primary: blue;
+}
+.bt {
+    color: #color[primary]
+}
+
+// scope
+略
+
+// comments
+// xxx
+/* xxx */
+
+// import
+@import "./file.less"
+@import "./file.css"
+```
+
 # quick start
-## 服务端使用
-### cli用法
+常用方式有三种：
+- cli
+- 引入包
+- cdn
+## cli用法
 ```
 npm i -g less
+lessc [option option=parameter ...] <source> [destination]
 lessc styles.less styles.css
 ```
 
-### package用法
+## package用法
 ```
 npm i -g less
 let less = require('less')
@@ -19,6 +90,7 @@ less.render('.class {width: (1+1)}', function (e, output) {
 ```
 
 ## 浏览器端使用
+不推荐此用法。详见[官网说明](https://lesscss.org/usage/#using-less-in-the-browser)  
 建议只在开发环境使用。
 - 先设置配置项，再引入`<script src="less.js"></script>`
 

@@ -38,10 +38,14 @@ flex布局也被称为弹性布局。它在一维空间上设置元素位置/大
     width: 50%;
 }
 @media screen and (max-width: 600px) {
-    width: 100%
+    .class {
+        width: 100%
+    }
 }
 @media screen and (min-width: 600px) {
-    width: 50%
+    .class {
+        width: 50%
+    }
 }
 ```
 
