@@ -127,6 +127,8 @@ less.render(less, options, (e, output) => {...})
 
 # [内置方法](/less/function.html)
 
+# [深入学习](/less/guide.html)
+
 # plugin
 
 # principle
