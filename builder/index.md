@@ -4,4 +4,8 @@
 - [gulp](/builder/gulp/index.html)
 - [snowpack](/builder/snowpack/index.html)
 - [parcel](/builder/parcel.html)
+- [esbuild](/builder/esbuild.html)
+- [other](/builder/other.html)
+- [other](/builder/other.html)
+- [other](/builder/other.html)
 - [other](/builder/other.html)
