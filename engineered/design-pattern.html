@@ -1063,14 +1063,781 @@ body .markdown-body
 .highlight .vi{color:teal}
 .highlight .il{color:#009999}
 .highlight .gc{color:#999;background-color:#EAF2F5}
-</style><title>index</title></head><body><article class="markdown-body"><ul>
-<li><a href="/other/co.html">co</a></li>
-<li><a href="/other/siroc.html">siroc</a></li>
-<li><a href="/other/h3.html">h3</a></li>
-<li><a href="/other/other.html">other</a></li>
-<li><a href="/other/other.html">other</a></li>
-<li><a href="/other/other.html">other</a></li>
-<li><a href="/other/other.html">other</a></li>
-<li><a href="/other/other.html">other</a></li>
-<li><a href="/other/other.html">other</a></li>
-</ul></article></body></html>
+</style><title>design-pattern</title></head><body><article class="markdown-body"><h1 id="_1">设计模式<a class="headerlink" href="#_1" title="Permanent link"></a></h1>
+<p>创建型
+  工厂模式
+  单例模式
+  原型模式
+结构型
+  适配器模式
+  装饰器模式
+  代理模式
+  外观模式
+  桥接模式
+  组合模式
+  享元模式
+行为型
+  策略模式
+  模板方法模式
+  观察者模式
+  迭代器模式
+  职责链模式
+  模块模式
+  命令模式
+  备忘录模式
+  发布订阅模式
+  状态模式
+  访问者模式
+  中介模式
+  解释器模式
+  金子模式（可扩展插件的模式）（可插件模式）</p>
+<h2 id="_2"><a href="/engineered/design-principle.html">设计模式的六大原则</a><a class="headerlink" href="#_2" title="Permanent link"></a></h2>
+<h2 id="_3">工厂模式<a class="headerlink" href="#_3" title="Permanent link"></a></h2>
+<p>抽象了创建具体对象的过程。就是使用工厂函数。</p>
+<div class="highlight"><pre>function createPerson (name, age, job) {
+    var o = new Object()
+    o.name = name
+    o.age = age
+    o.job = job
+    o.sayName = function () {
+        console.log(this.name)
+    }
+    return o
+}
+</pre></div>
+
+<h2 id="_4">单例模式<a class="headerlink" href="#_4" title="Permanent link"></a></h2>
+<p>也叫单体模式，核心思想是确保一个类只对应一个实例。即使多次实例化。其实例结果是相同的。
+在实现中只能有一个的事物。如：一个公司只能有一个会计系统，一个超市只能有一个收银系统。</p>
+<div class="highlight"><pre>var Singleton = function () {
+    let instance = null
+    function init () {
+        var o = Object.create(null)
+        o.name = &#39;top&#39;
+        o.admin = true
+        o.sayHi = () =&gt; {
+            console.log(&#39;hi&#39;)
+        }
+        return o
+    }
+    return {
+        getInstance: function () {
+            if (!instance) {
+                instance = init()
+            }
+            return instance
+        }
+    }
+}()
+var a = Singleton.getInstance()
+var b = Singleton.getInstance()
+a === b
+</pre></div>
+
+<h2 id="_5">原型模式<a class="headerlink" href="#_5" title="Permanent link"></a></h2>
+<div class="highlight"><pre>function Foo () {}
+Foo.prototype.hi = () =&gt; {}
+var foo = new Foo()
+</pre></div>
+
+<h2 id="_6">适配器模式<a class="headerlink" href="#_6" title="Permanent link"></a></h2>
+<p>把不合适的接口从一个合适的接口输出。
+<div class="highlight"><pre>// 若
+var hong = {
+  say: () =&gt; {
+    console.log(&#39;hi&#39;)
+  }
+}
+var ming = {
+  speak: () =&gt; {
+    console.log(&#39;hi&#39;)
+  }
+}
+var mingAdapter = {
+  say: ming.speak
+}
+// 则可以这样使用
+var friend = [hong, mingAdapter]
+friend.forEach(item =&gt; {
+  console.log(item)
+  item.say()
+})
+</pre></div></p>
+<h2 id="_7">装饰器模式<a class="headerlink" href="#_7" title="Permanent link"></a></h2>
+<div class="highlight"><pre>let dfn = () =&gt; {
+  // 
+}
+class MyClass {
+}
+// use
+@dfn
+class MyClass {
+  constructor () {}
+  fire () {}
+}
+// es5方法，会修改原来的属性。
+</pre></div>
+
+<h2 id="_8">代理模式<a class="headerlink" href="#_8" title="Permanent link"></a></h2>
+<p>用来控制访问本体对象。在模块模式的基础上开发出来的模式。先写一个单一原则的方法。再写一个控制触发该方法的方法（代理）
+是把一些开销很大的对象，延迟到真正需要它的时候才去创建执行
+一般用于：隔离、保护、验证、阻隔、缓冲、代理等。</p>
+<div class="highlight"><pre>class User {
+  constructor (name, age) {
+    this.name = name
+    this.age = age
+  }
+}
+var handler = {
+  set: (target, key, value, receiver) =&gt; {
+    console.log(target, key, value, receiver)
+    target[kye] = value
+  },
+  construct: (target, args, newTarget) =&gt; {
+    console.log(target, args, newTarget)
+    if (200 &lt; args[1]) {
+      return {error: new Error(&#39;age is invalid&#39;)}
+    } else {
+      var a = Array.prototype.slice.call(args, 0)
+      return new target(...a)
+    }
+  }
+}
+var proxy = new Proxy(User, handler)
+var u = new proxy(&#39;u&#39;, 33)
+let {proxy: p, revoke} = Proxy.revocable(User, handler)
+revoke() // 解除代理
+var a = new p(&#39;a&#39;, 23) // Uncaught TypeError: Cannot perform &#39;construct&#39; on a proxy that has been revoked
+</pre></div>
+
+<h2 id="_9">外观模式（门面模式）<a class="headerlink" href="#_9" title="Permanent link"></a></h2>
+<p>对外提供一个大接口，在大接口的方法体时调用模块（或定义域）内的子方法。
+如此可省去用户调用多个小接口的麻烦。让模块更内聚。
+<div class="highlight"><pre>// demo0
+function a () {...}
+function b () {...}
+function ab () {
+  a()
+  b()
+}
+ab()
+
+// demo1
+stopEvent()
+function stopEvent () {
+  stopPropagation()
+  preventDefault()
+}
+function stopPropagation() {}
+function preventDefault() {}
+</pre></div></p>
+<h2 id="_10">桥接模式<a class="headerlink" href="#_10" title="Permanent link"></a></h2>
+<p>类的嵌套。
+可利用常用的基本类。
+<div class="highlight"><pre>class Base0 {}
+class Base1 {}
+class Super {
+  constructor () {
+    this.base0 = new Base0()
+    this.base1 = new Base1()
+  }
+}
+</pre></div></p>
+<h2 id="_11">组合模式<a class="headerlink" href="#_11" title="Permanent link"></a></h2>
+<p>把多个命令（或方法）组合起来。可追加命令，再依次执行。
+与门面模式类似。</p>
+<div class="highlight"><pre>class MacroCommand {
+  constructor () {
+    this.commandList = []
+  }
+  add (fn) {
+    this.commandList.push(fn)
+  }
+  execute () {
+    this.commandList.forEach(cb =&gt; cb())
+  }
+}
+let macroCommand = new MacroCommand()
+macroCommand.add(firstCommand)
+macroCommand.add(secondCommand)
+macroCommand.add(threeCommand)
+macroCommand.execute()
+</pre></div>
+
+<h2 id="_12">享元模式（共享模式）<a class="headerlink" href="#_12" title="Permanent link"></a></h2>
+<p>该模式是创建一个类，把相同的属性定义在该类中，把不同的属性定义在该类外面。
+当需要类的实例需要某些属性时，保持相同属性不变，改变不同属性为希望的属性。再返回该实例。
+当需要很多具有若干相同属性与不同属性的对象时，可以使用享元模式。
+// 该模式下的实例是共享的一个对象。</p>
+<div class="highlight"><pre>function Circle (color) {
+  this.color = color
+  this.x
+  this.y
+  this.r
+  this.setAttr = (x, y, r) =&gt; {
+    this.x = x
+    this.y = y
+    this.r = r
+  }
+  this.draw = () =&gt; console.log(&#39;draw&#39;)
+}
+let shapeFactory = (function () {
+  let store = {}
+  return {
+    getCircle: (color) =&gt; {
+      if (!store[color]) {
+        store[color] = new Circle(color)
+      }
+      return store[color]
+    }
+  }
+})()
+let circle0 = shapeFactory.getCircle(&#39;red&#39;)
+circle.setAttr(1, 2, 3)
+circle.draw()
+</pre></div>
+
+<h2 id="_13">策略模式<a class="headerlink" href="#_13" title="Permanent link"></a></h2>
+<p>策略模式可看作为if/else判断的另一种表现形式，在达到相同目的的同时，极大的减少了代码量以及代码维护成本。
+分离算法的使用、算法的实现。
+<div class="highlight"><pre>// demo0
+var realize = {
+    first: () =&gt; {},
+    second: () =&gt; {},
+    third: () =&gt; {}
+}
+let result = realize[param] ? realize[param]() : null
+
+// demo1
+// html
+&lt;form&gt;
+// js
+document.getElementById(&#39;submit&#39;).on(&#39;click&#39;, (event) =&gt; {
+  event.preventDefault()
+  var validator = new Validator()
+  var result = validator.test({
+    &#39;userName&#39;: [
+      {rule: &#39;isRequired&#39;, value: this.userName.value, message: &#39;string&#39;},
+      ...
+    ],
+    ...
+  })
+})
+
+function Validator () {}
+Validator.prototype.rules = {
+  isRequired: (value) =&gt; {
+    return value.replace(/(^\s*)|(\s*$)/g, &#39;&#39;)
+  },
+  ...
+}
+Validator.prototype.test = (rules) =&gt; {
+  var that = this
+  var valid = null
+  for (let key in rules) {
+    for(let i = 0; i &lt; rules[key].length; i++) {
+      let {rule, value, message} = rules[key][i]
+      let result = that.rules[rule](value)
+      // let result = that.rules[rule].apply(this, value)
+      if (!result) {
+        valid = {
+          errValue: key,
+          errMsg: message
+        }
+        break
+      }
+    }
+    if (valid) {
+      break
+    }
+  }
+  return valid
+}
+</pre></div></p>
+<h2 id="_14">模板方法模式<a class="headerlink" href="#_14" title="Permanent link"></a></h2>
+<p>模板方法模式由二部分组成，第一部分是抽象父类，第二部分是具体实现的子类。
+在子类中的方法修改父类中的方法。
+基本实践过程如下：
+<div class="highlight"><pre>function SaveData () {}
+SaveData.prototype.check = () =&gt; {
+  console.log(&#39;check data format&#39;)
+}
+SaveData.prototype.store = () =&gt; {
+  console.log(&#39;store to db&#39;)
+}
+SaveData.prototype.feedback = () =&gt; {
+  console.log(&#39;success save&#39;)
+}
+function SaveUser () {}
+SaveUser.prototype = new SaveData()
+SaveUser.prototype.check = (name) =&gt; {
+  if (typeof name === &#39;string&#39;) {
+    return name !== &#39;&#39;
+  } else {
+    return new Error(&#39;name is invalid&#39;)
+  }
+}
+</pre></div></p>
+<h2 id="_15">观察者模式<a class="headerlink" href="#_15" title="Permanent link"></a></h2>
+<p>也叫发布订阅模式</p>
+<div class="highlight"><pre>                 subject
+                  ^   |
+                  |   |
+                  |   |
+                  |   |
+       subscribe  |   |  fire event
+                  |   |
+                  |   |
+                  |   V
+                 observer
+</pre></div>
+
+<div class="highlight"><pre>// use function
+function Public () {
+  this.subs = []
+  this.addSub = (item) =&gt; {
+    this.subs.push(item)
+  }
+  this.notice = () =&gt; {
+    this.subs.map(itme =&gt; item.compile())
+  }
+}
+function Sub () {
+  this.compile () {
+    //
+  }
+}
+
+// use class format
+class Subject {
+  constructor () {
+    this.observers = []
+  }
+  add(...observer) {
+    this.observers.push(...observer)
+  }
+  remove(observer) {
+    let index = -1
+    this.observers.some((item, i) =&gt; {
+      if (item === observer) { // 这里可能需要优化
+        index = i
+        return true
+      }
+    })
+    if (index &gt; -1) {
+      this.observers.splice(index, 1)
+    }
+  }
+  notify() {
+    this.observers.forEach(item =&gt; item.update())
+  }
+}
+class Observer {
+  constructor () {
+    // ...
+  }
+  update () {
+    console.log(&#39;update&#39;)
+  }
+}
+let [o0, o1] = [new Observer(), new Observer()]
+let sub = new Subject()
+sub.add(o0, o1)
+sub.notify()
+</pre></div>
+
+<h2 id="_16">迭代器模式<a class="headerlink" href="#_16" title="Permanent link"></a></h2>
+<p>实现统一遍历接口。
+内部迭代器
+$.each([&lsquo;a&rsquo;, &lsquo;b&rsquo;, &lsquo;c&rsquo;], function (index,value) {
+  console.log(index, value)
+})
+外部迭代器
+function * gen (arr) {
+  for (let [index, value] of arr.entries()) {
+    yield console.log([index, value])
+  }
+}
+let ite = gen([&lsquo;a&rsquo;, &lsquo;b&rsquo;, &lsquo;c&rsquo;])
+ite.next()
+ite.next()
+ite.next()
+es6中Iterator接口部署在Symbol.iterator属性上。
+当执行<code>[Symbol.iterator]()</code>会返回一个遍历器对象。
+<div class="highlight"><pre>var a = [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;]
+var ite = arr[Symbol.iterator]()
+// arr[Symbol.iterator]   是遍历器生成函数
+// arr[Symbol.iterator]() 是遍历器对象
+ite.next() // {value: &#39;a&#39;, done: false}
+ite.next() // {value: &#39;b&#39;, done: false}
+ite.next() // {value: &#39;c&#39;, done: false}
+ite.next() // {value: undefined, done: true}
+</pre></div></p>
+<h2 id="_17">职责链模式<a class="headerlink" href="#_17" title="Permanent link"></a></h2>
+<p>消除请求的发送者与接收者的耦合。</p>
+<ol>
+<li>发送者知道链中的第一个接收者，它向这个接收者发送该请求。</li>
+<li>每一个接收者都对请求进行分析，然后要么处理它，要么它往下传递。</li>
+<li>每一个接收者知道其他的对象只有一个，即它在链中的下家(successor)。</li>
+<li>如果没有任何接收者处理请求，那么请求会从链中离开。</li>
+</ol>
+<div class="highlight"><pre>function order500(orderType,isPay,count){
+    if(orderType == 1 &amp;&amp; isPay == true)    {
+        console.log(&quot;亲爱的用户，您中奖了100元红包了&quot;);
+    }else {
+        //我不知道下一个节点是谁,反正把请求往后面传递
+        return &quot;nextSuccessor&quot;;
+    }
+};
+function order200(orderType,isPay,count) {
+    if(orderType == 2 &amp;&amp; isPay == true) {
+        console.log(&quot;亲爱的用户，您中奖了20元红包了&quot;);
+    }else {
+        //我不知道下一个节点是谁,反正把请求往后面传递
+        return &quot;nextSuccessor&quot;;
+    }
+};
+function orderNormal(orderType,isPay,count){
+    // 普通用户来处理中奖信息
+    if(count &gt; 0) {
+        console.log(&quot;亲爱的用户，您已抽到10元优惠卷&quot;);
+    }else {
+        console.log(&quot;亲爱的用户，请再接再厉哦&quot;);
+    }
+}
+// 下面需要编写职责链模式的封装构造函数方法
+var Chain = function(fn){
+    this.fn = fn;
+    this.successor = null;
+};
+Chain.prototype.setNextSuccessor = function(successor){
+    return this.successor = successor;
+}
+// 把请求往下传递
+Chain.prototype.passRequest = function(){
+    var ret = this.fn.apply(this, arguments);
+    if(ret === &#39;nextSuccessor&#39;) {
+        return this.successor &amp;&amp; this.successor.passRequest.apply(this.successor, arguments);
+    }
+    return ret;
+}
+//现在我们把3个函数分别包装成职责链节点：
+var chainOrder500 = new Chain(order500);
+var chainOrder200 = new Chain(order200);
+var chainOrderNormal = new Chain(orderNormal);
+
+// 然后指定节点在职责链中的顺序
+chainOrder500.setNextSuccessor(chainOrder200);
+chainOrder200.setNextSuccessor(chainOrderNormal);
+
+//最后把请求传递给第一个节点：
+chainOrder500.passRequest(1,true,500);  // 亲爱的用户，您中奖了100元红包了
+chainOrder500.passRequest(2,true,500);  // 亲爱的用户，您中奖了20元红包了
+chainOrder500.passRequest(3,true,500);  // 亲爱的用户，您已抽到10元优惠卷 
+chainOrder500.passRequest(1,false,0);   // 亲爱的用户，请再接再厉哦
+</pre></div>
+
+<div class="highlight"><pre>function Fn1() {
+    console.log(1);
+    return &quot;nextSuccessor&quot;;
+}
+function Fn2() {
+    console.log(2);
+    var self = this;
+    setTimeout(function(){
+        self.next();
+    },1000);
+}
+function Fn3() {
+    console.log(3);
+}
+// 下面需要编写职责链模式的封装构造函数方法
+var Chain = function(fn){
+    this.fn = fn;
+    this.successor = null;
+};
+Chain.prototype.setNextSuccessor = function(successor){
+    return this.successor = successor;
+}
+// 把请求往下传递
+Chain.prototype.passRequest = function(){
+    var ret = this.fn.apply(this,arguments);
+    if(ret === &#39;nextSuccessor&#39;) {
+        return this.successor &amp;&amp; this.successor.passRequest.apply(this.successor,arguments);
+    }
+    return ret;
+}
+Chain.prototype.next = function(){
+    return this.successor &amp;&amp; this.successor.passRequest.apply(this.successor,arguments);
+}
+//现在我们把3个函数分别包装成职责链节点：
+var chainFn1 = new Chain(Fn1);
+var chainFn2 = new Chain(Fn2);
+var chainFn3 = new Chain(Fn3);
+
+// 然后指定节点在职责链中的顺序
+chainFn1.setNextSuccessor(chainFn2);
+chainFn2.setNextSuccessor(chainFn3);
+
+chainFn1.passRequest();  // 打印出1，2 过1秒后 会打印出3
+</pre></div>
+
+<h2 id="_18">模块模式<a class="headerlink" href="#_18" title="Permanent link"></a></h2>
+<p>利用闭包把方法、属性分为分开的与私有的。</p>
+<div class="highlight"><pre>var ModuleFn = (function () {
+  var privateVar  = 0;
+  var privateFn = () =&gt; {
+    console.log(&#39;privateFn&#39;)
+  }
+  return {
+    publicFn0: () =&gt; {
+      console.log(&#39;publicFn0&#39;)
+      console.log(&#39;privateVar&#39;, privateVar)
+    },
+    publicFn1: () =&gt; {
+      console.log(&#39;publicFn1&#39;)
+      privateFn()
+    }
+  }
+})()
+ModuleFn.publicFn0()
+ModuleFn.publicFn1()
+</pre></div>
+
+<h2 id="_19">命令模式<a class="headerlink" href="#_19" title="Permanent link"></a></h2>
+<p>执行一个执行某些特定事情的指令。</p>
+<div class="highlight"><pre>// 如下代码上的四个按钮 点击事件
+var b1 = document.getElementById(&quot;button1&quot;),
+    b2 = document.getElementById(&quot;button2&quot;),
+    b3 = document.getElementById(&quot;button3&quot;),
+    b4 = document.getElementById(&quot;button4&quot;);
+/*
+ bindEnv函数负责往按钮上面安装点击命令。点击按钮后，会调用
+ 函数
+ */
+var bindEnv = function(button,func) {
+    button.onclick = function(){
+        func();
+    }
+};
+// 现在我们来编写具体处理业务逻辑代码
+var Todo1 = {
+    test1: function(){
+        alert(&quot;我是来做第一个测试的&quot;);
+    }    
+};
+// 实现业务中的增删改操作
+var Menu = {
+    add: function(){
+        alert(&quot;我是来处理一些增加操作的&quot;);
+    },
+    del: function(){
+        alert(&quot;我是来处理一些删除操作的&quot;);
+    },
+    update: function(){
+        alert(&quot;我是来处理一些更新操作的&quot;);
+    }
+};
+// 调用函数
+bindEnv(b1,Todo1.test1);
+// 增加按钮
+bindEnv(b2,Menu.add);
+// 删除按钮
+bindEnv(b3,Menu.del);
+// 更改按钮
+bindEnv(b4,Menu.update);
+</pre></div>
+
+<div class="highlight"><pre>var command1 = {
+    execute: function(){
+        console.log(1);
+    }
+}; 
+var command2 = {
+    execute: function(){
+        console.log(2);
+    }
+};
+var command3 = {
+    execute: function(){
+        console.log(3);
+    }
+};
+// 定义宏命令，command.add方法把子命令添加进宏命令对象，
+// 当调用宏命令对象的execute方法时，会迭代这一组命令对象，
+// 并且依次执行他们的execute方法。
+var command = function(){
+    return {
+        commandsList: [],
+        add: function(command){
+            this.commandsList.push(command);
+        },
+        execute: function(){
+            for(var i = 0,commands = this.commandsList.length; i &lt; commands; i+=1) {
+                this.commandsList[i].execute();
+            }
+        }
+    }
+};
+// 初始化宏命令
+var c = command();
+c.add(command1);
+c.add(command2);
+c.add(command3);
+</pre></div>
+
+<h2 id="_20">备忘录模式<a class="headerlink" href="#_20" title="Permanent link"></a></h2>
+<p>也叫缓存模式。在一个栈中保存多个状态。当需要返回前一个状态时，从栈中弹出一状态。直到栈为空。</p>
+<div class="highlight"><pre>class Memo {
+  constructor () {
+    this.state = new Map()
+    this.stateKeyList = []
+  }
+  // 保存状态
+  push (key, state) {
+    this.stateKeyList.push(key)
+    let KEY = Symbol.for(key)
+    this.state.set(KEY, state)
+  }
+  // 查看所有状态
+  peek (key) {
+    return this.state.get(Symbol.for(key))
+  }
+  // 弹出最后一个状态
+  pop () {
+    let lastKey = this.stateKeyList[this.stateKeyList.length - 1]
+    let state = this.peek(lastKey)
+    this.delState(lastKey)
+    return state
+  }
+  // 删除指定的状态
+  delState (key) {
+    this.stateKeyList.splice(this.stateKeyList.findIndex(item =&gt; item === key), 1)
+    this.state.delete(Symbol.for(key))
+  }
+  // 查看所有状态
+  allState () {
+    // [[k, v], [k0, v0], ...]
+    return this.stateKeyList.reduce((r, c) =&gt; {
+      r.push([c, this.state.get(Symbol.for(c))])
+      return r
+    }, [])
+  }
+}
+</pre></div>
+
+<h2 id="_21">状态模式<a class="headerlink" href="#_21" title="Permanent link"></a></h2>
+<p>定义一个对象。这个对象里定义了很多状态及对应的方法，再暴露一个改变状态的接口，再暴露一个调用的接口。</p>
+<div class="highlight"><pre>class user {
+  constructor () {
+    this.currentState = []
+    this.states = {
+      move: () =&gt; {console.log(&#39;move&#39;)},
+      stop: () =&gt; {console.log(&#39;stop&#39;)},
+      speak: () =&gt; {console.log(&#39;speak&#39;)}
+    }
+  }
+  changeStatus (...state) {
+    this.currentState = state
+    return this
+  }
+  goAhead () {
+    this.currentState.forEach(item =&gt; this.states[item] &amp;&amp; this.states[item]())
+    return this
+  }
+}
+</pre></div>
+
+<h2 id="_22">访问者模式<a class="headerlink" href="#_22" title="Permanent link"></a></h2>
+<p>在js这种弱类型语言里，很多方法里都不做对象的类型检测，而是只关心这些对象能做什么。</p>
+<div class="highlight"><pre>function Chicken (name) {
+  this.name = name
+}
+Chicken.prototype.kind = &#39;chicken&#39;
+Chicken.prototype.speak = function () {
+  console.log(`${this.name}: ji ji`)
+}
+function Duck (name) {
+  this.name = name
+}
+Duck.prototype.kind = &#39;duck&#39;
+Duck.prototype.speak = function () {
+  console.log(`${this.name}: ga ga`)
+}
+var Visitor = {
+  speak: function (...rest) {
+    let [that, ...params] = rest
+    // console.log(that, params, this)
+    return Chicken.prototype.speak.apply(this, params)
+  }
+}
+var c = new Chicken(&#39;c&#39;)
+var d = new Duck(&#39;d&#39;)
+// console.log(d)
+d.speak = Visitor.speak
+d.speak()
+</pre></div>
+
+<h2 id="_23">中介模式<a class="headerlink" href="#_23" title="Permanent link"></a></h2>
+<p>解耦对象与对象（数据与数据）之间关系。使二者间尽可能解耦。</p>
+<div class="highlight"><pre>let playerDirector = (function () {
+  let players = {}, operations = {}
+  operations.addPlayer = function (player) {
+    var teamColor = player.teamColer
+    players[teamColor] = players[teamColor] || []
+    players[teamColor].push(player)
+  }
+  operations.removePlayer = function (player) {
+    var teamColor = player.teamColer
+    players[teamColor] = players[teamColor] || []
+    let index = -1
+    players.some((item, i) =&gt; {
+      if (item.name === player.name) {
+        index = i
+        return true
+      }
+    })
+    if (index !== -1) {
+      players.splice(index, 1)
+    }
+  }
+  options.playerDead = function (player) {
+    let teamPlayers = players[player.teamColor]
+    let allDead = teamPlayers.some(item =&gt; item.state)
+    if (allDead) {
+      players.forEech(item =&gt; {
+        item.color === player.color ? item.win() : item.lose()
+      })
+    }
+  }
+  let reciveMessage: function () {
+    let [msgType, ...rest] = arguments
+    options[msgType].apply(this, rest) // 这样比`options[msgType](rest)`更安全。
+  }
+  return {reciveMessage}
+})()
+class Player (name, teamColor) {
+  constructor () {
+    this.name = name
+    this.teamColor = teamColor
+    this.state = true
+  }
+  win () {
+    console.log(&#39;win&#39;)
+  }
+  lose () {
+    console.log(&#39;lose&#39;)
+  }
+  die () {
+    playerDirector.reciveMessage(&#39;playerDead&#39;, this)
+  }
+}
+</pre></div>
+
+<h2 id="_24">解释器模式<a class="headerlink" href="#_24" title="Permanent link"></a></h2>
+<p>解释器模式(Interpreter) : 定义一种文法的表示,并定义一种解释器, 通过这个解释器类解析对应的文法内容.</p>
+<ol>
+<li>利用解释器类解析文法中表示的想要的意图,解决并实现对应的需求.</li>
+<li>将一些特定类型的问题, 提供一种更简单的文法表示, 来解决对应的问题.</li>
+<li>将一些重复出现的问题,用一种简单的语言来进行表达.</li>
+</ol></article></body></html>

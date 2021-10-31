@@ -1063,14 +1063,134 @@ body .markdown-body
 .highlight .vi{color:teal}
 .highlight .il{color:#009999}
 .highlight .gc{color:#999;background-color:#EAF2F5}
-</style><title>index</title></head><body><article class="markdown-body"><ul>
-<li><a href="/other/co.html">co</a></li>
-<li><a href="/other/siroc.html">siroc</a></li>
-<li><a href="/other/h3.html">h3</a></li>
-<li><a href="/other/other.html">other</a></li>
-<li><a href="/other/other.html">other</a></li>
-<li><a href="/other/other.html">other</a></li>
-<li><a href="/other/other.html">other</a></li>
-<li><a href="/other/other.html">other</a></li>
-<li><a href="/other/other.html">other</a></li>
-</ul></article></body></html>
+</style><title>guide</title></head><body><article class="markdown-body"><h1 id="_1">概述<a class="headerlink" href="#_1" title="Permanent link"></a></h1>
+<p>深入学习less</p>
+<h1 id="_2">变量<a class="headerlink" href="#_2" title="Permanent link"></a></h1>
+<p><code>@</code>表示取变量的值。多个<code>@</code>取多次值。（类似指针、指向指针的指针。）<br />
+less里的模板字符串是<code>@{var}</code><br />
+<code>$prop</code>取属性的值。</p>
+<div class="highlight"><pre>@var: &#39;value&#39;;
+
+@import &#39;@{var}/file.less&#39;
+.@{var} {
+    @bar: var;
+    background: url(&quot;@{var}/file.png&quot;);
+    color: @@bar;
+    @{var}: xxx;
+    background-color: $color; // 使用已经被设置的属性值
+}
+</pre></div>
+
+<h1 id="_3">父选择器<a class="headerlink" href="#_3" title="Permanent link"></a></h1>
+<p><code>&amp;</code>是父选择器的宏替换。  </p>
+<h1 id="_4">扩展<a class="headerlink" href="#_4" title="Permanent link"></a></h1>
+<p>同时具有指定样式。</p>
+<h1 id="_5">合并<a class="headerlink" href="#_5" title="Permanent link"></a></h1>
+<p>用于多个字段的属性值中。以<code>,</code>分隔。<br />
+必须使用<code>+</code>/<code>+_</code>指定需要合并的属性。<br />
+<div class="highlight"><pre>mixin() {
+    box-shadow+: inset 0 0 10px #555;
+}
+.a {
+    .mixin()
+    box-shadow+: 0 0 20px black;
+}
+</pre></div></p>
+<h1 id="_6">混入<a class="headerlink" href="#_6" title="Permanent link"></a></h1>
+<p>定义时有括号，则在生成文件中无此选择器，否则有此选择器。<br />
+<code>mixin() !important</code>会把混入的所有属性设置<code>!important</code><br />
+支持命名空间<br />
+<div class="highlight"><pre>// define
+#outer {
+    .inner {...}
+}
+// use
+#outer.inner() // 使用时一定要有括号
+</pre></div>
+支持参数。支持默认值。<code>,</code>分隔默认值。<code>;</code>分隔参数。支持<code>@rest...</code>。支持<code>@_</code>任意值<br />
+支持重载<br />
+支持守卫<br />
+<div class="highlight"><pre>.mixin(@a) when (@a &gt; 50) {...}
+.mixin(@a) when (@a &lt;= 50), (@a &gt; 25) {...}
+.mixin(@a) {...}
+</pre></div>
+支持别名
+<div class="highlight"><pre>// define
+.mixin {
+    .a(@a) {...}
+}
+
+// use
+.b {
+    @a: mixin.a()
+    color: @a;
+}
+</pre></div>
+调用混入方法后，可使用该方法内的变量。</p>
+<h1 id="css">css守卫<a class="headerlink" href="#css" title="Permanent link"></a></h1>
+<p>与mixin守卫一样。</p>
+<h1 id="_7">派遣规则集<a class="headerlink" href="#_7" title="Permanent link"></a></h1>
+<p>把规则集分配给变量<br />
+<div class="highlight"><pre>// define
+@var: {
+    color: red;
+}
+// use
+.a {
+    @var()
+}
+</pre></div></p>
+<h1 id="import-at-rules"><a class="magiclink magiclink-github magiclink-mention" href="https://github.com/import" title="GitHub User: import">@import</a> At-Rules<a class="headerlink" href="#import-at-rules" title="Permanent link"></a></h1>
+<p>扩展名为less，则当作less文件处理。
+扩展名为css，则当作css文件处理。
+无扩展名，则当作less文件处理。
+扩展名为其他，则当作less文件处理。
+<code>@import (&lt;options&gt;) file.less</code><br />
+|引入选项：|||
+|-|-|-|
+|reference|只在当前文件中使用引入体，不输出。||
+|inline|不处理引入体||
+|less|当作less文件处理||
+|css|当作css文件处理||
+|once|只引入一次。|默认选项|
+|multiple|允许引入多次。||
+|optional|若文件不存在，则路过。||</p>
+<h1 id="plugin-at-rules"><a class="magiclink magiclink-github magiclink-mention" href="https://github.com/plugin" title="GitHub User: plugin">@plugin</a> At-Rules<a class="headerlink" href="#plugin-at-rules" title="Permanent link"></a></h1>
+<p>加入插件到less的方法、功能中。
+<div class="highlight"><pre>// define
+module.exports = {
+    install: function (less, pluginManager, functions) {
+        functions.add(&#39;pi&#39;, function () {
+            return Math.PI;
+        })
+    }
+}
+// or
+registerPlugin({
+    install: // 同上
+})
+// 安装
+npm i my-less-plugin
+// use *.less
+@plugin my-less-plugin
+.a {
+    color: pi()
+}
+</pre></div>
+插件对象
+<div class="highlight"><pre>{
+    install: function(less, pluginManager, functions)
+    // 第一次引入插件时调用
+    use: function(context) {}
+    // 每次调用插件的实例是执行
+    eval: function (context) {}
+    // 每个插件的实例在evaluation后执行
+    setOptions: function (argumentString) {}
+    // 引入时设置选项时执行
+    minVersion: [&#39;3.0&#39;]
+    // less最少的兼容版本
+    printUsage: function () {}
+    // 在lessc中解释用法
+}
+</pre></div></p>
+<h1 id="_8">写一个插件<a class="headerlink" href="#_8" title="Permanent link"></a></h1></article></body></html>

@@ -5,7 +5,7 @@
 - [snowpack](/builder/snowpack/index.html)
 - [parcel](/builder/parcel.html)
 - [esbuild](/builder/esbuild.html)
-- [other](/builder/other.html)
+- [spago](/builder/spago.html)
 - [other](/builder/other.html)
 - [other](/builder/other.html)
 - [other](/builder/other.html)

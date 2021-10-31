@@ -1063,14 +1063,124 @@ body .markdown-body
 .highlight .vi{color:teal}
 .highlight .il{color:#009999}
 .highlight .gc{color:#999;background-color:#EAF2F5}
-</style><title>index</title></head><body><article class="markdown-body"><ul>
-<li><a href="/other/co.html">co</a></li>
-<li><a href="/other/siroc.html">siroc</a></li>
-<li><a href="/other/h3.html">h3</a></li>
-<li><a href="/other/other.html">other</a></li>
-<li><a href="/other/other.html">other</a></li>
-<li><a href="/other/other.html">other</a></li>
-<li><a href="/other/other.html">other</a></li>
-<li><a href="/other/other.html">other</a></li>
-<li><a href="/other/other.html">other</a></li>
-</ul></article></body></html>
+</style><title>siroc</title></head><body><article class="markdown-body"><h1 id="siroc"><code>siroc</code><a class="headerlink" href="#siroc" title="Permanent link"></a></h1>
+<h2 id="overview">overview<a class="headerlink" href="#overview" title="Permanent link"></a></h2>
+<blockquote>
+<p>为开发node应用做的零配置框架。<br />
+正在迭代更新，欢迎指出回馈。<br />
+其实还中需要在<code>package.json</code>中做配置的。  </p>
+</blockquote>
+<h3 id="feature">feature<a class="headerlink" href="#feature" title="Permanent link"></a></h3>
+<ul>
+<li>为应用支持零配置</li>
+<li>可基于该包扩展命令</li>
+<li>可监听</li>
+</ul>
+<h2 id="install">install<a class="headerlink" href="#install" title="Permanent link"></a></h2>
+<p><code>npm i siroc -g</code></p>
+<h2 id="usage">usage<a class="headerlink" href="#usage" title="Permanent link"></a></h2>
+<div class="highlight"><pre>// package.json
+{
+  &quot;exports&quot;: {
+    &quot;.&quot;: {
+      // This will be compiled in CJS and matched to src/index.ts
+      &quot;require&quot;: &quot;./dist/index.js&quot;,
+      // This will be compiled in ES and matched to src/index.ts
+      &quot;import&quot;: &quot;./dist/index.es.js&quot;
+    },
+    // src/templates will be lightly transpiled with mkdist and copied to dist/templates
+    &quot;./templates/*&quot;: &quot;./dist/templates/*&quot;,
+    // siroc will not touch this
+    &quot;./package.json&quot;: &quot;./package.json&quot;
+  },
+  // This will be compiled in CJS and matched to src/index.ts
+  &quot;main&quot;: &quot;./dist/index.js&quot;,
+  // This will be compiled in ES and matched to src/index.ts
+  &quot;module&quot;: &quot;./dist/index.es.js&quot;,
+  // Types will be generated for src/index.ts
+  &quot;types&quot;: &quot;./dist/index.d.ts&quot;,
+  &quot;bin&quot;: {
+    // This will be compiled in CJS and matched to src/cli/index.ts
+    &quot;siroc&quot;: &quot;bin/cli.js&quot;,
+    // This will be compiled in CJS and matched to src/cli/runtime.ts
+    &quot;siroc-runner&quot;: &quot;bin/runtime.js&quot;
+  }
+}
+</pre></div>
+
+<h2 id="configuration">configuration<a class="headerlink" href="#configuration" title="Permanent link"></a></h2>
+<h3 id="_1">配置文件<a class="headerlink" href="#_1" title="Permanent link"></a></h3>
+<p>默认配置文件：<code>&lt;root&gt;/siroc.config.js</code> / <code>&lt;root&gt;/siroc.config.ts</code> / <code>&lt;root&gt;/siroc.config.json</code>。<br />
+或者在<code>package.json</code>中设置<code>siroc</code>字段。<br />
+在一库多包是使用时，上层的配置会被下层的配置继承，后者也可覆盖前者。<br />
+main被默认打包为cjs规范。<br />
+module被默认打包为es规范。<br />
+browser被默认打包为umd规范。<br />
+bin被默认打包为cjs规范。  </p>
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="packagejson">在package.json中配置<a class="headerlink" href="#packagejson" title="Permanent link"></a></h3>
+<p>有必填字段：<code>bin</code>/<code>main/module/broser</code>/<code>types</code>/<code>exports</code></p>
+<h2 id="cli">cli<a class="headerlink" href="#cli" title="Permanent link"></a></h2>
+<p><code>siroc build</code><br />
+把<code>src/index.js</code>或<code>src、index.ts</code>打到<code>package.json</code>中<code>main</code>字段指定的文件中。<br />
+若在一库多包项目使用siroc，可以指定工作空间。<code>yarn siroc build @mypackage/cli</code>
+可使用监听模式。<code>yarn siroc build --watch</code><br />
+build hooks:<br />
+- build:extend
+- build:extendRollup
+- build:done</p>
+<p><code>siroc dev</code><br />
+<code>siroc run</code></p>
+<h2 id="principle">principle<a class="headerlink" href="#principle" title="Permanent link"></a></h2>
+<p>此包的处理逻辑。</p>
+<h3 id="uml">uml<a class="headerlink" href="#uml" title="Permanent link"></a></h3>
+<div class="highlight"><pre>
+</pre></div>
+
+<h2 id="todo">todo<a class="headerlink" href="#todo" title="Permanent link"></a></h2>
+<blockquote>
+<p>未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote></article></body></html>
