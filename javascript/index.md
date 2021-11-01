@@ -536,7 +536,7 @@ js是单线程语言。但是它的宿主环境——browser支持多线程。
 |system||||||
 详见[模块化](./modularity.md)
 
-# title
+# [canvas](/javascript/canvas/index.md)
 # title
 # title
 # title

@@ -6,6 +6,6 @@
 - [parcel](/builder/parcel.html)
 - [esbuild](/builder/esbuild.html)
 - [spago](/builder/spago.html)
-- [other](/builder/other.html)
+- [rome](/builder/rome/index.html)
 - [other](/builder/other.html)
 - [other](/builder/other.html)
