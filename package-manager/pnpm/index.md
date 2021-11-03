@@ -7,9 +7,8 @@
     > 通过指定工作空间去实现。  
 
 ### feature
-- feature0
-- feature1
-- feature2
+- 多包一库管理工具。  
+- 包管理工具。与npm/yarn同功能。  
 
 ## install
 非node.js环境
@@ -29,16 +28,9 @@ curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
 `npm i pnpm -g`
 
 ## usage
-同`./demo.md`
-```
-const pnpm = require('pnpm');
-// or
-// import pnpm from 'pnpm';
-// TODO: DEMONSTRATE API
-```
 
 ## configuration
-默认配置文件：`path/to/file.json`。
+默认配置文件：`path/to/file.json`。  
 |key|description|default|enum|demo|||
 |-|-|-|-|-|-|-|
 ||||||||
@@ -46,7 +38,6 @@ const pnpm = require('pnpm');
 ||||||||
 
 ## cli
-
 |||||
 |-|-|-|-|
 |add||安装包|同`npm install <pkg>`|
@@ -81,18 +72,7 @@ const pnpm = require('pnpm');
 `pnpm exec` 运行本地、远端指定包  
 `--filter xxx`  
 
-
-
-
-
-
-
 ## api
-`pnpm.fn(param, first: string, second: boolean = true) => void`
-description
-
-`pnpm.fn(param, [options: {a: string, b?: number}])`
-description
 
 ## principle
 此包的处理逻辑。

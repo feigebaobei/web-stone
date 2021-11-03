@@ -3,6 +3,7 @@
 - [grunt](/builder/grunt/index.html)
 - [gulp](/builder/gulp/index.html)
 - [snowpack](/builder/snowpack/index.html)
+- [vite](/builder/vite/index.html)
 - [parcel](/builder/parcel.html)
 - [esbuild](/builder/esbuild.html)
 - [spago](/builder/spago.html)

@@ -1,14 +1,17 @@
 # overview
 本示例展示了：  
-- 如何使用snowpack  
+- 使用snowpack创建一个项目。  
+- 执行开发、打包、访问。  
 
 # init project
 ```
 mkdir projDir
 cd projDir
 npm init -y
-npm i snowpack -D
+npm i snowpack serve -g
+npm i canvas-confetti
 npm set-script dev "snowpack dev"
+npm set-script build "snowpack build"
 ```
 
 ## 创建文件
@@ -24,6 +27,18 @@ export function hw() {
 ``` js
 import {hw} from './hello-world.js'
 hw()
+import confetti from 'canvas-confetti';
+confetti.create(document.getElementById('canvas'), {
+  resize: true,
+  useWorker: true,
+ })({ particleCount: 200, spread: 200 });
+```
+
+创建`<root>/index.css`
+``` css
+body {
+    color: red;
+}
 ```
 
 创建`<root>/index.html`
@@ -35,6 +50,7 @@ hw()
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="/index.css" />
     <script type="module" src='./index.js'></script>
 </head>
 <body>
@@ -44,7 +60,11 @@ hw()
 ```
 
 ## 运行命令
-`npm run dev`
+```
+npm run dev // 可看到开发时的效果。
+npm run build // 打包。生成<root>/build/
+serve build // 打开相应url，可看到打包后的效果。
+```
 
 # usage
 如何使用的。
