@@ -1,8 +1,12 @@
 - [webpack](/builder/webpack.html)
 - [rollup](/builder/rollup.html)
 - [grunt](/builder/grunt/index.html)
-- [gulp](/builder/gulp/index.html)
+- [gulp](/builder/gulp/index.html)  
+  - 任务执行器
 - [snowpack](/builder/snowpack/index.html)
+  - 打包为esm。需要运行器支持esm.
+  - 基于`esbuild`/`rollup`开发。
+  - 快。
 - [vite](/builder/vite/index.html)
 - [parcel](/builder/parcel.html)
 - [esbuild](/builder/esbuild.html)
