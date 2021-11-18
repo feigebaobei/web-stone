@@ -1,5 +1,4 @@
-# 布局
-[layout](/css/layout.html)
+# [布局](/css/layout.html)
 
 # 页面布局
 ```
@@ -52,3 +51,20 @@
 ## [Myth](https://github.com/segmentio/myth/blob/master/Readme.md)
 
 ## [Rework](https://github.com/reworkcss/rework)
+
+# [css-modules](/css/css-modules/index.html)
+- 支持局部作用域、模块依赖。  
+- 会编译类名：`<filename>_<className>_<randomHash>`  
+- 生成css/js  
+
+# temp
+## bem
+b(block) e(element) m(modifier)  
+``` css
+.btn{}
+.btn__pirce{}
+.btn--orange{}
+```
+less / sass
+postcss
+css in js
