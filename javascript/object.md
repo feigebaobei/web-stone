@@ -72,7 +72,7 @@ Object.defineProperties(obj, {
 });
 ```
 
-`Object.entires(obj)`  
+`Object.entries(obj)`  
 obj
 返回目标对象上可枚举的属性的键值对组成的数组。
 

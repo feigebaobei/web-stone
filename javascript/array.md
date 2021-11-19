@@ -55,7 +55,12 @@ end，非必填。
     var e = newd.slice(1,3); // [3, 2]
 
 **sort(sortby)** 把指定数组的各元素按照指定方法（sortby）排序。会改变原数组。返回改变后的数组。  
-sortby，可选。必须是函数。
+sortby(a, b)，可选。必须是函数。
+|||
+|-|-|
+|大于0|ab|
+|等于0|不变|
+|小于0|ba|
 
     var f = [1,7,3,6,8,4,2];
     function sortNum(a, b) {return a - b};
