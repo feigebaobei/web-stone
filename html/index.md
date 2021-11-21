@@ -324,7 +324,7 @@ html5以后html很重视语义。提倡使用正常语义编写代码。兼容�
 # canvas
 使用 JavaScript 在网页上绘制图像。
 canvas是可绘制图像的标签。绘图功能由js做。  
-详见[canvas](/html/canvas.html)
+详见[canvas](/html/canvas/index.html)
 
 # svg
 SVG 指可伸缩矢量图形 (Scalable Vector Graphics)

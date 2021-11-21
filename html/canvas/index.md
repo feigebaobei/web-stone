@@ -94,3 +94,5 @@
 |createEvent()|  |
 |getContext()|   |
 |toDataURL()|  |
+
+## [《html5 canvas核心技术》](/html/canvas/canvasCore.html)
