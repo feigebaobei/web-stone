@@ -1,7 +1,8 @@
 # git
 
 ## overview
-> 版本管理工具
+> 版本管理工具  
+> [tutorial](/git/tutorial.html)  
 
 ### feature
 - 支持管理分支  
