@@ -187,8 +187,32 @@ context.clip()
 
 [图像合成-demo1](/html/canvas/demo1.html)  
 
-## title
-## title
+## 文本
+|||枚举值|默认值|
+|-|-|-|-|
+|strokeText(text, x, y)||||
+|fillText(text, x, y||||
+|measureText(text)||||
+|font||||
+||font-style|normal itelic oblique||
+||font-variant|normal small-caps|normal|
+||font-weight|normal(400) bold(700) bolder lighter number|normal|
+||font-size|xx-small x-small medium large x-large xx-large smaller larger length %|normal|
+||line-height|浏览器强制设置为normal.||
+||font-family|||
+|textAlign|水平对齐方式|start center end left right||
+|textBaseline|竖直对齐方式|top bottom middle alphabetic ideographic hanging||  
+|measureText(text)|返回TextMetircs对象。|TextMetircs: {width: 该字体时文本的像素宽度}||
+|font||||
+|font||||
+
+默认字形：'10px sans-serif'  
+[在圆弧周围绘制文本-demo2](/html/canvas/demo2.html)  
+光标的高度：字母M的宽度×(1+1/6)  
+[文本编辑器-demo3](/html/canvas/demo3.html)  
+
+## 图像与视频
+
 ## title
 ## title
 ## title
