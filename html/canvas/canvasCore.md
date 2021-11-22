@@ -128,24 +128,65 @@ context.clip()
 ## 路径/描边/填充
 |||||
 |-|-|-|-|
-|arc()||||
+|arc(x, y, r, startAngle, endAngle, counterClockWise)||||
 |beginPath()|重置当前路径|||
-|closePath()|闭合当前路径|不要||
-|fill()||||
+|closePath()|闭合当前路径|不要手动使用2个重叠的点去实现闭合路径。||
+|fill()|使用fillStyle属性填充|||
 |rect(x, y, w, h)||||
-|stroke()||||
+|stroke()|使用strokeStyle属性描边|||
 |moveTo(x, y)||||
-|lineTo(x, y)||||
+|lineTo(x, y)||||  
+
 **非零环绕规则**  
 当一条线段与路径上的直线或曲线相交时，就改变计数器的值，若与路径的顺时针部分相交，则+1，若与路径的逆时针部分相交，则-1。若计数器的值不是0，则此区域在路径内，调用fill()，否则不调用fill()。  
 
+<details>
+  <summary>折叠文本</summary>
+  此处可书写文本
+  嗯，是可以书写文本的
+</details>
 
+## 一像素问题
+一个像素的范围内绘制装修像素宽的线段是不可能的，所以左右2个方向上的半像素都被扩展为一个像素。  
+现代浏览器已经都实现了抗锯齿技术。  
 
+## 贝塞尔曲线
+|||||
+|-|-|-|-|
+|arcTo(x0, y0, x1, y1, r)|2个点确定的线为切线。r为半径。|||
+|quadraticCurveto(px, py, x, y)|第一个点是控制点，第二个点是锚点。|||
+|bezierCurveTo(px0, py0, px1, px2, x, y)前两个点是控制点，第三个点是锚点。|||
 
-## title
-## title
-## title
-## title
+[编辑贝塞尔曲线-demo0](/html/canvas/demo0.html)  
+
+## 坐标变换
+|||||
+|-|-|-|-|
+|rotate(angle)|旋转|||
+|scale(x, y)|缩放|||
+|translate(x, y)|平移|||
+|transform(a, b, c, d, e, f)|变换|||
+|setTransform(a, b, c, d, e, f)|变换到|||
+
+## 图像合成
+有兼容性问题。chrome/firefox实现效果不同。  
+
+|||||
+|-|-|-|-|
+|source-atop||||
+|source-in||||
+|source-out||||
+|source-over||||
+|destination-atop||||
+|destination-in||||
+|destination-out||||
+|destination-over||||
+|lighter||||
+|copy||||
+|xor||||
+
+[图像合成-demo1](/html/canvas/demo1.html)  
+
 ## title
 ## title
 ## title
