@@ -44,6 +44,9 @@ description
 ```
 ```
 
+## confuse
+- [v-model](/vue/v-model.html)
+
 ## todo
 > 未来迭代计划。
 > 未来迭代计划。
