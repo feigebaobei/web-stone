@@ -45,7 +45,7 @@ description
 ```
 
 ## confuse
-- [v-model](/vue/v-model.html)
+- [v-model](/vue3/v-model.html)
 
 ## todo
 > 未来迭代计划。

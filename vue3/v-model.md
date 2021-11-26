@@ -9,3 +9,5 @@ handle() {
     emit('update:firstName', payload)
 }
 ```
+
+`v-model`的默认props是`modelValue`，事件是`update:modelValue`
