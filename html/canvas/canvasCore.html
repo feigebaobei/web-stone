@@ -1385,10 +1385,10 @@ Math.tan()
 </pre></div>
 
 <h2 id="_7">限制作图范围<a class="headerlink" href="#_7" title="Permanent link"></a></h2>
+<p>可实现剪纸效果。<br />
 <div class="highlight"><pre><span class="nx">context</span><span class="p">.</span><span class="nx">rect</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">w</span><span class="p">,</span> <span class="nx">h</span><span class="p">)</span>
 <span class="nx">context</span><span class="p">.</span><span class="nx">clip</span><span class="p">()</span>
-</pre></div>
-
+</pre></div></p>
 <h2 id="_8">路径/描边/填充<a class="headerlink" href="#_8" title="Permanent link"></a></h2>
 <table>
 <thead>
@@ -1401,7 +1401,7 @@ Math.tan()
 </thead>
 <tbody>
 <tr>
-<td>arc()</td>
+<td>arc(x, y, r, startAngle, endAngle, counterClockWise)</td>
 <td></td>
 <td></td>
 <td></td>
@@ -1415,12 +1415,12 @@ Math.tan()
 <tr>
 <td>closePath()</td>
 <td>闭合当前路径</td>
-<td>不要</td>
+<td>不要手动使用2个重叠的点去实现闭合路径。</td>
 <td></td>
 </tr>
 <tr>
 <td>fill()</td>
-<td></td>
+<td>使用fillStyle属性填充</td>
 <td></td>
 <td></td>
 </tr>
@@ -1432,12 +1432,218 @@ Math.tan()
 </tr>
 <tr>
 <td>stroke()</td>
+<td>使用strokeStyle属性描边</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>moveTo(x, y)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>lineTo(x, y)</td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 </tbody>
 </table>
+<p><strong>非零环绕规则</strong><br />
+当一条线段与路径上的直线或曲线相交时，就改变计数器的值，若与路径的顺时针部分相交，则+1，若与路径的逆时针部分相交，则-1。若计数器的值不是0，则此区域在路径内，调用fill()，否则不调用fill()。  </p>
+<details>
+  <summary>折叠文本</summary>
+  此处可书写文本
+  嗯，是可以书写文本的
+</details>
+
+<h2 id="_9">一像素问题<a class="headerlink" href="#_9" title="Permanent link"></a></h2>
+<p>一个像素的范围内绘制装修像素宽的线段是不可能的，所以左右2个方向上的半像素都被扩展为一个像素。<br />
+现代浏览器已经都实现了抗锯齿技术。  </p>
+<h2 id="_10">贝塞尔曲线<a class="headerlink" href="#_10" title="Permanent link"></a></h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>arcTo(x0, y0, x1, y1, r)</td>
+<td>2个点确定的线为切线。r为半径。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>quadraticCurveto(px, py, x, y)</td>
+<td>第一个点是控制点，第二个点是锚点。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>bezierCurveTo(px0, py0, px1, px2, x, y)前两个点是控制点，第三个点是锚点。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a href="/html/canvas/demo0.html">编辑贝塞尔曲线-demo0</a>  </p>
+<h2 id="_11">坐标变换<a class="headerlink" href="#_11" title="Permanent link"></a></h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rotate(angle)</td>
+<td>旋转</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>scale(x, y)</td>
+<td>缩放</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>translate(x, y)</td>
+<td>平移</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>transform(a, b, c, d, e, f)</td>
+<td>变换</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>setTransform(a, b, c, d, e, f)</td>
+<td>变换到</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="_12">图像合成<a class="headerlink" href="#_12" title="Permanent link"></a></h2>
+<p>有兼容性问题。chrome/firefox实现效果不同。  </p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>source-atop</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>source-in</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>source-out</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>source-over</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>destination-atop</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>destination-in</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>destination-out</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>destination-over</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>lighter</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>copy</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>xor</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a href="/html/canvas/demo1.html">图像合成-demo1</a>  </p>
+<h2>
+
+</h2>
+
+<details>
+    <summary>文本</summary>
+
+||||默认值|
+|-|-|-|-|
+|strokeText(text, x, y)||||
+|fillText(text, x, y||||
+|measureText(text)||||
+|font||||
+||font-style||normal|
+||font-variant||normal|
+||font-weight||normal|
+||font-size|||
+||line-height|||
+||font-family|||
+|textAlign||||
+|textBaseline||||  
+
+默认字形：'10px sans-serif'
+
+</details>
+
+<h2 id="_13">文本<a class="headerlink" href="#_13" title="Permanent link"></a></h2>
 <h2 id="title">title<a class="headerlink" href="#title" title="Permanent link"></a></h2>
 <h2 id="title_1">title<a class="headerlink" href="#title_1" title="Permanent link"></a></h2>
 <h2 id="title_2">title<a class="headerlink" href="#title_2" title="Permanent link"></a></h2>
@@ -1446,19 +1652,14 @@ Math.tan()
 <h2 id="title_5">title<a class="headerlink" href="#title_5" title="Permanent link"></a></h2>
 <h2 id="title_6">title<a class="headerlink" href="#title_6" title="Permanent link"></a></h2>
 <h2 id="title_7">title<a class="headerlink" href="#title_7" title="Permanent link"></a></h2>
-<h2 id="title_8">title<a class="headerlink" href="#title_8" title="Permanent link"></a></h2>
-<h2 id="title_9">title<a class="headerlink" href="#title_9" title="Permanent link"></a></h2>
-<h2 id="title_10">title<a class="headerlink" href="#title_10" title="Permanent link"></a></h2>
-<h2 id="title_11">title<a class="headerlink" href="#title_11" title="Permanent link"></a></h2>
-<h2 id="title_12">title<a class="headerlink" href="#title_12" title="Permanent link"></a></h2>
-<h1 id="_9">文本<a class="headerlink" href="#_9" title="Permanent link"></a></h1>
-<h1 id="_10">图像与视频<a class="headerlink" href="#_10" title="Permanent link"></a></h1>
-<h1 id="_11">动画<a class="headerlink" href="#_11" title="Permanent link"></a></h1>
-<h1 id="_12">精灵<a class="headerlink" href="#_12" title="Permanent link"></a></h1>
-<h1 id="_13">物理效果<a class="headerlink" href="#_13" title="Permanent link"></a></h1>
-<h1 id="_14">碰撞检测<a class="headerlink" href="#_14" title="Permanent link"></a></h1>
-<h1 id="_15">游戏开发<a class="headerlink" href="#_15" title="Permanent link"></a></h1>
-<h1 id="_16">自定义控件<a class="headerlink" href="#_16" title="Permanent link"></a></h1>
-<h1 id="_17">移动平台开发<a class="headerlink" href="#_17" title="Permanent link"></a></h1>
-<h1 id="title_13">title<a class="headerlink" href="#title_13" title="Permanent link"></a></h1>
-<h1 id="title_14">title<a class="headerlink" href="#title_14" title="Permanent link"></a></h1></article></body></html>
+<h1 id="_14">文本<a class="headerlink" href="#_14" title="Permanent link"></a></h1>
+<h1 id="_15">图像与视频<a class="headerlink" href="#_15" title="Permanent link"></a></h1>
+<h1 id="_16">动画<a class="headerlink" href="#_16" title="Permanent link"></a></h1>
+<h1 id="_17">精灵<a class="headerlink" href="#_17" title="Permanent link"></a></h1>
+<h1 id="_18">物理效果<a class="headerlink" href="#_18" title="Permanent link"></a></h1>
+<h1 id="_19">碰撞检测<a class="headerlink" href="#_19" title="Permanent link"></a></h1>
+<h1 id="_20">游戏开发<a class="headerlink" href="#_20" title="Permanent link"></a></h1>
+<h1 id="_21">自定义控件<a class="headerlink" href="#_21" title="Permanent link"></a></h1>
+<h1 id="_22">移动平台开发<a class="headerlink" href="#_22" title="Permanent link"></a></h1>
+<h1 id="title_8">title<a class="headerlink" href="#title_8" title="Permanent link"></a></h1>
+<h1 id="title_9">title<a class="headerlink" href="#title_9" title="Permanent link"></a></h1></article></body></html>
