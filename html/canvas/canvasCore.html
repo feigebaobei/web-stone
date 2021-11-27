@@ -1617,49 +1617,307 @@ Math.tan()
 </tbody>
 </table>
 <p><a href="/html/canvas/demo1.html">图像合成-demo1</a>  </p>
-<h2>
-
-</h2>
-
+<h1 id="_13">文本<a class="headerlink" href="#_13" title="Permanent link"></a></h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th>枚举值</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>strokeText(text, x, y)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>fillText(text, x, y</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>measureText(text)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>font</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>font-style</td>
+<td>normal itelic oblique</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>font-variant</td>
+<td>normal small-caps</td>
+<td>normal</td>
+</tr>
+<tr>
+<td></td>
+<td>font-weight</td>
+<td>normal(400) bold(700) bolder lighter number</td>
+<td>normal</td>
+</tr>
+<tr>
+<td></td>
+<td>font-size</td>
+<td>xx-small x-small medium large x-large xx-large smaller larger length %</td>
+<td>normal</td>
+</tr>
+<tr>
+<td></td>
+<td>line-height</td>
+<td>浏览器强制设置为normal.</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>font-family</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>textAlign</td>
+<td>水平对齐方式</td>
+<td>start center end left right</td>
+<td></td>
+</tr>
+<tr>
+<td>textBaseline</td>
+<td>竖直对齐方式</td>
+<td>top bottom middle alphabetic ideographic hanging</td>
+<td></td>
+</tr>
+<tr>
+<td>measureText(text)</td>
+<td>返回TextMetircs对象。</td>
+<td width:="width:" 该字体时文本的像素宽度="该字体时文本的像素宽度">TextMetircs: </td>
+<td></td>
+</tr>
+<tr>
+<td>font</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>font</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>默认字形：&lsquo;10px sans-serif&rsquo;<br />
+<a href="/html/canvas/demo2.html">在圆弧周围绘制文本-demo2</a><br />
+光标的高度：字母M的宽度×(1+1/6)<br />
+<a href="/html/canvas/demo3.html">文本编辑器-demo3</a>  </p>
+<h1 id="_14">图像与视频<a class="headerlink" href="#_14" title="Permanent link"></a></h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>用法</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>drawImage(image, dx, dy)</code></td>
+<td>把指定图像绘制在canvas的指定区域上。</td>
+<td>可控制图像的缩放</td>
+<td></td>
+</tr>
+<tr>
+<td><code>drawImage(image, dx, dy, dw, dh)</code></td>
+<td>把指定图像绘制在canvas的指定区域上。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh)</code></td>
+<td>把图像的指定区域绘制在canvas的指定区域上。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>getImageData(sx, sy, sw, sh)</td>
+<td>返回指定区域的图像的ImageData对象</td>
+<td>该ImageData.data是一个数组，包含4<em>sw</em>sh个整数。每4个整数表示一个像素，它们分别表示：红/绿/蓝/不透明度alpha。imageData.width !== sw imageData.width:设备像素，sw:css像素的单位。</td>
+<td></td>
+</tr>
+<tr>
+<td>putImageData(imageData, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight)</td>
+<td>把脏数据复制到canvas的指定区域。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>createImageData(w, h)</td>
+<td>创建并返回ImageData对象</td>
+<td>可以操作每一个像素</td>
+<td></td>
+</tr>
+<tr>
+<td>createImageData(imageData)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>ImageData对象</th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>width</td>
+<td>以设备像素（px）为单位的图像数据宽度</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>height</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>data</td>
+<td>像素数值组成的数组-TypedArray</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="canvas-canvas">离屏canvas: 不在屏幕上的canvas<a class="headerlink" href="#canvas-canvas" title="Permanent link"></a></h2>
+<p><details>
+    <summary>
+        由js操作dom生成的canvas。<br />
+    </summary>
+    <pre>
+        let canvas = document.getElementById(&lsquo;canvas&rsquo;),
+            context = canvas.getContext(&lsquo;2d&rsquo;),
+            offsetCanvas = document.createElement(&lsquo;canvas&rsquo;),
+            offsetContext = offsetCanvas.getContext(&lsquo;2d&rsquo;)
+        offsetContext.drawImage(image, 0, 0)
+        context.drawImage(offsetCanvas, 0, 0)
+    </pre>
+</details>
+现代浏览器已经做了离屏canvas，若程序员再用代码实现离屏canvas，则会效率变低。<br />
+当图像复杂时使用offsetCanvas可方便绘制。  </p>
+<h3 id="_15">效率<a class="headerlink" href="#_15" title="Permanent link"></a></h3>
+<p>drawImage &gt; 操作图像（getImageData等）&gt; 递归canvas &gt; 离屏canvas<br />
+绘制canvas = 绘制image<br />
+绘制递归canvas用时较多。因为需要浏览器使用离屏canvas处理。<br />
+不要频繁使用getImageData()获取少量数据。  </p>
 <details>
-    <summary>文本</summary>
-
-||||默认值|
-|-|-|-|-|
-|strokeText(text, x, y)||||
-|fillText(text, x, y||||
-|measureText(text)||||
-|font||||
-||font-style||normal|
-||font-variant||normal|
-||font-weight||normal|
-||font-size|||
-||line-height|||
-||font-family|||
-|textAlign||||
-|textBaseline||||  
-
-默认字形：'10px sans-serif'
-
+    <summary>剪辑区+绘制图像</summary>
+    <pre>
+        context.beginPath()
+        // ...
+        context.close()
+        context.clip() // 定义剪辑区
+        context.drawImage(image, 0, 0)
+    </pre>
 </details>
 
-<h2 id="_13">文本<a class="headerlink" href="#_13" title="Permanent link"></a></h2>
+<h2 id="_16">绘制视频<a class="headerlink" href="#_16" title="Permanent link"></a></h2>
+<div class="highlight"><pre>// html
+
+// js
+let canvas = ...,
+    video = ...;
+function animate () {
+    if (!video.ended) {
+        context.drawImage(video, 0, 0)
+        window.requestNextAnimationFrame(animate) // 这是一个自定义方法
+    }
+}
+video.onload = () =&gt; {
+    window.requestNextAnimationFrame(animate) // 这是一个自定义方法
+}
+</pre></div>
+
+<h1 id="_17">动画<a class="headerlink" href="#_17" title="Permanent link"></a></h1>
+<h2 id="_18">动画循环<a class="headerlink" href="#_18" title="Permanent link"></a></h2>
+<ul>
+<li>不使用<code>setTimeoute / setInterval</code>处理动画。  </li>
+<li>基于<code>requestAnimationFrame()</code>处理动画。  </li>
+</ul>
+<p>requestAnimationFrame(cb)<br />
+cb(time)<br />
+    time执行回调函数的时刻。<br />
+    对于此参数，作者没找到权威的说明。<br />
+    不是从1970年到现在的毫秒值。<br />
+返回id<br />
+cancelAnimationFrame(id) 取消回调  </p>
+<h3 id="requestanimationframecb">requestAnimationFrame(cb)<a class="headerlink" href="#requestanimationframecb" title="Permanent link"></a></h3>
+<p>该方法在浏览器方便时执行下一次循环 <br />
+<a href="/html/canvas/requestAnimationFrame.html">demo-requestAnimationFrame</a>  </p>
+<h3 id="requestnextanimationframe">封装<code>requestNextAnimationFrame()</code><a class="headerlink" href="#requestnextanimationframe" title="Permanent link"></a></h3>
+<div class="highlight"><pre><span class="nb">window</span><span class="p">.</span><span class="nx">requestNextAnimateionFrame</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">window</span><span class="p">.</span><span class="nx">requestAnimationFrame</span> <span class="o">||</span> <span class="nb">window</span><span class="p">.</span><span class="nx">webkitRequestAnimationFrame</span> <span class="o">||</span> <span class="nb">window</span><span class="p">.</span><span class="nx">mozRequeatAnimationFrame</span> <span class="o">||</span> <span class="nb">window</span><span class="p">.</span><span class="nx">msRequestAnimationFrame</span> <span class="o">||</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">cb</span><span class="p">,</span> <span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">self</span> <span class="o">=</span> <span class="k">this</span><span class="p">,</span> <span class="nx">start</span><span class="p">,</span> <span class="nx">finish</span><span class="p">;</span>
+            <span class="nb">window</span><span class="p">.</span><span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+                <span class="nx">start</span> <span class="o">=</span> <span class="o">+</span><span class="k">new</span> <span class="nb">Date</span><span class="p">()</span>
+                <span class="nx">cb</span><span class="p">(</span><span class="nx">start</span><span class="p">)</span>
+                <span class="nx">finish</span> <span class="o">=</span> <span class="o">+</span><span class="k">new</span> <span class="nb">Date</span><span class="p">()</span>
+                <span class="nx">self</span><span class="p">.</span><span class="nx">timeout</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">/</span> <span class="mi">60</span> <span class="o">-</span> <span class="p">(</span><span class="nx">finish</span> <span class="o">-</span> <span class="nx">start</span><span class="p">)</span>
+            <span class="p">},</span> <span class="nx">self</span><span class="p">.</span><span class="nx">timeout</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+
+<h2 id="_19">帧<a class="headerlink" href="#_19" title="Permanent link"></a></h2>
+<p>表示动画快慢的单位。（f/s）每秒多少个画面。fps。<br />
+表示每个画面用时 = 1/fps。<br />
+<details>
+    <summary>计算帧速率</summary>
+    <pre>
+        let lastTime = 0
+        function calcFps () {
+            let now = +new Date()
+            let fps = 1000 / (now - lastTime)
+            lastTime = now
+            return fps
+        }
+        function animate(time) {
+            // &hellip;
+            calcFps()
+        }
+        requestNextAnimationFrame(animate)
+    </pre>
+</details></p>
 <h2 id="title">title<a class="headerlink" href="#title" title="Permanent link"></a></h2>
 <h2 id="title_1">title<a class="headerlink" href="#title_1" title="Permanent link"></a></h2>
 <h2 id="title_2">title<a class="headerlink" href="#title_2" title="Permanent link"></a></h2>
-<h2 id="title_3">title<a class="headerlink" href="#title_3" title="Permanent link"></a></h2>
-<h2 id="title_4">title<a class="headerlink" href="#title_4" title="Permanent link"></a></h2>
-<h2 id="title_5">title<a class="headerlink" href="#title_5" title="Permanent link"></a></h2>
-<h2 id="title_6">title<a class="headerlink" href="#title_6" title="Permanent link"></a></h2>
-<h2 id="title_7">title<a class="headerlink" href="#title_7" title="Permanent link"></a></h2>
-<h1 id="_14">文本<a class="headerlink" href="#_14" title="Permanent link"></a></h1>
-<h1 id="_15">图像与视频<a class="headerlink" href="#_15" title="Permanent link"></a></h1>
-<h1 id="_16">动画<a class="headerlink" href="#_16" title="Permanent link"></a></h1>
-<h1 id="_17">精灵<a class="headerlink" href="#_17" title="Permanent link"></a></h1>
-<h1 id="_18">物理效果<a class="headerlink" href="#_18" title="Permanent link"></a></h1>
-<h1 id="_19">碰撞检测<a class="headerlink" href="#_19" title="Permanent link"></a></h1>
-<h1 id="_20">游戏开发<a class="headerlink" href="#_20" title="Permanent link"></a></h1>
-<h1 id="_21">自定义控件<a class="headerlink" href="#_21" title="Permanent link"></a></h1>
-<h1 id="_22">移动平台开发<a class="headerlink" href="#_22" title="Permanent link"></a></h1>
-<h1 id="title_8">title<a class="headerlink" href="#title_8" title="Permanent link"></a></h1>
-<h1 id="title_9">title<a class="headerlink" href="#title_9" title="Permanent link"></a></h1></article></body></html>
+<h1 id="_20">精灵<a class="headerlink" href="#_20" title="Permanent link"></a></h1>
+<h1 id="_21">物理效果<a class="headerlink" href="#_21" title="Permanent link"></a></h1>
+<h1 id="_22">碰撞检测<a class="headerlink" href="#_22" title="Permanent link"></a></h1>
+<h1 id="_23">游戏开发<a class="headerlink" href="#_23" title="Permanent link"></a></h1>
+<h1 id="_24">自定义控件<a class="headerlink" href="#_24" title="Permanent link"></a></h1>
+<h1 id="_25">移动平台开发<a class="headerlink" href="#_25" title="Permanent link"></a></h1>
+<h1 id="title_3">title<a class="headerlink" href="#title_3" title="Permanent link"></a></h1>
+<h1 id="title_4">title<a class="headerlink" href="#title_4" title="Permanent link"></a></h1></article></body></html>

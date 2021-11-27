@@ -187,7 +187,7 @@ context.clip()
 
 [图像合成-demo1](/html/canvas/demo1.html)  
 
-## 文本
+# 文本
 |||枚举值|默认值|
 |-|-|-|-|
 |strokeText(text, x, y)||||
@@ -211,20 +211,194 @@ context.clip()
 光标的高度：字母M的宽度×(1+1/6)  
 [文本编辑器-demo3](/html/canvas/demo3.html)  
 
-## 图像与视频
-
-## title
-## title
-## title
-## title
-## title
-## title
-## title
-
-# 文本
 # 图像与视频
+||用法|||
+|-|-|-|-|
+|`drawImage(image, dx, dy)`|把指定图像绘制在canvas的指定区域上。|可控制图像的缩放||
+|`drawImage(image, dx, dy, dw, dh)`|把指定图像绘制在canvas的指定区域上。|||
+|`drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh)`|把图像的指定区域绘制在canvas的指定区域上。|||
+|getImageData(sx, sy, sw, sh)|返回指定区域的图像的ImageData对象|该ImageData.data是一个数组，包含4*sw*sh个整数。每4个整数表示一个像素，它们分别表示：红/绿/蓝/不透明度alpha。imageData.width !== sw imageData.width:设备像素，sw:css像素的单位。||
+|putImageData(imageData, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight)|把脏数据复制到canvas的指定区域。|||
+|createImageData(w, h)|创建并返回ImageData对象|可以操作每一个像素||
+|createImageData(imageData)||||
+
+|ImageData对象||||
+|-|-|-|-|
+|width|以设备像素（px）为单位的图像数据宽度|||
+|height||||
+|data|像素数值组成的数组-TypedArray|||
+
+## 离屏canvas: 不在屏幕上的canvas
+<details>
+	<summary>
+		由js操作dom生成的canvas。	
+	</summary>
+	<pre>
+		let canvas = document.getElementById('canvas'),
+			context = canvas.getContext('2d'),
+			offsetCanvas = document.createElement('canvas'),
+			offsetContext = offsetCanvas.getContext('2d')
+		offsetContext.drawImage(image, 0, 0)
+		context.drawImage(offsetCanvas, 0, 0)
+	</pre>
+</details>
+现代浏览器已经做了离屏canvas，若程序员再用代码实现离屏canvas，则会效率变低。  
+当图像复杂时使用offsetCanvas可方便绘制。  
+
+### 效率
+drawImage > 操作图像（getImageData等）> 递归canvas > 离屏canvas  
+绘制canvas = 绘制image  
+绘制递归canvas用时较多。因为需要浏览器使用离屏canvas处理。  
+不要频繁使用getImageData()获取少量数据。  
+
+<details>
+	<summary>剪辑区+绘制图像</summary>
+	<pre>
+		context.beginPath()
+		// ...
+		context.close()
+		context.clip() // 定义剪辑区
+		context.drawImage(image, 0, 0)
+	</pre>
+</details>
+
+## 绘制视频
+```
+// html
+
+// js
+let canvas = ...,
+	video = ...;
+function animate () {
+	if (!video.ended) {
+		context.drawImage(video, 0, 0)
+		window.requestNextAnimationFrame(animate) // 这是一个自定义方法
+	}
+}
+video.onload = () => {
+	window.requestNextAnimationFrame(animate) // 这是一个自定义方法
+}
+```
+
 # 动画
+## 动画循环
+- 不使用`setTimeoute / setInterval`处理动画。  
+- 基于`requestAnimationFrame()`处理动画。  
+
+requestAnimationFrame(cb)  
+cb(time)  
+	time执行回调函数的时刻。  
+	对于此参数，作者没找到权威的说明。  
+	不是从1970年到现在的毫秒值。  
+返回id  
+cancelAnimationFrame(id) 取消回调  
+
+### requestAnimationFrame(cb)
+该方法在浏览器方便时执行下一次循环   
+[demo-requestAnimationFrame](/html/canvas/requestAnimationFrame.html)  
+
+### 封装`requestNextAnimationFrame()`
+``` js
+window.requestNextAnimateionFrame = (
+	function () {
+		return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequeatAnimationFrame || window.msRequestAnimationFrame || function (cb, element) {
+			var self = this, start, finish;
+			window.setTimeout(function () {
+				start = +new Date()
+				cb(start)
+				finish = +new Date()
+				self.timeout = 100 / 60 - (finish - start)
+			}, self.timeout)
+		}
+	}
+)
+```
+## 帧
+表示动画快慢的单位。（f/s）每秒多少个画面。fps。  
+表示每个画面用时 = 1/fps。  
+<details>
+	<summary>计算帧速率</summary>
+	<pre>
+		let lastTime = 0
+		function calcFps () {
+			let now = +new Date()
+			let fps = 1000 / (now - lastTime)
+			lastTime = now
+			return fps
+		}
+		function animate(time) {
+			// ...
+			calcFps()
+		}
+		requestNextAnimationFrame(animate)
+	</pre>
+</details>
+
+## 良好的绘图方式
+- 绘制完背景后，若要修改画面，则定义剪辑区后再绘制。  
+- 利用双缓存：将所有东西绘制在offsetCanvas后再绘制到canvas上。现代浏览器已经实现了双缓存技术，若程序员再实现它，是影响运行效率。  
+
+## 基于时间的运动
+```
+s = v * t
+  = v / fps
+
+let v = 50
+let fps
+function calcFps () {...}
+function animate () {
+	fps = calcFps()
+	context.clearRect()
+	let dx = v / fps
+	let dy = v2 / fps
+	context.drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh)
+	// ...
+}
+```
+
 # 精灵
+||||
+|-|-|-|
+|top|||
+|left|||
+|width|||
+|height|||
+|velociityX|||
+|velociityY|||
+|behaviors||function[]|
+|painter|||
+|visible|||
+|animating|是否正在动画|boolean|
+
+```js
+class Sprite {
+	constructor(name, painter = undefined, behaviors = []) {
+		this.name = name
+		this.top = 0
+		this.left = 0
+		this.width = 0
+		this.height = 0
+		this.velocityX = 0
+		this.velocityY = 0
+		this.visible = true
+		this.animating = false
+		this.painter = painter
+		this.behaviors = behaviors
+	}
+	paint(context) {
+		if (this.painter && this.visible) {
+			this.painter.paint(this, context)
+		}
+	}
+	update(context, time) {
+		this.behaviors.forEach(item => {
+			item.execute(this, context, time)
+		})
+	}
+}
+```
+## title
+
 # 物理效果
 # 碰撞检测
 # 游戏开发
