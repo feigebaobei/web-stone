@@ -369,6 +369,7 @@ function animate () {
 |painter|||
 |visible|||
 |animating|是否正在动画|boolean|
+先执行行为，再执行绘制。  
 
 ```js
 class Sprite {
@@ -397,6 +398,81 @@ class Sprite {
 	}
 }
 ```
+
+## 精灵的绘制
+- 描边/填充绘制器  
+- 图像绘制器  
+- 精灵表绘制器  
+
+```js
+let ballPainter = {
+	paint: (sprite, context) => {
+		// 暂存当前绘图环境
+		context.save()
+		// 得到用于绘制的变量
+		// 设置新的绘图环境
+		// 绘图
+		// 弹出当前绘图环境
+		context.restore()
+	}
+}
+let ball = new Sprite('ball', ballPainter)
+
+class ImagePainter {
+	constructor(src) {
+		this.image = new Image()
+		this.image.src = src
+	}
+	paint(sprite, context) {
+		if (this.image.complete) {
+			context.drawImage(this.image, sprite.left, sprite.top, sprite.width, sprite.height)
+		}
+	}
+}
+let bomb = new Sprite('bomb', new ImagePainter('./file.png'))
+
+class SpriteSheetPainter {
+	constructor(imageUrl = '', cells = []) {
+		this.image = new Image()
+		this.image.src = imageUrl
+		this.cells = cells
+		this.cellIndex = 0
+	}
+	advance() {
+		if (this.cellIndex >= this.cells.length - 1) {
+			this.cellIndex = 0
+		} else {
+			this.cellIndex++
+		}
+	}
+	paint(sprite, context) {
+		if (this.image.complete) {
+			let cell =this.cells[this.cellIndex]
+			context.drawImage(this.image, cell.x, cell.y, cell.w, cell.h, sprite.left, sprite.top, cell.w, cell.h)
+
+		}
+	}
+}
+```
+
+## 精灵的行为
+```
+let behaviors = [
+	{
+		execute: (sprte, context, time) => {...}
+	}
+]
+new Sprite('name', painter, behaviors)
+```
+
+- [demo-plainSprite](/html/canvas/demo-plainSprite.html)  
+- [demo-imageSprite](/html/canvas/demo-imageSprite.html)  
+- [demo-spriteSheetSprite](/html/canvas/demo-spriteSheetSprite.html)  
+
+## title
+## title
+## title
+## title
 ## title
 
 # 物理效果
