@@ -286,6 +286,7 @@ video.onload = () => {
 - 基于`requestAnimationFrame()`处理动画。  
 
 requestAnimationFrame(cb)  
+该方法在浏览器方便时执行一次回调方法   
 cb(time)  
 	time执行回调函数的时刻。  
 	对于此参数，作者没找到权威的说明。  
@@ -294,7 +295,7 @@ cb(time)
 cancelAnimationFrame(id) 取消回调  
 
 ### requestAnimationFrame(cb)
-该方法在浏览器方便时执行下一次循环   
+该方法在浏览器方便时执行一次回调方法   
 [demo-requestAnimationFrame](/html/canvas/requestAnimationFrame.html)  
 
 ### 封装`requestNextAnimationFrame()`
@@ -373,18 +374,18 @@ function animate () {
 
 ```js
 class Sprite {
-	constructor(name, painter = undefined, behaviors = []) {
+	constructor({name ='', x = 0, y = 0, width = 0, height = 0, vx = 0, vy = 0, visible = true, animating = false}, painter, behaviors = []) {
 		this.name = name
-		this.top = 0
-		this.left = 0
-		this.width = 0
-		this.height = 0
-		this.velocityX = 0
-		this.velocityY = 0
-		this.visible = true
-		this.animating = false
-		this.painter = painter
-		this.behaviors = behaviors
+		this.x = x
+		this.y = y
+		this.width = width
+		this.height = height
+		this.vx = vx
+		this.vy = vy
+		this.visible = visible
+		this.animating = animating
+		this.painter = painter // object
+		this.behaviors = behaviors // 可优化为map对象
 	}
 	paint(context) {
 		if (this.painter && this.visible) {
@@ -392,10 +393,14 @@ class Sprite {
 		}
 	}
 	update(context, time) {
-		this.behaviors.forEach(item => {
-			item.execute(this, context, time)
+		this.behaviors.forEach(behavior => {
+			behavior.execute(this, context, time)
 		})
 	}
+	// update painter
+	// add behavior
+	// remove behavior
+	// clear behavior
 }
 ```
 
@@ -409,8 +414,6 @@ let ballPainter = {
 	paint: (sprite, context) => {
 		// 暂存当前绘图环境
 		context.save()
-		// 得到用于绘制的变量
-		// 设置新的绘图环境
 		// 绘图
 		// 弹出当前绘图环境
 		context.restore()
@@ -469,13 +472,17 @@ new Sprite('name', painter, behaviors)
 - [demo-imageSprite](/html/canvas/demo-imageSprite.html)  
 - [demo-spriteSheetSprite](/html/canvas/demo-spriteSheetSprite.html)  
 
+# 物理效果
+运动都需要以像素为单位，不像素为单位需要转换为以像素为单位。  
+
+
+
 ## title
 ## title
 ## title
 ## title
 ## title
 
-# 物理效果
 # 碰撞检测
 # 游戏开发
 # 自定义控件

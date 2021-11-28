@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<canvas id="canvas">
+		<p>您的浏览器不支持canvas</p>
+	</canvas>
+	<button id="start">start</button>
+	<button id="stop">stop</button>
+	<script type="text/javascript">
+		let {log} = console
+		window.requestNextAnimateionFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequeatAnimationFrame || window.msRequestAnimationFrame || function (cb, element) {
+					var self = this, start, finish;
+					window.setTimeout(function () {
+						start = +new Date()
+						cb(start)
+						finish = +new Date()
+						self.timeout = 100 / 60 - (finish - start)
+					}, self.timeout)
+				}
+		window.cancelNextAnimationFrame = window.cancelAnimationFrame || window.webkitCancelAnimationFrame || window.mozCancelAnimationFrame || window.msCancelAnimationFrame || window.clearTimeout;
+
+
+		let canvas = document.getElementById('canvas'),
+		context = canvas.getContext('2d')
+		class Sprite {
+			constructor({name ='', x = 0, y = 0, width = 0, height = 0, vx = 0, vy = 0, visible = true, animating = false}, painter, behaviors = []) {
+				this.name = name
+				this.x = x
+				this.y = y
+				this.width = width
+				this.height = height
+				this.vx = vx
+				this.vy = vy
+				this.visible = visible
+				this.animating = animating
+				this.painter = painter // object
+				this.behaviors = behaviors // 可优化为map对象
+			}
+			paint(context) {
+				if (this.painter && this.visible) {
+					this.painter.paint(this, context)
+				}
+			}
+			update(context, time) {
+				this.behaviors.forEach(behavior => {
+					behavior.execute(this, context, time)
+				})
+			}
+			// update painter
+			// add behavior
+			// remove behavior
+			// clear behavior
+		}
+		let ball = new Sprite({
+			name: 'ball',
+			width: 50,
+			x: 50,
+			y: 50
+		}, {
+			paint: (sprite, context) => {
+				// 定义绘图时的变量
+				// 暂存绘图环境
+				log(sprite)
+				context.save()
+				// 绘图
+				context.beginPath()
+				context.arc(sprite.x, sprite.y, sprite.width / 2, 0, Math.PI * 2, false)
+				context.stroke()
+				// 弹出绘图环境
+				context.restore()
+			}
+		})
+
+		let startBt = document.getElementById('start')
+		let stopBt = document.querySelector('#stop')
+		let animateId
+
+		let draw = () => {
+			log('draw')
+			ball.paint(context)
+		}
+		let animate = (time) => {
+			// time 从注册到执行，经过多长时间。
+			context.clearRect(0, 0, canvas.width, canvas.height)
+			draw()
+			animateId = window.requestNextAnimateionFrame(animate) // 再注册
+		}
+		let start = () => {
+			animateId = window.requestNextAnimateionFrame(animate) // 注册回调方法
+		}
+		let stop = () => {
+			cancelNextAnimationFrame(animateId)
+		}
+		startBt.onclick = (e) => {
+			log(e)
+			start()
+		}
+		stopBt.onclick = (e) => {
+			log(e)
+			stop()
+		}
+	</script>
+</body>
+</html>

@@ -7,41 +7,55 @@
 </head>
 <body>
 	<div id="some-element-you-want-to-animate"></div>
+	<button id="start">start</button>
+	<button id="stop">stop</button>
 	<script type="text/javascript">
-		// let flag = 0
-		// let animate = (time) => {
-		// 	console.log(time)
-		// 	let i = 0
-		// 	while(i++ < 10000 && flag++ < 100) {
-		// 		window.requestAnimationFrame(animate)
-		// 	}
-		// }
-		// window.requestAnimationFrame(animate)
+		let {log} = console
+		let lastTime = 0
+		function calcFps () {
+			let now = +new Date()
+			let fps = 1000 / (now - lastTime)
+			lastTime = now
+			return fps
+		}
+		function animate (time) {
+			let fps = calcFps()
+			log(fps)
+			// 每次都返回回调方法的id.
+			// id = window.requestAnimationFrame(animate);
+			id = requestNextAnimateionFrame(animate)
+		}
 
-		const element = document.getElementById('some-element-you-want-to-animate');
-let start, previousTimeStamp;
+		let id
+		let startBt = document.getElementById('start')
+		startBt.onclick = (e) => {
+			id = requestNextAnimateionFrame(animate)
+			log(id)
+			// id = window.requestAnimationFrame(animate)
+		}
+		let stopBt = document.getElementById('stop')
+		stopBt.onclick = (e) => {
+			log(id)
+			// window.cancelRequestAnimationFrame(id)
+			// cancelAnimationFrame(id)
+			cancelNextAnimationFrame(id)
+		}
 
-function step(timestamp) {
-	console.log(timestamp);
-  if (start === undefined)
-    start = timestamp;
-  const elapsed = timestamp - start;
 
-  if (previousTimeStamp !== timestamp) {
-    // Math.min() is used here to make sure the element stops at exactly 200px
-    const count = Math.min(0.1 * elapsed, 200);
-    element.style.transform = 'translateX(' + count + 'px)';
-  }
+		window.requestNextAnimateionFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequeatAnimationFrame || window.msRequestAnimationFrame || function (cb, element) {
+					var self = this, start, finish;
+					window.setTimeout(function () {
+						start = +new Date()
+						cb(start)
+						finish = +new Date()
+						self.timeout = 100 / 60 - (finish - start)
+					}, self.timeout)
+				}
 
-  if (elapsed < 2000) { // Stop the animation after 2 seconds
-    previousTimeStamp = timestamp
-    window.requestAnimationFrame(step);
-  }
-}
+		window.cancelNextAnimationFrame = window.cancelAnimationFrame || window.webkitCancelAnimationFrame || window.mozCancelAnimationFrame || window.msCancelAnimationFrame || window.clearTimeout;
 
-setTimeout(() => {
-	window.requestAnimationFrame(step);
-}, 500);
+		// console.log(requestNextAnimateionFrame)
+		// console.log(cancelNextAnimationFrame)
 	</script>
 </body>
 </html>
