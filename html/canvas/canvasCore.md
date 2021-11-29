@@ -462,7 +462,9 @@ class SpriteSheetPainter {
 ```
 let behaviors = [
 	{
-		execute: (sprte, context, time) => {...}
+		execute: (sprite, context, time) => {
+			sprite.left += sprite.vx * time
+		}
 	}
 ]
 new Sprite('name', painter, behaviors)
