@@ -462,8 +462,13 @@ class SpriteSheetPainter {
 ```
 let behaviors = [
 	{
-		execute: (sprite, context, time) => {
-			sprite.left += sprite.vx * time
+		lastTime: 0,
+		execute: function (sprite, context, time) { // 必须使用function函数。
+			sprite.left += sprite.vx * (time - this.lastTime) / 1000
+			if (sprite.left > context.canvas.width) {
+				sprite.left = 0
+			}
+			lastTime = time
 		}
 	}
 ]
@@ -473,6 +478,20 @@ new Sprite('name', painter, behaviors)
 - [demo-plainSprite](/html/canvas/demo-plainSprite.html)  
 - [demo-imageSprite](/html/canvas/demo-imageSprite.html)  
 - [demo-spriteSheetSprite](/html/canvas/demo-spriteSheetSprite.html)  
+- [demo-move](/html/canvas/demo-move.html)  
+
+## 操作多个精灵
+```
+let sprites = [new Sprite(...), ...]
+function animate(time) {
+	...
+	sprites.forEach((sprite) => {
+		sprite.update(context, time)
+		sprite.paint(context)
+	})
+}
+...
+```
 
 # 物理效果
 运动都需要以像素为单位，不像素为单位需要转换为以像素为单位。  
