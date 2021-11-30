@@ -519,6 +519,7 @@ new Sprite('name', painter, behaviors)
 - [demo-imageSprite](/html/canvas/demo-imageSprite.html)  
 - [demo-spriteSheetSprite](/html/canvas/demo-spriteSheetSprite.html)  
 - [demo-move](/html/canvas/demo-move.html)  
+- [demo-moveBaseFps](/html/canvas/demo-move.html)  
 
 ## 操作多个精灵
 ```
@@ -536,7 +537,7 @@ function animate(time) {
 # 物理效果
 运动都需要以像素为单位，不像素为单位需要转换为以像素为单位。  
 
-
+[demo-launch.html]()
 
 ## title
 ## title
@@ -548,5 +549,13 @@ function animate(time) {
 # 游戏开发
 # 自定义控件
 # 移动平台开发
-# title
+# 物理基础知识
+G=mg 物体受到的重力 = 质量×重力加速度
+F=kx 弹力 = 弹性系数×形变量
+F=uf 摩擦力 = 动摩擦因数×压力
+a=(v0-v1)/(t0-t1)
+v=v0+at
+s=vt+(at^2)/2
+力的三角形定则/平行四边形定则/正交分解。
+F=ma
 # title
