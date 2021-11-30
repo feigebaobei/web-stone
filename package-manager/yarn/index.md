@@ -46,11 +46,6 @@ const yarn = require('yarn');
 `yarn upgrade [package]@[tag]` upgrade package
 `yarn remove [package]` remove package
 `yarn` 安装项目中的依赖
-`yarn init` init project
-`yarn init` init project
-`yarn init` init project
-`yarn init` init project
-`yarn init` init project
 
 ## principle
 此包的处理逻辑。

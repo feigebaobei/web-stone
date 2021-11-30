@@ -518,7 +518,7 @@ js是单线程语言。但是它的宿主环境——browser支持多线程。
     + Boolean
     + Error
 - 内置对象
-    + Math
+    + [Math](/javascript/math.html)
     + JSON
 - 宿主对象
     + BOM
@@ -536,7 +536,6 @@ js是单线程语言。但是它的宿主环境——browser支持多线程。
 |system||||||
 详见[模块化](./modularity.md)
 
-# [canvas](/javascript/canvas/index.md)
 # title
 # title
 # title

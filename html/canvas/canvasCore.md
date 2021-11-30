@@ -374,10 +374,10 @@ function animate () {
 
 ```js
 class Sprite {
-	constructor({name ='', x = 0, y = 0, width = 0, height = 0, vx = 0, vy = 0, visible = true, animating = false}, painter, behaviors = []) {
+	constructor({name ='', left = 0, top = 0, width = 0, height = 0, vx = 0, vy = 0, visible = true, animating = false}, painter, behaviors = []) {
 		this.name = name
-		this.x = x
-		this.y = y
+		this.left = left
+		this.top = top
 		this.width = width
 		this.height = height
 		this.vx = vx
@@ -386,6 +386,29 @@ class Sprite {
 		this.animating = animating
 		this.painter = painter // object
 		this.behaviors = behaviors // 可优化为map对象
+        // this.behaviors: map = {
+        //     key: fn,
+        //     ...
+        // }
+        this.tempRandomArr = new Set()
+        while (tempRandomArr.size < behaviors.length) {
+            tempRandomArr.push(Math.floor(Math.random() * 100000))
+        }
+        // array
+        // obj
+        // set
+        // map
+        if (Array.isArray(behaviors)) {
+            this.behaviors = new Map()
+            behaviors.forEach((fn, index) => {
+                this.behaviors.set(this.tempRandomArr(index), fn)
+            })
+        } else {
+            Object.entries(behaviors).forEach(([k, v]) => {
+                this.behaviors.set(k, v)
+            })
+        }
+
 	}
 	paint(context) {
 		if (this.painter && this.visible) {
@@ -398,9 +421,26 @@ class Sprite {
 		})
 	}
 	// update painter
+
 	// add behavior
+    addBehavior(key, value = null) {
+        if (!value) {
+            value = key
+            do {
+                key = Math.floor(Math.random() * 100000)
+            } while (this.tempRandomArr.has(key))
+            key = this.tempRandomArr[this.tempRandomArr.length - 1]
+        }
+        this.behaviors.set(key, value)
+    }
 	// remove behavior
+    removeBehavior(key) {
+        this.behavior.delete(key)
+    }
 	// clear behavior
+    clearBehavior() {
+        this.behavior = new Map()
+    }
 }
 ```
 

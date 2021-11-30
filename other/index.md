@@ -1,7 +1,7 @@
 - [co](/other/co.html)
 - [siroc](/other/siroc.html)
 - [h3](/other/h3.html)
-- [other](/other/other.html)
+- [whistle](/other/whistle.html)
 - [other](/other/other.html)
 - [other](/other/other.html)
 - [other](/other/other.html)
