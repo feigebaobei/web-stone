@@ -536,16 +536,129 @@ function animate(time) {
 
 # 物理效果
 运动都需要以像素为单位，不像素为单位需要转换为以像素为单位。  
+1. 定义每个像素等价于多少米。`let mppx = 0.2`  
+2. 根据物理公式算出位移`s`。  
+3. 换算出应该移动的像素。`s / mppx`  
 
-[demo-launch.html]()
+[demo-launch.html]()  
 
-## title
-## title
-## title
-## title
-## title
+## 时间扭曲
+按照某种特效所需要的时间来修改。  
+需要设置动画时长。  
+```js
+// defind
+class AnimationTimer {
+	constructor(duration, timeWarp) {
+		this.duration = duration
+		this.timeWarp = timeWarp
+		this.stopWatch = new StopWatch()
+	}
+	start() {
+		this.stopWatch.start()
+	}
+	stop() {
+		this.stopWatch.stop()
+	}
+	elapseTime() {
+		if (!this.stopWatch.running) {
+			return undefined
+		}
+		let elapseTime = this.stopWatch.elapseTime()
+		if (!this.timeWarp) { // 扭曲方法不存在
+			return elapseTime
+		} else {
+			let percentComplete = elapseTime / duration
+			return elapseTime * (this.timeWarp(percentComplete) / percentComplete)
+		}
+	}
+	isRunning() {
+		this.stopWatch.running
+	}
+	isOver() {
+		return this.duration < this.stopWatch.elapseTime()
+	}
+	// 缓入运动
+	static easeIn(strength) => (percentComplete) => Math.pow(percentComplete, strength * 2)
+	// 缓出运动
+	static easeOut(strength) {
+		return (percentComplete) => {
+			return 1 - Math.pow(1 - percentComplete, strength * 2)
+		}
+	}
+	// 缓入缓出运动
+	static easeInOut() {
+		return (percentComplete) => {
+			return percentComplete - Math.sin(percentComplete * 2 * Math.PI) / (2 * Math.PI)
+		}
+	}
+	// 弹簧运动
+	static elastic(passes = 3) {
+		return (percentComplete) => {
+			return ((1 - Math.cos(percentComplete * Math.PI * passes)) * (1 - percentComplete)) + percentComplete
+		}
+	}
+	// 弹跳运动
+	static bounce(bounces) {
+		let fn = AnimationTimer.elastic(bounces)
+		return (percentComplete) => {
+			percentComplete = fn(percentComplete)
+			return percentComplete <= 1 ? percentComplete : 2 - percentComplete
+		}
+	}
+	// 线性运动
+	static linear = () => (percentComplete) => percentComplete
+}
+class StopWatch {
+	constructor() {
+		this.timeArr = []
+		this.running = false
+		this.beginTime = 0
+	}
+	start() {
+		if (!this.running) {
+			this.running = true
+			this.beginTime = +new Date()
+		}
+	}
+	split() {
+		if (this.running) {
+			this.timeArr.push(+new Date())
+		}
+	}
+	stop() {
+		if (this.running) {
+			this.timeArr.push(+new Date())
+			this.running = false
+		}
+	}
+	elapseTime() {
+		if (this.running) {
+			return +new Date() - this.beginTime
+		} else {
+			let len = this.timeArr.length
+			if (len) {
+				return this.timeArr[len - 1] - this.beginTime
+			} else {
+				return 0
+			}
+		}
+	}
+	reset() {
+		this.timeArr = []
+		this.beginTime = 0
+	}
+}
+// use
+let ANIMATION_DURATION = 1000;
+animationTime = new AnimationTimer(ANIMATION_DURATION, AnimationTimer.easeOut(2))
+````
 
 # 碰撞检测
+## title
+## title
+## title
+## title
+
 # 游戏开发
 # 自定义控件
 # 移动平台开发
@@ -557,5 +670,8 @@ a=(v0-v1)/(t0-t1)
 v=v0+at
 s=vt+(at^2)/2
 力的三角形定则/平行四边形定则/正交分解。
-F=ma
+F=ma 力=质量×加速度
+w=(a0-a1)/(t0-t1) 角速度 = 角度差-时间差
+v=wr 线速度 = 角速度×半径
+
 # title
