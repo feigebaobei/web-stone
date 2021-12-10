@@ -13,6 +13,7 @@ js的类型可分为简单类型、引用（复杂）类型。
 `Object.create()`  
 `Object.assign()`  
 `for in`
+`arr.slice()`
 
 # 深复制
 ## `JSON.stringify() / JSON.parse()`  
