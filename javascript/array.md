@@ -51,6 +51,7 @@ separator，分隔符。
 **slice(start, end)** 返回指定数组的选定部分  
 start，必填。
 end，非必填。
+浅复制。
     
     var e = newd.slice(1,3); // [3, 2]
 
@@ -105,6 +106,7 @@ start，非必填。
 
 **reduce(fn, init)** 遍历当前数组。  
 
+    // 把数组减少到一个值。  
     f.reduce(function (total, currentValue, currentIndex, arr) {}, initialValue)
 
 total，必填。初始值或计算结束后的返回值。
@@ -252,5 +254,11 @@ Array.from(obj, mapFn, thisArg) <=> Array.from(obj).map(mapFn, thisArg)
 **Array.of(item0[, item1, item2])** 将一组值转化为一个数组。  
 
     Array.of('a', 3, 2, 'b', 'c') // ['a', 3, 2, 'b', 'c']
+
+**Array.flat([deep])** 按指定深度拼接元素为一维数组。返回该数组。
+
+    const arr1 = [0, 1, 2, [3, 4]];
+    console.log(arr1.flat()); // [0, 1, 2, 3, 4]
+
 
 ## TypedArray
