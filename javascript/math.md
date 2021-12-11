@@ -29,13 +29,22 @@ Math.SQRT2
 
 Math.abs(x)  
 Math.acos(x)  
+x [-1, 1]  
+返回值 [0, pi]  
+
 Math.acosh(x)  
 反双曲余弦值  
+
 Math.asin(x)  
+x [-1, 1]  
+返回值 [-pi/2, pi/2]  
 反正统值  
+
 Math.asinh(x)  
 反双曲正弦值  
+
 Math.atan(x)  
+返回值 [-pi/2, pi/2]  
 Math.atanh(x)  
 Math.atan2(y, x)  
 返回y/x的反正切值  

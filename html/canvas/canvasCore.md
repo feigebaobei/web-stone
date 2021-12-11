@@ -52,6 +52,7 @@ canvas.getContext('3d') // 返回3d的绘图环境。调用webGL
 |textBaseLine|文本的竖直对齐方式||||
 |save()|保存canvas状态到栈顶|以上属性都会改变当前canvas的状态。|||
 |restore()|在栈顶弹出canvas状态。（即：使用弹出的canvas状态）||||
+|isPointInPath(x, y)|指定的点是否在指定的路径范围内。||||
 
 ## 离屏canvas
 ```js
@@ -72,7 +73,7 @@ Math.tan()
 	y,
 }
 向量的加/减法：向量的分量分别加/减。
-向量的点积：相应分量分别相乘，再相加。结果是标量。
+向量的点积：相应分量分别相乘，再相加。结果是标量。使用用一个点表示该值，所以叫点积。  
 
 帧：表示每秒多少个画面。
 帧的倒数表示该帧经过的时间。
@@ -654,12 +655,501 @@ animationTime = new AnimationTimer(ANIMATION_DURATION, AnimationTimer.easeOut(2)
 ````
 
 # 碰撞检测
-## title
-## title
-## title
-## title
+## 外接矩形判别法
+```js
+```
+
+## 外接圆判别法
+```js
+let isOverlap = (a, b) => {
+	let ar = Math.max(a.width, a.height) / 2
+	let ax = a.left + ar
+	let ay = a.top + ar
+	let br = Math.max(b.width, b.height) / 2
+	let bx = b.left + br
+	let by = b.top + br
+	return Math.hypot(ax - bx, ay - by) <= ar + br
+}
+```
+
+## 事前碰撞检测
+## 事后碰撞检测
+## 光影投射法
+一般用于处理抛物线。  
+画一条与物体运动方向相同的线，记作l1，再画一条从起点到目标点的线，记作l2。当满足以下2点时，物体移动到目的地。  
+1. l1/l2的相交点在目标点允许的范围内。  
+2. 物体在l2的另一边。  
+
+## 分离轴定理（SAT）
+- 一般用凸多边形。  
+- 若任意一条轴上投影不重叠，则没有碰撞。  
+- 性能不是太好。  
+
+<details>
+	<summary>点</summary>
+<pre>
+	class Point {
+		constructor(x = 0, y = 0) {
+			this.x = x
+			this.y = y
+		}
+		distanceWithPoint(p) {
+			return Math.hypot(this.x - p.x, this.y - p.y)
+		}
+		// 中心对称
+		// 轴对称
+	}
+</pre>
+</details>
+
+<details>
+	<summary>向量</summary>
+<pre>
+	class Vector {
+		constructor(x = 0, y = 0) {
+			this.x = x
+			this.y = y
+			// this.magnitude = Math.hypot(this.x, this.y)
+		}
+		// set x(x) {
+		// 	this.x = x
+		// }
+		// setX(x) {
+		// 	this.x = x
+		// 	this.magnitude = Math.hypot(this.x, this.y)
+		// }
+		// setY(y) {
+		// 	this.y = y
+		// 	this.magnitude = Math.hypot(this.x, this.y)
+		// }
+		opposite() {
+			return new Vector(-this.x, -this.y)
+		}
+		add(v2) {
+			return new Vector(this.x + v2.x, this.y + v2.y)
+		}
+		subtract(v2) {
+			return this.add(v2.opposite())
+		}
+		product(v2) {
+			if (Vector.prototype.isPrototypeOf(v2)) {
+				this.x *= v2.x
+				this.y *= v2.y
+				return this
+			} else {
+				this.x *= v2
+				this.y *= v2
+				return this
+			}
+		}
+		magnitude() {
+			return Math.hypot(this.x, this.y)
+		}
+		isZero() {
+			return this.magnitude() === 0
+		}
+		isParallel(v2) {
+			if (!this.magnitude() || !v2.magnitude()) {
+				return false
+			} else if (this.y === 0 || v2.y === 0) {
+				return !this.y && !v2.y
+			} else {
+				return this.x / this.y === v2.x / v2.y
+			}
+		}
+		isEquality(v2) {
+			return this.x === v2.x && this.y === v2.y
+		}
+		quadrant () {
+			if (this.x === 0 || this.y === 0) {
+				return 0
+			} else if (Math.sign(this.x) > 0) {
+				if (Math.sign(this.y) > 0) {
+					return 1
+				} else {
+					return 4
+				}
+			} else {
+				if (Math.sign(this.y) > 0) {
+					return 2
+				} else {
+					return 3
+				}
+			}
+		}
+		vertical() {
+			return [new Vector(-this.y, this.x), new Vector(this.y, -this.x)] // 第一个值是顺时针方向的。第二个是逆时针方向的。
+		}
+		edge(v2) { // 返回边缘向量
+			let [p, q] = [this.subtract(v2), v2.subtract(this)]
+			return this.magnitude() > v2.magnitude() ? [p, q] : [q, p]
+		}
+		normalize() { // 返回单位向量
+			let m = this.magnitude()
+			if (m) {
+				return new Vector(this.x / m, this.y / m)
+			} else {
+				return undefined
+			}
+		}
+		normal() { // 返回垂直的单位向量
+			let v = this.normalize()
+			if (v) {
+				return v.vertical()
+			} else {
+				return undefined
+			}
+		}
+		dotProduct(v2) { // 返回点积
+			return this.x * v2.x + this.y * v2.y
+		}
+		toProject(v2) { // 把当前向量投影到v2上。
+			let v2n = v2.normalize()
+			if (v2n) {
+				return this.dotProduct(v2n)
+			} else {
+				return undefined
+			}
+		}
+		radian() { // 返回该向量的弧度 [0, 2PI)
+			let res
+			switch(this.quadrant) {
+				case 0:
+					if (this.x === 0) {
+						switch (Math.sign(this.y)) {
+							case 0
+								res = undefind
+								break
+							case 1
+								res = Math.PI / 2
+								break
+							case -1
+								res = 3 * Math.PI / 2
+								break
+						}
+					} else {
+						if (this.x > 0) {
+							res = 0
+						} else {
+							res = Math.PI
+						}
+					}
+				break
+				case 1:
+				case 2:
+					res = Math.acos(this.x / this.magnitude())
+				break
+				case 3:
+					let v2 = this.opposite()
+					return v2.radian() + Math.PI
+				break
+				case 4:
+					res = Math.PI * 2 + Math.asin(this.y / this.magnitude())
+				break
+			}
+			return res
+		}
+		intersectionAngle(v2) {
+			return Math.abs(v2.radian() - this.radian())
+		}
+		// 旋转
+		rotate(b) {
+			let curRadian = this.radian() + b
+			let r = this.magnitude()
+			return new Vector(r * Math.cos(curRadian), r * Math.sin(curRadian))
+		}
+		rebounceWithSurface(2) {
+			let rv = this.radian()
+			let rm = this.normal[0].radian()
+			let rr = 2 * (Math.PI / 2 - (rv - rm))
+			return this.rotate(rr)
+		}
+		rebounceWithAxes() {
+			let rv = this.radian()
+			let rm = this.normal[0].radian()
+			let rr = Math.PI - 2 * Math.abs(rv - rm)
+			if (rm > rv) {
+				return this.rotate(-rr)
+			} else if (rm === rv) {
+				return this.opposite() // 为了计算快一点
+			} else {
+				return this.rotate(rr)
+			}
+		}
+	}
+</pre>
+点积的作用：
+1. >0 2个向量方向大概相同。  
+2. =0 2个向量方向垂直。  
+3. <0 2个向量方向大概相反。  
+一个向量与一个单元向量的点积，表示该向量在该单元向量的投影大小。  
+</details>
+<details>
+	<summary>投影</summary>
+<pre>
+	class Projection {
+		constructor(min = 0, max = 0) {
+			this.min = min
+			this.max = max
+		}
+		isOverlap(projection) {
+			return this.max > projection.min && projection.max > this.min
+		}
+		overlap(projection) {
+			if (this.isOverlap(projection)) {
+				let arr = [this.min, this.max, projection.min, projection.max].sort((a, b) => a - b)
+				return Math.abs(arr[2] - arr[1])
+			} else {
+				return 0
+			}
+		}
+	}
+</pre>
+</details>
+<details>
+	<summary>多边形</summary>
+<pre>
+	class Polygon {
+		constructor(points = []) {
+			this.points = points
+		}
+		collidesWith(shape) { // 是否碰撞
+			// return !this.isSeparationOnAxes(this.getAxes().concat(shape.getAxes()), shape)
+			let axes = shape.getAxes()
+			if (axes) { // 多边形与多边形
+				return this.isSeparationOnAxes(axes.concat(this.getAxes()), shape)
+			} else { // 圆与多边形
+				return polygonCollidesWithCircle(this, shape)
+			}
+		}
+		isSeparationOnAxes(axes, shape) { // 是否处于分离状态
+			for (let i = 0; i < axes.length; i++) {
+				let p1 = this.project(axes[i])
+				let p2 = shape.project(axes[i])
+				if (!p1.isOverlap(p2)) {
+					// 只要有一个分离就是分离
+					return true
+				}
+			}
+			return false
+		}
+		getAxes() {
+			let [v1, v2] = [new Vector(), new Vector()]
+			let axes = []
+			for (let i = 0; i < this.points.length - 1; i++) {
+				v1.x = this.points[i].x
+				v1.y = this.points[i].y
+				v2.x = this.points[i + 1].x
+				v2.y = this.points[i + 1].y
+				axes.push(v1.edge(v2)[0].normal()[0])
+			}
+			v1.x = this.points[this.points.length - 1].x
+			v1.y = this.points[this.points.length - 1].y
+			v2.x = this.points[0].x
+			v2.y = this.points[0].y
+			axes.push(v1.edge(v2)[0].normal()[0])
+			return axes
+		}
+		project(axis) {
+			let [v, scalars] = [new Vector(), []]
+			this.points.forEach(point => {
+				v.x = point.x
+				v.y = point.y
+				scalars.push(v.dotProduct(axis))
+			})
+			return new Projection(Math.min.apply(null, scalars), Math.max.apply(null, scalars))
+		}
+		move(dx = 0, dy = 0) {
+			this.points.forEach(p => {
+				p.x += dx
+				p.y += dy
+			})
+		}
+		// fill(shape) {}
+		// stroke(shape) {}
+		createPath(context) {
+			if (!this.points.length) {
+				return
+			}
+			context.beginPath()
+			context.moveTo(this.points[0].x, this.points[0].y)
+			for (let i = 1; i < this.points.length; i++) {
+				context.lineTo(this.points[i].x, this.points[i].y)
+			}
+			context.closePath()
+		}
+		isPointInPath(context, x, y) {
+			this.createPath(context)
+			return context.inPointInPath(x, y)
+		}
+		minimumTranslateionVector(shape) {
+			return minimumTranslateionVector(shape.getAxes().concat(this.getAxes()), shape)
+		}
+	}
+</pre>
+</details>
+<details>
+	<summary>圆</summary>
+<pre>
+	class Circle {
+		constructor (x = 0, y = 0, r = 0) {
+			this.x = x
+			this.y = y
+			this.r = r
+		}
+		collidesWith(shape) {
+			let axis = shape.getAxes()
+			if (!axis) { // 圆与圆
+				let distance = Math.hypot(this.x - shape.x, this.y - shape.y)
+				return distance < Math.abs(this.r - shape.r)
+			} else { // 圆与多边形
+				return polygonCollidesWithCircle(shape, this)
+			}
+		}
+		// isSeparationOnAxes() {}
+		getAxes() {
+			// return undefind
+			return []
+		}
+		project(axis) {
+			let originP = new Vector(this.x, this.y).dotProduct(axis)
+			let min = originP - this.r
+			let max = originP + this.r
+			return new Projection(min, max)
+		}
+		move(dx = 0, dy = 0) {
+			this.x += dx
+			this.y += dy
+		}
+		createPath(context) {
+			context.save()
+			context.beginPath()
+			context.arc(this.x, this,y, this, r, 2 * Math.PI, false)
+			context.restore()
+		}
+		isPointInPath(context, x, y) {
+			this.creatPath(context)
+			return context.inPointInPath(x, y)
+		}
+		minimumTranslateionVector(shape) {
+			let axes = shape.getAxes().concat(this.getAxes())
+			return minimumTranslateionVector(axes, shape)
+		}
+	}
+	function polygonCollidesWithCircle(polygon, circle) {
+		let originV = new Vector(circle.x, circle.y)
+		let axis = polygon.points.map(p => {
+			return new Vector(p.x, p.y).subtract(originv)
+		}).sort((a, b) => a.magnitude() - b.magnitude())[0]
+		let axes = polygon.getAxes().concat(axis)
+		return polygon.isSeparationOnAxes(axes, circle)
+	}
+	function minimumTranslateionVector(shape) {
+		let axes = this.getAxes().concat(shape.getAxes())
+		return axes.map(axis => {
+			let p1 = this.project(axis)
+			let p2 = shape.project(axis)
+			let overlap = p1.overlap(p2)
+			return {
+				axis,
+				overlap
+			}
+		}).sort((a, b) => a.overlap - b.overlap)[0]
+	}
+</pre>
+</details>
+<details>
+	<summary>图像精灵</summary>
+<pre>
+	// 本例展示了图像与多边形结合的精灵。图像与圆结合同理。
+	class ImageSprite extends Polygon {
+		constructor(points = [], imageSrc, strokeStyle, fillStyle) {
+			super(points)
+			this.image = new Image
+			this.image.src = imageSrc
+			this.imageLoaded = false
+			let self = this
+			this.image.addEventListener('load', (e) => {
+				self.imageLoaded = true
+			}, false)
+			this.strokeStyle = strokeStyle
+			this.fillStyle = fillStyle
+		}
+		draw() {
+			this.stroke()
+			this.fill()
+			this.drawImage()
+		}
+		drawImage() {}
+		fill(context) {
+			context.save()
+			this.createPath()
+			context.fill()
+			context.restore()
+		}
+		stroke(context) {
+			context.save()
+			this.createPath()
+			context.stroke()
+			context.restore()
+		}
+	}
+</pre>
+</details>
+<details>
+	<summary>多边形精灵</summary>
+<pre>
+	需要再完善
+	class PloygonSprite extends Ploygon {
+		constructor(sprite, points) {
+			super(points)
+			this.sprite = sprite
+		}
+		paint() {
+			this.sprite.paint()
+		}
+		update() {
+			this.sprite.update()
+		}
+	}
+</pre>
+</details>
+
+[demo-polygonProject](/html/canvas/demo-polygonProject.html)  
+[demo-polygonCrash](/html/canvas/demo-polygonCrash.html)  
+
+## 最小平移向量（MTV）
+- 对于已经在重叠的形状，若要分开，需要的最小平移量。  
+- 移动方向总是与轴的方向相同。  
+- 该距离已经接近理论上的最小值了。  
+
+## 图像与精灵的碰撞
+有以下三种碰撞方式。  
+碰撞后有移动一个的，也有移动多个的。再为形状赋质量，就可模拟物理世界了。three.js就是为三维物体赋于了质量等。先用代码画出物体，再使用公司模拟物体碰撞等。  
+
+### 粘在一起
+1. 算出mtv。  
+2. 移动到刚刚分开。  
+
+### 反弹
+```js
+function rebounce (shape1, shape2) {
+	let mtv = shape1.minimumTranslateionVector()
+	// 
+}
+```
+
+## 圆形与圆形的碰撞
+## 多边形与多边形的碰撞
+## 圆形与多边形的碰撞
+多边形对应的所有轴加上圆心与多边形与圆最近的点的向量所在的轴。
+如图：![axes](./axes.jpg)
 
 # 游戏开发
+### title
+## title
+## title
+## title
 # 自定义控件
 # 移动平台开发
 # 物理基础知识

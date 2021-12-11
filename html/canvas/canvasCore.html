@@ -1274,6 +1274,13 @@ canvas的绘图表面大小width/height不能使用<code>px</code><br />
 <td></td>
 <td></td>
 </tr>
+<tr>
+<td>isPointInPath(x, y)</td>
+<td>指定的点是否在指定的路径范围内。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
 </tbody>
 </table>
 <h2 id="canvas_2">离屏canvas<a class="headerlink" href="#canvas_2" title="Permanent link"></a></h2>
@@ -1293,7 +1300,7 @@ Math.tan()
     y,
 }
 向量的加/减法：向量的分量分别加/减。
-向量的点积：相应分量分别相乘，再相加。结果是标量。
+向量的点积：相应分量分别相乘，再相加。结果是标量。使用用一个点表示该值，所以叫点积。  
 
 帧：表示每秒多少个画面。
 帧的倒数表示该帧经过的时间。
@@ -1865,6 +1872,7 @@ video.onload = () =&gt; {
 <li>基于<code>requestAnimationFrame()</code>处理动画。  </li>
 </ul>
 <p>requestAnimationFrame(cb)<br />
+该方法在浏览器方便时执行一次回调方法 <br />
 cb(time)<br />
     time执行回调函数的时刻。<br />
     对于此参数，作者没找到权威的说明。<br />
@@ -1872,7 +1880,7 @@ cb(time)<br />
 返回id<br />
 cancelAnimationFrame(id) 取消回调  </p>
 <h3 id="requestanimationframecb">requestAnimationFrame(cb)<a class="headerlink" href="#requestanimationframecb" title="Permanent link"></a></h3>
-<p>该方法在浏览器方便时执行下一次循环 <br />
+<p>该方法在浏览器方便时执行一次回调方法 <br />
 <a href="/html/canvas/requestAnimationFrame.html">demo-requestAnimationFrame</a>  </p>
 <h3 id="requestnextanimationframe">封装<code>requestNextAnimationFrame()</code><a class="headerlink" href="#requestnextanimationframe" title="Permanent link"></a></h3>
 <div class="highlight"><pre><span class="nb">window</span><span class="p">.</span><span class="nx">requestNextAnimateionFrame</span> <span class="o">=</span> <span class="p">(</span>
@@ -1910,14 +1918,614 @@ cancelAnimationFrame(id) 取消回调  </p>
         requestNextAnimationFrame(animate)
     </pre>
 </details></p>
-<h2 id="title">title<a class="headerlink" href="#title" title="Permanent link"></a></h2>
+<h2 id="_20">良好的绘图方式<a class="headerlink" href="#_20" title="Permanent link"></a></h2>
+<ul>
+<li>绘制完背景后，若要修改画面，则定义剪辑区后再绘制。  </li>
+<li>利用双缓存：将所有东西绘制在offsetCanvas后再绘制到canvas上。现代浏览器已经实现了双缓存技术，若程序员再实现它，是影响运行效率。  </li>
+</ul>
+<h2 id="_21">基于时间的运动<a class="headerlink" href="#_21" title="Permanent link"></a></h2>
+<div class="highlight"><pre>s = v * t
+  = v / fps
+
+let v = 50
+let fps
+function calcFps () {...}
+function animate () {
+    fps = calcFps()
+    context.clearRect()
+    let dx = v / fps
+    let dy = v2 / fps
+    context.drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh)
+    // ...
+}
+</pre></div>
+
+<h1 id="_22">精灵<a class="headerlink" href="#_22" title="Permanent link"></a></h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>top</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>left</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>width</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>height</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>velociityX</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>velociityY</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>behaviors</td>
+<td></td>
+<td>function[]</td>
+</tr>
+<tr>
+<td>painter</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>visible</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>animating</td>
+<td>是否正在动画</td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>先执行行为，再执行绘制。</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span class="kr">class</span> <span class="nx">Sprite</span> <span class="p">{</span>
+    <span class="nx">constructor</span><span class="p">({</span><span class="nx">name</span> <span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">left</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">top</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">width</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">height</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">vx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">vy</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">visible</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="nx">animating</span> <span class="o">=</span> <span class="kc">false</span><span class="p">},</span> <span class="nx">painter</span><span class="p">,</span> <span class="nx">behaviors</span> <span class="o">=</span> <span class="p">[])</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">left</span> <span class="o">=</span> <span class="nx">left</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">top</span> <span class="o">=</span> <span class="nx">top</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">width</span> <span class="o">=</span> <span class="nx">width</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">height</span> <span class="o">=</span> <span class="nx">height</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">vx</span> <span class="o">=</span> <span class="nx">vx</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">vy</span> <span class="o">=</span> <span class="nx">vy</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">visible</span> <span class="o">=</span> <span class="nx">visible</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">animating</span> <span class="o">=</span> <span class="nx">animating</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">painter</span> <span class="o">=</span> <span class="nx">painter</span> <span class="c1">// object</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">behaviors</span> <span class="o">=</span> <span class="nx">behaviors</span> <span class="c1">// 可优化为map对象</span>
+        <span class="c1">// this.behaviors: map = {</span>
+        <span class="c1">//     key: fn,</span>
+        <span class="c1">//     ...</span>
+        <span class="c1">// }</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">tempRandomArr</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Set</span><span class="p">()</span>
+        <span class="k">while</span> <span class="p">(</span><span class="nx">tempRandomArr</span><span class="p">.</span><span class="nx">size</span> <span class="o">&lt;</span> <span class="nx">behaviors</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">tempRandomArr</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100000</span><span class="p">))</span>
+        <span class="p">}</span>
+        <span class="c1">// array</span>
+        <span class="c1">// obj</span>
+        <span class="c1">// set</span>
+        <span class="c1">// map</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">Array</span><span class="p">.</span><span class="nx">isArray</span><span class="p">(</span><span class="nx">behaviors</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">behaviors</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Map</span><span class="p">()</span>
+            <span class="nx">behaviors</span><span class="p">.</span><span class="nx">forEach</span><span class="p">((</span><span class="nx">fn</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">behaviors</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">tempRandomArr</span><span class="p">(</span><span class="nx">index</span><span class="p">),</span> <span class="nx">fn</span><span class="p">)</span>
+            <span class="p">})</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nb">Object</span><span class="p">.</span><span class="nx">entries</span><span class="p">(</span><span class="nx">behaviors</span><span class="p">).</span><span class="nx">forEach</span><span class="p">(([</span><span class="nx">k</span><span class="p">,</span> <span class="nx">v</span><span class="p">])</span> <span class="o">=&gt;</span> <span class="p">{</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">behaviors</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="nx">k</span><span class="p">,</span> <span class="nx">v</span><span class="p">)</span>
+            <span class="p">})</span>
+        <span class="p">}</span>
+
+    <span class="p">}</span>
+    <span class="nx">paint</span><span class="p">(</span><span class="nx">context</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">painter</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">visible</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">painter</span><span class="p">.</span><span class="nx">paint</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">context</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="nx">update</span><span class="p">(</span><span class="nx">context</span><span class="p">,</span> <span class="nx">time</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">behaviors</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">behavior</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="nx">behavior</span><span class="p">.</span><span class="nx">execute</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">context</span><span class="p">,</span> <span class="nx">time</span><span class="p">)</span>
+        <span class="p">})</span>
+    <span class="p">}</span>
+    <span class="c1">// update painter</span>
+
+    <span class="c1">// add behavior</span>
+    <span class="nx">addBehavior</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">value</span> <span class="o">=</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">value</span> <span class="o">=</span> <span class="nx">key</span>
+            <span class="k">do</span> <span class="p">{</span>
+                <span class="nx">key</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100000</span><span class="p">)</span>
+            <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">tempRandomArr</span><span class="p">.</span><span class="nx">has</span><span class="p">(</span><span class="nx">key</span><span class="p">))</span>
+            <span class="nx">key</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">tempRandomArr</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">tempRandomArr</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="p">}</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">behaviors</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="c1">// remove behavior</span>
+    <span class="nx">removeBehavior</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">behavior</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="c1">// clear behavior</span>
+    <span class="nx">clearBehavior</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">behavior</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Map</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<h2 id="_23">精灵的绘制<a class="headerlink" href="#_23" title="Permanent link"></a></h2>
+<ul>
+<li>描边/填充绘制器  </li>
+<li>图像绘制器  </li>
+<li>精灵表绘制器  </li>
+</ul>
+<div class="highlight"><pre><span class="kd">let</span> <span class="nx">ballPainter</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">paint</span><span class="o">:</span> <span class="p">(</span><span class="nx">sprite</span><span class="p">,</span> <span class="nx">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="c1">// 暂存当前绘图环境</span>
+        <span class="nx">context</span><span class="p">.</span><span class="nx">save</span><span class="p">()</span>
+        <span class="c1">// 绘图</span>
+        <span class="c1">// 弹出当前绘图环境</span>
+        <span class="nx">context</span><span class="p">.</span><span class="nx">restore</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="kd">let</span> <span class="nx">ball</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Sprite</span><span class="p">(</span><span class="s1">&#39;ball&#39;</span><span class="p">,</span> <span class="nx">ballPainter</span><span class="p">)</span>
+
+<span class="kr">class</span> <span class="nx">ImagePainter</span> <span class="p">{</span>
+    <span class="nx">constructor</span><span class="p">(</span><span class="nx">src</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">image</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Image</span><span class="p">()</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">image</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="nx">src</span>
+    <span class="p">}</span>
+    <span class="nx">paint</span><span class="p">(</span><span class="nx">sprite</span><span class="p">,</span> <span class="nx">context</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">image</span><span class="p">.</span><span class="nx">complete</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">context</span><span class="p">.</span><span class="nx">drawImage</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">image</span><span class="p">,</span> <span class="nx">sprite</span><span class="p">.</span><span class="nx">left</span><span class="p">,</span> <span class="nx">sprite</span><span class="p">.</span><span class="nx">top</span><span class="p">,</span> <span class="nx">sprite</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span> <span class="nx">sprite</span><span class="p">.</span><span class="nx">height</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="kd">let</span> <span class="nx">bomb</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Sprite</span><span class="p">(</span><span class="s1">&#39;bomb&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">ImagePainter</span><span class="p">(</span><span class="s1">&#39;./file.png&#39;</span><span class="p">))</span>
+
+<span class="kr">class</span> <span class="nx">SpriteSheetPainter</span> <span class="p">{</span>
+    <span class="nx">constructor</span><span class="p">(</span><span class="nx">imageUrl</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">cells</span> <span class="o">=</span> <span class="p">[])</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">image</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Image</span><span class="p">()</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">image</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="nx">imageUrl</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">cells</span> <span class="o">=</span> <span class="nx">cells</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">cellIndex</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="p">}</span>
+    <span class="nx">advance</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">cellIndex</span> <span class="o">&gt;=</span> <span class="k">this</span><span class="p">.</span><span class="nx">cells</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">cellIndex</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">cellIndex</span><span class="o">++</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="nx">paint</span><span class="p">(</span><span class="nx">sprite</span><span class="p">,</span> <span class="nx">context</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">image</span><span class="p">.</span><span class="nx">complete</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">let</span> <span class="nx">cell</span> <span class="o">=</span><span class="k">this</span><span class="p">.</span><span class="nx">cells</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">cellIndex</span><span class="p">]</span>
+            <span class="nx">context</span><span class="p">.</span><span class="nx">drawImage</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">image</span><span class="p">,</span> <span class="nx">cell</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span> <span class="nx">cell</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span> <span class="nx">cell</span><span class="p">.</span><span class="nx">w</span><span class="p">,</span> <span class="nx">cell</span><span class="p">.</span><span class="nx">h</span><span class="p">,</span> <span class="nx">sprite</span><span class="p">.</span><span class="nx">left</span><span class="p">,</span> <span class="nx">sprite</span><span class="p">.</span><span class="nx">top</span><span class="p">,</span> <span class="nx">cell</span><span class="p">.</span><span class="nx">w</span><span class="p">,</span> <span class="nx">cell</span><span class="p">.</span><span class="nx">h</span><span class="p">)</span>
+
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<h2 id="_24">精灵的行为<a class="headerlink" href="#_24" title="Permanent link"></a></h2>
+<div class="highlight"><pre>let behaviors = [
+    {
+        lastTime: 0,
+        execute: function (sprite, context, time) { // 必须使用function函数。
+            sprite.left += sprite.vx * (time - this.lastTime) / 1000
+            if (sprite.left &gt; context.canvas.width) {
+                sprite.left = 0
+            }
+            lastTime = time
+        }
+    }
+]
+new Sprite(&#39;name&#39;, painter, behaviors)
+</pre></div>
+
+<ul>
+<li><a href="/html/canvas/demo-plainSprite.html">demo-plainSprite</a>  </li>
+<li><a href="/html/canvas/demo-imageSprite.html">demo-imageSprite</a>  </li>
+<li><a href="/html/canvas/demo-spriteSheetSprite.html">demo-spriteSheetSprite</a>  </li>
+<li><a href="/html/canvas/demo-move.html">demo-move</a>  </li>
+<li><a href="/html/canvas/demo-move.html">demo-moveBaseFps</a>  </li>
+</ul>
+<h2 id="_25">操作多个精灵<a class="headerlink" href="#_25" title="Permanent link"></a></h2>
+<div class="highlight"><pre>let sprites = [new Sprite(...), ...]
+function animate(time) {
+    ...
+    sprites.forEach((sprite) =&gt; {
+        sprite.update(context, time)
+        sprite.paint(context)
+    })
+}
+...
+</pre></div>
+
+<h1 id="_26">物理效果<a class="headerlink" href="#_26" title="Permanent link"></a></h1>
+<p>运动都需要以像素为单位，不像素为单位需要转换为以像素为单位。<br />
+1. 定义每个像素等价于多少米。<code>let mppx = 0.2</code><br />
+2. 根据物理公式算出位移<code>s</code>。<br />
+3. 换算出应该移动的像素。<code>s / mppx</code>  </p>
+<p><a href="">demo-launch.html</a>  </p>
+<h2 id="_27">时间扭曲<a class="headerlink" href="#_27" title="Permanent link"></a></h2>
+<p>按照某种特效所需要的时间来修改。<br />
+需要设置动画时长。<br />
+<div class="highlight"><pre><span class="c1">// defind</span>
+<span class="kr">class</span> <span class="nx">AnimationTimer</span> <span class="p">{</span>
+    <span class="nx">constructor</span><span class="p">(</span><span class="nx">duration</span><span class="p">,</span> <span class="nx">timeWarp</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">duration</span> <span class="o">=</span> <span class="nx">duration</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">timeWarp</span> <span class="o">=</span> <span class="nx">timeWarp</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">stopWatch</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">StopWatch</span><span class="p">()</span>
+    <span class="p">}</span>
+    <span class="nx">start</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">stopWatch</span><span class="p">.</span><span class="nx">start</span><span class="p">()</span>
+    <span class="p">}</span>
+    <span class="nx">stop</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">stopWatch</span><span class="p">.</span><span class="nx">stop</span><span class="p">()</span>
+    <span class="p">}</span>
+    <span class="nx">elapseTime</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">stopWatch</span><span class="p">.</span><span class="nx">running</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="kc">undefined</span>
+        <span class="p">}</span>
+        <span class="kd">let</span> <span class="nx">elapseTime</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">stopWatch</span><span class="p">.</span><span class="nx">elapseTime</span><span class="p">()</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">timeWarp</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 扭曲方法不存在</span>
+            <span class="k">return</span> <span class="nx">elapseTime</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="kd">let</span> <span class="nx">percentComplete</span> <span class="o">=</span> <span class="nx">elapseTime</span> <span class="o">/</span> <span class="nx">duration</span>
+            <span class="k">return</span> <span class="nx">elapseTime</span> <span class="o">*</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">timeWarp</span><span class="p">(</span><span class="nx">percentComplete</span><span class="p">)</span> <span class="o">/</span> <span class="nx">percentComplete</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="nx">isRunning</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">stopWatch</span><span class="p">.</span><span class="nx">running</span>
+    <span class="p">}</span>
+    <span class="nx">isOver</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">duration</span> <span class="o">&lt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">stopWatch</span><span class="p">.</span><span class="nx">elapseTime</span><span class="p">()</span>
+    <span class="p">}</span>
+    <span class="c1">// 缓入运动</span>
+    <span class="kr">static</span> <span class="nx">easeIn</span><span class="p">(</span><span class="nx">strength</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="nx">percentComplete</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span><span class="nx">percentComplete</span><span class="p">,</span> <span class="nx">strength</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="c1">// 缓出运动</span>
+    <span class="kr">static</span> <span class="nx">easeOut</span><span class="p">(</span><span class="nx">strength</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nx">percentComplete</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="mi">1</span> <span class="o">-</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="nx">percentComplete</span><span class="p">,</span> <span class="nx">strength</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="c1">// 缓入缓出运动</span>
+    <span class="kr">static</span> <span class="nx">easeInOut</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nx">percentComplete</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">percentComplete</span> <span class="o">-</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sin</span><span class="p">(</span><span class="nx">percentComplete</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="c1">// 弹簧运动</span>
+    <span class="kr">static</span> <span class="nx">elastic</span><span class="p">(</span><span class="nx">passes</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nx">percentComplete</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">cos</span><span class="p">(</span><span class="nx">percentComplete</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">*</span> <span class="nx">passes</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="nx">percentComplete</span><span class="p">))</span> <span class="o">+</span> <span class="nx">percentComplete</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="c1">// 弹跳运动</span>
+    <span class="kr">static</span> <span class="nx">bounce</span><span class="p">(</span><span class="nx">bounces</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">let</span> <span class="nx">fn</span> <span class="o">=</span> <span class="nx">AnimationTimer</span><span class="p">.</span><span class="nx">elastic</span><span class="p">(</span><span class="nx">bounces</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nx">percentComplete</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="nx">percentComplete</span> <span class="o">=</span> <span class="nx">fn</span><span class="p">(</span><span class="nx">percentComplete</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nx">percentComplete</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="o">?</span> <span class="nx">percentComplete</span> <span class="o">:</span> <span class="mi">2</span> <span class="o">-</span> <span class="nx">percentComplete</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="c1">// 线性运动</span>
+    <span class="kr">static</span> <span class="nx">linear</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="nx">percentComplete</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">percentComplete</span>
+<span class="p">}</span>
+<span class="kr">class</span> <span class="nx">StopWatch</span> <span class="p">{</span>
+    <span class="nx">constructor</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">timeArr</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">running</span> <span class="o">=</span> <span class="kc">false</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">beginTime</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="p">}</span>
+    <span class="nx">start</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">running</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">running</span> <span class="o">=</span> <span class="kc">true</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">beginTime</span> <span class="o">=</span> <span class="o">+</span><span class="k">new</span> <span class="nb">Date</span><span class="p">()</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="nx">split</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">running</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">timeArr</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="o">+</span><span class="k">new</span> <span class="nb">Date</span><span class="p">())</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="nx">stop</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">running</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">timeArr</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="o">+</span><span class="k">new</span> <span class="nb">Date</span><span class="p">())</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">running</span> <span class="o">=</span> <span class="kc">false</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="nx">elapseTime</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">running</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="o">+</span><span class="k">new</span> <span class="nb">Date</span><span class="p">()</span> <span class="o">-</span> <span class="k">this</span><span class="p">.</span><span class="nx">beginTime</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="kd">let</span> <span class="nx">len</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">timeArr</span><span class="p">.</span><span class="nx">length</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">len</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">timeArr</span><span class="p">[</span><span class="nx">len</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="k">this</span><span class="p">.</span><span class="nx">beginTime</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="mi">0</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="nx">reset</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">timeArr</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">beginTime</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="c1">// use</span>
+<span class="kd">let</span> <span class="nx">ANIMATION_DURATION</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span>
+<span class="nx">animationTime</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">AnimationTimer</span><span class="p">(</span><span class="nx">ANIMATION_DURATION</span><span class="p">,</span> <span class="nx">AnimationTimer</span><span class="p">.</span><span class="nx">easeOut</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="err">````</span>
+
+<span class="err">#</span> <span class="nx">碰撞检测</span>
+<span class="err">##</span> <span class="nx">外接矩形判别法</span>
+<span class="err">```</span><span class="nx">js</span>
+</pre></div></p>
+<h2 id="_28">外接圆判别法<a class="headerlink" href="#_28" title="Permanent link"></a></h2>
+<div class="highlight"><pre><span class="kd">let</span> <span class="nx">isOverlap</span> <span class="o">=</span> <span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">ar</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span> <span class="nx">a</span><span class="p">.</span><span class="nx">height</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="kd">let</span> <span class="nx">ax</span> <span class="o">=</span> <span class="nx">a</span><span class="p">.</span><span class="nx">left</span> <span class="o">+</span> <span class="nx">ar</span>
+    <span class="kd">let</span> <span class="nx">ay</span> <span class="o">=</span> <span class="nx">a</span><span class="p">.</span><span class="nx">top</span> <span class="o">+</span> <span class="nx">ar</span>
+    <span class="kd">let</span> <span class="nx">br</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">b</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span> <span class="nx">b</span><span class="p">.</span><span class="nx">height</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="kd">let</span> <span class="nx">bx</span> <span class="o">=</span> <span class="nx">b</span><span class="p">.</span><span class="nx">left</span> <span class="o">+</span> <span class="nx">br</span>
+    <span class="kd">let</span> <span class="nx">by</span> <span class="o">=</span> <span class="nx">b</span><span class="p">.</span><span class="nx">top</span> <span class="o">+</span> <span class="nx">br</span>
+    <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">hypot</span><span class="p">(</span><span class="nx">ax</span> <span class="o">-</span> <span class="nx">bx</span><span class="p">,</span> <span class="nx">ay</span> <span class="o">-</span> <span class="nx">by</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="nx">ar</span> <span class="o">+</span> <span class="nx">br</span>
+<span class="p">}</span>
+</pre></div>
+
+<h2 id="_29">事前碰撞检测<a class="headerlink" href="#_29" title="Permanent link"></a></h2>
+<h2 id="_30">事后碰撞检测<a class="headerlink" href="#_30" title="Permanent link"></a></h2>
+<h2 id="_31">光影投射法<a class="headerlink" href="#_31" title="Permanent link"></a></h2>
+<p>一般用于处理抛物线。<br />
+画一条与物体运动方向相同的线，记作l1，再画一条从起点到目标点的线，记作l2。当满足以下2点时，物体移动到目的地。<br />
+1. l1/l2的相交点在目标点允许的范围内。<br />
+2. 物体在l2的另一边。  </p>
+<h2 id="sat">分离轴定理（SAT）<a class="headerlink" href="#sat" title="Permanent link"></a></h2>
+<ul>
+<li>一般用凸多边形。  </li>
+<li>若任意一条轴上投影不重叠，则没有碰撞。  </li>
+<li>性能不是太好。  </li>
+</ul>
+<details>
+    <summary>向量</summary>
+<pre>
+    class Vector {
+        constructor(x = 0, y = 0) {
+            this.x = x
+            this.y = y
+        }
+        opposite() {
+            return new Vector(-this.x, -this.y)
+        }
+        add(v2) {
+            return new Vector(this.x + v2.x, this.y + v2.y)
+        }
+        subtract(v2) {
+            return this.add(v2.opposite())
+        }
+        product(v2) {
+            if (Vector.prototype.isPrototypeOf(v2)) {
+                this.x *= v2.x
+                this.y *= v2.y
+                return this
+            } else {
+                this.x *= v2
+                this.y *= v2
+                return this
+            }
+        }
+        magnitude() {
+            return Math.hypot(this.x, this.y)
+        }
+        isZero() {
+            return this.magnitude() === 0
+        }
+        isParallel(v2) {
+            if (!this.magnitude() || !v2.magnitude()) {
+                return false
+            } else if (this.y === 0 || v2.y === 0) {
+                return !this.y && !v2.y
+            } else {
+                return this.x / this.y === v2.x / v2.y
+            }
+        }
+        vertical() {
+            return [new Vector(this.y, -this.x), new Vector(-this.y, this.x)]
+        }
+        edge(v2) { // 返回边缘向量
+            return [this.subtract(v2), v2.subtract(this)]
+        }
+        normalize() { // 返回单位向量
+            let m = this.magnitude()
+            if (m) {
+                return new Vector(this.x / m, this.y / m)
+            } else {
+                return undefined
+            }
+        }
+        normal() { // 返回垂直的单位向量
+            let v = this.normalize()
+            if (v) {
+                return v.vertical()
+            } else {
+                return undefined
+            }
+        }
+        dotProduct(v2) { // 返回点积
+            return this.x * v2.x + this.y * v2.y
+        }
+        toProject(v2) {
+            let v2n = v2.normalize()
+            if (v2n) {
+                return this.dotProduct(v2n)
+            } else {
+                return undefined
+            }
+        }
+    }
+</pre>
+点积的作用：
+1. >0 2个向量方向大概相同。  
+2. =0 2个向量方向垂直。  
+3. <0 2个向量方向大概相反。  
+一个向量与一个单元向量的点积，表示该向量在该单元向量的投影大小。  
+</details>
+
+<details>
+    <summary>投影</summary>
+<pre>
+    class Projection {
+        constructor(min = 0, max = 0) {
+            this.min = min
+            this.max = max
+        }
+        isOverlap(projection) {
+            return this.max > projection.min && projection.max > this.min
+        }
+        overlap(projection) {
+            if (this.isOverlap(projection)) {
+                let arr = [this.min, this.max, projection.min, projection.max].sort((a, b) => a - b)
+                return Math.abs(arr[2] - arr[1])
+            } else {
+                return 0
+            }
+        }
+    }
+</pre>
+</details>
+
+<details>
+    <summary>多边形</summary>
+<pre>
+    class Polygon {
+        constructor(points = []) {
+            this.points = points
+        }
+        collidesWith(shape) { // 是否碰撞
+            // 需要修改
+            return !this.isSeparationOnAxes(this.getAxes().concat(shape.getAxes()), shape)
+        }
+        isSeparationOnAxes(axes, shape) { // 是否处于分离状态
+            for (let i = 0; i < axes.length; i++) {
+                let p1 = this.project(axes[i])
+                let p2 = shape.project(axes[i])
+                if (!p1.isOverlap(p2)) {
+                    // 只要有一个分离就是分离
+                    return true
+                }
+            }
+            return false
+        }
+        getAxes() {
+            let [v1, v2] = [new Vector(), new Vector()]
+            let axes = []
+            for (let i = 0; i < this.points.length - 1; i++) {
+                v1.x = this.points[i].x
+                v1.y = this.points[i].y
+                v2.x = this.points[i + 1].x
+                v2.y = this.points[i + 1].y
+                axes.push(v1.edge(v2)[0].normal()[0])
+            }
+            v1.x = this.points[this.points.length - 1].x
+            v1.y = this.points[this.points.length - 1].y
+            v2.x = this.points[0].x
+            v2.y = this.points[0].y
+            axes.push(v1.edge(v2)[0].normal()[0])
+            return axes
+        }
+        project(axis) {
+            let [v, scalars] = [new Vector(), []]
+            this.points.forEach(point => {
+                v.x = point.x
+                v.y = point.y
+                scalars.push(v.dotProduct(axis))
+            })
+            return new Projection(Math.min.apply(null, scalars), Math.max.apply(null, scalars))
+        }
+        // move(shape) {}
+        // fill(shape) {}
+        // stroke(shape) {}
+        createPath(context) {
+            if (!this.points.length) {
+                return
+            }
+            context.beginPath()
+            context.moveTo(this.points[0].x, this.points[0].y)
+            for (let i = 1; i < this.points.length; i++) {
+                context.lineTo(this.points[i].x, this.points[i].y)
+            }
+            context.closePath()
+        }
+        isPointInPath(context, x, y) {
+            this.createPath(context)
+            return context.inPointInPath(x, y)
+        }
+    }
+</pre>
+</details>
+
+<details>
+    <summary>圆</summary>
+<pre>
+
+</pre>
+</details>
+
+<p><a href="/html/canvas/demo-polygonProject.html">demo-polygonProject</a><br />
+<a href="/html/canvas/demo-polygonCrash.html">demo-polygonCrash</a>  </p>
+<h2 id="mtv">最小平移向量（MTV）<a class="headerlink" href="#mtv" title="Permanent link"></a></h2>
+<h2 id="_32">圆形与圆形的碰撞<a class="headerlink" href="#_32" title="Permanent link"></a></h2>
+<h2 id="_33">多边形与多边形的碰撞<a class="headerlink" href="#_33" title="Permanent link"></a></h2>
+<h2 id="_34">圆形与多边形的碰撞<a class="headerlink" href="#_34" title="Permanent link"></a></h2>
+<p>多边形对应的所有轴加上圆心与多边形与圆最近的点的向量所在的轴。
+如图：<img alt="axes" src="/home/turbo/code/web-stone/html/canvas/axes.jpg" /></p>
+<h2 id="_35">图像与精灵的碰撞<a class="headerlink" href="#_35" title="Permanent link"></a></h2>
+<h2 id="_36">最小平移向量应对碰撞<a class="headerlink" href="#_36" title="Permanent link"></a></h2>
+<h3 id="_37">图像分离<a class="headerlink" href="#_37" title="Permanent link"></a></h3>
+<h3 id="_38">粘在一起<a class="headerlink" href="#_38" title="Permanent link"></a></h3>
+<h3 id="_39">反弹<a class="headerlink" href="#_39" title="Permanent link"></a></h3>
+<h1 id="_40">游戏开发<a class="headerlink" href="#_40" title="Permanent link"></a></h1>
+<h3 id="title">title<a class="headerlink" href="#title" title="Permanent link"></a></h3>
 <h2 id="title_1">title<a class="headerlink" href="#title_1" title="Permanent link"></a></h2>
 <h2 id="title_2">title<a class="headerlink" href="#title_2" title="Permanent link"></a></h2>
-<h1 id="_20">精灵<a class="headerlink" href="#_20" title="Permanent link"></a></h1>
-<h1 id="_21">物理效果<a class="headerlink" href="#_21" title="Permanent link"></a></h1>
-<h1 id="_22">碰撞检测<a class="headerlink" href="#_22" title="Permanent link"></a></h1>
-<h1 id="_23">游戏开发<a class="headerlink" href="#_23" title="Permanent link"></a></h1>
-<h1 id="_24">自定义控件<a class="headerlink" href="#_24" title="Permanent link"></a></h1>
-<h1 id="_25">移动平台开发<a class="headerlink" href="#_25" title="Permanent link"></a></h1>
-<h1 id="title_3">title<a class="headerlink" href="#title_3" title="Permanent link"></a></h1>
+<h2 id="title_3">title<a class="headerlink" href="#title_3" title="Permanent link"></a></h2>
+<h1 id="_41">自定义控件<a class="headerlink" href="#_41" title="Permanent link"></a></h1>
+<h1 id="_42">移动平台开发<a class="headerlink" href="#_42" title="Permanent link"></a></h1>
+<h1 id="_43">物理基础知识<a class="headerlink" href="#_43" title="Permanent link"></a></h1>
+<p>G=mg 物体受到的重力 = 质量×重力加速度
+F=kx 弹力 = 弹性系数×形变量
+F=uf 摩擦力 = 动摩擦因数×压力
+a=(v0-v1)/(t0-t1)
+v=v0+at
+s=vt+(at^2)/2
+力的三角形定则/平行四边形定则/正交分解。
+F=ma 力=质量×加速度
+w=(a0-a1)/(t0-t1) 角速度 = 角度差-时间差
+v=wr 线速度 = 角速度×半径</p>
 <h1 id="title_4">title<a class="headerlink" href="#title_4" title="Permanent link"></a></h1></article></body></html>
