@@ -6,7 +6,7 @@ null不能成为键名。
 **Map([[kay, value], [kay, value], [kay, value], [kay, value]])** 以数组为参初始化map对象。  
 以第一个参数为key，以第二个参数为value。
 |||||
-|-|-|-||
+|-|-|-|-|
 |属性||||
 |constructor|Map|||
 |size|数量|||

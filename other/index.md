@@ -2,7 +2,7 @@
 - [siroc](/other/siroc.html)
 - [h3](/other/h3.html)
 - [whistle](/other/whistle.html)
-- [other](/other/other.html)
+- [nvm](/other/nvm.html)
 - [other](/other/other.html)
 - [other](/other/other.html)
 - [other](/other/other.html)

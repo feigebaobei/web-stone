@@ -13,15 +13,15 @@ set类似数组。其成员的值都是唯一的。其键名与键值相同。
     var arr = Array.from(set)
     var set = new Set(arr)
 
-**Set.prototype.add(value)** 为set对象添加一个值
-**Set.prototype.size** 返回set对象的长度
-**Set.prototype.delete(value)** 删除set对象中的指定的值，并返回bool结果。
-**Set.prototype.has(value)** 检查set对象中是否有指定的值
-**Set.prototype.clear()** 删除指定set对象中的所有值
-**Set.prototype.keys()** 返回一个以指定set对象的key组成的类数组对象。键名和键值是同一个值。其返回结果与Set.values一样。
-**Set.prototype.values()** 返回一个以指定set对象的value组成的类数组对象。
-**Set.prototype.entries()** 返回一个以key和value组成的数组组成的数组。
-**Set.prototype.forEach(fn(value, key, set) {})** 对set对象进行遍历操作。(value 与 key 相同)
+**Set.prototype.add(value)** 为set对象添加一个值  
+**Set.prototype.size** 返回set对象的长度  
+**Set.prototype.delete(value)** 删除set对象中的指定的值，并返回bool结果。  
+**Set.prototype.has(value)** 检查set对象中是否有指定的值  
+**Set.prototype.clear()** 删除指定set对象中的所有值  
+**Set.prototype.keys()** 返回一个以指定set对象的key组成的类数组对象。键名和键值是同一个值。其返回结果与Set.values一样。  
+**Set.prototype.values()** 返回一个以指定set对象的value组成的类数组对象。  
+**Set.prototype.entries()** 返回一个以key和value组成的数组组成的数组。  
+**Set.prototype.forEach(fn(value, key, set) {})** 对set对象进行遍历操作。(value 与 key 相同)  
 
 set对象没有提供访问指定值的方法。要想访问指定值需要转为数组后再用数组的方法取指定值。  
 
