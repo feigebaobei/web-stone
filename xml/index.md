@@ -51,8 +51,34 @@ xml.getElementByTagName('to')[0].childrenNodes[0].nodeValue
 ## xml dom
 
 # XMLHttpRequest
+```js
+xhr: {
+    readyState,      // http请求的状态
+    responseText,    // 当前状态下从服务器接收到的响应体。不包括响应头。
+    responseXML,     // 把响应解析为xml并作为document对象返回。
+    status,          // http状态代码
+    statusText,      // http状态代码对应的文本
+    onreadystatechange // 指定当http请求的状态改变时调用的回调方法
+    abort(),         // 取消当前响应
+    getAllResponseHeaders(),  // 把http响应头部作为未解析的字符串返回
+    getResponseHeader(),      // 返回指定http响应头部的值
+    open(),         // 初始化http请求参数，但不发送http请求。
+    send(),         // 发送http请求，参数是open()的结果。
+    setRequestHeader(),       //  向一个执行了open()并未执行send()的请求添加或设置一个http请求。
+}
+```
+## readyState
+||||
+|-|-|-|
+|0|Uninitialized	|初始化状态。XMLHttpRequest 对象已创建或已被 abort() 方法重置。|
+|1|Open	open()      |方法已调用，但是 send() 方法未调用。请求还没有被发送。|
+|2|Sent	Send()      |方法已调用，HTTP 请求已发送到 Web 服务器。未接收到响应。|
+|3|Receiving	    |所有响应头部都已经接收到。响应体开始接收但未完成。|
+|4|Loaded	        |HTTP 响应已经完全接收。|
+只会递加。  
 
 
 # ActiveX （放弃）
 # 传输数据
 ie为了开发更新网页部分内容创建了`xml`和`XMLHttpRequest`（简称xhr对象）。后来`json`比`xhr`使用更方便，所以多使用`json`。  
+ie开发此功能后，其他浏览器也都支持了此功能。然后有了页面异步更新功能。  
