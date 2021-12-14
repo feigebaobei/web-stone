@@ -1415,10 +1415,33 @@ window.onfocus = () => {
 ```
 
 # 自定义控件
+使用canvas模拟其他控件。  
+```js
+class RoundeRactangle {
+	...
+}
+class Progressbar {
+	...
+}
+class Slider {
+	...
+}
+class Pan {
+	...
+}
+let CoreHtml5 = {
+	RoundeRactangle,
+	Progressbar,
+	Slider,
+	Pan,
+}
+module.exports = CoreHtml5
+```
+
+# 移动平台开发
 ## title
 ## title
 
-# 移动平台开发
 # 物理基础知识
 G=mg 物体受到的重力 = 质量×重力加速度
 F=kx 弹力 = 弹性系数×形变量
