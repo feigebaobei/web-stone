@@ -519,6 +519,57 @@ onsubmit|  script|  在提交表单时触发。|
 # 富文本编辑
 详见[富文本编辑](/404.html)
 
+# 音频
+audio
+||||
+|-|-|-|
+|autoplay|autoplay|音频就绪后马上播放|
+|controls|controls|向用户显示控件|
+|loop|loop|循环播放|
+|muted|muted|静音|
+|preload|preload|在页面加载时进行加载，并预备播放。当使用autoplay时忽略该属性|
+|src|src|音频的url|
+|audioTracks||返回可用音频的audio TrackList对象|
+|buffered||返回已经缓冲部分的TimeRanges对象|
+|controller||当前MediaController对象|
+|crossOrigin||设置/返回cors|
+|currentSrc||当前的url|
+|currentTime||当前播放位置（s）|
+|defaultMuted||是否默认静音|
+|defaultPlaybackRate||默认播放速度|
+|duration||音频的长度（s）|
+|ended||是否已经结束|
+|error||返回错误状态的MediaError对象|
+|mediaGroup||该音频返回所属媒介组合的名称|
+|muted||是否关闭声音|
+|networkState||当前网络状态|
+|paused||是否暂停|
+|playbackRate||设置/返回音频播放速度|
+|played||返回已经播放部分的TimeRanges对象|
+|preload||设置/返回音频的preload属性|
+|readyState||该音频的就绪状态|
+|seekable||返回可寻址部分的TimeRanges对象|
+|seeking||用户是否在音频中进行查找|
+|textTracks||返回可用文本轨道的TextTrackList对象|
+|volume||设置/返回音频的音量|
+|addTextTrack()||向音频添加新的文本轨道|
+|canPlayType()||返回是否可播放指定的音频类型|
+|fastSeek()||指定播放时间|
+|getStartDate()||返回新的Date对象，表示当前时间线偏移量|
+|load()||重新加载|
+|play()||开始播放|
+|pause()||暂停播放|
+
+## TimeRange
+表示缓冲范围。  
+若跳跃播放，则有多个缓冲范围。  
+||||
+|-|-|-|
+|length||缓冲范围的数量|
+|start(index)||指定缓冲范围的开始位置|
+|end(index)||指定缓冲范围的结束位置|
+
+# 视频
 # 全标签
 ```
     <!-->
