@@ -1063,861 +1063,1198 @@ body .markdown-body
 .highlight .vi{color:teal}
 .highlight .il{color:#009999}
 .highlight .gc{color:#999;background-color:#EAF2F5}
-</style><title>canvasCore</title></head><body><article class="markdown-body"><h1 id="_1">基础知识<a class="headerlink" href="#_1" title="Permanent link"></a></h1>
-<p>canvas是html5的东西。虽然是大部分是由js处理的，但是处理的变量是canvas的“绘图环境变量”<code>document.getElementById('canvasId').getContext('2d')</code>。以后的一系列操作都是对该变量的操作。<br />
-canvas中包含的内容，只在浏览器不支持canvas时才会显示出来。<br />
-canvasw使用“立即模式”来绘制图像。svg使用“保留模式”来绘制图像。<br />
-现在浏览器已经使用离屏canvas技术做了优化。请不要使用非必要的离屏canvas。  </p>
-<h2 id="canvas">canvas大小<a class="headerlink" href="#canvas" title="Permanent link"></a></h2>
-<p>canvas有两套大小  </p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>dom大小</td>
-<td>css控制</td>
-<td></td>
-</tr>
-<tr>
-<td>绘图表面大小（视窗大小）</td>
-<td>js控制</td>
-<td><code>document.getElementById('id').width</code></td>
-</tr>
-</tbody>
-</table>
-<p>浏览器会把“绘图表面大小（视窗大小）”缩放到dom大小。<br />
-canvas的绘图表面大小width/height不能使用<code>px</code><br />
-应该先设置绘图表面大小再改变绘图环境变量。</p>
-<h2 id="canvas-api">canvas api<a class="headerlink" href="#canvas-api" title="Permanent link"></a></h2>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>width</td>
-<td>绘图表面宽度</td>
-<td></td>
-</tr>
-<tr>
-<td>height</td>
-<td>绘图表面高度</td>
-<td></td>
-</tr>
-<tr>
-<td>getContext(params)</td>
-<td>返回绘图环境变量</td>
-<td></td>
-</tr>
-<tr>
-<td>toDataURL(type, quality)</td>
-<td>返回一个数据地址</td>
-<td>quality控制图片的质量，<code>[0, 1.0]</code>。type:图像类型。如<code>image/png</code>,<code>image/jpeg</code>。</td>
-</tr>
-<tr>
-<td>toBlob(cb, type, args&hellip;)</td>
-<td>返回canvas的blob</td>
-<td>cb回调方法，参数是canvas的图像的blob。type图像类型，默认<code>image/png</code>，最后一个参数控制图像的质量。</td>
-</tr>
-</tbody>
-</table>
-<h2 id="canvas_1">canvas的绘图环境。<a class="headerlink" href="#canvas_1" title="Permanent link"></a></h2>
-<div class="highlight"><pre><span class="nx">canvas</span><span class="p">.</span><span class="nx">getContext</span><span class="p">(</span><span class="s1">&#39;2d&#39;</span><span class="p">)</span> <span class="c1">// 返回2d的绘图环境。</span>
-<span class="nx">canvas</span><span class="p">.</span><span class="nx">getContext</span><span class="p">(</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span> <span class="c1">// 返回3d的绘图环境。调用webGL</span>
-</pre></div>
-
-<h2 id="canvasrenderingcontext2d">绘图环境<code>CanvasRenderingContext2D</code>对象的属性<a class="headerlink" href="#canvasrenderingcontext2d" title="Permanent link"></a></h2>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>canvas</td>
-<td>绘图环境所属的canvas</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>fillstyle</td>
-<td>填充时使用的颜色/渐变色/图案</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>font</td>
-<td>设置字号/字体</td>
-<td><code>20px Arial</code></td>
-<td>当字号&lt;=13时，取13。</td>
-<td></td>
-</tr>
-<tr>
-<td>globalAlpha</td>
-<td>设置全局透明度。</td>
-<td><code>[0, 1.0]</code></td>
-<td>计算多个不透明度时，会相乘它们。</td>
-<td></td>
-</tr>
-<tr>
-<td>globalCompsiteOperation</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>lineCap</td>
-<td>设置线帽</td>
-<td>默认<code>butt</code></td>
-<td><code>['butt', 'round', 'squar']</code></td>
-<td></td>
-</tr>
-<tr>
-<td>lineWidth</td>
-<td>线宽</td>
-<td>要求非负/非无穷。</td>
-<td>默认1.0</td>
-<td></td>
-</tr>
-<tr>
-<td>lineJoin</td>
-<td>设置相交点</td>
-<td>默认<code>miter</code></td>
-<td><code>['bevel', 'round', 'miter']</code></td>
-<td></td>
-</tr>
-<tr>
-<td>miterLimit</td>
-<td>设置相交点的最大长度</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>shadowBlur</td>
-<td>阴影的模糊值</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>shadowColor</td>
-<td>阴影的颜色</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>shadowOffsetX</td>
-<td>阴影的水平偏移值</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>shadowOffsetY</td>
-<td>阴影的竖直偏移值</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>strokeStyle</td>
-<td>设置描边的样式</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>textAlign</td>
-<td>文本的水平对齐方式</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>textBaseLine</td>
-<td>文本的竖直对齐方式</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>save()</td>
-<td>保存canvas状态到栈顶</td>
-<td>以上属性都会改变当前canvas的状态。</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>restore()</td>
-<td>在栈顶弹出canvas状态。（即：使用弹出的canvas状态）</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="canvas_2">离屏canvas<a class="headerlink" href="#canvas_2" title="Permanent link"></a></h2>
-<div class="highlight"><pre><span class="kd">let</span> <span class="nx">offsetCanvas</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;canvas&#39;</span><span class="p">)</span>
-</pre></div>
-
-<h2 id="_2">基础数学<a class="headerlink" href="#_2" title="Permanent link"></a></h2>
-<div class="highlight"><pre>Math.sin()
-Math.cos()
-Math.tan()
-
-180角度 = pi弧度
-
-单位向量：大小为1的向量
-向量：{
-    x,
-    y,
-}
-向量的加/减法：向量的分量分别加/减。
-向量的点积：相应分量分别相乘，再相加。结果是标量。
-
-帧：表示每秒多少个画面。
-帧的倒数表示该帧经过的时间。
-</pre></div>
-
-<h1 id="_3">绘制<a class="headerlink" href="#_3" title="Permanent link"></a></h1>
-<h2 id="_4">矩形<a class="headerlink" href="#_4" title="Permanent link"></a></h2>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>clearRect(x: number, y: number, w: number, h: number) =&gt; void</td>
-<td>清空指定区域的像素。</td>
-<td>使用全透明的黑色填充。</td>
-</tr>
-<tr>
-<td>strokeRect(x: number, y: number, w: number, h: number) =&gt; void</td>
-<td>描边矩形</td>
-<td></td>
-</tr>
-<tr>
-<td>fillRect(x: number, y: number, w: number, h: number) =&gt; void</td>
-<td>填充矩形</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="_5">渐变<a class="headerlink" href="#_5" title="Permanent link"></a></h2>
-<p>先创建渐变区域，再添加颜色。<br />
-|||
-|-|-|
-|createLinearGradient(x0: number, y0: number, x1: number, y1: number)|返回线性渐变|
-|createRadialGradient(x0: number, y0: number, r0: number, x1: number, y1: number, r1: number)||
-|createPattern(image: HTMLImageElement | HTMLCanvasElement | HTMLVideoElement, repetition: string)|返回图像模式。<code>repetition: ['repeat', 'repeat-x', 'repeat-y', 'no-repeat']</code>|</p>
-<div class="highlight"><pre><span class="kd">let</span> <span class="nx">gradient</span> <span class="o">=</span> <span class="nx">context</span><span class="p">.</span><span class="nx">createLiearGradient</span>
-<span class="nx">gradient</span><span class="p">.</span><span class="nx">addColorStop</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">)</span> <span class="c1">// 位置的百分值 颜色</span>
-<span class="nx">gradient</span><span class="p">.</span><span class="nx">addColorStop</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;yellow&#39;</span><span class="p">)</span>
-<span class="c1">// 放射渐变同理</span>
-<span class="kd">let</span> <span class="nx">pattern</span> <span class="o">=</span> <span class="nx">context</span><span class="p">.</span><span class="nx">createPattern</span><span class="p">(</span><span class="nx">image</span><span class="p">,</span> <span class="s1">&#39;repeat-y&#39;</span><span class="p">)</span>
-<span class="nx">context</span><span class="p">.</span><span class="nx">fillStyle</span> <span class="o">=</span> <span class="nx">pattern</span>
-</pre></div>
-
-<h2 id="_6">阴影<a class="headerlink" href="#_6" title="Permanent link"></a></h2>
-<table>
-<thead>
-<tr>
-<th>属性</th>
-<th></th>
-<th>默认值</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>shadowBlur</td>
-<td></td>
-<td>0</td>
-</tr>
-<tr>
-<td>shadowColor</td>
-<td></td>
-<td>0</td>
-</tr>
-<tr>
-<td>shadowOffsetX</td>
-<td></td>
-<td>0</td>
-</tr>
-<tr>
-<td>shadowOffsetY</td>
-<td></td>
-<td>0</td>
-</tr>
-<tr>
-<td><code>context.clip()</code>也把操作范围限制在指定区域内。</td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<div class="highlight"><pre><span class="nx">context</span><span class="p">.</span><span class="nx">rect</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">w</span><span class="p">,</span> <span class="nx">h</span><span class="p">)</span>
-<span class="nx">context</span><span class="p">.</span><span class="nx">clip</span><span class="p">()</span>
-<span class="c1">// ...</span>
-</pre></div>
-
-<h2 id="_7">限制作图范围<a class="headerlink" href="#_7" title="Permanent link"></a></h2>
-<p>可实现剪纸效果。<br />
-<div class="highlight"><pre><span class="nx">context</span><span class="p">.</span><span class="nx">rect</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">w</span><span class="p">,</span> <span class="nx">h</span><span class="p">)</span>
-<span class="nx">context</span><span class="p">.</span><span class="nx">clip</span><span class="p">()</span>
-</pre></div></p>
-<h2 id="_8">路径/描边/填充<a class="headerlink" href="#_8" title="Permanent link"></a></h2>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>arc(x, y, r, startAngle, endAngle, counterClockWise)</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>beginPath()</td>
-<td>重置当前路径</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>closePath()</td>
-<td>闭合当前路径</td>
-<td>不要手动使用2个重叠的点去实现闭合路径。</td>
-<td></td>
-</tr>
-<tr>
-<td>fill()</td>
-<td>使用fillStyle属性填充</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>rect(x, y, w, h)</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>stroke()</td>
-<td>使用strokeStyle属性描边</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>moveTo(x, y)</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>lineTo(x, y)</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p><strong>非零环绕规则</strong><br />
-当一条线段与路径上的直线或曲线相交时，就改变计数器的值，若与路径的顺时针部分相交，则+1，若与路径的逆时针部分相交，则-1。若计数器的值不是0，则此区域在路径内，调用fill()，否则不调用fill()。  </p>
-<details>
-  <summary>折叠文本</summary>
-  此处可书写文本
-  嗯，是可以书写文本的
-</details>
-
-<h2 id="_9">一像素问题<a class="headerlink" href="#_9" title="Permanent link"></a></h2>
-<p>一个像素的范围内绘制装修像素宽的线段是不可能的，所以左右2个方向上的半像素都被扩展为一个像素。<br />
-现代浏览器已经都实现了抗锯齿技术。  </p>
-<h2 id="_10">贝塞尔曲线<a class="headerlink" href="#_10" title="Permanent link"></a></h2>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>arcTo(x0, y0, x1, y1, r)</td>
-<td>2个点确定的线为切线。r为半径。</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>quadraticCurveto(px, py, x, y)</td>
-<td>第一个点是控制点，第二个点是锚点。</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>bezierCurveTo(px0, py0, px1, px2, x, y)前两个点是控制点，第三个点是锚点。</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p><a href="/html/canvas/demo0.html">编辑贝塞尔曲线-demo0</a>  </p>
-<h2 id="_11">坐标变换<a class="headerlink" href="#_11" title="Permanent link"></a></h2>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>rotate(angle)</td>
-<td>旋转</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>scale(x, y)</td>
-<td>缩放</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>translate(x, y)</td>
-<td>平移</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>transform(a, b, c, d, e, f)</td>
-<td>变换</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>setTransform(a, b, c, d, e, f)</td>
-<td>变换到</td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="_12">图像合成<a class="headerlink" href="#_12" title="Permanent link"></a></h2>
-<p>有兼容性问题。chrome/firefox实现效果不同。  </p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>source-atop</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>source-in</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>source-out</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>source-over</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>destination-atop</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>destination-in</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>destination-out</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>destination-over</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>lighter</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>copy</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>xor</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p><a href="/html/canvas/demo1.html">图像合成-demo1</a>  </p>
-<h1 id="_13">文本<a class="headerlink" href="#_13" title="Permanent link"></a></h1>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th>枚举值</th>
-<th>默认值</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>strokeText(text, x, y)</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>fillText(text, x, y</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>measureText(text)</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>font</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>font-style</td>
-<td>normal itelic oblique</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>font-variant</td>
-<td>normal small-caps</td>
-<td>normal</td>
-</tr>
-<tr>
-<td></td>
-<td>font-weight</td>
-<td>normal(400) bold(700) bolder lighter number</td>
-<td>normal</td>
-</tr>
-<tr>
-<td></td>
-<td>font-size</td>
-<td>xx-small x-small medium large x-large xx-large smaller larger length %</td>
-<td>normal</td>
-</tr>
-<tr>
-<td></td>
-<td>line-height</td>
-<td>浏览器强制设置为normal.</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>font-family</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>textAlign</td>
-<td>水平对齐方式</td>
-<td>start center end left right</td>
-<td></td>
-</tr>
-<tr>
-<td>textBaseline</td>
-<td>竖直对齐方式</td>
-<td>top bottom middle alphabetic ideographic hanging</td>
-<td></td>
-</tr>
-<tr>
-<td>measureText(text)</td>
-<td>返回TextMetircs对象。</td>
-<td width:="width:" 该字体时文本的像素宽度="该字体时文本的像素宽度">TextMetircs: </td>
-<td></td>
-</tr>
-<tr>
-<td>font</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>font</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>默认字形：&lsquo;10px sans-serif&rsquo;<br />
-<a href="/html/canvas/demo2.html">在圆弧周围绘制文本-demo2</a><br />
-光标的高度：字母M的宽度×(1+1/6)<br />
-<a href="/html/canvas/demo3.html">文本编辑器-demo3</a>  </p>
-<h1 id="_14">图像与视频<a class="headerlink" href="#_14" title="Permanent link"></a></h1>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>用法</th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>drawImage(image, dx, dy)</code></td>
-<td>把指定图像绘制在canvas的指定区域上。</td>
-<td>可控制图像的缩放</td>
-<td></td>
-</tr>
-<tr>
-<td><code>drawImage(image, dx, dy, dw, dh)</code></td>
-<td>把指定图像绘制在canvas的指定区域上。</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh)</code></td>
-<td>把图像的指定区域绘制在canvas的指定区域上。</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>getImageData(sx, sy, sw, sh)</td>
-<td>返回指定区域的图像的ImageData对象</td>
-<td>该ImageData.data是一个数组，包含4<em>sw</em>sh个整数。每4个整数表示一个像素，它们分别表示：红/绿/蓝/不透明度alpha。imageData.width !== sw imageData.width:设备像素，sw:css像素的单位。</td>
-<td></td>
-</tr>
-<tr>
-<td>putImageData(imageData, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight)</td>
-<td>把脏数据复制到canvas的指定区域。</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>createImageData(w, h)</td>
-<td>创建并返回ImageData对象</td>
-<td>可以操作每一个像素</td>
-<td></td>
-</tr>
-<tr>
-<td>createImageData(imageData)</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr>
-<th>ImageData对象</th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>width</td>
-<td>以设备像素（px）为单位的图像数据宽度</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>height</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>data</td>
-<td>像素数值组成的数组-TypedArray</td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="canvas-canvas">离屏canvas: 不在屏幕上的canvas<a class="headerlink" href="#canvas-canvas" title="Permanent link"></a></h2>
-<p><details>
-    <summary>
-        由js操作dom生成的canvas。<br />
-    </summary>
-    <pre>
-        let canvas = document.getElementById(&lsquo;canvas&rsquo;),
-            context = canvas.getContext(&lsquo;2d&rsquo;),
-            offsetCanvas = document.createElement(&lsquo;canvas&rsquo;),
-            offsetContext = offsetCanvas.getContext(&lsquo;2d&rsquo;)
-        offsetContext.drawImage(image, 0, 0)
-        context.drawImage(offsetCanvas, 0, 0)
-    </pre>
-</details>
-现代浏览器已经做了离屏canvas，若程序员再用代码实现离屏canvas，则会效率变低。<br />
-当图像复杂时使用offsetCanvas可方便绘制。  </p>
-<h3 id="_15">效率<a class="headerlink" href="#_15" title="Permanent link"></a></h3>
-<p>drawImage &gt; 操作图像（getImageData等）&gt; 递归canvas &gt; 离屏canvas<br />
-绘制canvas = 绘制image<br />
-绘制递归canvas用时较多。因为需要浏览器使用离屏canvas处理。<br />
-不要频繁使用getImageData()获取少量数据。  </p>
-<details>
-    <summary>剪辑区+绘制图像</summary>
-    <pre>
-        context.beginPath()
+</style><title>canvasCore</title></head><body><article class="markdown-body"><pre><code>                            break
+                            break
+                            break
+                            res = 3 * Math.PI / 2
+                            res = Math.PI / 2
+                            res = undefind
+                        case -1
+                        case 0
+                        case 1
+                        res = 0
+                        res = Math.PI
+                    if (this.x &gt; 0) {
+                    switch (Math.sign(this.y)) {
+                    }
+                    }
+                    } else {
+                // 只要有一个分离就是分离
+                if (this.x === 0) {
+                let v2 = this.opposite()
+                res = Math.acos(this.x / this.magnitude())
+                res = Math.PI * 2 + Math.asin(this.y / this.magnitude())
+                return 1
+                return 2
+                return 3
+                return 4
+                return true
+                return v2.radian() + Math.PI
+                }
+                } else {
+            axes.push(v1.edge(v2)[0].normal()[0])
+            axis,
+            break
+            break
+            break
+            break
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            cb(start)
+            context.lineTo(this.points[i].x, this.points[i].y)
+            finish = +new Date()
+            if (!p1.isOverlap(p2)) {
+            if (Math.sign(this.y) &gt; 0) {
+            if (Math.sign(this.y) &gt; 0) {
+            let arr = [this.min, this.max, projection.min, projection.max].sort((a, b) =&gt; a - b)
+            let distance = Math.hypot(this.x - shape.x, this.y - shape.y)
+            let p1 = this.project(axes[i])
+            let p2 = shape.project(axes[i])
+            overlap
+            p.x += dx
+            p.y += dy
+            return
+            return !this.y &amp;&amp; !v2.y
+            return 0
+            return 0
+            return 0
+            return distance &lt; Math.abs(this.r - shape.r)
+            return false
+            return Math.abs(arr[2] - arr[1])
+            return new Vector(this.x / m, this.y / m)
+            return polygonCollidesWithCircle(shape, this)
+            return polygonCollidesWithCircle(this, shape)
+            return this
+            return this
+            return this.dotProduct(v2n)
+            return this.isSeparationOnAxes(axes.concat(this.getAxes()), shape)
+            return this.opposite() // 为了计算快一点
+            return this.rotate(-rr)
+            return this.rotate(rr)
+            return this.timeArr[len - 1] - this.beginTime
+            return this.x / this.y === v2.x / v2.y
+            return undefined
+            return undefined
+            return undefined
+            return v.vertical()
+            scalars.push(v.dotProduct(axis))
+            self.imageLoaded = true
+            self.timeout = 100 / 60 - (finish - start)
+            sprite.left = 0
+            start = +new Date()
+            this.x *= v2
+            this.x *= v2.x
+            this.y *= v2
+            this.y *= v2.y
+            v.x = point.x
+            v.y = point.y
+            v1.x = this.points[i].x
+            v1.y = this.points[i].y
+            v2.x = this.points[i + 1].x
+            v2.y = this.points[i + 1].y
+            }
+            }
+            }
+            } else {
+            } else {
         // ...
-        context.close()
-        context.clip() // 定义剪辑区
-        context.drawImage(image, 0, 0)
-    </pre>
-</details>
-
-<h2 id="_16">绘制视频<a class="headerlink" href="#_16" title="Permanent link"></a></h2>
-<div class="highlight"><pre>// html
-
-// js
-let canvas = ...,
-    video = ...;
-function animate () {
-    if (!video.ended) {
-        context.drawImage(video, 0, 0)
-        window.requestNextAnimationFrame(animate) // 这是一个自定义方法
-    }
-}
-video.onload = () =&gt; {
+        // draw()
+        // draw()
+        // return !this.isSeparationOnAxes(this.getAxes().concat(shape.getAxes()), shape)
+        // return undefind
+        // this.endAnimate()
+        // this.magnitude = Math.hypot(this.x, this.y)
+        // 处理暂停时的逻辑
+        axes.push(v1.edge(v2)[0].normal()[0])
+        behavior.execute(this, context, time)
+        calcFps()
+        context = canvas.getContext('2d'),
+        context.arc(this.x, this,y, this, r, 2 * Math.PI, false)
+        context.beginPath()
+        context.beginPath()
+        context.closePath()
+        context.drawImage(this.image, cell.x, cell.y, cell.w, cell.h, sprite.left, sprite.top, cell.w, cell.h)
+        context.drawImage(this.image, sprite.left, sprite.top, sprite.width, sprite.height)
+        context.fill()
+        context.moveTo(this.points[0].x, this.points[0].y)
+        context.restore()
+        context.restore()
+        context.restore()
+        context.save()
+        context.save()
+        context.save()
+        context.stroke()
+        for (let i = 0; i &lt; axes.length; i++) {
+        for (let i = 0; i &lt; this.points.length - 1; i++) {
+        for (let i = 1; i &lt; this.points.length; i++) {
+        if (!axis) { // 圆与圆
+        if (!this.magnitude() || !v2.magnitude()) {
+        if (!this.points.length) {
+        if (axes) { // 多边形与多边形
+        if (len) {
+        if (m) {
+        if (rm &gt; rv) {
+        if (sprite.left &gt; context.canvas.width) {
+        if (this.isOverlap(projection)) {
+        if (this.x === 0 || this.y === 0) {
+        if (v) {
+        if (v2n) {
+        if (Vector.prototype.isPrototypeOf(v2)) {
+        lastTime = now
+        lastTime = time
+        let [p, q] = [this.subtract(v2), v2.subtract(this)]
+        let [v, scalars] = [new Vector(), []]
+        let [v1, v2] = [new Vector(), new Vector()]
+        let axes = []
+        let axes = shape.getAxes()
+        let axes = shape.getAxes().concat(this.getAxes())
+        let axis = shape.getAxes()
+        let cell =this.cells[this.cellIndex]
+        let curRadian = this.radian() + b
+        let fps = 1000 / (now - lastTime)
+        let len = this.timeArr.length
+        let m = this.magnitude()
+        let max = originP + this.r
+        let min = originP - this.r
+        let now = +new Date()
+        let originP = new Vector(this.x, this.y).dotProduct(axis)
+        let overlap = p1.overlap(p2)
+        let p1 = this.project(axis)
+        let p2 = shape.project(axis)
+        let percentComplete = elapseTime / duration
+        let r = this.magnitude()
+        let res
+        let rm = this.normal[0].radian()
+        let rm = this.normal[0].radian()
+        let rr = 2 * (Math.PI / 2 - (rv - rm))
+        let rr = Math.PI - 2 * Math.abs(rv - rm)
+        let rv = this.radian()
+        let rv = this.radian()
+        let self = this
+        let v = this.normalize()
+        let v2n = v2.normalize()
+        offsetCanvas = document.createElement('canvas'),
+        offsetContext = offsetCanvas.getContext('2d')
+        percentComplete = fn(percentComplete)
+        return ((1 - Math.cos(percentComplete * Math.PI * passes)) * (1 - percentComplete)) + percentComplete
+        return +new Date() - this.beginTime
+        return 1 - Math.pow(1 - percentComplete, strength * 2)
+        return []
+        return [new Vector(-this.y, this.x), new Vector(this.y, -this.x)] // 第一个值是顺时针方向的。第二个是逆时针方向的。
+        return axes
+        return context.inPointInPath(x, y)
+        return context.inPointInPath(x, y)
+        return elapseTime
+        return elapseTime * (this.timeWarp(percentComplete) / percentComplete)
+        return false
+        return fps
+        return Math.abs(v2.radian() - this.radian())
+        return Math.hypot(this.x - p.x, this.y - p.y)
+        return Math.hypot(this.x, this.y)
+        return minimumTranslateionVector(axes, shape)
+        return minimumTranslateionVector(shape.getAxes().concat(this.getAxes()), shape)
+        return new Projection(Math.min.apply(null, scalars), Math.max.apply(null, scalars))
+        return new Projection(min, max)
+        return new Vector(-this.x, -this.y)
+        return new Vector(p.x, p.y).subtract(originv)
+        return new Vector(r * Math.cos(curRadian), r * Math.sin(curRadian))
+        return new Vector(this.x + v2.x, this.y + v2.y)
+        return percentComplete - Math.sin(percentComplete * 2 * Math.PI) / (2 * Math.PI)
+        return percentComplete &lt;= 1 ? percentComplete : 2 - percentComplete
+        return res
+        return this.add(v2.opposite())
+        return this.magnitude() === 0
+        return this.magnitude() &gt; v2.magnitude() ? [p, q] : [q, p]
+        return this.max &gt; projection.min &amp;&amp; projection.max &gt; this.min
+        return this.rotate(rr)
+        return this.x * v2.x + this.y * v2.y
+        return this.x === v2.x &amp;&amp; this.y === v2.y
+        return undefined
+        return {
+        sprite.left += sprite.vx * (time - this.lastTime) / 1000
+        super(points)
+        super(points)
+        switch(this.quadrant) {
+        this.animateId = requestNextAnimationFrame(this.animate)
+        this.beginTime = +new Date()
+        this.cellIndex = 0
+        this.cellIndex++
+        this.clearScreen()
+        this.context.clearRect(0, 0, canvas.width, canvas.height)
+        this.createPath()
+        this.createPath()
+        this.createPath(context)
+        this.creatPath(context)
+        this.drawImage()
+        this.fill()
+        this.fillStyle = fillStyle
+        this.fps = 1000 / (time - this.lastTime)
+        this.fps = this.STARTING_FPS
+        this.image = new Image
+        this.image.addEventListener('load', (e) =&gt; {
+        this.image.src = imageSrc
+        this.imageLoaded = false
+        this.max = max
+        this.min = min
+        this.painter.paint(this, context)
+        this.paintOverSprites()
+        this.paintSprites(time)
+        this.paintUnderSprites()
+        this.points = points
+        this.points.forEach(p =&gt; {
+        this.points.forEach(point =&gt; {
+        this.r = r
+        this.running = false
+        this.running = true
+        this.sprite = sprite
+        this.sprite.paint()
+        this.sprite.update()
+        this.startAnimate(time)
+        this.stroke()
+        this.strokeStyle = strokeStyle
+        this.tick(time)
+        this.timeArr.push(+new Date())
+        this.timeArr.push(+new Date())
+        this.updateSprites(time)
+        this.x += dx
+        this.x = x
+        this.x = x
+        this.x = x
+        this.y += dy
+        this.y = y
+        this.y = y
+        this.y = y
+        v1.x = this.points[this.points.length - 1].x
+        v1.y = this.points[this.points.length - 1].y
+        v2.x = this.points[0].x
+        v2.y = this.points[0].y
+        var self = this, start, finish;
+        window.setTimeout(function () {
+        }
+        }
+        }
+        }
+        }
+        }
+        }
+        }
+        }
+        }
+        }
+        }
+        }
+        }
+        }
+        }
+        }
+        }
+        } else if (Math.sign(this.x) &gt; 0) {
+        } else if (rm === rv) {
+        } else if (this.y === 0 || v2.y === 0) {
+        } else {
+        } else {
+        } else {
+        } else {
+        } else {
+        } else {
+        } else {
+        } else {
+        } else {
+        } else { // 圆与多边形
+        } else { // 圆与多边形
+        })
+        })
+        }, false)
+        }, self.timeout)
+    //  this.magnitude = Math.hypot(this.x, this.y)
+    //  this.magnitude = Math.hypot(this.x, this.y)
+    //  this.x = x
+    //  this.x = x
+    //  this.y = y
+    // ...
+    // fill(shape) {}
+    // isSeparationOnAxes() {}
+    // set x(x) {
+    // setX(x) {
+    // setY(y) {
+    // stroke(shape) {}
+    // this.paused = false
+    // }
+    // }
+    // }
+    // 中心对称
+    // 可使用獭方法优化
+    // 弹出当前绘图环境
+    // 旋转
+    // 暂存当前绘图环境
+    // 绘图
+    // 轴对称
+    add(v2) {
+    cancelNextAnimationFrame(this.animateId)
+    collidesWith(shape) {
+    collidesWith(shape) { // 是否碰撞
+    constructor (x = 0, y = 0, r = 0) {
+    constructor(min = 0, max = 0) {
+    constructor(points = []) {
+    constructor(points = [], imageSrc, strokeStyle, fillStyle) {
+    constructor(sprite, points) {
+    constructor(x = 0, y = 0) {
+    constructor(x = 0, y = 0) {
+    context.beginPath()
+    context.clip() // 定义剪辑区
+    context.close()
+    context.drawImage(image, 0, 0)
+    context.drawImage(offsetCanvas, 0, 0)
+    context.drawImage(video, 0, 0)
+    context.restore()
+    context.save()
+    createPath(context) {
+    createPath(context) {
+    distanceWithPoint(p) {
+    dotProduct(v2) { // 返回点积
+    draw() {
+    drawImage() {}
+    edge(v2) { // 返回边缘向量
+    execute: function (sprite, context, time) { // 必须使用function函数。
+    fill(context) {
+    function animate(time) {
+    function calcFps () {
+    getAxes() {
+    getAxes() {
+    if (!this.running) {
+    if (!this.stopWatch.running) {
+    if (!this.timeWarp) { // 扭曲方法不存在
+    if (this.cellIndex &gt;= this.cells.length - 1) {
+    if (this.image.complete) {
+    if (this.image.complete) {
+    if (this.lastTime) {
+    if (this.painter &amp;&amp; this.visible) {
+    if (this.running) {
+    if (this.running) {
+    if (this.running) {
+    intersectionAngle(v2) {
+    isEquality(v2) {
+    isOverlap(projection) {
+    isParallel(v2) {
+    isPointInPath(context, x, y) {
+    isPointInPath(context, x, y) {
+    isSeparationOnAxes(axes, shape) { // 是否处于分离状态
+    isZero() {
+    lastTime: 0,
+    let axes = polygon.getAxes().concat(axis)
+    let axes = this.getAxes().concat(shape.getAxes())
+    let axis = polygon.points.map(p =&gt; {
+    let canvas = document.getElementById('canvas'),
+    let elapseTime = this.stopWatch.elapseTime()
+    let fn = AnimationTimer.elastic(bounces)
+    let lastTime = 0
+    let originV = new Vector(circle.x, circle.y)
+    magnitude() {
+    minimumTranslateionVector(shape) {
+    minimumTranslateionVector(shape) {
+    move(dx = 0, dy = 0) {
+    move(dx = 0, dy = 0) {
+    normal() { // 返回垂直的单位向量
+    normalize() { // 返回单位向量
+    offsetContext.drawImage(image, 0, 0)
+    opposite() {
+    overlap(projection) {
+    paint() {
+    product(v2) {
+    project(axis) {
+    project(axis) {
+    quadrant () {
+    radian() { // 返回该向量的弧度 [0, 2PI)
+    rebounceWithAxes() {
+    rebounceWithSurface(2) {
+    requestNextAnimationFrame(animate)
+    return !this._animating
+    return (percentComplete) =&gt; {
+    return (percentComplete) =&gt; {
+    return (percentComplete) =&gt; {
+    return (percentComplete) =&gt; {
+    return axes.map(axis =&gt; {
+    return polygon.isSeparationOnAxes(axes, circle)
+    return this._animating = !flag
+    return this.duration &lt; this.stopWatch.elapseTime()
+    return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequeatAnimationFrame || window.msRequestAnimationFrame || function (cb, element) {
+    rotate(b) {
+    sprite.paint(context)
+    sprite.update(context, time)
+    stroke(context) {
+    subtract(v2) {
+    this._animating = false
+    this.animate = () =&gt; {
+    this.animate = (time) =&gt; {
+    this.animate = (time) =&gt; {
+    this.animate = null
+    this.animateId = null
+    this.animateId = requestNextAnimateionFrame(this.animate)
+    this.animating = animating
+    this.beginTime = 0
+    this.beginTime = 0
+    this.behaviors = behaviors // 可优化为map对象
+    this.behaviors.forEach(behavior =&gt; {
+    this.canvas = document.querySelector(canvasId)
+    this.cellIndex = 0
+    this.cells = cells
+    this.clearScreen = () =&gt; {
+    this.clearScreen()
+    this.context = this.canvas.getContext('2d')
+    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
+    this.duration = duration
+    this.fps = 0
+    this.gameTime = (+new Date()) - this.startTime
+    this.gameTime = null
+    this.height = height
+    this.image = new Image()
+    this.image = new Image()
+    this.image.src = imageUrl
+    this.image.src = src
+    this.lastTime = null
+    this.lastTime = time
+    this.left = left
+    this.name = gameName
+    this.name = name
+    this.painter = painter // object
+    this.PAUSE_TIMEOUT = 100 // 可能用不上
+    this.running = false
+    this.sprites.forEach
+    this.sprites: new Map()
+    this.startedPauseAt = null
+    this.STARTING_FPS = 60
+    this.startTime = +new Date()
+    this.stopWatch = new StopWatch()
+    this.stopWatch.running
+    this.stopWatch.start()
+    this.stopWatch.stop()
+    this.timeArr = []
+    this.timeArr = []
+    this.timeWarp = timeWarp
+    this.title = 0
+    this.title = 0
+    this.title = 0
+    this.title = 0
+    this.title = 0
+    this.top = top
+    this.updateFrameRate = () =&gt; {}
+    this.updateFrameRate = () =&gt; {}
+    this.updateFrameRate(time)
+    this.visible = visible
+    this.vx = vx
+    this.vy = vy
+    this.width = width
+    toProject(v2) { // 把当前向量投影到v2上。
+    update() {
+    vertical() {
     window.requestNextAnimationFrame(animate) // 这是一个自定义方法
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    } else {
+    } else {
+    } else {
+    } else {
+    })
+    }).sort((a, b) =&gt; a.magnitude() - b.magnitude())[0]
+    }).sort((a, b) =&gt; a.overlap - b.overlap)[0]
+    由js操作dom生成的canvas。  
+...
+// 
+// ...
+// add behavior
+// clear behavior
+// fps() {}
+// remove behavior
+// update painter
+// 弹簧运动
+// 弹跳运动
+// 本例展示了图像与多边形结合的精灵。图像与圆结合同理。
+// 线性运动
+// 缓入缓出运动
+// 缓入运动
+// 缓出运动
+&lt;/pre&gt;
+&lt;/pre&gt;
+&lt;/pre&gt;
+&lt;/summary&gt;
+&lt;pre&gt;
+&lt;pre&gt;
+&lt;pre&gt;
+&lt;summary&gt;
+&lt;summary&gt;剪辑区+绘制图像&lt;/summary&gt;
+&lt;summary&gt;向量&lt;/summary&gt;
+&lt;summary&gt;图像精灵&lt;/summary&gt;
+&lt;summary&gt;圆&lt;/summary&gt;
+&lt;summary&gt;多边形&lt;/summary&gt;
+&lt;summary&gt;多边形精灵&lt;/summary&gt;
+&lt;summary&gt;投影&lt;/summary&gt;
+&lt;summary&gt;点&lt;/summary&gt;
+&lt;summary&gt;计算帧速率&lt;/summary&gt;
+addKeyListener() {}
+advance() {
+canPlaySound() {}
+class Circle {
+class ImageSprite extends Polygon {
+class PloygonSprite extends Ploygon {
+class Point {
+class Polygon {
+class Projection {
+class Vector {
+clearHighScore() {}
+clearScreen() {
+constructor (gameName, canvasId) {
+constructor() {
+constructor(duration, timeWarp) {
+constructor(imageUrl = '', cells = []) {
+constructor(src) {
+constructor({name ='', left = 0, top = 0, width = 0, height = 0, vx = 0, vy = 0, visible = true, animating = false}, painter, behaviors = []) {
+context.clearRect()
+context.drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh)
+elapseTime() {
+elapseTime() {
+end() {
+endAnimate() {} // 游戏结束时的动画
+fps = calcFps()
+function () {
+function minimumTranslateionVector(shape) {
+function polygonCollidesWithCircle(polygon, circle) {
+gameTime() {}
+gameTime() {}
+gameTime() {}
+gameTime() {}
+gameTime() {}
+gameTime() {}
+gameTime() {}
+gameTime() {}
+get animating () {
+getHightScore() {}
+getSprite() {}
+if (!video.ended) {
+isOver() {
+isRunning() {
+let ar = Math.max(a.width, a.height) / 2
+let ax = a.left + ar
+let ay = a.top + ar
+let br = Math.max(b.width, b.height) / 2
+let bx = b.left + br
+let by = b.top + br
+let dx = v / fps
+let dy = v2 / fps
+let mtv = shape1.minimumTranslateionVector()
+paint(context) {
+paint(sprite, context) {
+paint(sprite, context) {
+paint: (sprite, context) =&gt; {
+paintOverSprites() {}
+paintUnderSprites() {} // 绘制背景
+pixelsPerFrame() {}
+playSound() {}
+ppf() {} // pixelsPerFrame的别名
+reset() {
+return Math.hypot(ax - bx, ay - by) &lt;= ar + br
+set animating (flag) {
+setHightScore() {}
+setSprite() {}
+split() {
+sprites.forEach((sprite) =&gt; {
+start() {
+start() {
+start() {
+startAnimate() {} // 游戏开始时的动画
+static bounce(bounces) {
+static easeIn(strength) =&gt; (percentComplete) =&gt; Math.pow(percentComplete, strength * 2)
+static easeInOut() {
+static easeOut(strength) {
+static elastic(passes = 3) {
+static linear = () =&gt; (percentComplete) =&gt; percentComplete
+stop() {
+stop() {
+tick(time) {
+time执行回调函数的时刻。  
+togglePaused() {}
+update(context, time) {
+updateFrameRate(time) {
+updateSprites(time) {
+video = ...;
+window.requestNextAnimationFrame(animate) // 这是一个自定义方法
+x,
+y,
+{
 }
-</pre></div>
-
-<h1 id="_17">动画<a class="headerlink" href="#_17" title="Permanent link"></a></h1>
-<h2 id="_18">动画循环<a class="headerlink" href="#_18" title="Permanent link"></a></h2>
-<ul>
-<li>不使用<code>setTimeoute / setInterval</code>处理动画。  </li>
-<li>基于<code>requestAnimationFrame()</code>处理动画。  </li>
-</ul>
-<p>requestAnimationFrame(cb)<br />
-cb(time)<br />
-    time执行回调函数的时刻。<br />
-    对于此参数，作者没找到权威的说明。<br />
-    不是从1970年到现在的毫秒值。<br />
-返回id<br />
-cancelAnimationFrame(id) 取消回调  </p>
-<h3 id="requestanimationframecb">requestAnimationFrame(cb)<a class="headerlink" href="#requestanimationframecb" title="Permanent link"></a></h3>
-<p>该方法在浏览器方便时执行下一次循环 <br />
-<a href="/html/canvas/requestAnimationFrame.html">demo-requestAnimationFrame</a>  </p>
-<h3 id="requestnextanimationframe">封装<code>requestNextAnimationFrame()</code><a class="headerlink" href="#requestnextanimationframe" title="Permanent link"></a></h3>
-<div class="highlight"><pre><span class="nb">window</span><span class="p">.</span><span class="nx">requestNextAnimateionFrame</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="nb">window</span><span class="p">.</span><span class="nx">requestAnimationFrame</span> <span class="o">||</span> <span class="nb">window</span><span class="p">.</span><span class="nx">webkitRequestAnimationFrame</span> <span class="o">||</span> <span class="nb">window</span><span class="p">.</span><span class="nx">mozRequeatAnimationFrame</span> <span class="o">||</span> <span class="nb">window</span><span class="p">.</span><span class="nx">msRequestAnimationFrame</span> <span class="o">||</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">cb</span><span class="p">,</span> <span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
-            <span class="kd">var</span> <span class="nx">self</span> <span class="o">=</span> <span class="k">this</span><span class="p">,</span> <span class="nx">start</span><span class="p">,</span> <span class="nx">finish</span><span class="p">;</span>
-            <span class="nb">window</span><span class="p">.</span><span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-                <span class="nx">start</span> <span class="o">=</span> <span class="o">+</span><span class="k">new</span> <span class="nb">Date</span><span class="p">()</span>
-                <span class="nx">cb</span><span class="p">(</span><span class="nx">start</span><span class="p">)</span>
-                <span class="nx">finish</span> <span class="o">=</span> <span class="o">+</span><span class="k">new</span> <span class="nb">Date</span><span class="p">()</span>
-                <span class="nx">self</span><span class="p">.</span><span class="nx">timeout</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">/</span> <span class="mi">60</span> <span class="o">-</span> <span class="p">(</span><span class="nx">finish</span> <span class="o">-</span> <span class="nx">start</span><span class="p">)</span>
-            <span class="p">},</span> <span class="nx">self</span><span class="p">.</span><span class="nx">timeout</span><span class="p">)</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">)</span>
-</pre></div>
-
-<h2 id="_19">帧<a class="headerlink" href="#_19" title="Permanent link"></a></h2>
-<p>表示动画快慢的单位。（f/s）每秒多少个画面。fps。<br />
-表示每个画面用时 = 1/fps。<br />
-<details>
-    <summary>计算帧速率</summary>
-    <pre>
-        let lastTime = 0
-        function calcFps () {
-            let now = +new Date()
-            let fps = 1000 / (now - lastTime)
-            lastTime = now
-            return fps
-        }
-        function animate(time) {
-            // &hellip;
-            calcFps()
-        }
-        requestNextAnimationFrame(animate)
-    </pre>
-</details></p>
-<h2 id="title">title<a class="headerlink" href="#title" title="Permanent link"></a></h2>
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+})
+不是从1970年到现在的毫秒值。  
+对于此参数，作者没找到权威的说明。  
+需要再完善
+            key = Math.floor(Math.random() * 100000)
+            this.behaviors.set(k, v)
+            this.behaviors.set(this.tempRandomArr(index), fn)
+        behaviors.forEach((fn, index) =&gt; {
+        do {
+        key = this.tempRandomArr[this.tempRandomArr.length - 1]
+        Object.entries(behaviors).forEach(([k, v]) =&gt; {
+        tempRandomArr.push(Math.floor(Math.random() * 100000))
+        this.behaviors = new Map()
+        value = key
+        } while (this.tempRandomArr.has(key))
+        })
+        })
+    //     ...
+    //     key: fn,
+    // array
+    // map
+    // obj
+    // set
+    // this.behaviors: map = {
+    // }
+    if (!value) {
+    if (Array.isArray(behaviors)) {
+    this.behavior = new Map()
+    this.behavior.delete(key)
+    this.behaviors.set(key, value)
+    this.tempRandomArr = new Set()
+    while (tempRandomArr.size &lt; behaviors.length) {
+    }
+    }
+    }
+    } else {
+addBehavior(key, value = null) {
+clearBehavior() {
+removeBehavior(key) {
+}
+}
+}
+</code></pre>
+<p><summary>折叠文本</summary>
+  = v / fps
+  嗯，是可以书写文本的
+  此处可书写文本</p>
+<h1 id="title">title<a class="headerlink" href="#title" title="Permanent link"></a></h1>
+<h1 id="_1">动画<a class="headerlink" href="#_1" title="Permanent link"></a></h1>
+<h1 id="_2">图像与视频<a class="headerlink" href="#_2" title="Permanent link"></a></h1>
+<h1 id="_3">基础知识<a class="headerlink" href="#_3" title="Permanent link"></a></h1>
+<h1 id="_4">文本<a class="headerlink" href="#_4" title="Permanent link"></a></h1>
+<h1 id="_5">游戏开发<a class="headerlink" href="#_5" title="Permanent link"></a></h1>
+<h1 id="_6">物理基础知识<a class="headerlink" href="#_6" title="Permanent link"></a></h1>
+<h1 id="_7">物理效果<a class="headerlink" href="#_7" title="Permanent link"></a></h1>
+<h1 id="_8">碰撞检测<a class="headerlink" href="#_8" title="Permanent link"></a></h1>
+<h1 id="_9">移动平台开发<a class="headerlink" href="#_9" title="Permanent link"></a></h1>
+<h1 id="_10">精灵<a class="headerlink" href="#_10" title="Permanent link"></a></h1>
+<h1 id="_11">绘制<a class="headerlink" href="#_11" title="Permanent link"></a></h1>
+<h1 id="_12">自定义控件<a class="headerlink" href="#_12" title="Permanent link"></a></h1>
+<h2 id="canvas-api">canvas api<a class="headerlink" href="#canvas-api" title="Permanent link"></a></h2>
+<h2 id="canvas">canvas大小<a class="headerlink" href="#canvas" title="Permanent link"></a></h2>
+<h2 id="canvas_1">canvas的绘图环境。<a class="headerlink" href="#canvas_1" title="Permanent link"></a></h2>
 <h2 id="title_1">title<a class="headerlink" href="#title_1" title="Permanent link"></a></h2>
 <h2 id="title_2">title<a class="headerlink" href="#title_2" title="Permanent link"></a></h2>
-<h1 id="_20">精灵<a class="headerlink" href="#_20" title="Permanent link"></a></h1>
-<h1 id="_21">物理效果<a class="headerlink" href="#_21" title="Permanent link"></a></h1>
-<h1 id="_22">碰撞检测<a class="headerlink" href="#_22" title="Permanent link"></a></h1>
-<h1 id="_23">游戏开发<a class="headerlink" href="#_23" title="Permanent link"></a></h1>
-<h1 id="_24">自定义控件<a class="headerlink" href="#_24" title="Permanent link"></a></h1>
-<h1 id="_25">移动平台开发<a class="headerlink" href="#_25" title="Permanent link"></a></h1>
-<h1 id="title_3">title<a class="headerlink" href="#title_3" title="Permanent link"></a></h1>
-<h1 id="title_4">title<a class="headerlink" href="#title_4" title="Permanent link"></a></h1></article></body></html>
+<h2 id="_13">一像素问题<a class="headerlink" href="#_13" title="Permanent link"></a></h2>
+<h2 id="_14">事前碰撞检测<a class="headerlink" href="#_14" title="Permanent link"></a></h2>
+<h2 id="_15">事后碰撞检测<a class="headerlink" href="#_15" title="Permanent link"></a></h2>
+<h2 id="_16">光影投射法<a class="headerlink" href="#_16" title="Permanent link"></a></h2>
+<h2 id="sat">分离轴定理（SAT）<a class="headerlink" href="#sat" title="Permanent link"></a></h2>
+<h2 id="_17">动画循环<a class="headerlink" href="#_17" title="Permanent link"></a></h2>
+<h2 id="_18">图像与精灵的碰撞<a class="headerlink" href="#_18" title="Permanent link"></a></h2>
+<h2 id="_19">图像合成<a class="headerlink" href="#_19" title="Permanent link"></a></h2>
+<h2 id="_20">圆形与圆形的碰撞<a class="headerlink" href="#_20" title="Permanent link"></a></h2>
+<h2 id="_21">圆形与多边形的碰撞<a class="headerlink" href="#_21" title="Permanent link"></a></h2>
+<h2 id="_22">坐标变换<a class="headerlink" href="#_22" title="Permanent link"></a></h2>
+<h2 id="_23">基于时间的运动<a class="headerlink" href="#_23" title="Permanent link"></a></h2>
+<h2 id="_24">基础数学<a class="headerlink" href="#_24" title="Permanent link"></a></h2>
+<h2 id="_25">外接圆判别法<a class="headerlink" href="#_25" title="Permanent link"></a></h2>
+<h2 id="_26">外接矩形判别法<a class="headerlink" href="#_26" title="Permanent link"></a></h2>
+<h2 id="_27">多边形与多边形的碰撞<a class="headerlink" href="#_27" title="Permanent link"></a></h2>
+<h2 id="_28">帧<a class="headerlink" href="#_28" title="Permanent link"></a></h2>
+<h2 id="_29">操作多个精灵<a class="headerlink" href="#_29" title="Permanent link"></a></h2>
+<h2 id="_30">时间扭曲<a class="headerlink" href="#_30" title="Permanent link"></a></h2>
+<h2 id="mtv">最小平移向量（MTV）<a class="headerlink" href="#mtv" title="Permanent link"></a></h2>
+<h2 id="_31">渐变<a class="headerlink" href="#_31" title="Permanent link"></a></h2>
+<h2 id="_32">游戏引擎<a class="headerlink" href="#_32" title="Permanent link"></a></h2>
+<h2 id="_33">矩形<a class="headerlink" href="#_33" title="Permanent link"></a></h2>
+<h2 id="canvas_2">离屏canvas<a class="headerlink" href="#canvas_2" title="Permanent link"></a></h2>
+<h2 id="canvas-canvas">离屏canvas: 不在屏幕上的canvas<a class="headerlink" href="#canvas-canvas" title="Permanent link"></a></h2>
+<h2 id="_34">精灵的绘制<a class="headerlink" href="#_34" title="Permanent link"></a></h2>
+<h2 id="_35">精灵的行为<a class="headerlink" href="#_35" title="Permanent link"></a></h2>
+<h2 id="_36">绘制视频<a class="headerlink" href="#_36" title="Permanent link"></a></h2>
+<h2 id="canvasrenderingcontext2d">绘图环境<code>CanvasRenderingContext2D</code>对象的属性<a class="headerlink" href="#canvasrenderingcontext2d" title="Permanent link"></a></h2>
+<h2 id="_37">良好的绘图方式<a class="headerlink" href="#_37" title="Permanent link"></a></h2>
+<h2 id="_38">贝塞尔曲线<a class="headerlink" href="#_38" title="Permanent link"></a></h2>
+<h2 id="_39">路径/描边/填充<a class="headerlink" href="#_39" title="Permanent link"></a></h2>
+<h2 id="_40">阴影<a class="headerlink" href="#_40" title="Permanent link"></a></h2>
+<h2 id="_41">限制作图范围<a class="headerlink" href="#_41" title="Permanent link"></a></h2>
+<h3 id="requestanimationframecb">requestAnimationFrame(cb)<a class="headerlink" href="#requestanimationframecb" title="Permanent link"></a></h3>
+<h3 id="_42">反弹<a class="headerlink" href="#_42" title="Permanent link"></a></h3>
+<h3 id="_43">如何使用游戏引擎<a class="headerlink" href="#_43" title="Permanent link"></a></h3>
+<h3 id="requestnextanimationframe">封装<code>requestNextAnimationFrame()</code><a class="headerlink" href="#requestnextanimationframe" title="Permanent link"></a></h3>
+<h3 id="_44">效率<a class="headerlink" href="#_44" title="Permanent link"></a></h3>
+<h3 id="_45">粘在一起<a class="headerlink" href="#_45" title="Permanent link"></a></h3>
+<p>)
+<strong>非零环绕规则</strong><br />
+- <a href="/html/canvas/demo-imageSprite.html">demo-imageSprite</a><br />
+- <a href="/html/canvas/demo-move.html">demo-move</a><br />
+- <a href="/html/canvas/demo-move.html">demo-moveBaseFps</a><br />
+- <a href="/html/canvas/demo-plainSprite.html">demo-plainSprite</a><br />
+- <a href="/html/canvas/demo-spriteSheetSprite.html">demo-spriteSheetSprite</a><br />
+- 一般用凸多边形。<br />
+- 不使用<code>setTimeoute / setInterval</code>处理动画。<br />
+- 利用双缓存：将所有东西绘制在offsetCanvas后再绘制到canvas上。现代浏览器已经实现了双缓存技术，若程序员再实现它，是影响运行效率。<br />
+- 图像绘制器<br />
+- 基于<code>requestAnimationFrame()</code>处理动画。<br />
+- 对于已经在重叠的形状，若要分开，需要的最小平移量。<br />
+- 性能不是太好。<br />
+- 描边/填充绘制器<br />
+- 移动方向总是与轴的方向相同。<br />
+- 精灵表绘制器<br />
+- 绘制完背景后，若要修改画面，则定义剪辑区后再绘制。<br />
+- 若任意一条轴上投影不重叠，则没有碰撞。<br />
+- 该距离已经接近理论上的最小值了。<br />
+&hellip;
+// &hellip;
+// defind
+// html
+// js
+// use
+// 放射渐变同理
+1. &gt;0 2个向量方向大概相同。<br />
+1. l1/l2的相交点在目标点允许的范围内。<br />
+1. 定义每个像素等价于多少米。<code>let mppx = 0.2</code><br />
+1. 算出mtv。<br />
+180角度 = pi弧度
+2. =0 2个向量方向垂直。<br />
+2. 根据物理公式算出位移<code>s</code>。<br />
+2. 物体在l2的另一边。<br />
+2. 移动到刚刚分开。<br />
+3. &lt;0 2个向量方向大概相反。<br />
+3. 换算出应该移动的像素。<code>s / mppx</code><br />
+</details>
+</details>
+</details>
+</details>
+</details>
+</details>
+</details>
+</details>
+</details>
+</details>
+</details>
+</pre>
+</pre>
+</pre>
+</pre>
+</pre>
+</pre>
+</pre>
+<details>
+<details>
+<details>
+<details>
+<details>
+<details>
+<details>
+<details>
+<details>
+<details>
+<details>
+<pre>
+<pre>
+<pre>
+<pre>
+<pre>
+<pre>
+<pre>
+<a href="">demo-launch.html</a><br />
+<a href="/html/canvas/demo-polygonCrash.html">demo-polygonCrash</a><br />
+<a href="/html/canvas/demo-polygonProject.html">demo-polygonProject</a><br />
+<a href="/html/canvas/requestAnimationFrame.html">demo-requestAnimationFrame</a><br />
+<a href="/html/canvas/demo1.html">图像合成-demo1</a><br />
+<a href="/html/canvas/demo2.html">在圆弧周围绘制文本-demo2</a><br />
+<a href="/html/canvas/demo3.html">文本编辑器-demo3</a><br />
+<a href="/html/canvas/demo0.html">编辑贝塞尔曲线-demo0</a><br />
+]
+<code></code>
+<code></code>
+<code></code>
+<code></code>
+<code></code>
+<code></code>
+<code></code>
+<code></code>
+<code></code>
+<code></code>
+<code></code>
+<code></code> js
+<code>js</code> js
+<code>`</code>js
+<code>js</code>js
+<code>js</code>js
+<code>js</code>js
+<code>js</code>js
+<code>js</code>js
+<code>context.clip()</code>也把操作范围限制在指定区域内。<br />
+a=(v0-v1)/(t0-t1)
+animationTime = new AnimationTimer(ANIMATION_DURATION, AnimationTimer.easeOut(2))
+cancelAnimationFrame(id) 取消回调<br />
+canvas.getContext(&lsquo;2d&rsquo;) // 返回2d的绘图环境。
+canvas.getContext(&lsquo;3d&rsquo;) // 返回3d的绘图环境。调用webGL
+canvasw使用“立即模式”来绘制图像。svg使用“保留模式”来绘制图像。<br />
+canvas中包含的内容，只在浏览器不支持canvas时才会显示出来。<br />
+canvas是html5的东西。虽然是大部分是由js处理的，但是处理的变量是canvas的“绘图环境变量”<code>document.getElementById('canvasId').getContext('2d')</code>。以后的一系列操作都是对该变量的操作。<br />
+canvas有两套大小<br />
+canvas的绘图表面大小width/height不能使用<code>px</code><br />
+cb(time)<br />
+class AnimationTimer {
+class Game {
+class ImagePainter {
+class Sprite {
+class SpriteSheetPainter {
+class StopWatch {
+const game = new Game()
+const s0 = new Sprite()
+const s1 = new Sprite()
+context.clip()
+context.clip()
+context.fillStyle = pattern
+context.rect(x, y, w, h)
+context.rect(x, y, w, h)
+drawImage &gt; 操作图像（getImageData等）&gt; 递归canvas &gt; 离屏canvas<br />
+F=kx 弹力 = 弹性系数×形变量
+F=ma 力=质量×加速度
+F=uf 摩擦力 = 动摩擦因数×压力
+function animate () {
+function animate () {
+function animate(time) {
+function calcFps () {&hellip;}
+function rebounce (shape1, shape2) {
+G=mg 物体受到的重力 = 质量×重力加速度
+game.addSprite(s0)
+game.addSprite(s1)
+game.endAnimate()
+game.paintOverSprites()
+game.paintUnderSprites()
+game.start()
+game.startAnimate()
+gradient.addColorStop(0, &lsquo;blue&rsquo;) // 位置的百分值 颜色
+gradient.addColorStop(1, &lsquo;yellow&rsquo;)
+let ANIMATION_DURATION = 1000;
+let ball = new Sprite(&lsquo;ball&rsquo;, ballPainter)
+let ballPainter = {
+let behaviors = [
+let bomb = new Sprite(&lsquo;bomb&rsquo;, new ImagePainter(&lsquo;./file.png&rsquo;))
+let canvas = &hellip;,
+let fps
+let gradient = context.createLiearGradient
+let isOverlap = (a, b) =&gt; {
+let offsetCanvas = document.createElement(&lsquo;canvas&rsquo;)
+let pattern = context.createPattern(image, &lsquo;repeat-y&rsquo;)
+let sprites = [new Sprite(&hellip;), &hellip;]
+let v = 50
+Math.cos()
+Math.sin()
+Math.tan()
+new Sprite(&lsquo;name&rsquo;, painter, behaviors)
+requestAnimationFrame(cb)<br />
+s = v * t
+s=vt+(at^2)/2
+v=v0+at
+v=wr 线速度 = 角速度×半径
+video.onload = () =&gt; {
+w=(a0-a1)/(t0-t1) 角速度 = 角度差-时间差
+window.requestNextAnimateionFrame = (
+|-|-|
+|-|-|-|
+|-|-|-|
+|-|-|-|
+|-|-|-|
+|-|-|-|
+|-|-|-|-|
+|-|-|-|-|
+|-|-|-|-|
+|-|-|-|-|
+|-|-|-|-|
+|-|-|-|-|
+|-|-|-|-|
+|-|-|-|-|-|
+|<code>drawImage(image, dx, dy)</code>|把指定图像绘制在canvas的指定区域上。|可控制图像的缩放||
+|<code>drawImage(image, dx, dy, dw, dh)</code>|把指定图像绘制在canvas的指定区域上。|||
+|<code>drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh)</code>|把图像的指定区域绘制在canvas的指定区域上。|||
+|animating|是否正在动画|boolean|
+|arc(x, y, r, startAngle, endAngle, counterClockWise)||||
+|arcTo(x0, y0, x1, y1, r)|2个点确定的线为切线。r为半径。|||
+|beginPath()|重置当前路径|||
+|behaviors||function[]|
+|bezierCurveTo(px0, py0, px1, px2, x, y)前两个点是控制点，第三个点是锚点。|||
+|canvas|绘图环境所属的canvas||||
+|clearRect(x: number, y: number, w: number, h: number) =&gt; void|清空指定区域的像素。|使用全透明的黑色填充。|
+|closePath()|闭合当前路径|不要手动使用2个重叠的点去实现闭合路径。||
+|copy||||
+|createImageData(imageData)||||
+|createImageData(w, h)|创建并返回ImageData对象|可以操作每一个像素||
+|createLinearGradient(x0: number, y0: number, x1: number, y1: number)|返回线性渐变|
+|createPattern(image: HTMLImageElement | HTMLCanvasElement | HTMLVideoElement, repetition: string)|返回图像模式。<code>repetition: ['repeat', 'repeat-x', 'repeat-y', 'no-repeat']</code>|
+|createRadialGradient(x0: number, y0: number, r0: number, x1: number, y1: number, r1: number)||
+|data|像素数值组成的数组-TypedArray|||
+|destination-atop||||
+|destination-in||||
+|destination-out||||
+|destination-over||||
+|dom大小|css控制||
+|fill()|使用fillStyle属性填充|||
+|fillRect(x: number, y: number, w: number, h: number) =&gt; void|填充矩形||
+|fillstyle|填充时使用的颜色/渐变色/图案||||
+|fillText(text, x, y||||
+|font||||
+|font||||
+|font||||
+|font|设置字号/字体|<code>20px Arial</code>|当字号&lt;=13时，取13。||
+|getContext(params)|返回绘图环境变量||
+|getImageData(sx, sy, sw, sh)|返回指定区域的图像的ImageData对象|该ImageData.data是一个数组，包含4<em>sw</em>sh个整数。每4个整数表示一个像素，它们分别表示：红/绿/蓝/不透明度alpha。imageData.width !== sw imageData.width:设备像素，sw:css像素的单位。||
+|globalAlpha|设置全局透明度。|<code>[0, 1.0]</code>|计算多个不透明度时，会相乘它们。||
+|globalCompsiteOperation|||||
+|height|||
+|height||||
+|height|绘图表面高度||
+|ImageData对象||||
+|isPointInPath(x, y)|指定的点是否在指定的路径范围内。||||
+|left|||
+|lighter||||
+|lineCap|设置线帽|默认<code>butt</code>|<code>['butt', 'round', 'squar']</code>||
+|lineJoin|设置相交点|默认<code>miter</code>|<code>['bevel', 'round', 'miter']</code>||
+|lineTo(x, y)||||<br />
+|lineWidth|线宽|要求非负/非无穷。|默认1.0||
+|measureText(text)||||
+|measureText(text)|返回TextMetircs对象。|TextMetircs: {width: 该字体时文本的像素宽度}||
+|miterLimit|设置相交点的最大长度||||
+|moveTo(x, y)||||
+|painter|||
+|putImageData(imageData, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight)|把脏数据复制到canvas的指定区域。|||
+|quadraticCurveto(px, py, x, y)|第一个点是控制点，第二个点是锚点。|||
+|rect(x, y, w, h)||||
+|restore()|在栈顶弹出canvas状态。（即：使用弹出的canvas状态）||||
+|rotate(angle)|旋转|||
+|save()|保存canvas状态到栈顶|以上属性都会改变当前canvas的状态。|||
+|scale(x, y)|缩放|||
+|setTransform(a, b, c, d, e, f)|变换到|||
+|shadowBlur||0|
+|shadowBlur|阴影的模糊值||||
+|shadowColor||0|
+|shadowColor|阴影的颜色||||
+|shadowOffsetX||0|
+|shadowOffsetX|阴影的水平偏移值||||
+|shadowOffsetY||0|<br />
+|shadowOffsetY|阴影的竖直偏移值||||
+|source-atop||||
+|source-in||||
+|source-out||||
+|source-over||||
+|stroke()|使用strokeStyle属性描边|||
+|strokeRect(x: number, y: number, w: number, h: number) =&gt; void|描边矩形||
+|strokeStyle|设置描边的样式||||
+|strokeText(text, x, y)||||
+|textAlign|文本的水平对齐方式||||
+|textAlign|水平对齐方式|start center end left right||
+|textBaseLine|文本的竖直对齐方式||||
+|textBaseline|竖直对齐方式|top bottom middle alphabetic ideographic hanging||<br />
+|toBlob(cb, type, args&hellip;)|返回canvas的blob|cb回调方法，参数是canvas的图像的blob。type图像类型，默认<code>image/png</code>，最后一个参数控制图像的质量。|
+|toDataURL(type, quality)|返回一个数据地址|quality控制图片的质量，<code>[0, 1.0]</code>。type:图像类型。如<code>image/png</code>,<code>image/jpeg</code>。||
+|top|||
+|transform(a, b, c, d, e, f)|变换|||
+|translate(x, y)|平移|||
+|velociityX|||
+|velociityY|||
+|visible|||
+|width|||
+|width|以设备像素（px）为单位的图像数据宽度|||
+|width|绘图表面宽度||
+|xor||||
+||font-family|||
+||font-size|xx-small x-small medium large x-large xx-large smaller larger length %|normal|
+||font-style|normal itelic oblique||
+||font-variant|normal small-caps|normal|
+||font-weight|normal(400) bold(700) bolder lighter number|normal|
+||line-height|浏览器强制设置为normal.||
+|||
+||||
+||||
+||||
+||||
+|||||
+|||||
+|||||
+|||||
+||||||
+|||枚举值|默认值|
+||用法|||
+|属性||默认值|
+|绘图表面大小（视窗大小）|js控制|<code>document.getElementById('id').width</code>|
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+一个像素的范围内绘制装修像素宽的线段是不可能的，所以左右2个方向上的半像素都被扩展为一个像素。<br />
+一个向量与一个单元向量的点积，表示该向量在该单元向量的投影大小。<br />
+一般用于处理抛物线。<br />
+不要频繁使用getImageData()获取少量数据。<br />
+做游戏与做动画对于编码来说，没区别。<br />
+先创建渐变区域，再添加颜色。<br />
+先执行行为，再执行绘制。<br />
+光标的高度：字母M的宽度×(1+1/6)<br />
+力的三角形定则/平行四边形定则/正交分解。
+单位向量：大小为1的向量
+可实现剪纸效果。<br />
+向量的加/减法：向量的分量分别加/减。
+向量的点积：相应分量分别相乘，再相加。结果是标量。使用用一个点表示该值，所以叫点积。<br />
+向量：{
+多边形对应的所有轴加上圆心与多边形与圆最近的点的向量所在的轴。
+如图：<img alt="axes" src="/home/turbo/code/web-stone/html/canvas/axes.jpg" />
+帧的倒数表示该帧经过的时间。
+帧：表示每秒多少个画面。
+应该先设置绘图表面大小再改变绘图环境变量。
+当一条线段与路径上的直线或曲线相交时，就改变计数器的值，若与路径的顺时针部分相交，则+1，若与路径的逆时针部分相交，则-1。若计数器的值不是0，则此区域在路径内，调用fill()，否则不调用fill()。<br />
+当图像复杂时使用offsetCanvas可方便绘制。<br />
+按照某种特效所需要的时间来修改。<br />
+有以下三种碰撞方式。<br />
+有兼容性问题。chrome/firefox实现效果不同。<br />
+浏览器会把“绘图表面大小（视窗大小）”缩放到dom大小。<br />
+点积的作用：
+现代浏览器已经做了离屏canvas，若程序员再用代码实现离屏canvas，则会效率变低。<br />
+现代浏览器已经都实现了抗锯齿技术。<br />
+现在浏览器已经使用离屏canvas技术做了优化。请不要使用非必要的离屏canvas。<br />
+画一条与物体运动方向相同的线，记作l1，再画一条从起点到目标点的线，记作l2。当满足以下2点时，物体移动到目的地。<br />
+碰撞后有移动一个的，也有移动多个的。再为形状赋质量，就可模拟物理世界了。three.js就是为三维物体赋于了质量等。先用代码画出物体，再使用公司模拟物体碰撞等。<br />
+绘制canvas = 绘制image<br />
+绘制递归canvas用时较多。因为需要浏览器使用离屏canvas处理。<br />
+表示动画快慢的单位。（f/s）每秒多少个画面。fps。<br />
+表示每个画面用时 = 1/fps。<br />
+该方法在浏览器方便时执行一次回调方法 <br />
+该方法在浏览器方便时执行一次回调方法 <br />
+运动都需要以像素为单位，不像素为单位需要转换为以像素为单位。<br />
+返回id<br />
+需要设置动画时长。<br />
+默认字形：&lsquo;10px sans-serif&rsquo;  </p></article></body></html>

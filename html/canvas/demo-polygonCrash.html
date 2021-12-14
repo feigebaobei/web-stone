@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+	<button id="start">start</button>
+	<button id="stop">stop</button>
+
+	<script type="text/javascript">
+		let {log} = console
+		let context = document.querySelector('#canvas').getContext('2d')
+		window.requestNextAnimateionFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequeatAnimationFrame || window.msRequestAnimationFrame || function (cb, element) {
+					var self = this, start, finish;
+					window.setTimeout(function () {
+						start = +new Date()
+						cb(start)
+						finish = +new Date()
+						self.timeout = 100 / 60 - (finish - start)
+					}, self.timeout)
+				}
+		window.cancelNextAnimationFrame = window.cancelAnimationFrame || window.webkitCancelAnimationFrame || window.mozCancelAnimationFrame || window.msCancelAnimationFrame || window.clearTimeout;
+		class Sprite {
+			constructor({name ='', left = 0, top = 0, width = 0, height = 0, vx = 0, vy = 0, visible = true, animating = false}, painter, behaviors = []) {
+				this.name = name
+				this.left = left
+				this.top = top
+				this.width = width
+				this.height = height
+				this.vx = vx
+				this.vy = vy
+				this.visible = visible
+				this.animating = animating
+				this.painter = painter // object
+				this.behaviors = behaviors // 可优化为map对象
+			}
+			paint(context) {
+				if (this.painter && this.visible) {
+					this.painter.paint(this, context)
+				}
+			}
+			update(context, time) {
+				this.behaviors.forEach(behavior => {
+					behavior.execute(this, context, time)
+				})
+			}
+			// update painter
+			// add behavior
+			// remove behavior
+			// clear behavior
+		}
+
+		let startBt = document.getElementById('start')
+		let stopBt = document.querySelector('#stop')
+		let animateId
+
+
+
+
+
+
+		// 绘制二个图形，经鼠标拖动后判断是否碰撞。
+
+		let draw = () => {
+			log('draw')
+			// ball.paint(context)
+		}
+		let animate = (time) => {
+			// time 从注册到执行，经过多长时间。
+			context.clearRect(0, 0, canvas.width, canvas.height)
+			draw()
+			animateId = requestNextAnimateionFrame(animate) // 再注册
+		}
+		let start = () => {
+			animateId = requestNextAnimateionFrame(animate) // 注册回调方法
+		}
+		let stop = () => {
+			cancelNextAnimationFrame(animateId)
+		}
+		startBt.onclick = (e) => {
+			start()
+		}
+		stopBt.onclick = (e) => {
+			stop()
+		}
+
+	</script>
+</body>
+</html>

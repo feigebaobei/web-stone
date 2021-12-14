@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+	<button id="start">start</button>
+	<button id="stop">stop</button>
+
+	<script type="text/javascript">
+		let {log} = console
+		let context = document.querySelector('#canvas').getContext('2d')
+		window.requestNextAnimateionFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequeatAnimationFrame || window.msRequestAnimationFrame || function (cb, element) {
+					var self = this, start, finish;
+					window.setTimeout(function () {
+						start = +new Date()
+						cb(start)
+						finish = +new Date()
+						self.timeout = 100 / 60 - (finish - start)
+					}, self.timeout)
+				}
+		window.cancelNextAnimationFrame = window.cancelAnimationFrame || window.webkitCancelAnimationFrame || window.mozCancelAnimationFrame || window.msCancelAnimationFrame || window.clearTimeout;
+		class Sprite {
+			constructor({name ='', left = 0, top = 0, width = 0, height = 0, vx = 0, vy = 0, visible = true, animating = false}, painter, behaviors = []) {
+				this.name = name
+				this.left = left
+				this.top = top
+				this.width = width
+				this.height = height
+				this.vx = vx
+				this.vy = vy
+				this.visible = visible
+				this.animating = animating
+				this.painter = painter // object
+				this.behaviors = behaviors // 可优化为map对象
+			}
+			paint(context) {
+				if (this.painter && this.visible) {
+					this.painter.paint(this, context)
+				}
+			}
+			update(context, time) {
+				this.behaviors.forEach(behavior => {
+					behavior.execute(this, context, time)
+				})
+			}
+			// update painter
+			// add behavior
+			// remove behavior
+			// clear behavior
+		}
+		class Polygon {
+			constructor(points = []) {
+				this.points = points
+			}
+			collidesWith(shape) {
+				return !this.isSeparationOnAxes(this.getAxes().concat(shape.getAxes()), shape)
+			}
+			isSeparationOnAxes(axes, shape) { // 是否处于分离状态
+				for (let i = 0; i < axes.length; i++) {
+					let p1 = this.project(axes[i])
+					let p2 = shape.project(axes[i])
+					if (!p1.isOverlap(p2)) {
+						return true
+					}
+				}
+				return false
+			}
+			getAxes() {
+				let [v1, v2] = [new Vector(), new Vector()]
+				let axes = []
+				for (let i = 0; i < this.points.length - 1; i++) {
+					v1.x = this.points[i].x
+					v1.y = this.points[i].y
+					v2.x = this.points[i + 1].x
+					v2.y = this.points[i + 1].y
+					axes.push(v1.edge(v2)[0].normal()[0])
+				}
+				v1.x = this.points[this.points.length - 1].x
+				v1.y = this.points[this.points.length - 1].y
+				v2.x = this.points[0].x
+				v2.y = this.points[0].y
+				axes.push(v1.edge(v2)[0].normal()[0])
+				return axes
+			}
+			project(axis) {
+				let [v, scalars] = [new Vector(), []]
+				this.points.forEach(point => {
+					v.x = point.x
+					v.y = point.y
+					scalars.push(v.dotProduct(axis))
+				})
+				return new Projection(Math.min.apply(null, scalars), Math.max.apply(null, scalars))
+			}
+			// move(shape) {}
+			// createPath(shape) {}
+			// fill(shape) {}
+			// stroke(shape) {}
+			createPath(context) {
+				if (!this.points.length) {
+					return
+				}
+				context.beginPath()
+				context.moveTo(this.points[0].x, this.points[0].y)
+				for (let i = 1; i < this.points.length; i++) {
+					context.lineTo(this.points[i].x, this.points[i].y)
+				}
+				context.closePath()
+			}
+			isPointInPath(context, x, y) {
+				this.createPath(context)
+				return context.inPointInPath(x, y)
+			}
+		}
+		class Vector {
+			constructor(x = 0, y = 0) {
+				this.x = x
+				this.y = y
+			}
+			opposite() {
+				return new Vector(-this.x, -this.y)
+			}
+			add(v2) {
+				return new Vector(this.x + v2.x, this.y + v2.y)
+			}
+			subtract(v2) {
+				return this.add(v2.opposite())
+			}
+			product(v2) {
+				if (Vector.prototype.isPrototypeOf(v2)) {
+					this.x *= v2.x
+					this.y *= v2.y
+					return this
+				} else {
+					this.x *= v2
+					this.y *= v2
+					return this
+				}
+			}
+			magnitude() {
+				return Math.hypot(this.x, this.y)
+			}
+			isZero() {
+				return this.magnitude() === 0
+			}
+			isParallel(v2) {
+				if (!this.magnitude() || !v2.magnitude()) {
+					return false
+				} else if (this.y === 0 || v2.y === 0) {
+					return !this.y && !v2.y
+				} else {
+					return this.x / this.y === v2.x / v2.y
+				}
+			}
+			vertical() {
+				return [new Vector(this.y, -this.x), new Vector(-this.y, this.x)]
+			}
+			edge(v2) { // 返回边缘向量
+				return [this.subtract(v2), v2.subtract(this)]
+			}
+			normalize() { // 返回单位向量
+				let m = this.magnitude()
+				if (m) {
+					return new Vector(this.x / m, this.y / m)
+				} else {
+					return undefined
+				}
+			}
+			normal() { // 返回垂直的单位向量
+				let v = this.normalize()
+				if (v) {
+					return v.vertical()
+				} else {
+					return undefined
+				}
+			}
+			dotProduct(v2) { // 返回点积
+				return this.x * v2.x + this.y * v2.y
+			}
+			toProject(v2) {
+				let v2n = v2.normalize()
+				if (v2n) {
+					return this.dotProduct(v2n)
+				} else {
+					return undefined
+				}
+			}
+		}
+		class Projection {
+			constructor(min = 0, max = 0) {
+				this.min = min
+				this.max = max
+			}
+			isOverlap(projection) {
+				return this.max > projection.min && projection.max > this.min
+			}
+		}
+
+
+		let startBt = document.getElementById('start')
+		let stopBt = document.querySelector('#stop')
+		let animateId
+
+
+
+
+
+
+
+
+		let triangle = new Polygon([
+			{x: 60, y: 30},
+			{x: 120, y: 90},// true
+			// {x: 180, y: 70}, // false
+			{x: 40, y: 70},
+		])
+		let quadrangle = new Polygon([
+			{x: 140, y: 60},
+			{x: 180, y: 40},
+			{x: 220, y: 110},
+			{x: 150, y: 130},
+		])
+		let draw = () => {
+			// log('draw')
+			// ball.paint(context)
+			triangle.createPath(context)
+			context.stroke()
+			quadrangle.createPath(context)
+			context.stroke()
+		}
+		draw()
+		log(triangle.collidesWith(quadrangle))
+
+		// }
+		// let animate = (time) => {
+		// 	// time 从注册到执行，经过多长时间。
+		// 	context.clearRect(0, 0, canvas.width, canvas.height)
+		// 	draw()
+		// 	animateId = requestNextAnimateionFrame(animate) // 再注册
+		// }
+		// let start = () => {
+		// 	animateId = requestNextAnimateionFrame(animate) // 注册回调方法
+		// }
+		// let stop = () => {
+		// 	cancelNextAnimationFrame(animateId)
+		// }
+		// startBt.onclick = (e) => {
+		// 	start()
+		// }
+		// stopBt.onclick = (e) => {
+		// 	stop()
+		// }
+
+	</script>
+</body>
+</html>
