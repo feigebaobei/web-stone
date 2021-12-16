@@ -43,7 +43,7 @@ var n = 0 // 定义
 function、var都会触发变量提升。
 先提升function，再提升var。且存在变量覆盖。
 
-# 事件
+# [事件](/html/event.html)
 
 # 原型链
 使用对象的`[[prototype]]`属性原型链上源的对象。
@@ -119,7 +119,7 @@ class A {
 }
 class A extends B {}     // 类A继承类B
 ```
-静态方法的本质是定义在构造方法上的方法。所以有人理解为不使用实例化就能使用的方法。也有人理解为不能在实例上使用，只能在类上使用的方法。
+静态方法的本质是定义在构造方法上的方法。所以有人理解为不使用实例化就能使用的方法。也有人理解为不能在实例上使用，只能在类上使用的方法。
 如果把静态方法的本质写出来，则如下：
 ```
 function ClassName () {...}
@@ -556,7 +556,7 @@ js是单线程语言。但是它的宿主环境——browser支持多线程。
     + Object
     + String
     + Array
-    + Date
+    + [Date](/javascript/date.html)
     + Number
     + RegExp
     + Function
@@ -564,7 +564,7 @@ js是单线程语言。但是它的宿主环境——browser支持多线程。
     + Error
 - 内置对象
     + [Math](/javascript/math.html)
-    + JSON
+    + [JSON](/javascript/json.html)
 - 宿主对象
     + BOM
     + DOM
