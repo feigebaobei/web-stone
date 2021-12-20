@@ -251,6 +251,10 @@ ol
 # 类 & id
 class & id
 getElementById()
+```js
+dom.classList.remove('class-name')
+dom.classList.add('class-name')
+```
 
 # 内联框架
 ```

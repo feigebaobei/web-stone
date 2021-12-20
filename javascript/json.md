@@ -116,7 +116,7 @@ $.getJSON("/try/ajax/jsonp.php?jsoncallback=?", function(data) {
 </html> 
 ```
 
-# 转换
+# [转换](/javascript/json-transfer.html)
 ## json => xml
 ## xml => json
 ## excel => json
@@ -125,3 +125,5 @@ $.getJSON("/try/ajax/jsonp.php?jsoncallback=?", function(data) {
 
 # 后记
 undefined / function 无法在json中使用。
+
+# json
