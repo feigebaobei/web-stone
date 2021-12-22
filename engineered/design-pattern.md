@@ -164,7 +164,9 @@ var a = new p('a', 23) // Uncaught TypeError: Cannot perform 'construct' on a pr
 
 ## 外观模式（门面模式）
 对外提供一个大接口，在大接口的方法体时调用模块（或定义域）内的子方法。
-如此可省去用户调用多个小接口的麻烦。让模块更内聚。
+如此可省去用户调用多个小接口的麻烦。让模块更内聚。  
+`compose`方法就是一种体现。  
+
 ```
 // demo0
 function a () {...}
@@ -226,10 +228,10 @@ macroCommand.execute()
 
 ## 享元模式（共享模式）
 
-该模式是创建一个类，把相同的属性定义在该类中，把不同的属性定义在该类外面。
-当需要类的实例需要某些属性时，保持相同属性不变，改变不同属性为希望的属性。再返回该实例。
-当需要很多具有若干相同属性与不同属性的对象时，可以使用享元模式。
-// 该模式下的实例是共享的一个对象。
+该模式是创建一个类，把相同的属性定义在该类中，把不同的属性定义在该类外面。  
+当需要类的实例需要某些属性时，保持相同属性不变，改变不同属性为希望的属性。再返回该实例。  
+当需要很多具有若干相同属性与不同属性的对象时，可以使用享元模式。  
+// 该模式下的实例是共享的一个对象。  
 
 ```
 function Circle (color) {
@@ -262,8 +264,8 @@ circle.draw()
 
 ## 策略模式
 
-策略模式可看作为if/else判断的另一种表现形式，在达到相同目的的同时，极大的减少了代码量以及代码维护成本。
-分离算法的使用、算法的实现。
+策略模式可看作为if/else判断的另一种表现形式，在达到相同目的的同时，减少了代码量以及代码维护成本。  
+分离算法的使用、算法的实现。  
 ```
 // demo0
 var realize = {
@@ -421,12 +423,15 @@ sub.notify()
 
 ## 迭代器模式
 
-实现统一遍历接口。
-内部迭代器
+实现统一遍历接口。  
+内部迭代器  
+```js
 $.each(['a', 'b', 'c'], function (index,value) {
   console.log(index, value)
 })
+```
 外部迭代器
+```js
 function * gen (arr) {
   for (let [index, value] of arr.entries()) {
     yield console.log([index, value])
@@ -436,9 +441,10 @@ let ite = gen(['a', 'b', 'c'])
 ite.next()
 ite.next()
 ite.next()
-es6中Iterator接口部署在Symbol.iterator属性上。
-当执行`[Symbol.iterator]()`会返回一个遍历器对象。
 ```
+es6中Iterator接口部署在Symbol.iterator属性上。  
+当执行`[Symbol.iterator]()`会返回一个遍历器对象。  
+```js
 var a = ['a', 'b', 'c']
 var ite = arr[Symbol.iterator]()
 // arr[Symbol.iterator]   是遍历器生成函数
@@ -453,10 +459,11 @@ ite.next() // {value: undefined, done: true}
 
 消除请求的发送者与接收者的耦合。
 
-1.  发送者知道链中的第一个接收者，它向这个接收者发送该请求。
-2.  每一个接收者都对请求进行分析，然后要么处理它，要么它往下传递。
-3.  每一个接收者知道其他的对象只有一个，即它在链中的下家(successor)。
-4.  如果没有任何接收者处理请求，那么请求会从链中离开。
+1.  发送者知道链中的第一个接收者，它向这个接收者发送该请求。  
+2.  每一个接收者都对请求进行分析，然后要么处理它，要么它往下传递。  
+3.  每一个接收者知道其他的对象只有一个，即它在链中的下家(successor)。  
+4.  如果没有任何接收者处理请求，那么请求会从链中离开。  
+5.  过程很像链表。  
 
 ```
 function order500(orderType,isPay,count){
@@ -563,9 +570,10 @@ chainFn1.passRequest();  // 打印出1，2 过1秒后 会打印出3
 
 ## 模块模式
 
-利用闭包把方法、属性分为分开的与私有的。
+把方法、属性分为分开的与私有的。
 
-```
+```js
+// 闭包
 var ModuleFn = (function () {
   var privateVar  = 0;
   var privateFn = () => {
@@ -584,11 +592,13 @@ var ModuleFn = (function () {
 })()
 ModuleFn.publicFn0()
 ModuleFn.publicFn1()
+// commonjs同理
+// esm同理
 ```
 
 ## 命令模式
 
-执行一个执行某些特定事情的指令。
+执行一个执行某些特定事情的指令。像是封装了一个方法。  
 
 ```
 // 如下代码上的四个按钮 点击事件
@@ -688,7 +698,7 @@ class Memo {
     let KEY = Symbol.for(key)
     this.state.set(KEY, state)
   }
-  // 查看所有状态
+  // 查看指定状态
   peek (key) {
     return this.state.get(Symbol.for(key))
   }
@@ -745,6 +755,7 @@ class user {
 在js这种弱类型语言里，很多方法里都不做对象的类型检测，而是只关心这些对象能做什么。  
 根据不同的访问者调用不同的方法。  
 把数据与操作数据的方法分开。  
+常用到`abc`方法。  
 
 ```
 function Chicken (name) {
@@ -777,9 +788,11 @@ d.speak()
 
 ## 中介模式
 
-解耦对象与对象（数据与数据）之间关系。使二者间尽可能解耦。
+解耦对象与对象（数据与数据）之间关系。使二者间尽可能解耦。  
+常用于多对多的关系。  
 
 ```
+// demo0
 let playerDirector = (function () {
   let players = {}, operations = {}
   operations.addPlayer = function (player) {
@@ -816,8 +829,8 @@ let playerDirector = (function () {
   }
   return {reciveMessage}
 })()
-class Player (name, teamColor) {
-  constructor () {
+class Player () {
+  constructor (name, teamColor) {
     this.name = name
     this.teamColor = teamColor
     this.state = true
@@ -832,6 +845,43 @@ class Player (name, teamColor) {
     playerDirector.reciveMessage('playerDead', this)
   }
 }
+
+// demo1
+class Game {
+  constructor() {
+    this.playerList = new Map()
+  }
+  addPlayer(...ps) {
+    ps.forEach(p => {
+      this.playerList.set(p.name, p)
+    })
+  }
+  removePlayer(p) {
+    this.playerList.delete(p.name)
+  }
+  operate(source, target, operation) {
+    switch(operation) {
+      case '...':
+        // source.fn0()
+        // target.fn1()
+        break
+    }
+  }
+}
+class Player {
+  constructor(name, ...rest) {
+    this.name = name
+  }
+  fn0() {...}
+  fn1() {...}
+}
+const game = new Game()
+let p0 = new Player('p0')
+let p1 = new Player('p1')
+let p2 = new Player('p2')
+game.addPlayer(p0, p1, p2)
+// 某情况下触发了：
+game.operate(p0, p1, 'xxx')
 ```
 
 ## 解释器模式
@@ -841,3 +891,6 @@ class Player (name, teamColor) {
 1. 利用解释器类解析文法中表示的想要的意图,解决并实现对应的需求.
 2. 将一些特定类型的问题, 提供一种更简单的文法表示, 来解决对应的问题.
 3. 将一些重复出现的问题,用一种简单的语言来进行表达.
+
+## 总结
+在实际运行中常会用于多种设计模式，也会用到设计模式的变种。  
