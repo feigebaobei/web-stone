@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>90 tank</title>
+	<style type="text/css">
+		body {
+			margin: 0;
+			width: 100vw;
+			height: 100vh;
+		}
+		#canvas {
+			margin: 0 auto;
+			display: block;
+			/*border: 1px solid #234;*/
+			box-sizing: border-box;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="canvas">您的浏览器不支持本游戏！</canvas>
+	<script type="text/javascript">
+		let canvas = document.querySelector('#canvas')
+		let context = canvas.getContext('2d')
+		let {log} = console
+		let bodyDom = document.querySelector('body')
+		let [bodyW, bodyH] = [bodyDom.clientWidth, bodyDom.clientHeight]
+		let edgeLength = Math.min(bodyW, bodyH)
+		canvas.width = edgeLength
+		canvas.height = edgeLength
+		context.rect(0, 0, edgeLength, edgeLength)
+		context.fillStyle = 'grey'
+		context.strokeStyle = 'red'
+		context.fill()
+		context.stroke()
+	</script>
+</body>
+</html>
