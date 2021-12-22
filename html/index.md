@@ -25,6 +25,71 @@ html为js支持很多前提条件。如：
 - 使用`key="value"`形式书写在开始标签内。
 - 常用`class id style PROP`
 
+## role属性
+|属性值|说明||
+|-|-|-|
+|alert|||
+|alert dialog|||
+|application|||
+|article|||
+|banner|||
+|toggle button|||
+|button|||
+|check box|||
+|cell|||
+|combo box|||
+|complementary|||
+|content|||
+|definition|||
+|dialog|||
+|content list|||
+|document|||
+|group|||
+|table|||
+|cell|||
+|group|||
+|heading|||
+|image|||
+|link|||
+|content list|||
+|list|||
+|group|||
+|log|||
+|main|||
+|marquee|||
+|math|||
+|menu|||
+|menu bar|||
+|menu item|||
+|menu item|||
+|menu item|||
+|navigation|||
+|note|||
+|text|||
+|progress indicator|||
+|radio button|||
+|radio group|||
+|region|||
+|row|||
+|cell|||
+|scroll bar|||
+|search|||
+|splitter|||
+|slider|||
+|stepper|||
+|status|||
+|tab|||
+|tabgroup|||
+|tab panel|||
+|text field|||
+|text entry area|||
+|timer|||
+|toolbar|||
+|tooltip|||
+|outline|||
+|table|||
+|outline row|||
+
 # 标题
 - h1 - h6
 - 拥有默认样式
@@ -186,6 +251,10 @@ ol
 # 类 & id
 class & id
 getElementById()
+```js
+dom.classList.remove('class-name')
+dom.classList.add('class-name')
+```
 
 # 内联框架
 ```

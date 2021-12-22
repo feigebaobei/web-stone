@@ -1439,8 +1439,104 @@ module.exports = CoreHtml5
 ```
 
 # 移动平台开发
-## title
-## title
+- 同时支持鼠标事件、触摸事件。  
+
+|mouse|touch||
+|-|-|-|
+|只有一个点|可有多个点||
+|可hover|不可hover||
+
+## touch
+|touch事件||||
+|-|-|-|-|
+|touchstart||||
+|touchmove||||
+|touchend||||
+|touchcancel||||
+
+TouchEvent: {
+    touches: TouchList[],
+    changedTouches: TouchList[],
+    targetTouches: TouchList,
+    altKey: boolean,
+    ctrlKey: boolean,
+    metaKey: boolean,
+    shiftKey: boolean,
+}
+TouchList: {
+    length,
+    identifiedTouch(identifier) // Touch
+}
+Touch: {
+    clientX: number,
+    clientY: number,
+    identifier: number,
+    pageX: number,
+    pageY: number,
+    screenX: number,
+    screenY: number,
+    target: EventTarget
+}
+
+## 同时支持touch/mouse事件
+```js
+let canvas = document.querySelector('#id')
+let mouseDownOrTouchStart = (location) => {}
+let mouseDownOrTouchStart = (location) => {}
+let mouseDownOrTouchStart = (location) => {}
+canvas.ontouchstart = (event) => {
+    event.preventDefault() // 可阻止浏览器有默认行为。
+    mouseDownOrTouchStart(windowToCanvas(event.pageX, event.pageY))
+}
+canvas.ontouchmove = (event) => {
+    event.preventDefault()
+    mouseMoveOrTouchMove(windowToCanvas(event.pageX, event.pageY))
+}
+canvas.ontouchend = (event) => {
+    event.preventDefault()
+    mouseUpOrTouceEnd(windowToCanvas(event.pageX, event.pageY))
+}
+canvas.onmousedown = (event) => {
+    event.preventDefault()
+    mouseDownOrTouchStart(windowToCanvas(event.pageX, event.pageY))
+}
+canvas.onmousemove = (event) => {
+    event.preventDefault()
+    mouseMoveOrTouchMove(windowToCanvas(event.pageX, event.pageY))
+}
+canvas.onmouseup = (event) => {
+    event.preventDefault()
+    mouseUpOrTouchEnd(windowToCanvas(event.pageX, event.pageY))
+}
+```
+
+[手指缩放](/html/canvas/demo-pinch-zoom.html)  
+
+## ios5
+整理到meta标签中
+```html
+<!-- 启动图标 -->
+<link rel="apple-touch-startup-image" href="startup-iPad-landscape.png">
+<!-- 启动画面 -->
+<link rel="apple-touch-icon-precomposed" size="72x72" href="icon-iPad.png">
+<!-- 结合媒体查询 -->
+<!-- 320x460 for iphone 3gs -->
+<link rel="apple-touch-startup-image" media="(max-device-width: 480px) and not (-webkit-min-device-pixel-ratio: 2)" href="startup-iPad-landscape.png">
+<!-- 640x920 for retina display -->
+<link rel="apple-touch-startup-image" media="(max-device-width: 640px) and not (-webkit-min-device-pixel-ratio: 2)" href="startup-iPad-landscape.png">
+<!-- 768x1004 ipad portrait -->
+<link rel="apple-touch-startup-image" media="(max-device-width: 768px) and (orientation: portrail)" href="startup-iPad-landscape.png">
+<!-- 1024x768 ipad landscape -->
+<link rel="apple-touch-startup-image" media="(max-device-width: 768px) and (orientation: landscape)" href="startup-iPad-landscape.png">
+<link rel="apple-touch-icon-precomposed" size="72x72" href="icon-iPad.png">
+<!-- 全屏 -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<!-- 设置状态栏 -->
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+content: default / black / black-translucent
+```
+
+## [虚拟键盘](/html/canvas/demo-virturlKeyboard.html)
 
 # 物理基础知识
 G=mg 物体受到的重力 = 质量×重力加速度

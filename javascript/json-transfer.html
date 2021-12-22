@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+        }
+        .main {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            padding: 0 8px;
+            /* flex-wrap: wrap; */
+        }
+        /* .nav-box {
+            background-color: aqua;
+        } */
+        .nav-box-item {
+            margin: 8px;
+            background-color: #d2ffff;
+            display: inline-block;
+            padding: 8px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .is-active {
+            background-color: aqua;
+        }
+        .body {
+            flex-basis: 100%;
+            height: 100%;
+            display: flex;
+            padding-bottom: 8px;;
+        }
+        .enter, .output {
+            flex-basis: 50%;
+            flex-grow: 1;
+            flex-shrink: 1;
+            height: 100%;
+            box-sizing: border-box;
+        }
+        .op-box {
+            flex-basis: 100px;
+            flex-grow: 0;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .op-botton {
+
+        }
+    </style>
+</head>
+    
+<body>
+    <section class="main">
+        <header class="nav-box">
+            <span class="nav-box-item is-active">string => json</span>
+            <span class="nav-box-item">json => string</span>
+        </header>
+        <section class="body">
+            <textarea name="" id="" class="enter" cols="30" rows="10"></textarea>
+            <div class="op-box">
+                <button id="opButton">转换</button>
+            </div>
+            <textarea name="" id="" class="output" cols="30" rows="10"></textarea>
+        </section>
+    </section>
+    
+    <script>
+        let {log} = console
+        let functionList = ['stringToJSON', 'JSONToString']
+        let activeFunctionIndex = 0
+        
+        let originObj = {
+            a: 1,
+            b: {
+                b1: 'b1',
+                b2: 'b2',
+                b3: {
+                    b31: 'b31',
+                    b32: 'b32',
+                },
+                b4: 'b4',
+            },
+            c: 2,
+        }
+        let originText = JSON.stringify(originObj)
+        let enterEle = document.querySelector('.enter')
+        enterEle.value = originText
+        let opBotton = document.querySelector('#opButton')
+        opBotton.addEventListener('click', (e) => {
+            let ot = enterEle.value
+            let nt = ''
+            try {
+                switch (activeFunctionIndex) {
+                    case 0:
+                        nt = JSON.parse(ot)
+                        nt = JSON.stringify(nt, (k, v) => {
+                        return v
+                    }, 2)
+                    break;
+                }
+                document.querySelector('.output').value = nt
+            } catch (err) {
+                document.querySelector('.output').value = err
+
+            }
+        })
+        
+        let navBoxItemList = document.querySelectorAll('.nav-box-item')
+        log(navBoxItemList)
+        navBoxItemList.forEach((item, index) => {
+            item.addEventListener('click', (e) => {
+                let classList = e.target.classList
+                let classArray = Array.from(classList)
+                navBoxItemList.forEach(item => {
+                    item.classList.remove('is-active')
+                })
+                if (classArray.indexOf('is-active') > -1) {
+                    classList.remove('is-active')
+                } else {
+                    classList.add('is-active')
+                    activeFunctionIndex = index
+                }
+            })
+
+        })
+    </script>
+</body>
+</html>
