@@ -60,12 +60,12 @@ set对象没有提供访问指定值的方法。要想访问指定值需要转�
 1. 只能存放对象。  
 2. 对对象是弱引用。  
 
-**WeakSet.prototype.add(obj)** 为WeakSet对象指定添加的对象。
-**WeakSet.prototype.delete(obj)** 返回是否删除指定的对象。
-**WeakSet.prototype.has(obj)** 返回是否存在指定的对象。
-没有办法遍历它的成员。
+**WeakSet.prototype.add(obj)** 为WeakSet对象指定添加的对象。  
+**WeakSet.prototype.delete(obj)** 返回是否删除指定的对象。  
+**WeakSet.prototype.has(obj)** 返回是否存在指定的对象。  
+没有办法遍历它的成员。  
 
-WeakSet 中的对象都是弱引用，即垃圾回收机制不考虑 WeakSet 对该对象的引用。
-现在set对象的操作方法、属性太少。（比如：无法准确地取出指定的值。）所以把他只做为一个仓库对待。操作还要在数组中操作。  
+WeakSet 中的对象都是弱引用，即垃圾回收机制不考虑 WeakSet 对该对象的引用。  
+现在set对象的操作方法、属性太少。（比如：无法准确地取出指定的值。）所以把他只做为一个仓库对待。操作还要在数组中操作。    
 它出现在数组对象没有这些功能的时期。应该是做为一个数组对象的补充存在。要项目中应当把set/array结合起来使用。  
 set对象用处少。weakset对象的用处更少。  

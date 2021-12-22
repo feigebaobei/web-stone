@@ -1441,6 +1441,26 @@ module.exports = CoreHtml5
 # 移动平台开发
 - 同时支持鼠标事件、触摸事件。  
 
+因前端代码运行环境不同，所以前端代码需要解决多个环境的兼容问题。（如：鼠标事件/触摸事件）  
+
+[viewport元标签的content属性值。](/html/index.html)
+
+|媒体特征|是否可以加min/max前缀|描述|||
+|-|-|-|-|-|
+|width|是||||
+|height|是||||
+|device-width|是||||
+|device-height|是||||
+|orientation|是|可取portrait/landscape|||
+|aspect-ratio|是|width/height的比值|||
+|device-aspect-ratio|是|device-width/device-height的比值|||
+|color|是|每个颜色分量所占的二进制位数|||
+|color-index|是||||
+|monochrome|是||||
+|resolution|是||||
+|scan|是||||
+|grid|是||||
+
 |mouse|touch||
 |-|-|-|
 |只有一个点|可有多个点||
