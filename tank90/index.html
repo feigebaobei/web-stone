@@ -35,18 +35,22 @@
 		tankCanvas.width = edgeLength
 		tankCanvas.height = edgeLength
 		let tankContext = tankCanvas.getContext('2d')
-		context.rect(0, 0, edgeLength, edgeLength)
-		// // context.fillStyle = 'grey'
-		context.strokeStyle = 'red'
-		// // context.fill()
-		context.stroke()
+		let paintBorder = () => {
+			context.save()
+			context.rect(0, 0, edgeLength, edgeLength)
+			// // context.fillStyle = 'grey'
+			context.strokeStyle = 'red'
+			// // context.fill()
+			context.stroke()
+			context.restore()
+		}
 
-		let tank = new Sprite({
-			name: 'tank',
-			left: 50,
-			top: 50,
-			vx: 30,
-			width: 25,
+		let tankOffset = new Sprite({
+			name: 'tankOffset',
+			// left: 50,
+			// top: 50,
+			// vx: 30,
+			// width: 25,
 		}, {
 			paint: (sprite, context) => {
 				context.save()
@@ -97,6 +101,7 @@
 				context.stroke()
 				context.beginPath()
 				context.fillStyle = '#eee'
+				// context.lineWidth = edgeLength * 0.02
 				context.rect(edgeLength * 0.45, 0, edgeLength * 0.1, edgeLength * 0.5)
 				context.fill()
 				context.stroke()
@@ -106,16 +111,60 @@
 				context.stroke()
 				context.restore()
 			}
-		}, [{
-			execute: function (sprite, context, fps) {
-				sprite.left += sprite.vx * fps / 1000
-				if (sprite.left > edgeLength) {
-					sprite.left = 50
+		},
+		// [{
+		// 	execute: function (sprite, context, fps) {
+		// 		sprite.left += sprite.vx * fps / 1000
+		// 		if (sprite.left > edgeLength) {
+		// 			sprite.left = 50
+		// 		}
+		// 	}
+		// }]
+		)
+
+		// 绘制静态画面
+		paintBorder()
+		tankOffset.paint(tankContext)
+		context.drawImage(tankCanvas, 0, 0, edgeLength, edgeLength, 10, 10, edgeLength * 0.1, edgeLength * 0.1)
+
+
+
+		let tank = new Sprite({
+			name: 'tank',
+			left: edgeLength * 0.5,
+			top: edgeLength * 0.5,
+			width: edgeLength * 0.1,
+			height: edgeLength * 0.1,
+			vx: 0,
+			vy: 0,
+		}, {
+			paint: (sprite, context) => {
+				context.drawImage(tankCanvas, 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
+			}
+		}, [
+		{
+			execute: (sprite, context, fps) => {
+				if (tank.animating) {
+					sprite.left += sprite.vx * fps / 1000
+					sprite.top += sprite.vy * fps / 1000
+					if (sprite.left > edgeLength - sprite.width) {
+						sprite.left = edgeLength - sprite.width
+					}
+					if (sprite.top > edgeLength - sprite.width) {
+						sprite.top = edgeLength - sprite.width
+					}
+					if (sprite.left < 0) {
+						sprite.left = 0
+					}
+					if (sprite.top < 0) {
+						sprite.top = 0
+					}
 				}
 			}
-		}])
+		}
+		])
 
-		tank.paint(tankContext)
+
 
 		let lastTimeForCalcFps = 0
 		const calcFps = () => {
@@ -126,12 +175,12 @@
 		}
 		let fps, animateId
 
-		context.drawImage(tankCanvas, 0, 0, edgeLength, edgeLength, 10, 10, edgeLength * 0.1, edgeLength * 0.1)
 
 		let draw = () => {
 			log('draw')
-			tank.paint(tankContext)
+			paintBorder()
 			tank.update(context, fps)
+			tank.paint(context)
 		}
 		let animate = (time) => {
 			context.clearRect(0, 0, edgeLength, edgeLength)
@@ -155,24 +204,60 @@
 			}
 		}
 
-		tank.paint(tankContext)
+		// tankOffset.paint(tankContext)
 
 		let game = new Game('tank90', '#canvas')
 		game.setKeyListener(38, (e) => {
-			log(38, '上', e)
+			// log(38, '上donw', e)
+			tank.animating = true
+			tank.vy = -30
+			tank.vx = 0
+		}, true)
+		game.setKeyListener(38, (e) => {
+			// log(38, '上up', e)
+			tank.animating = true
+			tank.vy = 0
+			tank.vx = 0
+		}, false)
+		game.setKeyListener(40, (e) => {
+			// log(40, '下', e)
+			tank.animating = true
+			tank.vy = 30
+			tank.vx = 0
 		})
 		game.setKeyListener(40, (e) => {
-			log(40, '下', e)
+			// log(40, '下', e)
+			tank.animating = true
+			tank.vy = 0
+			tank.vx = 0
+		}, false)
+		game.setKeyListener(37, (e) => {
+			// log(37, '左', e)
+			tank.animating = true
+			tank.vx = -30
+			tank.vy = 0
 		})
 		game.setKeyListener(37, (e) => {
-			log(37, '左', e)
+			// log(37, '左', e)
+			tank.animating = true
+			tank.vx = 0
+			tank.vy = 0
+		}, false)
+		game.setKeyListener(39, (e) => {
+			// log(39, '右', e)
+			tank.animating = true
+			tank.vx = 30
+			tank.vy = 0
 		})
 		game.setKeyListener(39, (e) => {
-			log(39, '右', e)
-		})
+			// log(39, '右', e)
+			tank.animating = true
+			tank.vx = 0
+			tank.vy = 0
+		}, false)
 		log(game)
 
-		// log(tank)
+		// log(tankOffset)
 
 	</script>
 </body>

@@ -145,10 +145,11 @@ class Game {
         this.keyListeners = new Map()
         this.HIGH_SCORES_SUFFIX = '_highscores'
         this.over = false
-        // window.onkeypress = (event) => {
         window.onkeydown = (event) => {
-            // console.log(event)
             this.keydowned(event)
+        }
+        window.onkeyup = (event) => {
+            this.keyuped(event)
         }
         this.title = 0
         this.title = 0
@@ -248,15 +249,22 @@ class Game {
     paintUnderSprites() {} // 绘制背景
     paintOverSprites() {}
     endAnimate() {} // 游戏结束时的动画
-    setKeyListener(keyCode, listener) {
-        this.keyListeners.set(keyCode, listener)
+    setKeyListener(keyCode, listener, isDown = true) {
+        // isDown 是否按下
+        this.keyListeners.set(`${keyCode}-${isDown ? 'down' : 'up'}`, listener)
     }
-    getKeyListener(keyCode) {
-        return this.keyListeners.get(keyCode)
+    getKeyListener(key,) {
+        // return this.keyListeners.get(`${keyCode}-${isDown ? 'down' : 'up'}`)
+        return this.keyListeners.get(key)
     }
     keydowned(e) {
-        let listener = this.getKeyListener(e.keyCode)
-        // console.log(listener, keyCode)
+        let listener = this.getKeyListener(e.keyCode + '-down')
+        if (listener) {
+            listener(e)
+        }
+    }
+    keyuped(e) {
+        let listener = this.getKeyListener(e.keyCode + '-up')
         if (listener) {
             listener(e)
         }
