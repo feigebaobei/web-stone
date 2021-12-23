@@ -20,6 +20,7 @@
 </head>
 <body>
 	<canvas id="canvas">您的浏览器不支持本游戏！</canvas>
+	<script type="text/javascript" src="./canvasCore.js"></script>
 	<script type="text/javascript">
 		let canvas = document.querySelector('#canvas')
 		let context = canvas.getContext('2d')
@@ -34,6 +35,72 @@
 		context.strokeStyle = 'red'
 		context.fill()
 		context.stroke()
+
+		let tank = new Sprite({
+			name: 'tank',
+			left: 50,
+			top: 50,
+			vx: 30,
+			width: 25,
+		}, {
+			paint: (sprite, context) => {
+				context.save()
+				context.beginPath()
+				context.arc(sprite.left, sprite.top, sprite.width / 2, 0, 2*Math.PI, true)
+				context.restore()
+			}
+		}, [{
+					execute: function (sprite, context, fps) {
+						sprite.left += sprite.vx * fps / 1000
+						if (sprite.left > edgeLength) {
+							sprite.left = 50
+						}
+					}
+				}])
+
+		let lastTimeForCalcFps = 0
+		const calcFps = () => {
+			let now = +new Date()
+			let fps = 1000 / (now - lastTimeForCalcFps)
+			lastTimeForCalcFps = now
+			return fps
+		}
+		let fps, animateId
+		let draw = () => {
+			log('draw')
+			tank.update(context, fps)
+			tank.paint(context)
+		}
+		let animate = (time) => {
+			log('animate')
+			context.clearRect(0, 0, edgeLength, edgeLength)
+			fps = calcFps()
+			draw()
+			// animateId = requestNextAnimateionFrame(animate)
+		}
+		let start = () => {
+			log('start', requestNextAnimateionFrame)
+			animateId = requestNextAnimateionFrame(animate)
+		}
+		let stop = () => {
+			log('stop')
+			cancelNextAnimationFrame(animateId)
+		}
+		let flag = false
+		canvas.onclick = (e) => {
+			flag = !flag
+			log(flag)
+			if (flag) {
+				start()
+			} else {
+				stop()
+			}
+		}
+
+
+
+		log(tank)
+
 	</script>
 </body>
 </html>
