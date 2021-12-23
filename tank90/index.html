@@ -30,10 +30,15 @@
 		let edgeLength = Math.min(bodyW, bodyH)
 		canvas.width = edgeLength
 		canvas.height = edgeLength
+
+		let tankCanvas = document.createElement('canvas')
+		tankCanvas.width = edgeLength
+		tankCanvas.height = edgeLength
+		let tankContext = tankCanvas.getContext('2d')
 		context.rect(0, 0, edgeLength, edgeLength)
-		context.fillStyle = 'grey'
+		// // context.fillStyle = 'grey'
 		context.strokeStyle = 'red'
-		context.fill()
+		// // context.fill()
 		context.stroke()
 
 		let tank = new Sprite({
@@ -45,18 +50,72 @@
 		}, {
 			paint: (sprite, context) => {
 				context.save()
+				// 底壳
+				context.strokeStyle = '#222'
 				context.beginPath()
-				context.arc(sprite.left, sprite.top, sprite.width / 2, 0, 2*Math.PI, true)
+				context.rect(edgeLength * 0.1, edgeLength * 0.1, edgeLength * 0.8, edgeLength * 0.85)
+				context.fillStyle = '#333'
+				context.fill()
+				context.stroke()
+				// 履带
+				context.beginPath()
+				context.fillStyle = '#666'
+				context.rect(0, 0, edgeLength * 0.25, edgeLength)
+				context.rect(edgeLength * 0.75, 0, edgeLength * 0.25, edgeLength)
+				context.fill()
+				context.stroke()
+				context.beginPath()
+				context.fillStyle = '#777'
+				context.rect(edgeLength * 0.025, edgeLength * 0.05, edgeLength * 0.2, edgeLength * 0.1)
+				context.rect(edgeLength * 0.025, edgeLength * 0.24, edgeLength * 0.2, edgeLength * 0.1)
+				context.rect(edgeLength * 0.025, edgeLength * 0.43, edgeLength * 0.2, edgeLength * 0.1)
+				context.rect(edgeLength * 0.025, edgeLength * 0.62, edgeLength * 0.2, edgeLength * 0.1)
+				context.rect(edgeLength * 0.025, edgeLength * 0.81, edgeLength * 0.2, edgeLength * 0.1)
+				context.rect(edgeLength * 0.775, edgeLength * 0.05, edgeLength * 0.2, edgeLength * 0.1)
+				context.rect(edgeLength * 0.775, edgeLength * 0.24, edgeLength * 0.2, edgeLength * 0.1)
+				context.rect(edgeLength * 0.775, edgeLength * 0.43, edgeLength * 0.2, edgeLength * 0.1)
+				context.rect(edgeLength * 0.775, edgeLength * 0.62, edgeLength * 0.2, edgeLength * 0.1)
+				context.rect(edgeLength * 0.775, edgeLength * 0.81, edgeLength * 0.2, edgeLength * 0.1)
+				context.fill()
+				context.stroke()
+				// 机舱
+				context.beginPath()
+				context.fillStyle = '#bbb'
+				context.rect(edgeLength * 0.1, edgeLength * 0.15, edgeLength * 0.8, edgeLength * 0.8)
+				context.fill()
+				context.stroke()
+				// 炮塔
+				context.beginPath()
+				context.fillStyle = '#ddd'
+				context.rect(edgeLength * 0.3, edgeLength * 0.4, edgeLength * 0.4, edgeLength * 0.4)
+				context.fill()
+				context.stroke()
+				context.beginPath()
+				context.fillStyle = '#eee'
+				context.arc(edgeLength * 0.5, edgeLength * 0.6, edgeLength * 0.18, 0, 2*Math.PI, true)
+				context.fill()
+				context.stroke()
+				context.beginPath()
+				context.fillStyle = '#eee'
+				context.rect(edgeLength * 0.45, 0, edgeLength * 0.1, edgeLength * 0.5)
+				context.fill()
+				context.stroke()
+				context.beginPath()
+				// 炮塔
+				context.fill()
+				context.stroke()
 				context.restore()
 			}
 		}, [{
-					execute: function (sprite, context, fps) {
-						sprite.left += sprite.vx * fps / 1000
-						if (sprite.left > edgeLength) {
-							sprite.left = 50
-						}
-					}
-				}])
+			execute: function (sprite, context, fps) {
+				sprite.left += sprite.vx * fps / 1000
+				if (sprite.left > edgeLength) {
+					sprite.left = 50
+				}
+			}
+		}])
+
+		tank.paint(tankContext)
 
 		let lastTimeForCalcFps = 0
 		const calcFps = () => {
@@ -66,30 +125,29 @@
 			return fps
 		}
 		let fps, animateId
+
+		context.drawImage(tankCanvas, 0, 0, edgeLength, edgeLength, 10, 10, edgeLength * 0.1, edgeLength * 0.1)
+
 		let draw = () => {
 			log('draw')
+			tank.paint(tankContext)
 			tank.update(context, fps)
-			tank.paint(context)
 		}
 		let animate = (time) => {
-			log('animate')
 			context.clearRect(0, 0, edgeLength, edgeLength)
 			fps = calcFps()
 			draw()
-			// animateId = requestNextAnimateionFrame(animate)
+			animateId = requestNextAnimateionFrame(animate)
 		}
 		let start = () => {
-			log('start', requestNextAnimateionFrame)
 			animateId = requestNextAnimateionFrame(animate)
 		}
 		let stop = () => {
-			log('stop')
 			cancelNextAnimationFrame(animateId)
 		}
 		let flag = false
 		canvas.onclick = (e) => {
 			flag = !flag
-			log(flag)
 			if (flag) {
 				start()
 			} else {
@@ -97,9 +155,10 @@
 			}
 		}
 
+		tank.paint(tankContext)
 
 
-		log(tank)
+		// log(tank)
 
 	</script>
 </body>

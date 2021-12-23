@@ -10,7 +10,7 @@ window.requestNextAnimateionFrame = (
             }, self.timeout)
         }
     }
-)
+)()
 window.cancelNextAnimationFrame = window.cancelAnimationFrame || window.webkitCancelAnimationFrame || window.mozCancelAnimationFrame || window.msCancelAnimationFrame || window.clearTimeout;
 
 
@@ -27,10 +27,11 @@ class Sprite {
         this.visible = visible
         this.animating = animating
         this.painter = painter // object
-        this.behaviors = new Map() // 可优化为map对象
-        Object.entries(behaviors).forEach(([k, fn]) => {
-        	this.behaviors[k] = fn
-        })
+        this.behaviors = behaviors
+        // this.behaviors = new Map() // 可优化为map对象
+        // Object.entries(behaviors).forEach(([k, fn]) => {
+        // 	this.behaviors[k] = fn
+        // })
         // this.behaviors: map = {
         //     key: fn,
         //     ...
@@ -87,5 +88,24 @@ class Sprite {
     // clear behaviors
     clearBehavior() {
         this.behaviors = new Map()
+    }
+}
+class ImagePainter {
+    constructor(src) {
+        this.image = new Image()
+        this.image.src = src
+    }
+    paint(sprite, context) {
+        if (this.image.complete) {
+            context.drawImage(this.image, sprite.left, sprite.top, sprite.width, sprite.height)
+        }
+    }
+}
+class CanvasPainter {
+    constructor(canvas) {
+        this.canvas = canvas
+    }
+    paint(sprite, context) {
+        context.drawImage(this.canvas, sprite.left, sprite.top, sprite.width, sprite.height)
     }
 }
