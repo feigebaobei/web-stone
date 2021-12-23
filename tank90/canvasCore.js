@@ -109,3 +109,240 @@ class CanvasPainter {
         context.drawImage(this.canvas, sprite.left, sprite.top, sprite.width, sprite.height)
     }
 }
+
+class Game {
+    constructor (gameName, canvasId) {
+        this.name = gameName
+        this.canvas = document.querySelector(canvasId)
+        this.context = this.canvas.getContext('2d')
+        this.sprites = new Map()
+        this.startTime = +new Date()
+        this.lastTime = null
+        this.gameTime = null
+        this.fps = 0
+        this.STARTING_FPS = 60
+        // this.paused = false
+        this._animating = false
+        this.startedPauseAt = null
+        this.PAUSE_TIMEOUT = 100 // 可能用不上
+        this.animateId = null
+        this.animate = null
+        this.updateFrameRate = (time) => {
+            if (this.lastTime) {
+                this.fps = this.STARTING_FPS
+            } else {
+                this.fps = 1000 / (time - this.lastTime)
+            }
+        }
+        this.clearScreen = () => {
+            this.context.clearRect(0, 0, canvas.width, canvas.height)
+        }
+        this.queueSource = new SourceMap()
+        this.soundOn = true
+        this.NUM_SOUND_CHANNELS = 10 // 音频的数量
+        this.soundChannels = new Array(this.NUM_SOUND_CHANNELS).fill(new Audio)
+        this.audio = new Audio()
+        this.keyListeners = new Map()
+        this.HIGH_SCORES_SUFFIX = '_highscores'
+        this.over = false
+        // window.onkeypress = (event) => {
+        window.onkeydown = (event) => {
+            // console.log(event)
+            this.keydowned(event)
+        }
+        this.title = 0
+        this.title = 0
+        this.title = 0
+        this.title = 0
+        this.title = 0
+    }
+    start() {
+        this.startTime = +new Date()
+        // this.clearScreen()
+        this.animate = () => {
+            // draw()
+        }
+        this.animateId = requestNextAnimateionFrame(this.animate)
+    }
+    end() {
+        cancelNextAnimationFrame(this.animateId)
+        this.over = true
+    }
+    get animating () {
+        // this.updateFrameRate = () => {}
+        return !this._animating
+    }
+    set animating (flag) {
+        // 可使用獭方法优化
+        this.animate = (time) => {
+            // 处理暂停时的逻辑
+        }
+        if (flag) { // 开始动画
+            this.animate = (time) => {
+                // draw()
+                this.tick(time)
+                this.clearScreen()
+                this.startAnimate(time)
+                this.paintUnderSprites()
+                this.updateSprites(time)
+                this.paintSprites(time)
+                this.paintOverSprites()
+                // this.endAnimate()
+                this.animateId = requestNextAnimationFrame(this.animate)
+            }
+            this.updateFrameRate = (time) => {
+                if (this.lastTime) {
+                    this.fps = this.STARTING_FPS
+                } else {
+                    this.fps = 1000 / (time - this.lastTime)
+                }
+            }
+        } else { // 结束动画
+            this.animate = () => {}
+            this.updateFrameRate = () => {}
+        }
+        return this._animating = !flag
+    }
+    toggleAnimating () {
+        this.animating = !this.animating
+    }
+    tick(time) {
+        this.updateFrameRate(time)
+        this.gameTime = (+new Date()) - this.startTime
+        this.lastTime = time
+    }
+    // updateFrameRate(time) {
+    //  if (this.lastTime) {
+    //      this.fps = this.STARTING_FPS
+    //  } else {
+    //      this.fps = 1000 / (time - this.lastTime)
+    //  }
+    // }
+    clearScreen() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
+    }
+    updateSprites(time) {
+        this.sprites.forEach(sprite => {
+            sprite.update(this.context, time)
+        })
+    }
+    getSprite(spriteName) {
+        this.sprite.get(spriteName)
+    }
+    setSprite(sprite) {
+        this.sprites.set(sprite.name, sprite)
+    }
+    paintSprites() {
+        this.sprites.forEach(sprite => {
+            sprite.paint(this.context)
+        })
+    }
+    pixelsPerFrame(time, velocity) {
+        return velocity / this.fps
+    }
+    ppf(time, velocity) {
+        this.pixelsPerFrame(time, velocity)
+    } // pixelsPerFrame的别名
+
+    startAnimate() {} // 游戏开始时的动画
+    paintUnderSprites() {} // 绘制背景
+    paintOverSprites() {}
+    endAnimate() {} // 游戏结束时的动画
+    setKeyListener(keyCode, listener) {
+        this.keyListeners.set(keyCode, listener)
+    }
+    getKeyListener(keyCode) {
+        return this.keyListeners.get(keyCode)
+    }
+    keydowned(e) {
+        let listener = this.getKeyListener(e.keyCode)
+        // console.log(listener, keyCode)
+        if (listener) {
+            listener(e)
+        }
+    }
+    canPlaySound() {}
+    // 待开发高分榜
+    setHightScore() {}
+    getHightScore() {}
+    clearHighScore() {}
+    canPlayOgggVorbis() {
+        // 可优化为查出可播放类型后加载该类型的音频
+        return '' !== this.audio.canPlayType('audio/ogg; codecs="vorbis"')
+    }
+    canPlayMp4() {
+        return '' !== this.audio.canPlayType('audio/mp4')
+    }
+    getAvailableSoundChannel() {
+        return this.soundChannels.find(audio => {
+            if (audio.played && audio.played.length > 0) {
+                if (audio.ended) {
+                    return true
+                }
+            } else {
+                if (!audio.ended) {
+                    return true
+                }
+            }
+            return false
+        })
+    }
+    playSound(id) {
+        let [track, element] = [this.getAvailableSoundChannel(), document.getElementById(id)]
+        if (track && element) {
+            track.src = element.src === '' ? element.currentSrc : element.src
+            track.load()
+            track.play()
+        }
+    }
+    title() {}
+    title() {}
+    title() {}
+}
+class SourceMap {
+    constructor(sourceName, sourceType, sourceUrl) {
+        // this.name = sourceName
+        // this.url = sourceUrl
+        this.map = new Map()
+        // this.map.set(sourceName, sourceUrl)
+        this.sourceLoaded = new Set()
+        this.sourceFailedToLoad = new Set()
+        // this.sourceLoaded = new Set()
+    }
+    set(sourceName, sourceType, sourceUrl) {
+        this.loadSorce(sourceName, sourceType, sourceUrl)
+    }
+    get(sourceName) {
+        return this.map.get(sourceName)
+    }
+    loadedPercent() {
+        return this.sourceLoaded.length / this.map.keys().length * 100
+    }
+    loadedCb(event) {}
+    loadedErrorCb(event) {}
+    loadSorce(sourceName, sourceType, sourceUrl) {
+        let self = this
+        // 检查重复sourceName
+        // 添加资源
+        switch(sourceType) {
+            case 'image':
+                let image = new Image()
+                image.src = sourceUrl
+                image.addEventListener('load', (e) => {
+                    self.loadedCb(e)
+                    self.sourceLoaded.add(sourceName)
+                })
+                image.addEventListener('error', (e) => {
+                    self.loadedErrorCb(e)
+                    self.sourceFailedToLoad.add(sourceName)
+                })
+                this.map.set(sourceName, sourceUrl)
+                break
+            default:
+                throw new Error('暂不支持该类型的资源')
+                break
+        }
+    }
+    // 因add时就已经开始加载资源了，所以不需要laodAllSource()了。
+    // loadAllSource() {}
+}
