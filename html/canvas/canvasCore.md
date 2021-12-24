@@ -163,9 +163,9 @@ context.clip()
 ## 坐标变换
 |||||
 |-|-|-|-|
-|rotate(angle)|旋转|||
+|rotate(angle)|以画布的(0, 0)点顺时针旋转|先旋转再绘制||
 |scale(x, y)|缩放|||
-|translate(x, y)|平移|||
+|translate(x, y)|平移|先旋转，按旋转后的绘图环境再位移。||
 |transform(a, b, c, d, e, f)|变换|||
 |setTransform(a, b, c, d, e, f)|变换到|||
 

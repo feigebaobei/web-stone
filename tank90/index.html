@@ -124,6 +124,17 @@
 
 		// 绘制静态画面
 		paintBorder()
+		// tankOffset.paint(tankContext)
+		// tankContext.rotate(Math.PI / 6)
+		// tankContext.translate(50, 50)
+		// context.drawImage(tankCanvas, 0, 0, edgeLength, edgeLength, 10, 10, edgeLength * 0.1, edgeLength * 0.1)
+
+		// context.rotate(Math.PI / 2)
+		// context.translate(0, -edgeLength) // 先旋转，按旋转后的绘图环境再位移。
+		// tankOffset.paint(context)
+
+		tankContext.rotate(Math.PI / 2)
+		tankContext.translate(0, -edgeLength)
 		tankOffset.paint(tankContext)
 		context.drawImage(tankCanvas, 0, 0, edgeLength, edgeLength, 10, 10, edgeLength * 0.1, edgeLength * 0.1)
 
@@ -137,9 +148,15 @@
 			height: edgeLength * 0.1,
 			vx: 0,
 			vy: 0,
+			// direction: 
 		}, {
 			paint: (sprite, context) => {
-				context.drawImage(tankCanvas, 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
+				let tctx = tankContext.rotate(sprite.direction.radian())
+				log(tctx)
+				let tcan = tctx.canvas
+				// context.drawImage(tankCanvas, 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
+				context.drawImage(tcan, 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
+				// context.drawImage(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
 			}
 		}, [
 		{

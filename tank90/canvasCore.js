@@ -16,7 +16,7 @@ window.cancelNextAnimationFrame = window.cancelAnimationFrame || window.webkitCa
 
 
 class Sprite {
-    constructor({name ='', left = 0, top = 0, width = 0, height = 0, vx = 0, vy = 0, visible = true, animating = false}, painter, behaviors = {}) {
+    constructor({name ='', left = 0, top = 0, width = 0, height = 0, vx = 0, vy = 0, visible = true, animating = false, direction = new Vector(0, 1)}, painter, behaviors = {}) {
         this.name = name
         this.left = left
         this.top = top
@@ -26,6 +26,7 @@ class Sprite {
         this.vy = vy
         this.visible = visible
         this.animating = animating
+        this.direction = direction // 应该是个单位向量
         this.painter = painter // object
         this.behaviors = behaviors
         // this.behaviors = new Map() // 可优化为map对象
@@ -353,4 +354,179 @@ class SourceMap {
     }
     // 因add时就已经开始加载资源了，所以不需要laodAllSource()了。
     // loadAllSource() {}
+}
+
+class Vector {
+    constructor(x = 0, y = 0) {
+        this.x = x
+        this.y = y
+        // this.magnitude = Math.hypot(this.x, this.y)
+    }
+    // set x(x) {
+    //  this.x = x
+    // }
+    // setX(x) {
+    //  this.x = x
+    //  this.magnitude = Math.hypot(this.x, this.y)
+    // }
+    // setY(y) {
+    //  this.y = y
+    //  this.magnitude = Math.hypot(this.x, this.y)
+    // }
+    opposite() {
+        return new Vector(-this.x, -this.y)
+    }
+    add(v2) {
+        return new Vector(this.x + v2.x, this.y + v2.y)
+    }
+    subtract(v2) {
+        return this.add(v2.opposite())
+    }
+    product(v2) {
+        if (Vector.prototype.isPrototypeOf(v2)) {
+            this.x *= v2.x
+            this.y *= v2.y
+            return this
+        } else {
+            this.x *= v2
+            this.y *= v2
+            return this
+        }
+    }
+    magnitude() {
+        return Math.hypot(this.x, this.y)
+    }
+    isZero() {
+        return this.magnitude() === 0
+    }
+    isParallel(v2) {
+        if (!this.magnitude() || !v2.magnitude()) {
+            return false
+        } else if (this.y === 0 || v2.y === 0) {
+            return !this.y && !v2.y
+        } else {
+            return this.x / this.y === v2.x / v2.y
+        }
+    }
+    isEquality(v2) {
+        return this.x === v2.x && this.y === v2.y
+    }
+    quadrant () {
+        if (this.x === 0 || this.y === 0) {
+            return 0
+        } else if (Math.sign(this.x) > 0) {
+            if (Math.sign(this.y) > 0) {
+                return 1
+            } else {
+                return 4
+            }
+        } else {
+            if (Math.sign(this.y) > 0) {
+                return 2
+            } else {
+                return 3
+            }
+        }
+    }
+    vertical() {
+        return [new Vector(-this.y, this.x), new Vector(this.y, -this.x)] // 第一个值是顺时针方向的。第二个是逆时针方向的。
+    }
+    edge(v2) { // 返回边缘向量
+        let [p, q] = [this.subtract(v2), v2.subtract(this)]
+        return this.magnitude() > v2.magnitude() ? [p, q] : [q, p]
+    }
+    normalize() { // 返回单位向量
+        let m = this.magnitude()
+        if (m) {
+            return new Vector(this.x / m, this.y / m)
+        } else {
+            return undefined
+        }
+    }
+    normal() { // 返回垂直的单位向量
+        let v = this.normalize()
+        if (v) {
+            return v.vertical()
+        } else {
+            return undefined
+        }
+    }
+    dotProduct(v2) { // 返回点积
+        return this.x * v2.x + this.y * v2.y
+    }
+    toProject(v2) { // 把当前向量投影到v2上。
+        let v2n = v2.normalize()
+        if (v2n) {
+            return this.dotProduct(v2n)
+        } else {
+            return undefined
+        }
+    }
+    radian() { // 返回该向量的弧度 [0, 2PI)
+        let res
+        switch(this.quadrant) {
+            case 0:
+
+                if (this.x === 0) {
+                    switch (Math.sign(this.y)) {
+                        case 0:
+                            res = undefined
+                            break
+                        case 1:
+                            res = Math.PI / 2
+                            break
+                        case -1:
+                            res = 3 * Math.PI / 2
+                            break
+                    }
+                } else {
+                    if (this.x > 0) {
+                        res = 0
+                    } else {
+                        res = Math.PI
+                    }
+                }
+
+            break
+            case 1:
+            case 2:
+                res = Math.acos(this.x / this.magnitude())
+            break
+            case 3:
+                let v2 = this.opposite()
+                return v2.radian() + Math.PI
+            break
+            case 4:
+                res = Math.PI * 2 + Math.asin(this.y / this.magnitude())
+            break
+        }
+        return res
+    }
+    intersectionAngle(v2) {
+        return Math.abs(v2.radian() - this.radian())
+    }
+    // 旋转
+    rotate(b) {
+        let curRadian = this.radian() + b
+        let r = this.magnitude()
+        return new Vector(r * Math.cos(curRadian), r * Math.sin(curRadian))
+    }
+    rebounceWithSurface() {
+        let rv = this.radian()
+        let rm = this.normal[0].radian()
+        let rr = 2 * (Math.PI / 2 - (rv - rm))
+        return this.rotate(rr)
+    }
+    rebounceWithAxes() {
+        let rv = this.radian()
+        let rm = this.normal[0].radian()
+        let rr = Math.PI - 2 * Math.abs(rv - rm)
+        if (rm > rv) {
+            return this.rotate(-rr)
+        } else if (rm === rv) {
+            return this.opposite() // 为了计算快一点
+        } else {
+            return this.rotate(rr)
+        }
+    }
 }
