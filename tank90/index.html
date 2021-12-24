@@ -46,55 +46,6 @@
 			context.stroke()
 			context.restore()
 		}
-
-		class OffsetCanvasSprite {
-			// constructor({name = '', left: 0, top: 0, width: 0, height: 0, vx: 0, vy: 0, visible: true, animating: false, direction: new Vector(0, 1)}, painter, behaviors, width, height) {
-			// constructor({name = '', left = 0, top = 0, width = 0, height = 0, vx = 0, vy = 0, visible = true, animating = false, direction = new Vector(0, 1)}, painter, behaviors, cwidth, cheight) {
-			constructor(spriteOpt, painter, behaviors, cwidth, cheight) {
-				this.memo = new Map()
-				this.width = cwidth
-				this.height = cheight
-				this.offsetSprite = new Sprite(spriteOpt, painter, behaviors)
-				let v = spriteOpt.direction || new Vector(0, 1)
-				this.direction = v
-				this.setDirection(v)
-			}
-			setDirection(v) {
-				if (!Vector.prototype.isPrototypeOf(v)) {
-					v = new Vector(v.x, v.y)
-				}
-				let n = v.normalize()
-				if (!this.memo.has(`${n.x}-${n.y}`)) {
-					let offsetCanvas = document.createElement('canvas')
-					offsetCanvas.width = this.width
-					offsetCanvas.height = this.height
-					let offsetContext = offsetCanvas.getContext('2d')
-					// 当前只支持4个方向
-					if (n.x === 0 && n.y === 1) {} else if (n.x === 1 && n.y === 0) {
-						offsetContext.rotate(Math.PI / 2)
-						offsetContext.translate(0, -this.height)
-					} else if (n.x === 0 && n.y === -1) {
-						offsetContext.rotate(Math.PI)
-						offsetContext.translate(-this.width, -this.height)
-					} else if (n.x === -1 && n.y === 0) {
-						offsetContext.rotate(Math.PI / -2)
-						offsetContext.translate(-this.width, 0)
-					}
-					this.offsetSprite.paint(offsetContext)
-					this.memo.set(`${n.x}-${n.y}`, offsetCanvas)
-				}
-			}
-			getCanvas(v = new Vector(0, 1)) {
-				return this.memo.get(`${v.x}-${v.y}`)
-				// let c = this.memo.get(`${v.x}-${v.y}`)
-				// if (c) {
-				// 	return c
-				// } else {
-				// 	this.setDirection(v)
-				// 	return this.getCanvas(v)
-				// }
-			}
-		}
 		let painter = {
 			paint: (sprite, context) => {
 				context.save()
@@ -180,6 +131,69 @@
 		// log('tankOffset', tankOffset)
 		// tankOffset.setDirection(new Vector(1, 0))
 		// log('tankOffset', tankOffset.getCanvas(new Vector(1, 0)))
+		let brickPainter = {
+			paint: (sprite, context) => {
+				context.save()
+				// 第一行
+				context.fillStyle = '#9b3d3d'
+				context.strokeStyle = '#333'
+				context.lineWidth = edgeLength * 0.01
+				context.beginPath()
+				context.moveTo(0, 0)
+				context.lineTo(edgeLength * 0.25, 0)
+				context.lineTo(edgeLength * 0.25, edgeLength * 0.25)
+				context.lineTo(0, edgeLength * 0.25)
+				context.fill()
+				context.stroke()
+				context.beginPath()
+				context.rect(edgeLength * 0.25, 0, edgeLength * 0.5, edgeLength * 0.25)
+				context.fill()
+				context.stroke()
+				context.beginPath()
+				context.moveTo(edgeLength, 0)
+				context.lineTo(edgeLength * 0.75, 0)
+				context.lineTo(edgeLength * 0.75, edgeLength * 0.25)
+				context.lineTo(edgeLength, edgeLength * 0.25)
+				context.fill()
+				context.stroke()
+				// 第二行
+				context.beginPath()
+				context.rect(0, edgeLength * 0.25, edgeLength * 0.5, edgeLength * 0.25)
+				context.rect(edgeLength * 0.5, edgeLength * 0.25, edgeLength * 0.5, edgeLength * 0.25)
+				context.fill()
+				context.stroke()
+				// 第三行
+				context.beginPath()
+				context.moveTo(0, edgeLength * 0.5)
+				context.lineTo(edgeLength * 0.25, edgeLength * 0.5)
+				context.lineTo(edgeLength * 0.25, edgeLength * 0.75)
+				context.lineTo(0, edgeLength * 0.75)
+				context.fill()
+				context.stroke()
+				context.beginPath()
+				context.rect(edgeLength * 0.25, edgeLength * 0.5, edgeLength * 0.5, edgeLength * 0.25)
+				context.fill()
+				context.stroke()
+				context.beginPath()
+				context.moveTo(edgeLength, edgeLength * 0.5)
+				context.lineTo(edgeLength * 0.75, edgeLength * 0.5)
+				context.lineTo(edgeLength * 0.75, edgeLength * 0.75)
+				context.lineTo(edgeLength, edgeLength * 0.75)
+				context.fill()
+				context.stroke()
+				// 第四行
+				context.beginPath()
+				context.rect(0, edgeLength * 0.75, edgeLength * 0.5, edgeLength * 0.25)
+				context.rect(edgeLength * 0.5, edgeLength * 0.75, edgeLength * 0.5, edgeLength * 0.25)
+				context.fill()
+				context.stroke()
+				context.restore()
+			}
+		}
+		// let brick = new Sprite({
+		// 	name: 'brick'
+		// }, brickPainter, [])
+		let brickOffset = new OffsetCanvasSprite({name: 'brick'}, brickPainter, [], edgeLength, edgeLength)
 
 		// 绘制静态画面
 		paintBorder()
@@ -195,14 +209,17 @@
 		// tankOffset.paint(tankContext)
 		// context.drawImage(tankCanvas, 0, 0, edgeLength, edgeLength, 10, 10, edgeLength * 0.1, edgeLength * 0.1)
 
+		// 四个方向的tank
 		context.drawImage(tankOffset.getCanvas(), 0, 0, edgeLength, edgeLength, 10, 10, edgeLength * 0.1, edgeLength * 0.1)
 		context.drawImage(tankOffset.getCanvas(new Vector(1, 0)), 0, 0, edgeLength, edgeLength, 70, 10, edgeLength * 0.1, edgeLength * 0.1)
 		context.drawImage(tankOffset.getCanvas(new Vector(0, -1)), 0, 0, edgeLength, edgeLength, 130, 10, edgeLength * 0.1, edgeLength * 0.1)
 		context.drawImage(tankOffset.getCanvas({x: 0, y: -1}), 0, 0, edgeLength, edgeLength, 130, 10, edgeLength * 0.1, edgeLength * 0.1)
 		context.drawImage(tankOffset.getCanvas(new Vector(-1, 0)), 0, 0, edgeLength, edgeLength, 190, 10, edgeLength * 0.1, edgeLength * 0.1)
 
-
-
+		// 砖头
+		// brick.paint(context)
+		context.drawImage(brickOffset.getCanvas(), 0, 0, edgeLength, edgeLength, 10, 80, edgeLength * 0.1, edgeLength * 0.1)
+		context.drawImage(brickOffset.getCanvas(), 0, 0, edgeLength, edgeLength, 70, 80, edgeLength * 0.1, edgeLength * 0.1)
 
 
 
@@ -216,7 +233,6 @@
 			height: edgeLength * 0.1,
 			vx: 0,
 			vy: 0,
-			// direction: 
 		}, {
 			paint: (sprite, context) => {
 				// context.drawImage(tankCanvas, 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
@@ -256,7 +272,6 @@
 			return fps
 		}
 		let fps, animateId
-
 
 		let draw = () => {
 			log('draw')

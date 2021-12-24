@@ -530,3 +530,50 @@ class Vector {
         }
     }
 }
+
+class OffsetCanvasSprite {
+    constructor(spriteOpt, painter, behaviors, cwidth, cheight) {
+        this.memo = new Map()
+        this.width = cwidth
+        this.height = cheight
+        this.offsetSprite = new Sprite(spriteOpt, painter, behaviors)
+        let v = spriteOpt.direction || new Vector(0, 1)
+        this.direction = v
+        this.setDirection(v)
+    }
+    setDirection(v) {
+        if (!Vector.prototype.isPrototypeOf(v)) {
+            v = new Vector(v.x, v.y)
+        }
+        let n = v.normalize()
+        if (!this.memo.has(`${n.x}-${n.y}`)) {
+            let offsetCanvas = document.createElement('canvas')
+            offsetCanvas.width = this.width
+            offsetCanvas.height = this.height
+            let offsetContext = offsetCanvas.getContext('2d')
+            // 当前只支持4个方向
+            if (n.x === 0 && n.y === 1) {} else if (n.x === 1 && n.y === 0) {
+                offsetContext.rotate(Math.PI / 2)
+                offsetContext.translate(0, -this.height)
+            } else if (n.x === 0 && n.y === -1) {
+                offsetContext.rotate(Math.PI)
+                offsetContext.translate(-this.width, -this.height)
+            } else if (n.x === -1 && n.y === 0) {
+                offsetContext.rotate(Math.PI / -2)
+                offsetContext.translate(-this.width, 0)
+            }
+            this.offsetSprite.paint(offsetContext)
+            this.memo.set(`${n.x}-${n.y}`, offsetCanvas)
+        }
+    }
+    getCanvas(v = new Vector(0, 1)) {
+        return this.memo.get(`${v.x}-${v.y}`)
+        // let c = this.memo.get(`${v.x}-${v.y}`)
+        // if (c) {
+        //     return c
+        // } else {
+        //     this.setDirection(v)
+        //     return this.getCanvas(v)
+        // }
+    }
+}
