@@ -190,10 +190,33 @@
 				context.restore()
 			}
 		}
+		let shellPainter = {
+			paint: (sprite, context) => {
+				context.save()				
+				context.fillStyle = '#dee3eb'
+				context.strokeStyle = '#333'
+				context.lineWidth = edgeLength * 0.01
+				context.beginPath()
+				context.moveTo(edgeLength * 0.25, edgeLength)
+				context.lineTo(edgeLength * 0.25, edgeLength * 0.5)
+				context.quadraticCurveTo(edgeLength * 0.25, 0, edgeLength * 0.5, 0)
+				context.quadraticCurveTo(edgeLength * 0.75, 0, edgeLength * 0.75, edgeLength * 0.5)
+				context.lineTo(edgeLength * 0.75, edgeLength)
+				context.closePath()
+				context.fill()
+				context.stroke()
+				context.restore()
+				
+			}
+		}
 		// let brick = new Sprite({
 		// 	name: 'brick'
 		// }, brickPainter, [])
 		let brickOffset = new OffsetCanvasSprite({name: 'brick'}, brickPainter, [], edgeLength, edgeLength)
+		// let shell = new Sprite({
+		// 	name: 'shell'
+		// }, shellPainter, [])
+		let shellOffset = new OffsetCanvasSprite({name: 'shell'}, shellPainter, [], edgeLength, edgeLength)
 
 		// 绘制静态画面
 		paintBorder()
@@ -221,6 +244,14 @@
 		context.drawImage(brickOffset.getCanvas(), 0, 0, edgeLength, edgeLength, 10, 80, edgeLength * 0.1, edgeLength * 0.1)
 		context.drawImage(brickOffset.getCanvas(), 0, 0, edgeLength, edgeLength, 70, 80, edgeLength * 0.1, edgeLength * 0.1)
 
+		// 炮弹
+		// shell.paint(context)
+		context.drawImage(shellOffset.getCanvas(), 0, 0, edgeLength, edgeLength, 10, 150, edgeLength * 0.1, edgeLength * 0.1)
+		context.drawImage(shellOffset.getCanvas(), 0, 0, edgeLength, edgeLength, 70, 150, edgeLength * 0.1, edgeLength * 0.1)
+		context.drawImage(shellOffset.getCanvas(), 0, 0, edgeLength, edgeLength, 130, 150, edgeLength * 0.025, edgeLength * 0.025)
+		context.drawImage(shellOffset.getCanvas(), 0, 0, edgeLength, edgeLength, 190, 150, edgeLength * 0.025, edgeLength * 0.025)
+
+		
 
 
 
