@@ -464,7 +464,7 @@ class Vector {
     }
     radian() { // 返回该向量的弧度 [0, 2PI)
         let res
-        switch(this.quadrant) {
+        switch(this.quadrant()) {
             case 0:
 
                 if (this.x === 0) {

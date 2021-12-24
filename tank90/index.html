@@ -19,7 +19,9 @@
 	</style>
 </head>
 <body>
-	<canvas id="canvas">您的浏览器不支持本游戏！</canvas>
+	<canvas id="canvas">您的浏览器不支持本游戏！
+		创建一个系统的规则比较困难。不知道什么样的规则才是合适的。
+	</canvas>
 	<script type="text/javascript" src="./canvasCore.js"></script>
 	<script type="text/javascript">
 		let canvas = document.querySelector('#canvas')
@@ -45,13 +47,62 @@
 			context.restore()
 		}
 
-		let tankOffset = new Sprite({
-			name: 'tankOffset',
-			// left: 50,
-			// top: 50,
-			// vx: 30,
-			// width: 25,
-		}, {
+		class OffsetCanvasSprite {
+			// constructor({name = '', left: 0, top: 0, width: 0, height: 0, vx: 0, vy: 0, visible: true, animating: false, direction: new Vector(0, 1)}, painter, behaviors, width, height) {
+			// constructor({name = '', left = 0, top = 0, width = 0, height = 0, vx = 0, vy = 0, visible = true, animating = false, direction = new Vector(0, 1)}, painter, behaviors, cwidth, cheight) {
+			constructor(spriteOpt, painter, behaviors, cwidth, cheight) {
+				this.memo = new Map()
+				this.width = cwidth
+				this.height = cheight
+				this.offsetSprite = new Sprite(spriteOpt, painter, behaviors)
+				// log(spriteOpt)
+				let v = new Vector(0, 1)
+				this.direction = v
+				// this.offsetSprite.paint()
+				this.setDirection(v)
+			}
+			setDirection(v) {
+				// log(v)
+				let n = v.normalize()
+				// log('n', n)
+				if (!this.memo.has(`${n.x}-${n.y}`)) {
+					let offsetCanvas = document.createElement('canvas')
+					offsetCanvas.width = this.width
+					offsetCanvas.height = this.height
+					let offsetContext = offsetCanvas.getContext('2d')
+					// 当前只支持4个方向
+					if (n.x === 0 && n.y === 1) {} else if (n.x === 1 && n.y === 0) {
+						offsetContext.rotate(Math.PI / 2)
+						offsetContext.translate(0, -this.height)
+					} else if (n.x === 0 && n.y === -1) {
+						offsetContext.rotate(Math.PI)
+						offsetContext.translate(this.width, -this.height)
+					} else if (n.x === -1 && n.y === 0) {
+						offsetContext.rotate(Math.PI / -2)
+						offsetContext.translate(-this.width, 0)
+					}
+					this.offsetSprite.paint(offsetContext)
+					this.memo.set(`${n.x}-${n.y}`, offsetCanvas)
+				}
+			}
+			getCanvas(v = new Vector(0, 1)) {
+				// return this.memo.get(v) || this.setDirection(v)
+				let c = this.memo.get(`${v.x}-${v.y}`)
+				log(c)
+				if (c) {
+					return c
+				} else {
+					return null
+					// this.setDirection(v)
+					// return this.getCanvas(v)
+				}
+			}
+			// paint(context) {
+			// 	this.getCanvas(this.direction)
+			// }
+			// update(context, time) {...}
+		}
+		let painter = {
 			paint: (sprite, context) => {
 				context.save()
 				// 底壳
@@ -111,16 +162,28 @@
 				context.stroke()
 				context.restore()
 			}
-		},
-		// [{
-		// 	execute: function (sprite, context, fps) {
-		// 		sprite.left += sprite.vx * fps / 1000
-		// 		if (sprite.left > edgeLength) {
-		// 			sprite.left = 50
-		// 		}
-		// 	}
-		// }]
-		)
+		}
+
+		// let tankOffset = new Sprite({
+		// 	name: 'tankOffset',
+		// 	// left: 50,
+		// 	// top: 50,
+		// 	// vx: 30,
+		// 	// width: 25,
+		// }, painter,
+		// // [{
+		// // 	execute: function (sprite, context, fps) {
+		// // 		sprite.left += sprite.vx * fps / 1000
+		// // 		if (sprite.left > edgeLength) {
+		// // 			sprite.left = 50
+		// // 		}
+		// // 	}
+		// // }]
+		// )
+		let tankOffset = new OffsetCanvasSprite({name: 'tankOffsetSprite'}, painter, [], edgeLength, edgeLength)
+		// log('tankOffset', tankOffset)
+		// tankOffset.setDirection(new Vector(1, 0))
+		// log('tankOffset', tankOffset.getCanvas(new Vector(1, 0)))
 
 		// 绘制静态画面
 		paintBorder()
@@ -129,14 +192,23 @@
 		// tankContext.translate(50, 50)
 		// context.drawImage(tankCanvas, 0, 0, edgeLength, edgeLength, 10, 10, edgeLength * 0.1, edgeLength * 0.1)
 
+		// 原本的tank
 		// context.rotate(Math.PI / 2)
 		// context.translate(0, -edgeLength) // 先旋转，按旋转后的绘图环境再位移。
 		// tankOffset.paint(context)
 
-		tankContext.rotate(Math.PI / 2)
-		tankContext.translate(0, -edgeLength)
-		tankOffset.paint(tankContext)
-		context.drawImage(tankCanvas, 0, 0, edgeLength, edgeLength, 10, 10, edgeLength * 0.1, edgeLength * 0.1)
+		// 向右的tank
+		// tankContext.rotate(Math.PI / 2)
+		// tankContext.translate(0, -edgeLength)
+		// tankOffset.paint(tankContext)
+		// context.drawImage(tankCanvas, 0, 0, edgeLength, edgeLength, 10, 10, edgeLength * 0.1, edgeLength * 0.1)
+
+		context.drawImage(tankOffset.getCanvas(), 0, 0, edgeLength, edgeLength, 10, 10, edgeLength * 0.1, edgeLength * 0.1)
+
+
+
+
+
 
 
 
@@ -151,12 +223,24 @@
 			// direction: 
 		}, {
 			paint: (sprite, context) => {
-				let tctx = tankContext.rotate(sprite.direction.radian())
-				log(tctx)
-				let tcan = tctx.canvas
-				// context.drawImage(tankCanvas, 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
-				context.drawImage(tcan, 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
-				// context.drawImage(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
+				// tankContext.translate(-edgeLength / 2, -edgeLength / 2)
+				// let radian = sprite.direction.radian()
+				// if (!radian || radian > 6) {
+				// 	// tankContext.rotate(Math.PI / 2)
+				// 	// tankContext.translate(0, -edgeLength / 2)
+				// } else if (radian > 0 && radian < 1) {
+				// 	// tankContext.rotate(Math.PI)
+				// 	// tankContext.translate(edgeLength / 2, -edgeLength / 2)
+				// } else if (radian > 1 && radian < 3) {
+				// 	// tankContext.rotate(Math.PI / 2 * 3)
+				// 	// tankContext.translate(edgeLength / 2, 0)
+				// } else if (radian > 3 && radian < 6 ) {} else {
+				// 	// tankContext.rotate(Math.PI * 2)
+				// 	// tankContext.translate(edgeLength / 2, edgeLength / 2)
+				// }
+				// tankOffset.paint(tankContext)
+				context.drawImage(tankCanvas, 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
+				
 			}
 		}, [
 		{
@@ -222,6 +306,24 @@
 		}
 
 		// tankOffset.paint(tankContext)
+		let fn = () => {
+			let radian = tank.direction.radian()
+			log('radian', radian)
+			if (!radian || radian > 6) {
+				// null
+			} else if (radian > 1 && radian < 3) {
+				tankContext.rotate(Math.PI / 2)
+				tankContext.translate(0, -edgeLength)
+				tankOffset.paint(tankContext)
+			} else if (radian > 3 && radian < 4) {
+				tankContext.rotate(Math.PI)
+				tankContext.translate(-edgeLength, -edgeLength)
+			} else if (radian > 4 && radian < 6) {
+				tankContext.rotate(Math.PI / -2)
+				tankContext.translate(-edgeLength, 0)
+			}
+			tankOffset.paint(tankContext)
+		}
 
 		let game = new Game('tank90', '#canvas')
 		game.setKeyListener(38, (e) => {
@@ -229,6 +331,8 @@
 			tank.animating = true
 			tank.vy = -30
 			tank.vx = 0
+			tank.direction = new Vector(0, 1)
+			fn()
 		}, true)
 		game.setKeyListener(38, (e) => {
 			// log(38, '上up', e)
@@ -241,6 +345,11 @@
 			tank.animating = true
 			tank.vy = 30
 			tank.vx = 0
+			tank.direction = new Vector(0, -1)
+			fn()
+			// tankContext.rotate(Math.PI)
+			// tankContext.translate(-edgeLength, -edgeLength)
+			// tankOffset.paint(tankContext)
 		})
 		game.setKeyListener(40, (e) => {
 			// log(40, '下', e)
@@ -253,6 +362,8 @@
 			tank.animating = true
 			tank.vx = -30
 			tank.vy = 0
+			tank.direction = new Vector(-1, 0)
+			fn()
 		})
 		game.setKeyListener(37, (e) => {
 			// log(37, '左', e)
@@ -265,6 +376,8 @@
 			tank.animating = true
 			tank.vx = 30
 			tank.vy = 0
+			tank.direction = new Vector(1, 0)
+			fn()
 		})
 		game.setKeyListener(39, (e) => {
 			// log(39, '右', e)
