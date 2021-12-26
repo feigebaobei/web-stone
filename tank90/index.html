@@ -39,7 +39,9 @@
 		let tankContext = tankCanvas.getContext('2d')
 		let paintBorder = () => {
 			context.save()
+			context.beginPath()
 			context.rect(0, 0, edgeLength, edgeLength)
+			context.closePath()
 			// // context.fillStyle = 'grey'
 			context.strokeStyle = 'red'
 			// // context.fill()
@@ -192,21 +194,28 @@
 		}
 		let shellPainter = {
 			paint: (sprite, context) => {
+				// log('shellPainter')
+				let lineWidth = sprite.width * 0.15
+				let lineWidthHalf = lineWidth / 2
 				context.save()				
 				context.fillStyle = '#dee3eb'
 				context.strokeStyle = '#333'
-				context.lineWidth = edgeLength * 0.01
+				context.lineWidth = lineWidth
 				context.beginPath()
-				context.moveTo(edgeLength * 0.25, edgeLength)
-				context.lineTo(edgeLength * 0.25, edgeLength * 0.5)
-				context.quadraticCurveTo(edgeLength * 0.25, 0, edgeLength * 0.5, 0)
-				context.quadraticCurveTo(edgeLength * 0.75, 0, edgeLength * 0.75, edgeLength * 0.5)
-				context.lineTo(edgeLength * 0.75, edgeLength)
+				// context.moveTo(edgeLength * 0.25, edgeLength)
+				// context.lineTo(edgeLength * 0.25, edgeLength * 0.5)
+				// context.quadraticCurveTo(edgeLength * 0.25, 0, edgeLength * 0.5, 0)
+				// context.quadraticCurveTo(edgeLength * 0.75, 0, edgeLength * 0.75, edgeLength * 0.5)
+				// context.lineTo(edgeLength * 0.75, edgeLength)
+				context.moveTo(sprite.left + lineWidthHalf, sprite.top + sprite.height - lineWidthHalf)
+				context.lineTo(sprite.left + lineWidthHalf, sprite.top + sprite.height * 0.5)
+				context.quadraticCurveTo(sprite.left + lineWidthHalf, sprite.top + lineWidthHalf, sprite.left + sprite.width * 0.5, sprite.top + lineWidthHalf)
+				context.quadraticCurveTo(sprite.left + sprite.width - lineWidthHalf, sprite.top + lineWidthHalf, sprite.left + sprite.width - lineWidthHalf, sprite.top + sprite.height * 0.5)
+				context.lineTo(sprite.left + sprite.width - lineWidthHalf, sprite.top + sprite.height - lineWidthHalf)
 				context.closePath()
 				context.fill()
 				context.stroke()
 				context.restore()
-				
 			}
 		}
 		// let brick = new Sprite({
@@ -214,9 +223,18 @@
 		// }, brickPainter, [])
 		let brickOffset = new OffsetCanvasSprite({name: 'brick'}, brickPainter, [], edgeLength, edgeLength)
 		// let shell = new Sprite({
-		// 	name: 'shell'
+		// 	name: 'shell',
+		// 	width: edgeLength * 0.5,
+		// 	height: edgeLength,
 		// }, shellPainter, [])
-		let shellOffset = new OffsetCanvasSprite({name: 'shell'}, shellPainter, [], edgeLength, edgeLength)
+		let shellOffset = new OffsetCanvasSprite({
+			name: 'shell',
+			width: edgeLength / 2,
+			height: edgeLength,
+		}, shellPainter, [], edgeLength, edgeLength)
+		shellOffset.setDirection(new Vector(1, 0))
+		shellOffset.setDirection(new Vector(0, -1))
+		shellOffset.setDirection(new Vector(-1, 0))
 
 		// 绘制静态画面
 		paintBorder()
@@ -247,23 +265,82 @@
 		// 炮弹
 		// shell.paint(context)
 		context.drawImage(shellOffset.getCanvas(), 0, 0, edgeLength, edgeLength, 10, 150, edgeLength * 0.1, edgeLength * 0.1)
-		context.drawImage(shellOffset.getCanvas(), 0, 0, edgeLength, edgeLength, 70, 150, edgeLength * 0.1, edgeLength * 0.1)
-		context.drawImage(shellOffset.getCanvas(), 0, 0, edgeLength, edgeLength, 130, 150, edgeLength * 0.025, edgeLength * 0.025)
-		context.drawImage(shellOffset.getCanvas(), 0, 0, edgeLength, edgeLength, 190, 150, edgeLength * 0.025, edgeLength * 0.025)
+		context.drawImage(shellOffset.getCanvas(new Vector(1, 0)), 0, 0, edgeLength, edgeLength, 70, 150, edgeLength * 0.1, edgeLength * 0.1)
+		context.drawImage(shellOffset.getCanvas(new Vector(0, -1)), 0, 0, edgeLength, edgeLength, 130, 150, edgeLength * 0.1, edgeLength * 0.1)
+		context.drawImage(shellOffset.getCanvas(new Vector(-1, 0)), 0, 0, edgeLength, edgeLength, 190, 150, edgeLength * 0.1, edgeLength * 0.1)
+		context.drawImage(shellOffset.getCanvas(), 0, 0, edgeLength, edgeLength, 10, 220, edgeLength * 0.025, edgeLength * 0.025)
+		context.drawImage(shellOffset.getCanvas({x: 1, y: 0}), 0, 0, edgeLength, edgeLength, 70, 220, edgeLength * 0.025, edgeLength * 0.025)
+		context.drawImage(shellOffset.getCanvas({x: 0, y: -1}), 0, 0, edgeLength, edgeLength, 130, 220, edgeLength * 0.025, edgeLength * 0.025)
+		context.drawImage(shellOffset.getCanvas({x: -1, y: 0}), 0, 0, edgeLength, edgeLength, 190, 220, edgeLength * 0.025, edgeLength * 0.025)
 
 		
 
 
 
-
-		let tank = new Sprite({
+		class ShellSprite extends Sprite {
+			constructor(spriteOpt, painter, behaviors) {
+				super(spriteOpt, painter, behaviors)
+				this.level = spriteOpt.level || 0
+			}
+		}
+		class tankSprite extends Sprite{
+			constructor(spriteOpt, painter, behaviors) {
+				super(spriteOpt, painter, behaviors)
+				this.level = spriteOpt.level || 0
+			}
+			fire() {
+				let v = 0
+				switch(this.level) {
+					case 0:
+						v = 45 // new Vector()
+						break
+					case 1:
+						v = 60
+						break
+					case 1:
+						v = 70
+						break
+				}
+				// switch(this.direction) {
+				// 	case 
+				// }
+				v = new Vector(this.direction.x * v, -this.direction.y * v)
+				return new ShellSprite({
+					name: 'shell',
+					left: this.left,
+					top: this.top,
+					width: this.width * 0.5,
+					height: this.height,
+					v,
+					direction: this.direction,
+					animating: true
+					// : this.,
+					// top: this.top,
+					// top: this.top,
+					// spriteOpt.direction
+				}, shellPainter, [{
+					execute: (sprite, context, fps) => {
+						sprite.left += sprite.v.x * fps / 1000
+						sprite.top += sprite.v.y * fps / 1000
+						// log('', sprite)
+						if (sprite.left > edgeLength - sprite.width || sprite.left < 0 || sprite.top < 0 || sprite.top > edgeLength - sprite.height) {
+							// sprite.visible = false
+							sprite.animating = false
+						}
+					}
+				}])
+			}
+		}
+		// let tank = new Sprite({
+		let tank = new tankSprite({
 			name: 'tank',
 			left: edgeLength * 0.5,
 			top: edgeLength * 0.5,
 			width: edgeLength * 0.1,
 			height: edgeLength * 0.1,
-			vx: 0,
-			vy: 0,
+			// vx: 0,
+			// vy: 0,
+			v: new Vector(0, 0)
 		}, {
 			paint: (sprite, context) => {
 				// context.drawImage(tankCanvas, 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
@@ -273,25 +350,31 @@
 		}, [
 		{
 			execute: (sprite, context, fps) => {
-				if (tank.animating) {
-					sprite.left += sprite.vx * fps / 1000
-					sprite.top += sprite.vy * fps / 1000
-					if (sprite.left > edgeLength - sprite.width) {
-						sprite.left = edgeLength - sprite.width
-					}
-					if (sprite.top > edgeLength - sprite.width) {
-						sprite.top = edgeLength - sprite.width
-					}
-					if (sprite.left < 0) {
-						sprite.left = 0
-					}
-					if (sprite.top < 0) {
-						sprite.top = 0
-					}
+				// log(sprite, fps)
+				sprite.left += sprite.v.x * fps / 1000
+				sprite.top += sprite.v.y * fps / 1000
+				if (sprite.left > edgeLength - sprite.width) {
+					sprite.left = edgeLength - sprite.width
+				}
+				if (sprite.top > edgeLength - sprite.width) {
+					sprite.top = edgeLength - sprite.width
+				}
+				if (sprite.left < 0) {
+					sprite.left = 0
+				}
+				if (sprite.top < 0) {
+					sprite.top = 0
 				}
 			}
 		}
 		])
+		// log('tank', tank)
+		// let test = new Sprite({}, {paint: (sprite, context) => {
+		// 	log('paint')
+		// }}, [])
+		// log('test', test)
+		// test.paint()
+		// log()
 
 
 
@@ -299,28 +382,79 @@
 		const calcFps = () => {
 			let now = +new Date()
 			let fps = 1000 / (now - lastTimeForCalcFps)
+			log(now, lastTimeForCalcFps, fps)
 			lastTimeForCalcFps = now
 			return fps
 		}
 		let fps, animateId
 
-		let draw = () => {
-			log('draw')
-			paintBorder()
-			tank.update(context, fps)
-			tank.paint(context)
-		}
-		let animate = (time) => {
-			context.clearRect(0, 0, edgeLength, edgeLength)
-			fps = calcFps()
-			draw()
-			animateId = requestNextAnimateionFrame(animate)
-		}
+		let game = new Game('tank90', '#canvas', paintBorder)
+		game.setSprite(tank)
+		game.setKeyListener(38, (e) => {
+			tank.animating = true
+			tank.v = new Vector(0, -30)
+			tank.direction = new Vector(0, 1)
+		}, true)
+		game.setKeyListener(38, (e) => {
+			tank.animating = true
+			tank.v = new Vector(0, 0)
+		}, false)
+		game.setKeyListener(40, (e) => {
+			tank.animating = true
+			tank.v = new Vector(0, 30)
+			tank.direction = new Vector(0, -1)
+		})
+		game.setKeyListener(40, (e) => {
+			tank.animating = true
+			tank.v = new Vector(0, 0)
+		}, false)
+		game.setKeyListener(37, (e) => {
+			tank.animating = true
+			tank.v = new Vector(-30, 0)
+			tank.direction = new Vector(-1, 0)
+		})
+		game.setKeyListener(37, (e) => {
+			tank.animating = true
+			tank.v = new Vector(0, 0)
+		}, false)
+		game.setKeyListener(39, (e) => {
+			tank.animating = true
+			tank.v = new Vector(30, 0)
+			tank.direction = new Vector(1, 0)
+		})
+		game.setKeyListener(39, (e) => {
+			tank.animating = true
+			tank.v = new Vector(0, 0)
+		}, false)
+		game.setKeyListener(32, (e) => {
+			let t = tank.fire()
+			log(t)
+			game.setSprite(t)
+		})
+		// let drawMap = () => {
+		// 	// log('drawMap')
+		// }
+		// let draw = () => {
+		// 	log('draw')
+		// 	paintBorder()
+		// 	// drawMap()
+		// 	tank.update(context, fps)
+		// 	tank.paint(context)
+		// }
+		// let animate = (time) => {
+		// 	context.clearRect(0, 0, edgeLength, edgeLength)
+		// 	fps = calcFps()
+		// 	draw()
+		// 	animateId = requestNextAnimateionFrame(animate)
+		// }
 		let start = () => {
-			animateId = requestNextAnimateionFrame(animate)
+			// animateId = requestNextAnimateionFrame(animate)
+			game.start()
 		}
 		let stop = () => {
-			cancelNextAnimationFrame(animateId)
+			// game.animating = false
+			// game.start()
+			// cancelNextAnimationFrame(animateId)
 		}
 		let flag = false
 		canvas.onclick = (e) => {
@@ -331,87 +465,13 @@
 				stop()
 			}
 		}
-
-		// tankOffset.paint(tankContext)
-		let fn = () => {
-			let radian = tank.direction.radian()
-			log('radian', radian)
-			if (!radian || radian > 6) {
-				// null
-			} else if (radian > 1 && radian < 3) {
-				tankContext.rotate(Math.PI / 2)
-				tankContext.translate(0, -edgeLength)
-				tankOffset.paint(tankContext)
-			} else if (radian > 3 && radian < 4) {
-				tankContext.rotate(Math.PI)
-				tankContext.translate(-edgeLength, -edgeLength)
-			} else if (radian > 4 && radian < 6) {
-				tankContext.rotate(Math.PI / -2)
-				tankContext.translate(-edgeLength, 0)
+		window.onblur = (e) => {
+			if (flag) {
+				flag = false
+				stop()
 			}
-			tankOffset.paint(tankContext)
 		}
 
-		let game = new Game('tank90', '#canvas')
-		game.setKeyListener(38, (e) => {
-			// log(38, '上donw', e)
-			tank.animating = true
-			tank.vy = -30
-			tank.vx = 0
-			tank.direction = new Vector(0, 1)
-			// fn()
-		}, true)
-		game.setKeyListener(38, (e) => {
-			// log(38, '上up', e)
-			tank.animating = true
-			tank.vy = 0
-			tank.vx = 0
-		}, false)
-		game.setKeyListener(40, (e) => {
-			// log(40, '下', e)
-			tank.animating = true
-			tank.vy = 30
-			tank.vx = 0
-			tank.direction = new Vector(0, -1)
-			// fn()
-			// tankContext.rotate(Math.PI)
-			// tankContext.translate(-edgeLength, -edgeLength)
-			// tankOffset.paint(tankContext)
-		})
-		game.setKeyListener(40, (e) => {
-			// log(40, '下', e)
-			tank.animating = true
-			tank.vy = 0
-			tank.vx = 0
-		}, false)
-		game.setKeyListener(37, (e) => {
-			// log(37, '左', e)
-			tank.animating = true
-			tank.vx = -30
-			tank.vy = 0
-			tank.direction = new Vector(-1, 0)
-			// fn()
-		})
-		game.setKeyListener(37, (e) => {
-			// log(37, '左', e)
-			tank.animating = true
-			tank.vx = 0
-			tank.vy = 0
-		}, false)
-		game.setKeyListener(39, (e) => {
-			// log(39, '右', e)
-			tank.animating = true
-			tank.vx = 30
-			tank.vy = 0
-			tank.direction = new Vector(1, 0)
-			// fn()
-		})
-		game.setKeyListener(39, (e) => {
-			// log(39, '右', e)
-			tank.animating = true
-			tank.vx = 0
-			tank.vy = 0
-		}, false)
 		log(game)
 
 		// log(tankOffset)

@@ -16,19 +16,31 @@ window.cancelNextAnimationFrame = window.cancelAnimationFrame || window.webkitCa
 
 
 class Sprite {
-    constructor({name ='', left = 0, top = 0, width = 0, height = 0, vx = 0, vy = 0, visible = true, animating = false, direction = new Vector(0, 1)}, painter, behaviors = {}) {
+    constructor(
+        {
+            name ='', 
+            left = 0, 
+            top = 0, 
+            width = 0, 
+            height = 0, 
+            v = new Vector(0, 0), 
+            visible = true, 
+            animating = false, 
+            direction = new Vector(0, 1),
+            crashGraph = null
+        }, painter, behaviors = {}) {
         this.name = name
         this.left = left
         this.top = top
         this.width = width
         this.height = height
-        this.vx = vx
-        this.vy = vy
+        this.v = v
         this.visible = visible
         this.animating = animating
         this.direction = direction // 应该是个单位向量
         this.painter = painter // object
         this.behaviors = behaviors
+        this.crashGraph = crashGraph
         // this.behaviors = new Map() // 可优化为map对象
         // Object.entries(behaviors).forEach(([k, fn]) => {
         // 	this.behaviors[k] = fn
@@ -64,6 +76,7 @@ class Sprite {
         }
     }
     update(context, time) {
+        // time: fps
         this.behaviors.forEach(behavior => {
             behavior.execute(this, context, time)
         })
@@ -111,8 +124,18 @@ class CanvasPainter {
     }
 }
 
+
+        // let lastTimeForCalcFps = 0
+        // const calcFps = () => {
+        //     let now = +new Date()
+        //     let fps = 1000 / (now - lastTimeForCalcFps)
+        //     lastTimeForCalcFps = now
+        //     return fps
+        // }
+        // let fps//, animateId
+
 class Game {
-    constructor (gameName, canvasId) {
+    constructor (gameName, canvasId, effectDraw) {
         this.name = gameName
         this.canvas = document.querySelector(canvasId)
         this.context = this.canvas.getContext('2d')
@@ -120,24 +143,14 @@ class Game {
         this.startTime = +new Date()
         this.lastTime = null
         this.gameTime = null
-        this.fps = 0
-        this.STARTING_FPS = 60
+        this.fps = 60
+        // this.STARTING_FPS = 60
         // this.paused = false
         this._animating = false
         this.startedPauseAt = null
         this.PAUSE_TIMEOUT = 100 // 可能用不上
-        this.animateId = null
-        this.animate = null
-        this.updateFrameRate = (time) => {
-            if (this.lastTime) {
-                this.fps = this.STARTING_FPS
-            } else {
-                this.fps = 1000 / (time - this.lastTime)
-            }
-        }
-        this.clearScreen = () => {
-            this.context.clearRect(0, 0, canvas.width, canvas.height)
-        }
+        this.animateId = 0
+        this.animate = () => {}
         this.queueSource = new SourceMap()
         this.soundOn = true
         this.NUM_SOUND_CHANNELS = 10 // 音频的数量
@@ -146,23 +159,61 @@ class Game {
         this.keyListeners = new Map()
         this.HIGH_SCORES_SUFFIX = '_highscores'
         this.over = false
+        this.effectDraw = effectDraw
+        this._lastTimeForCalcFps = 0 // +new Date()
         window.onkeydown = (event) => {
             this.keydowned(event)
         }
         window.onkeyup = (event) => {
             this.keyuped(event)
         }
+        // this.updateFrameRate()
         this.title = 0
         this.title = 0
         this.title = 0
         this.title = 0
         this.title = 0
     }
+    updateFrameRate = () => {
+        // let now = +new Date()
+        // this.fps = 1000 / (now - this._lastTimeForCalcFps)
+        // console.log(now, this._lastTimeForCalcFps)
+        // this._lastTimeForCalcFps = now
+        // if (this.lastTime) {
+        //     this.fps = this.STARTING_FPS
+        // } else {
+        //     this.fps = 1000 / (time - this.lastTime)
+        // }
+        // return fps
+        if (this._lastTimeForCalcFps) {
+            // this.fps = this.STARTING_FPS
+            this.fps = 60
+        } else {
+            let now = +new Date()
+            this.fps = 1000 / (now - this._lastTimeForCalcFps)
+            this._lastTimeForCalcFps = now
+        }
+        return this.fps
+    }
+    clearScreen = () => {
+        this.context.clearRect(0, 0, canvas.width, canvas.height)
+    }
     start() {
         this.startTime = +new Date()
         // this.clearScreen()
-        this.animate = () => {
-            // draw()
+        this.animate = (time) => {
+            // context.clearRect(0, 0, edgeLength, edgeLength)
+            // fps = calcFps()
+            // this.draw()
+            this.clearScreen()
+            this.updateFrameRate()
+            // this.tick()
+            this.updateSprites()
+            this.paintSprites()
+            // animateId = requestNextAnimateionFrame(animate)
+            // fps = calcFps()
+            this.effectDraw()
+            this.animateId = requestNextAnimateionFrame(this.animate)
         }
         this.animateId = requestNextAnimateionFrame(this.animate)
     }
@@ -170,6 +221,9 @@ class Game {
         cancelNextAnimationFrame(this.animateId)
         this.over = true
     }
+    // draw() {
+    //     // log('draw')
+    // }
     get animating () {
         // this.updateFrameRate = () => {}
         return !this._animating
@@ -182,50 +236,47 @@ class Game {
         if (flag) { // 开始动画
             this.animate = (time) => {
                 // draw()
-                this.tick(time)
                 this.clearScreen()
-                this.startAnimate(time)
-                this.paintUnderSprites()
-                this.updateSprites(time)
-                this.paintSprites(time)
-                this.paintOverSprites()
+                this.updateFrameRate()
+                // this.tick(time)
+                // this.startAnimate(time)
+                // this.paintUnderSprites()
+                this.updateSprites()
+                this.paintSprites()
+                // this.paintOverSprites()
                 // this.endAnimate()
                 this.animateId = requestNextAnimationFrame(this.animate)
             }
-            this.updateFrameRate = (time) => {
-                if (this.lastTime) {
-                    this.fps = this.STARTING_FPS
-                } else {
-                    this.fps = 1000 / (time - this.lastTime)
-                }
-            }
+            // this.updateFrameRate = (time) => {
+            //     if (this.lastTime) {
+            //         this.fps = this.STARTING_FPS
+            //     } else {
+            //         this.fps = 1000 / (time - this.lastTime)
+            //     }
+            // }
         } else { // 结束动画
-            this.animate = () => {}
-            this.updateFrameRate = () => {}
+            // this.animate = () => {}
+            // this.updateFrameRate = () => {}
         }
         return this._animating = !flag
     }
     toggleAnimating () {
         this.animating = !this.animating
     }
-    tick(time) {
-        this.updateFrameRate(time)
-        this.gameTime = (+new Date()) - this.startTime
-        this.lastTime = time
+    tick(time) { // 计算游戏进行了多少时间
+        // this.updateFrameRate(time)
+        // this.gameTime = (+new Date()) - this.startTime
+        // this.lastTime = time
     }
-    // updateFrameRate(time) {
-    //  if (this.lastTime) {
-    //      this.fps = this.STARTING_FPS
-    //  } else {
-    //      this.fps = 1000 / (time - this.lastTime)
-    //  }
-    // }
     clearScreen() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
     }
     updateSprites(time) {
         this.sprites.forEach(sprite => {
-            sprite.update(this.context, time)
+            if (sprite.visible && sprite.animating) {
+                // console.log(this.fps)
+                sprite.update(this.context, this.fps)
+            }
         })
     }
     getSprite(spriteName) {
@@ -233,6 +284,12 @@ class Game {
     }
     setSprite(sprite) {
         this.sprites.set(sprite.name, sprite)
+    }
+    removeSprite(p) {
+        let spriteName = typeof p === 'string' ? p : p.name
+        let res = this.sprites.get(spriteName)
+        this.sprites.delete(spriteName)
+        return res
     }
     paintSprites() {
         this.sprites.forEach(sprite => {
@@ -248,7 +305,7 @@ class Game {
 
     startAnimate() {} // 游戏开始时的动画
     paintUnderSprites() {} // 绘制背景
-    paintOverSprites() {}
+    paintOverSprites() {} // 绘制前景
     endAnimate() {} // 游戏结束时的动画
     setKeyListener(keyCode, listener, isDown = true) {
         // isDown 是否按下
@@ -304,9 +361,9 @@ class Game {
             track.play()
         }
     }
-    title() {}
-    title() {}
-    title() {}
+    // title() {}
+    // title() {}
+    // title() {}
 }
 class SourceMap {
     constructor(sourceName, sourceType, sourceUrl) {
