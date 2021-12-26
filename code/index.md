@@ -5,3 +5,4 @@
 - [base32]()
 - [base16]()
 - [encodeUri]()
+- [keycode](/code/keycode.html)
