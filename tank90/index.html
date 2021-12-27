@@ -37,18 +37,20 @@
 		tankCanvas.width = edgeLength
 		tankCanvas.height = edgeLength
 		let tankContext = tankCanvas.getContext('2d')
-		let paintBorder = () => {
-			context.save()
-			context.beginPath()
-			context.rect(0, 0, edgeLength, edgeLength)
-			context.closePath()
-			// // context.fillStyle = 'grey'
-			context.strokeStyle = 'red'
-			// // context.fill()
-			context.stroke()
-			context.restore()
+		let paintBorder = (ctx = context, lineWidth = 1) => {
+			log(ctx)
+			ctx.save()
+			ctx.lineWidth = lineWidth
+			ctx.beginPath()
+			ctx.rect(0, 0, ctx.canvas.width, ctx.canvas.height)
+			ctx.closePath()
+			// // ctx.fillStyle = 'grey'
+			ctx.strokeStyle = 'red'
+			// // ctx.fill()
+			ctx.stroke()
+			ctx.restore()
 		}
-		let painter = {
+		let tankPainter = {
 			paint: (sprite, context) => {
 				context.save()
 				// 底壳
@@ -104,6 +106,7 @@
 				context.stroke()
 				context.beginPath()
 				// 炮塔
+				// 星级
 				context.fill()
 				context.stroke()
 				context.restore()
@@ -116,7 +119,7 @@
 		// 	// top: 50,
 		// 	// vx: 30,
 		// 	// width: 25,
-		// }, painter,
+		// }, tankPainter,
 		// // [{
 		// // 	execute: function (sprite, context, fps) {
 		// // 		sprite.left += sprite.vx * fps / 1000
@@ -126,7 +129,7 @@
 		// // 	}
 		// // }]
 		// )
-		let tankOffset = new OffsetCanvasSprite({name: 'tankOffsetSprite'}, painter, [], edgeLength, edgeLength)
+		let tankOffset = new OffsetCanvasSprite({name: 'tankOffsetSprite'}, tankPainter, [], edgeLength, edgeLength)
 		tankOffset.setDirection({x: 1, y: 0})
 		tankOffset.setDirection({x: 0, y: -1})
 		tankOffset.setDirection({x: -1, y: 0})
@@ -194,7 +197,6 @@
 		}
 		let shellPainter = {
 			paint: (sprite, context) => {
-				// log('shellPainter')
 				let lineWidth = sprite.width * 0.15
 				let lineWidthHalf = lineWidth / 2
 				context.save()				
@@ -216,6 +218,7 @@
 				context.fill()
 				context.stroke()
 				context.restore()
+				paintBorder(context, 50)
 			}
 		}
 		// let brick = new Sprite({
@@ -229,7 +232,7 @@
 		// }, shellPainter, [])
 		let shellOffset = new OffsetCanvasSprite({
 			name: 'shell',
-			width: edgeLength / 2,
+			width: edgeLength * 0.5,
 			height: edgeLength,
 		}, shellPainter, [], edgeLength, edgeLength)
 		shellOffset.setDirection(new Vector(1, 0))
@@ -292,25 +295,44 @@
 				let v = 0
 				switch(this.level) {
 					case 0:
+					default:
 						v = 45 // new Vector()
 						break
 					case 1:
 						v = 60
 						break
-					case 1:
+					case 2:
 						v = 70
 						break
+					case 3:
+						v = 80
+						break
 				}
-				// switch(this.direction) {
-				// 	case 
-				// }
 				v = new Vector(this.direction.x * v, -this.direction.y * v)
+				let shellW = edgeLength * 0.025 * 0.5
+				let shellH = shellW * 2
+				let l // = this.left + this.width * 0.5 - shellW * 0.5
+				let t // = this.top
+				let shellDirction = new Vector(this.direction.x, this.direction.y)
+				if (this.direction.x === 0 && this.direction.y === 1) {
+					l = this.left + this.width * 0.5 - shellW * 0.5
+					t = this.top
+				} else if (this.direction.x === 1 && this.direction.y === 0) {
+					l = this.left + this.height - shellH
+					t = this.top + this.height * 0.5 - shellW * 0.5
+				} else if (this.direction.x === 0 && this.direction.y === -1) {
+					l = this.left + this.width * 0.5 - shellW * 0.5
+					t = this.top + this.height - shellH
+				} else if (this.direction.x === -1 && this.direction.y === 0) {
+					l = this.left
+					t = this.top + this.height * 0.5 - shellW * 0.5
+				}
 				return new ShellSprite({
 					name: 'shell',
-					left: this.left,
-					top: this.top,
-					width: this.width * 0.5,
-					height: this.height,
+					top: t, // this.top,
+					left: l, // this.left,
+					width: shellW, // this.width * 0.5,
+					height: shellH, // this.height,
 					v,
 					direction: this.direction,
 					animating: true
@@ -318,11 +340,17 @@
 					// top: this.top,
 					// top: this.top,
 					// spriteOpt.direction
-				}, shellPainter, [{
+				},
+				// shellPainter,
+				{
+					paint: (sprite, context) => {
+						context.drawImage(shellOffset.getCanvas(sprite.direction), 0, 0, edgeLength * 1, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
+					}
+				},
+				[{
 					execute: (sprite, context, fps) => {
 						sprite.left += sprite.v.x * fps / 1000
 						sprite.top += sprite.v.y * fps / 1000
-						// log('', sprite)
 						if (sprite.left > edgeLength - sprite.width || sprite.left < 0 || sprite.top < 0 || sprite.top > edgeLength - sprite.height) {
 							// sprite.visible = false
 							sprite.animating = false
@@ -430,6 +458,9 @@
 			let t = tank.fire()
 			log(t)
 			game.setSprite(t)
+
+
+						context.drawImage(shellOffset.getCanvas(sprite.direction), 0, 0, edgeLength * 1, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
 		})
 		// let drawMap = () => {
 		// 	// log('drawMap')
