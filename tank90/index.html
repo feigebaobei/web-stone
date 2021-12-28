@@ -30,6 +30,7 @@
 		let bodyDom = document.querySelector('body')
 		let [bodyW, bodyH] = [bodyDom.clientWidth, bodyDom.clientHeight]
 		let edgeLength = Math.min(bodyW, bodyH)
+		let edgeLengthHalf = edgeLength * 0.5
 		canvas.width = edgeLength
 		canvas.height = edgeLength
 
@@ -38,7 +39,7 @@
 		tankCanvas.height = edgeLength
 		let tankContext = tankCanvas.getContext('2d')
 		let paintBorder = (ctx = context, lineWidth = 1) => {
-			log(ctx)
+			// log(ctx)
 			ctx.save()
 			ctx.lineWidth = lineWidth
 			ctx.beginPath()
@@ -48,6 +49,19 @@
 			ctx.strokeStyle = 'red'
 			// // ctx.fill()
 			ctx.stroke()
+			ctx.restore()
+		}
+		let paintFill = (ctx = context, fillStyle = 'grey') => {
+			ctx.save()
+			log('ain')
+			// ctx.lineWidth = lineWidth
+			ctx.beginPath()
+			ctx.rect(0, 0, ctx.canvas.width, ctx.canvas.height)
+			// ctx.closePath()
+			ctx.fillStyle = fillStyle
+			// ctx.strokeStyle = 'red'
+			ctx.fill()
+			// ctx.stroke()
 			ctx.restore()
 		}
 		let tankPainter = {
@@ -112,7 +126,6 @@
 				context.restore()
 			}
 		}
-
 		// let tankOffset = new Sprite({
 		// 	name: 'tankOffset',
 		// 	// left: 50,
@@ -133,9 +146,25 @@
 		tankOffset.setDirection({x: 1, y: 0})
 		tankOffset.setDirection({x: 0, y: -1})
 		tankOffset.setDirection({x: -1, y: 0})
-		// log('tankOffset', tankOffset)
-		// tankOffset.setDirection(new Vector(1, 0))
-		// log('tankOffset', tankOffset.getCanvas(new Vector(1, 0)))
+		log('tankOffset', tankOffset)
+		tankOffset.setDirection(new Vector(1, 0))
+		log('tankOffset', tankOffset.getCanvas(new Vector(1, 0)))
+		// 原本的tank
+		// context.rotate(Math.PI / 2)
+		// context.translate(0, -edgeLength) // 先旋转，按旋转后的绘图环境再位移。
+		// tankOffset.paint(context)
+		// 向右的tank
+		// tankContext.rotate(Math.PI / 2)
+		// tankContext.translate(0, -edgeLength)
+		// tankOffset.paint(tankContext)
+		// context.drawImage(tankCanvas, 0, 0, edgeLength, edgeLength, 10, 10, edgeLength * 0.1, edgeLength * 0.1)
+		// 四个方向的tank
+		context.drawImage(tankOffset.getCanvas(), 0, 0, edgeLength, edgeLength, 10, 10, edgeLength * 0.1, edgeLength * 0.1)
+		context.drawImage(tankOffset.getCanvas(new Vector(1, 0)), 0, 0, edgeLength, edgeLength, 70, 10, edgeLength * 0.1, edgeLength * 0.1)
+		context.drawImage(tankOffset.getCanvas(new Vector(0, -1)), 0, 0, edgeLength, edgeLength, 130, 10, edgeLength * 0.1, edgeLength * 0.1)
+		context.drawImage(tankOffset.getCanvas({x: 0, y: -1}), 0, 0, edgeLength, edgeLength, 130, 10, edgeLength * 0.1, edgeLength * 0.1)
+		context.drawImage(tankOffset.getCanvas(new Vector(-1, 0)), 0, 0, edgeLength, edgeLength, 190, 10, edgeLength * 0.1, edgeLength * 0.1)
+
 		let brickPainter = {
 			paint: (sprite, context) => {
 				context.save()
@@ -195,86 +224,95 @@
 				context.restore()
 			}
 		}
-		let shellPainter = {
-			paint: (sprite, context) => {
-				let lineWidth = sprite.width * 0.15
-				let lineWidthHalf = lineWidth / 2
-				context.save()				
-				context.fillStyle = '#dee3eb'
-				context.strokeStyle = '#333'
-				context.lineWidth = lineWidth
-				context.beginPath()
-				// context.moveTo(edgeLength * 0.25, edgeLength)
-				// context.lineTo(edgeLength * 0.25, edgeLength * 0.5)
-				// context.quadraticCurveTo(edgeLength * 0.25, 0, edgeLength * 0.5, 0)
-				// context.quadraticCurveTo(edgeLength * 0.75, 0, edgeLength * 0.75, edgeLength * 0.5)
-				// context.lineTo(edgeLength * 0.75, edgeLength)
-				context.moveTo(sprite.left + lineWidthHalf, sprite.top + sprite.height - lineWidthHalf)
-				context.lineTo(sprite.left + lineWidthHalf, sprite.top + sprite.height * 0.5)
-				context.quadraticCurveTo(sprite.left + lineWidthHalf, sprite.top + lineWidthHalf, sprite.left + sprite.width * 0.5, sprite.top + lineWidthHalf)
-				context.quadraticCurveTo(sprite.left + sprite.width - lineWidthHalf, sprite.top + lineWidthHalf, sprite.left + sprite.width - lineWidthHalf, sprite.top + sprite.height * 0.5)
-				context.lineTo(sprite.left + sprite.width - lineWidthHalf, sprite.top + sprite.height - lineWidthHalf)
-				context.closePath()
-				context.fill()
-				context.stroke()
-				context.restore()
-				paintBorder(context, 50)
-			}
-		}
 		// let brick = new Sprite({
 		// 	name: 'brick'
 		// }, brickPainter, [])
 		let brickOffset = new OffsetCanvasSprite({name: 'brick'}, brickPainter, [], edgeLength, edgeLength)
-		// let shell = new Sprite({
-		// 	name: 'shell',
-		// 	width: edgeLength * 0.5,
-		// 	height: edgeLength,
-		// }, shellPainter, [])
-		let shellOffset = new OffsetCanvasSprite({
-			name: 'shell',
-			width: edgeLength * 0.5,
-			height: edgeLength,
-		}, shellPainter, [], edgeLength, edgeLength)
-		shellOffset.setDirection(new Vector(1, 0))
-		shellOffset.setDirection(new Vector(0, -1))
-		shellOffset.setDirection(new Vector(-1, 0))
-
-		// 绘制静态画面
-		paintBorder()
-
-		// 原本的tank
-		// context.rotate(Math.PI / 2)
-		// context.translate(0, -edgeLength) // 先旋转，按旋转后的绘图环境再位移。
-		// tankOffset.paint(context)
-
-		// 向右的tank
-		// tankContext.rotate(Math.PI / 2)
-		// tankContext.translate(0, -edgeLength)
-		// tankOffset.paint(tankContext)
-		// context.drawImage(tankCanvas, 0, 0, edgeLength, edgeLength, 10, 10, edgeLength * 0.1, edgeLength * 0.1)
-
-		// 四个方向的tank
-		context.drawImage(tankOffset.getCanvas(), 0, 0, edgeLength, edgeLength, 10, 10, edgeLength * 0.1, edgeLength * 0.1)
-		context.drawImage(tankOffset.getCanvas(new Vector(1, 0)), 0, 0, edgeLength, edgeLength, 70, 10, edgeLength * 0.1, edgeLength * 0.1)
-		context.drawImage(tankOffset.getCanvas(new Vector(0, -1)), 0, 0, edgeLength, edgeLength, 130, 10, edgeLength * 0.1, edgeLength * 0.1)
-		context.drawImage(tankOffset.getCanvas({x: 0, y: -1}), 0, 0, edgeLength, edgeLength, 130, 10, edgeLength * 0.1, edgeLength * 0.1)
-		context.drawImage(tankOffset.getCanvas(new Vector(-1, 0)), 0, 0, edgeLength, edgeLength, 190, 10, edgeLength * 0.1, edgeLength * 0.1)
-
 		// 砖头
 		// brick.paint(context)
 		context.drawImage(brickOffset.getCanvas(), 0, 0, edgeLength, edgeLength, 10, 80, edgeLength * 0.1, edgeLength * 0.1)
 		context.drawImage(brickOffset.getCanvas(), 0, 0, edgeLength, edgeLength, 70, 80, edgeLength * 0.1, edgeLength * 0.1)
 
-		// 炮弹
+		let shellPainter = {
+			paint: (sprite, context) => {
+				// 只绘制正方向的一个图形。
+				// 在使用图形时旋转。
+				if (sprite.direction.x === 0 && sprite.direction.y === 1) {
+					log(sprite.direction.x, sprite.direction.y, '3456')
+					let lineWidth = sprite.width * 0.15
+					let lineWidthHalf = lineWidth / 2
+					let [linerBoxX, linerBoxY, linerBoxW, linerBoxH] = [lineWidthHalf, lineWidthHalf, sprite.width - lineWidthHalf, sprite.height - lineWidthHalf]
+					context.save()				
+					context.fillStyle = '#dee3eb'
+					context.strokeStyle = '#333'
+					context.lineWidth = lineWidth
+					context.beginPath()
+					// context.moveTo(edgeLength * 0.25, edgeLength)
+					// context.lineTo(edgeLength * 0.25, edgeLength * 0.5)
+					// context.quadraticCurveTo(edgeLength * 0.25, 0, edgeLength * 0.5, 0)
+					// context.quadraticCurveTo(edgeLength * 0.75, 0, edgeLength * 0.75, edgeLength * 0.5)
+					// context.lineTo(edgeLength * 0.75, edgeLength)
+
+					// context.moveTo(sprite.left + lineWidthHalf, sprite.top + sprite.height - lineWidthHalf)
+					// context.lineTo(sprite.left + lineWidthHalf, sprite.top + sprite.height * 0.5)
+					// context.quadraticCurveTo(sprite.left + lineWidthHalf, sprite.top + lineWidthHalf, sprite.left + sprite.width * 0.5, sprite.top + lineWidthHalf)
+					// context.quadraticCurveTo(sprite.left + sprite.width - lineWidthHalf, sprite.top + lineWidthHalf, sprite.left + sprite.width - lineWidthHalf, sprite.top + sprite.height * 0.5)
+					// context.lineTo(sprite.left + sprite.width - lineWidthHalf, sprite.top + sprite.height - lineWidthHalf)
+
+					context.moveTo(linerBoxX, linerBoxH)
+					context.lineTo(linerBoxX, linerBoxH / 2)
+					context.quadraticCurveTo(linerBoxX, linerBoxY, linerBoxW / 2, linerBoxY)
+					context.quadraticCurveTo(linerBoxW, linerBoxY, linerBoxW, linerBoxH / 2)
+					context.lineTo(linerBoxW, linerBoxH)
+					context.closePath()
+					context.fill()
+					context.stroke()
+					context.restore()
+					// paintBorder(context, 50)
+				} else if (this.direction.x === 1 && this.direction.y === 0) {
+					// paintFill(context)
+					log('1, 0', 'strin')
+				} else if (this.direction.x === 0 && this.direction.y === -1) {
+					log('0, -1', 'sdfa')
+				} else if (this.direction.x === -1 && this.direction.y === 0) {
+					log('-1, 0', 'sdfe')
+				}
+			}
+		}
+		// let shell = new Sprite({
+		// 	name: 'shell',
+		// 	width: edgeLength * 0.5,
+		// 	height: edgeLength,
+		// }, shellPainter, [])
 		// shell.paint(context)
-		context.drawImage(shellOffset.getCanvas(), 0, 0, edgeLength, edgeLength, 10, 150, edgeLength * 0.1, edgeLength * 0.1)
-		context.drawImage(shellOffset.getCanvas(new Vector(1, 0)), 0, 0, edgeLength, edgeLength, 70, 150, edgeLength * 0.1, edgeLength * 0.1)
-		context.drawImage(shellOffset.getCanvas(new Vector(0, -1)), 0, 0, edgeLength, edgeLength, 130, 150, edgeLength * 0.1, edgeLength * 0.1)
-		context.drawImage(shellOffset.getCanvas(new Vector(-1, 0)), 0, 0, edgeLength, edgeLength, 190, 150, edgeLength * 0.1, edgeLength * 0.1)
-		context.drawImage(shellOffset.getCanvas(), 0, 0, edgeLength, edgeLength, 10, 220, edgeLength * 0.025, edgeLength * 0.025)
-		context.drawImage(shellOffset.getCanvas({x: 1, y: 0}), 0, 0, edgeLength, edgeLength, 70, 220, edgeLength * 0.025, edgeLength * 0.025)
-		context.drawImage(shellOffset.getCanvas({x: 0, y: -1}), 0, 0, edgeLength, edgeLength, 130, 220, edgeLength * 0.025, edgeLength * 0.025)
-		context.drawImage(shellOffset.getCanvas({x: -1, y: 0}), 0, 0, edgeLength, edgeLength, 190, 220, edgeLength * 0.025, edgeLength * 0.025)
+		let shellOffset = new OffsetCanvasSprite({
+			name: 'shell',
+			width: edgeLengthHalf,
+			height: edgeLength,
+			// direction: new Vector(0, -1)
+		}, shellPainter, [], edgeLength, edgeLength)
+		shellOffset.setDirection(new Vector(1, 0))
+		shellOffset.setDirection(new Vector(0, -1))
+		shellOffset.setDirection(new Vector(-1, 0))
+		// 炮弹
+		// context.drawImage(shellOffset.getCanvas(), 0, 0, edgeLength, edgeLength, 0, 0, edgeLength, edgeLength)
+		// context.drawImage(shellOffset.getCanvas(new Vector(1, 0)), 0, 0, edgeLength, edgeLengthHalf, 0, 0, edgeLength, edgeLengthHalf)
+		// context.drawImage(shellOffset.getCanvas(new Vector(0, -1)), edgeLengthHalf, 0, edgeLengthHalf, edgeLength, 0, 0, edgeLengthHalf, edgeLength)
+		// context.drawImage(shellOffset.getCanvas(new Vector(-1, 0)), 0, edgeLengthHalf, edgeLength, edgeLengthHalf, 0, 0, edgeLength, edgeLengthHalf)
+		context.drawImage(shellOffset.getCanvas(), 0, 0, edgeLengthHalf, edgeLength, 10, 150, edgeLengthHalf * 0.1, edgeLength * 0.1)
+		context.drawImage(shellOffset.getCanvas(new Vector(1, 0)), 0, 0, edgeLength, edgeLengthHalf, 70, 150, edgeLength * 0.1, edgeLengthHalf * 0.1)
+		context.drawImage(shellOffset.getCanvas(new Vector(0, -1)), edgeLengthHalf, 0, edgeLengthHalf, edgeLength, 130, 150, edgeLengthHalf * 0.1, edgeLength * 0.1)
+		context.drawImage(shellOffset.getCanvas(new Vector(-1, 0)), 0, edgeLengthHalf, edgeLength, edgeLengthHalf, 190, 150, edgeLength * 0.1, edgeLengthHalf * 0.1)
+		context.drawImage(shellOffset.getCanvas(), 0, 0, edgeLengthHalf, edgeLength, 10, 220, edgeLengthHalf * 0.025, edgeLength * 0.025)
+		context.drawImage(shellOffset.getCanvas(new Vector(1, 0)), 0, 0, edgeLength, edgeLengthHalf, 70, 220, edgeLength * 0.025, edgeLengthHalf * 0.025)
+		context.drawImage(shellOffset.getCanvas(new Vector(0, -1)), edgeLengthHalf, 0, edgeLengthHalf, edgeLength, 130, 220, edgeLengthHalf * 0.025, edgeLength * 0.025)
+		context.drawImage(shellOffset.getCanvas(new Vector(-1, 0)), 0, edgeLengthHalf, edgeLength, edgeLengthHalf, 190, 220, edgeLength * 0.025, edgeLengthHalf * 0.025)
+
+		// 绘制静态画面
+		// paintFill()
+		paintBorder()
+
+
 
 		
 
@@ -344,7 +382,17 @@
 				// shellPainter,
 				{
 					paint: (sprite, context) => {
-						context.drawImage(shellOffset.getCanvas(sprite.direction), 0, 0, edgeLength * 1, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
+						// context.drawImage(shellOffset.getCanvas(sprite.direction), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
+						let {x, y} = sprite.direction
+						if (x === 0 && y == 1) {
+							context.drawImage(shellOffset.getCanvas(), 0, 0, edgeLengthHalf, edgeLength, sprite.left, sprite.top, edgeLengthHalf * 0.025, edgeLength * 0.025)
+						} else if (x === 1 && y === 0) {
+							context.drawImage(shellOffset.getCanvas(new Vector(1, 0)), 0, 0, edgeLength, edgeLengthHalf, sprite.left, sprite.top, edgeLength * 0.025, edgeLengthHalf * 0.025)
+						} else if (x === 0 && y === -1) {
+							context.drawImage(shellOffset.getCanvas(new Vector(0, -1)), edgeLengthHalf, 0, edgeLengthHalf, edgeLength, sprite.left, sprite.top, edgeLengthHalf * 0.025, edgeLength * 0.025)
+						} else {
+							context.drawImage(shellOffset.getCanvas(new Vector(-1, 0)), 0, edgeLengthHalf, edgeLength, edgeLengthHalf, sprite.left, sprite.top, edgeLength * 0.025, edgeLengthHalf * 0.025)
+						}
 					}
 				},
 				[{
@@ -357,6 +405,8 @@
 						}
 					}
 				}])
+				// return shellOffset.offsetSprite // .offsetSprite.v = new Vector(45, 0)
+				// return new Sprite()
 			}
 		}
 		// let tank = new Sprite({
@@ -459,8 +509,7 @@
 			log(t)
 			game.setSprite(t)
 
-
-						context.drawImage(shellOffset.getCanvas(sprite.direction), 0, 0, edgeLength * 1, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
+						// context.drawImage(shellOffset.getCanvas(sprite.direction), 0, 0, edgeLength * 1, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
 		})
 		// let drawMap = () => {
 		// 	// log('drawMap')

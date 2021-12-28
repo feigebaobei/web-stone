@@ -596,13 +596,15 @@ class OffsetCanvasSprite {
         this.offsetSprite = new Sprite(spriteOpt, painter, behaviors)
         let v = spriteOpt.direction || new Vector(0, 1)
         this.direction = v
-        this.setDirection(v)
+        this.setDirection(this.direction)
     }
     setDirection(v) {
         if (!Vector.prototype.isPrototypeOf(v)) {
             v = new Vector(v.x, v.y)
         }
         let n = v.normalize()
+        this.direction = n
+        // console.log('set', this.direction.x, this.direction.y)
         if (!this.memo.has(`${n.x}-${n.y}`)) {
             let offsetCanvas = document.createElement('canvas')
             offsetCanvas.width = this.width
@@ -633,4 +635,7 @@ class OffsetCanvasSprite {
         //     return this.getCanvas(v)
         // }
     }
+    // getImage(v = new Vector(0, 1)) {
+    //     return this.memo.get(`${v.x}-${v.y}`).getContext('2d')
+    // }
 }
