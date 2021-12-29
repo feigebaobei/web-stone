@@ -135,7 +135,11 @@ class CanvasPainter {
         // let fps//, animateId
 
 class Game {
-    constructor (gameName, canvasId, effectDraw, option) {
+    constructor (gameName, canvasId, effectDraw,
+        option = {
+            showTime: false
+        }
+    ) {
         this.name = gameName
         this.canvas = document.querySelector(canvasId)
         this.context = this.canvas.getContext('2d')
@@ -209,7 +213,10 @@ class Game {
             // this.draw()
             this.clearScreen()
             this.updateFrameRate()
-            this.tick()
+            // this.option.showTime && this.tick()
+            if (this.option.showTime) {
+                this.tick()
+            }
             this.updateSprites()
             this.paintSprites()
             this.effectDraw()
@@ -241,7 +248,10 @@ class Game {
                 // this.draw()
                 this.clearScreen()
                 this.updateFrameRate()
-                this.tick()
+                // this.option.showTime && this.tick()
+                if (this.option.showTime) {
+                    this.tick()
+                }
                 this.updateSprites()
                 this.paintSprites()
                 this.effectDraw()
@@ -259,6 +269,7 @@ class Game {
         this.animating = !this.animating
     }
     tick(time) { // 计算游戏进行了多少时间
+        console.log('tik')
         // this.context
         // this.updateFrameRate(time)
         // this.gameTime = (+new Date()) - this.startTime
