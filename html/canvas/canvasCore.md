@@ -191,9 +191,9 @@ context.clip()
 # 文本
 |||枚举值|默认值|
 |-|-|-|-|
-|strokeText(text, x, y)||||
-|fillText(text, x, y||||
-|measureText(text)||||
+|strokeText(text, x, y, [maxWidth])||||
+|fillText(text, x, y, [maxWidth])||||
+|measureText(text)|返回TextMetircs对象。|TextMetircs: {width: 该字体时文本的像素宽度}|||
 |font||||
 ||font-style|normal itelic oblique||
 ||font-variant|normal small-caps|normal|
@@ -203,7 +203,6 @@ context.clip()
 ||font-family|||
 |textAlign|水平对齐方式|start center end left right||
 |textBaseline|竖直对齐方式|top bottom middle alphabetic ideographic hanging||  
-|measureText(text)|返回TextMetircs对象。|TextMetircs: {width: 该字体时文本的像素宽度}||
 |font||||
 |font||||
 

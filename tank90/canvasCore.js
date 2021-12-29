@@ -135,7 +135,7 @@ class CanvasPainter {
         // let fps//, animateId
 
 class Game {
-    constructor (gameName, canvasId, effectDraw) {
+    constructor (gameName, canvasId, effectDraw, option) {
         this.name = gameName
         this.canvas = document.querySelector(canvasId)
         this.context = this.canvas.getContext('2d')
@@ -161,13 +161,13 @@ class Game {
         this.over = false
         this.effectDraw = effectDraw
         this._lastTimeForCalcFps = 0 // +new Date()
+        this.option = option
         window.onkeydown = (event) => {
             this.keydowned(event)
         }
         window.onkeyup = (event) => {
             this.keyuped(event)
         }
-        // this.updateFrameRate()
         this.title = 0
         this.title = 0
         this.title = 0
@@ -198,7 +198,9 @@ class Game {
     clearScreen = () => {
         this.context.clearRect(0, 0, canvas.width, canvas.height)
     }
+    // 考虑使用懒方法优化
     start() {
+        if (this.over) return
         this.startTime = +new Date()
         // this.clearScreen()
         this.animate = (time) => {
@@ -207,18 +209,19 @@ class Game {
             // this.draw()
             this.clearScreen()
             this.updateFrameRate()
-            // this.tick()
+            this.tick()
             this.updateSprites()
             this.paintSprites()
-            // animateId = requestNextAnimateionFrame(animate)
-            // fps = calcFps()
             this.effectDraw()
             this.animateId = requestNextAnimateionFrame(this.animate)
         }
         this.animateId = requestNextAnimateionFrame(this.animate)
+        this._animating = true
     }
     end() {
-        cancelNextAnimationFrame(this.animateId)
+        // 解绑所有事件
+        // cancelNextAnimationFrame(this.animateId)
+        this.animating = false
         this.over = true
     }
     // draw() {
@@ -226,44 +229,37 @@ class Game {
     // }
     get animating () {
         // this.updateFrameRate = () => {}
-        return !this._animating
+        return this._animating
     }
     set animating (flag) {
-        // 可使用獭方法优化
-        this.animate = (time) => {
-            // 处理暂停时的逻辑
-        }
         if (flag) { // 开始动画
+            this.startTime = +new Date()
+            // this.clearScreen()
             this.animate = (time) => {
-                // draw()
+                // context.clearRect(0, 0, edgeLength, edgeLength)
+                // fps = calcFps()
+                // this.draw()
                 this.clearScreen()
                 this.updateFrameRate()
-                // this.tick(time)
-                // this.startAnimate(time)
-                // this.paintUnderSprites()
+                this.tick()
                 this.updateSprites()
                 this.paintSprites()
-                // this.paintOverSprites()
-                // this.endAnimate()
-                this.animateId = requestNextAnimationFrame(this.animate)
+                this.effectDraw()
+                this.animateId = requestNextAnimateionFrame(this.animate)
             }
-            // this.updateFrameRate = (time) => {
-            //     if (this.lastTime) {
-            //         this.fps = this.STARTING_FPS
-            //     } else {
-            //         this.fps = 1000 / (time - this.lastTime)
-            //     }
-            // }
+            this.animateId = requestNextAnimateionFrame(this.animate)
+            this._animating = true
         } else { // 结束动画
             // this.animate = () => {}
-            // this.updateFrameRate = () => {}
+            cancelNextAnimationFrame(this.animateId)
         }
-        return this._animating = !flag
+        return this._animating = flag
     }
     toggleAnimating () {
         this.animating = !this.animating
     }
     tick(time) { // 计算游戏进行了多少时间
+        // this.context
         // this.updateFrameRate(time)
         // this.gameTime = (+new Date()) - this.startTime
         // this.lastTime = time
@@ -317,13 +313,13 @@ class Game {
     }
     keydowned(e) {
         let listener = this.getKeyListener(e.keyCode + '-down')
-        if (listener) {
+        if (listener && this.animating) {
             listener(e)
         }
     }
     keyuped(e) {
         let listener = this.getKeyListener(e.keyCode + '-up')
-        if (listener) {
+        if (listener && this.animating) {
             listener(e)
         }
     }

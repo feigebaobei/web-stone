@@ -53,7 +53,7 @@
 		}
 		let paintFill = (ctx = context, fillStyle = 'grey') => {
 			ctx.save()
-			log('ain')
+			// log('ain')
 			// ctx.lineWidth = lineWidth
 			ctx.beginPath()
 			ctx.rect(0, 0, ctx.canvas.width, ctx.canvas.height)
@@ -61,6 +61,22 @@
 			ctx.fillStyle = fillStyle
 			// ctx.strokeStyle = 'red'
 			ctx.fill()
+			// ctx.stroke()
+			ctx.restore()
+		}
+		let paintStop = (ctx = context, fillStyle = 'red') => {
+			let [cw, ch] = [ctx.canvas.width, ctx.canvas.height]
+			log('paintStop', cw, ch)
+			ctx.save()
+			ctx.rect(0, 0, cw, ch)
+			ctx.fillStyle = 'rgba(0, 0, 0, 0.3)'
+			ctx.fill()
+			ctx.beginPath()
+			ctx.fillStyle = fillStyle
+			ctx.textAlign = 'center'
+			ctx.font = '100px serif'
+			ctx.fillText('stop', cw * 0.5, ch * 0.5)
+			// ctx.fill()
 			// ctx.stroke()
 			ctx.restore()
 		}
@@ -456,17 +472,19 @@
 
 
 
-		let lastTimeForCalcFps = 0
-		const calcFps = () => {
-			let now = +new Date()
-			let fps = 1000 / (now - lastTimeForCalcFps)
-			log(now, lastTimeForCalcFps, fps)
-			lastTimeForCalcFps = now
-			return fps
-		}
-		let fps, animateId
+		// let lastTimeForCalcFps = 0
+		// const calcFps = () => {
+		// 	let now = +new Date()
+		// 	let fps = 1000 / (now - lastTimeForCalcFps)
+		// 	log(now, lastTimeForCalcFps, fps)
+		// 	lastTimeForCalcFps = now
+		// 	return fps
+		// }
+		// let fps, animateId
 
-		let game = new Game('tank90', '#canvas', paintBorder)
+		let game = new Game('tank90', '#canvas', paintBorder, {
+			showTime: true
+		})
 		game.setSprite(tank)
 		game.setKeyListener(38, (e) => {
 			tank.animating = true
@@ -508,8 +526,6 @@
 			let t = tank.fire()
 			log(t)
 			game.setSprite(t)
-
-						// context.drawImage(shellOffset.getCanvas(sprite.direction), 0, 0, edgeLength * 1, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
 		})
 		// let drawMap = () => {
 		// 	// log('drawMap')
@@ -532,6 +548,9 @@
 			game.start()
 		}
 		let stop = () => {
+			// game.end()
+			game.animating = false
+			paintStop()
 			// game.animating = false
 			// game.start()
 			// cancelNextAnimationFrame(animateId)
