@@ -656,6 +656,7 @@ animationTime = new AnimationTimer(ANIMATION_DURATION, AnimationTimer.easeOut(2)
 # 碰撞检测
 ## 外接矩形判别法
 ```js
+Math.hypot(x1 - x2, y1 - y2) > r1 + r2
 ```
 
 ## 外接圆判别法

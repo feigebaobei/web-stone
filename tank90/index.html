@@ -24,6 +24,13 @@
 	</canvas>
 	<script type="text/javascript" src="./canvasCore.js"></script>
 	<script type="text/javascript">
+		/*
+		tank发射炮弹的速率
+		坦克可升级
+		随机出现礼物
+		绘制场景
+		可碰撞
+		*/
 		let canvas = document.querySelector('#canvas')
 		let context = canvas.getContext('2d')
 		let {log} = console
@@ -31,6 +38,7 @@
 		let [bodyW, bodyH] = [bodyDom.clientWidth, bodyDom.clientHeight]
 		let edgeLength = Math.min(bodyW, bodyH)
 		let edgeLengthHalf = edgeLength * 0.5
+		let [edgeLength01, edgeLength02, edgeLength03, edgeLength04, edgeLength05, edgeLength06, edgeLength07, edgeLength08, edgeLength09] = [edgeLength * 0.1, edgeLength * 0.2, edgeLength * 0.3, edgeLength * 0.4, edgeLength * 0.5, edgeLength * 0.6, edgeLength * 0.7, edgeLength * 0.8, edgeLength * 0.9]
 		canvas.width = edgeLength
 		canvas.height = edgeLength
 
@@ -66,7 +74,7 @@
 		}
 		let paintStop = (ctx = context, fillStyle = 'red') => {
 			let [cw, ch] = [ctx.canvas.width, ctx.canvas.height]
-			log('paintStop', cw, ch)
+			// log('paintStop', cw, ch)
 			ctx.save()
 			ctx.rect(0, 0, cw, ch)
 			ctx.fillStyle = 'rgba(0, 0, 0, 0.3)'
@@ -142,38 +150,11 @@
 				context.restore()
 			}
 		}
-		// let tankOffset = new Sprite({
-		// 	name: 'tankOffset',
-		// 	// left: 50,
-		// 	// top: 50,
-		// 	// vx: 30,
-		// 	// width: 25,
-		// }, tankPainter,
-		// // [{
-		// // 	execute: function (sprite, context, fps) {
-		// // 		sprite.left += sprite.vx * fps / 1000
-		// // 		if (sprite.left > edgeLength) {
-		// // 			sprite.left = 50
-		// // 		}
-		// // 	}
-		// // }]
-		// )
 		let tankOffset = new OffsetCanvasSprite({name: 'tankOffsetSprite'}, tankPainter, [], edgeLength, edgeLength)
 		tankOffset.setDirection({x: 1, y: 0})
 		tankOffset.setDirection({x: 0, y: -1})
 		tankOffset.setDirection({x: -1, y: 0})
-		log('tankOffset', tankOffset)
 		tankOffset.setDirection(new Vector(1, 0))
-		log('tankOffset', tankOffset.getCanvas(new Vector(1, 0)))
-		// 原本的tank
-		// context.rotate(Math.PI / 2)
-		// context.translate(0, -edgeLength) // 先旋转，按旋转后的绘图环境再位移。
-		// tankOffset.paint(context)
-		// 向右的tank
-		// tankContext.rotate(Math.PI / 2)
-		// tankContext.translate(0, -edgeLength)
-		// tankOffset.paint(tankContext)
-		// context.drawImage(tankCanvas, 0, 0, edgeLength, edgeLength, 10, 10, edgeLength * 0.1, edgeLength * 0.1)
 		// 四个方向的tank
 		context.drawImage(tankOffset.getCanvas(), 0, 0, edgeLength, edgeLength, 10, 10, edgeLength * 0.1, edgeLength * 0.1)
 		context.drawImage(tankOffset.getCanvas(new Vector(1, 0)), 0, 0, edgeLength, edgeLength, 70, 10, edgeLength * 0.1, edgeLength * 0.1)
@@ -240,12 +221,8 @@
 				context.restore()
 			}
 		}
-		// let brick = new Sprite({
-		// 	name: 'brick'
-		// }, brickPainter, [])
 		let brickOffset = new OffsetCanvasSprite({name: 'brick'}, brickPainter, [], edgeLength, edgeLength)
 		// 砖头
-		// brick.paint(context)
 		context.drawImage(brickOffset.getCanvas(), 0, 0, edgeLength, edgeLength, 10, 80, edgeLength * 0.1, edgeLength * 0.1)
 		context.drawImage(brickOffset.getCanvas(), 0, 0, edgeLength, edgeLength, 70, 80, edgeLength * 0.1, edgeLength * 0.1)
 
@@ -254,7 +231,6 @@
 				// 只绘制正方向的一个图形。
 				// 在使用图形时旋转。
 				if (sprite.direction.x === 0 && sprite.direction.y === 1) {
-					log(sprite.direction.x, sprite.direction.y, '3456')
 					let lineWidth = sprite.width * 0.15
 					let lineWidthHalf = lineWidth / 2
 					let [linerBoxX, linerBoxY, linerBoxW, linerBoxH] = [lineWidthHalf, lineWidthHalf, sprite.width - lineWidthHalf, sprite.height - lineWidthHalf]
@@ -295,26 +271,15 @@
 				}
 			}
 		}
-		// let shell = new Sprite({
-		// 	name: 'shell',
-		// 	width: edgeLength * 0.5,
-		// 	height: edgeLength,
-		// }, shellPainter, [])
-		// shell.paint(context)
 		let shellOffset = new OffsetCanvasSprite({
 			name: 'shell',
 			width: edgeLengthHalf,
 			height: edgeLength,
-			// direction: new Vector(0, -1)
 		}, shellPainter, [], edgeLength, edgeLength)
 		shellOffset.setDirection(new Vector(1, 0))
 		shellOffset.setDirection(new Vector(0, -1))
 		shellOffset.setDirection(new Vector(-1, 0))
 		// 炮弹
-		// context.drawImage(shellOffset.getCanvas(), 0, 0, edgeLength, edgeLength, 0, 0, edgeLength, edgeLength)
-		// context.drawImage(shellOffset.getCanvas(new Vector(1, 0)), 0, 0, edgeLength, edgeLengthHalf, 0, 0, edgeLength, edgeLengthHalf)
-		// context.drawImage(shellOffset.getCanvas(new Vector(0, -1)), edgeLengthHalf, 0, edgeLengthHalf, edgeLength, 0, 0, edgeLengthHalf, edgeLength)
-		// context.drawImage(shellOffset.getCanvas(new Vector(-1, 0)), 0, edgeLengthHalf, edgeLength, edgeLengthHalf, 0, 0, edgeLength, edgeLengthHalf)
 		context.drawImage(shellOffset.getCanvas(), 0, 0, edgeLengthHalf, edgeLength, 10, 150, edgeLengthHalf * 0.1, edgeLength * 0.1)
 		context.drawImage(shellOffset.getCanvas(new Vector(1, 0)), 0, 0, edgeLength, edgeLengthHalf, 70, 150, edgeLength * 0.1, edgeLengthHalf * 0.1)
 		context.drawImage(shellOffset.getCanvas(new Vector(0, -1)), edgeLengthHalf, 0, edgeLengthHalf, edgeLength, 130, 150, edgeLengthHalf * 0.1, edgeLength * 0.1)
@@ -335,14 +300,14 @@
 
 
 		class ShellSprite extends Sprite {
-			constructor(spriteOpt, painter, behaviors) {
-				super(spriteOpt, painter, behaviors)
+			constructor(spriteOpt, painter, behaviors, category) {
+				super(spriteOpt, painter, behaviors, category)
 				this.level = spriteOpt.level || 0
 			}
 		}
 		class tankSprite extends Sprite{
-			constructor(spriteOpt, painter, behaviors) {
-				super(spriteOpt, painter, behaviors)
+			constructor(spriteOpt, painter, behaviors, category) {
+				super(spriteOpt, painter, behaviors, category)
 				this.level = spriteOpt.level || 0
 			}
 			fire() {
@@ -389,7 +354,8 @@
 					height: shellH, // this.height,
 					v,
 					direction: this.direction,
-					animating: true
+					animating: true,
+					crashGraphPoints: [new Point(l, t), new Point(l + shellW, t), new Point(l + shellW, t + shellH), new Point(l, t + shellH)]
 					// : this.,
 					// top: this.top,
 					// top: this.top,
@@ -421,31 +387,39 @@
 							game.removeSprite(sprite)
 						}
 					}
-				}])
+				// }], ['shell'])
+				}], 'shell')
 				// return shellOffset.offsetSprite // .offsetSprite.v = new Vector(45, 0)
 				// return new Sprite()
 			}
 		}
-		// let tank = new Sprite({
+		class brickSprite extends Sprite {
+			constructor(spriteOpt, painter, behaviors, category) {
+				super(spriteOpt, painter, behaviors, category)
+			}
+		}
 		let tank = new tankSprite({
 			name: 'tank',
-			left: edgeLength * 0.5,
-			top: edgeLength * 0.5,
-			width: edgeLength * 0.1,
-			height: edgeLength * 0.1,
-			// vx: 0,
-			// vy: 0,
-			v: new Vector(0, 0)
+			// left: edgeLength09,
+			// top: edgeLength09,
+			left: edgeLength08 + edgeLength01 * 0.5,
+			top: edgeLength05 + edgeLength01 * 0.5,
+			width: edgeLength01,
+			height: edgeLength01,
+			v: new Vector(0, 0),
+			crashGraphPoints: [
+				new Point(edgeLength08 + edgeLength01 * 0.5, edgeLength05 + edgeLength01 * 0.5), 
+				new Point(edgeLength09 + edgeLength01 * 0.5, edgeLength05 + edgeLength01 * 0.5), 
+				new Point(edgeLength09 + edgeLength01 * 0.5, edgeLength06 + edgeLength01 * 0.5), 
+				new Point(edgeLength08 + edgeLength01 * 0.5, edgeLength06 + edgeLength01 * 0.5),
+			]
 		}, {
 			paint: (sprite, context) => {
-				// context.drawImage(tankCanvas, 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
 				context.drawImage(tankOffset.getCanvas(sprite.direction), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
-				
 			}
 		}, [
 		{
 			execute: (sprite, context, fps) => {
-				// log(sprite, fps)
 				sprite.left += sprite.v.x * fps / 1000
 				sprite.top += sprite.v.y * fps / 1000
 				if (sprite.left > edgeLength - sprite.width) {
@@ -460,33 +434,108 @@
 				if (sprite.top < 0) {
 					sprite.top = 0
 				}
+				sprite.crashGraphPoints = [
+					new Point(sprite.left, sprite.top),
+					new Point(sprite.left + sprite.width, sprite.top),
+					new Point(sprite.left + sprite.width, sprite.top + sprite.height),
+					new Point(sprite.left, sprite.top + sprite.height),
+				]
 			}
 		}
-		])
-		// log('tank', tank)
-		// let test = new Sprite({}, {paint: (sprite, context) => {
-		// 	log('paint')
-		// }}, [])
-		// log('test', test)
-		// test.paint()
-		// log()
+		// ], ['tank'])
+		], 'tank')
+		let brick0 = new brickSprite({
+			name: 'brick0',
+			left: edgeLength04,
+			top: edgeLength04,
+			width: edgeLength01,
+			height: edgeLength01,
+			crashGraphPoints: [new Point(edgeLength04, edgeLength04), new Point(edgeLength04 + edgeLength01, edgeLength04), new Point(edgeLength04 + edgeLength01, edgeLength04 + edgeLength01), new Point(edgeLength04, edgeLength04 + edgeLength01)]
+		}, {
+			paint: (sprite, context) => {
+				context.drawImage(brickOffset.getCanvas(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
 
-
-
-		// let lastTimeForCalcFps = 0
-		// const calcFps = () => {
-		// 	let now = +new Date()
-		// 	let fps = 1000 / (now - lastTimeForCalcFps)
-		// 	log(now, lastTimeForCalcFps, fps)
-		// 	lastTimeForCalcFps = now
-		// 	return fps
-		// }
-		// let fps, animateId
+			}
+		// }, ['brick'])
+		}, [], 'brick')
+		let brick1 = new brickSprite({
+			name: 'brick1',
+			left: edgeLength05,
+			top: edgeLength04,
+			width: edgeLength01,
+			height: edgeLength01,
+			crashGraphPoints: [
+				new Point(edgeLength05, edgeLength04),
+				new Point(edgeLength06, edgeLength04),
+				new Point(edgeLength06, edgeLength05),
+				new Point(edgeLength05, edgeLength05),
+			]
+		}, {
+			paint: (sprite, context) => {
+				context.drawImage(brickOffset.getCanvas(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
+			}
+		}, [], 'brick')
+		let brick2 = new brickSprite({
+			name: 'brick2',
+			left: edgeLength04,
+			top: edgeLength05,
+			width: edgeLength01,
+			height: edgeLength01,
+			crashGraphPoints: [
+				new Point(edgeLength04, edgeLength05),
+				new Point(edgeLength05, edgeLength05),
+				new Point(edgeLength05, edgeLength06),
+				new Point(edgeLength04, edgeLength06)
+			]
+		}, {
+			paint: (sprite, context) => {
+				context.drawImage(brickOffset.getCanvas(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
+			}
+		}, [], 'brick')
+		let brick3 = new brickSprite({
+			name: 'brick3',
+			left: edgeLength05,
+			top: edgeLength05,
+			width: edgeLength01,
+			height: edgeLength01,
+			crashGraphPoints: [
+				new Point(edgeLength05, edgeLength05), 
+				new Point(edgeLength06, edgeLength05), 
+				new Point(edgeLength06, edgeLength06), 
+				new Point(edgeLength05, edgeLength06), 
+			]
+		}, {
+			paint: (sprite, context) => {
+				context.drawImage(brickOffset.getCanvas(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
+			}
+		}, [], 'brick')
+		let brick4 = new brickSprite({
+			name: 'brick4',
+			left: edgeLength09,
+			top: edgeLength05,
+			width: edgeLength01,
+			height: edgeLength01,
+			crashGraphPoints: [
+				new Point(edgeLength09, edgeLength05), 
+				new Point(edgeLength, edgeLength05), 
+				new Point(edgeLength, edgeLength06), 
+				new Point(edgeLength09, edgeLength06), 
+			]
+		}, {
+			paint: (sprite, context) => {
+				context.drawImage(brickOffset.getCanvas(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
+			}
+		}, [], 'brick')
 
 		let game = new Game('tank90', '#canvas', paintBorder, {
 			showTime: false
 		})
 		game.setSprite(tank)
+		game.setSprite(brick0)
+		game.setSprite(brick1)
+		game.setSprite(brick2)
+		game.setSprite(brick3)
+		// game.setSprite(brick4)
 		game.setKeyListener(38, (e) => {
 			tank.animating = true
 			tank.v = new Vector(0, -30)
@@ -524,9 +573,7 @@
 			tank.v = new Vector(0, 0)
 		}, false)
 		game.setKeyListener(32, (e) => {
-			let t = tank.fire()
-			log(t)
-			game.setSprite(t)
+			game.setSprite(tank.fire())
 		})
 		// let drawMap = () => {
 		// 	// log('drawMap')
@@ -547,6 +594,13 @@
 		let start = () => {
 			// animateId = requestNextAnimateionFrame(animate)
 			game.start()
+			// game.detectCrash()
+			// triangle.collidesWith(quadrangle)
+			// log(brick4)
+			// log(tank)
+			// log(brick4.crashGraph.collidesWith(tank.crashGraph))
+			// log(brick3.crashGraph.collidesWith(tank.crashGraph))
+
 		}
 		let stop = () => {
 			// game.end()

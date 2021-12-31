@@ -15,6 +15,18 @@ window.cancelNextAnimationFrame = window.cancelAnimationFrame || window.webkitCa
 
 
 
+class Point {
+    constructor(x = 0, y = 0) {
+        this.x = x
+        this.y = y
+    }
+    distanceWithPoint(p) {
+        return Math.hypot(this.x - p.x, this.y - p.y)
+    }
+    // 中心对称
+    // 轴对称
+}
+
 class Sprite {
     constructor(
         {
@@ -27,11 +39,12 @@ class Sprite {
             visible = true, 
             animating = false, 
             direction = new Vector(0, 1),
-            crashGraph = null
-        }, painter, behaviors = {}) {
+            // 相对于left/top
+            crashGraphPoints = [], // 必须顺时针或逆时针
+        }, painter, behaviors = {}, category = []) {
         this.name = name
-        this.left = left
-        this.top = top
+        this._left = left
+        this._top = top
         this.width = width
         this.height = height
         this.v = v
@@ -40,7 +53,12 @@ class Sprite {
         this.direction = direction // 应该是个单位向量
         this.painter = painter // object
         this.behaviors = behaviors
-        this.crashGraph = crashGraph
+        // this.crashGraphPoints = crashGraphPoints
+        this._crashGraphPoints = crashGraphPoints
+        this.crashGraph = new Polygon(crashGraphPoints)
+        this.category = category
+
+        // this.crashGraph = 
         // this.behaviors = new Map() // 可优化为map对象
         // Object.entries(behaviors).forEach(([k, fn]) => {
         // 	this.behaviors[k] = fn
@@ -67,8 +85,30 @@ class Sprite {
         //         this.behaviors.set(k, v)
         //     })
         // }
+    }
+    get top () {
+        return this._top
+    }
+    set top (v) {
+        this._top = v
 
-
+    }
+    get left () {
+        return this._left
+    }
+    set left (v) {
+        this._left = v
+    }
+    get crashGraphPoints () {
+        return this._crashGraphPoints
+    }
+    set crashGraphPoints (v) {
+        if (Array.isArray(v)) {
+            this._crashGraphPoints = v
+            this.crashGraph = new Polygon(v)
+        } else {
+            throw new Error('可碰撞图形的点必须是数组')
+        }
     }
     paint(context) {
         if (this.painter && this.visible) {
@@ -77,9 +117,15 @@ class Sprite {
     }
     update(context, time) {
         // time: fps
+        this.updateGraph(context, time)
+    }
+    updateGraph(context, fps) {
         this.behaviors.forEach(behavior => {
-            behavior.execute(this, context, time)
+            behavior.execute(this, context, fps)
         })
+    }
+    updateCrashGraph() {
+        
     }
     // update painter
 
@@ -125,15 +171,79 @@ class CanvasPainter {
 }
 
 
-        // let lastTimeForCalcFps = 0
-        // const calcFps = () => {
-        //     let now = +new Date()
-        //     let fps = 1000 / (now - lastTimeForCalcFps)
-        //     lastTimeForCalcFps = now
-        //     return fps
-        // }
-        // let fps//, animateId
+class Polygon {
+    constructor(points = []) {
+        this.points = points
+    }
+    collidesWith(shape) {
+        return !this.isSeparationOnAxes(this.getAxes().concat(shape.getAxes()), shape)
+    }
+    isSeparationOnAxes(axes, shape) { // 是否处于分离状态
+        for (let i = 0; i < axes.length; i++) {
+            let p1 = this.project(axes[i])
+            let p2 = shape.project(axes[i])
+            if (!p1.isOverlap(p2)) {
+                return true
+            }
+        }
+        return false
+    }
+    getAxes() {
+        let [v1, v2] = [new Vector(), new Vector()]
+        let axes = []
+        for (let i = 0; i < this.points.length - 1; i++) {
+            v1.x = this.points[i].x
+            v1.y = this.points[i].y
+            v2.x = this.points[i + 1].x
+            v2.y = this.points[i + 1].y
+            axes.push(v1.edge(v2)[0].normal()[0])
+        }
+        v1.x = this.points[this.points.length - 1].x
+        v1.y = this.points[this.points.length - 1].y
+        v2.x = this.points[0].x
+        v2.y = this.points[0].y
+        axes.push(v1.edge(v2)[0].normal()[0])
+        return axes
+    }
+    project(axis) {
+        let [v, scalars] = [new Vector(), []]
+        this.points.forEach(point => {
+            v.x = point.x
+            v.y = point.y
+            scalars.push(v.dotProduct(axis))
+        })
+        return new Projection(Math.min.apply(null, scalars), Math.max.apply(null, scalars))
+    }
+    // move(shape) {}
+    // createPath(shape) {}
+    // fill(shape) {}
+    // stroke(shape) {}
+    createPath(context) {
+        if (!this.points.length) {
+            return
+        }
+        context.beginPath()
+        context.moveTo(this.points[0].x, this.points[0].y)
+        for (let i = 1; i < this.points.length; i++) {
+            context.lineTo(this.points[i].x, this.points[i].y)
+        }
+        context.closePath()
+    }
+    isPointInPath(context, x, y) {
+        this.createPath(context)
+        return context.inPointInPath(x, y)
+    }
+}
 
+class Projection {
+    constructor(min = 0, max = 0) {
+        this.min = min
+        this.max = max
+    }
+    isOverlap(projection) {
+        return this.max > projection.min && projection.max > this.min
+    }
+}
 class Game {
     constructor (gameName, canvasId, effectDraw,
         option = {
@@ -143,6 +253,18 @@ class Game {
         this.name = gameName
         this.canvas = document.querySelector(canvasId)
         this.context = this.canvas.getContext('2d')
+        this.edgeLength = Math.min(this.canvas.width, this.canvas.height)
+		this.edgeLengthHalf = this.edgeLength * 0.5
+		this.edgeLength01 = edgeLength * 0.1
+        this.edgeLength02 = edgeLength * 0.2
+        this.edgeLength03 = edgeLength * 0.3
+        this.edgeLength04 = edgeLength * 0.4
+        this.edgeLength05 = edgeLength * 0.5
+        this.edgeLength06 = edgeLength * 0.6
+        this.edgeLength07 = edgeLength * 0.7
+        this.edgeLength08 = edgeLength * 0.8
+        this.edgeLength09 = edgeLength * 0.9
+		
         this.sprites = new Map()
         this.startTime = +new Date()
         this.lastTime = null
@@ -172,7 +294,8 @@ class Game {
         window.onkeyup = (event) => {
             this.keyuped(event)
         }
-        this.title = 0
+        // this.spritesCategory = new WeakMap()
+        this.spritesCategory = new Map()
         this.title = 0
         this.title = 0
         this.title = 0
@@ -220,10 +343,47 @@ class Game {
             this.updateSprites()
             this.paintSprites()
             this.effectDraw()
+            this.detectCrash()
+            // log(this)
             this.animateId = requestNextAnimateionFrame(this.animate)
         }
         this.animateId = requestNextAnimateionFrame(this.animate)
         this._animating = true
+    }
+    detectCrash () {
+        // let arr = [].concat(this.spritesCategory.get('tank'), this.spritesCategory.get('brick'))
+        // log('arr', arr)
+        // let a = (this.spritesCategory.get('shell') || []).map(shell => {
+        //     let crashedObjList = arr.filter(item => item.crashGraph.collidesWith(shell.crashGraph))
+        //     log('crashedObjList', crashedObjList)
+        //     if (crashedObjList.length) {
+        //         return {origin: shell, target: crashedObjList}
+        //     } else {
+        //         return
+        //     }
+        // }).filter(item => item)
+        // log('a', a)
+        // if (a.length) {
+        //     this.end()
+        //     alert('crash')
+        // }
+
+        let arr = [].concat(this.spritesCategory.get('brick'))
+        let tank = this.spritesCategory.get('tank')[0]
+        log(arr[3], tank)
+        // let temp = arr.map(brick => {
+        //     let bool = brick.crashGraph.collidesWith(tank.crashGraph)
+        //     if (bool) {
+        //         return {origin: tank, target: brick}
+        //     } else {
+        //         return
+        //     }
+        // }).filter(item => item)
+        // if (temp.length) {
+        //     alert('crash')
+        // }
+        log(arr[3].crashGraph.collidesWith(tank.crashGraph))
+
     }
     end() {
         // 解绑所有事件
@@ -275,9 +435,6 @@ class Game {
         // this.gameTime = (+new Date()) - this.startTime
         // this.lastTime = time
     }
-    clearScreen() {
-        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
-    }
     updateSprites(time) {
         this.sprites.forEach(sprite => {
             if (sprite.visible && sprite.animating) {
@@ -291,11 +448,21 @@ class Game {
     }
     setSprite(sprite) {
         this.sprites.set(sprite.name, sprite)
+        // this.spritesCategory.set(this.sprites.get(sprite.name), sprite.category)
+        // this.spritesCategory.set(sprite, sprite.category)
+        // this.spritesCategory.set(sprite.category, sprite)
+        if (this.spritesCategory.has(sprite.category)) {
+            this.spritesCategory.get(sprite.category).push(sprite)
+        } else {
+            this.spritesCategory.set(sprite.category, [sprite])
+        }
     }
     removeSprite(p) {
         let spriteName = typeof p === 'string' ? p : p.name
         let res = this.sprites.get(spriteName)
         this.sprites.delete(spriteName)
+        // this.spritesCategory.delete(res)
+        this.spritesCategory.set(p.category, this.spritesCategory.get(p.category).filter((item) => item.name !== spriteName))
         return res
     }
     paintSprites() {
@@ -311,7 +478,9 @@ class Game {
     } // pixelsPerFrame的别名
 
     startAnimate() {} // 游戏开始时的动画
-    paintUnderSprites() {} // 绘制背景
+    paintUnderSprites() {
+        
+    } // 绘制背景
     paintOverSprites() {} // 绘制前景
     endAnimate() {} // 游戏结束时的动画
     setKeyListener(keyCode, listener, isDown = true) {
