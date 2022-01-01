@@ -248,7 +248,7 @@ class Game {
     constructor (gameName, canvasId, effectDraw,
         option = {
             showTime: false
-        }
+        }, crashCb
     ) {
         this.name = gameName
         this.canvas = document.querySelector(canvasId)
@@ -296,7 +296,7 @@ class Game {
         }
         // this.spritesCategory = new WeakMap()
         this.spritesCategory = new Map()
-        this.title = 0
+        this.crashCb = crashCb
         this.title = 0
         this.title = 0
         this.title = 0
@@ -350,41 +350,7 @@ class Game {
         this.animateId = requestNextAnimateionFrame(this.animate)
         this._animating = true
     }
-    detectCrash () {
-        // let arr = [].concat(this.spritesCategory.get('tank'), this.spritesCategory.get('brick'))
-        // log('arr', arr)
-        // let a = (this.spritesCategory.get('shell') || []).map(shell => {
-        //     let crashedObjList = arr.filter(item => item.crashGraph.collidesWith(shell.crashGraph))
-        //     log('crashedObjList', crashedObjList)
-        //     if (crashedObjList.length) {
-        //         return {origin: shell, target: crashedObjList}
-        //     } else {
-        //         return
-        //     }
-        // }).filter(item => item)
-        // log('a', a)
-        // if (a.length) {
-        //     this.end()
-        //     alert('crash')
-        // }
-
-        let arr = [].concat(this.spritesCategory.get('brick'))
-        let tank = this.spritesCategory.get('tank')[0]
-        log(arr[3], tank)
-        // let temp = arr.map(brick => {
-        //     let bool = brick.crashGraph.collidesWith(tank.crashGraph)
-        //     if (bool) {
-        //         return {origin: tank, target: brick}
-        //     } else {
-        //         return
-        //     }
-        // }).filter(item => item)
-        // if (temp.length) {
-        //     alert('crash')
-        // }
-        log(arr[3].crashGraph.collidesWith(tank.crashGraph))
-
-    }
+    detectCrash () {}
     end() {
         // 解绑所有事件
         // cancelNextAnimationFrame(this.animateId)
@@ -461,7 +427,6 @@ class Game {
         let spriteName = typeof p === 'string' ? p : p.name
         let res = this.sprites.get(spriteName)
         this.sprites.delete(spriteName)
-        // this.spritesCategory.delete(res)
         this.spritesCategory.set(p.category, this.spritesCategory.get(p.category).filter((item) => item.name !== spriteName))
         return res
     }

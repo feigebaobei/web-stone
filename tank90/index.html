@@ -30,6 +30,7 @@
 		随机出现礼物
 		绘制场景
 		可碰撞
+		把Game搞成一个基础类，然后其他该基础类扩展新的类
 		*/
 		let canvas = document.querySelector('#canvas')
 		let context = canvas.getContext('2d')
@@ -333,17 +334,32 @@
 				let l // = this.left + this.width * 0.5 - shellW * 0.5
 				let t // = this.top
 				let shellDirction = new Vector(this.direction.x, this.direction.y)
+				// 起始位置在炮管中
+				// if (this.direction.x === 0 && this.direction.y === 1) {
+				// 	l = this.left + this.width * 0.5 - shellW * 0.5
+				// 	t = this.top
+				// } else if (this.direction.x === 1 && this.direction.y === 0) {
+				// 	l = this.left + this.height - shellH
+				// 	t = this.top + this.height * 0.5 - shellW * 0.5
+				// } else if (this.direction.x === 0 && this.direction.y === -1) {
+				// 	l = this.left + this.width * 0.5 - shellW * 0.5
+				// 	t = this.top + this.height - shellH
+				// } else if (this.direction.x === -1 && this.direction.y === 0) {
+				// 	l = this.left
+				// 	t = this.top + this.height * 0.5 - shellW * 0.5
+				// }
+				// 起始位置在炮管前
 				if (this.direction.x === 0 && this.direction.y === 1) {
 					l = this.left + this.width * 0.5 - shellW * 0.5
-					t = this.top
+					t = this.top - shellH
 				} else if (this.direction.x === 1 && this.direction.y === 0) {
-					l = this.left + this.height - shellH
+					l = this.left + this.height
 					t = this.top + this.height * 0.5 - shellW * 0.5
 				} else if (this.direction.x === 0 && this.direction.y === -1) {
 					l = this.left + this.width * 0.5 - shellW * 0.5
-					t = this.top + this.height - shellH
+					t = this.top + this.height
 				} else if (this.direction.x === -1 && this.direction.y === 0) {
-					l = this.left
+					l = this.left - shellH
 					t = this.top + this.height * 0.5 - shellW * 0.5
 				}
 				return new ShellSprite({
@@ -356,10 +372,6 @@
 					direction: this.direction,
 					animating: true,
 					crashGraphPoints: [new Point(l, t), new Point(l + shellW, t), new Point(l + shellW, t + shellH), new Point(l, t + shellH)]
-					// : this.,
-					// top: this.top,
-					// top: this.top,
-					// spriteOpt.direction
 				},
 				// shellPainter,
 				{
@@ -379,6 +391,7 @@
 				},
 				[{
 					execute: (sprite, context, fps) => {
+						// 修改可见图形位置
 						sprite.left += sprite.v.x * fps / 1000
 						sprite.top += sprite.v.y * fps / 1000
 						if (sprite.left > edgeLength - sprite.width || sprite.left < 0 || sprite.top < 0 || sprite.top > edgeLength - sprite.height) {
@@ -386,11 +399,15 @@
 							sprite.animating = false
 							game.removeSprite(sprite)
 						}
+						// 修改碰撞图形位置
+						sprite.crashGraphPoints = [
+							new Point(sprite.left, sprite.top),
+							new Point(sprite.left + sprite.width, sprite.top),
+							new Point(sprite.left + sprite.width, sprite.top + sprite.height),
+							new Point(sprite.left, sprite.top + sprite.height)
+						]
 					}
-				// }], ['shell'])
 				}], 'shell')
-				// return shellOffset.offsetSprite // .offsetSprite.v = new Vector(45, 0)
-				// return new Sprite()
 			}
 		}
 		class brickSprite extends Sprite {
@@ -420,6 +437,7 @@
 		}, [
 		{
 			execute: (sprite, context, fps) => {
+				// 修改可见图形位置
 				sprite.left += sprite.v.x * fps / 1000
 				sprite.top += sprite.v.y * fps / 1000
 				if (sprite.left > edgeLength - sprite.width) {
@@ -434,6 +452,7 @@
 				if (sprite.top < 0) {
 					sprite.top = 0
 				}
+				// 修改碰撞图形位置
 				sprite.crashGraphPoints = [
 					new Point(sprite.left, sprite.top),
 					new Point(sprite.left + sprite.width, sprite.top),
@@ -442,7 +461,6 @@
 				]
 			}
 		}
-		// ], ['tank'])
 		], 'tank')
 		let brick0 = new brickSprite({
 			name: 'brick0',
@@ -454,9 +472,7 @@
 		}, {
 			paint: (sprite, context) => {
 				context.drawImage(brickOffset.getCanvas(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
-
 			}
-		// }, ['brick'])
 		}, [], 'brick')
 		let brick1 = new brickSprite({
 			name: 'brick1',
@@ -526,10 +542,63 @@
 				context.drawImage(brickOffset.getCanvas(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
 			}
 		}, [], 'brick')
+		
+		class GameTank extends Game {
+			constructor(gameName, canvasId, effectDraw,
+			option = {
+				showTime: false
+			}, crashCb) {
+				super(gameName, canvasId, effectDraw, option = {showTime: false}, crashCb)
+			}
+			detectCrash() {
+				let tankList = this.spritesCategory.get('tank') || []
+				let shellList = this.spritesCategory.get('shell') || []
+				let brickList = this.spritesCategory.get('brick') || []
+				// shell vs brick+tank
+				let shellCrashedObjList = shellList.map(shell => {
+					let crashedObjList = brickList.concat(tankList).filter(item => item.crashGraph.collidesWith(shell.crashGraph))
+					if (crashedObjList.length) {
+						return {
+							origin: shell,
+							target: crashedObjList
+						}
+					} else {
+						return
+					}
+				}).filter(item => item)
+				// tank vs brick
+				let tankCrashedObjList = tankList.map(tank => {
+					let crashedObjList = brickList.filter(item => item.crashGraph.collidesWith(tank.crashGraph))
+					if (crashedObjList.length) {
+						return {origin: tank, target: crashedObjList}
+					} else {
+						return
+					}
+				}).filter(item => item)
+				if (shellCrashedObjList.length || tankCrashedObjList.length) {
+					// this.crashCb(shellCrashedObjList, tankCrashedObjList)
+					this.crashCb(shellCrashedObjList.concat(tankCrashedObjList))
+				}
+			}
+		}
+		let crashCb = (crashedObjList) => {
+			crashedObjList.map(({origin, target}) => {
+				switch (origin.category) {
+					case 'tank':
+						// 让坦克退回去
 
-		let game = new Game('tank90', '#canvas', paintBorder, {
+						break
+					case 'shell':
+						// 爆炸
+						game.removeSprite(origin)
+						target.forEach(t => game.removeSprite(t))
+						break
+				}
+			})
+		}
+		let game = new GameTank('tank90', '#canvas', paintBorder, {
 			showTime: false
-		})
+		}, crashCb)
 		game.setSprite(tank)
 		game.setSprite(brick0)
 		game.setSprite(brick1)
