@@ -437,7 +437,8 @@
 		}, [
 		{
 			execute: (sprite, context, fps) => {
-				// 修改可见图形位置
+				// sprite.move({x: sprite.v.x * fps / 1000, y: sprite.v.y * fps / 1000})
+				// // 修改可见图形位置
 				sprite.left += sprite.v.x * fps / 1000
 				sprite.top += sprite.v.y * fps / 1000
 				if (sprite.left > edgeLength - sprite.width) {
@@ -560,7 +561,7 @@
 					if (crashedObjList.length) {
 						return {
 							origin: shell,
-							target: crashedObjList
+							targets: crashedObjList
 						}
 					} else {
 						return
@@ -570,7 +571,7 @@
 				let tankCrashedObjList = tankList.map(tank => {
 					let crashedObjList = brickList.filter(item => item.crashGraph.collidesWith(tank.crashGraph))
 					if (crashedObjList.length) {
-						return {origin: tank, target: crashedObjList}
+						return {origin: tank, targets: crashedObjList}
 					} else {
 						return
 					}
@@ -581,17 +582,41 @@
 				}
 			}
 		}
+		let centerPoint = (left, top, width, height) => {
+			return new Point(left + width, top + height)
+		}
 		let crashCb = (crashedObjList) => {
-			crashedObjList.map(({origin, target}) => {
+			crashedObjList.map(({origin, targets}) => {
 				switch (origin.category) {
 					case 'tank':
 						// 让坦克退回去
-
+						if (!origin.v.magnitude()) { break }
+						let overlapMList
+						// 分水平、竖直
+						if (origin.v.x === 0 && origin.v.y) { // 竖直
+							overlapMList = targets.map(target => {
+								let shouldM = target.height
+								let realM = Math.abs(target.top - origin.top)
+								let overlapM = shouldM - realM
+								return overlapM
+							})
+						} else if (origin.v.x && origin.v.y === 0) { // 水平
+							overlapMList = targets.map(target => {
+								let shouldM = target.width
+								let realM = Math.abs(target.left - origin.left)
+								let overlapM = shouldM - realM
+								return overlapM
+							})
+						}
+						// 取最大重叠量
+						let m = Math.max.apply(null, overlapMList)
+						// 移动
+						origin.move(origin.v.opposite().setMagnitude(m))
 						break
 					case 'shell':
 						// 爆炸
 						game.removeSprite(origin)
-						target.forEach(t => game.removeSprite(t))
+						targets.forEach(t => game.removeSprite(t))
 						break
 				}
 			})

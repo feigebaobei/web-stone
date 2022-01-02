@@ -149,6 +149,15 @@ class Sprite {
     clearBehavior() {
         this.behaviors = new Map()
     }
+    move(v) {
+        this.left += v.x
+        this.top += v.y
+        this.crashGraphPoints = this.crashGraphPoints.map(point => {
+            point.x += v.x
+            point.y += v.y
+            return point
+        })
+    }
 }
 class ImagePainter {
     constructor(src) {
@@ -178,6 +187,26 @@ class Polygon {
     collidesWith(shape) {
         return !this.isSeparationOnAxes(this.getAxes().concat(shape.getAxes()), shape)
     }
+    // getOverlapOn(shape) {
+    //     // 返回一个向量
+    //     // return 
+    //     let arr = this.getAxes().concat(shape.getAxes()).map(axis => {
+    //         let m = this.getOverlapOnAxes(axis, shape) // 重叠量
+    //         log(m)
+    //         alert(1)
+    //         return axis.setMagnitude(m)
+    //     })
+    //     log(arr)
+    //     // .filter(v => v)
+    //     // getOverlapOnAxes()
+    //     // return ()
+    // }
+    // getOverlapOnAxes(axis, shape) {
+    //     let [p1, p2] = [this.project(axis), shape.project(axis)]
+    //     log(axis, p1, p2)
+    //     return p1.getOverlap(p2)
+    // }
+
     isSeparationOnAxes(axes, shape) { // 是否处于分离状态
         for (let i = 0; i < axes.length; i++) {
             let p1 = this.project(axes[i])
@@ -189,6 +218,8 @@ class Polygon {
         return false
     }
     getAxes() {
+        // 用向量表示轴。
+        // 返回向量组成的数组
         let [v1, v2] = [new Vector(), new Vector()]
         let axes = []
         for (let i = 0; i < this.points.length - 1; i++) {
@@ -205,6 +236,7 @@ class Polygon {
         axes.push(v1.edge(v2)[0].normal()[0])
         return axes
     }
+    // 投影
     project(axis) {
         let [v, scalars] = [new Vector(), []]
         this.points.forEach(point => {
@@ -214,6 +246,7 @@ class Polygon {
         })
         return new Projection(Math.min.apply(null, scalars), Math.max.apply(null, scalars))
     }
+    // 中心点 对称图形才有中心点
     // move(shape) {}
     // createPath(shape) {}
     // fill(shape) {}
@@ -227,6 +260,7 @@ class Polygon {
         for (let i = 1; i < this.points.length; i++) {
             context.lineTo(this.points[i].x, this.points[i].y)
         }
+        // 有可能需要绘制
         context.closePath()
     }
     isPointInPath(context, x, y) {
@@ -243,7 +277,16 @@ class Projection {
     isOverlap(projection) {
         return this.max > projection.min && projection.max > this.min
     }
+    getOverlap(projection) {
+        if (this.isOverlap(projection)) {
+            let arr = [this.min, this.max, projection.min, projection.max].sort()
+            return arr[2] - arr[1]
+        } else {
+            return 0
+        }
+    }
 }
+
 class Game {
     constructor (gameName, canvasId, effectDraw,
         option = {
@@ -593,6 +636,9 @@ class Vector {
     }
     magnitude() {
         return Math.hypot(this.x, this.y)
+    }
+    setMagnitude(m) {
+        return this.normalize().product(m)
     }
     isZero() {
         return this.magnitude() === 0
