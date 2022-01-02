@@ -89,7 +89,7 @@
 			// ctx.stroke()
 			ctx.restore()
 		}
-		let tankPainter = {
+		let tankOffsetPainter = {
 			paint: (sprite, context) => {
 				context.save()
 				// 底壳
@@ -151,7 +151,7 @@
 				context.restore()
 			}
 		}
-		let tankOffset = new OffsetCanvasSprite({name: 'tankOffsetSprite'}, tankPainter, [], edgeLength, edgeLength)
+		let tankOffset = new OffsetCanvasSprite({name: 'tankOffsetSprite'}, tankOffsetPainter, [], edgeLength, edgeLength)
 		tankOffset.setDirection({x: 1, y: 0})
 		tankOffset.setDirection({x: 0, y: -1})
 		tankOffset.setDirection({x: -1, y: 0})
@@ -415,27 +415,12 @@
 				super(spriteOpt, painter, behaviors, category)
 			}
 		}
-		let tank = new tankSprite({
-			name: 'tank',
-			// left: edgeLength09,
-			// top: edgeLength09,
-			left: edgeLength08 + edgeLength01 * 0.5,
-			top: edgeLength05 + edgeLength01 * 0.5,
-			width: edgeLength01,
-			height: edgeLength01,
-			v: new Vector(0, 0),
-			crashGraphPoints: [
-				new Point(edgeLength08 + edgeLength01 * 0.5, edgeLength05 + edgeLength01 * 0.5), 
-				new Point(edgeLength09 + edgeLength01 * 0.5, edgeLength05 + edgeLength01 * 0.5), 
-				new Point(edgeLength09 + edgeLength01 * 0.5, edgeLength06 + edgeLength01 * 0.5), 
-				new Point(edgeLength08 + edgeLength01 * 0.5, edgeLength06 + edgeLength01 * 0.5),
-			]
-		}, {
+		let tankPainter = {
 			paint: (sprite, context) => {
 				context.drawImage(tankOffset.getCanvas(sprite.direction), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
 			}
-		}, [
-		{
+		}
+		let tankBehaviors = [{
 			execute: (sprite, context, fps) => {
 				// sprite.move({x: sprite.v.x * fps / 1000, y: sprite.v.y * fps / 1000})
 				// // 修改可见图形位置
@@ -461,8 +446,42 @@
 					new Point(sprite.left, sprite.top + sprite.height),
 				]
 			}
-		}
-		], 'tank')
+		}]
+		let tank0 = new tankSprite({
+			name: 'tank0',
+			left: edgeLength05,
+			top: edgeLength09,
+			// left: edgeLength08 + edgeLength01 * 0.5,
+			// top: edgeLength05 + edgeLength01 * 0.5,
+			width: edgeLength01,
+			height: edgeLength01,
+			v: new Vector(0, 0),
+			crashGraphPoints: [
+				new Point(edgeLength05, edgeLength09),
+				new Point(edgeLength06, edgeLength09),
+				new Point(edgeLength06, edgeLength),
+				new Point(edgeLength05, edgeLength),
+				// new Point(edgeLength08 + edgeLength01 * 0.5, edgeLength05 + edgeLength01 * 0.5), 
+				// new Point(edgeLength09 + edgeLength01 * 0.5, edgeLength05 + edgeLength01 * 0.5), 
+				// new Point(edgeLength09 + edgeLength01 * 0.5, edgeLength06 + edgeLength01 * 0.5), 
+				// new Point(edgeLength08 + edgeLength01 * 0.5, edgeLength06 + edgeLength01 * 0.5),
+			]
+		}, tankPainter, tankBehaviors, 'tank')
+		let tank1 = new tankSprite({
+			name: 'tank1',
+			left: edgeLength04,
+			top: 0,
+			width: edgeLength01,
+			height: edgeLength01,
+			v: new Vector(0, 0),
+			direction: new Vector(0, -1),
+			crashGraphPoints: [
+				new Point(edgeLength04, 0),
+				new Point(edgeLength05, 0),
+				new Point(edgeLength05, edgeLength01),
+				new Point(edgeLength04, edgeLength01),
+			]
+		}, tankPainter, tankBehaviors, 'tank')
 		let brick0 = new brickSprite({
 			name: 'brick0',
 			left: edgeLength04,
@@ -624,50 +643,95 @@
 		let game = new GameTank('tank90', '#canvas', paintBorder, {
 			showTime: false
 		}, crashCb)
-		game.setSprite(tank)
+		game.setSprite(tank0)
+		game.setSprite(tank1)
 		game.setSprite(brick0)
 		game.setSprite(brick1)
 		game.setSprite(brick2)
 		game.setSprite(brick3)
-		// game.setSprite(brick4)
+		game.setSprite(brick4)
 		game.setKeyListener(38, (e) => {
-			tank.animating = true
-			tank.v = new Vector(0, -30)
-			tank.direction = new Vector(0, 1)
+			tank0.animating = true
+			tank0.v = new Vector(0, -30)
+			tank0.direction = new Vector(0, 1)
 		}, true)
 		game.setKeyListener(38, (e) => {
-			tank.animating = true
-			tank.v = new Vector(0, 0)
+			tank0.animating = true
+			tank0.v = new Vector(0, 0)
 		}, false)
 		game.setKeyListener(40, (e) => {
-			tank.animating = true
-			tank.v = new Vector(0, 30)
-			tank.direction = new Vector(0, -1)
+			tank0.animating = true
+			tank0.v = new Vector(0, 30)
+			tank0.direction = new Vector(0, -1)
 		})
 		game.setKeyListener(40, (e) => {
-			tank.animating = true
-			tank.v = new Vector(0, 0)
+			tank0.animating = true
+			tank0.v = new Vector(0, 0)
 		}, false)
 		game.setKeyListener(37, (e) => {
-			tank.animating = true
-			tank.v = new Vector(-30, 0)
-			tank.direction = new Vector(-1, 0)
+			tank0.animating = true
+			tank0.v = new Vector(-30, 0)
+			tank0.direction = new Vector(-1, 0)
 		})
 		game.setKeyListener(37, (e) => {
-			tank.animating = true
-			tank.v = new Vector(0, 0)
+			tank0.animating = true
+			tank0.v = new Vector(0, 0)
 		}, false)
 		game.setKeyListener(39, (e) => {
-			tank.animating = true
-			tank.v = new Vector(30, 0)
-			tank.direction = new Vector(1, 0)
+			tank0.animating = true
+			tank0.v = new Vector(30, 0)
+			tank0.direction = new Vector(1, 0)
 		})
 		game.setKeyListener(39, (e) => {
-			tank.animating = true
-			tank.v = new Vector(0, 0)
+			tank0.animating = true
+			tank0.v = new Vector(0, 0)
 		}, false)
 		game.setKeyListener(32, (e) => {
-			game.setSprite(tank.fire())
+			game.setSprite(tank0.fire())
+		})
+
+		// a
+		game.setKeyListener(65, (e) => {
+			tank1.animating = true
+			tank1.v = new Vector(-30, 0)
+			tank1.direction = new Vector(-1, 0)
+		})
+		game.setKeyListener(65, (e) => {
+			tank1.animating = true // false
+			tank1.v = new Vector(0, 0)
+		}, false)
+		// s
+		game.setKeyListener(83, (e) => {
+			tank1.animating = true
+			tank1.v = new Vector(0, 30)
+			tank1.direction = new Vector(0, -1)
+		})
+		game.setKeyListener(83, (e) => {
+			tank1.animating = true // false
+			tank1.v = new Vector(0, 0)
+		}, false)
+		// d
+		game.setKeyListener(68, (e) => {
+			tank1.animating = true
+			tank1.v = new Vector(30, 0)
+			tank1.direction = new Vector(1, 0)
+		})
+		game.setKeyListener(68, (e) => {
+			tank1.animating = true // false
+			tank1.v = new Vector(0, 0)
+		}, false)
+		// w
+		game.setKeyListener(87, (e) => {
+			tank1.animating = true
+			tank1.v = new Vector(0, -30)
+			tank1.direction = new Vector(0, 1)
+		})
+		game.setKeyListener(87, (e) => {
+			tank1.animating = true // false
+			tank1.v = new Vector(0, 0)
+		}, false)
+		game.setKeyListener(70, (e) => {
+			game.setSprite(tank1.fire())
 		})
 		// let drawMap = () => {
 		// 	// log('drawMap')
