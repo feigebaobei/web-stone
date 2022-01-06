@@ -20,6 +20,7 @@ js的类型可分为简单类型、引用（复杂）类型。
 缺点：  
 - 忽略function/undefined字段。  
 - 不能处理循环引用的对象。  
+
 ## 循环+递归
 ``` js
 function deepClone(v) {
@@ -43,3 +44,8 @@ function deepClone(v) {
     return res
 }
 ```
+
+## structureClone(value, [transfer])
+- 新api，有兼容性
+- transfer： transfer对象组成的数组
+- 返回克隆后的对象
