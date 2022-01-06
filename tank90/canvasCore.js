@@ -288,7 +288,7 @@ class Projection {
 }
 
 class Game {
-    constructor (gameName, canvasId, effectDraw,
+    constructor (gameName, canvasId, effectDrawList,
         option = {
             showTime: false
         }, crashCb
@@ -328,7 +328,7 @@ class Game {
         this.keyListeners = new Map()
         this.HIGH_SCORES_SUFFIX = '_highscores'
         this.over = false
-        this.effectDraw = effectDraw
+        this.effectDrawList = effectDrawList
         this._lastTimeForCalcFps = 0 // +new Date()
         this.option = option
         window.onkeydown = (event) => {
@@ -385,13 +385,17 @@ class Game {
             }
             this.updateSprites()
             this.paintSprites()
-            this.effectDraw()
+            // this.effectDrawList()
+            this.executeEffectDrawList()
             this.detectCrash()
             // log(this)
             this.animateId = requestNextAnimateionFrame(this.animate)
         }
         this.animateId = requestNextAnimateionFrame(this.animate)
         this._animating = true
+    }
+    executeEffectDrawList() {
+        this.effectDrawList.forEach(item => item())
     }
     detectCrash () {}
     end() {
@@ -423,7 +427,8 @@ class Game {
                 }
                 this.updateSprites()
                 this.paintSprites()
-                this.effectDraw()
+                // this.effectDrawList()
+                this.executeEffectDrawList()
                 this.animateId = requestNextAnimateionFrame(this.animate)
             }
             this.animateId = requestNextAnimateionFrame(this.animate)

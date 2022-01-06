@@ -40,6 +40,7 @@
 		let edgeLength = Math.min(bodyW, bodyH)
 		let edgeLengthHalf = edgeLength * 0.5
 		let [edgeLength01, edgeLength02, edgeLength03, edgeLength04, edgeLength05, edgeLength06, edgeLength07, edgeLength08, edgeLength09] = [edgeLength * 0.1, edgeLength * 0.2, edgeLength * 0.3, edgeLength * 0.4, edgeLength * 0.5, edgeLength * 0.6, edgeLength * 0.7, edgeLength * 0.8, edgeLength * 0.9]
+		let edgeLengthStone = edgeLength01 * 0.5
 		canvas.width = edgeLength
 		canvas.height = edgeLength
 
@@ -58,6 +59,17 @@
 			ctx.strokeStyle = 'red'
 			// // ctx.fill()
 			ctx.stroke()
+			ctx.restore()
+			
+		}
+		let paintTank0Point = (ctx = context) => {
+			ctx.save()
+			// log(tank0.left, tank0.top)
+			ctx.beginPath()
+			ctx.rect(tank0.left - 2, tank0.top - 2, 4, 4)
+			ctx.fillStyle = 'grey'
+			ctx.closePath()
+			ctx.fill()
 			ctx.restore()
 		}
 		let paintFill = (ctx = context, fillStyle = 'grey') => {
@@ -289,7 +301,72 @@
 		context.drawImage(shellOffset.getCanvas(new Vector(1, 0)), 0, 0, edgeLength, edgeLengthHalf, 70, 220, edgeLength * 0.025, edgeLengthHalf * 0.025)
 		context.drawImage(shellOffset.getCanvas(new Vector(0, -1)), edgeLengthHalf, 0, edgeLengthHalf, edgeLength, 130, 220, edgeLengthHalf * 0.025, edgeLength * 0.025)
 		context.drawImage(shellOffset.getCanvas(new Vector(-1, 0)), 0, edgeLengthHalf, edgeLength, edgeLengthHalf, 190, 220, edgeLength * 0.025, edgeLengthHalf * 0.025)
-
+		// 石头
+		let stoneOffsetPainter = {
+			paint: (sprite, context) => {
+				context.save()
+				let grd
+				grd = context.createLinearGradient(0, 0, sprite.width * 0.5, 0)
+				context.fillStyle = 'gray'
+				context.strokeStyle = '#333'
+				// 
+				context.beginPath()
+				grd.addColorStop(0, '#777')
+				grd.addColorStop(1, '#fff')
+				context.moveTo(0, 0)
+				context.lineTo(sprite.width * 0.5, sprite.height * 0.5)
+				context.lineTo(0, sprite.height)
+				context.fillStyle = grd
+				context.fill()
+				context.closePath()
+				// 
+				context.beginPath()
+				grd = context.createLinearGradient(sprite.width * 0.5, 0, sprite.width, 0)
+				grd.addColorStop(0, '#fff')
+				grd.addColorStop(1, '#777')
+				context.moveTo(sprite.width, 0)
+				context.lineTo(sprite.width * 0.5, sprite.height * 0.5)
+				context.lineTo(sprite.width, sprite.height)
+				context.fillStyle = grd
+				context.fill()
+				context.closePath()
+				// 
+				context.beginPath()
+				grd = context.createLinearGradient(0, 0, 0, sprite.height * 0.5)
+				grd.addColorStop(0, '#777')
+				grd.addColorStop(1, '#fff')
+				context.moveTo(0, 0)
+				context.lineTo(sprite.width * 0.5, sprite.height * 0.5)
+				context.lineTo(sprite.width, 0)
+				context.fillStyle = grd
+				context.fill()
+				context.closePath()
+				// 
+				context.beginPath()
+				grd = context.createLinearGradient(0, sprite.height * 0.5, 0, sprite.height)
+				grd.addColorStop(0, '#fff')
+				grd.addColorStop(1, '#777')
+				context.moveTo(0, sprite.height)
+				context.lineTo(sprite.width * 0.5, sprite.height * 0.5)
+				context.lineTo(sprite.width, sprite.height)
+				context.fillStyle = grd
+				context.fill()
+				context.closePath()
+				context.beginPath()
+				context.rect(sprite.width * 0.2, sprite.height * 0.2, sprite.width * 0.6, sprite.height * 0.6)
+				context.fillStyle = '#ddd'
+				context.fill()
+				context.restore()
+			}
+		}
+		let stoneOffset = new OffsetCanvasSprite({
+			name: 'stoneOffset',
+			width: edgeLength,
+			height: edgeLength,
+		}, stoneOffsetPainter, [], edgeLength, edgeLength)
+		// context.drawImage(stoneOffset.getCanvas(), 0,0, edgeLength, edgeLength, 0, 0, edgeLength, edgeLength)
+		context.drawImage(stoneOffset.getCanvas(), 0, 0, edgeLength, edgeLength, 10, 290, edgeLength01 * 0.5, edgeLength01 * 0.5)
+		context.drawImage(stoneOffset.getCanvas(), 0, 0, edgeLength, edgeLength, 70, 290, edgeLength01 * 0.5, edgeLength01 * 0.5)
 		// 绘制静态画面
 		// paintFill()
 		paintBorder()
@@ -306,7 +383,7 @@
 				this.level = spriteOpt.level || 0
 			}
 		}
-		class tankSprite extends Sprite{
+		class TankSprite extends Sprite{
 			constructor(spriteOpt, painter, behaviors, category) {
 				super(spriteOpt, painter, behaviors, category)
 				this.level = spriteOpt.level || 0
@@ -410,9 +487,14 @@
 				}], 'shell')
 			}
 		}
-		class brickSprite extends Sprite {
+		class BrickSprite extends Sprite {
 			constructor(spriteOpt, painter, behaviors, category) {
 				super(spriteOpt, painter, behaviors, category)
+			}
+		}
+		class StoneSprite extends Sprite{
+			constructor(spriteOpt, parinter, behaviors, category) {
+				super(spriteOpt, parinter, behaviors, category)
 			}
 		}
 		let tankPainter = {
@@ -447,9 +529,9 @@
 				]
 			}
 		}]
-		let tank0 = new tankSprite({
+		let tank0 = new TankSprite({
 			name: 'tank0',
-			left: edgeLength05,
+			left: edgeLength06,
 			top: edgeLength09,
 			// left: edgeLength08 + edgeLength01 * 0.5,
 			// top: edgeLength05 + edgeLength01 * 0.5,
@@ -457,32 +539,32 @@
 			height: edgeLength01,
 			v: new Vector(0, 0),
 			crashGraphPoints: [
-				new Point(edgeLength05, edgeLength09),
 				new Point(edgeLength06, edgeLength09),
+				new Point(edgeLength07, edgeLength09),
+				new Point(edgeLength07, edgeLength),
 				new Point(edgeLength06, edgeLength),
-				new Point(edgeLength05, edgeLength),
 				// new Point(edgeLength08 + edgeLength01 * 0.5, edgeLength05 + edgeLength01 * 0.5), 
 				// new Point(edgeLength09 + edgeLength01 * 0.5, edgeLength05 + edgeLength01 * 0.5), 
 				// new Point(edgeLength09 + edgeLength01 * 0.5, edgeLength06 + edgeLength01 * 0.5), 
 				// new Point(edgeLength08 + edgeLength01 * 0.5, edgeLength06 + edgeLength01 * 0.5),
 			]
 		}, tankPainter, tankBehaviors, 'tank')
-		let tank1 = new tankSprite({
+		let tank1 = new TankSprite({
 			name: 'tank1',
-			left: edgeLength04,
+			left: edgeLength03,
 			top: 0,
 			width: edgeLength01,
 			height: edgeLength01,
 			v: new Vector(0, 0),
 			direction: new Vector(0, -1),
 			crashGraphPoints: [
+				new Point(edgeLength03, 0),
 				new Point(edgeLength04, 0),
-				new Point(edgeLength05, 0),
-				new Point(edgeLength05, edgeLength01),
 				new Point(edgeLength04, edgeLength01),
+				new Point(edgeLength03, edgeLength01),
 			]
 		}, tankPainter, tankBehaviors, 'tank')
-		let brick0 = new brickSprite({
+		let brick0 = new BrickSprite({
 			name: 'brick0',
 			left: edgeLength04,
 			top: edgeLength04,
@@ -494,7 +576,7 @@
 				context.drawImage(brickOffset.getCanvas(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
 			}
 		}, [], 'brick')
-		let brick1 = new brickSprite({
+		let brick1 = new BrickSprite({
 			name: 'brick1',
 			left: edgeLength05,
 			top: edgeLength04,
@@ -511,7 +593,7 @@
 				context.drawImage(brickOffset.getCanvas(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
 			}
 		}, [], 'brick')
-		let brick2 = new brickSprite({
+		let brick2 = new BrickSprite({
 			name: 'brick2',
 			left: edgeLength04,
 			top: edgeLength05,
@@ -528,7 +610,7 @@
 				context.drawImage(brickOffset.getCanvas(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
 			}
 		}, [], 'brick')
-		let brick3 = new brickSprite({
+		let brick3 = new BrickSprite({
 			name: 'brick3',
 			left: edgeLength05,
 			top: edgeLength05,
@@ -545,8 +627,25 @@
 				context.drawImage(brickOffset.getCanvas(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
 			}
 		}, [], 'brick')
-		let brick4 = new brickSprite({
-			name: 'brick4',
+		// let brick4 = new BrickSprite({
+		// 	name: 'brick4',
+		// 	left: edgeLength08,
+		// 	top: edgeLength05,
+		// 	width: edgeLength01,
+		// 	height: edgeLength01,
+		// 	crashGraphPoints: [
+		// 		new Point(edgeLength08, edgeLength05), 
+		// 		new Point(edgeLength, edgeLength05), 
+		// 		new Point(edgeLength, edgeLength06), 
+		// 		new Point(edgeLength08, edgeLength06), 
+		// 	]
+		// }, {
+		// 	paint: (sprite, context) => {
+		// 		context.drawImage(brickOffset.getCanvas(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
+		// 	}
+		// }, [], 'brick')
+		let brick5 = new BrickSprite({
+			name: 'brick5',
 			left: edgeLength09,
 			top: edgeLength05,
 			width: edgeLength01,
@@ -562,21 +661,330 @@
 				context.drawImage(brickOffset.getCanvas(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
 			}
 		}, [], 'brick')
+		let brick6 = new BrickSprite({
+			name: 'brick6',
+			left: edgeLength05,
+			top: 0,
+			width: edgeLength01,
+			height: edgeLength01,
+			crashGraphPoints: [
+				new Point(edgeLength05, 0), 
+				new Point(edgeLength06, 0), 
+				new Point(edgeLength06, edgeLength01), 
+				new Point(edgeLength05, edgeLength01), 
+			]
+		}, {
+			paint: (sprite, context) => {
+				context.drawImage(brickOffset.getCanvas(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
+			}
+		}, [], 'brick')
+		// let brick7 = new BrickSprite({
+		// 	name: 'brick7',
+		// 	left: edgeLength05,
+		// 	top: edgeLength01,
+		// 	width: edgeLength01,
+		// 	height: edgeLength01,
+		// 	crashGraphPoints: [
+		// 		new Point(edgeLength05, edgeLength01), 
+		// 		new Point(edgeLength06, edgeLength01), 
+		// 		new Point(edgeLength06, edgeLength02), 
+		// 		new Point(edgeLength05, edgeLength02), 
+		// 	]
+		// }, {
+		// 	paint: (sprite, context) => {
+		// 		context.drawImage(brickOffset.getCanvas(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
+		// 	}
+		// }, [], 'brick')
+		let brick8 = new BrickSprite({
+			name: 'brick8',
+			left: 0,
+			top: edgeLength04,
+			width: edgeLength01,
+			height: edgeLength01,
+			crashGraphPoints: [
+				new Point(0, edgeLength04), 
+				new Point(edgeLength01, edgeLength04), 
+				new Point(edgeLength01, edgeLength05), 
+				new Point(0, edgeLength05), 
+			]
+		}, {
+			paint: (sprite, context) => {
+				context.drawImage(brickOffset.getCanvas(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
+			}
+		}, [], 'brick')
+		// let brick9 = new BrickSprite({
+		// 	name: 'brick9',
+		// 	left: edgeLength01,
+		// 	top: edgeLength04,
+		// 	width: edgeLength01,
+		// 	height: edgeLength01,
+		// 	crashGraphPoints: [
+		// 		new Point(edgeLength01, edgeLength04), 
+		// 		new Point(edgeLength02, edgeLength04), 
+		// 		new Point(edgeLength02, edgeLength05), 
+		// 		new Point(edgeLength01, edgeLength05), 
+		// 	]
+		// }, {
+		// 	paint: (sprite, context) => {
+		// 		context.drawImage(brickOffset.getCanvas(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
+		// 	}
+		// }, [], 'brick')
+		// let brick10 = new BrickSprite({
+		// 	name: 'brick10',
+		// 	left: edgeLength04,
+		// 	top: edgeLength08,
+		// 	width: edgeLength01,
+		// 	height: edgeLength01,
+		// 	crashGraphPoints: [
+		// 		new Point(edgeLength04, edgeLength08), 
+		// 		new Point(edgeLength05, edgeLength08), 
+		// 		new Point(edgeLength05, edgeLength09), 
+		// 		new Point(edgeLength04, edgeLength09), 
+		// 	]
+		// }, {
+		// 	paint: (sprite, context) => {
+		// 		context.drawImage(brickOffset.getCanvas(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
+		// 	}
+		// }, [], 'brick')
+		let brick11 = new BrickSprite({
+			name: 'brick11',
+			left: edgeLength04,
+			top: edgeLength09,
+			width: edgeLength01,
+			height: edgeLength01,
+			crashGraphPoints: [
+				new Point(edgeLength04, edgeLength09), 
+				new Point(edgeLength05, edgeLength09), 
+				new Point(edgeLength05, edgeLength), 
+				new Point(edgeLength04, edgeLength), 
+			]
+		}, {
+			paint: (sprite, context) => {
+				context.drawImage(brickOffset.getCanvas(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
+			}
+		}, [], 'brick')
+		let stone0 = new StoneSprite({
+			name: 'stone0',
+			left: edgeLength06 - edgeLengthStone,
+			top: edgeLength06,
+			width: edgeLengthStone,
+			height: edgeLengthStone,
+			crashGraphPoints: [
+				new Point(edgeLength06 - edgeLengthStone, edgeLength06),
+				new Point(edgeLength06, edgeLength06),
+				new Point(edgeLength06, edgeLength06 + edgeLengthStone),
+				new Point(edgeLength06 - edgeLengthStone, edgeLength06 + edgeLengthStone),
+			]
+		}, {
+			paint: (sprite, context) => {
+				context.drawImage(stoneOffset.getCanvas(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
+			}
+		}, [], 'stone')
+		let stone1 = new StoneSprite({
+			name: 'stone1',
+			left: edgeLength06,
+			top: edgeLength06,
+			width: edgeLengthStone,
+			height: edgeLengthStone,
+			crashGraphPoints: [
+				new Point(edgeLength06, edgeLength06),
+				new Point(edgeLength06 + edgeLengthStone, edgeLength06),
+				new Point(edgeLength06 + edgeLengthStone, edgeLength06 + edgeLengthStone),
+				new Point(edgeLength06, edgeLength06 + edgeLengthStone),
+			]
+		}, {
+			paint: (sprite, context) => {
+				context.drawImage(stoneOffset.getCanvas(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
+			}
+		}, [], 'stone')
+		let stone2 = new StoneSprite({
+			name: 'stone2',
+			left: edgeLength06 + edgeLengthStone,
+			top: edgeLength06,
+			width: edgeLengthStone,
+			height: edgeLengthStone,
+			crashGraphPoints: [
+				new Point(edgeLength06 + edgeLengthStone, edgeLength06),
+				new Point(edgeLength07, edgeLength06),
+				new Point(edgeLength07, edgeLength06 + edgeLengthStone),
+				new Point(edgeLength06 + edgeLengthStone, edgeLength06 + edgeLengthStone),
+			]
+		}, {
+			paint: (sprite, context) => {
+				context.drawImage(stoneOffset.getCanvas(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
+			}
+		}, [], 'stone')
+		let stone3 = new StoneSprite({
+			name: 'stone3',
+			left: edgeLength06,
+			top: edgeLength04,
+			width: edgeLengthStone,
+			height: edgeLengthStone,
+			crashGraphPoints: [
+				new Point(edgeLength06, edgeLength04),
+				new Point(edgeLength06 + edgeLengthStone, edgeLength04),
+				new Point(edgeLength06 + edgeLengthStone, edgeLength04 + edgeLengthStone),
+				new Point(edgeLength06, edgeLength04 + edgeLengthStone),
+			]
+		}, {
+			paint: (sprite, context) => {
+				context.drawImage(stoneOffset.getCanvas(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
+			}
+		}, [], 'stone')
+		let stone4 = new StoneSprite({
+			name: 'stone4',
+			left: edgeLength06,
+			top: edgeLength04 - edgeLengthStone,
+			width: edgeLengthStone,
+			height: edgeLengthStone,
+			crashGraphPoints: [
+				new Point(edgeLength06, edgeLength04 - edgeLengthStone),
+				new Point(edgeLength06 + edgeLengthStone, edgeLength04 - edgeLengthStone),
+				new Point(edgeLength06 + edgeLengthStone, edgeLength04),
+				new Point(edgeLength06, edgeLength04),
+			]
+		}, {
+			paint: (sprite, context) => {
+				context.drawImage(stoneOffset.getCanvas(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
+			}
+		}, [], 'stone')
+		let stone5 = new StoneSprite({
+			name: 'stone5',
+			left: edgeLength06,
+			top: edgeLength03,
+			width: edgeLengthStone,
+			height: edgeLengthStone,
+			crashGraphPoints: [
+				new Point(edgeLength06, edgeLength03),
+				new Point(edgeLength06 + edgeLengthStone, edgeLength03),
+				new Point(edgeLength06 + edgeLengthStone, edgeLength03 + edgeLengthStone),
+				new Point(edgeLength06, edgeLength03 + edgeLengthStone),
+			]
+		}, {
+			paint: (sprite, context) => {
+				context.drawImage(stoneOffset.getCanvas(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
+			}
+		}, [], 'stone')
+		let stone6 = new StoneSprite({
+			name: 'stone6',
+			left: edgeLength03,
+			top: edgeLength04 - edgeLengthStone,
+			width: edgeLengthStone,
+			height: edgeLengthStone,
+			crashGraphPoints: [
+				new Point(edgeLength03, edgeLength04 - edgeLengthStone),
+				new Point(edgeLength03 + edgeLengthStone, edgeLength04 - edgeLengthStone),
+				new Point(edgeLength03 + edgeLengthStone, edgeLength04),
+				new Point(edgeLength03, edgeLength04),
+			]
+		}, {
+			paint: (sprite, context) => {
+				context.drawImage(stoneOffset.getCanvas(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
+			}
+		}, [], 'stone')
+		let stone7 = new StoneSprite({
+			name: 'stone7',
+			left: edgeLength03 + edgeLengthStone,
+			top: edgeLength04 - edgeLengthStone,
+			width: edgeLengthStone,
+			height: edgeLengthStone,
+			crashGraphPoints: [
+				new Point(edgeLength03 + edgeLengthStone, edgeLength04 - edgeLengthStone),
+				new Point(edgeLength04, edgeLength04 - edgeLengthStone),
+				new Point(edgeLength04, edgeLength04),
+				new Point(edgeLength03 + edgeLengthStone, edgeLength04),
+			]
+		}, {
+			paint: (sprite, context) => {
+				context.drawImage(stoneOffset.getCanvas(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
+			}
+		}, [], 'stone')
+		let stone8 = new StoneSprite({
+			name: 'stone8',
+			left: edgeLength04,
+			top: edgeLength04 - edgeLengthStone,
+			width: edgeLengthStone,
+			height: edgeLengthStone,
+			crashGraphPoints: [
+				new Point(edgeLength04, edgeLength04 - edgeLengthStone),
+				new Point(edgeLength04 + edgeLengthStone, edgeLength04 - edgeLengthStone),
+				new Point(edgeLength04 + edgeLengthStone, edgeLength04),
+				new Point(edgeLength04, edgeLength04),
+			]
+		}, {
+			paint: (sprite, context) => {
+				context.drawImage(stoneOffset.getCanvas(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
+			}
+		}, [], 'stone')
+		let stone9 = new StoneSprite({
+			name: 'stone9',
+			left: edgeLength04 - edgeLengthStone,
+			top: edgeLength06 - edgeLengthStone,
+			width: edgeLengthStone,
+			height: edgeLengthStone,
+			crashGraphPoints: [
+				new Point(edgeLength04 - edgeLengthStone, edgeLength06 - edgeLengthStone),
+				new Point(edgeLength04, edgeLength06 - edgeLengthStone),
+				new Point(edgeLength04, edgeLength06),
+				new Point(edgeLength04 - edgeLengthStone, edgeLength06),
+			]
+		}, {
+			paint: (sprite, context) => {
+				context.drawImage(stoneOffset.getCanvas(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
+			}
+		}, [], 'stone')
+		let stone10 = new StoneSprite({
+			name: 'stone10',
+			left: edgeLength04 - edgeLengthStone,
+			top: edgeLength06,
+			width: edgeLengthStone,
+			height: edgeLengthStone,
+			crashGraphPoints: [
+				new Point(edgeLength04 - edgeLengthStone, edgeLength06),
+				new Point(edgeLength04, edgeLength06),
+				new Point(edgeLength04, edgeLength06 - edgeLengthStone),
+				new Point(edgeLength04 - edgeLengthStone, edgeLength06 - edgeLengthStone),
+			]
+		}, {
+			paint: (sprite, context) => {
+				context.drawImage(stoneOffset.getCanvas(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
+			}
+		}, [], 'stone')
+		let stone11 = new StoneSprite({
+			name: 'stone11',
+			left: edgeLength04 - edgeLengthStone,
+			top: edgeLength06 + edgeLengthStone,
+			width: edgeLengthStone,
+			height: edgeLengthStone,
+			crashGraphPoints: [
+				new Point(edgeLength04 - edgeLengthStone, edgeLength06 + edgeLengthStone),
+				new Point(edgeLength04, edgeLength06 + edgeLengthStone),
+				new Point(edgeLength04, edgeLength07),
+				new Point(edgeLength04 - edgeLengthStone, edgeLength07),
+			]
+		}, {
+			paint: (sprite, context) => {
+				context.drawImage(stoneOffset.getCanvas(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
+			}
+		}, [], 'stone')
 		
 		class GameTank extends Game {
-			constructor(gameName, canvasId, effectDraw,
+			constructor(gameName, canvasId, effectDrawList,
 			option = {
 				showTime: false
 			}, crashCb) {
-				super(gameName, canvasId, effectDraw, option = {showTime: false}, crashCb)
+				super(gameName, canvasId, effectDrawList, option = {showTime: false}, crashCb)
 			}
 			detectCrash() {
+				// tank shell brick stone surprise
 				let tankList = this.spritesCategory.get('tank') || []
 				let shellList = this.spritesCategory.get('shell') || []
 				let brickList = this.spritesCategory.get('brick') || []
-				// shell vs brick+tank
+				let stoneList = this.spritesCategory.get('stone') || []
+				let surpriseList = this.spritesCategory.get('surprise') || []
+				// shell vs tank / brick / stone
 				let shellCrashedObjList = shellList.map(shell => {
-					let crashedObjList = brickList.concat(tankList).filter(item => item.crashGraph.collidesWith(shell.crashGraph))
+					let crashedObjList = tankList.concat(brickList, stoneList).filter(item => item.crashGraph.collidesWith(shell.crashGraph))
 					if (crashedObjList.length) {
 						return {
 							origin: shell,
@@ -586,9 +994,9 @@
 						return
 					}
 				}).filter(item => item)
-				// tank vs brick
+				// tank vs brick / stone / surprise
 				let tankCrashedObjList = tankList.map(tank => {
-					let crashedObjList = brickList.filter(item => item.crashGraph.collidesWith(tank.crashGraph))
+					let crashedObjList = brickList.concat(stoneList, surpriseList).filter(item => item.crashGraph.collidesWith(tank.crashGraph))
 					if (crashedObjList.length) {
 						return {origin: tank, targets: crashedObjList}
 					} else {
@@ -604,43 +1012,97 @@
 		let centerPoint = (left, top, width, height) => {
 			return new Point(left + width, top + height)
 		}
+		let levelUp = (tank, surprise) => {
+			log('levelUp', tank, surprise)
+		}
 		let crashCb = (crashedObjList) => {
+			// tank brick stone shell surprise
+			// shell vs
 			crashedObjList.map(({origin, targets}) => {
 				switch (origin.category) {
 					case 'tank':
+						// tank vs brick / stone / surprise
 						// 让坦克退回去
 						if (!origin.v.magnitude()) { break }
 						let overlapMList
-						// 分水平、竖直
-						if (origin.v.x === 0 && origin.v.y) { // 竖直
-							overlapMList = targets.map(target => {
-								let shouldM = target.height
-								let realM = Math.abs(target.top - origin.top)
-								let overlapM = shouldM - realM
-								return overlapM
+						let obstacles = [], surprise = []
+						targets.forEach(t => {
+							if (['brick', 'stone'].includes(t.category)) {
+								obstacles.push(t)
+							}
+							if (t.category === 'surprise') {
+								surprise.push('surprise')
+							}
+						})
+						// // 分水平、竖直
+						// if (origin.v.x === 0 && origin.v.y) { // 竖直
+						// 	overlapMList = obstacles.map(target => {
+						// 		let shouldM = target.height
+						// 		let realM = Math.abs(target.top - origin.top)
+						// 		let overlapM = shouldM - realM
+						// 		return overlapM
+						// 	})
+						// } else if (origin.v.x && origin.v.y === 0) { // 水平
+						// 	overlapMList = obstacles.map(target => {
+						// 		let shouldM = target.width
+						// 		log(target.left, origin.left)
+						// 		let realM = Math.abs(target.left - origin.left)
+						// 		log(realM)
+						// 		let overlapM = shouldM - realM
+						// 		return overlapM
+						// 	})
+						// }
+						// 也可以使用最大的中心间的距离为向量大小的向量移到。
+						// log(origin.v.x, origin.v.y)
+						if (origin.v.x === 0 && origin.v.y > 0) { // 向下
+							overlapMList = obstacles.map(target => {
+								return origin.height - Math.abs(target.top - origin.top)
 							})
-						} else if (origin.v.x && origin.v.y === 0) { // 水平
-							overlapMList = targets.map(target => {
-								let shouldM = target.width
-								let realM = Math.abs(target.left - origin.left)
-								let overlapM = shouldM - realM
-								return overlapM
+						} else if (origin.v.x === 0 && origin.v.y < 0) { // 向上
+							overlapMList = obstacles.map(target => {
+								return target.height - Math.abs(target.top - origin.top)
+							})
+						} else if (origin.v.x > 0 && origin.v.y === 0) { // 向右
+							overlapMList = obstacles.map(target => {
+								return origin.width - Math.abs(target.left - origin.left)
+							})
+						} else if (origin.v.x < 0 && origin.v.y === 0) { // 向左
+							overlapMList = obstacles.map(target => {
+								return target.width - Math.abs(target.left - origin.left)
 							})
 						}
+						// log('overlapMList', overlapMList)
 						// 取最大重叠量
 						let m = Math.max.apply(null, overlapMList)
 						// 移动
 						origin.move(origin.v.opposite().setMagnitude(m))
+						// 升级
+						surprise.forEach(s => {
+							levelUp(origin, s)
+						})
 						break
 					case 'shell':
+						// shell vs tank / brick / stone
 						// 爆炸
 						game.removeSprite(origin)
-						targets.forEach(t => game.removeSprite(t))
+						targets.forEach(t => {
+							switch(t.category) {
+								case 'tank':
+								case 'brick':
+									game.removeSprite(t)
+									break
+								case 'stone':
+								default:
+									break
+							}
+						})
+						
 						break
 				}
 			})
 		}
-		let game = new GameTank('tank90', '#canvas', paintBorder, {
+		
+		let game = new GameTank('tank90', '#canvas', [paintBorder, paintTank0Point], {
 			showTime: false
 		}, crashCb)
 		game.setSprite(tank0)
@@ -649,7 +1111,26 @@
 		game.setSprite(brick1)
 		game.setSprite(brick2)
 		game.setSprite(brick3)
-		game.setSprite(brick4)
+		// game.setSprite(brick4)
+		game.setSprite(brick5)
+		game.setSprite(brick6)
+		// game.setSprite(brick7)
+		game.setSprite(brick8)
+		// game.setSprite(brick9)
+		// game.setSprite(brick10)
+		game.setSprite(brick11)
+		game.setSprite(stone0)
+		game.setSprite(stone1)
+		game.setSprite(stone2)
+		game.setSprite(stone3)
+		game.setSprite(stone4)
+		game.setSprite(stone5)
+		game.setSprite(stone6)
+		game.setSprite(stone7)
+		game.setSprite(stone8)
+		game.setSprite(stone9)
+		game.setSprite(stone10)
+		game.setSprite(stone11)
 		game.setKeyListener(38, (e) => {
 			tank0.animating = true
 			tank0.v = new Vector(0, -30)
@@ -658,6 +1139,7 @@
 		game.setKeyListener(38, (e) => {
 			tank0.animating = true
 			tank0.v = new Vector(0, 0)
+			log(tank0.left, tank0.top)
 		}, false)
 		game.setKeyListener(40, (e) => {
 			tank0.animating = true
@@ -667,6 +1149,7 @@
 		game.setKeyListener(40, (e) => {
 			tank0.animating = true
 			tank0.v = new Vector(0, 0)
+			// log(tank0.left, tank0.top)
 		}, false)
 		game.setKeyListener(37, (e) => {
 			tank0.animating = true
@@ -676,6 +1159,7 @@
 		game.setKeyListener(37, (e) => {
 			tank0.animating = true
 			tank0.v = new Vector(0, 0)
+			log(tank0.left, tank0.top)
 		}, false)
 		game.setKeyListener(39, (e) => {
 			tank0.animating = true
@@ -685,6 +1169,7 @@
 		game.setKeyListener(39, (e) => {
 			tank0.animating = true
 			tank0.v = new Vector(0, 0)
+			log(tank0.left, tank0.top)
 		}, false)
 		game.setKeyListener(32, (e) => {
 			game.setSprite(tank0.fire())
