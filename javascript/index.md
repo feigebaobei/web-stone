@@ -533,6 +533,7 @@ let multipleTwo = (n, m) => {
 }
 </details>
 
+# [worker](/javascript/webWorker.html)
 # 线程
 js是单线程语言。但是它的宿主环境——browser支持多线程。
 当遇到大量计算时可以使用`web worker`处理。主`worker`创建一个子`worker`，再让子worker处理大量计算，主worker会交出数据的控制权给子worker。得到计算结果后把由子workern以消息`message`的形式给主worker。
