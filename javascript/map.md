@@ -69,6 +69,7 @@ null不能成为键名。
 
 1. 只能设置对象为key.  
 2. 对对象的引用是弱引用。  
+3. 常用于解决内存泄漏问题。  
 
 **WeakMap.prototype.length**  
 **WeakMap.prototype.prototype** // WeakMap对象  
