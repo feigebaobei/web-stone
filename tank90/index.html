@@ -28,6 +28,7 @@
 		tank发射炮弹的速率
 		坦克可升级
 		随机出现礼物
+		游戏参数可以设置
 		*/
 		let canvas = document.querySelector('#canvas')
 		let context = canvas.getContext('2d')
@@ -1176,8 +1177,8 @@
 		game.setSprite(stone9)
 		game.setSprite(stone10)
 		game.setSprite(stone11)
-		game.setSprite(stone11)
-		game.setSprite(star)
+		// game.setSprite(stone11)
+		// game.setSprite(star) // for test
 		game.setKeyListener(38, (e) => {
 			tank0.animating = true
 			tank0.v = new Vector(0, -30)
@@ -1281,6 +1282,29 @@
 		// 	draw()
 		// 	animateId = requestNextAnimateionFrame(animate)
 		// }
+		let createSurprise = () => {
+			let p = new Promise((s, j) => {
+				// 享元模式
+				star.left = edgeLength * Math.floor(Math.random() * 9) / 10
+				star.top = edgeLength * Math.floor(Math.random() * 9) / 10
+				game.setSprite(star)
+				setTimeout(() => {s()}, 8000)
+			}).then(() => {
+				game.removeSprite(star)
+				randomSurprise()
+			})
+		}
+		let randomTime = (duration = 30000) => Math.floor(Math.random() * Math.max(duration, 10000))
+		let randomSurpriseTimeId
+		let randomSurprise = () => {
+			// 随机时间后生成一个惊喜
+			let time = randomTime()
+			// let time = 3000
+			randomSurpriseTimeId = setTimeout(() => {
+				createSurprise()
+				clearTimeout(randomSurpriseTimeId)
+			}, time)
+		}
 		let start = () => {
 			// animateId = requestNextAnimateionFrame(animate)
 			game.start()
@@ -1290,12 +1314,14 @@
 			// log(tank)
 			// log(brick4.crashGraph.collidesWith(tank.crashGraph))
 			// log(brick3.crashGraph.collidesWith(tank.crashGraph))
-
+			randomSurprise()
+			// 异步方法无法暂停
 		}
 		let stop = () => {
 			// game.end()
 			game.animating = false
 			paintStop()
+			clearTimeout(randomSurpriseTimeId)
 			// game.animating = false
 			// game.start()
 			// cancelNextAnimationFrame(animateId)
