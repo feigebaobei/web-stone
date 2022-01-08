@@ -28,9 +28,6 @@
 		tank发射炮弹的速率
 		坦克可升级
 		随机出现礼物
-		绘制场景
-		可碰撞
-		把Game搞成一个基础类，然后其他该基础类扩展新的类
 		*/
 		let canvas = document.querySelector('#canvas')
 		let context = canvas.getContext('2d')
@@ -87,7 +84,6 @@
 		}
 		let paintStop = (ctx = context, fillStyle = 'red') => {
 			let [cw, ch] = [ctx.canvas.width, ctx.canvas.height]
-			// log('paintStop', cw, ch)
 			ctx.save()
 			ctx.rect(0, 0, cw, ch)
 			ctx.fillStyle = 'rgba(0, 0, 0, 0.3)'
@@ -367,6 +363,33 @@
 		// context.drawImage(stoneOffset.getCanvas(), 0,0, edgeLength, edgeLength, 0, 0, edgeLength, edgeLength)
 		context.drawImage(stoneOffset.getCanvas(), 0, 0, edgeLength, edgeLength, 10, 290, edgeLength01 * 0.5, edgeLength01 * 0.5)
 		context.drawImage(stoneOffset.getCanvas(), 0, 0, edgeLength, edgeLength, 70, 290, edgeLength01 * 0.5, edgeLength01 * 0.5)
+		// surprise
+		let starOffsetPainter = {
+			paint: (sprite, context) => {
+				let lineWidth = sprite.width * 0.02
+				context.save()
+				context.fillStyle = 'orange'
+				context.strokeStyle = '#333'
+				context.lineWidth = lineWidth
+				// 利用非零原则
+				context.beginPath()
+				context.moveTo(0, edgeLength05 * 0.7)
+				context.lineTo(edgeLength, edgeLength05 * 0.7)
+				context.lineTo(edgeLength05 * 0.4, edgeLength)
+				context.lineTo(edgeLength05, 0)
+				context.lineTo(edgeLength - edgeLength05 * 0.4, edgeLength)
+				context.closePath()
+				context.fill()
+				context.stroke()
+				context.restore()
+			}
+		}
+		let starOffset = new OffsetCanvasSprite({
+			name: 'starOffset',
+			width: edgeLength,
+			height: edgeLength,
+		}, starOffsetPainter, [], edgeLength, edgeLength)
+		context.drawImage(starOffset.getCanvas(), 0, 0, edgeLength, edgeLength, 10, 360, edgeLength01, edgeLength01)
 		// 绘制静态画面
 		// paintFill()
 		paintBorder()
@@ -497,6 +520,28 @@
 				super(spriteOpt, parinter, behaviors, category)
 			}
 		}
+		class StartSprte extends Sprite{
+			constructor(spriteOpt, parinter, behaviors, category) {
+				super(spriteOpt, parinter, behaviors, category)
+			}
+		}
+		let star = new StartSprte({
+			name: 'star',
+			left: edgeLength01,
+			top: edgeLength01,
+			width: edgeLength01,
+			height: edgeLength01,
+			crashGraphPoints: [
+				new Point(edgeLength01, edgeLength01),
+				new Point(edgeLength02, edgeLength01),
+				new Point(edgeLength02, edgeLength02),
+				new Point(edgeLength01, edgeLength02),
+			]
+		}, {
+			paint: (sprite, context) => {
+				context.drawImage(starOffset.getCanvas(), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, edgeLength01, edgeLength01)
+			}
+		}, [], 'surprise')
 		let tankPainter = {
 			paint: (sprite, context) => {
 				context.drawImage(tankOffset.getCanvas(sprite.direction), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
@@ -1131,6 +1176,8 @@
 		game.setSprite(stone9)
 		game.setSprite(stone10)
 		game.setSprite(stone11)
+		game.setSprite(stone11)
+		game.setSprite(star)
 		game.setKeyListener(38, (e) => {
 			tank0.animating = true
 			tank0.v = new Vector(0, -30)
