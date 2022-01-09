@@ -36,8 +36,9 @@ class Sprite {
             width = 0, 
             height = 0, 
             v = new Vector(0, 0), 
+            // vm = 0,
             visible = true, 
-            animating = false, 
+            // animating = false, 
             direction = new Vector(0, 1),
             // 相对于left/top
             crashGraphPoints = [], // 必须顺时针或逆时针
@@ -48,8 +49,10 @@ class Sprite {
         this.width = width
         this.height = height
         this.v = v
+        // this.vm = vm
         this.visible = visible
-        this.animating = animating
+        // this._animating = animating
+        // this._animating = animating
         this.direction = direction // 应该是个单位向量
         this.painter = painter // object
         this.behaviors = behaviors
