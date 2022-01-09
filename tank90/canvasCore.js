@@ -102,6 +102,12 @@ class Sprite {
     set left (v) {
         this._left = v
     }
+    get animating () {
+        return !!this.v.magnitude()
+    }
+    // set animating (v) {
+    //     this._left = v
+    // }
     get crashGraphPoints () {
         return this._crashGraphPoints
     }
@@ -405,6 +411,7 @@ class Game {
         // 解绑所有事件
         // cancelNextAnimationFrame(this.animateId)
         this.animating = false
+        this.animate = () => {}
         this.over = true
     }
     // draw() {
@@ -609,19 +616,7 @@ class Vector {
     constructor(x = 0, y = 0) {
         this.x = x
         this.y = y
-        // this.magnitude = Math.hypot(this.x, this.y)
     }
-    // set x(x) {
-    //  this.x = x
-    // }
-    // setX(x) {
-    //  this.x = x
-    //  this.magnitude = Math.hypot(this.x, this.y)
-    // }
-    // setY(y) {
-    //  this.y = y
-    //  this.magnitude = Math.hypot(this.x, this.y)
-    // }
     opposite() {
         return new Vector(-this.x, -this.y)
     }

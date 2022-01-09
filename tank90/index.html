@@ -26,9 +26,8 @@
 	<script type="text/javascript">
 		/*
 		tank发射炮弹的速率
-		坦克可升级
-		随机出现礼物
 		游戏参数可以设置
+		结束游戏
 		*/
 		let canvas = document.querySelector('#canvas')
 		let context = canvas.getContext('2d')
@@ -98,6 +97,22 @@
 			// ctx.stroke()
 			ctx.restore()
 		}
+		let paintEnd = (ctx = context, winner) => {
+			ctx.save()
+			let [cw, ch] = [ctx.canvas.width, ctx.canvas.height]
+			ctx.rect(0, 0, cw, ch)
+			ctx.fillStyle = 'rgba(0, 0, 0, 0.3)'
+			ctx.fill()
+			ctx.beginPath()
+			ctx.fillStyle = 'red'
+			ctx.textAlign = 'center'
+			ctx.font = '100px serif'
+			// ctx.rect(0, 0, cw, ch)
+			// ctx.fillText('winner', cw * 0.5, ch * 0.5)
+			ctx.fillText(`winner: \n${winner}`, cw * 0.5, ch * 0.5)
+			ctx.restore()
+		}
+
 		let tankOffsetPainter = {
 			paint: (sprite, context) => {
 				context.save()
@@ -405,12 +420,30 @@
 			constructor(spriteOpt, painter, behaviors, category) {
 				super(spriteOpt, painter, behaviors, category)
 				this.level = spriteOpt.level || 0
+				this.origin = spriteOpt.origin
+				// 可把v设置为不可修改的
+				switch (this.level) {
+					case 0:
+					default:
+						this.v = new Vector(this.direction.x, -this.direction.y).setMagnitude(60)
+						break
+					case 1:
+						this.v = new Vector(this.direction.x, -this.direction.y).setMagnitude(80)
+						break
+					case 2:
+						this.v = new Vector(this.direction.x, -this.direction.y).setMagnitude(100)
+						break
+					case 3:
+						this.v = new Vector(this.direction.x, -this.direction.y).setMagnitude(120)
+						break
+				}
 			}
 		}
 		class TankSprite extends Sprite{
 			constructor(spriteOpt, painter, behaviors, category) {
 				super(spriteOpt, painter, behaviors, category)
-				this.level = spriteOpt.level || 0
+				this._level = spriteOpt.level || 0
+				this.level = this._level
 				switch (spriteOpt.level) {
 					case 0:
 					default:
@@ -426,22 +459,31 @@
 						this.vm = 70
 						break
 				}
+				// init width / height
+				// this.width = edgeLength01 * (1 + this.level / 10)
+				// this.height = this.width
+				// init crashGraphPoints
+				// this.crashGraphPoints = [
+				// 	new Point(this.left, this.top),
+				// 	new Point(this.left + this.width, this.top),
+				// 	new Point(this.left + this.width, this.top + this.height),
+				// 	new Point(this.left, this.top + this.height),
+				// ]
 			}
-			get animating () {
-				return !!this.v.magnitude()
+			get level () {
+				return this._level
 			}
-			// 
-			// set animating (v) {
-			// 	if (!v) {
-			// 		// this._animating = v
-			// 		this.v = new Vector(0, 0)
-
-			// 	}
-			// 	// this._animating = !!v
-			// 	// if (this._animating) {
-			// 	// 	this.v = 
-			// 	// }
-			// }
+			set level (v) {
+				this._level = v
+				this.width = edgeLength01 * (1 + this._level / 10)
+				this.height = this.width
+				this.crashGraphPoints = [
+					new Point(this.left, this.top),
+					new Point(this.left + this.width, this.top),
+					new Point(this.left + this.width, this.top + this.height),
+					new Point(this.left, this.top + this.height)
+				]
+			}
 			launch(vDirection) {
 				this.v = vDirection.setMagnitude(this.vm)
 			}
@@ -469,46 +511,42 @@
 						this.vm = 70
 						break
 				}
+				// calc width/height
+				// this.width = edgeLength01 * (1 + this.level / 2)
+				// this.height = this.width
+				// // calc crashGraphPoints
+				// this.crashGraphPoints = [
+
+				// ]
 			}
 			fire() {
-				let v = 0
-				switch(this.level) {
-					case 0:
-					default:
-						v = 30 // new Vector()
-					case 1:
-						v = 45 // new Vector()
-						break
-					case 2:
-						v = 60
-						break
-					case 3:
-						v = 70
-						break
-						// break
-						// v = 80
-						// break
-				}
-				v = new Vector(this.direction.x * v, -this.direction.y * v)
+				// 2022.01.10后删除 start
+				// let vm = 0
+				// switch(this.level) {
+					// 	case 0:
+					// 	default:
+					// 		vm = 30 // new Vector()
+					// 	case 1:
+					// 		vm = 45 // new Vector()
+					// 		break
+					// 	case 2:
+					// 		vm = 60
+					// 		break
+					// 	case 3:
+					// 		vm = 70
+					// 		break
+					// 		// break
+					// 		// v = 80
+					// 		// break
+					// }
+					// let v = new Vector(this.direction.x, -this.direction.y).setMagnitude(vm)
+					// let v = new Vector(this.direction.x * v, -this.direction.y * v)
+				// 2022.01.10后删除 end
 				let shellW = edgeLength * 0.025 * 0.5
 				let shellH = shellW * 2
 				let l // = this.left + this.width * 0.5 - shellW * 0.5
 				let t // = this.top
 				let shellDirction = new Vector(this.direction.x, this.direction.y)
-				// 起始位置在炮管中
-				// if (this.direction.x === 0 && this.direction.y === 1) {
-				// 	l = this.left + this.width * 0.5 - shellW * 0.5
-				// 	t = this.top
-				// } else if (this.direction.x === 1 && this.direction.y === 0) {
-				// 	l = this.left + this.height - shellH
-				// 	t = this.top + this.height * 0.5 - shellW * 0.5
-				// } else if (this.direction.x === 0 && this.direction.y === -1) {
-				// 	l = this.left + this.width * 0.5 - shellW * 0.5
-				// 	t = this.top + this.height - shellH
-				// } else if (this.direction.x === -1 && this.direction.y === 0) {
-				// 	l = this.left
-				// 	t = this.top + this.height * 0.5 - shellW * 0.5
-				// }
 				// 起始位置在炮管前
 				if (this.direction.x === 0 && this.direction.y === 1) {
 					l = this.left + this.width * 0.5 - shellW * 0.5
@@ -529,16 +567,15 @@
 					left: l, // this.left,
 					width: shellW, // this.width * 0.5,
 					height: shellH, // this.height,
-					v,
+					// v,
 					direction: this.direction,
 					animating: true,
 					level: this.level,
-					crashGraphPoints: [new Point(l, t), new Point(l + shellW, t), new Point(l + shellW, t + shellH), new Point(l, t + shellH)]
+					crashGraphPoints: [new Point(l, t), new Point(l + shellW, t), new Point(l + shellW, t + shellH), new Point(l, t + shellH)],
+					origin: this
 				},
-				// shellPainter,
 				{
 					paint: (sprite, context) => {
-						// context.drawImage(shellOffset.getCanvas(sprite.direction), 0, 0, edgeLength, edgeLength, sprite.left, sprite.top, sprite.width, sprite.height)
 						let {x, y} = sprite.direction
 						if (x === 0 && y == 1) {
 							context.drawImage(shellOffset.getCanvas(), 0, 0, edgeLengthHalf, edgeLength, sprite.left, sprite.top, edgeLengthHalf * 0.025, edgeLength * 0.025)
@@ -557,8 +594,6 @@
 						sprite.left += sprite.v.x * fps / 1000
 						sprite.top += sprite.v.y * fps / 1000
 						if (sprite.left > edgeLength - sprite.width || sprite.left < 0 || sprite.top < 0 || sprite.top > edgeLength - sprite.height) {
-							// sprite.visible = false
-							sprite.animating = false
 							game.removeSprite(sprite)
 						}
 						// 修改碰撞图形位置
@@ -625,36 +660,38 @@
 			top: edgeLength09,
 			// left: edgeLength08 + edgeLength01 * 0.5,
 			// top: edgeLength05 + edgeLength01 * 0.5,
-			width: edgeLength01,
-			height: edgeLength01,
+			// width: edgeLength01,
+			// height: edgeLength01,
 			// v: new Vector(0, 0),
 			level: 0,
 			// vm: 30,
-			crashGraphPoints: [
-				new Point(edgeLength06, edgeLength09),
-				new Point(edgeLength07, edgeLength09),
-				new Point(edgeLength07, edgeLength),
-				new Point(edgeLength06, edgeLength),
-				// new Point(edgeLength08 + edgeLength01 * 0.5, edgeLength05 + edgeLength01 * 0.5), 
-				// new Point(edgeLength09 + edgeLength01 * 0.5, edgeLength05 + edgeLength01 * 0.5), 
-				// new Point(edgeLength09 + edgeLength01 * 0.5, edgeLength06 + edgeLength01 * 0.5), 
-				// new Point(edgeLength08 + edgeLength01 * 0.5, edgeLength06 + edgeLength01 * 0.5),
-			]
+			// 升级后变大
+			// crashGraphPoints: [
+			// 	new Point(edgeLength06, edgeLength09),
+			// 	new Point(edgeLength07, edgeLength09),
+			// 	new Point(edgeLength07, edgeLength),
+			// 	new Point(edgeLength06, edgeLength),
+			// 	// new Point(edgeLength08 + edgeLength01 * 0.5, edgeLength05 + edgeLength01 * 0.5), 
+			// 	// new Point(edgeLength09 + edgeLength01 * 0.5, edgeLength05 + edgeLength01 * 0.5), 
+			// 	// new Point(edgeLength09 + edgeLength01 * 0.5, edgeLength06 + edgeLength01 * 0.5), 
+			// 	// new Point(edgeLength08 + edgeLength01 * 0.5, edgeLength06 + edgeLength01 * 0.5),
+			// ]
 		}, tankPainter, tankBehaviors, 'tank')
 		let tank1 = new TankSprite({
 			name: 'tank1',
 			left: edgeLength03,
 			top: 0,
-			width: edgeLength01,
-			height: edgeLength01,
-			v: new Vector(0, 0),
+			// width: edgeLength01,
+			// height: edgeLength01,
+			// v: new Vector(0, 0),
+			level: 0,
 			direction: new Vector(0, -1),
-			crashGraphPoints: [
-				new Point(edgeLength03, 0),
-				new Point(edgeLength04, 0),
-				new Point(edgeLength04, edgeLength01),
-				new Point(edgeLength03, edgeLength01),
-			]
+			// crashGraphPoints: [
+			// 	new Point(edgeLength03, 0),
+			// 	new Point(edgeLength04, 0),
+			// 	new Point(edgeLength04, edgeLength01),
+			// 	new Point(edgeLength03, edgeLength01),
+			// ]
 		}, tankPainter, tankBehaviors, 'tank')
 		let brick0 = new BrickSprite({
 			name: 'brick0',
@@ -1196,6 +1233,7 @@
 						targets.forEach(t => {
 							switch(t.category) {
 								case 'tank':
+									end(origin.origin)
 								case 'brick':
 								case 'surprise':
 									game.removeSprite(t)
@@ -1210,8 +1248,14 @@
 				}
 			})
 		}
+		let end = (winner) => {
+			game.end()
+			paintEnd(undefined, winner.name)
+		}
 		
-		let game = new GameTank('tank90', '#canvas', [paintBorder, paintTank0Point], {
+		let game = new GameTank('tank90', '#canvas', [paintBorder, 
+			// paintTank0Point
+			], {
 			showTime: false
 		}, crashCb)
 		game.setSprite(tank0)
@@ -1244,6 +1288,7 @@
 		// game.setSprite(star) // for test
 		game.setKeyListener(38, (e) => { // 上
 			// tank0.animating = true
+			tank0.direction = new Vector(0, 1)
 			let vDirection = new Vector(0, -1) // 使用单位向量表示运动方向
 			tank0.launch(vDirection)
 			// tank0.v = new Vector(0, -30)
@@ -1260,6 +1305,7 @@
 			// tank0.animating = true
 			// tank0.v = new Vector(0, 30)
 			// tank0.direction = new Vector(0, -1)
+			tank0.direction = new Vector(0, -1)
 			tank0.launch(new Vector(0, 1))
 		})
 		game.setKeyListener(40, (e) => {
@@ -1272,6 +1318,7 @@
 			// tank0.animating = true
 			// tank0.v = new Vector(-30, 0)
 			// tank0.direction = new Vector(-1, 0)
+			tank0.direction = new Vector(-1, 0)
 			tank0.launch(new Vector(-1, 0))
 		})
 		game.setKeyListener(37, (e) => {
@@ -1284,6 +1331,7 @@
 			// tank0.animating = true
 			// tank0.v = new Vector(30, 0)
 			// tank0.direction = new Vector(1, 0)
+			tank0.direction = new Vector(1, 0)
 			tank0.launch(new Vector(1, 0))
 		})
 		game.setKeyListener(39, (e) => {
@@ -1298,43 +1346,55 @@
 
 		// a
 		game.setKeyListener(65, (e) => {
-			tank1.animating = true
-			tank1.v = new Vector(-30, 0)
+			// tank1.animating = true
+			// tank1.v = new Vector(-30, 0)
+			// tank1.direction = new Vector(-1, 0)
 			tank1.direction = new Vector(-1, 0)
+			tank1.launch(new Vector(-1, 0))
 		})
 		game.setKeyListener(65, (e) => {
-			tank1.animating = true // false
-			tank1.v = new Vector(0, 0)
+			// tank1.animating = true // false
+			// tank1.v = new Vector(0, 0)
+			tank1.stop()
 		}, false)
 		// s
 		game.setKeyListener(83, (e) => {
-			tank1.animating = true
-			tank1.v = new Vector(0, 30)
+			// tank1.animating = true
+			// tank1.v = new Vector(0, 30)
+			// tank1.direction = new Vector(0, -1)
 			tank1.direction = new Vector(0, -1)
+			tank1.launch(new Vector(0, 1))
 		})
 		game.setKeyListener(83, (e) => {
-			tank1.animating = true // false
-			tank1.v = new Vector(0, 0)
+			// tank1.animating = true // false
+			// tank1.v = new Vector(0, 0)
+			tank1.stop()
 		}, false)
 		// d
 		game.setKeyListener(68, (e) => {
-			tank1.animating = true
-			tank1.v = new Vector(30, 0)
+			// tank1.animating = true
+			// tank1.v = new Vector(30, 0)
+			// tank1.direction = new Vector(1, 0)
 			tank1.direction = new Vector(1, 0)
+			tank1.launch(new Vector(1, 0))
 		})
 		game.setKeyListener(68, (e) => {
-			tank1.animating = true // false
-			tank1.v = new Vector(0, 0)
+			// tank1.animating = true // false
+			// tank1.v = new Vector(0, 0)
+			tank1.stop()
 		}, false)
 		// w
 		game.setKeyListener(87, (e) => {
-			tank1.animating = true
-			tank1.v = new Vector(0, -30)
+			// tank1.animating = true
+			// tank1.v = new Vector(0, -30)
+			// tank1.direction = new Vector(0, 1)
 			tank1.direction = new Vector(0, 1)
+			tank1.launch(new Vector(0, -1))
 		})
 		game.setKeyListener(87, (e) => {
-			tank1.animating = true // false
-			tank1.v = new Vector(0, 0)
+			// tank1.animating = true // false
+			// tank1.v = new Vector(0, 0)
+			tank1.stop()
 		}, false)
 		game.setKeyListener(70, (e) => {
 			game.setSprite(tank1.fire())
@@ -1369,10 +1429,10 @@
 					new Point(star.left, star.top + star.height),
 				]
 				game.setSprite(star)
-				setTimeout(() => {s()}, 8000)
+				setTimeout(() => {s()}, 2000)
 			}).then(() => {
-				// game.removeSprite(star)
-				// randomSurprise()
+				game.removeSprite(star)
+				randomSurprise()
 			})
 		}
 		let randomTime = (duration = 30000) => Math.floor(Math.random() * Math.max(duration, 10000))
@@ -1380,8 +1440,8 @@
 		let randomSurprise = () => {
 			// 随机时间后生成一个惊喜
 			// let time = randomTime()
-			// let time = 3000
-			let time = 0
+			let time = 2000
+			// let time = 0
 			randomSurpriseTimeId = setTimeout(() => {
 				createSurprise()
 				clearTimeout(randomSurpriseTimeId)
