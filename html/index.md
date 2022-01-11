@@ -28,66 +28,105 @@ html为js支持很多前提条件。如：
 ## role属性
 |属性值|说明||
 |-|-|-|
-|alert|||
-|alert dialog|||
-|application|||
-|article|||
-|banner|||
+|alert|用于非常重要的||
+|alertdialog|||
+|application|应用||
+|article|页面的一部分||
+|banner|全站的头部||
+|button|用于可点击的元素||
 |toggle button|||
-|button|||
 |check box|||
-|cell|||
-|combo box|||
+|cell|表格的一部分||
+|checkbox|用于可切换选择状态的元素||
+|columnheader|整列的头||
+|combobox|为input控制别的元素元素||
+|command|用于执行行动的元素||
+|comment|||
 |complementary|||
 |content|||
-|definition|||
+|contentinfo|用于定义footer/containing/...||
+|definition|用于定义观点||
 |dialog|||
+|directory|一个组的列表||
 |content list|||
-|document|||
-|group|||
+|document|用于复杂的合成元素||
+|feed|动态的文章的列表||
+|figure|用于页面中的图表||
+|form|||
+|grid|||
+|gridcell|||
 |table|||
 |cell|||
-|group|||
 |heading|||
 |image|||
+|img|||
+|input|||
 |link|||
 |content list|||
-|list|||
-|group|||
+|listitem|标识项目列表中的项目||
+|group|一个组合||
+|landmark|页面的界碑||
+|list|列表||
+|listbox|用户可以从中选择一个或多个静态选项，并且与 HTML select 元素不同，它可能包含图像。||
+|listitem|||
 |log|||
 |main|||
+|mark|||
 |marquee|||
-|math|||
+|math|用于数学表示式||
 |menu|||
 |menu bar|||
 |menu item|||
 |menu item|||
 |menu item|||
 |navigation|||
+|none|||
 |note|||
 |text|||
+|presentation|||
 |progress indicator|||
 |radio button|||
 |radio group|||
 |region|||
+|range|||
+|roletype|||
 |row|||
+|rowgroup|||
+|rowheader|||
 |cell|||
 |scroll bar|||
 |search|||
+|searchbox|||
+|section|||
+|sectionhead|||
+|select|||
+|separator|||
 |splitter|||
 |slider|||
 |stepper|||
 |status|||
+|structure|||
+|sugggestion|||
+|switch|||
 |tab|||
+|table|||
+|tablist|||
+|tabpanel|||
+|term|||
 |tabgroup|||
+|tabbox|||
 |tab panel|||
 |text field|||
 |text entry area|||
 |timer|||
 |toolbar|||
 |tooltip|||
+|tree|||
+|treegrid|||
+|treeitem|||
+|widget|||
+|widow|||
 |outline|||
-|table|||
 |outline row|||
 
 # 标题
