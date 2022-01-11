@@ -211,9 +211,9 @@ html为js支持很多前提条件。如：
 # 样式
 ||||||
 |-|-|-|-|-|
-|外部样式表|`<link rel="stylesheet" type="text/css" href="URL">`||||
-|内部样式表|`<style type="text/css">body {color: red;}</style>`||||
-|外部样式表|`<p style="color: red;">string</p>`||||
+|外联样式表|`<link rel="stylesheet" type="text/css" href="URL">`||||
+|内联样式表|`<style type="text/css">body {color: red;}</style>`||||
+|行内样式表|`<p style="color: red;">string</p>`||||
 
 # 链接
 ```
@@ -228,6 +228,7 @@ name 属性规定锚（anchor）的名称。用于要内部链接。
 <img src="boat.gif" alt="Big Boat">
 map 图像地图
 area 图像地图的可点击区域。需要<map>组件内使用。
+好像不能实现任务形状的热区。
 
 <img
 src="/i/eg_planets.jpg"
@@ -257,7 +258,7 @@ alt="Sun" />
 图片热区有时用在地图上。
 
 # 表格
-为了避免这空的单元格不显示，在空单元格中添加一个空格。
+为了避免这空的单元格不显示，在空单元格中添加一个空格。  
 |||
 |-|-|
 |`<table>`| 定义表格|
@@ -277,22 +278,27 @@ alt="Sun" />
 |char|character |规定根据哪个字符来对齐与 col 元素相关的内容。|
 |charoff|   number| 规定第一个对齐字符的偏移量。|
 |span|  number| 规定 col 元素应该横跨的列数。|
-|valign |top / middle / bottom / baseline|定义与 col 元素相关的内容的垂直对齐方式。|
+|vertical-align |top / middle / bottom / baseline|定义与 col 元素相关的内容的垂直对齐方式。|
 |width  | pixels / % / relative_length | 规定 col 元素的宽度。|
 
 # 列表
-ul
-  li
-ol
-  li
-有自己的默认样式。
+`ul/li/ol/li`有自己的默认样式。  
 
 # 类 & id
 class & id
 getElementById()
 ```js
-dom.classList.remove('class-name')
+// 增
 dom.classList.add('class-name')
+dom.classList.add('class-name', 'nc')
+dom.className += 'nc'
+// 删
+dom.classList.remove('class-name')
+dom.classList.remove('class-name', 'nc')
+// 改。没有改。删了再加。
+// 查
+dom.classList.contain('nc') // boolean
+Array.from(dom.classList).includes('nc')
 ```
 
 # 内联框架
@@ -325,9 +331,10 @@ frameborder 属性规定是否显示 iframe 周围的边框。
 |`<meta>`|  定义关于 HTML 文档的元数据。|
 |`<script>`|    定义客户端脚本。|
 |`<style>`| 定义文档的样式信息。|
+
 ## meta
 
-<meta> 元素可提供有关页面的元信息（meta-information），比如针对搜索引擎和更新频度的描述和关键词。
+`<meta>` 元素可提供有关页面的元信息（meta-information），比如针对搜索引擎和更新频度的描述和关键词。
 放在`<header>`内。
 
 ### 属性
