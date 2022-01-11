@@ -1,6 +1,6 @@
 - encode
 - decode
-- [ascii]()
+- [ascii](/code/ascii.html)
 - [base64]()
 - [base32]()
 - [base16]()

@@ -479,6 +479,7 @@ html5以后html很重视语义。提倡使用正常语义编写代码。兼容�
 <button>
 <button>
 ```
+
 |属性|  描述|
 |accept-charset|  规定在被提交表单中使用的字符集（默认：页面字符集）。|
 |action|  规定向何处提交表单的地址（URL）（提交页面）。如果省略 action 属性，则将 action 设置为当前页面。|
@@ -562,17 +563,16 @@ manifest 文件有三个部分：
 - FALLBACK - 在此标题下列出的文件规定当页面无法访问时的回退页面（比如 404 页面）
 详见[前端缓存](/404.html)
 
-# web workers
-一般用于大量计算。它调用了浏览器的多线程环境。
-worker无法访问如下对象：
-- window 对象
-- document 对象
-- parent 对象
-详见[web worker](/404.html)
+# [web workers](/javascript/webWorker.html)
+一般用于大量计算。它调用了浏览器的多线程环境。  
+worker无法访问如下对象：  
+- window 对象  
+- document 对象  
+- parent 对象  
+
 worker之间使用消息传递数据（交接数据管理权）。
 ```
 // demo
-
 ```
 
 # server-sent事件
@@ -659,6 +659,7 @@ onsubmit|  script|  在提交表单时触发。|
 
 ## media事件
 |属性|  值| 描述|
+|-|  -| -|
 |onabort| script|  在退出时运行的脚本。|
 |oncanplay| script|  当文件就绪可以开始播放时运行的脚本（缓冲已足够开始时）。|
 |oncanplaythrough|  script|  当媒介能够无需因缓冲而停止即可播放至结尾时运行的脚本。|
@@ -738,15 +739,15 @@ audio
 
 # 视频
 # JS中DOM元素获取的宽和高的方法
-需要验证
-网页可见区域宽： document.body.clientWidth （可变）
-网页可见区域高： document.body.clientHeight （可变）
-网页可见区域宽： document.body.offsetWidth (包括边线的宽)
-网页可见区域高： document.body.offsetHeight (包括边线的高)
-网页正文全文宽： document.body.scrollWidth
-网页正文全文高： document.body.scrollHeight
-网页被卷去的高： document.body.scrollTop
-网页被卷去的左： document.body.scrollLeft
+需要验证  
+网页可见区域宽： document.body.clientWidth （可变）  
+网页可见区域高： document.body.clientHeight （可变）  
+网页可见区域宽： document.body.offsetWidth (包括边线的宽)  
+网页可见区域高： document.body.offsetHeight (包括边线的高)  
+网页正文全文宽： document.body.scrollWidth  
+网页正文全文高： document.body.scrollHeight  
+网页被卷去的高： document.body.scrollTop  
+网页被卷去的左： document.body.scrollLeft  
 
 # 全标签
 <details>

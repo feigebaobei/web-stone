@@ -1,6 +1,6 @@
-- [npm](package-manager/npm/index.md)
-- [yarn](package-manager/yarn/index.md)
-- [pnpm](package-manager/pnpm/index.md)
+- [npm](/package-manager/npm/index.html)
+- [yarn](/package-manager/yarn/index.html)
+- [pnpm](/package-manager/pnpm/index.html)
 - [bower](https://bower.io/)
 - [spago]()
 
