@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 使用react中的方法渲染出元素 -->
+    <div id="root"></div>
+    <!-- development -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <!-- production -->
+    <!-- <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script> -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script type="text/babel">
+        let {log} = console
+        let root = document.querySelector('#root')
+        // let e = React.createElement
+        // log(e('h2', {onClick: () => (log('hi'))}, 'say hi'))
+        // let children = e('span', {children: 'say hi for span'})
+        let value = 'string'
+        let title = 'titleString'
+        let header = (<header>{title}</header>)
+        let arr = 'abcd'.split('')
+
+        let FooterFn = () => { // 必须大写开头
+            return (<footer>footer</footer>)
+        }
+        log(<FooterFn/>)
+        let List = (props) => { // 可把props解构为{data}
+            return props.data.map((item, index) => {
+                return (<p key={index}>{item}</p>)
+            })
+        }
+        let el = (<div>{header}<span>{value}</span><List data={arr} /><FooterFn></FooterFn></div>)
+        ReactDOM.render(el, root)
+    </script>
+</body>
+</html>
