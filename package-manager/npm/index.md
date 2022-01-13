@@ -46,7 +46,7 @@ npm
 |publish|发布模块||
 |access|在发布的包上设置访问级别||
 |rebuild|使用新版本的node时，重新编译所有c++插件。它会运行在与`npm build`相匹配的文件夹下。||
-|init|||
+|init|把初始化信息写入`package.json`|`npm init -y`会使用默认值|
 ||||
 
 ## 全局安装和局部安装的区别  
@@ -74,10 +74,10 @@ npm
 
 ### 安装过程
 
-1. 执行`npm install`命令。
-2. npm向registry查询模块压缩包。
-3. 下载压缩包，存放在~/.npm目录
-4. 解压压缩包到当前目录的node_modules目录。
+1. 执行`npm install`命令。  
+2. npm向registry查询模块压缩包。  
+3. 下载压缩包，存放在~/.npm目录  
+4. 解压压缩包到当前目录的node_modules目录。  
 
 本地会有2份数据，分别在`~/.npm`，`node_modules`里。因此可以实现缓存机制。
 ```
@@ -88,6 +88,8 @@ npm cache clean --force
 ## 安装淘宝镜像  
 
     npm i -g cnpm --regitstry=https://registry.npm.taobao.org
+
+使用[nrm]()更方便管理注册地址。
 
 ## 创建本地链接（常用于开发、调试）
 ```
@@ -177,32 +179,32 @@ require方法不能把全局安装的文件引入。若使用`npm link packagena
 `*.mjs`文件是在 node 环境下原生执行 ESM 规范的脚本文件。当执行`require('index') / import('index')`时，优先加载`index.mjs`，即优先级：`*.mjs > *.js`
 
 main：npm包的入口文件。兼容browser / node。
-  main字段是npm包主要入口文件`require(xxx)`时就是从main字段取值的。
-module: npm包的esm规范的入口文件。兼容browser / node。module的优先级大于main.
-browser：npm包的browser环境下的入口文件。
+  main字段是npm包主要入口文件`require(xxx)`时就是从main字段取值的。  
+module: npm包的esm规范的入口文件。兼容browser / node。module的优先级大于main.  
+browser：npm包的browser环境下的入口文件。  
 
-只npm包只允许在web端（浏览器中）运行，则使用browser。
-只npm包只允许在server端（node中）运行，则使用main.
-使用npm包可以在web、server端都可运行，则使用browser+main.
+只npm包只允许在web端（浏览器中）运行，则使用browser。  
+只npm包只允许在server端（node中）运行，则使用main.  
+使用npm包可以在web、server端都可运行，则使用browser+main.  
 
 ## 脚本
-`npm run xxx` // 执行脚本
-`npm xxx` // 执行脚本
-npm run // 查看所有脚本
-脚本运行在`shell`中。
-传参数:使用`--`标明。如：`npm run lint -- --reporter checkstyle > checkstyle.xml`
-`&`：同时执行。`&&`：成功后向下执行。这2个符号是`bash`的功能。
-默认的脚本：`"start": "node server.js"` / `"install": "node-gyp rebuild"`。不需要定义即可执行。
-钩子:
-npm脚本支持`pre`/`post`2种钩子。每个脚本都可以如此处理。如：当执行`npm run build`时，会执行：`npm run prebuild && npm run build && npm run postbuild`.默认提供的金子：
-- prepublish, postpublish
-- preinstall, postinstall
-- preuninstall, postuninstall
-- preversion, postversion
-- pretest, posttest
-- prestop, poststop
-- prestart, poststart
-- prerestart, postrestart
+`npm run xxx` // 执行脚本  
+`npm xxx` // 执行脚本  
+npm run // 查看所有脚本  
+脚本运行在`shell`中。  
+传参数:使用`--`标明。如：`npm run lint -- --reporter checkstyle > checkstyle.xml`  
+`&`：同时执行。`&&`：成功后向下执行。这2个符号是`bash`的功能。  
+默认的脚本：`"start": "node server.js"` / `"install": "node-gyp rebuild"`。不需要定义即可执行。  
+钩子:  
+npm脚本支持`pre`/`post`2种钩子。每个脚本都可以如此处理。如：当执行`npm run build`时，会执行：`npm run prebuild && npm run build && npm run postbuild`.默认提供的金子：  
+- prepublish, postpublish  
+- preinstall, postinstall  
+- preuninstall, postuninstall  
+- preversion, postversion  
+- pretest, posttest  
+- prestop, poststop  
+- prestart, poststart  
+- prerestart, postrestart  
 
 `npm restart`是`npm stop && npm restart && npm stop`的简写。
 简写：`npm start`.忽略了`run`
@@ -210,3 +212,12 @@ npm脚本支持`pre`/`post`2种钩子。每个脚本都可以如此处理。如�
 ### 变量
 通过`npm_package_`前缀可得到`package.json`中的字段。 如：`process.env.npm_package_version` / `process.env.npm_package_script_install`
 通过`npm_config`前缀可得到`package.json`中`config`里的变量。如：`npm_config_tag`。`npm config get xxx`
+
+## npx
+执行npm包的二进行文件
+```
+npx [options] <command>[@version] [command-arg]...
+npx [options] [-p|--package <pkg>]... <command> [command-arg]...
+npx [options] -c '<command-string>'
+npx --shell-auto-fallback [shell]
+```

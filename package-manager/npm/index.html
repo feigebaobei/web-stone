@@ -200,8 +200,8 @@ npm</p>
 </tr>
 <tr>
 <td>init</td>
-<td></td>
-<td></td>
+<td>把初始化信息写入<code>package.json</code></td>
+<td><code>npm init -y</code>会使用默认值</td>
 </tr>
 <tr>
 <td></td>
@@ -240,6 +240,7 @@ npm cache clean --force
 <h2 id="安装淘宝镜像">安装淘宝镜像</h2>
 <pre><code>npm i -g cnpm --regitstry=https://registry.npm.taobao.org
 </code></pre>
+<p>使用<a href="">nrm</a>更方便管理注册地址。</p>
 <h2 id="创建本地链接常用于开发调试">创建本地链接（常用于开发、调试）</h2>
 <pre><code><code><div>    cd &lt;packagename&gt;
     npm link
@@ -571,21 +572,21 @@ npm cache clean --force
 如果我们需要开发一个 npm 包同时兼容支持 web端 和 server 端，需要在不同环境下加载npm包不同的入口文件，显然一个 main 字段已经不能够满足我们的需求，这就衍生出来了 module 与 browser 字段。</p>
 <p><code>*.mjs</code>文件是在 node 环境下原生执行 ESM 规范的脚本文件。当执行<code>require('index') / import('index')</code>时，优先加载<code>index.mjs</code>，即优先级：<code>*.mjs &gt; *.js</code></p>
 <p>main：npm包的入口文件。兼容browser / node。
-main字段是npm包主要入口文件<code>require(xxx)</code>时就是从main字段取值的。
-module: npm包的esm规范的入口文件。兼容browser / node。module的优先级大于main.
+main字段是npm包主要入口文件<code>require(xxx)</code>时就是从main字段取值的。<br>
+module: npm包的esm规范的入口文件。兼容browser / node。module的优先级大于main.<br>
 browser：npm包的browser环境下的入口文件。</p>
-<p>只npm包只允许在web端（浏览器中）运行，则使用browser。
-只npm包只允许在server端（node中）运行，则使用main.
+<p>只npm包只允许在web端（浏览器中）运行，则使用browser。<br>
+只npm包只允许在server端（node中）运行，则使用main.<br>
 使用npm包可以在web、server端都可运行，则使用browser+main.</p>
 <h2 id="脚本">脚本</h2>
-<p><code>npm run xxx</code> // 执行脚本
-<code>npm xxx</code> // 执行脚本
-npm run // 查看所有脚本
-脚本运行在<code>shell</code>中。
-传参数:使用<code>--</code>标明。如：<code>npm run lint -- --reporter checkstyle &gt; checkstyle.xml</code>
-<code>&amp;</code>：同时执行。<code>&amp;&amp;</code>：成功后向下执行。这2个符号是<code>bash</code>的功能。
-默认的脚本：<code>&quot;start&quot;: &quot;node server.js&quot;</code> / <code>&quot;install&quot;: &quot;node-gyp rebuild&quot;</code>。不需要定义即可执行。
-钩子:
+<p><code>npm run xxx</code> // 执行脚本<br>
+<code>npm xxx</code> // 执行脚本<br>
+npm run // 查看所有脚本<br>
+脚本运行在<code>shell</code>中。<br>
+传参数:使用<code>--</code>标明。如：<code>npm run lint -- --reporter checkstyle &gt; checkstyle.xml</code><br>
+<code>&amp;</code>：同时执行。<code>&amp;&amp;</code>：成功后向下执行。这2个符号是<code>bash</code>的功能。<br>
+默认的脚本：<code>&quot;start&quot;: &quot;node server.js&quot;</code> / <code>&quot;install&quot;: &quot;node-gyp rebuild&quot;</code>。不需要定义即可执行。<br>
+钩子:<br>
 npm脚本支持<code>pre</code>/<code>post</code>2种钩子。每个脚本都可以如此处理。如：当执行<code>npm run build</code>时，会执行：<code>npm run prebuild &amp;&amp; npm run build &amp;&amp; npm run postbuild</code>.默认提供的金子：</p>
 <ul>
 <li>prepublish, postpublish</li>
@@ -602,6 +603,13 @@ npm脚本支持<code>pre</code>/<code>post</code>2种钩子。每个脚本都可
 <h3 id="变量">变量</h3>
 <p>通过<code>npm_package_</code>前缀可得到<code>package.json</code>中的字段。 如：<code>process.env.npm_package_version</code> / <code>process.env.npm_package_script_install</code>
 通过<code>npm_config</code>前缀可得到<code>package.json</code>中<code>config</code>里的变量。如：<code>npm_config_tag</code>。<code>npm config get xxx</code></p>
+<h2 id="npx">npx</h2>
+<p>执行npm包的二进行文件</p>
+<pre><code><code><div>npx [options] &lt;command&gt;[@version] [command-arg]...
+npx [options] [-p|--package &lt;pkg&gt;]... &lt;command&gt; [command-arg]...
+npx [options] -c '&lt;command-string&gt;'
+npx --shell-auto-fallback [shell]
+</div></code></code></pre>
 
     </body>
     </html>

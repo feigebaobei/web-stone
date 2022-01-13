@@ -27,6 +27,7 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 nvm -v
 nvm install node # node是最新版的别名
 nvm install <version>
+nvm uninstall <version> # 删除指定版本的node
 nvm ls-remote # 列出可安装的版本号
 nvm ls-remote  --lts
 nvm use <version> # 使用指定版本号的node
