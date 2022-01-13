@@ -1,0 +1,1 @@
+使用`<script>`引入react文件。

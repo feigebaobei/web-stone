@@ -40,8 +40,7 @@ nrm help // 显示说明
 1. 指定`bin`对应的文件`<root>/cli.js`。  
 2. 在`<root>/cli.js`中简明写清每个命令对就的行为action。
 3. action由`<root>/actions.js`统一输出。每个行为都是先定义，然后统一输出。  
-4. 
-作者把util的文件叫做`helpers.js`  
+4. 作者把util的文件叫做`helpers.js`  
 
 ### uml
 ```
