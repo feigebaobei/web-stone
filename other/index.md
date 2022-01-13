@@ -3,7 +3,7 @@
 - [h3](/other/h3.html)
 - [whistle](/other/whistle.html)
 - [nvm](/other/nvm.html)
-- [other](/other/other.html)
+- [crtp-cli](/other/crtp-cli.html)
 - [other](/other/other.html)
 - [other](/other/other.html)
 - [other](/other/other.html)
