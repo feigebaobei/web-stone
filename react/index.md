@@ -43,8 +43,8 @@ description
 ```
 ```
 
-## react家庭成员
-- [redux](/react/redux.html)  
+## react家族成员
+- [redux](/react/redux/index.html)  
 - [redux](/react/redux.html)  
 - [redux](/react/redux.html)  
 - [redux](/react/redux.html)  

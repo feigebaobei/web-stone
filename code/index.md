@@ -1,3 +1,4 @@
+## 编码
 - encode
 - decode
 - [ascii](/code/ascii.html)
@@ -6,3 +7,6 @@
 - [base16]()
 - [encodeUri]()
 - [keycode](/code/keycode.html)
+
+## hash
+- [sha1](/code/sha1.html)
