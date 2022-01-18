@@ -6,6 +6,6 @@
 - [h3](/other/h3.html)
 - [whistle](/other/whistle.html)
 - [unsplash](/other/unsplash.html)
-- [other](/other/other.html)
+- [@11ty/eleventy](/other/eleventy.html)
 - [other](/other/other.html)
 - [other](/other/other.html)

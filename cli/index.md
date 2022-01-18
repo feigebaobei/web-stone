@@ -1,6 +1,6 @@
 - [ftp](/cli/ftp.html)
 - [homebrew](/cli/homebrew.html)
 - [nvm](/cli/nvm.html)
-- [title](/cli/title.html)
+- [linux](/cli/linux.html)
 - [title](/cli/title.html)
 - [title](/cli/title.html)

@@ -221,3 +221,32 @@ npx [options] [-p|--package <pkg>]... <command> [command-arg]...
 npx [options] -c '<command-string>'
 npx --shell-auto-fallback [shell]
 ```
+
+### npm & npx
+npm是包管理命令行工具。可以下载、删除……依赖包。若该包可执行，则在本项目`./node_modules/.bin`中创建软链接，或在全局`bin/`中创建软链接。
+使用已经安装的依赖包：
+1. 定义脚本去执行二进制文件（也被叫做可执行文件）。  
+```js
+{
+    ...
+    "script": {
+        "package-name": "package-name"
+    }
+}
+```
+2. 执行脚本  
+`npm run package-name`  
+npx是包执行器。在npm v5.2.0时内置于npm中。可直接执行可执行文件，不必先安装。
+demo for npx:
+```shell
+# 1
+npx cowsay wow
+# 2
+npx cowsay[@version] hi
+```
+运行过程：  
+1. 下载指定的包。  
+2. 执行该包的可执行文件。  
+3. 删除该包及其依赖。  
+
+若想使用已经下载的包，又不想使用npx，则可以运行`./node_modules/.bin/<command> <args...>`  

@@ -98,8 +98,8 @@ Arguments:
 ```
 
 ## 竞品
-> jekyll (ruby)
-> hugo (go)
-> hexo (js)
-> gatsby (react)
-> nuxt (vue)
+> jekyll (ruby)  
+> hugo (go)  
+> hexo (js)  
+> gatsby (react)  
+> nuxt (vue)  
