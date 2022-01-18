@@ -5,7 +5,7 @@
 - [siroc](/other/siroc.html)
 - [h3](/other/h3.html)
 - [whistle](/other/whistle.html)
-- [other](/other/other.html)
+- [unsplash](/other/unsplash.html)
 - [other](/other/other.html)
 - [other](/other/other.html)
 - [other](/other/other.html)

@@ -2,7 +2,6 @@
 
 ## overview
 > 版本管理工具  
-> [tutorial](/git/tutorial.html)  
 
 ### feature
 - 支持管理分支  
@@ -21,7 +20,6 @@ Git的版本库里存了很多东西，其中最重要的就是称为stage（或
 1. 把修改过的文件添加到舞台。（添加到舞台后再修改文件还需要添加到舞台）  
 2. 把舞台上的文件移出舞台（在把文件添加到舞台后，提交前。有可能会用到。）  
 3. 把舞台内的文件提交。  
-
 
 ## install
 ### linux
@@ -248,8 +246,8 @@ git config --local <key> <value> # 本地配置 作用于当前用户/当前库
 
 ## 测试是否联通
 ```shell
-	ssh -T git@github.com
-	ssh -T git@gitlab.com
+ssh -T git@github.com
+ssh -T git@gitlab.com
 ```
 
 ## 分支规范
@@ -314,13 +312,13 @@ merge前保证当前工作区干净
 
 ### 1. 生成github.com的公钥、私钥。  
 ```shell
-    ssh-keygen -t rsa -C 10000@qq.com // 邮箱使用自己的。
+ssh-keygen -t rsa -C 10000@qq.com // 邮箱使用自己的。
 ```
 根据提示输入id_rsa的文件名（包括目录）。一般不要在这里修改文件名。再生成指纹（）文件后再修改文件名。此时修改需要保存公钥与私钥一致。（即：`id_rsa_name`与`id_rsa_name.pub`）
 
 ### 2. 生成git.other.com的公钥、私钥。  
 ```shell
-    ssh-keygen -t rsa -C 10000@qq.com // 邮箱使用自己的。
+ssh-keygen -t rsa -C 10000@qq.com // 邮箱使用自己的。
 ```
 使用邮箱地址可以相同。  
 命名为id_rsa_git_other // 不可与第一步中一样  
@@ -366,8 +364,8 @@ ssh -T git@gitlab.com
 
 ## fatal: remote origin already exists
 ```shell
-	git remote rm origin
-	git remote add origin ****
+git remote rm origin
+git remote add origin ****
 ```
 
 ## 修改、删除远程仓库名称
