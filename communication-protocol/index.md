@@ -18,8 +18,9 @@ SMTP 简单邮件传输协议（邮件的发送和转发）
 POP3 接收邮件（由服务器下载到本地）
 Talnet (远程登录功能（配置交换机、路由器）)
 SNMP 简单网络管理协议（通过网管软件来管理网络）
-DNS 域名系统，将域名解析为IP地址（将百度的域名转换为服务器的IP地址）
+DNS 域名系统，将域名解析为IP地址（将百度的域名转换为服务器的IP地址）  
 
+[osi](https://cf-assets.www.cloudflare.com/slt3lc6tev37/3L6e3OwCgSWOxp79AJUzXs/bcc453b68a03ae5a83bda4e5453984d1/osi-model-7-layers_zhCN.svg)
 # 各层功能
 ![各层之间的传递过程](./transferProcess.png)  
 
