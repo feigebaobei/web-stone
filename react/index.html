@@ -38,7 +38,10 @@
         <h1 id="react"><code>react</code></h1>
 <h2 id="overview">overview</h2>
 <blockquote>
-<p>TODO: description</p>
+<p>声明式<br>
+基于组件的<br>
+一次学习，多次使用<br>
+jsx语法。（类似xml，由babel解释。）</p>
 </blockquote>
 <h3 id="feature">feature</h3>
 <ul>
@@ -49,18 +52,70 @@
 <h2 id="install">install</h2>
 <p><code>npm i react</code></p>
 <h2 id="usage">usage</h2>
-<p>同<code>./demo.md</code></p>
-<pre><code><code><div>const react = require('react');
-// or
-// import react from 'react';
-// TODO: DEMONSTRATE API
-</div></code></code></pre>
+<p>见demo</p>
 <h2 id="demo">demo</h2>
 <ul>
 <li><a href="/react/demo0/first.html">demo0-first</a></li>
 <li><a href="/react/demo0/second.html">demo0-second</a></li>
 <li><a href="">demo1</a></li>
 </ul>
+<h2 id="hooks">hooks</h2>
+<details>
+  <summary>hooks</summary>
+  <artical>
+    <ul>
+        <li>从react v16.8开始支持hooks。</li>
+        <li>内置于react中</li>
+        <li>100%向后兼容</li>
+        <li>不影响使用class组件</li>
+        <li>不计划代替class组件</li>
+        <li>可以不迁移class组件</li>
+        <li>ellint-plugin-react-hooks已经内置与create-react-app中</li>
+    </ul>
+<pre>
+<code>
+<p>let [value, setValue] = useState([initValue])
+用于处理组件内的状态
+setValue(newValue)</p>
+<p>useEffect(fn, ...listener = [])
+用于处理副作用
+在componentDidMount/componentDidUpdate/componentWillUnmount时触发。
+若fn返回一个方法则方法在御载组件是被调用。
+listener指定当哪个变量变化时触发fn.</p>
+<p>let value = useContext(myContext)
+接收一个 context 对象（React.createContext 的返回值）并返回该 context 的当前值。当前的 context 值由上层组件中距离当前组件最近的 &lt;MyContext.Provider&gt; 的 value prop 决定。</p>
+<p>let [state, dispatch] = useReducer(reducer, initialArg, [init])
+init是一个方法。参数是initialArg
+useState 的替代方案。它接收一个形如 (state, action) =&gt; newState 的 reducer，并返回当前的 state 以及与其配套的 dispatch 方法。（如果你熟悉 Redux 的话，就已经知道它如何工作了。）</p>
+<p>let memoizedCallback = useCallback(fn, ..args)
+返回一个 memoized 回调函数。</p>
+<p>let memoizedValue = useMemo(fn, ...args)
+返回一个 memoized 值。</p>
+<p>let refContainer = useRef(initialValue)
+useRef 返回一个可变的 ref 对象，其 .current 属性被初始化为传入的参数（initialValue）。返回的 ref 对象在组件的整个生命周期内持续存在。</p>
+<p>useImperativeHandle(ref, createHandle, [deps])
+useImperativeHandle 可以让你在使用 ref 时自定义暴露给父组件的实例值。在大多数情况下，应当避免使用 ref 这样的命令式代码。useImperativeHandle 应当与 forwardRef 一起使用：</p>
+<p>useLayoutEffect
+其函数签名与 useEffect 相同，但它会在所有的 DOM 变更之后同步调用 effect。可以使用它来读取 DOM 布局并同步触发重渲染。在浏览器执行绘制之前，
+执行顺序：更新变量值 -》 组件重新渲染 -》 执行useLayoutEffect -&gt; 显示渲染结果 -》 执行useEffect
+尽可能使用标准的 useEffect 以避免阻塞视觉更新。</p>
+<p>useDebugValue(value, [fn])
+可用于在 React 开发者工具中显示自定义 hook 的标签。
+</code>
+</pre>
+<p>自定义hooks</p>
+<p>hooks的规则</p>
+<ul>
+<li>只能在function组件内的顶级中使用</li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+</ul>
+</artical></p>
+</details>
+<h2 id="生命周期方法">生命周期方法</h2>
 <h2 id="configuration">configuration</h2>
 <p>默认配置文件：<code>path/to/file.json</code>。</p>
 <h2 id="api">api</h2>
@@ -72,10 +127,10 @@ description</p>
 <p>此包的处理逻辑。</p>
 <h3 id="uml">uml</h3>
 <pre><code><code><div></div></code></code></pre>
-<h2 id="react家庭成员">react家庭成员</h2>
+<h2 id="react家族成员">react家族成员</h2>
 <ul>
 <li><a href="/react/redux/index.html">redux</a></li>
-<li><a href="/react/redux.html">redux</a></li>
+<li><a href="/react/reactNative.html">react native</a></li>
 <li><a href="/react/redux.html">redux</a></li>
 <li><a href="/react/redux.html">redux</a></li>
 <li><a href="/react/redux.html">redux</a></li>
