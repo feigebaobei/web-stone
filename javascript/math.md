@@ -81,6 +81,8 @@ Math.random()
 返回一个[0， 1)的伪随机数  
 
 Math.round(x)  
+返回与x最接近的整数。  
+
 Math.sign(x)  
 ```
     Math.sign(3.7) // 1

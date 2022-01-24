@@ -4,8 +4,8 @@
 > 声明式  
 > 基于组件的  
 > 一次学习，多次使用  
-> jsx语法。（类似xml，由babel解释。）
-> React 团队希望，组件不要变成复杂的容器，最好只是数据流的管道。开发者根据需要，组合管道即可。 组件的最佳写法应该是函数，而不是类。
+> jsx语法。（类似xml，由babel解释。）  
+> React 团队希望，组件不要变成复杂的容器，最好只是数据流的管道。开发者根据需要，组合管道即可。 组件的最佳写法应该是函数，而不是类。  
 
 ### feature
 - feature0
@@ -71,7 +71,6 @@ useRef 返回一个可变的 ref 对象，其 .current 属性被初始化为传�
 改变其值时不会重新渲染组件。
 可以使用它：得到dom元素，跟踪状态变化（保存变化前的状态），
 
-
 useImperativeHandle(ref, createHandle, [deps])
 useImperativeHandle 可以让你在使用 ref 时自定义暴露给父组件的实例值。在大多数情况下，应当避免使用 ref 这样的命令式代码。useImperativeHandle 应当与 forwardRef 一起使用：
 
@@ -98,6 +97,59 @@ useDebugValue(value, [fn])
   <summary>hooks</summary>
 <artical>
 <pre>
+<img src="https://www.runoob.com/wp-content/uploads/2016/02/ogimage.png" alt="">
+<ul>
+    <li>挂载</li>
+    <li>
+    <ul>
+    <li>constructor</li>
+    <li>getDerivedStateFromProps</li>
+    <li>render</li>
+    <li>componentDidMount</li>
+    </ul>
+    </li>
+    <li>
+    <li>更新</li>
+    <li>
+    <ul>
+    <li>getDerivedStateFromProps</li>
+    <li>shouldComponentUpdate</li>
+    <li>render</li>
+    <li>getSnapshotBeforeUpdate</li>
+    <li>componentDidUpdate</li>
+    </ul>
+    </li>
+    <li>
+    <li>卸载</li>
+    <li>
+    <ul>
+    <li>componentDidUnmount</li>
+    </ul>
+    </li>
+    <li>
+</ul>
+<code>
+constructor() // 为了调用super()
+static getDerivedStateFromProps(nextProps, prevState)
+    它是静态方法，不能使用this。只能作一些无副作用的操作。
+    若返回一个对象，则更新state。若返回null，则不更新。
+render()
+    class组件中必须使用的方法。
+    用于渲染dom.
+    必须返回reactDOM
+    不要在render中执行setState
+componentDidMount()
+    挂载组件后调用
+    常用于发送网络请求。启用事件监听方法。
+shouldComponentUpdate(nextProps, nextState)
+    控制是否进行更新。若返回true，则更新。否则不更新。
+getSnapshotBeforeUpdate(prevProps, prevState)
+    render之后，被挂载时调用。
+componentDidUpdate(prevProps, prevState, snapshot)
+    更新后被调用。首次渲染不会被执行。
+componentWillUnmount()
+    在组件即将被卸载或销毁时进行调用。
+</code>
 </pre>
 </artical>
 </details>
