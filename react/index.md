@@ -1,6 +1,7 @@
 # `react`
 
 ## overview
+
 > 声明式  
 > 基于组件的  
 > 一次学习，多次使用  
@@ -8,22 +9,27 @@
 > React 团队希望，组件不要变成复杂的容器，最好只是数据流的管道。开发者根据需要，组合管道即可。 组件的最佳写法应该是函数，而不是类。  
 
 ### feature
+
 - feature0
 - feature1
 - feature2
 
 ## install
+
 `npm i react`
 
 ## usage
+
 见demo
 
 ## demo
+
 - [demo0-first](/react/demo0/first.html)  
 - [demo0-second](/react/demo0/second.html)  
 - [demo1]()  
 
 ## hooks
+
 <details>
   <summary>hooks</summary>
   <artical>
@@ -56,12 +62,13 @@ init是一个方法。参数是initialArg
 与useState功能相似。它接收一个形如 (state, action) => newState 的 reducer，并返回当前的 state 以及与其配套的 dispatch 方法。（如果你熟悉 Redux 的话，就已经知道它如何工作了。）
 dispatch({type: 'typename', key: value}) // dispatch的参数是action. action.type, action.key
 
-let memoizedCallback = useCallback(fn, ...args)
+let memoizedCallback = useCallback(fn, ...dependencies)
+只有dependencies改变时执行fn
 返回一个 memoized 回调函数。
 只在更新组件时执行。
 阻止不必要的重新渲染。
 
-let memoizedValue = useMemo(fn, ...args)
+let memoizedValue = useMemo(fn, ...dependencies)
 返回一个 memoized 值。
 与useCallback类似。
 
@@ -83,6 +90,7 @@ useDebugValue(value, [fn])
 可用于在 React 开发者工具中显示自定义 hook 的标签。
 </code>
 </pre>
+
 <p>自定义hooks</p>
 <p>hooks的规则</p>
 <ul>
@@ -93,6 +101,7 @@ useDebugValue(value, [fn])
 </details>
 
 ## 生命周期方法
+
 <details>
   <summary>hooks</summary>
 <artical>
@@ -155,6 +164,7 @@ componentWillUnmount()
 </details>
 
 ## context
+
 <details>
   <summary>hooks</summary>
 <artical>
@@ -181,9 +191,11 @@ function C1 () {
 }
 </pre>
 </artical>
+
 </details>
 
 ## memoized
+
 <details>
   <summary>memoized</summary>
 <artical>
@@ -193,9 +205,11 @@ function C1 () {
 </details>
 
 ## configuration
+
 默认配置文件：`path/to/file.json`。
 
 ## api
+
 `react.fn(param, first: string, second: boolean = true) => void`
 description
 
@@ -203,20 +217,25 @@ description
 description
 
 ## principle
+
 此包的处理逻辑。
 
 ### uml
+
 ```
+
 ```
 
 ## react家族成员
+
 - [redux](/react/redux/index.html)  
 - [react native](/react/reactNative.html)  
-- [redux](/react/redux.html)  
+- [react-router react-router-dom react-router-native](/react/router.html)  
 - [redux](/react/redux.html)  
 - [redux](/react/redux.html)  
 
 ## todo
+
 > 未来迭代计划。
 > 未来迭代计划。
 > 未来迭代计划。
