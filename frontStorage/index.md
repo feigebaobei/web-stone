@@ -123,4 +123,6 @@ spandataspan
 ## flex
 ## redux
 ## vuex
+## pinia
 ## ng应该还有一个
+它使用redux。vue应该也可以使用redux.
