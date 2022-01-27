@@ -231,8 +231,11 @@ description
 - [redux](/react/redux/index.html)  
 - [react native](/react/reactNative.html)  
 - [react-router react-router-dom react-router-native](/react/router.html)  
-- [redux](/react/redux.html)  
-- [redux](/react/redux.html)  
+- [title](/react/title.html)  
+- [title](/react/title.html)  
+- [title](/react/title.html)  
+- [title](/react/title.html)  
+- [title](/react/title.html)  
 
 ## todo
 

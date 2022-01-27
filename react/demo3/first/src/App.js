@@ -8,11 +8,11 @@ import {Route, Routes,
   // useNavigate
 } from 'react-router-dom'
 import routes from './routes/index'
-import AuthRoute from './routes/AuthRoute'
+// import AuthRoute from './routes/AuthRoute'
 // import Home from './pages/Home'
 // import About from './pages/About'
 // import Users from './pages/Users'
-import Login from './pages/Login'
+// import Login from './pages/Login'
 // import Signup from './pages/Signup'
 import NotFound from './pages/NotFound'
 
