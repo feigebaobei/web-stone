@@ -563,6 +563,19 @@ manifest 文件有三个部分：
 - FALLBACK - 在此标题下列出的文件规定当页面无法访问时的回退页面（比如 404 页面）
 详见[前端缓存](/404.html)
 
+# history
+<details>
+  <summary>api</summary>
+<pre>
+<code>
+window.history 
+history.back() 返回上一个栈内元素
+history.forward() 返回下一个栈内元素
+history.go([delta]) 进入指定的history栈
+</code>
+</pre>
+</details>
+
 # [web workers](/javascript/webWorker.html)
 一般用于大量计算。它调用了浏览器的多线程环境。  
 worker无法访问如下对象：  
