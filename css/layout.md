@@ -1,11 +1,15 @@
 # 布局
 常见的布局类型：
+- 正常布局流 使用默认样式
+- display  使用指定的默认样式
 - flex 弹性布局 线性布局 一维布局
 - grid         网格布局 二维布局
+- 浮动布局
+- 定位布局
 - 粘性布局
 - 静态布局
-- 浮动布局
 - 自适应布局
+- 表格布局 使用table定位元素
 
 ## [flex](/css/flex/index.html)
 flex布局也被称为弹性布局。它在一维空间上设置元素位置/大小。当前浏览器已经普遍支持。需要父/子元素共同设置指定样式属性才能实现效果。
@@ -13,7 +17,24 @@ flex布局也被称为弹性布局。它在一维空间上设置元素位置/大
 ## [grid](/css/grid/index.html)
 也被称为网格布局，它是在二维空间上设置元素位置/大小。比flex较难。需要父/子元素共同设置指定样式属性才能实现效果。
 
-## [sticky](/css/sticky/index.html)
+## 浮云布局
+```
+float: none | left | right | inherit
+```
+
+## 定位布局
+```
+position: static | relative | absolute | fixed | sticky
+```
+
+|||||
+|-|-|-|-|
+|static|默认定位值|||
+|relative|允许我们相对于元素在正常的文档流中的位置移动它。|||
+|absolute|相对于最近的非静态定位的父元素定位。会脱离文档流。|||
+|fixed|相对于浏览器视口定位。|||
+
+### [sticky](/css/sticky/index.html)
 粘性布局  
 
 ## 静态布局

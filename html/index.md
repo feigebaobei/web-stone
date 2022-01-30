@@ -567,6 +567,7 @@ manifest 文件有三个部分：
 <details>
   <summary>api</summary>
 <pre>
+html5提供的操作浏览栈的接口。
 <code>
 window.history 
 history.back() 返回上一个栈内元素
@@ -615,6 +616,7 @@ source.onmessage = function(event) {
 |onbeforeunload|  script|  文档卸载之前运行的脚本。|
 |onerror| script|  在错误发生时运行的脚本。|
 |onhaschange| script|  当文档已改变时运行的脚本。|
+|onhashchange| script|  当url的hash值改变时 |
 |onload|  script|  页面结束加载之后触发。|
 |onmessage| script|  在消息被触发时运行的脚本。|
 |onoffline| script|  当文档离线时运行的脚本。|
