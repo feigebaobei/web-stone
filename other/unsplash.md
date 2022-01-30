@@ -6,7 +6,7 @@
 
 ### feature
 - 管理自己的图片  
-- 分级别支持对外api  
+- 支持分级别对外api  
 
 ## login
 ## install
@@ -19,13 +19,13 @@
 
 ## use api
 ```js
+// 不使用包请求
 // 点击首页的'Register as a developer'去成为一个开发者。然后记住2个key，后面会用到。
-
 import axios from 'axios'
 axios({
     method: 'get',
     url: 'https://api.unsplash.com/photos',
-    headers: {
+    headers: { // 这个配置很重要
         'Accept-Version': 'v1',
         'Authorization': `Client-ID ${ACCESS_KEY}`,
     },
@@ -35,15 +35,15 @@ axios({
 }).then(data => {
     console.log(data)
 })
+
+// 使用unsplash.js包请求。
+import {createApi} form 'unsplash-js'
+let unsplash = createApi({
+    accessKey: `${ACCESS_KEY}`,
+    headers: {'Accept-Version': 'v1'}
+})
+unsplash.photo.get({photoId: '123'}).then(...).catch(...)
 ```
-
-## guideline
-### 技术指导方针
-1. 所有图片都在`photo.urls`中。  
-2. 
-
-
-### 使用指导方针
 
 ## schema
 - location: `https://api.unsplash.com/`  
@@ -125,15 +125,9 @@ production级的请求速率是5000次/时。
 |`/topics/:id_or_slug/photos`|get|id_or_slug, page, per_page, orientation, order_by||列出指定主题的图片||
 |`/stats/total`|get|||得到unsplash的图片总量||
 |`/stats/month`|get|||得到最近30天unsplash的全部图片||
-|||||||
-|||||||
-|||||||
 
 ### 如何登录
 不会。
-
-## configuration
-默认配置文件：`path/to/file.json`。
 
 ## api
 ```js
