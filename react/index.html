@@ -17,7 +17,8 @@
 }
 
 </style>
-        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -31,7 +32,7 @@
 .task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
 </style>
         
-        
+        <script src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
     </head>
     <body class="vscode-body vscode-light">
@@ -41,7 +42,8 @@
 <p>声明式<br>
 基于组件的<br>
 一次学习，多次使用<br>
-jsx语法。（类似xml，由babel解释。）</p>
+jsx语法。（类似xml，由babel解释。）<br>
+React 团队希望，组件不要变成复杂的容器，最好只是数据流的管道。开发者根据需要，组合管道即可。 组件的最佳写法应该是函数，而不是类。</p>
 </blockquote>
 <h3 id="feature">feature</h3>
 <ul>
@@ -74,9 +76,9 @@ jsx语法。（类似xml，由babel解释。）</p>
     </ul>
 <pre>
 <code>
-<p>let [value, setValue] = useState([initValue])
+let [value, setValue] = useState([initValue])
 用于处理组件内的状态
-setValue(newValue)</p>
+setValue(newValue)
 <p>useEffect(fn, ...listener = [])
 用于处理副作用
 在componentDidMount/componentDidUpdate/componentWillUnmount时触发。
@@ -86,13 +88,21 @@ listener指定当哪个变量变化时触发fn.</p>
 接收一个 context 对象（React.createContext 的返回值）并返回该 context 的当前值。当前的 context 值由上层组件中距离当前组件最近的 &lt;MyContext.Provider&gt; 的 value prop 决定。</p>
 <p>let [state, dispatch] = useReducer(reducer, initialArg, [init])
 init是一个方法。参数是initialArg
-useState 的替代方案。它接收一个形如 (state, action) =&gt; newState 的 reducer，并返回当前的 state 以及与其配套的 dispatch 方法。（如果你熟悉 Redux 的话，就已经知道它如何工作了。）</p>
-<p>let memoizedCallback = useCallback(fn, ..args)
-返回一个 memoized 回调函数。</p>
-<p>let memoizedValue = useMemo(fn, ...args)
-返回一个 memoized 值。</p>
+与useState功能相似。它接收一个形如 (state, action) =&gt; newState 的 reducer，并返回当前的 state 以及与其配套的 dispatch 方法。（如果你熟悉 Redux 的话，就已经知道它如何工作了。）
+dispatch({type: 'typename', key: value}) // dispatch的参数是action. action.type, action.key</p>
+<p>let memoizedCallback = useCallback(fn, ...dependencies)
+只有dependencies改变时执行fn
+返回一个 memoized 回调函数。
+只在更新组件时执行。
+阻止不必要的重新渲染。</p>
+<p>let memoizedValue = useMemo(fn, ...dependencies)
+返回一个 memoized 值。
+与useCallback类似。</p>
 <p>let refContainer = useRef(initialValue)
-useRef 返回一个可变的 ref 对象，其 .current 属性被初始化为传入的参数（initialValue）。返回的 ref 对象在组件的整个生命周期内持续存在。</p>
+useRef 返回一个可变的 ref 对象，其 .current 属性被初始化为传入的参数（initialValue）。返回的 ref 对象在组件的整个生命周期内持续存在。
+组件重新渲染期间其值一直存在。
+改变其值时不会重新渲染组件。
+可以使用它：得到dom元素，跟踪状态变化（保存变化前的状态），</p>
 <p>useImperativeHandle(ref, createHandle, [deps])
 useImperativeHandle 可以让你在使用 ref 时自定义暴露给父组件的实例值。在大多数情况下，应当避免使用 ref 这样的命令式代码。useImperativeHandle 应当与 forwardRef 一起使用：</p>
 <p>useLayoutEffect
@@ -102,20 +112,109 @@ useImperativeHandle 可以让你在使用 ref 时自定义暴露给父组件的�
 <p>useDebugValue(value, [fn])
 可用于在 React 开发者工具中显示自定义 hook 的标签。
 </code>
-</pre>
+</pre></p>
 <p>自定义hooks</p>
 <p>hooks的规则</p>
 <ul>
-<li>只能在function组件内的顶级中使用</li>
-<li></li>
-<li></li>
-<li></li>
-<li></li>
-<li></li>
+    <li>只能在function组件内的顶级中使用</li>
+    <li>不能被使用条件判断</li>
 </ul>
-</artical></p>
+</artical>
 </details>
 <h2 id="生命周期方法">生命周期方法</h2>
+<details>
+  <summary>hooks</summary>
+<artical>
+<pre>
+<img src="https://www.runoob.com/wp-content/uploads/2016/02/ogimage.png" alt="">
+<ul>
+    <li>挂载</li>
+    <li>
+    <ul>
+    <li>constructor</li>
+    <li>getDerivedStateFromProps</li>
+    <li>render</li>
+    <li>componentDidMount</li>
+    </ul>
+    </li>
+    <li>
+    <li>更新</li>
+    <li>
+    <ul>
+    <li>getDerivedStateFromProps</li>
+    <li>shouldComponentUpdate</li>
+    <li>render</li>
+    <li>getSnapshotBeforeUpdate</li>
+    <li>componentDidUpdate</li>
+    </ul>
+    </li>
+    <li>
+    <li>卸载</li>
+    <li>
+    <ul>
+    <li>componentDidUnmount</li>
+    </ul>
+    </li>
+    <li>
+</ul>
+<code>
+constructor() // 为了调用super()
+static getDerivedStateFromProps(nextProps, prevState)
+    它是静态方法，不能使用this。只能作一些无副作用的操作。
+    若返回一个对象，则更新state。若返回null，则不更新。
+render()
+    class组件中必须使用的方法。
+    用于渲染dom.
+    必须返回reactDOM
+    不要在render中执行setState
+componentDidMount()
+    挂载组件后调用
+    常用于发送网络请求。启用事件监听方法。
+shouldComponentUpdate(nextProps, nextState)
+    控制是否进行更新。若返回true，则更新。否则不更新。
+getSnapshotBeforeUpdate(prevProps, prevState)
+    render之后，被挂载时调用。
+componentDidUpdate(prevProps, prevState, snapshot)
+    更新后被调用。首次渲染不会被执行。
+componentWillUnmount()
+    在组件即将被卸载或销毁时进行调用。
+</code>
+</pre>
+</artical>
+</details>
+<h2 id="context">context</h2>
+<details>
+  <summary>hooks</summary>
+<artical>
+<pre>
+import {useState, createContext, useContext} from 'react'
+import ReactDOM from 'react-dom'
+<p>let UserContext = createContext() // 生成context对象</p>
+<p>function CP () {
+let [user, setUser] = useState('top')
+return (
+&lt;UserContext.Provider value={user}&gt; // 让context提供指定的数据
+<C1 user={user} /> // C1及其子组件都可以使用指定的数据
+&lt;/UserContext.Provider&gt;
+)
+}</p>
+<p>function C1 () {
+let user = useContext(UserContext) // 使用context提供的数据
+return (&lt;&gt;
+<p>{<code>hi ${user}</code>}</p>
+&lt;/&gt;)
+}
+</pre>
+</artical></p>
+</details>
+<h2 id="memoized">memoized</h2>
+<details>
+  <summary>memoized</summary>
+<artical>
+<pre>
+</pre>
+</artical>
+</details>
 <h2 id="configuration">configuration</h2>
 <p>默认配置文件：<code>path/to/file.json</code>。</p>
 <h2 id="api">api</h2>
@@ -124,23 +223,39 @@ description</p>
 <p><code>react.fn(param, [options: {a: string, b?: number}])</code>
 description</p>
 <h2 id="principle">principle</h2>
-<p>此包的处理逻辑。</p>
+<h3 id="更新机制">更新机制</h3>
+<h3 id="fiber">fiber</h3>
 <h3 id="uml">uml</h3>
-<pre><code><code><div></div></code></code></pre>
+<pre><code><code><div>
+</div></code></code></pre>
 <h2 id="react家族成员">react家族成员</h2>
 <ul>
-<li><a href="/react/redux/index.html">redux</a></li>
+<li><a href="/react/redux/index.html">redux react-redux</a></li>
 <li><a href="/react/reactNative.html">react native</a></li>
-<li><a href="/react/redux.html">redux</a></li>
-<li><a href="/react/redux.html">redux</a></li>
-<li><a href="/react/redux.html">redux</a></li>
+<li><a href="/react/router.html">react-router react-router-dom react-router-native</a></li>
+<li><a href="/react/propType.html">propType</a></li>
+<li><a href="/react/react.html">react</a></li>
+<li><a href="/react/react-dom.html">react-dom</a></li>
+<li><a href="/react/react-script.html">react-script</a></li>
+<li><a href="/react/next/index.html">next</a></li>
+<li><a href="/react/title.html">title</a></li>
+<li><a href="/react/title.html">title</a></li>
+<li><a href="/react/title.html">title</a></li>
+<li><a href="/react/title.html">title</a></li>
+<li><a href="/react/title.html">title</a></li>
 </ul>
 <h2 id="todo">todo</h2>
-<blockquote>
-<p>未来迭代计划。
-未来迭代计划。
-未来迭代计划。</p>
-</blockquote>
+<h3 id="有很多以开头的变量">有很多以<code>$$</code>开头的变量。</h3>
+<h3 id="有好多指对dev环境的检查错误">有好多指对dev环境的检查错误。</h3>
+<pre><code class="language-js"><div><span class="hljs-keyword">if</span> (__DEV__) {...}
+</div></code></pre>
+<h3 id="多以构造函数prototypeobjectdefineproperty的方式写代码">多以构造函数+prototype+Object.defineProperty的方式写代码。</h3>
+<p>为什么不用class呢？</p>
+<h3 id="importexport结构很清晰源码比vue好看多了">import/export结构很清晰。源码比vue好看多了。</h3>
+<h3 id="未来迭代计划">未来迭代计划。</h3>
+<h3 id="未来迭代计划-1">未来迭代计划。</h3>
+<h3 id="未来迭代计划-2">未来迭代计划。</h3>
+<h3 id="未来迭代计划-3">未来迭代计划。</h3>
 
     </body>
     </html>

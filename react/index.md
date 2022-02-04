@@ -218,7 +218,11 @@ description
 
 ## principle
 
-此包的处理逻辑。
+### 更新机制
+### fiber
+
+
+
 
 ### uml
 
@@ -228,9 +232,14 @@ description
 
 ## react家族成员
 
-- [redux](/react/redux/index.html)  
+- [redux react-redux](/react/redux/index.html)  
 - [react native](/react/reactNative.html)  
 - [react-router react-router-dom react-router-native](/react/router.html)  
+- [propType](/react/propType.html)  
+- [react](/react/react.html)  
+- [react-dom](/react/react-dom.html)  
+- [react-script](/react/react-script.html)  
+- [next](/react/next/index.html)  
 - [title](/react/title.html)  
 - [title](/react/title.html)  
 - [title](/react/title.html)  
@@ -239,6 +248,17 @@ description
 
 ## todo
 
-> 未来迭代计划。
-> 未来迭代计划。
-> 未来迭代计划。
+### 有很多以`$$`开头的变量。
+### 有好多指对dev环境的检查错误。
+```js
+if (__DEV__) {...}
+```
+### 多以构造函数+prototype+Object.defineProperty的方式写代码。
+为什么不用class呢？
+
+### import/export结构很清晰。源码比vue好看多了。
+
+### 未来迭代计划。
+### 未来迭代计划。
+### 未来迭代计划。
+### 未来迭代计划。
