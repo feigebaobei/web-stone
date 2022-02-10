@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- <script src="https://unpkg.com/rxjs@7.5.3/dist/bundles/rxjs.umd.min.js"></script> -->
+    <script src="./rx.js"></script>
+    <!-- <script src="./useDate.js"></script> -->
+    <script type="text/javascript">
+        let {log} = console;
+
+
+let { of,
+NotificationKind
+ } = 'rxjs';
+let { map } = 'rxjs/operators';
+
+// log(rxjs)
+log(rxjs, JSON.stringify(rxjs))
+// log(rxjs.of)
+// log(of) // x
+log(of) // x
+log(NotificationKind) // x
+log(map) // x
+// log(rxjs.operators.map)
+
+let o$ = rxjs.of(1, 2, 3)
+// log(o$.pipe)
+.pipe(rxjs.operators.map((x) => {
+    log('x', x)
+    return x * x
+}), rxjs.operators.filter((x) => x > 2))
+.subscribe((v) => console.log(`value: ${v}`));
+log(o$)
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>
