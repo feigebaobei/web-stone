@@ -337,11 +337,13 @@ for (let [k, v] of map)
 ```
 
 ### 遍历器对象
+```js
 {
-    next: 
-    return:    // 完成遍历前清理或释放资源
-    throw: 
+    next() => any 
+    return: any    // 完成遍历前清理或释放资源
+    throw: error
 }
+```
 
 ### 触发iterator接口的方法
 - 解构赋值
@@ -533,39 +535,39 @@ let multipleTwo = (n, m) => {
 }
 </details>
 
-# [worker](/javascript/webWorker.html)
+# [worker](/language/javascript/webWorker.html)
 # 线程
 js是单线程语言。但是它的宿主环境——browser支持多线程。
 当遇到大量计算时可以使用`web worker`处理。主`worker`创建一个子`worker`，再让子worker处理大量计算，主worker会交出数据的控制权给子worker。得到计算结果后把由子workern以消息`message`的形式给主worker。
 
 ## 协程
 # 各对象的属性
-- [string](/javascript/string.html)
-- [number](/javascript/number.html)
-- [boolean](/javascript/boolean.html)
-- [array](/javascript/array.html)
-- [object](/javascript/object.html)
-- [symbol](/javascript/symbol.html)
-- [null]()
-- [undefined]()
-- [bigint](/javascript/bigint.html)
-- [set](/javascript/set.html)
-- [map](/javascript/map.html)
+- [string](/language/javascript/string.html)
+- [number](/language/javascript/number.html)
+- boolean
+- [array](/language/javascript/array.html)
+- [object](/language/javascript/object.html)
+- [symbol](/language/javascript/symbol.html)
+- null
+- undefined
+- [bigint](/language/javascript/bigint.html)
+- [set](/language/javascript/set.html)
+- [map](/language/javascript/map.html)
 
 # 对象
 - 本地对象
     + Object
     + String
     + Array
-    + [Date](/javascript/date.html)
+    + [Date](/language/javascript/date.html)
     + Number
     + RegExp
     + Function
     + Boolean
     + Error
 - 内置对象
-    + [Math](/javascript/math.html)
-    + [JSON](/javascript/json.html)
+    + [Math](/language/javascript/math.html)
+    + [JSON](/language/javascript/json.html)
 - 宿主对象
     + BOM
     + DOM
@@ -580,7 +582,7 @@ js是单线程语言。但是它的宿主环境——browser支持多线程。
 |es6|-|在js语言层面上实现了模块化。|||||
 |iife||||||
 |system||||||
-详见[模块化](./modularity.md)
+详见[模块化](/language/javascript/modularity.html)
 
 # title
 # title

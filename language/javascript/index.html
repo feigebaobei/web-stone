@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>javascript</title>
+        <style>
+/* From extension vscode.markdown-math */
+@font-face{font-family:KaTeX_AMS;src:url(fonts/KaTeX_AMS-Regular.woff2) format("woff2"),url(fonts/KaTeX_AMS-Regular.woff) format("woff"),url(fonts/KaTeX_AMS-Regular.ttf) format("truetype");font-weight:400;font-style:normal}@font-face{font-family:KaTeX_Caligraphic;src:url(fonts/KaTeX_Caligraphic-Bold.woff2) format("woff2"),url(fonts/KaTeX_Caligraphic-Bold.woff) format("woff"),url(fonts/KaTeX_Caligraphic-Bold.ttf) format("truetype");font-weight:700;font-style:normal}@font-face{font-family:KaTeX_Caligraphic;src:url(fonts/KaTeX_Caligraphic-Regular.woff2) format("woff2"),url(fonts/KaTeX_Caligraphic-Regular.woff) format("woff"),url(fonts/KaTeX_Caligraphic-Regular.ttf) format("truetype");font-weight:400;font-style:normal}@font-face{font-family:KaTeX_Fraktur;src:url(fonts/KaTeX_Fraktur-Bold.woff2) format("woff2"),url(fonts/KaTeX_Fraktur-Bold.woff) format("woff"),url(fonts/KaTeX_Fraktur-Bold.ttf) format("truetype");font-weight:700;font-style:normal}@font-face{font-family:KaTeX_Fraktur;src:url(fonts/KaTeX_Fraktur-Regular.woff2) format("woff2"),url(fonts/KaTeX_Fraktur-Regular.woff) format("woff"),url(fonts/KaTeX_Fraktur-Regular.ttf) format("truetype");font-weight:400;font-style:normal}@font-face{font-family:KaTeX_Main;src:url(fonts/KaTeX_Main-Bold.woff2) format("woff2"),url(fonts/KaTeX_Main-Bold.woff) format("woff"),url(fonts/KaTeX_Main-Bold.ttf) format("truetype");font-weight:700;font-style:normal}@font-face{font-family:KaTeX_Main;src:url(fonts/KaTeX_Main-BoldItalic.woff2) format("woff2"),url(fonts/KaTeX_Main-BoldItalic.woff) format("woff"),url(fonts/KaTeX_Main-BoldItalic.ttf) format("truetype");font-weight:700;font-style:italic}@font-face{font-family:KaTeX_Main;src:url(fonts/KaTeX_Main-Italic.woff2) format("woff2"),url(fonts/KaTeX_Main-Italic.woff) format("woff"),url(fonts/KaTeX_Main-Italic.ttf) format("truetype");font-weight:400;font-style:italic}@font-face{font-family:KaTeX_Main;src:url(fonts/KaTeX_Main-Regular.woff2) format("woff2"),url(fonts/KaTeX_Main-Regular.woff) format("woff"),url(fonts/KaTeX_Main-Regular.ttf) format("truetype");font-weight:400;font-style:normal}@font-face{font-family:KaTeX_Math;src:url(fonts/KaTeX_Math-BoldItalic.woff2) format("woff2"),url(fonts/KaTeX_Math-BoldItalic.woff) format("woff"),url(fonts/KaTeX_Math-BoldItalic.ttf) format("truetype");font-weight:700;font-style:italic}@font-face{font-family:KaTeX_Math;src:url(fonts/KaTeX_Math-Italic.woff2) format("woff2"),url(fonts/KaTeX_Math-Italic.woff) format("woff"),url(fonts/KaTeX_Math-Italic.ttf) format("truetype");font-weight:400;font-style:italic}@font-face{font-family:"KaTeX_SansSerif";src:url(fonts/KaTeX_SansSerif-Bold.woff2) format("woff2"),url(fonts/KaTeX_SansSerif-Bold.woff) format("woff"),url(fonts/KaTeX_SansSerif-Bold.ttf) format("truetype");font-weight:700;font-style:normal}@font-face{font-family:"KaTeX_SansSerif";src:url(fonts/KaTeX_SansSerif-Italic.woff2) format("woff2"),url(fonts/KaTeX_SansSerif-Italic.woff) format("woff"),url(fonts/KaTeX_SansSerif-Italic.ttf) format("truetype");font-weight:400;font-style:italic}@font-face{font-family:"KaTeX_SansSerif";src:url(fonts/KaTeX_SansSerif-Regular.woff2) format("woff2"),url(fonts/KaTeX_SansSerif-Regular.woff) format("woff"),url(fonts/KaTeX_SansSerif-Regular.ttf) format("truetype");font-weight:400;font-style:normal}@font-face{font-family:KaTeX_Script;src:url(fonts/KaTeX_Script-Regular.woff2) format("woff2"),url(fonts/KaTeX_Script-Regular.woff) format("woff"),url(fonts/KaTeX_Script-Regular.ttf) format("truetype");font-weight:400;font-style:normal}@font-face{font-family:KaTeX_Size1;src:url(fonts/KaTeX_Size1-Regular.woff2) format("woff2"),url(fonts/KaTeX_Size1-Regular.woff) format("woff"),url(fonts/KaTeX_Size1-Regular.ttf) format("truetype");font-weight:400;font-style:normal}@font-face{font-family:KaTeX_Size2;src:url(fonts/KaTeX_Size2-Regular.woff2) format("woff2"),url(fonts/KaTeX_Size2-Regular.woff) format("woff"),url(fonts/KaTeX_Size2-Regular.ttf) format("truetype");font-weight:400;font-style:normal}@font-face{font-family:KaTeX_Size3;src:url(fonts/KaTeX_Size3-Regular.woff2) format("woff2"),url(fonts/KaTeX_Size3-Regular.woff) format("woff"),url(fonts/KaTeX_Size3-Regular.ttf) format("truetype");font-weight:400;font-style:normal}@font-face{font-family:KaTeX_Size4;src:url(fonts/KaTeX_Size4-Regular.woff2) format("woff2"),url(fonts/KaTeX_Size4-Regular.woff) format("woff"),url(fonts/KaTeX_Size4-Regular.ttf) format("truetype");font-weight:400;font-style:normal}@font-face{font-family:KaTeX_Typewriter;src:url(fonts/KaTeX_Typewriter-Regular.woff2) format("woff2"),url(fonts/KaTeX_Typewriter-Regular.woff) format("woff"),url(fonts/KaTeX_Typewriter-Regular.ttf) format("truetype");font-weight:400;font-style:normal}.katex{font:normal 1.21em KaTeX_Main,Times New Roman,serif;line-height:1.2;text-indent:0;text-rendering:auto;border-color:currentColor}.katex *{-ms-high-contrast-adjust:none!important}.katex .katex-version:after{content:"0.13.0"}.katex .katex-mathml{position:absolute;clip:rect(1px,1px,1px,1px);padding:0;border:0;height:1px;width:1px;overflow:hidden}.katex .katex-html>.newline{display:block}.katex .base{position:relative;white-space:nowrap;width:-webkit-min-content;width:-moz-min-content;width:min-content}.katex .base,.katex .strut{display:inline-block}.katex .textbf{font-weight:700}.katex .textit{font-style:italic}.katex .textrm{font-family:KaTeX_Main}.katex .textsf{font-family:KaTeX_SansSerif}.katex .texttt{font-family:KaTeX_Typewriter}.katex .mathnormal{font-family:KaTeX_Math;font-style:italic}.katex .mathit{font-family:KaTeX_Main;font-style:italic}.katex .mathrm{font-style:normal}.katex .mathbf{font-family:KaTeX_Main;font-weight:700}.katex .boldsymbol{font-family:KaTeX_Math;font-weight:700;font-style:italic}.katex .amsrm,.katex .mathbb,.katex .textbb{font-family:KaTeX_AMS}.katex .mathcal{font-family:KaTeX_Caligraphic}.katex .mathfrak,.katex .textfrak{font-family:KaTeX_Fraktur}.katex .mathtt{font-family:KaTeX_Typewriter}.katex .mathscr,.katex .textscr{font-family:KaTeX_Script}.katex .mathsf,.katex .textsf{font-family:KaTeX_SansSerif}.katex .mathboldsf,.katex .textboldsf{font-family:KaTeX_SansSerif;font-weight:700}.katex .mathitsf,.katex .textitsf{font-family:KaTeX_SansSerif;font-style:italic}.katex .mainrm{font-family:KaTeX_Main;font-style:normal}.katex .vlist-t{display:inline-table;table-layout:fixed;border-collapse:collapse}.katex .vlist-r{display:table-row}.katex .vlist{display:table-cell;vertical-align:bottom;position:relative}.katex .vlist>span{display:block;height:0;position:relative}.katex .vlist>span>span{display:inline-block}.katex .vlist>span>.pstrut{overflow:hidden;width:0}.katex .vlist-t2{margin-right:-2px}.katex .vlist-s{display:table-cell;vertical-align:bottom;font-size:1px;width:2px;min-width:2px}.katex .vbox{display:inline-flex;flex-direction:column;align-items:baseline}.katex .hbox{width:100%}.katex .hbox,.katex .thinbox{display:inline-flex;flex-direction:row}.katex .thinbox{width:0;max-width:0}.katex .msupsub{text-align:left}.katex .mfrac>span>span{text-align:center}.katex .mfrac .frac-line{display:inline-block;width:100%;border-bottom-style:solid}.katex .hdashline,.katex .hline,.katex .mfrac .frac-line,.katex .overline .overline-line,.katex .rule,.katex .underline .underline-line{min-height:1px}.katex .mspace{display:inline-block}.katex .clap,.katex .llap,.katex .rlap{width:0;position:relative}.katex .clap>.inner,.katex .llap>.inner,.katex .rlap>.inner{position:absolute}.katex .clap>.fix,.katex .llap>.fix,.katex .rlap>.fix{display:inline-block}.katex .llap>.inner{right:0}.katex .clap>.inner,.katex .rlap>.inner{left:0}.katex .clap>.inner>span{margin-left:-50%;margin-right:50%}.katex .rule{display:inline-block;border:0 solid;position:relative}.katex .hline,.katex .overline .overline-line,.katex .underline .underline-line{display:inline-block;width:100%;border-bottom-style:solid}.katex .hdashline{display:inline-block;width:100%;border-bottom-style:dashed}.katex .sqrt>.root{margin-left:.27777778em;margin-right:-.55555556em}.katex .fontsize-ensurer.reset-size1.size1,.katex .sizing.reset-size1.size1{font-size:1em}.katex .fontsize-ensurer.reset-size1.size2,.katex .sizing.reset-size1.size2{font-size:1.2em}.katex .fontsize-ensurer.reset-size1.size3,.katex .sizing.reset-size1.size3{font-size:1.4em}.katex .fontsize-ensurer.reset-size1.size4,.katex .sizing.reset-size1.size4{font-size:1.6em}.katex .fontsize-ensurer.reset-size1.size5,.katex .sizing.reset-size1.size5{font-size:1.8em}.katex .fontsize-ensurer.reset-size1.size6,.katex .sizing.reset-size1.size6{font-size:2em}.katex .fontsize-ensurer.reset-size1.size7,.katex .sizing.reset-size1.size7{font-size:2.4em}.katex .fontsize-ensurer.reset-size1.size8,.katex .sizing.reset-size1.size8{font-size:2.88em}.katex .fontsize-ensurer.reset-size1.size9,.katex .sizing.reset-size1.size9{font-size:3.456em}.katex .fontsize-ensurer.reset-size1.size10,.katex .sizing.reset-size1.size10{font-size:4.148em}.katex .fontsize-ensurer.reset-size1.size11,.katex .sizing.reset-size1.size11{font-size:4.976em}.katex .fontsize-ensurer.reset-size2.size1,.katex .sizing.reset-size2.size1{font-size:.83333333em}.katex .fontsize-ensurer.reset-size2.size2,.katex .sizing.reset-size2.size2{font-size:1em}.katex .fontsize-ensurer.reset-size2.size3,.katex .sizing.reset-size2.size3{font-size:1.16666667em}.katex .fontsize-ensurer.reset-size2.size4,.katex .sizing.reset-size2.size4{font-size:1.33333333em}.katex .fontsize-ensurer.reset-size2.size5,.katex .sizing.reset-size2.size5{font-size:1.5em}.katex .fontsize-ensurer.reset-size2.size6,.katex .sizing.reset-size2.size6{font-size:1.66666667em}.katex .fontsize-ensurer.reset-size2.size7,.katex .sizing.reset-size2.size7{font-size:2em}.katex .fontsize-ensurer.reset-size2.size8,.katex .sizing.reset-size2.size8{font-size:2.4em}.katex .fontsize-ensurer.reset-size2.size9,.katex .sizing.reset-size2.size9{font-size:2.88em}.katex .fontsize-ensurer.reset-size2.size10,.katex .sizing.reset-size2.size10{font-size:3.45666667em}.katex .fontsize-ensurer.reset-size2.size11,.katex .sizing.reset-size2.size11{font-size:4.14666667em}.katex .fontsize-ensurer.reset-size3.size1,.katex .sizing.reset-size3.size1{font-size:.71428571em}.katex .fontsize-ensurer.reset-size3.size2,.katex .sizing.reset-size3.size2{font-size:.85714286em}.katex .fontsize-ensurer.reset-size3.size3,.katex .sizing.reset-size3.size3{font-size:1em}.katex .fontsize-ensurer.reset-size3.size4,.katex .sizing.reset-size3.size4{font-size:1.14285714em}.katex .fontsize-ensurer.reset-size3.size5,.katex .sizing.reset-size3.size5{font-size:1.28571429em}.katex .fontsize-ensurer.reset-size3.size6,.katex .sizing.reset-size3.size6{font-size:1.42857143em}.katex .fontsize-ensurer.reset-size3.size7,.katex .sizing.reset-size3.size7{font-size:1.71428571em}.katex .fontsize-ensurer.reset-size3.size8,.katex .sizing.reset-size3.size8{font-size:2.05714286em}.katex .fontsize-ensurer.reset-size3.size9,.katex .sizing.reset-size3.size9{font-size:2.46857143em}.katex .fontsize-ensurer.reset-size3.size10,.katex .sizing.reset-size3.size10{font-size:2.96285714em}.katex .fontsize-ensurer.reset-size3.size11,.katex .sizing.reset-size3.size11{font-size:3.55428571em}.katex .fontsize-ensurer.reset-size4.size1,.katex .sizing.reset-size4.size1{font-size:.625em}.katex .fontsize-ensurer.reset-size4.size2,.katex .sizing.reset-size4.size2{font-size:.75em}.katex .fontsize-ensurer.reset-size4.size3,.katex .sizing.reset-size4.size3{font-size:.875em}.katex .fontsize-ensurer.reset-size4.size4,.katex .sizing.reset-size4.size4{font-size:1em}.katex .fontsize-ensurer.reset-size4.size5,.katex .sizing.reset-size4.size5{font-size:1.125em}.katex .fontsize-ensurer.reset-size4.size6,.katex .sizing.reset-size4.size6{font-size:1.25em}.katex .fontsize-ensurer.reset-size4.size7,.katex .sizing.reset-size4.size7{font-size:1.5em}.katex .fontsize-ensurer.reset-size4.size8,.katex .sizing.reset-size4.size8{font-size:1.8em}.katex .fontsize-ensurer.reset-size4.size9,.katex .sizing.reset-size4.size9{font-size:2.16em}.katex .fontsize-ensurer.reset-size4.size10,.katex .sizing.reset-size4.size10{font-size:2.5925em}.katex .fontsize-ensurer.reset-size4.size11,.katex .sizing.reset-size4.size11{font-size:3.11em}.katex .fontsize-ensurer.reset-size5.size1,.katex .sizing.reset-size5.size1{font-size:.55555556em}.katex .fontsize-ensurer.reset-size5.size2,.katex .sizing.reset-size5.size2{font-size:.66666667em}.katex .fontsize-ensurer.reset-size5.size3,.katex .sizing.reset-size5.size3{font-size:.77777778em}.katex .fontsize-ensurer.reset-size5.size4,.katex .sizing.reset-size5.size4{font-size:.88888889em}.katex .fontsize-ensurer.reset-size5.size5,.katex .sizing.reset-size5.size5{font-size:1em}.katex .fontsize-ensurer.reset-size5.size6,.katex .sizing.reset-size5.size6{font-size:1.11111111em}.katex .fontsize-ensurer.reset-size5.size7,.katex .sizing.reset-size5.size7{font-size:1.33333333em}.katex .fontsize-ensurer.reset-size5.size8,.katex .sizing.reset-size5.size8{font-size:1.6em}.katex .fontsize-ensurer.reset-size5.size9,.katex .sizing.reset-size5.size9{font-size:1.92em}.katex .fontsize-ensurer.reset-size5.size10,.katex .sizing.reset-size5.size10{font-size:2.30444444em}.katex .fontsize-ensurer.reset-size5.size11,.katex .sizing.reset-size5.size11{font-size:2.76444444em}.katex .fontsize-ensurer.reset-size6.size1,.katex .sizing.reset-size6.size1{font-size:.5em}.katex .fontsize-ensurer.reset-size6.size2,.katex .sizing.reset-size6.size2{font-size:.6em}.katex .fontsize-ensurer.reset-size6.size3,.katex .sizing.reset-size6.size3{font-size:.7em}.katex .fontsize-ensurer.reset-size6.size4,.katex .sizing.reset-size6.size4{font-size:.8em}.katex .fontsize-ensurer.reset-size6.size5,.katex .sizing.reset-size6.size5{font-size:.9em}.katex .fontsize-ensurer.reset-size6.size6,.katex .sizing.reset-size6.size6{font-size:1em}.katex .fontsize-ensurer.reset-size6.size7,.katex .sizing.reset-size6.size7{font-size:1.2em}.katex .fontsize-ensurer.reset-size6.size8,.katex .sizing.reset-size6.size8{font-size:1.44em}.katex .fontsize-ensurer.reset-size6.size9,.katex .sizing.reset-size6.size9{font-size:1.728em}.katex .fontsize-ensurer.reset-size6.size10,.katex .sizing.reset-size6.size10{font-size:2.074em}.katex .fontsize-ensurer.reset-size6.size11,.katex .sizing.reset-size6.size11{font-size:2.488em}.katex .fontsize-ensurer.reset-size7.size1,.katex .sizing.reset-size7.size1{font-size:.41666667em}.katex .fontsize-ensurer.reset-size7.size2,.katex .sizing.reset-size7.size2{font-size:.5em}.katex .fontsize-ensurer.reset-size7.size3,.katex .sizing.reset-size7.size3{font-size:.58333333em}.katex .fontsize-ensurer.reset-size7.size4,.katex .sizing.reset-size7.size4{font-size:.66666667em}.katex .fontsize-ensurer.reset-size7.size5,.katex .sizing.reset-size7.size5{font-size:.75em}.katex .fontsize-ensurer.reset-size7.size6,.katex .sizing.reset-size7.size6{font-size:.83333333em}.katex .fontsize-ensurer.reset-size7.size7,.katex .sizing.reset-size7.size7{font-size:1em}.katex .fontsize-ensurer.reset-size7.size8,.katex .sizing.reset-size7.size8{font-size:1.2em}.katex .fontsize-ensurer.reset-size7.size9,.katex .sizing.reset-size7.size9{font-size:1.44em}.katex .fontsize-ensurer.reset-size7.size10,.katex .sizing.reset-size7.size10{font-size:1.72833333em}.katex .fontsize-ensurer.reset-size7.size11,.katex .sizing.reset-size7.size11{font-size:2.07333333em}.katex .fontsize-ensurer.reset-size8.size1,.katex .sizing.reset-size8.size1{font-size:.34722222em}.katex .fontsize-ensurer.reset-size8.size2,.katex .sizing.reset-size8.size2{font-size:.41666667em}.katex .fontsize-ensurer.reset-size8.size3,.katex .sizing.reset-size8.size3{font-size:.48611111em}.katex .fontsize-ensurer.reset-size8.size4,.katex .sizing.reset-size8.size4{font-size:.55555556em}.katex .fontsize-ensurer.reset-size8.size5,.katex .sizing.reset-size8.size5{font-size:.625em}.katex .fontsize-ensurer.reset-size8.size6,.katex .sizing.reset-size8.size6{font-size:.69444444em}.katex .fontsize-ensurer.reset-size8.size7,.katex .sizing.reset-size8.size7{font-size:.83333333em}.katex .fontsize-ensurer.reset-size8.size8,.katex .sizing.reset-size8.size8{font-size:1em}.katex .fontsize-ensurer.reset-size8.size9,.katex .sizing.reset-size8.size9{font-size:1.2em}.katex .fontsize-ensurer.reset-size8.size10,.katex .sizing.reset-size8.size10{font-size:1.44027778em}.katex .fontsize-ensurer.reset-size8.size11,.katex .sizing.reset-size8.size11{font-size:1.72777778em}.katex .fontsize-ensurer.reset-size9.size1,.katex .sizing.reset-size9.size1{font-size:.28935185em}.katex .fontsize-ensurer.reset-size9.size2,.katex .sizing.reset-size9.size2{font-size:.34722222em}.katex .fontsize-ensurer.reset-size9.size3,.katex .sizing.reset-size9.size3{font-size:.40509259em}.katex .fontsize-ensurer.reset-size9.size4,.katex .sizing.reset-size9.size4{font-size:.46296296em}.katex .fontsize-ensurer.reset-size9.size5,.katex .sizing.reset-size9.size5{font-size:.52083333em}.katex .fontsize-ensurer.reset-size9.size6,.katex .sizing.reset-size9.size6{font-size:.5787037em}.katex .fontsize-ensurer.reset-size9.size7,.katex .sizing.reset-size9.size7{font-size:.69444444em}.katex .fontsize-ensurer.reset-size9.size8,.katex .sizing.reset-size9.size8{font-size:.83333333em}.katex .fontsize-ensurer.reset-size9.size9,.katex .sizing.reset-size9.size9{font-size:1em}.katex .fontsize-ensurer.reset-size9.size10,.katex .sizing.reset-size9.size10{font-size:1.20023148em}.katex .fontsize-ensurer.reset-size9.size11,.katex .sizing.reset-size9.size11{font-size:1.43981481em}.katex .fontsize-ensurer.reset-size10.size1,.katex .sizing.reset-size10.size1{font-size:.24108004em}.katex .fontsize-ensurer.reset-size10.size2,.katex .sizing.reset-size10.size2{font-size:.28929605em}.katex .fontsize-ensurer.reset-size10.size3,.katex .sizing.reset-size10.size3{font-size:.33751205em}.katex .fontsize-ensurer.reset-size10.size4,.katex .sizing.reset-size10.size4{font-size:.38572806em}.katex .fontsize-ensurer.reset-size10.size5,.katex .sizing.reset-size10.size5{font-size:.43394407em}.katex .fontsize-ensurer.reset-size10.size6,.katex .sizing.reset-size10.size6{font-size:.48216008em}.katex .fontsize-ensurer.reset-size10.size7,.katex .sizing.reset-size10.size7{font-size:.57859209em}.katex .fontsize-ensurer.reset-size10.size8,.katex .sizing.reset-size10.size8{font-size:.69431051em}.katex .fontsize-ensurer.reset-size10.size9,.katex .sizing.reset-size10.size9{font-size:.83317261em}.katex .fontsize-ensurer.reset-size10.size10,.katex .sizing.reset-size10.size10{font-size:1em}.katex .fontsize-ensurer.reset-size10.size11,.katex .sizing.reset-size10.size11{font-size:1.19961427em}.katex .fontsize-ensurer.reset-size11.size1,.katex .sizing.reset-size11.size1{font-size:.20096463em}.katex .fontsize-ensurer.reset-size11.size2,.katex .sizing.reset-size11.size2{font-size:.24115756em}.katex .fontsize-ensurer.reset-size11.size3,.katex .sizing.reset-size11.size3{font-size:.28135048em}.katex .fontsize-ensurer.reset-size11.size4,.katex .sizing.reset-size11.size4{font-size:.32154341em}.katex .fontsize-ensurer.reset-size11.size5,.katex .sizing.reset-size11.size5{font-size:.36173633em}.katex .fontsize-ensurer.reset-size11.size6,.katex .sizing.reset-size11.size6{font-size:.40192926em}.katex .fontsize-ensurer.reset-size11.size7,.katex .sizing.reset-size11.size7{font-size:.48231511em}.katex .fontsize-ensurer.reset-size11.size8,.katex .sizing.reset-size11.size8{font-size:.57877814em}.katex .fontsize-ensurer.reset-size11.size9,.katex .sizing.reset-size11.size9{font-size:.69453376em}.katex .fontsize-ensurer.reset-size11.size10,.katex .sizing.reset-size11.size10{font-size:.83360129em}.katex .fontsize-ensurer.reset-size11.size11,.katex .sizing.reset-size11.size11{font-size:1em}.katex .delimsizing.size1{font-family:KaTeX_Size1}.katex .delimsizing.size2{font-family:KaTeX_Size2}.katex .delimsizing.size3{font-family:KaTeX_Size3}.katex .delimsizing.size4{font-family:KaTeX_Size4}.katex .delimsizing.mult .delim-size1>span{font-family:KaTeX_Size1}.katex .delimsizing.mult .delim-size4>span{font-family:KaTeX_Size4}.katex .nulldelimiter{display:inline-block;width:.12em}.katex .delimcenter,.katex .op-symbol{position:relative}.katex .op-symbol.small-op{font-family:KaTeX_Size1}.katex .op-symbol.large-op{font-family:KaTeX_Size2}.katex .accent>.vlist-t,.katex .op-limits>.vlist-t{text-align:center}.katex .accent .accent-body{position:relative}.katex .accent .accent-body:not(.accent-full){width:0}.katex .overlay{display:block}.katex .mtable .vertical-separator{display:inline-block;min-width:1px}.katex .mtable .arraycolsep{display:inline-block}.katex .mtable .col-align-c>.vlist-t{text-align:center}.katex .mtable .col-align-l>.vlist-t{text-align:left}.katex .mtable .col-align-r>.vlist-t{text-align:right}.katex .svg-align{text-align:left}.katex svg{display:block;position:absolute;width:100%;height:inherit;fill:currentColor;stroke:currentColor;fill-rule:nonzero;fill-opacity:1;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1}.katex svg path{stroke:none}.katex img{border-style:none;min-width:0;min-height:0;max-width:none;max-height:none}.katex .stretchy{width:100%;display:block;position:relative;overflow:hidden}.katex .stretchy:after,.katex .stretchy:before{content:""}.katex .hide-tail{width:100%;position:relative;overflow:hidden}.katex .halfarrow-left{position:absolute;left:0;width:50.2%;overflow:hidden}.katex .halfarrow-right{position:absolute;right:0;width:50.2%;overflow:hidden}.katex .brace-left{position:absolute;left:0;width:25.1%;overflow:hidden}.katex .brace-center{position:absolute;left:25%;width:50%;overflow:hidden}.katex .brace-right{position:absolute;right:0;width:25.1%;overflow:hidden}.katex .x-arrow-pad{padding:0 .5em}.katex .cd-arrow-pad{padding:0 .55556em 0 .27778em}.katex .mover,.katex .munder,.katex .x-arrow{text-align:center}.katex .boxpad{padding:0 .3em}.katex .fbox,.katex .fcolorbox{box-sizing:border-box;border:.04em solid}.katex .cancel-pad{padding:0 .2em}.katex .cancel-lap{margin-left:-.2em;margin-right:-.2em}.katex .sout{border-bottom-style:solid;border-bottom-width:.08em}.katex .angl{box-sizing:border-content;border-top:.049em solid;border-right:.049em solid;margin-right:.03889em}.katex .anglpad{padding:0 .03889em}.katex .eqn-num:before{counter-increment:katexEqnNo;content:"(" counter(katexEqnNo) ")"}.katex .mml-eqn-num:before{counter-increment:mmlEqnNo;content:"(" counter(mmlEqnNo) ")"}.katex .mtr-glue{width:50%}.katex .cd-vert-arrow{display:inline-block;position:relative}.katex .cd-label-left{display:inline-block;position:absolute;right:calc(50% + .3em);text-align:left}.katex .cd-label-right{display:inline-block;position:absolute;left:calc(50% + .3em);text-align:right}.katex-display{display:block;margin:1em 0;text-align:center}.katex-display>.katex{display:block;text-align:center;white-space:nowrap}.katex-display>.katex>.katex-html{display:block;position:relative}.katex-display>.katex>.katex-html>.tag{position:absolute;right:0}.katex-display.leqno>.katex>.katex-html>.tag{left:0;right:auto}.katex-display.fleqn>.katex{text-align:left;padding-left:2em}body{counter-reset:katexEqnNo mmlEqnNo}
+
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.katex-error {
+	color: var(--vscode-editorError-foreground);
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        
+        
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="javascript">javascript</h1>
+<ul>
+<li>(缩写：JS)是一门完备的 动态编程语言。当应用于 HTML 文档时，可为网站提供动态交互特性。由布兰登·艾克（ Brendan Eich，Mozilla 项目、Mozilla 基金会和 Mozilla 公司的联合创始人）发明。</li>
+<li>它是一个面向对象的语言。它比java中的对象更纯粹。js在es5后的有<code>class</code>，也不能说js中有了类。<code>class</code>的本质还是对象（<code>Object</code>）。</li>
+<li>没有继承，有引用。因为没有类，所以没有继承。引用是通过原型链实现引用。</li>
+</ul>
+<h1 id="名词说明">名词说明</h1>
+<p><strong>动态编程语言</strong>
+是指可在运行阶段时执行那些在编译阶段执行的操作的编程语言。比如，在 JavaScript 中， 我们可以在程序运行时改变变量的类型，或者为一个对象增加一个新属性或者方法。
+<strong>对象的属性</strong>
+对象是复杂数据类型（亦称：引用数据类型）。对象的每个key对应的值可以是简单数据类型也可以是复杂数据类型。作者把每个key对应的值都称为属性，不论是简单数据类型还是复杂数据类型。
+<strong>原型对象上的方法</strong>
+prop#method。如：<code>Promise#then</code>。</p>
+<h1 id="数据类型">数据类型</h1>
+<p>String
+Number
+Boolean
+Null
+undefined
+Object
+Symbol
+BigInt</p>
+<h1 id="变量">变量</h1>
+<h2 id="var--let--const">var &amp; let &amp; const</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>是否可以变量提升</th>
+<th>作用域</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>var</td>
+<td>y</td>
+<td>函数级作用域</td>
+<td>可多次声明</td>
+</tr>
+<tr>
+<td>let</td>
+<td>n</td>
+<td>块级作用域</td>
+<td>不可多次声明</td>
+</tr>
+<tr>
+<td>const</td>
+<td>n</td>
+<td>块级作用域</td>
+<td>不可多次声明</td>
+</tr>
+</tbody>
+</table>
+<h2 id="声明--定义">声明 &amp; 定义</h2>
+<p>声明：提出变量名
+初始化：第一次赋值
+定义 = 声明 + 初始化</p>
+<pre><code><code><div>var a // 声明
+a = 's' // 初始化
+var n = 0 // 定义
+</div></code></code></pre>
+<h2 id="变量提升">变量提升</h2>
+<p>function、var都会触发变量提升。
+先提升function，再提升var。且存在变量覆盖。</p>
+<h1 id="事件"><a href="/html/event.html">事件</a></h1>
+<h1 id="原型链">原型链</h1>
+<p>使用对象的<code>[[prototype]]</code>属性原型链上源的对象。
+原型链中的对象使用<code>[[prototype]]</code>属性“串联”起彼此。
+一条链中不能有分支。
+原型链的下游对象可以访问原型链的上游对象的属性。</p>
+<h2 id="new的过程做了什么">new的过程做了什么</h2>
+<p>var a = Object.create(Object)
+a[[prototype]] = Foo.prototype
+// or
+// a.<strong>proto</strong> = Foo.prototype
+Foo.call(a)
+先创建一个实例，再把实例添加到原型链中。</p>
+<h1 id="作用域链">作用域链</h1>
+<p>js在宏观上使用函数作用域，同时支持块级作用域。
+函数作用域。。。。
+块级作用域，只有<code>let</code>、<code>const</code>。</p>
+<h2 id="this">this</h2>
+<p>this指向运行时（不是定义时）的上下文环境变量。</p>
+<h3 id="abc">abc</h3>
+<p>即<code>apply / bind / call</code>。<code>abc</code>是作者起的名字。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>apply</td>
+<td>fn.apply(otherThis, arrOfArgs)</td>
+<td>立即执行</td>
+</tr>
+<tr>
+<td>call</td>
+<td>fn.call(otherThis, arg0, arg1, ...)</td>
+<td>立即执行</td>
+</tr>
+<tr>
+<td>bind</td>
+<td>fn.bind(otherThis, arg0, arg1, ...)</td>
+<td>返回一个方法</td>
+</tr>
+</tbody>
+</table>
+<h1 id="constructor--class">constructor &amp; class</h1>
+<h2 id="constructor">constructor</h2>
+<p>（特指构造方法）
+es5前的产物。es6以后一般不用。
+<code>inst instanceof ClassName</code></p>
+<h2 id="class">class</h2>
+<p>与构造函数很像。（不是构造函数的语法糖。）
+不能变量提升，遵守是块级作用域规则。
+class可以使用<code>decorator</code>，构造函数不能使用<code>decorator</code>。</p>
+<pre><code><code><div>class ClassName {
+    constructor (...params) { // 可省略
+        // ...
+        this.a = params[0] // 会在实例对象上设置属性a
+    }
+    t () {                 // 会在实例对象的原型链上的上游对象class ClassName上创建t属性。t属性的值是一个方法。方法中的this遵守作用域规则。执行`instance.t()`时this指向instance对象。
+        // ...
+        return this.a
+    }
+}
+</div></code></code></pre>
+<p>上述代码可(大致)转换为构造函数代码：</p>
+<pre><code><code><div>function ClassName (...params) {
+    this.a = params[0]
+}
+ClassName.prototype.t = funtion () {
+    return this.a
+}
+// 若要使用class则构造者是class ClassName.
+// 若要使用构造器则构造者是方法ClassName
+</div></code></code></pre>
+<pre><code><code><div>class A {
+    constructor () {...} // 可省略
+    get p () {...}       // 使用存取描述符
+    set p (v) {...}
+    [methodName] () {}   // 使用属性表达式
+    static s () {}       // 静态属性
+    static sa = 0       // 静态属性
+}
+class A extends B {}     // 类A继承类B
+</div></code></code></pre>
+<p>静态方法的本质是定义在构造方法上的方法。所以有人理解为不使用实例化就能使用的方法。也有人理解为不能在实例上使用，只能在类上使用的方法。
+如果把静态方法的本质写出来，则如下：</p>
+<pre><code><code><div>function ClassName () {...}
+ClassName.staticFn () {...}
+</div></code></code></pre>
+<p>为什么可以这样写？
+<code>funtion</code>的原型链上游中有<code>Object</code>对象。该对象支持设置属性。静态方法就是为一个是funtion的对象设置了一个属性，该属性值是一个方法。</p>
+<h1 id="proxy--reflect">proxy &amp; reflect</h1>
+<h2 id="proxy">proxy</h2>
+<p>proxy让代理模式更容易实现。
+常用于做：保护/预检/代理等。</p>
+<pre><code><code><div>let o = {
+    a: 's',
+    _b: 1
+}
+var p = new Proxy(o, {
+    get: (target, propKey, receiver) =&gt; {
+        if (propKey.startsWith('_')) {
+            return new Error('私有方法不能被外部访问')
+        } elss {
+            return target[propKey]
+        }
+    }
+})
+console.log(p.a)
+console.log(p._b)
+</div></code></code></pre>
+<p>let {proxy, revoke} = Proxy.revocable(target, handler)
+this指向handler。因为this指向运行时上下文环境。</p>
+<pre><code><code><div>var proxy = new Proxy(target, handler)
+target: Object,
+handler: 控制对象。
+    {
+        get(target, propKey, receiver) // receiver 读操作所在的对象
+        set(target, propKey, value, receiver)
+        has(target, propKey)
+        deleteProperty(target, propKey)
+        ownKeys(target)
+        getOwnPropertyDescription(target, propKey)
+        defineProperty(target, propKey, propDesc)
+        preventExtensions(target)
+        getPrototypeOf(target)
+        isExtensible(target)
+        setPrototypeOf(target, proto)
+        apply(target, object, args)
+        construct(target, args)
+    }
+</div></code></code></pre>
+<h2 id="reflect">reflect</h2>
+<ul>
+<li>更接近语言本质。</li>
+<li>当前操作<code>Object</code>的方法同时存在于<code>Object</code>、<code>Reflect</code>。未来会只在<code>Reflect</code>上存在。</li>
+<li>Reflect与Proxy的方法一一对应。</li>
+<li>Reflect可保证原生方法被执行，Proxy可保证原生方法不被执行，执行的是代理对象的方法。</li>
+</ul>
+<pre><code><code><div>Reflect.get(target, propKey, receiver)
+Reflect.set(target, propKey, value, receiver)
+Reflect.apply(target, thisArg, arrArgs)
+Reflect.construct(target, arrArgs)
+Reflect.defineProperty(target, propKey, value, desc)
+Reflect.deleteProperty(target, propKey)
+Reflect.has(target, propKey)
+Reflect.ownKeys(target)
+Reflect.isExtensible(target)
+Reflect.preventExtensions(target)
+Reflect.getOwnPropertyDescriptor(target, propKey)
+Reflect.getPrototypeOf(target)
+Reflect.setPrototypeOf(target, prototype)
+</div></code></code></pre>
+<h2 id="demo-for-观察者模式">demo for 观察者模式</h2>
+<pre><code><code><div>let queuedObservers = new Set()
+let handler = {
+    set: (target, key, value, receiver) =&gt; {
+        let result = Reflect.set(target, key, value, receiver)
+        queuedObservers.forEach(observer =&gt; observer())
+        return result
+    }
+}
+let observable = obj =&gt; {
+    return new Proxy(obj, handler)
+}
+let observe = fn =&gt; queuedObservers.add(fn)
+
+let obj = {a: 's'}
+let observedObj = observable(obj)
+let print = () =&gt; (console.log('print'))
+observe(print)
+observedObj.a = 0
+</div></code></code></pre>
+<h1 id="宏任务--微任务">宏任务 &amp; 微任务</h1>
+<h2 id="宏任务由宿主发起">宏任务，由宿主发起。</h2>
+<p>script 可理解为外层代码
+setTimeout
+setInterval
+postMessage
+MessageChannel
+setImmediate (node环境)</p>
+<h2 id="微任务由js引擎发起">微任务，由js引擎发起。</h2>
+<p>Promise
+MutationObserver
+process.nextTick （node环境）</p>
+<h2 id="promise">promise</h2>
+<p>promise的参数是一个接收<code>resolve</code>/<code>reject</code>方法的方法。
+一个promise对象有三个状态。初始状态是<code>pendding</code>，当执行<code>resolve</code>方法时改变为<code>fulfilled</code>状态，当执行<code>reject</code>方法时改变为<code>rejected</code>状态。二个方法都不执行，则一直是<code>pendding</code>状态。<code>resolve</code>状态触发promise对象的<code>then</code>方法。<code>reject</code>状态触发promise对象的<code>catch</code>方法。
+在定义时开始执行。</p>
+<h3 id="promise的属性">promise的属性</h3>
+<pre><code><code><div>Promise#then()
+Promise#catch()
+Promise#finally()    // 不返回东西。即使写了返回东西的代码也不返回。
+Promise.all(arrP)    // 这种写法的都是静态属性。若arrP都是fulfilled状态则执行then方法，参数是一个数组。若arrP中有一个rejected状态则立即执行catch，参数是一个值。
+Promise.race(arrP)   // 返回最先改变状态的promise对象，状态由该对象决定。
+Promise.allSettled(arrP) // 当arrP都改变状态后返回结果。
+结果是由{status: 'fulfilled' | 'rejected', value / reason}组成的数组。
+Promise.any(arrP)        // arrP中只要有一个状态为fulfilled则返回该值，触发then()。若全为rejected则返回AggregateError对象，触发catch()。
+Promise.resolve()
+Promise.reject()
+Promise.try()            // 正在开发。
+</div></code></code></pre>
+<h3 id="使用promise封装ajax">使用promise封装ajax</h3>
+<pre><code><code><div>let fetchData = (url, method) =&gt; {
+return new Promise((s, j) =&gt; {
+    let handler = function() {
+        if (this.readyState !== 4) {
+            return 
+        } else {
+            if (this.state === 200) {
+                s(this.response)
+            } else {
+                j(new Error(this.statusText))
+            }
+        }
+    }
+    let client = new XMLHttpRequest()
+    client.open(method.toUpperCase(), url)
+    client.onreadystatechange = handler
+    client.responseType = 'json'
+    client.setRequestHeader('Accept', 'application/json')
+    client.send()
+})
+}
+</div></code></code></pre>
+<h3 id="判断promise对象">判断promise对象</h3>
+<pre><code><code><div>function isPromise(obj) {
+  return 'function' == typeof obj.then;
+}
+</div></code></code></pre>
+<h2 id="eventloop-异步--同步">eventLoop (异步 &amp; 同步)</h2>
+<p>所有js代码按执行时序可分为三部分：同步代码/宏任务/微任务。
+代码从上到下执行。遇到同步代码则依次序执行。遇到宏任务不执行，放入宏任务队列。遇到微任务不执行，入入微任务队列。执行完所有同步代码后执行一个宏任务队列中的宏任务，然后执行完所有微任务。再执行宏任务队列中的一个宏任务，再执行所有微任务。直到宏任务队列为空/微任务队列为空。</p>
+<h1 id="symbol">Symbol</h1>
+<p>内置了<code>Symbol.iterator</code>属性</p>
+<h1 id="generator--iterator">Generator &amp; Iterator</h1>
+<h2 id="iterator">Iterator</h2>
+<p>它是一个遍历器。
+<code>[Symbol.iterator]</code>是遍历器接口。
+有iterator接口的对象就是可遍历对象。
+可遍历对象都有<code>[Symbol.iterator]</code>属性。
+遍历器接口是一个方法。该方法返回遍历器对象（至少包含<code>next</code>属性的对象）。
+next属性值是一个方法。该方法返回一个包含当前对象信息的对象。如：</p>
+<pre><code><code><div>{
+    value: any, // 当前值,
+    done: boolean, // 是否结束
+}
+</div></code></code></pre>
+<p>内置iterator接口的对象有Array/Set/Map/String/TypedArray/...。
+也可以自定义iterator接口，如：</p>
+<pre><code><code><div>let obj = {}
+obj[Symbol.iterator] = () =&gt; {
+    let t = 0
+    return {
+        next: function () {
+        if (t++ &lt; 3) {
+            return {
+                value: t,
+                done: false
+            }
+        } else {
+            return {
+                value: 8,
+                done: true
+            }
+        };
+        }
+    };
+}
+for (let v of obj) {
+    console.log('v', v)
+}
+</div></code></code></pre>
+<p>主要使用<code>for...of</code>对接iterator接口。</p>
+<h3 id="iterator-的作用有三个">Iterator 的作用有三个：</h3>
+<p>一是为各种数据结构，提供一个统一的、简便的访问接口；
+二是使得数据结构的成员能够按某种次序排列；
+三是Iterator 接口主要供for...of消费。</p>
+<pre><code><code><div>for (let ele of set)
+for (let [k, v] of map)
+</div></code></code></pre>
+<h3 id="遍历器对象">遍历器对象</h3>
+<pre><code class="language-js"><div>{
+    next() =&gt; any 
+    <span class="hljs-attr">return</span>: any    <span class="hljs-comment">// 完成遍历前清理或释放资源</span>
+    <span class="hljs-attr">throw</span>: error
+}
+</div></code></pre>
+<h3 id="触发iterator接口的方法">触发iterator接口的方法</h3>
+<ul>
+<li>解构赋值</li>
+<li>扩展运算符<code>...</code></li>
+<li><code>yield *</code></li>
+<li>遍历结构，如<code>for...of / Array.from / Map() / Set() / WeakMap() / WeakSet() / Promise.all() / Promise.race()</code></li>
+</ul>
+<h2 id="generator">Generator</h2>
+<p>Generator 函数</p>
+<ul>
+<li>是一个状态机，封装了多个内部状态。</li>
+<li>会返回一个generator对象（不是遍历器对象），(至少包含<code>next</code>属性，可以包含<code>throw</code>/<code>return</code>属性的对象)。从定义角度认为generator对象包括iterartor对象。</li>
+<li><code>function</code>关键字与函数名之间有一个星号<code>*</code>.</li>
+<li>调用<code>next()</code>时执行到下一个<code>yield</code>。当调用<code>throw()</code>时，把<code>done</code>的属性值改为<code>true</code>，遍历结束。当调用<code>return(v)</code>时，把<code>value</code>的属性值为<code>v</code>，<code>done</code>的属性值改为<code>true</code>，遍历结束。</li>
+<li>函数体内部使用<code>yield</code>表达式，定义不同的内部状态。<code>generator</code>方法和<code>yield</code>可互相嵌套。
+每个<code>yield</code>都定义一个状态。yield后面的值是该状态的值。</li>
+<li>是分段执行的，yield表达式是暂停执行的标记，而<code>next()</code>可以恢复执行。</li>
+<li>可以用于定义iterator接口。</li>
+</ul>
+<pre><code><code><div>// 开关机
+function * helloWorldGenerator() {
+    let t = true
+    while (true) {
+        yield t = !t
+    }
+}
+var hw = helloWorldGenerator();
+console.log(hw.next()) // 多执行几次
+
+// 生成fibonacci数列
+function * getFibonacci(num = 10) {
+    let t = 0;
+    let [pre, cur] = [0, 1]
+    while (t++ &lt; num) {
+        yield cur
+        let q = cur
+        cur = q + pre
+        pre = q
+    }
+}
+function getFibArr (num = 10) {
+    return Array.from(getFibonacci(num))
+}
+// 平化数组
+function * faltmizeArr(arr, isDeepFirst = true) {
+    if (isDeepFirst) {
+        for(let ele of arr) {
+            if (Array.isArray(ele)) {
+                yield * faltmizeArr(ele)
+            } else {
+                yield ele
+            }
+        }
+    } else {
+        let s = []
+        for (let ele of arr) {
+            if (Array.isArray(ele)) {
+                s.push(...ele)
+            } else {
+                yield ele
+            }
+        }
+        if (s.length) {
+            yield * faltmizeArr(s, isDeepFirst)
+        }
+    }
+}
+</div></code></code></pre>
+<h3 id="generatorreturn">Generator#return</h3>
+<h3 id="generatorthrow">Generator#throw</h3>
+<p>generator方法的实例可执行<code>throw()</code>。然后在generator方法中catch一次错误，若再执行实例的<code>throw()</code>，则generator方法不catch，则实例所在环境catch.</p>
+<h3 id="协程">协程</h3>
+<p>&quot;协程&quot;（coroutine），意思是多个线程互相协作，完成异步任务。过程如下：</p>
+<ol>
+<li>协程A开始执行。</li>
+<li>协程A执行到一半，进入暂停，执行权转移到协程B。</li>
+<li>（一段时间后）协程B交还执行权。</li>
+<li>协程A恢复执行。</li>
+</ol>
+<h3 id="co模块">co模块</h3>
+<p>详见<a href="/other/co.html">co</a></p>
+<p>整个过程和<code>web worker</code>的工作过程很像。</p>
+<h3 id="流式处理">流式处理</h3>
+<h3 id="co源码">co源码</h3>
+<h2 id="async--await">async &amp; await</h2>
+<p>是es7的内容。
+基于<code>co</code>模块处理的。
+<code>async/await</code>是<code>generator/yield</code>的语法糖，本质是<code>generator/yield/co</code>。
+<code>generator/yield/co</code>的具有的功能在<code>async/await</code>中都有。</p>
+<h3 id="async原理">async原理</h3>
+<pre><code><code><div>async function fn(args) {
+  // ...
+}
+// 等同于
+function fn(args) {
+  return spawn(function* () {
+    // ...
+  });
+}
+function spawn(genF) {
+  return new Promise(function(resolve, reject) {
+    const gen = genF();
+    function step(nextF) {
+      let next;
+      try {
+        next = nextF();
+      } catch(e) {
+        return reject(e);
+      }
+      if(next.done) {
+        return resolve(next.value);
+      }
+      Promise.resolve(next.value).then(function(v) {
+        step(function() { return gen.next(v); });
+      }, function(e) {
+        step(function() { return gen.throw(e); });
+      });
+    }
+    step(function() { return gen.next(undefined); });
+  });
+}
+</div></code></code></pre>
+<h1 id="decorator">decorator</h1>
+<ul>
+<li>可以用于装饰类、类的方法。不可用于装饰方法。因为方法会被变量提升。类、类的方法不会提升。</li>
+<li>当前仍再更新。</li>
+<li>装饰器是一个方法。参数有3个target:被装饰的对象（类或类的方法），name:被装饰的属性名，descriptor:属性描述符对象。</li>
+</ul>
+<h2 id="应用">应用</h2>
+<ul>
+<li>身份认证</li>
+<li>日志记录</li>
+<li>数据（参数）合理性检查</li>
+<li>缓存装饰器</li>
+</ul>
+<h2 id="常用的修饰器库">常用的修饰器库</h2>
+<ul>
+<li><a href="https://github.com/CocktailJS/traits-decorator">traits-decorator</a></li>
+<li><a href="https://github.com/postaljs/postal.js">postal</a></li>
+<li><a href="https://github.com/jayphelps/core-decorators.js">core-decorator</a></li>
+</ul>
+<h1 id="位运算">位运算</h1>
+<details>
+    <summary>
+        <!-- <h1>位运算</h1> -->
+    </summary>
+& and 与   判断2个二进制数每个对应的位上是否都为1,则该位为1  
+| or  或   判断2个二进制数每个对应的位上是否至少有一位为1,则该位为1  
+^ xor 异或 判断2个二进制数每个对应的位上是否只有一位为1,则该位为1  
+                   对应位上是否不同。若是则为1，否则为0。  
+~ not 取反 每一位都取反  
+>> 右移 （no.1） 右边移出的去掉。左边以最左则的值填充。  
+<< 左移（0）当移动位数大于32时。使用x%32。 左边溢出的去掉。右边使用0补齐。  
+>>> 无符号右移（0） 右边移出的去掉。左边以0填充。  
+<p>&lt;&lt;=</p>
+<blockquote>
+<blockquote>
+<p>=</p>
+<blockquote>
+<p>=
+&amp;=
+^=
+|=</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>demo
+|判断奇偶| <code>x&amp;1</code>|
+|左移一位| &lt;=&gt; *2| 右移一位| /2|
+0与任意数^ 结果是任意数。任意与自身异或都是0<br>
+|右移一位| 得到整数部分|
+|~~| 得到number型(得到整数部分,包括符号.)|</p>
+<p>/**</p>
+<ul>
+<li>是否为奇数
+<em>/
+let isOdd = n =&gt; !!(n &amp; 1)
+/</em>*</li>
+<li>位运算，是否为偶数
+<em>/
+let isEven = n =&gt; !isOdd(n)
+/</em>*</li>
+<li>乘以2^n</li>
+<li>n 底</li>
+<li>m 2的幂
+*/
+let multipleTwo = (n, m) =&gt; {
+return n &lt;&lt; m
+}</li>
+</ul>
+</details>
+<h1 id="worker"><a href="/language/javascript/webWorker.html">worker</a></h1>
+<h1 id="线程">线程</h1>
+<p>js是单线程语言。但是它的宿主环境——browser支持多线程。
+当遇到大量计算时可以使用<code>web worker</code>处理。主<code>worker</code>创建一个子<code>worker</code>，再让子worker处理大量计算，主worker会交出数据的控制权给子worker。得到计算结果后把由子workern以消息<code>message</code>的形式给主worker。</p>
+<h2 id="协程-1">协程</h2>
+<h1 id="各对象的属性">各对象的属性</h1>
+<ul>
+<li><a href="/language/javascript/string.html">string</a></li>
+<li><a href="/language/javascript/number.html">number</a></li>
+<li>boolean</li>
+<li><a href="/language/javascript/array.html">array</a></li>
+<li><a href="/language/javascript/object.html">object</a></li>
+<li><a href="/language/javascript/symbol.html">symbol</a></li>
+<li>null</li>
+<li>undefined</li>
+<li><a href="/language/javascript/bigint.html">bigint</a></li>
+<li><a href="/language/javascript/set.html">set</a></li>
+<li><a href="/language/javascript/map.html">map</a></li>
+</ul>
+<h1 id="对象">对象</h1>
+<ul>
+<li>本地对象
+<ul>
+<li>Object</li>
+<li>String</li>
+<li>Array</li>
+<li><a href="/language/javascript/date.html">Date</a></li>
+<li>Number</li>
+<li>RegExp</li>
+<li>Function</li>
+<li>Boolean</li>
+<li>Error</li>
+</ul>
+</li>
+<li>内置对象
+<ul>
+<li><a href="/language/javascript/math.html">Math</a></li>
+<li><a href="/language/javascript/json.html">JSON</a></li>
+</ul>
+</li>
+<li>宿主对象
+<ul>
+<li>BOM</li>
+<li>DOM</li>
+</ul>
+</li>
+</ul>
+<h1 id="模块化">模块化</h1>
+<p>|-|全称|代表|加载方式||||
+|-|-||-|-|-|-|
+|commonjs (cjs)||nodejs|同步加载||||
+|amd|asynchronous module definition|require.js|异步加载||||
+|cmd|common module definition|sea.js|||||
+|umd|universion module definition||||||
+|es6|-|在js语言层面上实现了模块化。|||||
+|iife||||||
+|system||||||
+详见<a href="/language/javascript/modularity.html">模块化</a></p>
+<h1 id="title">title</h1>
+<h1 id="title-1">title</h1>
+<h1 id="title-2">title</h1>
+
+    </body>
+    </html>
