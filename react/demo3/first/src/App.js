@@ -115,7 +115,7 @@ useEffect(() => {
         <Route exact path="/users" element={<Users/>}></Route>
         <Route exact path="/login" element={<Login/>}></Route>
         <Route exact path="/signup" element={<Signup/>}></Route>
-        <Route path="*" element={<NotFou`nd/>}></Route> */}
+        <Route path="*" element={<NotFound/>}></Route> */}
           {routes.map((route, index) => {
             if (route.protected === 'auth') {
               // return (<AuthRoute key={index} path={route.path} exact={route.exact}>
@@ -144,7 +144,7 @@ useEffect(() => {
               ></Route>)
             }
           })}
-        <Route path="*" element={<NotFound/>}></Route>`
+        <Route path="*" element={<NotFound/>}></Route>
       </Routes>
     </AppContext.Provider>)
   }
