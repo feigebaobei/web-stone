@@ -21,6 +21,10 @@ html为js支持很多前提条件。如：
 - 使用Geolocation支持获取地理位置。
 - 使用draggable支持js拖放dom元素。
 
+# 浏览器处理html文件的过程
+
+
+
 # 属性
 - 使用`key="value"`形式书写在开始标签内。
 - 常用`class id style PROP`
@@ -331,6 +335,23 @@ frameborder 属性规定是否显示 iframe 周围的边框。
 |`<meta>`|  定义关于 HTML 文档的元数据。|
 |`<script>`|    定义客户端脚本。|
 |`<style>`| 定义文档的样式信息。|
+
+## script
+内部包含脚本代码。
+
+### 属性
+
+||value|description|default||
+|-|-|-|-|-|
+|async||浏览器默认同步加载、解析脚本代码。若设置此属性则浏览器异步加载、解析脚本代码。|||
+|crossorigin|解决脚本的cors问题||||
+|defer|通知浏览器在文档解析完成后、DOMContentLoaded事件前执行。||||
+|integrity||是否启用子资源完整性功能。`integrity="${散列算法}-${散列值}"`|||
+|nomodule|boolean|脚本是否在支持es2015 modules的浏览器中执行|||
+|nonce|||||
+|referrerpolic||获取脚本时是否使用referrer字段。||`no-referrer`/`no-referrer-when-downgrade`/`origin`/`origin-when-cross-origin`/`same-origin`/`strict-origin`/`strict-origin-when-cross-origin`/`unsafe-url`|
+
+
 
 ## meta
 
