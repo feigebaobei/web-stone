@@ -1,0 +1,62 @@
+# `react`
+
+## overview
+
+> 声明式  
+> 基于组件的  
+> 一次学习，多次使用  
+> jsx语法。（类似xml，由babel解释。）  
+> React 团队希望，组件不要变成复杂的容器，最好只是数据流的管道。开发者根据需要，组合管道即可。 组件的最佳写法应该是函数，而不是类。
+> react居然使用同步更新dom.  
+
+### feature
+
+- react家族的成员太多了。
+- feature1
+- feature2
+
+## usage
+
+见demo
+### 使用script标签引入react脚本
+1. 引入react脚本。
+2. 使用`React.createElement`创建元素。
+3. 使用`ReactDOM.render`渲染元素。
+
+### 使用npm创建react项目
+```
+npx create-react-app projName
+cd projName
+npm run start
+```
+
+## demo
+
+- [demo0-first](/react/demo0/first.html)使用script标签引入react  
+- [demo0-second](/react/demo0/second.html)  
+- [demo1]()  
+
+## api
+请在各包中查看相应api.
+
+## react家族成员
+
+- [react包](/react/react/index.html)  
+- [react-dom](/react/reactDom/index.html)  
+- [redux react-redux](/react/redux/index.html)  
+- [react native](/react/reactNative.html)  
+- [react-router react-router-dom react-router-native](/react/router.html)  
+- [propType](/react/propType.html)  
+- [react](/react/react.html)  
+- [react-dom](/react/react-dom.html)  
+- [react-script](/react/react-script.html)  
+- [next](/react/next/index.html)  
+- [GatsBy](/react/gateby/index.html)  
+- [title](/react/title.html)  
+- [title](/react/title.html)  
+- [title](/react/title.html)  
+- [title](/react/title.html)  
+
+## todo
+### 为什么要最常用的`react`/`react-dom`分开？怎么分清它们？
+### 项目结构

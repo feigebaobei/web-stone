@@ -10,7 +10,7 @@
 
 ### feature
 
-- feature0
+- react家族的成员太多了。
 - feature1
 - feature2
 
@@ -21,14 +21,87 @@
 ## usage
 
 见demo
+### 使用script标签引入react脚本
+1. 引入react脚本。
+2. 使用`React.createElement`创建元素。
+3. 使用`ReactDOM.render`渲染元素。
+
+### 使用npm创建react项目
+1. 
 
 ## demo
 
-- [demo0-first](/react/demo0/first.html)  
+- [demo0-first](/react/demo0/first.html)使用script标签引入react  
 - [demo0-second](/react/demo0/second.html)  
 - [demo1]()  
 
+## 元素
+React 元素是不可变对象。一旦被创建，你就无法更改它的子元素或者属性。一个元素就像电影的单帧：它代表了某个特定时刻的 UI。  
+React 只更新它需要更新的部分  
+过程如下：
+1. 创建一个react元素，传入ReactDOM.render()。
+2. 与之前的react元素比较。只更新不同的部分。
+
+## jsx
+它是像xml的js代码。（当然也像html）。  
+它是js代码的语法糖，会被babel转换为js代码。如:
+```
+let str = 'string'
+<span>{str}</span>
+=>
+let str = 'string'
+React.createElement('span', {}, str)
+```
+jsx代码的本质是js Function。这些Function返回ReactElement.然后是更新组件、渲染视图。  
+
+## 组件
+没有继承，只有组合。
+### 函数组件
+```
+(props) -> ReactElement
+funtion Clock(props) {
+    return ... // ReactElement
+}
+// props是只读的。
+// state 是私有的，并且完全受控于当前组件。
+```
+组件名称必须以大写字母开头。
+
+### class组件
+```
+class ComponentName extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {...}
+    }
+    <!-- 生命周期函数 -->
+    componentDidMount() {...}
+    componentWillUnmount() {...}
+    render() {
+        return ... // ReactElement
+    }
+}
+```
+setState({k: v})
+setState((state, props, any) => ({k: v}))
+
+## 事件
+命名采用小驼峰式
+事件对应的方法的参数 e 是一个合成对象，与原生事件对象不完全相同。
+
+
+
+
+
 ## hooks
+考虑把它移到 react包 中。它是js代码的语法糖，会被babel转换为js代码。如:
+```
+let str = 'string'
+<span>{str}</span>
+=>
+let str = 'string'
+React.createElement('span', {}, str)
+```
 
 <details>
   <summary>hooks</summary>
@@ -209,14 +282,9 @@ function C1 () {
 默认配置文件：`path/to/file.json`。
 
 ## api
+请在各包中查看相应api.
 
-`react.fn(param, first: string, second: boolean = true) => void`
-description
-
-`react.fn(param, [options: {a: string, b?: number}])`
-description
-
-## principle
+## [principle](/framework/react/react/principle.md)
 
 ### 更新机制
 ### fiber
@@ -230,22 +298,6 @@ description
 
 ```
 
-## react家族成员
-
-- [redux react-redux](/react/redux/index.html)  
-- [react native](/react/reactNative.html)  
-- [react-router react-router-dom react-router-native](/react/router.html)  
-- [propType](/react/propType.html)  
-- [react](/react/react.html)  
-- [react-dom](/react/react-dom.html)  
-- [react-script](/react/react-script.html)  
-- [next](/react/next/index.html)  
-- [title](/react/title.html)  
-- [title](/react/title.html)  
-- [title](/react/title.html)  
-- [title](/react/title.html)  
-- [title](/react/title.html)  
-
 ## todo
 
 ### 有很多以`$$`开头的变量。
@@ -258,6 +310,10 @@ if (__DEV__) {...}
 
 ### import/export结构很清晰。源码比vue好看多了。
 
+### 方法组件&class组件的区别
+### 在class组件中为什么修改state的惟一方法是setState()
+### 为什么当前组件不能知道别的组件中的state的值
+### 未来迭代计划。
 ### 未来迭代计划。
 ### 未来迭代计划。
 ### 未来迭代计划。
