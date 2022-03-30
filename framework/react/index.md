@@ -18,6 +18,13 @@
 ## usage
 
 见demo
+```js
+ReactDOM.render(React.createElement('span', {}, 'string'), $('#id'))
+=>
+<div id="id">
+    <span>string</span>
+</div>
+```
 ### 使用script标签引入react脚本
 1. 引入react脚本。
 2. 使用`React.createElement`创建元素。
@@ -58,5 +65,7 @@ npm run start
 - [title](/react/title.html)  
 
 ## todo
+react / react-dom都用到了react-reconciler，该包就是fiber.
+
 ### 为什么要最常用的`react`/`react-dom`分开？怎么分清它们？
 ### 项目结构

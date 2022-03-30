@@ -53,9 +53,11 @@ let str = 'string'
 React.createElement('span', {}, str)
 ```
 jsx代码的本质是js Function。这些Function返回ReactElement.然后是更新组件、渲染视图。  
+把html中不区分大小写变为camelCase。  
+支持自闭合。  
 
 ## 组件
-没有继承，只有组合。
+没有继承，只有组合。(好像js语言中的对象委托呀！原型链就是对象委托的表现。)
 ### 函数组件
 ```
 (props) -> ReactElement
@@ -84,6 +86,12 @@ class ComponentName extends React.Component {
 ```
 setState({k: v})
 setState((state, props, any) => ({k: v}))
+
+### 使用组件
+```
+<ComponentName name="top" />
+```
+name等属性会在props中。
 
 ## 事件
 命名采用小驼峰式
@@ -220,13 +228,13 @@ render()
     用于渲染dom.
     必须返回reactDOM
     不要在render中执行setState
+getSnapshotBeforeUpdate(prevProps, prevState)
+    render之后，被挂载时调用。
 componentDidMount()
     挂载组件后调用
     常用于发送网络请求。启用事件监听方法。
 shouldComponentUpdate(nextProps, nextState)
     控制是否进行更新。若返回true，则更新。否则不更新。
-getSnapshotBeforeUpdate(prevProps, prevState)
-    render之后，被挂载时调用。
 componentDidUpdate(prevProps, prevState, snapshot)
     更新后被调用。首次渲染不会被执行。
 componentWillUnmount()

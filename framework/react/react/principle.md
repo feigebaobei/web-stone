@@ -9,42 +9,7 @@ ReactDOM.reader(                    // 把指定的h1元素渲染到#root dom中
 ```
 可渲染一个h1标签，也可以渲染一个自定义组件`<App>`。
 
-## `reader`的工作逻辑。
-```js
-
-function render(
-  element: React$Element<any>,
-  container: Container,
-  callback: ?Function,
-) {
-    // ...
-  return legacyRenderSubtreeIntoContainer(
-    null,
-    element,
-    container,
-    false,
-    callback,
-  );
-}
-
-
-function legacyRenderSubtreeIntoContainer(
-  parentComponent: ?React$Component<any, any>,
-  children: ReactNodeList,
-  container: Container,
-  forceHydrate: boolean,
-  callback: ?Function,
-) {
-    let fiberRoot: FiberRoot;
-    // ...
-    return getPublicRootInstance(fiberRoot);
-}
-```
-react-consiler 正如其名，react的调解人。
-这个包中使用了fiber去调解工作的。
-fiber翻译是“纤维”。it世界中有进程、线程。react的团队搞出了纤维。控制粒度越来越细了。上层语言控制太细不是什么好事。
-react居然的js的世界中使用同步渲染。细想一下，原来是为了控制dom元素。浏览器也是这么做的。js语言中大多是异步的。
-
+## [`reader`的工作逻辑](/framework/react/react-dom/principle.html)。
 
 ## jsx
 jsx是经过babel处理为`createElement`才能正常运行的。
@@ -80,6 +45,7 @@ function createElementWithValidation (type, props, children) {
 ```
 返回一个element对象
 #### element对象
+是react应用中最小的构建块。  
 ```
 {
     // This tag allows us to uniquely identify this as a React Element
@@ -272,6 +238,23 @@ function startTransition(scope) {
 ## Profiler 0xead2
 
 ## 方法组件与class组件
+||方法组件|class组件|
+|-|-|-|
+||-|基于react.component方法|
+|||原型链中有`isReactComponet / setState / forceUpdate`方法。所以在class组件中可以使用`setState`等。|
+||返回element对象|返回element对象|
+||使用useState等方法设置更新|使用setStatet设置更新|
+|二者在此就已经分开了|调用createElement方法|Component是一个构造函数。|
+||方法返回jsx，即createElement方法返回的element对象。|基于React.Component构造方法，调用其内部的render方法。|
+||没有state|有state|
+||没有生命周期|有生命周期|
+||||
+||||
+||||
+||||
+||||
+
+官方说方法组件会认
 
 ## useState
 ```
@@ -299,4 +282,50 @@ function useState<S>(
 ## hooks怎么运行
 只能在function组件内的顶级中使用。
 
+## 为什么官网说react element被创建后不能再变动
+createElements方法中对element对象执行了
+```
+Object.freeze(element.props) // 可解释为什么props是只读的。
+Object.freeze(element)
+```
+感觉作者好大胆。活的不好吗？非要搞成死的。
+死的有什么好处呀？可保证element不被修改……。react根本就不用享元模式。也就不用搞成活的。
 
+## 如何执行diff的？
+## 为什么class组件使用render()返回东西？
+
+## setState如何工作？
+Component构造函数的原型对象上有setState方法。
+```
+
+Component.prototype.setState = function(partialState, callback) {
+  ...
+  this.updater.enqueueSetState(this, partialState, callback, 'setState');
+};
+```
+其中updater是从参数中来的。参数中若无，则使用默认值ReactNoopUpdateQueue。ReactNoopUpdateQueue是中的方法只在开发环境中运行。
+我搞不懂平时使用React.Component方法时一般不传递updater的，那么怎么执行setState方法中的updater方法。updater方法在哪儿传入的？
+
+## 事件是如何运行的？
+```
+<button onClick={(e) => this.deleteRow(id, e)}>Delete Row</button>
+<button onClick={this.deleteRow.bind(this, id)}>Delete Row</button>
+```
+
+## 三种模式
+|legacy|blocking|concurrent||
+|-|-|-|-|
+|这是当前 React app 使用的方式。当前没有计划删除本模式，但是这个模式可能不支持这些新功能。|目前正在实验中。作为迁移到 concurrent 模式的第一个步骤。|目前在实验中，未来稳定之后，打算作为 React 的默认开发模式。这个模式开启了所有的新功能。||
+
+## fiber的运行逻辑
+fiber使用双缓存机制，浏览器在处理canvas时也使用双缓存机制。
+
+## title
+## title
+## title
+## title
+## 读源码的方法
+记清变量名、方法名、属性名等。
+理清方法间调用栈。
+
+## title
