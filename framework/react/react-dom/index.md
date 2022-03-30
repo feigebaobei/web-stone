@@ -30,7 +30,7 @@ description
 `react-dom.fn(param, [options: {a: string, b?: number}])`
 description
 
-## principle
+## [principle](/framework/react/react-dom/principle.html)
 
 ## jsx
 

@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>&grave;react&grave;</title>
+        <title>render&#x65B9;&#x6CD5;</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -47,71 +47,250 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="react"><code>react</code></h1>
-<h2 id="overview">overview</h2>
-<blockquote>
-<p>声明式<br>
-基于组件的<br>
-一次学习，多次使用<br>
-jsx语法。（类似xml，由babel解释。）<br>
-React 团队希望，组件不要变成复杂的容器，最好只是数据流的管道。开发者根据需要，组合管道即可。 组件的最佳写法应该是函数，而不是类。
-react居然使用同步更新dom.</p>
-</blockquote>
-<h3 id="feature">feature</h3>
-<ul>
-<li>react家族的成员太多了。</li>
-<li>feature1</li>
-<li>feature2</li>
-</ul>
-<h2 id="usage">usage</h2>
-<p>见demo</p>
-<pre><code class="language-js"><div>ReactDOM.render(React.createElement(<span class="hljs-string">&#x27;span&#x27;</span>, {}, <span class="hljs-string">&#x27;string&#x27;</span>), $(<span class="hljs-string">&#x27;#id&#x27;</span>))
-=&gt;
-<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;id&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>string<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
-</div></code></pre>
-<h3 id="使用script标签引入react脚本">使用script标签引入react脚本</h3>
-<ol>
-<li>引入react脚本。</li>
-<li>使用<code>React.createElement</code>创建元素。</li>
-<li>使用<code>ReactDOM.render</code>渲染元素。</li>
-</ol>
-<h3 id="使用npm创建react项目">使用npm创建react项目</h3>
-<pre><code><code><div>npx create-react-app projName
-cd projName
-npm run start
+        <h2 id="render方法">render方法</h2>
+<p>react-consiler 正如其名，react的调解人。
+这个包中使用了fiber去调解工作的。
+fiber翻译是“纤维”。it世界中有进程、线程。react的团队搞出了纤维。控制粒度越来越细了。上层语言控制太细不是什么好事。
+react居然的js的世界中使用同步渲染。细想一下，原来是为了控制dom元素。浏览器也是这么做的。js语言中大多是异步的。</p>
+<pre><code><code><div>function render {
+    return legacyRenderSubtreeIntoContainer  // 从名字上判断，它应该是一个兼容老react代码的方法。
+        legacyCreateRootFromDOMContainer
+            let root = createContainer(...) // 创建一个特定的FiberRoot
+                            return createFiberRoot // 返回创建好的fiber的根节点
+                                        FiberRootNode // 这是最基本的创建FiberRoot的方法
+                                        createHostRootFiber // 返回特定的fiber
+                                            return createFiber // 
+                                                        return new FiberNode // 这是最基于的、返回一个FiberNode
+                                        createCache // 创建缓存
+                                        initializeUpdateQueue // 初始化更新队列。
+                                            fiber.updateQueue = queue; // 赋值为queue对象（大多属性为null）。
+            markContainerAsRoot // 做标记
+                node[internalContainerInstanceKey] = hostRoot;
+            listenToAllSupportedEvents // 为元素添加所有支持的事件监听器
+                没看到可以运行下去。
+            return root;
+}
 </div></code></code></pre>
-<h2 id="demo">demo</h2>
-<ul>
-<li><a href="/react/demo0/first.html">demo0-first</a>使用script标签引入react</li>
-<li><a href="/react/demo0/second.html">demo0-second</a></li>
-<li><a href="">demo1</a></li>
-</ul>
-<h2 id="api">api</h2>
-<p>请在各包中查看相应api.</p>
-<h2 id="react家族成员">react家族成员</h2>
-<ul>
-<li><a href="/framework/react/react/index.html">react包</a></li>
-<li><a href="/framework/react/react-dom/index.html">react-dom</a></li>
-<li><a href="/framework/react/redux/index.html">redux react-redux</a></li>
-<li><a href="/framework/react/reactNative.html">react native</a></li>
-<li><a href="/framework/react/router.html">react-router react-router-dom react-router-native</a></li>
-<li><a href="/framework/react/propType.html">propType</a></li>
-<li><a href="/framework/react/react.html">react</a></li>
-<li><a href="/framework/react/react-dom.html">react-dom</a></li>
-<li><a href="/framework/react/react-script.html">react-script</a></li>
-<li><a href="/framework/react/next/index.html">next</a></li>
-<li><a href="/framework/react/gateby/index.html">GatsBy</a></li>
-<li><a href="/framework/react/title.html">title</a></li>
-<li><a href="/framework/react/title.html">title</a></li>
-<li><a href="/framework/react/title.html">title</a></li>
-<li><a href="/framework/react/title.html">title</a></li>
-</ul>
-<h2 id="todo">todo</h2>
-<p>react / react-dom都用到了react-reconciler，该包就是fiber.</p>
-<h3 id="为什么要最常用的reactreact-dom分开怎么分清它们">为什么要最常用的<code>react</code>/<code>react-dom</code>分开？怎么分清它们？</h3>
-<h3 id="项目结构">项目结构</h3>
+<p><code>render</code>方法就做了：创建一个<code>FiberRoot</code>对象并返回。</p>
+<h3 id="fiberroot对象能做什么">FiberRoot对象能做什么？</h3>
+<h3 id="fiberrootnodex对象">FiberRootNodex对象</h3>
+<pre><code><code><div>  this.tag = tag;
+  this.containerInfo = containerInfo;
+  this.pendingChildren = null;
+  this.current = null;
+  this.pingCache = null;
+  this.finishedWork = null;
+  this.timeoutHandle = noTimeout;
+  this.context = null;
+  this.pendingContext = null;
+  this.isDehydrated = hydrate;
+  this.callbackNode = null;
+  this.callbackPriority = NoLane;
+  this.eventTimes = createLaneMap(NoLanes);
+  this.expirationTimes = createLaneMap(NoTimestamp);
+
+  this.pendingLanes = NoLanes;
+  this.suspendedLanes = NoLanes;
+  this.pingedLanes = NoLanes;
+  this.expiredLanes = NoLanes;
+  this.mutableReadLanes = NoLanes;
+  this.finishedLanes = NoLanes;
+
+  this.entangledLanes = NoLanes;
+  this.entanglements = createLaneMap(NoLanes);
+
+  this.identifierPrefix = identifierPrefix;
+  this.onRecoverableError = onRecoverableError;
+    ...
+</div></code></code></pre>
+<h3 id="fibernode对象">FiberNode对象</h3>
+<pre><code><code><div>
+                                                // Instance
+                                                this.tag = tag;
+                                                this.key = key;
+                                                this.elementType = null;
+                                                this.type = null;
+                                                this.stateNode = null;
+
+                                                // Fiber
+                                                this.return = null;
+                                                this.child = null;
+                                                this.sibling = null;
+                                                this.index = 0;
+
+                                                this.ref = null;
+
+                                                this.pendingProps = pendingProps;
+                                                this.memoizedProps = null;
+                                                this.updateQueue = null;
+                                                this.memoizedState = null;
+                                                this.dependencies = null;
+
+                                                this.mode = mode;
+
+                                                // Effects
+                                                this.flags = NoFlags;
+                                                this.subtreeFlags = NoFlags;
+                                                this.deletions = null;
+
+                                                this.lanes = NoLanes;
+                                                this.childLanes = NoLanes;
+
+                                                this.alternate = null;
+</div></code></code></pre>
+<h2 id="createportal">createPortal</h2>
+<pre><code><code><div>function createPortal (
+  children: ReactNodeList,
+  container: Container,
+  key: ?string = null,) {
+      return createPortalImpl(children, container, null, key);
+                    return {
+                        $$typeof: REACT_PORTAL_TYPE,
+                        key: key == null ? null : '' + key,
+                        children,
+                        containerInfo,
+                        implementation,
+                    };
+  }
+</div></code></code></pre>
+<p>把参数整理为一个对象</p>
+<h2 id="createroot">createRoot</h2>
+<p>function createRoot () {
+const root = createContainer(...);
+return createFiberRoot(...)
+let root = FiberRootNode(...)
+createHostRootFiber(...)
+markContainerAsRoot(...);
+listenToAllSupportedEvents(...)
+return new ReactDOMRoot(root);
+this._internalRoot = internalRoot;
+}</p>
+<h2 id="hydrateroot">hydrateRoot</h2>
+<pre><code><code><div>function hydrateRoot(
+  container: Container,
+  initialChildren: ReactNodeList,
+  options?: HydrateRootOptions,) {
+    warnIfReactDOMContainerInDEV(container) // 检测参数
+    const root = createContainer(...)
+    markContainerAsRoot(...)
+    listenToAllSupportedEvents(...)
+    return new ReactDOMRoot(root);
+                    this._internalRoot = internalRoot;
+}
+</div></code></code></pre>
+<h2 id="finddomnode-返回dom节点">findDOMNode 返回dom节点</h2>
+<pre><code><code><div>function findDOMNode (componentOrElement) {
+  if ((componentOrElement: any).nodeType === ELEMENT_NODE) { // 8
+    return (componentOrElement: any);
+  }
+  return findHostInstance(componentOrElement)
+            const fiber = componentOrElement._reactInternals
+            const hostFiber = findCurrentHostFiber(fiber);
+                                    const currentParent = findCurrentFiberUsingSlowPath(fiber);
+                                                                const alternate = fiber.alternate;
+                                                                if (!alternate) {
+                                                                    const nearestMounted = getNearestMountedFiber(fiber);
+                                                                    if (nearestMounted !== fiber) {
+                                                                        return null;
+                                                                    }
+                                                                    return fiber;
+                                                                }
+                                                                ...
+                                                                return alternate;
+                                    return currentParent !== null ? findCurrentHostFiberImpl(currentParent) : null;
+                                                                        ...
+                                                                        return currentParent
+            return hostFiber.stateNode;
+}
+</div></code></code></pre>
+<h2 id="flushsync">flushSync</h2>
+<pre><code><code><div>function flushSync(fn) {
+    return flushSyncWithoutWarningIfAlreadyRendering(fn);
+                if (...) {
+                    flushPassiveEffects();
+                        fn()
+                        flushSyncCallbacks(); // 执行所有callback
+                }
+                setCurrentUpdatePriority(...)
+                flushSyncCallbacks(...) // 执行所有callback
+}
+</div></code></code></pre>
+<h2 id="hydrate">hydrate</h2>
+<p>和render方法一样</p>
+<pre><code><code><div>function hydrate( element: React$Node, container: Container, callback: ?Function,) {
+    return legacyRenderSubtreeIntoContainer(...)
+                ...
+}
+</div></code></code></pre>
+<h2 id="unmountcomponentatnode">unmountComponentAtNode</h2>
+<pre><code><code><div>function unmountComponentAtNode(container) {
+    if (!isValidContainerLegacy(container)) {throw new Error(...)}
+            return !!(
+                node &amp;&amp;
+                (node.nodeType === ELEMENT_NODE ||
+                node.nodeType === DOCUMENT_NODE ||
+                node.nodeType === DOCUMENT_FRAGMENT_NODE ||
+                (node.nodeType === COMMENT_NODE &amp;&amp;
+                    (node: any).nodeValue === ' react-mount-point-unstable '))
+            );
+}
+</div></code></code></pre>
+<h2 id="unstable_batchedupdates">unstable_batchedUpdates</h2>
+<pre><code><code><div>function batchedUpdates (fn, a) {
+    try {
+        return fn(a)
+    } finally {
+        resetRenderTimer();
+        flushSyncCallbacksOnlyInLegacyMode();
+            if (includesLegacySyncCallbacks) {
+                flushSyncCallbacks();
+            }
+    }
+}
+</div></code></code></pre>
+<h2 id="unstable_createeventhandle">unstable_createEventHandle,</h2>
+<pre><code><code><div>function createEventHandle( type, options? ) {
+    if (enableCreateEventHandleAPI) {
+        return (target, cb) =&gt; {
+            addEventHandleToTarget(target, eventHandle); // 为target添加事件
+            registerReactDOMEvent(target, domEventName, isCapturePhaseListener); // 注册事件
+            const listener = createEventHandleListener(...) // 返回一个对象
+            targetListeners.add(listener);
+            return () =&gt; {
+                targetListeners.delete(listener);
+            }
+        }
+    }
+    return null
+}
+</div></code></code></pre>
+<h2 id="unstable_flushcontrolled">unstable_flushControlled,</h2>
+<pre><code><code><div>function flushControlled (fn) {
+    fn()
+    resetRenderTimer();
+    flushSyncCallbacksOnlyInLegacyMode()
+        if (includesLegacySyncCallbacks) {
+            flushSyncCallbacks();
+                scheduleCallback()
+                setCurrentUpdatePriority(...)
+                isFlushingSyncQueue = false
+        }
+}
+</div></code></code></pre>
+<h2 id="unstable_isnewreconciler">unstable_isNewReconciler,</h2>
+<p>false</p>
+<h2 id="unstable_rendersubtreeintocontainer">unstable_renderSubtreeIntoContainer,</h2>
+<p>与render相同</p>
+<pre><code><code><div>function unstable_renderSubtreeIntoContainer () {
+    return legacyRenderSubtreeIntoContainer(...);
+}
+</div></code></code></pre>
+<h2 id="unstable_runwithpriority--do-not-use-temporarily-exposed-to-migrate-off-of-schedulerrunwithpriority">unstable_runWithPriority, // DO NOT USE: Temporarily exposed to migrate off of Scheduler.runWithPriority.</h2>
+<pre><code><code><div>function runWithPriority (...) {
+    return fn
+}
+</div></code></code></pre>
+<h2 id="version--done">version, // done</h2>
 
     </body>
     </html>
