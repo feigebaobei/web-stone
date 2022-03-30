@@ -1,18 +1,9 @@
 # `react`
 
-## overview
+## feature
 
-> 声明式  
-> 基于组件的  
-> 一次学习，多次使用  
-> jsx语法。（类似xml，由babel解释。）  
-> React 团队希望，组件不要变成复杂的容器，最好只是数据流的管道。开发者根据需要，组合管道即可。 组件的最佳写法应该是函数，而不是类。  
-
-### feature
-
-- react家族的成员太多了。
-- feature1
-- feature2
+- 创建element
+- 基本hook
 
 ## install
 
