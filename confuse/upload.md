@@ -12,8 +12,8 @@ text/plain  空格转换为 "+" 加号，但不对特殊字符编码。
 我不知道为什么会有这三种。  
 
 ## ajax上传
-使用[xhr对象](/confuse/xhr.html)
-有时需要使用上传文件，但是不方便使用form。需要[FormData对象](/confuse/FormData.html)。
+使用[xhr对象](/language/javascript/xhr.html)
+有时需要使用上传文件，但是不方便使用form。需要[FormData对象](/language/javascript/FormData.html)。
 ```
 let formField = new FormData();
 formField.append('idCard', idCard)

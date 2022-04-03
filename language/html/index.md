@@ -547,7 +547,7 @@ ondrop 属性调用了一个函数，drop(event)：
 
 # 本地存储
 cookie / sessionStorage / localStorage
-详见[前端存储](/404.html)
+详见[前端存储](/confuse/frontStore.html)
 
 # 应用程序缓存
 应用程序缓存为应用带来三个优势：
