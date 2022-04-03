@@ -1,5 +1,5 @@
-#前端存储
-##简介
+# 前端存储
+## 简介
 一种在前端保存数据的思想。第一次在页面中的保存数据，那么从第二次开始就可以使用了。可以使用的方法有：  
 
 1. cookie
@@ -11,21 +11,21 @@
 
 从技术角度看待这些方法。没有高低之分，只有对特定任务是否合适。  
 
-##cookie
-###简介
+## cookie
+### 简介
 
 1. cookie："小饼干，小甜品"
 2. 参与http通信。因为在http中可以看到cookie，所以易受到攻击。
 3. 面向路径。只作用于当前路径（页面）。
 4. 每个cookie < 4K
 
-###运行机制  
+### 运行机制  
 ![](./image/cookie0.png)  
 
-###使用  
+### 使用  
 ![](./image/cookie1.png)  
 
-###总结
+### 总结
 **设置cookie的值**  
 
     function setCookie(key, value, duration) {
@@ -46,7 +46,7 @@
         }
     } 
 
-##localStorage/sessionStorage  
+## localStorage/sessionStorage  
 
 1. localStorage < 5M  
 2. localStorage的使用也是遵循同源策略的，所以不同的网站直接是不能共用相同的localStorage。可以在同网站下跨页面。  
@@ -64,7 +64,7 @@
 
 ![](./image/localstorage.jpg)  
 
-###使用  
+## #使用  
 
 一般在第一次加载页面时在本地保存好数据。从第二次开始使用本地保存的数据。为了保证前端性能，一般不会保存大量数据。只保存关键数据，再根据它做出判断后执行相应的程序。  
 
@@ -99,19 +99,19 @@
     localStorage.removeItem('key');
     localStorage.clear();
 
-##ie的userData
+## ie的userData
 
 只有window+ie10-才能可以使用。ie把数据放到c盘的user文件夹里。新浏览器出来了。旧浏览器又有各种不兼容。本着向前看的态度。不于讨论。  
 
-##web sql
+## web sql
 
 在前端创建一个类数据库的对象。使用和数据一样的语法增删改查。关闭页面后就没了。下次打开还需要再创建数据库。后来w3c也不维护了。本着向前看的态度。不于讨论。  
 
-##indexedDB
+## indexedDB
 
 spandataspan
 
-##区别
+## 区别
 
 |特性|cookie|localStorage|sessionStorage|userData|web sql|indexedDB|
 |-|-|-|-|-|-|-|
