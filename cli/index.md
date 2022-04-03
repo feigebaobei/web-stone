@@ -2,5 +2,7 @@
 - [homebrew](/cli/homebrew.html)
 - [nvm](/cli/nvm.html)
 - [linux](/cli/linux.html)
+- [ssh](/cli/ssh.html)
+- [title](/cli/title.html)
 - [title](/cli/title.html)
 - [title](/cli/title.html)
