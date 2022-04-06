@@ -128,6 +128,12 @@ ClassName.staticFn () {...}
 为什么可以这样写？
 `funtion`的原型链上游中有`Object`对象。该对象支持设置属性。静态方法就是为一个是funtion的对象设置了一个属性，该属性值是一个方法。
 
+|||||
+|-|-|-|-|
+|构造函数|操作this|不返回对象。与`new`操作符一起使用，则会返回一个实例。||
+|class|操作this|不返回对象。与`new`操作符一起使用，则会返回一个实例。||
+|普通函数|任意逻辑|返回或不返回一个对象||
+
 # proxy & reflect
 ## proxy
 proxy让代理模式更容易实现。
@@ -425,7 +431,7 @@ generator方法的实例可执行`throw()`。然后在generator方法中catch一
 4. 协程A恢复执行。
 
 ### co模块
-详见[co](/other/co.html)
+详见[co](/confuse/co.html)
 
 整个过程和`web worker`的工作过程很像。
 
@@ -492,7 +498,6 @@ function spawn(genF) {
 # 位运算
 <details>
     <summary>
-        <!-- <h1>位运算</h1> -->
     </summary>
 & and 与   判断2个二进制数每个对应的位上是否都为1,则该位为1  
 | or  或   判断2个二进制数每个对应的位上是否至少有一位为1,则该位为1  
@@ -561,7 +566,7 @@ js是单线程语言。但是它的宿主环境——browser支持多线程。
     + Array
     + [Date](/language/javascript/date.html)
     + Number
-    + RegExp
+    + [RegExp](/regexp/index.html)
     + Function
     + Boolean
     + Error
