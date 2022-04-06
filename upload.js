@@ -224,13 +224,14 @@ c.on('ready', () => {
         // let p = 'first/second/third'
         // let p = 'first/second/'
         // let p = 'first/a.md'
-        let p = 'first'
+        // let p = 'first'
         // let p = 'first/second/f.md'
         // let p = 'test.js'
+        let p = 'language/javascript'
         // 检测指定目录是否存在
         // checkDir(p)
         // 检测删除目录
-        removeDir(p).then(() => {c.end()})
+        // removeDir(p).then(() => {c.end()})
         // 测试删除文件
         // removeFile(p)
         // 测试上传文件
@@ -238,12 +239,12 @@ c.on('ready', () => {
         // 测试创建目录
         // makeDir(p)
         // 测试上传目录
-        // uploadDir(p).then(res => {
-        //     log('then', res)
-        // c.end()
-        // }).catch(err => {
-        //     log('catch', err)
-        // })
+        uploadDir(p).then(res => {
+            log('then', res)
+        c.end()
+        }).catch(err => {
+            log('catch', err)
+        })
     })
 })
 c.on('greeting', (s) => {
