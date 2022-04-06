@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <title>overview</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -28,7 +28,8 @@
 }
 
 </style>
-        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -42,156 +43,126 @@
 .task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
 </style>
         
-        
+        <script src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
     </head>
     <body class="vscode-body vscode-light">
-        <p>#前端存储
-##简介
-一种在前端保存数据的思想。第一次在页面中的保存数据，那么从第二次开始就可以使用了。可以使用的方法有：</p>
-<ol>
-<li>cookie</li>
-<li>localStorage</li>
-<li>sessionStorage</li>
-<li>ie的userData</li>
-<li>web sql</li>
-<li>indexedDB</li>
-</ol>
-<p>从技术角度看待这些方法。没有高低之分，只有对特定任务是否合适。</p>
-<p>##cookie
-###简介</p>
-<ol>
-<li>cookie：&quot;小饼干，小甜品&quot;</li>
-<li>参与http通信。因为在http中可以看到cookie，所以易受到攻击。</li>
-<li>面向路径。只作用于当前路径（页面）。</li>
-<li>每个cookie &lt; 4K</li>
-</ol>
-<p>###运行机制<br>
-<img src="file:////Users/cat/Documents/code/personal/web-stone/confuse/image/cookie0.png" alt=""></p>
-<p>###使用<br>
-<img src="file:////Users/cat/Documents/code/personal/web-stone/confuse/image/cookie1.png" alt=""></p>
-<p>###总结
-<strong>设置cookie的值</strong></p>
-<pre><code>function setCookie(key, value, duration) {
-    // duration 单位为ms
-    var d = new Date();
-    document.cookie = key + &quot;=&quot; + value + &quot;; &quot; + d.getTime() + duration
-} 
-</code></pre>
-<p><strong>获取cookie的值</strong></p>
-<pre><code>function getCookie(key) {
-    var cookieArr = document.cookie.split(';');
-    for (var i = 0; i &lt; cookieArr.length; i++) {
-        var cookie = cookieArr[i].trim();
-        if (cookie.indexOf(key)===0) {
-            return cookie.substring(key.length, key.cookie.length);
-        }
+        <h1 id="overview">overview</h1>
+<p>JSON：JavaScript 对象表示法（JavaScript Object Notation）。<br>
+常用于数据结构。</p>
+<ul>
+<li>以k:v形式编写。</li>
+<li>key全为string.</li>
+<li>value的枚举值：number/string/boolean/array（有序的）/object（无序的）/null</li>
+</ul>
+<h1 id="操作">操作</h1>
+<pre><code class="language-js"><div>jsonObj.newKey = <span class="hljs-string">&#x27;value&#x27;</span>
+<span class="hljs-keyword">delete</span> jsonObj.oldKey
+jsonObj.oldKey = <span class="hljs-string">&#x27;newValue&#x27;</span>
+jsonObj.arr[index] = <span class="hljs-string">&#x27;newValue&#x27;</span>
+<span class="hljs-keyword">let</span> t = jsonObj.oldKey
+</div></code></pre>
+<h2 id="jsonparsejsonstr-reviver">json.parse(jsonStr, [reviver])</h2>
+<p>reviver(key, value) =&gt; {...}<br>
+先按照从前向后，从按照最里层向外调用。</p>
+<h2 id="jsonstringifyobj-repalcer-space">json.stringify(obj, [repalcer, [space]])</h2>
+<p>repalcer: array | fn<br>
+fn(key, value) 当处理最外层对象时，key为空字符串。<br>
+当返回number，则转换为string<br>
+当返回string，则返回string<br>
+当返回boolean，则返回string<br>
+当返回对象，则递归处理    此处会决定执行顺序。<br>
+当返回undefined，则不返回<br>
+array
+只处理指定的key。
+space: number<br>
+用于美化输出。<br>
+表示需要多少个空格，<code>[0, 10]</code>。</p>
+<h1 id="属性方法">属性方法</h1>
+<pre><code class="language-js"><div><span class="hljs-built_in">JSON</span>.stringify()
+<span class="hljs-built_in">JSON</span>.parse()
+</div></code></pre>
+<h1 id="jsonp">jsonp</h1>
+<p>json with padding<br>
+可以让网页从别的域名（网站）那获取资料，即跨域读取数据。<br>
+Jsonp 的实现原理是利用 <code>&lt;script&gt;</code> 标签可以获取不同源资源的特点，来达到跨域访问某个资源的目的。<br>
+同源策略？它是由Netscape提出的一个著名的安全策略，现在所有支持 JavaScript 的浏览器都会使用这个策略。</p>
+<h2 id="demo">demo</h2>
+<p>如客户想访问 :​ /try/ajax/jsonp.php?jsonp=callbackFunction​。<br>
+假设客户期望返回JSON数据：​[&quot;customername1&quot;,&quot;customername2&quot;]​。<br>
+真正返回到客户端的数据显示为: ​callbackFunction([&quot;customername1&quot;,&quot;customername2&quot;])​。</p>
+<pre><code class="language-php"><div><span class="hljs-meta">&lt;?php</span> header(<span class="hljs-string">&#x27;Content-type: application/json&#x27;</span>); 
+<span class="hljs-comment">//获取回调函数名 </span>
+$jsoncallback = htmlspecialchars($_REQUEST [<span class="hljs-string">&#x27;jsoncallback&#x27;</span>]); 
+<span class="hljs-comment">//json数据 </span>
+$json_data = <span class="hljs-string">&#x27;[&quot;customername1&quot;,&quot;customername2&quot;]&#x27;</span>; 
+<span class="hljs-comment">//输出jsonp格式的数据 </span>
+<span class="hljs-keyword">echo</span> $jsoncallback . <span class="hljs-string">&quot;(&quot;</span> . $json_data . <span class="hljs-string">&quot;)&quot;</span>; <span class="hljs-meta">?&gt;</span>
+</div></code></pre>
+<pre><code class="language-js"><div>&lt;script type=<span class="hljs-string">&quot;text/javascript&quot;</span>&gt;
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">onCustomerLoaded</span>(<span class="hljs-params">result, methodName</span>)</span>{
+    <span class="hljs-keyword">var</span> html = <span class="hljs-string">&#x27;&lt;ul&gt;&#x27;</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; result.length; i++){
+        html += <span class="hljs-string">&#x27;&lt;li&gt;&#x27;</span> + result[i] + <span class="hljs-string">&#x27;&lt;/li&gt;&#x27;</span>;
     }
-} 
-</code></pre>
-<p>##localStorage/sessionStorage</p>
-<ol>
-<li>localStorage &lt; 5M</li>
-<li>localStorage的使用也是遵循同源策略的，所以不同的网站直接是不能共用相同的localStorage。可以在同网站下跨页面。</li>
-<li>sessionStorage只作用于当前页面。</li>
-</ol>
-<p><strong>优势</strong><br>
-1、localStorage拓展了cookie的4K限制<br>
-2、localStorage会可以将第一次请求的数据直接存储到本地，这个相当于一个5M大小的针对于前端页面的数据库，相比于cookie可以节约带宽，但是这个却是只有在高版本的浏览器中才支持的</p>
-<p><strong>局限</strong><br>
-2、目前所有的浏览器中都会把localStorage的值类型限定为string类型，这个在对我们日常比较常见的JSON对象类型需要一些转换<br>
-3、localStorage在浏览器的隐私模式下面是不可读取的<br>
-4、localStorage本质上是对字符串的读取，如果存储内容多的话会消耗内存空间，会导致页面变卡<br>
-5、localStorage不能被爬虫抓取到</p>
-<p><img src="file:////Users/cat/Documents/code/personal/web-stone/confuse/image/localstorage.jpg" alt=""></p>
-<p>###使用</p>
-<p>一般在第一次加载页面时在本地保存好数据。从第二次开始使用本地保存的数据。为了保证前端性能，一般不会保存大量数据。只保存关键数据，再根据它做出判断后执行相应的程序。</p>
-<pre><code>window.localStorage//boolean 浏览器是否支持
-</code></pre>
-<p>写入(3种形式)</p>
-<pre><code>window.localStorage[&quot;a&quot;] = 1;
-window.localStorage.b = 1;
-window.localStorage.setItem('c',3);
-</code></pre>
-<p>读取</p>
-<pre><code>var a = window.localStorage.a;
-var b = window.localStorage[&quot;b&quot;];
-var c = window.localStorage.getItem(&quot;c&quot;);
-var d = window.localStorage.key(d);
-</code></pre>
-<p>修改</p>
-<pre><code>window.localStorage.a = 4;
-</code></pre>
-<p>删除</p>
-<pre><code>window.localStorage.clear();// 清除据
-window.localStorage.removeItem(&quot;a&quot;);// 删除a
-</code></pre>
-<p>方法</p>
-<pre><code>localStorage.setItem('key', 'value');
-localStorage.getItem('key');
-localStorage.removeItem('key');
-localStorage.clear();
-</code></pre>
-<p>##ie的userData</p>
-<p>只有window+ie10-才能可以使用。ie把数据放到c盘的user文件夹里。新浏览器出来了。旧浏览器又有各种不兼容。本着向前看的态度。不于讨论。</p>
-<p>##web sql</p>
-<p>在前端创建一个类数据库的对象。使用和数据一样的语法增删改查。关闭页面后就没了。下次打开还需要再创建数据库。后来w3c也不维护了。本着向前看的态度。不于讨论。</p>
-<p>##indexedDB</p>
-<p>spandataspan</p>
-<p>##区别</p>
-<table>
-<thead>
-<tr>
-<th>特性</th>
-<th>cookie</th>
-<th>localStorage</th>
-<th>sessionStorage</th>
-<th>userData</th>
-<th>web sql</th>
-<th>indexedDB</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>生命周期</td>
-<td>一般由服务器生成，可设置失效时间。若在浏览器生成，默认关闭浏览器后失效。</td>
-<td>在手动删除前一直存在</td>
-<td>关闭当前页面后被清除</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>可存放大小</td>
-<td>&lt;4k</td>
-<td>&lt;5m</td>
-<td>&lt;5m</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>与服务器通信</td>
-<td>每次都在http头部信息中。过多会影响性能</td>
-<td>仅在客户端不能与通信</td>
-<td>仅在客户端不能与通信</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>易用性</td>
-<td>原生的方法较难使用，自己封装后会好用。</td>
-<td>原生的方法就挺好用。可再交封装</td>
-<td>原生的方法就挺好用。可再交封装</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<hr>
-<p>2018/04/03 by stone</p>
+    html += <span class="hljs-string">&#x27;&lt;/ul&gt;&#x27;</span>;
+    <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;divCustomers&#x27;</span>).innerHTML = html;
+}
+&lt;/script&gt;
+</div></code></pre>
+<pre><code class="language-html"><div><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span> <span class="hljs-meta-keyword">PUBLIC</span> <span class="hljs-meta-string">&quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;</span> <span class="hljs-meta-string">&quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.w3.org/1999/xhtml&quot;</span> &gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>JSONP 实例<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;divCustomers&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/javascript&quot;</span>&gt;</span><span class="javascript">
+        <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">callbackFunction</span>(<span class="hljs-params">result, methodName</span>)</span>{
+            <span class="hljs-keyword">var</span> html = <span class="hljs-string">&#x27;&lt;ul&gt;&#x27;</span>;
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; result.length; i++){
+                html += <span class="hljs-string">&#x27;&lt;li&gt;&#x27;</span> + result[i] + <span class="hljs-string">&#x27;&lt;/li&gt;&#x27;</span>;
+            }
+            html += <span class="hljs-string">&#x27;&lt;/ul&gt;&#x27;</span>;
+            <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;divCustomers&#x27;</span>).innerHTML = html;
+        }
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/javascript&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/try/ajax/jsonp.php?jsoncallback=callbackFunction&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- or use jquery --&gt;</span>
+<span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>JSONP 实例<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;http://apps.bdimg.com/libs/jquery/1.8.3/jquery.js&quot;</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;external nofollow&quot;</span> &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span> 
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;divCustomers&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+$.getJSON(<span class="hljs-string">&quot;/try/ajax/jsonp.php?jsoncallback=?&quot;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data</span>) </span>{
+   
+  <span class="hljs-keyword">var</span> html = <span class="hljs-string">&#x27;&lt;ul&gt;&#x27;</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; data.length; i++){
+       html += <span class="hljs-string">&#x27;&lt;li&gt;&#x27;</span> + data[i] + <span class="hljs-string">&#x27;&lt;/li&gt;&#x27;</span>;
+    }
+  html += <span class="hljs-string">&#x27;&lt;/ul&gt;&#x27;</span>;
+  $(<span class="hljs-string">&#x27;#divCustomers&#x27;</span>).html(html); 
+});
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span> 
+</div></code></pre>
+<h1 id="转换"><a href="/language/javascript/json-transfer.html">转换</a></h1>
+<h2 id="json--xml">json =&gt; xml</h2>
+<h2 id="xml--json">xml =&gt; json</h2>
+<h2 id="excel--json">excel =&gt; json</h2>
+<h2 id="csv--json">csv =&gt; json</h2>
+<h1 id="格式化">格式化</h1>
+<h1 id="后记">后记</h1>
+<p>undefined / function 无法在json中使用。</p>
+<h1 id="json">json</h1>
 
     </body>
     </html>

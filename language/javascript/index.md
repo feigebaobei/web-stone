@@ -43,9 +43,9 @@ var n = 0 // 定义
 function、var都会触发变量提升。
 先提升function，再提升var。且存在变量覆盖。
 
-# [事件](/html/event.html)
+# [事件](/language/html/event.html)
 
-# 原型链
+# [原型链](/confuse/jsPrototypeChain.pptx)
 使用对象的`[[prototype]]`属性原型链上源的对象。
 原型链中的对象使用`[[prototype]]`属性“串联”起彼此。
 一条链中不能有分支。

@@ -116,7 +116,7 @@ $.getJSON("/try/ajax/jsonp.php?jsoncallback=?", function(data) {
 </html> 
 ```
 
-# [转换](/javascript/json-transfer.html)
+# [转换](/language/javascript/json-transfer.html)
 ## json => xml
 ## xml => json
 ## excel => json
