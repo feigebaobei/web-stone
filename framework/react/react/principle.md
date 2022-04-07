@@ -77,15 +77,18 @@ function Component(props, context, updater) {
   // renderer.
   this.updater = updater || ReactNoopUpdateQueue;
 }
+// 是否是class组件
 Component.prototype.isReactComponent = {}
+// 更新组件
 Component.prototype.setState = {
   this.updater.enqueueSetState(this, partialState, callback, 'setState');
 }
-
+// 强制更新组件。与setState比，不需要设置state。
 Component.prototype.forceUpdate = {
   this.updater.enqueueForceUpdate(this, callback, 'forceUpdate');
 }
 ```
+
 ## PureComponent
 与`Component`一样。
 react又搞了一对一样的。为什么不删除一个？
@@ -248,7 +251,7 @@ function startTransition(scope) {
 ||方法返回jsx，即createElement方法返回的element对象。|基于React.Component构造方法，调用其内部的render方法。|
 ||没有state|有state|
 ||没有生命周期|有生命周期|
-||||
+|如何区分||原型对象上是否有isReactComponent|
 ||||
 ||||
 ||||
@@ -320,8 +323,11 @@ Component.prototype.setState = function(partialState, callback) {
 ## fiber的运行逻辑
 fiber使用双缓存机制，浏览器在处理canvas时也使用双缓存机制。
 
-## title
-## title
+## 源码使用flow
+vue3开始时，也考虑过使用flow。后因flow不维护了，所以改为ts了。
+
+## 17如何自动使用jsx的？
+
 ## title
 ## title
 ## 读源码的方法

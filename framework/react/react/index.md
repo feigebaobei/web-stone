@@ -4,27 +4,11 @@
 
 - 创建element
 - 基本hook
+- 使用vdom。（可使diff更快）
 
 ## install
 
 `npm i react`
-
-## usage
-
-见demo
-### 使用script标签引入react脚本
-1. 引入react脚本。
-2. 使用`React.createElement`创建元素。
-3. 使用`ReactDOM.render`渲染元素。
-
-### 使用npm创建react项目
-1. 
-
-## demo
-
-- [demo0-first](/react/demo0/first.html)使用script标签引入react  
-- [demo0-second](/react/demo0/second.html)  
-- [demo1]()  
 
 ## 元素
 React 元素是不可变对象。一旦被创建，你就无法更改它的子元素或者属性。一个元素就像电影的单帧：它代表了某个特定时刻的 UI。  
@@ -276,10 +260,6 @@ function C1 () {
 </artical>
 </details>
 
-## configuration
-
-默认配置文件：`path/to/file.json`。
-
 ## api
 请在各包中查看相应api.
 
@@ -312,7 +292,10 @@ if (__DEV__) {...}
 ### 方法组件&class组件的区别
 ### 在class组件中为什么修改state的惟一方法是setState()
 ### 为什么当前组件不能知道别的组件中的state的值
-### 未来迭代计划。
+## 版本迭代
+16 增加fiber
+17 在*.jsx文件中自动引入`reatct/jsx-runtime`，用于处理jsx
+
 ### 未来迭代计划。
 ### 未来迭代计划。
 ### 未来迭代计划。

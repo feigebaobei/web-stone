@@ -16,8 +16,6 @@
 - feature2
 
 ## usage
-
-见demo
 ```js
 ReactDOM.render(React.createElement('span', {}, 'string'), $('#id'))
 =>
