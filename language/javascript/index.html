@@ -205,6 +205,36 @@ ClassName.staticFn () {...}
 </div></code></code></pre>
 <p>为什么可以这样写？
 <code>funtion</code>的原型链上游中有<code>Object</code>对象。该对象支持设置属性。静态方法就是为一个是funtion的对象设置了一个属性，该属性值是一个方法。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>构造函数</td>
+<td>操作this</td>
+<td>不返回对象。与<code>new</code>操作符一起使用，则会返回一个实例。</td>
+<td></td>
+</tr>
+<tr>
+<td>class</td>
+<td>操作this</td>
+<td>不返回对象。与<code>new</code>操作符一起使用，则会返回一个实例。</td>
+<td></td>
+</tr>
+<tr>
+<td>普通函数</td>
+<td>任意逻辑</td>
+<td>返回或不返回一个对象</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h1 id="proxy--reflect">proxy &amp; reflect</h1>
 <h2 id="proxy">proxy</h2>
 <p>proxy让代理模式更容易实现。
@@ -346,7 +376,8 @@ return new Promise((s, j) =&gt; {
 </div></code></code></pre>
 <h2 id="eventloop-异步--同步">eventLoop (异步 &amp; 同步)</h2>
 <p>所有js代码按执行时序可分为三部分：同步代码/宏任务/微任务。
-代码从上到下执行。遇到同步代码则依次序执行。遇到宏任务不执行，放入宏任务队列。遇到微任务不执行，入入微任务队列。执行完所有同步代码后执行一个宏任务队列中的宏任务，然后执行完所有微任务。再执行宏任务队列中的一个宏任务，再执行所有微任务。直到宏任务队列为空/微任务队列为空。</p>
+代码从上到下执行。遇到同步代码则依次序执行。遇到宏任务不执行，放入宏任务队列。遇到微任务不执行，入入微任务队列。执行完所有同步代码后执行一个宏任务队列中的宏任务，然后执行完所有微任务。再执行宏任务队列中的一个宏任务，再执行所有微任务。直到宏任务队列为空/微任务队列为空。
+因宏任务是宿主环境的，微任务是js语言的。所以宏任务执行一个，微任务执行一堆。</p>
 <h1 id="symbol">Symbol</h1>
 <p>内置了<code>Symbol.iterator</code>属性</p>
 <h1 id="generator--iterator">Generator &amp; Iterator</h1>
@@ -482,7 +513,7 @@ function * faltmizeArr(arr, isDeepFirst = true) {
 <li>协程A恢复执行。</li>
 </ol>
 <h3 id="co模块">co模块</h3>
-<p>详见<a href="/other/co.html">co</a></p>
+<p>详见<a href="/confuse/co.html">co</a></p>
 <p>整个过程和<code>web worker</code>的工作过程很像。</p>
 <h3 id="流式处理">流式处理</h3>
 <h3 id="co源码">co源码</h3>
@@ -546,7 +577,6 @@ function spawn(genF) {
 <h1 id="位运算">位运算</h1>
 <details>
     <summary>
-        <!-- <h1>位运算</h1> -->
     </summary>
 & and 与   判断2个二进制数每个对应的位上是否都为1,则该位为1  
 | or  或   判断2个二进制数每个对应的位上是否至少有一位为1,则该位为1  
@@ -621,7 +651,7 @@ return n &lt;&lt; m
 <li>Array</li>
 <li><a href="/language/javascript/date.html">Date</a></li>
 <li>Number</li>
-<li>RegExp</li>
+<li><a href="/regexp/index.html">RegExp</a></li>
 <li>Function</li>
 <li>Boolean</li>
 <li>Error</li>
@@ -649,8 +679,8 @@ return n &lt;&lt; m
 |umd|universion module definition||||||
 |es6|-|在js语言层面上实现了模块化。|||||
 |iife||||||
-|system||||||
-详见<a href="/language/javascript/modularity.html">模块化</a></p>
+|system||||||</p>
+<p>详见<a href="/language/javascript/modularity.html">模块化</a></p>
 <h1 id="title">title</h1>
 <h1 id="title-1">title</h1>
 <h1 id="title-2">title</h1>

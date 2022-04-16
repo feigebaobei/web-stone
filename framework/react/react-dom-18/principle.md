@@ -332,7 +332,7 @@ FiberRootNode和FiberNode是二个独立的构造方法。
 }
 ```
 
-## uml
+# uml
 ```
 { // ReactDOMRoot
     _internalRoot: { // FiberRootNode

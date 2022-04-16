@@ -64,21 +64,34 @@
                 <span class="hljs-comment">// 设置值</span>
                 <span class="hljs-keyword">return</span> createFiberRoot(containerInfo, tag, hydrate, initialChildren, hydrationCallbacks, isStrictMode, concurrentUpdatesByDefaultOverride, identifierPrefix, onRecoverableError);
                 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createFiberRoot</span>(<span class="hljs-params">...</span>) </span>{ <span class="hljs-comment">// 返回一个经过初始化的根节点FiberRootNode</span>
+                    <span class="hljs-comment">// return {// FiberRootNode</span>
+                    <span class="hljs-comment">//     current: { // FiberNode</span>
+                    <span class="hljs-comment">//         stateNode // 该FiberRootNode</span>
+                    <span class="hljs-comment">//         memoizedState: {...} //</span>
+                    <span class="hljs-comment">//         updateQueue: {...} // </span>
+                    <span class="hljs-comment">//     }</span>
+                    <span class="hljs-comment">// }</span>
                     <span class="hljs-keyword">var</span> root = <span class="hljs-keyword">new</span> FiberRootNode(containerInfo, tag, hydrate, identifierPrefix, onRecoverableError);
+                    <span class="hljs-comment">// root 是一个 FiberRootNode 对象</span>
                                     <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">FiberRootNode</span> (<span class="hljs-params">...</span>) </span>{...} <span class="hljs-comment">// 这是一个很简单的构造函数</span>
-                    <span class="hljs-keyword">var</span> uninitializedFiber = createHostRootFiber(tag, isStrictMode); <span class="hljs-comment">// 得到一个根节点fiber</span>
+                    <span class="hljs-keyword">var</span> uninitializedFiber = createHostRootFiber(tag, isStrictMode); <span class="hljs-comment">// 得到一个 FiberNode 对象</span>
+                    <span class="hljs-comment">// uninitializedFiber 在原码中是 Fiber 类型，就是FiberNode构造方法的实例</span>
+                    <span class="hljs-comment">// 正如其名 uninitializedFiber 中好多属性的值是null</span>
+                    <span class="hljs-comment">// 下面会调用FiberNode方法</span>
                     <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createHostRootFiber</span>(<span class="hljs-params">...</span>) </span>{
                         <span class="hljs-comment">// 赋值node</span>
                         <span class="hljs-keyword">return</span> createFiber(HostRoot, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, mode);
                         <span class="hljs-keyword">var</span> createFiber = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">tag, pendingProps, key, mode</span>) </span>{
                             <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> FiberNode(tag, pendingProps, key, mode);
                             <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">FiberNode</span>(<span class="hljs-params">tag, pendingProps, key, mode</span>) </span>{} <span class="hljs-comment">// 这是一个很简单的构造函数</span>
+                            <span class="hljs-comment">// 很多属性都是null</span>
                         };
                     }
                     root.current = uninitializedFiber;
-                    uninitializedFiber.stateNode = root;
+                    uninitializedFiber.stateNode = root; <span class="hljs-comment">// 把 FiberRootNode赋值给FiberNode对象的stateNode属性了。</span>
                     initializeUpdateQueue(uninitializedFiber);
                     <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">initializeUpdateQueue</span>(<span class="hljs-params">fiber</span>) </span>{
+                        <span class="hljs-comment">// 初始化fiber的updateQueue属性</span>
                         fiber.updateQueue = {
                             <span class="hljs-attr">baseState</span>: fiber.memoizedState,
                             <span class="hljs-attr">firstBaseUpdate</span>: <span class="hljs-literal">null</span>,
@@ -110,7 +123,8 @@
             <span class="hljs-comment">// 执行完这些方法后，allNativeEvents就有好多事件名了。</span>
             <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">listenToAllSupportedEvents</span>(<span class="hljs-params">rootContainerElement</span>) </span>{
                 allNativeEvents.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">domEventName</span>) </span>{ <span class="hljs-comment">// 为该dom元素添加所有支持的事件</span>
-                    <span class="hljs-comment">// ...</span>
+                    <span class="hljs-comment">// 区分是否可委托</span>
+                    <span class="hljs-comment">// 基于addEventListener监听事件</span>
                     listenToNativeEvent(domEventName, <span class="hljs-literal">false</span>, rootContainerElement);
                     <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">listenToNativeEvent</span>(<span class="hljs-params">domEventName, isCapturePhaseListener, target</span>) </span>{
                         <span class="hljs-comment">// ...</span>
@@ -282,15 +296,15 @@
 <h2 id="fibernode">FiberNode</h2>
 <pre><code class="language-js"><div>{
   <span class="hljs-string">&quot;tag&quot;</span>: <span class="hljs-number">5</span>,
-  <span class="hljs-string">&quot;key&quot;</span>: <span class="hljs-literal">null</span>,
-  <span class="hljs-string">&quot;elementType&quot;</span>: <span class="hljs-literal">null</span>,
-  <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-literal">null</span>,
-  <span class="hljs-string">&quot;stateNode&quot;</span>: <span class="hljs-literal">null</span>,
-  <span class="hljs-string">&quot;return&quot;</span>: <span class="hljs-literal">null</span>,
-  <span class="hljs-string">&quot;child&quot;</span>: <span class="hljs-literal">null</span>,
-  <span class="hljs-string">&quot;sibling&quot;</span>: <span class="hljs-literal">null</span>,
-  <span class="hljs-string">&quot;index&quot;</span>: <span class="hljs-number">0</span>,
-  <span class="hljs-string">&quot;ref&quot;</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-string">&quot;key&quot;</span>: <span class="hljs-literal">null</span>,          <span class="hljs-comment">// key 兄弟间惟一</span>
+  <span class="hljs-string">&quot;elementType&quot;</span>: <span class="hljs-literal">null</span>,  <span class="hljs-comment">// 构造函数 | html标签</span>
+  <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-literal">null</span>,         <span class="hljs-comment">// 与elementType相同值，不知道为什么。</span>
+  <span class="hljs-string">&quot;stateNode&quot;</span>: <span class="hljs-literal">null</span>,    <span class="hljs-comment">// dom | FiberRootNode</span>
+  <span class="hljs-string">&quot;return&quot;</span>: <span class="hljs-literal">null</span>,       <span class="hljs-comment">// 父 FiberNode</span>
+  <span class="hljs-string">&quot;child&quot;</span>: <span class="hljs-literal">null</span>,        <span class="hljs-comment">// 第一个子元素</span>
+  <span class="hljs-string">&quot;sibling&quot;</span>: <span class="hljs-literal">null</span>,      <span class="hljs-comment">// 后面的第一个兄弟元素</span>
+  <span class="hljs-string">&quot;index&quot;</span>: <span class="hljs-number">0</span>,           <span class="hljs-comment">// 兄弟间下标</span>
+  <span class="hljs-string">&quot;ref&quot;</span>: <span class="hljs-literal">null</span>,          <span class="hljs-comment">// ref </span>
   <span class="hljs-string">&quot;pendingProps&quot;</span>: {
     <span class="hljs-string">&quot;children&quot;</span>: {
       <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;h1&quot;</span>,
@@ -304,8 +318,8 @@
     }
   },
   <span class="hljs-string">&quot;memoizedProps&quot;</span>: <span class="hljs-literal">null</span>,
-  <span class="hljs-string">&quot;updateQueue&quot;</span>: <span class="hljs-literal">null</span>,
-  <span class="hljs-string">&quot;memoizedState&quot;</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-string">&quot;updateQueue&quot;</span>: <span class="hljs-literal">null</span>,      <span class="hljs-comment">// 更新队列</span>
+  <span class="hljs-string">&quot;memoizedState&quot;</span>: <span class="hljs-literal">null</span>,    <span class="hljs-comment">// 当前状态。初始化FiberNode节点时会赋初始值。好像与双缓存有关</span>
   <span class="hljs-string">&quot;dependencies&quot;</span>: <span class="hljs-literal">null</span>,
   <span class="hljs-string">&quot;mode&quot;</span>: <span class="hljs-number">3</span>,
   <span class="hljs-string">&quot;flags&quot;</span>: <span class="hljs-number">0</span>,
@@ -314,8 +328,8 @@
   <span class="hljs-string">&quot;lanes&quot;</span>: <span class="hljs-number">0</span>,
   <span class="hljs-string">&quot;childLanes&quot;</span>: <span class="hljs-number">0</span>,
   <span class="hljs-string">&quot;alternate&quot;</span>: <span class="hljs-literal">null</span>,
-  <span class="hljs-string">&quot;actualDuration&quot;</span>: <span class="hljs-number">0</span>,
-  <span class="hljs-string">&quot;actualStartTime&quot;</span>: <span class="hljs-number">-1</span>,
+  <span class="hljs-string">&quot;actualDuration&quot;</span>: <span class="hljs-number">0</span>,      <span class="hljs-comment">// </span>
+  <span class="hljs-string">&quot;actualStartTime&quot;</span>: <span class="hljs-number">-1</span>,    <span class="hljs-comment">// 好像是开始更新的时刻，相对于根组件被创建的时间。</span>
   <span class="hljs-string">&quot;selfBaseDuration&quot;</span>: <span class="hljs-number">0</span>,
   <span class="hljs-string">&quot;treeBaseDuration&quot;</span>: <span class="hljs-number">0</span>,
   <span class="hljs-string">&quot;_debugSource&quot;</span>: <span class="hljs-literal">null</span>,
@@ -325,12 +339,13 @@
 }
 </div></code></pre>
 <h2 id="fiberrootnode">FiberRootNode</h2>
-<p><code>FiberRootNode</code>是基于<code>FiberNode</code>的。</p>
+<p><code>FiberRootNode</code>不是基于<code>FiberNode</code>的。<br>
+FiberRootNode和FiberNode是二个独立的构造方法。</p>
 <pre><code class="language-js"><div>{
   <span class="hljs-string">&quot;tag&quot;</span>: <span class="hljs-number">1</span>,
-  <span class="hljs-string">&quot;containerInfo&quot;</span>: {},
+  <span class="hljs-string">&quot;containerInfo&quot;</span>: {},      <span class="hljs-comment">// 就是createRoot的第一个参数。dom类型。</span>
   <span class="hljs-string">&quot;pendingChildren&quot;</span>: <span class="hljs-literal">null</span>,
-  <span class="hljs-string">&quot;current&quot;</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-string">&quot;current&quot;</span>: <span class="hljs-literal">null</span>,          <span class="hljs-comment">// FiberNode。它是在createRoot方法中被设置的。</span>
   <span class="hljs-string">&quot;pingCache&quot;</span>: <span class="hljs-literal">null</span>,
   <span class="hljs-string">&quot;finishedWork&quot;</span>: <span class="hljs-literal">null</span>,
   <span class="hljs-string">&quot;timeoutHandle&quot;</span>: <span class="hljs-number">-1</span>,
@@ -357,6 +372,27 @@
   <span class="hljs-string">&quot;_debugRootType&quot;</span>: <span class="hljs-string">&quot;createRoot()&quot;</span>
 }
 </div></code></pre>
+<h2 id="uml">uml</h2>
+<pre><code><code><div>{ // ReactDOMRoot
+    _internalRoot: { // FiberRootNode
+        current: { // FiberNode
+            stateNode: 指向父节点
+            memoizedState: 保存当前状态
+            updateQueue
+            ...
+        }
+        containerInfo: { // dom
+            `__reactContainer$${randomKey}`: 指向父节点的current属性 // FiberNode
+            `_reactListening${randomKey}`: 是否添加监听功能
+        }
+        ...
+    },
+    prototype: {
+        render()
+        unmount()
+    }
+}
+</div></code></code></pre>
 <h2 id="title">title</h2>
 
     </body>
