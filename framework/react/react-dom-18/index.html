@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>&grave;react&grave;</title>
+        <title>&grave;react-dom&grave;</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -47,70 +47,47 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="react"><code>react</code></h1>
+        <h1 id="react-dom"><code>react-dom</code></h1>
+<p>本文档是react v18+</p>
 <h2 id="overview">overview</h2>
 <blockquote>
-<p>声明式<br>
-基于组件的<br>
-一次学习，多次使用<br>
-jsx语法。（类似xml，由babel解释。）<br>
-React 团队希望，组件不要变成复杂的容器，最好只是数据流的管道。开发者根据需要，组合管道即可。 组件的最佳写法应该是函数，而不是类。
-react居然使用同步更新dom.</p>
+<p>react家庭中操作dom的包</p>
 </blockquote>
 <h3 id="feature">feature</h3>
 <ul>
-<li>react家族的成员太多了。</li>
 <li>feature1</li>
 <li>feature2</li>
 </ul>
+<h2 id="install">install</h2>
+<p><code>npm i react-dom</code></p>
 <h2 id="usage">usage</h2>
-<pre><code class="language-js"><div>ReactDOM.render(React.createElement(<span class="hljs-string">&#x27;span&#x27;</span>, {}, <span class="hljs-string">&#x27;string&#x27;</span>), $(<span class="hljs-string">&#x27;#id&#x27;</span>))
-=&gt;
-<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;id&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>string<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+<pre><code class="language-js"><div><span class="hljs-comment">// const React = require(&#x27;react&#x27;);</span>
+<span class="hljs-keyword">const</span> ReactDOM = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;react-dom&#x27;</span>);
+ReactDOM.createRoot($(<span class="hljs-string">&#x27;#id&#x27;</span>)).render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>str<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>)
 </div></code></pre>
-<h3 id="使用script标签引入react脚本">使用script标签引入react脚本</h3>
-<ol>
-<li>引入react脚本。</li>
-<li>使用<code>React.createElement</code>创建元素。</li>
-<li>使用<code>ReactDOM.render</code>渲染元素。</li>
-</ol>
-<h3 id="使用npm创建react项目">使用npm创建react项目</h3>
-<pre><code><code><div>npx create-react-app projName
-cd projName
-npm run start
-</div></code></code></pre>
-<h2 id="demo">demo</h2>
-<ul>
-<li><a href="/react/demo0/first.html">demo0-first</a>使用script标签引入react</li>
-<li><a href="/react/demo0/second.html">demo0-second</a></li>
-<li><a href="">demo1</a></li>
-</ul>
 <h2 id="api">api</h2>
-<p>请在各包中查看相应api.</p>
-<h2 id="react家族成员">react家族成员</h2>
-<ul>
-<li><a href="/framework/react/react/index.html">react包</a></li>
-<li><a href="/framework/react/react-dom-17/index.html">react-dom-17</a>  <a href="/framework/react/react-dom-18/index.html">react-dom-18</a></li>
-<li><a href="/framework/react/redux/index.html">redux react-redux</a></li>
-<li><a href="/framework/react/reactNative.html">react native</a></li>
-<li><a href="/framework/react/router.html">react-router react-router-dom react-router-native</a></li>
-<li><a href="/framework/react/propType.html">propType</a></li>
-<li><a href="/framework/react/react.html">react</a></li>
-<li><a href="/framework/react/react-dom.html">react-dom</a></li>
-<li><a href="/framework/react/react-script.html">react-script</a></li>
-<li><a href="/framework/react/next/index.html">next</a></li>
-<li><a href="/framework/react/gateby/index.html">GatsBy</a></li>
-<li><a href="/framework/react/title.html">title</a></li>
-<li><a href="/framework/react/title.html">title</a></li>
-<li><a href="/framework/react/title.html">title</a></li>
-<li><a href="/framework/react/title.html">title</a></li>
-</ul>
+<pre><code class="language-js"><div><span class="hljs-built_in">exports</span>.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = Internals;
+<span class="hljs-built_in">exports</span>.createPortal = createPortal$<span class="hljs-number">1</span>;
+<span class="hljs-built_in">exports</span>.createRoot = createRoot$<span class="hljs-number">1</span>;
+<span class="hljs-built_in">exports</span>.findDOMNode = findDOMNode;
+<span class="hljs-built_in">exports</span>.flushSync = flushSync$<span class="hljs-number">1</span>;
+<span class="hljs-built_in">exports</span>.hydrate = hydrate;
+<span class="hljs-built_in">exports</span>.hydrateRoot = hydrateRoot$<span class="hljs-number">1</span>;
+<span class="hljs-comment">// exports.render = render;</span>
+<span class="hljs-built_in">exports</span>.unmountComponentAtNode = unmountComponentAtNode;
+<span class="hljs-built_in">exports</span>.unstable_batchedUpdates = batchedUpdates$<span class="hljs-number">1</span>;
+<span class="hljs-built_in">exports</span>.unstable_renderSubtreeIntoContainer = renderSubtreeIntoContainer;
+<span class="hljs-built_in">exports</span>.version = ReactVersion;
+</div></code></pre>
+<h2 id="principle"><a href="/framework/react/react-dom-18/principle.html">principle</a></h2>
+<h3 id="uml">uml</h3>
+<pre><code><code><div></div></code></code></pre>
 <h2 id="todo">todo</h2>
-<p>react / react-dom都用到了react-reconciler，该包就是fiber.</p>
-<h3 id="为什么要最常用的reactreact-dom分开怎么分清它们">为什么要最常用的<code>react</code>/<code>react-dom</code>分开？怎么分清它们？</h3>
-<h3 id="项目结构">项目结构</h3>
+<blockquote>
+<p>未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote>
 
     </body>
     </html>
