@@ -114,11 +114,13 @@ react包中有在方法中判断是否是开发环境的。有分别写开发、
   // renderer.
   this.updater = updater || ReactNoopUpdateQueue;
 }
+// 是否是class组件
 Component.prototype.isReactComponent = {}
+// 更新组件
 Component.prototype.setState = {
   this.updater.enqueueSetState(this, partialState, callback, 'setState');
 }
-
+// 强制更新组件。与setState比，不需要设置state。
 Component.prototype.forceUpdate = {
   this.updater.enqueueForceUpdate(this, callback, 'forceUpdate');
 }
@@ -302,9 +304,9 @@ function lazyInitializer () {
 <td>有生命周期</td>
 </tr>
 <tr>
+<td>如何区分</td>
 <td></td>
-<td></td>
-<td></td>
+<td>原型对象上是否有isReactComponent</td>
 </tr>
 <tr>
 <td></td>
@@ -393,14 +395,15 @@ Component.prototype.setState = function(partialState, callback) {
 </table>
 <h2 id="fiber的运行逻辑">fiber的运行逻辑</h2>
 <p>fiber使用双缓存机制，浏览器在处理canvas时也使用双缓存机制。</p>
+<h2 id="源码使用flow">源码使用flow</h2>
+<p>vue3开始时，也考虑过使用flow。后因flow不维护了，所以改为ts了。</p>
+<h2 id="17如何自动使用jsx的">17如何自动使用jsx的？</h2>
 <h2 id="title">title</h2>
 <h2 id="title-1">title</h2>
-<h2 id="title-2">title</h2>
-<h2 id="title-3">title</h2>
 <h2 id="读源码的方法">读源码的方法</h2>
 <p>记清变量名、方法名、属性名等。
 理清方法间调用栈。</p>
-<h2 id="title-4">title</h2>
+<h2 id="title-2">title</h2>
 
     </body>
     </html>

@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>&grave;react&grave;</title>
+        <title>&grave;react-18&grave;</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -47,32 +47,15 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="react"><code>react</code></h1>
+        <h1 id="react-18"><code>react-18</code></h1>
 <h2 id="feature">feature</h2>
 <ul>
 <li>创建element</li>
 <li>基本hook</li>
+<li>使用vdom。（可使diff更快）</li>
 </ul>
 <h2 id="install">install</h2>
 <p><code>npm i react</code></p>
-<h2 id="usage">usage</h2>
-<p>见demo</p>
-<h3 id="使用script标签引入react脚本">使用script标签引入react脚本</h3>
-<ol>
-<li>引入react脚本。</li>
-<li>使用<code>React.createElement</code>创建元素。</li>
-<li>使用<code>ReactDOM.render</code>渲染元素。</li>
-</ol>
-<h3 id="使用npm创建react项目">使用npm创建react项目</h3>
-<ol>
-<li></li>
-</ol>
-<h2 id="demo">demo</h2>
-<ul>
-<li><a href="/react/demo0/first.html">demo0-first</a>使用script标签引入react</li>
-<li><a href="/react/demo0/second.html">demo0-second</a></li>
-<li><a href="">demo1</a></li>
-</ul>
 <h2 id="元素">元素</h2>
 <p>React 元素是不可变对象。一旦被创建，你就无法更改它的子元素或者属性。一个元素就像电影的单帧：它代表了某个特定时刻的 UI。<br>
 React 只更新它需要更新的部分<br>
@@ -288,11 +271,44 @@ return (&lt;&gt;
 </pre>
 </artical>
 </details>
-<h2 id="configuration">configuration</h2>
-<p>默认配置文件：<code>path/to/file.json</code>。</p>
 <h2 id="api">api</h2>
-<p>请在各包中查看相应api.</p>
-<h2 id="principle"><a href="/framework/react/react/principle.html">principle</a></h2>
+<pre><code class="language-js"><div><span class="hljs-built_in">exports</span>.Children = Children;
+<span class="hljs-built_in">exports</span>.Component = Component;
+<span class="hljs-built_in">exports</span>.Fragment = REACT_FRAGMENT_TYPE;
+<span class="hljs-built_in">exports</span>.Profiler = REACT_PROFILER_TYPE;
+<span class="hljs-built_in">exports</span>.PureComponent = PureComponent;
+<span class="hljs-built_in">exports</span>.StrictMode = REACT_STRICT_MODE_TYPE;
+<span class="hljs-built_in">exports</span>.Suspense = REACT_SUSPENSE_TYPE;
+<span class="hljs-built_in">exports</span>.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = ReactSharedInternals;
+<span class="hljs-built_in">exports</span>.cloneElement = cloneElement$<span class="hljs-number">1</span>;
+<span class="hljs-built_in">exports</span>.createContext = createContext;
+<span class="hljs-built_in">exports</span>.createElement = createElement$<span class="hljs-number">1</span>;
+<span class="hljs-built_in">exports</span>.createFactory = createFactory;
+<span class="hljs-built_in">exports</span>.createRef = createRef;
+<span class="hljs-built_in">exports</span>.forwardRef = forwardRef;
+<span class="hljs-built_in">exports</span>.isValidElement = isValidElement;
+<span class="hljs-built_in">exports</span>.lazy = lazy;
+<span class="hljs-built_in">exports</span>.memo = memo;
+<span class="hljs-built_in">exports</span>.startTransition = startTransition;
+<span class="hljs-built_in">exports</span>.unstable_act = act;
+<span class="hljs-built_in">exports</span>.useCallback = useCallback;
+<span class="hljs-built_in">exports</span>.useContext = useContext;
+<span class="hljs-built_in">exports</span>.useDebugValue = useDebugValue;
+<span class="hljs-built_in">exports</span>.useDeferredValue = useDeferredValue;
+<span class="hljs-built_in">exports</span>.useEffect = useEffect;
+<span class="hljs-built_in">exports</span>.useId = useId;
+<span class="hljs-built_in">exports</span>.useImperativeHandle = useImperativeHandle;
+<span class="hljs-built_in">exports</span>.useInsertionEffect = useInsertionEffect;
+<span class="hljs-built_in">exports</span>.useLayoutEffect = useLayoutEffect;
+<span class="hljs-built_in">exports</span>.useMemo = useMemo;
+<span class="hljs-built_in">exports</span>.useReducer = useReducer;
+<span class="hljs-built_in">exports</span>.useRef = useRef;
+<span class="hljs-built_in">exports</span>.useState = useState;
+<span class="hljs-built_in">exports</span>.useSyncExternalStore = useSyncExternalStore;
+<span class="hljs-built_in">exports</span>.useTransition = useTransition;
+<span class="hljs-built_in">exports</span>.version = ReactVersion;
+</div></code></pre>
+<h2 id="principle"><a href="/framework/react/react-18/principle.html">principle</a></h2>
 <h3 id="更新机制">更新机制</h3>
 <h3 id="fiber">fiber</h3>
 <h3 id="uml">uml</h3>
@@ -309,11 +325,13 @@ return (&lt;&gt;
 <h3 id="方法组件class组件的区别">方法组件&amp;class组件的区别</h3>
 <h3 id="在class组件中为什么修改state的惟一方法是setstate">在class组件中为什么修改state的惟一方法是setState()</h3>
 <h3 id="为什么当前组件不能知道别的组件中的state的值">为什么当前组件不能知道别的组件中的state的值</h3>
+<h2 id="版本迭代">版本迭代</h2>
+<p>16 增加fiber
+17 在*.jsx文件中自动引入<code>reatct/jsx-runtime</code>，用于处理jsx</p>
 <h3 id="未来迭代计划">未来迭代计划。</h3>
 <h3 id="未来迭代计划-1">未来迭代计划。</h3>
 <h3 id="未来迭代计划-2">未来迭代计划。</h3>
 <h3 id="未来迭代计划-3">未来迭代计划。</h3>
-<h3 id="未来迭代计划-4">未来迭代计划。</h3>
 
     </body>
     </html>

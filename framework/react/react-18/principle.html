@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>&#x8FD0;&#x884C;&#x539F;&#x7406;</title>
+        <title>&#x4ECB;&#x7ECD;&#x5404;&#x65B9;&#x6CD5;&#x7684;&#x8FD0;&#x884C;&#x903B;&#x8F91;</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -47,360 +47,127 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="运行原理">运行原理</h1>
-<pre><code class="language-js"><div><span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react-dom&#x27;</span>;
-ReactDOM.reader(                    <span class="hljs-comment">// 把指定的h1元素渲染到#root dom中。</span>
-    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>hi boy!<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span></span>,
-    $(<span class="hljs-string">&#x27;#root&#x27;</span>)
-)
-</div></code></pre>
-<p>可渲染一个h1标签，也可以渲染一个自定义组件<code>&lt;App&gt;</code>。</p>
-<h2 id="reader的工作逻辑"><a href="/framework/react/react-dom/principle.html"><code>reader</code>的工作逻辑</a>。</h2>
-<h2 id="jsx">jsx</h2>
-<p>jsx是经过babel处理为<code>createElement</code>才能正常运行的。
-createElement方法</p>
-<pre><code class="language-js"><div><span class="hljs-comment">//demo</span>
-<span class="hljs-keyword">let</span> str = <span class="hljs-string">&#x27;string&#x27;</span>
-&lt;span&gt;{str}&lt;/span&gt;
-=&gt;
-<span class="hljs-keyword">let</span> str = <span class="hljs-string">&#x27;string&#x27;</span>
-React.createElement(<span class="hljs-string">&#x27;span&#x27;</span>, {}, str)
-</div></code></pre>
-<h2 id="createelement">createElement</h2>
-<p>createElement在dev环境中使用<code>createElementWithValidation</code>，在生产环境中使用<code>createElementProd</code>
-react包中有在方法中判断是否是开发环境的。有分别写开发、生产环境的方法，再根据环境分别使用的。
-检查了参数后返回了一个element对象。</p>
-<h3 id="createelementwithvalidation方法">createElementWithValidation方法</h3>
-<pre><code><code><div>function createElementWithValidation (type, props, children) {
-    const element = createElement.apply(this, arguments);
-        hasValidRef(config) // 判断props是否正确
-        warnIfStringRefCannotBeAutoConverted(config) // 判断props是否可以转化
-        hasValidKey(config) // 判断props中是否不存在key
-        checkKeyStringCoercion(...) // 判断是否可以强制转换为string
-        // 还有别的检测
-        return ReactElement(...) // 创建并返回element
-                  return element
-    return element
-}
-</div></code></code></pre>
-<p>返回一个element对象</p>
-<h4 id="element对象">element对象</h4>
-<p>是react应用中最小的构建块。</p>
-<pre><code><code><div>{
-    // This tag allows us to uniquely identify this as a React Element
-    $$typeof: REACT_ELEMENT_TYPE,
-
-    // Built-in properties that belong on the element
-    type: type,
-    key: key,
-    ref: ref,
-    props: props,
-
-    // Record the component responsible for creating this element.
-    _owner: owner,
-    ...
-}
-</div></code></code></pre>
-<h3 id="createelementprod方法">createElementProd方法</h3>
-<p>同<code>createElementWithValidation方法</code>
-2个方法都相同了还写2个方法有意义么？</p>
-<h2 id="component">Component</h2>
-<pre><code><code><div>function Component(props, context, updater) {
-  this.props = props;
-  this.context = context;
-  // If a component has string refs, we will assign a different object later.
-  this.refs = emptyObject;
-  // We initialize the default updater but the real one gets injected by the
-  // renderer.
-  this.updater = updater || ReactNoopUpdateQueue;
-}
-Component.prototype.isReactComponent = {}
-Component.prototype.setState = {
-  this.updater.enqueueSetState(this, partialState, callback, 'setState');
-}
-
-Component.prototype.forceUpdate = {
-  this.updater.enqueueForceUpdate(this, callback, 'forceUpdate');
-}
-</div></code></code></pre>
-<h2 id="purecomponent">PureComponent</h2>
-<p>与<code>Component</code>一样。
-react又搞了一对一样的。为什么不删除一个？</p>
+        <h1 id="介绍各方法的运行逻辑">介绍各方法的运行逻辑</h1>
 <h2 id="children">Children</h2>
-<p>操作children的方法</p>
-<pre><code><code><div>{
-  map,
-  forEach,
-  count,
-  toArray,
-  only,
+<h2 id="component">Component</h2>
+<pre><code class="language-js"><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Component</span>(<span class="hljs-params">props, context, updater</span>) </span>{
+  <span class="hljs-built_in">this</span>.props = props;
+  <span class="hljs-built_in">this</span>.context = context;
+  <span class="hljs-built_in">this</span>.refs = emptyObject;
+  <span class="hljs-built_in">this</span>.updater = updater || ReactNoopUpdateQueue;
+}
+Component.prototype.isReactComponent = {};
+Component.prototype.setState = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">partialState, callback</span>) </span>{
+  <span class="hljs-built_in">this</span>.updater.enqueueSetState(<span class="hljs-built_in">this</span>, partialState, callback, <span class="hljs-string">&#x27;setState&#x27;</span>);
+}
+Component.prototype.forceUpdate = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">callback</span>) </span>{ <span class="hljs-comment">// 我认识不应该开放强制执行的方法</span>
+  <span class="hljs-built_in">this</span>.updater.enqueueForceUpdate(<span class="hljs-built_in">this</span>, callback, <span class="hljs-string">&#x27;forceUpdate&#x27;</span>);
+}
+
+<span class="hljs-keyword">var</span> ReactNoopUpdateQueue = {
+  <span class="hljs-attr">isMounted</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">publicInstance</span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+  },
+  <span class="hljs-attr">enqueueForceUpdate</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">publicInstance, callback, callerName</span>) </span>{
+    warnNoop(publicInstance, <span class="hljs-string">&#x27;forceUpdate&#x27;</span>);
+  },
+  <span class="hljs-attr">enqueueReplaceState</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">publicInstance, completeState, callback, callerName</span>) </span>{
+    warnNoop(publicInstance, <span class="hljs-string">&#x27;replaceState&#x27;</span>);
+  },
+  <span class="hljs-attr">enqueueSetState</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">publicInstance, partialState, callback, callerName</span>) </span>{ <span class="hljs-comment">// 后三个参数</span>
+    warnNoop(publicInstance, <span class="hljs-string">&#x27;setState&#x27;</span>);
+  }
 };
-</div></code></code></pre>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">warnNoop</span>(<span class="hljs-params">publicInstance, callerName</span>) </span>{
+  <span class="hljs-keyword">var</span> _constructor = publicInstance.constructor; <span class="hljs-comment">// 发现总是 FiberNode</span>
+  <span class="hljs-keyword">var</span> componentName = _constructor &amp;&amp; (_constructor.displayName || _constructor.name) || <span class="hljs-string">&#x27;ReactClass&#x27;</span>;
+  <span class="hljs-keyword">var</span> warningKey = componentName + <span class="hljs-string">&quot;.&quot;</span> + callerName;
+  <span class="hljs-keyword">if</span> (didWarnStateUpdateForUnmountedComponent[warningKey]) {
+    <span class="hljs-keyword">return</span>;
+  }
+  error(<span class="hljs-string">&quot;Can&#x27;t call %s on a component that is not yet mounted. &quot;</span> + <span class="hljs-string">&#x27;This is a no-op, but it might indicate a bug in your application. &#x27;</span> + <span class="hljs-string">&#x27;Instead, assign to `this.state` directly or define a `state = {};` &#x27;</span> + <span class="hljs-string">&#x27;class property with the desired state in the %s component.&#x27;</span>, callerName, componentName);
+  didWarnStateUpdateForUnmountedComponent[warningKey] = <span class="hljs-literal">true</span>;
+}
+</div></code></pre>
+<h2 id="fragment">Fragment</h2>
+<h2 id="profiler">Profiler</h2>
+<h2 id="purecomponent">PureComponent</h2>
+<h2 id="strictmode">StrictMode</h2>
+<h2 id="suspense">Suspense</h2>
+<h2 id="__secret_internals_do_not_use_or_you_will_be_fired">__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED</h2>
 <h2 id="cloneelement">cloneElement</h2>
-<p>开发环境调用<code>cloneElementWithValidation</code>，生产环境调用<code>cloneElementProd</code>。</p>
-<h3 id="cloneelementwithvalidation">cloneElementWithValidation</h3>
-<pre><code><code><div>return newElement = cloneElement.apply(this, arguments);
-                        return ReactElement(element.type, key, ref, self, source, owner, props);
-</div></code></code></pre>
-<h3 id="cloneelementprod">cloneElementProd</h3>
-<p>与<code>cloneElementWithValidation</code>相同</p>
 <h2 id="createcontext">createContext</h2>
-<pre><code><code><div>export function createContext {
-  context.Provider = {
-    $$typeof: REACT_PROVIDER_TYPE,
-    _context: context,
-  };
-  ...
-  context.Consumer = context;
-  return context;
-};
-
-context:
-{
-    $$typeof: REACT_CONTEXT_TYPE,
-    _currentValue: defaultValue,
-    _currentValue2: defaultValue,
-    _threadCount: 0,
-    Provider: (null: any),
-    Consumer: (null: any),
-};
-</div></code></code></pre>
+<h2 id="createelement">createElement</h2>
+<pre><code class="language-js"><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createElementWithValidation</span> (<span class="hljs-params">type, props, children</span>) </span>{
+  <span class="hljs-comment">// 验证参数</span>
+  <span class="hljs-keyword">var</span> element = createElement.apply(<span class="hljs-built_in">this</span>, <span class="hljs-built_in">arguments</span>);
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createElement</span>(<span class="hljs-params">type, config, children</span>) </span>{
+      <span class="hljs-comment">// 设置初始值</span>
+      <span class="hljs-comment">// 验证</span>
+      <span class="hljs-keyword">return</span> ReactElement(type, key, ref, self, source, ReactCurrentOwner.current, props);
+        <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ReactElement</span> (<span class="hljs-params">type, key, ref, self, source, owner, props</span>) </span>{ <span class="hljs-comment">// 这是工厂模式的函数</span>
+          <span class="hljs-keyword">let</span> element = {
+            <span class="hljs-attr">$$typeof</span>: REACT_ELEMENT_TYPE,
+            <span class="hljs-attr">type</span>: type,
+            <span class="hljs-attr">key</span>: key,
+            <span class="hljs-attr">ref</span>: ref,
+            <span class="hljs-attr">props</span>: props,
+            <span class="hljs-attr">_owner</span>: owner,
+            ...
+          };
+          <span class="hljs-built_in">Object</span>.freeze(element.props); <span class="hljs-comment">// 因为冻结了，所以不能改props</span>
+          <span class="hljs-built_in">Object</span>.freeze(element);
+          <span class="hljs-keyword">return</span> element
+        }
+    }
+  <span class="hljs-comment">// 验证</span>
+  <span class="hljs-keyword">return</span> element
+}
+</div></code></pre>
 <h2 id="createfactory">createFactory</h2>
-<p>开发环境createFactoryWithValidation 生产环境createFactoryProd;<br>
-createFactory 与 createElement 相同。</p>
-<h3 id="createfactorywithvalidation">createFactoryWithValidation</h3>
-<pre><code><code><div>return validatedFactory = createElementWithValidation.bind(null, type);
-</div></code></code></pre>
-<h2 id="createmutablesource">createMutableSource</h2>
-<pre><code><code><div>export function createMutableSource {
-  return mutableSource = {
-    _getVersion: getVersion,
-    _source: source,
-    _workInProgressVersionPrimary: null,
-    _workInProgressVersionSecondary: null,
-  }
-}
-</div></code></code></pre>
 <h2 id="createref">createRef</h2>
-<p>export function createRef() {
-return refObject = {
-current: null,
-};
-}</p>
 <h2 id="forwardref">forwardRef</h2>
-<pre><code><code><div>function forwardRef () {
-  ...
-  return elementType = {
-    $$typeof: REACT_FORWARD_REF_TYPE,
-    render,
-  }
-}
-</div></code></code></pre>
-<h2 id="lacy">lacy</h2>
-<pre><code><code><div>function lazy () {
-  return lazyType = {
-    $$typeof: REACT_LAZY_TYPE,
-    _payload: payload,
-    _init: lazyInitializer,
-  }
-}
-function lazyInitializer () {
-    if (payload._status === Uninitialized) {
-        const thenable = payload._result();
-        thenable.then(..., ...)
-    }
-    if (payload._status === Resolved) {
-        return payload._result.default;
-    } else  {
-        throw payload._result;
-    }
-}
-</div></code></code></pre>
+<h2 id="isvalidelement">isValidElement</h2>
+<h2 id="lazy">lazy</h2>
 <h2 id="memo">memo</h2>
-<pre><code><code><div>function memo (type, compare) {
-    return elementType = {
-        $$typeof: REACT_MEMO_TYPE,
-        type,
-        compare: compare === undefined ? null : compare,
-    };
-}
-</div></code></code></pre>
 <h2 id="starttransition">startTransition</h2>
-<pre><code><code><div>function startTransition(scope) {
-    const prevTransition = ReactCurrentBatchConfig.transition;
-    ReactCurrentBatchConfig.transition = {};
-    const currentTransition = ReactCurrentBatchConfig.transition;
-
-    try {
-        scope();
-    } finally {
-        ReactCurrentBatchConfig.transition = prevTransition;
-    }
-}
-</div></code></code></pre>
-<h2 id="cloneelementprod-0xeacb">cloneElementProd 0xeacb</h2>
-<h2 id="profiler-0xead2">Profiler 0xead2</h2>
-<h2 id="strictmode-0xeacc">StrictMode 0xeacc</h2>
-<h2 id="suspense-0xead1">Suspense 0xead1</h2>
-<h2 id="suspenselist-0xead8">SuspenseList 0xead8</h2>
-<h2 id="profiler-0xead2-1">Profiler 0xead2</h2>
-<h2 id="profiler-0xead2-2">Profiler 0xead2</h2>
-<h2 id="profiler-0xead2-3">Profiler 0xead2</h2>
-<h2 id="profiler-0xead2-4">Profiler 0xead2</h2>
-<h2 id="profiler-0xead2-5">Profiler 0xead2</h2>
-<h2 id="profiler-0xead2-6">Profiler 0xead2</h2>
-<h2 id="profiler-0xead2-7">Profiler 0xead2</h2>
-<h2 id="profiler-0xead2-8">Profiler 0xead2</h2>
-<h2 id="方法组件与class组件">方法组件与class组件</h2>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>方法组件</th>
-<th>class组件</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td>-</td>
-<td>基于react.component方法</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>原型链中有<code>isReactComponet / setState / forceUpdate</code>方法。所以在class组件中可以使用<code>setState</code>等。</td>
-</tr>
-<tr>
-<td></td>
-<td>返回element对象</td>
-<td>返回element对象</td>
-</tr>
-<tr>
-<td></td>
-<td>使用useState等方法设置更新</td>
-<td>使用setStatet设置更新</td>
-</tr>
-<tr>
-<td>二者在此就已经分开了</td>
-<td>调用createElement方法</td>
-<td>Component是一个构造函数。</td>
-</tr>
-<tr>
-<td></td>
-<td>方法返回jsx，即createElement方法返回的element对象。</td>
-<td>基于React.Component构造方法，调用其内部的render方法。</td>
-</tr>
-<tr>
-<td></td>
-<td>没有state</td>
-<td>有state</td>
-</tr>
-<tr>
-<td></td>
-<td>没有生命周期</td>
-<td>有生命周期</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>官方说方法组件会认</p>
+<h2 id="unstable_act">unstable_act</h2>
+<h2 id="usecallback">useCallback</h2>
+<h2 id="usecontext">useContext</h2>
+<h2 id="usedebugvalue">useDebugValue</h2>
+<h2 id="usedeferredvalue">useDeferredValue</h2>
+<h2 id="useeffect">useEffect</h2>
+<h2 id="useid">useId</h2>
+<h2 id="useimperativehandle">useImperativeHandle</h2>
+<h2 id="useinsertioneffect">useInsertionEffect</h2>
+<h2 id="uselayouteffect">useLayoutEffect</h2>
+<h2 id="usememo">useMemo</h2>
+<h2 id="usereducer">useReducer</h2>
+<h2 id="useref">useRef</h2>
 <h2 id="usestate">useState</h2>
-<pre><code><code><div>function useState&lt;S&gt;(
-    initialState: (() =&gt; S) | S,
-) {
-    const dispatcher = resolveDispatcher();
-                            return dispatcher = ReactCurrentDispatcher.current;
-                                                    {current}
-    return dispatcher.useState(initialState);
+<h2 id="usesyncexternalstore">useSyncExternalStore</h2>
+<h2 id="usetransition">useTransition</h2>
+<h2 id="version">version</h2>
+<h1 id="各对象">各对象</h1>
+<h2 id="reactelement">ReactElement</h2>
+<p>这是react包中生成的对象。</p>
+<pre><code class="language-js"><div>{
+  <span class="hljs-string">&quot;$$typeof&quot;</span>: <span class="hljs-built_in">Symbol</span>(react.element)
+  <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;h1&quot;</span>, <span class="hljs-comment">// html标签 | 构造函数</span>
+  <span class="hljs-string">&quot;key&quot;</span>: <span class="hljs-literal">null</span>,  <span class="hljs-comment">// 惟一键</span>
+  <span class="hljs-string">&quot;ref&quot;</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-string">&quot;props&quot;</span>: {
+    <span class="hljs-string">&quot;children&quot;</span>: <span class="hljs-string">&quot;title&quot;</span>
+  },
+  <span class="hljs-string">&quot;_owner&quot;</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-string">&quot;_store&quot;</span>: {},
+  <span class="hljs-string">&quot;_self&quot;</span>: <span class="hljs-literal">null</span>
+  <span class="hljs-string">&quot;_source&quot;</span>: <span class="hljs-literal">null</span>
 }
-</div></code></code></pre>
-<p>不知道<code>dispatcher</code>对象从哪来的。<br>
-好像是在fiber中赋值的dispatcher。</p>
-<h3 id="dispatcher">dispatcher</h3>
-<p>是<code>react-reconciler</code>包中的对象。</p>
-<h2 id="usestate-1">useState</h2>
-<h2 id="usestate-2">useState</h2>
-<h2 id="usestate-3">useState</h2>
-<h2 id="usestate-4">useState</h2>
-<h2 id="hooks怎么运行">hooks怎么运行</h2>
-<p>只能在function组件内的顶级中使用。</p>
-<h2 id="为什么官网说react-element被创建后不能再变动">为什么官网说react element被创建后不能再变动</h2>
-<p>createElements方法中对element对象执行了</p>
-<pre><code><code><div>Object.freeze(element.props) // 可解释为什么props是只读的。
-Object.freeze(element)
-</div></code></code></pre>
-<p>感觉作者好大胆。活的不好吗？非要搞成死的。
-死的有什么好处呀？可保证element不被修改……。react根本就不用享元模式。也就不用搞成活的。</p>
-<h2 id="如何执行diff的">如何执行diff的？</h2>
-<h2 id="为什么class组件使用render返回东西">为什么class组件使用render()返回东西？</h2>
-<h2 id="setstate如何工作">setState如何工作？</h2>
-<p>Component构造函数的原型对象上有setState方法。</p>
-<pre><code><code><div>
-Component.prototype.setState = function(partialState, callback) {
-  ...
-  this.updater.enqueueSetState(this, partialState, callback, 'setState');
-};
-</div></code></code></pre>
-<p>其中updater是从参数中来的。参数中若无，则使用默认值ReactNoopUpdateQueue。ReactNoopUpdateQueue是中的方法只在开发环境中运行。
-我搞不懂平时使用React.Component方法时一般不传递updater的，那么怎么执行setState方法中的updater方法。updater方法在哪儿传入的？</p>
-<h2 id="事件是如何运行的">事件是如何运行的？</h2>
-<pre><code><code><div>&lt;button onClick={(e) =&gt; this.deleteRow(id, e)}&gt;Delete Row&lt;/button&gt;
-&lt;button onClick={this.deleteRow.bind(this, id)}&gt;Delete Row&lt;/button&gt;
-</div></code></code></pre>
-<h2 id="三种模式">三种模式</h2>
-<table>
-<thead>
-<tr>
-<th>legacy</th>
-<th>blocking</th>
-<th>concurrent</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>这是当前 React app 使用的方式。当前没有计划删除本模式，但是这个模式可能不支持这些新功能。</td>
-<td>目前正在实验中。作为迁移到 concurrent 模式的第一个步骤。</td>
-<td>目前在实验中，未来稳定之后，打算作为 React 的默认开发模式。这个模式开启了所有的新功能。</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="fiber的运行逻辑">fiber的运行逻辑</h2>
-<p>fiber使用双缓存机制，浏览器在处理canvas时也使用双缓存机制。</p>
+</div></code></pre>
+<h1 id="uml">uml</h1>
 <h2 id="title">title</h2>
-<h2 id="title-1">title</h2>
-<h2 id="title-2">title</h2>
-<h2 id="title-3">title</h2>
-<h2 id="读源码的方法">读源码的方法</h2>
-<p>记清变量名、方法名、属性名等。
-理清方法间调用栈。</p>
-<h2 id="title-4">title</h2>
 
     </body>
     </html>

@@ -2,6 +2,8 @@
 ## Children
 
 ## Component
+虽然react包中是这样定义的，但是在实际运行中`setState`被react-dom中的方法重新赋值了。
+原来这里只是设置了一个默认值。  
 ```js
 function Component(props, context, updater) {
   this.props = props;
@@ -31,7 +33,6 @@ var ReactNoopUpdateQueue = {
     warnNoop(publicInstance, 'setState');
   }
 };
-
 function warnNoop(publicInstance, callerName) {
   var _constructor = publicInstance.constructor; // 发现总是 FiberNode
   var componentName = _constructor && (_constructor.displayName || _constructor.name) || 'ReactClass';
@@ -130,6 +131,21 @@ function createElementWithValidation (type, props, children) {
 ## useRef
 
 ## useState
+应该在react-dom中被重新赋值了。  
+```js
+var ReactCurrentDispatcher = {
+  current: null
+};
+function resolveDispatcher() {
+  var dispatcher = ReactCurrentDispatcher.current;
+  return dispatcher;
+}
+function useState(initialState) {
+  var dispatcher = resolveDispatcher();
+  return dispatcher.useState(initialState);
+}
+
+```
 
 ## useSyncExternalStore
 
@@ -157,5 +173,6 @@ function createElementWithValidation (type, props, children) {
 ```
 
 # uml
+react/react-dom耦合地很严重，不好。
 
 ## title

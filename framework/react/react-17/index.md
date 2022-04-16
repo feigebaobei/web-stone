@@ -263,7 +263,7 @@ function C1 () {
 ## api
 请在各包中查看相应api.
 
-## [principle](/framework/react/react/principle.md)
+## [principle](/framework/react/react-17/principle.md)
 
 ### 更新机制
 ### fiber
