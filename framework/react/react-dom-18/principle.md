@@ -126,78 +126,78 @@ function createRoot$1(container, options) {
             }
             // 它有原型对象上有2个属性
             ReactDOMHydrationRoot.prototype.render = ReactDOMRoot.prototype.render = function (children) {
-                // 检测
-                updateContainer()
+                var root = this._internalRoot; // FiberRootNode
+                updateContainer(children, root, null, null);
                     function updateContainer(element, container, parentComponent, callback) {
-                        onScheduleRoot(container, element); // 不明白这个方法，好像是定义了一个事件。
+                        onScheduleRoot(container, element);
+                            function onScheduleRoot(root, children) {...}
                         var current$1 = container.current; // FiberNode
-                        var eventTime = requestEventTime();
-                        function requestEventTime() {
-                            // 检测
-                            return now();
-                        }
-                        var lane = requestUpdateLane(current$1); // 请求更新通道
-                        markRenderScheduled(lane); // 不明白这个方法
+                        var eventTime = requestEventTime(); // 分情况返回一个时刻。返回-1或当前时刻。currentEventTime的默认值是-1。
+                            function requestEventTime() {
+                                if ((executionContext & (RenderContext | CommitContext)) !== NoContext) {
+                                    return now();
+                                }
+                                if (currentEventTime !== NoTimestamp) { // 上文中执行了 var currentEventTime = NoTimestamp;
+                                    return currentEventTime;
+                                }
+                                currentEventTime = now();
+                                return currentEventTime;
+                            }
+                        var lane = requestUpdateLane(current$1); // 返回一个优先级值
                         var context = getContextForSubtree(parentComponent);
-                        function getContextForSubtree(parentComponent) { // 不知道返回一个什么东西
-                            var fiber = get(parentComponent); // 
-                            var parentContext = findCurrentUnmaskedContext(fiber);
-                            // ...
-                            return parentContext
-                        }
+                            function getContextForSubtree(parentComponent) {
+                                var fiber = get(parentComponent); // 
+                                var parentContext = findCurrentUnmaskedContext(fiber); // 好像是返回了context
+                                ...
+                                return parentContext;
+                            }
+                        ...
                         var update = createUpdate(eventTime, lane);
-                        function createUpdate(eventTime, lane) {
-                            return {
+                            function createUpdate(eventTime, lane) {
+                            var update = {
                                 eventTime: eventTime,
                                 lane: lane,
-                                tag: UpdateState,
+                                tag: UpdateState, // 上面运行了 var UpdateState = 0;
                                 payload: null,
                                 callback: null,
                                 next: null
                             };
-                        }
+                            return update;
+                            }
                         update.payload = {
                             element: element
                         };
-                        // ...
+                        if (callback !== null) {
+                            ...
+                            update.callback = callback;
+                        }
                         enqueueUpdate(current$1, update); // 加入到更新队列
-                        var root = scheduleUpdateOnFiber(current$1, lane, eventTime); // 这个好像就是diff运算
+                            function enqueueUpdate(fiber, update, lane) {
+                                var updateQueue = fiber.updateQueue;
+                                if (updateQueue === null) {
+                                    return;
+                                }
+                                var sharedQueue = updateQueue.shared;
+                                // ... 创建一个环
+                                // if (isInterleavedUpdate(fiber)) {
+                                //     var interleaved = sharedQueue.interleaved;
+                                // } else {
+                                // }
+                            }
+                        var root = scheduleUpdateOnFiber(current$1, lane, eventTime);
                             function scheduleUpdateOnFiber(fiber, lane, eventTime) {
-                                checkForNestedUpdates(); // 它好像没做什么
+                                checkForNestedUpdates(); // 检测
+                                    function checkForNestedUpdates() {
+                                    }
                                 var root = markUpdateLaneFromFiberToRoot(fiber, lane);
                                     function markUpdateLaneFromFiberToRoot(sourceFiber, lane) {
-                                        sourceFiber.lanes = mergeLanes(sourceFiber.lanes, lane); // 执行或运算
-                                        var alternate = sourceFiber.alternate;
-                                        // ...
-                                        warnAboutUpdateOnNotYetMountedFiberInDEV(sourceFiber) // 不明白这个方法
-                                        // ...
                                     }
-                                markRootUpdated(root, lane, eventTime); // 好像是标记已经更新了
-                                // 检测
-                                ensureRootIsScheduled(root, eventTime); // 这个方法太大了
-                                if (...) {
-                                    resetRenderTimer() // 重置时间
-                                    flushSyncCallbacksOnlyInLegacyMode() // 不明白这个方法
-                                }
-                                return root;
                             }
-                        if (root !== null) {
-                            entangleTransitions(root, current$1, lane);
-                                function entangleTransitions(root, fiber, lane) {
-                                    var updateQueue = fiber.updateQueue;
-                                    if (updateQueue === null) {
-                                        return;
-                                    }
-                                    if (isTransitionLane(lane)) {
-                                        var queueLanes = sharedQueue.lanes;
-                                        queueLanes = intersectLanes(queueLanes, root.pendingLanes);
-                                        var newQueueLanes = mergeLanes(queueLanes, lane);
-                                        sharedQueue.lanes = newQueueLanes;
-                                        markRootEntangled(root, newQueueLanes); //
-                                    }
-                                }
-                        }
-                        return lane;
+                        
+
+
+
+                        
                     }
             }
             ReactDOMHydrationRoot.prototype.unmount = ReactDOMRoot.prototype.unmount = function () {
@@ -355,4 +355,9 @@ FiberRootNode和FiberNode是二个独立的构造方法。
 }
 ```
 
+## fiber对象链
+
+## title
+## title
+## title
 ## title
