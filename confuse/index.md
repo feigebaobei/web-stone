@@ -3,7 +3,7 @@
 - [原型链 pptx](/confuse/jsPrototypeChain.pptx)
 - [pagePosition](/confuse/pagePosition.html)
 - [upload](/confuse/upload.html)
-- [title](/confuse/title.html)
+- [二进制](/confuse/bit.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)

@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <title>&#x6570;&#x636e;&#x53ef;&#x89c6;&#x5316;</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -42,22 +42,223 @@
 .task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
 </style>
         
-        
-        
     </head>
     <body class="vscode-body vscode-light">
-        <ul>
-<li><a href="/confuse/clone.html">浅、深复制</a></li>
-<li><a href="/confuse/async.html">异步</a></li>
-<li><a href="/confuse/jsPrototypeChain.pptx">原型链 pptx</a></li>
-<li><a href="/confuse/pagePosition.html">pagePosition</a></li>
-<li><a href="/confuse/upload.html">upload</a></li>
-<li><a href="/confuse/bit.html">二进制</a></li>
-<li><a href="/confuse/title.html">title</a></li>
-<li><a href="/confuse/title.html">title</a></li>
-<li><a href="/confuse/title.html">title</a></li>
-<li><a href="/confuse/title.html">title</a></li>
+        <h1 id="数据可视化">数据可视化</h1>
+<h2 id="参考资料">参考资料</h2>
+<p>《信息可视化-交互设计》 robert spence
+<a href="https://www.cs.ubc.ca/~tmm/vadbook/">《Visualization Analysis and Design》 Tamara Munzner</a></p>
+<h2 id="名言">名言</h2>
+<p>show data variation, not design variation
+-- Edward Tufte</p>
+<h2 id="功能">功能</h2>
+<p>基于计算机的可视化系统通过提供对数据的视觉表达形式来帮助人们更有效地完成特定任务。
+可视化数据，可以降低大众分析数据的门槛。从而可以给人们提供新的视角。</p>
+<h2 id="引论">引论</h2>
+<h3 id="大数据处理流程">大数据处理流程</h3>
+<pre><code><code><div>数据管理                            数据分析
+1. 数据获取                         1. 建模和分析
+2. 数据抽取、清理                    2. 意义构建
+3. 数据整合、聚集和表示
+</div></code></code></pre>
+<h3 id="为什么包括人">为什么包括人</h3>
+<ol>
+<li>全自动解决方案可信时，不需要可视化。</li>
+<li>许多分析问题不明确，不知道提前要问什么。</li>
+<li>可能性
+<ol>
+<li>给终端用户长期使用</li>
+<li>展示已知的结果</li>
+<li>在开发模型之前更好地理解需求的垫脚石。</li>
+<li>帮助开发人员完成对自动解决方案的细化、调试，确定参数。</li>
+<li>把人和机器联系起来。</li>
+<li>帮助终端用户自动解决方案的验证，建立信任。</li>
+</ol>
+</li>
+</ol>
+<h3 id="为什么把计算机包含在内">为什么把计算机包含在内</h3>
+<p>扩展到大型数据集，支持交互性</p>
+<h3 id="可视化的构型的设计空间">可视化的构型的设计空间</h3>
+<p>如何创建以及视频表示交互。
+构型：创建或操纵视觉表达的独特方法</p>
+<ul>
+<li>如何绘制</li>
+<li>如何操作</li>
 </ul>
+<h3 id="什么是有效的可视化构型">什么是有效的可视化构型</h3>
+<ul>
+<li>新颖 支持全新的分析类型和能力</li>
+<li>更快 加速现有工作流程</li>
+</ul>
+<h3 id="资源的限制因素">资源的限制因素</h3>
+<ul>
+<li>计算限制 处理时间、系统内存</li>
+<li>人类限制 人的关注和记忆</li>
+<li>显示限制 （信息密度）</li>
+</ul>
+<h3 id="可视化的历史">可视化的历史</h3>
+<ol>
+<li>手绘</li>
+<li>在书上</li>
+<li>在计算机上</li>
+</ol>
+<p><a href="http://www.sci.utah.edu/vrc2005/McCormick-1987-VSC.pdf">《visualization in scientific computing》</a></p>
+<h3 id="框架">框架</h3>
+<ul>
+<li>palantir</li>
+<li>many eyes</li>
+<li>jigsaw</li>
+<li>vega</li>
+<li>visual analyse</li>
+<li>d3</li>
+</ul>
+<h2 id="数据抽象">数据抽象</h2>
+<h3 id="术语">术语</h3>
+<ul>
+<li>结构化数据</li>
+<li>非结构化数据。没有预定义的数据模型：文字、视频、图像。
+<ul>
+<li>转换为结构化数据
+<ul>
+<li>自然语言处理</li>
+<li>文本挖掘</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>可视化的对象</li>
+<li>数据类型</li>
+</ul>
+<h3 id="数据集类型">数据集类型</h3>
+<ul>
+<li>tables/multidimensional tables
+<ul>
+<li>每一行一个数据项</li>
+<li>每一列一种属性</li>
+<li>唯一索引</li>
+<li>无重复</li>
+<li>多维表格（基于多个键的索引）</li>
+</ul>
+</li>
+<li>networks</li>
+<li>graphs
+<ul>
+<li>力导向图</li>
+<li>相关矩阵</li>
+<li>树图</li>
+</ul>
+</li>
+<li>fields（场）
+<ul>
+<li>单一网格，可以计算几何和拓扑</li>
+<li>直线网格，非均匀采样</li>
+<li>结构化网格，允许曲线网格</li>
+<li>非结构化网格，完全的灵活性，存储位置和连接。</li>
+</ul>
+</li>
+<li>geometry 几何</li>
+<li>trees</li>
+<li>sets</li>
+<li>lists</li>
+<li>clusters</li>
+</ul>
+<h3 id="数据基本类型">数据基本类型</h3>
+<p>元数据：描述数据的数据。</p>
+<h3 id="属性类型">属性类型</h3>
+<ul>
+<li>定类型。明确类型</li>
+<li>有序型。名次、时间，用于比较、排序。</li>
+<li>定量型。用于运算。</li>
+</ul>
+<p>定距、定比。</p>
+<h3 id="编码的组合学">编码的组合学</h3>
+<ul>
+<li>一致性原则：图像的属性（视觉变量）应与数据的属性匹配。</li>
+<li>重要性排序原则：以最有效的方式编码最重要的信息</li>
+</ul>
+<h2 id="数据编码">数据编码</h2>
+<h3 id="视觉标记">视觉标记</h3>
+<ul>
+<li>符号标记
+<ul>
+<li>基本可视化图形元素</li>
+<li>表示数据项和连接</li>
+</ul>
+</li>
+<li>视觉通道
+<ul>
+<li>符号标记的表现形式</li>
+<li>表现数据的属性</li>
+</ul>
+</li>
+</ul>
+<h3 id="视觉通道">视觉通道</h3>
+<p>demo</p>
+<ul>
+<li>柱状图：1个定量型长度，一个定类型位置</li>
+<li>散点图：2个定量型位置，1个定类型颜色，1个定量型大小</li>
+</ul>
+<p>视觉通道类型</p>
+<ul>
+<li>度量型通道（定量型、定序型）
+<ul>
+<li>位置</li>
+<li>长度</li>
+<li>饱和度</li>
+</ul>
+</li>
+<li>特性型通道（定类型）
+<ul>
+<li>形状</li>
+<li>颜色、色相</li>
+</ul>
+</li>
+</ul>
+<p>有效性</p>
+<ol>
+<li>同范围内的位置比较</li>
+<li>不同范围内的位置比较</li>
+<li>长度（一维空间）</li>
+<li>角度、倾斜度</li>
+<li>面积（二维空间）</li>
+<li>深度（三维空间）</li>
+<li>颜色亮度、颜色饱和度</li>
+<li>曲率、体积</li>
+</ol>
+<p>通道特性</p>
+<ul>
+<li>区别性（选择性）。标记符号是否容易区分</li>
+<li>关联性。是否支持标记符号间的归并分组</li>
+<li>量化性。</li>
+<li>可序性。</li>
+<li>容量。最多能支持多少个不同的视觉标记</li>
+</ul>
+<h3 id="史蒂文心理物理强度定律">史蒂文心理物理强度定律</h3>
+<p><img src="file:////Users/cat/Documents/code/personal/web-stone/dataVisual/visualChannel.png" alt=""></p>
+<h3 id="属性可分离性">属性可分离性</h3>
+<p><img src="file:////Users/cat/Documents/code/personal/web-stone/dataVisual/WX20220424-072641%402x.png" alt=""></p>
+<h2 id="可视化任务与分析">可视化任务与分析</h2>
+<h3 id="三要素">三要素</h3>
+<ul>
+<li>对象：需要表达什么</li>
+<li>目的：用户为何需要</li>
+<li>手段：如何表达</li>
+</ul>
+<h3 id="任务抽象">任务抽象</h3>
+<h3 id="设计构型">设计构型</h3>
+<h3 id="验证模型">验证模型</h3>
+<h2 id="title">title</h2>
+<h3 id="title-1">title</h3>
+<h3 id="title-2">title</h3>
+<h3 id="title-3">title</h3>
+<h3 id="title-4">title</h3>
+<h3 id="title-5">title</h3>
+<h3 id="title-6">title</h3>
+<h2 id="title-7">title</h2>
+<h2 id="title-8">title</h2>
+<h2 id="title-9">title</h2>
 
+        
+        
     </body>
     </html>
