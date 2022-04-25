@@ -197,7 +197,7 @@ start 选填。开始的位置。
 end 选填。结束的位置。不包含这个位置。
 
     let arrTemp = new Array(5) // 创建一个长度是5的数据
-    arr.fill(false, 1, 3) // [undefined, flase, flase, undefined, undefined]
+    arr.fill(false, 1, 3) // [undefined, false, false, undefined, undefined]
 
 **entries()** 对键值对的遍历。  
 
