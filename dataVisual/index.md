@@ -219,9 +219,64 @@ demo
   - 屏幕空间限制下的大量数据显示
 
 ### 视图约简
+- 约简、增加
+- 过滤
+- 聚集
+- 不完全互斥
+
+## 颜色
+
+### 光和颜色
+物理世界 ---》 视觉系统 ---》 心理模型
+
+### 颜色与心理因素
+可视化用色时需要考虑色盲要素
+有色觉缺陷的人约10%。男性》女性。
+
+### 颜色模型
+### 颜色设计准则
+如何使颜色有效
+- 考虑上下文
+  - 直接的    需学习的
+  - 任何人    专家
+  - 关键的    上下文的
+  - 文化      预期
+  - 时间      金钱
+
+![](/dataVisual/control%26alert.png)  
+
+### colorbrewer
+[颜色选择网站](https://colorbrewer2.org/)
+
+## 表格可视化
+### 表格数据的比较
+![](/dataVisual/basis.png)
+
+### 表格数据的相关性
+
+### 表格数据的组成
+
+### 表格数据的分布
+![](/dataVisual/boxPolt.png)
+![](/dataVisual/heatMap.png)
+![](/dataVisual/smallVilion.png)
+
+《Exploring Large Tables With The Table Lens》
+## 高维数据可视化
 ### title
 ### title
+### title
+### title
+### title
+### title
+### title
+### title
+### title
+### title
+### title
 ## title
-## title
-## title
+### title
+### title
+### title
+### title
 
