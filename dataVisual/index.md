@@ -263,15 +263,45 @@ demo
 
 《Exploring Large Tables With The Table Lens》
 ## 高维数据可视化
-### title
-### title
-### title
-### title
-### title
-### title
-### title
-### title
-### title
+### 介绍
+
+### 几何方法
+![](/dataVisual/parcel.png)  
+![](/dataVisual/parcel2.png)  
+![](/dataVisual/star.png)  
+
+### 降维方法
+- 多维缩放：地形图表示
+- 维度嵌套
+[论文](https://vis.pku.edu.cn/course/visclass_f21/material/dr_clustering.pdf)
+[论文](https://vis.pku.edu.cn/course/visclass_f21/material/dr_interaction.pdf)
+
+### 多方法耦合
+[平行坐标+散点图](/dataVisual/parcelMatrix.png)  
+[像素点图](/dataVisual/shapeCode.png)
+[罗旋像素点图](/dataVisual/colorIcon.png)
+### 其他方法
+## 层次结构数据
+### 网络数据中的层次结构数据
+||树|网络|
+|-|-|-|
+|顶点|有|无|
+|环|无|有|
+
+### 显示树可视化
+层次结构数据
+[树](/dataVisual/tree.png)
+[树](/dataVisual/tree2.png)
+[Degree-of-interest trees: A component of an attention-reactive user interface
+](https://www.researchgate.net/publication/228685532_Degree-of-interest_trees_A_component_of_an_attention-reactive_user_interface)
+
+### 隐式树可视化
+![显示vs隐式](/dataVisual/tree3.png)
+
+### 树比较可视化
+![tree](/dataVisual/tree4.png)
+[树图](http://www.cs.umd.edu/hcil/trs/91-06/91-06.pdf)
+## title
 ### title
 ### title
 ## title

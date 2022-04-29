@@ -93,13 +93,13 @@ npm cache clean --force
 
 ## 创建本地链接（常用于开发、调试）
 ```
-    cd <packagename>
+    cd <pathOfPackage>
     npm link
 ```
 
 ## 使用本地链接（常用于开发、调试）
 ```
-npm link packagename
+npm link <packagename>
 ```
 require方法不能把全局安装的文件引入。若使用`npm link packagename`后就可以引入全局文件。  
 但是`npm link xxx`不支持windows.  `-_-`  
