@@ -301,12 +301,115 @@ demo
 ### 树比较可视化
 ![tree](/dataVisual/tree4.png)
 [树图](http://www.cs.umd.edu/hcil/trs/91-06/91-06.pdf)
-## title
-### title
-### title
-## title
-### title
-### title
-### title
-### title
+[论文](http://vis.pku.edu.cn/research/publication/infovis19_barcodetree.pdf)
+
+## 图数据可视化
+### 介绍
+不同目的、任务
+基于属性、基于拓扑。
+
+- 定位
+- 量化
+- 排序
+
+### 图的理论基础
+![常见的几种图](/dataVisual/graph.png)  
+![图测量](/dataVisual/graph2.png)  
+
+### 显示式表现形式
+图片表现形式
+- 显式
+- 矩阵
+- 隐式
+
+布局相对标准
+- 最小化边交叉
+- 最小化相邻节点距离
+- 最小化绘图区域
+- 边长度统一
+- 最小化边弯曲
+- 最大化不同边之间的角距离
+- 宽高比约为1
+- 对称性：类似的图结构看起来相似
+- ……
+
+### 矩阵可视化方法
+![图测量](/dataVisual/graph3.png)  
+![图测量](/dataVisual/graph4.png)  
+
+矩阵形式
+- 优点
+  - 可以表示除超图外的所有类型的图
+  - 把重点放在边集合上，而不是放在节点集合上
+  - 简单的网格-》不需要精心布局或渲染
+  - 可着色矩阵单元，非常适合边的abt
+  - 可遍历行、列，非常适合领域相关的tbts
+- 缺点
+  - 需要大量二维屏幕空间
+  - 不适合路径相关的tbts
+
+### nodeTrix
+![图测量](/dataVisual/graph5.png)  
+[论文](https://hal.inria.fr/file/index/docid/689983/filename/Henry-InfoVis2007.pdf)  
+
+### 力导向布局算法
+- 模拟物理模型  
+- 边 = 弹簧
+- 顶点 = 互斥磁铁
+- 在实践中：减震
+- 计算上的花费 O(n^3)
+- 限制（交互式）~1000个节点
+
+![力导向公式](/dataVisual/force0.png)  
+
+### 图可视化要解决的重要问题
+![边捆绑](/dataVisual/bind.png)  
+## 时变数据可视化
+### 时间序列可视化介绍
+[网站](https://vcg.informatik.uni-rostock.de/~ct/timeviz/timeviz.html)  
+
+### 缩略组图
+- 静态替换（）
+- 缩略组图 small multiples
+- 时间序列图 
+- 嵌套可视化
+- 刷选和链接
+
+![缩略组图](/dataVisual/smallMultiples.png)  
+![缩略组图](/dataVisual/smallMultiples2.png)  
+
+### 静态替换
+- 将时间视为从显示中隐藏的维度
+- 将时间划分为时间段
+- 为每个时间 帧生成可视化
+- 使用另一个时间帧的显示替换一个时间帧的显示
+- 动画，追踪
+
+[gapminder trendalyzer](https://www.gapminder.org/tools/) 
+
+变化盲视
+
+### 时间序列图
+![时间序列图](/dataVisual/time0.png)  
+- 编织线图
+- 水平线图
+- 简单线图
+- 缩略线图
+- 堆叠线图
+
+### 螺旋图
+方便体现周期性
+- 扩展到大型数据集
+- 支持识别数据中的周期性结构
+- 比较多个数据集
+- 使用阿基米德的螺旋 r=aO
+  - 从原点发出的光线以恒定距离2paia穿过螺旋的两个连续弧
+
+[论文](http://vis.pku.edu.cn/course/datavis_f21/material/Visualizing_Time-Series_on_Spirals.pdf)  
+
+### 像素驱动的方法
+
+### 时间曲线
+
+### 主题河流
 
