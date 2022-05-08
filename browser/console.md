@@ -11,6 +11,7 @@
 ## 2、占位符  
 
 	console.log("%d年%d月%d日", 2011, 02, 16);
+	console.log("%o年%d月%d日", obj);
 
 ## 3、信息分组  
 

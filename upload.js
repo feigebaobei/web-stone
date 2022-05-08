@@ -53,7 +53,7 @@ let checkDir = (path) => {
     return result
 
 }
-// 上传目录
+// 上传一个目录
 // 测试完成
 let uploadDir = (partPath) => {
     let existP = checkDir(partPath).then(res => {
@@ -63,6 +63,7 @@ let uploadDir = (partPath) => {
             return Promise.resolve(true)
         }
     })
+    // 取出本地指定目录下的内容
     let listP = (partPath) => {
         // 生成绝对路径、相对路径。
         return new Promise((s, j) => { // 返回当前目录子元素的名字
@@ -173,6 +174,26 @@ let uploadFile = (filePath) => {
         })
     })
 }
+// 上传多个文件
+// 待测试
+// 目前只能上传目录已存在的。
+let uploadFiles = (fileArr) => {
+    // let dirArr = new Set()
+    // 检测
+    // let dirArr = fileArr.map(file => {
+    //     return file.split('/').slice(0, -1).join('/') // 返回目录
+    // })
+    // let dirSet = new Set()
+    // dirArr.forEach(dir => {
+    //     dirSet.add(dir)
+    // })
+    // let checkDirPs = Promise.all(dirSet.map(dir => {
+    //     return checkDir(dir)
+    // }))
+    return Promise.all(fileArr.map(file => {
+        return uploadFile(file)
+    }))
+}
 // 删除指定目录
 // 测试完成
 let removeDir = (path) => {
@@ -226,29 +247,43 @@ c.on('ready', () => {
         // let p = 'first/a.md'
         // let p = 'first'
         // let p = 'first/second/f.md'
-        let p = 'browser'
-        // let p = [
-        //     'index.html',
-        // ]
+        // let p = 'framework/react/react-dom'
+        // let p = 'framework/react/react'
+        // let p = 'framework/react/react-17'
+        // let p = 'dataVisual/index.html'
+        // let p = 'dataVisual'
+        let p = [
+            'browser/console.html',
+            'confuse/index.html'
+        ]
         // 检测指定目录是否存在
         // checkDir(p)
         // 检测删除目录
         // removeDir(p).then(() => {c.end()})
         // 测试删除文件
         // removeFile(p)
-        // 测试上传文件
+        // 测试上传单个文件
         // p.forEach(item => {
         //     uploadFile(item)
         // })
+        // 测试上传多个文件
+        uploadFiles(p).then(() => {
+            log('then', '全部完成')
+            c.end()
+        }).catch((err) => {
+            log('catch', err)
+            c.end()
+        })
         // 测试创建目录
         // makeDir(p)
-        // 测试上传目录
-        uploadDir(p).then(res => {
-            log('then', res)
-            c.end()
-        }).catch(err => {
-            log('catch', err)
-        })
+        // 测试上传一个目录
+        // uploadDir(p).then(res => {
+        //     log('全部上传完成', res)
+        //     c.end()
+        // }).catch(err => {
+        //     log('catch', err)
+        //     c.end()
+        // })
     })
 })
 c.on('greeting', (s) => {

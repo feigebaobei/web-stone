@@ -4,7 +4,7 @@
 - [pagePosition](/confuse/pagePosition.html)
 - [upload](/confuse/upload.html)
 - [二进制](/confuse/bit.html)
-- [title](/confuse/title.html)
+- [console](/browser/console.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
