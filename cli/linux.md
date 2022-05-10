@@ -7,6 +7,7 @@
 
 ```shell
 netstat [-acCeFghilMnNoprstuvVwx][-A<网络类型>][--ip]
+netstat -lunpt
 ```
 
 -a或–all 显示所有连线中的Socket。

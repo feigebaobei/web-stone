@@ -13,7 +13,7 @@
 - [@11ty/eleventy](/jsPackages/eleventy.html)
 - [history](/jsPackages/history.html)
 - [ftp](/jsPackages/ftp.html)
-- [title](/jsPackages/title.html)
+- [pm2](/jsPackages/pm2.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
