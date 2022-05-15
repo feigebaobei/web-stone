@@ -253,8 +253,10 @@ c.on('ready', () => {
         // let p = 'dataVisual/index.html'
         // let p = 'dataVisual'
         let p = [
-            'browser/console.html',
-            'confuse/index.html'
+            // 'browser/console.html',
+            // 'cli/linux.html'
+            'jsPackages/index.html',
+            'jsPackages/pm2.html'
         ]
         // 检测指定目录是否存在
         // checkDir(p)

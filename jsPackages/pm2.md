@@ -62,15 +62,10 @@ pm2 start ecosystom.config.js
 ||||||||
 ||||||||
 ||||||||
-## api
-`h3.fn(param, first: string, second: boolean = true) => void`
-description
 
-`h3.fn(param, [options: {a: string, b?: number}])`
-description
+## api
 
 ## principle
-暴露了若干方法，其中有`createApp()`。它定义了`stack/handle/use`。stack是一个数组，用于保存任务。use调用了一个私有方法，用于把让createApp的实例具有指定的任务。 handle用于依次执行已经添加的任务。
 
 ### uml
 ```
