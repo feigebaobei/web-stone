@@ -253,12 +253,7 @@ c.on('ready', () => {
         // let p = 'dataVisual/index.html'
         // let p = 'communication-protocol'
         let p = [
-            'communication-protocol/ip.html',
-            'communication-protocol/2bc2010e6d84fd5b9fd6ecadff65d5d2_r.jpeg',
-            'language/javascript/date.html',
             'cli/linux.html',
-            'index.html',
-            'language/javascript/index.html',
         ]
         // 检测指定目录是否存在
         // checkDir(p)
