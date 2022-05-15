@@ -21,7 +21,7 @@ date: {
     getHours(),  // 返回小时数（0-23）  
     getMinutes(), // 返回分钟数（0-59）  
     getSeconds(), // 返回秒数（0-59）
-    getTime(), // 
+    getTime(), // 得到ms值
     now(),返回从1970.01.01至今的毫秒数。
     getTimezoneOffset(),返回本地时间与格林威治标准时间（GMT）的分钟差。  
     getUTCDate(),根据世界时从Date对象中返回月的当前日期。  
