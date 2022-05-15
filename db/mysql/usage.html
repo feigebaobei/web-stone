@@ -61,7 +61,7 @@ systemctl disable mysqld # 停止mysql服务开机自启动
 </div></code></pre>
 <p>记住初始密码，一会儿要用。</p>
 <h1 id="命令行连接mysql">命令行连接mysql</h1>
-<pre><code class="language-shell"><div>mysql -uroot -p
+<pre><code class="language-shell"><div>mysql -u root -p
 <span class="hljs-meta">#</span><span class="bash"> 输入密码</span>
 </div></code></pre>
 <h1 id="修改初始密码">修改初始密码</h1>
@@ -117,17 +117,33 @@ GRANT ALL PRIVILEGES ON *.* TO &#x27;devRole&#x27;@&#x27;%&#x27; WITH GRANT OPTI
 <span class="hljs-meta">
 #</span><span class="bash"><span class="hljs-string"> 更新权限后请执行</span></span>
 flush privileges;
-
-
-
-
-
-
-
-
 </div></code></pre>
 <p>INSERT INTO users (passwordHash, username, role) VALUES (&quot;8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92&quot;, &quot;admin&quot;, 1000);
 INSERT INTO users (passwordHash, username, role) VALUES (&quot;8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92&quot;, &quot;user&quot;, 100);</p>
+<h2 id="操作表">操作表</h2>
+<pre><code class="language-shell"><div><span class="hljs-meta">#</span><span class="bash"> 查看表字段信息</span>
+desc table_name;
+<span class="hljs-meta">#</span><span class="bash"> 创建表</span>
+create table &#x27;table_name&#x27; (
+    &#x27;field_name&#x27; char(32) not null comment &#x27;备注&#x27;,
+    # 主键索引
+    primary key (&#x27;id&#x27;),
+    # 唯一 索引
+    unique key &#x27;index_id&#x27;,
+    # 索引
+    key &#x27;index_signed_customer&#x27;
+)
+<span class="hljs-meta">#</span><span class="bash"> 修改表名</span>
+alter table table_name to new_table_name;
+<span class="hljs-meta">#</span><span class="bash"> 修改表注释</span>
+alter table table_name comment &#x27;注释&#x27;;
+<span class="hljs-meta">#</span><span class="bash"> 修改字段</span>
+alter tabel tabel_name modify column field_name 新类型 comment &#x27;注释&#x27;;
+<span class="hljs-meta">#</span><span class="bash"> 表增加字段</span>
+alter tabel tabel_name add field_name 新类型 comment &#x27;注释&#x27;;
+<span class="hljs-meta">#</span><span class="bash"> 表删除字段</span>
+alter table table_name drop field_name;
+</div></code></pre>
 <h1 id="数据类型">数据类型</h1>
 <p>int
 char

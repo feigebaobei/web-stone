@@ -251,9 +251,9 @@ c.on('ready', () => {
         // let p = 'framework/react/react'
         // let p = 'framework/react/react-17'
         // let p = 'dataVisual/index.html'
-        // let p = 'communication-protocol'
+        // let p = 'db'
         let p = [
-            'cli/linux.html',
+            'db/index.html',
         ]
         // 检测指定目录是否存在
         // checkDir(p)

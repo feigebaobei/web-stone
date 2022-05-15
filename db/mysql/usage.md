@@ -20,7 +20,7 @@ grep "password" /var/log/mysqld.log
 
 # 命令行连接mysql
 ```shell
-mysql -uroot -p
+mysql -u root -p
 # 输入密码
 ```
 
@@ -80,19 +80,36 @@ GRANT ALL PRIVILEGES ON *.* TO 'devRole'@'%' WITH GRANT OPTION;
 
 # 更新权限后请执行
 flush privileges;
-
-
-
-
-
-
-
-
 ```
 
 INSERT INTO users (passwordHash, username, role) VALUES ("8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "admin", 1000);
 INSERT INTO users (passwordHash, username, role) VALUES ("8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "user", 100);
 
+## 操作表
+```shell
+# 查看表字段信息
+desc table_name;
+# 创建表
+create table 'table_name' (
+    'field_name' char(32) not null comment '备注',
+    # 主键索引
+    primary key ('id'),
+    # 唯一 索引
+    unique key 'index_id',
+    # 索引
+    key 'index_signed_customer'
+)
+# 修改表名
+alter table table_name to new_table_name;
+# 修改表注释
+alter table table_name comment '注释';
+# 修改字段
+alter tabel tabel_name modify column field_name 新类型 comment '注释';
+# 表增加字段
+alter tabel tabel_name add field_name 新类型 comment '注释';
+# 表删除字段
+alter table table_name drop field_name;
+```
 
 # 数据类型
 int 
