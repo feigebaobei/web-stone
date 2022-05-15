@@ -251,12 +251,14 @@ c.on('ready', () => {
         // let p = 'framework/react/react'
         // let p = 'framework/react/react-17'
         // let p = 'dataVisual/index.html'
-        // let p = 'dataVisual'
+        // let p = 'communication-protocol'
         let p = [
-            // 'browser/console.html',
-            // 'cli/linux.html'
-            'jsPackages/index.html',
-            'jsPackages/pm2.html'
+            'communication-protocol/ip.html',
+            'communication-protocol/2bc2010e6d84fd5b9fd6ecadff65d5d2_r.jpeg',
+            'language/javascript/date.html',
+            'cli/linux.html',
+            'index.html',
+            'language/javascript/index.html',
         ]
         // 检测指定目录是否存在
         // checkDir(p)

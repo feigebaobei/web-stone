@@ -261,7 +261,7 @@ return new Promise((s, j) => {
         if (this.readyState !== 4) {
             return 
         } else {
-            if (this.state === 200) {
+            if (this.status === 200) {
                 s(this.response)
             } else {
                 j(new Error(this.statusText))
