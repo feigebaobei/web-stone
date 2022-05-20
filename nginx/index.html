@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <title>install</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -28,7 +28,8 @@
 }
 
 </style>
-        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -44,20 +45,192 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <ul>
-<li><a href="/confuse/clone.html">浅、深复制</a></li>
-<li><a href="/confuse/async.html">异步</a></li>
-<li><a href="/confuse/jsPrototypeChain.pptx">原型链 pptx</a></li>
-<li><a href="/confuse/pagePosition.html">pagePosition</a></li>
-<li><a href="/confuse/upload.html">upload</a></li>
-<li><a href="/confuse/bit.html">二进制</a></li>
-<li><a href="/browser/console.html">console</a></li>
-<li><a href="/language/javascript/json-transfer.html">json格式化</a></li>
-<li><a href="/confuse/title.html">title</a></li>
-<li><a href="/confuse/title.html">title</a></li>
+        <h1 id="install">install</h1>
+<h2 id="介绍">介绍</h2>
+<ul>
+<li>一台高性能web服务器</li>
+<li>最初是为解决c10k问题（同时连接处理10000连接数的web服务器）。</li>
+<li>模块化设计的。</li>
+<li>可以配置成web加速器、web服务器、邮件代理。</li>
+<li></li>
+</ul>
+<h2 id="在linux使用yum安装">在linux使用yum安装</h2>
+<pre><code><code><div>yum install -y nginx
+nginx -v
+systemctl start nginx.service
+systemctl status nginx.service
+</div></code></code></pre>
+<h2 id="在windows中安装">在windows中安装</h2>
+<h2 id="源代码安装">源代码安装</h2>
+<p>可以自定义功能。</p>
+<pre><code class="language-shell"><div>mkdir $HOME/build
+cd $HOME/build &amp;&amp; tar xzf nginx-&lt;version-number&gt; .tar .gz
+cd $HOME/build/nginx-&lt;version-number&gt; &amp;&amp; ./configure
+make &amp;&amp; sudo make install
+</div></code></pre>
+<h1 id="常用命令">常用命令</h1>
+<pre><code class="language-shell"><div>systemctl start nginx.service # 启动
+systemctl stop nginx.service # 停止
+systemctl restart nginx.service # 重启
+systemctl enable nginx.service # 设置开机自启动
+systemctl disable nginx.service # 停止开机自启动
+systemctl status nginx.service # 查看当前状态
+systemctl list-units --type=service # 查看所有已启动的服务
+nginx -t # 配置检查 检查语法错误
+nginx -t -c &lt;path-to-nginx.conf&gt; # 配置检查
+</div></code></pre>
+<h1 id="常用配置项">常用配置项</h1>
+<h1 id="配置">配置</h1>
+<p>directive 都是使用下划线分隔命名的。<br>
+常被称为“节”或“部分（section）”</p>
+<pre><code><code><div>&lt;section&gt; {
+    &lt;directive&gt; &lt;parameters&gt;;
+}
+</div></code></code></pre>
+<h2 id="全局配置参数">全局配置参数</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>user</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>worker_processes</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>error_log</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>pid</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>use</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>worker_connections</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="include">include</h2>
+<pre><code><code><div># 引入
+include /opt/local/etc/nginx/mime.types;
+</div></code></code></pre>
+<h2 id="虚拟服务器部分">虚拟服务器部分</h2>
+<p>以关键字<code>server</code>开始的部分被称为“虚拟服务器”。它根据不同的<code>server_name</code>指令逻辑分割资源。</p>
+<pre><code><code><div>server {
+    listen   80;
+    reture  444;
+}
+server {
+    listen  80;
+    server_name www.example.com;
+    location / {
+        try_files   $uri $uri/ @mongrel;
+    }
+    location @mongrel {
+        proxy_pass  http://127.0.0.1:8080;
+    }
+}
+</div></code></code></pre>
+<h2 id="location">location</h2>
+<pre><code><code><div>location [modifier] uri {...}
+location @name {...}
+</div></code></code></pre>
+<h1 id="使用禁用模块">使用、禁用模块</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>--with-http_ssl_module</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>--with-http_realip_module</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>--without-http_charset_module</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h1 id="title">title</h1>
+<h1 id="title-1">title</h1>
+<h1 id="title-2">title</h1>
+<h1 id="title-3">title</h1>
+<h1 id="title-4">title</h1>
+<h1 id="title-5">title</h1>
+<h1 id="todo">todo</h1>
+<ul>
+<li>OpenSSL是什么</li>
+<li></li>
 </ul>
 
-        
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
     </body>
     </html>
