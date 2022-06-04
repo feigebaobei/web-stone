@@ -9,6 +9,7 @@
 # 预处理器
 ## [sass](/sass/index.html)
 生于2007，最早/最成熟的css预处理器。
+请使用sass包，（node-sass已经是旧版本了）
 [官网](https://sass-lang.com/documentation)
 
 ## [less](/less/index.html)

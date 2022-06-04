@@ -107,8 +107,13 @@ setValue(newValue)
 useEffect(fn, ...listener = [])
 用于处理副作用
 在componentDidMount/componentDidUpdate/componentWillUnmount时触发。
-若fn返回一个方法则方法在御载组件是被调用。
-listener指定当哪个变量变化时触发fn.
+useEffect(() => {})         => componentDidMount, componentDidUpdate
+useEffect(() => {}, [])         => componentDidMount
+useEffect(() => {}, [p])         => componentDidMount, 当p改变时
+useEffect(() => () => {})         => componentWillUnMount
+fn中不能直接使用异步方法（async/await），需要使用立即执行函数包裹异步方法。
+若fn返回一个方法则方法在御载组件时被调用。
+listener指定当哪个变量变化（使用浅复制比较）时触发fn.
 
 let value = useContext(myContext)
 接收一个 context 对象（React.createContext 的返回值）并返回该 context 的当前值。当前的 context 值由上层组件中距离当前组件最近的 <MyContext.Provider> 的 value prop 决定。
@@ -212,6 +217,7 @@ shouldComponentUpdate(nextProps, nextState)
     控制是否进行更新。若返回true，则更新。否则不更新。
 componentDidUpdate(prevProps, prevState, snapshot)
     更新后被调用。首次渲染不会被执行。
+    当前的props和state是this.props/this.state
 componentWillUnmount()
     在组件即将被卸载或销毁时进行调用。
 </code>

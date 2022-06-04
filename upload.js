@@ -250,12 +250,18 @@ c.on('ready', () => {
         // let p = 'framework/react/react-dom'
         // let p = 'framework/react/react'
         // let p = 'framework/react/react-17'
-        let p = 'uml/images/swimlaneDiagram0.jpg'
-        // let p = 'uml'
-        // let p = [
-        //     'db/mysql/retrieve.html',
-        //     'framework/react/index.html'
-        // ]
+        // let p = 'index.html'
+        // let p = 'nginx'
+        let p = [
+            'framework/react/index.html',
+            'framework/svelte/index.html',
+            'jsPackage/index.html',
+            'jsPackage/redux.html',
+            'jsPackage/react-redux.html',
+            'jsPackage/@reduxjs-toolkit.html',
+            'language/css/index.html',
+            'index.html'
+        ]
         // 检测指定目录是否存在
         // checkDir(p)
         // 检测删除目录
@@ -263,15 +269,15 @@ c.on('ready', () => {
         // 测试删除文件
         // removeFile(p)
         // 测试上传单个文件
-        uploadFile(p)
+        // uploadFile(p)
         // 测试上传多个文件
-        // uploadFiles(p).then(() => {
-        //     log('then', '全部完成')
-        //     c.end()
-        // }).catch((err) => {
-        //     log('catch', err)
-        //     c.end()
-        // })
+        uploadFiles(p).then(() => {
+            log('then', '全部完成')
+            c.end()
+        }).catch((err) => {
+            log('catch', err)
+            c.end()
+        })
         // 测试创建目录
         // makeDir(p)
         // 测试上传一个目录

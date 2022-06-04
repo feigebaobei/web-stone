@@ -29,9 +29,11 @@ ReactDOM.render(React.createElement('span', {}, 'string'), $('#id'))
 3. 使用`ReactDOM.render`渲染元素。
 
 ### 使用npm创建react项目
-```
-npx create-react-app projName
-cd projName
+```shell
+npx create-react-app proj-name
+# or
+# yarn create react-app todo-app
+cd proj-name
 npm run start
 ```
 
@@ -48,6 +50,15 @@ npm run start
 
 - [react-17包](/framework/react/react-17/index.html) [react-18包](/framework/react/react-18/index.html)  
 - [react-dom-17](/framework/react/react-dom-17/index.html)  [react-dom-18](/framework/react/react-dom-18/index.html)  
+- 状态管理
+  - React Context
+  - mobx
+  - react-tracked
+  - redux
+  - zustand
+  - jotai
+  - recoil
+  - xstate
 - [redux react-redux](/framework/react/redux/index.html)  
 - [react native](/framework/react/reactNative.html)  
 - [react-router react-router-dom react-router-native](/framework/react/router.html)  

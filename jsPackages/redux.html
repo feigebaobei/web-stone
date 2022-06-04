@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>&DiacriticalGrave;react&DiacriticalGrave;</title>
+        <title>&DiacriticalGrave;redux&DiacriticalGrave;</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -45,85 +45,124 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="react"><code>react</code></h1>
+        <h1 id="redux"><code>redux</code></h1>
 <h2 id="overview">overview</h2>
 <blockquote>
-<p>声明式<br>
-基于组件的<br>
-一次学习，多次使用<br>
-jsx语法。（类似xml，由babel解释。）<br>
-React 团队希望，组件不要变成复杂的容器，最好只是数据流的管道。开发者根据需要，组合管道即可。 组件的最佳写法应该是函数，而不是类。
-react居然使用同步更新dom.</p>
+<p>不依赖框架的状态管理工具</p>
 </blockquote>
-<h3 id="feature">feature</h3>
-<ul>
-<li>react家族的成员太多了。</li>
-<li>feature1</li>
-<li>feature2</li>
-</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>state</td>
+<td>应用的状态</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>store</td>
+<td>state的管理者</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>action</td>
+<td>描述运行的对象</td>
+<td>type属性是必填属性。</td>
+<td><code>{type: string, [payload]: any}</code></td>
+</tr>
+<tr>
+<td>actionCreator</td>
+<td>创建action的方法。工厂模式。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>reducer</td>
+<td>当store.dispatch(action)时触发，根据acttion.type分别更新并返回state。</td>
+<td>必须是同步的纯函数</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>store是Redux.createStore(reducer, [initState])的实例。<br>
+store.dispatch(action)是修改状态state的惟一方法。<br>
+store.getState()是获取state的惟一方法。（state是单例的）</p>
+<h2 id="install">install</h2>
+<p><code>npm i redux</code></p>
 <h2 id="usage">usage</h2>
-<pre><code class="language-js"><div>ReactDOM.render(React.createElement(<span class="hljs-string">&#x27;span&#x27;</span>, {}, <span class="hljs-string">&#x27;string&#x27;</span>), $(<span class="hljs-string">&#x27;#id&#x27;</span>))
-=&gt;
-<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;id&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>string<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
-</div></code></pre>
-<h3 id="使用script标签引入react脚本">使用script标签引入react脚本</h3>
-<ol>
-<li>引入react脚本。</li>
-<li>使用<code>React.createElement</code>创建元素。</li>
-<li>使用<code>ReactDOM.render</code>渲染元素。</li>
-</ol>
-<h3 id="使用npm创建react项目">使用npm创建react项目</h3>
-<pre><code class="language-shell"><div>npx create-react-app proj-name
-<span class="hljs-meta">#</span><span class="bash"> or</span>
-<span class="hljs-meta">#</span><span class="bash"> yarn create react-app todo-app</span>
-cd proj-name
-npm run start
-</div></code></pre>
-<h2 id="demo">demo</h2>
-<ul>
-<li><a href="/react/demo0/first.html">demo0-first</a>使用script标签引入react</li>
-<li><a href="/react/demo0/second.html">demo0-second</a></li>
-<li><a href="">demo1</a></li>
-</ul>
-<h2 id="api">api</h2>
-<p>请在各包中查看相应api.</p>
-<h2 id="react家族成员">react家族成员</h2>
-<ul>
-<li><a href="/framework/react/react-17/index.html">react-17包</a> <a href="/framework/react/react-18/index.html">react-18包</a></li>
-<li><a href="/framework/react/react-dom-17/index.html">react-dom-17</a>  <a href="/framework/react/react-dom-18/index.html">react-dom-18</a></li>
-<li>状态管理
-<ul>
-<li>React Context</li>
-<li>mobx</li>
-<li>react-tracked</li>
-<li>redux</li>
-<li>zustand</li>
-<li>jotai</li>
-<li>recoil</li>
-<li>xstate</li>
-</ul>
-</li>
-<li><a href="/framework/react/redux/index.html">redux react-redux</a></li>
-<li><a href="/framework/react/reactNative.html">react native</a></li>
-<li><a href="/framework/react/router.html">react-router react-router-dom react-router-native</a></li>
-<li><a href="/framework/react/propType.html">propType</a></li>
-<li><a href="/framework/react/react.html">react</a></li>
-<li><a href="/framework/react/react-dom.html">react-dom</a></li>
-<li><a href="/framework/react/react-script.html">react-script</a></li>
-<li><a href="/framework/react/next/index.html">next</a></li>
-<li><a href="/framework/react/gateby/index.html">GatsBy</a></li>
-<li><a href="/framework/react/title.html">title</a></li>
-<li><a href="/framework/react/title.html">title</a></li>
-<li><a href="/framework/react/title.html">title</a></li>
-<li><a href="/framework/react/title.html">title</a></li>
-</ul>
-<h2 id="todo">todo</h2>
-<p>react / react-dom都用到了react-reconciler，该包就是fiber.</p>
-<h3 id="为什么要最常用的reactreact-dom分开怎么分清它们">为什么要最常用的<code>react</code>/<code>react-dom</code>分开？怎么分清它们？</h3>
-<h3 id="项目结构">项目结构</h3>
+<pre><code class="language-js"><div><span class="hljs-comment">// 定义store</span>
+<span class="hljs-keyword">import</span> {createStore} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;redux&#x27;</span>
+<span class="hljs-keyword">let</span> initState = {
+    <span class="hljs-attr">counter</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">todos</span>: []
+}
+<span class="hljs-keyword">let</span> reducer = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">state, action</span>) </span>{
+    <span class="hljs-keyword">switch</span> (action.type) {
+        <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;ADD_TODO&#x27;</span>:
+            state.todos.push(action.payload)
+            state.counter++
+            <span class="hljs-keyword">return</span> state
+        <span class="hljs-attr">default</span>:
+            <span class="hljs-keyword">return</span> state
+    }
+}
+<span class="hljs-keyword">let</span> store = createStore(reducer, initState)
 
+<span class="hljs-comment">// 改变store</span>
+<span class="hljs-keyword">let</span> action = {
+    <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;ADD_TODO&#x27;</span>,
+    <span class="hljs-attr">payload</span>: {
+        <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>,
+        <span class="hljs-attr">content</span>: <span class="hljs-string">&#x27;content&#x27;</span>,
+        <span class="hljs-attr">completed</span>: <span class="hljs-literal">false</span>
+    }
+}
+store.dispatch(action)
+
+<span class="hljs-comment">// 获取state</span>
+store.getState()
+</div></code></pre>
+<h2 id="principle">principle</h2>
+<pre><code><code><div>Redux: {
+    creatStore(reducer, [initState]) -&gt; store,      // 返回store对象
+    combineReducers(reducers: {[key]: reducer})     // 把reducers捆成一个reducer
+    applyMiddleware(...middlewares),                // 
+    bindActionCreators(actionCreators, dispatch),   // 
+    compose(...functions)                           // 从右向左，依次执行函数。上一个函数的结果是下一个函数的参数
+}
+store: {
+    getState() -&gt; nextState                 // 返回当前state
+    dispatch(action) -&gt; action              // 依次执行订阅器，返回action
+    subscribe(listener) -&gt; unsubcribe()     // 添加订阅函数。返回取消订阅函数
+    replaceReducer(nextReducer)             // 1.使用nextReducer 2.生成新的nextState
+    [$$observable]: observable              // 留给 可观察/响应式库 的接口
+}
+</div></code></code></pre>
+<h3 id="uml">uml</h3>
+<pre><code><code><div>                                 counterReducer(counter, action) -------------------- counter
+                              ↗                                                              ↘
+rootReducer(state, action) —→∑     ↗ optTimeReducer(optTime, action) ------ optTime ↘         nextState
+                              ↘—→∑                                                    todo  ↗
+                                   ↘ todoListReducer(todoList,action) ----- todoList ↗
+
+
+注：左侧表示 dispatch 分发流，∑ 表示 combineReducers；右侧表示各实体 reducer 的返回值，最后汇总整合成 nextState
+</div></code></code></pre>
+<!-- 1.使用所有reducer处理state，得到nextState. 2.今次触发所有订阅者 3.返回nextState -->
         <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
     </body>

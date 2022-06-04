@@ -1,6 +1,6 @@
 # 找回密码
 [原文链接](https://blog.csdn.net/ityouknow/article/details/98691737）  
-
+[原文链接](https://blog.csdn.net/eeliangsoft/article/details/85227795)  
 ## 方法一
 关闭mysql服务
 systemctl stop mysqld
