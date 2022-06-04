@@ -47,7 +47,7 @@ npm
 |access|在发布的包上设置访问级别||
 |rebuild|使用新版本的node时，重新编译所有c++插件。它会运行在与`npm build`相匹配的文件夹下。||
 |init|把初始化信息写入`package.json`|`npm init -y`会使用默认值|
-||||
+|setScript|设置脚本|`npm setScript build 'node ./index.js'`|
 
 ## 全局安装和局部安装的区别  
 
