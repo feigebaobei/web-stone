@@ -248,18 +248,14 @@ c.on('ready', () => {
         // let p = 'first'
         // let p = 'first/second/f.md'
         // let p = 'framework/react/react-dom'
-        // let p = 'framework/react/react'
+        // let p = 'framework/svelte'
         // let p = 'framework/react/react-17'
         // let p = 'index.html'
+        // let p = 'language/css'
         // let p = 'nginx'
         let p = [
-            'framework/react/index.html',
-            'framework/svelte/index.html',
-            'jsPackage/index.html',
-            'jsPackage/redux.html',
-            'jsPackage/react-redux.html',
-            'jsPackage/@reduxjs-toolkit.html',
-            'language/css/index.html',
+            'framework/flutter/index.html',
+            'framework/redom/index.html',
             'index.html'
         ]
         // 检测指定目录是否存在
