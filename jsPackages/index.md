@@ -16,7 +16,7 @@
 - [pm2](/jsPackages/pm2.html)
 - [redux](/jsPackages/redux.html)
 - [@reduxjs/toolkit](/jsPackages/@reduxjs-toolkit.html)
-- [title](/jsPackages/title.html)
+- [lerna](/jsPackages/lerna.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)

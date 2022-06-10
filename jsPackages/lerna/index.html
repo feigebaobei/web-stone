@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>string</title>
+        <title>&DiacriticalGrave;lerna&DiacriticalGrave;</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -28,8 +28,7 @@
 }
 
 </style>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
-<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -45,144 +44,103 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="string">string</h1>
-<p>处理文本（字符串）</p>
-<h2 id="创建">创建</h2>
-<pre><code>var a = new String();
-var b = String();
-</code></pre>
-<h2 id="属性">属性</h2>
-<p><strong>constructor</strong> 对创建该对象的方法的引用</p>
-<p><strong>length</strong> 返回当前字符串的长度</p>
-<pre><code>a = “Try the demo below to see what we mean.”
-var num0 = a.length // 39
-</code></pre>
-<p><strong>prototype</strong> 允许向对象添加属性和方法</p>
-<h2 id="方法">方法</h2>
-<p>String#@@iterator()
-返回新的iterator对象</p>
-<p>String#charAt(index)
-index: 0 ~ string.length - 1
-返回指定索引的字符</p>
-<p>String#charCodeAt(index)
-index
-返回指定索引的字符的编码单元表示</p>
-<p>String#codePointAt(pos)
-pos 编码元素的位置
-返回一个Unicode编码点值的非负整数</p>
-<p>String#concat(...str)
-返回把若干str合并后的新字符串
-性能不如<code>+</code>/<code>+=</code></p>
-<p>String#endsWith(searchString[, length])
-searchString 是搜索的字符串
-length       指定String的尾部下标
-返回String的指定尾部是否以searchString结束</p>
-<p>String.fromCharCode(...num)
-num 0~65535(0xffff)之间的代表示utf-16代码单元的数字</p>
-<p>String.fromCodePoint(...num)
-num
-返回使用指定的代码点序列创建的字符串</p>
-<p>String#includes(searchString[, position])
-searchString
-position
-返回boolean。表示String中是否包含searchString。从position开始搜索。</p>
-<p>String#indexOf(searchString[, index])
-从指定的下标开始搜索searchString。若存在则返回第一次出现的下标，否则返回-1.</p>
-<p>String#lastIndexOf(searchString[, index])
-从指定的下标开始搜索searchString。若存在则返回最后一次出现的下标，否则返回-1.</p>
-<p>String#localeCompare()
-...</p>
-<p>String#match(regexp)
-返回符合regexp的匹配结果。
-若regexp中有<code>g</code>，则返回所有匹配结果。数组类型或null
-若regexp中无<code>g</code>，则返回第一个匹配项及相关捕获组或null。<code>[searchString, index: number, group: 一个捕获数组, index: 当前匹配结果的开始位置]</code>
-详见<a href="/regexp/index.html">正则表达式</a></p>
-<p>String#matchAll(regexpg)
-regexpg 全局匹配的正则表达式
-返回一个包含所有匹配正则表达式和分组捕获结果的遍历器。</p>
-<p>String#normalize([form])
-form 正规形式 'NFC' / 'NFD' / 'NFKC' / 'NFKD'
-返回按指定形式正规化的字符串</p>
-<p>String#padEnd(targetLength, [padString])
-返回一个新字符串，基于String，添加paddString到targetLength.</p>
-<p>String#padStart(targetLength, [padString])
-xxx</p>
-<p>String.raw
-...</p>
-<p>String#repeat(count)
-count 重复次数 0 ~ +infinity
-返回重复指定次数的新字符串</p>
-<p>String#replace(regexp|substr, newSubStr|function)
-regexp 正则表达式
-substr 字符串
-newSubStr 字符串
-<code>$$</code> <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi mathvariant="normal">‘</mi></mrow><annotation encoding="application/x-tex">
-    `</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">‘</span></span></span></span></span>&amp;<code> 匹配的子串     $</code>   当前匹配子串的左边内容
-<code>$'</code> 当前匹配子串的右边内容
-<code>$n</code> 第n个匹配子串
-<code>$&lt;name&gt;</code> 分组的名称。需要浏览器支持
-function (match, p1, p2, p3, ..., offset, string, NamedCaptureGroup) {...}
-match   匹配的子串
-pn      第n个括号匹配的字符串
-offset  匹配到的子串在原字符串的偏移量
-string  原字符串
-NamedCaptureGroup  命名捕获组匹配的对象
-返回被替换后的字符串。</p>
-<p>String#replaceAll(regexp|substr, newSubStr|function)
-regexp 正则表达式
-substr 字符串
-newSubStr 字符串
-<code>$$</code> <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi mathvariant="normal">‘</mi></mrow><annotation encoding="application/x-tex">
-    `</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">‘</span></span></span></span></span>&amp;<code> 匹配的子串     $</code>   当前匹配子串的左边内容
-<code>$'</code> 当前匹配子串的右边内容
-<code>$n</code> 第n个匹配子串
-<code>$&lt;name&gt;</code> 分组的名称。需要浏览器支持
-function (match, p1, p2, p3, ..., offset, string, NamedCaptureGroup) {...}
-match   匹配的子串
-pn      第n个括号匹配的字符串
-offset  匹配到的子串在原字符串的偏移量
-string  原字符串
-NamedCaptureGroup  命名捕获组匹配的对象
-返回被替换后的字符串。</p>
-<p>String#search(regexp)
-返回匹配的下标。若无匹配则返回-1.</p>
-<p>String#slice(beginIndex, [endIndex])
-返回指定下标范围内的字符串</p>
-<p><code>String#split([separator[,limit]])</code>
-separator 分割符
-limit     数组的长度
-按指定分割符、数组长度分割String为数组。</p>
-<p>String#startsWith(searchString[, position])
-是否以searchString开头</p>
-<p>String#substring(startIndex, [endIndex])
-返回指定下标范围的字符串</p>
-<p>String#toLocalLowerCase([locale])
-locale
-返回指定语言环境的小写格式的字符串</p>
-<p>String#toLocaleUpperCase([locale])
-locale
-返回指定语言环境的大写格式的字符串</p>
-<p>String#toLowerCase([locale])
-locale
-返回指定语言环境的小写格式的字符串</p>
-<p>String#toUpperCase([locale])
-locale
-返回指定语言环境的小写格式的字符串</p>
-<p>String#toString()
-String 对象覆盖了Object 对象的 toString 方法；并没有继承 Object.toString()。
-返回一个表示调用对象的字符串。</p>
-<p>String#trim()
-返回去掉两端空字符串后的新字符串。</p>
-<p>String#trimEnd()
-返回去掉右端空字符串后的新字符串。
-别名String#trimRight()</p>
-<p>String#trimStart()
-返回去掉左端空字符串后的新字符串。
-别名String#trimLeft()</p>
-<p>String#valueOf()
-返回字符串的原始值</p>
+        <h1 id="lerna"><code>lerna</code></h1>
+<h2 id="overview">overview</h2>
+<blockquote>
+<p>一个一库多包的管理工具。</p>
+</blockquote>
+<h3 id="feature">feature</h3>
+<ul>
+<li>一个库中包含多个包。</li>
+<li>方便包之间引用。</li>
+<li>统一发布包。</li>
+</ul>
+<h2 id="install">install</h2>
+<p><code>npm i lerna -g</code></p>
+<h2 id="usage">usage</h2>
+<pre><code><code><div>npm i lerna -g
+mkdir projName
+cd projName
+lerna init     // 生成基本的lerna库目录结构。
+</div></code></code></pre>
+<p>结果如下：</p>
+<pre><code><code><div>&lt;root&gt;
+|--package.json
+|--lerna.json
+|--packages/
+</div></code></code></pre>
+<h3 id="how-it-works">how it works</h3>
+<p>它有2种模式去管理项目：fixed / independent。</p>
+<h4 id="fixed固定模式默认">fixed（固定模式）默认</h4>
+<p>固定模式下项目操作一个单独的版本。版本号在<code>lerna.json</code>的<code>version</code>中。当你执行了<code>lerna publish</code>，若从上次发布后有包被修改过，则该包会使用新的版本号去发布。即只需要修改<code>lerna.json</code>中的<code>version</code>就可作用于所有被修改的包。
+<code>babel</code>就是使用这种模式。若你想使用这种自动作用于全部包的版本号管理工具，你就可以这么做。</p>
+<h4 id="independent分离模式">independent（分离模式）</h4>
+<p><code>lerna init --independent</code>
+在该模式下每个包使用当前包的<code>package.json</code>管理版本号。每次发布时，会得到一个提示，关于每个包的补丁/小更改/主要更改/自定义变动。
+该模式下允许你更自由地升级每个包的版本，用于组件组更合适。
+<code>lerna.json</code>中<code>version</code>的值是<code>independent</code>。</p>
+<h2 id="configuration">configuration</h2>
+<p>默认配置文件：<code>&lt;root&gt;/lerna.json</code>。</p>
+<pre><code><code><div>{
+    version
+    npmClient               // 指定注册器客户端。默认npm.
+    command: {         
+        publish: {
+            ignoreChanges   // 执行lerna change/publish时不包含的内容。
+            message         // 在执行publish时的commit message
+            registry        // 自定义注册rul.默认npmjs.org。必须有权限。
+        }
+        bootstrap: {
+            ignore           // 执行lerna bootstrap时不包含的内容。
+            npmClientArgs    // 在执行lerna bootstrap时会调用npm install。本字段为npm install提供参数。
+            scope            // 设置lerna bootstrap的执行范围。
+            }  // 
+    },
+    packages: [...]          // 各包的目录。用数组的元素表示多个值。
+}
+</div></code></code></pre>
+<h2 id="log">log</h2>
+<p>默认日志文件：<code>&lt;root&gt;/lerna-debug.log</code>。在lerna运行出错时记录的日志。</p>
+<h2 id="api">api</h2>
+<p>详见<a href="/jsPackages/lerna/commands.html">command</a></p>
+<p><code>lerna init</code>
+创建一个lerna仓库或在已经存在的库中初始化一个lerna仓库的目录结构。
+默认是<code>fixed</code>模式。可使用<code>--independent / -i</code>设置为分离模式。</p>
+<p><code>lerna bootstrap</code>
+安装依赖</p>
+<p><code>lerna import &lt;pathToRepo&gt;</code>
+不会。
+好像是：把本地包<code>&lt;pathToRepo&gt;</code>到本lerna库中。</p>
+<p><code>lerna publish</code>
+把有变更的包发布出去。同时更新本包的git远端仓库。
+<code>--npm-tag [tagName]</code>   npm的版本标签。默认是latest
+<code>--canary / -c</code>         不会
+<code>--skip-git</code>            不运行git命令。
+<code>--force-publish [packages]</code>  强行发布指定的包。</p>
+<p><code>lerna changed</code>
+检查有变化的包并列出。</p>
+<p><code>lerna diff [packages]</code>
+显示从上次发布后有变化的包。</p>
+<p><code>lerna run [script]</code>
+运行npm脚本。</p>
+<p><code>lerna ls</code>
+列出所有本lerna库中的包。</p>
+<h2 id="principle">principle</h2>
+<p>此包的处理逻辑。</p>
+<h3 id="uml">uml</h3>
+<pre><code><code><div></div></code></code></pre>
+<h2 id="recommend">recommend</h2>
+<ul>
+<li>每个包一个git仓库。本地使用一个项目，其中是lerna创建的项目。此项目没有git仓库。</li>
+</ul>
+<h2 id="todo">todo</h2>
+<blockquote>
+<p>未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote>
 
-        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
         
     </body>
     </html>

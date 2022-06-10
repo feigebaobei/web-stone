@@ -208,11 +208,11 @@ pattern包括普通字符（eg:a-z。包括可打印字符、不可打印字符�
 
 ## 正则对于string
 
-    string.search(reg) // 返回第一个匹配的子串的位置。找不到匹配揶串就返回-1。不支持全局检索，因为它忽略正则表达式参数中的修饰符g。
+    string.search(reg) // 返回第一个匹配的子串的位置。找不到匹配字符串就返回-1。不支持全局检索，因为它忽略正则表达式参数中的修饰符g。
     string.replace(reg, item) // 替换reg匹配（全局或不全局）的子串为item。$1表示引用第一个子串
     string.replace(reg, function (match, input, string) {return ...})
-    string.match(/*/g) // 全局检索时返回一个数组。里面的元素都是检索的结果。
-    string.match(/*/)  // 非全局检索时返回一个类数组对象。["value", index: 0, input: '原string']
+    string.match(/*/g) // 全局检索时返回一个数组。里面的元素都是检索的结果。或 null
+    string.match(/*/)  // 非全局检索时返回一个类数组对象。["value", index: 0, input: '原string'] 或 null
     '1, 2, 3, 4, 5'.split(/\s*,\s*/) // 返回[1, 2, 3, 4, 5]
 
 |||||

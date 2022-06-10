@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>string</title>
+        <title>lerna init</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -28,8 +28,7 @@
 }
 
 </style>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
-<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -45,144 +44,293 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="string">string</h1>
-<p>处理文本（字符串）</p>
-<h2 id="创建">创建</h2>
-<pre><code>var a = new String();
-var b = String();
-</code></pre>
-<h2 id="属性">属性</h2>
-<p><strong>constructor</strong> 对创建该对象的方法的引用</p>
-<p><strong>length</strong> 返回当前字符串的长度</p>
-<pre><code>a = “Try the demo below to see what we mean.”
-var num0 = a.length // 39
-</code></pre>
-<p><strong>prototype</strong> 允许向对象添加属性和方法</p>
-<h2 id="方法">方法</h2>
-<p>String#@@iterator()
-返回新的iterator对象</p>
-<p>String#charAt(index)
-index: 0 ~ string.length - 1
-返回指定索引的字符</p>
-<p>String#charCodeAt(index)
-index
-返回指定索引的字符的编码单元表示</p>
-<p>String#codePointAt(pos)
-pos 编码元素的位置
-返回一个Unicode编码点值的非负整数</p>
-<p>String#concat(...str)
-返回把若干str合并后的新字符串
-性能不如<code>+</code>/<code>+=</code></p>
-<p>String#endsWith(searchString[, length])
-searchString 是搜索的字符串
-length       指定String的尾部下标
-返回String的指定尾部是否以searchString结束</p>
-<p>String.fromCharCode(...num)
-num 0~65535(0xffff)之间的代表示utf-16代码单元的数字</p>
-<p>String.fromCodePoint(...num)
-num
-返回使用指定的代码点序列创建的字符串</p>
-<p>String#includes(searchString[, position])
-searchString
-position
-返回boolean。表示String中是否包含searchString。从position开始搜索。</p>
-<p>String#indexOf(searchString[, index])
-从指定的下标开始搜索searchString。若存在则返回第一次出现的下标，否则返回-1.</p>
-<p>String#lastIndexOf(searchString[, index])
-从指定的下标开始搜索searchString。若存在则返回最后一次出现的下标，否则返回-1.</p>
-<p>String#localeCompare()
-...</p>
-<p>String#match(regexp)
-返回符合regexp的匹配结果。
-若regexp中有<code>g</code>，则返回所有匹配结果。数组类型或null
-若regexp中无<code>g</code>，则返回第一个匹配项及相关捕获组或null。<code>[searchString, index: number, group: 一个捕获数组, index: 当前匹配结果的开始位置]</code>
-详见<a href="/regexp/index.html">正则表达式</a></p>
-<p>String#matchAll(regexpg)
-regexpg 全局匹配的正则表达式
-返回一个包含所有匹配正则表达式和分组捕获结果的遍历器。</p>
-<p>String#normalize([form])
-form 正规形式 'NFC' / 'NFD' / 'NFKC' / 'NFKD'
-返回按指定形式正规化的字符串</p>
-<p>String#padEnd(targetLength, [padString])
-返回一个新字符串，基于String，添加paddString到targetLength.</p>
-<p>String#padStart(targetLength, [padString])
+        <h1 id="lerna-init">lerna init</h1>
+<p>在一个已经存在的项目上创建lerna需要的环境（主要是目录结构）。
+或在创建一个lerna环境的项目。</p>
+<h2 id="options">options</h2>
+<p><code>--independent</code>
+使用分离模式。</p>
+<p><code>--exact</code>
+不会。好像是控制是否安装lerna在devDependence里。</p>
+<h2 id="效果">效果</h2>
+<p>只创建了项目结构：</p>
+<pre><code><code><div>&lt;root&gt;
+|-- packages/
+|-- lerna.json
+|-- package.json
+</div></code></code></pre>
+<h2 id="principle">principle</h2>
+<ol>
+<li>在devDependence中添加lerna.</li>
+<li>创建lerna.json，并保存version字段。若是fix模式，则此字段是数字。若是分离模式，则此字段是'independent'</li>
+</ol>
+<h1 id="lerna-add">lerna add</h1>
+<p>添加匹配的依赖。</p>
+<h2 id="usage">usage</h2>
+<p><code>lerna add &lt;package&gt;[@version] [--dev] [--exact] [--peer]</code>
+在本lerna项目中安装一个本地、远端的包。一次只能安装一个包。</p>
+<h2 id="options-1">options</h2>
+<p><code>所有filter flags</code>
+<code>--dev</code>
+安装在<code>devDependencies</code></p>
+<p><code>--exact</code>
+使用严格版本号的包。</p>
+<p><code>--peer</code>
+安装在<code>peerDependencies</code></p>
+<p><code>--registry &lt;url&gt;</code>
+使用指定的registry安装包。</p>
+<p><code>--no-boostrap</code>
+跳过<code>lerna bootstrap</code>
+原来<code>lerna add</code>会默认执行<code>lerna bootstrap</code>.</p>
+<h2 id="principle-1">principle</h2>
+<p>使用<code>npm install</code> / <code>yarn add</code></p>
+<h1 id="lerna-create">lerna create</h1>
+<p>创建一个被lerna管理的包。
+此子命令有好多与<code>package.json</code>字段相关的选项。</p>
+<h2 id="usage-1">usage</h2>
+<p><code>lerna create &lt;packageName&gt; [loc]</code>
+loc   指定packageName的所在位置。默认是<code>lerna.json</code>中<code>packages</code>字段的第一个值。</p>
+<h2 id="options-2">options</h2>
+<p><code>--access</code>
+设置<code>publishConfig.access</code>的值：'public' / 'restricted'。默认是&quot;public&quot;</p>
+<p><code>--bin</code>
+包是否有可执行文件。默认：<code>&lt;packageName&gt;</code></p>
+<p><code>--description</code>
+package.json的description字段。</p>
+<p><code>--dependencies</code>
 xxx</p>
-<p>String.raw
-...</p>
-<p>String#repeat(count)
-count 重复次数 0 ~ +infinity
-返回重复指定次数的新字符串</p>
-<p>String#replace(regexp|substr, newSubStr|function)
-regexp 正则表达式
-substr 字符串
-newSubStr 字符串
-<code>$$</code> <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi mathvariant="normal">‘</mi></mrow><annotation encoding="application/x-tex">
-    `</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">‘</span></span></span></span></span>&amp;<code> 匹配的子串     $</code>   当前匹配子串的左边内容
-<code>$'</code> 当前匹配子串的右边内容
-<code>$n</code> 第n个匹配子串
-<code>$&lt;name&gt;</code> 分组的名称。需要浏览器支持
-function (match, p1, p2, p3, ..., offset, string, NamedCaptureGroup) {...}
-match   匹配的子串
-pn      第n个括号匹配的字符串
-offset  匹配到的子串在原字符串的偏移量
-string  原字符串
-NamedCaptureGroup  命名捕获组匹配的对象
-返回被替换后的字符串。</p>
-<p>String#replaceAll(regexp|substr, newSubStr|function)
-regexp 正则表达式
-substr 字符串
-newSubStr 字符串
-<code>$$</code> <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi mathvariant="normal">‘</mi></mrow><annotation encoding="application/x-tex">
-    `</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">‘</span></span></span></span></span>&amp;<code> 匹配的子串     $</code>   当前匹配子串的左边内容
-<code>$'</code> 当前匹配子串的右边内容
-<code>$n</code> 第n个匹配子串
-<code>$&lt;name&gt;</code> 分组的名称。需要浏览器支持
-function (match, p1, p2, p3, ..., offset, string, NamedCaptureGroup) {...}
-match   匹配的子串
-pn      第n个括号匹配的字符串
-offset  匹配到的子串在原字符串的偏移量
-string  原字符串
-NamedCaptureGroup  命名捕获组匹配的对象
-返回被替换后的字符串。</p>
-<p>String#search(regexp)
-返回匹配的下标。若无匹配则返回-1.</p>
-<p>String#slice(beginIndex, [endIndex])
-返回指定下标范围内的字符串</p>
-<p><code>String#split([separator[,limit]])</code>
-separator 分割符
-limit     数组的长度
-按指定分割符、数组长度分割String为数组。</p>
-<p>String#startsWith(searchString[, position])
-是否以searchString开头</p>
-<p>String#substring(startIndex, [endIndex])
-返回指定下标范围的字符串</p>
-<p>String#toLocalLowerCase([locale])
-locale
-返回指定语言环境的小写格式的字符串</p>
-<p>String#toLocaleUpperCase([locale])
-locale
-返回指定语言环境的大写格式的字符串</p>
-<p>String#toLowerCase([locale])
-locale
-返回指定语言环境的小写格式的字符串</p>
-<p>String#toUpperCase([locale])
-locale
-返回指定语言环境的小写格式的字符串</p>
-<p>String#toString()
-String 对象覆盖了Object 对象的 toString 方法；并没有继承 Object.toString()。
-返回一个表示调用对象的字符串。</p>
-<p>String#trim()
-返回去掉两端空字符串后的新字符串。</p>
-<p>String#trimEnd()
-返回去掉右端空字符串后的新字符串。
-别名String#trimRight()</p>
-<p>String#trimStart()
-返回去掉左端空字符串后的新字符串。
-别名String#trimLeft()</p>
-<p>String#valueOf()
-返回字符串的原始值</p>
+<p><code>--es-module</code>
+初始化一个已经编译的esm模块。</p>
+<p><code>--homepage</code>
+xxx</p>
+<p><code>--keywords</code>
+xxx</p>
+<p><code>--license</code>
+xxx</p>
+<p><code>--private</code>
+xxx</p>
+<p><code>--registry</code>
+xxx</p>
+<p><code>--tag</code>
+xxx</p>
+<p><code>--yes</code>
+跳过所有询问。全部使用默认值。</p>
+<h2 id="principle-2">principle</h2>
+<h1 id="lerna-bootstrap">lerna bootstrap</h1>
+<p>引导本地的包建立互相依赖关系或安装远端的包作为依赖。
+默认执行<code>npm ci</code></p>
+<h2 id="usage-2">usage</h2>
+<p><code>lerna bootstrap</code>
+// 在<code>--</code>后面写其他选项。也可在<code>lerna.json</code>中设置。
+<code>lerna bootstrap -- --production --no-option</code></p>
+<pre><code><code><div>{
+    ...
+    &quot;npmClientArgs&quot;: [&quot;--production&quot;, &quot;--no-optional&quot;]
+}
+</div></code></code></pre>
+<h2 id="options-3">options</h2>
+<p><code>--hoist [glob]</code>
+不会
+<code>--strict</code>
+不会
+<code>--nohoist [glob]</code>
+不会
+<code>--ignore</code>
+设置执行<code>lerna bootstrap</code>时忽略的内容。
+<code>--ingore-prepublish</code>
+跳过<code>prepublish</code>生命周期钩子。
+<code>--ignore-scripts</code>
+跳过所有的生命周期钩子。
+<code>--resgistry &lt;url&gt;</code>
+xxx
+<code>--npm-client</code>
+xxx
+<code>--use-workspaces</code>
+xxx</p>
+<p><code>--no-ci</code>
+跳过<code>npm ci</code>
+若要强制执行<code>npm ci</code>，则使用<code>lerna bootstrap --ci</code>
+<code>--force-local</code>
+强制使用本地包。不管理版本等因素。</p>
+<p><code>--publishConfig.directory</code>
+指定被发布时使用子目录。没有固定的值。</p>
+<h2 id="principle-3">principle</h2>
+<ol>
+<li><code>npm install</code></li>
+<li>若要依赖关系则建立软链接。</li>
+<li>在所有包中执行<code>npm run prepublish</code>，除非使用<code>--ignore-prepublish</code></li>
+<li>在所有包中执行<code>npm run prepare</code>。</li>
+</ol>
+<h1 id="lerna-publish">lerna publish</h1>
+<p>发布本lerna项目中的包。</p>
+<ul>
+<li>发布从最近一次发布后变动的包。</li>
+<li>发布指定git标签的包。</li>
+<li>发布最后一次commit的包。</li>
+<li>发布前一次提交中有更新的包。</li>
+</ul>
+<h2 id="usage-3">usage</h2>
+<pre><code><code><div>lerna publish
+lerna publish from-git
+lerna publish from-package
+</div></code></code></pre>
+<h2 id="options-4">options</h2>
+<p><code>--canary</code>
+当使用这个标志运行时，lerna publish会以更细粒度的方式(每次提交)发布包。在发布到npm之前，它通过获取当前版本，将其转移到下一个小版本，添加所提供的元后缀(默认为alpha)并附加当前的git sha(例如:1.0.0变成1.1.0-alpha.0+81e3b443)来创建新版本标签。
+<code>--contents &lt;dir&gt;</code>
+<code>--dist-tag &lt;tag&gt;</code>
+<code>--dit-head &lt;sha&gt;</code>
+<code>--graph-type &lt;all|dependencies&gt;</code>
+<code>--ignore-scripts</code>
+<code>--ignore-prepublish</code>
+<code>--legacy-auth</code>
+<code>--no-git-reset</code>
+<code>--no-granular-pathspec</code>
+<code>--no-verify-access</code>
+<code>--otp</code>
+<code>--preid</code>
+<code>--pre-dist-tag &lt;tag&gt;</code>
+<code>--registry &lt;url&gt;</code>
+<code>--tag-version-prefix</code>
+<code>--tag-tag</code>
+<code>--yes</code></p>
+<h2 id="principle-4">principle</h2>
+<h1 id="lerna-version">lerna version</h1>
+<h2 id="usage-4">usage</h2>
+<h2 id="options-5">options</h2>
+<h2 id="principle-5">principle</h2>
+<h1 id="lerna-list">lerna list</h1>
+<p>列出本地包</p>
+<h2 id="usage-5">usage</h2>
+<p><code>lerna ls</code></p>
+<h2 id="options-6">options</h2>
+<p><code>--json</code>
+显示json格式。多行。
+<code>--ndjson</code>
+显示json格式。单行。
+<code>-a, -all</code>
+显示所有包，包括私包。
+<code>-l, --long</code>
+显示扩展信息。
+<code>-p, --parseable</code>
+显示本包的路径。
+<code>--toposort</code>
+显示包的拓扑信息。
+<code>--graph</code>
+xxx</p>
+<h2 id="principle-6">principle</h2>
+<h1 id="lerna-changed">lerna changed</h1>
+<p>xxx</p>
+<h2 id="usage-6">usage</h2>
+<p><code>lerna changed</code></p>
+<h2 id="options-7">options</h2>
+<p><code>--json</code>
+<code>--ndjson</code>
+<code>-a, --all</code>
+<code>-l, --long</code>
+<code>-p, --parseable</code>
+<code>--toposort</code>
+<code>--graph</code>
+<code>--conventional-graduate</code>
+<code>--force-publish</code>
+<code>--ignore-change</code>
+<code>--include-merged-tags</code></p>
+<h2 id="principle-7">principle</h2>
+<h1 id="lerna-diff">lerna diff</h1>
+<p>显示所有从上一次发布后的不同的包或单文件。</p>
+<h2 id="usage-7">usage</h2>
+<p><code>lerna diff [package]</code></p>
+<h2 id="options-8">options</h2>
+<h2 id="principle-8">principle</h2>
+<h1 id="lerna-exec">lerna exec</h1>
+<p>在每个包中执行可执行二进制命令</p>
+<h2 id="usage-8">usage</h2>
+<p><code>lerna exec -- &lt;command [args...]&gt;</code>
+<code>lerna exec -- rm -rf ./node_modules</code>
+<code>lerna exec -- protractor conf.js</code></p>
+<h2 id="options-9">options</h2>
+<p><code>所有filter flags</code>
+<code>--stream</code>
+流式输出每个子进程。
+<code>--parallel</code>
+<code>--no-bail</code>
+没有输出
+<code>--no-prefix</code>
+<code>--profile</code>
+<code>--profile-location &lt;location&gt;</code></p>
+<h2 id="principle-9">principle</h2>
+<h1 id="lerna-run">lerna run</h1>
+<p>若此包中包括指定的脚本，则执行该脚本。</p>
+<h2 id="usage-9">usage</h2>
+<pre><code><code><div>lerna run &lt;script&gt; -- [args...]
+lerna run test
+lerna run build
+lerna run --parallel watch
+</div></code></code></pre>
+<h2 id="options-10">options</h2>
+<p><code>所有filter flags</code>
+<code>--npm-client &lt;client&gt;</code>
+<code>--stream</code>
+<code>--parallel</code>
+<code>--no-bail</code>
+<code>--no-prefix</code>
+<code>--profile</code>
+<code>--profile-location &lt;location&gt;</code></p>
+<h2 id="principle-10">principle</h2>
+<h1 id="lerna-clean">lerna clean</h1>
+<p>清除所有子包的<code>node_modules</code></p>
+<h2 id="usage-10">usage</h2>
+<p><code>lerna clean</code></p>
+<h2 id="options-11">options</h2>
+<p><code>所有filter flags</code>
+<code>--yes</code></p>
+<h2 id="principle-11">principle</h2>
+<h1 id="lerna-import">lerna import</h1>
+<p>使用<code>commit history</code>引入本地包。</p>
+<h2 id="usage-11">usage</h2>
+<pre><code><code><div>lerna import &lt;path-to-external-repository&gt;
+</div></code></code></pre>
+<h2 id="options-12">options</h2>
+<p><code>--flatten</code>
+<code>--dest</code>
+<code>--preserve-commit</code></p>
+<h2 id="principle-12">principle</h2>
+<p>使用git commit history再运行出一个包。
+lerna create 新建
+lerna import 生成</p>
+<h1 id="lerna-link">lerna link</h1>
+<p>链接有依赖的包。</p>
+<h2 id="usage-12">usage</h2>
+<p><code>lerna link</code></p>
+<h2 id="options-13">options</h2>
+<p><code>--force-local</code>
+<code>--publishConfig.directory</code></p>
+<h2 id="principle-13">principle</h2>
+<h1 id="lerna-info">lerna info</h1>
+<p>列出本地环境信息。</p>
+<h2 id="usage-13">usage</h2>
+<h2 id="options-14">options</h2>
+<h2 id="principle-14">principle</h2>
+<h1 id="lernafilter-options">@lerna/filter-options</h1>
+<p><code>--scope &lt;glob&gt;</code>
+设置作用范围。
+<code>--ignore &lt;glob&gt;</code>
+设置排队的作用范围。
+<code>--no-private</code>
+不作用于私包。
+<code>--since [ref]</code>
+设置只包括从<code>ref</code>后有变动的包。若没有<code>ref</code>，则ref的默认值为最后的tag.
+<code>--exclude-dependents</code>
+与<code>--since</code>一起使用。不包括所有dependents.
+<code>--include-dependents</code>
+包含所有dependents.
+<code>--include-dependencies</code>
+包含所有dependents.不管--scope/--ignore/--since。
+（我不喜欢这样的api。各api间是同级的，为什么要出现优先级更高api呢？）
+<code>--include-merged-tags</code>
+包含从合并来的分支上的--since之后的包。</p>
 
-        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
         
     </body>
     </html>

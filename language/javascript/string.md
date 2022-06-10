@@ -63,10 +63,10 @@ String#localeCompare()
 ...
 
 String#match(regexp)
-返回符合regexp的匹配结果。
-若regexp中有`g`，则返回所有匹配结果。
-若regexp中无`g`，则返回第一个匹配项及相关捕获组。`[searchString, index: number, group: 一个捕获数组, index: 当前匹配结果的开始位置]`
-详见[正则表达式](/js/regexp.md)
+返回符合regexp的匹配结果。
+若regexp中有`g`，则返回所有匹配结果。数组类型或null
+若regexp中无`g`，则返回第一个匹配项及相关捕获组或null。`[searchString, index: number, group: 一个捕获数组, index: 当前匹配结果的开始位置]`
+详见[正则表达式](/regexp/index.html)
 
 String#matchAll(regexpg)
 regexpg 全局匹配的正则表达式

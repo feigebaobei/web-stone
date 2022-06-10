@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;</title>
+        <title>&#x6b63;&#x5219;&#x8868;&#x8fbe;&#x5f0f;</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -42,8 +42,6 @@
         <style>
 .task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
 </style>
-        
-        <script src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
     </head>
     <body class="vscode-body vscode-light">
@@ -388,11 +386,11 @@ var arr0 = reg0.exec('the best bEE apple')
 <pre><code>^$ // 可以匹配整个字符串的、每行的开始和结尾。
 </code></pre>
 <h2 id="正则对于string">正则对于string</h2>
-<pre><code>string.search(reg) // 返回第一个匹配的子串的位置。找不到匹配揶串就返回-1。不支持全局检索，因为它忽略正则表达式参数中的修饰符g。
+<pre><code>string.search(reg) // 返回第一个匹配的子串的位置。找不到匹配字符串就返回-1。不支持全局检索，因为它忽略正则表达式参数中的修饰符g。
 string.replace(reg, item) // 替换reg匹配（全局或不全局）的子串为item。$1表示引用第一个子串
 string.replace(reg, function (match, input, string) {return ...})
-string.match(/*/g) // 全局检索时返回一个数组。里面的元素都是检索的结果。
-string.match(/*/)  // 非全局检索时返回一个类数组对象。[&quot;value&quot;, index: 0, input: '原string']
+string.match(/*/g) // 全局检索时返回一个数组。里面的元素都是检索的结果。或 null
+string.match(/*/)  // 非全局检索时返回一个类数组对象。[&quot;value&quot;, index: 0, input: '原string'] 或 null
 '1, 2, 3, 4, 5'.split(/\s*,\s*/) // 返回[1, 2, 3, 4, 5]
 </code></pre>
 <table>
@@ -468,8 +466,8 @@ string.match(/*/)  // 非全局检索时返回一个类数组对象。[&quot;val
 <td></td>
 </tr>
 <tr>
-<td><code>|</code></td>
-<td></td>
+<td>`</td>
+<td>`</td>
 <td></td>
 </tr>
 </tbody>
@@ -565,5 +563,7 @@ exp1(?!exp2) 查找后面不是exp2的exp1
 &quot;1234567890&quot;.replace(/\B(?=(?:\d{3})+(?!\d))/g,&quot;,&quot;) // 结果：1,234,567,890，匹配的是后面是3*n个数字的非单词边界(\B)
 </code></pre>
 
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
     </body>
     </html>

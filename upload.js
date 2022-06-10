@@ -248,15 +248,19 @@ c.on('ready', () => {
         // let p = 'first'
         // let p = 'first/second/f.md'
         // let p = 'framework/react/react-dom'
-        // let p = 'framework/svelte'
+        // let p = 'framework/redom'
+        // let p = 'framework/redom/index.html'
         // let p = 'framework/react/react-17'
         // let p = 'index.html'
-        // let p = 'language/css'
+        // let p = 'language/typescript'
         // let p = 'nginx'
         let p = [
-            'framework/flutter/index.html',
-            'framework/redom/index.html',
-            'index.html'
+            'confuse/throttleDebounce.html',
+            'confuse/index.html',
+            // 'jsPackages/lerna/index.html',
+            // 'promote/customInterface.html',
+            // 'language/javascript/string.html',
+            // 'index.html'
         ]
         // 检测指定目录是否存在
         // checkDir(p)
@@ -267,23 +271,23 @@ c.on('ready', () => {
         // 测试上传单个文件
         // uploadFile(p)
         // 测试上传多个文件
-        uploadFiles(p).then(() => {
-            log('then', '全部完成')
-            c.end()
-        }).catch((err) => {
-            log('catch', err)
-            c.end()
-        })
-        // 测试创建目录
-        // makeDir(p)
-        // 测试上传一个目录
-        // uploadDir(p).then(res => {
-        //     log('全部上传完成', res)
+        // uploadFiles(p).then(() => {
+        //     log('then', '全部完成')
         //     c.end()
-        // }).catch(err => {
+        // }).catch((err) => {
         //     log('catch', err)
         //     c.end()
         // })
+        // 测试创建目录
+        // makeDir(p)
+        // 测试上传一个目录
+        uploadDir(p).then(res => {
+            log('全部上传完成', res)
+            c.end()
+        }).catch(err => {
+            log('catch', err)
+            c.end()
+        })
     })
 })
 c.on('greeting', (s) => {

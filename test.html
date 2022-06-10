@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            width: 500px;
+            height: 500px;
+            border: 1px solid #333;
+        }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+    <script>
+        // let createDebounceFn = (fn, t = 250) => {
+        //     let id
+        //     return (...rest) => {
+        //         clearTimeout(id)
+        //         id = setTimeout(() => {
+        //             fn(...rest)
+        //         }, t)
+        //     }
+        // }
+        let fn = (a, b) => {
+            console.log('fn', a, b)
+        }
+        // let dbFn = createDebounceFn(fn)
+        // document.querySelector('#box').addEventListener('mousemove', () => dbFn('1', 2))
+
+
+
+
+
+        let createThrottleFn = (fn, t = 250) => {
+            let prev = new Date().getTime()
+            return (...rest) => {
+                let now = new Date().getTime()
+                if (now - prev > t) {
+                    fn(...rest)
+                    prev = now
+                }
+            }
+        }
+        let thFn = createThrottleFn(fn, 400)
+        document.querySelector('#box').addEventListener('mousemove', thFn)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    </script>
+</body>
+</html>
