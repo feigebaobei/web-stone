@@ -25,7 +25,9 @@ alias: npm x, npx
 - 若package.json中bin字段有多个，其中有一个被匹配，则执行该字段的匹配值。  
 - 若无匹配（无bin、无匹配项），则报错。  
 
-# title
+# init
+## 别名 create / innit
+
 # title
 # title
 # title

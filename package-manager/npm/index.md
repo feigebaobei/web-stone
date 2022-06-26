@@ -22,9 +22,7 @@
 ||--dry-run||
 ||local|本地安装|
 |-g|--global|全局安装|  
-
-npm uninstall 卸载模块  
-npm  
+## [子命令](/package-manager/npm/subCommand.html)
 
 ||||
 |-|-|-|
