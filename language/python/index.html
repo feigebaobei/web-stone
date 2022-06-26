@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>Set</title>
+        <title>phthon</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -44,65 +44,287 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="set">Set</h1>
-<p>set类似数组。其成员的值都是唯一的。其键名与键值相同。</p>
-<p><strong>数组去重</strong></p>
-<pre><code>const set = new Set([1,2,3,2,4,2,3,4])
-console.log(set)
-[...new Set(array)] // 返回无重复的数组
-</code></pre>
-<p><strong>数组与set转换</strong></p>
-<pre><code>var arr = Array.from(set)
-var set = new Set(arr)
-</code></pre>
-<p><strong>Set.prototype.add(value)</strong> 为set对象添加一个值<br>
-<strong>Set.prototype.size</strong> 返回set对象的长度<br>
-<strong>Set.prototype.delete(value)</strong> 删除set对象中的指定的值，并返回bool结果。<br>
-<strong>Set.prototype.has(value)</strong> 检查set对象中是否有指定的值<br>
-<strong>Set.prototype.clear()</strong> 删除指定set对象中的所有值<br>
-<strong>Set.prototype.keys()</strong> 返回一个以指定set对象的key组成的类数组对象。键名和键值是同一个值。其返回结果与Set.values一样。<br>
-<strong>Set.prototype.values()</strong> 返回一个以指定set对象的value组成的类数组对象。<br>
-<strong>Set.prototype.entries()</strong> 返回一个以key和value组成的数组组成的数组。<br>
-<strong>Set.prototype.forEach(fn(value, key, set) {})</strong> 对set对象进行遍历操作。(value 与 key 相同)</p>
-<p>set对象没有提供访问指定值的方法。要想访问指定值需要转为数组后再用数组的方法取指定值。</p>
-<pre><code>let set = new Set(['a', 1, 2, 2, 2, 1, 3])
-let arr = [...set] // ['a', 1, 2, 3]
-let index = arr.indexOf('a') // 0
-console.log(arr[index]) // 'a'
-</code></pre>
-<p><strong>因为set对象在存数据时无重复值。在取时较困难。所以石头一般使用set对象存放对象，然后检查是否有某个值，使用数组取数据。</strong><br>
-<strong>set对象不能判断对象是否相等。所以不能去重对象。</strong><br>
-<strong>set对象认为NaN是相等的</strong></p>
-<p><strong>并集</strong></p>
-<pre><code>let union = new Set([...seta, ...setb])
-// 有的高版本浏览器已经支持 set#union(otherSet)。返回一个新的集合。不改变原集合。
-</code></pre>
-<p><strong>交集</strong></p>
-<pre><code>let intersect = new Set([...seta].filter(x =&gt; setb.has(x)))
-</code></pre>
-<p><strong>差集</strong></p>
-<pre><code>let difference = new Set([.seta].filter(x =&gt; !setb.has(x)))
-</code></pre>
-<p><strong>取出相应位置的元素</strong></p>
-<p>不能从set元素直接取出元素。需要把set转化为array对象。</p>
-<pre><code>let arr = Array.from(set)
-// 或
-// let arr = [...set]
-arr[index]
-</code></pre>
-<h1 id="weakset">WeakSet</h1>
-<ol>
-<li>只能存放对象。</li>
-<li>对对象是弱引用。</li>
-</ol>
-<p><strong>WeakSet.prototype.add(obj)</strong> 为WeakSet对象指定添加的对象。<br>
-<strong>WeakSet.prototype.delete(obj)</strong> 返回是否删除指定的对象。<br>
-<strong>WeakSet.prototype.has(obj)</strong> 返回是否存在指定的对象。<br>
-没有办法遍历它的成员。</p>
-<p>WeakSet 中的对象都是弱引用，即垃圾回收机制不考虑 WeakSet 对该对象的引用。<br>
-现在set对象的操作方法、属性太少。（比如：无法准确地取出指定的值。）所以把他只做为一个仓库对待。操作还要在数组中操作。<br>
-它出现在数组对象没有这些功能的时期。应该是做为一个数组对象的补充存在。要项目中应当把set/array结合起来使用。<br>
-set对象用处少。weakset对象的用处更少。</p>
+        <h1 id="phthon">phthon</h1>
+<h2 id="overview">overview</h2>
+<blockquote>
+<p>简称</p>
+</blockquote>
+<h3 id="feature">feature</h3>
+<ul>
+<li>feature</li>
+</ul>
+<h2 id="install">install</h2>
+<h2 id="usage">usage</h2>
+<pre><code class="language-py"><div><span class="hljs-comment"># 注释</span>
+<span class="hljs-comment"># 行注释</span>
+<span class="hljs-string">&quot;&quot;&quot;块注释&quot;&quot;&quot;</span>
+param = <span class="hljs-string">&#x27;name&#x27;</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-built_in">type</span>(param)) // &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> &#x27;<span class="hljs-title">str</span>&#x27;&gt;
+<span class="hljs-title">name</span>, <span class="hljs-title">age</span>, <span class="hljs-title">height</span> = &#x27;<span class="hljs-title">tom</span>&#x27;, 22, 180.5
+<span class="hljs-title">a</span> = <span class="hljs-title">b</span> = <span class="hljs-title">c</span> = 3
+# <span class="hljs-title">type</span> <span class="hljs-title">casting</span>
+<span class="hljs-title">x</span> = 1
+<span class="hljs-title">str</span>(<span class="hljs-params">x</span>)
+<span class="hljs-title">y</span> = 2.0
+<span class="hljs-title">int</span>(<span class="hljs-params">y</span>)
+<span class="hljs-title">z</span>=&quot;3&quot;
+<span class="hljs-title">float</span>(<span class="hljs-params">z</span>) # 3.0
+# <span class="hljs-title">input</span>
+<span class="hljs-title">p</span> = <span class="hljs-title">input</span>(<span class="hljs-params"><span class="hljs-string">&#x27;提示文本&#x27;</span></span>) # 获取输入值。输入的都是<span class="hljs-title">str</span>类型。
+# <span class="hljs-title">slice</span>
+<span class="hljs-title">name</span> = &#x27;<span class="hljs-title">qwertyujhgfd</span>&#x27;
+<span class="hljs-title">name</span>[<span class="hljs-title">start</span>:</span>stop:step]
+<span class="hljs-comment"># if</span>
+<span class="hljs-keyword">if</span> 表达式<span class="hljs-number">0</span>: <span class="hljs-comment"># 表达式0 and 表达式1</span>
+    xxxx
+<span class="hljs-keyword">elif</span> 表达式<span class="hljs-number">1</span>: <span class="hljs-comment"># 表达式2 or 表达式3 # not(表达式4)</span>
+    xxx
+<span class="hljs-keyword">else</span>
+    xxx
+<span class="hljs-comment"># while</span>
+<span class="hljs-keyword">while</span> 表达式:
+    xxx
+<span class="hljs-comment"># for</span>
+<span class="hljs-keyword">for</span> 表达式: <span class="hljs-comment"># for i in range(30):</span>
+    xxx
+<span class="hljs-comment"># print</span>
+<span class="hljs-built_in">print</span>(内容, end=string)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;string {}, string {}&quot;</span>.<span class="hljs-built_in">format</span>(p0, p1))
+<span class="hljs-comment"># tuple</span>
+student = (<span class="hljs-string">&#x27;bro&#x27;</span>, <span class="hljs-number">21</span>, <span class="hljs-string">&#x27;male&#x27;</span>)
+student.count(<span class="hljs-string">&#x27;bro&#x27;</span>)
+student.index(<span class="hljs-string">&#x27;male&#x27;</span>)
+<span class="hljs-comment"># set</span>
+utensils = {<span class="hljs-string">&quot;one&quot;</span>, <span class="hljs-string">&quot;two&quot;</span>, <span class="hljs-string">&quot;three&quot;</span>}
+<span class="hljs-comment"># dictionary</span>
+captitals = {<span class="hljs-string">&#x27;USA&#x27;</span>: <span class="hljs-string">&#x27;Washington DC&#x27;</span>, <span class="hljs-string">&#x27;India&#x27;</span>: <span class="hljs-string">&#x27;New Dehli&#x27;</span>}
+captitals[<span class="hljs-string">&#x27;USA&#x27;</span>]
+<span class="hljs-comment"># function</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">fn</span>(<span class="hljs-params">a, b, c</span>):</span> <span class="hljs-comment"># 定义</span>
+    xxx
+fn(b = <span class="hljs-string">&#x27;b&#x27;</span>, c = <span class="hljs-string">&#x27;c&#x27;</span>, a = <span class="hljs-string">&#x27;a&#x27;</span>) <span class="hljs-comment"># 执行</span>
+<span class="hljs-comment"># 作用域</span>
+<span class="hljs-comment"># L = local</span>
+<span class="hljs-comment"># E = enclosing</span>
+<span class="hljs-comment"># G = global</span>
+<span class="hljs-comment"># B = build-in</span>
+<span class="hljs-comment"># *args 把所有后面的参数放入tuple中</span>
+<span class="hljs-comment"># **kwargs 把所有后面的参数放入dictionary中</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">fn</span>(<span class="hljs-params">**kwargs</span>):</span>
+    <span class="hljs-built_in">print</span>(kwargs[<span class="hljs-string">&#x27;one&#x27;</span>] + kwargs[<span class="hljs-string">&#x27;two&#x27;</span>])
+fn(one = <span class="hljs-string">&#x27;a&#x27;</span>, two = <span class="hljs-string">&#x27;b&#x27;</span>)
+<span class="hljs-comment"># try</span>
+<span class="hljs-keyword">try</span>:
+    xxx
+<span class="hljs-keyword">except</span> 错误类型 <span class="hljs-keyword">as</span> e:
+    xxx
+<span class="hljs-keyword">else</span>:
+    xxxx
+<span class="hljs-keyword">finally</span>:
+    xxxx
+<span class="hljs-comment"># file</span>
+<span class="hljs-built_in">open</span>(filePath, 操作符)
+<span class="hljs-comment"># class</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ClassName</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self, otherParams</span>):</span> <span class="hljs-comment"># __init__是python的class中内置的方法，在实例化时执行。</span>
+        <span class="hljs-keyword">pass</span> <span class="hljs-comment"># 放在空class中，防止出现报错。</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">fn</span>(<span class="hljs-params">self</span>):</span> <span class="hljs-comment"># 第一个参数是当前实例。可以是任意合法变量名。</span>
+        xxx
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SubClass</span>(<span class="hljs-params">SuperClass</span>):</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self, a</span>):</span>
+        <span class="hljs-built_in">super</span>().fn(a)
+        xxx
+        <span class="hljs-keyword">return</span> self
+    <span class="hljs-keyword">pass</span>
+<span class="hljs-comment"># method chaining 链式方法</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Car</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">a</span>(<span class="hljs-params">self</span>):</span>
+        xxx
+        <span class="hljs-keyword">return</span> self
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">b</span>(<span class="hljs-params">self</span>):</span>
+        xxx
+        <span class="hljs-keyword">return</span> self
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">c</span>(<span class="hljs-params">self</span>):</span>
+        xxx
+        <span class="hljs-keyword">return</span> self
+car = Car()
+car.a().b()\
+    .c()
+<span class="hljs-comment"># 抽象类</span>
+<span class="hljs-comment"># 1. 阻止用户创建出一个该类的实例对象。</span>
+<span class="hljs-comment"># 2. 强制用户在子类中重写抽象方法。</span>
+<span class="hljs-comment"># 抽象类：包含一个或多个抽象方法的类。</span>
+<span class="hljs-comment"># 抽象方法：已声明且未实现的方法。</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Vehicle</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">go</span>(<span class="hljs-params">self</span>):</span>
+        <span class="hljs-keyword">pass</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Car</span>(<span class="hljs-params">Vehicle</span>):</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">go</span>(<span class="hljs-params">self</span>):</span>
+        xxxx
+<span class="hljs-comment"># lambda function</span>
+<span class="hljs-keyword">lambda</span> arguments : expression
+<span class="hljs-comment"># 比匿名函数好。</span>
+<span class="hljs-comment"># 短</span>
+<span class="hljs-comment"># list操作方法</span>
+<span class="hljs-built_in">map</span>(function, iterable)
+<span class="hljs-built_in">filter</span>(function, iterable)
+reduce(function, iterable)
+<span class="hljs-comment"># dictionary操作方法</span>
+dictionary = {key: expression <span class="hljs-keyword">for</span> (key, value) <span class="hljs-keyword">in</span> iterable}
+<span class="hljs-built_in">dict</span>.items() <span class="hljs-comment"># 返回iterable</span>
+<span class="hljs-built_in">zip</span>(*iterables) <span class="hljs-comment"># 把多个iterable成对合并为一个tuple</span>
+
+
+
+
+
+
+</div></code></pre>
+<h2 id="内置模块">内置模块</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>math</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>os</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>shutil</td>
+<td>文件、目录的压缩包处理模块</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>time</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>threading</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>tkinter</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>shutil</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>shutil</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>shutil</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code><code><div>shutil.copyfile(src, dst)
+
+
+
+</div></code></code></pre>
+<p><code>help('modules')</code> 查看所有模块</p>
+<p>io密集时    使用多线程
+cpu密集时   使用多进程</p>
+<h3 id="threading">threading</h3>
+<pre><code class="language-py"><div>threading.active_count()    <span class="hljs-comment"># 活着的线程数量</span>
+threading.<span class="hljs-built_in">enumerate</span>()       <span class="hljs-comment"># 列出线程信息</span>
+threadingName = threading.Thread(target=fn, args=())    <span class="hljs-comment"># 定义线程</span>
+threadingName.start()                                   <span class="hljs-comment"># 开始线程</span>
+
+</div></code></pre>
+<h2 id="自定义模块">自定义模块</h2>
+<pre><code class="language-py"><div><span class="hljs-comment"># messages</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">hi</span>():</span>
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;hi&#x27;</span>)
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bey</span>():</span>
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;bey&#x27;</span>)
+</div></code></pre>
+<pre><code class="language-py"><div><span class="hljs-keyword">import</span> messages
+<span class="hljs-comment"># import messages as mes</span>
+messages.hi()
+messages.bey()
+<span class="hljs-comment"># mes.hi()</span>
+<span class="hljs-comment"># mes.bey()</span>
+</div></code></pre>
+<pre><code class="language-py"><div><span class="hljs-keyword">from</span> messages <span class="hljs-keyword">import</span> hi, bey
+</div></code></pre>
+<h2 id="数据类型">数据类型</h2>
+<p>str
+int
+float
+bool
+False True</p>
+<h2 id="内置变量">内置变量</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>name</strong></td>
+<td>在初始化模块时为'<strong>main</strong>'</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="configuration">configuration</h2>
+<p>默认配置文件：<code>path/to/file.json</code>。
+详见<a href="/typescript/config.html">配置文件</a></p>
+<h2 id="principle">principle</h2>
+<p>此包的处理逻辑。</p>
+<h3 id="uml">uml</h3>
+<pre><code><code><div></div></code></code></pre>
+<h2 id="todo">todo</h2>
 
         
         
