@@ -44,9 +44,9 @@ https://sell-preview.guazi-apps.com/           weinre://preview
 ### 配置代理
 打开`http://local.whistlejs.com/`，点击`create`，输入：  
 ```
-www.ifeng.com 127.0.0.1
+www.ifeng.com       http://127.0.0.1
  # or
-127.0.0.1 www.ifeng.com
+http://127.0.0.1    www.ifeng.com
 ```
 点击online可看到本机ip/port。然后在移到端上设置代理。  
 ### 设置移动端

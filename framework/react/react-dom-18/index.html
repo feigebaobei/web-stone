@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>&grave;react-dom&grave;</title>
+        <title>&DiacriticalGrave;react-dom&DiacriticalGrave;</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -43,20 +43,20 @@
 .task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
 </style>
         
-        <script src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
-        
     </head>
     <body class="vscode-body vscode-light">
         <h1 id="react-dom"><code>react-dom</code></h1>
 <p>本文档是react v18+</p>
 <h2 id="overview">overview</h2>
 <blockquote>
-<p>react家庭中操作dom的包</p>
+<p>react家庭中操作dom的包。</p>
 </blockquote>
 <h3 id="feature">feature</h3>
 <ul>
-<li>feature1</li>
-<li>feature2</li>
+<li>一个应用中包含任意多的独立根 DOM 节点</li>
+<li>该负负责把vdom生成dom.</li>
+<li>只更新它需要更新的部分。</li>
+<li>props不能被修改</li>
 </ul>
 <h2 id="install">install</h2>
 <p><code>npm i react-dom</code></p>
@@ -79,6 +79,47 @@ ReactDOM.createRoot($(<span class="hljs-string">&#x27;#id&#x27;</span>)).render(
 <span class="hljs-built_in">exports</span>.unstable_renderSubtreeIntoContainer = renderSubtreeIntoContainer;
 <span class="hljs-built_in">exports</span>.version = ReactVersion;
 </div></code></pre>
+<h2 id="受控组件--非受控组件">受控组件 &amp; 非受控组件</h2>
+<table>
+<thead>
+<tr>
+<th>受控组件</th>
+<th>非受控组件</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>受别的组件影响当前组件的组件</td>
+<td>不受别的组件影响当前组件的组件</td>
+<td></td>
+</tr>
+<tr>
+<td>使用props渲染当前组件</td>
+<td>不使用props渲染当前组件，如使用state</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="class--function-组件">class &amp; function 组件</h2>
+<pre><code class="language-js"><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Comp</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+    <span class="hljs-function"><span class="hljs-title">contructor</span>(<span class="hljs-params">props</span>)</span> {
+        <span class="hljs-built_in">super</span>(props)
+        <span class="hljs-built_in">this</span>.state = {
+            <span class="hljs-attr">key</span>: props.key <span class="hljs-comment">// 取出props中的数据，放入当前组件的state中。成为非受控组件。</span>
+        }
+        <span class="hljs-comment">// ...</span>
+    }
+    <span class="hljs-function"><span class="hljs-title">render</span>(<span class="hljs-params"></span>)</span> {
+        <span class="hljs-keyword">return</span> (&lt;div&gt;string&lt;div&gt;)
+    }
+}
+</div></code></pre>
+<pre><code class="language-js"><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Comp</span>(<span class="hljs-params">props</span>) </span>{
+    <span class="hljs-comment">// ...</span>
+    <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>string<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>)
+}
+</div></code></pre>
 <h2 id="principle"><a href="/framework/react/react-dom-18/principle.html">principle</a></h2>
 <h3 id="uml">uml</h3>
 <pre><code><code><div></div></code></code></pre>
@@ -89,5 +130,7 @@ ReactDOM.createRoot($(<span class="hljs-string">&#x27;#id&#x27;</span>)).render(
 未来迭代计划。</p>
 </blockquote>
 
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
     </body>
     </html>

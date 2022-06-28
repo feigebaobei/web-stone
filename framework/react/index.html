@@ -69,11 +69,31 @@ react居然使用同步更新dom.</p>
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
 </div></code></pre>
 <h3 id="使用script标签引入react脚本">使用script标签引入react脚本</h3>
+<p>v17以前的用法：</p>
 <ol>
 <li>引入react脚本。</li>
 <li>使用<code>React.createElement</code>创建元素。</li>
 <li>使用<code>ReactDOM.render</code>渲染元素。</li>
 </ol>
+<p>v18以后的用法：</p>
+<ol>
+<li>引入reacte脚本</li>
+<li>使用<code>React.createRoot</code>创建根元素<code>root</code>。</li>
+<li>使用<code>root.render(reactElement对象)</code>渲染元素</li>
+</ol>
+<pre><code class="language-html"><div><span class="hljs-comment">&lt;!-- ... 其它html代码 --&gt;</span>
+<span class="hljs-comment">&lt;!-- 引入基本的react包 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://unpkg.com/react@18/umd/react.production.min.js&quot;</span> <span class="hljs-attr">crossorigin</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://unpkg.com/react-dom@18/umd/react-dom.production.min.js&quot;</span> <span class="hljs-attr">crossorigin</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-comment">&lt;!-- 引入babel包可以使用jsx。它会使你的网站变慢，并且不适用于生产环境。 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://unpkg.com/babel-standalone@6/babel.min.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/babel&quot;</span>&gt;</span><span class="javascript">
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">MyApp</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>string<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span>
+  }
+  ReactDOM.createRoot(<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;root&#x27;</span>)).render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">MyApp</span> /&gt;</span></span>)
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</div></code></pre>
 <h3 id="使用npm创建react项目">使用npm创建react项目</h3>
 <pre><code class="language-shell"><div>npx create-react-app proj-name
 <span class="hljs-meta">#</span><span class="bash"> or</span>

@@ -43,7 +43,7 @@ var n = 0 // 定义
 function、var都会触发变量提升。
 先提升function，再提升var。且存在变量覆盖。
 
-# [事件](/language/html/event.html)
+# [事件](/language/javascript/event.html)
 
 # [原型链](/confuse/jsPrototypeChain.pptx)
 使用对象的`[[prototype]]`属性原型链上源的对象。
@@ -556,6 +556,48 @@ js是单线程语言。但是它的宿主环境——browser支持多线程。
 - [bigint](/language/javascript/bigint.html)
 - [set](/language/javascript/set.html)
 - [map](/language/javascript/map.html)
+
+# js 操作 dom
+```js
+// 创建
+document.createElement('tag')
+// 查
+// 节点的访问关系都是属性。而节点的操作都是函数（方法）。
+document.querySelector(p)
+document.getElementById(id)
+document.getElementByClassName(className)
+document.getElementByTagName(tagName) // eg h1
+dom.parentElement // 获取父节点
+dom.children[index] // 获取指定下标的子节点
+dom.childNodes // 包括纯文本等节点
+dom.firstElementChild
+dom.lastElementChild
+dom.nextElementSibling // 获取下一个兄弟节点
+dom.previousElementSibling // 获取上一个兄弟节点
+formFieldDom.value
+// 改
+dom.innerText = 'sss'
+dom.innerHTML = 'html代码' // 会覆盖
+dom.style[cssKey] = 'value'
+dom.setAttribute(key, value) // 如input设置了disable属性后，与其值无关，都是不可使用
+dom.getAttribute(key)
+dom[attrKey] = value
+// 删
+dom.removeChild(childDom)
+dom.removeAttribute(key)
+// 增
+dom.appendChild(childDom)
+dom.insertBefore(newDom, matterDom)
+// 复制
+dom.cloneNode(bool/*是否复制其子节点*/)
+// 替换
+dom.replaceChild(newDom, oldDom)
+// class
+dom.classList.remove(s)
+dom.classList.add(s)
+dom.classList.contain(s)
+dom.classList.toggle(s) // 若存在则删除，否不存在则添加。
+```
 
 # 对象
 - 本地对象

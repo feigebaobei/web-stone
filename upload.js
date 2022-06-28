@@ -242,21 +242,9 @@ c.on('ready', () => {
             log('cwd', 'htdocs', err)
             throw err
         }
-        // let p = 'first/second/third'
-        // let p = 'first/second/'
-        // let p = 'first/a.md'
-        // let p = 'first'
-        // let p = 'first/second/f.md'
-        // let p = 'framework/react/react-dom'
-        // let p = 'framework/redom'
-        // let p = 'framework/redom/index.html'
-        // let p = 'framework/react/react-17'
-        // let p = 'index.html'
-        // let p = 'language/python'
-        // let p = 'lang'
+        // let p = 'promote'
         let p = [
-            'index.html',
-            'jsPackages/axios.html'
+            'promote/customInterface.html'
         ]
         // 检测指定目录是否存在
         // checkDir(p)

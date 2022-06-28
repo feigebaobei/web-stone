@@ -18,8 +18,8 @@ React 只更新它需要更新的部分
 2. 与之前的react元素比较。只更新不同的部分。
 
 ## jsx
-它是像xml的js代码。（当然也像html）。  
-它是js代码的语法糖，会被babel转换为js代码。如:
+- 它是像xml的js代码。（当然也像html）。  
+- 它是js代码的语法糖，会被babel转换为js代码。如:
 ```
 let str = 'string'
 <span>{str}</span>
@@ -27,9 +27,17 @@ let str = 'string'
 let str = 'string'
 React.createElement('span', {}, str)
 ```
-jsx代码的本质是js Function。这些Function返回ReactElement.然后是更新组件、渲染视图。  
-把html中不区分大小写变为camelCase。  
-支持自闭合。  
+- 在jsx中使用js代码时需要放在`{}`中
+- jsx代码会被`babel`转化为js Function。这些Function返回ReactElement。然后是更新组件、渲染视图。  
+- 把html中不区分大小写变为camelCase。  
+- 支持自闭合。  
+- 防止注入攻击
+
+### jsx的特殊属性
+||||
+|-|-|-|
+|className|class||
+|tabIndex|tabindex||
 
 ## 组件
 没有继承，只有组合。(好像js语言中的对象委托呀！原型链就是对象委托的表现。)
@@ -72,12 +80,8 @@ name等属性会在props中。
 命名采用小驼峰式
 事件对应的方法的参数 e 是一个合成对象，与原生事件对象不完全相同。
 
-
-
-
-
 ## hooks
-考虑把它移到 react包 中。它是js代码的语法糖，会被babel转换为js代码。如:
+它是js代码的语法糖，会被babel转换为js代码。如:
 ```
 let str = 'string'
 <span>{str}</span>
@@ -199,6 +203,8 @@ useDebugValue(value, [fn])
     <li>
 </ul>
 <code>
+只能在class组件中使用
+
 constructor() // 为了调用super()
 static getDerivedStateFromProps(nextProps, prevState)
     它是静态方法，不能使用this。只能作一些无副作用的操作。
@@ -206,7 +212,7 @@ static getDerivedStateFromProps(nextProps, prevState)
 render()
     class组件中必须使用的方法。
     用于渲染dom.
-    必须返回reactDOM
+    必须返回reactDOM。也就是ReactElement对象。
     不要在render中执行setState
 getSnapshotBeforeUpdate(prevProps, prevState)
     render之后，被挂载时调用。
@@ -231,30 +237,46 @@ componentWillUnmount()
   <summary>hooks</summary>
 <artical>
 <pre>
-import {useState, createContext, useContext} from 'react'
-import ReactDOM from 'react-dom'
+import { createContext } from 'react'
+export let DataContext = createContext() // 在组件外生成context对象
 
-let UserContext = createContext() // 生成context对象
-
-function CP () {
-    let [user, setUser] = useState('top')
-    return (
-        <UserContext.Provider value={user}> // 让context提供指定的数据
-            <C1 user={user} /> // C1及其子组件都可以使用指定的数据
-        </UserContext.Provider>
-    )
+import { useState } from "react";
+import { C } from '../C/index'
+import { DataContext } from "../../context";
+export function First () {
+    let [data] = useState({k: 'v'})
+    return (<DataContext.Provider value={data}> // 让context提供指定的数据
+        <C></C>
+    </DataContext.Provider>)
 }
 
-function C1 () {
-    let user = useContext(UserContext) // 使用context提供的数据
-    return (<>
-        <p>{`hi ${user}`}</p>
-    </>)
+import { useContext } from "react";
+import { DataContext } from "../../context";
+export function C () {
+    let data = useContext(DataContext)
+    return (<div>
+        {JSON.stringify(data)}
+    </div>)
 }
 </pre>
 </artical>
-
 </details>
+
+## state
+- 使用`this.setState()`改变state
+- setState是异步的。把多个setState合并为一个。
+
+setState(obj | (...args) => obj)
+
+## 数据
+从根组件向叶子组件流动。  
+
+## 事件
+- 源码中使用`addEventListener()`添加事件。
+- 使用`e.preventDefault()`防止默认行为
+- 绑定事件示例 `<button onClick={() => this.handleClick()}>` `<button onClick={this.handleClick}>`
+- 传参示例 `<button onClick={(e) => this.deleteRow(id, e)}>Delete Row</button>` `<button onClick={this.deleteRow.bind(this, id)}>Delete Row</button>`
+- 
 
 ## memoized
 
@@ -318,6 +340,11 @@ exports.version = ReactVersion;
 ```
 
 ```
+
+## 组件间传递数据的方式
+- context
+
+
 
 ## todo
 

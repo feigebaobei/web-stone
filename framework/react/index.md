@@ -24,9 +24,30 @@ ReactDOM.render(React.createElement('span', {}, 'string'), $('#id'))
 </div>
 ```
 ### 使用script标签引入react脚本
+v17以前的用法：
 1. 引入react脚本。
 2. 使用`React.createElement`创建元素。
 3. 使用`ReactDOM.render`渲染元素。
+   
+v18以后的用法：
+1. 引入reacte脚本
+2. 使用`React.createRoot`创建根元素`root`。
+3. 使用`root.render(reactElement对象)`渲染元素
+
+```html
+<!-- ... 其它html代码 -->
+<!-- 引入基本的react包 -->
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<!-- 引入babel包可以使用jsx。它会使你的网站变慢，并且不适用于生产环境。 -->
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<script type="text/babel">
+  function MyApp () {
+    return <p>string</p>
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(<MyApp />)
+</script>
+```
 
 ### 使用npm创建react项目
 ```shell

@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>&grave;react-18&grave;</title>
+        <title>&DiacriticalGrave;react-18&DiacriticalGrave;</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -43,8 +43,6 @@
 .task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
 </style>
         
-        <script src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
-        
     </head>
     <body class="vscode-body vscode-light">
         <h1 id="react-18"><code>react-18</code></h1>
@@ -65,17 +63,45 @@ React 只更新它需要更新的部分<br>
 <li>与之前的react元素比较。只更新不同的部分。</li>
 </ol>
 <h2 id="jsx">jsx</h2>
-<p>它是像xml的js代码。（当然也像html）。<br>
-它是js代码的语法糖，会被babel转换为js代码。如:</p>
+<ul>
+<li>它是像xml的js代码。（当然也像html）。</li>
+<li>它是js代码的语法糖，会被babel转换为js代码。如:</li>
+</ul>
 <pre><code><code><div>let str = 'string'
 &lt;span&gt;{str}&lt;/span&gt;
 =&gt;
 let str = 'string'
 React.createElement('span', {}, str)
 </div></code></code></pre>
-<p>jsx代码的本质是js Function。这些Function返回ReactElement.然后是更新组件、渲染视图。<br>
-把html中不区分大小写变为camelCase。<br>
-支持自闭合。</p>
+<ul>
+<li>在jsx中使用js代码时需要放在<code>{}</code>中</li>
+<li>jsx代码会被<code>babel</code>转化为js Function。这些Function返回ReactElement。然后是更新组件、渲染视图。</li>
+<li>把html中不区分大小写变为camelCase。</li>
+<li>支持自闭合。</li>
+<li>防止注入攻击</li>
+</ul>
+<h3 id="jsx的特殊属性">jsx的特殊属性</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>className</td>
+<td>class</td>
+<td></td>
+</tr>
+<tr>
+<td>tabIndex</td>
+<td>tabindex</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h2 id="组件">组件</h2>
 <p>没有继承，只有组合。(好像js语言中的对象委托呀！原型链就是对象委托的表现。)</p>
 <h3 id="函数组件">函数组件</h3>
@@ -111,7 +137,7 @@ setState((state, props, any) =&gt; ({k: v}))</p>
 <p>命名采用小驼峰式
 事件对应的方法的参数 e 是一个合成对象，与原生事件对象不完全相同。</p>
 <h2 id="hooks">hooks</h2>
-<p>考虑把它移到 react包 中。它是js代码的语法糖，会被babel转换为js代码。如:</p>
+<p>它是js代码的语法糖，会被babel转换为js代码。如:</p>
 <pre><code><code><div>let str = 'string'
 &lt;span&gt;{str}&lt;/span&gt;
 =&gt;
@@ -138,8 +164,13 @@ setValue(newValue)
 <p>useEffect(fn, ...listener = [])
 用于处理副作用
 在componentDidMount/componentDidUpdate/componentWillUnmount时触发。
-若fn返回一个方法则方法在御载组件是被调用。
-listener指定当哪个变量变化时触发fn.</p>
+useEffect(() =&gt; {})         =&gt; componentDidMount, componentDidUpdate
+useEffect(() =&gt; {}, [])         =&gt; componentDidMount
+useEffect(() =&gt; {}, [p])         =&gt; componentDidMount, 当p改变时
+useEffect(() =&gt; () =&gt; {})         =&gt; componentWillUnMount
+fn中不能直接使用异步方法（async/await），需要使用立即执行函数包裹异步方法。
+若fn返回一个方法则方法在御载组件时被调用。
+listener指定当哪个变量变化（使用浅复制比较）时触发fn.</p>
 <p>let value = useContext(myContext)
 接收一个 context 对象（React.createContext 的返回值）并返回该 context 的当前值。当前的 context 值由上层组件中距离当前组件最近的 &lt;MyContext.Provider&gt; 的 value prop 决定。</p>
 <p>let [state, dispatch] = useReducer(reducer, initialArg, [init])
@@ -214,55 +245,75 @@ useImperativeHandle 可以让你在使用 ref 时自定义暴露给父组件的�
     <li>
 </ul>
 <code>
-constructor() // 为了调用super()
+只能在class组件中使用
+<p>constructor() // 为了调用super()
 static getDerivedStateFromProps(nextProps, prevState)
-    它是静态方法，不能使用this。只能作一些无副作用的操作。
-    若返回一个对象，则更新state。若返回null，则不更新。
+它是静态方法，不能使用this。只能作一些无副作用的操作。
+若返回一个对象，则更新state。若返回null，则不更新。
 render()
-    class组件中必须使用的方法。
-    用于渲染dom.
-    必须返回reactDOM
-    不要在render中执行setState
+class组件中必须使用的方法。
+用于渲染dom.
+必须返回reactDOM。也就是ReactElement对象。
+不要在render中执行setState
 getSnapshotBeforeUpdate(prevProps, prevState)
-    render之后，被挂载时调用。
+render之后，被挂载时调用。
 componentDidMount()
-    挂载组件后调用
-    常用于发送网络请求。启用事件监听方法。
+挂载组件后调用
+常用于发送网络请求。启用事件监听方法。
 shouldComponentUpdate(nextProps, nextState)
-    控制是否进行更新。若返回true，则更新。否则不更新。
+控制是否进行更新。若返回true，则更新。否则不更新。
 componentDidUpdate(prevProps, prevState, snapshot)
-    更新后被调用。首次渲染不会被执行。
+更新后被调用。首次渲染不会被执行。
+当前的props和state是this.props/this.state
 componentWillUnmount()
-    在组件即将被卸载或销毁时进行调用。
+在组件即将被卸载或销毁时进行调用。
 </code>
 </pre>
-</artical>
+</artical></p>
 </details>
 <h2 id="context">context</h2>
 <details>
   <summary>hooks</summary>
 <artical>
 <pre>
-import {useState, createContext, useContext} from 'react'
-import ReactDOM from 'react-dom'
-<p>let UserContext = createContext() // 生成context对象</p>
-<p>function CP () {
-let [user, setUser] = useState('top')
-return (
-&lt;UserContext.Provider value={user}&gt; // 让context提供指定的数据
-<C1 user={user} /> // C1及其子组件都可以使用指定的数据
-&lt;/UserContext.Provider&gt;
-)
+import { createContext } from 'react'
+export let DataContext = createContext() // 在组件外生成context对象
+<p>import { useState } from &quot;react&quot;;
+import { C } from '../C/index'
+import { DataContext } from &quot;../../context&quot;;
+export function First () {
+let [data] = useState({k: 'v'})
+return (&lt;DataContext.Provider value={data}&gt; // 让context提供指定的数据
+<C></C>
+&lt;/DataContext.Provider&gt;)
 }</p>
-<p>function C1 () {
-let user = useContext(UserContext) // 使用context提供的数据
-return (&lt;&gt;
-<p>{<code>hi ${user}</code>}</p>
-&lt;/&gt;)
+<p>import { useContext } from &quot;react&quot;;
+import { DataContext } from &quot;../../context&quot;;
+export function C () {
+let data = useContext(DataContext)
+return (<div>
+{JSON.stringify(data)}
+</div>)
 }
 </pre>
 </artical></p>
 </details>
+<h2 id="state">state</h2>
+<ul>
+<li>使用<code>this.setState()</code>改变state</li>
+<li>setState是异步的。把多个setState合并为一个。</li>
+</ul>
+<p>setState(obj | (...args) =&gt; obj)</p>
+<h2 id="数据">数据</h2>
+<p>从根组件向叶子组件流动。</p>
+<h2 id="事件-1">事件</h2>
+<ul>
+<li>源码中使用<code>addEventListener()</code>添加事件。</li>
+<li>使用<code>e.preventDefault()</code>防止默认行为</li>
+<li>绑定事件示例 <code>&lt;button onClick={() =&gt; this.handleClick()}&gt;</code> <code>&lt;button onClick={this.handleClick}&gt;</code></li>
+<li>传参示例 <code>&lt;button onClick={(e) =&gt; this.deleteRow(id, e)}&gt;Delete Row&lt;/button&gt;</code> <code>&lt;button onClick={this.deleteRow.bind(this, id)}&gt;Delete Row&lt;/button&gt;</code></li>
+<li></li>
+</ul>
 <h2 id="memoized">memoized</h2>
 <details>
   <summary>memoized</summary>
@@ -314,6 +365,10 @@ return (&lt;&gt;
 <h3 id="uml">uml</h3>
 <pre><code><code><div>
 </div></code></code></pre>
+<h2 id="组件间传递数据的方式">组件间传递数据的方式</h2>
+<ul>
+<li>context</li>
+</ul>
 <h2 id="todo">todo</h2>
 <h3 id="有很多以开头的变量">有很多以<code>$$</code>开头的变量。</h3>
 <h3 id="有好多指对dev环境的检查错误">有好多指对dev环境的检查错误。</h3>
@@ -333,5 +388,7 @@ return (&lt;&gt;
 <h3 id="未来迭代计划-2">未来迭代计划。</h3>
 <h3 id="未来迭代计划-3">未来迭代计划。</h3>
 
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
     </body>
     </html>

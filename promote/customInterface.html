@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自定义接口</title>
+    <style>
+        main {
+            display: flex;
+            height: 100vh;
+            flex-wrap: wrap;
+        }
+        .title {
+            flex-basis: 100%;
+            flex-shrink: 0;
+            text-align: center;
+            color: grey;
+        }
+        .left,
+        .right {
+            flex-basis: 50%;
+        }
+    </style>
+</head>
+<body>
+<main>
+    <h2 class="title">域名： http://wushusandavercel.com:5000</h2>
+    <section class="left">
+        <h1>设置接口</h1>
+        <form>
+            <div>
+                <label for="path">path</label>
+                <input type="text" id="path" value="/forField" placeholder="请以/开头"></input>
+            </div>
+            <div>
+                <label for="method">method</label>
+                <select name="method" id="method">
+                    <option value="post">post</option>
+                    <option value="get">get</option>
+                    <!-- <option value="put">put</option>
+                    <option value="delete">delete</option> -->
+                </select>
+            </div>
+            <div>
+                <label for="queryOrBody">queryOrBody</label>
+                <input type="text" id="queryOrBody" value='{"k0":"v0","k1":"v1"}'></input>
+            </div>
+            <div>
+                <label for="data">data</label>
+                <textarea id="data" name="data" value="12" rows="10">
+{
+    "name": "tom",
+    "age": 5,
+    "id": "1234",
+    "four": null
+}
+                </textarea>
+            </div>
+            <div>
+                <button type="submit" id="submit">提交</button>
+                <button type="reset" id="reset">重置</button>
+            </div>
+        </form>
+        <div>
+            <textarea id="result" rows="20" cols="50"></textarea>
+        </div>
+    </section>
+
+    <section class="right">
+        <h1>请求接口</h1>
+        <form>
+            <div>
+                <label for="resPath">path</label>
+                <input type="text" id="resPath" value="/forField" placeholder="请以/开头"></input>
+            </div>
+            <div>
+                <label for="resMethod">method</label>
+                <select name="resMethod" id="resMethod">
+                    <option value="post">post</option>
+                    <option value="get">get</option>
+                    <!-- <option value="put">put</option>
+                    <option value="delete">delete</option> -->
+                </select>
+            </div>
+            <div>
+                <label for="resQueryOrBody">queryOrBody</label>
+                <input type="text" id="resQueryOrBody" value='{"k0":"v0","k1":"v1"}'></input>
+            </div>
+            <div>
+                <button type="submit" id="resSubmit">提交</button>
+                <button type="reset" id="resReset">重置</button>
+            </div>
+        </form>
+        <div>
+            <textarea id="resResult" rows="20" cols="50"></textarea>
+        </div>
+    </section>
+</main>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/javascript">
+        const clog = console.log
+
+        let domain = ''
+        if (window.location.href.includes('lixiaodan.org')) { // 生产
+            domain = 'http://wushusandavercel.com:5000'
+        } else { // 开发
+            domain = 'http://localhost:5000'
+        }
+
+        document.querySelector('#submit').addEventListener('click', (e) => {
+            e.preventDefault();
+            let pathValue = document.querySelector('#path').value
+            let methodValue = document.querySelector('#method').value
+            let queryOrBodyValue = document.querySelector('#queryOrBody').value
+            let dataValue = document.querySelector('#data').value
+            let resultDom = document.querySelector('#result')
+            dataValue = JSON.parse(dataValue)
+            axios(
+                {
+                    url: `${domain}/setInterface`,
+                    method: 'post',
+                    data: {
+                        path: pathValue,
+                        method: methodValue,
+                        queryOrBody: queryOrBodyValue,
+                        data: dataValue,
+                    },
+                }
+            ).then((res) => {
+                resultDom.value = '提交成功'
+            }).catch((err) => {
+                resultDom.value = JSON.stringify(res)
+            })
+        })
+
+        document.querySelector('#resSubmit').addEventListener('click', (e) => {
+            e.preventDefault();
+            let pathValue = document.querySelector('#resPath').value
+            let methodValue = document.querySelector('#resMethod').value
+            let queryOrBodyValue = document.querySelector('#resQueryOrBody').value
+            let resultDom = document.querySelector('#resResult')
+            let obj = {
+                url: `${domain}${pathValue}`,
+                method: methodValue,
+            }
+            clog(methodValue)
+            switch (methodValue) {
+                case 'get':
+                default:
+                    obj.params = queryOrBodyValue.split('&') // [k=v, ...]
+                    .reduce((r, kv) => {
+                        let [k, v] = kv.split('=')
+                        r[k] = v
+                        return r
+                    }, {})
+                    break;
+                case 'post':
+                case 'put':
+                case 'delete':
+                    obj.data = queryOrBodyValue ? JSON.parse(queryOrBodyValue) : queryOrBodyValue
+                    break;
+            }
+            axios(obj).then((res) => {
+                resultDom.value = JSON.stringify(res.data)
+            }).catch((err) => {
+                resultDom.value = JSON.stringify(res)
+            })
+        })
+
+    </script>
+</body>
+</html>

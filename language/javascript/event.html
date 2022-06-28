@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>&DiacriticalGrave;whistle&DiacriticalGrave;</title>
+        <title>&#x7ed1;&#x5b9a;&#x4e8b;&#x4ef6;</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -44,148 +44,101 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="whistle"><code>whistle</code></h1>
-<h2 id="overview">overview</h2>
-<blockquote>
-<p>基于node.js的跨平台web调试工具<br>
-description<br>
-description<br>
-description</p>
-</blockquote>
-<h3 id="feature">feature</h3>
-<ul>
-<li>websocket</li>
-<li>设置代理</li>
-<li>反向代理</li>
-<li>调试移动端bug</li>
-<li>可插件</li>
-<li>抓包</li>
-<li>修改请求</li>
-<li>修改回馈</li>
-<li>socket</li>
-</ul>
-<h2 id="install">install</h2>
-<p><code>npm i whistle -g</code></p>
-<h2 id="usage">usage</h2>
-<h3 id="启动">启动</h3>
-<h3 id="调试">调试</h3>
-<p>配置rule，如</p>
-<pre><code><code><div>https://sell-preview.guazi-apps.com/           weinre://preview
-</div></code></code></pre>
-<p>点击<code>Weinro</code>，点击<code>preview</code>。可在电脑上看到手机中访问的页面。</p>
-<h2 id="setting">setting</h2>
-<h3 id="设置电脑端">设置电脑端</h3>
-<ul>
-<li>windows</li>
-<li>mac
-<ul>
-<li>for chrome
-<ul>
-<li>intall chrome plugin whistle-for-chrome or Proxy SwitchySharp</li>
-</ul>
-</li>
-<li>for firefox
-<ul>
-<li>Open Options page in Firefox, then switch to General -&gt; Network Proxy, then set Manual proxy configuration to whistle.</li>
-</ul>
-</li>
-<li>for mobile
-<ul>
-<li>与代理连接同一个wifi。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="配置代理">配置代理</h3>
-<p>打开<code>http://local.whistlejs.com/</code>，点击<code>create</code>，输入：</p>
-<pre><code><code><div>www.ifeng.com       http://127.0.0.1
- # or
-http://127.0.0.1    www.ifeng.com
-</div></code></code></pre>
-<p>点击online可看到本机ip/port。然后在移到端上设置代理。</p>
-<h3 id="设置移动端">设置移动端</h3>
-<p>设置手机代理为用脑的ip.</p>
-<h4 id="安卓">安卓</h4>
-<p>在电脑上的浏览器中输入<code>http://127.0.0.1:8899/#rules</code>，点击<code>https</code>，使用手机浏览器扫码后下载安装证书。<br>
-或者<br>
-在手机浏览器中输入<code>rootca.pro</code>去下载证书。<br>
-然后安装证书。</p>
-<h4 id="苹果">苹果</h4>
-<p>安装证书时若需要密码，则输入手机的锁屏密码。若无锁屏密码则设置锁屏密码，然后安装。</p>
-<h2 id="api">api</h2>
-<p><code>w2 help</code> 可查看用法</p>
-<pre><code><code><div>w2 start // 启动背景服务
-w2 restart // 重启背景服务
-w2 stop // 停止背景服务
-w2 run // 启动前景服务
-
-
-  Usage: w2 &lt;command&gt; [options]
-
-
-  Commands:
-
-    status          Show the running status
-    add [filepath]  Add rules from local js file (.whistle.js by default)
-    install         Install a whistle plugin
-    uninstall       Uninstall a whistle plugin
-    exec            Exec whistle plugin command
-    run             Start a front service
-    start           Start a background service
-    stop            Stop current background service
-    restart         Restart current background service
-    help            Display help information
-
-  Options:
-
-    -h, --help                                      output usage information
-    -D, --baseDir [baseDir]                         set the configured storage root path
-    -z, --certDir [directory]                       set custom certificate store directory
-    -l, --localUIHost [hostname]                    set the domain for the web ui (local.whistlejs.com by default)
-    -L, --pluginHost [hostname]                     set the domain for the web ui of plugin  (as: &quot;script=a.b.com&amp;vase=x.y.com&quot;)
-    -n, --username [username]                       set the username to access the web ui
-    -w, --password [password]                       set the password to access the web ui
-    -N, --guestName [username]                      set the the guest name to access the web ui (can only view the data)
-    -W, --guestPassword [password]                  set the guest password to access the web ui (can only view the data)
-    -s, --sockets [number]                          set the max number of cached connections on each domain (256 by default)
-    -S, --storage [newStorageDir]                   set the configured storage directory
-    -C, --copy [storageDir]                         copy the configuration of the specified directory to a new directory
-    -c, --dnsCache [time]                           set the cache time of DNS (60000ms by default)
-    -H, --host [boundHost]                          set the bound host (INADDR_ANY by default)
-    -p, --port [proxyPort]                          set the proxy port (8899 by default)
-    -P, --uiport [uiport]                           set the webui port
-    -m, --middlewares [script path or module name]  set the express middlewares loaded at startup (as: xx,yy/zz.js)
-    -M, --mode [mode]                               set the starting mode (as: pureProxy|debug|multiEnv|capture|disableH2|network|rules|plugins|prod)
-    -t, --timeout [ms]                              set the request timeout (360000ms by default)
-    -e, --extra [extraData]                         set the extra parameters for plugin
-    -f, --secureFilter [secureFilter]               set the path of secure filter
-    -r, --shadowRules [shadowRules]                 set the shadow (default) rules
-    -R, --reqCacheSize [reqCacheSize]               set the cache size of request data (600 by default)
-    -F, --frameCacheSize [frameCacheSize]           set the cache size of webSocket and socket's frames (512 by default)
-    -A, --addon [pluginPaths]                       add custom plugin paths
-    --config [workers]                              start the cluster server and set worker number (os.cpus().length by default)
-    --cluster [config]                              load the startup config from a local file
-    --dnsServer [dnsServer]                         set custom dns servers
-    --socksPort [socksPort]                         set the socksv5 server port
-    --httpPort [httpPort]                           set the http server port
-    --httpsPort [httpsPort]                         set the https server port
-    --no-global-plugins                             do not load any globally installed plugins
-    --no-prev-options                               do not reuse the previous options when restarting
-    --inspect [[host:]port]                         activate inspector on host:port (127.0.0.1:9229 by default)
-    --inspectBrk [[host:]port]                      activate inspector on host:port and break at start of user script (127.0.0.1:9229 by default)
-    -V, --version                                   output the version number
-</div></code></code></pre>
-<h2 id="principle">principle</h2>
-<p>此包的处理逻辑。</p>
-<h3 id="uml">uml</h3>
-<pre><code><code><div></div></code></code></pre>
-<h2 id="todo">todo</h2>
-<blockquote>
-<p>未来迭代计划。
-未来迭代计划。
-未来迭代计划。</p>
-</blockquote>
+        <p>drag事件</p>
+<p>keydown：当用户按下键盘上的任意键时触发，而且如果按住不放的话，会重复触发此事件。</p>
+<p>keypress：当用户按下键盘上的字符键时触发，而且如果按住不放的话，会重复触发此事件。 按下Esc 键也会触发这个事件。Safari 3.1 之前的版本也会在用户按下非字符键时触发keypress 事件。</p>
+<p>keyup：当用户释放键盘上的键时触发。</p>
+<table>
+<thead>
+<tr>
+<th>dom的事件属性名（因html不区分大小写，所以全是小写）</th>
+<th>说明</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>onclick</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ondbclick</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>onkeyup</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>onchange</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>onfocus</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>onblur</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>onmouseover</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>onmouseout</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>onload</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>onunload</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>onsubmit</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>onreset</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="绑定事件">绑定事件</h3>
+<pre><code class="language-html"><div><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">&quot;fn()&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-comment">&lt;!-- 这里是字符串 有() --&gt;</span>
+</div></code></pre>
+<pre><code class="language-js"><div>dom.onclick = fn
+<span class="hljs-comment">// 这里是方法     无()</span>
+</div></code></pre>
 
         
         
