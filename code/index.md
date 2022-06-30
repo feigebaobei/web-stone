@@ -1,6 +1,7 @@
 ## 编码
 - encode
 - decode
+- decodeURIComponent
 - [ascii](/code/ascii.html)
 - [base64]()
 - [base32]()

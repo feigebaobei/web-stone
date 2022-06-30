@@ -18,7 +18,7 @@
 - [@reduxjs/toolkit](/jsPackages/@reduxjs-toolkit.html)
 - [lerna](/jsPackages/lerna.html)
 - [axios](/jsPackages/axios.html)
-- [title](/jsPackages/title.html)
+- [prop-types](/jsPackages/prop-types.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
