@@ -32,12 +32,15 @@ React.createElement('span', {}, str)
 - 把html中不区分大小写变为camelCase。  
 - 支持自闭合。  
 - 防止注入攻击
+- false, null, undefined, and true 是合法的子元素。但它们并不会被渲染。
+- 首字母大写。
 
 ### jsx的特殊属性
 ||||
 |-|-|-|
 |className|class||
 |tabIndex|tabindex||
+|htmlFor|for||
 
 ## 组件
 没有继承，只有组合。(好像js语言中的对象委托呀！原型链就是对象委托的表现。)
@@ -177,9 +180,10 @@ useDebugValue(value, [fn])
     <li>
     <ul>
     <li>constructor</li>
-    <li>getDerivedStateFromProps</li>
+    <li>getDerivedStateFromProps(error) 当更新state且出现错误时执行。常用于显示降级ui</li>
     <li>render</li>
     <li>componentDidMount</li>
+    <li>componentDidCatch(error, info) 当后代组件出现错误时执行</li>
     </ul>
     </li>
     <li>
@@ -344,6 +348,145 @@ exports.version = ReactVersion;
 ## 组件间传递数据的方式
 - context
 
+## 代码分割
+### 1. import()
+```
+import(...).then(...).catch(...)
+```
+
+### 2. React.lazy() 懒加载
+```js
+let OtherComponent = React.lazy(() => import(...)) // 只能导出default
+// 代码将会在组件首次渲染时，自动导入包含 OtherComponent 组件的包。
+```
+## ui优化
+Suspense
+```js
+
+```
+
+## PureComponent
+纯组件只进行简单比较props。  
+纯组件可与不可变对象结合使用。（array/object都是可变对象）  
+React.PureComponent内实现了`shouldComponentUpdate()`(React.Component中未实现)。该方法会简单判断是否需要更新。该方法会跳过所有子组件的props更新。
+
+
+## 异常捕获边界
+https://zh-hans.reactjs.org/docs/error-boundaries.html
+
+## HOC 高阶组件
+```js
+function HOC(WC, sf) {
+    return function (props) {
+        let [d, setD] = setState(sf(props))
+        let f = (o) => {
+            setD(sf({...props, ...o}))
+        }
+        return <WC d={d} onEvent={f} />
+    }
+}
+```
+
+## 提高性能
+- 使用生产版本。
+- 访问打包后的文件。
+- 打包时压缩
+- 虚拟化长列表 `react-window` 和 `react-virtualized`
+- shouldComponentUpdate阻止不必要的更新
+
+
+## Profiler API
+用于测量渲染速度。
+```js
+let renderHander = (obj) => {...}
+// obj: {
+//   id, // 发生提交的 Profiler 树的 “id”
+//   phase, // "mount" （如果组件树刚加载） 或者 "update" （如果它重渲染了）之一
+//   actualDuration, // 本次更新 committed 花费的渲染时间
+//   baseDuration, // 估计不使用 memoization 的情况下渲染整棵子树需要的时间
+//   startTime, // 本次更新中 React 开始渲染的时间
+//   commitTime, // 本次更新中 React committed 的时间
+//   interactions // 属于本次更新的 interactions 的集合
+// }
+<Profiler id="id" onRender={renderHander}><OtherComp /></Profiler>
+```
+
+## Render Props
+在若干props值中有一个是方法的props值。该props值就是render props.  (与HOC有些类似)
+```js
+function C (props) {
+    return <div>
+        {props.render(...)}
+    </div>
+}
+function P () {
+    return <C render={(...args) => {...}} />
+}
+// 若与PureComponent一起使用可以
+```
+
+## 静态类型检查
+- flow (react就是用它写的)
+- ts （ms开发的强类型js）
+- ReScript 不会
+- Kotlin 不会
+- PropTypes
+
+### PropTypes
+propTypes 仅在开发模式下进行检查。
+从react v15.5后分离出`prop-types`包。
+```js
+import PropTypes form 'prop-types'
+// 定义Comp ...
+Comp.propTypes = {
+    optionalArray: PropTypes.array,
+    optionalBool: PropTypes.bool,
+    optionalFunc: PropTypes.func,
+    optionalNumber: PropTypes.number,
+    optionalObject: PropTypes.object,
+    optionalString: PropTypes.string,
+    optionalSymbol: PropTypes.symbol,
+    optionalNode: PropTypes.node,
+    optionalElement: PropTypes.element,
+    optionalElementType: PropTypes.elementType,
+    optionalMessage: PropTypes.instanceOf(Message),
+    optionalEnum: PropTypes.oneOf(['News', 'Photos']),
+    optionalUnion: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+        PropTypes.instanceOf(Message)
+    ]),
+    optionalArrayOf: PropTypes.arrayOf(PropTypes.number),
+    optionalObjectOf: PropTypes.objectOf(PropTypes.number),
+    optionalObjectWithShape: PropTypes.shape({
+        color: PropTypes.string,
+        fontSize: PropTypes.number
+    }),
+    optionalObjectWithStrictShape: PropTypes.exact({
+        name: PropTypes.string,
+        quantity: PropTypes.number
+    }),
+    requiredFunc: PropTypes.func.isRequired,
+    requiredAny: PropTypes.any.isRequired,
+}
+```
+
+## 严格模式
+react也有自己的严格模式。
+```js
+<React.StrictMode>
+    <Comp />
+</React.StrictMode>
+```
+只检查包裹在内的元素。
+- 识别不安全的生命周期。
+- 警告过时的ref api
+- 警告过时的context api
+- 警告废弃的findDOMNode方法
+- 检测意外的副作用
+- 确保可复用的状态
+
+不要在渲染阶段的生命周期中执行副作用。
 
 
 ## todo

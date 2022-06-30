@@ -172,6 +172,21 @@ function useState(initialState) {
 }
 ```
 
+## 渲染过程
+- 渲染阶段 调用render()，再与上次渲染结果比对。尽量不要在此阶段编写副作用代码。
+  - constructor
+  - componentWillMount
+  - componentWillReceiveProps
+  - componentWillUpdate
+  - getDerivedStateFromProps
+  - shouldComponentUpdate
+  - render
+  - setState
+- 提交阶段 react应用变化时（增、删、改dom元素）。
+  - 此阶段会调用componentDidMount
+  - componentDidUpdate.
+
+
 # uml
 react/react-dom耦合地很严重，不好。
 

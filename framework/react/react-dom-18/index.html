@@ -120,6 +120,49 @@ ReactDOM.createRoot($(<span class="hljs-string">&#x27;#id&#x27;</span>)).render(
     <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>string<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>)
 }
 </div></code></pre>
+<h2 id="portal">portal</h2>
+<pre><code class="language-js"><div>ReactDOM.createPortal(child, dom)
+<span class="hljs-comment">// 把可渲染的react元素挂载到指定dom中(可以不是父组件的dom)。</span>
+</div></code></pre>
+<p>portal 仍存在于 React 树， 且与 DOM 树 中的位置无关。（这样就与合成事件呼应了）。</p>
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span> { useEffect } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;react&quot;</span>
+<span class="hljs-keyword">import</span> { createPortal } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;react-dom&quot;</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Child</span> (<span class="hljs-params">props</span>) </span>{
+    <span class="hljs-keyword">let</span> $el = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">&#x27;div&#x27;</span>)
+    <span class="hljs-keyword">let</span> bd = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">&#x27;body&#x27;</span>)
+    useEffect(<span class="hljs-function">() =&gt;</span> {
+        bd.appendChild($el)
+        <span class="hljs-keyword">return</span> <span class="hljs-function">() =&gt;</span> {
+            bd.removeChild($el)
+        }
+    })
+    <span class="hljs-keyword">return</span> createPortal(props.children, $el)
+}
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Three</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">let</span> ThreeClickHandler = <span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;Three ThreeClickHandler&#x27;</span>)
+    }
+    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{ThreeClickHandler}</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">Child</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">button</span>&gt;</span>string<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">Child</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+}
+</div></code></pre>
+<h2 id="diff">diff</h2>
+<p>O(n)</p>
+<ul>
+<li>不同类型的元素会产生不同的树。</li>
+<li>使用key属性标识在不同的渲染中可能是不变的。</li>
+</ul>
+<p>对比不同类型的元素
+当根节点为不同类型的元素时，React 会拆卸原有的树并且建立起新的树。
+对比同一类型的元素
+当对比两个相同类型的 React 元素时，React 会保留 DOM 节点，仅比对及更新有改变的属性。
+对比同类型的组件元素
+React 将更新该组件实例的 props 以保证与最新的元素保持一致，并且调用该实例的UNSAFE_componentWillReceiveProps()、UNSAFE_componentWillUpdate() 以及 componentDidUpdate() 方法。再调用 render() 方法。然后 diff 算法将在之前的结果以及新的结果中进行递归。
+对子节点进行递归
+默认情况下，当递归 DOM 节点的子元素时，React 会同时遍历两个子元素的列表；当产生差异时，生成一个 mutation。</p>
 <h2 id="principle"><a href="/framework/react/react-dom-18/principle.html">principle</a></h2>
 <h3 id="uml">uml</h3>
 <pre><code><code><div></div></code></code></pre>

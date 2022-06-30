@@ -79,6 +79,8 @@ React.createElement('span', {}, str)
 <li>把html中不区分大小写变为camelCase。</li>
 <li>支持自闭合。</li>
 <li>防止注入攻击</li>
+<li>false, null, undefined, and true 是合法的子元素。但它们并不会被渲染。</li>
+<li>首字母大写。</li>
 </ul>
 <h3 id="jsx的特殊属性">jsx的特殊属性</h3>
 <table>
@@ -98,6 +100,11 @@ React.createElement('span', {}, str)
 <tr>
 <td>tabIndex</td>
 <td>tabindex</td>
+<td></td>
+</tr>
+<tr>
+<td>htmlFor</td>
+<td>for</td>
 <td></td>
 </tr>
 </tbody>
@@ -219,9 +226,10 @@ useImperativeHandle 可以让你在使用 ref 时自定义暴露给父组件的�
     <li>
     <ul>
     <li>constructor</li>
-    <li>getDerivedStateFromProps</li>
+    <li>getDerivedStateFromProps(error) 当更新state且出现错误时执行。常用于显示降级ui</li>
     <li>render</li>
     <li>componentDidMount</li>
+    <li>componentDidCatch(error, info) 当后代组件出现错误时执行</li>
     </ul>
     </li>
     <li>
@@ -369,6 +377,130 @@ return (<div>
 <ul>
 <li>context</li>
 </ul>
+<h2 id="代码分割">代码分割</h2>
+<h3 id="1-import">1. import()</h3>
+<pre><code><code><div>import(...).then(...).catch(...)
+</div></code></code></pre>
+<h3 id="2-reactlazy-懒加载">2. React.lazy() 懒加载</h3>
+<pre><code class="language-js"><div><span class="hljs-keyword">let</span> OtherComponent = React.lazy(<span class="hljs-function">() =&gt;</span> <span class="hljs-keyword">import</span>(...)) <span class="hljs-comment">// 只能导出default</span>
+<span class="hljs-comment">// 代码将会在组件首次渲染时，自动导入包含 OtherComponent 组件的包。</span>
+</div></code></pre>
+<h2 id="ui优化">ui优化</h2>
+<p>Suspense</p>
+<pre><code class="language-js"><div>
+</div></code></pre>
+<h2 id="purecomponent">PureComponent</h2>
+<p>纯组件只进行简单比较props。<br>
+纯组件可与不可变对象结合使用。（array/object都是可变对象）<br>
+React.PureComponent内实现了<code>shouldComponentUpdate()</code>(React.Component中未实现)。该方法会简单判断是否需要更新。该方法会跳过所有子组件的props更新。</p>
+<h2 id="异常捕获边界">异常捕获边界</h2>
+<p><a href="https://zh-hans.reactjs.org/docs/error-boundaries.html">https://zh-hans.reactjs.org/docs/error-boundaries.html</a></p>
+<h2 id="hoc-高阶组件">HOC 高阶组件</h2>
+<pre><code class="language-js"><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">HOC</span>(<span class="hljs-params">WC, sf</span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">props</span>) </span>{
+        <span class="hljs-keyword">let</span> [d, setD] = setState(sf(props))
+        <span class="hljs-keyword">let</span> f = <span class="hljs-function">(<span class="hljs-params">o</span>) =&gt;</span> {
+            setD(sf({...props, ...o}))
+        }
+        <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">WC</span> <span class="hljs-attr">d</span>=<span class="hljs-string">{d}</span> <span class="hljs-attr">onEvent</span>=<span class="hljs-string">{f}</span> /&gt;</span></span>
+    }
+}
+</div></code></pre>
+<h2 id="提高性能">提高性能</h2>
+<ul>
+<li>使用生产版本。</li>
+<li>访问打包后的文件。</li>
+<li>打包时压缩</li>
+<li>虚拟化长列表 <code>react-window</code> 和 <code>react-virtualized</code></li>
+<li>shouldComponentUpdate阻止不必要的更新</li>
+</ul>
+<h2 id="profiler-api">Profiler API</h2>
+<p>用于测量渲染速度。</p>
+<pre><code class="language-js"><div><span class="hljs-keyword">let</span> renderHander = <span class="hljs-function">(<span class="hljs-params">obj</span>) =&gt;</span> {...}
+<span class="hljs-comment">// obj: {</span>
+<span class="hljs-comment">//   id, // 发生提交的 Profiler 树的 “id”</span>
+<span class="hljs-comment">//   phase, // &quot;mount&quot; （如果组件树刚加载） 或者 &quot;update&quot; （如果它重渲染了）之一</span>
+<span class="hljs-comment">//   actualDuration, // 本次更新 committed 花费的渲染时间</span>
+<span class="hljs-comment">//   baseDuration, // 估计不使用 memoization 的情况下渲染整棵子树需要的时间</span>
+<span class="hljs-comment">//   startTime, // 本次更新中 React 开始渲染的时间</span>
+<span class="hljs-comment">//   commitTime, // 本次更新中 React committed 的时间</span>
+<span class="hljs-comment">//   interactions // 属于本次更新的 interactions 的集合</span>
+<span class="hljs-comment">// }</span>
+&lt;Profiler id=<span class="hljs-string">&quot;id&quot;</span> onRender={renderHander}&gt;<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">OtherComp</span> /&gt;</span></span>&lt;/Profiler&gt;
+</div></code></pre>
+<h2 id="render-props">Render Props</h2>
+<p>在若干props值中有一个是方法的props值。该props值就是render props.  (与HOC有些类似)</p>
+<pre><code class="language-js"><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">C</span> (<span class="hljs-params">props</span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+        {props.render(...)}
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+}
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">P</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">C</span> <span class="hljs-attr">render</span>=<span class="hljs-string">{(...args)</span> =&gt;</span> {...}} /&gt;</span>
+}
+<span class="hljs-comment">// 若与PureComponent一起使用可以</span>
+</div></code></pre>
+<h2 id="静态类型检查">静态类型检查</h2>
+<ul>
+<li>flow (react就是用它写的)</li>
+<li>ts （ms开发的强类型js）</li>
+<li>ReScript 不会</li>
+<li>Kotlin 不会</li>
+<li>PropTypes</li>
+</ul>
+<h3 id="proptypes">PropTypes</h3>
+<p>propTypes 仅在开发模式下进行检查。
+从react v15.5后分离出<code>prop-types</code>包。</p>
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span> PropTypes form <span class="hljs-string">&#x27;prop-types&#x27;</span>
+<span class="hljs-comment">// 定义Comp ...</span>
+Comp.propTypes = {
+    <span class="hljs-attr">optionalArray</span>: PropTypes.array,
+    <span class="hljs-attr">optionalBool</span>: PropTypes.bool,
+    <span class="hljs-attr">optionalFunc</span>: PropTypes.func,
+    <span class="hljs-attr">optionalNumber</span>: PropTypes.number,
+    <span class="hljs-attr">optionalObject</span>: PropTypes.object,
+    <span class="hljs-attr">optionalString</span>: PropTypes.string,
+    <span class="hljs-attr">optionalSymbol</span>: PropTypes.symbol,
+    <span class="hljs-attr">optionalNode</span>: PropTypes.node,
+    <span class="hljs-attr">optionalElement</span>: PropTypes.element,
+    <span class="hljs-attr">optionalElementType</span>: PropTypes.elementType,
+    <span class="hljs-attr">optionalMessage</span>: PropTypes.instanceOf(Message),
+    <span class="hljs-attr">optionalEnum</span>: PropTypes.oneOf([<span class="hljs-string">&#x27;News&#x27;</span>, <span class="hljs-string">&#x27;Photos&#x27;</span>]),
+    <span class="hljs-attr">optionalUnion</span>: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+        PropTypes.instanceOf(Message)
+    ]),
+    <span class="hljs-attr">optionalArrayOf</span>: PropTypes.arrayOf(PropTypes.number),
+    <span class="hljs-attr">optionalObjectOf</span>: PropTypes.objectOf(PropTypes.number),
+    <span class="hljs-attr">optionalObjectWithShape</span>: PropTypes.shape({
+        <span class="hljs-attr">color</span>: PropTypes.string,
+        <span class="hljs-attr">fontSize</span>: PropTypes.number
+    }),
+    <span class="hljs-attr">optionalObjectWithStrictShape</span>: PropTypes.exact({
+        <span class="hljs-attr">name</span>: PropTypes.string,
+        <span class="hljs-attr">quantity</span>: PropTypes.number
+    }),
+    <span class="hljs-attr">requiredFunc</span>: PropTypes.func.isRequired,
+    <span class="hljs-attr">requiredAny</span>: PropTypes.any.isRequired,
+}
+</div></code></pre>
+<h2 id="严格模式">严格模式</h2>
+<p>react也有自己的严格模式。</p>
+<pre><code class="language-js"><div>&lt;React.StrictMode&gt;
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Comp</span> /&gt;</span></span>
+&lt;/React.StrictMode&gt;
+</div></code></pre>
+<p>只检查包裹在内的元素。</p>
+<ul>
+<li>识别不安全的生命周期。</li>
+<li>警告过时的ref api</li>
+<li>警告过时的context api</li>
+<li>警告废弃的findDOMNode方法</li>
+<li>检测意外的副作用</li>
+<li>确保可复用的状态</li>
+</ul>
+<p>不要在渲染阶段的生命周期中执行副作用。</p>
 <h2 id="todo">todo</h2>
 <h3 id="有很多以开头的变量">有很多以<code>$$</code>开头的变量。</h3>
 <h3 id="有好多指对dev环境的检查错误">有好多指对dev环境的检查错误。</h3>
