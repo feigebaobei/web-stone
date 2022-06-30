@@ -242,10 +242,13 @@ c.on('ready', () => {
             log('cwd', 'htdocs', err)
             throw err
         }
-        // let p = 'promote'
-        let p = [
-            'promote/customInterface.html'
-        ]
+        let p = 'webComponents'
+        // let p = [
+        //     'framework/react/react-18/index.html',
+        //     'framework/react/react-18/principle.html',
+        //     'framework/react/react-dom-18/index.html',
+        //     'framework/react/react-dom-18/principle.html',
+        // ]
         // 检测指定目录是否存在
         // checkDir(p)
         // 检测删除目录
@@ -255,23 +258,23 @@ c.on('ready', () => {
         // 测试上传单个文件
         // uploadFile(p)
         // 测试上传多个文件
-        uploadFiles(p).then(() => {
-            log('then', '全部完成')
-            c.end()
-        }).catch((err) => {
-            log('catch', err)
-            c.end()
-        })
-        // 测试创建目录
-        // makeDir(p)
-        // 测试上传一个目录
-        // uploadDir(p).then(res => {
-        //     log('全部上传完成', res)
+        // uploadFiles(p).then(() => {
+        //     log('then', '全部完成')
         //     c.end()
-        // }).catch(err => {
+        // }).catch((err) => {
         //     log('catch', err)
         //     c.end()
         // })
+        // 测试创建目录
+        // makeDir(p)
+        // 测试上传一个目录
+        uploadDir(p).then(res => {
+            log('全部上传完成', res)
+            c.end()
+        }).catch(err => {
+            log('catch', err)
+            c.end()
+        })
     })
 })
 c.on('greeting', (s) => {
