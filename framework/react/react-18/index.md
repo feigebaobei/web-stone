@@ -488,6 +488,33 @@ react也有自己的严格模式。
 
 不要在渲染阶段的生命周期中执行副作用。
 
+## 受控组件 & 非受控组件
+专用于form元素的分类。
+|受控组件|非受控组件||
+|-|-|-|
+|本组件内使用state+根据用户输入更新表单数据|使用`ref`得dom后取表单数据||
+
+```js
+// 受控组件
+this.state = {k: 'v'}
+cF(event) {
+    this.setState({k: event.target.value})
+}
+<form onSubmit={}>
+    <input type="file" value={this.state.k} onChange={this.cF} />
+</form>
+// 非受控组件
+this.fileInput = React.createRef()
+fn() {
+    clog(this.fileInput.current.file[0].name)
+}
+<form onSubmit={fn}>
+    <input type="file" ref={this.fileInput}>
+</form>
+```
+
+## [Web Components](/webComonents/index.html)
+react和web components一起使用时与react和html一起使用时一样、无差别。
 
 ## todo
 
