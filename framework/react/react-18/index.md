@@ -45,6 +45,7 @@ React.createElement('span', {}, str)
 ## 组件
 没有继承，只有组合。(好像js语言中的对象委托呀！原型链就是对象委托的表现。)
 ### 函数组件
+其上不能ref属性。因为函数组件没有实例。class组件有实例。
 ```
 (props) -> ReactElement
 funtion Clock(props) {
@@ -294,41 +295,54 @@ setState(obj | (...args) => obj)
 
 ## api
 ```js
-exports.Children = Children;
-exports.Component = Component;
-exports.Fragment = REACT_FRAGMENT_TYPE;
-exports.Profiler = REACT_PROFILER_TYPE;
-exports.PureComponent = PureComponent;
-exports.StrictMode = REACT_STRICT_MODE_TYPE;
-exports.Suspense = REACT_SUSPENSE_TYPE;
-exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = ReactSharedInternals;
-exports.cloneElement = cloneElement$1;
-exports.createContext = createContext;
-exports.createElement = createElement$1;
-exports.createFactory = createFactory;
-exports.createRef = createRef;
-exports.forwardRef = forwardRef;
-exports.isValidElement = isValidElement;
-exports.lazy = lazy;
-exports.memo = memo;
-exports.startTransition = startTransition;
-exports.unstable_act = act;
-exports.useCallback = useCallback;
-exports.useContext = useContext;
-exports.useDebugValue = useDebugValue;
-exports.useDeferredValue = useDeferredValue;
-exports.useEffect = useEffect;
-exports.useId = useId;
-exports.useImperativeHandle = useImperativeHandle;
-exports.useInsertionEffect = useInsertionEffect;
-exports.useLayoutEffect = useLayoutEffect;
-exports.useMemo = useMemo;
-exports.useReducer = useReducer;
-exports.useRef = useRef;
-exports.useState = useState;
-exports.useSyncExternalStore = useSyncExternalStore;
-exports.useTransition = useTransition;
-exports.version = ReactVersion;
+exports.Children
+exports.Component
+exports.Fragment
+exports.Profiler
+
+exports.PureComponent
+exports.StrictMode
+exports.Suspense
+    这是一个内置组件。指定懒加载组件不具备渲染条件时（使用fallback属性指定）显示的内容。
+exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED= ReactSharedInternals;
+exports.cloneElement
+exports.createContext
+exports.createElement
+exports.createFactory
+exports.createRef
+exports.forwardRef((props, ref) => {
+    <dom ref={ref}>...</dom>
+})
+    让方法式组件也支持ref属性。把ref透传下去
+exports.Fragment
+    这是一个内置组件。用于把多个子组件放在一起。
+exports.isValidElement(obj)
+    验证对象是否为react对象
+exports.lazy(() => {return Promise})
+    参数是一个方法，该方法返回一个Promise，该promise返回一个组件。
+    用于动态加载组件。可缩减bundle的体积。
+exports.memo(Comp)
+    当props、useState/useReducer/useContext改变时重新渲染组件
+exports.startTransition(fn)
+    明确指定降低ui更新优先级的更新。
+exports.unstable_act
+exports.useCallback
+exports.useContext
+exports.useDebugValue
+exports.useDeferredValue
+exports.useEffect
+exports.useId
+exports.useImperativeHandle
+exports.useInsertionEffect
+exports.useLayoutEffect
+exports.useMemo
+exports.useReducer
+exports.useRef
+    （方法组件上不能使用ref属性）
+exports.useState
+exports.useSyncExternalStoreuseSyncExternalStore;
+exports.useTransition
+exports.version
 ```
 
 ## [principle](/framework/react/react-18/principle.md)
@@ -360,10 +374,10 @@ let OtherComponent = React.lazy(() => import(...)) // 只能导出default
 // 代码将会在组件首次渲染时，自动导入包含 OtherComponent 组件的包。
 ```
 ## ui优化
-Suspense
-```js
-
-```
+- `<React.Suspense/> + React.lazy()`  
+- React.memo(Comp)  
+- React.PureComponent  
+- shouldComponentUpdate  
 
 ## PureComponent
 纯组件只进行简单比较props。  
