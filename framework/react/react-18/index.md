@@ -46,10 +46,14 @@ React.createElement('span', {}, str)
 没有继承，只有组合。(好像js语言中的对象委托呀！原型链就是对象委托的表现。)
 ### 函数组件
 其上不能ref属性。因为函数组件没有实例。class组件有实例。
-```
+```js
+import PropTypes from 'prop-types'
 (props) -> ReactElement
 funtion Clock(props) {
     return ... // ReactElement
+}
+Clock.propTypes = {
+    k: PropTypes.string
 }
 // props是只读的。
 // state 是私有的，并且完全受控于当前组件。
@@ -57,7 +61,8 @@ funtion Clock(props) {
 组件名称必须以大写字母开头。
 
 ### class组件
-```
+```js
+import PropTypes from 'prop-types'
 class ComponentName extends React.Component {
     constructor(props) {
         super(props);
@@ -70,6 +75,12 @@ class ComponentName extends React.Component {
         return ... // ReactElement
     }
 }
+ComponentName.propTypes = {
+    k: PropTypes.string
+}
+ComponentName.defaultProps = { // 类组件可以设置默认props值。方法组件不可以。
+    k: 'v'
+}
 ```
 setState({k: v})
 setState((state, props, any) => ({k: v}))
@@ -80,9 +91,58 @@ setState((state, props, any) => ({k: v}))
 ```
 name等属性会在props中。
 
+### 不同点
+
+|class组件|方法组件||
+|-|-|-|
+|有实例|无实例||
+|会创建一个类，|不会创建类，只是数据的管道。||
+|可使用生命周期方法，|不可使用||
+|不可使用|可使用hook||
+|可设置defaultProps|不可设置||
+|有displayName属性|无||
+|this.props|props||
+|this.state|-||
+|必有render()|无||
+|constructor|无||
+||||
+||||
+||||
+||||
+||||
+||||
+||||
+
+
 ## 事件
 命名采用小驼峰式
-事件对应的方法的参数 e 是一个合成对象，与原生事件对象不完全相同。
+事件对应的方法的参数 e 是一个合成对象`SyntheticEvent`，与原生事件对象不完全相同。
+
+- 源码中使用`addEventListener()`添加事件。
+- 使用`e.preventDefault()`防止默认行为
+- 绑定事件示例 `<button onClick={() => this.handleClick()}>` `<button onClick={this.handleClick}>`
+- 传参示例 `<button onClick={(e) => this.deleteRow(id, e)}>Delete Row</button>` `<button onClick={this.deleteRow.bind(this, id)}>Delete Row</button>`
+- 
+
+||||
+|-|-|-|
+|剪贴板事件|||
+|复合事件|||
+|键盘事件|||
+|焦点事件|||
+|表单事件|||
+|通用事件|||
+|鼠标事件|||
+|指针事件|||
+|选择事件|||
+|触摸事件|||
+|ui事件|||
+|滚轮事件|||
+|媒体事件|||
+|图像事件|||
+|动画事件|||
+|过滤事件|||
+|其他事件|||
 
 ## hooks
 它是js代码的语法糖，会被babel转换为js代码。如:
@@ -179,33 +239,32 @@ useDebugValue(value, [fn])
 <ul>
     <li>挂载</li>
     <li>
-    <ul>
-    <li>constructor</li>
-    <li>getDerivedStateFromProps(error) 当更新state且出现错误时执行。常用于显示降级ui</li>
-    <li>render</li>
-    <li>componentDidMount</li>
-    <li>componentDidCatch(error, info) 当后代组件出现错误时执行</li>
-    </ul>
+        <ul>
+            <li>constructor</li>
+            <li>getDerivedStateFromProps(error) 当更新state且出现错误时执行。可用于显示降级ui</li>
+            <li>render</li>
+            <li>componentDidMount</li>
+            <li>componentDidCatch(error, info) 当后代组件出现错误时执行</li>
+        </ul>
     </li>
     <li>
     <li>更新</li>
     <li>
-    <ul>
-    <li>getDerivedStateFromProps</li>
-    <li>shouldComponentUpdate</li>
-    <li>render</li>
-    <li>getSnapshotBeforeUpdate</li>
-    <li>componentDidUpdate</li>
-    </ul>
+        <ul>
+            <li>getDerivedStateFromProps</li>
+            <li>shouldComponentUpdate</li>
+            <li>render</li>
+            <li>getSnapshotBeforeUpdate</li>
+            <li>componentDidUpdate</li>
+        </ul>
     </li>
     <li>
     <li>卸载</li>
     <li>
-    <ul>
-    <li>componentDidUnmount</li>
-    </ul>
+        <ul>
+            <li>componentDidUnmount</li>
+        </ul>
     </li>
-    <li>
 </ul>
 <code>
 只能在class组件中使用
@@ -275,13 +334,6 @@ setState(obj | (...args) => obj)
 
 ## 数据
 从根组件向叶子组件流动。  
-
-## 事件
-- 源码中使用`addEventListener()`添加事件。
-- 使用`e.preventDefault()`防止默认行为
-- 绑定事件示例 `<button onClick={() => this.handleClick()}>` `<button onClick={this.handleClick}>`
-- 传参示例 `<button onClick={(e) => this.deleteRow(id, e)}>Delete Row</button>` `<button onClick={this.deleteRow.bind(this, id)}>Delete Row</button>`
-- 
 
 ## memoized
 
