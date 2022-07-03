@@ -147,9 +147,13 @@ var p = new Proxy(o, {
     get: (target, propKey, receiver) => {
         if (propKey.startsWith('_')) {
             return new Error('私有方法不能被外部访问')
-        } elss {
+        } else {
             return target[propKey]
         }
+    },
+    set: (target, propKey, value, receiver) {
+        target[propKey] = value
+        return true // 在严格模式下，set时必须返回true，否则会报错。
     }
 })
 console.log(p.a)
@@ -162,7 +166,7 @@ var proxy = new Proxy(target, handler)
 target: Object,
 handler: 控制对象。
     {
-        get(target, propKey, receiver) // receiver 读操作所在的对象
+        get(target, propKey, receiver) // receiver 读操作所在的Proxy对象
         set(target, propKey, value, receiver)
         has(target, propKey)
         deleteProperty(target, propKey)
@@ -198,7 +202,7 @@ Reflect.getPrototypeOf(target)
 Reflect.setPrototypeOf(target, prototype)
 ```
 ## demo for 观察者模式
-```
+```js
 let queuedObservers = new Set()
 let handler = {
     set: (target, key, value, receiver) => {
@@ -217,6 +221,55 @@ let observedObj = observable(obj)
 let print = () => (console.log('print'))
 observe(print)
 observedObj.a = 0
+
+// 我整理的代码
+let clog = console.log
+class Observable {
+constructor(o) {
+    this.proxyObj = new Proxy(o, {
+    get: (target, key, receiver) => {
+        return target[key]
+    },
+    set: (target, key, value, receiver) => {
+        target[key] = value
+        this.observerList.forEach((v, k) => {
+        k.fn(target)
+        })
+        return true
+    }
+    })
+    this.observerList = new Map()
+}
+addObserver (fn) {
+    this.observerList.set(fn, Symbol())
+}
+removeObserver (fn) {
+    this.observerList.delete(fn)
+}
+set (k, v) {
+    this.proxyObj[k] = v
+}
+get(k) {
+    return this.proxyObj[k]
+}
+}
+let origin = {}
+let o = new Observable(origin)
+let a = {
+fn: (p) => {
+    clog('a fn', p)
+}
+}
+let b = {
+fn: (p) => {
+    clog('b fn', p)
+}
+}
+o.addObserver(a)
+o.addObserver(b)
+o.set('k', 'v')
+o.set('k1', 'v1')
+clog(o.get('k'))
 ```
 
 # 宏任务 & 微任务
@@ -291,7 +344,34 @@ function isPromise(obj) {
 因宏任务是宿主环境的，微任务是js语言的。所以宏任务执行一个，微任务执行一堆。  
 
 # Symbol
-内置了`Symbol.iterator`属性
+内置了`Symbol.iterator`属性  
+用于表示独一无二的值
+```js
+// 用法
+Symbol(p?: string)
+Symbol('string')
+Symbol.for('string')
+
+let s = Symbol('str') // symbol => string
+String(s) // 'Symbol(str)'
+// symbol不能转化为number
+
+```
+||||||
+|-|-|-|-|-|
+|Symbol#description|返回描述||||
+|Symbol.for(desc)|若存在相同的desc则返回已经存在的symbol，否则新建一个symbol再返回|全局惟一，与在哪个module无关。|||
+|Symbol.keyFor(desc)|返回一个已登记的symbol的desc||||
+
+js内置了很多symbol的属性。
+
+
+||||||
+||||||
+||||||
+||||||
+||||||
+
 
 # Generator & Iterator
 ## Iterator
@@ -629,10 +709,6 @@ dom.classList.toggle(s) // 若存在则删除，否不存在则添加。
 |system||||||  
 
 详见[模块化](/language/javascript/modularity.html)
-
-# title
-# title
-# title
 
 
 

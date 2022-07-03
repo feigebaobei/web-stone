@@ -109,7 +109,7 @@ var n = 0 // 定义
 <h2 id="变量提升">变量提升</h2>
 <p>function、var都会触发变量提升。
 先提升function，再提升var。且存在变量覆盖。</p>
-<h1 id="事件"><a href="/language/html/event.html">事件</a></h1>
+<h1 id="事件"><a href="/language/javascript/event.html">事件</a></h1>
 <h1 id="原型链"><a href="/confuse/jsPrototypeChain.pptx">原型链</a></h1>
 <p>使用对象的<code>[[prototype]]</code>属性原型链上源的对象。
 原型链中的对象使用<code>[[prototype]]</code>属性“串联”起彼此。
@@ -245,9 +245,13 @@ var p = new Proxy(o, {
     get: (target, propKey, receiver) =&gt; {
         if (propKey.startsWith('_')) {
             return new Error('私有方法不能被外部访问')
-        } elss {
+        } else {
             return target[propKey]
         }
+    },
+    set: (target, propKey, value, receiver) {
+        target[propKey] = value
+        return true // 在严格模式下，set时必须返回true，否则会报错。
     }
 })
 console.log(p.a)
@@ -259,7 +263,7 @@ this指向handler。因为this指向运行时上下文环境。</p>
 target: Object,
 handler: 控制对象。
     {
-        get(target, propKey, receiver) // receiver 读操作所在的对象
+        get(target, propKey, receiver) // receiver 读操作所在的Proxy对象
         set(target, propKey, value, receiver)
         has(target, propKey)
         deleteProperty(target, propKey)
@@ -296,25 +300,74 @@ Reflect.getPrototypeOf(target)
 Reflect.setPrototypeOf(target, prototype)
 </div></code></code></pre>
 <h2 id="demo-for-观察者模式">demo for 观察者模式</h2>
-<pre><code><code><div>let queuedObservers = new Set()
-let handler = {
-    set: (target, key, value, receiver) =&gt; {
-        let result = Reflect.set(target, key, value, receiver)
-        queuedObservers.forEach(observer =&gt; observer())
-        return result
+<pre><code class="language-js"><div><span class="hljs-keyword">let</span> queuedObservers = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Set</span>()
+<span class="hljs-keyword">let</span> handler = {
+    <span class="hljs-attr">set</span>: <span class="hljs-function">(<span class="hljs-params">target, key, value, receiver</span>) =&gt;</span> {
+        <span class="hljs-keyword">let</span> result = <span class="hljs-built_in">Reflect</span>.set(target, key, value, receiver)
+        queuedObservers.forEach(<span class="hljs-function"><span class="hljs-params">observer</span> =&gt;</span> observer())
+        <span class="hljs-keyword">return</span> result
     }
 }
-let observable = obj =&gt; {
-    return new Proxy(obj, handler)
+<span class="hljs-keyword">let</span> observable = <span class="hljs-function"><span class="hljs-params">obj</span> =&gt;</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Proxy</span>(obj, handler)
 }
-let observe = fn =&gt; queuedObservers.add(fn)
+<span class="hljs-keyword">let</span> observe = <span class="hljs-function"><span class="hljs-params">fn</span> =&gt;</span> queuedObservers.add(fn)
 
-let obj = {a: 's'}
-let observedObj = observable(obj)
-let print = () =&gt; (console.log('print'))
+<span class="hljs-keyword">let</span> obj = {<span class="hljs-attr">a</span>: <span class="hljs-string">&#x27;s&#x27;</span>}
+<span class="hljs-keyword">let</span> observedObj = observable(obj)
+<span class="hljs-keyword">let</span> print = <span class="hljs-function">() =&gt;</span> (<span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;print&#x27;</span>))
 observe(print)
-observedObj.a = 0
-</div></code></code></pre>
+observedObj.a = <span class="hljs-number">0</span>
+
+<span class="hljs-comment">// 我整理的代码</span>
+<span class="hljs-keyword">let</span> clog = <span class="hljs-built_in">console</span>.log
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Observable</span> </span>{
+<span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">o</span>)</span> {
+    <span class="hljs-built_in">this</span>.proxyObj = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Proxy</span>(o, {
+    <span class="hljs-attr">get</span>: <span class="hljs-function">(<span class="hljs-params">target, key, receiver</span>) =&gt;</span> {
+        <span class="hljs-keyword">return</span> target[key]
+    },
+    <span class="hljs-attr">set</span>: <span class="hljs-function">(<span class="hljs-params">target, key, value, receiver</span>) =&gt;</span> {
+        target[key] = value
+        <span class="hljs-built_in">this</span>.observerList.forEach(<span class="hljs-function">(<span class="hljs-params">v, k</span>) =&gt;</span> {
+        k.fn(target)
+        })
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>
+    }
+    })
+    <span class="hljs-built_in">this</span>.observerList = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Map</span>()
+}
+addObserver (fn) {
+    <span class="hljs-built_in">this</span>.observerList.set(fn, <span class="hljs-built_in">Symbol</span>())
+}
+removeObserver (fn) {
+    <span class="hljs-built_in">this</span>.observerList.delete(fn)
+}
+set (k, v) {
+    <span class="hljs-built_in">this</span>.proxyObj[k] = v
+}
+<span class="hljs-function"><span class="hljs-title">get</span>(<span class="hljs-params">k</span>)</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.proxyObj[k]
+}
+}
+<span class="hljs-keyword">let</span> origin = {}
+<span class="hljs-keyword">let</span> o = <span class="hljs-keyword">new</span> Observable(origin)
+<span class="hljs-keyword">let</span> a = {
+<span class="hljs-attr">fn</span>: <span class="hljs-function">(<span class="hljs-params">p</span>) =&gt;</span> {
+    clog(<span class="hljs-string">&#x27;a fn&#x27;</span>, p)
+}
+}
+<span class="hljs-keyword">let</span> b = {
+<span class="hljs-attr">fn</span>: <span class="hljs-function">(<span class="hljs-params">p</span>) =&gt;</span> {
+    clog(<span class="hljs-string">&#x27;b fn&#x27;</span>, p)
+}
+}
+o.addObserver(a)
+o.addObserver(b)
+o.set(<span class="hljs-string">&#x27;k&#x27;</span>, <span class="hljs-string">&#x27;v&#x27;</span>)
+o.set(<span class="hljs-string">&#x27;k1&#x27;</span>, <span class="hljs-string">&#x27;v1&#x27;</span>)
+clog(o.get(<span class="hljs-string">&#x27;k&#x27;</span>))
+</div></code></pre>
 <h1 id="宏任务--微任务">宏任务 &amp; 微任务</h1>
 <h2 id="宏任务由宿主发起">宏任务，由宿主发起。</h2>
 <p>script 可理解为外层代码
@@ -377,7 +430,58 @@ return new Promise((s, j) =&gt; {
 代码从上到下执行。遇到同步代码则依次序执行。遇到宏任务不执行，放入宏任务队列。遇到微任务不执行，入入微任务队列。执行完所有同步代码后执行一个宏任务队列中的宏任务，然后执行完所有微任务。再执行宏任务队列中的一个宏任务，再执行所有微任务。直到宏任务队列为空/微任务队列为空。
 因宏任务是宿主环境的，微任务是js语言的。所以宏任务执行一个，微任务执行一堆。</p>
 <h1 id="symbol">Symbol</h1>
-<p>内置了<code>Symbol.iterator</code>属性</p>
+<p>内置了<code>Symbol.iterator</code>属性<br>
+用于表示独一无二的值</p>
+<pre><code class="language-js"><div><span class="hljs-comment">// 用法</span>
+<span class="hljs-built_in">Symbol</span>(p?: string)
+<span class="hljs-built_in">Symbol</span>(<span class="hljs-string">&#x27;string&#x27;</span>)
+<span class="hljs-built_in">Symbol</span>.for(<span class="hljs-string">&#x27;string&#x27;</span>)
+
+<span class="hljs-keyword">let</span> s = <span class="hljs-built_in">Symbol</span>(<span class="hljs-string">&#x27;str&#x27;</span>) <span class="hljs-comment">// symbol =&gt; string</span>
+<span class="hljs-built_in">String</span>(s) <span class="hljs-comment">// &#x27;Symbol(str)&#x27;</span>
+<span class="hljs-comment">// symbol不能转化为number</span>
+
+</div></code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Symbol#description</td>
+<td>返回描述</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Symbol.for(desc)</td>
+<td>若存在相同的desc则返回已经存在的symbol，否则新建一个symbol再返回</td>
+<td>全局惟一，与在哪个module无关。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Symbol.keyFor(desc)</td>
+<td>返回一个已登记的symbol的desc</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>js内置了很多symbol的属性。</p>
+<p>||||||
+||||||
+||||||
+||||||
+||||||</p>
 <h1 id="generator--iterator">Generator &amp; Iterator</h1>
 <h2 id="iterator">Iterator</h2>
 <p>它是一个遍历器。
@@ -630,6 +734,46 @@ return n &lt;&lt; m
 <li><a href="/language/javascript/set.html">set</a></li>
 <li><a href="/language/javascript/map.html">map</a></li>
 </ul>
+<h1 id="js-操作-dom">js 操作 dom</h1>
+<pre><code class="language-js"><div><span class="hljs-comment">// 创建</span>
+<span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">&#x27;tag&#x27;</span>)
+<span class="hljs-comment">// 查</span>
+<span class="hljs-comment">// 节点的访问关系都是属性。而节点的操作都是函数（方法）。</span>
+<span class="hljs-built_in">document</span>.querySelector(p)
+<span class="hljs-built_in">document</span>.getElementById(id)
+<span class="hljs-built_in">document</span>.getElementByClassName(className)
+<span class="hljs-built_in">document</span>.getElementByTagName(tagName) <span class="hljs-comment">// eg h1</span>
+dom.parentElement <span class="hljs-comment">// 获取父节点</span>
+dom.children[index] <span class="hljs-comment">// 获取指定下标的子节点</span>
+dom.childNodes <span class="hljs-comment">// 包括纯文本等节点</span>
+dom.firstElementChild
+dom.lastElementChild
+dom.nextElementSibling <span class="hljs-comment">// 获取下一个兄弟节点</span>
+dom.previousElementSibling <span class="hljs-comment">// 获取上一个兄弟节点</span>
+formFieldDom.value
+<span class="hljs-comment">// 改</span>
+dom.innerText = <span class="hljs-string">&#x27;sss&#x27;</span>
+dom.innerHTML = <span class="hljs-string">&#x27;html代码&#x27;</span> <span class="hljs-comment">// 会覆盖</span>
+dom.style[cssKey] = <span class="hljs-string">&#x27;value&#x27;</span>
+dom.setAttribute(key, value) <span class="hljs-comment">// 如input设置了disable属性后，与其值无关，都是不可使用</span>
+dom.getAttribute(key)
+dom[attrKey] = value
+<span class="hljs-comment">// 删</span>
+dom.removeChild(childDom)
+dom.removeAttribute(key)
+<span class="hljs-comment">// 增</span>
+dom.appendChild(childDom)
+dom.insertBefore(newDom, matterDom)
+<span class="hljs-comment">// 复制</span>
+dom.cloneNode(bool<span class="hljs-comment">/*是否复制其子节点*/</span>)
+<span class="hljs-comment">// 替换</span>
+dom.replaceChild(newDom, oldDom)
+<span class="hljs-comment">// class</span>
+dom.classList.remove(s)
+dom.classList.add(s)
+dom.classList.contain(s)
+dom.classList.toggle(s) <span class="hljs-comment">// 若存在则删除，否不存在则添加。</span>
+</div></code></pre>
 <h1 id="对象">对象</h1>
 <ul>
 <li>本地对象
@@ -669,9 +813,6 @@ return n &lt;&lt; m
 |iife||||||
 |system||||||</p>
 <p>详见<a href="/language/javascript/modularity.html">模块化</a></p>
-<h1 id="title">title</h1>
-<h1 id="title-1">title</h1>
-<h1 id="title-2">title</h1>
 
         
         
