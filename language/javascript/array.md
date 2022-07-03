@@ -184,7 +184,7 @@ fn，必填，返回boolean值。
         return item < 0
     }) // -6
 
-**findIndex(function (item, index, arr) => {})** 返回第一个符合条件的数组元素的位置。  
+**findIndex(function (item, index, arr) => {})** 返回第一个符合条件的数组元素的位置。若不符合则返回-1。  
 
     [3, 3, 5, -6, 12].findIndex((item, index, arr) => {
         return item < 0

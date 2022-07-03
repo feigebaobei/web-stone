@@ -43,8 +43,6 @@
 .task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
 </style>
         
-        <script src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
-        
     </head>
     <body class="vscode-body vscode-light">
         <h1 id="html">html</h1>
@@ -791,10 +789,16 @@
 <td>#A52A2A</td>
 <td>Brown</td>
 </tr>
+<tr>
+<td>仅有 16 种颜色名被 W3C 的 HTML 4.0 标准支持，它们是：aqua、black、blue、fuchsia、gray、green、lime、maroon、navy、olive、purple、red、silver、teal、white、yellow。</td>
+<td></td>
+</tr>
+<tr>
+<td>还有其他颜色名被浏览器支持。</td>
+<td></td>
+</tr>
 </tbody>
 </table>
-<p>仅有 16 种颜色名被 W3C 的 HTML 4.0 标准支持，它们是：aqua、black、blue、fuchsia、gray、green、lime、maroon、navy、olive、purple、red、silver、teal、white、yellow。
-还有其他颜色名被浏览器支持。</p>
 <h2 id="安全颜色">安全颜色</h2>
 <p>216种 跨平台 web 安全色被用来确保：当计算机使用 256 色调色板时，所有的计算机能够正确地显示所有的颜色。
 从00开始每次加33.</p>
@@ -1086,7 +1090,7 @@ dom.classList.contain(<span class="hljs-string">&#x27;nc&#x27;</span>) <span cla
 </tr>
 <tr>
 <td>defer</td>
-<td>通知浏览器在文档解析完成后、DOMContentLoaded事件前执行。</td>
+<td>通知浏览器在文档解析完成后执行、DOMContentLoaded事件前执行。</td>
 <td></td>
 <td></td>
 <td></td>
@@ -1119,8 +1123,26 @@ dom.classList.contain(<span class="hljs-string">&#x27;nc&#x27;</span>) <span cla
 <td></td>
 <td><code>no-referrer</code>/<code>no-referrer-when-downgrade</code>/<code>origin</code>/<code>origin-when-cross-origin</code>/<code>same-origin</code>/<code>strict-origin</code>/<code>strict-origin-when-cross-origin</code>/<code>unsafe-url</code></td>
 </tr>
+<tr>
+<td>preload</td>
+<td>解决脚本的cors问题</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>type</td>
+<td>module / text/babel</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
 </tbody>
 </table>
+<pre><code class="language-js"><div><span class="hljs-keyword">let</span> script = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">&#x27;script&#x27;</span>)
+script.src = <span class="hljs-string">&#x27;name.js&#x27;</span>
+<span class="hljs-built_in">document</span>.querySelect(<span class="hljs-string">&#x27;body&#x27;</span>).appendChild(script)
+</div></code></pre>
 <h2 id="meta">meta</h2>
 <p><code>&lt;meta&gt;</code> 元素可提供有关页面的元信息（meta-information），比如针对搜索引擎和更新频度的描述和关键词。
 放在<code>&lt;header&gt;</code>内。</p>
@@ -2528,5 +2550,7 @@ source.onmessage = function(event) {
   </pre>
 </details>
 
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
     </body>
     </html>

@@ -31,7 +31,8 @@
 
 ## 工厂模式
 
-抽象了创建具体对象的过程。就是使用工厂函数。
+抽象了创建具体对象的过程。就是使用工厂函数。  
+该模式就是为了创建对象。  
 
 ```
 function createPerson (name, age, job) {
@@ -266,7 +267,7 @@ circle.draw()
 
 策略模式可看作为if/else判断的另一种表现形式，在达到相同目的的同时，减少了代码量以及代码维护成本。  
 分离算法的使用、算法的实现。  
-```
+```js
 // demo0
 var realize = {
     first: () => {},
@@ -320,12 +321,50 @@ Validator.prototype.test = (rules) => {
   }
   return valid
 }
+
+// 重写demo1
+class Validator {
+  constructor () {
+    this.rulesMap = new Map()
+    this.rulesMap.set('required', function (value, options) {
+      let reg = /^\s*|\s*$/g
+      let res = null
+      if (value.replace(reg, '')) {
+        return res
+      } else {
+        return {
+          rule: 'inquired',
+          message: options.message
+        }
+      }
+    })
+  }
+  addRule(ruleKey, fn) {
+    this.rulesMap.set(ruleKey, fn)
+  }
+  validate(value, useRules = []) {
+    let vRes = null
+    for (let i = 0; i < useRules.length; i++) {
+      let curRule = useRules[i] // {rule, message}
+      let vF = this.rulesMap(curRule.rule)
+      if (vF) {
+        vRes = vF(value, curRule)
+      }
+      break
+    }
+    return vRes
+  }
+}
+// 使用
+let validator = new Validator()
+validator(value, useRules) // result
 ```
 
 ## 模板方法模式
 
 模板方法模式由二部分组成，第一部分是抽象父类，第二部分是具体实现的子类。
 在子类中的方法修改父类中的方法。
+很像抽象类。
 基本实践过程如下：
 ```
 function SaveData () {}
@@ -366,15 +405,18 @@ SaveUser.prototype.check = (name) => {
                  observer
 ```
 
-```
+```js
 // use function
 function Public () {
-  this.subs = []
-  this.addSub = (item) => {
-    this.subs.push(item)
+  this.subs = new Map()
+  this.addSub = (item) => { // 添加订阅者
+    this.subs.set(item, Simple())
   }
-  this.notice = () => {
-    this.subs.map(itme => item.compile())
+  this.removeSub = (item) => {
+    this.subs.delete(item)
+  }
+  this.notice = () => { // 通知所有的订阅者，然后调用订阅者的指定方法。
+    this.subs.keys().map(item => item.compile())
   }
 }
 function Sub () {
@@ -386,22 +428,15 @@ function Sub () {
 // use class format
 class Subject {
   constructor () {
-    this.observers = []
+    this.observers = new Map
   }
   add(...observer) {
-    this.observers.push(...observer)
+    observer.forEach(item => {
+      this.observers.set(item, Simple())
+    })
   }
   remove(observer) {
-    let index = -1
-    this.observers.some((item, i) => {
-      if (item === observer) { // 这里可能需要优化
-        index = i
-        return true
-      }
-    })
-    if (index > -1) {
-      this.observers.splice(index, 1)
-    }
+    this.observers.delete(observer)
   }
   notify() {
     this.observers.forEach(item => item.update())
@@ -599,6 +634,7 @@ ModuleFn.publicFn1()
 ## 命令模式
 
 执行一个执行某些特定事情的指令。像是封装了一个方法。  
+把需要重用的逻辑封装为一个方法，再在需要的地方调用此方法。  
 
 ```
 // 如下代码上的四个按钮 点击事件
@@ -686,7 +722,7 @@ c.add(command3);
 
 也叫缓存模式。在一个栈中保存多个状态。当需要返回前一个状态时，从栈中弹出一状态。直到栈为空。
 
-```
+```js
 class Memo {
   constructor () {
     this.state = new Map()
@@ -704,15 +740,18 @@ class Memo {
   }
   // 弹出最后一个状态
   pop () {
-    let lastKey = this.stateKeyList[this.stateKeyList.length - 1]
+    let lastKey = this.stateKeyList.pop()
     let state = this.peek(lastKey)
     this.delState(lastKey)
     return state
   }
   // 删除指定的状态
   delState (key) {
-    this.stateKeyList.splice(this.stateKeyList.findIndex(item => item === key), 1)
-    this.state.delete(Symbol.for(key))
+    let index = this.stateKeyList.findIndex(item => item === key)
+    if (index > -1) {
+      this.stateKeyList.splice(index, 1)
+      this.state.delete(Symbol.for(key))
+    }
   }
   // 查看所有状态
   allState () {
@@ -891,6 +930,97 @@ game.operate(p0, p1, 'xxx')
 1. 利用解释器类解析文法中表示的想要的意图,解决并实现对应的需求.
 2. 将一些特定类型的问题, 提供一种更简单的文法表示, 来解决对应的问题.
 3. 将一些重复出现的问题,用一种简单的语言来进行表达.
+
+## 环形模式
+这是我定义的模式。在读一起开源项目时发现常这么使用。  
+有点像环形链表。  
+```js
+let o = {
+  k: 'v'
+}
+o.origin = o
+export default o
+```
+
+## 回调模式
+把一个方法a传入另一个方法b。在某时刻是调用方法a.  
+在子组件改变父组件的数据时常用这种方法。   
+```js
+let fn = (cb) => {
+  // 某时刻执行
+  if (expression) {
+    cb()
+  }
+}
+```
+
+## 惰性模式
+把懒函数整理为一种设计模式
+```js
+// 定义
+let fn = () => {
+  // 若干环境判断
+  return () => {
+    ...
+  }
+}
+// 使用
+let fa = fn()
+fa()
+```
+
+## 沙箱模式
+该模式提供了一个可用于模块运行的环境。yui中就使用了此模式。  
+从全量模块中取出指定的模块。  
+书上写的太繁琐了，下面我整理的简单的。  
+```js
+// es5
+let allModules = {
+  a: fn,
+  b: fn,
+  c: fn,
+  d: fn,
+}
+let sandbox = (modulesName) => {
+  let res = {}
+  modulesName.forEach(name => {
+    res[name] = allModules[name]
+  })
+  return res
+}
+let instance = sandbox(['a', 'b', 'c'])
+
+// es6
+import * as all from './allModules'
+export default {
+  a: all.a
+  b: all.b
+  c: all.c
+}
+```
+
+## 链模式
+```js
+class O {
+  constructor() {...}
+  a: () => {
+    ...
+    return this
+  }
+  b: () => {
+    ...
+    return this
+  }
+  c: () => {
+    ...
+    return this
+  }
+}
+let o = new O()
+o.a().b().c()
+```
+
+
 
 ## 总结
 在实际运行中常会用于多种设计模式，也会用到设计模式的变种。  
