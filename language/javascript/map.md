@@ -12,13 +12,13 @@ null不能成为键名。
 |size|数量|||
 |clear()|删除所有kv|||
 |delete(key)|若该map对象中有key，则删除key及其值返回true。若该map对象中没有key，则返回false。|||
-|entries()|返回一个iterator对象，其值为[key, value]|||
-|forEach(callback(item, index, arr)[, thisArg])||||
+|keys()|返回一个iterator对象，其值为key。|常与for...of一起使用||
+|values()|返回一个iterator对象，其值为value。|常与for...of一起使用||
+|entries()|返回一个iterator对象，其值为[key, value]|常与for...of一起使用|for (let [key, value] of map.entries() {...}|
+|forEach(callback(item, index, arr)[, thisArg])|||
 |get(key)|若存在key，则返回其对应的值。若不存在key，则返回其undefined。|||
 |has(key)|返回是否包含key。|比较算法和Object.is()几乎一样。||
 |set(key, value)|设置该map对象key对应的value。|||
-|keys()|返回一个iterator对象，其值为key。|||
-|values()|返回一个iterator对象，其值为value。|||
 
 **Map => Array**  
 
@@ -65,15 +65,15 @@ null不能成为键名。
     var clone = new Map(othermap)
     var merged = new Map([...map0, ...map1, ...map2])
 
-#WeakMap
+# WeakMap
 
 1. 只能设置对象为key.  
 2. 对对象的引用是弱引用。  
 3. 常用于解决内存泄漏问题。  
 
-**WeakMap.prototype.length**  
-**WeakMap.prototype.prototype** // WeakMap对象  
-**WeakMap.prototype.set(obj, value)**  
 **WeakMap.prototype.get(obj)**  
+**WeakMap.prototype.set(obj, value)**  
 **WeakMap.prototype.has(obj)**  
 **WeakMap.prototype.delete(obj)**  
+
+没有遍历weakmap的方法
