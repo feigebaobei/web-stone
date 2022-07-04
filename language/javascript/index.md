@@ -426,7 +426,7 @@ for (let [k, v] of map)
 ### 遍历器对象
 ```js
 {
-    next() => any 
+    next() => any  // 必须要有此属性。
     return: any    // 完成遍历前清理或释放资源
     throw: error
 }
@@ -437,6 +437,15 @@ for (let [k, v] of map)
 - 扩展运算符`...`
 - `yield *`
 - 遍历结构，如`for...of / Array.from / Map() / Set() / WeakMap() / WeakSet() / Promise.all() / Promise.race()`
+
+### 为obj设置iterator接口
+```js
+let a = [1, 2, 3]
+let o = {
+    [Symbol.iterator]: a[Symbol.iterator].bind(a)
+}
+```
+不建议这么做。使用专有的可遍历数据结构处理iterator更好。`o.a = a`.  
 
 ## Generator
 Generator 函数
@@ -449,7 +458,7 @@ Generator 函数
 - 是分段执行的，yield表达式是暂停执行的标记，而`next()`可以恢复执行。
 - 可以用于定义iterator接口。
 
-```
+```js
 // 开关机
 function * helloWorldGenerator() {
     let t = true
@@ -561,9 +570,58 @@ function spawn(genF) {
 ```
 
 # decorator
-- 可以用于装饰类、类的方法。不可用于装饰方法。因为方法会被变量提升。类、类的方法不会提升。
+- 可以用于装饰类、类的属性。不可用于装饰方法。因为方法会被变量提升。类、类的属性不会提升。
 - 当前仍再更新。
 - 装饰器是一个方法。参数有3个target:被装饰的对象（类或类的方法），name:被装饰的属性名，descriptor:属性描述符对象。
+- 需要增强已有功能时使用。如本地验证用户登录后再执行某项功能。  
+- 有点像高阶函数、代理。  
+- 编译时运行。  
+
+```js
+// no.1
+function testable(target) {
+    // target.isTestable = true
+    target.prototype.isTestable = true
+}
+@testable
+class C {...}
+let o = new C() // 使用被装饰过的类
+// no.2
+function readonly (target, name, description) {
+    // description: {
+    //     value,
+    //     enumerable,
+    //     configurable,
+    //     writable
+    // }
+    description.wriable = false
+}
+class P {
+    @readonly
+    skills() {...}
+}
+let p = new P()
+p.skills = () => {...} // 不可被重新赋值
+// no.3
+function log (target, name, descriptor) {
+    let oldValue = descriptor.value
+    descriptor.value = (...args) => {
+        console.log(`args: ${args}`)
+        return oldValue.apply(null, args)
+    }
+    return descriptor
+}
+```
+
+常用包
+- core-decorators.js  
+- Trait
+
+装饰器的种类
+- 类  
+- 类的属性（public, private, and static）  
+- 类的方法（public, private, and static）  
+- 属性存取器（accessor）（public, private, and static）
 
 ## 应用
 - 身份认证

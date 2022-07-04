@@ -28,7 +28,8 @@
 }
 
 </style>
-        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -530,7 +531,7 @@ for (let [k, v] of map)
 </div></code></code></pre>
 <h3 id="遍历器对象">遍历器对象</h3>
 <pre><code class="language-js"><div>{
-    next() =&gt; any 
+    next() =&gt; any  <span class="hljs-comment">// 必须要有此属性。</span>
     <span class="hljs-attr">return</span>: any    <span class="hljs-comment">// 完成遍历前清理或释放资源</span>
     <span class="hljs-attr">throw</span>: error
 }
@@ -542,6 +543,13 @@ for (let [k, v] of map)
 <li><code>yield *</code></li>
 <li>遍历结构，如<code>for...of / Array.from / Map() / Set() / WeakMap() / WeakSet() / Promise.all() / Promise.race()</code></li>
 </ul>
+<h3 id="为obj设置iterator接口">为obj设置iterator接口</h3>
+<pre><code class="language-js"><div><span class="hljs-keyword">let</span> a = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]
+<span class="hljs-keyword">let</span> o = {
+    [<span class="hljs-built_in">Symbol</span>.iterator]: a[<span class="hljs-built_in">Symbol</span>.iterator].bind(a)
+}
+</div></code></pre>
+<p>不建议这么做。使用专有的可遍历数据结构处理iterator更好。<code>o.a = a</code>.</p>
 <h2 id="generator">Generator</h2>
 <p>Generator 函数</p>
 <ul>
@@ -554,55 +562,55 @@ for (let [k, v] of map)
 <li>是分段执行的，yield表达式是暂停执行的标记，而<code>next()</code>可以恢复执行。</li>
 <li>可以用于定义iterator接口。</li>
 </ul>
-<pre><code><code><div>// 开关机
-function * helloWorldGenerator() {
-    let t = true
-    while (true) {
-        yield t = !t
+<pre><code class="language-js"><div><span class="hljs-comment">// 开关机</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> * <span class="hljs-title">helloWorldGenerator</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">let</span> t = <span class="hljs-literal">true</span>
+    <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>) {
+        <span class="hljs-keyword">yield</span> t = !t
     }
 }
-var hw = helloWorldGenerator();
-console.log(hw.next()) // 多执行几次
+<span class="hljs-keyword">var</span> hw = helloWorldGenerator();
+<span class="hljs-built_in">console</span>.log(hw.next()) <span class="hljs-comment">// 多执行几次</span>
 
-// 生成fibonacci数列
-function * getFibonacci(num = 10) {
-    let t = 0;
-    let [pre, cur] = [0, 1]
-    while (t++ &lt; num) {
-        yield cur
-        let q = cur
+<span class="hljs-comment">// 生成fibonacci数列</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> * <span class="hljs-title">getFibonacci</span>(<span class="hljs-params">num = <span class="hljs-number">10</span></span>) </span>{
+    <span class="hljs-keyword">let</span> t = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">let</span> [pre, cur] = [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>]
+    <span class="hljs-keyword">while</span> (t++ &lt; num) {
+        <span class="hljs-keyword">yield</span> cur
+        <span class="hljs-keyword">let</span> q = cur
         cur = q + pre
         pre = q
     }
 }
-function getFibArr (num = 10) {
-    return Array.from(getFibonacci(num))
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getFibArr</span> (<span class="hljs-params">num = <span class="hljs-number">10</span></span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Array</span>.from(getFibonacci(num))
 }
-// 平化数组
-function * faltmizeArr(arr, isDeepFirst = true) {
-    if (isDeepFirst) {
-        for(let ele of arr) {
-            if (Array.isArray(ele)) {
-                yield * faltmizeArr(ele)
-            } else {
-                yield ele
+<span class="hljs-comment">// 平化数组</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> * <span class="hljs-title">faltmizeArr</span>(<span class="hljs-params">arr, isDeepFirst = <span class="hljs-literal">true</span></span>) </span>{
+    <span class="hljs-keyword">if</span> (isDeepFirst) {
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> ele <span class="hljs-keyword">of</span> arr) {
+            <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Array</span>.isArray(ele)) {
+                <span class="hljs-keyword">yield</span> * faltmizeArr(ele)
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-keyword">yield</span> ele
             }
         }
-    } else {
-        let s = []
-        for (let ele of arr) {
-            if (Array.isArray(ele)) {
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">let</span> s = []
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> ele <span class="hljs-keyword">of</span> arr) {
+            <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Array</span>.isArray(ele)) {
                 s.push(...ele)
-            } else {
-                yield ele
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-keyword">yield</span> ele
             }
         }
-        if (s.length) {
-            yield * faltmizeArr(s, isDeepFirst)
+        <span class="hljs-keyword">if</span> (s.length) {
+            <span class="hljs-keyword">yield</span> * faltmizeArr(s, isDeepFirst)
         }
     }
 }
-</div></code></code></pre>
+</div></code></pre>
 <h3 id="generatorreturn">Generator#return</h3>
 <h3 id="generatorthrow">Generator#throw</h3>
 <p>generator方法的实例可执行<code>throw()</code>。然后在generator方法中catch一次错误，若再执行实例的<code>throw()</code>，则generator方法不catch，则实例所在环境catch.</p>
@@ -659,9 +667,58 @@ function spawn(genF) {
 </div></code></code></pre>
 <h1 id="decorator">decorator</h1>
 <ul>
-<li>可以用于装饰类、类的方法。不可用于装饰方法。因为方法会被变量提升。类、类的方法不会提升。</li>
+<li>可以用于装饰类、类的属性。不可用于装饰方法。因为方法会被变量提升。类、类的属性不会提升。</li>
 <li>当前仍再更新。</li>
 <li>装饰器是一个方法。参数有3个target:被装饰的对象（类或类的方法），name:被装饰的属性名，descriptor:属性描述符对象。</li>
+<li>需要增强已有功能时使用。如本地验证用户登录后再执行某项功能。</li>
+<li>有点像高阶函数、代理。</li>
+<li>编译时运行。</li>
+</ul>
+<pre><code class="language-js"><div><span class="hljs-comment">// no.1</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">testable</span>(<span class="hljs-params">target</span>) </span>{
+    <span class="hljs-comment">// target.isTestable = true</span>
+    target.prototype.isTestable = <span class="hljs-literal">true</span>
+}
+@testable
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">C</span> </span>{...}
+<span class="hljs-keyword">let</span> o = <span class="hljs-keyword">new</span> C() <span class="hljs-comment">// 使用被装饰过的类</span>
+<span class="hljs-comment">// no.2</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">readonly</span> (<span class="hljs-params">target, name, description</span>) </span>{
+    <span class="hljs-comment">// description: {</span>
+    <span class="hljs-comment">//     value,</span>
+    <span class="hljs-comment">//     enumerable,</span>
+    <span class="hljs-comment">//     configurable,</span>
+    <span class="hljs-comment">//     writable</span>
+    <span class="hljs-comment">// }</span>
+    description.wriable = <span class="hljs-literal">false</span>
+}
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">P</span> </span>{
+    @readonly
+    <span class="hljs-function"><span class="hljs-title">skills</span>(<span class="hljs-params"></span>)</span> {...}
+}
+<span class="hljs-keyword">let</span> p = <span class="hljs-keyword">new</span> P()
+p.skills = <span class="hljs-function">() =&gt;</span> {...} <span class="hljs-comment">// 不可被重新赋值</span>
+<span class="hljs-comment">// no.3</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">log</span> (<span class="hljs-params">target, name, descriptor</span>) </span>{
+    <span class="hljs-keyword">let</span> oldValue = descriptor.value
+    descriptor.value = <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`args: <span class="hljs-subst">${args}</span>`</span>)
+        <span class="hljs-keyword">return</span> oldValue.apply(<span class="hljs-literal">null</span>, args)
+    }
+    <span class="hljs-keyword">return</span> descriptor
+}
+</div></code></pre>
+<p>常用包</p>
+<ul>
+<li>core-decorators.js</li>
+<li>Trait</li>
+</ul>
+<p>装饰器的种类</p>
+<ul>
+<li>类</li>
+<li>类的属性（public, private, and static）</li>
+<li>类的方法（public, private, and static）</li>
+<li>属性存取器（accessor）（public, private, and static）</li>
 </ul>
 <h2 id="应用">应用</h2>
 <ul>
@@ -814,7 +871,7 @@ dom.classList.toggle(s) <span class="hljs-comment">// 若存在则删除，否�
 |system||||||</p>
 <p>详见<a href="/language/javascript/modularity.html">模块化</a></p>
 
-        
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
     </body>
     </html>
