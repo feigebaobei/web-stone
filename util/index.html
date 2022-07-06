@@ -44,55 +44,45 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <code>
-        // let createDebounceFn = (fn, t = 250) => {
-        //     let id
-        //     return (...rest) => {
-        //         clearTimeout(id)
-        //         id = setTimeout(() => {
-        //             fn(...rest)
-        //         }, t)
-        //     }
-        // }
-        let fn = (a, b) => {
-            console.log('fn', a, b)
-        }
-        // let dbFn = createDebounceFn(fn)
-        // document.querySelector('#box').addEventListener('mousemove', () => dbFn('1', 2))
-<pre><code>    let createThrottleFn = (fn, t = 250) =&gt; {
-        let prev = new Date().getTime()
-        return (...rest) =&gt; {
-            let now = new Date().getTime()
-            if (now - prev &gt; t) {
-                fn(...rest)
-                prev = now
-            }
+        <pre><code class="language-js"><div><span class="hljs-comment">// 去抖</span>
+<span class="hljs-keyword">let</span> createDebounceFn = <span class="hljs-function">(<span class="hljs-params">fn, t = <span class="hljs-number">250</span></span>) =&gt;</span> {
+    <span class="hljs-keyword">let</span> id
+    <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">...rest</span>) =&gt;</span> {
+        <span class="hljs-built_in">clearTimeout</span>(id)
+        id = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+            fn(...rest)
+        }, t)
+    }
+}
+<span class="hljs-comment">// 节流</span>
+<span class="hljs-keyword">let</span> createThrottleFn = <span class="hljs-function">(<span class="hljs-params">fn, t = <span class="hljs-number">250</span></span>) =&gt;</span> {
+    <span class="hljs-keyword">let</span> prev = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().getTime()
+    <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">...rest</span>) =&gt;</span> {
+        <span class="hljs-keyword">let</span> now = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().getTime()
+        <span class="hljs-keyword">if</span> (now - prev &gt; t) {
+            fn(...rest)
+            prev = now
         }
     }
-    let thFn = createThrottleFn(fn, 400)
-    document.querySelector('#box').addEventListener('mousemove', thFn)
-
-
-  // 未解码
-  let parseUrlQS = (url = window.location.href) =&gt; {
-    let index = url.indexOf('?')
-    let qs = url.slice(index)
-    qs = qs.slice(1)
-    if (qs) {
-      let res = qs.split('&amp;') // [k=v, ...]
-      .reduce((r, c) =&gt; {
-        let [k, v] = c.split('=')
-        r[k] = v
-        return r
-      }, {})
-      return res
-    } else {
-      return {}
-    }
+}
+<span class="hljs-comment">// 解释查询字符串</span>
+<span class="hljs-keyword">let</span> parseUrlQS = <span class="hljs-function">(<span class="hljs-params">url = <span class="hljs-built_in">window</span>.location.href</span>) =&gt;</span> {
+  <span class="hljs-keyword">let</span> index = url.indexOf(<span class="hljs-string">&#x27;?&#x27;</span>)
+  <span class="hljs-keyword">let</span> qs = url.slice(index)
+  qs = qs.slice(<span class="hljs-number">1</span>)
+  <span class="hljs-keyword">if</span> (qs) {
+    <span class="hljs-keyword">let</span> res = qs.split(<span class="hljs-string">&#x27;&amp;&#x27;</span>) <span class="hljs-comment">// [k=v, ...]</span>
+    .reduce(<span class="hljs-function">(<span class="hljs-params">r, c</span>) =&gt;</span> {
+      <span class="hljs-keyword">let</span> [k, v] = c.split(<span class="hljs-string">&#x27;=&#x27;</span>)
+      r[k] = v
+      <span class="hljs-keyword">return</span> r
+    }, {})
+    <span class="hljs-keyword">return</span> res
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">return</span> {}
   }
-</code></pre>
-</code>
-<pre><code class="language-js"><div><span class="hljs-comment">// 获取数据类型</span>
+}
+<span class="hljs-comment">// 获取数据类型</span>
 <span class="hljs-keyword">let</span> getType = <span class="hljs-function">(<span class="hljs-params">o</span>) =&gt;</span> <span class="hljs-built_in">Object</span>.prototype.toString.call(o).slice(<span class="hljs-number">8</span>, -<span class="hljs-number">1</span>)
 <span class="hljs-comment">// 深复制对象</span>
 <span class="hljs-keyword">let</span> cloneDeep = <span class="hljs-function">(<span class="hljs-params">p, c = {}</span>) =&gt;</span> {
@@ -131,6 +121,35 @@
 }
 <span class="hljs-comment">// 判断是否是promise对象</span>
 <span class="hljs-keyword">let</span> isPromise = <span class="hljs-function">(<span class="hljs-params">obj</span>) =&gt;</span> (<span class="hljs-keyword">typeof</span> obj.then === <span class="hljs-string">&#x27;function&#x27;</span>)
+<span class="hljs-comment">// 生成fibonacci数列</span>
+
+<span class="hljs-comment">// 开关机</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> * <span class="hljs-title">genSwitch</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">let</span> t = <span class="hljs-literal">true</span>
+    <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>) {
+        <span class="hljs-keyword">yield</span> t = !t
+    }
+}
+<span class="hljs-built_in">console</span>.log(hw.next()) <span class="hljs-comment">// 多执行几次</span>
+
+<span class="hljs-comment">// 生成fibonacci数列</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> * <span class="hljs-title">getFibonacci</span>(<span class="hljs-params">num = <span class="hljs-number">10</span></span>) </span>{
+    <span class="hljs-keyword">let</span> t = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">let</span> [pre, cur] = [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>]
+    <span class="hljs-keyword">while</span> (t++ &lt; num) {
+        <span class="hljs-keyword">yield</span> cur
+        <span class="hljs-keyword">let</span> q = cur
+        cur = q + pre
+        pre = q
+    }
+}
+
+
+
+
+
+
+
 </div></code></pre>
 
         
