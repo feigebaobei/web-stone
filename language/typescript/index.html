@@ -62,7 +62,7 @@ ts是静态类型检测器。<br>
 <li>在开发过程中发现潜在问题。</li>
 </ul>
 <h2 id="install">install</h2>
-<p><code>npm i typescript</code><br>
+<p><code>npm i -g typescript</code><br>
 该包是要ts语言的转译器。在命令行中使用<code>tsc</code>调用转译功能。</p>
 <h2 id="usage">usage</h2>
 <p>dome详见<a href="https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html">官网</a></p>
@@ -109,8 +109,8 @@ Demo.getInstance() <span class="hljs-comment">// instance</span>
 <span class="hljs-keyword">let</span> gn = <span class="hljs-keyword">new</span> GN&lt;<span class="hljs-built_in">string</span>&gt;()
 </div></code></pre>
 <h3 id="使用命令行">使用命令行</h3>
+<p>把ts转化为js。</p>
 <pre><code class="language-shell"><div>tsc hello.ts
-
 </div></code></pre>
 <h2 id="编译器">编译器</h2>
 <ul>
@@ -167,11 +167,6 @@ Demo.getInstance() <span class="hljs-comment">// instance</span>
 </tr>
 </tbody>
 </table>
-<details>
-  <summary>数据类型</summary>
-<code>
-</code>
-</details>
 <h2 id="数据类型">数据类型</h2>
 <table>
 <thead>
@@ -626,6 +621,59 @@ function f(o: O) {...}
   [Property <span class="hljs-keyword">in</span> keyof T <span class="hljs-keyword">as</span> <span class="hljs-string">`get<span class="hljs-subst">${Property}</span>`</span>]: <span class="hljs-function">() =&gt;</span> T&lt;Property&gt;
 }
 </div></code></pre>
+<h2 id="class">class</h2>
+<pre><code class="language-ts"><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">P</span> </span>{
+  <span class="hljs-attr">x</span>: <span class="hljs-built_in">number</span>;
+  y: <span class="hljs-built_in">number</span>;
+}
+<span class="hljs-comment">// demo</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">G</span> </span>{
+  <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>;
+  <span class="hljs-keyword">readonly</span> one: <span class="hljs-built_in">string</span> = <span class="hljs-string">&#x27;one&#x27;</span>;
+  _two = <span class="hljs-number">0</span>;
+  [s: <span class="hljs-built_in">string</span>]: <span class="hljs-built_in">boolean</span> | (<span class="hljs-function">(<span class="hljs-params">s: <span class="hljs-built_in">string</span></span>) =&gt;</span> <span class="hljs-built_in">boolean</span>) <span class="hljs-comment">// 布尔值或返回布尔值的方法</span>
+  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">name: <span class="hljs-built_in">string</span></span>)</span> {
+    <span class="hljs-built_in">this</span>.name = name
+  }
+  f (p: <span class="hljs-built_in">boolean</span>): <span class="hljs-built_in">void</span> {...}
+  <span class="hljs-keyword">get</span> <span class="hljs-title">two</span>() {<span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>._two}
+  <span class="hljs-keyword">set</span> <span class="hljs-title">two</span>(<span class="hljs-params">v</span>) {<span class="hljs-built_in">this</span>._two = v} <span class="hljs-comment">// 若不设置set，则默认为readonly</span>
+}
+<span class="hljs-comment">// implements</span>
+<span class="hljs-keyword">interface</span> P {
+  a(): <span class="hljs-built_in">void</span>;
+}
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">A</span> <span class="hljs-title">implements</span> <span class="hljs-title">P</span> </span>{
+  <span class="hljs-function"><span class="hljs-title">a</span>(<span class="hljs-params"></span>)</span> {...}
+}
+<span class="hljs-comment">// 扩展</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">D</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">A</span> </span>{
+  <span class="hljs-function"><span class="hljs-title">f</span>(<span class="hljs-params"></span>)</span> {...}
+  <span class="hljs-comment">// 重写</span>
+  <span class="hljs-function"><span class="hljs-title">a</span>(<span class="hljs-params"></span>)</span> {...}
+}
+<span class="hljs-comment">// member visibility</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">G</span> </span>{
+  <span class="hljs-keyword">public</span> a () {...} <span class="hljs-comment">// 可被实例访问。默认为public</span>
+  <span class="hljs-keyword">protected</span> b () {...} <span class="hljs-comment">// 受保护的，只能在本类内或子类内使用。可继承。</span>
+  <span class="hljs-keyword">private</span> c = <span class="hljs-number">0</span> <span class="hljs-comment">// 只能在本类内使用</span>
+  <span class="hljs-keyword">static</span> d = <span class="hljs-number">0</span> <span class="hljs-comment">//  只能在本类上或其后代类上使用。</span>
+  <span class="hljs-keyword">abstract</span> e(): <span class="hljs-built_in">string</span> <span class="hljs-comment">// 抽象方法</span>
+  <span class="hljs-comment">// 被abstract修改的方法是抽象方法，有抽象方法的class是抽象类。抽象类不能被实例化，只能其他类继承。</span>
+}
+</div></code></pre>
+<h2 id="modules">modules</h2>
+<p>ems</p>
+<pre><code class="language-ts"><div><span class="hljs-comment">// 输出无变化</span>
+<span class="hljs-comment">// 输入</span>
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> {A, B} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../path.ts&#x27;</span>
+<span class="hljs-keyword">import</span> {<span class="hljs-keyword">type</span> A, <span class="hljs-keyword">type</span> B} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../path.ts&#x27;</span>
+</div></code></pre>
+<p>commonjs
+需要添加<code>*.d.ts</code>文件，否则tsc不知道类型。</p>
+<pre><code class="language-ts"><div>modules.export {...}
+<span class="hljs-keyword">let</span> {a} = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;...&#x27;</span>)
+</div></code></pre>
 <h2 id="使用ts写一个项目">使用ts写一个项目</h2>
 <p>ts是一种js的方言。以前使用js怎么写项目，现在使用ts就怎么写项目。区别在于写一些ts特有的东西。如：配置文件。<br>
 <a href="/typescript/demo.html">demo for ts</a></p>
@@ -691,6 +739,12 @@ function f(o: O) {...}
 使用<code>/// &lt;reference types=&quot;...&quot; /&gt;</code>引入其他声明。
 有此文件后可在编辑器中进行溯源。
 写<code>*.js / *.d.ts</code>还不如写<code>*.ts</code>.</p>
+<h3 id="ts--js">ts &amp; js</h3>
+<p>ts就是为js增加了很多类。但是又不承认，非说ts是js的超集。</p>
+<ul>
+<li>定义对象中的方法时使用<code>:</code></li>
+<li>class可以不实现全interface.</li>
+</ul>
 
         <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         

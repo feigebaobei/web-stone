@@ -19,14 +19,24 @@
     </script> -->
     <script>
       let clog = console.log
-      let fa = (a) => {
-        clog('fa', this, args)
+      
+      let gen = function * () {
+        yield 1
       }
-      let o = {k: 'v'}
-      let fb = fa.bind(o)
-      let fc = fa.bind(o, 'a', 'b')
-      clog(fb)
-      clog(fc)
+      clog(gen())
+      let iterator = () => {
+        return {
+          next: () => {
+            return {value: 1, done: false}
+          }
+        }
+      }
+      clog(iterator())
+      let a = [1]
+      clog(a[Symbol.iterator]())
+
+
+
     </script>
   </body>
 </html>

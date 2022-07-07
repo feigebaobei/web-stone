@@ -60,6 +60,7 @@
             <div>
                 <button type="submit" id="submit">提交</button>
                 <button type="reset" id="reset">重置</button>
+                <button type="button" id="clearReset">请空结果</button>
             </div>
         </form>
         <div>
@@ -90,6 +91,7 @@
             <div>
                 <button type="submit" id="resSubmit">提交</button>
                 <button type="reset" id="resReset">重置</button>
+                <button type="button" id="resClearReset">请空结果</button>
             </div>
         </form>
         <div>
@@ -108,6 +110,13 @@
         } else { // 开发
             domain = 'http://localhost:5000'
         }
+
+        document.querySelector('#clearReset').addEventListener('click', (e) => {
+            document.querySelector('#result').value = ''
+        })
+        document.querySelector('#resClearReset').addEventListener('click', (e) => {
+            document.querySelector('#resResult').value = ''
+        })
 
         document.querySelector('#submit').addEventListener('click', (e) => {
             e.preventDefault();

@@ -14,7 +14,7 @@
 - 在开发过程中发现潜在问题。
 
 ## install
-`npm i typescript`  
+`npm i -g typescript`  
 该包是要ts语言的转译器。在命令行中使用`tsc`调用转译功能。
 
 
@@ -67,9 +67,9 @@ let gn = new GN<string>()
 ```
 
 ### 使用命令行
+把ts转化为js。  
 ```shell
 tsc hello.ts
-
 ```
 
 ## 编译器
@@ -87,12 +87,6 @@ tsc hello.ts
 |||||
 |||||
 
-<details>
-  <summary>数据类型</summary>
-<code>
-  
-</code>
-</details>
 
 ## 数据类型
 |||||||
@@ -310,9 +304,63 @@ type D<T> = {
 }
 ```
 
+## class
+```ts
+class P {
+  x: number;
+  y: number;
+}
+// demo
+class G {
+  name: string;
+  readonly one: string = 'one';
+  _two = 0;
+  [s: string]: boolean | ((s: string) => boolean) // 布尔值或返回布尔值的方法
+  constructor(name: string) {
+    this.name = name
+  }
+  f (p: boolean): void {...}
+  get two() {return this._two}
+  set two(v) {this._two = v} // 若不设置set，则默认为readonly
+}
+// implements
+interface P {
+  a(): void;
+}
+class A implements P {
+  a() {...}
+}
+// 扩展
+class D extends A {
+  f() {...}
+  // 重写
+  a() {...}
+}
+// member visibility
+class G {
+  public a () {...} // 可被实例访问。默认为public
+  protected b () {...} // 受保护的，只能在本类内或子类内使用。可继承。
+  private c = 0 // 只能在本类内使用
+  static d = 0 //  只能在本类上或其后代类上使用。
+  abstract e(): string // 抽象方法
+  // 被abstract修改的方法是抽象方法，有抽象方法的class是抽象类。抽象类不能被实例化，只能其他类继承。
+}
+```
 
-
-
+## modules
+ems
+```ts
+// 输出无变化
+// 输入
+import type {A, B} from '../path.ts'
+import {type A, type B} from '../path.ts'
+```
+commonjs
+需要添加`*.d.ts`文件，否则tsc不知道类型。
+```ts
+modules.export {...}
+let {a} = require('...')
+```
 
 
 
@@ -366,4 +414,10 @@ ts是一种js的方言。以前使用js怎么写项目，现在使用ts就怎么
 使用`/// <reference types="..." />`引入其他声明。
 有此文件后可在编辑器中进行溯源。
 写`*.js / *.d.ts`还不如写`*.ts`.
+
+### ts & js
+ts就是为js增加了很多类。但是又不承认，非说ts是js的超集。  
+- 定义对象中的方法时使用`:`  
+- class可以不实现全interface.
+
 
