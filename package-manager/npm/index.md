@@ -153,6 +153,7 @@ require方法不能把全局安装的文件引入。若使用`npm link packagena
 |unpkg|上所有的文件都开启 cdn 服务地址|||
 |engineStrict|不会||||
 |preferGlobal|不会||||
+|types|指定类型文件的目录||||
 
 ### 注册cli的逻辑
 在package.json中定义`bin`字段。npm会根据该字段创建一个软链接。若使用全局安装，则安装在`/home/turbo/.nvm/versions/node/v14.16.1/bin/`。若使用局部安装，则安装在`./node_modules/.bin/`
