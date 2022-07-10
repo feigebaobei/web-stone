@@ -94,6 +94,14 @@ function * getFibonacci(num = 10) {
         pre = q
     }
 }
+// 阻止事件
+let preventEvent = (e, isStop = true, isPrevent = true) => {
+  isStop && e.stopPropagation() // 阻止冒泡
+  isPrevent && e.preventDefault() // 阻止默认事件
+}
+
+
+
 
 
 

@@ -139,6 +139,14 @@
         pre = q
     }
 }
+<span class="hljs-comment">// 阻止事件</span>
+<span class="hljs-keyword">let</span> preventEvent = <span class="hljs-function">(<span class="hljs-params">e, isStop = <span class="hljs-literal">true</span>, isPrevent = <span class="hljs-literal">true</span></span>) =&gt;</span> {
+  isStop &amp;&amp; e.stopPropagation() <span class="hljs-comment">// 阻止冒泡</span>
+  isPrevent &amp;&amp; e.preventDefault() <span class="hljs-comment">// 阻止默认事件</span>
+}
+
+
+
 
 
 
