@@ -2,7 +2,7 @@
 netstat -ntlp # 查看端口
 ```
 # 介绍linux
-# title
+# [环境变量](/linux/path.html)
 # title
 # title
 # title

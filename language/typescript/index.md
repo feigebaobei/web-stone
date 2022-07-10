@@ -7,6 +7,7 @@
 > ts比js更强大。已经有很多前端库使用此语言了。  
 > ts是静态类型检测器。  
 > 它就是强类型的js。它的所有功能都是为了类型服务的。  
+> ts把interface/type都叫做类型
 
 ### feature
 - 类型注解
@@ -304,6 +305,24 @@ type D<T> = {
 }
 ```
 
+## enum 枚举
+列出所有可选项。  
+它是一个真实的对象。实现了k/v互相映射。  
+init后不能改变。  
+（既然是处理映射关系了，还不能改变。map对象也是处理映射关系的）  
+```ts
+enum D {
+  Up = 1, // 若有明确的值，则其后的值无明确值，则递增。
+  Down, Left, Right
+}
+```
+- 若是数字，则递增。
+- 若非数字，则需要明确写出每个枚举值。
+- 建议不使用异构枚举。（考虑和元组、interface、type）  
+
+### const枚举
+在编译阶段删除该对象，且不能访问该枚举对象，只能访问该枚举对象成员。常量枚举的成员只能是常量枚举表达式，不可以使用计算值
+
 ## class
 ```ts
 class P {
@@ -362,16 +381,68 @@ modules.export {...}
 let {a} = require('...')
 ```
 
+## 操作类的工具方法
+都在大写开头。
+```ts
+// 通式
+fn<type>
+```
 
+|||||
+|-|-|-|-|
+|`Partial<Type>`|把所有key设置为可选类型|||
+|`Required<Type>`|把所有key设置为必填类型|||
+|`Readonly<Type>`|把所有key设置为只读类型|||
+|`Record<Keys, Type>`|把指定的key设置为type类型|||
+|`Pick<Type, Keys>`|从type中取出指定的key|||
+|`Omit<Type, Keys>`|从type中去掉指定的key|||
+|`Exclude<UnionType, ExcludedMembers>`|从指定的联合类型中取消指定的联合类型|||
+|`Extract<Type, Union>`|取从type/union的交集|||
+|`NonNullable<Type>`|去掉type中的null/undefined|||
+|`Parameters<Type>`|取出指定方法类型中的参数|||
+|`ConstructorParameters<Type>`|不会|||
+|`RetureType<Type>`|获取方法类型的返回的数据类型|||
+|`InstanceType<Type>`|不会|||
+|`ThisParameter<Type>`|不会|||
+|`OmitThisParameter<Type>`|不会|||
+|`ThisType<Type>`|不会|||
+|`Uppercase<Type>`|返回全大写|||
+|`Lowercase<Type>`|返回全小写|||
+|`Capitalize<Type>`|首字段大写|||
+|`Uncapitalize<Type>`|首字段小写|||
 
+## 命名空间（内部模块）
+若重复，则合并。
+```ts
+// defined
+namespace A {
+  export class C {}
+}
+// 可嵌套
+namespace A {
+  export namespace B {
+    export class C {}
+    export class D {}
+  }
+}
+// 引入
+/// <reference path="name.ts" />
+// usage
+class B {
+  k: A.C
+}
+```
+### 别名
+```ts
+namespace N {...}
+import newName = N.K
+let k = new newName()
+```
 
+### 外部命名空间
 
-
-
-
-
-
-
+## [Declaration](/language/typescript/declaration.html)
+*.d.ts文件
 
 ## 使用ts写一个项目
 ts是一种js的方言。以前使用js怎么写项目，现在使用ts就怎么写项目。区别在于写一些ts特有的东西。如：配置文件。  
@@ -420,4 +491,10 @@ ts就是为js增加了很多类。但是又不承认，非说ts是js的超集。
 - 定义对象中的方法时使用`:`  
 - class可以不实现全interface.
 
+### 如何写一个ts
+ts团队融入了很多强类型语言的东西。如注解(java)、装饰器(java/python)、类型文件（c）。  
+把ts语言解构后整理为js语言。  
 
+为什么我写不出来：  
+- 不会这么多语言。  
+- 不会语法分析、词法分析。  
