@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>interface</title>
+        <title>declaration</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -44,60 +44,231 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <table>
+        <h1 id="declaration">declaration</h1>
+<h2 id="declaration-是什么">declaration 是什么</h2>
+<ul>
+<li>大名叫 typescrip declaration file 存放一些声明文件，类似c/c++的.h头文件。</li>
+<li><code>*.d.ts</code>文件</li>
+</ul>
+<h2 id="declaration-是做什么">declaration 是做什么</h2>
+<ul>
+<li>用于命名类型。让ts语言（我感觉应该是vscode）知道数据类型。</li>
+</ul>
+<h2 id="declaration-如何使用">declaration 如何使用</h2>
+<p>在编译时检查类型，在编译结果中无声明文件。</p>
+<h3 id="使用场景">使用场景</h3>
+<table>
 <thead>
 <tr>
-<th>interface</th>
-<th>type</th>
+<th></th>
 <th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>书写</td>
-<td>书写</td>
-<td></td>
+<td>全局变量：</td>
+<td>通过 <code>&lt;script&gt;</code> 标签引入第三方库，注入全局变量</td>
 </tr>
 <tr>
-<td>扩展</td>
-<td>交叉</td>
-<td></td>
+<td>npm包：</td>
+<td>通过 <code>import foo from 'foo'</code> 导入，符合 ES6 模块规范</td>
 </tr>
 <tr>
-<td>可添加已经有字段，会叠加（不覆盖）。</td>
-<td>创建后不能改变（像const）</td>
-<td></td>
+<td>UMD 库：</td>
+<td>既可以通过 <code>&lt;script&gt;</code> 标签引入，又可以通过 <code>import</code> 导入</td>
 </tr>
 <tr>
-<td>-</td>
-<td>用于定义别名</td>
-<td></td>
+<td>模块插件：</td>
+<td>通过 <code>import</code> 导入后，可以改变另一个模块的结构</td>
+</tr>
+<tr>
+<td>直接扩展全局变量：</td>
+<td>通过 <code>&lt;script&gt;</code> 标签引入后，改变一个全局变量的结构。比如为 String.prototype 新增了一个方法</td>
+</tr>
+<tr>
+<td>通过导入扩展全局变量：</td>
+<td>通过 <code>import</code> 导入后，可以改变一个全局变量的结构</td>
 </tr>
 </tbody>
 </table>
-<h1 id="interface">interface</h1>
-<pre><code class="language-ts"><div><span class="hljs-keyword">interface</span> A {
-    <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>
+<h2 id="declaration-如何产生">declaration 如何产生</h2>
+<p>tsc命令行在编译ts文件时会生<code>*.d.ts</code>文件。（自动生成）<br>
+若源文件是js文件，则需要手动写<code>*.d.ts</code>文件。（手动编写）<br>
+一般放在src目录下。</p>
+<h2 id="如何编写">如何编写</h2>
+<p>因使用js包（非ts包）的方式不同，所以定义数据类型的声明文件也不同。大约有6种。如下：</p>
+<h3 id="全局变量">全局变量</h3>
+<p>当以“<code>&lt;script&gt;</code>标签的方式”引入第三方js库（或包）时，在使用该包时需要引入该包的声明文件或定义与该包的数据类型相匹配的全局变量数据类型（这么多数据类型肯定会用到namespace）。</p>
+<pre><code class="language-ts"><div><span class="hljs-comment">// src/jQuery.d.ts</span>
+<span class="hljs-comment">// demo</span>
+<span class="hljs-comment">// declare var 声明全局变量</span>
+<span class="hljs-keyword">declare</span> <span class="hljs-keyword">let</span> jQuery: <span class="hljs-function">(<span class="hljs-params">selector: <span class="hljs-built_in">string</span></span>) =&gt;</span> <span class="hljs-built_in">any</span>;
+<span class="hljs-comment">// declare function 声明全局方法</span>
+<span class="hljs-keyword">declare</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">jQuery</span>(<span class="hljs-params">selector: <span class="hljs-built_in">string</span></span>): <span class="hljs-title">any</span></span>;
+<span class="hljs-comment">// declare class 声明全局类</span>
+<span class="hljs-keyword">declare</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Animal</span> </span>{
+    <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>;
+    <span class="hljs-title">constructor</span>(<span class="hljs-params">name: <span class="hljs-built_in">string</span></span>);
+    sayHi(): <span class="hljs-built_in">string</span>;
 }
-<span class="hljs-keyword">interface</span> B <span class="hljs-keyword">extends</span> A {
-    <span class="hljs-attr">age</span>: <span class="hljs-built_in">number</span>
+<span class="hljs-comment">// declare enum 声明全局枚举类型</span>
+<span class="hljs-keyword">declare</span> <span class="hljs-built_in">enum</span> Direction {
+    Up, Down, Left, Right
+}
+<span class="hljs-comment">// declare namespace 声明（含有子属性的）全局对象</span>
+<span class="hljs-keyword">declare</span> <span class="hljs-keyword">namespace</span> jQuery {
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ajax</span>(<span class="hljs-params">url: <span class="hljs-built_in">string</span>, settings: <span class="hljs-built_in">any</span></span>): <span class="hljs-title">void</span></span>;
+    <span class="hljs-keyword">namespace</span> fn {
+        <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">extend</span>(<span class="hljs-params">obj: <span class="hljs-built_in">any</span></span>): <span class="hljs-title">void</span></span>;
+    }
+}
+<span class="hljs-comment">// 命名空间可嵌套</span>
+<span class="hljs-comment">// 使用 jQuery.ajax(...)</span>
+<span class="hljs-comment">// 使用 jQuery.fn.ented(...)</span>
+<span class="hljs-comment">// interface 和 type 声明全局类型</span>
+<span class="hljs-keyword">interface</span> AjaxSettings {
+    method?: <span class="hljs-string">&#x27;GET&#x27;</span> | <span class="hljs-string">&#x27;POST&#x27;</span>;
+    data?: <span class="hljs-built_in">any</span>;
+}
+<span class="hljs-comment">// 使用 let s: AjaxSettings = {method: &#x27;GET&#x27;}</span>
+</div></code></pre>
+<h4 id="声明合并">声明合并</h4>
+<p>当定义多次时会相同标识符的合并到一起。<br>
+类似interface的叠加功能。</p>
+<pre><code class="language-ts"><div><span class="hljs-keyword">declare</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">jQuery</span>(<span class="hljs-params">selector: <span class="hljs-built_in">string</span></span>): <span class="hljs-title">any</span></span>;
+<span class="hljs-keyword">declare</span> <span class="hljs-keyword">namespace</span> jQuery{
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ajax</span>(<span class="hljs-params">url: <span class="hljs-built_in">string</span>, settting?: <span class="hljs-built_in">any</span></span>): <span class="hljs-title">void</span></span>;
+}
+</div></code></pre>
+<h3 id="npm包">npm包</h3>
+<p>使用npm包的方式如下：</p>
+<pre><code class="language-ts"><div><span class="hljs-keyword">import</span> foo <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;foo&#x27;</span>
+</div></code></pre>
+<p>声明npm包的方式：</p>
+<ul>
+<li>在package.json中设置types或创建<code>index.d.ts</code>文件。（也就是使用ts编写）</li>
+<li>为已经使用js写好的包创建声明包，提交到<code>@types</code>私包中</li>
+</ul>
+<h4 id="使用没有声明文件dts的包">使用没有声明文件（*.d.ts）的包</h4>
+<ul>
+<li>自己写声明文件在项目中，如<code>&lt;root&gt;/src/types/xx/index.d.ts</code>
+<ul>
+<li>在<code>tsconfig.json</code>文件中设置配置项。</li>
+</ul>
+</li>
+<li></li>
+</ul>
+<h4 id="编写">编写</h4>
+<pre><code class="language-ts"><div><span class="hljs-comment">// types/foo/index.d.ts</span>
+<span class="hljs-comment">// 只声明类型</span>
+<span class="hljs-comment">// 都是局部变量</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> name: <span class="hljs-built_in">string</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getName</span>(<span class="hljs-params"></span>): <span class="hljs-title">string</span></span>;
+<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Animal</span> </span>{
+    <span class="hljs-title">constructor</span>(<span class="hljs-params">name: <span class="hljs-built_in">string</span></span>);
+    sayHi(): <span class="hljs-built_in">string</span>;
+}
+<span class="hljs-keyword">export</span> <span class="hljs-built_in">enum</span> Directions {
+    Up,
+    Down,
+    Left,
+    Right
+}
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> Options {
+    <span class="hljs-attr">data</span>: <span class="hljs-built_in">any</span>;
+}
+</div></code></pre>
+<pre><code class="language-ts"><div><span class="hljs-comment">// src/index.ts</span>
+<span class="hljs-comment">// 使用声明文件</span>
+<span class="hljs-keyword">import</span> { name, getName, Animal, Directions, Options } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;foo&#x27;</span>;
+
+<span class="hljs-built_in">console</span>.log(name);
+<span class="hljs-keyword">let</span> myName = getName();
+<span class="hljs-keyword">let</span> cat = <span class="hljs-keyword">new</span> Animal(<span class="hljs-string">&#x27;Tom&#x27;</span>);
+<span class="hljs-keyword">let</span> directions = [Directions.Up, Directions.Down, Directions.Left, Directions.Right];
+<span class="hljs-keyword">let</span> options: Options = {
+    <span class="hljs-attr">data</span>: {
+        <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;foo&#x27;</span>
+    }
+};
+</div></code></pre>
+<h4 id="语法">语法</h4>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>export</td>
+<td>导出变量</td>
+</tr>
+<tr>
+<td>export namespace</td>
+<td>导出（含有子属性的）对象</td>
+</tr>
+<tr>
+<td>export default</td>
+<td>es6默认导出</td>
+</tr>
+<tr>
+<td>export =</td>
+<td>commonjs导出模块。在commonjs规范中使用。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="umd库">umd库</h3>
+<p>符合umd规范的库有2种引入方式：1. <code>&lt;script&gt;</code> 标签引入。2. <code>import</code> 导入.</p>
+<p>需要声明局部变量和全局变量。</p>
+<pre><code class="language-ts"><div><span class="hljs-comment">// types/xxx/index.d.ts</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">as</span> <span class="hljs-keyword">namespace</span> foo; // commonjs规范导出
+export = foo // commonjs规范导出
+declare function foo(): string // esm规范导出
+declare <span class="hljs-keyword">namespace</span> foo{ <span class="hljs-comment">// esm规范导出</span>
+    <span class="hljs-keyword">const</span> bar: <span class="hljs-built_in">number</span>;
+}
+</div></code></pre>
+<h3 id="模块插件">模块插件</h3>
+<p>使用import引入一个模块插件。此时模块的声明文件中无此插件的数据类型。需要新增数据类型，即“扩展原有模块”</p>
+<pre><code class="language-ts"><div><span class="hljs-comment">// types/xxx/index.d.ts</span>
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> moment <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;moment&#x27;</span>
+<span class="hljs-keyword">declare</span> <span class="hljs-built_in">module</span> <span class="hljs-string">&#x27;moment&#x27;</span> {
+    <span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>): <span class="hljs-title">moment</span>.<span class="hljs-title">CalendarKey</span></span>;
+}
+</div></code></pre>
+<pre><code class="language-ts"><div><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> moment <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;moment&#x27;</span>
+<span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;moment-plugin&#x27;</span>;
+moment.foo();
+</div></code></pre>
+<h3 id="引入依赖">引入依赖</h3>
+<pre><code class="language-ts"><div><span class="hljs-comment">// types/xxx/index.d.ts</span>
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> moment <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;moment&#x27;</span> <span class="hljs-comment">// 引入另一个声明文件中的类型</span>
+<span class="hljs-keyword">declare</span> <span class="hljs-built_in">module</span> <span class="hljs-string">&#x27;moment&#x27;</span> {
+    <span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>): <span class="hljs-title">moment</span>.<span class="hljs-title">CalendarKey</span></span>;
 }
 
-<span class="hljs-keyword">interface</span> A {
-    <span class="hljs-attr">color</span>: <span class="hljs-built_in">string</span>
-}
+<span class="hljs-comment">// or</span>
+<span class="hljs-comment">/// &lt;reference types=&quot;jquery&quot;&gt;</span>
+<span class="hljs-keyword">declare</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params">options: JQuery.AjaxSettings</span>): <span class="hljs-title">string</span></span>;
+<span class="hljs-comment">// 使用： foo({})</span>
 </div></code></pre>
-<h1 id="type">type</h1>
-<pre><code class="language-ts"><div><span class="hljs-keyword">type</span> A = {
-    <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>,
-}
-
+<h3 id="拆分--合并">拆分 &amp; 合并</h3>
+<pre><code class="language-ts"><div><span class="hljs-comment">// types/xx/index.d.ts</span>
+<span class="hljs-comment">/// &lt;reference types=&quot;sizzle&quot;&gt;</span>
+<span class="hljs-comment">/// &lt;reference types=&quot;JQueryStatic.d.ts&quot;&gt;</span>
+<span class="hljs-comment">/// &lt;reference types=&quot;JQuery.d.ts&quot;&gt;</span>
+<span class="hljs-comment">/// &lt;reference types=&quot;misc.d.ts&quot;&gt;</span>
+<span class="hljs-comment">/// &lt;reference types=&quot;legacy.d.ts&quot;&gt;</span>
+<span class="hljs-keyword">export</span> = jQuery;
 </div></code></pre>
-<h1 id="吐槽">吐槽</h1>
-<p>type是不能extends的。为什么在方法中使用泛型时可以。TS也有不完美的地方。</p>
-<pre><code class="language-ts"><div><span class="hljs-keyword">type</span> T = <span class="hljs-built_in">number</span> | <span class="hljs-built_in">string</span>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fn</span>&lt;<span class="hljs-title">G</span> <span class="hljs-title">extends</span> <span class="hljs-title">T</span>&gt;(<span class="hljs-params">arg: G</span>): <span class="hljs-title">G</span></span>{...}
-</div></code></pre>
+<h2 id="发布声明文件">发布声明文件</h2>
+<ol>
+<li>写好声明文件。</li>
+<li>测试。</li>
+<li>发布到<code>@types</code>中。</li>
+</ol>
 
         
         
