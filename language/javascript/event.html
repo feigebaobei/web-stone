@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>&#x7ed1;&#x5b9a;&#x4e8b;&#x4ef6;</title>
+        <title>Event&#x5bf9;&#x8c61;</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -27,6 +27,41 @@
 	color: var(--vscode-editorError-foreground);
 }
 
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
 </style>
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
@@ -44,7 +79,110 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <p>drag事件</p>
+        <h1 id="event对象">Event对象</h1>
+<p>创建一个新的事件对象 Event。<br>
+这是合成事件。</p>
+<pre><code class="language-js"><div>event = <span class="hljs-keyword">new</span> Event(typeArg, eventInit);
+typeArg string
+eventInit {
+    bubbles?: boolean <span class="hljs-comment">// 是否冒泡</span>
+    cancelable?: boolean <span class="hljs-comment">// 是否可取消</span>
+    composed?: boolean <span class="hljs-comment">// 是否可以穿过 Shadow DOM 和常规 DOM 之间的隔阂进行冒泡。</span>
+}
+</div></code></pre>
+<pre><code class="language-js"><div><span class="hljs-comment">// demo</span>
+<span class="hljs-keyword">let</span> ev = <span class="hljs-keyword">new</span> Event(<span class="hljs-string">&#x27;look&#x27;</span>, { <span class="hljs-comment">// 定义</span>
+    <span class="hljs-attr">bubbles</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">cancelable</span>: <span class="hljs-literal">false</span>
+})
+<span class="hljs-built_in">document</span>.addEventListener(<span class="hljs-string">&#x27;first&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> { <span class="hljs-comment">// 绑定</span>
+    clog(e)
+})
+<span class="hljs-built_in">document</span>.dispatchEvent(ev) <span class="hljs-comment">// 触发</span>
+</div></code></pre>
+<pre><code class="language-js"><div>Event: {
+    <span class="hljs-attr">bubbles</span>: boolean
+    <span class="hljs-attr">cancelBubble</span>: boolean
+    <span class="hljs-attr">cancelable</span>: boolean
+    <span class="hljs-attr">composed</span>: boolean
+    <span class="hljs-attr">currentTarget</span>: boolean
+    <span class="hljs-attr">deepPath</span>: boolean           <span class="hljs-comment">// 一个由事件流所经过的 DOM 节点组成的数组。</span>
+    <span class="hljs-attr">defaultPrevented</span>: boolean   <span class="hljs-comment">// 是否取消了事件的默认行为</span>
+    <span class="hljs-attr">eventPhase</span>:                 <span class="hljs-comment">// 事件流正被处理到了哪个阶段。</span>
+    explicitOriginalTarget:     <span class="hljs-comment">// 事件的明确（explicit）原始目标（Mozilla 专有属性）。</span>
+    originalTarget:             <span class="hljs-comment">// 重设目标前的事件原始目标（Mozilla 专有属性）。</span>
+    returnValue: 
+    srcElement: 
+    target: 
+    timeStamp: ms
+    <span class="hljs-attr">type</span>: 事件的类型
+    <span class="hljs-attr">isTrusted</span>: 是否由浏览器发起
+    createEvent()
+    composedPath()
+    initEvent()
+    preventDefault()
+    stopImmediatePropagation()
+    stopPropagation()
+}
+</div></code></pre>
+<h1 id="customevent对象">CustomEvent对象</h1>
+<pre><code class="language-js"><div><span class="hljs-keyword">let</span> ev = <span class="hljs-keyword">new</span> CustomEvent(<span class="hljs-string">&#x27;second&#x27;</span>, {<span class="hljs-attr">detail</span>: <span class="hljs-string">&#x27;params&#x27;</span>})
+<span class="hljs-comment">// detail 可以是任务数据、方法</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">eventHandler</span> (<span class="hljs-params">e</span>) </span>{
+    clog(e.detail)
+}
+<span class="hljs-built_in">document</span>.addEventListener(<span class="hljs-string">&#x27;second&#x27;</span>, eventHandler)
+<span class="hljs-built_in">document</span>.dispatchEvent(ev)
+</div></code></pre>
+<h1 id="绑定--解绑">绑定 &amp; 解绑</h1>
+<table>
+<thead>
+<tr>
+<th>绑定</th>
+<th>解绑</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>dom.onclick = fn</code></td>
+<td><code>dom.onclick = null</code></td>
+</tr>
+<tr>
+<td><code>dom.addEventListener(eventName, fn)</code></td>
+<td><code>dom.removeEventListener(eventName, fn)</code></td>
+</tr>
+<tr>
+<td><code>dom.attachEvent(eventName, fn)</code></td>
+<td><code>dom.detachEvent(eventName, fn)</code></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h1 id="事件流">事件流</h1>
+<ul>
+<li>捕获阶段</li>
+<li>当前目标阶段</li>
+<li>冒泡阶段</li>
+</ul>
+<p>ie 使用事件冒泡<br>
+非ie 使用事件捕获<br>
+现代浏览器 先使用执行捕获阶段，再执行冒泡阶段。</p>
+<p>drag事件</p>
 <p>keydown：当用户按下键盘上的任意键时触发，而且如果按住不放的话，会重复触发此事件。</p>
 <p>keypress：当用户按下键盘上的字符键时触发，而且如果按住不放的话，会重复触发此事件。 按下Esc 键也会触发这个事件。Safari 3.1 之前的版本也会在用户按下非字符键时触发keypress 事件。</p>
 <p>keyup：当用户释放键盘上的键时触发。</p>

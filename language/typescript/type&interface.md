@@ -19,8 +19,6 @@ interface A {
 }
 ```
 
-
-
 # type
 ```ts
 type A = {
