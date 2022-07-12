@@ -242,18 +242,13 @@ c.on('ready', () => {
             log('cwd', 'htdocs', err)
             throw err
         }
-        // let p = 'webComponents'
+        // let p = 'framework/vue3'
         let p = [
             // 'index.html',
-            // 'engineered/design-pattern.html',
-            // 'language/html/index.html',
-            'linux/index.html',
-            'linux/bash.html',
-            'linux/path.html',
+            // 'language/javascript/event.html',
+            // 'language/typescript/type&interface.html',
             'language/typescript/index.html',
-            'package-manager/npm/index.html',
-            'language/typescript/declaration/index.html',
-            // 'framework/react/react-dom-18/principle.html',
+            // 'language/typescript/config.html',
         ]
         // 检测指定目录是否存在
         // checkDir(p)
