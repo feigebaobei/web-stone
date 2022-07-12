@@ -59,19 +59,12 @@ document.addEventListener('second', eventHandler)
 document.dispatchEvent(ev)
 ```
 
-
-
-
 # 绑定 & 解绑
 |绑定 | 解绑|
 |- | -|
 |`dom.onclick = fn`|`dom.onclick = null`|带on|
 |`dom.addEventListener(eventName, fn)`|`dom.removeEventListener(eventName, fn)`|不带on|
 |`dom.attachEvent(eventName, fn)`|`dom.detachEvent(eventName, fn)`|带on|
-|||
-|||
-|||
-|||
 
 # 事件流
 - 捕获阶段
