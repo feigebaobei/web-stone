@@ -27,6 +27,41 @@
 	color: var(--vscode-editorError-foreground);
 }
 
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
 </style>
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
@@ -73,6 +108,16 @@
 <td>用于定义别名</td>
 <td></td>
 </tr>
+<tr>
+<td>class可实现</td>
+<td>class可实现</td>
+<td></td>
+</tr>
+<tr>
+<td>不可计算属性</td>
+<td>可计算属性</td>
+<td></td>
+</tr>
 </tbody>
 </table>
 <h1 id="interface">interface</h1>
@@ -86,12 +131,23 @@
 <span class="hljs-keyword">interface</span> A {
     <span class="hljs-attr">color</span>: <span class="hljs-built_in">string</span>
 }
+<span class="hljs-comment">// 定义方法的类型</span>
+<span class="hljs-keyword">interface</span> Fn {
+    (a: <span class="hljs-built_in">string</span>, <span class="hljs-attr">b</span>: <span class="hljs-built_in">number</span>): <span class="hljs-built_in">boolean</span>
+}
+<span class="hljs-comment">// 定义数组的类型</span>
+<span class="hljs-keyword">interface</span> Arr {
+    [index: <span class="hljs-built_in">number</span>]: <span class="hljs-built_in">string</span>
+}
 </div></code></pre>
 <h1 id="type">type</h1>
 <pre><code class="language-ts"><div><span class="hljs-keyword">type</span> A = {
     <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>,
 }
-
+<span class="hljs-keyword">type</span> B = <span class="hljs-string">&#x27;first&#x27;</span> | <span class="hljs-string">&#x27;second&#x27;</span>
+<span class="hljs-keyword">type</span> c = {
+    [key <span class="hljs-keyword">in</span> b]: <span class="hljs-built_in">boolean</span>
+}
 </div></code></pre>
 <h1 id="吐槽">吐槽</h1>
 <p>type是不能extends的。为什么在方法中使用泛型时可以。TS也有不完美的地方。</p>

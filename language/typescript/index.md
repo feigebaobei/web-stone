@@ -107,7 +107,7 @@ tsc hello.ts
 |literal||明确指定变量的值。初始化对象时ts会认为这是最后一次改变。以后不能再改变。||||
 |null||||||
 |undefined||也叫 void||||
-|enums||枚举。列出具体的可选的值。||||
+|enums||枚举。列出具体的可选的值。它是真实的对象。||||
 |bigint||||||
 |symbol||||||
 |unknown||代表any数据。与any类型相似。unknown更安全。使用时需要类型断言。||||
@@ -134,7 +134,11 @@ tsc hello.ts
 
 ### 方法的类型
 ```ts
-// demo
+// 定义方法的接口
+Interface SeachFn {
+  (a: string, b: number): boolean
+}
+
 function fn (p: (a: string) => void) {
   p('str')
 }
@@ -242,7 +246,7 @@ type C = [...boolean[], number, string]
 |||||
 |-|-|-|-|
 |keyof|从对象中取出指定key作为枚举值|||
-|typeof||||
+|typeof|获取对象的数据类型|||
 |ReturnType|返回方法类型的返回值的类型|||
 |TypeName[key]|从已经定义的type中取出指定key对应的数据类型|||
 |conditional types||||
@@ -251,7 +255,6 @@ type C = [...boolean[], number, string]
 |mapped types|从已有的类型中取出key再赋值|||
 |template literal types||||
 |操作字符串key的方法|`Uppercase<T> / Lowercase<T> / Capitalize<T> / Uncapitalize<T> / `|||
-|typeof||||
 
 ```ts
 type Point = {x: number; b: string}
@@ -447,7 +450,7 @@ let k = new newName()
 ### 外部命名空间
 
 ## [Declaration](/language/typescript/declaration.html)
-*.d.ts文件
+`*.d.ts`文件
 
 ## 使用ts写一个项目
 ts是一种js的方言。以前使用js怎么写项目，现在使用ts就怎么写项目。区别在于写一些ts特有的东西。如：配置文件。  
@@ -471,6 +474,7 @@ ts是一种js的方言。以前使用js怎么写项目，现在使用ts就怎么
 
 ## todo
 ### interface & type
+ts官网中把interface / type 都叫做类型。  
 |interface|type|
 |-|-|
 |定义数据结构|定义数据结构|

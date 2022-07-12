@@ -27,6 +27,41 @@
 	color: var(--vscode-editorError-foreground);
 }
 
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
 </style>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
 <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
@@ -304,7 +339,7 @@ Demo.getInstance() <span class="hljs-comment">// instance</span>
 <tr>
 <td>enums</td>
 <td></td>
-<td>枚举。列出具体的可选的值。</td>
+<td>枚举。列出具体的可选的值。它是真实的对象。</td>
 <td></td>
 <td></td>
 <td></td>
@@ -405,7 +440,11 @@ Demo.getInstance() <span class="hljs-comment">// instance</span>
 <li>枚举值判断。</li>
 </ul>
 <h3 id="方法的类型">方法的类型</h3>
-<pre><code class="language-ts"><div><span class="hljs-comment">// demo</span>
+<pre><code class="language-ts"><div><span class="hljs-comment">// 定义方法的接口</span>
+Interface SeachFn {
+  (a: <span class="hljs-built_in">string</span>, <span class="hljs-attr">b</span>: <span class="hljs-built_in">number</span>): <span class="hljs-built_in">boolean</span>
+}
+
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fn</span> (<span class="hljs-params">p: (a: <span class="hljs-built_in">string</span>) =&gt; <span class="hljs-built_in">void</span></span>) </span>{
   p(<span class="hljs-string">&#x27;str&#x27;</span>)
 }
@@ -512,7 +551,7 @@ function f(o: O) {...}
 </tr>
 <tr>
 <td>typeof</td>
-<td></td>
+<td>获取对象的数据类型</td>
 <td></td>
 <td></td>
 </tr>
@@ -561,12 +600,6 @@ function f(o: O) {...}
 <tr>
 <td>操作字符串key的方法</td>
 <td><code>Uppercase&lt;T&gt; / Lowercase&lt;T&gt; / Capitalize&lt;T&gt; / Uncapitalize&lt;T&gt; / </code></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>typeof</td>
-<td></td>
 <td></td>
 <td></td>
 </tr>
@@ -860,7 +893,7 @@ fn&lt;<span class="hljs-keyword">type</span>&gt;
 </div></code></pre>
 <h3 id="外部命名空间">外部命名空间</h3>
 <h2 id="declaration"><a href="/language/typescript/declaration.html">Declaration</a></h2>
-<p>*.d.ts文件</p>
+<p><code>*.d.ts</code>文件</p>
 <h2 id="使用ts写一个项目">使用ts写一个项目</h2>
 <p>ts是一种js的方言。以前使用js怎么写项目，现在使用ts就怎么写项目。区别在于写一些ts特有的东西。如：配置文件。<br>
 <a href="/typescript/demo.html">demo for ts</a></p>
@@ -876,6 +909,7 @@ fn&lt;<span class="hljs-keyword">type</span>&gt;
 <pre><code><code><div></div></code></code></pre>
 <h2 id="todo">todo</h2>
 <h3 id="interface--type">interface &amp; type</h3>
+<p>ts官网中把interface / type 都叫做类型。</p>
 <table>
 <thead>
 <tr>
