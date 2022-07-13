@@ -27,6 +27,41 @@
 	color: var(--vscode-editorError-foreground);
 }
 
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
 </style>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
 <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
@@ -465,10 +500,10 @@ npm cache clean --force
 </tr>
 <tr>
 <td>peerDependencies</td>
-<td>本包依赖的其他依赖包。同等依赖，会同级安装。</td>
+<td>本包依赖的其他依赖包。同等依赖，会同级安装。执行<code>install</code>时不安装。</td>
 <td>Object</td>
 <td>{'vue': '2.6.0'}</td>
-<td></td>
+<td>一般用于常用包、babel等。</td>
 </tr>
 <tr>
 <td>peerDependenciesMeta</td>
@@ -612,6 +647,14 @@ npm脚本支持<code>pre</code>/<code>post</code>2种钩子。每个脚本都可
 <li>prestop, poststop</li>
 <li>prestart, poststart</li>
 <li>prerestart, postrestart</li>
+<li>prepare
+<ul>
+<li>在执行 npm publish / npm pack 前执行</li>
+<li>打包前执行</li>
+<li>发布前执行</li>
+<li>当执行 npm install （无参数） 时执行</li>
+</ul>
+</li>
 </ul>
 <p><code>npm restart</code>是<code>npm stop &amp;&amp; npm restart &amp;&amp; npm stop</code>的简写。
 简写：<code>npm start</code>.忽略了<code>run</code></p>
@@ -656,6 +699,16 @@ npx cowsay[@version] hi
 <li>删除该包及其依赖。</li>
 </ol>
 <p>若想使用已经下载的包，又不想使用npx，则可以运行<code>./node_modules/.bin/&lt;command&gt; &lt;args...&gt;</code></p>
+<h2 id="install">install</h2>
+<ul>
+<li>他项目里没有引入你所需的依赖包，那么你插件所依赖的包会被安装</li>
+<li>他项目里引入了你所需的依赖包：
+<ul>
+<li>版本号一致，那么你所需的依赖包不会被安装，插件将共用项目里的依赖包</li>
+<li>版本号不一致，那么你所需的依赖包就会被安装，项目里就存在了两套不同版本的依赖</li>
+</ul>
+</li>
+</ul>
 
         <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
