@@ -695,6 +695,8 @@ js是单线程语言。但是它的宿主环境——browser支持多线程。
 - [set](/language/javascript/set.html)
 - [map](/language/javascript/map.html)
 
+# [xhr](/language/javascript/xhr.html)
+
 # js 操作 dom
 ```js
 // 创建

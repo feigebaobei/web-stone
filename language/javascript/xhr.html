@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <title>xhr&period;md</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -27,6 +27,41 @@
 	color: var(--vscode-editorError-foreground);
 }
 
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
 </style>
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
@@ -42,11 +77,347 @@
 .task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
 </style>
         
-        
-        
     </head>
     <body class="vscode-body vscode-light">
-        <p><a href="http://xhr.html">xhr.md</a></p>
+        <h1 id="xhrmd"><a href="http://xhr.html">xhr.md</a></h1>
+<ul>
+<li>用于在不刷新页面的情况下向服务器发出请求。</li>
+<li>可以获取任意类型的数据。</li>
+<li>支持http及很多非http协议</li>
+<li>xhr对象比较靠低层。好多属性都是只读的。</li>
+</ul>
+<pre><code class="language-js"><div><span class="hljs-keyword">let</span> xhr = <span class="hljs-keyword">new</span> XMLHttpRequest()
 
+</div></code></pre>
+<table>
+<thead>
+<tr>
+<th>xhr对象的属性</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>readyState</td>
+<td>代表请求的状态码</td>
+<td>number</td>
+<td></td>
+<td>只读</td>
+</tr>
+<tr>
+<td>onreadstatechange</td>
+<td>当readyState改变时触发</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>response</td>
+<td>回馈实体</td>
+<td></td>
+<td></td>
+<td>只读</td>
+</tr>
+<tr>
+<td>responseText</td>
+<td>后端返回的数据</td>
+<td>string类型</td>
+<td>当请求失败时为''</td>
+<td>只读</td>
+</tr>
+<tr>
+<td>responseType</td>
+<td>设置后端返回数据的类型。默认为'text'</td>
+<td>string</td>
+<td><code>'', 'text', 'arraybuffer', 'blob', 'document', 'json', 'ms-stream'</code></td>
+<td></td>
+</tr>
+<tr>
+<td>responseURL</td>
+<td>请求的url</td>
+<td>string</td>
+<td>若经过重定向，则其值是最终的url。无fragement</td>
+<td>只读</td>
+</tr>
+<tr>
+<td>responseXML</td>
+<td>当无法正确解析为xml/html是该值为null.(包括未成功、未发送)。当responseType为document时，响应会被当作<code>'text/xml'</code>使用。</td>
+<td></td>
+<td></td>
+<td>只读</td>
+</tr>
+<tr>
+<td>status</td>
+<td>响应状态。标准的http状态码。</td>
+<td>number</td>
+<td></td>
+<td>只读</td>
+</tr>
+<tr>
+<td>statusText</td>
+<td>包含文本的http状态</td>
+<td></td>
+<td></td>
+<td>只读</td>
+</tr>
+<tr>
+<td>timeout</td>
+<td>请求的最大时长</td>
+<td>number</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>upload</td>
+<td>返回XMLHttpRequestUpload对象。用于追踪进度</td>
+<td></td>
+<td></td>
+<td>只读</td>
+</tr>
+<tr>
+<td>withCredentials</td>
+<td>是否使用cookies/authorization headers</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>channel</td>
+<td>本次请求使用的channel</td>
+<td></td>
+<td></td>
+<td>只读</td>
+</tr>
+<tr>
+<td>mozAnon</td>
+<td>是否在无cookie、authorization header时发送请求</td>
+<td>boolean</td>
+<td></td>
+<td>只读</td>
+</tr>
+<tr>
+<td>mozSystem</td>
+<td>是否强制执行同源策略</td>
+<td>boolean</td>
+<td></td>
+<td>只读</td>
+</tr>
+<tr>
+<td>mozBackgroundRequest</td>
+<td>是否后端服务器的请求</td>
+<td>boolean</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>方法-</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>onreadystatechange()</td>
+<td>当readystate改变时触发。所有浏览器都支持。后来又有浏览器支持了onload/onerror/onprogress</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>abort()</td>
+<td>中止请求</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>getAllResponseHeaders()</td>
+<td>返回所有用<code>CRLF</code>(\r\n)分隔的响应头。若无响应，则返回null</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>getResponseHeader(name)</td>
+<td>返回回馈头中指定的字段</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>open()</td>
+<td>初始化一个请求，只能在js中使用。原生代码中请使用<code>openRequest()</code></td>
+<td><code>xhr.open(method, url, [async, user, password])</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>method: 'GET' / 'POST' / 'PUT' / 'DELETE' ....</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>async 是否异步执行。默认为true.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>user 用户名（用于认证）。默认为null</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>password 密码（用于认证）。默认为null</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>overrideMimeType(mimeType)</td>
+<td>覆盖后端给的类型</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>send([body])</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>body本次请求要发送的数据体</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>setRequestHeader</td>
+<td>设计http请求头的值，必须在open()后send()前执行。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>事件-</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>abort</td>
+<td>xhr.addEventListener('abort', eventHandler)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>error</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>load</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>loadend</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>loadstart</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>progress</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>timeout</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>readyState的值</th>
+<th>状态</th>
+<th>说明</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>UNSENT</td>
+<td>未执行open()</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1</td>
+<td>OPENED</td>
+<td>已经执行open()</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>HEADERS_RECEIVED</td>
+<td>已经调用send(),并且头部、状态可获得</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>LOADING</td>
+<td>下载中。responseText已经有些数据</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>DONE</td>
+<td>下载完成</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+        
+        
     </body>
     </html>
