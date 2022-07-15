@@ -60,6 +60,21 @@ let xhr = new XMLHttpRequest()
 |4|DONE|下载完成|||
 
 
+## fetch
+
+fetch('url', {method: 'get'}).then().catch()
+
+url    必填
+option 可选
+  {
+    method,
+    headers,
+    credentials: 'omit' / 'same-origin' / 'include',
+    ... // 日后补全
+  }
+
+从 fetch() 返回的 Promise 不会被标记为 reject， 即使响应的 HTTP 状态码是 404 或 500。
+使用 Response.ok 是不是为 true 判断是否成功。
 
 
 
