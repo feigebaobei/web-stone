@@ -391,7 +391,7 @@ data() {return {arr: [...], selected: ''}} // 单选时又是与字符串绑定�
 ||||||
 ||||||
 
-## 组件
+## [组件](/framework/vue3/component.md)
 ```vue
 // 创建组件
 let app = Vue.createApp({})
@@ -435,16 +435,6 @@ app.component('comp-name', {
 html中不区分大小写。vue在内部做了命名转化。  
 
 ### 插槽
-```vue
-app.component('comp-name', {
-    ...
-    template: `<div>
-        ...
-        <slot/>
-    </div>`
-})
-<comp-name>...</comp-name>
-```
 
 ### 动态组件
 ```vue
@@ -456,6 +446,13 @@ currentTabComponent是
 - 一个组件选项对象
 
 ### 异步组件
+```vue
+Vue.defineAsyncComponent(() => new Promise((s, j) => {
+    s({
+        template: `<div>str</div>`
+    })
+}))
+```
 
 ### 单文件组件
 使用[`@vue/compiler-sfc`](/jsPackages/compilerSfc.html)编译
@@ -463,7 +460,7 @@ currentTabComponent是
 ### react组件 & vue组件
 ||react组件|vue组件||
 |-|-|-|-|
-||以大驼峰命名|以中划线分割||
+||以大驼峰命名|以中划线分割 或 以大驼峰命名||
 ||有创建根组件的方法|有创建根组件的方法||
 ||引入后使用|引入后绑定后使用||
 ||state中保存本组件的数据|data()返回本组件的数据||
@@ -474,8 +471,18 @@ currentTabComponent是
 |||||
 |||||
 
-## title
-## title
+## 处理边界情况
+
+强制更新 $forceUpdate
+低级静态组件 v-once 只求值一次。
+
+## [过滤 & 动画](/framework/vue3/translate.md)  
+
+
+
+
+
+
 ## title
 ## title
 
@@ -510,7 +517,10 @@ Vue.createApp({...})
 
 不要在生命周期方法上使用箭头函数，会影响this指向。  
 
+## [组件间传递数据](/framework/dataTrasmit/index.html)  
 
+
+## ti
 
 
 
@@ -528,7 +538,7 @@ Vue.createApp({...})
 ```
 
 ## confuse
-- [v-model](/vue3/v-model.html)
+- [v-model](/framework/vue3/vModel.html)
 
 ## vue家庭
 - vue
