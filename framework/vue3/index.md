@@ -543,7 +543,7 @@ Vue.createApp({...})
 ## vue家庭
 - vue
 - [vue-cli]()
-- [vue-cli]()
+- [@vue/compiler-sfc]()
 - [vue-cli]()
 - [vue-cli]()
 - [vue-cli]()

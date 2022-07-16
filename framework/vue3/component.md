@@ -178,7 +178,7 @@ inheritAttrs: false, // 会禁止把$attrs属性设置在当前组件的根节�
 > redux中也有好dispach方法。  
 
 父级模板里的所有内容都是在父级作用域中编译的；子模板里的所有内容都是在子作用域中编译的。 
-`v-slot`只能于`<template>`一起使用。  
+`v-slot`只能于`<template>`一起使用。除非直接在组件上使用。  
 简写为`#`。简写时不能省略参数。  
 
 ```vue
@@ -257,8 +257,28 @@ let AsyncComp = defineAsyncComponent(() => {
 })
 ```
 
-## title
-## title
+## 组件名
+一般用于动态组件、递归组件  
+
+
+
+## 函数式组件
+```vue
+Vue.component('comp-name', {
+    functoinal: true,
+    render: function(createElement, context) {
+        let data = {
+            props: {...},
+            on: {
+                beforeEnter(el) {...},
+                afterEnter(el) {...}
+            }
+        }
+        return createElement('transition', data, context.children)
+    }
+})
+```
+
 ## title
 ## title
 ## title

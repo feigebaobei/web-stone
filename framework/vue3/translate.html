@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>vue &#x7ec4;&#x4ef6;</title>
+        <title>&#x8fc7;&#x6ee4; &amp; &#x52a8;&#x753b;</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -80,271 +80,307 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="vue-组件">vue 组件</h1>
-<h2 id="注册">注册</h2>
-<pre><code class="language-vue"><code><div>// 全局注册
-Vue.createApp({...}).component('comp-name', {...})
-// 局部注册
-// 1
-let app = Vue.createApp({
-    components: {
-        'component-a': ComponentA,
-        'component-b': ComponentB,
-    }
-})
-// 2
-let CA = {...}
-let CB = {
-    components: {
-        'component-a': CA,
-    }
-}
-// 3 esm
-import CA from './CA.vue'
-export default {
-    components: {
-        CA
-    }
-}
-</div></code></code></pre>
-<p><a href="">为什么全局注册的事件可以在所有组件中使用</a>。<br>
-全局注册会使打包体积增大。</p>
-<h2 id="接收方式">接收方式</h2>
-<ul>
-<li>props</li>
-<li>emits</li>
-<li>attrs
-三者都是复数。可能与英语语法有关。</li>
-</ul>
-<h2 id="props">props</h2>
-<p>子组件使用props属性接收从父组件来的数据。</p>
-<!-- 它是明确接收父组件来的数据的字段。另一个是`emits`   -->
-<pre><code class="language-vue"><code><div>app.component('comp-name', {
-    props: ['title'],
-    template: `&lt;span&gt;{{title}}&lt;/span&gt;`
-})
-</div></code></code></pre>
-<pre><code class="language-vue"><code><div>props: ['title', 'linkes']
-props: {title: String， links: Number} // 这里写构造方法.
-// 有点类似PropTypes
-// 把一个对象的所有属性作为prop传入。
-&lt;comp-name v-bind=&quot;obj&quot; /&gt;
-    &lt;=&gt;
-&lt;comp-name :k=&quot;v&quot; :k2=&quot;v2&quot; /&gt;
-</div></code></code></pre>
-<h3 id="内置的类型检查构造函数">内置的类型检查（构造函数）</h3>
-<ul>
-<li>String</li>
-<li>Number</li>
-<li>Boolean</li>
-<li>Array</li>
-<li>Object</li>
-<li>Date</li>
-<li>Function</li>
-<li>Symbol</li>
-</ul>
-<h3 id="单向数据流">单向数据流</h3>
-<p>从父组件到子组件。</p>
-<ol>
-<li>传递一个初始值</li>
-<li>传入后转换</li>
-</ol>
-<pre><code class="language-vue"><code><div>props: ['size'],
-computed: {
-    compSize() {
-        return this.size.trim().toLowerCase()
-    }
-}
-</div></code></code></pre>
-<h3 id="验证">验证</h3>
-<p>创建实例前验证，此时data/computed/methods不可使用。<br>
-在父组件中请使用中划线命名，在props中请使用小驼峰命名。vue会进行转化。</p>
-<pre><code class="language-vue"><code><div>function Person(fn, ln) {
-    this.firstName = fn
-    this.lastName = ln
-}
-...
-props: {
-    pa: Number,
-    pb: [String, Number],
-    pc: {
-        type: Boolean,
-        required: true
-    },
-    pd: {
-        type: Number,
-        default: 10
-    },
-    pe: { // 类型是对象是default需要使用方法返回值
-        type: Array,
-        defautl() {
-            return []
-        }
-    },
-    pf: {
-        validator(value) {
-            return [1,2,3].includes(value)
-        }
-    },
-    pg: {
-        type: Function,
-        default() {
-            return 'Default function'
-        }
-    },
-    ph: {
-        type: Person // 使用自定义构造函数验证。
-        // vue会使用instanceo去验证。
-    }
-}
-</div></code></code></pre>
-<h2 id="emits">emits</h2>
-<p>用于接收从父组件来的事件名称。</p>
-<pre><code class="language-vue"><code><div>emits: ['eventOne', 'eventTwo'],
-emits: {
-    eventOne: (params) =&gt; { // 用于本组件在触发指定事件前的验证。params是为该事件的方法传递的参数。
-        return boolean
-    }
-}
-</div></code></code></pre>
-<h3 id="v-model">v-model</h3>
-<p>它是值与事件的语法糖。</p>
-<pre><code class="language-vue"><code><div>&lt;comp-name v-model:title=&quot;param&quot; /&gt;
-
-props: {
-    title: string,
-},
-emits: ['update:title']
-$emit('update:title', params)
-</div></code></code></pre>
-<h3 id="v-model的修饰符">v-model的修饰符</h3>
-<pre><code class="language-vue"><code><div>&lt;comp-name v-model.cap=&quot;params&quot; /&gt;
-
-props: {
-    modelValue: String,
-    modelModifiers: {
-        default: () =&gt; ({})
-    }
-},
-emits: ['update:modelValue'],
-$emit('update:modelValue', xx)
-</div></code></code></pre>
-<h2 id="attrs">attrs</h2>
-<p>用于接收从父组件来的且props中未明确定义的属性。</p>
-<pre><code class="language-vue"><code><div>props: [...],
-inheritAttrs: false, // 会禁止把$attrs属性设置在当前组件的根节点上。默认为true.
-</div></code></code></pre>
-<ul>
-<li>若当前组件为单节点，则把$attrs全部设置在当前组件的根元素上。</li>
-<li>若当前组件为多节点且未明确使用$attrs，则会报错。</li>
-</ul>
-<h2 id="slot-插槽">slot 插槽</h2>
-<p>内容分发。</p>
+        <h1 id="过滤--动画">过滤 &amp; 动画</h1>
 <blockquote>
-<p>js中可触发event对象。dispatchEvent(event).<br>
-redux中也有好dispach方法。</p>
+<p>vue内置了<code>&lt;transition&gt;</code>组件。可用于处理单组件的动画。<br>
+<code>transition-group</code>用于多组件的动画。<br>
+设置动画使用更新 class / style 方式</p>
 </blockquote>
-<p>父级模板里的所有内容都是在父级作用域中编译的；子模板里的所有内容都是在子作用域中编译的。
-<code>v-slot</code>只能于<code>&lt;template&gt;</code>一起使用。除非直接在组件上使用。<br>
-简写为<code>#</code>。简写时不能省略参数。</p>
-<pre><code class="language-vue"><code><div>// 备用内容
-&lt;div&gt;
-    &lt;slot&gt;备用内容&lt;/slot&gt;
-&lt;/div&gt;
-// 具名插槽
-&lt;div&gt;
-    &lt;slot name=&quot;header&quot;&gt;
-    &lt;slot name=&quot;body&quot;&gt;
-    &lt;slot&gt; // 若不写name，则为默认插槽。
-    // 等价于
-    // &lt;slot name=&quot;default&quot;&gt;
-    &lt;slot name=&quot;footer&quot;&gt;
-&lt;/div&gt;
-&lt;comp-name&gt;
-    &lt;template v-slot:header&gt;....&lt;/template&gt;
-    &lt;template v-slot:body&gt;....&lt;/template&gt;
-    &lt;template&gt;....&lt;/template&gt;
-    // 等价于
-    // &lt;template v-slot:default&gt;....&lt;/template&gt;
-    &lt;template v-slot:footer&gt;....&lt;/template&gt;
-&lt;/comp-name&gt;
-// 作用域插槽
-&lt;div&gt;
-    &lt;slot :item=&quot;params&quot;&gt;
-&lt;/div&gt;
-&lt;comp-name&gt;
-    &lt;div v-slot:default=&quot;slotProps&quot;&gt;{{slotProps.item}}&lt;/div&gt;
-&lt;/comp-name&gt;
-// 可以把slotProps解构了。
-// 动态插槽名
-&lt;template v-slot:[dynamicSlotName]&gt;&lt;/template&gt;
-// sss
-// sss
+<h2 id="基于class设置动画过滤">基于class设置动画（过滤）</h2>
+<pre><code class="language-vue"><code><div>&lt;div :class=&quot;{shake: dp}&quot;&gt;
+.shake {
+    animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    transform: traslate3d(0,0,0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
 </div></code></code></pre>
-<h2 id="provide--inject">provide / inject</h2>
-<p>它们是祖先组件与后代组件之间传递数据的方式之一。<br>
-<a href="/framework/dataTrasmit/index.html">组件间传递数据</a></p>
-<pre><code class="language-vue"><code><div>app.component('comp-name', {
-    data() {...},
-    // 提供
-    provide: {key: value}
-    // 对象形式
-    // 无响应功能
-    provide() {
-        return {key: value}
+<h2 id="基于style设置过滤">基于style设置过滤</h2>
+<pre><code class="language-vue"><code><div>&lt;div :style=&quot;{backgroudColor: `hsl(${x}, 80%, 50%)`}&quot; @mousemove=&quot;mmh&quot; class=&quot;movearea&quot;&gt;&lt;/div&gt;
+methods: {
+    mmh(e) {
+        this.x = e.clientX
     }
-    // 方法形式
-    // 一般于于响应式
-})
-app.component('comp-other', {
-    // 接收
-    inject: ['key']
-})
+}
+.movearea {
+    transition: 0.2s background-color ease;
+}
 </div></code></code></pre>
-<h2 id="动态组件--异步组件">动态组件 &amp; 异步组件</h2>
-<pre><code class="language-vue"><code><div>&lt;keep-alive&gt; // 会使用组件保存在内存中
-    &lt;component :is=&quot;currentTabComponent&quot;&gt;&lt;/component&gt;
-&lt;/keep-alive&gt;
+<h2 id="单元素的过渡">单元素的过渡</h2>
+<p>为其添加进入、离开的过滤效果。</p>
+<pre><code class="language-vue"><code><div>&lt;transition name=&quot;fade&quot;&gt;&lt;div v-if=&quot;p&quot;&gt;...&lt;/div&gt;&lt;/transition&gt;
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.5s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
 </div></code></code></pre>
-<pre><code class="language-vue"><code><div>let {defineAsyncComponent} = Vue
-let AsyncComp = defineAsyncComponent(() =&gt; {
-    return new Promise((s, j) =&gt; {
-        s({
-            template: `&lt;div&gt;str&lt;/div&gt;`
-        })
-    })
-})
+<h3 id="过滤class">过滤class</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v-enter-from</td>
+<td>进入过渡的开始状态</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>v-enter-active</td>
+<td>进入过渡的过渡时</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>v-enter-to</td>
+<td>进入过渡的结束状态</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>v-leave-from</td>
+<td>离开过渡的开始状态</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>v-leave-active</td>
+<td>离开过渡的过渡时</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>v-leave-to</td>
+<td>离开过渡的结束状态</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>三个进入，三个离开。<br>
+过渡时使用4个 v-enter-from v-enter-to v-leave-from v-leave-to<br>
+动画时使用2个 v-enter-active v-enter-active</p>
+<pre><code class="language-vue"><code><div>.v-enter-active {
+    animation: an 0.25s;
+}
+.v-leave-active {
+    animation: an 0.2s; reverse;
+}
+@keyframes an {
+    0% {...}
+    100% {...}
+}
 </div></code></code></pre>
-<h2 id="组件名">组件名</h2>
-<p>一般用于动态组件、递归组件</p>
-<h2 id="函数式组件">函数式组件</h2>
+<p>其中<code>v</code>是<code>&lt;transition&gt;</code>的name值。</p>
+<h3 id="自定义过渡class类名">自定义过渡class类名</h3>
+<p>把自定义类名设置在<code>transtion</code>标签上。</p>
+<ul>
+<li>enter-from-class</li>
+<li>enter-active-class</li>
+<li>enter-to-class</li>
+<li>leave-from-class</li>
+<li>leave-active-class</li>
+<li>leave-to-class</li>
+</ul>
+<h3 id="显性设置过渡时长">显性设置过渡时长</h3>
+<pre><code class="language-vue"><code><div>&lt;transition :duration=&quot;250&quot;&gt;...&lt;/transition&gt;
+</div></code></code></pre>
+<h3 id="过滤的js钩子">过滤的js钩子</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>before-enter</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>enter(dom, done)</td>
+<td>需要使用done调用回调</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>after-enter</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>enter-cancelled</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>before-leave</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>leave(dom, done)</td>
+<td>需要使用done调用回调</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>after-leave</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>leave-cancelled</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>相较于类名多了2个取消</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="初始渲染过滤">初始渲染过滤</h3>
+<pre><code class="language-vue"><code><div>&lt;transition appear&gt;...&lt;/transition&gt;
+</div></code></code></pre>
+<h3 id="过渡模式">过渡模式</h3>
+<ul>
+<li>in-out 先执行进入过渡，再执行离开过渡。</li>
+<li>out-in 先执行离开过渡，再执行进入过渡。<br>
+若不设置mode，则不同元素的进入、离开是同时的。</li>
+</ul>
+<pre><code class="language-vue"><code><div>// 先出再进
+&lt;transition name=&quot;fade&quot; mode=&quot;out-in&quot;&gt;&lt;/transition&gt;
+</div></code></code></pre>
+<h3 id="多组件之间过渡">多组件之间过渡</h3>
+<p>问题渲染其中一个。</p>
+<pre><code class="language-vue"><code><div>&lt;transition name=&quot;fade&quot; mode=&quot;out-in&quot;&gt;
+    &lt;component :is=&quot;view&quot; /&gt;
+&lt;/transition&gt;
+</div></code></code></pre>
+<h3 id="跳过css检测">跳过css检测</h3>
+<p><code>:css=&quot;false&quot;</code></p>
+<ul>
+<li>可提高性能。</li>
+<li>避免过渡过程中受到css规则的意外影响。</li>
+</ul>
+<h2 id="列表过渡">列表过渡</h2>
+<p><code>&lt;transition-group&gt;</code></p>
+<ul>
+<li>使用tag设置元素标签。</li>
+<li>内部元素需要使用key标明唯一性。</li>
+<li>css过渡类会应用于其内部的元素。</li>
+<li>过滤模式不可用。</li>
+</ul>
+<pre><code class="language-vue"><code><div>&lt;transition-groupt name=&quot;list&quot; tag=&quot;p&quot;&gt;
+    &lt;span v-for=&quot;item in items&quot; :key=&quot;item&quot;&gt;...&lt;/span&gt;
+&lt;/transition-groupt&gt;
+</div></code></code></pre>
+<h3 id="列表的移动过渡">列表的移动过渡</h3>
+<p>改变定位时使用<code>v-move</code>类设置样式</p>
+<pre><code class="language-vue"><code><div>&lt;transition-group name=&quot;list&quot; tag=&quot;ul&quot;&gt;
+    &lt;li v-for=&quot;item in items&quot; :key=&quot;item&quot;&gt;...&lt;/li&gt;
+&lt;/transition-group&gt;
+.list-move {
+    transition: transform 0.8s ease;
+}
+</div></code></code></pre>
+<h3 id="过渡钩子">过渡钩子</h3>
+<p><code>&lt;transition&gt;</code>的过渡钩子函数同样适用于<code>&lt;transition-group&gt;</code></p>
+<h3 id="动态过渡">动态过渡</h3>
+<pre><code class="language-vue"><code><div>&lt;transition :name=&quot;transitionName&quot;&gt;...&lt;/transition&gt;
+&lt;transition-group :name=&quot;transitionName&quot;&gt;...&lt;/transition-group&gt;
+</div></code></code></pre>
+<h2 id="复用过渡">复用过渡</h2>
+<p>把<code>&lt;transition&gt;</code>/<code>&lt;transition-group&gt;</code>做成容器组件。</p>
 <pre><code class="language-vue"><code><div>Vue.component('comp-name', {
-    functoinal: true,
-    render: function(createElement, context) {
-        let data = {
-            props: {...},
-            on: {
-                beforeEnter(el) {...},
-                afterEnter(el) {...}
-            }
-        }
-        return createElement('transition', data, context.children)
+    template: `
+        &lt;transition
+            name=&quot;tn&quot;
+            mode=&quot;out-in&quot;
+            @before-enter=&quot;beforeEnterHandler&quot;
+            @after-enter=&quot;afterEnterHandler&quot;
+        &gt;
+            &lt;slot /&gt;
+        &lt;/transition&gt;
+    `,
+    methods: {
+        beforeEnterHandler(dom) {...},
+        afterEnterHandler(dom) {...}
     }
 })
 </div></code></code></pre>
-<h2 id="title">title</h2>
-<h2 id="title-1">title</h2>
-<h2 id="title-2">title</h2>
-<h2 id="title-3">title</h2>
-<h2 id="title-4">title</h2>
-<h2 id="todo">todo</h2>
-<h3 id="为什么全局注册的事件可以在所有组件中使用">为什么全局注册的事件可以在所有组件中使用</h3>
-<p>可能是在vue的实例（vdom）中的原型链上挂载了组件。</p>
-<h3 id="title-5">title</h3>
-<h3 id="title-6">title</h3>
-<h3 id="title-7">title</h3>
-<h3 id="title-8">title</h3>
-<h3 id="title-9">title</h3>
+<h2 id="状态过渡">状态过渡</h2>
+<h2 id="动画性能">动画性能</h2>
+<ul>
+<li>transform / opacity 不会触发浏览器重绘。</li>
+<li>perspective / backface-visibility / transform 会让浏览器知道需要使用硬件加速。</li>
+</ul>
+<h2 id="如何开发动画">如何开发动画</h2>
+<ul>
+<li>时长，一般使用0.25s。结束动画比开始动画要短。</li>
+</ul>
+<h2 id="常用的动画库">常用的动画库</h2>
+<ul>
+<li>gsap (greensock)</li>
+<li>title</li>
+<li>title</li>
+<li>title</li>
+<li>title</li>
+<li>title</li>
+<li>title</li>
+</ul>
 
         <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         

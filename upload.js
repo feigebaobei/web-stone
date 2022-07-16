@@ -242,13 +242,18 @@ c.on('ready', () => {
             log('cwd', 'htdocs', err)
             throw err
         }
-        // let p = 'framework/vue3'
+        // let p = 'framework/dataTrasmit'
         let p = [
             // 'index.html',
-            // 'language/javascript/event.html',
-            // 'language/typescript/type&interface.html',
-            'language/typescript/index.html',
-            // 'language/typescript/config.html',
+        //     'package-manager/npm/index.html',
+            // 'language/index.html',
+            // 'language/javascript/xhr.html',
+        //     'language/typescript/index.html',
+            // 'framework/vue3/index.html',
+            // 'framework/vue3/component.html',
+            // 'communication-protocol/index.html',
+            // 'communication-protocol/urlRenderer.html',
+            // 'communication-protocol/WechatIMG242.jpeg',
         ]
         // 检测指定目录是否存在
         // checkDir(p)
