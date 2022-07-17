@@ -27,6 +27,41 @@
 	color: var(--vscode-editorError-foreground);
 }
 
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
 </style>
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
@@ -72,8 +107,10 @@ lerna init     // 生成基本的lerna库目录结构。
 <h3 id="how-it-works">how it works</h3>
 <p>它有2种模式去管理项目：fixed / independent。</p>
 <h4 id="fixed固定模式默认">fixed（固定模式）默认</h4>
-<p>固定模式下项目操作一个单独的版本。版本号在<code>lerna.json</code>的<code>version</code>中。当你执行了<code>lerna publish</code>，若从上次发布后有包被修改过，则该包会使用新的版本号去发布。即只需要修改<code>lerna.json</code>中的<code>version</code>就可作用于所有被修改的包。
-<code>babel</code>就是使用这种模式。若你想使用这种自动作用于全部包的版本号管理工具，你就可以这么做。</p>
+<p>若你想使用这种自动作用于全部包的版本号管理工具，你就可以这么做。
+即只需要修改<code>lerna.json</code>中的<code>version</code>就可作用于所有被修改的包。在执行<code>lerna publish</code>时会提示选择改变相应版本。<br>
+<code>babel</code>就是使用这种模式。
+固定模式下项目操作一个单独的版本。版本号在<code>lerna.json</code>的<code>version</code>中。当你执行了<code>lerna publish</code>，若从上次发布后有包被修改过，则该包会使用新的版本号去发布。</p>
 <h4 id="independent分离模式">independent（分离模式）</h4>
 <p><code>lerna init --independent</code>
 在该模式下每个包使用当前包的<code>package.json</code>管理版本号。每次发布时，会得到一个提示，关于每个包的补丁/小更改/主要更改/自定义变动。
@@ -125,6 +162,7 @@ lerna init     // 生成基本的lerna库目录结构。
 运行npm脚本。</p>
 <p><code>lerna ls</code>
 列出所有本lerna库中的包。</p>
+<p>lerna没有删除包的命令。若要删除包，只能手动删除目录。</p>
 <h2 id="principle">principle</h2>
 <p>此包的处理逻辑。</p>
 <h3 id="uml">uml</h3>

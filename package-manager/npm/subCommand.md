@@ -28,7 +28,11 @@ alias: npm x, npx
 # init
 ## 别名 create / innit
 
-# title
-# title
+# unlink
+取消软链接
+
+# rm
+删除（`package.json`中）指定的包。
+
 # title
 # title

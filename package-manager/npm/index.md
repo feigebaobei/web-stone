@@ -102,6 +102,13 @@ npm link <packagename>
 require方法不能把全局安装的文件引入。若使用`npm link packagename`后就可以引入全局文件。  
 但是`npm link xxx`不支持windows.  `-_-`  
 
+```shell
+npm link                  # 创建软链接
+npm unlink                # 取消创建软链接
+npm link <package-name>   # 链接依赖项
+npm unlink <package-name> # 取消链接依赖项
+```
+
 ## package.json说明
 
 在运行时引入模块，引入的是package.json中"main"指向的文件。
