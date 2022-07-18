@@ -284,22 +284,129 @@ redux中也有好dispach方法。</p>
 <h2 id="provide--inject">provide / inject</h2>
 <p>它们是祖先组件与后代组件之间传递数据的方式之一。<br>
 <a href="/framework/dataTrasmit/index.html">组件间传递数据</a></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>provide</th>
+<th>inject</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>在祖先组件中提供数据</td>
+<td>在后代组件中接收数据</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>每个provide只提供一个数据</td>
+<td>可使用数组接收多个数据</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>可提供响应式、非响应式数据</td>
+<td>可接收……</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>-</td>
+<td>可设置默认值</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>可设置readonly</td>
+<td></td>
+<td>一般在祖先组件中设置只读</td>
+</tr>
+<tr>
+<td></td>
+<td>可提供对象、基本类型</td>
+<td>-</td>
+<td></td>
+</tr>
+<tr>
+<td>在setup</td>
+<td>需要引入</td>
+<td>需要引入</td>
+<td></td>
+</tr>
+<tr>
+<td>不在setup</td>
+<td>选项式api</td>
+<td>选项式api</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <pre><code class="language-vue"><code><div>app.component('comp-name', {
     data() {...},
     // 提供
     provide: {key: value}
-    // 对象形式
-    // 无响应功能
     provide() {
         return {key: value}
     }
-    // 方法形式
-    // 一般于于响应式
 })
 app.component('comp-other', {
     // 接收
     inject: ['key']
 })
+
+// 或者在setup中提供
+// xxx.vue
+&lt;template&gt;
+&lt;/template&gt;
+&lt;script&gt;
+    import {provide, reactive, ref, readonly} from 'vue'
+    export default {
+        setup() {
+            let k = ref('str')
+            let o = reactive({
+                k0: 0,
+                k1: true
+            })
+            let f = () =&gt; {...}
+            let b = readonly(o)
+            provide('k', k)
+            provide('o', o)
+            provide('f', f)
+            provide('b', b)
+        }
+    }
+&lt;/script&gt;
+
+&lt;script&gt;
+import {inject} from 'vue'
+setup() {
+    let defaultValue = 2
+    let k = inject('k', defaultValue)
+    let o = inject('o')
+    let f = inject('f')
+}
+&lt;/script&gt;
 </div></code></code></pre>
 <h2 id="动态组件--异步组件">动态组件 &amp; 异步组件</h2>
 <pre><code class="language-vue"><code><div>&lt;keep-alive&gt; // 会使用组件保存在内存中
@@ -419,6 +526,16 @@ setup() {
 <tbody>
 <tr>
 <td></td>
+<td>setup</td>
+<td>无setup</td>
+</tr>
+<tr>
+<td>生命周期函数</td>
+<td>是方法。逻辑在方法体内执行。</td>
+<td>是方法，参数是回调方法。逻辑在回调方法中执行。</td>
+</tr>
+<tr>
+<td></td>
 <td></td>
 <td></td>
 </tr>
@@ -464,6 +581,24 @@ console.log(twiceTheCounter.value)
 <pre><code class="language-vue"><code><div>// vue2
 </div></code></code></pre>
 <pre><code class="language-vue"><code><div>// vue3
+&lt;template&gt;
+    // ...
+&lt;/template&gt;
+&lt;script&gt;
+import {
+    provide,
+    inject
+} from 'vue'
+export default {
+    props: {},
+    setup(props, context) {},
+
+    computed: {},
+    methods: {},
+}
+&lt;/script&gt;
+&lt;style&gt;
+&lt;/style&gt;
 </div></code></code></pre>
 <h2 id="todo">todo</h2>
 <h3 id="为什么全局注册的事件可以在所有组件中使用">为什么全局注册的事件可以在所有组件中使用</h3>

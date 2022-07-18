@@ -219,24 +219,68 @@ inheritAttrs: false, // 会禁止把$attrs属性设置在当前组件的根节�
 
 ## provide / inject
 它们是祖先组件与后代组件之间传递数据的方式之一。  
-[组件间传递数据](/framework/dataTrasmit/index.html)  
+[组件间传递数据](/framework/dataTrasmit/index.html)   
+
+||provide|inject||
+|-|-|-|-|
+||在祖先组件中提供数据|在后代组件中接收数据||
+||每个provide只提供一个数据|可使用数组接收多个数据||
+||可提供响应式、非响应式数据|可接收……||
+||-|可设置默认值||
+||可设置readonly||一般在祖先组件中设置只读|
+||可提供对象、基本类型|-||
+|在setup|需要引入|需要引入||
+|不在setup|选项式api|选项式api||
+|||||
+|||||
+|||||
+
 ```vue
 app.component('comp-name', {
     data() {...},
     // 提供
     provide: {key: value}
-    // 对象形式
-    // 无响应功能
     provide() {
         return {key: value}
     }
-    // 方法形式
-    // 一般于于响应式
 })
 app.component('comp-other', {
     // 接收
     inject: ['key']
 })
+
+// 或者在setup中提供
+// xxx.vue
+<template>
+</template>
+<script>
+    import {provide, reactive, ref, readonly} from 'vue'
+    export default {
+        setup() {
+            let k = ref('str')
+            let o = reactive({
+                k0: 0,
+                k1: true
+            })
+            let f = () => {...}
+            let b = readonly(o)
+            provide('k', k)
+            provide('o', o)
+            provide('f', f)
+            provide('b', b)
+        }
+    }
+</script>
+
+<script>
+import {inject} from 'vue'
+setup() {
+    let defaultValue = 2
+    let k = inject('k', defaultValue)
+    let o = inject('o')
+    let f = inject('f')
+}
+</script>
 ```
 
 ## 动态组件 & 异步组件
@@ -363,6 +407,8 @@ setup() {
 ### 组合式api & 选项式api
 ||组合式api|选项式api|
 |-|-|-|
+||setup|无setup|
+|生命周期函数|是方法。逻辑在方法体内执行。|是方法，参数是回调方法。逻辑在回调方法中执行。|
 ||||
 ||||
 
@@ -407,6 +453,24 @@ console.log(twiceTheCounter.value)
 ```
 ```vue
 // vue3
+<template>
+    // ...
+</template>
+<script>
+import {
+    provide,
+    inject
+} from 'vue'
+export default {
+    props: {},
+    setup(props, context) {},
+
+    computed: {},
+    methods: {},
+}
+</script>
+<style>
+</style>
 ```
 
 
