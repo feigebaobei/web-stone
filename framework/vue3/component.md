@@ -279,11 +279,135 @@ Vue.component('comp-name', {
 })
 ```
 
+## setup
+vue3开创此属性（生命周期）是为了解决“关注点分离”问题。  
+就是把本组件的基本数据、方法、计算等放在setup()中做。别的仍然与vue2时期一样。  
+在创建组件之前执行setup方法。此时data/computed/methods/refs都未被解析。（即不能使用）setup方法暴露的内容可以被本组件的其余部分访问。  
+setup()内的this不是活跃实例的引用。  
+```vue
+export default {
+    components: {...} // 又是复数形式
+    props: {...},
+    setup(props) {
+        console.log('props', props)
+        let repositories = ref([]) // 可以通过一个新的 ref 函数会创建一个**响应式引用**使**任何响应式变量**在任何地方起作用。  
+        const fn = async () => {
+            repositories = await getP(props.user)
+        }
+        // 需要使用前缀`on`,如：`onMounted`  
+        onMounted(fn) // 在 mounted 是调用 fn
+        // setup中的watch
+        // 参数是响应式引用或getter方法和一个回调方法。
+        watch(repositories, (nv, ol) => {...})
+        // 计算
+        const searchQuery = ref('')
+        const compSearchQuery = computed(() => {
+            return repositories.value.filter(item => item.name.includes(searchQuery.value))
+        })
+        return {
+            repositories,
+            fn,
+            searchQuery,
+            compSearchQuery
+        } // 这里返回的任何内容都可以用于组件的其余部分
+        // 我就发现这儿不一样。
+    }
+}
+```
+
+### setup watch & watch
+```vue
+// vue2
+export default {
+    data() {
+        return {
+            k: '0'
+        }
+    }
+    watch: {
+        k(nv, ov) {...}
+    }
+    watch: {
+        () => this.k, // 获取响应式数据的方法
+        (nv, ov) => {...}
+    }
+    watch: {
+        () => this.a + this.b, // 监听一个复杂表达式。就像监听一个未被定义的计算属性
+        (nv, ov) => {...}
+    }
+    // const unwatch = vm.$watch('k', cb) 会返回一个取消监听的方法。用于停止监听。
+    watch: {
+        'k',
+        cb,
+        {
+            deep: boolean // 是否深度监听
+            immediate: boolean // 当表达式的值改变时是否立即执行回调
+            flush: 'pre' | 'post' | 'sync' // 是否深度监听
+            // pre 在渲染前调用回调
+            // post 在渲染后调用回调
+            // sync 回调调用回调
+        }
+    }
+}
+```
+```vue
+// vue3
+import {ref, watch} from 'vue'
+setup() {
+    const counter = ref(0)
+    watch(counter, (nv, ov) => {...})
+}
+```
+
+
+### 组合式api & 选项式api
+||组合式api|选项式api|
+|-|-|-|
+||||
+||||
+
+### 参数
+1. props。它是响应式的。不能解构。  
+2. context。非响应式对象。
+   1. {attrs, slots, emit, expose}
+
+当传入新的props时组件会更新。（这与react的处理逻辑一样）  
+expose会返回可在外部组件实例访问的数据。
+```vue
+setup(props, context) {
+    const k = ref(0)
+    context.expose({
+        k: k
+    })
+    return {...}
+}
+```
+
+
+## computed
+可以从 Vue 导入的 computed 函数**在 Vue 组件外**创建计算属性。  
+ref、computed都是使用`.value`访问响应式值。  
+```vue
+import {ref, computed} from 'vue'
+const counter = ref(0)
+const twiceTheCounter = computed(() => counter.value * 2) // 使用comp.value访问值
+counter.value++
+console.log(counter.value)
+console.log(twiceTheCounter.value)
+```
+
+
+
+
 ## title
 ## title
-## title
-## title
-## title
+## vue2 & vue3 组件模板
+```vue
+// vue2
+```
+```vue
+// vue3
+```
 
 
 
