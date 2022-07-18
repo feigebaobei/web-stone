@@ -478,14 +478,6 @@ Vue.defineAsyncComponent(() => new Promise((s, j) => {
 
 ## [过滤 & 动画](/framework/vue3/translate.md)  
 
-
-
-
-
-
-## title
-## title
-
 ## configuration
 默认配置文件：`path/to/file.json`。  
 |key|description|default|enum|demo|||
@@ -535,13 +527,46 @@ Vue.createApp({...})
 
 ## [组件间传递数据](/framework/dataTrasmit/index.html)  
 
+## 模板引用
+就是在父组件上使用`ref`属性。  
+然后在js中使用`this.$refs.xxx`或者`xxx.value`  
+```vue
+<template>
+    // 使用
+    <div ref="root">...</div>
+</template>
+<script>
+import {ref, onMounted} form 'vue'
+export default {
+    setup() {
+        let root = ref(null) // 搞成响应式
+        onMounted(() => {
+            clog(root.value) // 获取
+        })
+        // watch() 和 watchEffect() 在 DOM 挂载或更新之前运行副作用，所以当侦听器运行时，模板引用还未被更新。
+        watchEffect(() => {
+            console.log(root.value)
+        }, {
+            flush: 'post' // 这将在 DOM 更新后运行副作用，确保模板引用与 DOM 保持同步，并引用正确的元素。
+        })
+    }
+}
+</script>
+```
 
-## ti
+### ref & ref & toRefs & $refs
+它们都是来自`reference`.  
+v2中只用于模板引用。到v3时多了响应式。  
+vue中还好多为了兼容以前的功能、逻辑、用法。搞的乱乱的代码。  
 
+||ref|ref|toRefs|$refs|
+|-|-|-|-|-|
+||为基本类型数据做响应式|template中调用ref后，可以模板引用。|把响应式对象解构为多个响应式元素|用于模板引用|
+|用法|`let a = ref(null)`|`<div ref="rp" />`|`toRefs(reactiveObject)`|`this.$refs.xxx`取得模板，得到dom元素|
 
+## [watch & watchEffect](/framework/vue3/watch&WatchEffect.html)
 
-
-
+## mixin
 
 ## principle
 
