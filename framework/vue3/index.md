@@ -517,6 +517,22 @@ Vue.createApp({...})
 
 不要在生命周期方法上使用箭头函数，会影响this指向。  
 
+||选项式api|hook inside setup|
+|-|-|-|
+||beforeCreate|-|
+||created|-|
+||beforeMount|onBeforeMount|
+||mounted|onMounted|
+||beforeUpdate|onBeforeUpdate|
+||updated|onUpdated|
+||beforeUnmount|onBeforeUnmount|
+||unmounted|unUnmouted|
+||errorCaptured|onErrorCaptured|
+||renderTracked|onRenderTracked|
+||renderTriggered|onRenderTriggered|
+||activated|onActivated|
+||deactivated|onDeactivated|
+
 ## [组件间传递数据](/framework/dataTrasmit/index.html)  
 
 
