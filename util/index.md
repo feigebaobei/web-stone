@@ -21,17 +21,20 @@ let createThrottleFn = (fn, t = 250) => {
     }
 }
 // 解释查询字符串
-let parseUrlQS = (url = window.location.href) => {
+let parseUrlQS = (url = window.location.href, useCode = true) => {
   let index = url.indexOf('?')
   let qs = url.slice(index)
   qs = qs.slice(1)
   if (qs) {
     let res = qs.split('&') // [k=v, ...]
-    .reduce((r, c) => {
-      let [k, v] = c.split('=')
-      r[k] = v
-      return r
-    }, {})
+      .reduce((r, c) => {
+        let [k, v] = c.split('=')
+        if (useCode) {
+          v = decodeURIComponent(v)
+        }
+        r[k] = v
+        return r
+      }, {})
     return res
   } else {
     return {}
