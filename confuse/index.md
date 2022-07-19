@@ -7,7 +7,7 @@
 - [console](/browser/console.html)
 - [json格式化](/language/javascript/json-transfer.html)
 - [节流、去抖](/confuse/throttleDebouncd.html)
-- [title](/confuse/title.html)
+- [如何接手老项目](/confuse/takeOverProject.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
