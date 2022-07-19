@@ -710,11 +710,39 @@ const app = createApp({
 app.mount('#root')
 ```
 
+## 插件
+插件是自包含的代码，通常向 Vue 添加全局级功能。它可以是公开 install() 方法的 object，也可以是 function
+组件库就是使用公开install()添加组件的。
+
+### 编写插件
+```js
+// plugins/first.js
+// 公开install方法
+// vue会自动调用install()
+export default {
+    install: (app, options) {...}
+}
+// 当插件是一个方法
+// vue会自动调用此方法
+export function () {...}
+```
+
+### 使用插件
+```js
+import {createApp} from 'vue'
+import Root from './App.vue'
+import first from './plugins/first.js'
+const app = createApp(root)
+app.use(first, opt)
+app.mount('#root')
+```
 
 
 
 
-## title
+
+
+
 ## title
 ## title
 ## title
@@ -741,9 +769,9 @@ app.mount('#root')
 - vue
 - [vue-cli]()
 - [@vue/compiler-sfc]()
-- [vue-cli]()
-- [vue-cli]()
-- [vue-cli]()
+- [vite](/jsPackages/vite.html)
+- [vue-router@4](https://router.vuejs.org/installation.html#direct-download-cdn)
+- [@vue/reactivity]()
 - [vue-cli]()
 - [vue-cli]()
 - vue

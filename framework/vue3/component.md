@@ -304,8 +304,6 @@ let AsyncComp = defineAsyncComponent(() => {
 ## 组件名
 一般用于动态组件、递归组件  
 
-
-
 ## 函数式组件
 ```vue
 Vue.component('comp-name', {
@@ -439,10 +437,6 @@ counter.value++
 console.log(counter.value)
 console.log(twiceTheCounter.value)
 ```
-
-# 渲染函数
-
-
 
 ## todo
 ### 为什么全局注册的事件可以在所有组件中使用

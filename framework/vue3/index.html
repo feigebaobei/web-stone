@@ -1013,7 +1013,7 @@ export default {
 }
 &lt;/script&gt;
 </div></code></code></pre>
-<h3 id="ref--ref--torefs--refs">ref &amp; ref &amp; toRefs &amp; $refs</h3>
+<h3 id="ref--ref--torefs--refs">ref &amp; :ref &amp; toRefs &amp; $refs</h3>
 <p>它们都是来自<code>reference</code>.<br>
 v2中只用于模板引用。到v3时多了响应式。<br>
 vue中还好多为了兼容以前的功能、逻辑、用法。搞的乱乱的代码。</p>
@@ -1022,7 +1022,7 @@ vue中还好多为了兼容以前的功能、逻辑、用法。搞的乱乱的�
 <tr>
 <th></th>
 <th>ref</th>
-<th>ref</th>
+<th>:ref</th>
 <th>toRefs</th>
 <th>$refs</th>
 </tr>
@@ -1059,7 +1059,107 @@ app.mixin({
 <span class="hljs-comment">// 定义局部 组件内</span>
 
 </div></code></pre>
-<h2 id="指令-1">指令</h2>
+<h2 id="teleport">teleport</h2>
+<p>将模板的这一部分移动到 DOM 中 Vue app 之外的其他位置。<br>
+挂载到目标元素的内部后面。</p>
+<pre><code class="language-vue"><code><div>app.component('comp-name', {
+    template: `
+        &lt;button /&gt;
+        &lt;teleport to=&quot;body&quot;&gt;
+            ...
+        &lt;/teleport&gt;
+    `
+})
+</div></code></code></pre>
+<h2 id="渲染函数">渲染函数</h2>
+<p>使用js方法（<code>h / createVNode</code>）编写组件。与sfc功能等价。<br>
+官网举了一个“动态dom标签”的例子。<br>
+一般用于在组件模版需要更灵活时</p>
+<pre><code class="language-vue"><code><div>const {createApp, h} = Vue
+const app = createApp()
+app.component('comp-name', {
+    props: {
+        level: {
+            type: Number,
+            required: true
+        }
+    },
+    render() {
+        return h('h', this.level, {}, this.$slots.default())
+    }
+})
+</div></code></code></pre>
+<pre><code class="language-js"><div>h(
+    tag, <span class="hljs-comment">// String | Object | Function  一个html标签名、一个组件、一个异步组件、一个函数式组件</span>
+    props, <span class="hljs-comment">// Object</span>
+    children, <span class="hljs-comment">// String | Array | Object  需要唯一</span>
+)
+</div></code></pre>
+<pre><code class="language-vue"><code><div>// 所有事件名都是on+大驼峰命名，可以再加大驼峰的事件修饰符。
+const {h, resolveDomponent, resolveDynamicComponent, resolveDirective, withDirectives} = Vue
+app.component('comp-name', {
+    fn() {...},
+    // 在插槽函数外面调用
+    let CompNameA = resolveComponent('comp-name-a') // 解构全局组件
+    let CompNameB = resolveDynamicComponent('comp-name-b') // 解构全局动态组件
+    // &lt;comp-name-b :is=&quot;xxx&quot; /&gt;
+    // keep-alive transition transition-group teleport 不需要使用resolveComponent处理。直接从Vue中取出后使用。
+    render() {
+        return h('a-name', {
+            // v-model
+            modelValue: xxx,
+            'onUpdate:modelValue': v =&gt; this.$emit('update:modelValue', v),
+            // 事件
+            'onClickCapture': this.fn,
+        }, {
+            // 设置插槽
+            this.$slots.default(),
+            this.$slots.slotName({k: v}), // 作用域插槽
+            // 使用插槽
+            slotName: (props) =&gt; h(...)
+        })
+    }
+    render() {
+        let pin = resolveDirective('pin')
+        return withDirectives(h('div', [
+            [pin, 200, 'top', {animate: true}]
+        ]))
+    }
+})
+</div></code></code></pre>
+<p>当使用<code>@vue/babel-plugin-jsx</code>时，可以在vue文件中使用jsx语法。</p>
+<pre><code class="language-vue"><code><div>import CompName from './CompName.vue'
+const app = createApp({
+    render() {
+        return (&lt;CompName&gt;
+        ...
+        &lt;/CompName&gt;)
+    }
+})
+app.mount('#root')
+</div></code></code></pre>
+<h2 id="插件">插件</h2>
+<p>插件是自包含的代码，通常向 Vue 添加全局级功能。它可以是公开 install() 方法的 object，也可以是 function
+组件库就是使用公开install()添加组件的。</p>
+<h3 id="编写插件">编写插件</h3>
+<pre><code class="language-js"><div><span class="hljs-comment">// plugins/first.js</span>
+<span class="hljs-comment">// 公开install方法</span>
+<span class="hljs-comment">// vue会自动调用install()</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+    <span class="hljs-attr">install</span>: (app, options) {...}
+}
+<span class="hljs-comment">// 当插件是一个方法</span>
+<span class="hljs-comment">// vue会自动调用此方法</span>
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{...}
+</div></code></pre>
+<h3 id="使用插件">使用插件</h3>
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span> {createApp} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
+<span class="hljs-keyword">import</span> Root <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./App.vue&#x27;</span>
+<span class="hljs-keyword">import</span> first <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./plugins/first.js&#x27;</span>
+<span class="hljs-keyword">const</span> app = createApp(root)
+app.use(first, opt)
+app.mount(<span class="hljs-string">&#x27;#root&#x27;</span>)
+</div></code></pre>
 <h2 id="title">title</h2>
 <h2 id="title-1">title</h2>
 <h2 id="title-2">title</h2>
@@ -1073,6 +1173,7 @@ app.mixin({
 真传一名话，假传万卷书。如一个道理很庞杂，那就不用学了。它是假的。若只有一句话，那剩下的就是去实践它了。</p>
 <h3 id="uml">uml</h3>
 <pre><code><code><div></div></code></code></pre>
+<h3 id="diff">diff</h3>
 <h2 id="confuse">confuse</h2>
 <ul>
 <li><a href="/framework/vue3/vModel.html">v-model</a></li>
@@ -1083,9 +1184,9 @@ app.mixin({
 <li>vue</li>
 <li><a href="">vue-cli</a></li>
 <li><a href="">@vue/compiler-sfc</a></li>
-<li><a href="">vue-cli</a></li>
-<li><a href="">vue-cli</a></li>
-<li><a href="">vue-cli</a></li>
+<li><a href="/jsPackages/vite.html">vite</a></li>
+<li><a href="https://router.vuejs.org/installation.html#direct-download-cdn">vue-router@4</a></li>
+<li><a href="">@vue/reactivity</a></li>
 <li><a href="">vue-cli</a></li>
 <li><a href="">vue-cli</a></li>
 <li>vue</li>
