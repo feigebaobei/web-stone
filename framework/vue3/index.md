@@ -597,12 +597,12 @@ export default {
 </script>
 ```
 
-### ref & ref & toRefs & $refs
+### ref & :ref & toRefs & $refs
 它们都是来自`reference`.  
 v2中只用于模板引用。到v3时多了响应式。  
 vue中还好多为了兼容以前的功能、逻辑、用法。搞的乱乱的代码。  
 
-||ref|ref|toRefs|$refs|
+||ref|:ref|toRefs|$refs|
 |-|-|-|-|-|
 ||为基本类型数据做响应式|template中调用ref后，可以模板引用。|把响应式对象解构为多个响应式元素|用于模板引用|
 |用法|`let a = ref(null)`|`<div ref="rp" />`|`toRefs(reactiveObject)`|`this.$refs.xxx`取得模板，得到dom元素|
@@ -624,16 +624,97 @@ app.mixin({
 
 ```
 
-## 指令
+## teleport
+将模板的这一部分移动到 DOM 中 Vue app 之外的其他位置。  
+挂载到目标元素的内部后面。  
+```vue
+app.component('comp-name', {
+    template: `
+        <button />
+        <teleport to="body">
+            ...
+        </teleport>
+    `
+})
+```
+
+## 渲染函数
+使用js方法（`h / createVNode`）编写组件。与sfc功能等价。  
+官网举了一个“动态dom标签”的例子。  
+一般用于在组件模版需要更灵活时  
+```vue
+const {createApp, h} = Vue
+const app = createApp()
+app.component('comp-name', {
+    props: {
+        level: {
+            type: Number,
+            required: true
+        }
+    },
+    render() {
+        return h('h', this.level, {}, this.$slots.default())
+    }
+})
+```
+```js
+h(
+    tag, // String | Object | Function  一个html标签名、一个组件、一个异步组件、一个函数式组件
+    props, // Object
+    children, // String | Array | Object  需要唯一
+)
+```
+```vue
+// 所有事件名都是on+大驼峰命名，可以再加大驼峰的事件修饰符。
+const {h, resolveDomponent, resolveDynamicComponent, resolveDirective, withDirectives} = Vue
+app.component('comp-name', {
+    fn() {...},
+    // 在插槽函数外面调用
+    let CompNameA = resolveComponent('comp-name-a') // 解构全局组件
+    let CompNameB = resolveDynamicComponent('comp-name-b') // 解构全局动态组件
+    // <comp-name-b :is="xxx" />
+    // keep-alive transition transition-group teleport 不需要使用resolveComponent处理。直接从Vue中取出后使用。
+    render() {
+        return h('a-name', {
+            // v-model
+            modelValue: xxx,
+            'onUpdate:modelValue': v => this.$emit('update:modelValue', v),
+            // 事件
+            'onClickCapture': this.fn,
+        }, {
+            // 设置插槽
+            this.$slots.default(),
+            this.$slots.slotName({k: v}), // 作用域插槽
+            // 使用插槽
+            slotName: (props) => h(...)
+        })
+    }
+    render() {
+        let pin = resolveDirective('pin')
+        return withDirectives(h('div', [
+            [pin, 200, 'top', {animate: true}]
+        ]))
+    }
+})
+```
+当使用`@vue/babel-plugin-jsx`时，可以在vue文件中使用jsx语法。
+```vue
+import CompName from './CompName.vue'
+const app = createApp({
+    render() {
+        return (<CompName>
+        ...
+        </CompName>)
+    }
+})
+app.mount('#root')
+```
 
 
 
 
 
-
-
-
-
+## title
 ## title
 ## title
 ## title
@@ -651,6 +732,7 @@ app.mixin({
 ```
 ```
 
+### diff
 ## confuse
 - [v-model](/framework/vue3/vModel.html)
 - [$forceupdate](/framework/vue3/forceupdate.html)

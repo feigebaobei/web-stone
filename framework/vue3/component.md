@@ -403,7 +403,6 @@ setup() {
 }
 ```
 
-
 ### 组合式api & 选项式api
 ||组合式api|选项式api|
 |-|-|-|
@@ -415,7 +414,7 @@ setup() {
 ### 参数
 1. props。它是响应式的。不能解构。  
 2. context。非响应式对象。
-   1. {attrs, slots, emit, expose}
+   1. {attrs, slots, emit, expose} // 因emit不是名词所有不使用复数
 
 当传入新的props时组件会更新。（这与react的处理逻辑一样）  
 expose会返回可在外部组件实例访问的数据。
@@ -429,7 +428,6 @@ setup(props, context) {
 }
 ```
 
-
 ## computed
 可以从 Vue 导入的 computed 函数**在 Vue 组件外**创建计算属性。  
 ref、computed都是使用`.value`访问响应式值。  
@@ -442,11 +440,21 @@ console.log(counter.value)
 console.log(twiceTheCounter.value)
 ```
 
+# 渲染函数
 
 
 
-## title
-## title
+## todo
+### 为什么全局注册的事件可以在所有组件中使用
+可能是在vue的实例（vdom）中的原型链上挂载了组件。
+
+### title
+### title
+### title
+### title
+### title
+
+
 ## vue2 & vue3 组件模板
 ```vue
 // vue2
@@ -477,13 +485,3 @@ export default {
 
 
 
-
-## todo
-### 为什么全局注册的事件可以在所有组件中使用
-可能是在vue的实例（vdom）中的原型链上挂载了组件。
-
-### title
-### title
-### title
-### title
-### title
