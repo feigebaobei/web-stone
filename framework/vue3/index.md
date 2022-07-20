@@ -766,6 +766,10 @@ app.mount('#root')
 ## [开发跨端应用](/framework/vue3/devMobile.html)
 
 ## [为生产打包](/framework/vue3/buildTogether.html)
+
+## [状态管理](/framework/vue3/stateManager.html)
+## title
+## title
 ## title
 ## title
 ## title

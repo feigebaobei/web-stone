@@ -1013,7 +1013,7 @@ export default {
 }
 &lt;/script&gt;
 </div></code></code></pre>
-<h3 id="ref--ref--torefs--refs">ref &amp; :ref &amp; toRefs &amp; $refs</h3>
+<h3 id="ref--ref--torefs--refs--ref">ref &amp; :ref &amp; toRefs &amp; <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mi>e</mi><mi>f</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">refs </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">re</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mord mathnormal">s</span></span></span></span> Ref</h3>
 <p>它们都是来自<code>reference</code>.<br>
 v2中只用于模板引用。到v3时多了响应式。<br>
 vue中还好多为了兼容以前的功能、逻辑、用法。搞的乱乱的代码。</p>
@@ -1025,6 +1025,7 @@ vue中还好多为了兼容以前的功能、逻辑、用法。搞的乱乱的�
 <th>:ref</th>
 <th>toRefs</th>
 <th>$refs</th>
+<th>Ref</th>
 </tr>
 </thead>
 <tbody>
@@ -1034,6 +1035,7 @@ vue中还好多为了兼容以前的功能、逻辑、用法。搞的乱乱的�
 <td>template中调用ref后，可以模板引用。</td>
 <td>把响应式对象解构为多个响应式元素</td>
 <td>用于模板引用</td>
+<td></td>
 </tr>
 <tr>
 <td>用法</td>
@@ -1041,6 +1043,7 @@ vue中还好多为了兼容以前的功能、逻辑、用法。搞的乱乱的�
 <td><code>&lt;div ref=&quot;rp&quot; /&gt;</code></td>
 <td><code>toRefs(reactiveObject)</code></td>
 <td><code>this.$refs.xxx</code>取得模板，得到dom元素</td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -1226,7 +1229,14 @@ app.mount(<span class="hljs-string">&#x27;#root&#x27;</span>)
 <h2 id="测试"><a href="/framework/vue3/test.html">测试</a></h2>
 <h2 id="与ts结合使用"><a href="/framework/vue3/tsTogether.html">与ts结合使用</a></h2>
 <h2 id="api-1"><a href="/framework/vue3/api.html">api</a></h2>
+<h2 id="开发跨端应用"><a href="/framework/vue3/devMobile.html">开发跨端应用</a></h2>
+<h2 id="为生产打包"><a href="/framework/vue3/buildTogether.html">为生产打包</a></h2>
+<h2 id="状态管理"><a href="/framework/vue3/stateManager.html">状态管理</a></h2>
 <h2 id="title">title</h2>
+<h2 id="title-1">title</h2>
+<h2 id="title-2">title</h2>
+<h2 id="title-3">title</h2>
+<h2 id="title-4">title</h2>
 <h2 id="principle"><a href="/framework/vue3/principle.html">principle</a></h2>
 <p>该包负责把<code>*.vue</code>的代码转换为操作dom的代码。操作完dom后由浏览器根据dom显示出来，中间包括大量的重绘、回流。<br>
 在<code>mvvm</code>框架流行之间有面向dom开发的框架——jquery。它也是操作dom。然后让浏览器做重绘、回流的工作。<br>
