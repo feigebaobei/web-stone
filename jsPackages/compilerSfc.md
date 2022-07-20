@@ -1,7 +1,7 @@
 # `@vue/compiler-sfc`
 
 ## overview
-> 编译sfc的包  
+> 编译sfc的包。会输出es模块。因此可以使用`import`引入并使用。 
 
 ### feature
 - feature0

@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>&DiacriticalGrave;&commat;vue&sol;compiler-sfc&DiacriticalGrave;</title>
+        <title>cssSelector</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -63,7 +63,8 @@
 }
 
 </style>
-        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -79,109 +80,228 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="vuecompiler-sfc"><code>@vue/compiler-sfc</code></h1>
-<h2 id="overview">overview</h2>
-<blockquote>
-<p>编译sfc的包。会输出es模块。因此可以使用<code>import</code>引入并使用。</p>
-</blockquote>
-<h3 id="feature">feature</h3>
-<ul>
-<li>feature0</li>
-<li>feature1</li>
-<li>feature2</li>
-</ul>
-<h2 id="install">install</h2>
-<p><code>npm i @vue/compiler-sfc</code></p>
-<h2 id="usage">usage</h2>
-<p>同<code>./demo.md</code></p>
-<pre><code><code><div>const @vue/compiler-sfc = require('@vue/compiler-sfc');
-// or
-// import @vue/compiler-sfc from '@vue/compiler-sfc';
-// TODO: DEMONSTRATE API
-</div></code></code></pre>
-<h2 id="vue3版本sfc模板">vue3版本sfc模板</h2>
-<pre><code class="language-vue"><code><div>&lt;template&gt;
-  &lt;p class=&quot;greeting&quot;&gt;{{ greeting }}&lt;/p&gt;
-&lt;/template&gt;
-
-&lt;script&gt;
-export default {
-  data() {
-    return {
-      greeting: 'Hello World!'
-    }
-  }
-}
-&lt;/script&gt;
-
-&lt;style&gt;
-.greeting {
-  color: red;
-  font-weight: bold;
-}
-&lt;/style&gt;
-</div></code></code></pre>
-<h2 id="configuration">configuration</h2>
-<p>默认配置文件：<code>path/to/file.json</code>。</p>
+        <h1 id="cssselector">cssSelector</h1>
+<p>css选择器是使用css语言做选择。用于样式编写。选择特定元素再给定样式。</p>
 <table>
 <thead>
 <tr>
-<th>key</th>
-<th>description</th>
-<th>default</th>
-<th>enum</th>
+<th>选择方式</th>
+<th>说明</th>
 <th>demo</th>
-<th></th>
-<th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td>.class</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td>#id</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
+<td>element</td>
 <td></td>
 <td></td>
+</tr>
+<tr>
+<td>element element</td>
 <td></td>
 <td></td>
+</tr>
+<tr>
+<td>.class0.class</td>
+<td>同时拥有class0与class1</td>
+<td></td>
+</tr>
+<tr>
+<td>element &gt; element</td>
 <td></td>
 <td></td>
+</tr>
+<tr>
+<td>element1+element2</td>
+<td>选中element1后面的element2</td>
 <td></td>
+</tr>
+<tr>
+<td>[attribute]</td>
+<td>有attribute属性的</td>
+<td>p[attribute]</td>
+</tr>
+<tr>
+<td>[attribute=value]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><img src="file:////Users/cat/Documents/code/personal/web-stone/language/css/image/cssSelector0.png" alt=""></td>
+<td>选中attribute的属性值以value开头的元素。有兼容问题。</td>
+<td></td>
+</tr>
+<tr>
+<td>element1~element2</td>
+<td>选中element1后面的每个element2(可以不是紧挨着)</td>
+<td></td>
+</tr>
+<tr>
+<td>[attribute^=value]</td>
+<td>选中属性attribute的属性值以value开头的元素</td>
+<td></td>
+</tr>
+<tr>
+<td>[attribute$=value]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>[attribute*=value]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>:link</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>:visited</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>:hover</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>:active</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>:focus</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>:first-letter</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>:first-line</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>:first-child</td>
+<td>每个容器中的第一个元素</td>
+<td></td>
+</tr>
+<tr>
+<td>:last-child</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>:before</td>
+<td>为元素的内部的开头添加内容。一般结合content一起使用</td>
+<td>p:before{content:&quot;cont&quot;;}</td>
+</tr>
+<tr>
+<td>:after</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>:lang</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>:first-of-type</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>:last-of-type</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>:only-of-type</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>:only-child</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>:nth-child(n)</td>
+<td>选择其父元素的第n个子元素。n从1开始计数。</td>
+<td></td>
+</tr>
+<tr>
+<td>:nth-last-child(n)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>:nth-of-type(n)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>:nth-last-of-type(n)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>:root</td>
+<td>文档的根元素</td>
+<td>:root{color:red;}</td>
+</tr>
+<tr>
+<td>:empty</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>:enabled</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>:disabled</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>:checked</td>
+<td>有兼容问题</td>
+<td></td>
+</tr>
+<tr>
+<td>:not(selector)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>::selection</td>
+<td>被选中的样式。有兼容问题。</td>
+<td>::selection,::-moz-selection</td>
 </tr>
 </tbody>
 </table>
-<h2 id="api">api</h2>
-<p><code>@vue/compiler-sfc.fn(param, first: string, second: boolean = true) =&gt; void</code>
-description</p>
-<p><code>@vue/compiler-sfc.fn(param, [options: {a: string, b?: number}])</code>
-description</p>
-<h2 id="principle">principle</h2>
-<p>此包的处理逻辑。</p>
-<h3 id="uml">uml</h3>
-<pre><code><code><div></div></code></code></pre>
-<h2 id="todo">todo</h2>
-<blockquote>
-<p>未来迭代计划。
-未来迭代计划。
-未来迭代计划。</p>
-</blockquote>
+<h2 id="优先级">优先级</h2>
+<p>id &gt; class &gt; tag</p>
 
-        
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
     </body>
     </html>
