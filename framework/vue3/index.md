@@ -768,7 +768,9 @@ app.mount('#root')
 ## [为生产打包](/framework/vue3/buildTogether.html)
 
 ## [状态管理](/framework/vue3/stateManager.html)
-## title
+
+## [ssr(服务端渲染)](/framework/vue3/ssr.html)
+
 ## title
 ## title
 ## title
