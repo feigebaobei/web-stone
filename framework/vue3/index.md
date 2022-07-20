@@ -80,8 +80,8 @@ const Counter = {
     }
 }
 Vue.createApp(Counter).mount('#id')
-
 ```
+### [创建项目](/framework/vue3/demo.html)
 
 ### 组件树
 ```js
@@ -759,10 +759,10 @@ app.mount('#root')
 
 ## [测试](/framework/vue3/test.html)
 
+## [与ts结合使用](/framework/vue3/tsTogether.html)
 
 
 
-## title
 ## title
 ## title
 
