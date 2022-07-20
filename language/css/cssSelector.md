@@ -6,9 +6,9 @@ css选择器是使用css语言做选择。用于样式编写。选择特定元�
 |.class|||
 |#id|||
 |element|||
-|element element|||
+|element1 element2|element1内的所有element2||
 |.class0.class|同时拥有class0与class1||
-|element > element|||
+|element1 > element2|父元素是element1的所有element2||
 |element1+element2|选中element1后面的element2||
 |[attribute\]|有attribute属性的|p[attribute\]|
 |[attribute=value\]|||
