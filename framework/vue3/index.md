@@ -737,7 +737,25 @@ app.use(first, opt)
 app.mount('#root')
 ```
 
+## 响应式
+- proxy对象无法对基本类型的数据做响应式，所以vue3把基本类型的数据转化为`{value: xx}`。   
+- 基本响应式api是reactive。ref是基于reactive开发出来的。  
+- readonly可防止修改响应式对象  
 
+### reactive & ref
+||reactive|ref||
+|-|-|-|-|
+|用法|reactive(o)|ref(v)||
+|返回||||
+||使用toRefs可解析为响应式|-||
+|||||
+|||||
+|||||
+|||||
+
+### [watchEffect](/framework/vue3/watch&WatchEffect.html)
+
+## [nextTick]()
 
 
 
@@ -747,10 +765,8 @@ app.mount('#root')
 ## title
 ## title
 ## title
-## title
-## title
 
-## principle
+## [principle](/framework/vue3/principle.html)
 
 该包负责把`*.vue`的代码转换为操作dom的代码。操作完dom后由浏览器根据dom显示出来，中间包括大量的重绘、回流。  
 在`mvvm`框架流行之间有面向dom开发的框架——jquery。它也是操作dom。然后让浏览器做重绘、回流的工作。  
@@ -771,7 +787,7 @@ app.mount('#root')
 - [@vue/compiler-sfc]()
 - [vite](/jsPackages/vite.html)
 - [vue-router@4](https://router.vuejs.org/installation.html#direct-download-cdn)
-- [@vue/reactivity]()
+- [@vue/reactivity 响应式核心包]()
 - [vue-cli]()
 - [vue-cli]()
 - vue

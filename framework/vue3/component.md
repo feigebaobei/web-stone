@@ -325,6 +325,7 @@ Vue.component('comp-name', {
 vue3开创此属性（生命周期）是为了解决“关注点分离”问题。  
 就是把本组件的基本数据、方法、计算等放在setup()中做。别的仍然与vue2时期一样。  
 在创建组件之前执行setup方法。此时data/computed/methods/refs都未被解析。（即不能使用）setup方法暴露的内容可以被本组件的其余部分访问。  
+所谓的关注点分离就是在setup中写基本方法、数据。  
 setup()内的this不是活跃实例的引用。  
 ```vue
 export default {
@@ -360,6 +361,7 @@ export default {
 ### setup watch & watch
 ```vue
 // vue2
+// 可能是错的
 export default {
     data() {
         return {
@@ -436,6 +438,25 @@ const twiceTheCounter = computed(() => counter.value * 2) // 使用comp.value访
 counter.value++
 console.log(counter.value)
 console.log(twiceTheCounter.value)
+```
+
+### 参数
+在vue3.2+新增了`onTrack / onTrigger`参数。  
+```vue
+const plusOne = computed(() => count.value + 1, {
+  onTrack(e) {
+    // 当 count.value 作为依赖被追踪时触发
+    debugger
+  },
+  onTrigger(e) {
+    // 当 count.value 被修改时触发
+    debugger
+  }
+})
+// 访问 plusOne，应该触发 onTrack
+console.log(plusOne.value)
+// 修改 count.value，应该触发 onTrigger
+count.value++
 ```
 
 ## todo

@@ -1160,13 +1160,74 @@ app.mount('#root')
 app.use(first, opt)
 app.mount(<span class="hljs-string">&#x27;#root&#x27;</span>)
 </div></code></pre>
+<h2 id="响应式">响应式</h2>
+<ul>
+<li>proxy对象无法对基本类型的数据做响应式，所以vue3把基本类型的数据转化为<code>{value: xx}</code>。</li>
+<li>基本响应式api是reactive。ref是基于reactive开发出来的。</li>
+<li>readonly可防止修改响应式对象</li>
+</ul>
+<h3 id="reactive--ref">reactive &amp; ref</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>reactive</th>
+<th>ref</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>用法</td>
+<td>reactive(o)</td>
+<td>ref(v)</td>
+<td></td>
+</tr>
+<tr>
+<td>返回</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>使用toRefs可解析为响应式</td>
+<td>-</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="watcheffect"><a href="/framework/vue3/watch&amp;WatchEffect.html">watchEffect</a></h3>
+<h2 id="nexttick"><a href="">nextTick</a></h2>
 <h2 id="title">title</h2>
 <h2 id="title-1">title</h2>
 <h2 id="title-2">title</h2>
 <h2 id="title-3">title</h2>
-<h2 id="title-4">title</h2>
-<h2 id="title-5">title</h2>
-<h2 id="principle">principle</h2>
+<h2 id="principle"><a href="/framework/vue3/principle.html">principle</a></h2>
 <p>该包负责把<code>*.vue</code>的代码转换为操作dom的代码。操作完dom后由浏览器根据dom显示出来，中间包括大量的重绘、回流。<br>
 在<code>mvvm</code>框架流行之间有面向dom开发的框架——jquery。它也是操作dom。然后让浏览器做重绘、回流的工作。<br>
 把数据做成可生成html代码的js代码，然后交给浏览器运行。vue就做了这一件事。<br>
@@ -1186,7 +1247,7 @@ app.mount(<span class="hljs-string">&#x27;#root&#x27;</span>)
 <li><a href="">@vue/compiler-sfc</a></li>
 <li><a href="/jsPackages/vite.html">vite</a></li>
 <li><a href="https://router.vuejs.org/installation.html#direct-download-cdn">vue-router@4</a></li>
-<li><a href="">@vue/reactivity</a></li>
+<li><a href="">@vue/reactivity 响应式核心包</a></li>
 <li><a href="">vue-cli</a></li>
 <li><a href="">vue-cli</a></li>
 <li>vue</li>

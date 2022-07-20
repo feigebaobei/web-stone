@@ -443,6 +443,7 @@ let AsyncComp = defineAsyncComponent(() =&gt; {
 <p>vue3开创此属性（生命周期）是为了解决“关注点分离”问题。<br>
 就是把本组件的基本数据、方法、计算等放在setup()中做。别的仍然与vue2时期一样。<br>
 在创建组件之前执行setup方法。此时data/computed/methods/refs都未被解析。（即不能使用）setup方法暴露的内容可以被本组件的其余部分访问。<br>
+所谓的关注点分离就是在setup中写基本方法、数据。<br>
 setup()内的this不是活跃实例的引用。</p>
 <pre><code class="language-vue"><code><div>export default {
     components: {...} // 又是复数形式
@@ -475,6 +476,7 @@ setup()内的this不是活跃实例的引用。</p>
 </div></code></code></pre>
 <h3 id="setup-watch--watch">setup watch &amp; watch</h3>
 <pre><code class="language-vue"><code><div>// vue2
+// 可能是错的
 export default {
     data() {
         return {
@@ -551,7 +553,7 @@ setup() {
 <li>props。它是响应式的。不能解构。</li>
 <li>context。非响应式对象。
 <ol>
-<li>{attrs, slots, emit, expose}</li>
+<li>{attrs, slots, emit, expose} // 因emit不是名词所有不使用复数</li>
 </ol>
 </li>
 </ol>
@@ -575,8 +577,31 @@ counter.value++
 console.log(counter.value)
 console.log(twiceTheCounter.value)
 </div></code></code></pre>
-<h2 id="title">title</h2>
-<h2 id="title-1">title</h2>
+<h3 id="参数-1">参数</h3>
+<p>在vue3.2+新增了<code>onTrack / onTrigger</code>参数。</p>
+<pre><code class="language-vue"><code><div>const plusOne = computed(() =&gt; count.value + 1, {
+  onTrack(e) {
+    // 当 count.value 作为依赖被追踪时触发
+    debugger
+  },
+  onTrigger(e) {
+    // 当 count.value 被修改时触发
+    debugger
+  }
+})
+// 访问 plusOne，应该触发 onTrack
+console.log(plusOne.value)
+// 修改 count.value，应该触发 onTrigger
+count.value++
+</div></code></code></pre>
+<h2 id="todo">todo</h2>
+<h3 id="为什么全局注册的事件可以在所有组件中使用">为什么全局注册的事件可以在所有组件中使用</h3>
+<p>可能是在vue的实例（vdom）中的原型链上挂载了组件。</p>
+<h3 id="title">title</h3>
+<h3 id="title-1">title</h3>
+<h3 id="title-2">title</h3>
+<h3 id="title-3">title</h3>
+<h3 id="title-4">title</h3>
 <h2 id="vue2--vue3-组件模板">vue2 &amp; vue3 组件模板</h2>
 <pre><code class="language-vue"><code><div>// vue2
 </div></code></code></pre>
@@ -600,14 +625,6 @@ export default {
 &lt;style&gt;
 &lt;/style&gt;
 </div></code></code></pre>
-<h2 id="todo">todo</h2>
-<h3 id="为什么全局注册的事件可以在所有组件中使用">为什么全局注册的事件可以在所有组件中使用</h3>
-<p>可能是在vue的实例（vdom）中的原型链上挂载了组件。</p>
-<h3 id="title-2">title</h3>
-<h3 id="title-3">title</h3>
-<h3 id="title-4">title</h3>
-<h3 id="title-5">title</h3>
-<h3 id="title-6">title</h3>
 
         <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
