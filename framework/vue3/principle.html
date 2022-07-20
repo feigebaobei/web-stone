@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>watch &amp; watchEffect</title>
+        <title>principle</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -80,157 +80,21 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="watch--watcheffect">watch &amp; watchEffect</h1>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>监听器watch</th>
-<th>api watch</th>
-<th>watchEffect</th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td>vue2</td>
-<td>vue3</td>
-<td>vue3</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>选项式</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>懒执行副作用</td>
-<td>懒执行副作用</td>
-<td>-</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>知道什么状态应该触发副作用方法</td>
-<td>知道什么状态应该触发副作用方法</td>
-<td>-</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>知道变化前后的值</td>
-<td>知道变化前后的值</td>
-<td>只知道当前的值（即变化后的值）</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
+        <h1 id="principle">principle</h1>
+<h2 id="渲染机制">渲染机制</h2>
+<p>程序员使用vue框架，编写sfc文件。vue会把它们搞vdom。vue根据vdom生成dom，当vdom改变时vue更新dom。</p>
+<h2 id="vue2不能做到的事">vue2不能做到的事</h2>
 <ul>
-<li>一般在它们中执行用时多的、异步的操作。</li>
-<li>可以调用methods里的数据。</li>
-<li>api watch &amp; watchEffect 的写法注定不能一次监听多个。需要写多个去监听多个数据。</li>
-<li>监听器 watch 可以一次监听多个</li>
+<li>在data中不声明的对象、属性，不能响应式。</li>
+<li>使用this.$set(this.data.k, 'p', v) 可实现响应式。</li>
+<li>对数组根据下标改变数据时，不能响应式。</li>
+<li>使用vm.items.splice(arr, 1, nv) 可实现响应式。（vue2对splice做了修改）</li>
+<li>当改变数组长度时，不能响应式。</li>
+<li>使用vm.items.splice(newLength) 可实现响应式</li>
+<li>内部使用Promise.then() MutationObserver setImmediate setTimeout处理异步功能。</li>
+<li>Vue.nextTick(cb) 在数据变化后立即执行回调。</li>
+<li></li>
 </ul>
-<h2 id="watcheffect">watchEffect</h2>
-<ul>
-<li>它立即执行传入的方法，同时响应式追踪其依赖。在依赖变更时重新运行该函数。</li>
-<li>执行一次才能知道依赖是什么。</li>
-<li>该方法返回一个停止监听的方法。执行此方法会停止监听。</li>
-<li>一般执行异步的副作用。</li>
-<li>参数是function
-<ul>
-<li>若传参数<code>onInvalidate</code>，用于注册清理失效时的回调。</li>
-</ul>
-</li>
-<li>默认在所有的组件update前执行</li>
-</ul>
-<pre><code class="language-vue"><code><div>const stop = watchEffect(() =&gt; {....})
-stop() // 停止监听
-
-watchEffect(
-  () =&gt; {
-    /* 副作用 */
-  },
-  {
-    onTrack(e) {...}, // 被跟踪时执行
-    onTrigger(e) {
-      debugger
-    } // 被更新时执行
-    flush: 'pre' | 'post' | 'sync'
-  }
-)
-watchEffect(onInvalidate =&gt; {
-    
-})
-</div></code></code></pre>
-<h2 id="watch">watch</h2>
-<h2 id="与watcheffect相对">与watchEffect相对</h2>
-<h3 id="选项式watch">选项式watch</h3>
-<pre><code class="language-vue"><code><div>watch: {
-    k: (nv, ov) {...}
-}
-</div></code></code></pre>
-<h3 id="api-watch">api watch</h3>
-<pre><code class="language-js"><div>$watch: <span class="hljs-function">(<span class="hljs-params">
-    source: string | <span class="hljs-keyword">function</span>
-    cb: <span class="hljs-keyword">function</span> | object
-    options: {
-        deep: boolean,
-        immediate: boolean, <span class="hljs-regexp">//</span> 若为<span class="hljs-literal">true</span>，则当改变时立即开始执行，第一次无法取消。
-        flush: <span class="hljs-string">&#x27;pre&#x27;</span> | <span class="hljs-string">&#x27;post&#x27;</span> | <span class="hljs-string">&#x27;sync&#x27;</span>,
-    }
-</span>) =&gt;</span> unwatch: <span class="hljs-function"><span class="hljs-keyword">function</span>
-</span></div></code></pre>
-<pre><code class="language-vue"><code><div>import {watch} from 'vue'
-let state = reactive({count: 0})
-watch(
-    () =&gt; state.count,
-    (nv, ov) =&gt; {...}
-)
-let count = ref(0)
-watch(
-    count,
-    (nv, ov) =&gt; {...}
-)
-// 同时监听多个数据源
-// 若同时改变多个数据源，则watch只执行一次。
-watch([one, two], (one, two) =&gt; {...})
-</div></code></code></pre>
-<p><strong>测试使用deep: true能否监听到对象变化</strong></p>
 
         <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
