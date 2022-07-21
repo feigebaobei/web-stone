@@ -428,6 +428,31 @@ setup(props, context) {
 }
 ```
 
+### 如何理解setup
+- 代替了生命周期beforeCreate / created  
+- 用于关注点分离。返回数据和基本的方法。  
+- 在组合式api中使用。vue2使用的是选项式api.  
+
+### 在script标签中使用setup
+这就是组合式api的第二种写法。根本不是语法糖，一点方便都没有带给我们。  
+```vue
+<script setup>
+import {
+    defineProp, // 接收父组件传来的props
+    defineEmits, // 声明可触发的事件
+    useContext, // 创建本组件的上下文context
+} from 'vue'
+const emit = defineEmits(['eventName'])
+const props = defineProps({k: String})
+const context = useContext()
+const fn = () => {
+    emit('eventName', p)
+}
+</script>
+```
+
+
+
 ## computed
 可以从 Vue 导入的 computed 函数**在 Vue 组件外**创建计算属性。  
 ref、computed都是使用`.value`访问响应式值。  
@@ -459,6 +484,27 @@ console.log(plusOne.value)
 count.value++
 ```
 
+## css
+### 变量注入
+```vue
+<script>
+    // ...
+    let state = reactive({color: 'red'})
+    setup() {
+        return state
+    }
+</script>
+<style scoped>
+    .c {
+        color: v-bind('state.color')
+    }
+</style>
+```
+
+## title
+## title
+## title
+## title
 ## todo
 ### 为什么全局注册的事件可以在所有组件中使用
 可能是在vue的实例（vdom）中的原型链上挂载了组件。

@@ -567,6 +567,28 @@ expose会返回可在外部组件实例访问的数据。</p>
     return {...}
 }
 </div></code></code></pre>
+<h3 id="如何理解setup">如何理解setup</h3>
+<ul>
+<li>代替了生命周期beforeCreate / created</li>
+<li>用于关注点分离。返回数据和基本的方法。</li>
+<li>在组合式api中使用。vue2使用的是选项式api.</li>
+</ul>
+<h3 id="在script标签中使用setup">在script标签中使用setup</h3>
+<p>这就是组合式api的第二种写法。根本不是语法糖，一点方便都没有带给我们。</p>
+<pre><code class="language-vue"><code><div>&lt;script setup&gt;
+import {
+    defineProp, // 接收父组件传来的props
+    defineEmits, // 声明可触发的事件
+    useContext, // 创建本组件的上下文context
+} from 'vue'
+const emit = defineEmits(['eventName'])
+const props = defineProps({k: String})
+const context = useContext()
+const fn = () =&gt; {
+    emit('eventName', p)
+}
+&lt;/script&gt;
+</div></code></code></pre>
 <h2 id="computed">computed</h2>
 <p>可以从 Vue 导入的 computed 函数<strong>在 Vue 组件外</strong>创建计算属性。<br>
 ref、computed都是使用<code>.value</code>访问响应式值。</p>
@@ -594,14 +616,33 @@ console.log(plusOne.value)
 // 修改 count.value，应该触发 onTrigger
 count.value++
 </div></code></code></pre>
+<h2 id="css">css</h2>
+<h3 id="变量注入">变量注入</h3>
+<pre><code class="language-vue"><code><div>&lt;script&gt;
+    // ...
+    let state = reactive({color: 'red'})
+    setup() {
+        return state
+    }
+&lt;/script&gt;
+&lt;style scoped&gt;
+    .c {
+        color: v-bind('state.color')
+    }
+&lt;/style&gt;
+</div></code></code></pre>
+<h2 id="title">title</h2>
+<h2 id="title-1">title</h2>
+<h2 id="title-2">title</h2>
+<h2 id="title-3">title</h2>
 <h2 id="todo">todo</h2>
 <h3 id="为什么全局注册的事件可以在所有组件中使用">为什么全局注册的事件可以在所有组件中使用</h3>
 <p>可能是在vue的实例（vdom）中的原型链上挂载了组件。</p>
-<h3 id="title">title</h3>
-<h3 id="title-1">title</h3>
-<h3 id="title-2">title</h3>
-<h3 id="title-3">title</h3>
 <h3 id="title-4">title</h3>
+<h3 id="title-5">title</h3>
+<h3 id="title-6">title</h3>
+<h3 id="title-7">title</h3>
+<h3 id="title-8">title</h3>
 <h2 id="vue2--vue3-组件模板">vue2 &amp; vue3 组件模板</h2>
 <pre><code class="language-vue"><code><div>// vue2
 </div></code></code></pre>

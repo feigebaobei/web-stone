@@ -771,7 +771,7 @@ app.mount('#root')
 
 ## [ssr(服务端渲染)](/framework/vue3/ssr.html)
 
-## title
+## [安全](/framework/vue3/safe.html)
 ## title
 ## title
 ## title
