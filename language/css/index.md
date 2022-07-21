@@ -2,7 +2,7 @@
 
 # [css选择器](/language/css/cssSelector.html)
 
-# [动画]](/language/css/animation.html)
+# [动画](/language/css/animation.html)
 
 # title
 ## [background](/language/css/background.html)  
