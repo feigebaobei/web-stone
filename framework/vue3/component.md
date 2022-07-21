@@ -305,6 +305,8 @@ let AsyncComp = defineAsyncComponent(() => {
 一般用于动态组件、递归组件  
 
 ## 函数式组件
+当组件模版需要更灵活时一般使用函数式组件。  
+它可以在通过控制三个参数（tag/props/children），实现组件。  
 ```vue
 Vue.component('comp-name', {
     functoinal: true,
