@@ -401,6 +401,27 @@ const router = createRouter({
 ```
 
 ## 路由懒加载（动态导入）
+按需加载对应组件。 
+打包工作会实现代码分割。   
+```js
+let Comp = () => import('./Comp')
+const router = createRoutet({
+    history,
+    routes: [{path, component: Comp}]
+    // 只有在第一次进入此页面时才会获取之个函数。
+})
+```
+
+异步组件可以在路由中使用。  
+异步组件不可以在路由组件中使用。  
+ 
+### 把组件按组分块
+```js
+// use webpack
+
+// use vite
+
+````
 
 
 

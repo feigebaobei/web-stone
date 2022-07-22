@@ -497,6 +497,23 @@ router.beforeEach(<span class="hljs-function">(<span class="hljs-params">to, <sp
 })
 </div></code></pre>
 <h2 id="路由懒加载动态导入">路由懒加载（动态导入）</h2>
+<p>按需加载对应组件。
+打包工作会实现代码分割。</p>
+<pre><code class="language-js"><div><span class="hljs-keyword">let</span> Comp = <span class="hljs-function">() =&gt;</span> <span class="hljs-keyword">import</span>(<span class="hljs-string">&#x27;./Comp&#x27;</span>)
+<span class="hljs-keyword">const</span> router = createRoutet({
+    history,
+    <span class="hljs-attr">routes</span>: [{path, <span class="hljs-attr">component</span>: Comp}]
+    <span class="hljs-comment">// 只有在第一次进入此页面时才会获取之个函数。</span>
+})
+</div></code></pre>
+<p>异步组件可以在路由中使用。<br>
+异步组件不可以在路由组件中使用。</p>
+<h3 id="把组件按组分块">把组件按组分块</h3>
+<pre><code class="language-js"><div><span class="hljs-comment">// use webpack</span>
+
+<span class="hljs-comment">// use vite</span>
+
+</div></code></pre>
 <h2 id="title">title</h2>
 <h2 id="title-1">title</h2>
 <h2 id="title-2">title</h2>
