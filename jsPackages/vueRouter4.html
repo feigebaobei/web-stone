@@ -214,12 +214,14 @@ beforeRouteUpdate(to, from) {...}
     <span class="hljs-attr">query</span>: {<span class="hljs-attr">k</span>: v},
     <span class="hljs-attr">hash</span>: <span class="hljs-string">&#x27;#sss&#x27;</span>,
     <span class="hljs-attr">replace</span>: boolean, <span class="hljs-comment">// 是否替换</span>
+    <span class="hljs-attr">meta</span>: any
 })
 </div></code></pre>
 <h2 id="横跨历史">横跨历史</h2>
 <pre><code class="language-js"><div><span class="hljs-built_in">this</span>.$router.go(n) <span class="hljs-comment">// 改为n</span>
 <span class="hljs-built_in">this</span>.$router.forward() <span class="hljs-comment">// 前进1</span>
 <span class="hljs-built_in">this</span>.$router.back() <span class="hljs-comment">// 后退1</span>
+<span class="hljs-built_in">this</span>.$router.replace() <span class="hljs-comment">// 替换</span>
 </div></code></pre>
 <h2 id="重定向">重定向</h2>
 <p>以<code>/</code>开头为绝对重定向，反之为相对重定向。</p>
@@ -316,9 +318,71 @@ beforeRouteUpdate(to, from) {...}
 }
 </div></code></code></pre>
 <h2 id="路由守卫-1">路由守卫</h2>
+<p>可以放置路由守卫的地方：</p>
+<ul>
+<li>全局</li>
+<li>指定的路由</li>
+<li>指定组件</li>
+</ul>
+<h3 id="执行顺序">执行顺序</h3>
+<ol>
+<li>导航被触发。</li>
+<li>在失活的组件里调用 beforeRouteLeave 守卫。</li>
+<li>调用全局的 beforeEach 守卫。</li>
+<li>在重用的组件里调用 beforeRouteUpdate 守卫(2.2+)。</li>
+<li>在路由配置里调用 beforeEnter。</li>
+<li>解析异步路由组件。</li>
+<li>在被激活的组件里调用 beforeRouteEnter。</li>
+<li>调用全局的 beforeResolve 守卫(2.5+)。</li>
+<li>导航被确认。</li>
+<li>调用全局的 afterEach 钩子。</li>
+<li>触发 DOM 更新。</li>
+<li>调用 beforeRouteEnter 守卫中传给 next 的回调函数，创建好的组件实例会作为回调函数的参数传入。</li>
+</ol>
+<h3 id="全局前置守卫">全局前置守卫</h3>
+<pre><code class="language-js"><div><span class="hljs-keyword">const</span> router = createRouter({...})
+router.beforeEach(<span class="hljs-function">(<span class="hljs-params">to, <span class="hljs-keyword">from</span></span>) =&gt;</span> {
+    <span class="hljs-comment">// to   要去的路由</span>
+    <span class="hljs-comment">// from 从哪儿来的路由</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span> <span class="hljs-comment">// 阻止跳转</span>
+    <span class="hljs-comment">// 若返回undefined/true 则路由有效。</span>
+    <span class="hljs-keyword">if</span> (!isAuthenticated &amp;&amp; to.name !== <span class="hljs-string">&#x27;login&#x27;</span>) {
+        <span class="hljs-comment">// 实现重定向</span>
+        <span class="hljs-keyword">return</span> {
+            <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;login&#x27;</span>
+        }
+    }
+})
+</div></code></pre>
+<p>以前的vue router中还有第三个参数：<code>next</code><br>
+当前版本兼容的引用法。若使用请确保next方法只会执行一次。</p>
+<h3 id="全局解析守卫">全局解析守卫</h3>
+<pre><code class="language-js"><div>router.beforeResolve(<span class="hljs-function">(<span class="hljs-params">to, <span class="hljs-keyword">from</span></span>) =&gt;</span> {...})
+</div></code></pre>
+<h3 id="全局后置钩子">全局后置钩子</h3>
+<pre><code class="language-js"><div>router.afterEach(<span class="hljs-function">(<span class="hljs-params">to, <span class="hljs-keyword">from</span></span>) =&gt;</span> {...})
+</div></code></pre>
+<h3 id="路由独享守卫">路由独享守卫</h3>
+<p>只对本路由有效。</p>
+<pre><code class="language-js"><div><span class="hljs-keyword">const</span> routes = [
+    {
+        path,
+        component,
+        <span class="hljs-attr">beforeEnter</span>: <span class="hljs-function">(<span class="hljs-params">to, <span class="hljs-keyword">from</span></span>) =&gt;</span> {...}
+    }
+]
+</div></code></pre>
+<h3 id="组件内守卫">组件内守卫</h3>
+<ul>
+<li>beforeRouteEnter(to, from, next)</li>
+<li>beforeRouteUpdate(to, from) // 可访问this.</li>
+<li>beforeRouteLeave(to, from)</li>
+</ul>
 <h2 id="title">title</h2>
 <h2 id="title-1">title</h2>
 <h2 id="title-2">title</h2>
+<h2 id="title-3">title</h2>
+<h2 id="title-4">title</h2>
 <h2 id="configuration">configuration</h2>
 <p>默认配置文件：<code>path/to/file.json</code>。</p>
 <table>
@@ -373,11 +437,11 @@ description</p>
 <h3 id="uml">uml</h3>
 <pre><code><code><div></div></code></code></pre>
 <h3 id="browser-history"><a href="">browser history</a></h3>
-<h3 id="title-3">title</h3>
-<h3 id="title-4">title</h3>
 <h3 id="title-5">title</h3>
 <h3 id="title-6">title</h3>
 <h3 id="title-7">title</h3>
+<h3 id="title-8">title</h3>
+<h3 id="title-9">title</h3>
 <h2 id="todo">todo</h2>
 <blockquote>
 <p>未来迭代计划。

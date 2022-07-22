@@ -132,6 +132,7 @@ this.$router.push({
     query: {k: v},
     hash: '#sss',
     replace: boolean, // 是否替换
+    meta: any
 })
 ```
 
@@ -140,6 +141,7 @@ this.$router.push({
 this.$router.go(n) // 改为n
 this.$router.forward() // 前进1
 this.$router.back() // 后退1
+this.$router.replace() // 替换
 ```
 
 ## 重定向
@@ -250,12 +252,77 @@ location / {
 ```
 
 ## 路由守卫
+可以放置路由守卫的地方：
+- 全局
+- 指定的路由
+- 指定组件
+
+### 执行顺序
+1. 导航被触发。  
+2. 在失活的组件里调用 beforeRouteLeave 守卫。  
+3. 调用全局的 beforeEach 守卫。  
+4. 在重用的组件里调用 beforeRouteUpdate 守卫(2.2+)。  
+5. 在路由配置里调用 beforeEnter。  
+6. 解析异步路由组件。  
+7. 在被激活的组件里调用 beforeRouteEnter。  
+8. 调用全局的 beforeResolve 守卫(2.5+)。  
+9. 导航被确认。  
+10. 调用全局的 afterEach 钩子。  
+11. 触发 DOM 更新。  
+12. 调用 beforeRouteEnter 守卫中传给 next 的回调函数，创建好的组件实例会作为回调函数的参数传入。  
+
+### 全局前置守卫
+```js
+const router = createRouter({...})
+router.beforeEach((to, from) => {
+    // to   要去的路由
+    // from 从哪儿来的路由
+    return false // 阻止跳转
+    // 若返回undefined/true 则路由有效。
+    if (!isAuthenticated && to.name !== 'login') {
+        // 实现重定向
+        return {
+            name: 'login'
+        }
+    }
+})
+```
+以前的vue router中还有第三个参数：`next`  
+当前版本兼容的引用法。若使用请确保next方法只会执行一次。  
+
+### 全局解析守卫
+```js
+router.beforeResolve((to, from) => {...})
+```
+
+### 全局后置钩子
+```js
+router.afterEach((to, from) => {...})
+```
+
+### 路由独享守卫
+只对本路由有效。  
+```js
+const routes = [
+    {
+        path,
+        component,
+        beforeEnter: (to, from) => {...}
+    }
+]
+```
+
+### 组件内守卫
+- beforeRouteEnter(to, from, next)
+- beforeRouteUpdate(to, from) // 可访问this.
+- beforeRouteLeave(to, from)
 
 
 
 
 
-
+## title
+## title
 ## title
 ## title
 ## title
