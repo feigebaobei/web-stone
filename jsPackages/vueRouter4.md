@@ -317,10 +317,68 @@ const routes = [
 - beforeRouteUpdate(to, from) // 可访问this.
 - beforeRouteLeave(to, from)
 
+## 数据获取
+- 导航完成后获取
+- 导航完成前获取
+
+```js
+created() {
+    this.$watch(
+        () => this.$route.params,
+        () => {
+            this.fetchData()
+        }
+    )
+}
+
+beforeRouteEnter(to, from, next) {
+    fetchData(p, (err, data) => {
+        next(vm => vm.setData(err, data))
+    })
+}
+```
+
+## 与组件式api一起使用
+||在setup中|不在setup中|
+|-|-|-|
+||`import {useRouter, useRoute} from 'vue-router'`|`this.$router / this.$route`|
+||useRoute() useRouter()||
+||onBeforeRouteEnter(fn)|beforeRouteEnter|
+||onBeforeRouteUpdate(fn)|beforeRoute|
+||onBeforeRouteLeave(fn)||
+||||
+||||
+||||
+
+```js
+import { useRoute } from 'vue-router'
+import { ref, watch } from 'vue'
+export default {
+    setup () {
+        let route = useRoute()
+        let r = ref()
+        watch(
+            () = route.params.id,
+            (nid) => {...}
+        )
+    }
+}
+```
+useLink
+
+## 滚动行为
+注意: 这个功能只在支持 history.pushState 的浏览器中可用。
 
 
 
 
+
+
+
+
+
+
+## title
 ## title
 ## title
 ## title

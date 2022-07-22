@@ -378,11 +378,100 @@ router.beforeEach(<span class="hljs-function">(<span class="hljs-params">to, <sp
 <li>beforeRouteUpdate(to, from) // 可访问this.</li>
 <li>beforeRouteLeave(to, from)</li>
 </ul>
+<h2 id="数据获取">数据获取</h2>
+<ul>
+<li>导航完成后获取</li>
+<li>导航完成前获取</li>
+</ul>
+<pre><code class="language-js"><div><span class="hljs-function"><span class="hljs-title">created</span>(<span class="hljs-params"></span>)</span> {
+    <span class="hljs-built_in">this</span>.$watch(
+        <span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">this</span>.$route.params,
+        <span class="hljs-function">() =&gt;</span> {
+            <span class="hljs-built_in">this</span>.fetchData()
+        }
+    )
+}
+
+<span class="hljs-function"><span class="hljs-title">beforeRouteEnter</span>(<span class="hljs-params">to, <span class="hljs-keyword">from</span>, next</span>)</span> {
+    fetchData(p, <span class="hljs-function">(<span class="hljs-params">err, data</span>) =&gt;</span> {
+        next(<span class="hljs-function"><span class="hljs-params">vm</span> =&gt;</span> vm.setData(err, data))
+    })
+}
+</div></code></pre>
+<h2 id="与组件式api一起使用">与组件式api一起使用</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>在setup中</th>
+<th>不在setup中</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td><code>import {useRouter, useRoute} from 'vue-router'</code></td>
+<td><code>this.$router / this.$route</code></td>
+</tr>
+<tr>
+<td></td>
+<td>useRoute() useRouter()</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>onBeforeRouteEnter(fn)</td>
+<td>beforeRouteEnter</td>
+</tr>
+<tr>
+<td></td>
+<td>onBeforeRouteUpdate(fn)</td>
+<td>beforeRoute</td>
+</tr>
+<tr>
+<td></td>
+<td>onBeforeRouteLeave(fn)</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span> { useRoute } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue-router&#x27;</span>
+<span class="hljs-keyword">import</span> { ref, watch } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+    setup () {
+        <span class="hljs-keyword">let</span> route = useRoute()
+        <span class="hljs-keyword">let</span> r = ref()
+        watch(
+            () = route.params.id,
+            <span class="hljs-function">(<span class="hljs-params">nid</span>) =&gt;</span> {...}
+        )
+    }
+}
+</div></code></pre>
+<p>useLink</p>
+<h2 id="滚动行为">滚动行为</h2>
+<p>注意: 这个功能只在支持 history.pushState 的浏览器中可用。</p>
 <h2 id="title">title</h2>
 <h2 id="title-1">title</h2>
 <h2 id="title-2">title</h2>
 <h2 id="title-3">title</h2>
 <h2 id="title-4">title</h2>
+<h2 id="title-5">title</h2>
 <h2 id="configuration">configuration</h2>
 <p>默认配置文件：<code>path/to/file.json</code>。</p>
 <table>
@@ -437,11 +526,11 @@ description</p>
 <h3 id="uml">uml</h3>
 <pre><code><code><div></div></code></code></pre>
 <h3 id="browser-history"><a href="">browser history</a></h3>
-<h3 id="title-5">title</h3>
 <h3 id="title-6">title</h3>
 <h3 id="title-7">title</h3>
 <h3 id="title-8">title</h3>
 <h3 id="title-9">title</h3>
+<h3 id="title-10">title</h3>
 <h2 id="todo">todo</h2>
 <blockquote>
 <p>未来迭代计划。
