@@ -368,6 +368,39 @@ useLink
 
 ## 滚动行为
 注意: 这个功能只在支持 history.pushState 的浏览器中可用。
+```js
+const router = createRouter({
+    history,
+    routes,
+    scrollBehavior(to, from, savedPosition) {
+        if (savedPosition) {
+            // 当使用浏览器的前进、后退时才会有第三个参数。
+            return savedPosition
+        } else {
+            // 指定位置 + 偏移量
+            return {
+                el: '#main',
+                top: 20
+            }
+        }
+        // 模拟滚动到锚点
+        if (to.hash) {
+            return {
+                el: to.hash,
+                behavior: 'smooth' // 滚动行为为 平滑
+            }
+        }
+        // 延迟滚动
+        return new Promise((s, j) => {
+            setTimeout(() => {
+                s({left: 10, top: 30})
+            }, 500)
+        })
+    }
+})
+```
+
+## 路由懒加载（动态导入）
 
 
 
@@ -377,8 +410,6 @@ useLink
 
 
 
-
-## title
 ## title
 ## title
 ## title

@@ -466,12 +466,42 @@ router.beforeEach(<span class="hljs-function">(<span class="hljs-params">to, <sp
 <p>useLink</p>
 <h2 id="滚动行为">滚动行为</h2>
 <p>注意: 这个功能只在支持 history.pushState 的浏览器中可用。</p>
+<pre><code class="language-js"><div><span class="hljs-keyword">const</span> router = createRouter({
+    history,
+    routes,
+    <span class="hljs-function"><span class="hljs-title">scrollBehavior</span>(<span class="hljs-params">to, <span class="hljs-keyword">from</span>, savedPosition</span>)</span> {
+        <span class="hljs-keyword">if</span> (savedPosition) {
+            <span class="hljs-comment">// 当使用浏览器的前进、后退时才会有第三个参数。</span>
+            <span class="hljs-keyword">return</span> savedPosition
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-comment">// 指定位置 + 偏移量</span>
+            <span class="hljs-keyword">return</span> {
+                <span class="hljs-attr">el</span>: <span class="hljs-string">&#x27;#main&#x27;</span>,
+                <span class="hljs-attr">top</span>: <span class="hljs-number">20</span>
+            }
+        }
+        <span class="hljs-comment">// 模拟滚动到锚点</span>
+        <span class="hljs-keyword">if</span> (to.hash) {
+            <span class="hljs-keyword">return</span> {
+                <span class="hljs-attr">el</span>: to.hash,
+                <span class="hljs-attr">behavior</span>: <span class="hljs-string">&#x27;smooth&#x27;</span> <span class="hljs-comment">// 滚动行为为 平滑</span>
+            }
+        }
+        <span class="hljs-comment">// 延迟滚动</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">s, j</span>) =&gt;</span> {
+            <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+                s({<span class="hljs-attr">left</span>: <span class="hljs-number">10</span>, <span class="hljs-attr">top</span>: <span class="hljs-number">30</span>})
+            }, <span class="hljs-number">500</span>)
+        })
+    }
+})
+</div></code></pre>
+<h2 id="路由懒加载动态导入">路由懒加载（动态导入）</h2>
 <h2 id="title">title</h2>
 <h2 id="title-1">title</h2>
 <h2 id="title-2">title</h2>
 <h2 id="title-3">title</h2>
 <h2 id="title-4">title</h2>
-<h2 id="title-5">title</h2>
 <h2 id="configuration">configuration</h2>
 <p>默认配置文件：<code>path/to/file.json</code>。</p>
 <table>
@@ -526,11 +556,11 @@ description</p>
 <h3 id="uml">uml</h3>
 <pre><code><code><div></div></code></code></pre>
 <h3 id="browser-history"><a href="">browser history</a></h3>
+<h3 id="title-5">title</h3>
 <h3 id="title-6">title</h3>
 <h3 id="title-7">title</h3>
 <h3 id="title-8">title</h3>
 <h3 id="title-9">title</h3>
-<h3 id="title-10">title</h3>
 <h2 id="todo">todo</h2>
 <blockquote>
 <p>未来迭代计划。
