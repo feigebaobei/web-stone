@@ -142,13 +142,6 @@ this.$router.forward() // 前进1
 this.$router.back() // 后退1
 ```
 
-## 多个视窗
-在同级路由中出现多个视窗。  
-```
-<router-view name="first">
-<router-view name="second">
-```
-
 ## 重定向
 以`/`开头为绝对重定向，反之为相对重定向。  
 ```js
@@ -169,6 +162,7 @@ const routes = [
 ```
 
 ## 别名
+同样遵守绝对路由与相对路由。  
 ```js
 const routes = [
     {
@@ -184,7 +178,84 @@ const routes = [
     }
 ]
 ```
-## title
+
+## 从路由中为组件传递props
+```js
+const routes = [
+    {
+        path: '/user/:id',
+        component: UserComp,
+        props: true // true: 把路由中的动态参数以props传给组件
+    }
+]
+```
+
+## 命名视窗
+在同级路由中出现多个视窗。  
+```js
+<router-view name="one" />
+<router-view />
+<router-view name="two" />
+const routes = [
+    {
+        path,
+        components: {
+            default: CompDf, // 默认视窗
+            one: CompOne,
+            two: CompTwo,
+        }
+    }
+]
+```
+
+## 历史
+### html5模式
+无`#`  
+真的向服务发出当前url get请求。
+```js
+const router = createRouter({
+    history: createWebHistory(),
+    routes
+})
+```
+
+### hash模式
+有`#`  
+不会向服务发出请求。  
+```js
+const router = createRouter({
+    history: createWebHashHistory(),
+    routes
+})
+```
+
+### 服务端配置
+- apache
+- nginx
+- 原生node.js
+- express + node.js
+- iis
+- caddy v2
+- caddy v1
+- firebase hosting
+- netlify
+- vercel
+- caveat
+
+#### nginx
+```
+location / {
+    try_files $uri $uri/ /index.html;
+}
+```
+
+## 路由守卫
+
+
+
+
+
+
 ## title
 ## title
 ## title

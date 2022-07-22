@@ -798,7 +798,7 @@ app.mount('#root')
 - [vite](/jsPackages/vite.html)
 - [vue-router@4](/jsPackages/vueRouter4.html)
 - [@vue/reactivity 响应式核心包]()
-- [vue-cli]()
+- [vuex](/jsPackages/vuex.html)
 - [vue-cli]()
 - vue
 - vue

@@ -221,11 +221,6 @@ beforeRouteUpdate(to, from) {...}
 <span class="hljs-built_in">this</span>.$router.forward() <span class="hljs-comment">// 前进1</span>
 <span class="hljs-built_in">this</span>.$router.back() <span class="hljs-comment">// 后退1</span>
 </div></code></pre>
-<h2 id="多个视窗">多个视窗</h2>
-<p>在同级路由中出现多个视窗。</p>
-<pre><code><code><div>&lt;router-view name=&quot;first&quot;&gt;
-&lt;router-view name=&quot;second&quot;&gt;
-</div></code></code></pre>
 <h2 id="重定向">重定向</h2>
 <p>以<code>/</code>开头为绝对重定向，反之为相对重定向。</p>
 <pre><code class="language-js"><div><span class="hljs-keyword">const</span> routes = [
@@ -244,6 +239,7 @@ beforeRouteUpdate(to, from) {...}
 ]
 </div></code></pre>
 <h2 id="别名">别名</h2>
+<p>同样遵守绝对路由与相对路由。</p>
 <pre><code class="language-js"><div><span class="hljs-keyword">const</span> routes = [
     {
         <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;/user/:id&#x27;</span>,
@@ -258,10 +254,71 @@ beforeRouteUpdate(to, from) {...}
     }
 ]
 </div></code></pre>
+<h2 id="从路由中为组件传递props">从路由中为组件传递props</h2>
+<pre><code class="language-js"><div><span class="hljs-keyword">const</span> routes = [
+    {
+        <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;/user/:id&#x27;</span>,
+        <span class="hljs-attr">component</span>: UserComp,
+        <span class="hljs-attr">props</span>: <span class="hljs-literal">true</span> <span class="hljs-comment">// true: 把路由中的动态参数以props传给组件</span>
+    }
+]
+</div></code></pre>
+<h2 id="命名视窗">命名视窗</h2>
+<p>在同级路由中出现多个视窗。</p>
+<pre><code class="language-js"><div>&lt;router-view name=<span class="hljs-string">&quot;one&quot;</span> /&gt;
+<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">router-view</span> /&gt;</span></span>
+<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">router-view</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;two&quot;</span> /&gt;</span></span>
+<span class="hljs-keyword">const</span> routes = [
+    {
+        path,
+        <span class="hljs-attr">components</span>: {
+            <span class="hljs-attr">default</span>: CompDf, <span class="hljs-comment">// 默认视窗</span>
+            <span class="hljs-attr">one</span>: CompOne,
+            <span class="hljs-attr">two</span>: CompTwo,
+        }
+    }
+]
+</div></code></pre>
+<h2 id="历史">历史</h2>
+<h3 id="html5模式">html5模式</h3>
+<p>无<code>#</code><br>
+真的向服务发出当前url get请求。</p>
+<pre><code class="language-js"><div><span class="hljs-keyword">const</span> router = createRouter({
+    <span class="hljs-attr">history</span>: createWebHistory(),
+    routes
+})
+</div></code></pre>
+<h3 id="hash模式">hash模式</h3>
+<p>有<code>#</code><br>
+不会向服务发出请求。</p>
+<pre><code class="language-js"><div><span class="hljs-keyword">const</span> router = createRouter({
+    <span class="hljs-attr">history</span>: createWebHashHistory(),
+    routes
+})
+</div></code></pre>
+<h3 id="服务端配置">服务端配置</h3>
+<ul>
+<li>apache</li>
+<li>nginx</li>
+<li>原生node.js</li>
+<li>express + node.js</li>
+<li>iis</li>
+<li>caddy v2</li>
+<li>caddy v1</li>
+<li>firebase hosting</li>
+<li>netlify</li>
+<li>vercel</li>
+<li>caveat</li>
+</ul>
+<h4 id="nginx">nginx</h4>
+<pre><code><code><div>location / {
+    try_files $uri $uri/ /index.html;
+}
+</div></code></code></pre>
+<h2 id="路由守卫-1">路由守卫</h2>
 <h2 id="title">title</h2>
 <h2 id="title-1">title</h2>
 <h2 id="title-2">title</h2>
-<h2 id="title-3">title</h2>
 <h2 id="configuration">configuration</h2>
 <p>默认配置文件：<code>path/to/file.json</code>。</p>
 <table>
@@ -316,11 +373,11 @@ description</p>
 <h3 id="uml">uml</h3>
 <pre><code><code><div></div></code></code></pre>
 <h3 id="browser-history"><a href="">browser history</a></h3>
+<h3 id="title-3">title</h3>
 <h3 id="title-4">title</h3>
 <h3 id="title-5">title</h3>
 <h3 id="title-6">title</h3>
 <h3 id="title-7">title</h3>
-<h3 id="title-8">title</h3>
 <h2 id="todo">todo</h2>
 <blockquote>
 <p>未来迭代计划。
