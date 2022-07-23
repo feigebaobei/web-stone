@@ -27,6 +27,12 @@ alias: npm x, npx
 
 # init
 ## 别名 create / innit
+`npm init <initializer>`  
+可以创建一个新npm包或使用一个已有的npm包。  
+完成的npm包名应该是`create-<initializer>`
+相当于执行`npm exec`命令 `npm exec create-<initializer>`
+使用`-y` / `--yes` 跳过所有询问。
+使用`--scope` 设置作用空间。
 
 # unlink
 取消软链接

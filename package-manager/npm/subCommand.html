@@ -27,6 +27,41 @@
 	color: var(--vscode-editorError-foreground);
 }
 
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
 </style>
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
@@ -71,10 +106,18 @@ alias: npm x, npx
 </ul>
 <h1 id="init">init</h1>
 <h2 id="别名-create--innit">别名 create / innit</h2>
+<p><code>npm init &lt;initializer&gt;</code><br>
+可以创建一个新npm包或使用一个已有的npm包。<br>
+完成的npm包名应该是<code>create-&lt;initializer&gt;</code>
+相当于执行<code>npm exec</code>命令 <code>npm exec create-&lt;initializer&gt;</code>
+使用<code>-y</code> / <code>--yes</code> 跳过所有询问。
+使用<code>--scope</code> 设置作用空间。</p>
+<h1 id="unlink">unlink</h1>
+<p>取消软链接</p>
+<h1 id="rm">rm</h1>
+<p>删除（<code>package.json</code>中）指定的包。</p>
 <h1 id="title">title</h1>
 <h1 id="title-1">title</h1>
-<h1 id="title-2">title</h1>
-<h1 id="title-3">title</h1>
 
         
         
