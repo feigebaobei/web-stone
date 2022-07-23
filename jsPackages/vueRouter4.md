@@ -3,6 +3,7 @@
 ## overview
 > 它是vue的一个插件。所有的单面应用都得处理路由问题。vue使用vue-router去解决路由问题。  
 > 把路由插件挂载到vue应用上后。在sfc中使用`this.$router`访问路由者，使用`this.$route`访问当前路由。  
+> 所有导航都是异步的。  
 
 ### feature
 - 嵌套路由映射
@@ -241,7 +242,9 @@ const routes = [
 ## 历史
 ### html5模式
 无`#`  
+vue支持的浏览器都支持history.所以可以放心使用history模式  
 真的向服务发出当前url get请求。
+对seo好。  
 ```js
 const router = createRouter({
     history: createWebHistory(),
@@ -252,6 +255,7 @@ const router = createRouter({
 ### hash模式
 有`#`  
 不会向服务发出请求。  
+对seo不好。  
 ```js
 const router = createRouter({
     history: createWebHashHistory(),
@@ -451,33 +455,120 @@ const router = createRoutet({
 
 ```
 
-
-
-
-
-
-
-
-
-## title
-## title
-## title
-## title
-## title
 ## configuration
-默认配置文件：`path/to/file.json`。
-|key|description|default|enum|demo|||
-|-|-|-|-|-|-|-|
-||||||||
-||||||||
-||||||||
+无配置文件
 
 ## api
-`vue-router.fn(param, first: string, second: boolean = true) => void`
-description
+### `<router-link>` props
+|||default||
+|-|-|-|-|
+|to|string|||
+|replace|boolean|||
+|active-class|string||激活状态的class|
+|aria-current-value|-|||
+|custom|boolean|false|若自定义则不使用`<a>`标签包裹子元素|
+|exact-active-class|string||精准激活时的class|
 
-`vue-router.fn(param, [options: {a: string, b?: number}])`
-description
+### `<router-link>` v-slot
+在`<router-link>`上使用作用域插槽。  
+```vue
+<router-link v-slot="slotProps">
+    <CompName :k="slotProps.k" />
+</router-link>
+```
+
+|slotProps的key||||
+|-|-|-|-|
+|href||||
+|route||||
+|navigate||||
+|isActive||||
+|isExactActive||||
+
+### `<route-view>` props
+|||default||
+|-|-|-|-|
+|name|string|'default'|用于多视窗|
+|route|RouteLocationNormalized|||
+
+### `<router-view>` v-slot
+
+|slotProps的key||||
+|-|-|-|-|
+|Component|||它是字母大写的|
+|route||||
+
+### createRouter(opt: RouterOptions)
+|RouterOptions||||
+|-|-|-|-|
+|history|||createWebHistory() / createWebHashHistory() / createMemoryHistory()|
+|linkActiveClass?:|string|||
+|linkExactActiveClass?:|string|||
+|parseQuery?:|||指定解决查询字符串的方法。入参是查询字符串。|
+|routes|||初始路由列表|
+|scrollBehavior|||控制滚动的函数。 (to, from, savedPosition) => {...}|
+|stringifyQuery|||对查询对象进行字符串化的自定义实现。(): string => {}|
+
+### createWebHistory(base?: string)
+创建一个 HTML5 history对象。  
+base默认托管的域名  
+若需要做seo，则使用此方法创建history。  
+(html中有base标签，它为本页面设置baseUrl，所有相对链接都相对于此base标签。)
+### createWebHashHistory(base?: string)
+
+### createMemoryHistory(base?: string)
+基于内存的历史记录。在ssr时会用到。   
+
+### NavigationFailureType
+包含所有可能导航失败类型的枚举，
+
+### START_LOCATION
+路由所在的初始路由地址。
+
+### composition api
+||||||
+|-|-|-|-|-|
+|onBeforeRouteLeave|要离开本组件时触发||||
+|onBeforeRouteUpdate|当本组件更新时触发||||
+|useLink(props)|返回{route, href, isActive, isExactActive, navigate}||||
+|useRoute()|返回当前路由地址||||
+|useRouter()|返回当前router||||
+
+### Router的属性
+||||||
+|-|-|-|-|-|
+|currentRoute|当前的路由地址|只读|||
+|options|创建router时的原始配置对象|只读|||
+|addRouter(parentName?: string, route)|||||
+|afterEach((to, from, failure) => {...})|添加钩子||||
+|back()|||||
+|beforeEach((to, from, failure) => {...})|||||
+|beforeResolve|||||
+|forward()|回退一个历史，相当于`router.go(-1)`||||
+|getRoutes()|获取所有路由记录||||
+|go()|||||
+|hasRoute(name: string | symbol)|否存在指定名称的路由||||
+|isReady()|当路由器完成初始化导航时，返回一个Promise.||||
+|onError(handler: (err, to, from) => any)|当导航期间发生错误时执行。||||
+|push(to)|推入一个历史栈。返回一个Promise||||
+|removeRoute(name: string | symbol): void|||||
+|replace(to)|替换当前历史栈。返回一个Promise||||
+|resolve(to)|返回路由地址的标准化版本||||
+
+### RouteRecordRaw对象
+router.addRoute()等方法都会用到此对象为参数。  
+|||||
+|-|-|-|-|
+|path||||
+|redirect||||
+|children||||
+|alias||||
+|name||||
+|beforeEnter|进入此路由前的守卫|||
+|props|允许将参数作为props传递给由`router-view`渲染的组件|||
+|sensitive||||
+|strict||||
+|meta||||
 
 ## principle
 此包的处理逻辑。
