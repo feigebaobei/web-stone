@@ -1,7 +1,9 @@
 # `vite`
 
 ## overview
-> TODO: description
+> 一个开发服务器，它基于 原生 ES 模块 提供了 丰富的内建功能，
+> 套构建指令，它使用 Rollup 打包你的代码，并且它是预配置的，可输出用于生产环境的高度优化过的静态资源。
+> node v14.18.0+
 
 ### feature
 - feature0

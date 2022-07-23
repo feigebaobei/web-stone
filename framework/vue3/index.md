@@ -795,15 +795,16 @@ app.mount('#root')
 - vue
 - [vue-cli]()
 - [@vue/compiler-sfc]()
-- [vite](/jsPackages/vite.html)
+- [vite](/builder/vite/index.html)
 - [vue-router@4](/jsPackages/vueRouter4.html)
 - [@vue/reactivity 响应式核心包]()
 - [vuex](/jsPackages/vuex.html)
 - [vue-cli]()
-- vue
-- vue
-- vue
-- vue
+- [vue-cli]()
+- [vue-cli]()
+- [vue-cli]()
+- [vue-cli]()
+- [vue-cli]()
 - vue
 - vue
 
