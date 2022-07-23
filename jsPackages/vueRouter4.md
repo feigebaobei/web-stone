@@ -72,6 +72,32 @@ const routes = [
 $route.params: {id: xxx, key: xxx}
 $route.params: {chapters: [...]}
 ```
+### 动态路由
+在程序运行时添加、删除路由。  
+|||||
+|-|-|-|-|
+||router.addRoute(parentName?: string, opt: {path, name?, component?, key?})|||
+||router.removeRoute(routeName: string)|||
+||router.hasRoute()|||
+||router.getRoutes()|||
+
+```js
+router.addRoute({path, name, component}) // 添加 // 会返回删除的路由 
+router.addRoute(parentName, {path, name, component}) // 为指定父路由添加子路由
+// 若name冲突，则先删除路由，再添加路由。
+router.removeRoute(routeName) // 根据路由名称删除路由。删除时包括别名、子路由。
+router.beforeEach(to => {
+    if (!hasNecessaryRoute(to)) {
+        router.addRoute(generateRoute(to))
+        return to.fullPath
+    }
+})
+```
+
+
+
+
+
 
 ## 路由守卫
 ```vue
@@ -138,10 +164,12 @@ this.$router.push({
 
 ## 横跨历史
 ```js
+// 返回promise
 this.$router.go(n) // 改为n
 this.$router.forward() // 前进1
 this.$router.back() // 后退1
 this.$router.replace() // 替换
+this.$router.push(...) // 进入指定的
 ```
 
 ## 重定向
@@ -421,7 +449,7 @@ const router = createRoutet({
 
 // use vite
 
-````
+```
 
 
 

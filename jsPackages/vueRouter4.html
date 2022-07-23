@@ -151,6 +151,55 @@ this.$router.push({
 $route.params: {<span class="hljs-attr">id</span>: xxx, <span class="hljs-attr">key</span>: xxx}
 $route.params: {<span class="hljs-attr">chapters</span>: [...]}
 </div></code></pre>
+<h3 id="动态路由-1">动态路由</h3>
+<p>在程序运行时添加、删除路由。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>router.addRoute(parentName?: string, opt: {path, name?, component?, key?})</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>router.removeRoute(routeName: string)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>router.hasRoute()</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>router.getRoutes()</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-js"><div>router.addRoute({path, name, component}) <span class="hljs-comment">// 添加 // 会返回删除的路由 </span>
+router.addRoute(parentName, {path, name, component}) <span class="hljs-comment">// 为指定父路由添加子路由</span>
+<span class="hljs-comment">// 若name冲突，则先删除路由，再添加路由。</span>
+router.removeRoute(routeName) <span class="hljs-comment">// 根据路由名称删除路由。删除时包括别名、子路由。</span>
+router.beforeEach(<span class="hljs-function"><span class="hljs-params">to</span> =&gt;</span> {
+    <span class="hljs-keyword">if</span> (!hasNecessaryRoute(to)) {
+        router.addRoute(generateRoute(to))
+        <span class="hljs-keyword">return</span> to.fullPath
+    }
+})
+</div></code></pre>
 <h2 id="路由守卫">路由守卫</h2>
 <pre><code class="language-vue"><code><div>watch: {
     $route: (nv, ov) =&gt; {...}
@@ -218,10 +267,12 @@ beforeRouteUpdate(to, from) {...}
 })
 </div></code></pre>
 <h2 id="横跨历史">横跨历史</h2>
-<pre><code class="language-js"><div><span class="hljs-built_in">this</span>.$router.go(n) <span class="hljs-comment">// 改为n</span>
+<pre><code class="language-js"><div><span class="hljs-comment">// 返回promise</span>
+<span class="hljs-built_in">this</span>.$router.go(n) <span class="hljs-comment">// 改为n</span>
 <span class="hljs-built_in">this</span>.$router.forward() <span class="hljs-comment">// 前进1</span>
 <span class="hljs-built_in">this</span>.$router.back() <span class="hljs-comment">// 后退1</span>
 <span class="hljs-built_in">this</span>.$router.replace() <span class="hljs-comment">// 替换</span>
+<span class="hljs-built_in">this</span>.$router.push(...) <span class="hljs-comment">// 进入指定的</span>
 </div></code></pre>
 <h2 id="重定向">重定向</h2>
 <p>以<code>/</code>开头为绝对重定向，反之为相对重定向。</p>
