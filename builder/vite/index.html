@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>css&#x6807;&#x7b7e;</title>
+        <title>&DiacriticalGrave;vite&DiacriticalGrave;</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -79,29 +79,55 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="css标签">css标签</h1>
-<p><code>&lt;link xx=&quot;yyy&quot; /&gt;</code>
-全是小写。因html不区分大小写。</p>
+        <h1 id="vite"><code>vite</code></h1>
+<h2 id="overview">overview</h2>
+<blockquote>
+<p>一个开发服务器，它基于 原生 ES 模块 提供了 丰富的内建功能，
+套构建指令，它使用 Rollup 打包你的代码，并且它是预配置的，可输出用于生产环境的高度优化过的静态资源。
+node v14.18.0+<br>
+它是一个工具集。把一些常用的工具放在一起了。（像不像门面模式）<br>
+默认以<code>&lt;root&gt;/index.html</code>为主入口。<br>
+在index.html中以<code>&lt;script type=&quot;module&quot; src=&quot;...&quot; /&gt;</code>和<code>&lt;link href=&quot;...&quot;&gt;</code>处理js/css。vite会处理js/css的引入工作。<br>
+可以实现多入口（即多页面）。<br>
+使用 Vite 开发和使用一个静态文件服务器并没有太大区别。然而，Vite 还通过原生 ESM 导入提供了许多主要用于打包场景的增强功能。<br>
+内部使用esbuild把要cjs/umd转换为esm（该过程叫预构建）。<br>
+已内置支持ts</p>
+</blockquote>
+<h3 id="feature">feature</h3>
+<ul>
+<li>开发服务器</li>
+<li>构建命令</li>
+</ul>
+<h2 id="install">install</h2>
+<p>一般不用明确安装。<br>
+<code>npm i vite -g</code></p>
+<h2 id="usage">usage</h2>
+<pre><code class="language-shell"><div><span class="hljs-meta">#</span><span class="bash"> 初始化一个项目</span>
+npm init vite@latest
+npm create vite@latest # cteate 是 init 的别名
+yarn create vite
+pnpm create vite
+</div></code></pre>
+<h2 id="configuration">configuration</h2>
+<p>默认配置文件：<code>path/to/file.json</code>。</p>
 <table>
 <thead>
 <tr>
-<th></th>
+<th>key</th>
+<th>description</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
 <th></th>
 <th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>rel</td>
-<td>'modulepreload'</td>
-<td>预加载</td>
-</tr>
-<tr>
 <td></td>
 <td></td>
 <td></td>
-</tr>
-<tr>
+<td></td>
 <td></td>
 <td></td>
 <td></td>
@@ -110,62 +136,37 @@
 <td></td>
 <td></td>
 <td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 </tbody>
 </table>
-<h1 id="布局"><a href="/language/css/layout.html">布局</a></h1>
-<h1 id="css选择器"><a href="/language/css/cssSelector.html">css选择器</a></h1>
-<h1 id="动画"><a href="/language/css/animation.html">动画</a></h1>
-<h1 id="title">title</h1>
-<h2 id="background"><a href="/language/css/background.html">background</a></h2>
-<h2 id="响应式布局-rwd">响应式布局 rwd</h2>
-<h1 id="预处理器">预处理器</h1>
-<h2 id="sass"><a href="/language//sass/index.html">sass</a></h2>
-<p>生于2007，最早/最成熟的css预处理器。
-请使用sass包，（node-sass已经是旧版本了）
-<a href="https://sass-lang.com/documentation">官网</a></p>
-<h2 id="less"><a href="/language//less/index.html">less</a></h2>
-<p>生于2009，受到sass的影响较大。
-<a href="https://lesscss.org/features/">官网</a></p>
-<h2 id="stylus"><a href="/language//stylus/index.html">stylus</a></h2>
-<p>生于2010，node.js社区。
-<a href="https://stylus-lang.com/">官网</a></p>
-<h2 id="postcss"><a href="/language//postcss/index.html">postcss</a></h2>
-<p><a href="https://www.postcss.com.cn/">官网</a></p>
-<h2 id="turbine"><a href="">turbine</a></h2>
-<h2 id="switch-css"><a href="">switch css</a></h2>
-<h2 id="css-cacheer"><a href="">css cacheer</a></h2>
-<h2 id="dt-css"><a href="">DT css</a></h2>
-<h2 id="css-crush"><a href="https://the-echoplex.net/csscrush/#api">CSS-Crush</a></h2>
-<h2 id="myth"><a href="https://github.com/segmentio/myth/blob/master/Readme.html">Myth</a></h2>
-<h2 id="rework"><a href="https://github.com/reworkcss/rework">Rework</a></h2>
-<h1 id="css-modules"><a href="language/css/css-modules/index.html">css-modules</a></h1>
-<ul>
-<li>支持局部作用域、模块依赖。</li>
-<li>会编译类名：<code>&lt;filename&gt;_&lt;className&gt;_&lt;randomHash&gt;</code></li>
-<li>生成css/js</li>
-</ul>
-<h1 id="temp">temp</h1>
-<h2 id="bem">bem</h2>
-<p>b(block) e(element) m(modifier)</p>
-<pre><code class="language-css"><div><span class="hljs-selector-class">.btn</span>{}
-<span class="hljs-selector-class">.btn__pirce</span>{}
-<span class="hljs-selector-class">.btn--orange</span>{}
-</div></code></pre>
-<p>less / sass
-postcss
-css in js</p>
-<ul>
-<li>使用js编写样式。</li>
-<li>可在浏览器中编译。</li>
-<li>可使用node在服务端打包。</li>
-<li>代表是<a href="">jss</a></li>
-</ul>
+<h2 id="api">api</h2>
+<p><code>vite.fn(param, first: string, second: boolean = true) =&gt; void</code>
+description</p>
+<p><code>vite.fn(param, [options: {a: string, b?: number}])</code>
+description</p>
+<h2 id="principle">principle</h2>
+<p>此包的处理逻辑。</p>
+<h3 id="uml">uml</h3>
+<pre><code><code><div></div></code></code></pre>
+<h2 id="todo">todo</h2>
+<blockquote>
+<p>未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote>
 
         
         

@@ -1,3 +1,14 @@
+# css标签
+`<link xx="yyy" />`
+全是小写。因html不区分大小写。  
+||||
+|-|-|-|
+|rel|'modulepreload'|预加载|
+||||
+||||
+||||
+||||
+
 # [布局](/language/css/layout.html)
 
 # [css选择器](/language/css/cssSelector.html)
@@ -60,4 +71,5 @@ css in js
 - 可在浏览器中编译。
 - 可使用node在服务端打包。  
 - 代表是[jss]()  
-- 
+
+
