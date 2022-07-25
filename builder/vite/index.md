@@ -30,9 +30,116 @@ pnpm create vite
 ```
 
 ## 功能
+- 提供一个类似静态文件服务器的功能。  
+- vite对原生esm导入做了很多增强功能。  
+  - 使用esbuild完成预构建（cjs/umd => esm）
+  - 重写导入为合法url  
+  - 依赖是强缓存的。  
+- 内置支持ts。不做类型检查。  
+- esbuild做了
+  - jsx / tsx
+  - 预构建（cjs/umd => esm）
+- 
 
+### 设置esbuild配置项
+```js
+// vite.config.js
 
+import {defineConfig} from 'vite'
+export default defineConfig({
+    esbuild: {
+        jsxFactory: 'h',
+        jsxFragment: 'fragment'
+    }
+})
+```
 
+### css
+- 导入的css文件会插入到style标签中。  
+- `@import`内联和变基  
+- postcss。需要项目中使用`postcss.config.js`配置文件。应用于已导入的css.  
+- 以`.module.css`为后缀的css文件被认为是css moudes 文件。  
+- 需要安装预处理器  
+- 禁用css注入页面`import styles from './foo.css?inline'`  
+- 导入静态资源`import imgUrl from './img.png'; document.querySelect(#id).src = imgUrl;`
+- 导入json`import json from './foo.json`  
+- glob导入 `import.meta.glob(params)`
+  - 
+
+```js
+// 懒加载，动态导入实现。
+const modules = import.meta.glob('./dir/*.js') 
+=>
+const modules = {
+    // 以路径为key，值是返回Promise的方法
+    './dir/foo.js': () => import('./dir/foo.js'),
+    './dir/bar.js': () => import('./dir/bar.js')
+}
+// 使用modules对象的key访问相应的模块
+for (let path in modules) {
+    modules[path]().then((mod) => {...})
+}
+// 导入所有模块
+const m = import.meta.glob('./dir/*.js', {eager: true})
+=>
+import * as __glob__0_0 from './dir/foo.js'
+import * as __glob__0_1 from './dir/bar.js'
+const m = {
+    './dir/foo.js': __glob__0_0,
+    './dir/bar.js': __glob__0_1,
+}
+// 以字符串形式导入资源
+const m = import.meta.glob('./dir/*.js', {as : 'raw'})
+=>
+const m = {
+    './dir/foo.js': 'export default "foo"\n',
+    './dir/bar.js': 'export default "bar"\n'
+}
+// 若as: 'url'，则把资源作为url加载。
+// 多个匹配
+const m = import.meta.glob(['./dir/*.js', './a/*.js'])
+// 排除
+const m = import.meta.glob(['./dir/*.js', '!**/bar.js'])
+// 具名导入
+const m = import.meta.glob('./dir/*.js', {import: 'setup'})
+=>
+const m = {
+    './dir/foo.js': () => import('./dir/foo.js').then(m => m.setup),
+    './dir/bar.js': () => import('./dir/bar.js').then(m => m.setup)
+}
+// import: 'setup', eager: true 会执行tree-shaking
+// import: 'default' 会加载默认导出
+// 自定义查询
+const m = import.meta.glob('./dir/*.js', {
+    query: {foo: 'bar', bar: true}
+})
+=>
+const m = {
+    './dir/foo.js': () => import('./dir/foo.js?foo=bar&bar=true').then(m => m.setup) // 没有使用具名导入。为什么只导入setup呢？
+    './dir/bar.js': () => import('./dir/bar.js?foo=bar&bar=true').then(m => m.setup) // 没有使用具名导入。为什么只导入setup呢？
+}
+// 动态导入
+const m = await import(`./dir/${file}.js`)
+```
+
+### web worker
+```js
+const worker = new Worker(new URL('./worker.js', import.meta.url))
+const worker = new Worker(new URL('./worker.js', import.meta.url), {
+  type: 'module'
+})
+// worker 脚本将在生产构建中编译成单独的 chunk。
+// 可以在导入请求上添加 ?worker 或 ?sharedworker 查询参数来直接导入一个 web worker 脚本。
+import MyWorker from './worker?worker'
+const worker = new MyWorker()
+// 想将 worker 内联为 base64 字符串，请添加 inline 查询参数：
+import MyWorker from './worker?worker&inline'
+// 添加 url 这个 query.会将一个 URL 的形式读取该 worker
+import MyWorker from './worker?worker&url'
+```
+
+### 异步 Chunk 加载优化
+会把多个chunk中共用的chunk一起打包。
 
 ## 插件
 vite的插件是基于rollup的插件，只是增加一个vite的特有配置项。可以用于服务器。
