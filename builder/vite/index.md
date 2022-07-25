@@ -44,7 +44,6 @@ pnpm create vite
 ### 设置esbuild配置项
 ```js
 // vite.config.js
-
 import {defineConfig} from 'vite'
 export default defineConfig({
     esbuild: {
@@ -252,11 +251,34 @@ export default function myPlugin() {
 - 使用enforce: 'post'的插件
 - 打包后的插件（minify / manifest / reporting）
 
+## 依赖预构建
+- 兼容cjs/umd  
+- 把多个esm依赖关系的内部模块转换为单个模块。  
+- 自动依赖搜寻
+  1. 从缓存中找
+  2. 从node_modules中找
+- 在一库多包中，自动侦测不在node_modules中的依赖项。  
+- vite使用强缓存。`max-age=31536000,immutable`
+- 文件系统缓存。当下列一个改变时重新运行预构建  
+  - package.json中的dependencies
+  - lockfile
+  - vite.config.js
+- 
 
 
 
 
-## title
+
+
+
+
+
+
+
+
+
+
+
 ## title
 ## title
 ## title

@@ -130,7 +130,6 @@ pnpm create vite
 </ul>
 <h3 id="设置esbuild配置项">设置esbuild配置项</h3>
 <pre><code class="language-js"><div><span class="hljs-comment">// vite.config.js</span>
-
 <span class="hljs-keyword">import</span> {defineConfig} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vite&#x27;</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> defineConfig({
     <span class="hljs-attr">esbuild</span>: {
@@ -422,6 +421,27 @@ npm add -D @vitejs/plugin-legacy
 <li>使用enforce: 'post'的插件</li>
 <li>打包后的插件（minify / manifest / reporting）</li>
 </ul>
+<h2 id="依赖预构建">依赖预构建</h2>
+<ul>
+<li>兼容cjs/umd</li>
+<li>把多个esm依赖关系的内部模块转换为单个模块。</li>
+<li>自动依赖搜寻
+<ol>
+<li>从缓存中找</li>
+<li>从node_modules中找</li>
+</ol>
+</li>
+<li>在一库多包中，自动侦测不在node_modules中的依赖项。</li>
+<li>vite使用强缓存。<code>max-age=31536000,immutable</code></li>
+<li>文件系统缓存。当下列一个改变时重新运行预构建
+<ul>
+<li>package.json中的dependencies</li>
+<li>lockfile</li>
+<li>vite.config.js</li>
+</ul>
+</li>
+<li></li>
+</ul>
 <h2 id="title">title</h2>
 <h2 id="title-1">title</h2>
 <h2 id="title-2">title</h2>
@@ -433,7 +453,6 @@ npm add -D @vitejs/plugin-legacy
 <h2 id="title-8">title</h2>
 <h2 id="title-9">title</h2>
 <h2 id="title-10">title</h2>
-<h2 id="title-11">title</h2>
 <h2 id="configuration">configuration</h2>
 <p>默认配置文件：<code>path/to/file.json</code>。</p>
 <table>
