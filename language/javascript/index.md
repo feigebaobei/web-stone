@@ -757,7 +757,7 @@ dom.classList.toggle(s) // 若存在则删除，否不存在则添加。
     + BOM
     + DOM
 
-# 模块化
+# [模块化](/language/javascript/modularity.html)
 |-|全称|代表|加载方式||||
 |-|-||-|-|-|-|
 |commonjs (cjs)||nodejs|同步加载||||
@@ -767,8 +767,6 @@ dom.classList.toggle(s) // 若存在则删除，否不存在则添加。
 |es6|-|在js语言层面上实现了模块化。|||||
 |iife||||||
 |system||||||  
-
-详见[模块化](/language/javascript/modularity.html)
 
 
 

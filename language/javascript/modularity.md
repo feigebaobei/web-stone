@@ -97,7 +97,18 @@ ts的`enum`类型就是使用iife.
 <script src="./first.js"></script>
 ```
 
-## ES module和commonJS循环引用问题
+## ES module和commonJS
+|| ES module|commonJS|||
+|-|-|-|-|-|
+||`*.mjs`|`*.cjs`|||
+||客户端运行|服务端运行|||
+||`import / export`|`require / module.exports`|||
+||若在package.json中设置type：module，则为esm规范。|否则为cjs规范。|||
+|互相引用|`import all form 'name'`|`(async () => {await import('./file.mjs')})()`|||
+||只能整体引入后再解构使用。||||
+|同时支持2种规范|`exports: {require: "./index.js", import: "./esm/index.js"}`||||
+
+### ES module和commonJS循环引用问题
 因esm、commonjs对待文件(模式)的方式不同。
 |esm|commonjs||
 |-|-|-|
