@@ -2,7 +2,7 @@
 - [前端存储](/browser/frontStorage/index.html)
 - [console](/browser/console.html)
 - [history](/browser/history.html)
-- [title](/browser/title.html)
+- [同源策略&cors](/browser/origin&cors.html)
 - [title](/browser/title.html)
 - [title](/browser/title.html)
 - [title](/browser/title.html)
