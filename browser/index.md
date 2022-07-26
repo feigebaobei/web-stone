@@ -3,6 +3,6 @@
 - [console](/browser/console.html)
 - [history](/browser/history.html)
 - [同源策略&cors](/browser/origin&cors.html)
-- [title](/browser/title.html)
+- [status](/browser/status.html)
 - [title](/browser/title.html)
 - [title](/browser/title.html)
