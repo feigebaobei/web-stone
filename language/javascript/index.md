@@ -739,6 +739,14 @@ dom.classList.contain(s)
 dom.classList.toggle(s) // 若存在则删除，否不存在则添加。
 ```
 
+# window中常用的对象
+- [url](/language/javascript/url.html)  
+- [file](/language/javascript/file.html)  
+- [file](/language/javascript/file.html)  
+- [file](/language/javascript/file.html)  
+- [file](/language/javascript/file.html)  
+- [file](/language/javascript/file.html)  
+
 # 对象
 - 本地对象
     + Object
