@@ -5,7 +5,7 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment
 一般基于tcp协议   
 
 # 编码、解码
-# title
+# [status](/communication-protocol/status.html)
 # title
 # title
 # title
