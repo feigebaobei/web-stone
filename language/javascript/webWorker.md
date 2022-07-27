@@ -4,6 +4,16 @@
 - worker可嵌套
 - 主线程/worker线程必须在相同的origin中。
 - 主线程/worker线程之间转换数据(Transferable Objects)
+- 有专用worker和共享worker ()
+
+||专用worker|共享worker||||
+|-|-|-|-|-|-|
+||专用 worker 仅仅能被首次生成它的脚本使用|可以同时被多个脚本使用||||
+||遵守同源策略|遵守同源策略||||
+|判断是否支持|`window.Worker`|`window.SharedWorker`||||
+|||必须使用端口对象进行通信||||
+|||||||
+|||||||
 
 
 # demo
@@ -51,7 +61,7 @@ worker: {
     onmessageerror
     close()
     postMessage()
-    importScripts()
+    importScripts(str)
 }
 ```
 
@@ -104,17 +114,29 @@ pollingWorker.postMessage('init');
 ```
 
 # worker中可以使用&不可以使用
-## 可以使用
-navigator object
-location object(read-only)
-importScriptes()
-javascript object
-xhr
-setTimeout()/clearTimeout()/setInterval()/clearInterval()  
 
-## 不可以使用
-dom
-window
-document
-parent
-alert() / confirm()
+||可以使用|不可以使用||
+|-|-|-|-|
+||navigator object|dom||
+||location object(read-only)|window||
+||importScriptes()|document||
+||javascript object|parent||
+||xhr|alert() / confirm()||
+||setTimeout()/clearTimeout()/setInterval()/clearInterval()|||
+|||||
+
+# 共享worker
+```js
+let myWorker = new SharedWorker('worker.js')
+myWorker.port.start() // work线程间需要通信时，需要调用start()方法。父线程调用
+port.start() // 当前（子）线程调用
+myWorker.port.postMessage(value)
+```
+
+
+# todo
+## 为什么多个页面会共用一个worker呢？
+## title
+## title
+## title
+## title
