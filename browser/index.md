@@ -8,4 +8,3 @@
 - [title](/browser/title.html)
 - [title](/browser/title.html)
 - [title](/browser/title.html)
-- [title](/browser/title.html)
