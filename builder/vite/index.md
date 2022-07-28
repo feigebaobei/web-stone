@@ -399,20 +399,6 @@ export default defineConfig({
 }
 ```
 
-
-
-
-
-
-
-
-
-
-## title
-## title
-## title
-## title
-
 ## configuration
 默认配置文件：`vite.config.js`。  
 它是被node.js使用。  
@@ -440,11 +426,105 @@ export default defineConfig(async ({ command, mode }) => {
 import { defineConfig, loadEnv } from 'vite'
 ```
 
-|key|description|default|enum|demo|||
-|-|-|-|-|-|-|-|
-||||||||
-||||||||
-||||||||
+||key|说明|类型|默认值|其他枚举值|||
+|-|-|-|-|-|-|-|-|
+|共享配置||||||||
+||root|项目根目录|string|processs.cwd()||||
+||base|基础路径。（类似html中base标签）|string|`'/'`||||
+||mode|模式|string|'development'|'production'|||
+||define|定义全局常量替换方式||||||
+||plugins|||||||
+||publicDir|静态资源服务的文件夹||'public'||||
+||cacheDir|存储缓存文件的目录。此目录下会存储预打包的依赖项或 vite 生成的某些缓存文件||'node_modules/.vite'||||
+||resovle.alias|将会被传递到 @rollup/plugin-alias 作为 entries 的选项||||||
+||resovle.dedupe|如果你在你的应用程序中有相同依赖的副本（比如 monorepos），请使用此选项强制 Vite 始终将列出的依赖项解析为同一副本（从项目根目录）。||||||
+||resovle.conditions|||||||
+||resovle.mainFields|在解析包的入口点时尝试的字段列表。||||||
+||resovle.extensions|导入时想要省略的扩展名列表。||['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json']
+||||
+||resovle.preserveSymlinks|是否通过原始文件路径||||||
+||css.modules|配置 CSS modules 的行为。选项将被传递给 postcss-modules||||||
+||css.postcss|内联的 PostCSS 配置||||||
+||css.preprocessorOptions|指定传递给 CSS 预处理器的选项。||||||
+||css.devSourcemap|在开发过程中是否启用 sourcemap。||||||
+||json.namedExports|是否支持从 .json 文件中进行按名导入。||true||||
+||json.stringify|若设置为 true，导入的 JSON 会被转换为 export default JSON.parse("...")，这样会比转译成对象字面量性能更好，尤其是当 JSON 文件较大的时候。||||||
+||esbuild|传递给esbuild的配置项||||||
+||assetsInclude|||||||
+||logLevel|调整控制台输出的级别，默认为 'info'。|||'info' | 'warn' | 'error' | 'silent'|||
+||clearScreen|||||||
+||envDir|用于加载 .env 文件的目录||||||
+||envPrefix|以 envPrefix 开头的环境变量会通过 import.meta.env 暴露在你的客户端源码中。||'VITE_'||||
+||appType||||'spa' | 'mpa' | 'custom'|||
+|服务器选项||||||||
+||server.host|指定服务器应该监听哪个 IP 地址。||'localhost'||||
+||server.port|指定开发服务器端口。||5173||||
+||server.strictPort|设为 true 时若端口已被占用则会直接退出，而不是尝试下一个可用端口。||||||
+||server.https|启用 TLS + HTTP/2|boolean | https.ServerOptions|||||
+||server.open|在开发服务器启动时自动在浏览器中打开应用程序。||||||
+||server.proxy|为开发服务器配置自定义代理规则。与vue2的代理很像。|{ key: options }|||||
+||server.cors|为开发服务器配置 CORS|boolean / CorsOptions|默认启用并允许任何源||||
+||server.headers|指定服务器响应的 header。||||||
+||server.hmr|禁用或配置 HMR 连接||||||
+||server.watch|传递给 chokidar 的文件系统监听器选项。||||||
+||server.middlewareMode|以中间件模式创建 Vite 服务器。（不含 HTTP 服务器）|||'ssr' | 'html'|||
+||server.base|在 HTTP 请求中预留此文件夹，用于代理 Vite 作为子文件夹时使用。应该以 / 字符开始和结束。||||||
+||server.fs.strict|限制为工作区 root 路径以外的文件的访问。||||||
+||server.fs.allow|限制哪些文件可以通过 /@fs/ 路径提供服务。当 server.fs.strict 设置为 true 时，访问这个目录列表外的文件将会返回 403 结果。||||||
+||server.fs.deny|用于限制 Vite 开发服务器提供敏感文件的黑名单。||['.env', '.env.*', '*.{pem,crt}']||||
+||server.origin|用于定义开发调试阶段生成资产的 origin。||||||
+|构建选项||与服务器选项差不多||||||
+||build.target|设置最终构建的浏览器兼容目标。||'modules'||||
+||build.polyfillModulePreload|用于决定是否自动注入 module preload 的 polyfill.||||||
+||build.outDir|指定输出路径（相对于 项目根目录).||||||
+||build.assetsDir|指定生成静态资源的存放路径（相对于 build.outDir）。||||||
+||build.assetsInlineLimit|小于此阈值的导入或引用资源将内联为 base64 编码，||||||
+||build.cssCodeSplit|启用/禁用 CSS 代码拆分。||||||
+||build.cssTarget|此选项允许用户为 CSS 的压缩设置一个不同的浏览器 target，||||||
+||build.sourcemap|构建后是否生成 source map 文件||||||
+||build.rollupOptions|自定义底层的 Rollup 打包配置。||||||
+||build.commonjsOptions|传递给 @rollup/plugin-commonjs 插件的选项。|这都要用一个配置项。要是再多几个插件，是不是会再多几个配置项呀。vue团队真是神坑|||||
+||build.dynamicImportVarsOptions|传递给 @rollup/plugin-dynamic-import-vars 的选项。||||||
+||build.lib|构建为库||||||
+||build.manifest|当设置为 true，构建后将会生成 manifest.json 文件，||||||
+||build.ssrManifest|构建也将生成 SSR 的 manifest 文件，||||||
+||build.ssr|生成面向 SSR 的构建||||||
+||build.minify|设置为 false 可以禁用最小化混淆|boolean 、 'terser' 、 'esbuild'|'esbuild'||||
+||build.terserOptions|传递给 Terser 的更多 minify 选项。||||||
+||build.write|设置为 false 来禁用将构建后的文件写入磁盘。||||||
+||build.emptyOutDir|||||||
+||build.reportCompressedSize|启用/禁用 gzip 压缩大小报告。|boolean|true||||
+||build.chunkSizeWarningLimit|规定触发警告的 chunk 大小。(kbs)|number|500||||
+||build.watch|||||||
+|预览选项|与上面的差不多|||||||
+||preview.host|||||||
+||preview.port|||||||
+||preview.strictPort|||||||
+||preview.https|||||||
+||preview.open|||||||
+||preview.proxy|||||||
+||preview.cors|||||||
+|依赖优先选项||||||||
+||optimizeDeps.entries|默认情况下，Vite 会抓取你的 index.html 来检测需要预构建的依赖项（忽略了node_modules、build.outDir、`__tests__` 和 coverage）。如果指定了 build.rollupOptions.input，Vite 将转而去抓取这些入口点。||||||
+||optimizeDeps.exclude|在预构建中强制排除的依赖项。||||||
+||optimizeDeps.include|使用此选项可强制预构建链接的包。|string[]|||||
+||optimizeDeps.esbuildOptions|在部署扫描和优化过程中传递给 esbuild 的选项。||||||
+||optimizeDeps.force|设置为 true 可以强制依赖预构建，而忽略之前已经缓存过的、已经优化过的依赖。||||||
+|ssr选项||||||||
+||ssr.external|要为 SSR 强制外部化的依赖。||||||
+||ssr.noExternal|列出的是防止被 SSR 外部化依赖项。||||||
+||ssr.target|SSR 服务器的构建目标。|'node' / 'webworker'|'node'||||
+||ssr.format|SSR 服务器的构建语法格式。|'esm' / 'cjs'|'esm'||||
+|worker选项||||||||
+||worker.format|worker 打包时的输出类型。|'es' / 'iife'|'iife'||||
+||worker.plugins|应用于 worker 打包的 Vite 插件。||||||
+||worker.rollupOptions|用于打包 worker 的 Rollup 配置项。||||||
+
+## title
+## title
+## title
+## title
+
 
 ## api
 `vite.fn(param, first: string, second: boolean = true) => void`
@@ -473,4 +553,7 @@ description
     再聊一下运行逻辑、源码。
     如何扩展、做插件
 > 我不喜欢这个项目。
+> vue团队就喜欢搞些方便使用的畸型代码。把data/methods都放在vm上。把VITE_开头的变量放在import.meta.env上。  
+> 未来迭代计划。
+> 未来迭代计划。
 > 未来迭代计划。
