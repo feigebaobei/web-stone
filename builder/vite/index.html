@@ -85,19 +85,21 @@
 <blockquote>
 <p>一个开发服务器，它基于 原生 ES 模块 提供了 丰富的内建功能，
 套构建指令，它使用 Rollup 打包你的代码，并且它是预配置的，可输出用于生产环境的高度优化过的静态资源。
+强大的导入功能。
 node v14.18.0+<br>
-它是一个工具集。把一些常用的工具放在一起了。（像不像门面模式）<br>
-默认以<code>&lt;root&gt;/index.html</code>为主入口。<br>
-在index.html中以<code>&lt;script type=&quot;module&quot; src=&quot;...&quot; /&gt;</code>和<code>&lt;link href=&quot;...&quot;&gt;</code>处理js/css。vite会处理js/css的引入工作。<br>
-可以实现多入口（即多页面）。<br>
-使用 Vite 开发和使用一个静态文件服务器并没有太大区别。然而，Vite 还通过原生 ESM 导入提供了许多主要用于打包场景的增强功能。<br>
-内部使用esbuild把要cjs/umd转换为esm（该过程叫预构建）。<br>
-已内置支持ts</p>
+它是一个工具集。把一些常用的工具放在一起了。（像不像门面模式）构建功能大部分是基于rollup(esbuild)的。而且面向现代浏览器。<br>
+它运行的快，原来是因为基于esbuild、做了很少工作、面向现代浏览。能不干的事儿，全不干了。</p>
 </blockquote>
 <h3 id="feature">feature</h3>
 <ul>
 <li>开发服务器</li>
 <li>构建命令</li>
+<li>默认以<code>&lt;root&gt;/index.html</code>为主入口。</li>
+<li>在index.html中以<code>&lt;script type=&quot;module&quot; src=&quot;...&quot; /&gt;</code>和<code>&lt;link href=&quot;...&quot;&gt;</code>处理js/css。vite会处理js/css的引入工作。</li>
+<li>可以实现多入口（即多页面）。</li>
+<li>使用 Vite 开发和使用一个静态文件服务器并没有太大区别。然而，Vite 还通过原生 ESM 导入提供了许多主要用于打包场景的增强功能。</li>
+<li>内部使用esbuild把要cjs/umd转换为esm（该过程叫预构建）。</li>
+<li>已内置支持ts</li>
 </ul>
 <h2 id="install">install</h2>
 <p>一般不用明确安装。<br>
@@ -442,19 +444,198 @@ npm add -D @vitejs/plugin-legacy
 </li>
 <li></li>
 </ul>
+<h2 id="静态资源">静态资源</h2>
+<p>通过在导入时的url中设置qs.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>引入静态资源。</td>
+<td>在开发环境使用相对链接。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>在生产环境使用绝对链接。（从根路径开始）</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>?url</td>
+<td>导入一个url</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>?raw</td>
+<td>导入字符串</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>?worker / ?sharedworker</td>
+<td>导入为web worker</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>?inline</td>
+<td>导入为base64字符串</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="poblic目录">poblic目录</h3>
+<ul>
+<li>不会被源码引用（例如 robots.txt）</li>
+<li>必须保持原有文件名（没有经过 hash）</li>
+<li>...或者你压根不想引入该资源，只是想得到其 URL。<code>&lt;root&gt;/public</code></li>
+</ul>
+<h3 id="new-urlurl-importmetaurl">new URL(url, import.meta.url)</h3>
+<p>import.meta.url中esm的原生功能。</p>
+<pre><code class="language-js"><div><span class="hljs-keyword">let</span> imgUrl = <span class="hljs-keyword">new</span> URL(<span class="hljs-string">&#x27;./img.png&#x27;</span>, <span class="hljs-keyword">import</span>.mete.url).href
+img.src = imgUrl <span class="hljs-comment">// 使用</span>
+</div></code></pre>
+<h2 id="构建生产版本">构建生产版本</h2>
+<h3 id="公共基础路径">公共基础路径</h3>
+<p>如果你需要在嵌套的公共路径下部署项目，只需指定 base 配置项。<br>
+结果：在css中使用url() / html文件中的引用 都是基于引配置项的。
+以命令行方式设置base。</p>
+<pre><code class="language-shell"><div>vite build --base=/my/public/path/。
+</div></code></pre>
+<h3 id="自定义构建">自定义构建</h3>
+<pre><code class="language-js"><div><span class="hljs-comment">// vite.config.js</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> defineConfig({
+  <span class="hljs-attr">build</span>: {
+    <span class="hljs-attr">rollupOptions</span>: { <span class="hljs-comment">// 调整低层rollup选项</span>
+      <span class="hljs-comment">// https://rollupjs.org/guide/en/#big-list-of-options</span>
+    },
+    <span class="hljs-attr">watch</span>: {...} <span class="hljs-comment">// 文件变化时重新构建</span>
+    <span class="hljs-attr">rollupOptions</span>: { <span class="hljs-comment">// 多入口打包</span>
+      <span class="hljs-attr">input</span>: {
+        <span class="hljs-attr">main</span>: resolve(__dirname, <span class="hljs-string">&#x27;index.html&#x27;</span>),
+        <span class="hljs-attr">nested</span>: resolve(__dirname, <span class="hljs-string">&#x27;nested/index.html&#x27;</span>)
+      }
+    }
+    <span class="hljs-attr">lib</span>: { <span class="hljs-comment">// 当这个库要进行发布构建</span>
+        <span class="hljs-attr">entry</span>: resolve(__dirname, <span class="hljs-string">&#x27;lib/main.js&#x27;</span>),
+        <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;MyLib&#x27;</span>,
+        <span class="hljs-comment">// the proper extensions will be added</span>
+        <span class="hljs-attr">fileName</span>: <span class="hljs-string">&#x27;my-lib&#x27;</span>
+    }
+  }
+})
+</div></code></pre>
+<h2 id="部署静态站点">部署静态站点</h2>
+<pre><code><code><div>{
+  &quot;scripts&quot;: {
+    &quot;build&quot;: &quot;vite build&quot;,
+    &quot;preview&quot;: &quot;vite preview --port 8080&quot;
+  }
+}
+</div></code></code></pre>
+<h2 id="环境变量和模式">环境变量和模式</h2>
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span>.meta.env.MODE        <span class="hljs-comment">// 应用运行的模式</span>
+<span class="hljs-keyword">import</span>.meta.env.BASE_URL    <span class="hljs-comment">// 基本url.  base</span>
+<span class="hljs-keyword">import</span>.meta.env.PROD        <span class="hljs-comment">// 是否是生产环境</span>
+<span class="hljs-keyword">import</span>.meta.env.DEV         <span class="hljs-comment">// 是否是开发环境</span>
+<span class="hljs-keyword">import</span>.meta.env.SSR         <span class="hljs-comment">// 是否运行在server上</span>
+</div></code></pre>
+<h3 id="env文件"><code>.env</code>文件</h3>
+<pre><code><code><div>.env                # 所有情况下都会加载
+.env.local          # 所有情况下都会加载，但会被 git 忽略
+.env.[mode]         # 只在指定模式下加载
+.env.[mode].local   # 只在指定模式下加载，但会被 git 忽略
+</div></code></code></pre>
+<h2 id="服务端渲染">服务端渲染</h2>
+<p>示例项目</p>
+<ul>
+<li><a href="https://github.com/vitejs/vite/tree/main/playground/ssr-vue">vue3</a></li>
+<li><a href="https://github.com/vitejs/vite/tree/main/playground/ssr-react">react</a></li>
+</ul>
+<h2 id="后端集成">后端集成</h2>
+<pre><code class="language-js"><div><span class="hljs-comment">// vite.config.js</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> defineConfig({
+  <span class="hljs-attr">build</span>: {
+    <span class="hljs-comment">// 在 outDir 中生成 manifest.json</span>
+    <span class="hljs-attr">manifest</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">rollupOptions</span>: {
+      <span class="hljs-comment">// 覆盖默认的 .html 入口</span>
+      <span class="hljs-attr">input</span>: <span class="hljs-string">&#x27;/path/to/main.js&#x27;</span>
+    }
+  }
+})
+</div></code></pre>
+<pre><code class="language-html"><div><span class="hljs-comment">&lt;!-- 如果是在开发环境中 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;http://localhost:5173/@vite/client&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;http://localhost:5173/main.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</div></code></pre>
+<p>执行<code>vite build</code>后，会生成 <a href="/browser/manifestJson.html"><code>manifest.json</code></a> 文件</p>
+<pre><code class="language-json"><div>{
+  <span class="hljs-attr">&quot;main.js&quot;</span>: {
+    <span class="hljs-attr">&quot;file&quot;</span>: <span class="hljs-string">&quot;assets/main.4889e940.js&quot;</span>,
+    <span class="hljs-attr">&quot;src&quot;</span>: <span class="hljs-string">&quot;main.js&quot;</span>,
+    <span class="hljs-attr">&quot;isEntry&quot;</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">&quot;dynamicImports&quot;</span>: [<span class="hljs-string">&quot;views/foo.js&quot;</span>],
+    <span class="hljs-attr">&quot;css&quot;</span>: [<span class="hljs-string">&quot;assets/main.b82dbe22.css&quot;</span>],
+    <span class="hljs-attr">&quot;assets&quot;</span>: [<span class="hljs-string">&quot;assets/asset.0ab0f9cd.png&quot;</span>]
+  },
+  <span class="hljs-attr">&quot;views/foo.js&quot;</span>: {
+    <span class="hljs-attr">&quot;file&quot;</span>: <span class="hljs-string">&quot;assets/foo.869aea0d.js&quot;</span>,
+    <span class="hljs-attr">&quot;src&quot;</span>: <span class="hljs-string">&quot;views/foo.js&quot;</span>,
+    <span class="hljs-attr">&quot;isDynamicEntry&quot;</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">&quot;imports&quot;</span>: [<span class="hljs-string">&quot;_shared.83069a53.js&quot;</span>]
+  },
+  <span class="hljs-attr">&quot;_shared.83069a53.js&quot;</span>: {
+    <span class="hljs-attr">&quot;file&quot;</span>: <span class="hljs-string">&quot;assets/shared.83069a53.js&quot;</span>
+  }
+}
+</div></code></pre>
 <h2 id="title">title</h2>
 <h2 id="title-1">title</h2>
 <h2 id="title-2">title</h2>
 <h2 id="title-3">title</h2>
-<h2 id="title-4">title</h2>
-<h2 id="title-5">title</h2>
-<h2 id="title-6">title</h2>
-<h2 id="title-7">title</h2>
-<h2 id="title-8">title</h2>
-<h2 id="title-9">title</h2>
-<h2 id="title-10">title</h2>
 <h2 id="configuration">configuration</h2>
-<p>默认配置文件：<code>path/to/file.json</code>。</p>
+<p>默认配置文件：<code>vite.config.js</code>。<br>
+它是被node.js使用。</p>
+<pre><code class="language-js"><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> defineConfig(<span class="hljs-function">(<span class="hljs-params">{ command, mode, ssrBuild }</span>) =&gt;</span> {
+  <span class="hljs-keyword">if</span> (command === <span class="hljs-string">&#x27;serve&#x27;</span>) {
+    <span class="hljs-keyword">return</span> {
+      <span class="hljs-comment">// dev 独有配置</span>
+    }
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-comment">// command === &#x27;build&#x27;</span>
+    <span class="hljs-keyword">return</span> {
+      <span class="hljs-comment">// build 独有配置</span>
+    }
+  }
+})
+<span class="hljs-comment">// 异步配置 // js中总是优先异步。</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> defineConfig(<span class="hljs-keyword">async</span> ({ command, mode }) =&gt; {
+  <span class="hljs-keyword">const</span> data = <span class="hljs-keyword">await</span> asyncFunction()
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-comment">// vite 配置</span>
+  }
+})
+<span class="hljs-comment">// 可以引用环境变量后使用。</span>
+<span class="hljs-keyword">import</span> { defineConfig, loadEnv } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vite&#x27;</span>
+</div></code></pre>
 <table>
 <thead>
 <tr>
@@ -508,8 +689,18 @@ description</p>
 <pre><code><code><div></div></code></code></pre>
 <h2 id="todo">todo</h2>
 <blockquote>
-<p>未来迭代计划。
-未来迭代计划。
+<p>服务端使用cjs规范，vite使用esm规范。vite是如何提供服务能力的？
+官方文档写的太烂了。
+如果一个项目需要维护4-5以上。不要用vue，用react。vue的迭代变化太大。vue的迭代问题，react都没有。
+vue1 =&gt; vue2 =&gt; vue3 一次比一次变化大。从1到2还有一个一完全迁移工具。从2到3完全是重构。
+vue团队急于求成。为了抢占市场，推出不完成产品。后期迭代变化巨大。好多api改变了用法。
+如何才能做到写好文档
+写好项目（如：结构化）
+按功能模块写基本使用文档。说清如何使用基本功能。
+再整理一个完整api
+再聊一下运行逻辑、源码。
+如何扩展、做插件
+我不喜欢这个项目。
 未来迭代计划。</p>
 </blockquote>
 
