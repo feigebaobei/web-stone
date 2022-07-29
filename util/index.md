@@ -102,7 +102,32 @@ let preventEvent = (e, isStop = true, isPrevent = true) => {
   isStop && e.stopPropagation() // 阻止冒泡
   isPrevent && e.preventDefault() // 阻止默认事件
 }
-
+// 转义HTML标签的方法
+let funEncodeHTML = function (str) {
+    if (typeof str == 'string') {
+        return str.replace(/<|&|>/g, function (matches) {
+            return ({
+                '<': '&lt;',
+                '>': '&gt;',
+                '&': '&amp;'
+            })[matches];
+        });
+    }
+    return '';
+};
+// 反转义HTML标签的方法
+let funDecodeHTML = function (str) {
+    if (typeof str == 'string') {
+        return str.replace(/&lt;|&gt;|&amp;/g, function (matches) {
+            return ({
+                '&lt;': '<',
+                '&gt;': '>',
+                '&amp;': '&'
+            })[matches];
+        });
+    }
+    return '';
+};
 
 
 

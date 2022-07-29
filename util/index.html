@@ -27,6 +27,41 @@
 	color: var(--vscode-editorError-foreground);
 }
 
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
 </style>
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
@@ -66,17 +101,20 @@
     }
 }
 <span class="hljs-comment">// 解释查询字符串</span>
-<span class="hljs-keyword">let</span> parseUrlQS = <span class="hljs-function">(<span class="hljs-params">url = <span class="hljs-built_in">window</span>.location.href</span>) =&gt;</span> {
+<span class="hljs-keyword">let</span> parseUrlQS = <span class="hljs-function">(<span class="hljs-params">url = <span class="hljs-built_in">window</span>.location.href, useCode = <span class="hljs-literal">true</span></span>) =&gt;</span> {
   <span class="hljs-keyword">let</span> index = url.indexOf(<span class="hljs-string">&#x27;?&#x27;</span>)
   <span class="hljs-keyword">let</span> qs = url.slice(index)
   qs = qs.slice(<span class="hljs-number">1</span>)
   <span class="hljs-keyword">if</span> (qs) {
     <span class="hljs-keyword">let</span> res = qs.split(<span class="hljs-string">&#x27;&amp;&#x27;</span>) <span class="hljs-comment">// [k=v, ...]</span>
-    .reduce(<span class="hljs-function">(<span class="hljs-params">r, c</span>) =&gt;</span> {
-      <span class="hljs-keyword">let</span> [k, v] = c.split(<span class="hljs-string">&#x27;=&#x27;</span>)
-      r[k] = v
-      <span class="hljs-keyword">return</span> r
-    }, {})
+      .reduce(<span class="hljs-function">(<span class="hljs-params">r, c</span>) =&gt;</span> {
+        <span class="hljs-keyword">let</span> [k, v] = c.split(<span class="hljs-string">&#x27;=&#x27;</span>)
+        <span class="hljs-keyword">if</span> (useCode) {
+          v = <span class="hljs-built_in">decodeURIComponent</span>(v)
+        }
+        r[k] = v
+        <span class="hljs-keyword">return</span> r
+      }, {})
     <span class="hljs-keyword">return</span> res
   } <span class="hljs-keyword">else</span> {
     <span class="hljs-keyword">return</span> {}
@@ -144,7 +182,32 @@
   isStop &amp;&amp; e.stopPropagation() <span class="hljs-comment">// 阻止冒泡</span>
   isPrevent &amp;&amp; e.preventDefault() <span class="hljs-comment">// 阻止默认事件</span>
 }
-
+<span class="hljs-comment">// 转义HTML标签的方法</span>
+<span class="hljs-keyword">var</span> funEncodeHTML = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">str</span>) </span>{
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> str == <span class="hljs-string">&#x27;string&#x27;</span>) {
+        <span class="hljs-keyword">return</span> str.replace(<span class="hljs-regexp">/&lt;|&amp;|&gt;/g</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">matches</span>) </span>{
+            <span class="hljs-keyword">return</span> ({
+                <span class="hljs-string">&#x27;&lt;&#x27;</span>: <span class="hljs-string">&#x27;&amp;lt;&#x27;</span>,
+                <span class="hljs-string">&#x27;&gt;&#x27;</span>: <span class="hljs-string">&#x27;&amp;gt;&#x27;</span>,
+                <span class="hljs-string">&#x27;&amp;&#x27;</span>: <span class="hljs-string">&#x27;&amp;amp;&#x27;</span>
+            })[matches];
+        });
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&#x27;</span>;
+};
+<span class="hljs-comment">// 反转义HTML标签的方法</span>
+<span class="hljs-keyword">var</span> funDecodeHTML = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">str</span>) </span>{
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> str == <span class="hljs-string">&#x27;string&#x27;</span>) {
+        <span class="hljs-keyword">return</span> str.replace(<span class="hljs-regexp">/&amp;lt;|&amp;gt;|&amp;amp;/g</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">matches</span>) </span>{
+            <span class="hljs-keyword">return</span> ({
+                <span class="hljs-string">&#x27;&amp;lt;&#x27;</span>: <span class="hljs-string">&#x27;&lt;&#x27;</span>,
+                <span class="hljs-string">&#x27;&amp;gt;&#x27;</span>: <span class="hljs-string">&#x27;&gt;&#x27;</span>,
+                <span class="hljs-string">&#x27;&amp;amp;&#x27;</span>: <span class="hljs-string">&#x27;&amp;&#x27;</span>
+            })[matches];
+        });
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&#x27;</span>;
+};
 
 
 
