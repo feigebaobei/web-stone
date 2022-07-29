@@ -8,7 +8,7 @@
 - [json格式化](/language/javascript/json-transfer.html)
 - [节流、去抖](/confuse/throttleDebouncd.html)
 - [如何接手老项目](/confuse/takeOverProject.html)
-- [title](/confuse/title.html)
+- [html encode & decode](/confuse/htmlEncodeDecode.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)

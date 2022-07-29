@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+        h1 {
+            text-align: center;
+        }
+        section {
+            display: flex;
+            flex-basis: 50%;
+            flex-grow: 1;
+            flex-wrap: nowrap;
+        }
+        section .html-textarea-box,
+        section .encode-textarea-box {
+            flex-basis: 40%;   
+            display: flex;
+            flex-direction: column;
+        }
+        section .html-textarea-box button,
+        section .encode-textarea-box button {
+            margin: 0 0 8px 0;
+            width: 80px;
+        }
+        section .html-textarea-box textarea,
+        section .encode-textarea-box textarea {
+            flex-grow: 1;
+        }
+        section .bt-box {
+            flex-basis: 100px;
+            margin: 0 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 0;
+            flex-shrink: 0;
+            flex-wrap: wrap;
+        }
+        .trans-bt {
+            flex-basis: 100%;
+            margin: 8px;
+            padding: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>html Encode & Decode</h1>
+    <section>
+        <div class="html-textarea-box">
+            <button id="textClear">清空</button>
+            <textarea id="htmlTextarea"></textarea>
+        </div>
+        <div class="bt-box">
+            <button class="trans-bt" id="encode">encode &gt;&gt;</button>
+            <button class="trans-bt" id="decode">decode &lt;&lt;</button>
+        </div>
+        <div class="encode-textarea-box">
+            <button id="encodeClear">清空</button>
+            <textarea id="encodeTextarea"></textarea>
+        </div>
+    </section>
+    <script>
+        let dqs = (selector) => {
+            return document.querySelector(selector)
+        }
+        // 转义HTML标签的方法
+        let funEncodeHTML = function (str) {
+            if (typeof str == 'string') {
+                return str.replace(/<|&|>/g, function (matches) {
+                    return ({
+                        '<': '&lt;',
+                        '>': '&gt;',
+                        '&': '&amp;'
+                    })[matches];
+                });
+            }
+            return '';
+        };
+        // 反转义HTML标签的方法
+        let funDecodeHTML = function (str) {
+            if (typeof str == 'string') {
+                return str.replace(/&lt;|&gt;|&amp;/g, function (matches) {
+                    return ({
+                        '&lt;': '<',
+                        '&gt;': '>',
+                        '&amp;': '&'
+                    })[matches];
+                });
+            }
+            return '';
+        };
+        
+        let htmlTextarea = dqs('#htmlTextarea')
+        let encodeTextarea = dqs('#encodeTextarea')
+        let encode = dqs('#encode')
+        let decode = dqs('#decode')
+        htmlTextarea.value = '<span>str</span>'
+        encode.addEventListener('click', () => {
+            encodeTextarea.value = funEncodeHTML(htmlTextarea.value)
+        })
+        decode.addEventListener('click', () => {
+            htmlTextarea.value = funDecodeHTML(encodeTextarea.value)
+        })
+
+        let textClear = dqs('#textClear')
+        let encodeClear = dqs('#encodeClear')
+        textClear.addEventListener('click', () => {
+            htmlTextarea.value = ''
+        })
+        encodeClear.addEventListener('click', () => {
+            encodeTextarea.value = ''
+        })
+    </script>
+</body>
+</html>
