@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>&#x5e03;&#x5c40;</title>
+        <title>&DiacriticalGrave;ngrok&DiacriticalGrave;</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -63,7 +63,8 @@
 }
 
 </style>
-        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -79,150 +80,101 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="布局">布局</h1>
-<p>常见的布局类型：</p>
+        <h1 id="ngrok"><code>ngrok</code></h1>
+<h2 id="overview">overview</h2>
+<blockquote>
+<p>ngrok 是一个反向代理，
+这个可以创建一个公共url链接到你的本地计算机（服务器），使得外网中的用户可以根据这个临时的url访问你的本地服务器。
+提供外网服务的还有好多。
+安装也很简单，进入官网https://ngrok.com/，下载相应版本的ngrok，并注册一个账户，注册完之后会给你一个唯一的Tunnel，这就相当于你的Key.然后在下载好的命令行中输入图中所示：ngrok authtoken &quot;your tunnel&quot;.</p>
+</blockquote>
+<h3 id="feature">feature</h3>
 <ul>
-<li>正常布局流 使用默认样式</li>
-<li>display  使用指定的默认样式</li>
-<li>flex 弹性布局 线性布局 一维布局</li>
-<li>grid         网格布局 二维布局</li>
-<li>浮动布局</li>
-<li>定位布局</li>
-<li>粘性布局</li>
-<li>静态布局</li>
-<li>自适应布局</li>
-<li>表格布局 使用table定位元素</li>
+<li>feature0</li>
+<li>feature1</li>
+<li>feature2</li>
 </ul>
-<h2 id="flex"><a href="/language/css/flex/index.html">flex</a></h2>
-<p>flex布局也被称为弹性布局。它在一维空间上设置元素位置/大小。当前浏览器已经普遍支持。需要父/子元素共同设置指定样式属性才能实现效果。</p>
-<h2 id="grid"><a href="/language/css/grid/index.html">grid</a></h2>
-<p>也被称为网格布局，它是在二维空间上设置元素位置/大小。比flex较难。需要父/子元素共同设置指定样式属性才能实现效果。</p>
-<h2 id="浮云布局">浮云布局</h2>
-<pre><code><code><div>float: none | left | right | inherit
-</div></code></code></pre>
-<h2 id="定位布局">定位布局</h2>
-<pre><code><code><div>position: static | relative | absolute | fixed | sticky
-</div></code></code></pre>
+<h2 id="install">install</h2>
+<p><code>npm i ngrok</code>
+它应该放在可执行文件的目录下的。可是我还有此目录，就行放在这里吧。</p>
+<ol>
+<li>去<a href="https://ngrok.com">官网</a>注册账号后<a href="https://dashboard.ngrok.com/get-started/setup">下载</a>。</li>
+<li>下载完后，在命令行中进入刚才下载的文件的目录。执行<code>unzip /path/to/ngrok.zip</code></li>
+<li>连接账号：执行<code>./ngrok config add-authtoken $YOURACCOUNT</code></li>
+<li>验证是否安装成功：执行<code>ngrok help</code>
+4.1. 解决环境变量：<code>sudo cp ngrok /usr/local/bin</code> 把ngrok命令复制到<code>usr/local/bin</code>目录下了。</li>
+<li>尝试启动一个服务<code>ngrok http 80</code></li>
+</ol>
+<h2 id="usage">usage</h2>
+<p>请在完成安装后再执行</p>
+<ol>
+<li>在<code>&lt;root&gt;</code>目录下创建一个index.html文件，并写入基本内容。</li>
+<li>使用<code>serve</code>包在<code>&lt;root&gt;</code>目录启动服务。一般在本地使用<code>localhost:3000</code>可访问index.html.</li>
+<li>再执行<code>ngrok http 3000</code>.会提示外网的url.</li>
+<li>在浏览器中输入外网url.</li>
+</ol>
+<h2 id="configuration">configuration</h2>
+<p>配置文件：<code>ngrok/ngrok.yml</code>。
+不需要修改。</p>
 <table>
 <thead>
 <tr>
-<th></th>
-<th></th>
+<th>key</th>
+<th>description</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
 <th></th>
 <th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>static</td>
-<td>默认定位值</td>
 <td></td>
 <td></td>
-</tr>
-<tr>
-<td>relative</td>
-<td>允许我们相对于元素在正常的文档流中的位置移动它。</td>
+<td></td>
+<td></td>
+<td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td>absolute</td>
-<td>相对于最近的非静态定位的父元素定位。会脱离文档流。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td>fixed</td>
-<td>相对于浏览器视口定位。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 <td></td>
 <td></td>
 </tr>
 </tbody>
 </table>
-<h3 id="sticky"><a href="/css/sticky/index.html">sticky</a></h3>
-<p>粘性布局</p>
-<h2 id="静态布局">静态布局</h2>
-<p>就是为指定元素设置指定的值（大小/位置）。如：</p>
-<pre><code><code><div>.class {
-    width: 20px;
-    height: 38px;
-}
-</div></code></code></pre>
-<h2 id="浮动布局">浮动布局</h2>
-<p>把元素设置为浮动元素。浮动元素会脱离文档流，其父元素无法得到其高度。如：</p>
-<pre><code><code><div>.class {
-    float: left;
-}
-</div></code></code></pre>
-<h2 id="自适应布局">自适应布局</h2>
-<p>因用户端设备较多。需要为每种设备设置相应的样式。自适应布局可使用一套样式代码同时支持多种设备。
-常使用百分比/媒体查询。如：</p>
-<pre><code><code><div>.class {
-    width: 50%;
-}
-@media screen and (max-width: 600px) {
-    .class {
-        width: 100%
-    }
-}
-@media screen and (min-width: 600px) {
-    .class {
-        width: 50%
-    }
-}
-</div></code></code></pre>
-<h2 id="居中">居中</h2>
-<p>水平居中
-text-align: center;</p>
-<p>width: npx;
-margin: 0 auto;</p>
-<p>display: flex;
-justify-content: center;</p>
-<p>竖直居中
-line-height: 100%;
-height: 100%;
-vertical-align: middle;</p>
-<p>display: flex;
-flex-direction: column;
-height: npx;
-justify-content: center</p>
-<p>二列布局</p>
-<pre><code><code><div>.parent {
-    display: flex;
-}
-.child0 {
-    flex-basis: 200px;
-    flex-shrink: 0;
-    background: #274;
-}
-.child1 {
-    flex-basis: 80%;
-    flex-grow: 1;
-    background: #624;
-}
-</div></code></code></pre>
-<p>三列布局</p>
-<pre><code><code><div>.parent {
-    display: flex;
-}
-.child0 {
-    flex-basis: 200px;
-    flex-shrink: 0;
-    background: #274;
-}
-.child1 {
-    flex-basis: 80%;
-    flex-grow: 1;
-    background: #624;
-}
-.child2 {
-    flex-basis: 20%;
-    flex-shrink: 0;
-    background: #725;
-}
-</div></code></code></pre>
+<h2 id="api">api</h2>
+<p><code>ngrok.fn(param, first: string, second: boolean = true) =&gt; void</code>
+description</p>
+<p><code>ngrok.fn(param, [options: {a: string, b?: number}])</code>
+description</p>
+<h2 id="principle">principle</h2>
+<p>此包的处理逻辑。</p>
+<h3 id="uml">uml</h3>
+<pre><code><code><div></div></code></code></pre>
+<h2 id="todo">todo</h2>
+<blockquote>
+<p>未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote>
 
-        
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
     </body>
     </html>

@@ -9,11 +9,17 @@
 |`~/.bashrc`|当base shell打开时，读取此文件。||修改后需要新打开bash后生效|
 |`~/.bash_profile`|这是属于当前用户的base信息。当登录时且打开shell时读取本文件。||`source ~/.bash_profile`|
 
+```shell
+echo $PATH # 查看当前环境变量。以 : 分隔。
+# /Users/cat/.deno/bin:/Users/cat/.nvm/versions/node/v14.18.2/bin:/Library/Frameworks/Python.framework/Versions/3.10/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/cat/.cargo/bin
+```
+
 ## 当需要每次执行`source ~/.bash_profile`才能得到变量时才能生效时
 
 ```shell
 echo $SHELL
 # 若输出 /bin/zsh  则说明本机使用zsh。
+# 我就是使用zsh
 ```
 解决方法：  
 在`~/.zshrc`中添加
@@ -22,4 +28,4 @@ source ~/.bash_profile
 ```
 然后重启终端。
 
-## [bash & zsh](/linux//bash.html)
+## [bash & zsh](/linux/bash.html)

@@ -11,10 +11,10 @@
 - 自适应布局
 - 表格布局 使用table定位元素
 
-## [flex](/css/flex/index.html)
+## [flex](/language/css/flex/index.html)
 flex布局也被称为弹性布局。它在一维空间上设置元素位置/大小。当前浏览器已经普遍支持。需要父/子元素共同设置指定样式属性才能实现效果。
 
-## [grid](/css/grid/index.html)
+## [grid](/language/css/grid/index.html)
 也被称为网格布局，它是在二维空间上设置元素位置/大小。比flex较难。需要父/子元素共同设置指定样式属性才能实现效果。
 
 ## 浮云布局
