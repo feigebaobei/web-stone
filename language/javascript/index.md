@@ -682,18 +682,6 @@ js是单线程语言。但是它的宿主环境——browser支持多线程。
 当遇到大量计算时可以使用`web worker`处理。主`worker`创建一个子`worker`，再让子worker处理大量计算，主worker会交出数据的控制权给子worker。得到计算结果后把由子workern以消息`message`的形式给主worker。
 
 ## 协程
-# 各对象的属性
-- [string](/language/javascript/string.html)
-- [number](/language/javascript/number.html)
-- boolean
-- [array](/language/javascript/array.html)
-- [object](/language/javascript/object.html)
-- [symbol](/language/javascript/symbol.html)
-- null
-- undefined
-- [bigint](/language/javascript/bigint.html)
-- [set](/language/javascript/set.html)
-- [map](/language/javascript/map.html)
 
 # [xhr](/language/javascript/xhr.html)
 
@@ -740,41 +728,61 @@ dom.classList.toggle(s) // 若存在则删除，否不存在则添加。
 ```
 
 # window中常用的对象
-- [url](/language/javascript/url.html)  
+- [URL](/language/javascript/url.html)  
 - [file](/language/javascript/file.html)  
 - [file](/language/javascript/file.html)  
 - [file](/language/javascript/file.html)  
 - [file](/language/javascript/file.html)  
 - [file](/language/javascript/file.html)  
 
-# 对象
-- 本地对象
-    + Object
-    + String
-    + Array
-    + [Date](/language/javascript/date.html)
-    + Number
-    + [RegExp](/regexp/index.html)
-    + Function
-    + Boolean
-    + Error
-- 内置对象
+# BOM & js
+- BOM Broser Object Model 浏览器对象模型
+  - window
+    - DOM (document object model) 文档对象
+      + ...
+    - frames
+    - navigator 各浏览器多有差异
+    - history
+    - location
+    - screen
+  - xxx
+  - xxx
+  - xxx
+
+- js本地对象
+  + [Object](/language/javascript/object.html)
+  + [String](/language/javascript/string.html)
+  + [Array](/language/javascript/array.html)
+  + [Date](/language/javascript/date.html)
+  + [Number](/language/javascript/number.html)
+  + [RegExp](/regexp/index.html)
+  + Function
+  + Boolean
+  + Error
+  + [symbol](/language/javascript/symbol.html)
+  + null
+  + undefined
+  + [bigint](/language/javascript/bigint.html)
+  + [set](/language/javascript/set.html)
+  + [map](/language/javascript/map.html)
+- js内置对象
     + [Math](/language/javascript/math.html)
     + [JSON](/language/javascript/json.html)
-- 宿主对象
+- js宿主对象
     + BOM
+      + [fetch](/language/javascript/fetch.html)
     + DOM
 
 # [模块化](/language/javascript/modularity.html)
-|-|全称|代表|加载方式||||
-|-|-||-|-|-|-|
-|commonjs (cjs)||nodejs|同步加载||||
-|amd|asynchronous module definition|require.js|异步加载||||
-|cmd|common module definition|sea.js|||||
-|umd|universion module definition||||||
-|es6|-|在js语言层面上实现了模块化。|||||
-|iife||||||
-|system||||||  
+|-|全称|代表|加载方式||||  
+|-|-||-|-|-|-|  
+|commonjs (cjs)||nodejs|同步加载||||  
+|amd|asynchronous module definition|require.js|异步加载||||  
+|cmd|common module definition|sea.js|||||  
+|umd|universion module definition||||||  
+|es6|-|在js语言层面上实现了模块化。|||||  
+|iife||||||  
+|system||||||    
 
 
 

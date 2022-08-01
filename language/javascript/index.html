@@ -812,20 +812,6 @@ return n &lt;&lt; m
 <p>js是单线程语言。但是它的宿主环境——browser支持多线程。
 当遇到大量计算时可以使用<code>web worker</code>处理。主<code>worker</code>创建一个子<code>worker</code>，再让子worker处理大量计算，主worker会交出数据的控制权给子worker。得到计算结果后把由子workern以消息<code>message</code>的形式给主worker。</p>
 <h2 id="协程-1">协程</h2>
-<h1 id="各对象的属性">各对象的属性</h1>
-<ul>
-<li><a href="/language/javascript/string.html">string</a></li>
-<li><a href="/language/javascript/number.html">number</a></li>
-<li>boolean</li>
-<li><a href="/language/javascript/array.html">array</a></li>
-<li><a href="/language/javascript/object.html">object</a></li>
-<li><a href="/language/javascript/symbol.html">symbol</a></li>
-<li>null</li>
-<li>undefined</li>
-<li><a href="/language/javascript/bigint.html">bigint</a></li>
-<li><a href="/language/javascript/set.html">set</a></li>
-<li><a href="/language/javascript/map.html">map</a></li>
-</ul>
 <h1 id="xhr"><a href="/language/javascript/xhr.html">xhr</a></h1>
 <h1 id="js-操作-dom">js 操作 dom</h1>
 <pre><code class="language-js"><div><span class="hljs-comment">// 创建</span>
@@ -869,50 +855,85 @@ dom.classList.toggle(s) <span class="hljs-comment">// 若存在则删除，否�
 </div></code></pre>
 <h1 id="window中常用的对象">window中常用的对象</h1>
 <ul>
-<li><a href="/language/javascript/url.html">url</a></li>
+<li><a href="/language/javascript/url.html">URL</a></li>
 <li><a href="/language/javascript/file.html">file</a></li>
 <li><a href="/language/javascript/file.html">file</a></li>
 <li><a href="/language/javascript/file.html">file</a></li>
 <li><a href="/language/javascript/file.html">file</a></li>
 <li><a href="/language/javascript/file.html">file</a></li>
 </ul>
-<h1 id="对象">对象</h1>
+<h1 id="bom--js">BOM &amp; js</h1>
 <ul>
-<li>本地对象
+<li>
+<p>BOM Broser Object Model 浏览器对象模型</p>
 <ul>
-<li>Object</li>
-<li>String</li>
-<li>Array</li>
+<li>window
+<ul>
+<li>DOM (document object model) 文档对象
+<ul>
+<li>...</li>
+</ul>
+</li>
+<li>frames</li>
+<li>navigator 各浏览器多有差异</li>
+<li>history</li>
+<li>location</li>
+<li>screen</li>
+</ul>
+</li>
+<li>xxx</li>
+<li>xxx</li>
+<li>xxx</li>
+</ul>
+</li>
+<li>
+<p>js本地对象</p>
+<ul>
+<li><a href="/language/javascript/object.html">Object</a></li>
+<li><a href="/language/javascript/string.html">String</a></li>
+<li><a href="/language/javascript/array.html">Array</a></li>
 <li><a href="/language/javascript/date.html">Date</a></li>
-<li>Number</li>
+<li><a href="/language/javascript/number.html">Number</a></li>
 <li><a href="/regexp/index.html">RegExp</a></li>
 <li>Function</li>
 <li>Boolean</li>
 <li>Error</li>
+<li><a href="/language/javascript/symbol.html">symbol</a></li>
+<li>null</li>
+<li>undefined</li>
+<li><a href="/language/javascript/bigint.html">bigint</a></li>
+<li><a href="/language/javascript/set.html">set</a></li>
+<li><a href="/language/javascript/map.html">map</a></li>
 </ul>
 </li>
-<li>内置对象
+<li>
+<p>js内置对象</p>
 <ul>
 <li><a href="/language/javascript/math.html">Math</a></li>
 <li><a href="/language/javascript/json.html">JSON</a></li>
 </ul>
 </li>
-<li>宿主对象
+<li>
+<p>js宿主对象</p>
 <ul>
-<li>BOM</li>
+<li>BOM
+<ul>
+<li><a href="/language/javascript/fetch.html">fetch</a></li>
+</ul>
+</li>
 <li>DOM</li>
 </ul>
 </li>
 </ul>
 <h1 id="模块化"><a href="/language/javascript/modularity.html">模块化</a></h1>
-<p>|-|全称|代表|加载方式||||
-|-|-||-|-|-|-|
-|commonjs (cjs)||nodejs|同步加载||||
-|amd|asynchronous module definition|require.js|异步加载||||
-|cmd|common module definition|sea.js|||||
-|umd|universion module definition||||||
-|es6|-|在js语言层面上实现了模块化。|||||
-|iife||||||
+<p>|-|全称|代表|加载方式||||<br>
+|-|-||-|-|-|-|<br>
+|commonjs (cjs)||nodejs|同步加载||||<br>
+|amd|asynchronous module definition|require.js|异步加载||||<br>
+|cmd|common module definition|sea.js|||||<br>
+|umd|universion module definition||||||<br>
+|es6|-|在js语言层面上实现了模块化。|||||<br>
+|iife||||||<br>
 |system||||||</p>
 
         <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
