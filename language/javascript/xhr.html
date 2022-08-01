@@ -85,9 +85,9 @@
 <li>可以获取任意类型的数据。</li>
 <li>支持http及很多非http协议</li>
 <li>xhr对象比较靠低层。好多属性都是只读的。</li>
+<li>Xhr 很好用。好多人不直接使用的原因是写法麻烦。</li>
 </ul>
 <pre><code class="language-js"><div><span class="hljs-keyword">let</span> xhr = <span class="hljs-keyword">new</span> XMLHttpRequest()
-
 </div></code></pre>
 <table>
 <thead>
@@ -111,6 +111,62 @@
 <td>onreadstatechange</td>
 <td>当readyState改变时触发</td>
 <td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>status</td>
+<td>响应状态。标准的http状态码。</td>
+<td>number</td>
+<td></td>
+<td>只读</td>
+</tr>
+<tr>
+<td>statusText</td>
+<td>包含文本的http状态</td>
+<td></td>
+<td></td>
+<td>只读</td>
+</tr>
+<tr>
+<td>timeout</td>
+<td>请求的最大时长</td>
+<td>number</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>withCredentials</td>
+<td>是否使用cookies/authorization headers</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>channel</td>
+<td>本次请求使用的channel</td>
+<td></td>
+<td></td>
+<td>只读</td>
+</tr>
+<tr>
+<td>mozAnon</td>
+<td>是否在无cookie、authorization header时发送请求</td>
+<td>boolean</td>
+<td></td>
+<td>只读</td>
+</tr>
+<tr>
+<td>mozSystem</td>
+<td>是否强制执行同源策略</td>
+<td>boolean</td>
+<td></td>
+<td>只读</td>
+</tr>
+<tr>
+<td>mozBackgroundRequest</td>
+<td>是否后端服务器的请求</td>
+<td>boolean</td>
 <td></td>
 <td></td>
 </tr>
@@ -150,67 +206,11 @@
 <td>只读</td>
 </tr>
 <tr>
-<td>status</td>
-<td>响应状态。标准的http状态码。</td>
-<td>number</td>
-<td></td>
-<td>只读</td>
-</tr>
-<tr>
-<td>statusText</td>
-<td>包含文本的http状态</td>
-<td></td>
-<td></td>
-<td>只读</td>
-</tr>
-<tr>
-<td>timeout</td>
-<td>请求的最大时长</td>
-<td>number</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
 <td>upload</td>
 <td>返回XMLHttpRequestUpload对象。用于追踪进度</td>
 <td></td>
 <td></td>
 <td>只读</td>
-</tr>
-<tr>
-<td>withCredentials</td>
-<td>是否使用cookies/authorization headers</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>channel</td>
-<td>本次请求使用的channel</td>
-<td></td>
-<td></td>
-<td>只读</td>
-</tr>
-<tr>
-<td>mozAnon</td>
-<td>是否在无cookie、authorization header时发送请求</td>
-<td>boolean</td>
-<td></td>
-<td>只读</td>
-</tr>
-<tr>
-<td>mozSystem</td>
-<td>是否强制执行同源策略</td>
-<td>boolean</td>
-<td></td>
-<td>只读</td>
-</tr>
-<tr>
-<td>mozBackgroundRequest</td>
-<td>是否后端服务器的请求</td>
-<td>boolean</td>
-<td></td>
-<td></td>
 </tr>
 <tr>
 <td>方法-</td>
@@ -220,8 +220,8 @@
 <td></td>
 </tr>
 <tr>
-<td>onreadystatechange()</td>
-<td>当readystate改变时触发。所有浏览器都支持。后来又有浏览器支持了onload/onerror/onprogress</td>
+<td>onreadystatechange</td>
+<td>它的属性值是方法，该方法无参数。当readystate改变时触发。所有浏览器都支持。后来又有浏览器支持了onload/onerror/onprogress</td>
 <td></td>
 <td></td>
 <td></td>
@@ -248,7 +248,7 @@
 <td></td>
 </tr>
 <tr>
-<td>open()</td>
+<td>open(method, url, [async, user, password])</td>
 <td>初始化一个请求，只能在js中使用。原生代码中请使用<code>openRequest()</code></td>
 <td><code>xhr.open(method, url, [async, user, password])</code></td>
 <td></td>
@@ -291,20 +291,13 @@
 </tr>
 <tr>
 <td>send([body])</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
 <td>body本次请求要发送的数据体</td>
 <td></td>
 <td></td>
 <td></td>
-<td></td>
 </tr>
 <tr>
-<td>setRequestHeader</td>
+<td>setRequestHeader(k, v)</td>
 <td>设计http请求头的值，必须在open()后send()前执行。</td>
 <td></td>
 <td></td>
@@ -416,18 +409,81 @@
 </tr>
 </tbody>
 </table>
-<h2 id="fetch">fetch</h2>
-<p>fetch('url', {method: 'get'}).then().catch()</p>
-<p>url    必填
-option 可选
-{
-method,
-headers,
-credentials: 'omit' / 'same-origin' / 'include',
-... // 日后补全
-}</p>
-<p>从 fetch() 返回的 Promise 不会被标记为 reject， 即使响应的 HTTP 状态码是 404 或 500。
-使用 Response.ok 是不是为 true 判断是否成功。</p>
+<h2 id="生命周期">生命周期</h2>
+<pre><code><code><div>1. 实例化 ---&gt; xhr对象。readyState=0
+2. xhr.open() ---&gt; readyState=1
+3. xhr.setRequestHeader(k, v) ---&gt; 设计请求头
+4. xhr.send() ---&gt; readyState=2
+5. xxxx ---&gt; readyState=3  responseText已经有些数据
+6. xxxx ---&gt; readyState=4  下载完成
+</div></code></code></pre>
+<h2 id="usage">usage</h2>
+<pre><code class="language-js"><div><span class="hljs-keyword">let</span> reqFn = <span class="hljs-function">(<span class="hljs-params">url, method, options = {headers: {}}</span>) =&gt;</span> {
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">s, j</span>) =&gt;</span> {
+    <span class="hljs-comment">// options: {headers: {k: v, ...}}</span>
+    <span class="hljs-keyword">let</span> xhr = <span class="hljs-keyword">new</span> XMLHttpRequest()
+    xhr.open(method<span class="hljs-comment">/*大写*/</span>, url)
+    <span class="hljs-built_in">Object</span>.keys(options.headers).forEach(<span class="hljs-function">(<span class="hljs-params">k</span>) =&gt;</span> {
+      xhr.setRequestHeader(k, options.headers[k])
+    })
+    xhr.onreadystatechange = <span class="hljs-function">() =&gt;</span> {
+      <span class="hljs-keyword">if</span> (xhr.readyState !== <span class="hljs-number">4</span>) {
+        <span class="hljs-keyword">return</span>
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">if</span> (xhr.state === <span class="hljs-number">200</span>) {
+          s(xhr.response)
+        } <span class="hljs-keyword">else</span> {
+          j(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(xhr.statusText))
+        }
+      }
+    }
+    xhr.addEventListener(<span class="hljs-string">&#x27;abort&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> {
+      j({
+        <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;abort&#x27;</span>,
+        <span class="hljs-attr">args</span>: args
+      })
+    })
+    xhr.addEventListener(<span class="hljs-string">&#x27;error&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> {
+      j({
+        <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;abort&#x27;</span>,
+        <span class="hljs-attr">args</span>: args
+      })
+    })
+    xhr.addEventListener(<span class="hljs-string">&#x27;load&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> {
+      j({
+        <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;abort&#x27;</span>,
+        <span class="hljs-attr">args</span>: args
+      })
+    })
+    xhr.addEventListener(<span class="hljs-string">&#x27;loadend&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> {
+      j({
+        <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;abort&#x27;</span>,
+        <span class="hljs-attr">args</span>: args
+      })
+    })
+    xhr.addEventListener(<span class="hljs-string">&#x27;loadstart&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> {
+      j({
+        <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;abort&#x27;</span>,
+        <span class="hljs-attr">args</span>: args
+      })
+    })
+    xhr.addEventListener(<span class="hljs-string">&#x27;progress&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> {
+      j({
+        <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;abort&#x27;</span>,
+        <span class="hljs-attr">args</span>: args
+      })
+    })
+    xhr.addEventListener(<span class="hljs-string">&#x27;timeout&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> {
+      j({
+        <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;abort&#x27;</span>,
+        <span class="hljs-attr">args</span>: args
+      })
+    })
+  })
+}
+</div></code></pre>
+<h1 id="todo">todo</h1>
+<h2 id="fetch"><a href="/language/javascript/fetch.html">fetch</a></h2>
 
         
         
