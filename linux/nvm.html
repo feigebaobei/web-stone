@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>&#x4ecb;&#x7ecd;linux</title>
+        <title>install nvm</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -63,7 +63,8 @@
 }
 
 </style>
-        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -79,29 +80,33 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <pre><code><code><div>netstat -ntlp # 查看端口
+        <h1 id="install-nvm">install nvm</h1>
+<p>整体安装思路在github上：<a href="https://github.com/nvm-sh/nvm#installing-and-updating">https://github.com/nvm-sh/nvm#installing-and-updating</a></p>
+<h2 id="run-script">run script</h2>
+<p>需要翻墙。</p>
+<pre><code><code><div>curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+// or
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+// 若其中一个不能正常运行，则使用另一个。
+// 注意更新版本。
 </div></code></code></pre>
-<h1 id="介绍linux">介绍linux</h1>
-<h1 id="环境变量"><a href="/linux/path.html">环境变量</a></h1>
-<h1 id="nvm-node的版本管理工具"><a href="/linux/nvm.html">nvm node的版本管理工具</a></h1>
-<h1 id="title">title</h1>
-<h1 id="title-1">title</h1>
-<h1 id="title-2">title</h1>
-<h1 id="title-3">title</h1>
-<h1 id="title-4">title</h1>
-<h1 id="title-5">title</h1>
-<h1 id="title-6">title</h1>
-<h1 id="title-7">title</h1>
-<h1 id="title-8">title</h1>
-<h1 id="title-9">title</h1>
-<h1 id="title-10">title</h1>
-<h1 id="title-11">title</h1>
-<h1 id="title-12">title</h1>
-<h1 id="title-13">title</h1>
-<h1 id="title-14">title</h1>
-<h1 id="title-15">title</h1>
+<h2 id="设置环境变量">设置环境变量</h2>
+<pre><code class="language-shell"><div>export NVM_DIR=&quot;$([ -z &quot;${XDG_CONFIG_HOME-}&quot; ] &amp;&amp; printf %s &quot;${HOME}/.nvm&quot; || printf %s &quot;${XDG_CONFIG_HOME}/nvm&quot;)&quot;
+[ -s &quot;$NVM_DIR/nvm.sh&quot; ] &amp;&amp; \. &quot;$NVM_DIR/nvm.sh&quot; # This loads nvm
+</div></code></pre>
+<h2 id="check-result-of-install">check result of install</h2>
+<p>关闭terminal，再打开terminal。</p>
+<pre><code><code><div>nvm --version
+</div></code></code></pre>
+<p>若显示相应版本号，则安装成功。</p>
+<h2 id="usageexample">usage(example)</h2>
+<pre><code><code><div>nvm ls-remote        // 查看可安装的版本
+nvm install &lt;number&gt; // 安装指定版本的node
+nvm ls               // 查看已安装的node
+node -v              // 查看正在运行的node版本
+</div></code></code></pre>
 
-        
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
     </body>
     </html>
