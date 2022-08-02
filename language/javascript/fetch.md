@@ -36,7 +36,7 @@ fetch(url, {
 |返回值|||promise||||
 |cookie|||可控制是否带||||
 |jsonp|||不支持||||
-|中止|||自身不支持||||
+|中止|||自身不支持。可与AbortController一起使用，实现中止。||||
 ||||||||
 ||||||||
 ||||||||
@@ -45,13 +45,8 @@ fetch(url, {
 ## api
 ## title
 ## title
-## title
-## title
-## title
 
 ## todo
-### [AbortController]()
-### request
-### response
-### title
-### title
+### [AbortController](/language/javascript/AbortController.html)
+### [request](/language/javascript/request.html)
+### [response](/language/javascript/response.html)
