@@ -18,17 +18,15 @@
 3. 添加service worker（可实现无网运行）  
 
 ## 主要技术
-- [manifest.json]()
+- [https]()
+- [manifest.json](/pwa/manifestJson.html)
 - [service worker]()
 - [caches]()
+- [fetch]()
 
 ## app shell
 就是与页面中主体部分无关、几乎每个页面都会使用的.  
 尽快加载最小用户界面，然后缓存它，以便在后续访问时可以离线使用。下载使用时从缓存中取出。
-
-
-
-
 
 ## service worker
 - 在弱网、断网时提供服务

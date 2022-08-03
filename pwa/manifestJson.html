@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <title>manifest&period;json</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -79,7 +79,225 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <p><a href="http://manifestJson.html">manifestJson.md</a></p>
+        <h1 id="manifestjson">manifest.json</h1>
+<blockquote>
+<p>描述符文件名为 manifest.json 并位于 网络应用 夹。
+使用可翻译的字符串作为应用程序的标题和描述。
+使浏览器知道如何对待该web应用。<br>
+一般在根目录。
+正式的扩展名是<code>.webmanifest</code>。即您可以设置为<code>app.webmanifest</code>.但是只要使用json格式编写，任意扩展名都能被解析。</p>
+</blockquote>
+<h2 id="usage">usage</h2>
+<pre><code><code><div>&lt;!-- 定义并编辑 &lt;root&gt;/manifest.json --&gt;
+&lt;!-- index.html --&gt;
+&lt;link rel=&quot;manifest&quot; href=&quot;/manifest.json&quot; /&gt;
+</div></code></code></pre>
+<h2 id="调试">调试</h2>
+<p>在浏览器的开发者工具-application-manifest</p>
+<h2 id="字段说明">字段说明</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>基本字段</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>name</td>
+<td>web应用的全名</td>
+<td>用于显示在主屏幕、启动栏、程序坞、菜单</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>short_name</td>
+<td>name的简称</td>
+<td>当显示空间不足时使用short_name.</td>
+<td>请保持在12个字母以内</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>icons</td>
+<td>由<code>{src, type, sizes, [purpose]}</code>组成的数组对象。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>start_url</td>
+<td>从安装后的应用打开时请求的url.</td>
+<td></td>
+<td>若不设置，则打开安装应用时的url</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>display</td>
+<td>定义操作系统如何显示pwa应用。</td>
+<td>'fullscreen' / 'standalone' / 'minimal-ui' / 'browser'</td>
+<td>一般使用'standalone'</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>id</td>
+<td></td>
+<td>用于表示惟一pwa</td>
+<td>非必填项</td>
+<td>若无id,有start_url也行。chrome 96+当无id里会自动生成一个id.</td>
+</tr>
+<tr>
+<td>推荐字段</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>theme_color</td>
+<td>主题色</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>background_color</td>
+<td>背景色</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>scope</td>
+<td>控制pwa窗口内的url.</td>
+<td>不会控制service worker的工作范围。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>splashscreens</td>
+<td>pwa应用加载时的占位图。类似骨架图</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>扩展字段</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>lang</td>
+<td>指定主要语言</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>dir</td>
+<td>指定方向性（direction）</td>
+<td>'auto' / 'ltr' / 'rtl'</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>orientation</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>promotional 字段</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>description</td>
+<td>说明本pwa</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>screenshots</td>
+<td>由<code>{src, type, sizes}</code>组成的数组。</td>
+<td>用于展示pwa</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>categories</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>iarc_cating_id</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>capabilites字段</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="创建icon">创建icon</h2>
+<ul>
+<li>留出系统裁剪的空间。</li>
+<li>图片内容在半径为宽度的40%以内。</li>
+</ul>
+<h2 id="title">title</h2>
+<h2 id="title-1">title</h2>
+<h2 id="title-2">title</h2>
+<h2 id="todo">todo</h2>
+<h3 id="title-3">title</h3>
+<h3 id="title-4">title</h3>
+<h3 id="title-5">title</h3>
+<h3 id="title-6">title</h3>
 
         
         
