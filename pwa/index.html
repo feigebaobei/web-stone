@@ -102,9 +102,11 @@
 </ol>
 <h2 id="主要技术">主要技术</h2>
 <ul>
+<li><a href="">https</a></li>
 <li><a href="/pwa/manifestJson.html">manifest.json</a></li>
 <li><a href="">service worker</a></li>
 <li><a href="">caches</a></li>
+<li><a href="">fetch</a></li>
 </ul>
 <h2 id="app-shell">app shell</h2>
 <p>就是与页面中主体部分无关、几乎每个页面都会使用的.<br>
@@ -192,12 +194,15 @@
     deferredPrompt = e
     showInAppInstallPromotion() <span class="hljs-comment">// 自定义的提示安装的方法</span>
 })
+<span class="hljs-keyword">let</span> showInAppInstallPromotion = <span class="hljs-function">() =&gt;</span> {
+  deferredPrompt.prompt()
+  deferredPrompt = <span class="hljs-literal">null</span> <span class="hljs-comment">// 释放内存</span>
+}
 </div></code></pre>
 <h3 id="安装过程">安装过程</h3>
 <ol>
 <li>当浏览器检测到web应用可安装时，会触发<code>beforeinstallprompt</code>事件。</li>
-<li>安装时触发<code>appinstalled</code>事件，无论是浏览器触发、还是用户触发。</li>
-<li></li>
+<li>安装时触发<code>appinstalled</code>事件，无论是浏览器触发、还是用户触发。可用户监听是否安装。</li>
 </ol>
 <h3 id="兼容性">兼容性</h3>
 <ul>
@@ -205,6 +210,34 @@
 <li>需要使用显示教导用户手动安装的教程。</li>
 <li>使用'display'控制吧。</li>
 </ul>
+<h3 id="检测启动方式">检测启动方式</h3>
+<p>css的<code>display-mode</code>与manifest.json中的display相同。可用于查询pwa的启动方式。</p>
+<pre><code class="language-js"><div><span class="hljs-comment">// 返回一个MediaQueryList</span>
+<span class="hljs-built_in">window</span>.matchMedis(mediaQueryString) =&gt; MediaQueryList
+<span class="hljs-keyword">let</span> mql = <span class="hljs-built_in">window</span>.matchMedia(<span class="hljs-string">&#x27;(max-width: 600px)&#x27;</span>)
+<span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">&#x27;.a&#x27;</span>).innerText = mql.matches
+<span class="hljs-comment">// 返回pwa的启动方式</span>
+<span class="hljs-keyword">let</span> getPWADisplayMode = <span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-keyword">let</span> isStandalone = <span class="hljs-built_in">window</span>.matchMedia(<span class="hljs-string">&#x27;(display-mode: standalone)&#x27;</span>).matches
+  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">document</span>.referrer.startsWith(<span class="hljs-string">&#x27;android-app://&#x27;</span>)) {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;twa&#x27;</span>
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (navigator.standalone || isStandalone) {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;standalone&#x27;</span>
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;browser&#x27;</span>
+}
+<span class="hljs-comment">// 跟踪显示模式变化</span>
+<span class="hljs-built_in">window</span>.matchMedia(<span class="hljs-string">&#x27;(display-mode: standalone)&#x27;</span>).addEventListener(<span class="hljs-string">&#x27;change&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+  <span class="hljs-keyword">let</span> displayMode = <span class="hljs-string">&#x27;browser&#x27;</span>
+  <span class="hljs-keyword">if</span>(e.matches) {
+    displayMode = <span class="hljs-string">&#x27;standalone&#x27;</span>
+  }
+})
+<span class="hljs-comment">// 使用媒体查询更新样式</span>
+@media all <span class="hljs-function"><span class="hljs-title">and</span>(<span class="hljs-params">display-mode: standalone</span>)</span> {
+  body {...}
+}
+</div></code></pre>
 <h2 id="title">title</h2>
 <h2 id="title-1">title</h2>
 <h2 id="title-2">title</h2>
@@ -424,6 +457,79 @@
 </div></code></pre>
 <h3 id="vue-pwa-install"><a href="https://github.com/Bartozzz/vue-pwa-install">vue-pwa-install</a></h3>
 <h3 id="react-pwa-install"><a href="https://www.npmjs.com/package/react-pwa-install">react-pwa-install</a></h3>
+<h3 id="mediaquerylist">MediaQueryList</h3>
+<p>保存了媒体查询的信息。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>属性</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>matches</td>
+<td>只读</td>
+<td>是否与当前document匹配</td>
+<td>boolean</td>
+</tr>
+<tr>
+<td></td>
+<td>media</td>
+<td>只读</td>
+<td>返回字符串</td>
+<td></td>
+</tr>
+<tr>
+<td>方法</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>addListener()</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>removeListener()</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>事件</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>change</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="push-api">push api</h3>
+<h3 id="notification-triggers-api">notification triggers api</h3>
 <h3 id="title-8">title</h3>
 <h3 id="title-9">title</h3>
 <h3 id="title-10">title</h3>

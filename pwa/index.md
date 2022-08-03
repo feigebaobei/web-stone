@@ -101,18 +101,50 @@ window.addEventListener('beforeinstallprompt', (e) => {
     deferredPrompt = e
     showInAppInstallPromotion() // 自定义的提示安装的方法
 })
+let showInAppInstallPromotion = () => {
+  deferredPrompt.prompt()
+  deferredPrompt = null // 释放内存
+}
 ```
 
 ### 安装过程
 1. 当浏览器检测到web应用可安装时，会触发`beforeinstallprompt`事件。
-2. 安装时触发`appinstalled`事件，无论是浏览器触发、还是用户触发。  
-3. 
+2. 安装时触发`appinstalled`事件，无论是浏览器触发、还是用户触发。可用户监听是否安装。  
 
 ### 兼容性
 - 当浏览器不支持`beforeinstallprompt`时，就不能实现延迟安装了。
 - 需要使用显示教导用户手动安装的教程。  
 - 使用'display'控制吧。  
 
+### 检测启动方式
+css的`display-mode`与manifest.json中的display相同。可用于查询pwa的启动方式。
+```js
+// 返回一个MediaQueryList
+window.matchMedis(mediaQueryString) => MediaQueryList
+let mql = window.matchMedia('(max-width: 600px)')
+document.querySelector('.a').innerText = mql.matches
+// 返回pwa的启动方式
+let getPWADisplayMode = () => {
+  let isStandalone = window.matchMedia('(display-mode: standalone)').matches
+  if (document.referrer.startsWith('android-app://')) {
+    return 'twa'
+  } else if (navigator.standalone || isStandalone) {
+    return 'standalone'
+  }
+  return 'browser'
+}
+// 跟踪显示模式变化
+window.matchMedia('(display-mode: standalone)').addEventListener('change', (e) => {
+  let displayMode = 'browser'
+  if(e.matches) {
+    displayMode = 'standalone'
+  }
+})
+// 使用媒体查询更新样式
+@media all and(display-mode: standalone) {
+  body {...}
+}
+```
 
 
 ## title
@@ -193,6 +225,22 @@ window.addEventListener("beforeinstallprompt", function(e) {
 ```
 ### [vue-pwa-install](https://github.com/Bartozzz/vue-pwa-install)
 ### [react-pwa-install](https://www.npmjs.com/package/react-pwa-install)
+### MediaQueryList
+保存了媒体查询的信息。
+
+||||||
+|-|-|-|-|-|
+|属性|||||
+||matches|只读|是否与当前document匹配|boolean|
+||media|只读|返回字符串||
+|方法|||||
+||addListener()||||
+||removeListener()||||
+|事件|||||
+||change||||
+
+### push api
+### notification triggers api
 ### title
 ### title
 ### title
