@@ -5,8 +5,10 @@
 
 ### feature
 - 一个库中包含多个包。
-- 方便包之间引用。
-- 统一发布包。
+- 建立包之间引用。(bootstrap)
+- 统一发布包。自动升级版本号。
+- 缓存运行命令的结果。
+- 在每个包(或指定的包)中运行脚本。
 
 ## install
 `npm i lerna -g`
@@ -44,7 +46,7 @@ lerna init     // 生成基本的lerna库目录结构。
 该模式下允许你更自由地升级每个包的版本，用于组件组更合适。
 `lerna.json`中`version`的值是`independent`。
 
-## configuration
+## [configuration](/jsPackages/lerna/config.html)
 默认配置文件：`<root>/lerna.json`。
 ```
 {
@@ -115,6 +117,10 @@ lerna没有删除包的命令。若要删除包，只能手动删除目录。
 - 每个包一个git仓库。本地使用一个项目，其中是lerna创建的项目。此项目没有git仓库。
 
 ## todo
-> 未来迭代计划。
-> 未来迭代计划。
-> 未来迭代计划。
+### [nx](/nx/index.html)
+nx只会让lerna理强大。lerna已有的功能，仍然可以使用。  
+
+### title
+### title
+### title
+### title
