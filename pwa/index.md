@@ -1,7 +1,7 @@
 # pwa
 > Progressive Web Apps  
 > 是一个网页。拥有app般的用户体验  
-> 2015年提出。2016年推广。好像safri不支持  
+> 2015年提出。2016年推广。好像safri不支持。都这么多年过去了，还不能全面支持。还有多好功能处理实验阶段。要加油呀！  
 > 
 
 ## feature
@@ -20,9 +20,9 @@
 ## 主要技术
 - [https]()
 - [manifest.json](/pwa/manifestJson.html)
-- [service worker]()
+- [service worker](/pwa/serviceWorker.html)
 - [caches]()
-- [fetch]()
+- [fetch](/language/javascript/fetch.html)
 
 ## app shell
 就是与页面中主体部分无关、几乎每个页面都会使用的.  

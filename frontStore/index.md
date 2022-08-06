@@ -7,6 +7,6 @@
 - [提供缓存的音频和视频](/frontStore/sessionStorage.html)
 - [persistent storage api](/frontStore/sessionStorage.html)
 - [ localForage、dexie.js、PouchDB、idb、idb-keyval、JsStore 或者 lovefield 之](/frontStore/sessionStorage.html)
-- [indexDB](/frontStore/sessionStorage.html)
+- [cache](/frontStore/cache.html)
 - [indexDB](/frontStore/sessionStorage.html)
 - [indexDB](/frontStore/sessionStorage.html)
