@@ -115,4 +115,31 @@ dom.onclick = fn
 // 这里是方法     无()
 ```
 
+# ExtendableEvent
+创建一个ExtendableEvent对象。
+service workers中使用到了它。  
+
+```js
+new ExtendableEvent(type: string[, options: object])
+```
+type事件名
+options 定义在ExtendableEvent对象上的自定义属性。
+
+## ExtendableEvent.waitUntil(promise)
+方法告诉事件分发器该事件仍在进行。这个方法也可以用于检测进行的任务是否成功。在服务工作线程中，这个方法告诉浏览器事件一直进行，直至 promise 解决，浏览器不应该在事件中的异步操作完成之前终止服务工作线程。
+**无返回**  
+在install事件、actives事件中使用，会让工作线程保持在installing / activing阶段。
+
+
+
+
+
+
+
+
+
+
+
+
+
 
