@@ -86,70 +86,8 @@
 <li>worker可嵌套</li>
 <li>主线程/worker线程必须在相同的origin中。</li>
 <li>主线程/worker线程之间转换数据(Transferable Objects)</li>
-<li>有专用worker和共享worker ()</li>
+<li>有专用worker和共享worker</li>
 </ul>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>专用worker</th>
-<th>共享worker</th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td>专用 worker 仅仅能被首次生成它的脚本使用</td>
-<td>可以同时被多个脚本使用</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>遵守同源策略</td>
-<td>遵守同源策略</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>判断是否支持</td>
-<td><code>window.Worker</code></td>
-<td><code>window.SharedWorker</code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>必须使用端口对象进行通信</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
 <h1 id="demo">demo</h1>
 <pre><code class="language-js"><div><span class="hljs-comment">// 创建worker对象</span>
 <span class="hljs-keyword">let</span> worker = <span class="hljs-keyword">new</span> Worker(<span class="hljs-string">&#x27;workerFile.js&#x27;</span>)
@@ -165,9 +103,9 @@ worker.terminate() <span class="hljs-comment">// stop worker</span>
 </div></code></pre>
 <pre><code class="language-js"><div><span class="hljs-comment">// workerFile.js</span>
 onmessage = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">event</span>) </span>{
-    <span class="hljs-attr">event</span>: {
+    <span class="hljs-comment">// event: {</span>
 
-    }
+    <span class="hljs-comment">// }</span>
     <span class="hljs-keyword">let</span> result = {<span class="hljs-attr">k1</span>: <span class="hljs-string">&#x27;v1&#x27;</span>}
     postMessage(result)
 }
@@ -175,7 +113,7 @@ onmessage = <span class="hljs-function"><span class="hljs-keyword">function</spa
 self.close() <span class="hljs-comment">// stop worker</span>
 <span class="hljs-comment">// self是子线程</span>
 <span class="hljs-comment">// worker中引入其他脚本</span>
-importScripts(<span class="hljs-string">&#x27;filejs.js&#x27;</span>, ...)
+importScripts(<span class="hljs-string">&#x27;filejs.js&#x27;</span>, ...) <span class="hljs-comment">// 无返回值</span>
 <span class="hljs-comment">// 出错</span>
 <span class="hljs-comment">// self.addEventListener(&#x27;error&#x27;, f)</span>
 </div></code></pre>
@@ -185,16 +123,159 @@ importScripts(<span class="hljs-string">&#x27;filejs.js&#x27;</span>, ...)
 <li>error</li>
 <li>messageerror 当数据无法序列化为字符串时触发</li>
 </ul>
-<h1 id="worker对象">worker对象</h1>
-<pre><code class="language-js"><div>worker: {
-    name
-    onmessage
-    onmessageerror
-    close()
-    postMessage()
-    importScripts(str)
-}
-</div></code></pre>
+<h1 id="worker-api">worker api</h1>
+<table>
+<thead>
+<tr>
+<th>Worker</th>
+<th></th>
+<th>说明</th>
+<th>返回值</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>new Worker(url, options?: {type, credentials, name})</td>
+<td></td>
+<td>worker对象</td>
+<td></td>
+</tr>
+<tr>
+<td>属性</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>方法</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>postMessage(data)</td>
+<td>把数值转移给worker</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>terminate()</td>
+<td>停止指定的线程</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>事件</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>onerror</td>
+<td>当worker中出错是触发</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>onmessage</td>
+<td>当父线程传递过来信息时触发</td>
+<td>event.data是传递来的数据</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>onmessageerror</td>
+<td>当消息不能序列化时触发</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h1 id="原型">原型</h1>
+<pre><code><code><div>EventTarget &lt;--- Worker
+</div></code></code></pre>
+<h1 id="messageevent">MessageEvent</h1>
+<p>消息对象<br>
+继承自Event对象</p>
+<table>
+<thead>
+<tr>
+<th>MessageEvent</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>属性</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>data</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>origin</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>lastEventId</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>source</td>
+<td>代表消息发送者</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>ports</td>
+<td>MessagePort对象数组，表示消息下在通过特定通道传输。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>方法</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h1 id="加载worker脚本">加载worker脚本</h1>
 <pre><code class="language-html"><div><span class="hljs-comment">&lt;!-- type是浏览器不认识的值 --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;worker&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;app/worker&quot;</span>&gt;</span><span class="javascript">
@@ -302,6 +383,69 @@ myWorker.port.postMessage(value)
 </div></code></pre>
 <h1 id="todo">todo</h1>
 <h2 id="为什么多个页面会共用一个worker呢">为什么多个页面会共用一个worker呢？</h2>
+<h2 id="专用worke--共享worker">专用worke &amp; 共享worker</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>专用worker</th>
+<th>共享worker</th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>专用 worker 仅仅能被首次生成它的脚本使用</td>
+<td>可以同时被多个脚本使用</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>遵守同源策略</td>
+<td>遵守同源策略</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>判断是否支持</td>
+<td><code>window.Worker</code></td>
+<td><code>window.SharedWorker</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>必须使用端口对象进行通信</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h2 id="title">title</h2>
 <h2 id="title-1">title</h2>
 <h2 id="title-2">title</h2>

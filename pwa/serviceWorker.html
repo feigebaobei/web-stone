@@ -81,11 +81,395 @@
     <body class="vscode-body vscode-light">
         <h1 id="service-worker">service worker</h1>
 <blockquote>
-<p>概览</p>
+<p>本质上是web应用、浏览器与网络之间的代理服务器。
+是一个注册在指定源和路径下的事件驱动worker
+运行在worker上下文。不能操作dom。不会阻塞主线程。
+它设计为完全异步，同步api(如xhr/localStorage)不能在service worker中使用
+只能https承载。
+在firefox浏览器的用户隐私模式下，service worker不可用。</p>
 </blockquote>
+<h2 id="feature">feature</h2>
+<ol>
+<li><a href="https://wicg.github.io/background-sync/spec/">后台同步</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Push_API">信息推送</a>
+<ol>
+<li>可以实现后端后前端推送信息</li>
+<li>需要一个被激活的service worker</li>
+<li>可以使用<code>PushManager.subscribe()</code>方法订阅消息。</li>
+</ol>
+</li>
+</ol>
 <h2 id="usage">usage</h2>
 <pre><code class="language-js"><div></div></code></pre>
+<h3 id="使用条件">使用条件</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>chrome</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>firefox</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>xxx</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="生命周期">生命周期</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. 下载</td>
+<td></td>
+<td>由程序触发</td>
+<td></td>
+</tr>
+<tr>
+<td>2. 安装</td>
+<td>由浏览器触发</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>3. 激活</td>
+<td>由浏览器触发</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code><code><div>注册
+    serviceWorkerContainer.register()
+注册成功
+    service worker在ServiceWorkerGlobalScope环境中运行。（其中无法访问dom）可接收事件
+安装
+    解决oninstall事件。
+    常用于缓存资源
+激活
+    清理生前版本的service worker脚本中使用的资源
+开始控制页面
+</div></code></code></pre>
+<pre><code class="language-js"><div><span class="hljs-comment">// app.js</span>
+<span class="hljs-keyword">if</span> (<span class="hljs-string">&#x27;serviceWorker&#x27;</span> <span class="hljs-keyword">in</span> navigator) {
+    navigator.serviceWorker.register(
+        <span class="hljs-string">&#x27;url/path.js&#x27;</span>, <span class="hljs-comment">// 相对于origin</span>
+        {<span class="hljs-attr">scope</span>: <span class="hljs-string">&#x27;/path/&#x27;</span>} <span class="hljs-comment">// 指定注册范围</span>
+    ) <span class="hljs-comment">// 返回一个promise.其值是ServiceWrokerRegistration</span>
+    .then(<span class="hljs-function">(<span class="hljs-params">reg</span>) =&gt;</span> {
+        <span class="hljs-comment">// ...</span>
+    })
+    .catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;catch&#x27;</span>, err)
+    })
+}
+<span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">&#x27;install&#x27;</span>)
+</div></code></pre>
+<h3 id="注册">注册</h3>
+<h3 id="安装">安装</h3>
+<h3 id="激活">激活</h3>
+<h2 id="serviceworkercontainer---navigatorserviceworker">ServiceWorkerContainer   (navigator.serviceWorker)</h2>
+<p>为service worker提供一个容器般的功能。包括注册、卸载、更新service worker状态、访问service worker状态、访问他们的注册者。
+<code>navigator.serviceWorker</code>就是ServiceWorkerContainer</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>属性</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>controller</td>
+<td>当service worker状态为active时，返回ServiceWorkder对象。否则返回null</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>ready</td>
+<td>返回一个promise，当serviceworker为active状态时promise变为fulfilled状态。该promise永远不会变为rejected状态</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>方法</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>register(scriptUrl[, {scope: USVString}])</td>
+<td>返回一个ServiceWorkerRegistration（优先）。或返回一个值是ServiceWorkerRegistration的promise</td>
+<td>scope指定service worker注册范围。相对于当前location</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>getRegistration()</td>
+<td>根据当前网页的url返回一个ServiceWorkerRegistration或null</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>getRegistrations()</td>
+<td>返回所有ServiceWrokerRegistration或null</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>事件</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>oncontrollerchange</td>
+<td>当serviceworker变为active时触发</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>onerror</td>
+<td>当serviceworker中出现错误时触发</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>onmessage</td>
+<td>当ServiceWorkerContainer对象接收到一个message消息时触发。</td>
+<td>message是MessagePort.postMessage()发出的</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="serviceworkerregistration-对象">ServiceWorkerRegistration 对象</h2>
+<p>这是一个实验中的功能
+它是注册了service worker的容器。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>属性</td>
+<td>都是只读</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>scope</td>
+<td>返回相对于origin的范围</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>installing</td>
+<td>返回处于installing的service worker或null</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>waiting</td>
+<td>返回处于waiting的service worker或null</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>active</td>
+<td>返回处于activating / activated的service worker或null</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>periodicSync</td>
+<td>返回一个PeriodicSyncManager对象，该对象管理阶段性后台同步进程。</td>
+<td>周期性执行任务。</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>pushManager</td>
+<td>返回一个PushManager对象的引用。该对象可用于推送消息给订阅者。getting an active subscription, and accessing push permission status.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>sync</td>
+<td>返回一个SyncManager对象的引用。该对象管理后台同步进程</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>onupdatefound</td>
+<td>-</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>方法</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>getNotifications(options?: {tag: string})</td>
+<td>返回一个值是Notification的promise</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>showNotification(title, options?: {actions: [{action, title, icon}, ...], badge, body, data, dir, icon, image, lang, renotify, requireInteraction, silent, tag, timestamp, vibrate})</td>
+<td>显示一个通知</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>update(无参数)</td>
+<td>当找到缓存时更新service worker的版本。返回一个值是ServiceWorkerRegistration的promise</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>unregister()</td>
+<td>注销个service worker，返回一个值是boolean的promise。boolean表示是否被注销。</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="serviceworkerglobalscope">ServiceWorkerGlobalScope</h2>
+<p>代表一个service worker的全局变量。<br>
+serviceworker中不能使用同步请求，可使用异步请求。</p>
 <h2 id="api">api</h2>
+<p>ServiceWorkerContainer接口为service worker提供了一个容器般的功能。包括对service worker的注册、卸载、更新、和访问service worker的状态、 以及它们的注册者。<br>
+navigator.serviceWorker就是实现了ServiceWorkerContainer接口</p>
+<table>
+<thead>
+<tr>
+<th>ServiceWorkerContainer</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>key</td>
+<td>description</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <table>
 <thead>
 <tr>
@@ -108,10 +492,471 @@
 </tr>
 </tbody>
 </table>
+<h2 id="uml">uml</h2>
 <h2 id="todo">todo</h2>
+<h3 id="messageport"><a href="">MessagePort</a></h3>
+<h3 id="名称">名称</h3>
+<p>工作线程。</p>
+<h3 id="periodicsyncmanager">PeriodicSyncManager</h3>
+<h3 id="pushmanager">PushManager</h3>
+<h3 id="syncmanager">SyncManager</h3>
+<h3 id="notification">Notification</h3>
+<h3 id="serviceworker">ServiceWorker</h3>
+<ul>
+<li>继承自<a href="">worker</a></li>
+<li>这是一个实验中的功能</li>
+<li>它是服务工作者</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>属性</td>
+<td>都是只读</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>scriptUrl</td>
+<td>脚本的url</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>state</td>
+<td>返回service worker的状态</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>事件</td>
+<td>全是小写</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>onstatechange</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>fetch</td>
+<td>当控制范围内的页面有请求时触发</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>push</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>方法</td>
+<td>全部继承自worker</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-js"><div><span class="hljs-comment">// serviceWorker.js</span>
+<span class="hljs-comment">// demo0</span>
+<span class="hljs-comment">// this.addEventListener(&#x27;fetch&#x27;, (e) =&gt; {</span>
+<span class="hljs-comment">// or</span>
+self.addEventListener(<span class="hljs-string">&#x27;fetch&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-comment">// 劫持http响应</span>
+    e.respondWith(
+        <span class="hljs-comment">// 缓存中是否存在</span>
+        caches.match(event.request)
+            .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> {
+                <span class="hljs-keyword">if</span> (response) {
+                    <span class="hljs-keyword">return</span> response <span class="hljs-comment">// 若缓存中存在则返回缓存的数据</span>
+                }
+                <span class="hljs-keyword">return</span> fetch(event.request).then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> response) <span class="hljs-comment">// 否则请求并返回请求到的数据。</span>
+            })
+            .catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> { <span class="hljs-comment">// 若出错则返回错误。也可以返回自定义responsec对象</span>
+                <span class="hljs-keyword">throw</span> err
+                <span class="hljs-comment">// or</span>
+                <span class="hljs-comment">// return new Response(...`)</span>
+            })
+    )
+    e.respondWith(caches.match(e.request))
+})
+
+<span class="hljs-comment">// demo1</span>
+<span class="hljs-comment">// 若缓存中有相应的数据，则返回缓存中的数据。否则请求数据后保存在缓存中，并返回给请求者。</span>
+self.addEventListener(<span class="hljs-string">&#x27;fetch&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {
+    event.respondWith(
+        caches.match(event.request).then(<span class="hljs-function">(<span class="hljs-params">response</span>) =&gt;</span> {
+            <span class="hljs-comment">// 若缓存中存在则返回，否则请求。</span>
+            <span class="hljs-keyword">return</span> response || fetch(event.request).then(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
+                <span class="hljs-comment">// 此时缓存中没有。</span>
+                <span class="hljs-keyword">return</span> caches.open(<span class="hljs-string">&#x27;v1&#x27;</span>).then(<span class="hljs-function"><span class="hljs-params">cache</span> =&gt;</span> {
+                    <span class="hljs-comment">// 把数据添加到缓存中</span>
+                    cache.put(event.request, res.clone())
+                    <span class="hljs-comment">// 把响应克隆一份后缓存起来。把原始响应返回给调用它的页面。</span>
+                    <span class="hljs-comment">// 请求和响应流只能被读取一次。缓存起来的是克隆出来的，返回给页面的是原始的。</span>
+                    <span class="hljs-keyword">return</span> res
+                })
+            })
+        })
+    )
+})
+
+<span class="hljs-comment">// demo2</span>
+<span class="hljs-comment">// 更新service worker</span>
+<span class="hljs-comment">// 如果你的 service worker 已经被安装，但是刷新页面时有一个新版本的可用，新版的 service worker 会在后台安装，但是还没激活。当不再有任何已加载的页面在使用旧版的 service worker 的时候，新版本才会激活。一旦再也没有更多的这样已加载的页面，新的 service worker 就会被激活。</span>
+self.addEventListener(<span class="hljs-string">&#x27;install&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {
+    event.waitUntil(
+        <span class="hljs-comment">// 使用新版本号，不会与别的版本有冲突</span>
+        caches.open(<span class="hljs-string">&#x27;v2&#x27;</span>).then(<span class="hljs-function"><span class="hljs-params">cache</span> =&gt;</span> {
+            <span class="hljs-keyword">return</span> cache.addAll([
+                <span class="hljs-string">&#x27;/sw-test/&#x27;</span>,
+                <span class="hljs-string">&#x27;/sw-test/index.html&#x27;</span>
+            ])
+        })
+    )
+})
+</div></code></pre>
+<h4 id="删除旧缓存">删除旧缓存</h4>
+<p>activate事件可用于删除旧缓存。<br>
+每个浏览器对service worker可用缓存空间不同。
+若不控制，则有可能浏览器会全部清空缓存的数据。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>sw可用空间</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>chrome</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ff</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ie</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>op</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>safri</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-js"><div><span class="hljs-comment">// serviceWorker.js</span>
+self.addEventListener(<span class="hljs-string">&#x27;activate&#x27;</span>, <span class="hljs-function"><span class="hljs-params">event</span> =&gt;</span> {
+    <span class="hljs-keyword">let</span> cacheWhiteList = [<span class="hljs-string">&#x27;v2&#x27;</span>]
+    event.waitUntil(
+        caches.keys().then(<span class="hljs-function"><span class="hljs-params">keyList</span> =&gt;</span> {
+            <span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>.all(keyList.map(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
+                <span class="hljs-keyword">if</span> (cacheWhiteList.
+                includes(key)) {
+                    <span class="hljs-keyword">return</span> caches.delete(key)
+                }
+            }))
+        })
+    )
+})
+</div></code></pre>
+<h4 id="开发者工具">开发者工具</h4>
+<h5 id="chrome">chrome</h5>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>chrome://inspect/#service-workers</td>
+<td>展示当前设备上激活和存储的 service worker等。</td>
+</tr>
+<tr>
+<td>chrome://serviceworker-internals</td>
+<td>可以展示更多细节来允许你开始/暂停/调试 worker 的进程。</td>
+</tr>
+</tbody>
+</table>
+<h5 id="firefox">firefox</h5>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>about:serviceworkers</td>
+<td>查看已注册的SW，也可更新、移除</td>
+</tr>
+<tr>
+<td>检查 Firefox Devtools 的选项 &quot;Enable Service Workers over HTTP (when toolbox is open)&quot;</td>
+<td>可绕开https限制。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="worker">Worker</h3>
+<h3 id="三者关系">三者关系</h3>
+<p>ServiceWorkerContainer为service worker提供一个容器般的功能
+ServiceWorkerContainer.register() // 返回 ServiceWorkerRegistration
+<code>navigator.serviceWorker</code>就是ServiceWorkerContainer</p>
+<p>ServiceWorkerRegistration.installing    // 返回service worker
+ServiceWorkerRegistration.waiting       // 返回service worker
+ServiceWorkerRegistration.active        // 返回service worker</p>
+<h3 id="困难">困难</h3>
+<ol>
+<li>知识点多。pwa是渐进式的。若干知识点中，有一个支持了就是实现了pwa.</li>
+<li>无详细的、成体系的教程。</li>
+<li>好多属性、方法处理试验阶段。浏览器兼容性不好。</li>
+</ol>
+<h3 id="cache">cache</h3>
+<p>同步的</p>
+<h3 id="indexeddb"><a href="">indexedDB</a></h3>
+<p>常在service worker内做数据存储</p>
+<h3 id="fetchevent">FetchEvent</h3>
+<p>当页面发生提取动作会在service worker作用域（ServiceWorkerGlobalScope）中触发fetch事件<br>
+继承自Event</p>
+<pre><code class="language-js"><div><span class="hljs-comment">// 监听方式</span>
+ServiceWorkerGlobalScope.onfetch
+<span class="hljs-comment">// or</span>
+ServiceWorkerGlobalScope.addEventListener(<span class="hljs-string">&#x27;fetch&#x27;</span>)
+
+<span class="hljs-comment">// demo</span>
+self.addEventListener(<span class="hljs-string">&#x27;fetch&#x27;</span>, <span class="hljs-function">() =&gt;</span> {...})
+</div></code></pre>
+<h4 id="构造函数">构造函数</h4>
+<pre><code class="language-js"><div>FetchEvent.FetchEvent()
+</div></code></pre>
+<h4 id="属性">属性</h4>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>属性</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>isReload</td>
+<td>返回是否由用户触发</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>request</td>
+<td>返回事件控制器的Request</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>clientId</td>
+<td>返回事件的id</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>方法</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>respondWith(任何自定义的响应生成代码)</td>
+<td>控制返回的Response对象或网络错误。</td>
+<td>可用于劫持http<strong>请求</strong>。</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>waitUntil(promise)</td>
+<td>延长事件的生命周期</td>
+<td>无返回值</td>
+<td>告诉事件分发器，事件仍在进行，直到promise解决。可用于检测是否完成。</td>
+</tr>
+<tr>
+<td>当event.waitUntil的参数promise变为rejected状态时，会丢弃这个服务工作线程。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="response"><a href="/language/javascript/response.html">response</a></h3>
+<h3 id="request"><a href="/language/javascript/request.html">request</a></h3>
+<h3 id="pushevent">PushEvent</h3>
+<p>它还处理实验阶段</p>
+<pre><code class="language-js"><div><span class="hljs-comment">// 继承关系</span>
+Event &lt;--- Extendable &lt;--- PushEvent
+
+<span class="hljs-keyword">new</span> PushEvent(type[, options]) =&gt; PushEvent
+type 事件名称
+<span class="hljs-attr">options</span>: { <span class="hljs-comment">// 会添加到event对象上。</span>
+    data <span class="hljs-comment">// 该属性会被设置为一个新的包含这些字段的PushMessageData对象</span>
+}
+<span class="hljs-comment">// demo</span>
+<span class="hljs-keyword">let</span> myPushEvent = <span class="hljs-keyword">new</span> PushEvent(<span class="hljs-string">&#x27;push&#x27;</span>, {<span class="hljs-attr">data</span>: <span class="hljs-string">&#x27;string&#x27;</span>})
+myPushEvent.data.text() <span class="hljs-comment">// &#x27;string&#x27;</span>
+
+<span class="hljs-comment">// serviceWorker.js</span>
+self.addEventListener(<span class="hljs-string">&#x27;push&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {
+    <span class="hljs-keyword">let</span> obj = event.data.json() <span class="hljs-comment">// 以json格式提取数据</span>
+    <span class="hljs-keyword">if</span> ([<span class="hljs-string">&#x27;subscribe&#x27;</span>, <span class="hljs-string">&#x27;unsubscribe&#x27;</span>].includes(obj.action)) {
+        fireNotification(obj, event)
+        port.postMessage(obj)
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> ([<span class="hljs-string">&#x27;init&#x27;</span>, <span class="hljs-string">&#x27;chatMsg&#x27;</span>].includes(obj.action)) {
+        port.postMessage(obj)
+    }
+})
+</div></code></pre>
+<p>属性、方法都是从祖先原型上继承的。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="pushmessagedata">PushMessageData</h4>
+<p>它处理实验阶段。
+它是push api的对象。可以让我们找到从服务器发来的push数据。
+其方法、属性可调用多次。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>无属性</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>方法</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>arrayBuffer()</td>
+<td>以ArrayBuffer的格式提取数据</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>blob()</td>
+<td>以Blob的格式提取数据</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>json()</td>
+<td>以JSON的格式提取数据</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>text()</td>
+<td>以纯文本的格式提取数据</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="fetch-api-就是fetc对象"><a href="/language/javascript/fetch.html">Fetch API 就是Fetc对象</a></h3>
+<h3 id="notification-api">Notification API</h3>
 <h3 id="title">title</h3>
 <h3 id="title-1">title</h3>
 <h3 id="title-2">title</h3>
+<h3 id="title-3">title</h3>
 
         
         

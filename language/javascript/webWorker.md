@@ -3,18 +3,8 @@
 - js拥有的web worker可以利用运行js的宿主环境支持的多线程功能。
 - worker可嵌套
 - 主线程/worker线程必须在相同的origin中。
-- 主线程/worker线程之间转换数据(Transferable Objects)
-- 有专用worker和共享worker ()
-
-||专用worker|共享worker||||
-|-|-|-|-|-|-|
-||专用 worker 仅仅能被首次生成它的脚本使用|可以同时被多个脚本使用||||
-||遵守同源策略|遵守同源策略||||
-|判断是否支持|`window.Worker`|`window.SharedWorker`||||
-|||必须使用端口对象进行通信||||
-|||||||
-|||||||
-
+- 主线程/worker线程之间转换数据(Transferable Objects)  
+- 有专用worker和共享worker  
 
 # demo
 ```js
@@ -33,9 +23,9 @@ worker.terminate() // stop worker
 ```js
 // workerFile.js
 onmessage = function (event) {
-    event: {
+    // event: {
 
-    }
+    // }
     let result = {k1: 'v1'}
     postMessage(result)
 }
@@ -43,7 +33,7 @@ onmessage = function (event) {
 self.close() // stop worker
 // self是子线程
 // worker中引入其他脚本
-importScripts('filejs.js', ...)
+importScripts('filejs.js', ...) // 无返回值
 // 出错
 // self.addEventListener('error', f)
 ```
@@ -53,17 +43,37 @@ importScripts('filejs.js', ...)
 - error  
 - messageerror 当数据无法序列化为字符串时触发  
 
-# worker对象
-```js
-worker: {
-    name
-    onmessage
-    onmessageerror
-    close()
-    postMessage()
-    importScripts(str)
-}
+# worker api
+|Worker||说明|返回值||
+|-|-|-|-|-|
+||new Worker(url, options?: {type, credentials, name})||worker对象||
+|属性|||||
+|方法|||||
+||postMessage(data)|把数值转移给worker|||
+||terminate()|停止指定的线程|||
+|事件|||||
+||onerror|当worker中出错是触发|||
+||onmessage|当父线程传递过来信息时触发|event.data是传递来的数据||
+||onmessageerror|当消息不能序列化时触发|||
+
+# 原型
 ```
+EventTarget <--- Worker
+```
+
+# MessageEvent
+消息对象  
+继承自Event对象  
+
+|MessageEvent||||||
+|-|-|-|-|-|-|
+|属性||||||
+||data|||||
+||origin|||||
+||lastEventId|||||
+||source|代表消息发送者||||
+||ports|MessagePort对象数组，表示消息下在通过特定通道传输。||||
+|方法||||||
 
 # 加载worker脚本
 ```html
@@ -136,6 +146,17 @@ myWorker.port.postMessage(value)
 
 # todo
 ## 为什么多个页面会共用一个worker呢？
+
+## 专用worke & 共享worker
+||专用worker|共享worker||||
+|-|-|-|-|-|-|
+||专用 worker 仅仅能被首次生成它的脚本使用|可以同时被多个脚本使用||||
+||遵守同源策略|遵守同源策略||||
+|判断是否支持|`window.Worker`|`window.SharedWorker`||||
+|||必须使用端口对象进行通信||||
+|||||||
+|||||||
+
 ## title
 ## title
 ## title

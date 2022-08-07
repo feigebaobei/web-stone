@@ -363,7 +363,6 @@ self.addEventListener('push', (event) => {
 ||text()|以纯文本的格式提取数据|||
 
 ### [Fetch API 就是Fetc对象](/language/javascript/fetch.html)
-只能调用一次。
 
 ### Notification API
 ### title
