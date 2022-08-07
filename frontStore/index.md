@@ -1,6 +1,5 @@
 # 前端缓存
-- [sessen storage](/frontStore/sessionStorage.html)
-- [local storage](/frontStore/sessionStorage.html)
+- [web storage](/frontStore/webStorage.html)
 - [workbox](/frontStore/sessionStorage.html)
 - [indexDB](/frontStore/sessionStorage.html)
 - [storage api](/frontStore/sessionStorage.html)
