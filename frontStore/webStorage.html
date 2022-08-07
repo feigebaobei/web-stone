@@ -89,7 +89,8 @@
 <h2 id="feature">feature</h2>
 <ul>
 <li>存储数据</li>
-<li>（只能存字符串）</li>
+<li>只能存字符串</li>
+<li>&lt;5m</li>
 </ul>
 <h2 id="usage">usage</h2>
 <pre><code class="language-js"><div></div></code></pre>
@@ -143,7 +144,7 @@
 <td>getItem(k)</td>
 <td></td>
 <td>返回键名对应的值 string / null</td>
-<td></td>
+<td><code>localStorage.k / localStorage['k']</code></td>
 <td></td>
 </tr>
 <tr>
@@ -173,9 +174,114 @@
 </tbody>
 </table>
 <h2 id="todo">todo</h2>
+<h3 id="ls--ss">ls &amp; ss</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>ls</th>
+<th>ss</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>作用范围</td>
+<td>同网站</td>
+<td>同页面</td>
+<td></td>
+</tr>
+<tr>
+<td>大小</td>
+<td>&lt;5m</td>
+<td>&lt;5m</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>在隐私模式下不可读取</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>存太多，会卡</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>不能被爬虫抓取</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="cookie--ls--ss--userdata--web-sql--indexeddb">cookie &amp; ls &amp; ss &amp; userData &amp; web sql &amp; indexedDB</h3>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>cookie</th>
+<th>localStorage</th>
+<th>sessionStorage</th>
+<th>userData</th>
+<th>web sql</th>
+<th>indexedDB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>生命周期</td>
+<td>一般由服务器生成，可设置失效时间。若在浏览器生成，默认关闭浏览器后失效。</td>
+<td>在手动删除前一直存在</td>
+<td>关闭当前页面后被清除</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>可存放大小</td>
+<td>&lt;4k</td>
+<td>&lt;5m</td>
+<td>&lt;5m</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>与服务器通信</td>
+<td>每次都在http头部信息中。过多会影响性能</td>
+<td>仅在客户端不能与通信</td>
+<td>仅在客户端不能与通信</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>易用性</td>
+<td>原生的方法较难使用，自己封装后会好用。</td>
+<td>原生的方法就挺好用。可再交封装</td>
+<td>原生的方法就挺好用。可再交封装</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h3 id="title">title</h3>
-<h3 id="title-1">title</h3>
-<h3 id="title-2">title</h3>
 
         
         
