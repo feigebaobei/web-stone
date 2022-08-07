@@ -83,10 +83,12 @@
 <blockquote>
 <p>本质上是web应用、浏览器与网络之间的代理服务器。
 是一个注册在指定源和路径下的事件驱动worker
-运行在worker上下文。不能操作dom。不会阻塞主线程。
 它设计为完全异步，同步api(如xhr/localStorage)不能在service worker中使用
-只能https承载。
-在firefox浏览器的用户隐私模式下，service worker不可用。</p>
+只能https承载。本地开发时可以使用localhost
+在firefox浏览器的用户隐私模式下，service worker不可用。
+webworker / sharedworker 都叫worker。内部都用self指向全局变量。它们都是worker，它管不了主线程里的事。<br>
+它在<code>navigator</code>下。即：<code>navigator.serviceWorker</code>。navigator下还有好多东西。
+是浏览器和网络之间的虚拟代理。</p>
 </blockquote>
 <h2 id="feature">feature</h2>
 <ol>
@@ -99,8 +101,95 @@
 </ol>
 </li>
 </ol>
+<ul>
+<li>在弱网、断网时提供服务</li>
+<li>use background sync</li>
+<li>use push notification</li>
+<li>监听请求</li>
+<li>同步消息</li>
+</ul>
 <h2 id="usage">usage</h2>
-<pre><code class="language-js"><div></div></code></pre>
+<pre><code class="language-js"><div><span class="hljs-comment">// serviceWorker.js</span>
+<span class="hljs-comment">// demo0</span>
+<span class="hljs-comment">// this.addEventListener(&#x27;fetch&#x27;, (e) =&gt; {</span>
+<span class="hljs-comment">// or</span>
+self.addEventListener(<span class="hljs-string">&#x27;fetch&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-comment">// 劫持http响应</span>
+    e.respondWith(
+        <span class="hljs-comment">// 缓存中是否存在</span>
+        caches.match(event.request)
+            .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> {
+                <span class="hljs-keyword">if</span> (response) {
+                    <span class="hljs-keyword">return</span> response <span class="hljs-comment">// 若缓存中存在则返回缓存的数据</span>
+                }
+                <span class="hljs-keyword">return</span> fetch(event.request).then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> response) <span class="hljs-comment">// 否则请求并返回请求到的数据。</span>
+            })
+            .catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> { <span class="hljs-comment">// 若出错则返回错误。也可以返回自定义responsec对象</span>
+                <span class="hljs-keyword">throw</span> err
+                <span class="hljs-comment">// or</span>
+                <span class="hljs-comment">// return new Response(...`)</span>
+            })
+    )
+    e.respondWith(caches.match(e.request))
+})
+
+<span class="hljs-comment">// demo1</span>
+<span class="hljs-comment">// 若缓存中有相应的数据，则返回缓存中的数据。否则请求数据后保存在缓存中，并返回给请求者。</span>
+self.addEventListener(<span class="hljs-string">&#x27;fetch&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {
+    event.respondWith(
+        caches.match(event.request).then(<span class="hljs-function">(<span class="hljs-params">response</span>) =&gt;</span> {
+            <span class="hljs-comment">// 若缓存中存在则返回，否则请求。</span>
+            <span class="hljs-keyword">return</span> response || fetch(event.request).then(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
+                <span class="hljs-comment">// 此时缓存中没有。</span>
+                <span class="hljs-keyword">return</span> caches.open(<span class="hljs-string">&#x27;v1&#x27;</span>).then(<span class="hljs-function"><span class="hljs-params">cache</span> =&gt;</span> {
+                    <span class="hljs-comment">// 把数据添加到缓存中</span>
+                    cache.put(event.request, res.clone())
+                    <span class="hljs-comment">// 把响应克隆一份后缓存起来。把原始响应返回给调用它的页面。</span>
+                    <span class="hljs-comment">// 请求和响应流只能被读取一次。缓存起来的是克隆出来的，返回给页面的是原始的。</span>
+                    <span class="hljs-keyword">return</span> res
+                })
+            })
+        })
+    )
+})
+
+<span class="hljs-comment">// demo2</span>
+<span class="hljs-comment">// 更新service worker</span>
+<span class="hljs-comment">// 如果你的 service worker 已经被安装，但是刷新页面时有一个新版本的可用，新版的 service worker 会在后台安装，但是还没激活。当不再有任何已加载的页面在使用旧版的 service worker 的时候，新版本才会激活。一旦再也没有更多的这样已加载的页面，新的 service worker 就会被激活。</span>
+self.addEventListener(<span class="hljs-string">&#x27;install&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {
+    event.waitUntil(
+        <span class="hljs-comment">// 使用新版本号，不会与别的版本有冲突</span>
+        caches.open(<span class="hljs-string">&#x27;v2&#x27;</span>).then(<span class="hljs-function"><span class="hljs-params">cache</span> =&gt;</span> {
+            <span class="hljs-keyword">return</span> cache.addAll([
+                <span class="hljs-string">&#x27;/sw-test/&#x27;</span>,
+                <span class="hljs-string">&#x27;/sw-test/index.html&#x27;</span>
+            ])
+        })
+    )
+})
+
+<span class="hljs-comment">// demo3</span>
+<span class="hljs-comment">// 删除旧缓存</span>
+<span class="hljs-comment">// activate事件可用于删除旧缓存。  </span>
+<span class="hljs-comment">// 每个浏览器对service worker可用缓存空间不同。</span>
+<span class="hljs-comment">// 若不控制，则有可能浏览器会全部清空缓存的数据。  </span>
+self.addEventListener(<span class="hljs-string">&#x27;activate&#x27;</span>, <span class="hljs-function"><span class="hljs-params">event</span> =&gt;</span> {
+    <span class="hljs-keyword">let</span> cacheWhiteList = [<span class="hljs-string">&#x27;v2&#x27;</span>]
+    event.waitUntil(
+        caches.keys().then(<span class="hljs-function"><span class="hljs-params">keyList</span> =&gt;</span> {
+            <span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>.all(keyList.map(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
+                <span class="hljs-keyword">if</span> (cacheWhiteList.
+                includes(key)) {
+                    <span class="hljs-keyword">return</span> caches.delete(key)
+                }
+            }))
+        })
+    )
+})
+
+<span class="hljs-comment">// demo4</span>
+<span class="hljs-comment">// 推送消息</span>
+</div></code></pre>
 <h3 id="使用条件">使用条件</h3>
 <table>
 <thead>
@@ -172,7 +261,7 @@
 </tbody>
 </table>
 <pre><code><code><div>注册
-    serviceWorkerContainer.register()
+    在主线程执行serviceWorkerContainer.register(url[, options])
 注册成功
     service worker在ServiceWorkerGlobalScope环境中运行。（其中无法访问dom）可接收事件
 安装
@@ -184,7 +273,11 @@
 </div></code></code></pre>
 <pre><code class="language-js"><div><span class="hljs-comment">// app.js</span>
 <span class="hljs-keyword">if</span> (<span class="hljs-string">&#x27;serviceWorker&#x27;</span> <span class="hljs-keyword">in</span> navigator) {
-    navigator.serviceWorker.register(
+    navigator.serviceWorker.register(   <span class="hljs-comment">// 注册</span>
+                                        <span class="hljs-comment">// 注册完成后，sw.js 文件会自动</span>
+                                        <span class="hljs-comment">// 1. 下载</span>
+                                        <span class="hljs-comment">// 2. 安装</span>
+                                        <span class="hljs-comment">// 3. 然后激活。</span>
         <span class="hljs-string">&#x27;url/path.js&#x27;</span>, <span class="hljs-comment">// 相对于origin</span>
         {<span class="hljs-attr">scope</span>: <span class="hljs-string">&#x27;/path/&#x27;</span>} <span class="hljs-comment">// 指定注册范围</span>
     ) <span class="hljs-comment">// 返回一个promise.其值是ServiceWrokerRegistration</span>
@@ -195,13 +288,11 @@
         <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;catch&#x27;</span>, err)
     })
 }
-<span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">&#x27;install&#x27;</span>)
+<span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">&#x27;install&#x27;</span>) <span class="hljs-comment">// 好像用不到</span>
 </div></code></pre>
-<h3 id="注册">注册</h3>
-<h3 id="安装">安装</h3>
-<h3 id="激活">激活</h3>
-<h2 id="serviceworkercontainer---navigatorserviceworker">ServiceWorkerContainer   (navigator.serviceWorker)</h2>
-<p>为service worker提供一个容器般的功能。包括注册、卸载、更新service worker状态、访问service worker状态、访问他们的注册者。
+<h2 id="api">api</h2>
+<h3 id="serviceworkercontainer---navigatorserviceworker">ServiceWorkerContainer   (navigator.serviceWorker)</h3>
+<p>ServiceWorkerContainer接口为service worker提供了一个容器般的功能。包括对service worker的注册、卸载、更新、和访问service worker的状态、 以及它们的注册者。
 <code>navigator.serviceWorker</code>就是ServiceWorkerContainer</p>
 <table>
 <thead>
@@ -232,27 +323,6 @@
 <td></td>
 <td>ready</td>
 <td>返回一个promise，当serviceworker为active状态时promise变为fulfilled状态。该promise永远不会变为rejected状态</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
 <td></td>
 <td></td>
 </tr>
@@ -312,23 +382,9 @@
 <td>message是MessagePort.postMessage()发出的</td>
 <td></td>
 </tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
 </tbody>
 </table>
-<h2 id="serviceworkerregistration-对象">ServiceWorkerRegistration 对象</h2>
+<h3 id="serviceworkerregistration-对象">ServiceWorkerRegistration 对象</h3>
 <p>这是一个实验中的功能
 它是注册了service worker的容器。</p>
 <table>
@@ -442,65 +498,9 @@
 </tr>
 </tbody>
 </table>
-<h2 id="serviceworkerglobalscope">ServiceWorkerGlobalScope</h2>
+<h3 id="serviceworkerglobalscope">ServiceWorkerGlobalScope</h3>
 <p>代表一个service worker的全局变量。<br>
 serviceworker中不能使用同步请求，可使用异步请求。</p>
-<h2 id="api">api</h2>
-<p>ServiceWorkerContainer接口为service worker提供了一个容器般的功能。包括对service worker的注册、卸载、更新、和访问service worker的状态、 以及它们的注册者。<br>
-navigator.serviceWorker就是实现了ServiceWorkerContainer接口</p>
-<table>
-<thead>
-<tr>
-<th>ServiceWorkerContainer</th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>key</td>
-<td>description</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>key</td>
-<td>description</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="uml">uml</h2>
-<h2 id="todo">todo</h2>
-<h3 id="messageport"><a href="">MessagePort</a></h3>
-<h3 id="名称">名称</h3>
-<p>工作线程。</p>
-<h3 id="periodicsyncmanager">PeriodicSyncManager</h3>
-<h3 id="pushmanager">PushManager</h3>
-<h3 id="syncmanager">SyncManager</h3>
-<h3 id="notification">Notification</h3>
 <h3 id="serviceworker">ServiceWorker</h3>
 <ul>
 <li>继承自<a href="">worker</a></li>
@@ -585,69 +585,16 @@ navigator.serviceWorker就是实现了ServiceWorkerContainer接口</p>
 </tr>
 </tbody>
 </table>
-<pre><code class="language-js"><div><span class="hljs-comment">// serviceWorker.js</span>
-<span class="hljs-comment">// demo0</span>
-<span class="hljs-comment">// this.addEventListener(&#x27;fetch&#x27;, (e) =&gt; {</span>
-<span class="hljs-comment">// or</span>
-self.addEventListener(<span class="hljs-string">&#x27;fetch&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-    <span class="hljs-comment">// 劫持http响应</span>
-    e.respondWith(
-        <span class="hljs-comment">// 缓存中是否存在</span>
-        caches.match(event.request)
-            .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> {
-                <span class="hljs-keyword">if</span> (response) {
-                    <span class="hljs-keyword">return</span> response <span class="hljs-comment">// 若缓存中存在则返回缓存的数据</span>
-                }
-                <span class="hljs-keyword">return</span> fetch(event.request).then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> response) <span class="hljs-comment">// 否则请求并返回请求到的数据。</span>
-            })
-            .catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> { <span class="hljs-comment">// 若出错则返回错误。也可以返回自定义responsec对象</span>
-                <span class="hljs-keyword">throw</span> err
-                <span class="hljs-comment">// or</span>
-                <span class="hljs-comment">// return new Response(...`)</span>
-            })
-    )
-    e.respondWith(caches.match(e.request))
-})
-
-<span class="hljs-comment">// demo1</span>
-<span class="hljs-comment">// 若缓存中有相应的数据，则返回缓存中的数据。否则请求数据后保存在缓存中，并返回给请求者。</span>
-self.addEventListener(<span class="hljs-string">&#x27;fetch&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {
-    event.respondWith(
-        caches.match(event.request).then(<span class="hljs-function">(<span class="hljs-params">response</span>) =&gt;</span> {
-            <span class="hljs-comment">// 若缓存中存在则返回，否则请求。</span>
-            <span class="hljs-keyword">return</span> response || fetch(event.request).then(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
-                <span class="hljs-comment">// 此时缓存中没有。</span>
-                <span class="hljs-keyword">return</span> caches.open(<span class="hljs-string">&#x27;v1&#x27;</span>).then(<span class="hljs-function"><span class="hljs-params">cache</span> =&gt;</span> {
-                    <span class="hljs-comment">// 把数据添加到缓存中</span>
-                    cache.put(event.request, res.clone())
-                    <span class="hljs-comment">// 把响应克隆一份后缓存起来。把原始响应返回给调用它的页面。</span>
-                    <span class="hljs-comment">// 请求和响应流只能被读取一次。缓存起来的是克隆出来的，返回给页面的是原始的。</span>
-                    <span class="hljs-keyword">return</span> res
-                })
-            })
-        })
-    )
-})
-
-<span class="hljs-comment">// demo2</span>
-<span class="hljs-comment">// 更新service worker</span>
-<span class="hljs-comment">// 如果你的 service worker 已经被安装，但是刷新页面时有一个新版本的可用，新版的 service worker 会在后台安装，但是还没激活。当不再有任何已加载的页面在使用旧版的 service worker 的时候，新版本才会激活。一旦再也没有更多的这样已加载的页面，新的 service worker 就会被激活。</span>
-self.addEventListener(<span class="hljs-string">&#x27;install&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {
-    event.waitUntil(
-        <span class="hljs-comment">// 使用新版本号，不会与别的版本有冲突</span>
-        caches.open(<span class="hljs-string">&#x27;v2&#x27;</span>).then(<span class="hljs-function"><span class="hljs-params">cache</span> =&gt;</span> {
-            <span class="hljs-keyword">return</span> cache.addAll([
-                <span class="hljs-string">&#x27;/sw-test/&#x27;</span>,
-                <span class="hljs-string">&#x27;/sw-test/index.html&#x27;</span>
-            ])
-        })
-    )
-})
-</div></code></pre>
-<h4 id="删除旧缓存">删除旧缓存</h4>
-<p>activate事件可用于删除旧缓存。<br>
-每个浏览器对service worker可用缓存空间不同。
-若不控制，则有可能浏览器会全部清空缓存的数据。</p>
+<h2 id="uml">uml</h2>
+<h2 id="todo">todo</h2>
+<h3 id="messageport"><a href="">MessagePort</a></h3>
+<h3 id="名称">名称</h3>
+<p>工作线程。</p>
+<h3 id="periodicsyncmanager">PeriodicSyncManager</h3>
+<h3 id="pushmanager">PushManager</h3>
+<h3 id="syncmanager">SyncManager</h3>
+<h3 id="notification">Notification</h3>
+<h4 id="sw可用空间">sw可用空间</h4>
 <table>
 <thead>
 <tr>
@@ -684,21 +631,6 @@ self.addEventListener(<span class="hljs-string">&#x27;install&#x27;</span>, <spa
 </tr>
 </tbody>
 </table>
-<pre><code class="language-js"><div><span class="hljs-comment">// serviceWorker.js</span>
-self.addEventListener(<span class="hljs-string">&#x27;activate&#x27;</span>, <span class="hljs-function"><span class="hljs-params">event</span> =&gt;</span> {
-    <span class="hljs-keyword">let</span> cacheWhiteList = [<span class="hljs-string">&#x27;v2&#x27;</span>]
-    event.waitUntil(
-        caches.keys().then(<span class="hljs-function"><span class="hljs-params">keyList</span> =&gt;</span> {
-            <span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>.all(keyList.map(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
-                <span class="hljs-keyword">if</span> (cacheWhiteList.
-                includes(key)) {
-                    <span class="hljs-keyword">return</span> caches.delete(key)
-                }
-            }))
-        })
-    )
-})
-</div></code></pre>
 <h4 id="开发者工具">开发者工具</h4>
 <h5 id="chrome">chrome</h5>
 <table>
@@ -746,15 +678,9 @@ ServiceWorkerContainer.register() // 返回 ServiceWorkerRegistration
 <p>ServiceWorkerRegistration.installing    // 返回service worker
 ServiceWorkerRegistration.waiting       // 返回service worker
 ServiceWorkerRegistration.active        // 返回service worker</p>
-<h3 id="困难">困难</h3>
-<ol>
-<li>知识点多。pwa是渐进式的。若干知识点中，有一个支持了就是实现了pwa.</li>
-<li>无详细的、成体系的教程。</li>
-<li>好多属性、方法处理试验阶段。浏览器兼容性不好。</li>
-</ol>
-<h3 id="cache">cache</h3>
+<h3 id="cache"><a href="/frontStore/cache.html">cache</a></h3>
 <p>同步的</p>
-<h3 id="indexeddb"><a href="">indexedDB</a></h3>
+<h3 id="indexeddb"><a href="/frontStore/indexedDB.html">indexedDB</a></h3>
 <p>常在service worker内做数据存储</p>
 <h3 id="fetchevent">FetchEvent</h3>
 <p>当页面发生提取动作会在service worker作用域（ServiceWorkerGlobalScope）中触发fetch事件<br>
@@ -951,7 +877,6 @@ self.addEventListener(<span class="hljs-string">&#x27;push&#x27;</span>, <span c
 </tr>
 </tbody>
 </table>
-<h3 id="fetch-api-就是fetc对象"><a href="/language/javascript/fetch.html">Fetch API 就是Fetc对象</a></h3>
 <h3 id="notification-api">Notification API</h3>
 <h3 id="title">title</h3>
 <h3 id="title-1">title</h3>

@@ -1,10 +1,12 @@
 # service worker
 > 本质上是web应用、浏览器与网络之间的代理服务器。
 > 是一个注册在指定源和路径下的事件驱动worker
-> 运行在worker上下文。不能操作dom。不会阻塞主线程。
 > 它设计为完全异步，同步api(如xhr/localStorage)不能在service worker中使用
-> 只能https承载。
+> 只能https承载。本地开发时可以使用localhost
 > 在firefox浏览器的用户隐私模式下，service worker不可用。
+> webworker / sharedworker 都叫worker。内部都用self指向全局变量。它们都是worker，它管不了主线程里的事。  
+> 它在`navigator`下。即：`navigator.serviceWorker`。navigator下还有好多东西。
+> 是浏览器和网络之间的虚拟代理。  
 
 ## feature
 1. [后台同步](https://wicg.github.io/background-sync/spec/)
@@ -12,147 +14,13 @@
    1. 可以实现后端后前端推送信息
    2. 需要一个被激活的service worker
    3. 可以使用`PushManager.subscribe()`方法订阅消息。
+- 在弱网、断网时提供服务
+- use background sync
+- use push notification
+- 监听请求
+- 同步消息
 
 ## usage
-```js
-```
-
-### 使用条件
-|||||||
-|-|-|-|-|-|-|
-|chrome||||||
-|firefox||||||
-|xxx||||||
-
-## 生命周期
-|||||
-|-|-|-|-|
-|1. 下载||由程序触发||
-|2. 安装|由浏览器触发|||
-|3. 激活|由浏览器触发|||
-
-```
-注册
-    serviceWorkerContainer.register()
-注册成功
-    service worker在ServiceWorkerGlobalScope环境中运行。（其中无法访问dom）可接收事件
-安装
-    解决oninstall事件。
-    常用于缓存资源
-激活
-    清理生前版本的service worker脚本中使用的资源
-开始控制页面
-```
-
-```js
-// app.js
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register(
-        'url/path.js', // 相对于origin
-        {scope: '/path/'} // 指定注册范围
-    ) // 返回一个promise.其值是ServiceWrokerRegistration
-    .then((reg) => {
-        // ...
-    })
-    .catch((err) => {
-        console.log('catch', err)
-    })
-}
-window.addEventListener('install')
-```
-### 注册
-### 安装
-### 激活
-
-## ServiceWorkerContainer   (navigator.serviceWorker)
-为service worker提供一个容器般的功能。包括注册、卸载、更新service worker状态、访问service worker状态、访问他们的注册者。
-`navigator.serviceWorker`就是ServiceWorkerContainer  
-
-||||||
-|-|-|-|-|-|
-|属性|||||
-||controller|当service worker状态为active时，返回ServiceWorkder对象。否则返回null|||
-||ready|返回一个promise，当serviceworker为active状态时promise变为fulfilled状态。该promise永远不会变为rejected状态|||
-||||||
-||||||
-||||||
-|方法|||||
-||register(scriptUrl[, {scope: USVString}])|返回一个ServiceWorkerRegistration（优先）。或返回一个值是ServiceWorkerRegistration的promise|scope指定service worker注册范围。相对于当前location||
-||getRegistration()|根据当前网页的url返回一个ServiceWorkerRegistration或null|||
-||getRegistrations()|返回所有ServiceWrokerRegistration或null|||
-|事件|||||
-||oncontrollerchange|当serviceworker变为active时触发|||
-||onerror|当serviceworker中出现错误时触发|||
-||onmessage|当ServiceWorkerContainer对象接收到一个message消息时触发。|message是MessagePort.postMessage()发出的||
-||||||
-||||||
-
-## ServiceWorkerRegistration 对象
-这是一个实验中的功能
-它是注册了service worker的容器。
-
-||||||
-|-|-|-|-|-|
-|属性|都是只读||||
-||scope|返回相对于origin的范围|||
-||installing|返回处于installing的service worker或null|||
-||waiting|返回处于waiting的service worker或null|||
-||active|返回处于activating / activated的service worker或null|||
-||periodicSync|返回一个PeriodicSyncManager对象，该对象管理阶段性后台同步进程。|周期性执行任务。||
-||pushManager|返回一个PushManager对象的引用。该对象可用于推送消息给订阅者。getting an active subscription, and accessing push permission status.|||
-||sync|返回一个SyncManager对象的引用。该对象管理后台同步进程|||
-||onupdatefound|-|||
-|方法|||||
-||getNotifications(options?: {tag: string})|返回一个值是Notification的promise|||
-||showNotification(title, options?: {actions: [{action, title, icon}, ...], badge, body, data, dir, icon, image, lang, renotify, requireInteraction, silent, tag, timestamp, vibrate})|显示一个通知|||
-||update(无参数)|当找到缓存时更新service worker的版本。返回一个值是ServiceWorkerRegistration的promise|||
-||unregister()|注销个service worker，返回一个值是boolean的promise。boolean表示是否被注销。|||
-
-
-## ServiceWorkerGlobalScope
-代表一个service worker的全局变量。  
-serviceworker中不能使用同步请求，可使用异步请求。
-
-
-
-
-## api
-ServiceWorkerContainer接口为service worker提供了一个容器般的功能。包括对service worker的注册、卸载、更新、和访问service worker的状态、 以及它们的注册者。  
-navigator.serviceWorker就是实现了ServiceWorkerContainer接口  
-
-|ServiceWorkerContainer||||||
-|-|-|-|-|-|-|
-|key|description|||||
-
-|||||||
-|-|-|-|-|-|-|
-|key|description|||||
-
-## uml
-
-## todo
-### [MessagePort]()
-### 名称
-工作线程。
-### PeriodicSyncManager
-### PushManager
-### SyncManager
-### Notification
-### ServiceWorker
-- 继承自[worker]()
-- 这是一个实验中的功能  
-- 它是服务工作者  
-
-|||||||
-|-|-|-|-|-|-|
-|属性|都是只读|||||
-||scriptUrl|脚本的url||||
-||state|返回service worker的状态||||
-|事件|全是小写|||||
-||onstatechange|||||
-||fetch|当控制范围内的页面有请求时触发||||
-||push|||||
-|方法|全部继承自worker|||||
 
 ```js
 // serviceWorker.js
@@ -213,23 +81,12 @@ self.addEventListener('install', (event) => {
         })
     )
 })
-```
 
-#### 删除旧缓存
-activate事件可用于删除旧缓存。  
-每个浏览器对service worker可用缓存空间不同。
-若不控制，则有可能浏览器会全部清空缓存的数据。  
-
-||sw可用空间||
-|-|-|-|
-|chrome|||
-|ff|||
-|ie|||
-|op|||
-|safri|||
-
-```js
-// serviceWorker.js
+// demo3
+// 删除旧缓存
+// activate事件可用于删除旧缓存。  
+// 每个浏览器对service worker可用缓存空间不同。
+// 若不控制，则有可能浏览器会全部清空缓存的数据。  
 self.addEventListener('activate', event => {
     let cacheWhiteList = ['v2']
     event.waitUntil(
@@ -243,7 +100,140 @@ self.addEventListener('activate', event => {
         })
     )
 })
+
+// demo4
+// 推送消息
 ```
+
+### 使用条件
+|||||||
+|-|-|-|-|-|-|
+|chrome||||||
+|firefox||||||
+|xxx||||||
+
+## 生命周期
+|||||
+|-|-|-|-|
+|1. 下载||由程序触发||
+|2. 安装|由浏览器触发|||
+|3. 激活|由浏览器触发|||
+
+```
+注册
+    在主线程执行serviceWorkerContainer.register(url[, options])
+注册成功
+    service worker在ServiceWorkerGlobalScope环境中运行。（其中无法访问dom）可接收事件
+安装
+    解决oninstall事件。
+    常用于缓存资源
+激活
+    清理生前版本的service worker脚本中使用的资源
+开始控制页面
+```
+
+```js
+// app.js
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register(   // 注册
+                                        // 注册完成后，sw.js 文件会自动
+                                        // 1. 下载
+                                        // 2. 安装
+                                        // 3. 然后激活。
+        'url/path.js', // 相对于origin
+        {scope: '/path/'} // 指定注册范围
+    ) // 返回一个promise.其值是ServiceWrokerRegistration
+    .then((reg) => {
+        // ...
+    })
+    .catch((err) => {
+        console.log('catch', err)
+    })
+}
+window.addEventListener('install') // 好像用不到
+```
+
+## api
+### ServiceWorkerContainer   (navigator.serviceWorker)
+ServiceWorkerContainer接口为service worker提供了一个容器般的功能。包括对service worker的注册、卸载、更新、和访问service worker的状态、 以及它们的注册者。 
+`navigator.serviceWorker`就是ServiceWorkerContainer  
+
+||||||
+|-|-|-|-|-|
+|属性|||||
+||controller|当service worker状态为active时，返回ServiceWorkder对象。否则返回null|||
+||ready|返回一个promise，当serviceworker为active状态时promise变为fulfilled状态。该promise永远不会变为rejected状态|||
+|方法|||||
+||register(scriptUrl[, {scope: USVString}])|返回一个ServiceWorkerRegistration（优先）。或返回一个值是ServiceWorkerRegistration的promise|scope指定service worker注册范围。相对于当前location||
+||getRegistration()|根据当前网页的url返回一个ServiceWorkerRegistration或null|||
+||getRegistrations()|返回所有ServiceWrokerRegistration或null|||
+|事件|||||
+||oncontrollerchange|当serviceworker变为active时触发|||
+||onerror|当serviceworker中出现错误时触发|||
+||onmessage|当ServiceWorkerContainer对象接收到一个message消息时触发。|message是MessagePort.postMessage()发出的||
+
+### ServiceWorkerRegistration 对象
+这是一个实验中的功能
+它是注册了service worker的容器。
+
+||||||
+|-|-|-|-|-|
+|属性|都是只读||||
+||scope|返回相对于origin的范围|||
+||installing|返回处于installing的service worker或null|||
+||waiting|返回处于waiting的service worker或null|||
+||active|返回处于activating / activated的service worker或null|||
+||periodicSync|返回一个PeriodicSyncManager对象，该对象管理阶段性后台同步进程。|周期性执行任务。||
+||pushManager|返回一个PushManager对象的引用。该对象可用于推送消息给订阅者。getting an active subscription, and accessing push permission status.|||
+||sync|返回一个SyncManager对象的引用。该对象管理后台同步进程|||
+||onupdatefound|-|||
+|方法|||||
+||getNotifications(options?: {tag: string})|返回一个值是Notification的promise|||
+||showNotification(title, options?: {actions: [{action, title, icon}, ...], badge, body, data, dir, icon, image, lang, renotify, requireInteraction, silent, tag, timestamp, vibrate})|显示一个通知|||
+||update(无参数)|当找到缓存时更新service worker的版本。返回一个值是ServiceWorkerRegistration的promise|||
+||unregister()|注销个service worker，返回一个值是boolean的promise。boolean表示是否被注销。|||
+
+### ServiceWorkerGlobalScope
+代表一个service worker的全局变量。  
+serviceworker中不能使用同步请求，可使用异步请求。
+
+### ServiceWorker
+- 继承自[worker]()
+- 这是一个实验中的功能  
+- 它是服务工作者  
+
+|||||||
+|-|-|-|-|-|-|
+|属性|都是只读|||||
+||scriptUrl|脚本的url||||
+||state|返回service worker的状态||||
+|事件|全是小写|||||
+||onstatechange|||||
+||fetch|当控制范围内的页面有请求时触发||||
+||push|||||
+|方法|全部继承自worker|||||
+
+## uml
+
+## todo
+### [MessagePort]()
+### 名称
+工作线程。
+
+### PeriodicSyncManager
+### PushManager
+### SyncManager
+### Notification
+
+#### sw可用空间
+
+||sw可用空间||
+|-|-|-|
+|chrome|||
+|ff|||
+|ie|||
+|op|||
+|safri|||
 
 #### 开发者工具
 ##### chrome
@@ -258,8 +248,6 @@ self.addEventListener('activate', event => {
 |about:serviceworkers |查看已注册的SW，也可更新、移除|
 |检查 Firefox Devtools 的选项 "Enable Service Workers over HTTP (when toolbox is open)" |可绕开https限制。|
 
-
-
 ### Worker
 ### 三者关系
 ServiceWorkerContainer为service worker提供一个容器般的功能
@@ -270,15 +258,11 @@ ServiceWorkerRegistration.installing    // 返回service worker
 ServiceWorkerRegistration.waiting       // 返回service worker
 ServiceWorkerRegistration.active        // 返回service worker
 
-### 困难
-1. 知识点多。pwa是渐进式的。若干知识点中，有一个支持了就是实现了pwa.
-2. 无详细的、成体系的教程。
-3. 好多属性、方法处理试验阶段。浏览器兼容性不好。
 
-### cache
+### [cache](/frontStore/cache.html)
 同步的
 
-### [indexedDB]()
+### [indexedDB](/frontStore/indexedDB.html)
 常在service worker内做数据存储
 
 ### FetchEvent
@@ -294,6 +278,7 @@ ServiceWorkerGlobalScope.addEventListener('fetch')
 // demo
 self.addEventListener('fetch', () => {...})
 ```
+
 #### 构造函数
 ```js
 FetchEvent.FetchEvent()
@@ -361,8 +346,6 @@ self.addEventListener('push', (event) => {
 ||blob()|以Blob的格式提取数据|||
 ||json()|以JSON的格式提取数据|||
 ||text()|以纯文本的格式提取数据|||
-
-### [Fetch API 就是Fetc对象](/language/javascript/fetch.html)
 
 ### Notification API
 ### title

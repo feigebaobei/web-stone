@@ -5,59 +5,27 @@
 > 
 
 ## feature
-- 渐进增强:检测当前浏览器的是否支持指定功能，若支持则使用，否则使用使用基本功能。  
+- 渐进增强:检测当前浏览器的是否支持指定功能，若支持则使用，否则使用使用基本功能。保证网页提供完整功能。  
 - 断网可用基本功能。  
 - 类原生应用，可安装。在移动设备上都可安装。
-- 安全。使用https提供服务。（service worker只能在https中工作）(本地可使用ngrok)
+- 安全。使用https提供服务。（service worker只能在https中工作）(本地可使用ngrok)。本地开发时的localhost也认为是安全链接。
 - eso友好
 - 信息推送
-
-## demo
-1. 创建一个html页面。
-2. 添加`manifest.json`文件  
-3. 添加service worker（可实现无网运行）  
 
 ## 主要技术
 - [https]()
 - [manifest.json](/pwa/manifestJson.html)
 - [service worker](/pwa/serviceWorker.html)
-- [caches]()
+- [caches](/frontStore/cache.html)
+- [indexedDB](/frontStore/indexedDB.html)
 - [fetch](/language/javascript/fetch.html)
+- [push](/language/javascript/fetch.html)  
 
 ## app shell
 就是与页面中主体部分无关、几乎每个页面都会使用的.  
 尽快加载最小用户界面，然后缓存它，以便在后续访问时可以离线使用。下载使用时从缓存中取出。
 
-## service worker
-- 在弱网、断网时提供服务
-- use background sync
-- use push notification
-- 监听请求、同步消息
-
-
-webworker / sharedworker 都叫worker。内部都用self指向全局变量。  
-它在`navigator`下。即：`navigator.serviceWorker`。navigator下还有好多东西。
-是浏览器和网络之间的虚拟代理。  
-它是worker，它管不了主线程里的事。  
-
-### 生命周期
-1. 在主线程（js中无主线程。html引入的js当作是主线程）中注册service worker
-2. 触发install事件
-3. service worker 成为活跃状态
-4. 触发active事件
-5. service worker 开始监听事件
-### 注册
-```js
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('url/sw.js')
-}
-```
-注册完成后，sw.js 文件会自动
-1. 下载
-2. 安装
-3. 然后激活。
-
-## 安装
+## 安装桌面链接
 ### 自动安装条件：
 - 未安装该web应用。
 - 符合用户参与启发式
@@ -98,12 +66,12 @@ if ('serviceWorker' in navigator) {
 let deferredPrompt // 也可以命名为别的变量
 window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault()
-    deferredPrompt = e
+    deferredPrompt = e  // 暂存安装事件
     showInAppInstallPromotion() // 自定义的提示安装的方法
 })
 let showInAppInstallPromotion = () => {
-  deferredPrompt.prompt()
-  deferredPrompt = null // 释放内存
+  deferredPrompt.prompt() // 使用暂存的安装事件
+  deferredPrompt = null   // 释放内存
 }
 ```
 
@@ -115,6 +83,31 @@ let showInAppInstallPromotion = () => {
 - 当浏览器不支持`beforeinstallprompt`时，就不能实现延迟安装了。
 - 需要使用显示教导用户手动安装的教程。  
 - 使用'display'控制吧。  
+
+### BeforeInstallPromptEvent
+- 当用户被提示“安装”web到设备时触发。
+- 继承自[Event](/language/javascript/event.html)接口  
+- 兼容性不太好  
+
+`new window.BeforeInstallPromptEvent(name, eventInitOptions)`  
+
+|||||||
+|-|-|-|-|-|-|
+|属性|只读|||||
+||platform|设备平台信息||||
+||userChoice|返回一个可以解析为DOMString的Promise|'install' \ 'dismissed'|||
+|方法||||||
+||prompt()|弹出安装提示，返回promise|无参数|||
+
+```js
+window.addEventListener("beforeinstallprompt", function(e) {
+  // log the platforms provided as options in an install prompt
+  console.log(e.platforms); // e.g., ["web", "android", "windows"]
+  e.userChoice.then(function(outcome) {
+    console.log(outcome); // either "installed", "dismissed", etc.
+  }, handleError);
+});
+```
 
 ### 检测启动方式
 css的`display-mode`与manifest.json中的display相同。可用于查询pwa的启动方式。
@@ -146,16 +139,19 @@ window.matchMedia('(display-mode: standalone)').addEventListener('change', (e) =
 }
 ```
 
+#### MediaQueryList
+保存了媒体查询的信息。
 
-## title
-## title
-## title
-## title
-## title
-## title
-## title
-## title
-
+||||||
+|-|-|-|-|-|
+|属性|||||
+||matches|只读|是否与当前document匹配|boolean|
+||media|只读|返回字符串||
+|方法|||||
+||addListener()||||
+||removeListener()||||
+|事件|||||
+||change||||
 
 ## todo
 ### Native App & Web App & Hybrid App & PWA
@@ -179,69 +175,27 @@ window.matchMedia('(display-mode: standalone)').addEventListener('change', (e) =
 
 ### materialize
 ### https://developers.google.com
-### window.caches
-```
-CacheStorage {}
-    __proto__: CacheStorage
-    delete: ƒ delete()
-    has: ƒ has()
-    keys: ƒ keys()
-    match: ƒ match()
-    open: ƒ open()
-    constructor: ƒ CacheStorage()
-    Symbol(Symbol.toStringTag): "CacheStorage"
-    __proto__: Object
-```
 
-### [fetch](/language/javascript/fetch.html)
 ### indexedDB
 ### [ngrok](/jsPackages/ngrok.html)
 可使用外网url访问本地服务的包。
 
-### BeforeInstallPromptEvent
-- 当用户被提示“安装”web到设备时触发。
-- 继承自[Event](/language/javascript/event.html)接口  
-- 兼容性不太好  
-
-`new window.BeforeInstallPromptEvent(name, eventInitOptions)`  
-
-|||||||
-|-|-|-|-|-|-|
-|属性|只读|||||
-||platform|设备平台信息||||
-||userChoice|返回一个可以解析为DOMString的Promise|'install' \ 'dismissed'|||
-|方法||||||
-||prompt()|弹出安装提示，返回promise|无参数|||
-
-```js
-window.addEventListener("beforeinstallprompt", function(e) {
-  // log the platforms provided as options in an install prompt
-  console.log(e.platforms); // e.g., ["web", "android", "windows"]
-  e.userChoice.then(function(outcome) {
-    console.log(outcome); // either "installed", "dismissed", etc.
-  }, handleError);
-});
-
-```
 ### [vue-pwa-install](https://github.com/Bartozzz/vue-pwa-install)
+
 ### [react-pwa-install](https://www.npmjs.com/package/react-pwa-install)
-### MediaQueryList
-保存了媒体查询的信息。
 
-||||||
-|-|-|-|-|-|
-|属性|||||
-||matches|只读|是否与当前document匹配|boolean|
-||media|只读|返回字符串||
-|方法|||||
-||addListener()||||
-||removeListener()||||
-|事件|||||
-||change||||
-
-### push api
+### push api 好像是servicer worker提供的能力
 ### notification triggers api
 ### title
 ### title
-### title
+### title-
 
+### demo
+1. 创建一个html页面。
+2. 添加`manifest.json`文件  
+3. 添加service worker（可实现无网运行）  
+
+### 困难
+1. 知识点多。pwa是渐进式的。若干知识点中，有一个支持了就是实现了pwa.
+2. 无详细的、成体系的教程。
+3. 好多属性、方法处理试验阶段。浏览器兼容性不好。
