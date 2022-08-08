@@ -190,12 +190,76 @@ window.matchMedia('(display-mode: standalone)').addEventListener('change', (e) =
 ### title
 ### title-
 
-### demo
-1. 创建一个html页面。
-2. 添加`manifest.json`文件  
-3. 添加service worker（可实现无网运行）  
 
 ### 困难
 1. 知识点多。pwa是渐进式的。若干知识点中，有一个支持了就是实现了pwa.
 2. 无详细的、成体系的教程。
 3. 好多属性、方法处理试验阶段。浏览器兼容性不好。
+
+### demo
+4. 创建一个html页面。
+5. 添加`manifest.json`文件  
+6. 添加`app.js`文件。在app.js中注册`serviceWorker.js`  
+7. 在`serviceWorker.js`中 
+   1. install时缓存常用的资源。`cache.addAll([...])`  
+   2. 在fetch时缓存相应的资源。`cache.put(req, res)`  
+   3. 在activate时删除不用的cache缓存.`caches.delete(cacheName)`  
+
+```js
+// app.js
+let tryRegister = () => {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('serviceWorker.js').then(registration => {
+      console.log('注册成功', registration)
+    }).catch(error => {
+      console.log('注册失败', error)
+    })
+  } else {
+    console.log('当前浏览器不支持serviceWorker')
+  }
+}
+tryRegister()
+
+// serviceWorker.js
+self.addEventListener('install', event => {
+  event.waitUtil(
+    // 使用新版本号，不会与别的版本有冲突
+    caches.open('v2').then(cache => {
+        return cache.addAll([
+            '/',
+            '/index.html'
+        ])
+    })
+  )
+})
+self.addEventListener('fetch', event => {
+  event.respondWith(
+        caches.match(event.request).then((response) => {
+            // 若缓存中存在则返回，否则请求。
+            return response || fetch(event.request).then(res => {
+                // 此时缓存中没有。
+                return caches.open('v2').then(cache => {
+                    // 把数据添加到缓存中
+                    cache.put(event.request, res.clone())
+                    // 把响应克隆一份后缓存起来。把原始响应返回给调用它的页面。
+                    // 请求和响应流只能被读取一次。缓存起来的是克隆出来的，返回给页面的是原始的。
+                    return res
+                })
+            })
+        })
+    )
+})
+self.addEventListener('activate', event => {
+    let cacheWhiteList = ['v1'] // 设置需要删除的cacheName
+    event.waitUntil(
+        caches.keys().then(keyList => {
+            return Promise.all(keyList.map(key => {
+                if (cacheWhiteList.
+                includes(key)) {
+                    return caches.delete(key)
+                }
+            }))
+        })
+    )
+})
+```

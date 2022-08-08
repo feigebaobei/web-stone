@@ -477,18 +477,82 @@
 <h3 id="idb"><a href="https://www.npmjs.com/package/idb">idb</a></h3>
 <h3 id="title">title</h3>
 <h3 id="title-">title-</h3>
-<h3 id="demo">demo</h3>
-<ol>
-<li>创建一个html页面。</li>
-<li>添加<code>manifest.json</code>文件</li>
-<li>添加service worker（可实现无网运行）</li>
-</ol>
 <h3 id="困难">困难</h3>
 <ol>
 <li>知识点多。pwa是渐进式的。若干知识点中，有一个支持了就是实现了pwa.</li>
 <li>无详细的、成体系的教程。</li>
 <li>好多属性、方法处理试验阶段。浏览器兼容性不好。</li>
 </ol>
+<h3 id="demo">demo</h3>
+<ol start="4">
+<li>创建一个html页面。</li>
+<li>添加<code>manifest.json</code>文件</li>
+<li>添加<code>app.js</code>文件。在app.js中注册<code>serviceWorker.js</code></li>
+<li>在<code>serviceWorker.js</code>中
+<ol>
+<li>install时缓存常用的资源。<code>cache.addAll([...])</code></li>
+<li>在fetch时缓存相应的资源。<code>cache.put(req, res)</code></li>
+<li>在activate时删除不用的cache缓存.<code>caches.delete(cacheName)</code></li>
+</ol>
+</li>
+</ol>
+<pre><code class="language-js"><div><span class="hljs-comment">// app.js</span>
+<span class="hljs-keyword">let</span> tryRegister = <span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-keyword">if</span> (<span class="hljs-string">&#x27;serviceWorker&#x27;</span> <span class="hljs-keyword">in</span> navigator) {
+    navigator.serviceWorker.register(<span class="hljs-string">&#x27;serviceWorker.js&#x27;</span>).then(<span class="hljs-function"><span class="hljs-params">registration</span> =&gt;</span> {
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;注册成功&#x27;</span>, registration)
+    }).catch(<span class="hljs-function"><span class="hljs-params">error</span> =&gt;</span> {
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;注册失败&#x27;</span>, error)
+    })
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;当前浏览器不支持serviceWorker&#x27;</span>)
+  }
+}
+tryRegister()
+
+<span class="hljs-comment">// serviceWorker.js</span>
+self.addEventListener(<span class="hljs-string">&#x27;install&#x27;</span>, <span class="hljs-function"><span class="hljs-params">event</span> =&gt;</span> {
+  event.waitUtil(
+    <span class="hljs-comment">// 使用新版本号，不会与别的版本有冲突</span>
+    caches.open(<span class="hljs-string">&#x27;v2&#x27;</span>).then(<span class="hljs-function"><span class="hljs-params">cache</span> =&gt;</span> {
+        <span class="hljs-keyword">return</span> cache.addAll([
+            <span class="hljs-string">&#x27;/&#x27;</span>,
+            <span class="hljs-string">&#x27;/index.html&#x27;</span>
+        ])
+    })
+  )
+})
+self.addEventListener(<span class="hljs-string">&#x27;fetch&#x27;</span>, <span class="hljs-function"><span class="hljs-params">event</span> =&gt;</span> {
+  event.respondWith(
+        caches.match(event.request).then(<span class="hljs-function">(<span class="hljs-params">response</span>) =&gt;</span> {
+            <span class="hljs-comment">// 若缓存中存在则返回，否则请求。</span>
+            <span class="hljs-keyword">return</span> response || fetch(event.request).then(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
+                <span class="hljs-comment">// 此时缓存中没有。</span>
+                <span class="hljs-keyword">return</span> caches.open(<span class="hljs-string">&#x27;v2&#x27;</span>).then(<span class="hljs-function"><span class="hljs-params">cache</span> =&gt;</span> {
+                    <span class="hljs-comment">// 把数据添加到缓存中</span>
+                    cache.put(event.request, res.clone())
+                    <span class="hljs-comment">// 把响应克隆一份后缓存起来。把原始响应返回给调用它的页面。</span>
+                    <span class="hljs-comment">// 请求和响应流只能被读取一次。缓存起来的是克隆出来的，返回给页面的是原始的。</span>
+                    <span class="hljs-keyword">return</span> res
+                })
+            })
+        })
+    )
+})
+self.addEventListener(<span class="hljs-string">&#x27;activate&#x27;</span>, <span class="hljs-function"><span class="hljs-params">event</span> =&gt;</span> {
+    <span class="hljs-keyword">let</span> cacheWhiteList = [<span class="hljs-string">&#x27;v1&#x27;</span>] <span class="hljs-comment">// 设置需要删除的cacheName</span>
+    event.waitUntil(
+        caches.keys().then(<span class="hljs-function"><span class="hljs-params">keyList</span> =&gt;</span> {
+            <span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>.all(keyList.map(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
+                <span class="hljs-keyword">if</span> (cacheWhiteList.
+                includes(key)) {
+                    <span class="hljs-keyword">return</span> caches.delete(key)
+                }
+            }))
+        })
+    )
+})
+</div></code></pre>
 
         
         

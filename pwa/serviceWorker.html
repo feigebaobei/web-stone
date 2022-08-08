@@ -84,7 +84,7 @@
 <p>本质上是web应用、浏览器与网络之间的代理服务器。
 是一个注册在指定源和路径下的事件驱动worker
 它设计为完全异步，同步api(如xhr/localStorage)不能在service worker中使用
-只能https承载。本地开发时可以使用 <a href="/jsPackages/ngrok.html">ngrok</a> + <a href="https://www.npmjs.com/package/serve">serve</a><br>
+只能https承载。本地开发时可以使用<code>localhost</code>，也可以使用 <a href="/jsPackages/ngrok.html">ngrok</a> + <a href="https://www.npmjs.com/package/serve">serve</a><br>
 在firefox浏览器的用户隐私模式下，service worker不可用。
 webworker / sharedworker 都叫worker。内部都用self指向全局变量。它们都是worker，它管不了主线程里的事。<br>
 它在<code>navigator</code>下。即：<code>navigator.serviceWorker</code>。navigator下还有好多东西。
@@ -130,7 +130,7 @@ self.addEventListener(<span class="hljs-string">&#x27;fetch&#x27;</span>, <span 
                 <span class="hljs-comment">// return new Response(...`)</span>
             })
     )
-    e.respondWith(caches.match(e.request))
+    <span class="hljs-comment">// e.respondWith(caches.match(e.request)) // 只从缓存中取数据</span>
 })
 
 <span class="hljs-comment">// demo1</span>
@@ -282,7 +282,7 @@ self.addEventListener(<span class="hljs-string">&#x27;activate&#x27;</span>, <sp
         <span class="hljs-string">&#x27;url/path.js&#x27;</span>, <span class="hljs-comment">// 相对于origin</span>
         {<span class="hljs-attr">scope</span>: <span class="hljs-string">&#x27;/path/&#x27;</span>} <span class="hljs-comment">// 指定注册范围。即：能拦截网络调用的路径</span>
     ) <span class="hljs-comment">// 返回一个promise.其值是ServiceWrokerRegistration</span>
-    .then(<span class="hljs-function">(<span class="hljs-params">reg</span>) =&gt;</span> {
+    .then(<span class="hljs-function">(<span class="hljs-params">registration</span>) =&gt;</span> {
         <span class="hljs-comment">// ...</span>
     })
     .catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
@@ -339,7 +339,7 @@ self.addEventListener(<span class="hljs-string">&#x27;activate&#x27;</span>, <sp
 <td>register(scriptUrl[, {scope: USVString}])</td>
 <td>返回一个ServiceWorkerRegistration（优先）。或返回一个值是ServiceWorkerRegistration的promise</td>
 <td>scope指定service worker注册范围。能拦截网络调用的路径范围。只能拦截service worker文件所在的目录及其子目录范围内的请求。（即：最大作用域在它的所在位置。）</td>
-<td></td>
+<td>经过测试，只能注册一个service worker。后面的会覆盖前面的。</td>
 </tr>
 <tr>
 <td></td>
@@ -387,7 +387,7 @@ self.addEventListener(<span class="hljs-string">&#x27;activate&#x27;</span>, <sp
 </table>
 <h3 id="serviceworkerregistration-对象">ServiceWorkerRegistration 对象</h3>
 <p>这是一个实验中的功能
-它是注册了service worker的容器。</p>
+它是注册了service worker的注册证（是一个容器）。</p>
 <table>
 <thead>
 <tr>
@@ -564,6 +564,22 @@ serviceworker中不能使用同步请求，可使用异步请求。</p>
 <td></td>
 <td>fetch</td>
 <td>当控制范围内的页面有请求时触发</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>install</td>
+<td>安装时触发</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>activate</td>
+<td>激活时触发</td>
 <td></td>
 <td></td>
 <td></td>
@@ -776,7 +792,7 @@ self.addEventListener(<span class="hljs-string">&#x27;fetch&#x27;</span>, <span 
 <td></td>
 <td>respondWith(任何自定义的响应生成代码)</td>
 <td>控制返回的Response对象或网络错误。</td>
-<td>可用于劫持http<strong>请求</strong>。</td>
+<td>可用于劫持http<strong>响应</strong>。</td>
 <td></td>
 </tr>
 <tr>

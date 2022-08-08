@@ -2,7 +2,7 @@
 > 本质上是web应用、浏览器与网络之间的代理服务器。
 > 是一个注册在指定源和路径下的事件驱动worker
 > 它设计为完全异步，同步api(如xhr/localStorage)不能在service worker中使用
-> 只能https承载。本地开发时可以使用 [ngrok](/jsPackages/ngrok.html) + [serve](https://www.npmjs.com/package/serve)  
+> 只能https承载。本地开发时可以使用`localhost`，也可以使用 [ngrok](/jsPackages/ngrok.html) + [serve](https://www.npmjs.com/package/serve)  
 > 在firefox浏览器的用户隐私模式下，service worker不可用。
 > webworker / sharedworker 都叫worker。内部都用self指向全局变量。它们都是worker，它管不了主线程里的事。  
 > 它在`navigator`下。即：`navigator.serviceWorker`。navigator下还有好多东西。
@@ -44,7 +44,7 @@ self.addEventListener('fetch', (e) => {
                 // return new Response(...`)
             })
     )
-    e.respondWith(caches.match(e.request))
+    // e.respondWith(caches.match(e.request)) // 只从缓存中取数据
 })
 
 // demo1
@@ -144,7 +144,7 @@ if ('serviceWorker' in navigator) {
         'url/path.js', // 相对于origin
         {scope: '/path/'} // 指定注册范围。即：能拦截网络调用的路径
     ) // 返回一个promise.其值是ServiceWrokerRegistration
-    .then((reg) => {
+    .then((registration) => {
         // ...
     })
     .catch((err) => {
@@ -165,9 +165,10 @@ ServiceWorkerContainer接口为service worker提供了一个容器般的功能�
 ||controller|当service worker状态为active时，返回ServiceWorkder对象。否则返回null|||
 ||ready|返回一个promise，当serviceworker为active状态时promise变为fulfilled状态。该promise永远不会变为rejected状态|||
 |方法|||||
-||register(scriptUrl[, {scope: USVString}])|返回一个ServiceWorkerRegistration（优先）。或返回一个值是ServiceWorkerRegistration的promise|scope指定service worker注册范围。能拦截网络调用的路径范围。只能拦截service worker文件所在的目录及其子目录范围内的请求。（即：最大作用域在它的所在位置。）||
+||register(scriptUrl[, {scope: USVString}])|返回一个ServiceWorkerRegistration（优先）。或返回一个值是ServiceWorkerRegistration的promise|scope指定service worker注册范围。能拦截网络调用的路径范围。只能拦截service worker文件所在的目录及其子目录范围内的请求。（即：最大作用域在它的所在位置。）|经过测试，只能注册一个service worker。后面的会覆盖前面的。|
 ||getRegistration()|根据当前网页的url返回一个ServiceWorkerRegistration或null|||
 ||getRegistrations()|返回所有ServiceWrokerRegistration或null|||
+||startMessages()||||
 |事件|||||
 ||oncontrollerchange|当serviceworker变为active时触发|||
 ||onerror|当serviceworker中出现错误时触发|||
@@ -175,7 +176,7 @@ ServiceWorkerContainer接口为service worker提供了一个容器般的功能�
 
 ### ServiceWorkerRegistration 对象
 这是一个实验中的功能
-它是注册了service worker的容器。
+它是注册了service worker的注册证（是一个容器）。
 
 ||||||
 |-|-|-|-|-|
@@ -211,6 +212,8 @@ serviceworker中不能使用同步请求，可使用异步请求。
 |事件|全是小写|||||
 ||onstatechange|||||
 ||fetch|当控制范围内的页面有请求时触发||||
+||install|安装时触发||||
+||activate|激活时触发||||
 ||push|||||
 |方法|全部继承自worker|||||
 
@@ -311,7 +314,7 @@ FetchEvent.FetchEvent()
 ||request|返回事件控制器的Request|||
 ||clientId|返回事件的id|||
 |方法|||||
-||respondWith(任何自定义的响应生成代码)|控制返回的Response对象或网络错误。|可用于劫持http**请求**。||
+||respondWith(任何自定义的响应生成代码)|控制返回的Response对象或网络错误。|可用于劫持http**响应**。||
 ||waitUntil(promise)|延长事件的生命周期|无返回值|告诉事件分发器，事件仍在进行，直到promise解决。可用于检测是否完成。|
 当event.waitUntil的参数promise变为rejected状态时，会丢弃这个服务工作线程。
 
