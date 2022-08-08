@@ -2,6 +2,8 @@
 > 它处于实验阶段
 > 表示 Cache 对象的存储。
 > 一个window对象下有一个Caches，其值是CacheStorage对象。该对象中有好多Cache对象。
+> 一个域下可以有多个命名cache对象。
+> 需要使用脚本（如：serviceworker）控制添加、更新、删除等。  
 
 ## feature
 - 可访问所有命名cache的主目录。  
@@ -19,11 +21,11 @@ window.caches // 返回CacheStorage对象。里面可以放很多cache对象
 |属性|description|||||
 |||||||
 |方法|description|||||
-||match(requestOrUrl: Request | string, options?: {ignoreSearch: boolean, ignoreMethod: boolean, ignoreVary: boolean, cacheName: DOMString})|返回值为Response | undefined的promise|Response是cache的缓存数据|||
+||match(requestOrUrl: Request | string, options?: {ignoreSearch: boolean, ignoreMethod: boolean, ignoreVary: boolean, cacheName: DOMString})|返回值为Response | undefined的promise|Response是cache的缓存数据|caches.match()等同于每个缓存上调用cache.match()（按照caches.keys()返回的顺序，直到返回Response对象）。||
 ||has(cacheName)|返回值是是否存在指定的缓存的promise||||
 ||open(cacheName)|返回值是Cache的promise。若不存在，则**创建**。||||
-||delete(cacheName)|返回是否删除了指定cacheName对应的cache的promise||||
-||keys(无参数)|返回值是Cache名称的数组的promise||||
+||delete(cacheName)|返回是否删除了指定cacheName对应的cache的promise|cache被删除后，该cache中所有项的数据都被删除了。|||
+||keys(无参数)|返回值是Cache名称（cacheName）的数组的promise||||
 
 ignoreSearch    是否使用qs(查询字符串)查询  默认值false
 ignoreMethod    是否使用Request对象中的请求方式（通常只允许GET/HEAD）查询   默认值false
@@ -78,10 +80,15 @@ StorageEstimate
 |||Cache对象的存储。一个CacheStorage对象可存储多个Cache对象|
 |创建||不用创建。window.cache是CacheStorage对象。|
 |match方法|||
-||||
+|||定义一个字符串与一个cache相对应|
 ||||
 
-### 
+
+window.caches是CacheStorage对象。  
+全局只有一个CacheStorage对象。该对象有多个Cache对象。每个Cache对象有多项数据。  
+使用``在CacheStorage中找Cache对象。  
+使用``在Cache中找特定数据项。  
+
 ### title
 ### title
 

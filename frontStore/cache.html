@@ -83,7 +83,9 @@
 <blockquote>
 <p>它处于实验阶段
 表示 Cache 对象的存储。
-一个window对象下有一个Caches，其值是CacheStorage对象。该对象中有好多Cache对象。</p>
+一个window对象下有一个Caches，其值是CacheStorage对象。该对象中有好多Cache对象。
+一个域下可以有多个命名cache对象。
+需要使用脚本（如：serviceworker）控制添加、更新、删除等。</p>
 </blockquote>
 <h2 id="feature">feature</h2>
 <ul>
@@ -158,14 +160,14 @@
 <td></td>
 <td>delete(cacheName)</td>
 <td>返回是否删除了指定cacheName对应的cache的promise</td>
-<td></td>
+<td>cache被删除后，该cache中所有项的数据都被删除了。</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td>keys(无参数)</td>
-<td>返回值是Cache名称的数组的promise</td>
+<td>返回值是Cache名称（cacheName）的数组的promise</td>
 <td></td>
 <td></td>
 <td></td>
@@ -355,7 +357,7 @@ cacheName       要搜索的缓存名称</p>
 <tr>
 <td></td>
 <td></td>
-<td></td>
+<td>定义一个字符串与一个cache相对应</td>
 </tr>
 <tr>
 <td></td>
@@ -364,7 +366,9 @@ cacheName       要搜索的缓存名称</p>
 </tr>
 </tbody>
 </table>
-<h3 id=""></h3>
+<p>window.caches是CacheStorage对象。<br>
+全局只有一个CacheStorage对象。该对象有多个Cache对象。每个Cache对象有多项数据。<br>
+使用<code>在CacheStorage中找Cache对象。   使用</code>在Cache中找特定数据项。</p>
 <h3 id="title">title</h3>
 <h3 id="title-1">title</h3>
 
