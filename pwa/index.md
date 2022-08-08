@@ -186,7 +186,7 @@ window.matchMedia('(display-mode: standalone)').addEventListener('change', (e) =
 
 ### push api 好像是servicer worker提供的能力
 ### notification triggers api
-### title
+### [idb](https://www.npmjs.com/package/idb)
 ### title
 ### title-
 

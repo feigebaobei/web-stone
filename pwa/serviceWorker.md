@@ -2,7 +2,7 @@
 > 本质上是web应用、浏览器与网络之间的代理服务器。
 > 是一个注册在指定源和路径下的事件驱动worker
 > 它设计为完全异步，同步api(如xhr/localStorage)不能在service worker中使用
-> 只能https承载。本地开发时可以使用localhost
+> 只能https承载。本地开发时可以使用 [ngrok](/jsPackages/ngrok.html) + [serve](https://www.npmjs.com/package/serve)  
 > 在firefox浏览器的用户隐私模式下，service worker不可用。
 > webworker / sharedworker 都叫worker。内部都用self指向全局变量。它们都是worker，它管不了主线程里的事。  
 > 它在`navigator`下。即：`navigator.serviceWorker`。navigator下还有好多东西。
@@ -129,6 +129,7 @@ self.addEventListener('activate', event => {
     常用于缓存资源
 激活
     清理生前版本的service worker脚本中使用的资源
+    常用于清理、更新缓存
 开始控制页面
 ```
 
@@ -141,7 +142,7 @@ if ('serviceWorker' in navigator) {
                                         // 2. 安装
                                         // 3. 然后激活。
         'url/path.js', // 相对于origin
-        {scope: '/path/'} // 指定注册范围
+        {scope: '/path/'} // 指定注册范围。即：能拦截网络调用的路径
     ) // 返回一个promise.其值是ServiceWrokerRegistration
     .then((reg) => {
         // ...
@@ -164,7 +165,7 @@ ServiceWorkerContainer接口为service worker提供了一个容器般的功能�
 ||controller|当service worker状态为active时，返回ServiceWorkder对象。否则返回null|||
 ||ready|返回一个promise，当serviceworker为active状态时promise变为fulfilled状态。该promise永远不会变为rejected状态|||
 |方法|||||
-||register(scriptUrl[, {scope: USVString}])|返回一个ServiceWorkerRegistration（优先）。或返回一个值是ServiceWorkerRegistration的promise|scope指定service worker注册范围。相对于当前location||
+||register(scriptUrl[, {scope: USVString}])|返回一个ServiceWorkerRegistration（优先）。或返回一个值是ServiceWorkerRegistration的promise|scope指定service worker注册范围。能拦截网络调用的路径范围。只能拦截service worker文件所在的目录及其子目录范围内的请求。（即：最大作用域在它的所在位置。）||
 ||getRegistration()|根据当前网页的url返回一个ServiceWorkerRegistration或null|||
 ||getRegistrations()|返回所有ServiceWrokerRegistration或null|||
 |事件|||||
@@ -213,6 +214,13 @@ serviceworker中不能使用同步请求，可使用异步请求。
 ||push|||||
 |方法|全部继承自worker|||||
 
+
+## 设置scope的范围
+前提：默认最大作用域在它的所在位置。  
+
+- 把serviceWorker.js文件放在根目录上。  
+- 设置serviceWorker.js的响应头 Service-Worker-Allowed 为 `/`
+
 ## uml
 
 ## todo
@@ -224,16 +232,27 @@ serviceworker中不能使用同步请求，可使用异步请求。
 ### PushManager
 ### SyncManager
 ### Notification
+### StorageManager
+window.navigator.storage
+用于管理数据本地存储权限和估算可用存储空间的对象。  
+
+|StorageManager|||||
+|-|-|-|-|-|
+|方法|||都是返回promise||
+||estimate()|估算域名下storage manager的总存储空间和已经使用了的存储空间|{quota, usage, usageDetails: {}}||
+||persist()||返回是否有在本地数据存储的权限||
+||persisted()||返回是否是盒存储模式||
+||estimate()||||
 
 #### sw可用空间
 
-||sw可用空间||
-|-|-|-|
-|chrome|||
-|ff|||
-|ie|||
-|op|||
-|safri|||
+||sw可用空间|||||
+|-|-|-||||
+|chrome|可使用80%的总磁盘空间。StorageManager API可确定最大配额|||||
+|ff|可使用50%的可用磁盘空间。最多可用2g|||||
+|ie 10|最多250m。当>10m时提示用户|||||
+|op||||||
+|safri|约1g。当达到限制时，会提示用户，每次可增加200m。|||||
 
 #### 开发者工具
 ##### chrome
