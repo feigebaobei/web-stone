@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>&DiacriticalGrave;react&DiacriticalGrave;</title>
+        <title>react&#x4e2d;&#x7684;&#x4e8b;&#x4ef6;</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -80,106 +80,42 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="react"><code>react</code></h1>
-<h2 id="overview">overview</h2>
+        <h1 id="react中的事件">react中的事件</h1>
 <blockquote>
-<p>声明式<br>
-基于组件的<br>
-一次学习，多次使用<br>
-jsx语法。（类似xml，由babel解释。）<br>
-React 团队希望，组件不要变成复杂的容器，最好只是数据流的管道。开发者根据需要，组合管道即可。 组件的最佳写法应该是函数，而不是类。
-react居然使用同步更新dom.<br>
-reacr是重运行时的。（vue/svelte是重编译时的）</p>
+<p>react内使用合成事件。也支持使用原生事件。
+原生事件是浏览器原生dom的事件。
+合成事件react为兼容多个浏览器的原生事件做的事件。
+react把所有事件都使用<code>addEventListener</code>绑定在document上。合成事件只有冒泡到document上时才执行对应的方法。
+一起使用
+先执行原生事件，再执行合成事件。
+合成事件中执行<code>event.stopPropagation()</code>才会停止冒泡。会在合成事件对象上添加<code>isPropagationStoped</code>标记。<br>
+原生事件阻止冒泡后，不会触发合成事件。（合成事件被绑定在document上）
+合成事件中，<code>event.nativeEvent</code>可得到合成事件对象。</p>
 </blockquote>
-<h3 id="feature">feature</h3>
-<ul>
-<li>react家族的成员太多了。</li>
-<li>更接近js语言</li>
-<li>feature2</li>
-</ul>
-<h2 id="usage">usage</h2>
-<pre><code class="language-js"><div>ReactDOM.render(React.createElement(<span class="hljs-string">&#x27;span&#x27;</span>, {}, <span class="hljs-string">&#x27;string&#x27;</span>), $(<span class="hljs-string">&#x27;#id&#x27;</span>))
-=&gt;
-<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;id&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>string<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+<h2 id="自己写一个方法兼容多个浏览器的事件">自己写一个方法兼容多个浏览器的事件</h2>
+<pre><code class="language-js"><div><span class="hljs-keyword">let</span> addEventListener = <span class="hljs-function">(<span class="hljs-params">target, type, lisetener, useCapture = <span class="hljs-literal">false</span></span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (target.addEventListener) {
+        target.addEventListener(type, listener, useCapture)
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (target.attachEvent) {
+        target.attachEvent(<span class="hljs-string">`on<span class="hljs-subst">${type}</span>`</span>, listener)
+    } <span class="hljs-keyword">else</span> {
+        target[<span class="hljs-string">`on<span class="hljs-subst">${type}</span>`</span>] = listener
+    }
+}
 </div></code></pre>
-<h3 id="使用script标签引入react脚本">使用script标签引入react脚本</h3>
-<p>v17以前的用法：</p>
-<ol>
-<li>引入react脚本。</li>
-<li>使用<code>React.createElement</code>创建元素。</li>
-<li>使用<code>ReactDOM.render</code>渲染元素。</li>
-</ol>
-<p>v18以后的用法：</p>
-<ol>
-<li>引入reacte脚本</li>
-<li>使用<code>React.createRoot</code>创建根元素<code>root</code>。</li>
-<li>使用<code>root.render(reactElement对象)</code>渲染元素</li>
-</ol>
-<pre><code class="language-html"><div><span class="hljs-comment">&lt;!-- ... 其它html代码 --&gt;</span>
-<span class="hljs-comment">&lt;!-- 引入基本的react包 --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://unpkg.com/react@18/umd/react.production.min.js&quot;</span> <span class="hljs-attr">crossorigin</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://unpkg.com/react-dom@18/umd/react-dom.production.min.js&quot;</span> <span class="hljs-attr">crossorigin</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-<span class="hljs-comment">&lt;!-- 引入babel包可以使用jsx。它会使你的网站变慢，并且不适用于生产环境。 --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://unpkg.com/babel-standalone@6/babel.min.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/babel&quot;</span>&gt;</span><span class="javascript">
-  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">MyApp</span> (<span class="hljs-params"></span>) </span>{
-    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>string<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span>
-  }
-  ReactDOM.createRoot(<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;root&#x27;</span>)).render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">MyApp</span> /&gt;</span></span>)
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<h2 id="混合使用原生事件和合成事件">混合使用原生事件和合成事件</h2>
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span> {useRef} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">C</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">let</span> btDom = useRef(<span class="hljs-literal">null</span>)
+    <span class="hljs-keyword">let</span> btClickHandler = <span class="hljs-function">() =&gt;</span> {...}
+    useEffect(<span class="hljs-function">() =&gt;</span> {
+        addEventListener(btDom.current, <span class="hljs-string">&#x27;click&#x27;</span>, btClickHandler, <span class="hljs-literal">false</span>)
+    }, [])
+    <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">{btDom}</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{btClickHandler}</span>&gt;</span> string <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>)
+}
 </div></code></pre>
-<h3 id="使用npm创建react项目">使用npm创建react项目</h3>
-<pre><code class="language-shell"><div>npx create-react-app proj-name
-npx create-react-app proj-name --template cra-template-pwa # 创建pwa应用
-<span class="hljs-meta">#</span><span class="bash"> or</span>
-<span class="hljs-meta">#</span><span class="bash"> yarn create react-app todo-app</span>
-cd proj-name
-npm run start
-</div></code></pre>
-<h2 id="demo">demo</h2>
-<ul>
-<li><a href="/react/demo0/first.html">demo0-first</a>使用script标签引入react</li>
-<li><a href="/react/demo0/second.html">demo0-second</a></li>
-<li><a href="">demo1</a></li>
-</ul>
-<h2 id="api">api</h2>
-<p>请在各包中查看相应api.</p>
-<h2 id="react家族成员">react家族成员</h2>
-<ul>
-<li><a href="/framework/react/react-17/index.html">react-17包</a> <a href="/framework/react/react-18/index.html">react-18包</a></li>
-<li><a href="/framework/react/react-dom-17/index.html">react-dom-17</a>  <a href="/framework/react/react-dom-18/index.html">react-dom-18</a></li>
-<li>状态管理
-<ul>
-<li>React Context</li>
-<li>mobx</li>
-<li>react-tracked</li>
-<li>redux</li>
-<li>zustand</li>
-<li>jotai</li>
-<li>recoil</li>
-<li>xstate</li>
-</ul>
-</li>
-<li><a href="/framework/react/redux/index.html">redux react-redux</a></li>
-<li><a href="/framework/react/reactNative.html">react native</a></li>
-<li><a href="/framework/react/router.html">react-router react-router-dom react-router-native</a></li>
-<li><a href="/framework/react/propType.html">propType</a></li>
-<li><a href="/framework/react/react.html">react</a></li>
-<li><a href="/framework/react/react-dom.html">react-dom</a></li>
-<li><a href="/framework/react/react-script.html">react-script</a></li>
-<li><a href="/framework/react/next/index.html">next</a></li>
-<li><a href="/framework/react/gateby/index.html">GatsBy</a></li>
-<li><a href="/framework/react/title.html">title</a></li>
-<li><a href="/framework/react/title.html">title</a></li>
-<li><a href="/framework/react/title.html">title</a></li>
-<li><a href="/framework/react/title.html">title</a></li>
-</ul>
-<h2 id="todo">todo</h2>
-<p>react / react-dom都用到了react-reconciler，该包就是fiber.</p>
-<h3 id="为什么要最常用的reactreact-dom分开怎么分清它们">为什么要最常用的<code>react</code>/<code>react-dom</code>分开？怎么分清它们？</h3>
-<h3 id="项目结构">项目结构</h3>
 
         <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         

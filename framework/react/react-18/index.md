@@ -11,7 +11,7 @@
 `npm i react`
 
 ## 元素
-React 元素是不可变对象。一旦被创建，你就无法更改它的子元素或者属性。一个元素就像电影的单帧：它代表了某个特定时刻的 UI。  
+React 元素是**不可变对象**。一旦被创建，你就无法更改它的子元素或者属性。一个元素就像电影的单帧：它代表了某个特定时刻的 UI。  
 React 只更新它需要更新的部分  
 过程如下：
 1. 创建一个react元素，传入ReactDOM.render()。
@@ -75,7 +75,7 @@ class ComponentName extends React.Component {
         return ... // ReactElement
     }
 }
-ComponentName.propTypes = {
+ComponentName.propTypes = { // 检查参数数据类型
     k: PropTypes.string
 }
 ComponentName.defaultProps = { // 类组件可以设置默认props值。方法组件不可以。
@@ -105,16 +105,8 @@ name等属性会在props中。
 |this.state|-||
 |必有render()|无||
 |constructor|无||
-||||
-||||
-||||
-||||
-||||
-||||
-||||
 
-
-## 事件
+## [事件](/framework/react/event.html)
 命名采用小驼峰式
 事件对应的方法的参数 e 是一个合成对象`SyntheticEvent`，与原生事件对象不完全相同。
 

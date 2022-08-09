@@ -13,7 +13,7 @@
 ### feature
 
 - react家族的成员太多了。
-- feature1
+- 更接近js语言
 - feature2
 
 ## usage
@@ -26,14 +26,14 @@ ReactDOM.render(React.createElement('span', {}, 'string'), $('#id'))
 ```
 ### 使用script标签引入react脚本
 v17以前的用法：
-1. 引入react脚本。
-2. 使用`React.createElement`创建元素。
-3. 使用`ReactDOM.render`渲染元素。
+1. 引入react脚本。  
+2. 使用`React.createElement`创建元素。  
+3. 使用`ReactDOM.render`渲染元素。  
    
 v18以后的用法：
-1. 引入reacte脚本
-2. 使用`React.createRoot`创建根元素`root`。
-3. 使用`root.render(reactElement对象)`渲染元素
+1. 引入reacte脚本  
+2. 使用`React.createRoot`创建根元素`root`。  
+3. 使用`root.render(reactElement对象)`渲染元素  
 
 ```html
 <!-- ... 其它html代码 -->
@@ -53,6 +53,7 @@ v18以后的用法：
 ### 使用npm创建react项目
 ```shell
 npx create-react-app proj-name
+npx create-react-app proj-name --template cra-template-pwa # 创建pwa应用
 # or
 # yarn create react-app todo-app
 cd proj-name

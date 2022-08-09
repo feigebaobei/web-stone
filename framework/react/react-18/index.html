@@ -27,6 +27,41 @@
 	color: var(--vscode-editorError-foreground);
 }
 
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
 </style>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
 <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
@@ -55,7 +90,7 @@
 <h2 id="install">install</h2>
 <p><code>npm i react</code></p>
 <h2 id="元素">元素</h2>
-<p>React 元素是不可变对象。一旦被创建，你就无法更改它的子元素或者属性。一个元素就像电影的单帧：它代表了某个特定时刻的 UI。<br>
+<p>React 元素是<strong>不可变对象</strong>。一旦被创建，你就无法更改它的子元素或者属性。一个元素就像电影的单帧：它代表了某个特定时刻的 UI。<br>
 React 只更新它需要更新的部分<br>
 过程如下：</p>
 <ol>
@@ -112,37 +147,214 @@ React.createElement('span', {}, str)
 <h2 id="组件">组件</h2>
 <p>没有继承，只有组合。(好像js语言中的对象委托呀！原型链就是对象委托的表现。)</p>
 <h3 id="函数组件">函数组件</h3>
-<pre><code><code><div>(props) -&gt; ReactElement
-funtion Clock(props) {
-    return ... // ReactElement
+<p>其上不能ref属性。因为函数组件没有实例。class组件有实例。</p>
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span> PropTypes <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;prop-types&#x27;</span>
+(props) -&gt; ReactElement
+funtion <span class="hljs-function"><span class="hljs-title">Clock</span>(<span class="hljs-params">props</span>)</span> {
+    <span class="hljs-keyword">return</span> ... <span class="hljs-comment">// ReactElement</span>
 }
-// props是只读的。
-// state 是私有的，并且完全受控于当前组件。
-</div></code></code></pre>
+Clock.propTypes = {
+    <span class="hljs-attr">k</span>: PropTypes.string
+}
+<span class="hljs-comment">// props是只读的。</span>
+<span class="hljs-comment">// state 是私有的，并且完全受控于当前组件。</span>
+</div></code></pre>
 <p>组件名称必须以大写字母开头。</p>
 <h3 id="class组件">class组件</h3>
-<pre><code><code><div>class ComponentName extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {...}
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span> PropTypes <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;prop-types&#x27;</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ComponentName</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+    <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">props</span>)</span> {
+        <span class="hljs-built_in">super</span>(props);
+        <span class="hljs-built_in">this</span>.state = {...}
     }
     &lt;!-- 生命周期函数 --&gt;
-    componentDidMount() {...}
-    componentWillUnmount() {...}
-    render() {
-        return ... // ReactElement
+    <span class="hljs-function"><span class="hljs-title">componentDidMount</span>(<span class="hljs-params"></span>)</span> {...}
+    <span class="hljs-function"><span class="hljs-title">componentWillUnmount</span>(<span class="hljs-params"></span>)</span> {...}
+    <span class="hljs-function"><span class="hljs-title">render</span>(<span class="hljs-params"></span>)</span> {
+        <span class="hljs-keyword">return</span> ... <span class="hljs-comment">// ReactElement</span>
     }
 }
-</div></code></code></pre>
+ComponentName.propTypes = { <span class="hljs-comment">// 检查参数数据类型</span>
+    <span class="hljs-attr">k</span>: PropTypes.string
+}
+ComponentName.defaultProps = { <span class="hljs-comment">// 类组件可以设置默认props值。方法组件不可以。</span>
+    <span class="hljs-attr">k</span>: <span class="hljs-string">&#x27;v&#x27;</span>
+}
+</div></code></pre>
 <p>setState({k: v})
 setState((state, props, any) =&gt; ({k: v}))</p>
 <h3 id="使用组件">使用组件</h3>
 <pre><code><code><div>&lt;ComponentName name=&quot;top&quot; /&gt;
 </div></code></code></pre>
 <p>name等属性会在props中。</p>
-<h2 id="事件">事件</h2>
+<h3 id="不同点">不同点</h3>
+<table>
+<thead>
+<tr>
+<th>class组件</th>
+<th>方法组件</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>有实例</td>
+<td>无实例</td>
+<td></td>
+</tr>
+<tr>
+<td>会创建一个类，</td>
+<td>不会创建类，只是数据的管道。</td>
+<td></td>
+</tr>
+<tr>
+<td>可使用生命周期方法，</td>
+<td>不可使用</td>
+<td></td>
+</tr>
+<tr>
+<td>不可使用</td>
+<td>可使用hook</td>
+<td></td>
+</tr>
+<tr>
+<td>可设置defaultProps</td>
+<td>不可设置</td>
+<td></td>
+</tr>
+<tr>
+<td>有displayName属性</td>
+<td>无</td>
+<td></td>
+</tr>
+<tr>
+<td>this.props</td>
+<td>props</td>
+<td></td>
+</tr>
+<tr>
+<td>this.state</td>
+<td>-</td>
+<td></td>
+</tr>
+<tr>
+<td>必有render()</td>
+<td>无</td>
+<td></td>
+</tr>
+<tr>
+<td>constructor</td>
+<td>无</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="事件"><a href="/framework/react/event.html">事件</a></h2>
 <p>命名采用小驼峰式
-事件对应的方法的参数 e 是一个合成对象，与原生事件对象不完全相同。</p>
+事件对应的方法的参数 e 是一个合成对象<code>SyntheticEvent</code>，与原生事件对象不完全相同。</p>
+<ul>
+<li>源码中使用<code>addEventListener()</code>添加事件。</li>
+<li>使用<code>e.preventDefault()</code>防止默认行为</li>
+<li>绑定事件示例 <code>&lt;button onClick={() =&gt; this.handleClick()}&gt;</code> <code>&lt;button onClick={this.handleClick}&gt;</code></li>
+<li>传参示例 <code>&lt;button onClick={(e) =&gt; this.deleteRow(id, e)}&gt;Delete Row&lt;/button&gt;</code> <code>&lt;button onClick={this.deleteRow.bind(this, id)}&gt;Delete Row&lt;/button&gt;</code></li>
+<li></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>剪贴板事件</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>复合事件</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>键盘事件</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>焦点事件</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>表单事件</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>通用事件</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>鼠标事件</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>指针事件</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>选择事件</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>触摸事件</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ui事件</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>滚轮事件</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>媒体事件</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>图像事件</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>动画事件</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>过滤事件</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>其他事件</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h2 id="hooks">hooks</h2>
 <p>它是js代码的语法糖，会被babel转换为js代码。如:</p>
 <pre><code><code><div>let str = 'string'
@@ -224,33 +436,32 @@ useImperativeHandle 可以让你在使用 ref 时自定义暴露给父组件的�
 <ul>
     <li>挂载</li>
     <li>
-    <ul>
-    <li>constructor</li>
-    <li>getDerivedStateFromProps(error) 当更新state且出现错误时执行。常用于显示降级ui</li>
-    <li>render</li>
-    <li>componentDidMount</li>
-    <li>componentDidCatch(error, info) 当后代组件出现错误时执行</li>
-    </ul>
+        <ul>
+            <li>constructor</li>
+            <li>getDerivedStateFromProps(error) 当更新state且出现错误时执行。可用于显示降级ui</li>
+            <li>render</li>
+            <li>componentDidMount</li>
+            <li>componentDidCatch(error, info) 当后代组件出现错误时执行</li>
+        </ul>
     </li>
     <li>
     <li>更新</li>
     <li>
-    <ul>
-    <li>getDerivedStateFromProps</li>
-    <li>shouldComponentUpdate</li>
-    <li>render</li>
-    <li>getSnapshotBeforeUpdate</li>
-    <li>componentDidUpdate</li>
-    </ul>
+        <ul>
+            <li>getDerivedStateFromProps</li>
+            <li>shouldComponentUpdate</li>
+            <li>render</li>
+            <li>getSnapshotBeforeUpdate</li>
+            <li>componentDidUpdate</li>
+        </ul>
     </li>
     <li>
     <li>卸载</li>
     <li>
-    <ul>
-    <li>componentDidUnmount</li>
-    </ul>
+        <ul>
+            <li>componentDidUnmount</li>
+        </ul>
     </li>
-    <li>
 </ul>
 <code>
 只能在class组件中使用
@@ -314,14 +525,6 @@ return (<div>
 <p>setState(obj | (...args) =&gt; obj)</p>
 <h2 id="数据">数据</h2>
 <p>从根组件向叶子组件流动。</p>
-<h2 id="事件-1">事件</h2>
-<ul>
-<li>源码中使用<code>addEventListener()</code>添加事件。</li>
-<li>使用<code>e.preventDefault()</code>防止默认行为</li>
-<li>绑定事件示例 <code>&lt;button onClick={() =&gt; this.handleClick()}&gt;</code> <code>&lt;button onClick={this.handleClick}&gt;</code></li>
-<li>传参示例 <code>&lt;button onClick={(e) =&gt; this.deleteRow(id, e)}&gt;Delete Row&lt;/button&gt;</code> <code>&lt;button onClick={this.deleteRow.bind(this, id)}&gt;Delete Row&lt;/button&gt;</code></li>
-<li></li>
-</ul>
 <h2 id="memoized">memoized</h2>
 <details>
   <summary>memoized</summary>
@@ -331,41 +534,54 @@ return (<div>
 </artical>
 </details>
 <h2 id="api">api</h2>
-<pre><code class="language-js"><div><span class="hljs-built_in">exports</span>.Children = Children;
-<span class="hljs-built_in">exports</span>.Component = Component;
-<span class="hljs-built_in">exports</span>.Fragment = REACT_FRAGMENT_TYPE;
-<span class="hljs-built_in">exports</span>.Profiler = REACT_PROFILER_TYPE;
-<span class="hljs-built_in">exports</span>.PureComponent = PureComponent;
-<span class="hljs-built_in">exports</span>.StrictMode = REACT_STRICT_MODE_TYPE;
-<span class="hljs-built_in">exports</span>.Suspense = REACT_SUSPENSE_TYPE;
-<span class="hljs-built_in">exports</span>.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = ReactSharedInternals;
-<span class="hljs-built_in">exports</span>.cloneElement = cloneElement$<span class="hljs-number">1</span>;
-<span class="hljs-built_in">exports</span>.createContext = createContext;
-<span class="hljs-built_in">exports</span>.createElement = createElement$<span class="hljs-number">1</span>;
-<span class="hljs-built_in">exports</span>.createFactory = createFactory;
-<span class="hljs-built_in">exports</span>.createRef = createRef;
-<span class="hljs-built_in">exports</span>.forwardRef = forwardRef;
-<span class="hljs-built_in">exports</span>.isValidElement = isValidElement;
-<span class="hljs-built_in">exports</span>.lazy = lazy;
-<span class="hljs-built_in">exports</span>.memo = memo;
-<span class="hljs-built_in">exports</span>.startTransition = startTransition;
-<span class="hljs-built_in">exports</span>.unstable_act = act;
-<span class="hljs-built_in">exports</span>.useCallback = useCallback;
-<span class="hljs-built_in">exports</span>.useContext = useContext;
-<span class="hljs-built_in">exports</span>.useDebugValue = useDebugValue;
-<span class="hljs-built_in">exports</span>.useDeferredValue = useDeferredValue;
-<span class="hljs-built_in">exports</span>.useEffect = useEffect;
-<span class="hljs-built_in">exports</span>.useId = useId;
-<span class="hljs-built_in">exports</span>.useImperativeHandle = useImperativeHandle;
-<span class="hljs-built_in">exports</span>.useInsertionEffect = useInsertionEffect;
-<span class="hljs-built_in">exports</span>.useLayoutEffect = useLayoutEffect;
-<span class="hljs-built_in">exports</span>.useMemo = useMemo;
-<span class="hljs-built_in">exports</span>.useReducer = useReducer;
-<span class="hljs-built_in">exports</span>.useRef = useRef;
-<span class="hljs-built_in">exports</span>.useState = useState;
-<span class="hljs-built_in">exports</span>.useSyncExternalStore = useSyncExternalStore;
-<span class="hljs-built_in">exports</span>.useTransition = useTransition;
-<span class="hljs-built_in">exports</span>.version = ReactVersion;
+<pre><code class="language-js"><div><span class="hljs-built_in">exports</span>.Children
+<span class="hljs-built_in">exports</span>.Component
+<span class="hljs-built_in">exports</span>.Fragment
+<span class="hljs-built_in">exports</span>.Profiler
+
+<span class="hljs-built_in">exports</span>.PureComponent
+<span class="hljs-built_in">exports</span>.StrictMode
+<span class="hljs-built_in">exports</span>.Suspense
+    这是一个内置组件。指定懒加载组件不具备渲染条件时（使用fallback属性指定）显示的内容。
+<span class="hljs-built_in">exports</span>.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED= ReactSharedInternals;
+<span class="hljs-built_in">exports</span>.cloneElement
+<span class="hljs-built_in">exports</span>.createContext
+<span class="hljs-built_in">exports</span>.createElement
+<span class="hljs-built_in">exports</span>.createFactory
+<span class="hljs-built_in">exports</span>.createRef
+<span class="hljs-built_in">exports</span>.forwardRef(<span class="hljs-function">(<span class="hljs-params">props, ref</span>) =&gt;</span> {
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">dom</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">{ref}</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">dom</span>&gt;</span></span>
+})
+    让方法式组件也支持ref属性。把ref透传下去
+<span class="hljs-built_in">exports</span>.Fragment
+    这是一个内置组件。用于把多个子组件放在一起。
+<span class="hljs-built_in">exports</span>.isValidElement(obj)
+    验证对象是否为react对象
+<span class="hljs-built_in">exports</span>.lazy(<span class="hljs-function">() =&gt;</span> {<span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>})
+    参数是一个方法，该方法返回一个<span class="hljs-built_in">Promise</span>，该promise返回一个组件。
+    用于动态加载组件。可缩减bundle的体积。
+<span class="hljs-built_in">exports</span>.memo(Comp)
+    当props、useState/useReducer/useContext改变时重新渲染组件
+<span class="hljs-built_in">exports</span>.startTransition(fn)
+    明确指定降低ui更新优先级的更新。
+<span class="hljs-built_in">exports</span>.unstable_act
+<span class="hljs-built_in">exports</span>.useCallback
+<span class="hljs-built_in">exports</span>.useContext
+<span class="hljs-built_in">exports</span>.useDebugValue
+<span class="hljs-built_in">exports</span>.useDeferredValue
+<span class="hljs-built_in">exports</span>.useEffect
+<span class="hljs-built_in">exports</span>.useId
+<span class="hljs-built_in">exports</span>.useImperativeHandle
+<span class="hljs-built_in">exports</span>.useInsertionEffect
+<span class="hljs-built_in">exports</span>.useLayoutEffect
+<span class="hljs-built_in">exports</span>.useMemo
+<span class="hljs-built_in">exports</span>.useReducer
+<span class="hljs-built_in">exports</span>.useRef
+    （方法组件上不能使用ref属性）
+<span class="hljs-built_in">exports</span>.useState
+<span class="hljs-built_in">exports</span>.useSyncExternalStoreuseSyncExternalStore;
+<span class="hljs-built_in">exports</span>.useTransition
+<span class="hljs-built_in">exports</span>.version
 </div></code></pre>
 <h2 id="principle"><a href="/framework/react/react-18/principle.html">principle</a></h2>
 <h3 id="更新机制">更新机制</h3>
@@ -386,9 +602,12 @@ return (<div>
 <span class="hljs-comment">// 代码将会在组件首次渲染时，自动导入包含 OtherComponent 组件的包。</span>
 </div></code></pre>
 <h2 id="ui优化">ui优化</h2>
-<p>Suspense</p>
-<pre><code class="language-js"><div>
-</div></code></pre>
+<ul>
+<li><code>&lt;React.Suspense/&gt; + React.lazy()</code></li>
+<li>React.memo(Comp)</li>
+<li>React.PureComponent</li>
+<li>shouldComponentUpdate</li>
+</ul>
 <h2 id="purecomponent">PureComponent</h2>
 <p>纯组件只进行简单比较props。<br>
 纯组件可与不可变对象结合使用。（array/object都是可变对象）<br>
