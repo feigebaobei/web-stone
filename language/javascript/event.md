@@ -75,8 +75,28 @@ ie 使用事件冒泡
 非ie 使用事件捕获  
 现代浏览器 先使用执行捕获阶段，再执行冒泡阶段。  
 
+# addEventListener
+```js
+dom.addEventListener(type, listener[, options: {
+    capture: false      // 是否在捕获阶段触发
+    once: false         // 是否可执行多次
+    passive: boolean    // 是否可取消默认行为。即：是否可执行preventDefault.
+    signal: AbortSignal // 当AbortSignal的abort()方法被调用时，监听器被移除。
+} | useCapture])
+```
 
+listener是EventListener对象。
 
+|EventListener|||||
+|-|-|-|-|-|
+|handleEvent()|在事件被解决时调用的方法。|可用于在未调用前重置方法。|||
+
+# removeEventListener
+```js
+dom.removeEventListener(type, listener[, options: {
+    capture: false
+} | useCapture]) -> undefined
+```
 
 
 

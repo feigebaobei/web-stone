@@ -166,6 +166,40 @@ eventInit {
 <p>ie 使用事件冒泡<br>
 非ie 使用事件捕获<br>
 现代浏览器 先使用执行捕获阶段，再执行冒泡阶段。</p>
+<h1 id="addeventlistener">addEventListener</h1>
+<pre><code class="language-js"><div>dom.addEventListener(type, listener[, options: {
+    <span class="hljs-attr">capture</span>: <span class="hljs-literal">false</span>      <span class="hljs-comment">// 是否在捕获阶段触发</span>
+    <span class="hljs-attr">once</span>: <span class="hljs-literal">false</span>         <span class="hljs-comment">// 是否可执行多次</span>
+    <span class="hljs-attr">passive</span>: boolean    <span class="hljs-comment">// 是否可取消默认行为。即：是否可执行preventDefault.</span>
+    <span class="hljs-attr">signal</span>: AbortSignal <span class="hljs-comment">// 当AbortSignal的abort()方法被调用时，监听器被移除。</span>
+} | useCapture])
+</div></code></pre>
+<p>listener是EventListener对象。</p>
+<table>
+<thead>
+<tr>
+<th>EventListener</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>handleEvent()</td>
+<td>在事件被解决时调用的方法。</td>
+<td>可用于在未调用前重置方法。</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h1 id="removeeventlistener">removeEventListener</h1>
+<pre><code class="language-js"><div>dom.removeEventListener(type, listener[, options: {
+    <span class="hljs-attr">capture</span>: <span class="hljs-literal">false</span>
+} | useCapture]) -&gt; <span class="hljs-literal">undefined</span>
+</div></code></pre>
 <p>drag事件</p>
 <p>keydown：当用户按下键盘上的任意键时触发，而且如果按住不放的话，会重复触发此事件。</p>
 <p>keypress：当用户按下键盘上的字符键时触发，而且如果按住不放的话，会重复触发此事件。 按下Esc 键也会触发这个事件。Safari 3.1 之前的版本也会在用户按下非字符键时触发keypress 事件。</p>
