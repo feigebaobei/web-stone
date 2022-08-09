@@ -187,7 +187,7 @@ window.matchMedia('(display-mode: standalone)').addEventListener('change', (e) =
 ### push api 好像是servicer worker提供的能力
 ### notification triggers api
 ### [idb](https://www.npmjs.com/package/idb)
-### title
+### [workbox](/pwa/workbox.html)
 ### title-
 
 
@@ -263,3 +263,13 @@ self.addEventListener('activate', event => {
     )
 })
 ```
+
+### 与react结合使用 
+1. 执行`npx create-react-app my-app --template cra-template-pwa`后把`src/serviceWorkerRegistration.js`和`src/service-worker.js`复制到现有项目的对应位置。
+2. 在`src/index.js`添加`import * as serviceWorkerRegistration from './serviceWorkerRegistration';`。再添加`serviceWorkerRegistration.register();`。  
+3. 在命令行中执行`npm run build && serve -s build`。
+4. 在浏览器中打开相应的url，可看到效果。
+
+1. 再添加一些`fetch`/`activate`事件对应的方法
+
+### 与vue结合使用 
