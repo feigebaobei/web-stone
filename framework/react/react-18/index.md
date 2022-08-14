@@ -112,6 +112,7 @@ name等属性会在props中。
 
 - 源码中使用`addEventListener()`添加事件。
 - 使用`e.preventDefault()`防止默认行为
+- 使用`e.stopPropagation()`防止冒泡行为
 - 绑定事件示例 `<button onClick={() => this.handleClick()}>` `<button onClick={this.handleClick}>`
 - 传参示例 `<button onClick={(e) => this.deleteRow(id, e)}>Delete Row</button>` `<button onClick={this.deleteRow.bind(this, id)}>Delete Row</button>`
 - 
@@ -136,7 +137,7 @@ name等属性会在props中。
 |过滤事件|||
 |其他事件|||
 
-## hooks
+## [hooks](/framework/react/hooks.md)
 它是js代码的语法糖，会被babel转换为js代码。如:
 ```
 let str = 'string'
@@ -224,7 +225,7 @@ useDebugValue(value, [fn])
 ## 生命周期方法
 
 <details>
-  <summary>hooks</summary>
+  <summary>生命周期方法</summary>
 <artical>
 <pre>
 <img src="https://www.runoob.com/wp-content/uploads/2016/02/ogimage.png" alt="">
@@ -290,7 +291,7 @@ componentWillUnmount()
 ## context
 
 <details>
-  <summary>hooks</summary>
+  <summary>context</summary>
 <artical>
 <pre>
 import { createContext } from 'react'
@@ -434,6 +435,7 @@ https://zh-hans.reactjs.org/docs/error-boundaries.html
 
 ## HOC 高阶组件
 ```js
+// 定义
 function HOC(WC, sf) {
     return function (props) {
         let [d, setD] = setState(sf(props))
@@ -443,6 +445,12 @@ function HOC(WC, sf) {
         return <WC d={d} onEvent={f} />
     }
 }
+// 使用
+let C = function (props) {...}
+let A = HOC(C, () => {...})
+let B = HOC(C, () => {...})
+<A />
+<B />
 ```
 
 ## 提高性能
@@ -451,7 +459,6 @@ function HOC(WC, sf) {
 - 打包时压缩
 - 虚拟化长列表 `react-window` 和 `react-virtualized`
 - shouldComponentUpdate阻止不必要的更新
-
 
 ## Profiler API
 用于测量渲染速度。

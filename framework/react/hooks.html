@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>&#x5e38;&#x7528;&#x6846;&#x67b6;&#x7684;&#x4e0d;&#x540c;</title>
+        <title>hooks</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -79,118 +79,289 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="常用框架的不同">常用框架的不同</h1>
+        <h1 id="hooks">hooks</h1>
+<blockquote>
+<p>只能在方法组件的最顶层使用。
+以'use'开头。意为只是使用，不是创建。
+它是一个特定方法，可以“hook into”react功能</p>
+</blockquote>
+<h2 id="feature">feature</h2>
+<ul>
+<li>可访问状态</li>
+<li>可处理生命周期方法</li>
+<li>feature0</li>
+<li>feature1</li>
+<li>feature2</li>
+</ul>
+<h2 id="usage">usage</h2>
+<pre><code class="language-js"><div><span class="hljs-keyword">let</span> [value, setValue] = useState([initValue])
+用于处理组件内的状态
+组件更新时返回最近的状态。（它是如何做到的？）
+setValus（与useState）都会自动合并更新对象。
+内部使用object.is判断新旧状态是否相同。若相同，则不触发更新。
+setValue是异步的。react会打包一批更新为一次更新。
+setValue(newValue)
+setValue(<span class="hljs-function">(<span class="hljs-params">any</span>) =&gt;</span> {...; reture obj})
+useState(<span class="hljs-function">() =&gt;</span> {reture obj})
+可使用flushSync()强制立即更新。非必要不使用。
+flushSync(<span class="hljs-function">() =&gt;</span> {
+    setValue(...)
+})
+
+useEffect(fn, ...listener = [])
+用于处理副作用
+在componentDidMount/componentDidUpdate/componentWillUnmount时触发。
+useEffect(<span class="hljs-function">() =&gt;</span> {})         =&gt; componentDidMount, componentDidUpdate
+useEffect(<span class="hljs-function">() =&gt;</span> {}, [])         =&gt; componentDidMount
+useEffect(<span class="hljs-function">() =&gt;</span> {}, [p])         =&gt; componentDidMount, 当p改变时
+useEffect(<span class="hljs-function">() =&gt;</span> {         =&gt; componentWillUnMount是执行f
+    <span class="hljs-keyword">let</span> f = <span class="hljs-function">() =&gt;</span> {}
+    <span class="hljs-keyword">return</span> f
+})
+fn中不能直接使用异步方法（<span class="hljs-keyword">async</span>/<span class="hljs-keyword">await</span>），需要使用立即执行函数包裹异步方法。
+若fn返回一个方法则方法在御载组件前被调用。
+listener指定当哪个变量变化（使用浅复制比较）时触发fn.
+尽量把不相关的监听写在不同的useEffect里。  
+当视图更新后执行fn。
+fn应该是纯函数。
+类似vue的watchEffect
+最好不要执行fn内定义的方法。
+
+<span class="hljs-keyword">let</span> value = useContext(myContext)
+接收一个 context 对象（React.createContext 的返回值）并返回该 context 的当前值。当前的 context 值由上层组件中距离当前组件最近的 &lt;MyContext.Provider&gt; 的 value prop 提供。
+示例见上一个页面。
+当context的value改变时更新组件
+
+<span class="hljs-keyword">let</span> [state, dispatch] = useReducer(reducer, initialArg, [init])
+init是一个方法。参数是initialArg。初始数据会被设置为init(initialArg)
+与useState功能相似。它接收一个形如 (state, action) =&gt; newState 的 reducer，并返回当前的 state 以及与其配套的 dispatch 方法。（如果你熟悉 Redux 的话，就已经知道它如何工作了。）
+dispatch({<span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;typename&#x27;</span>, <span class="hljs-attr">key</span>: value}) <span class="hljs-comment">// dispatch的参数是action. action.type, action.key</span>
+<span class="hljs-comment">// 定义</span>
+<span class="hljs-keyword">const</span> [state, dispatch] = useReducer(<span class="hljs-function">(<span class="hljs-params">state, action</span>) =&gt;</span> {
+    <span class="hljs-keyword">let</span> res
+    <span class="hljs-keyword">switch</span> (action.type) {
+        <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;x&#x27;</span>:
+            res = {<span class="hljs-attr">k</span>: state.k + action.payload}
+        <span class="hljs-attr">default</span>:
+            res = state
+    }
+    <span class="hljs-keyword">return</span> res
+}, {<span class="hljs-attr">k</span>: <span class="hljs-number">0</span>}, <span class="hljs-function">(<span class="hljs-params">p</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> p
+})
+<span class="hljs-comment">// 使用</span>
+state.k <span class="hljs-comment">// 0</span>
+dispatch({<span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;x&#x27;</span>, <span class="hljs-attr">payload</span>: <span class="hljs-number">2</span>})
+
+<span class="hljs-keyword">let</span> memoizedCallback = useCallback(fn, ...dependencies)
+只有dependencies改变时执行fn。可用于阻止不必要的重新渲染。
+返回一个 memoized 回调函数。
+只在更新组件时执行。等价于 useMemo(<span class="hljs-function">() =&gt;</span> fn, ...dependencies)
+像vue里的computer
+
+<span class="hljs-keyword">let</span> memoizedValue = useMemo(fn, ...dependencies)
+返回一个 memoized 值。
+与useCallback类似。当dependencies中有值改变时执行fn。  
+它是在渲染时运行的，不要做任务应该在useEffect中运行的代码。  
+它只是用于优化性能，不用它，功能照样可以实现。
+
+<span class="hljs-keyword">let</span> refContainer = useRef(initialValue)
+useRef 返回一个可变的 ref 对象，其 .current 属性被初始化为传入的参数（initialValue）。返回的 ref 对象在组件的整个生命周期内持续存在。
+组件重新渲染期间其值一直存在。
+改变其值时不会重新渲染组件。
+可以使用它：得到dom元素，跟踪状态变化（保存变化前的状态），
+<span class="hljs-keyword">let</span> inputEl = React.useRef(<span class="hljs-literal">null</span>)
+&lt;input ref={inputEl} /&gt;
+<span class="hljs-keyword">let</span> btClickHandler = <span class="hljs-function">() =&gt;</span> {
+    inputEl.current.focus()
+}
+&lt;button onClick={btClickHandler}&gt;bt&lt;/button&gt;
+
+useImperativeHandle(ref, createHandle, [deps])
+useImperativeHandle 可以让你在使用 ref 时自定义暴露给父组件的实例值。在大多数情况下，应当避免使用 ref 这样的命令式代码。useImperativeHandle 应当与 forwardRef 一起使用：
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">App</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">let</span> counterRef = useRef()
+    <span class="hljs-keyword">let</span> reset = <span class="hljs-function">() =&gt;</span> {
+        counterRef.current.resetCount &amp;&amp; counterRef.current.resetCount()
+    }
+    <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{reset}</span>&gt;</span>reset<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">MyC</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">{counterRef}/</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>)
+}
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">C</span> (<span class="hljs-params">props, ref</span>) </span>{
+    <span class="hljs-keyword">let</span> [count, setCount] = useState(<span class="hljs-number">0</span>)
+    <span class="hljs-keyword">let</span> btClickHandler = <span class="hljs-function">() =&gt;</span> {
+        setCount(count + <span class="hljs-number">1</span>)
+    }
+    <span class="hljs-keyword">let</span> resetCount = <span class="hljs-function">() =&gt;</span> {setCount(<span class="hljs-number">0</span>)}
+    React.useImperativeHandle(ref, <span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-attr">resetCount</span>: resetCount
+    })
+    <span class="hljs-keyword">return</span> (&lt;div&gt;
+        &lt;span&gt;{count}&lt;span&gt;
+        &lt;button onClick={btClickHandler}&gt;+1&lt;/button&gt;
+    &lt;/div&gt;)
+}
+export default MyC = React.forwardRef(C)
+除了暴露指定的方法外，还可以指定暴露的属性、数据。 
+
+useLayoutEffect
+其函数签名与 useEffect 相同，但它会在所有的 DOM 变更之后同步调用 effect。可以使用它来读取 DOM 布局并同步触发重渲染。在浏览器执行绘制之前，
+执行顺序：更新变量值 -》 组件重新渲染 -》 执行useLayoutEffect -&gt; 显示渲染结果 -》 执行useEffect
+尽可能使用标准的 useEffect 以避免阻塞视觉更新。
+与useEffect有相同的触发机制
+
+useDebugValue(value, [fn])
+可用于在 React 开发者工具中显示自定义 hook 的标签。
+不会
+
+let deferredValue = useDeferredValue(value)
+会根据value返回一个复制的deferredValue（延迟数据）。当有急切的更新时要，react会返回原来的值，当更新结束后再使用新值更新组件。
+使用它可实现节流、防抖功能。它会在别的更新结束后马上更新。
+使用React.useMemo / React.Memo与React.useDeferredValue结合可阻止子组件也参与急切的更新。
+function Comp () {
+    let query = useSearchQuery(&#x27;&#x27;)
+    let deferredValue = useDeferredValue(query)
+    let suggestions = useMemo(() =&gt; {
+        return &lt;SearchSuggestion query={deferredValue}&gt;
+    }, [deferredValue])
+    return (
+        &lt;SearchInput query={query} /&gt;
+        &lt;Suspense fallback=&quot;str&quot;&gt;
+            {suggestions}
+        &lt;/Suspense&gt;
+    )
+}
+
+let [isPending, startTransition] = useTransition()
+用于降低渲染优先级.
+isPending表示是否处理pending状态。  
+let [isPending, startTransition] = useTransition()
+let [search, setSearch] = useState()
+let inputChangeHandle = (event) =&gt; {
+    startTransition(() =&gt; {
+        setSearch(event.target.value)
+    })
+}
+&lt;input type=&quot;text&quot; onChange={inputChangeHandle} /&gt;
+&lt;SearchComp searchStr={search}&gt;
+
+let id = useId() // 如 :r1:
+返回一个惟一的id.可用于跨平台。string类型。包括:  
+可以为该返回值id设置前缀、后缀。
+不要用于list中的key。该key应该从渲染数据中取得。  
+let id = useId()
+&lt;label htmlFor={id} /&gt;
+&lt;input id={id} /&gt;
+
+let state = useSyncExternalStore(subscribe, getSnapshot[, getServerSnapshort])
+对任务进行优先级排序并同时执行多个任务。
+外部存储：redux/zustand/...
+内部存储：useState/props/context/...
+可以把外部存储的数据读来和订阅。
+react要知道外部数据的变化，搞了这样的hook。
+subscribe           当store改变时触发的订阅方法。
+getSnapshot         返回当前store的值
+getServerSnapshot   在服务器上渲染时，返回当前store的值
+eg：let state = useSyncExternalStore(store.subscribe, store.getSnapshot)
+详见状态管理
+
+useInsertionEffect(didUpdate)
+它与useEffect的用法一样。
+它会在所有dom更新前执行。常用于学页面布局。
+</div></code></pre>
+<h2 id="useref">useRef</h2>
 <table>
 <thead>
 <tr>
 <th></th>
-<th>vue</th>
-<th>react</th>
-<th>ng</th>
-<th>svelte</th>
-<th>redom</th>
+<th>dom元素</th>
+<th>类组件</th>
+<th>函数式组件</th>
+<th></th>
 <th></th>
 <th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
+<td>ref</td>
+<td>得到对应的dom</td>
+<td>得到class组件的实例</td>
+<td>得到<code>{current: ...}</code></td>
 <td></td>
-<td>有很多语法糖</td>
-<td>-</td>
 <td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="forwardref">forwardRef</h2>
+<p>函数式组件使用ref时，需要使用<code>forwardRef</code>包裹。</p>
+<pre><code class="language-js"><div><span class="hljs-comment">// React.forwardRef 接受一个渲染函数，其接收 props 和 ref 参数并返回一个 React 节点。</span>
+<span class="hljs-comment">// 这样我们就将父组件中创建的ref转发进子组件，并赋值给子组件的input元素，进而可以调用它的focus方法。</span>
+<span class="hljs-keyword">let</span> InputComp = React.forwardRef(<span class="hljs-function">(<span class="hljs-params">props, ref</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">{ref}</span> /&gt;</span></span>
+})
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">C</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">let</span> inputEl = useRef(<span class="hljs-literal">null</span>)
+    <span class="hljs-keyword">let</span> btClickHandler = <span class="hljs-function">() =&gt;</span> {
+        inputEl.current.focus()
+    }
+    <span class="hljs-keyword">return</span> (
+        <span class="xml"><span class="hljs-tag">&lt;&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">InputComp</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">{inputEl}</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{btClickHandler}</span>&gt;</span>bt<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+        <span class="hljs-tag">&lt;/&gt;</span>
+    )
+}
+</span></div></code></pre>
+<h2 id="api">api</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>key</td>
+<td>description</td>
 <td></td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
+</tbody>
+</table>
+<h2 id="uml">uml</h2>
+<p><a href="https://www.cnblogs.com/bejamin/p/15116546.html">https://www.cnblogs.com/bejamin/p/15116546.html</a></p>
+<h2 id="自定义hook">自定义hook</h2>
+<pre><code class="language-js"><div></div></code></pre>
+<h2 id="todo">todo</h2>
+<h3 id="title">title</h3>
+<p>有缓存功能的都可用于性能优化</p>
+<h3 id="usecallback--usememo">useCallback &amp; useMemo</h3>
+<table>
+<thead>
 <tr>
-<td></td>
-<td>内置了过渡、动画的功能</td>
-<td>-</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<th></th>
+<th>useCallback</th>
+<th>useMemo</th>
+<th></th>
+<th></th>
 </tr>
+</thead>
+<tbody>
 <tr>
-<td></td>
-<td>编译单个文件</td>
-<td>-</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>mixin</td>
-<td>-</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>指令</td>
-<td>-</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>teleport</td>
-<td>teleport</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>jsx</td>
-<td>jsx</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>PropType</td>
-<td>prop-types</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>vue3入门已经不简单的</td>
-<td>react比vue入门简单</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>懒加载</td>
-<td>React.lazy()</td>
-<td></td>
-<td></td>
-<td></td>
+<td>用途</td>
+<td>缓存方法</td>
+<td>缓存计算结果</td>
 <td></td>
 <td></td>
 </tr>
@@ -200,24 +371,8 @@
 <td></td>
 <td></td>
 <td></td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
 <td></td>
 <td></td>
 <td></td>
@@ -226,6 +381,13 @@
 </tr>
 </tbody>
 </table>
+<pre><code class="language-ts"><div><span class="hljs-keyword">type</span> DependencyList = ReadonlyArray&lt;<span class="hljs-built_in">any</span>&gt;;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">useCallback</span>&lt;<span class="hljs-title">T</span> <span class="hljs-title">extends</span> (<span class="hljs-params">...args: <span class="hljs-built_in">any</span>[]</span>) =&gt; <span class="hljs-title">any</span>&gt;(<span class="hljs-params">callback: T, deps: DependencyList</span>): <span class="hljs-title">T</span></span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">useMemo</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">factory: () =&gt; T, deps: DependencyList | <span class="hljs-literal">undefined</span></span>): <span class="hljs-title">T</span></span>;
+</div></code></pre>
+<h3 id="title-1">title</h3>
 
         
         

@@ -8,9 +8,9 @@
 ||指令|-||||||
 ||teleport|teleport||||||
 ||jsx|jsx||||||
-||PropType|||||||
+||PropType|prop-types||||||
 ||vue3入门已经不简单的|react比vue入门简单||||||
-|||||||||
+||懒加载|React.lazy()||||||
 |||||||||
 |||||||||
 |||||||||

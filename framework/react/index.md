@@ -91,7 +91,7 @@ npm run start
 - [react-script](/framework/react/react-script.html)  
 - [next](/framework/react/next/index.html)  
 - [GatsBy](/framework/react/gateby/index.html)  
-- [title](/framework/react/title.html)  
+- [create react app](/framework/react/createReactApp.html)  
 - [title](/framework/react/title.html)  
 - [title](/framework/react/title.html)  
 - [title](/framework/react/title.html)  
@@ -101,3 +101,7 @@ react / react-dom都用到了react-reconciler，该包就是fiber.
 
 ### 为什么要最常用的`react`/`react-dom`分开？怎么分清它们？
 ### 项目结构
+### [性能优化](/optimizing/index.html)
+### title
+### title
+### title

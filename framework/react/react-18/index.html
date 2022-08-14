@@ -255,6 +255,7 @@ setState((state, props, any) =&gt; ({k: v}))</p>
 <ul>
 <li>源码中使用<code>addEventListener()</code>添加事件。</li>
 <li>使用<code>e.preventDefault()</code>防止默认行为</li>
+<li>使用<code>e.stopPropagation()</code>防止冒泡行为</li>
 <li>绑定事件示例 <code>&lt;button onClick={() =&gt; this.handleClick()}&gt;</code> <code>&lt;button onClick={this.handleClick}&gt;</code></li>
 <li>传参示例 <code>&lt;button onClick={(e) =&gt; this.deleteRow(id, e)}&gt;Delete Row&lt;/button&gt;</code> <code>&lt;button onClick={this.deleteRow.bind(this, id)}&gt;Delete Row&lt;/button&gt;</code></li>
 <li></li>
@@ -355,7 +356,7 @@ setState((state, props, any) =&gt; ({k: v}))</p>
 </tr>
 </tbody>
 </table>
-<h2 id="hooks">hooks</h2>
+<h2 id="hooks"><a href="/framework/react/hooks.html">hooks</a></h2>
 <p>它是js代码的语法糖，会被babel转换为js代码。如:</p>
 <pre><code><code><div>let str = 'string'
 &lt;span&gt;{str}&lt;/span&gt;
@@ -429,7 +430,7 @@ useImperativeHandle 可以让你在使用 ref 时自定义暴露给父组件的�
 </details>
 <h2 id="生命周期方法">生命周期方法</h2>
 <details>
-  <summary>hooks</summary>
+  <summary>生命周期方法</summary>
 <artical>
 <pre>
 <img src="https://www.runoob.com/wp-content/uploads/2016/02/ogimage.png" alt="">
@@ -492,7 +493,7 @@ componentWillUnmount()
 </details>
 <h2 id="context">context</h2>
 <details>
-  <summary>hooks</summary>
+  <summary>context</summary>
 <artical>
 <pre>
 import { createContext } from 'react'
@@ -615,7 +616,8 @@ React.PureComponent内实现了<code>shouldComponentUpdate()</code>(React.Compon
 <h2 id="异常捕获边界">异常捕获边界</h2>
 <p><a href="https://zh-hans.reactjs.org/docs/error-boundaries.html">https://zh-hans.reactjs.org/docs/error-boundaries.html</a></p>
 <h2 id="hoc-高阶组件">HOC 高阶组件</h2>
-<pre><code class="language-js"><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">HOC</span>(<span class="hljs-params">WC, sf</span>) </span>{
+<pre><code class="language-js"><div><span class="hljs-comment">// 定义</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">HOC</span>(<span class="hljs-params">WC, sf</span>) </span>{
     <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">props</span>) </span>{
         <span class="hljs-keyword">let</span> [d, setD] = setState(sf(props))
         <span class="hljs-keyword">let</span> f = <span class="hljs-function">(<span class="hljs-params">o</span>) =&gt;</span> {
@@ -624,6 +626,12 @@ React.PureComponent内实现了<code>shouldComponentUpdate()</code>(React.Compon
         <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">WC</span> <span class="hljs-attr">d</span>=<span class="hljs-string">{d}</span> <span class="hljs-attr">onEvent</span>=<span class="hljs-string">{f}</span> /&gt;</span></span>
     }
 }
+<span class="hljs-comment">// 使用</span>
+<span class="hljs-keyword">let</span> C = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">props</span>) </span>{...}
+<span class="hljs-keyword">let</span> A = HOC(C, <span class="hljs-function">() =&gt;</span> {...})
+<span class="hljs-keyword">let</span> B = HOC(C, <span class="hljs-function">() =&gt;</span> {...})
+&lt;A /&gt;
+<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">B</span> /&gt;</span></span>
 </div></code></pre>
 <h2 id="提高性能">提高性能</h2>
 <ul>
