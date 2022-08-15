@@ -80,6 +80,159 @@
     </head>
     <body class="vscode-body vscode-light">
         <h1 id="组件间数据传递">组件间数据传递</h1>
+<ul>
+<li>props + event</li>
+<li>context</li>
+<li>useSyncExternalStore</li>
+</ul>
+<h2 id="props--event">props + event</h2>
+<h2 id="context">context</h2>
+<h2 id="usesyncexternalstore">useSyncExternalStore</h2>
+<p>基本用法<br>
+demo0</p>
+<pre><code class="language-js"><div><span class="hljs-keyword">const</span> state = useSyncExternalStore(store.subscribe, store,getSnapshot)
+<span class="hljs-keyword">const</span> selectedField = useSyncExternalStore(store.subscribe, <span class="hljs-function">() =&gt;</span> store.getSnapshot().selectedField)
+</div></code></pre>
+<p>与一个store结合使用
+demo1</p>
+<pre><code class="language-js"><div><span class="hljs-comment">// 创建store</span>
+<span class="hljs-keyword">const</span> store = {
+    <span class="hljs-attr">state</span>: {
+        <span class="hljs-attr">count</span>: <span class="hljs-number">0</span>,
+        <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;str&#x27;</span>,
+        <span class="hljs-attr">k</span>: []
+    },
+    <span class="hljs-attr">listeners</span>: <span class="hljs-keyword">new</span> <span class="hljs-built_in">Set</span>(),
+    setState = <span class="hljs-function">(<span class="hljs-params">fnOrState</span>) =&gt;</span> {
+        <span class="hljs-keyword">let</span> newState = <span class="hljs-keyword">typeof</span> fnOrState === <span class="hljs-string">&#x27;function&#x27;</span> ? fnOrState(store.state) : fnOrState
+        store.state = {
+            ...store.state,
+            ...newState
+        }
+        store.listeners.forEach(<span class="hljs-function"><span class="hljs-params">listener</span> =&gt;</span> {listener()})
+    },
+    <span class="hljs-attr">subscribe</span>: <span class="hljs-function">(<span class="hljs-params">cb</span>) =&gt;</span> {
+        store.listeners.add(cb)
+        <span class="hljs-keyword">return</span> <span class="hljs-function">() =&gt;</span> {
+            store.listeners.delete(cb)
+        }
+    },
+    <span class="hljs-attr">getSnapshot</span>: <span class="hljs-function">() =&gt;</span> store.state
+}
+
+<span class="hljs-comment">// xxx</span>
+<span class="hljs-keyword">import</span> store <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./store&#x27;</span>
+<span class="hljs-keyword">let</span> App = <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-keyword">let</span> state = useSyncExternalStore(store.subscribe, store.getSnapshot)
+    <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =&gt;</span> {store.setState({count: state.count+1})}}&gt;state.count<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span>)
+}
+</div></code></pre>
+<p>与多个store结合使用。
+demo2</p>
+<pre><code class="language-js"><div><span class="hljs-comment">// createStore.js</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">const</span> createStore = <span class="hljs-function">(<span class="hljs-params">initState</span>) =&gt;</span> {
+    <span class="hljs-keyword">let</span> state = initState <span class="hljs-comment">// 这里应该使用深复制</span>
+    <span class="hljs-keyword">let</span> listeners = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Set</span>()
+    <span class="hljs-keyword">let</span> getSnapshot = <span class="hljs-function">() =&gt;</span> state
+    <span class="hljs-keyword">let</span> setState = <span class="hljs-function">(<span class="hljs-params">fnOrState</span>) =&gt;</span> {
+        <span class="hljs-keyword">let</span> newState = <span class="hljs-keyword">typeof</span> fnOrState === <span class="hljs-string">&#x27;function&#x27;</span> ? fnOrState(state) : fnOrState
+        state = {
+            ...state,
+            ...newState
+        }
+        listener.forEach(<span class="hljs-function"><span class="hljs-params">listener</span> =&gt;</span> listener())
+    }
+    <span class="hljs-keyword">let</span> subscribe = (<span class="hljs-function"><span class="hljs-params">listener</span> =&gt;</span> {
+        listener.add(listener)
+        <span class="hljs-keyword">return</span> <span class="hljs-function">() =&gt;</span> {
+            listeners.delete(listener)
+        }
+    })
+    <span class="hljs-keyword">return</span> {
+        getSnapshot,
+        setState,
+        subscribe
+    }
+}
+
+<span class="hljs-comment">// useMyStore.js</span>
+<span class="hljs-keyword">import</span> createStore <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./createStore.js&#x27;</span>
+<span class="hljs-keyword">const</span> initState = {
+    <span class="hljs-attr">count</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;str&#x27;</span>
+}
+<span class="hljs-keyword">let</span> store = createStore(initState)
+<span class="hljs-keyword">let</span> loop = <span class="hljs-function"><span class="hljs-params">v</span> =&gt;</span> (v)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">useMyStore</span>(<span class="hljs-params">selector = loop</span>) </span>{
+    <span class="hljs-keyword">return</span> useSyncExternalStore(store.subscribe, <span class="hljs-function">() =&gt;</span> selector(store.getSnapshot())) <span class="hljs-comment">// 它是state</span>
+}
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> {setState} = store
+
+<span class="hljs-comment">// xxx</span>
+<span class="hljs-keyword">import</span> useMyStore, {setState} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./useMyStore.js&#x27;</span>
+<span class="hljs-keyword">let</span> App = <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-keyword">let</span> state = useMyStore()
+    <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =&gt;</span> {setState({count: 2})}}&gt;str<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span>)
+}
+</div></code></pre>
+<p>与React.reducer结合使用
+demo3</p>
+<pre><code class="language-js"><div><span class="hljs-comment">// createReducerStore.js</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">let</span> createReducerStore = <span class="hljs-function">(<span class="hljs-params">reducer, initState</span>) =&gt;</span> {
+    <span class="hljs-keyword">let</span> state = initState
+    <span class="hljs-keyword">let</span> listeners = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Set</span>()
+    <span class="hljs-keyword">let</span> getSnapshot = <span class="hljs-function">() =&gt;</span> state
+    <span class="hljs-keyword">let</span> dispatch = <span class="hljs-function"><span class="hljs-params">action</span> =&gt;</span> {
+        state = reducer(state, action)
+        listeners.forEach(<span class="hljs-function"><span class="hljs-params">listener</span> =&gt;</span> listener())
+    }
+    <span class="hljs-keyword">let</span> subscribe = <span class="hljs-function">(<span class="hljs-params">listener</span>) =&gt;</span> {
+        listener.add(listener)
+        <span class="hljs-keyword">return</span> <span class="hljs-function">() =&gt;</span> {
+            listeners.delete(listener)
+        }
+    }
+    <span class="hljs-keyword">return</span> {
+        getSnapshot,
+        dispatch,
+        subscribe
+    }
+}
+
+<span class="hljs-comment">// useReducerStore</span>
+<span class="hljs-keyword">import</span> createReducerStore <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./createReducerStore&#x27;</span>
+<span class="hljs-keyword">let</span> initState = {...}
+<span class="hljs-keyword">let</span> reducer = <span class="hljs-function">(<span class="hljs-params">state, action</span>) =&gt;</span> {
+    <span class="hljs-keyword">let</span> res = state
+    <span class="hljs-keyword">switch</span> (action) {
+        <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;x&#x27;</span>:
+            res = {
+                ...state,
+                <span class="hljs-attr">count</span>: state.count + <span class="hljs-number">1</span>
+            }
+    }
+    <span class="hljs-keyword">return</span> res
+}
+
+<span class="hljs-comment">// useReducerStore.js</span>
+<span class="hljs-keyword">let</span> store = createReducerStore(reducer, initState)
+<span class="hljs-keyword">let</span> loop = <span class="hljs-function"><span class="hljs-params">v</span> =&gt;</span> (v)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">useTodoStore</span>(<span class="hljs-params">(selector = loop) =&gt; {
+    <span class="hljs-keyword">return</span> useSyncExternalStore(store.subscribe, () =&gt; selector(store.getSnapshot()))
+}</span>)
+<span class="hljs-title">export</span> <span class="hljs-title">const</span> </span>{dispatch} = store
+
+<span class="hljs-comment">// </span>
+<span class="hljs-keyword">let</span> App = <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-keyword">let</span> state = useReducerStore()
+    <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =&gt;</span> dispatch({type: &#x27;x&#x27;})}&gt;str<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span>)
+}
+</div></code></pre>
+<h2 id="title">title</h2>
+<h2 id="title-1">title</h2>
+<h2 id="title-2">title</h2>
+<h2 id="title-3">title</h2>
+<h2 id="title-4">title</h2>
 
         
         
