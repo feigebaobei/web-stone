@@ -367,6 +367,7 @@ class G {
   abstract e(): string // 抽象方法
   // 被abstract修改的方法是抽象方法，有抽象方法的class是抽象类。抽象类不能被实例化，只能其他类继承。
 }
+// 抽象类。是类的可扩展模板。
 ```
 
 ## modules

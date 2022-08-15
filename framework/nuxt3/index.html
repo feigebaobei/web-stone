@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>Object</title>
+        <title>&#x6982;&#x89c8;</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -79,240 +79,31 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="object">Object</h1>
+        <h1 id="概览">概览</h1>
+<p>使用起来与<code>nuxt2</code>基本无区别。</p>
+<h1 id="feature">feature</h1>
 <ul>
-<li>基础类型之一。</li>
+<li>创建vue3项目。</li>
+<li>混合渲染</li>
+<li>ts + esm</li>
+<li>vite + webpack</li>
+<li>服务器nitro。（基于h3）</li>
+<li>在开发环境中使用rollup/node.js workers</li>
+<li></li>
 </ul>
-<pre><code><code><div>{...}
-new Object(any)
-</div></code></code></pre>
-<p><code>Object.length</code><br>
-<code>Object.prototype</code><br>
-<code>Object.assign(target, ...source)</code><br>
-把source上的属性合并到target上，并返回target.</p>
-<p><code>Object.create(proto, [propertiesObject])</code><br>
-按指定的原型对象proto、对标对象的属性返回一个新对象。
-会被新对象的<code>__proto__</code>属性接收原型对象。</p>
-<p><code>Object.defineProperty(obj, prop, descriptor)</code><br>
-obj 目标对象
-prop 目标对象的属性
-descriptor { // 数据描述符
-value:
-writable:
-enumerable:
-configurable:
-}
-修改或定义obj的prop属性。返回该对象。</p>
-<pre><code><code><div>// demo
-let o = {}
-Object.defineProperty(o, 'a', {
-    value: 0,
-    writable: true,
-    enumerable: true,
-    configurable: true,
-})
-Object.defineProperty(o, 'b', {
-    enumerable: true,
-    configurable: true,
-    get() {
-        return this.a
-    },
-    set(v) {
-        this.a = v
-    }
-})
-</div></code></code></pre>
-<p><code>Object.defineProperties(object, props)</code><br>
-object 目标对象
-props: {
-configurable
-enumerable
-writable
-value
-get: function() {}
-set: function(v) {}
-}
-在一个对象上定义新的属性或修改现有属性，并返回该对象。</p>
-<pre><code><code><div>var obj = {};
-Object.defineProperties(obj, {
-  'property1': {
-    value: true,
-    writable: true
-  },
-  'property2': {
-    value: 'Hello',
-    writable: false
-  }
-  // etc. etc.
-});
-</div></code></code></pre>
-<p><code>Object.entries(obj)</code><br>
-obj
-返回目标对象上可枚举的属性的键值对组成的数组。</p>
-<p><code>Object.getOwnPropertyDescriptor(obj, prop)</code><br>
-obj,
-prop
-返回指定对象的指定属性的属性描述符对象</p>
-<pre><code><code><div>{
-    value,
-    writable
-    get
-    set
-    configuration
-    enumerable
-}
-</div></code></code></pre>
-<p><code>Object.getOwnPropertyNames(obj)</code><br>
-返回指定对象自身拥有的非<code>symbol</code>/非不可枚举（非<code>enumerable: false</code>）属性名组成的数组。</p>
-<p><code>Object.getOwnPropertySymbols(obj)</code><br>
-obj
-返回指定对象自身的全部<code>Symbol</code>属性值组成的数组。</p>
-<p><code>Object.getPrototypeOf(obj)</code><br>
-返回原型对象</p>
-<p><code>Object.setPrototypeOf(obj, prototype)</code><br>
-调用给定对象的原型对象。</p>
-<p><code>Object.is(v0, v1)</code><br>
-返回是否是同一个值。<br>
-<code>+0</code>和<code>-0</code>不是同一个值。</p>
-<p><code>Object.freeze(obj)</code><br>
-obj 目标对象
-不可修改（value/writable/enumerable/configuration）、不能删除已有属性、不能修改该对象的原型
-返回被冻结的对象
-属性描述符会改变为：</p>
-<pre><code><code><div>{
-    configurable: false
-    enumerable: true
-    value: 1
-    writable: false
-}
-</div></code></code></pre>
-<p>数组的原型链中有<code>Object</code>，所以数组可以被冻结。
-freeze是浅冻结。</p>
-<pre><code><code><div>// 深冻结
-function deepFreeze(obj) {
-    let propNames = Object.getOwnPropertyNames(obj)
-    propNames.forEach(function(name) {
-        let value = obj[name]
-        if (typeof value === 'object' &amp;&amp; value !== null) {
-            deepFreeze(value)
-        }
-    })
-    return Object.freeze(obj)
-}
-</div></code></code></pre>
-<p><code>Object.isFrozen(obj)</code><br>
-返回是冻结
-不可扩展的对象也是冻结的。</p>
-<p><code>Object.preventExtensions(obj)</code><br>
-返回不可扩展的对象
-obj对象上的属性描述符不会改变。</p>
-<p><code>Object.isExtensible(obj)</code><br>
-返回是否可扩展（即：是否可添加新属性）</p>
-<p><code>Object.keys(obj)</code><br>
-返回由指定对象的可枚举对象的属性组成的数组。</p>
-<p><code>Object.values(obj)</code><br>
-返回指定对象上可枚举属性值组成的数组。</p>
-<p><code>Object.seal(obj)</code><br>
-不可改变已有属性，把对象的所有属性设置为不可配置。
-不可添加新属性。
-返回操作后的对象。</p>
-<p><code>Object.isSealed(obj)</code><br>
-返回是否密封</p>
-<p><code>Object#toString()</code><br>
-返回对象的字符串形式</p>
-<p><code>Object#toLocaleString()</code><br>
-返回当前对象的本地化客串形式。</p>
-<p><code>Object#valueOf()</code><br>
-返回对象的原始值</p>
-<p><code>Object#hasOwnProperty(prop)</code><br>
-自身是否拥有指定属性</p>
-<p><code>Object#isPrototypeOf(obj)</code><br>
-<code>a.isPrototypeOf(b)</code><br>
-返回a是否在b对象的原型链中</p>
-<p><code>Object#propertyIsNumberable(prop)</code><br>
-返回指定属性是否可枚举</p>
-<h2 id="描述符">描述符</h2>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>configurable</th>
-<th>enumerable</th>
-<th>value</th>
-<th>writable</th>
-<th>get</th>
-<th>set</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>数据描述符</td>
-<td>v</td>
-<td>v</td>
-<td>v</td>
-<td>v</td>
-<td>x</td>
-<td>x</td>
-</tr>
-<tr>
-<td>存取描述符</td>
-<td>v</td>
-<td>v</td>
-<td>x</td>
-<td>x</td>
-<td>v</td>
-<td>v</td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr>
-<th>-</th>
-<th>-</th>
-<th>默认值</th>
-<th>用于</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>configurable</td>
-<td>是否可以删除。除value/wriable外的属性是否可以被修改</td>
-<td>false</td>
-<td>用于</td>
-</tr>
-<tr>
-<td>enumerable</td>
-<td>是否可枚举</td>
-<td>false</td>
-<td><code>for...in</code>/<code>Object.keys()</code></td>
-</tr>
-<tr>
-<td>value</td>
-<td>当前值</td>
-<td>undefined</td>
-<td></td>
-</tr>
-<tr>
-<td>writable</td>
-<td>是否可修改</td>
-<td>false</td>
-<td></td>
-</tr>
-<tr>
-<td>get</td>
-<td>属性的getter方法</td>
-<td>undefined</td>
-<td></td>
-</tr>
-<tr>
-<td>set</td>
-<td>属性的setter方法</td>
-<td>undefined</td>
-<td></td>
-</tr>
-</tbody>
-</table>
+<p>服务api server/api/
+服务中间件 server/middleware
+输出文件 .output/</p>
+<p>动态路由<code>[id].vue</code></p>
+<p>根据文件所在目录确定路由，不需要<code>vue-router</code>。
+<code>&lt;root&gt;/src/page/</code>路由组组件。
+<code>&lt;root&gt;/src/component/</code>组件级组件。</p>
+<h1 id="核心观点">核心观点</h1>
+<h1 id="title">title</h1>
+<h1 id="title-1">title</h1>
+<h1 id="title-2">title</h1>
+<h1 id="title-3">title</h1>
+<h1 id="title-4">title</h1>
 
         
         
