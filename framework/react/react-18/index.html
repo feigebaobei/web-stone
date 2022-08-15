@@ -147,10 +147,29 @@ React.createElement('span', {}, str)
 <h2 id="组件">组件</h2>
 <p>没有继承，只有组合。(好像js语言中的对象委托呀！原型链就是对象委托的表现。)</p>
 <h3 id="函数组件">函数组件</h3>
-<p>其上不能ref属性。因为函数组件没有实例。class组件有实例。</p>
-<pre><code class="language-js"><div><span class="hljs-keyword">import</span> PropTypes <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;prop-types&#x27;</span>
-(props) -&gt; ReactElement
-funtion <span class="hljs-function"><span class="hljs-title">Clock</span>(<span class="hljs-params">props</span>)</span> {
+<p>其上不能ref属性。因为函数组件没有实例。class组件有实例。
+就是在原来的无状态组件上添加了hooks.</p>
+<pre><code class="language-js"><div><span class="hljs-comment">// 函数组件模板</span>
+<span class="hljs-keyword">import</span> {useReducer} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span>
+<span class="hljs-keyword">import</span> PropTypes <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;prop-types&#x27;</span>
+funtion <span class="hljs-function"><span class="hljs-title">Clock</span>(<span class="hljs-params">props</span>)</span> { <span class="hljs-comment">// (props) =&gt; ReactElement</span>
+    <span class="hljs-keyword">let</span> initObj = {}
+    <span class="hljs-keyword">let</span> [state, dispatch] = useReducer(<span class="hljs-function">(<span class="hljs-params">state, action</span>) =&gt;</span> {
+        <span class="hljs-keyword">switch</span> (action.type) {
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;str&#x27;</span>:
+                res = {..}
+        }
+        <span class="hljs-keyword">return</span> res
+    }, initObj)
+    useEffect(<span class="hljs-function">() =&gt;</span> {...}, [])
+    <span class="hljs-comment">// 定义缓存数据</span>
+    <span class="hljs-keyword">let</span> param = useMemo(<span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
+    }, [])
+    <span class="hljs-comment">// 定义缓存回调方法</span>
+    <span class="hljs-keyword">let</span> cb = useCallback(<span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-comment">// 处理逻辑</span>
+    }, [])
     <span class="hljs-keyword">return</span> ... <span class="hljs-comment">// ReactElement</span>
 }
 Clock.propTypes = {
@@ -160,14 +179,15 @@ Clock.propTypes = {
 <span class="hljs-comment">// state 是私有的，并且完全受控于当前组件。</span>
 </div></code></pre>
 <p>组件名称必须以大写字母开头。</p>
-<h3 id="class组件">class组件</h3>
-<pre><code class="language-js"><div><span class="hljs-keyword">import</span> PropTypes <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;prop-types&#x27;</span>
+<h3 id="class组件"><a href="/framework/react/classComp.html">class组件</a></h3>
+<pre><code class="language-js"><div><span class="hljs-comment">// 类组件模板</span>
+<span class="hljs-keyword">import</span> PropTypes <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;prop-types&#x27;</span>
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ComponentName</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
     <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">props</span>)</span> {
         <span class="hljs-built_in">super</span>(props);
         <span class="hljs-built_in">this</span>.state = {...}
     }
-    &lt;!-- 生命周期函数 --&gt;
+    <span class="hljs-comment">// 生命周期函数</span>
     <span class="hljs-function"><span class="hljs-title">componentDidMount</span>(<span class="hljs-params"></span>)</span> {...}
     <span class="hljs-function"><span class="hljs-title">componentWillUnmount</span>(<span class="hljs-params"></span>)</span> {...}
     <span class="hljs-function"><span class="hljs-title">render</span>(<span class="hljs-params"></span>)</span> {
@@ -234,7 +254,7 @@ setState((state, props, any) =&gt; ({k: v}))</p>
 </tr>
 <tr>
 <td>this.state</td>
-<td>-</td>
+<td>useState(initValue)</td>
 <td></td>
 </tr>
 <tr>
@@ -247,8 +267,39 @@ setState((state, props, any) =&gt; ({k: v}))</p>
 <td>无</td>
 <td></td>
 </tr>
+<tr>
+<td>需要在生命周期方法中写好多与逻辑无关的代码。如请求数据。</td>
+<td>监听当特定数据改变时执行指定方法。</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>可使用react更多新功能</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
 </tbody>
 </table>
+<h3 id="无状态组件已经过时了">无状态组件（已经过时了）</h3>
+<p>了解它可以帮助读者了解方法式组件</p>
+<ol>
+<li>只负责接收props渲染DOM，不维护自己的state。</li>
+<li>不能访问生命周期方法。</li>
+<li>不需要声明类，可以避免extends或constructor之类的代码，语法上更加简洁。</li>
+<li>不会被实例化，因此不能直接传ref，可以使用React.forwardRef包装后再传ref。</li>
+<li>不需要显示声明this关键字，在ES6的类声明中往往需要将函数的this关键字绑定到当前作用域，而因为函数式声明的特性，我们不需要再强制绑定。</li>
+<li>更好的性能表现，因为函数式组件中并不需要进行生命周期的管理与状态管理，因此React并不需要进行某些特定的检查或者内存分配，从而保证了更好地性能表现。</li>
+</ol>
+<pre><code class="language-js"><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Hello</span>(<span class="hljs-params">props</span>) </span>{ 
+    <span class="hljs-keyword">return</span> (
+        <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Hello {props.name}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+    )
+} 
+</div></code></pre>
 <h2 id="事件"><a href="/framework/react/event.html">事件</a></h2>
 <p>命名采用小驼峰式
 事件对应的方法的参数 e 是一个合成对象<code>SyntheticEvent</code>，与原生事件对象不完全相同。</p>
@@ -356,7 +407,7 @@ setState((state, props, any) =&gt; ({k: v}))</p>
 </tr>
 </tbody>
 </table>
-<h2 id="hooks"><a href="/framework/react/hooks.html">hooks</a></h2>
+<h2 id="jsx-1">jsx</h2>
 <p>它是js代码的语法糖，会被babel转换为js代码。如:</p>
 <pre><code><code><div>let str = 'string'
 &lt;span&gt;{str}&lt;/span&gt;
@@ -364,6 +415,7 @@ setState((state, props, any) =&gt; ({k: v}))</p>
 let str = 'string'
 React.createElement('span', {}, str)
 </div></code></code></pre>
+<h2 id="hooks"><a href="/framework/react/hooks.html">hooks</a></h2>
 <details>
   <summary>hooks</summary>
   <artical>
@@ -384,13 +436,7 @@ setValue(newValue)
 <p>useEffect(fn, ...listener = [])
 用于处理副作用
 在componentDidMount/componentDidUpdate/componentWillUnmount时触发。
-useEffect(() =&gt; {})         =&gt; componentDidMount, componentDidUpdate
-useEffect(() =&gt; {}, [])         =&gt; componentDidMount
-useEffect(() =&gt; {}, [p])         =&gt; componentDidMount, 当p改变时
-useEffect(() =&gt; () =&gt; {})         =&gt; componentWillUnMount
-fn中不能直接使用异步方法（async/await），需要使用立即执行函数包裹异步方法。
-若fn返回一个方法则方法在御载组件时被调用。
-listener指定当哪个变量变化（使用浅复制比较）时触发fn.</p>
+尽量把不相关的监听写在不同的useEffect里。</p>
 <p>let value = useContext(myContext)
 接收一个 context 对象（React.createContext 的返回值）并返回该 context 的当前值。当前的 context 值由上层组件中距离当前组件最近的 &lt;MyContext.Provider&gt; 的 value prop 决定。</p>
 <p>let [state, dispatch] = useReducer(reducer, initialArg, [init])
@@ -417,7 +463,19 @@ useImperativeHandle 可以让你在使用 ref 时自定义暴露给父组件的�
 执行顺序：更新变量值 -》 组件重新渲染 -》 执行useLayoutEffect -&gt; 显示渲染结果 -》 执行useEffect
 尽可能使用标准的 useEffect 以避免阻塞视觉更新。</p>
 <p>useDebugValue(value, [fn])
-可用于在 React 开发者工具中显示自定义 hook 的标签。
+可用于在 React 开发者工具中显示自定义 hook 的标签。</p>
+<p>let deferredValue = useDeferredValue(value)
+会根据value返回一个复制的deferredValue（延迟数据）。当有急切的更新时要，react会返回原来的值，当更新结束后再使用新值更新组件。</p>
+<p>let [isPending, startTransition] = useTransition()
+用于降低渲染优先级.</p>
+<p>let id = useId() // 如 :r1:
+返回一个惟一的id.可用于跨平台。string类型。包括:</p>
+<p>let state = useSyncExternalStore(subscribe, getSnapshot[, getServerSnapshort])
+对任务进行优先级排序并同时执行多个任务。
+可以把外部存储的数据读来和订阅。</p>
+<p>useInsertionEffect(didUpdate)
+它与useEffect的用法一样。
+它会在所有dom更新前执行。常用于学页面布局。
 </code>
 </pre></p>
 <p>自定义hooks</p>
@@ -550,6 +608,7 @@ return (<div>
 <span class="hljs-built_in">exports</span>.createElement
 <span class="hljs-built_in">exports</span>.createFactory
 <span class="hljs-built_in">exports</span>.createRef
+    类组件中使用ref
 <span class="hljs-built_in">exports</span>.forwardRef(<span class="hljs-function">(<span class="hljs-params">props, ref</span>) =&gt;</span> {
     <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">dom</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">{ref}</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">dom</span>&gt;</span></span>
 })
@@ -587,11 +646,13 @@ return (<div>
 <h2 id="principle"><a href="/framework/react/react-18/principle.html">principle</a></h2>
 <h3 id="更新机制">更新机制</h3>
 <h3 id="fiber">fiber</h3>
+<p>比进程、线程还要细致的控制方式。</p>
 <h3 id="uml">uml</h3>
 <pre><code><code><div>
 </div></code></code></pre>
 <h2 id="组件间传递数据的方式">组件间传递数据的方式</h2>
 <ul>
+<li>props + event</li>
 <li>context</li>
 </ul>
 <h2 id="代码分割">代码分割</h2>
@@ -779,10 +840,10 @@ Comp.propTypes = {
 <h2 id="版本迭代">版本迭代</h2>
 <p>16 增加fiber
 17 在*.jsx文件中自动引入<code>reatct/jsx-runtime</code>，用于处理jsx</p>
+<h3 id="在源码上看看为什么类组件不能使用hooks">在源码上看看为什么类组件不能使用hooks</h3>
 <h3 id="未来迭代计划">未来迭代计划。</h3>
 <h3 id="未来迭代计划-1">未来迭代计划。</h3>
 <h3 id="未来迭代计划-2">未来迭代计划。</h3>
-<h3 id="未来迭代计划-3">未来迭代计划。</h3>
 
         <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         

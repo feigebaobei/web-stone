@@ -44,12 +44,32 @@ React.createElement('span', {}, str)
 
 ## 组件
 没有继承，只有组合。(好像js语言中的对象委托呀！原型链就是对象委托的表现。)
+
 ### 函数组件
 其上不能ref属性。因为函数组件没有实例。class组件有实例。
+就是在原来的无状态组件上添加了hooks.  
 ```js
+// 函数组件模板
+import {useReducer} from 'react'
 import PropTypes from 'prop-types'
-(props) -> ReactElement
-funtion Clock(props) {
+funtion Clock(props) { // (props) => ReactElement
+    let initObj = {}
+    let [state, dispatch] = useReducer((state, action) => {
+        switch (action.type) {
+            case 'str':
+                res = {..}
+        }
+        return res
+    }, initObj)
+    useEffect(() => {...}, [])
+    // 定义缓存数据
+    let param = useMemo(() => {
+        return 0
+    }, [])
+    // 定义缓存回调方法
+    let cb = useCallback(() => {
+        // 处理逻辑
+    }, [])
     return ... // ReactElement
 }
 Clock.propTypes = {
@@ -60,15 +80,16 @@ Clock.propTypes = {
 ```
 组件名称必须以大写字母开头。
 
-### class组件
+### [class组件](/framework/react/classComp.html)
 ```js
+// 类组件模板
 import PropTypes from 'prop-types'
 class ComponentName extends React.Component {
     constructor(props) {
         super(props);
         this.state = {...}
     }
-    <!-- 生命周期函数 -->
+    // 生命周期函数
     componentDidMount() {...}
     componentWillUnmount() {...}
     render() {
@@ -102,9 +123,29 @@ name等属性会在props中。
 |可设置defaultProps|不可设置||
 |有displayName属性|无||
 |this.props|props||
-|this.state|-||
+|this.state|useState(initValue)||
 |必有render()|无||
 |constructor|无||
+|需要在生命周期方法中写好多与逻辑无关的代码。如请求数据。|监听当特定数据改变时执行指定方法。||
+||可使用react更多新功能||
+||||
+
+### 无状态组件（已经过时了）
+了解它可以帮助读者了解方法式组件
+1. 只负责接收props渲染DOM，不维护自己的state。
+2. 不能访问生命周期方法。
+2. 不需要声明类，可以避免extends或constructor之类的代码，语法上更加简洁。
+2. 不会被实例化，因此不能直接传ref，可以使用React.forwardRef包装后再传ref。
+2. 不需要显示声明this关键字，在ES6的类声明中往往需要将函数的this关键字绑定到当前作用域，而因为函数式声明的特性，我们不需要再强制绑定。
+2. 更好的性能表现，因为函数式组件中并不需要进行生命周期的管理与状态管理，因此React并不需要进行某些特定的检查或者内存分配，从而保证了更好地性能表现。
+
+```js
+function Hello(props) { 
+    return (
+        <div>Hello {props.name}</div>
+    )
+} 
+```
 
 ## [事件](/framework/react/event.html)
 命名采用小驼峰式
@@ -137,7 +178,7 @@ name等属性会在props中。
 |过滤事件|||
 |其他事件|||
 
-## [hooks](/framework/react/hooks.md)
+## jsx
 它是js代码的语法糖，会被babel转换为js代码。如:
 ```
 let str = 'string'
@@ -146,6 +187,8 @@ let str = 'string'
 let str = 'string'
 React.createElement('span', {}, str)
 ```
+
+## [hooks](/framework/react/hooks.md)
 
 <details>
   <summary>hooks</summary>
@@ -168,13 +211,7 @@ setValue(newValue)
 useEffect(fn, ...listener = [])
 用于处理副作用
 在componentDidMount/componentDidUpdate/componentWillUnmount时触发。
-useEffect(() => {})         => componentDidMount, componentDidUpdate
-useEffect(() => {}, [])         => componentDidMount
-useEffect(() => {}, [p])         => componentDidMount, 当p改变时
-useEffect(() => () => {})         => componentWillUnMount
-fn中不能直接使用异步方法（async/await），需要使用立即执行函数包裹异步方法。
-若fn返回一个方法则方法在御载组件时被调用。
-listener指定当哪个变量变化（使用浅复制比较）时触发fn.
+尽量把不相关的监听写在不同的useEffect里。  
 
 let value = useContext(myContext)
 接收一个 context 对象（React.createContext 的返回值）并返回该 context 的当前值。当前的 context 值由上层组件中距离当前组件最近的 <MyContext.Provider> 的 value prop 决定。
@@ -210,6 +247,23 @@ useLayoutEffect
 
 useDebugValue(value, [fn])
 可用于在 React 开发者工具中显示自定义 hook 的标签。
+
+let deferredValue = useDeferredValue(value)
+会根据value返回一个复制的deferredValue（延迟数据）。当有急切的更新时要，react会返回原来的值，当更新结束后再使用新值更新组件。
+
+let [isPending, startTransition] = useTransition()
+用于降低渲染优先级.
+
+let id = useId() // 如 :r1:
+返回一个惟一的id.可用于跨平台。string类型。包括:  
+
+let state = useSyncExternalStore(subscribe, getSnapshot[, getServerSnapshort])
+对任务进行优先级排序并同时执行多个任务。
+可以把外部存储的数据读来和订阅。
+
+useInsertionEffect(didUpdate)
+它与useEffect的用法一样。
+它会在所有dom更新前执行。常用于学页面布局。
 </code>
 </pre>
 
@@ -355,6 +409,7 @@ exports.createContext
 exports.createElement
 exports.createFactory
 exports.createRef
+    类组件中使用ref
 exports.forwardRef((props, ref) => {
     <dom ref={ref}>...</dom>
 })
@@ -394,17 +449,17 @@ exports.version
 
 ### 更新机制
 ### fiber
-
+比进程、线程还要细致的控制方式。
 
 
 
 ### uml
-
 ```
 
 ```
 
 ## 组件间传递数据的方式
+- props + event
 - context
 
 ## 代码分割
@@ -600,7 +655,7 @@ if (__DEV__) {...}
 16 增加fiber
 17 在*.jsx文件中自动引入`reatct/jsx-runtime`，用于处理jsx
 
-### 未来迭代计划。
+### 在源码上看看为什么类组件不能使用hooks
 ### 未来迭代计划。
 ### 未来迭代计划。
 ### 未来迭代计划。

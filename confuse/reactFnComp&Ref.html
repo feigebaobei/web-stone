@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <title>react&#x4e2d;&#x7684;&#x65b9;&#x6cd5;&#x5f0f;&#x7ec4;&#x4ef6;&#x4f7f;&#x7528;ref prop</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -79,28 +79,56 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <ul>
-<li><a href="/confuse/clone.html">浅、深复制</a></li>
-<li><a href="/confuse/async.html">异步</a></li>
-<li><a href="/confuse/jsPrototypeChain.pptx">原型链 pptx</a></li>
-<li><a href="/confuse/pagePosition.html">pagePosition</a></li>
-<li><a href="/confuse/upload.html">upload</a></li>
-<li><a href="/confuse/bit.html">二进制</a></li>
-<li><a href="/browser/console.html">console</a></li>
-<li><a href="/language/javascript/json-transfer.html">json格式化</a></li>
-<li><a href="/confuse/throttleDebouncd.html">节流、去抖</a></li>
-<li><a href="/confuse/takeOverProject.html">如何接手老项目</a></li>
-<li><a href="/confuse/htmlEncodeDecode.html">html encode &amp; decode</a></li>
-<li><a href="/confuse/shortCircuitOperator.html">|| &amp;&amp; ??</a></li>
-<li><a href="/confuse/reactFnComp%26Ref.html">react方法式组件使用ref </a></li>
-<li><a href="/confuse/title.html">title</a></li>
-<li><a href="/confuse/title.html">title</a></li>
-<li><a href="/confuse/title.html">title</a></li>
-<li><a href="/confuse/title.html">title</a></li>
-<li><a href="/confuse/title.html">title</a></li>
-<li><a href="/confuse/title.html">title</a></li>
-<li><a href="/confuse/title.html">title</a></li>
+        <h1 id="react中的方法式组件使用ref-prop">react中的方法式组件使用ref prop</h1>
+<ul>
+<li>明确环境的reactElement元素，并全部暴露。</li>
+<li>只暴露指定的属性（包括数据、方法）</li>
 </ul>
+<pre><code class="language-js"><div><span class="hljs-keyword">let</span> InputComp = React.forwardRef(<span class="hljs-function">(<span class="hljs-params">props, ref</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">{ref}</span> /&gt;</span></span>
+})
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">C</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">let</span> inputEl = useRef(<span class="hljs-literal">null</span>)
+    <span class="hljs-keyword">let</span> btClickHandler = <span class="hljs-function">() =&gt;</span> {
+        inputEl.current.focus()
+    }
+    <span class="hljs-keyword">return</span> (
+        <span class="xml"><span class="hljs-tag">&lt;&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">InputComp</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">{inputEl}</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{btClickHandler}</span>&gt;</span>bt<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+        <span class="hljs-tag">&lt;/&gt;</span>
+    )
+}
+</span></div></code></pre>
+<pre><code class="language-js"><div><span class="hljs-comment">// App.js</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">App</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">let</span> counterRef = useRef()
+    <span class="hljs-keyword">let</span> reset = <span class="hljs-function">() =&gt;</span> {
+        counterRef.current.resetCount &amp;&amp; counterRef.current.resetCount()
+    }
+    <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{reset}</span>&gt;</span>reset<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">MyC</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">{counterRef}/</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>)
+}
+
+<span class="hljs-comment">// C.js</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">C</span> (<span class="hljs-params">props, ref</span>) </span>{
+    <span class="hljs-keyword">let</span> [count, setCount] = useState(<span class="hljs-number">0</span>)
+    <span class="hljs-keyword">let</span> btClickHandler = <span class="hljs-function">() =&gt;</span> {
+        setCount(count + <span class="hljs-number">1</span>)
+    }
+    <span class="hljs-keyword">let</span> resetCount = <span class="hljs-function">() =&gt;</span> {setCount(<span class="hljs-number">0</span>)}
+    React.useImperativeHandle(ref, <span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-attr">resetCount</span>: resetCount
+    })
+    <span class="hljs-keyword">return</span> (&lt;div&gt;
+        &lt;span&gt;{count}&lt;span&gt;
+        &lt;button onClick={btClickHandler}&gt;+1&lt;/button&gt;
+    &lt;/div&gt;)
+}
+export default MyC = React.forwardRef(C)
+</div></code></pre>
 
         
         
