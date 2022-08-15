@@ -63,7 +63,8 @@
 }
 
 </style>
-        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -342,7 +343,175 @@ useInsertionEffect(didUpdate)
 <h2 id="uml">uml</h2>
 <p><a href="https://www.cnblogs.com/bejamin/p/15116546.html">https://www.cnblogs.com/bejamin/p/15116546.html</a></p>
 <h2 id="自定义hook">自定义hook</h2>
-<pre><code class="language-js"><div></div></code></pre>
+<p><strong>Hook用途：封装为可多次使用的方法。与uitl功能相同。</strong></p>
+<p>监听对象改变时输出。</p>
+<pre><code class="language-js"><div><span class="hljs-comment">// 定义</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">useLogger</span> (<span class="hljs-params">value</span>) </span>{
+  useEffect(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(value)
+  }, [value])
+}
+<span class="hljs-comment">// 使用</span>
+useLogger(stateValue)
+</div></code></pre>
+<p>设置表单的初始值、验证规则。</p>
+<pre><code class="language-js"><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">useFormField</span>(<span class="hljs-params">initialVal = <span class="hljs-string">&#x27;&#x27;</span>, rule = () =&gt; <span class="hljs-literal">true</span></span>) </span>{
+  <span class="hljs-keyword">const</span> [val, setVal] = React.useState(initialVal);
+  <span class="hljs-keyword">const</span> [isValid, setValid] = React.useState(<span class="hljs-literal">true</span>);
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">onChange</span>(<span class="hljs-params">e</span>) </span>{
+    setVal(e.target.value);
+    setValid(rule(e.target.value))
+  }
+<span class="hljs-comment">//   return [val, onChange, isValid];</span>
+  <span class="hljs-keyword">return</span> [val, isValid];
+}
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> useFormField;
+<span class="hljs-comment">// 使用</span>
+
+</div></code></pre>
+<p>xxx</p>
+<pre><code class="language-js"><div>useSubmit
+</div></code></pre>
+<p>xxx</p>
+<pre><code class="language-js"><div>useBoolean
+</div></code></pre>
+<p>xxx</p>
+<pre><code class="language-js"><div>useLocalStorage
+</div></code></pre>
+<p>xxx</p>
+<pre><code class="language-js"><div>useFontsize
+</div></code></pre>
+<p>xxx</p>
+<pre><code class="language-js"><div>useFetch
+<span class="hljs-keyword">const</span> useFetch = <span class="hljs-function">(<span class="hljs-params">initialUrl, initialParams = {}, skip = <span class="hljs-literal">false</span></span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> [url, updateUrl] = useState(initialUrl)
+  <span class="hljs-keyword">const</span> [params, updateParams] = useState(initialParams)
+  <span class="hljs-keyword">const</span> [data, setData] = useState(<span class="hljs-literal">null</span>)
+  <span class="hljs-keyword">const</span> [isLoading, setIsLoading] = useState(<span class="hljs-literal">false</span>)
+  <span class="hljs-keyword">const</span> [hasError, setHasError] = useState(<span class="hljs-literal">false</span>)
+  <span class="hljs-keyword">const</span> [errorMessage, setErrorMessage] = useState(<span class="hljs-string">&#x27;&#x27;</span>)
+  <span class="hljs-keyword">const</span> [refetchIndex, setRefetchIndex] = useState(<span class="hljs-number">0</span>)
+  <span class="hljs-keyword">const</span> queryString = <span class="hljs-built_in">Object</span>.keys(params)
+    .map(<span class="hljs-function">(<span class="hljs-params">key</span>) =&gt;</span> <span class="hljs-built_in">encodeURIComponent</span>(key) + <span class="hljs-string">&#x27;=&#x27;</span> +
+    <span class="hljs-built_in">encodeURIComponent</span>(params[key])).join(<span class="hljs-string">&#x27;&amp;&#x27;</span>)
+    <span class="hljs-keyword">const</span> refetch = <span class="hljs-function">() =&gt;</span> setRefetchIndex(<span class="hljs-function">(<span class="hljs-params">prevRefetchIndex</span>) =&gt;</span> prevRefetchIndex + <span class="hljs-number">1</span>)
+    useEffect(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-keyword">const</span> fetchData = <span class="hljs-keyword">async</span> () =&gt; {
+      <span class="hljs-keyword">if</span> (skip) <span class="hljs-keyword">return</span>
+      setIsLoading(<span class="hljs-literal">true</span>)
+      <span class="hljs-keyword">try</span> {
+        <span class="hljs-keyword">const</span> response = <span class="hljs-keyword">await</span> fetch(<span class="hljs-string">`<span class="hljs-subst">${url}</span><span class="hljs-subst">${queryString}</span>`</span>)
+        <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> response.json()
+        <span class="hljs-keyword">if</span> (response.ok) {
+          setData(result)
+        } <span class="hljs-keyword">else</span> {
+          setHasError(<span class="hljs-literal">true</span>)
+          setErrorMessage(result)
+        }
+      } <span class="hljs-keyword">catch</span> (err) {
+        setHasError(<span class="hljs-literal">true</span>)
+        setErrorMessage(err.message)
+      } <span class="hljs-keyword">finally</span> {
+        setIsLoading(<span class="hljs-literal">false</span>)
+      }
+    }
+    fetchData()
+  }, [url, params, refetchIndex])
+  <span class="hljs-keyword">return</span> { data, isLoading, hasError, errorMessage, updateUrl, updateParams, refetch }
+}
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> useFetch
+</div></code></pre>
+<pre><code class="language-js"><div>useDeepEffect
+</div></code></pre>
+<pre><code class="language-js"><div>usePageBottom
+</div></code></pre>
+<pre><code class="language-js"><div>useInfinitRoll
+</div></code></pre>
+<pre><code class="language-js"><div>useAxios
+</div></code></pre>
+<pre><code class="language-js"><div>useBreakPoint
+</div></code></pre>
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span> {useMediaQuery} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@mountain-ui/react-hooks&#x27;</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">useViewport</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">let</span> isMobile = useMediaQuery(<span class="hljs-string">&#x27;screen add (min-width: 1px) and (max-width: 513px)&#x27;</span>)
+    <span class="hljs-keyword">let</span> isTablet = useMediaQuery(<span class="hljs-string">&#x27;screen add (min-width: 514px) and (max-width: 1205px)&#x27;</span>)
+    <span class="hljs-keyword">return</span> {
+        isMobile,
+        isTablet,
+        <span class="hljs-attr">isDesktop</span>: !isMobile &amp;&amp; !isTablet,
+    }
+}
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> useViewport
+</div></code></pre>
+<pre><code class="language-js"><div>useDeepEffect
+</div></code></pre>
+<pre><code class="language-js"><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">useInterval</span> (<span class="hljs-params">cb = () =&gt; {}, delay = <span class="hljs-number">10</span></span>) </span>{
+    <span class="hljs-keyword">let</span> savedCallback = useRef()
+    useEffect(<span class="hljs-function">() =&gt;</span> {
+        savedCallback.current = cb
+    })
+    useEffect(<span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">tick</span>(<span class="hljs-params"></span>) </span>{
+            savedCallback.current()
+        }
+        <span class="hljs-keyword">if</span> (delay !== <span class="hljs-literal">null</span>) {
+            <span class="hljs-keyword">let</span> id = <span class="hljs-built_in">setInterval</span>(tick, delay)
+            <span class="hljs-keyword">return</span> <span class="hljs-function">() =&gt;</span> {
+                <span class="hljs-built_in">clearInterval</span>(id)
+            }
+        }
+    }, [cb, delay])
+}
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> useInterval
+</div></code></pre>
+<pre><code class="language-js"><div>useDeviceDetect
+</div></code></pre>
+<p>得到、设置ls里的值。（不能实现监听）</p>
+<pre><code class="language-js"><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">useLocalStorage</span>(<span class="hljs-params">key, initialValue</span>) </span>{
+    <span class="hljs-keyword">const</span> [storedValue, setStoredValue] = useState(<span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-keyword">try</span> {
+            <span class="hljs-keyword">const</span> item = <span class="hljs-built_in">window</span>.localStorage.getItem(key);
+            <span class="hljs-keyword">return</span> item ? <span class="hljs-built_in">JSON</span>.parse(item) : initialValue;
+        } <span class="hljs-keyword">catch</span> (e) {
+            <span class="hljs-keyword">return</span> initialValue;
+        }
+    });
+    <span class="hljs-keyword">const</span> setValue = <span class="hljs-function"><span class="hljs-params">value</span> =&gt;</span> {
+        <span class="hljs-keyword">try</span> {
+            <span class="hljs-keyword">const</span> valueToStore = value <span class="hljs-keyword">instanceof</span> <span class="hljs-built_in">Function</span> ? value(storedValue) : value;
+            setStoredValue(valueToStore);
+            <span class="hljs-built_in">window</span>.localStorage.setItem(key, <span class="hljs-built_in">JSON</span>.stringify(valueToStore));
+        } <span class="hljs-keyword">catch</span> (e) {
+            <span class="hljs-built_in">console</span>.log(e);
+        }
+    };
+  <span class="hljs-keyword">return</span> [storedValue, setValue];
+}
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> useLocalStorage
+</div></code></pre>
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span> { useState, useEffect } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">useOnline</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">const</span> [online, setOnline] = useState(navigator.onLine)
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">offlineHandler</span> (<span class="hljs-params"></span>) </span>{
+        setOnline(<span class="hljs-literal">false</span>)
+    }
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">onlineHandler</span> (<span class="hljs-params"></span>) </span>{
+        setOnline(<span class="hljs-literal">true</span>)
+    }
+    useEffect (<span class="hljs-function">() =&gt;</span> {
+        setOnline(navigator.onLine)
+        <span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">&#x27;online&#x27;</span>, onlineHandler)
+        <span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">&#x27;offline&#x27;</span>, offlineHandler)
+        <span class="hljs-keyword">return</span> <span class="hljs-function">() =&gt;</span> {
+            <span class="hljs-built_in">window</span>.removeEventListener(<span class="hljs-string">&#x27;online&#x27;</span>, onlineHandler)
+            <span class="hljs-built_in">window</span>.removeEventListener(<span class="hljs-string">&#x27;offline&#x27;</span>, offlineHandler)
+        }
+    }, [])
+    <span class="hljs-keyword">return</span> online
+}
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> useOnline;
+</div></code></pre>
 <h2 id="todo">todo</h2>
 <h3 id="title">title</h3>
 <p>有缓存功能的都可用于性能优化</p>
@@ -387,9 +556,29 @@ useInsertionEffect(didUpdate)
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">useMemo</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">factory: () =&gt; T, deps: DependencyList | <span class="hljs-literal">undefined</span></span>): <span class="hljs-title">T</span></span>;
 </div></code></pre>
+<h3 id="react-use"><a href="https://www.npmjs.com/package/react-use">react-use</a></h3>
+<h3 id="mountain-uireact-hooks"><a href="https://www.npmjs.com/package/@mountain-ui/react-hooks">@mountain-ui/react-hooks</a></h3>
+<ul>
+<li>useBoolean</li>
+<li>useDarkMode</li>
+<li>useFontSize</li>
+<li>useLocalStorage</li>
+<li>useMediaQuery</li>
+<li>usePrefersDarkMode</li>
+<li>useToggle</li>
+</ul>
+<h3 id="基本结构">基本结构</h3>
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span> { useState, useEffect } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">useOnline</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-comment">// ...</span>
+}
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> useOnline
+</div></code></pre>
 <h3 id="title-1">title</h3>
+<h3 id="title-2">title</h3>
+<h3 id="title-3">title</h3>
 
-        
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
     </body>
     </html>

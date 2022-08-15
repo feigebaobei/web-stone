@@ -195,7 +195,6 @@ useInsertionEffect(didUpdate)
 |-|-|-|-|-|-|-|
 |ref|得到对应的dom|得到class组件的实例|得到`{current: ...}`||||
 
-
 ## forwardRef
 函数式组件使用ref时，需要使用`forwardRef`包裹。
 ```js
@@ -218,7 +217,6 @@ function C () {
 }
 ```
 
-
 ## api
 |||||||
 |-|-|-|-|-|-|
@@ -228,7 +226,206 @@ function C () {
 https://www.cnblogs.com/bejamin/p/15116546.html
 
 ## 自定义hook
+**Hook用途：封装为可多次使用的方法。与uitl功能相同。**
+
+监听对象改变时输出。
 ```js
+// 定义
+export default function useLogger (value) {
+  useEffect(() => {
+    console.log(value)
+  }, [value])
+}
+// 使用
+useLogger(stateValue)
+```
+
+设置表单的初始值、验证规则。
+```js
+function useFormField(initialVal = '', rule = () => true) {
+  const [val, setVal] = React.useState(initialVal);
+  const [isValid, setValid] = React.useState(true);
+  function onChange(e) {
+    setVal(e.target.value);
+    setValid(rule(e.target.value))
+  }
+//   return [val, onChange, isValid];
+  return [val, isValid];
+}
+export default useFormField;
+// 使用
+
+```
+
+xxx
+```js
+useSubmit
+```
+xxx
+```js
+useBoolean
+```
+xxx
+```js
+useLocalStorage
+```
+xxx
+```js
+useFontsize
+```
+xxx
+```js
+useFetch
+const useFetch = (initialUrl, initialParams = {}, skip = false) => {
+  const [url, updateUrl] = useState(initialUrl)
+  const [params, updateParams] = useState(initialParams)
+  const [data, setData] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [hasError, setHasError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
+  const [refetchIndex, setRefetchIndex] = useState(0)
+  const queryString = Object.keys(params)
+    .map((key) => encodeURIComponent(key) + '=' +
+    encodeURIComponent(params[key])).join('&')
+    const refetch = () => setRefetchIndex((prevRefetchIndex) => prevRefetchIndex + 1)
+    useEffect(() => {
+    const fetchData = async () => {
+      if (skip) return
+      setIsLoading(true)
+      try {
+        const response = await fetch(`${url}${queryString}`)
+        const result = await response.json()
+        if (response.ok) {
+          setData(result)
+        } else {
+          setHasError(true)
+          setErrorMessage(result)
+        }
+      } catch (err) {
+        setHasError(true)
+        setErrorMessage(err.message)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchData()
+  }, [url, params, refetchIndex])
+  return { data, isLoading, hasError, errorMessage, updateUrl, updateParams, refetch }
+}
+export default useFetch
+```
+
+```js
+useDeepEffect
+```
+
+```js
+usePageBottom
+```
+
+```js
+useInfinitRoll
+```
+
+```js
+useAxios
+```
+
+```js
+useBreakPoint
+```
+
+```js
+import {useMediaQuery} from '@mountain-ui/react-hooks'
+function useViewport () {
+    let isMobile = useMediaQuery('screen add (min-width: 1px) and (max-width: 513px)')
+    let isTablet = useMediaQuery('screen add (min-width: 514px) and (max-width: 1205px)')
+    return {
+        isMobile,
+        isTablet,
+        isDesktop: !isMobile && !isTablet,
+    }
+}
+export default useViewport
+```
+
+```js
+useDeepEffect
+```
+
+```js
+function useInterval (cb = () => {}, delay = 10) {
+    let savedCallback = useRef()
+    useEffect(() => {
+        savedCallback.current = cb
+    })
+    useEffect(() => {
+        function tick() {
+            savedCallback.current()
+        }
+        if (delay !== null) {
+            let id = setInterval(tick, delay)
+            return () => {
+                clearInterval(id)
+            }
+        }
+    }, [cb, delay])
+}
+export default useInterval
+```
+
+```js
+useDeviceDetect
+```
+
+得到、设置ls里的值。（不能实现监听）
+```js
+function useLocalStorage(key, initialValue) {
+    const [storedValue, setStoredValue] = useState(() => {
+        try {
+            const item = window.localStorage.getItem(key);
+            return item ? JSON.parse(item) : initialValue;
+        } catch (e) {
+            return initialValue;
+        }
+    });
+    const setValue = value => {
+        try {
+            const valueToStore = value instanceof Function ? value(storedValue) : value;
+            setStoredValue(valueToStore);
+            window.localStorage.setItem(key, JSON.stringify(valueToStore));
+        } catch (e) {
+            console.log(e);
+        }
+    };
+  return [storedValue, setValue];
+}
+export default useLocalStorage
+```
+
+```js
+import { useState, useEffect } from 'react'
+
+function useOnline () {
+    const [online, setOnline] = useState(navigator.onLine)
+    function offlineHandler () {
+        setOnline(false)
+    }
+    function onlineHandler () {
+        setOnline(true)
+    }
+    useEffect (() => {
+        setOnline(navigator.onLine)
+        window.addEventListener('online', onlineHandler)
+        window.addEventListener('offline', offlineHandler)
+        return () => {
+            window.removeEventListener('online', onlineHandler)
+            window.removeEventListener('offline', offlineHandler)
+        }
+    }, [])
+    return online
+}
+export default useOnline;
 ```
 
 ## todo
@@ -250,7 +447,26 @@ function useCallback<T extends (...args: any[]) => any>(callback: T, deps: Depen
 function useMemo<T>(factory: () => T, deps: DependencyList | undefined): T;
 ```
 
+### [react-use](https://www.npmjs.com/package/react-use)
 
+### [@mountain-ui/react-hooks](https://www.npmjs.com/package/@mountain-ui/react-hooks)
+- useBoolean  
+- useDarkMode  
+- useFontSize  
+- useLocalStorage  
+- useMediaQuery  
+- usePrefersDarkMode  
+- useToggle  
 
+### 基本结构
+```js
+import { useState, useEffect } from 'react'
+function useOnline () {
+    // ...
+}
+export default useOnline
+```
 
+### title
+### title
 ### title
