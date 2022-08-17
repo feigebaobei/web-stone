@@ -148,6 +148,7 @@ function useState(initialState) {
 ```
 
 ## useSyncExternalStore
+会用，不知道原理。
 
 ## useTransition
 

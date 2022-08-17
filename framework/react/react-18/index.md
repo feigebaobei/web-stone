@@ -397,6 +397,7 @@ setState(obj | (...args) => obj)
 exports.Children
 exports.Component
 exports.Fragment
+    这是一个内置组件。用于把多个子组件放在一起。
 exports.Profiler
 
 exports.PureComponent
@@ -414,8 +415,6 @@ exports.forwardRef((props, ref) => {
     <dom ref={ref}>...</dom>
 })
     让方法式组件也支持ref属性。把ref透传下去
-exports.Fragment
-    这是一个内置组件。用于把多个子组件放在一起。
 exports.isValidElement(obj)
     验证对象是否为react对象
 exports.lazy(() => {return Promise})
