@@ -1,4 +1,5 @@
 # 状态管理
+
 ## 常见包
 - [React Context]()  
 - [mobx]()  
@@ -12,6 +13,12 @@
 - [recoil]()  
 - [xstate]()  
 - [vuex]()  
+- [useSyncExternalStore]()  
+- [title]()  
+- [title]()  
+- [title]()  
+- [title]()  
+- [title]()  
 
 ## title
 ## title
