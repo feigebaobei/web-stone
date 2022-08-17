@@ -63,7 +63,8 @@
 }
 
 </style>
-        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -82,24 +83,667 @@
         <h1 id="create-react-app">create-react-app</h1>
 <h2 id="overview">overview</h2>
 <blockquote>
-<p>TODO: description</p>
+<p>官方指定的创建react单页面应用的工具。
+它是一个命令行工具，用于创建项目。
+<code>react-scripts</code>只是一个依赖项
+基于webpack+babel开发的。
+只能在<code>&lt;root&gt;/src</code>下添加文件（如js/css），否则cra找不到它们。</p>
 </blockquote>
 <h3 id="feature">feature</h3>
 <ul>
-<li>feature0</li>
-<li>feature1</li>
-<li>feature2</li>
+<li>不需要下载、配置webpack/babel。配置项已经内置了。</li>
+<li>当前不支持 decorator</li>
 </ul>
 <h2 id="install">install</h2>
-<p><code>npm i create-react-app</code></p>
+<p><code>npm i create-react-app -g</code></p>
 <h2 id="usage">usage</h2>
-<p>同<code>./demo.md</code></p>
-<pre><code><code><div>const create-react-app = require('create-react-app');
-// or
-// import create-react-app from 'create-react-app';
-// TODO: DEMONSTRATE API
+<pre><code class="language-shell"><div>npx create-react-app proj-name
+npm init react-app proj-name # init是creat的别名
+yarn create react-app proj-name
+
+--template [template-name]
+
+cd proj-name
+npm run start # 启动本地服务
+npm run test # 执行测试文件 
+npm run build # 打包
+npm run eject # 弹出内置打包配置，可以自定义打包配置。执行无法还原。
+<span class="hljs-meta">#</span><span class="bash"> eject会生成很多配置文件、添加很多依赖。</span>
+<span class="hljs-meta">#</span><span class="bash"> 配置文件还很复杂。</span>
+<span class="hljs-meta">#</span><span class="bash"> 基础不太好的程序员不要执行eject。重点是不可逆。</span>
+</div></code></pre>
+<p>模板可在npm官网查询。</p>
+<h2 id="文件结构">文件结构</h2>
+<pre><code><code><div>&lt;root&gt;
+|-- src
+    |-- index.js    // 入口文件
+    |-- App.js      // 主组件
+|-- public
+    |-- index.html  // 模板文件
 </div></code></code></pre>
-<h2 id="configuration">configuration</h2>
+<h2 id="引入文件">引入文件（。。。）</h2>
+<h3 id="在js文件中添加css文件">在js文件中添加css文件</h3>
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;./path/to/file.css&#x27;</span>
+<span class="hljs-comment">// import &#x27;./path/to/file.scss&#x27; // 同理，引入css预处理文件。 记得安装预处理包</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Comp</span> (<span class="hljs-params"></span>) </span>{...}
+
+<span class="hljs-comment">// 若在package.json中设置了browserlist则会为css文件添加各浏览器的前缀。</span>
+</div></code></pre>
+<h3 id="在js文件中添加modulecss文件">在js文件中添加*.module.css文件</h3>
+<p>以<code>[name].module.css</code>格式命名的文件会被当作 css module 处理。</p>
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span> style <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./path/to/[name].module.css&#x27;</span>
+...
+&lt;div className={style.c}&gt;...&lt;/div&gt;
+</div></code></pre>
+<h3 id="引入imagesfontsfiles">引入images/fonts/files</h3>
+<p>webpack的内置配置文件已经兼容了这些loader。所以可以直接import.</p>
+<pre><code class="language-js"><div><span class="hljs-comment">// *.js</span>
+<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span>;
+<span class="hljs-keyword">import</span> logo <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./logo.png&#x27;</span>; <span class="hljs-comment">// Tell webpack this JS file uses this image</span>
+<span class="hljs-keyword">import</span> { ReactComponent <span class="hljs-keyword">as</span> Logo } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./logo.svg&#x27;</span>;
+<span class="hljs-built_in">console</span>.log(logo); <span class="hljs-comment">// /logo.84287d09.png</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Header</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-comment">// Import result is the URL of your image</span>
+  <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">{logo}</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Logo&quot;</span> /&gt;</span>;
+    <span class="hljs-tag">&lt;<span class="hljs-name">Logo</span> /&gt;</span>
+    <span class="hljs-tag">&lt;/&gt;</span></span>
+}
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> Header;
+
+<span class="hljs-comment">// *.css</span>
+.Logo {
+  background-image: url(./logo.png);
+}
+</div></code></pre>
+<h3 id="引入组件">引入组件</h3>
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span> First <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./path/to/First.js&#x27;</span>
+...
+&lt;First /&gt;
+</div></code></pre>
+<h2 id="代码分割">代码分割</h2>
+<pre><code class="language-js"><div><span class="hljs-comment">// no.1</span>
+<span class="hljs-keyword">const</span> OtherComponent = React.lazy(<span class="hljs-function">() =&gt;</span> <span class="hljs-keyword">import</span>(<span class="hljs-string">&#x27;./OtherComponent&#x27;</span>));
+
+<span class="hljs-comment">// no.2</span>
+<span class="hljs-keyword">import</span>(<span class="hljs-string">&quot;./math&quot;</span>).then(<span class="hljs-function"><span class="hljs-params">math</span> =&gt;</span> {
+  <span class="hljs-built_in">console</span>.log(math.add(<span class="hljs-number">16</span>, <span class="hljs-number">26</span>));
+});
+
+<span class="hljs-comment">// no.3</span>
+<span class="hljs-keyword">import</span> React, { Component } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span>;
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">App</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Component</span> </span>{
+  handleClick = <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-keyword">import</span>(<span class="hljs-string">&#x27;./moduleA&#x27;</span>)
+      .then(<span class="hljs-function">(<span class="hljs-params">{ moduleA }</span>) =&gt;</span> {
+        <span class="hljs-comment">// Use moduleA</span>
+      })
+      .catch(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> {
+        <span class="hljs-comment">// Handle failure</span>
+      });
+  };
+  <span class="hljs-function"><span class="hljs-title">render</span>(<span class="hljs-params"></span>)</span> {
+    <span class="hljs-keyword">return</span> (
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{this.handleClick}</span>&gt;</span>Load<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+    );
+  }
+}
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> App;
+</div></code></pre>
+<h2 id="常用包">常用包</h2>
+<ul>
+<li>react-router-dom</li>
+<li>sass</li>
+</ul>
+<h2 id="环境变量">环境变量</h2>
+<ul>
+<li>在js文件中使用<code>NODE_ENV</code>可以定义环境变量。</li>
+<li>自定义环境变量以<code>REACT_APP_</code>开头。</li>
+<li>不要在react app中保存任务secret。环境变量会被打包。所以应用中任务包都可以使用环境变量。</li>
+<li>环境变量被定义到<code>process.env</code>.如<code>process.env.REACT_APP_HI</code></li>
+<li>内置环境变量是<code>NODE_ENV</code>. <code>process.env.NODE_ENV</code>.
+<ul>
+<li>当执行<code>npm run start</code>时，默认为<code>'development'</code></li>
+<li>当执行<code>npm run test</code>时，默认为<code>'test'</code></li>
+<li>当执行<code>npm run build</code>时，默认为<code>'production'</code></li>
+<li>也可以重写</li>
+</ul>
+</li>
+<li>定义。有2种方法
+<ul>
+<li>在shell中设置
+<ul>
+<li>如<code>REACT_APP_HI=str npm run start</code></li>
+</ul>
+</li>
+<li><code>.env</code>文件
+<ul>
+<li>在环境变量配置文件中直接定义<code>REACT_APP_HI=hi</code></li>
+<li>当改变环境变量配置文件时，需要重启服务。</li>
+<li>命名
+<ul>
+<li><code>.env</code> 默认</li>
+<li><code>.env.local</code> 本地运行是使用</li>
+<li><code>.env.development``.env.test``.env.production</code> 明确指定环境变量指定的运行环境</li>
+<li><code>.env.development.local``.env.test.local``.env.production.local</code> 明确指定各环境的本地运行时的一变变量</li>
+<li>优先级
+<ul>
+<li>npm start: .env.development.local, .env.local, .env.development, .env</li>
+<li>run build: .env.production.local, .env.local, .env.production, .env</li>
+<li>test: .env.test.local, .env.test, .env (note .env.local is missing)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>使用 <code>process.env.xxx</code></li>
+<li></li>
+</ul>
+<p>扩展环境变量。需要<code>react-scripts@1.1.0</code></p>
+<pre><code><code><div>// .env
+// 不用以 REACT_APP_ 开头
+DOMAIN=www.example.com
+REACT_APP_FOO=$DOMAIN/foo
+REACT_APP_BAR=$DOMAIN/bar
+# or
+# REACT_APP_BAR=${DOMAIN}/bar
+</div></code></code></pre>
+<table>
+<thead>
+<tr>
+<th>variable</th>
+<th>development</th>
+<th>production</th>
+<th>usage</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BROWSER</td>
+<td>y</td>
+<td>x</td>
+<td>默认系统的默认浏览器</td>
+<td></td>
+</tr>
+<tr>
+<td>BROWSER_ARGS</td>
+<td>y</td>
+<td>x</td>
+<td>当存在BROWSER时，该参数为它服务。</td>
+<td></td>
+</tr>
+<tr>
+<td>HOST</td>
+<td>y</td>
+<td>x</td>
+<td>绑定所有的hostname</td>
+<td>localhost</td>
+</tr>
+<tr>
+<td>PORT</td>
+<td>y</td>
+<td>x</td>
+<td>监听的端口号。若占用会尝试下一个端口号</td>
+<td>3000</td>
+</tr>
+<tr>
+<td>HTTPS</td>
+<td>y</td>
+<td>x</td>
+<td>是否在开发环境使用https协议</td>
+<td></td>
+</tr>
+<tr>
+<td>WDS_SOCKET_HOST</td>
+<td>y</td>
+<td>x</td>
+<td>指定自定义的websocket hostname.通常使用<code>webpack-dev-server</code></td>
+<td>window.location.hostname</td>
+</tr>
+<tr>
+<td>WDS_SOCKET_PATH</td>
+<td>y</td>
+<td>x</td>
+<td>指定自定义的websocket的path.通常使用<code>webpack-dev-server</code></td>
+<td><code>/ws</code></td>
+</tr>
+<tr>
+<td>WDS_SOCKET_PORT</td>
+<td>y</td>
+<td>x</td>
+<td>指定自定义的websocket的port，用于hrm.通常<code>webpack-dev-server</code>使用<code>window.location.port</code></td>
+<td></td>
+</tr>
+<tr>
+<td>PUBLIC_URL</td>
+<td>y</td>
+<td>y</td>
+<td>cra默认应用运行在服务的根目录上。可在package.json的homepage指定别的目录。当用在cdn上时很有用。</td>
+<td></td>
+</tr>
+<tr>
+<td>BUILD_PATH</td>
+<td>x</td>
+<td>y</td>
+<td>指定相对于项目根目录的目录为打包输出目录</td>
+<td>与<code>/src</code>同级的<code>/build</code></td>
+</tr>
+<tr>
+<td>CI</td>
+<td>y</td>
+<td>y</td>
+<td>当设置为true时，cra在打包时把warning对待为failures。该字段可用于test runner</td>
+<td></td>
+</tr>
+<tr>
+<td>REACT_EDITOR</td>
+<td>y</td>
+<td>x</td>
+<td>指定当项目运行崩溃时点击错误能否在编辑器中打开相应文件。（需要在系统的path中设置编辑器的bin文件。）</td>
+<td></td>
+</tr>
+<tr>
+<td>CHOKIDAR_USEPOLLING</td>
+<td>y</td>
+<td>x</td>
+<td>若设置为true,则watcher使用polling模式。</td>
+<td></td>
+</tr>
+<tr>
+<td>GENERATE_SOURCEMAP</td>
+<td>x</td>
+<td>y</td>
+<td>当设置为false时，打生产包时不生成source map。</td>
+<td></td>
+</tr>
+<tr>
+<td>INLINE_RUNTIME_CHUNK</td>
+<td>x</td>
+<td>y</td>
+<td>是否在把运行时脚本嵌入到index.html中。</td>
+<td>true</td>
+</tr>
+<tr>
+<td>IMAGE_INLINE_SIZE_LIMIT</td>
+<td>y</td>
+<td>y</td>
+<td>控制是否把小于10,000bytes的资源转码为base64写入行内。当设置为0时不使用行内资源。</td>
+<td>10,000</td>
+</tr>
+<tr>
+<td>FAST_REFRESHE</td>
+<td>y</td>
+<td>x</td>
+<td>当设置为false时不允许fast refresh</td>
+<td></td>
+</tr>
+<tr>
+<td>TSC_COMPILE_ON_ERROR</td>
+<td>y</td>
+<td>y</td>
+<td>当设置为true是会忽略编译ts时的发现的错误，在运行时提示出来（在浏览器的console）</td>
+<td></td>
+</tr>
+<tr>
+<td>ESLINT_NO_DEV_ERRORS</td>
+<td>y</td>
+<td>x</td>
+<td>当设置为true时，在开发时会把eslint错误转化为警告。</td>
+<td></td>
+</tr>
+<tr>
+<td>DISABLE_ESLINT_PLUGIN</td>
+<td>y</td>
+<td>y</td>
+<td>当设置为true时，不使用eslint-webpack-plugin</td>
+<td></td>
+</tr>
+<tr>
+<td>DISABLE_NEW_JSX_TRANSFORM</td>
+<td>y</td>
+<td>x</td>
+<td>当设置为true时，不转化jsx.</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="创建pwa">创建pwa</h2>
+<ul>
+<li>离线、弱网优先。</li>
+</ul>
+<pre><code class="language-shell"><div>npx create-react-app my-app --template cra-template-pwa
+npx create-react-app my-app --template cra-template-pwa-typescript
+</div></code></pre>
+<p>把<code>&lt;root&gt;/src/index.js</code>中<code>serviceWorkerRegistration.unregister();</code>改为<code>serviceWorkerRegistration.register();</code>
+然后在<code>&lt;root&gt;/src/serviceWorker.js</code>中添回相应代码。
+保持<code>self.__WB_MAINFEST</code>在任意文件。workbox编译插件检查到这个变量时会生成manifest的url的预缓存。</p>
+<h3 id="workbox-webpack-plugin">workbox-webpack-plugin</h3>
+<p>它把集成到生产配置。它把service worker编译了，再自动预缓存<code>webpack-</code>的资源。</p>
+<h4 id="webpack-资源">webpack-资源</h4>
+<ul>
+<li>html的导航请求</li>
+<li>xxx</li>
+<li>xxx</li>
+</ul>
+<h2 id="测试性能">测试性能</h2>
+<p>在主文件中使用<code>reportWebVitals(console.log)</code></p>
+<pre><code class="language-js"><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sendToAnalytics</span>(<span class="hljs-params">metric</span>) </span>{
+  <span class="hljs-keyword">const</span> body = <span class="hljs-built_in">JSON</span>.stringify(metric);
+  <span class="hljs-keyword">const</span> url = <span class="hljs-string">&#x27;https://example.com/analytics&#x27;</span>;
+
+  <span class="hljs-comment">// Use `navigator.sendBeacon()` if available, falling back to `fetch()`</span>
+  <span class="hljs-keyword">if</span> (navigator.sendBeacon) {
+    navigator.sendBeacon(url, body);
+  } <span class="hljs-keyword">else</span> {
+    fetch(url, { body, <span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;POST&#x27;</span>, <span class="hljs-attr">keepalive</span>: <span class="hljs-literal">true</span> });
+  }
+}
+reportWebVitals(sendToAnalytics);
+</div></code></pre>
+<h3 id="web-vital"><a href="https://github.com/GoogleChrome/web-vitals">web-vital</a></h3>
+<p>这是一个围绕底层网页 API 的小型的、生产就绪的封装器，通过准确匹配每项指标在上方列出的所有 Google 工具中的报告方式来进行指标测量。</p>
+<ul>
+<li>lcp</li>
+<li>fid</li>
+<li>cls</li>
+</ul>
+<h2 id="创建生产版本">创建生产版本</h2>
+<p>执行<code>npm run build</code>。会在<code>&lt;root&gt;/build</code>目录中生成生产版本。</p>
+<pre><code><code><div>&lt;root&gt;
+|-- build
+    |-- static      // 这里的文件名是经过hash处理的。
+        |-- main.[hash].chunk.js    // App.js里的代码
+        |-- [number].[hash].chunk.js    // verder code 或者 代码分割的chunk.
+        |-- runtime-main.[hash].js    // webpack runtime 逻辑代码块，用于加载、运行应用。包括在build/index.html中。当设置 INLINE_RUNTIME_CHUNK=false时，不出现此文件。
+        |-- *.css
+    |-- static
+    |-- static
+    |-- static
+    |-- static
+</div></code></code></pre>
+<h3 id="静态文件缓存">静态文件缓存</h3>
+<p>build/static目录里的文件名都有hash部分。当文件未改变时文件名不会改变。当浏览再请求是会使用缓存中的文件。反之会生成新文件，浏览器会请求新文件。
+也可以在index.html的header中设置Cache-Control字段。<code>Cache-Control: max-age=31536000</code></p>
+<h3 id="生产时分析">生产时分析</h3>
+<p>在ReactDOM v16.5后支持在生产模式下进行分析。
+执行<code>npm run build --profile</code>。</p>
+<h2 id="test"><a href="/test/index.html">test</a></h2>
+<p>cra使用jest（它是一个test runner）</p>
+<h3 id="jest"><a href="/test/jest/index.html">jest</a></h3>
+<ul>
+<li>运行在node环境的测试运行器</li>
+<li></li>
+</ul>
+<h3 id="文件命名习惯">文件命名习惯</h3>
+<ul>
+<li><em><em>__tests__目录下的</em>.js文件</em>* 推荐</li>
+<li>*.test.js</li>
+<li>*.spec.js</li>
+</ul>
+<h3 id="usage-1">usage</h3>
+<p>执行<code>npm run test</code>会执行所有配置的测试文件。</p>
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span> sum <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./sum&#x27;</span>
+it(<span class="hljs-string">&#x27;describtion&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+    expect(sum(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)).toEqual(<span class="hljs-number">3</span>)
+    expect(sum(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)).toEqual(<span class="hljs-number">4</span>)
+})
+</div></code></pre>
+<h3 id="测试组件">测试组件</h3>
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span>
+<span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react-dom&#x27;</span>
+<span class="hljs-keyword">import</span> App <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./App&#x27;</span>
+it(<span class="hljs-string">&#x27;describe&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-keyword">let</span> div = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">&#x27;div&#x27;</span>)
+    ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span></span>, div)
+})
+</div></code></pre>
+<h3 id="react测试库">react测试库</h3>
+<ul>
+<li>@testing-library/react</li>
+<li>@testing-library/jest-dom</li>
+</ul>
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span>
+<span class="hljs-keyword">import</span> {render, screen} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@testing-library/react&#x27;</span>
+<span class="hljs-keyword">import</span> App <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./App&#x27;</span>
+it(<span class="hljs-string">&#x27;describe&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+    render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span></span>)
+    expect(screen.getByText(<span class="hljs-string">&#x27;Learn React&#x27;</span>)).toBeInTheDocument()
+})
+</div></code></pre>
+<h3 id="使用三方断言库">使用三方断言库</h3>
+<p>推荐使用 <strong><code>expect()</code></strong> 断言。<br>
+推荐使用 <strong><code>jest.fn()</code></strong> 做间谍。</p>
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span> sinon <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;sinon&#x27;</span>
+<span class="hljs-keyword">import</span> {expect} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;chai&#x27;</span>
+</div></code></pre>
+<h3 id="初始化测试环境">初始化测试环境</h3>
+<p>运行测试脚本前的设置。<br>
+在执行<code>eject</code>前创建<code>&lt;root&gt;/src/setupTests.js</code></p>
+<pre><code class="language-js"><div><span class="hljs-comment">// &lt;root&gt;/src/setupTests.js</span>
+<span class="hljs-comment">// mock一些浏览器api</span>
+<span class="hljs-keyword">const</span> localStorageMock = {
+    <span class="hljs-attr">getItem</span>: jest.fn(),
+    <span class="hljs-attr">setItem</span>: jest.fn(),
+    <span class="hljs-attr">removeItem</span>: jest.fn(),
+    <span class="hljs-attr">clear</span>: jest.fn(),
+}
+<span class="hljs-built_in">global</span>.localStorage = localStorageMock
+</div></code></pre>
+<p>为jest创建一些属性。</p>
+<pre><code class="language-js"><div><span class="hljs-comment">// package.json</span>
+<span class="hljs-string">&quot;jest&quot;</span>: {
+    <span class="hljs-string">&quot;setupFilesAfterEnv&quot;</span>: [<span class="hljs-string">&quot;&lt;rootDir&gt;/src/setupTests.js&quot;</span>]
+}
+</div></code></pre>
+<h3 id="focusing-and-excluding-tests">Focusing and Excluding Tests</h3>
+<p>（聚集和排除测试）</p>
+<pre><code class="language-js"><div>it()
+xit()
+fit()
+</div></code></pre>
+<h3 id="coverage-reporting">Coverage Reporting</h3>
+<p>(覆盖报告)</p>
+<pre><code class="language-shell"><div>npm run test -- --coverage
+</div></code></pre>
+<blockquote>
+<p>测试时运行coverage会慢。所以建议分开执行它们。</p>
+</blockquote>
+<h4 id="configuration">configuration</h4>
+<p>cra已经内置了jest的配置文件。可以在package.json文件中设置下列key.来明确指定配置项。</p>
+<ul>
+<li>clearMocks</li>
+<li>collectCoverageFrom</li>
+<li>coveragePathIgnorePatterns</li>
+<li>coverageReporters</li>
+<li>coverageThreshold</li>
+<li>displayName</li>
+<li>extraGlobals</li>
+<li>globalSetup</li>
+<li>globalTeardown</li>
+<li>moduleNameMapper</li>
+<li>resetMocks</li>
+<li>resetModules</li>
+<li>restoreMocks</li>
+<li>snapshotSerializers</li>
+<li>testMatch</li>
+<li>transform</li>
+<li>transformIgnorePatterns</li>
+<li>watchPathIgnorePatterns</li>
+</ul>
+<pre><code class="language-json"><div><span class="hljs-comment">// demo</span>
+<span class="hljs-comment">// package.json</span>
+{
+  <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;your-package&quot;</span>,
+  <span class="hljs-attr">&quot;jest&quot;</span>: {
+    <span class="hljs-attr">&quot;collectCoverageFrom&quot;</span>: [
+      <span class="hljs-string">&quot;src/**/*.{js,jsx,ts,tsx}&quot;</span>,
+      <span class="hljs-string">&quot;!&lt;rootDir&gt;/node_modules/&quot;</span>,
+      <span class="hljs-string">&quot;!&lt;rootDir&gt;/path/to/dir/&quot;</span>
+    ],
+    <span class="hljs-attr">&quot;coverageThreshold&quot;</span>: {
+      <span class="hljs-attr">&quot;global&quot;</span>: {
+        <span class="hljs-attr">&quot;branches&quot;</span>: <span class="hljs-number">90</span>,
+        <span class="hljs-attr">&quot;functions&quot;</span>: <span class="hljs-number">90</span>,
+        <span class="hljs-attr">&quot;lines&quot;</span>: <span class="hljs-number">90</span>,
+        <span class="hljs-attr">&quot;statements&quot;</span>: <span class="hljs-number">90</span>
+      }
+    },
+    <span class="hljs-attr">&quot;coverageReporters&quot;</span>: [<span class="hljs-string">&quot;text&quot;</span>],
+    <span class="hljs-attr">&quot;snapshotSerializers&quot;</span>: [<span class="hljs-string">&quot;my-serializer-module&quot;</span>]
+  }
+}
+</div></code></pre>
+<h3 id="ci">CI</h3>
+<p>Continuous Integration</p>
+<h4 id="travis-ci">Travis CI</h4>
+<pre><code class="language-yml"><div><span class="hljs-comment"># .travis.yml</span>
+<span class="hljs-attr">language:</span> <span class="hljs-string">node_js</span>
+<span class="hljs-attr">node_js:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-number">8</span>
+<span class="hljs-attr">cache:</span>
+    <span class="hljs-attr">direcgtoreis:</span>
+        <span class="hljs-bullet">-</span> <span class="hljs-string">node_modules</span>
+<span class="hljs-attr">script:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">npm</span> <span class="hljs-string">run</span> <span class="hljs-string">build</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">npm</span> <span class="hljs-string">test</span>
+</div></code></pre>
+<h3 id="开始debug测试">开始debug测试</h3>
+<p>根据测试环境不同，可分为：</p>
+<ul>
+<li>debugging tests in chrome</li>
+<li>debugging tests in vscode</li>
+</ul>
+<h4 id="debugging-tests-in-chrome">debugging tests in chrome</h4>
+<pre><code class="language-json"><div><span class="hljs-comment">// package.json</span>
+<span class="hljs-string">&quot;scripts&quot;</span>: {
+    <span class="hljs-attr">&quot;test:debug&quot;</span>: <span class="hljs-string">&quot;react-scripts --inspect-brk test --runInBand --no-cache&quot;</span>
+}
+</div></code></pre>
+<p>运行<code>npm run test:debug</code>。在浏览器中打开<code>about:inspect</code></p>
+<h4 id="debugging-tests-in-vscode">debugging tests in vscode</h4>
+<pre><code class="language-json"><div><span class="hljs-comment">// launch.json</span>
+{
+    <span class="hljs-attr">&quot;version&quot;</span>: <span class="hljs-string">&quot;0.2.0&quot;</span>,
+    <span class="hljs-attr">&quot;configurations&quot;</span>: [
+        {
+            <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;Debug CRA Tests&quot;</span>,
+            <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;node&quot;</span>,
+            <span class="hljs-attr">&quot;request&quot;</span>: <span class="hljs-string">&quot;launch&quot;</span>,
+            <span class="hljs-attr">&quot;runtimeExcutable&quot;</span>: <span class="hljs-string">&quot;${workspaceRoot}/node_modules/.bin/react-scripts&quot;</span>,
+            <span class="hljs-attr">&quot;args&quot;</span>: [<span class="hljs-string">&quot;test&quot;</span>, <span class="hljs-string">&quot;--urnInBand&quot;</span>, <span class="hljs-string">&quot;--no-cache&quot;</span>, <span class="hljs-string">&quot;--watchAll=false&quot;</span>],
+            <span class="hljs-attr">&quot;cwd&quot;</span>: <span class="hljs-string">&quot;${workspaceRoot}&quot;</span>,
+            <span class="hljs-attr">&quot;protocal&quot;</span>: <span class="hljs-string">&quot;inspector&quot;</span>,
+            <span class="hljs-attr">&quot;console&quot;</span>: <span class="hljs-string">&quot;integratedTerminal&quot;</span>,
+            <span class="hljs-attr">&quot;internalConsoleOptions&quot;</span>: <span class="hljs-string">&quot;neverOpen&quot;</span>,
+            <span class="hljs-attr">&quot;env&quot;</span>: {<span class="hljs-attr">&quot;CI&quot;</span>: <span class="hljs-string">&quot;true&quot;</span>},
+            <span class="hljs-attr">&quot;disableOptimisticBPs&quot;</span>: <span class="hljs-literal">true</span>
+        }
+    ]
+}
+</div></code></pre>
+<h2 id="代理">代理</h2>
+<h3 id="在开发时请求代理api">在开发时请求代理api</h3>
+<pre><code class="language-json"><div><span class="hljs-comment">// package.json</span>
+<span class="hljs-string">&quot;proxy&quot;</span>: <span class="hljs-string">&quot;http://localhost:4000&quot;</span>
+</div></code></pre>
+<p>|开发时|代理全部api|
+|生产时|Accept头中无text/html的请求|</p>
+<p>支持：http / https / websocket</p>
+<p>cra会把请求的url代理到指定的url上。以当前例子为例。项目在运行时会请求<code>http://localhost:3000/xxx</code>,cra会把该请求代理到<code>http://localhost:4000/xxx</code>.<br>
+当改变代理时需要重启本地服务。</p>
+<p>更灵活的配置</p>
+<pre><code class="language-json"><div><span class="hljs-string">&quot;proxy&quot;</span>: {
+    <span class="hljs-attr">&quot;/path0&quot;</span>: { <span class="hljs-comment">// 匹配以 /path0 开头的请求</span>
+        <span class="hljs-attr">&quot;target&quot;</span>: <span class="hljs-string">&quot;$url&quot;</span>,
+        <span class="hljs-attr">&quot;ws&quot;</span>: <span class="hljs-literal">true</span>
+    },
+    <span class="hljs-attr">&quot;/path1&quot;</span>: {
+        <span class="hljs-attr">&quot;target&quot;</span>: <span class="hljs-string">&quot;$url&quot;</span>,
+        <span class="hljs-attr">&quot;ssl&quot;</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">&quot;pathRewrite&quot;</span>: {
+            <span class="hljs-attr">&quot;^/foo&quot;</span>: <span class="hljs-string">&quot;/foo/beta&quot;</span>
+        }
+    },
+    <span class="hljs-attr">&quot;/path2/[^/]*[.]html&quot;</span>: {
+        <span class="hljs-attr">&quot;target&quot;</span>: <span class="hljs-string">&quot;$url&quot;</span>,
+    },
+    <span class="hljs-attr">&quot;/path3/.*[.]html&quot;</span>: {
+        <span class="hljs-attr">&quot;target&quot;</span>: <span class="hljs-string">&quot;$url&quot;</span>,
+    }
+}
+</div></code></pre>
+<h3 id="配置手动代理">配置手动代理</h3>
+<p>当proxy字段配置不够灵活时使用<a href="https://www.npmjs.com/package/http-proxy-middleware">http-proxy-middleware</a></p>
+<pre><code class="language-shell"><div><span class="hljs-meta">$</span><span class="bash"> npm install http-proxy-middleware --save</span>
+<span class="hljs-meta">$</span><span class="bash"> <span class="hljs-comment"># or</span></span>
+<span class="hljs-meta">$</span><span class="bash"> yarn add http-proxy-middleware</span>
+</div></code></pre>
+<p>创建<code>&lt;root&gt;/src/setupProxy.js</code></p>
+<pre><code class="language-js"><div><span class="hljs-keyword">const</span> { createProxyMiddleware } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;http-proxy-middleware&#x27;</span>)
+<span class="hljs-built_in">module</span>.exports = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">app</span>) </span>{
+    app.use(
+        <span class="hljs-string">&#x27;/path0&#x27;</span>,
+        createProxyMiddleware({
+            <span class="hljs-attr">target</span>: <span class="hljs-string">&#x27;http://localhost:4000&#x27;</span>,<span class="hljs-attr">changeOrigin</span>: <span class="hljs-literal">true</span>
+        })
+    )
+}
+</div></code></pre>
+<h2 id="seo">seo</h2>
+<p>cra做seo时偏弱。</p>
+<h3 id="修改meta标签">修改<code>&lt;meta&gt;</code>标签</h3>
+<p>先在模板html中添加meta标签，并使用占位符设置其属性和属性值。再在服务端渲染时替换占位符。</p>
+<h3 id="服务端插入数据">服务端插入数据</h3>
+<pre><code class="language-html"><div><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+    <span class="hljs-built_in">window</span>.xxx = __PLACEHOLDER__
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</div></code></pre>
+<p>先定占位符再替换。</p>
+<h2 id="部署">部署</h2>
+<p>常用的部署平台</p>
+<ul>
+<li>static server。 使用<code>serve</code>包（可从npm安装），提供静态文件的本地服务。</li>
+<li>node(express/koa/egg/...)</li>
+<li><a href="">aws applify</a></li>
+<li><a href="">azure</a></li>
+<li><a href="">firebase</a></li>
+<li><a href="">github pages</a></li>
+<li><a href="">heroku</a></li>
+<li><a href="">netlify</a></li>
+<li><a href="">vercel</a></li>
+<li><a href="">render</a></li>
+<li><a href="">s3 &amp; cloudfront</a></li>
+<li><a href="">surge</a></li>
+</ul>
+<p>在客户端使用路径包。如<code>react-router</code>.<br>
+package.json<code>&quot;homepage&quot;: &quot;http://xxx.com/path&quot;</code></p>
+<h2 id="自定义模板">自定义模板</h2>
+<pre><code><code><div>cra-template-[template-name]
+|-- README.md               // 在npm的该包的首页内容
+|-- template.json               // 这是模板的配置文件，这是新功能。当前只支持 package 字段。该字段会与cra的默认字段合并，形成最终的 package.json 。
+|-- package.json
+|-- template               // 该目录会被提到到用户的就用目录下
+    |-- README.md               // 在npm的该包的首页内容
+    |-- gitignore               // 会被改名为 .gitignore
+    |-- public
+        |-- index.html
+    |-- src
+        |-- index.js
+        |-- (or index.tsx)
+</div></code></code></pre>
+<p>执行<code>npx create-react-app my-app --template file:../path/to/your/template/cra-template-[template-name]</code>可测试开发的模板项目。</p>
+<h2 id="预渲染为静态文件">预渲染为静态文件</h2>
+<ul>
+<li><a href="/framework/react/reactSnapshot.html">react-snapshot</a></li>
+<li><a href="/framework/react/reactSnap.html">react-snap</a></li>
+</ul>
+<h2 id="configuration-1">configuration</h2>
 <p>默认配置文件：<code>path/to/file.json</code>。</p>
 <table>
 <thead>
@@ -155,11 +799,10 @@ description</p>
 <h2 id="todo">todo</h2>
 <blockquote>
 <p>未来迭代计划。
-未来迭代计划。
 未来迭代计划。</p>
 </blockquote>
 
-        
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
     </body>
     </html>
