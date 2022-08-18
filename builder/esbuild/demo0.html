@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>esbuild</title>
+        <title>overview</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -79,8 +79,58 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="esbuild">esbuild</h1>
-<p>它处理ts -&gt; js的速度是tsc的20-30倍。</p>
+        <h1 id="overview">overview</h1>
+<p>概览概览概览概览。
+本示例展示了：</p>
+<ul>
+<li>如何下载（安装）</li>
+<li>如何打包</li>
+<li>如何使用打包结果</li>
+<li>与react结合使用</li>
+</ul>
+<h1 id="init-project">init project</h1>
+<pre><code class="language-shell"><div>mkdir projDir
+cd projDir
+npm init
+npm i reate react-dom
+npm i esbuild -D
+npm set-script build &quot;esbuild app.jsx --bundle --outfile=out.js&quot; # 需要npm v8+ 若设置不成功，则请手动编辑package.json中的脚本
+npm i serve -g
+</div></code></pre>
+<h2 id="创建文件">创建文件</h2>
+<p>创建<code>&lt;root&gt;/app.jsx</code></p>
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span>
+<span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react-dom&#x27;</span>
+
+ReactDOM.render(React.createElement(<span class="hljs-string">&#x27;span&#x27;</span>, {}, <span class="hljs-string">&#x27;string&#x27;</span>), <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">&#x27;#id&#x27;</span>))
+</div></code></pre>
+<p>创建<code>&lt;root&gt;/index.html</code></p>
+<pre><code class="language-html"><div>...
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;id&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/out.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+...
+</div></code></pre>
+<h2 id="dir-construct">dir construct</h2>
+<pre><code><code><div>&lt;root&gt;
+|-- package.json // 说明主要文件/目录的功能
+|-- node_modules
+|-- app.jsx
+|-- index.html
+|-- out.js
+</div></code></code></pre>
+<h2 id="启动服务">启动服务</h2>
+<pre><code class="language-shell"><div>npm run build
+serve
+</div></code></pre>
+<p>在浏览器中打开指定的url.若看到预期结果，则运行正确。</p>
+<h1 id="usage">usage</h1>
+<p>如何使用的。</p>
+<h1 id="后记">后记</h1>
+<p>本示例中需要注意的地方。
+为什么这么做示例。
+如何恢复本示例的运行结果。</p>
 
         
         
