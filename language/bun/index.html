@@ -82,7 +82,8 @@
     <body class="vscode-body vscode-light">
         <h1 id="bun">bun</h1>
 <blockquote>
-<p>打包、转化、安装、运行js/ts<br>
+<p>当前（2022.08）处于beta（测试）阶段
+打包、转化、安装、运行js/ts
 新的js runtime<br>
 集打包器、编译器、任务运行器、npm客户端于一体。<br>
 与node/Deno是竞品。
@@ -95,17 +96,19 @@ start fast
 </blockquote>
 <h2 id="feature">feature</h2>
 <ul>
+<li>Bun.Transpiler是bun的ts/jsx的编译器。</li>
+<li>支持esm / cjs （通常bun.js使用esm规范）</li>
 <li>已经内置很多web api.(如：fetch / websocket / readableStream)</li>
 <li>支持使用node_modules. bun内部使用esm.</li>
 <li>支持js/ts/jsx</li>
 <li>支持tsconfig.json中的paths/jsxImportSource/...</li>
-<li>Bun.Transpiler是bun的ts/jsx的编译器。</li>
 <li>Bun.write。使用系统中最快的方法执行写操作。</li>
 <li>自动从<code>.env</code>添加环境变量。</li>
 <li>内置了SQLite3  bun.sqlite</li>
 <li>实现了很多node api。  Node-API</li>
 <li>bun：ffi调用native code</li>
 <li>支持不断增长的Node.js核心模块列表，以及像Buffer和process这样的全局模块    node:fs node:path</li>
+<li>把.env加载到<code>process.env``Bun.env</code></li>
 </ul>
 <h2 id="install">install</h2>
 <pre><code class="language-shell"><div>curl https://bun.sh/install | bash
@@ -125,9 +128,6 @@ bun --help
 <pre><code class="language-shell"><div>bun run $xx     # 运行脚本
 bun install     # 安装依赖
 bun wiptest     # 内置了类jest的测试运行器
-bun run
-bun run
-bun run
 </div></code></pre>
 <h2 id="todo">todo</h2>
 <h3 id="title">title</h3>

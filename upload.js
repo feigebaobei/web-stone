@@ -242,14 +242,13 @@ c.on('ready', () => {
             log('cwd', 'htdocs', err)
             throw err
         }
-        // let p = 'builder/vite'
+        // let p = 'language/bun'
         let p = [
-            'builder/vite/index.html',
-            'package-manager/npm/subCommand.html',
-            'language/css/index.html',
-            // 'jsPackages/vueRouter4.html',
-            // 'jsPackages/vuex.html',
-            // 'index.html',
+            // 'ci/index.html',
+            // 'frontStore/dataTrasmit/index.html',
+            // 'framework/stateManager/index.html',
+            // 'framework/express/index.html',
+            // 'language/bun/index.html',
         ]
         // 检测指定目录是否存在
         // checkDir(p)

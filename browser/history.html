@@ -80,6 +80,235 @@
     </head>
     <body class="vscode-body vscode-light">
         <h1 id="history">history</h1>
+<blockquote>
+<p>浏览器的交换对象<br>
+很多spa应用都是其他它做的路由<br>
+记录当前页面的tab、frame的浏览器记录</p>
+</blockquote>
+<h2 id="feature">feature</h2>
+<ul>
+<li>不继承自任务对象</li>
+<li>允许操作浏览器的操作过的历史会话</li>
+<li>feature2</li>
+</ul>
+<h2 id="usage">usage</h2>
+<pre><code class="language-js"><div></div></code></pre>
+<h2 id="api">api</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>key</th>
+<th>说明</th>
+<th>默认值</th>
+<th>枚举值</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>属性</td>
+<td>description</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>length</td>
+<td>数量。只读。从1开始</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>scrollRestoration</td>
+<td>指定导航的默认滚动恢复行为。</td>
+<td></td>
+<td>auto(滚动) / manual(不滚动)</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>state</td>
+<td>返回history栈顶的状态。执行pushState()/replaceState()前该值为null</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>方法</td>
+<td>description</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>back()</td>
+<td>异步方法，返回上一个栈。同go(-1)。与点击浏览器的回退按钮效果相同。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>forward()</td>
+<td>异步方法，进入下一个栈。同go(1)。与点击浏览器的前进按钮效果相同。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>go([delta])</td>
+<td>异步方法。加载指定的会话history</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>pushState(state, unused[, url])</td>
+<td>为history栈添加一个状态</td>
+<td>state: 是js对象。&lt;2mb. unused: 是一个不使用的参数。因历史原因留下来的。一般设置为'' url: 新历史记录条目的 URL 由此参数指定。 请注意，<strong>浏览器不会在调用pushState() 之后尝试加载此 URL</strong>，但可能会稍后尝试加载 URL，例如在用户重新启动浏览器之后。 新的 URL 不必是绝对的。 如果是相对的，则相对于当前 URL 进行解析。 <strong>新网址必须与当前网址相同 origin</strong>； 否则，pushState()将引发异常。 如果未指定此参数，则将其设置为文档的当前 URL。</td>
+<td><strong>不会触发popstate事件</strong></td>
+<td>会改变浏览器地址栏中的url。页面不会加载。</td>
+</tr>
+<tr>
+<td></td>
+<td>replaceState(state, unused[, url])</td>
+<td>替换当前history栈顶的状态。参数与pushState</td>
+<td><strong>不会触发popstate事件</strong></td>
+<td></td>
+<td>会改变浏览器地址栏中的url。页面不会加载。</td>
+</tr>
+<tr>
+<td></td>
+<td><em>没有回退状态的方法</em></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>history.pushState() / history.replaceState 不会触发 popstate 事件</li>
+<li>history.back() / history/forward() 等方法会触发 popstate事件</li>
+</ul>
+<h2 id="popstate-event">popstate event</h2>
+<pre><code class="language-js"><div>addEventListener(<span class="hljs-string">&#x27;popstate&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {...})
+onpopstate = <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {...}
+</div></code></pre>
+<p>PopStateEvent继承自Event
+若使用history.pushState()/history.replaceState()，则popstate事件对象event会包括state属性。属性值是那2个方法的的state参数。</p>
+<ul>
+<li>chorme v34+ / safari 在页面加载时触发popstate事件。</li>
+<li>firefox在页面加载时不触发popstate事件。</li>
+</ul>
+<h3 id="方法体">方法体</h3>
+<p>为popstate事件的文体中
+window.location已经反映了状态变化。但是document仍处理变化中。所以需要使用setTimeout方法在document变化完后再执行逻辑。</p>
+<pre><code class="language-js"><div>windon.addEventListener(<span class="hljs-string">&#x27;popstate&#x27;</span>, <span class="hljs-function">()=&gt;</span> {<span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {...}, <span class="hljs-number">0</span>)})
+</div></code></pre>
+<h3 id="触发时机">触发时机</h3>
+<ol>
+<li>当页面加载时不会有新的历史条目。</li>
+<li>当未执行<code>pushState()</code> / <code>replaceState()</code>时当前历史条目未被设置。</li>
+<li>如果浏览器在离开当前条目之前有希望存储在当前条目中的状态信息，那么它就会这样做。该条目现在被称为具有“持久的用户状态”。浏览器可能添加到历史会话条目的信息可能包括，例如，文档的滚动位置、表单输入的值和其他此类数据。</li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+</ol>
+<h2 id="todo">todo</h2>
+<h3 id="pushstate--windowlocation">pushState &amp; window.location</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>pushState</th>
+<th>window.location</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>新旧url必须同源</td>
+<td>无同源限制</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>非强制修改url</td>
+<td>当改变为不同值时创建一条新的历史记录</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>可以在新的历史记录中关联任务数据</td>
+<td>只可以将所需数据写入锚的字符串中</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>不会触发hashchange事件</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="historystate是做什么的">history.state是做什么的？</h3>
+<p>pushState()/replaceState()添加state。在页面前进、后退时触发popstate事件。该事件的state属性可得到那2个方法设置的数据(state)</p>
+<h3 id="浏览器中有history对象html5中也有history">浏览器中有history对象。html5中也有history</h3>
+<h3 id="html5中也有history">html5中也有history</h3>
+<h4 id="html4">html4</h4>
+<p>history.back() //回退
+history.forward() //前进
+history.go(n) //前进或者后退n步 正数表示前进 负数表示倒退
+history.length //历史记录条数</p>
+<h4 id="html5">html5</h4>
+<p>pushState(data,title,url) //追加一条历史记录
+data: 用于存储自定义数据,通常设为null
+title: 网页标题,基本上没有被支持,一般设为空
+url: 以当前域为基础增加一条历史记录,不可跨域设置
+replaceState(...)
+history.state</p>
+<h3 id="go--back">go() &amp; back()</h3>
+<p>go(-1) 后退 + 刷新      页面表单内容丢失
+back() 后退             页面表单内容保留</p>
+<h3 id="刷新页面的方法">刷新页面的方法</h3>
+<pre><code class="language-js"><div>history.go(<span class="hljs-number">0</span>)
+location.reload()
+location = location
+location.assign(location)
+<span class="hljs-built_in">document</span>.execCommand(<span class="hljs-string">&#x27;Refresh&#x27;</span>)
+<span class="hljs-built_in">window</span>.navigate(location)
+location.replace(location)
+<span class="hljs-built_in">document</span>.URL = location.href
+</div></code></pre>
+<h3 id="title">title</h3>
+<h3 id="title-1">title</h3>
+<h3 id="title-2">title</h3>
+<h3 id="title-3">title</h3>
 
         
         
