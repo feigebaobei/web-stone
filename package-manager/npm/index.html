@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>&lbrack;&#x5b50;&#x547d;&#x4ee4;&rbrack;&lpar;&sol;package-manager&sol;npm&sol;subCommand&period;html&rpar;</title>
+        <title>&#x5168;&#x5c40;&#x5b89;&#x88c5;&#x548c;&#x5c40;&#x90e8;&#x5b89;&#x88c5;&#x7684;&#x533a;&#x522b;</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -80,67 +80,33 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <pre><code>npm install (with no args, in package dir)
-npm install [&lt;@scope&gt;/]&lt;name&gt;
-npm install [&lt;@scope&gt;/]&lt;name&gt;@&lt;tag&gt;
-npm install [&lt;@scope&gt;/]&lt;name&gt;@&lt;latest&gt;
-npm install [&lt;@scope&gt;/]&lt;name&gt;@&lt;version&gt;
-npm install [&lt;@scope&gt;/]&lt;name&gt;@&lt;version range&gt;
-npm install &lt;tarball file&gt;
-npm install &lt;tarball url&gt;
-npm install &lt;folder&gt;
-
-npm uninstall xxx
-npm uninstall -g xxx
-
-npm i
+        <h2 id="全局安装和局部安装的区别">全局安装和局部安装的区别</h2>
+<h3 id="全局安装">全局安装</h3>
+<p>在任何地方都可以调用。<br>
+在安装后可以在“C:/user/(pc's name)/AppData/Roaming/npm”里面有<code>*.cmd</code></p>
+<h3 id="局部安装">局部安装</h3>
+<p>只在本项目中可以使用。<br>
+安装在<code>./node_modules</code><br>
+使用时需要引入</p>
+<pre><code>var webpack = require('webpack')
 </code></pre>
-<table>
-<thead>
-<tr>
-<th>缩写</th>
-<th>全写</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>-S</td>
-<td>--save</td>
-<td>安装包信息将加入dependencies(生产阶段的依赖)（默认）</td>
-</tr>
-<tr>
-<td>-D</td>
-<td>--save-dev</td>
-<td>安装包信息将加入到devdependencies(开发阶段的依赖)</td>
-</tr>
-<tr>
-<td>-O</td>
-<td>--save-optional</td>
-<td>optionalDependencies(可选阶段的依赖)</td>
-</tr>
-<tr>
-<td>-E</td>
-<td>--save-exact</td>
-<td>精确安装指定模块版本</td>
-</tr>
-<tr>
-<td></td>
-<td>--dry-run</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>local</td>
-<td>本地安装</td>
-</tr>
-<tr>
-<td>-g</td>
-<td>--global</td>
-<td>全局安装</td>
-</tr>
-</tbody>
-</table>
+<p>何时使用全局安装、局部安装？</p>
+<p>首先需要理解全局安装在c盘里的，局部安装在本项目的./node_modules里。<br>
+引用时需要使用相对链接的方式引用（../）。<br>
+各个项目使用各个依赖版本可能与别的项目的版本不一样。<br>
+使用的工具适合使用全局安装。<br>
+项目的依赖适合使用本地安装。</p>
+<h3 id="安装过程">安装过程</h3>
+<ol>
+<li>执行<code>npm install</code>命令。</li>
+<li>npm向registry查询模块压缩包。</li>
+<li>下载压缩包，存放在~/.npm目录</li>
+<li>解压压缩包到当前目录的node_modules目录。</li>
+</ol>
+<p>本地会有2份数据，分别在<code>~/.npm</code>，<code>node_modules</code>里。因此可以实现缓存机制。</p>
+<pre><code><code><div>npm cache clean
+npm cache clean --force
+</div></code></code></pre>
 <h2 id="子命令"><a href="/package-manager/npm/subCommand.html">子命令</a></h2>
 <table>
 <thead>
@@ -247,43 +213,87 @@ npm i
 <td><code>npm init -y</code>会使用默认值</td>
 </tr>
 <tr>
-<td>setScript</td>
+<td>set-script</td>
 <td>设置脚本</td>
-<td><code>npm setScript build 'node ./index.js'</code></td>
+<td><code>npm set-script build 'node ./index.js'</code></td>
 </tr>
 </tbody>
 </table>
-<h2 id="全局安装和局部安装的区别">全局安装和局部安装的区别</h2>
-<h3 id="全局安装">全局安装</h3>
-<p>在任何地方都可以调用。<br>
-在安装后可以在“C:/user/(pc's name)/AppData/Roaming/npm”里面有<code>*.cmd</code></p>
-<h3 id="局部安装">局部安装</h3>
-<p>只在本项目中可以使用。<br>
-安装在<code>./node_modules</code><br>
-使用时需要引入</p>
-<pre><code>var webpack = require('webpack')
+<h3 id="intall命令">intall命令</h3>
+<pre><code>npm install (with no args, in package dir)
+npm install [&lt;@scope&gt;/]&lt;name&gt;
+npm install [&lt;@scope&gt;/]&lt;name&gt;@&lt;tag&gt;
+npm install [&lt;@scope&gt;/]&lt;name&gt;@&lt;latest&gt;
+npm install [&lt;@scope&gt;/]&lt;name&gt;@&lt;version&gt;
+npm install [&lt;@scope&gt;/]&lt;name&gt;@&lt;version range&gt;
+npm install &lt;tarball file&gt;
+npm install &lt;tarball url&gt;
+npm install &lt;folder&gt;
+
+npm uninstall xxx
+npm uninstall -g xxx
+
+npm i
 </code></pre>
-<p>何时使用全局安装、局部安装？</p>
-<p>首先需要理解全局安装在c盘里的，局部安装在本项目的./node_modules里。<br>
-引用时需要使用相对链接的方式引用（../）。<br>
-各个项目使用各个依赖版本可能与别的项目的版本不一样。<br>
-使用的工具适合使用全局安装。<br>
-项目的依赖适合使用本地安装。</p>
-<h3 id="安装过程">安装过程</h3>
-<ol>
-<li>执行<code>npm install</code>命令。</li>
-<li>npm向registry查询模块压缩包。</li>
-<li>下载压缩包，存放在~/.npm目录</li>
-<li>解压压缩包到当前目录的node_modules目录。</li>
-</ol>
-<p>本地会有2份数据，分别在<code>~/.npm</code>，<code>node_modules</code>里。因此可以实现缓存机制。</p>
-<pre><code><code><div>npm cache clean
-npm cache clean --force
-</div></code></code></pre>
+<table>
+<thead>
+<tr>
+<th>缩写</th>
+<th>全写</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-S</td>
+<td>--save</td>
+<td>安装包信息将加入dependencies(生产阶段的依赖)（默认）</td>
+</tr>
+<tr>
+<td>-D</td>
+<td>--save-dev</td>
+<td>安装包信息将加入到devdependencies(开发阶段的依赖)</td>
+</tr>
+<tr>
+<td>-O</td>
+<td>--save-optional</td>
+<td>optionalDependencies(可选阶段的依赖)</td>
+</tr>
+<tr>
+<td>-E</td>
+<td>--save-exact</td>
+<td>精确安装指定模块版本</td>
+</tr>
+<tr>
+<td></td>
+<td>--dry-run</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>local</td>
+<td>本地安装</td>
+</tr>
+<tr>
+<td>-g</td>
+<td>--global</td>
+<td>全局安装</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>他项目里没有引入你所需的依赖包，那么你插件所依赖的包会被安装</li>
+<li>他项目里引入了你所需的依赖包：
+<ul>
+<li>版本号一致，那么你所需的依赖包不会被安装，插件将共用项目里的依赖包</li>
+<li>版本号不一致，那么你所需的依赖包就会被安装，项目里就存在了两套不同版本的依赖</li>
+</ul>
+</li>
+</ul>
 <h2 id="安装淘宝镜像">安装淘宝镜像</h2>
 <pre><code>npm i -g cnpm --regitstry=https://registry.npm.taobao.org
 </code></pre>
-<p>使用<a href="">nrm</a>更方便管理注册地址。</p>
+<p>使用<a href="/jsPackages/nrm.html">nrm</a>更方便管理注册地址。</p>
 <h2 id="创建本地链接常用于开发调试">创建本地链接（常用于开发、调试）</h2>
 <pre><code><code><div>    cd &lt;pathOfPackage&gt;
     npm link
@@ -293,6 +303,11 @@ npm cache clean --force
 </div></code></code></pre>
 <p>require方法不能把全局安装的文件引入。若使用<code>npm link packagename</code>后就可以引入全局文件。<br>
 但是<code>npm link xxx</code>不支持windows.  <code>-_-</code></p>
+<pre><code class="language-shell"><div>npm link                  # 创建软链接
+npm unlink                # 取消创建软链接
+npm link &lt;package-name&gt;   # 链接依赖项
+npm unlink &lt;package-name&gt; # 取消链接依赖项
+</div></code></pre>
 <h2 id="packagejson说明">package.json说明</h2>
 <p>在运行时引入模块，引入的是package.json中&quot;main&quot;指向的文件。
 在webpack打包或者webpack-dev-server的时候，引入的是package.json中&quot;module&quot;指向的文件。</p>
@@ -603,6 +618,20 @@ npm cache clean --force
 <td></td>
 <td></td>
 </tr>
+<tr>
+<td>type</td>
+<td>指定规范</td>
+<td>&quot;module&quot; / &quot;commonjs&quot;</td>
+<td>默认为&quot;commonjs&quot;</td>
+<td></td>
+</tr>
+<tr>
+<td>exports</td>
+<td>可以根据不同的引用方式或者模块化类型，来指定npm包引用不同的入口文件。</td>
+<td>如<code>&quot;exports&quot;: {&quot;import&quot;: &quot;./main-module.js&quot;,&quot;require&quot;: &quot;./main-require.cjs&quot;</code>}import为esm的导入方式，require为cjs的导入方式</td>
+<td>优先级高于brower/module/main.比file好用。</td>
+<td></td>
+</tr>
 </tbody>
 </table>
 <h3 id="注册cli的逻辑">注册cli的逻辑</h3>
@@ -616,18 +645,30 @@ npm cache clean --force
 <h3 id="发布作用域包">发布作用域包</h3>
 <h3 id="关联作用域包">关联作用域包</h3>
 <h2 id="npm-包使用范围">npm 包使用范围</h2>
-<p>只允许在客户端使用的，
-只允许造服务端使用的，
-浏览器/服务端都可以使用。
-如果我们需要开发一个 npm 包同时兼容支持 web端 和 server 端，需要在不同环境下加载npm包不同的入口文件，显然一个 main 字段已经不能够满足我们的需求，这就衍生出来了 module 与 browser 字段。</p>
+<ul>
+<li>
+<p>只允许在客户端使用的，</p>
+</li>
+<li>
+<p>只允许在服务端使用的，</p>
+</li>
+<li>
+<p>浏览器/服务端都可以使用。</p>
+</li>
+<li>
+<p>main：npm包的入口文件。兼容browser / node。</p>
+<ul>
+<li>main字段是npm包主要入口文件<code>require(xxx)</code>时就是从main字段取值的。</li>
+</ul>
+</li>
+<li>
+<p>module: npm包的esm规范的入口文件。兼容browser / node。module的优先级大于main.</p>
+</li>
+<li>
+<p>browser：npm包的browser环境下的入口文件。</p>
+</li>
+</ul>
 <p><code>*.mjs</code>文件是在 node 环境下原生执行 ESM 规范的脚本文件。当执行<code>require('index') / import('index')</code>时，优先加载<code>index.mjs</code>，即优先级：<code>*.mjs &gt; *.js</code></p>
-<p>main：npm包的入口文件。兼容browser / node。
-main字段是npm包主要入口文件<code>require(xxx)</code>时就是从main字段取值的。<br>
-module: npm包的esm规范的入口文件。兼容browser / node。module的优先级大于main.<br>
-browser：npm包的browser环境下的入口文件。</p>
-<p>只npm包只允许在web端（浏览器中）运行，则使用browser。<br>
-只npm包只允许在server端（node中）运行，则使用main.<br>
-使用npm包可以在web、server端都可运行，则使用browser+main.</p>
 <h2 id="脚本">脚本</h2>
 <p><code>npm run xxx</code> // 执行脚本<br>
 <code>npm xxx</code> // 执行脚本<br>
@@ -661,54 +702,6 @@ npm脚本支持<code>pre</code>/<code>post</code>2种钩子。每个脚本都可
 <h3 id="变量">变量</h3>
 <p>通过<code>npm_package_</code>前缀可得到<code>package.json</code>中的字段。 如：<code>process.env.npm_package_version</code> / <code>process.env.npm_package_script_install</code>
 通过<code>npm_config</code>前缀可得到<code>package.json</code>中<code>config</code>里的变量。如：<code>npm_config_tag</code>。<code>npm config get xxx</code></p>
-<h2 id="npx">npx</h2>
-<p>执行npm包的二进行文件</p>
-<pre><code><code><div>npx [options] &lt;command&gt;[@version] [command-arg]...
-npx [options] [-p|--package &lt;pkg&gt;]... &lt;command&gt; [command-arg]...
-npx [options] -c '&lt;command-string&gt;'
-npx --shell-auto-fallback [shell]
-</div></code></code></pre>
-<h3 id="npm--npx">npm &amp; npx</h3>
-<p>npm是包管理命令行工具。可以下载、删除……依赖包。若该包可执行，则在本项目<code>./node_modules/.bin</code>中创建软链接，或在全局<code>bin/</code>中创建软链接。
-使用已经安装的依赖包：</p>
-<ol>
-<li>定义脚本去执行二进制文件（也被叫做可执行文件）。</li>
-</ol>
-<pre><code class="language-js"><div>{
-    ...
-    <span class="hljs-string">&quot;script&quot;</span>: {
-        <span class="hljs-string">&quot;package-name&quot;</span>: <span class="hljs-string">&quot;package-name&quot;</span>
-    }
-}
-</div></code></pre>
-<ol start="2">
-<li>执行脚本<br>
-<code>npm run package-name</code><br>
-npx是包执行器。在npm v5.2.0时内置于npm中。可直接执行可执行文件，不必先安装。
-demo for npx:</li>
-</ol>
-<pre><code class="language-shell"><div><span class="hljs-meta">#</span><span class="bash"> 1</span>
-npx cowsay wow
-<span class="hljs-meta">#</span><span class="bash"> 2</span>
-npx cowsay[@version] hi
-</div></code></pre>
-<p>运行过程：</p>
-<ol>
-<li>下载指定的包。</li>
-<li>执行该包的可执行文件。</li>
-<li>删除该包及其依赖。</li>
-</ol>
-<p>若想使用已经下载的包，又不想使用npx，则可以运行<code>./node_modules/.bin/&lt;command&gt; &lt;args...&gt;</code></p>
-<h2 id="install">install</h2>
-<ul>
-<li>他项目里没有引入你所需的依赖包，那么你插件所依赖的包会被安装</li>
-<li>他项目里引入了你所需的依赖包：
-<ul>
-<li>版本号一致，那么你所需的依赖包不会被安装，插件将共用项目里的依赖包</li>
-<li>版本号不一致，那么你所需的依赖包就会被安装，项目里就存在了两套不同版本的依赖</li>
-</ul>
-</li>
-</ul>
 
         <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         

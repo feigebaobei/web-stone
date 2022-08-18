@@ -1,5 +1,6 @@
 # npx
 运行本地、远端的包
+执行npm包的二进行文件
 
 ```
 npm exec -- <pkg>[@<version>] [args...]
@@ -24,6 +25,39 @@ alias: npm x, npx
 - 若package.json中有bin只有一个，则调用该字段。  
 - 若package.json中bin字段有多个，其中有一个被匹配，则执行该字段的匹配值。  
 - 若无匹配（无bin、无匹配项），则报错。  
+
+
+## npm & npx
+### npm 
+npm是包管理命令行工具。可以下载、删除……依赖包。若该包可执行，则在本项目`./node_modules/.bin`中创建软链接，或在全局`bin/`中创建软链接。
+使用已经安装的依赖包：
+1. 定义脚本去执行二进制文件（也被叫做可执行文件）。  
+```js
+{
+    ...
+    "script": {
+        "package-name": "package-cli"
+    }
+}
+```
+2. 执行脚本  
+`npm run package-name`  
+
+### npx
+npx是包执行器。在npm v5.2.0时内置于npm中。可直接执行可执行文件，不必先安装。
+demo for npx:
+```shell
+# 1
+npx cowsay wow
+# 2
+npx cowsay[@version] hi
+```
+运行过程：  
+1. 下载指定的包。  
+2. 执行该包的可执行文件。  
+3. 删除该包及其依赖。  
+
+若想使用已经下载的包，又不想使用npx，则可以运行`./node_modules/.bin/<command> <args...>`  
 
 # init
 ## 别名 create / innit

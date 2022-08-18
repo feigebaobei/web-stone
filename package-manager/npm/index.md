@@ -1,52 +1,3 @@
-    npm install (with no args, in package dir)
-    npm install [<@scope>/]<name>
-    npm install [<@scope>/]<name>@<tag>
-    npm install [<@scope>/]<name>@<latest>
-    npm install [<@scope>/]<name>@<version>
-    npm install [<@scope>/]<name>@<version range>
-    npm install <tarball file>
-    npm install <tarball url>
-    npm install <folder>
-
-    npm uninstall xxx
-    npm uninstall -g xxx
-
-    npm i
-
-|缩写|全写||
-|-|-|-|
-|-S|--save|安装包信息将加入dependencies(生产阶段的依赖)（默认）|
-|-D|--save-dev|安装包信息将加入到devdependencies(开发阶段的依赖)|
-|-O|--save-optional|optionalDependencies(可选阶段的依赖)|
-|-E|--save-exact|精确安装指定模块版本|
-||--dry-run||
-||local|本地安装|
-|-g|--global|全局安装|  
-## [子命令](/package-manager/npm/subCommand.html)
-
-||||
-|-|-|-|
-|uninstall|卸载模块||
-|update|更新模块|按照package.js里标注的版本号进行更新|
-|outdated|检查模块是否已经过时||
-|ls|查看安装的模块||
-|help|查看详细信息||
-|root|查看安装路径||
-|config|设置配置|npm config set proxy=http://xxx.com:8080(设置代理)npm config set registry="http://r.cnpmjs.org"(设置镜像)npm install -g cnpm --registry=https://registry.npm.taobao.org(设置淘宝镜像)|
-|cache|管理模块的缓存||
-|start|启动模块||
-|stop|||
-|restart|||
-|test|||
-|version|||
-|view|查看模块的注册信息||
-|adduer|用户登录||
-|publish|发布模块||
-|access|在发布的包上设置访问级别||
-|rebuild|使用新版本的node时，重新编译所有c++插件。它会运行在与`npm build`相匹配的文件夹下。||
-|init|把初始化信息写入`package.json`|`npm init -y`会使用默认值|
-|setScript|设置脚本|`npm setScript build 'node ./index.js'`|
-
 ## 全局安装和局部安装的区别  
 
 ### 全局安装
@@ -83,11 +34,67 @@ npm cache clean
 npm cache clean --force
 ```
 
+## [子命令](/package-manager/npm/subCommand.html)
+
+||||
+|-|-|-|
+|uninstall|卸载模块||
+|update|更新模块|按照package.js里标注的版本号进行更新|
+|outdated|检查模块是否已经过时||
+|ls|查看安装的模块||
+|help|查看详细信息||
+|root|查看安装路径||
+|config|设置配置|npm config set proxy=http://xxx.com:8080(设置代理)npm config set registry="http://r.cnpmjs.org"(设置镜像)npm install -g cnpm --registry=https://registry.npm.taobao.org(设置淘宝镜像)|
+|cache|管理模块的缓存||
+|start|启动模块||
+|stop|||
+|restart|||
+|test|||
+|version|||
+|view|查看模块的注册信息||
+|adduer|用户登录||
+|publish|发布模块||
+|access|在发布的包上设置访问级别||
+|rebuild|使用新版本的node时，重新编译所有c++插件。它会运行在与`npm build`相匹配的文件夹下。||
+|init|把初始化信息写入`package.json`|`npm init -y`会使用默认值|
+|set-script|设置脚本|`npm set-script build 'node ./index.js'`|
+
+### intall命令
+    npm install (with no args, in package dir)
+    npm install [<@scope>/]<name>
+    npm install [<@scope>/]<name>@<tag>
+    npm install [<@scope>/]<name>@<latest>
+    npm install [<@scope>/]<name>@<version>
+    npm install [<@scope>/]<name>@<version range>
+    npm install <tarball file>
+    npm install <tarball url>
+    npm install <folder>
+
+    npm uninstall xxx
+    npm uninstall -g xxx
+
+    npm i
+
+|缩写|全写||
+|-|-|-|
+|-S|--save|安装包信息将加入dependencies(生产阶段的依赖)（默认）|
+|-D|--save-dev|安装包信息将加入到devdependencies(开发阶段的依赖)|
+|-O|--save-optional|optionalDependencies(可选阶段的依赖)|
+|-E|--save-exact|精确安装指定模块版本|
+||--dry-run||
+||local|本地安装|
+|-g|--global|全局安装|  
+
+- 他项目里没有引入你所需的依赖包，那么你插件所依赖的包会被安装
+- 他项目里引入了你所需的依赖包：
+  - 版本号一致，那么你所需的依赖包不会被安装，插件将共用项目里的依赖包
+  - 版本号不一致，那么你所需的依赖包就会被安装，项目里就存在了两套不同版本的依赖
+
 ## 安装淘宝镜像  
 
     npm i -g cnpm --regitstry=https://registry.npm.taobao.org
 
-使用[nrm]()更方便管理注册地址。
+使用[nrm](/jsPackages/nrm.html)更方便管理注册地址。
 
 ## 创建本地链接（常用于开发、调试）
 ```
@@ -161,6 +168,8 @@ npm unlink <package-name> # 取消链接依赖项
 |engineStrict|不会||||
 |preferGlobal|不会||||
 |types|指定类型文件的目录||||
+|type|指定规范|"module" / "commonjs"|默认为"commonjs"||
+|exports|可以根据不同的引用方式或者模块化类型，来指定npm包引用不同的入口文件。|如`"exports": {"import": "./main-module.js","require": "./main-require.cjs"`}import为esm的导入方式，require为cjs的导入方式|优先级高于brower/module/main.比file好用。||
 
 ### 注册cli的逻辑
 在package.json中定义`bin`字段。npm会根据该字段创建一个软链接。若使用全局安装，则安装在`/home/turbo/.nvm/versions/node/v14.16.1/bin/`。若使用局部安装，则安装在`./node_modules/.bin/`
@@ -177,21 +186,16 @@ npm unlink <package-name> # 取消链接依赖项
 
 ## npm 包使用范围
 
-只允许在客户端使用的，
-只允许造服务端使用的，
-浏览器/服务端都可以使用。
-如果我们需要开发一个 npm 包同时兼容支持 web端 和 server 端，需要在不同环境下加载npm包不同的入口文件，显然一个 main 字段已经不能够满足我们的需求，这就衍生出来了 module 与 browser 字段。
+- 只允许在客户端使用的，
+- 只允许在服务端使用的，
+- 浏览器/服务端都可以使用。
+
+- main：npm包的入口文件。兼容browser / node。
+  - main字段是npm包主要入口文件`require(xxx)`时就是从main字段取值的。  
+- module: npm包的esm规范的入口文件。兼容browser / node。module的优先级大于main.  
+- browser：npm包的browser环境下的入口文件。  
 
 `*.mjs`文件是在 node 环境下原生执行 ESM 规范的脚本文件。当执行`require('index') / import('index')`时，优先加载`index.mjs`，即优先级：`*.mjs > *.js`
-
-main：npm包的入口文件。兼容browser / node。
-  main字段是npm包主要入口文件`require(xxx)`时就是从main字段取值的。  
-module: npm包的esm规范的入口文件。兼容browser / node。module的优先级大于main.  
-browser：npm包的browser环境下的入口文件。  
-
-只npm包只允许在web端（浏览器中）运行，则使用browser。  
-只npm包只允许在server端（node中）运行，则使用main.  
-使用npm包可以在web、server端都可运行，则使用browser+main.  
 
 ## 脚本
 `npm run xxx` // 执行脚本  
@@ -223,47 +227,3 @@ npm脚本支持`pre`/`post`2种钩子。每个脚本都可以如此处理。如�
 ### 变量
 通过`npm_package_`前缀可得到`package.json`中的字段。 如：`process.env.npm_package_version` / `process.env.npm_package_script_install`
 通过`npm_config`前缀可得到`package.json`中`config`里的变量。如：`npm_config_tag`。`npm config get xxx`
-
-## npx
-执行npm包的二进行文件
-```
-npx [options] <command>[@version] [command-arg]...
-npx [options] [-p|--package <pkg>]... <command> [command-arg]...
-npx [options] -c '<command-string>'
-npx --shell-auto-fallback [shell]
-```
-
-### npm & npx
-npm是包管理命令行工具。可以下载、删除……依赖包。若该包可执行，则在本项目`./node_modules/.bin`中创建软链接，或在全局`bin/`中创建软链接。
-使用已经安装的依赖包：
-1. 定义脚本去执行二进制文件（也被叫做可执行文件）。  
-```js
-{
-    ...
-    "script": {
-        "package-name": "package-name"
-    }
-}
-```
-2. 执行脚本  
-`npm run package-name`  
-npx是包执行器。在npm v5.2.0时内置于npm中。可直接执行可执行文件，不必先安装。
-demo for npx:
-```shell
-# 1
-npx cowsay wow
-# 2
-npx cowsay[@version] hi
-```
-运行过程：  
-1. 下载指定的包。  
-2. 执行该包的可执行文件。  
-3. 删除该包及其依赖。  
-
-若想使用已经下载的包，又不想使用npx，则可以运行`./node_modules/.bin/<command> <args...>`  
-
-## install
-- 他项目里没有引入你所需的依赖包，那么你插件所依赖的包会被安装
-- 他项目里引入了你所需的依赖包：
-  - 版本号一致，那么你所需的依赖包不会被安装，插件将共用项目里的依赖包
-  - 版本号不一致，那么你所需的依赖包就会被安装，项目里就存在了两套不同版本的依赖

@@ -18,7 +18,7 @@
 
 ## usage
 ```js
-ReactDOM.render(React.createElement('span', {}, 'string'), $('#id'))
+ReactDOM.render(React.createElement('span', {}, 'string'), document.querySelector('#id'))
 =>
 <div id="id">
     <span>string</span>
