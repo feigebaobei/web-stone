@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>overview</title>
+        <title>&DiacriticalGrave;esbuild&DiacriticalGrave;</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -79,68 +79,107 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="overview">overview</h1>
-<p>概览概览概览概览。
-本示例展示了：</p>
+        <h1 id="esbuild"><code>esbuild</code></h1>
+<h2 id="overview">overview</h2>
+<blockquote>
+<p>我们目前的web构建工具的速度比他们可以做到的慢10-100倍。esbuild捆绑包项目的主要目标是带来构建工具性能的新时代，并在此过程中创建一个易于使用的现代捆绑包。</p>
+<p>它处理ts -&gt; js的速度是tsc的20-30倍
+当使用api方式时，esbuild的可执行文件在child process中运行。
+plugin只支持异步api</p>
+</blockquote>
+<h3 id="feature">feature</h3>
 <ul>
-<li>如何下载（安装）</li>
-<li>如何打包</li>
-<li>如何使用打包结果</li>
-<li>与react结合使用</li>
+<li>使用缓存也很快</li>
+<li>支持esm/cjs</li>
+<li>esm 可 tree shaking</li>
+<li>支持js / go 使用 api</li>
+<li>支持ts/jsx</li>
+<li>source map</li>
+<li>minification</li>
+<li>可插件</li>
+<li>支持cli</li>
+<li>支持编写js代码</li>
+<li></li>
 </ul>
-<h1 id="init-project">init project</h1>
-<pre><code class="language-shell"><div>mkdir projDir
-cd projDir
-npm init
-npm i reate react-dom
-npm i esbuild -D
-npm set-script build &quot;esbuild app.jsx --bundle --outfile=out.js&quot; # 需要npm v8+ 若设置不成功，则请手动编辑package.json中的脚本
-npm set-script jsb &quot;node ./jsb.js&quot;
-npm i serve -g
+<h2 id="install">install</h2>
+<pre><code class="language-shell"><div>npm i esbuild
+npm i esbuild-wasm
 </div></code></pre>
-<h2 id="创建文件">创建文件</h2>
-<p>创建<code>&lt;root&gt;/app.jsx</code></p>
-<pre><code class="language-js"><div><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span>
-<span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react-dom&#x27;</span>
-
-ReactDOM.render(React.createElement(<span class="hljs-string">&#x27;span&#x27;</span>, {}, <span class="hljs-string">&#x27;string&#x27;</span>), <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">&#x27;#id&#x27;</span>))
+<h2 id="usage">usage</h2>
+<p>同<code>./demo.html</code></p>
+<h2 id="打包结果的多种用途">打包结果的多种用途</h2>
+<h3 id="browser">browser</h3>
+<pre><code class="language-shell"><div>esbuild input.js --target=chrome58,firefox57,safari11,edge16
 </div></code></pre>
-<p>创建<code>&lt;root&gt;/index.html</code></p>
-<pre><code class="language-html"><div>...
-<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;id&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/out.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
-...
+<pre><code class="language-js"><div><span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;esbuild&#x27;</span>).buildSync({
+  <span class="hljs-attr">entryPoints</span>: [<span class="hljs-string">&#x27;app.jsx&#x27;</span>],
+  <span class="hljs-attr">bundle</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">minify</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">sourcemap</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">target</span>: [<span class="hljs-string">&#x27;chrome58&#x27;</span>, <span class="hljs-string">&#x27;firefox57&#x27;</span>, <span class="hljs-string">&#x27;safari11&#x27;</span>, <span class="hljs-string">&#x27;edge16&#x27;</span>],
+  <span class="hljs-attr">outfile</span>: <span class="hljs-string">&#x27;out.js&#x27;</span>,
+})
 </div></code></pre>
-<p>创建<code>&lt;root&gt;/jsb.js</code></p>
-<pre><code class="language-js"><div><span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;esbuild&#x27;</span>).build({
-    <span class="hljs-attr">entryPoints</span>: [<span class="hljs-string">&#x27;app.jsx&#x27;</span>],
-    <span class="hljs-attr">bundle</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-attr">outfile</span>: <span class="hljs-string">&#x27;out.js&#x27;</span>,
-}).catch(<span class="hljs-function">() =&gt;</span> process.exit(<span class="hljs-number">1</span>))
-</div></code></pre>
-<h2 id="dir-construct">dir construct</h2>
-<pre><code><code><div>&lt;root&gt;
-|-- package.json // 说明主要文件/目录的功能
-|-- node_modules
-|-- app.jsx
-|-- index.html
-|-- out.js
-</div></code></code></pre>
-<h2 id="启动服务">启动服务</h2>
-<pre><code class="language-shell"><div>npm run build
-<span class="hljs-meta">#</span><span class="bash"> or</span>
-<span class="hljs-meta">#</span><span class="bash"> npm run jsb</span>
-serve
-</div></code></pre>
-<p>在浏览器中打开指定的url.若看到预期结果，则运行正确。</p>
-<h1 id="usage">usage</h1>
-<p>如何使用的。</p>
-<h1 id="后记">后记</h1>
-<p>本示例中需要注意的地方。
-为什么这么做示例。
-如何恢复本示例的运行结果。</p>
+<p>你想要使用的一些npm包可能不是被设计成在浏览器中运行的。有时，您可以使用esbuild的配置选项来解决某些问题，并成功地捆绑包。未定义的全局变量在简单情况下可以用定义特性替换，在复杂情况下可以用注入特性替换。</p>
+<h3 id="node">node</h3>
+<p>当设置<code>--platform=node</code>时，esbuild会把设置一些对node友好的配置项。如：把<code>fs</code>标记为排除项。还会设置一些浏览器不永别package.json的配置项。<br>
+既然打包时排除了，那么在使用该包时。这些排除项也要在运行时存在。（有些同等依赖）</p>
+<h2 id="configuration">configuration</h2>
+<p>默认配置文件：<code>path/to/file.json</code>。</p>
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="api">api</h2>
+<h2 id="plugin">plugin</h2>
+<h2 id="principle">principle</h2>
+<p>此包的处理逻辑。</p>
+<h3 id="uml">uml</h3>
+<pre><code><code><div></div></code></code></pre>
+<h2 id="todo">todo</h2>
+<blockquote>
+<p>未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote>
 
         
         

@@ -5,6 +5,7 @@
 - 如何打包
 - 如何使用打包结果
 - 与react结合使用
+- 2种打包方式。1. 使用cli 2. 使用api
 
 # init project
 ```shell
@@ -14,6 +15,7 @@ npm init
 npm i reate react-dom
 npm i esbuild -D
 npm set-script build "esbuild app.jsx --bundle --outfile=out.js" # 需要npm v8+ 若设置不成功，则请手动编辑package.json中的脚本
+npm set-script jsb "node ./jsb.js"
 npm i serve -g
 ```
 
@@ -36,6 +38,15 @@ ReactDOM.render(React.createElement('span', {}, 'string'), document.querySelecto
 ...
 ```
 
+创建`<root>/jsb.js`
+```js
+require('esbuild').build({
+    entryPoints: ['app.jsx'],
+    bundle: true,
+    outfile: 'out.js',
+}).catch(() => process.exit(1))
+```
+
 ## dir construct
 ```
 <root>
@@ -49,6 +60,8 @@ ReactDOM.render(React.createElement('span', {}, 'string'), document.querySelecto
 ## 启动服务
 ```shell
 npm run build
+# or
+# npm run jsb
 serve
 ```
 在浏览器中打开指定的url.若看到预期结果，则运行正确。  
