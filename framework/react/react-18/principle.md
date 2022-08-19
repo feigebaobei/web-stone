@@ -15,7 +15,12 @@ Component.prototype.isReactComponent = {};
 Component.prototype.setState = function (partialState, callback) {
   this.updater.enqueueSetState(this, partialState, callback, 'setState');
 }
-Component.prototype.forceUpdate = function (callback) { // 我认识不应该开放强制执行的方法
+Component.prototype.forceUpdate = function (callback) { // 我认为不应该开放强制执行的方法
+// 通常组件的更新是 state 或者 props 改变造成的，有时候数据没有改变，可以调用 forceUpdate() 强制让组件重新渲染。
+// 调用 forceUpdate() 将致使组件调用 render() 方法，此操作会跳过该组件的 shouldComponentUpdate()。
+// 但其子组件会触发正常的生命周期方法，包括 shouldComponentUpdate() 方法。如果标记发生变化，React 仍将只更新 DOM。
+// 通常你应该避免使用 forceUpdate()，尽量在 render() 中使用 this.props 和 this.state。
+// 可在方法组件中使用。函数组件不包括 forceUpdate() 方法。
   this.updater.enqueueForceUpdate(this, callback, 'forceUpdate');
 }
 
@@ -190,5 +195,17 @@ function useState(initialState) {
 
 # uml
 react/react-dom耦合地很严重，不好。
+
+## 强制更新
+```js
+// 类组件
+someMethod() {
+   // Force a render with a simulated state change
+   setUser({ ...user });
+}
+// 方法组件
+const [, updateState] = React.useState();
+const forceUpdate = React.useCallback(() => updateState({}), []);
+```
 
 ## title

@@ -95,7 +95,12 @@ Component.prototype.isReactComponent = {};
 Component.prototype.setState = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">partialState, callback</span>) </span>{
   <span class="hljs-built_in">this</span>.updater.enqueueSetState(<span class="hljs-built_in">this</span>, partialState, callback, <span class="hljs-string">&#x27;setState&#x27;</span>);
 }
-Component.prototype.forceUpdate = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">callback</span>) </span>{ <span class="hljs-comment">// 我认识不应该开放强制执行的方法</span>
+Component.prototype.forceUpdate = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">callback</span>) </span>{ <span class="hljs-comment">// 我认为不应该开放强制执行的方法</span>
+<span class="hljs-comment">// 通常组件的更新是 state 或者 props 改变造成的，有时候数据没有改变，可以调用 forceUpdate() 强制让组件重新渲染。</span>
+<span class="hljs-comment">// 调用 forceUpdate() 将致使组件调用 render() 方法，此操作会跳过该组件的 shouldComponentUpdate()。</span>
+<span class="hljs-comment">// 但其子组件会触发正常的生命周期方法，包括 shouldComponentUpdate() 方法。如果标记发生变化，React 仍将只更新 DOM。</span>
+<span class="hljs-comment">// 通常你应该避免使用 forceUpdate()，尽量在 render() 中使用 this.props 和 this.state。</span>
+<span class="hljs-comment">// 可在方法组件中使用。函数组件不包括 forceUpdate() 方法。</span>
   <span class="hljs-built_in">this</span>.updater.enqueueForceUpdate(<span class="hljs-built_in">this</span>, callback, <span class="hljs-string">&#x27;forceUpdate&#x27;</span>);
 }
 
@@ -238,6 +243,16 @@ Component.prototype.forceUpdate = <span class="hljs-function"><span class="hljs-
 </ul>
 <h1 id="uml">uml</h1>
 <p>react/react-dom耦合地很严重，不好。</p>
+<h2 id="强制更新">强制更新</h2>
+<pre><code class="language-js"><div><span class="hljs-comment">// 类组件</span>
+<span class="hljs-function"><span class="hljs-title">someMethod</span>(<span class="hljs-params"></span>)</span> {
+   <span class="hljs-comment">// Force a render with a simulated state change</span>
+   setUser({ ...user });
+}
+<span class="hljs-comment">// 方法组件</span>
+<span class="hljs-keyword">const</span> [, updateState] = React.useState();
+<span class="hljs-keyword">const</span> forceUpdate = React.useCallback(<span class="hljs-function">() =&gt;</span> updateState({}), []);
+</div></code></pre>
 <h2 id="title">title</h2>
 
         <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>

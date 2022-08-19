@@ -41,7 +41,7 @@ store 用于管理state
 # usage
 ## redux
 与当前项目的技术栈无关。虽然常见于react项目中使用redux，但是在vue、script标签、...等项目中也可以使用。  
-```
+```js
 import Redux from 'redux'
 // init
 let action = {
