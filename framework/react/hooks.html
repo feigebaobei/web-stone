@@ -512,9 +512,72 @@ useLogger(stateValue)
 }
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> useOnline;
 </div></code></pre>
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span> {useRef} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">useStore</span> (<span class="hljs-params">key, initValue</span>) </span>{
+    <span class="hljs-keyword">let</span> ref = useRef({key, initValue})
+    <span class="hljs-keyword">let</span> setRef = <span class="hljs-function">(<span class="hljs-params">key, value</span>) =&gt;</span> {
+        ref.current[key] = value
+    }
+    <span class="hljs-keyword">let</span> getRef = <span class="hljs-function">(<span class="hljs-params">key</span>) =&gt;</span> {
+        <span class="hljs-keyword">return</span> ref.current[key]
+    }
+    <span class="hljs-keyword">return</span> [getRef, setRef]
+}
+<span class="hljs-comment">// 使用</span>
+useStore(stateValue)
+</div></code></pre>
 <h2 id="todo">todo</h2>
 <h3 id="title">title</h3>
 <p>有缓存功能的都可用于性能优化</p>
+<h3 id="usestate--useref">useState &amp; useRef</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>useState</th>
+<th>useRef</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>在ui更新期间保护自己的数据</td>
+<td>在ui更新期间保护自己的数据</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>可理解为数据钩子</td>
+<td>可理解为数据钩子</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>会触发重新渲染</td>
+<td>不会</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>返回[state, setState]</td>
+<td>返回一个对象{current: any}</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>state是不可变的。可能使用setState去改变</td>
+<td>current属性是可变的</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>不可访问</td>
+<td>可访问组件、dom</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h3 id="usecallback--usememo">useCallback &amp; useMemo</h3>
 <table>
 <thead>

@@ -428,9 +428,35 @@ function useOnline () {
 export default useOnline;
 ```
 
+```js
+import {useRef} from 'react'
+export default function useStore (key, initValue) {
+    let ref = useRef({key, initValue})
+    let setRef = (key, value) => {
+        ref.current[key] = value
+    }
+    let getRef = (key) => {
+        return ref.current[key]
+    }
+    return [getRef, setRef]
+}
+// 使用
+useStore(stateValue)
+```
+
 ## todo
 ### title
 有缓存功能的都可用于性能优化
+
+### useState & useRef
+||useState|useRef||
+|-|-|-|-|
+||在ui更新期间保护自己的数据|在ui更新期间保护自己的数据||
+||可理解为数据钩子|可理解为数据钩子||
+||会触发重新渲染|不会||
+||返回[state, setState]|返回一个对象{current: any}||
+||state是不可变的。可能使用setState去改变|current属性是可变的||
+||不可访问|可访问组件、dom||
 
 ### useCallback & useMemo
 ||useCallback | useMemo|||
