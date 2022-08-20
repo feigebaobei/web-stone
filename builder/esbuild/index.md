@@ -6,6 +6,7 @@
 > 它处理ts -> js的速度是tsc的20-30倍
 > 当使用api方式时，esbuild的可执行文件在child process中运行。
 > plugin只支持异步api
+> 主要使用go/js/ts编写。
 
 ### feature
 - 使用缓存也很快
@@ -60,6 +61,74 @@ require('esbuild').buildSync({
 ||||||||
 
 ## api
+- 支持cli/js/go  
+- cli的写法
+  - --foo       用于表示bool
+  - --foo=bar   用于接收一个值
+  - --foo:bar   用于接收多个值。如 `--external:*.png --external:/images/*`
+- 只有2个api transform / build
+
+### transform
+- 当不使用文件系统时，可以使用transform api 去转换一行字符串。（如在浏览器中）
+- 当没有指定输入文件和`--bundle`时，输入使用标准输入的字符串，输出使用标准输出。  
+- 该api就是为无文件系统时提供的。（它没有入口选项）
+使用方式
+```
+// shell
+echo 'let x: number = 1' | esbuild --loader=ts
+// js
+require('esbuild').transformSync('sourceCode', options) => {code: 'xxx', map: '', warnings: []}
+// go
+import "fmt"
+import "github.com/evanw/esbuild/pkg/api"
+func main() {
+  result := api.Transform('sourceCode', api.TransformOptions{Loader: api.LoaderTS})
+  if len(result.Error) == 0 {
+    fmt.Printf("%s", result.Code)
+  }
+}
+```
+
+### build
+`build`api可操作文件系统中的一个或多个文件。允许文件引用别的文件。
+- 当项目至少一个输入文件或`--bundle`标记时，esbuild会调用此api.  
+- 默认不打包，必须明确使用`--bundle`才会去打包  
+- 当没有输入文件时，使用标准输入。
+- （有入口选项）  
+使用方式
+```
+// cli
+esbuild in.ts --outfile=out.js
+// js
+require('esbuild').buildSync({
+  entryPoints: ['in.ts'],
+  outfile: 'out.js'
+}) => {errors: [], warnings: []}
+// go
+package main
+import "io/ioutil"
+import "github.com/evanw/esbuild/pkg/api"
+import "os"
+func main() {
+  ioutil.WriteFile("in.ts", []byte("let x: number = 1"), 0644)
+  result := api.Build(api.BuildOptions{
+    EntryPoints: []string{"in.ts"},
+    Outfile:     "out.js",
+    Write:       true,
+  })
+  if len(result.Errors) > 0 {
+    os.Exit(1)
+  }
+}
+```
+
+### 各种options
+|option|可用于哪个api|说明|默认值|枚举值|||
+|-|-|-|-|-|-|-|
+||||||||
+
+
+
 ## plugin
 ## principle
 此包的处理逻辑。
