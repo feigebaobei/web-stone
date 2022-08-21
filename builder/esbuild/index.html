@@ -85,7 +85,12 @@
 <p>我们目前的web构建工具的速度比他们可以做到的慢10-100倍。esbuild捆绑包项目的主要目标是带来构建工具性能的新时代，并在此过程中创建一个易于使用的现代捆绑包。</p>
 <p>它处理ts -&gt; js的速度是tsc的20-30倍
 当使用api方式时，esbuild的可执行文件在child process中运行。
-plugin只支持异步api</p>
+plugin只支持异步api
+主要使用go(40%)/js+ts(40%)编写。
+主要使用go/js/ts编写。
+默认不打包（它是一个打包器，居然默认不打包）
+支持静态引入打包，不支持动态引入打包。
+浏览器优先。（打包默认iife规范）</p>
 </blockquote>
 <h3 id="feature">feature</h3>
 <ul>
@@ -169,17 +174,680 @@ npm i esbuild-wasm
 </tbody>
 </table>
 <h2 id="api">api</h2>
+<ul>
+<li>支持cli/js/go</li>
+<li>cli的写法
+<ul>
+<li>--foo       用于表示bool</li>
+<li>--foo=bar   用于接收一个值</li>
+<li>--foo:bar   用于接收多个值。如 <code>--external:*.png --external:/images/*</code></li>
+</ul>
+</li>
+<li>只有2个api transform / build</li>
+</ul>
+<h3 id="transform">transform</h3>
+<ul>
+<li>当不使用文件系统时，可以使用transform api 去转换一行字符串。（如在浏览器中）</li>
+<li>当没有指定输入文件和<code>--bundle</code>时，输入使用标准输入的字符串，输出使用标准输出。</li>
+<li>该api就是为无文件系统时提供的。（它没有入口选项）
+使用方式</li>
+</ul>
+<pre><code><code><div>// shell
+echo 'let x: number = 1' | esbuild --loader=ts
+// js
+require('esbuild').transformSync('sourceCode', options) =&gt; {code: 'xxx', map: '', warnings: []}
+// go
+import &quot;fmt&quot;
+import &quot;github.com/evanw/esbuild/pkg/api&quot;
+func main() {
+  result := api.Transform('sourceCode', api.TransformOptions{Loader: api.LoaderTS})
+  if len(result.Error) == 0 {
+    fmt.Printf(&quot;%s&quot;, result.Code)
+  }
+}
+</div></code></code></pre>
+<h3 id="build">build</h3>
+<p><code>build</code>api可操作文件系统中的一个或多个文件。允许文件引用别的文件。</p>
+<ul>
+<li>当项目至少一个输入文件或<code>--bundle</code>标记时，esbuild会调用此api.</li>
+<li>默认不打包，必须明确使用<code>--bundle</code>才会去打包</li>
+<li>当没有输入文件时，使用标准输入。</li>
+<li>（有入口选项）<br>
+使用方式</li>
+</ul>
+<pre><code><code><div>// cli
+esbuild in.ts --outfile=out.js
+// js
+require('esbuild').buildSync({
+  entryPoints: ['in.ts'],
+  outfile: 'out.js'
+}) =&gt; {errors: [], warnings: []}
+// go
+package main
+import &quot;io/ioutil&quot;
+import &quot;github.com/evanw/esbuild/pkg/api&quot;
+import &quot;os&quot;
+func main() {
+  ioutil.WriteFile(&quot;in.ts&quot;, []byte(&quot;let x: number = 1&quot;), 0644)
+  result := api.Build(api.BuildOptions{
+    EntryPoints: []string{&quot;in.ts&quot;},
+    Outfile:     &quot;out.js&quot;,
+    Write:       true,
+  })
+  if len(result.Errors) &gt; 0 {
+    os.Exit(1)
+  }
+}
+</div></code></code></pre>
+<h3 id="各种options">各种options</h3>
+<p><em>斜体</em>表示没有具体的选项</p>
+<table>
+<thead>
+<tr>
+<th>option</th>
+<th>可用于哪个api</th>
+<th>说明</th>
+<th>默认值</th>
+<th>枚举值</th>
+<th>demo</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bundle</code></td>
+<td>build</td>
+<td>把所有依赖、引入打包为内联的。可递归打包。默认输出iife规范的文件。</td>
+<td><strong>默认不打包输入文件。</strong>。若要打包必须明确使用此选项。多个输入时，会默认打包出对应的多个文件。可以把多个文件引入到一个文件中，再打包这个文件。</td>
+<td></td>
+<td><code>esbuild in.js --bundle</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>define</code></td>
+<td>trasform/build</td>
+<td>定义全局替换的内容（类似宏替换）。若定义string，则必须使用引号。请遵守操作系统的斜线的数量。</td>
+<td>-</td>
+<td>json对象/单个变量</td>
+<td>`echo 'id, str'</td>
+<td>esbuild --define:id=text --define:str=&quot;text&quot;`</td>
+</tr>
+<tr>
+<td><em>入口</em></td>
+<td>build</td>
+<td>明确打包的文件。一般与其一起使用的选项还有：outdir/outfile/outbase/xxx/xxx/...</td>
+<td>-</td>
+<td>一个文件或多个文件</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>external</code></td>
+<td>build</td>
+<td>指定不打包的文件</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>format</code></td>
+<td>tranform / build</td>
+<td>指定输出规范</td>
+<td>当无format时输出文件使用输入文件的规范。当<code>platform</code>设置为browser时，自动使用<code>iife</code>规范。当<code>platform</code>设置为node时，自动使用<code>commonjs</code>规范。当<code>platform</code>设置为neutral时，自动使用<code>esm</code>规范。</td>
+<td>iife/cjs/esm</td>
+<td><code>esbuild in.js --format=cjs</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>inject</code></td>
+<td>build</td>
+<td>注入文件。从别的文件引入全局变量并替换。它有4个功能：1.可以与define一起使用。 2.为jsx自动引入react. 3.您还可以将此功能用于没有导出的文件。在这种情况下，注入的文件只是排在输出的其余部分之前，就好像每个输入文件都包含import &quot;./file.js&quot;。 4.按条件注入一个文件</td>
+<td>-</td>
+<td>-</td>
+<td><code>esbuild in.js --bundle --inject:./p.js</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>loader</code></td>
+<td>transform/build</td>
+<td>用于给esbuild翻译输入文件。</td>
+<td>-</td>
+<td>-</td>
+<td><code>esbuild in.js --bundle --loader:.png=dataurl</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>minfy</code></td>
+<td>transform/build</td>
+<td>生产压缩后的代码。压缩后的代码可以让下载更快、调试更难、一般于生产环境。可用于css/js</td>
+<td>-</td>
+<td>-</td>
+<td><code>esbuild in.js --minify</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>outdir</code></td>
+<td>build</td>
+<td>设置输出的目录。若已经存在，则不会清空。会覆盖相同文件。需要程序员自己清空输出目录</td>
+<td>-</td>
+<td>-</td>
+<td><code>esbuild in.js --bundle --outdir=out</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>outfile</code></td>
+<td>build</td>
+<td>指定输出文件名。当输入文件只有一个时，有效。</td>
+<td>-</td>
+<td>-</td>
+<td>``</td>
+<td></td>
+</tr>
+<tr>
+<td><code>platform</code></td>
+<td>transform/build</td>
+<td>指定打包后代码的运行平台。</td>
+<td>browser</td>
+<td>browser/node/neutral</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>servedir</code></td>
+<td>build</td>
+<td>不会，好像是（为相对于输出目录的额外目录为也提供静态服务功能。额外目录中的文件变动时会触发rebuild.）</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>serve</code></td>
+<td>build</td>
+<td>为outdir提供静态服务。</td>
+<td></td>
+<td></td>
+<td><code>esbuild in.js --bundle --outfile=out.js --serve=8080</code>访问http://localhost:8080/out.js</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sourcemap</code></td>
+<td>transform/build</td>
+<td>指定代码地图的种类</td>
+<td>linked</td>
+<td>linked/external/inline/both</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>splitting</code></td>
+<td>build</td>
+<td>代码分块打包（也叫：代码分割），只能在esm中使用（<code>--format=esm</code>）</td>
+<td>-</td>
+<td>-</td>
+<td><code>esbuild in.js --bundle --splitting --outdir=out --format=esm</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>target</code></td>
+<td>transform/build</td>
+<td>指定js/css的运行环境。esbuild会把代码转换为该环境支持的写法。</td>
+<td>-</td>
+<td>chrome/edge/firefox/hermes/ie/ios/node及版本/opera/rhino/safari/js的版本</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>watch</code></td>
+<td>build</td>
+<td>当改变时rebuild</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>write</code></td>
+<td>build</td>
+<td>输出到文件系统或内存中。js/go才能使用该选项。cli直接输出到文件系统。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>option</th>
+<th>可用于哪个api</th>
+<th>说明</th>
+<th>默认值</th>
+<th>枚举值</th>
+<th>demo</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bundle</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>bundle</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>bundle</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>bundle</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>bundle</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>bundle</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>bundle</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>bundle</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>bundle</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>bundle</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>bundle</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>bundle</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>bundle</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>bundle</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>bundle</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>bundle</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>bundle</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>bundle</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>bundle</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>bundle</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>bundle</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>bundle</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>bundle</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h2 id="plugin">plugin</h2>
 <h2 id="principle">principle</h2>
 <p>此包的处理逻辑。</p>
 <h3 id="uml">uml</h3>
 <pre><code><code><div></div></code></code></pre>
 <h2 id="todo">todo</h2>
-<blockquote>
-<p>未来迭代计划。
-未来迭代计划。
-未来迭代计划。</p>
-</blockquote>
+<h3 id="non-analyzable-imports">Non-analyzable imports</h3>
+<p>esbuild只会打包静态引入。（当有动态引入时不打包）
+有其他打包器支持打包动态引入。如<a href="/builder/webpack/index.html">webpack</a></p>
+<h3 id="默认不打包">默认不打包</h3>
+<p>因其默认不打包。要打包需要明确使用<code>--bundle</code>选项。</p>
+<pre><code class="language-shell"><div>esbuild in.js --bundle
+</div></code></pre>
+<h3 id="external">external</h3>
+<ul>
+<li>排除明确不使用的代码</li>
+<li>可以从node环境中引入的包</li>
+</ul>
+<p>解析路径前后都有应用。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>解析路径前</td>
+<td>若路径像包路径（不以/或./或../开头）。该包内的所有路径标记为外部路径</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>解析路径后</td>
+<td>把不像包路径的外部路径解析为绝对路径。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="js编写规范">js编写规范</h3>
+<p>esm可以运行在browser/node环境。
+<code>&lt;script src=&quot;file.js&quot; type=&quot;module&quot;&gt;&lt;/script&gt;</code><br>
+<code>node --experimental-modules file.mjs</code></p>
+<h3 id="压缩">压缩</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>--minify-whitespace</td>
+<td>压缩空格</td>
+</tr>
+<tr>
+<td>--minify-identifiers</td>
+<td>压缩变量名</td>
+</tr>
+<tr>
+<td>--minify-syntax</td>
+<td>压缩语法</td>
+</tr>
+</tbody>
+</table>
+<p>注意：</p>
+<ul>
+<li>应当使用压缩时也使用target选项。默认esbuild会使用高级的现代js功能打包代码。若您不想使用现代js代码可以指定target选项。如<code>--target=es6</code></li>
+<li><code>\n</code>被代替为newline</li>
+<li>不压缩顶级变量名</li>
+<li>压缩不是100%安全的。业界也做不到100%完全（包括terser）。尤其是esbuild不保护<code>.toString()</code>方法。若保存所有方法中的代码，则压缩很困难。即返回值调用<code>.toString()</code>可能会中断。</li>
+<li>默认不会保护方法和class的<code>.name</code>。</li>
+<li>有几个js的功能不能在优化、压缩时使用。如<code>eval</code>/<code>with</code>会阻止最小化标识符。<code>let result = eval(something)</code> =&gt; <code>let result = (0, eval)(someThing)</code></li>
+<li>在优化和压缩时不使用的js code
+<ul>
+<li>dead-code</li>
+<li>function inline</li>
+<li>cross-statement constant propagtion</li>
+<li>object shape modeling</li>
+<li>allocation sinking</li>
+<li>method devirtualization</li>
+<li>symbolic execution</li>
+<li>jsx expression hoisting</li>
+<li>ty esum delecting ang inlining</li>
+</ul>
+</li>
+</ul>
+<h3 id="platform">platform</h3>
+<ul>
+<li>browser(默认值)
+<ul>
+<li>只使用<code>bundle</code>时，默认输出iife规范。</li>
+<li>xx</li>
+<li>xxx</li>
+<li>package.json中exports的优先级大于browser/main/module等字段。</li>
+<li>使用<code>build</code>api时，<code>process.env.NODE_ENV</code>默认为<code>&quot;production&quot;</code>。</li>
+</ul>
+</li>
+<li>node
+<ul>
+<li>format默认为cjs</li>
+<li>node环境已经存在的包，会被自动标记为<code>external</code>字段。</li>
+<li>不会tree shaking</li>
+<li>xxx</li>
+</ul>
+</li>
+<li>neutral
+<ul>
+<li>默认输出esm.</li>
+<li>请设置必要的字段。如<code>main</code></li>
+<li>xxx</li>
+</ul>
+</li>
+</ul>
+<h3 id="serve">serve</h3>
+<p>有三种方法启动本地服务</p>
+<ul>
+<li>使用<code>--watch</code>选项</li>
+<li>在编辑器设置每次保存是启动esbuild</li>
+<li>把服务器中设置为每次请求时rebuild</li>
+</ul>
+<h4 id="使用方法">使用方法</h4>
+<ul>
+<li>使用esbuild提供全部服务</li>
+<li>只提供打包结果的服务</li>
+</ul>
+<p>使用js、go时可以设置参数：</p>
+<pre><code class="language-ts"><div><span class="hljs-keyword">type</span> ServeOptions struct {
+  Port      uint16
+  Host      <span class="hljs-built_in">string</span>
+  Servedir  <span class="hljs-built_in">string</span>
+  OnRequest func(ServeOnRequestArgs)
+}
+
+<span class="hljs-keyword">type</span> ServeOnRequestArgs struct {
+  RemoteAddress <span class="hljs-built_in">string</span>
+  Method        <span class="hljs-built_in">string</span>
+  Path          <span class="hljs-built_in">string</span>
+  Status        int
+  TimeInMS      int
+}
+</div></code></pre>
+<p>返回值</p>
+<pre><code class="language-ts"><div><span class="hljs-keyword">type</span> ServeResult struct {
+  Port uint16
+  Host <span class="hljs-built_in">string</span>
+  Wait func() error
+  Stop func()
+}
+</div></code></pre>
+<h4 id="自定义服务器行为">自定义服务器行为</h4>
+<p>xxx</p>
+<h3 id="source-map"><a href="/sourceMap/index.html">source map</a></h3>
+<p>现代浏览器默认启用代码地图。手动设置如下：</p>
+<ul>
+<li>chrome: 设置 -&gt; Enable Javascript source maps</li>
+<li>Safari: 设置 -&gt; Sources -&gt; Enable source maps</li>
+<li>chrome: Enable Source Maps</li>
+</ul>
+<p>node v12.12+开始支持代码地图。
+<code>node --enable-source-maps app.js</code></p>
+<h4 id="linked">linked</h4>
+<p>生成与<code>*.js</code>同级的<code>*.js.map</code>。
+在<code>*.js</code>中明确使用<code>//# sourceMappingURL=</code>指定<code>*.js.map</code>文件。浏览器会把二者联系起来。</p>
+<h4 id="external-1">external</h4>
+<p>生成与<code>*.js</code>同级的<code>*.js.map</code>。
+在<code>*.js</code>中不使用<code>//# sourceMappingURL=</code></p>
+<h4 id="inline">inline</h4>
+<p>在<code>*.js</code>内使用<code>//# sourceMappingURL=</code>指定代码地图。</p>
+<h4 id="both">both</h4>
+<p>inline + external</p>
+<h3 id="代码分割">代码分割</h3>
+<p>目的</p>
+<ul>
+<li>多个入口都会到的公共文件。</li>
+<li>异步使用<code>import()</code>加载代码。</li>
+</ul>
+<h3 id="title">title</h3>
+<h3 id="title-1">title</h3>
+<h3 id="title-2">title</h3>
+<h3 id="title-3">title</h3>
+<h3 id="title-4">title</h3>
+<h3 id="title-5">title</h3>
+<h3 id="titlev">titlev</h3>
+<h3 id="title-6">title</h3>
+<h3 id="title-7">title</h3>
+<h3 id="缺陷">缺陷</h3>
+<ul>
+<li>压缩<code>.toString()</code>时有问题</li>
+<li>api有杂糅的情况。如platform+format</li>
+<li>tree shaking只作用于cjs规范。</li>
+<li>还有正在开发的工作。如：代码分割。</li>
+</ul>
+<h3 id="rollup"><a href="/builder/rollup/index.html">rollup</a></h3>
+<p>esbuild有些不足为什么还基于它做工作。（可能是因不致命，或可以在二开中解决。）
+写一builder还是挺难的。</p>
+<h3 id="title-8">title</h3>
 
         
         
