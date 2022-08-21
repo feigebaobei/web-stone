@@ -227,3 +227,33 @@ npm脚本支持`pre`/`post`2种钩子。每个脚本都可以如此处理。如�
 ### 变量
 通过`npm_package_`前缀可得到`package.json`中的字段。 如：`process.env.npm_package_version` / `process.env.npm_package_script_install`
 通过`npm_config`前缀可得到`package.json`中`config`里的变量。如：`npm_config_tag`。`npm config get xxx`
+
+## 设置npm registry 
+### 全局设置
+```shell
+npm config set registry=https://registry.npmjs.org
+process.env.npm_config_registry # 读取
+```
+
+### .npmrc
+包管理工具（npm/pnpm/yarn）默认从项目的`.npmrc`文件中读取配置。
+```
+registy = https://registry.npmjs.org
+```
+
+### --regitry选项
+```
+npm install esbuild -- registry=https://registry.npmjs.org
+```
+### package.json publishConfig
+```json
+// packags.json
+{
+  ...
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  }
+}
+```
+### title
+### title

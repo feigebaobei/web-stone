@@ -702,6 +702,29 @@ npm脚本支持<code>pre</code>/<code>post</code>2种钩子。每个脚本都可
 <h3 id="变量">变量</h3>
 <p>通过<code>npm_package_</code>前缀可得到<code>package.json</code>中的字段。 如：<code>process.env.npm_package_version</code> / <code>process.env.npm_package_script_install</code>
 通过<code>npm_config</code>前缀可得到<code>package.json</code>中<code>config</code>里的变量。如：<code>npm_config_tag</code>。<code>npm config get xxx</code></p>
+<h2 id="设置npm-registry">设置npm registry</h2>
+<h3 id="全局设置">全局设置</h3>
+<pre><code class="language-shell"><div>npm config set registry=https://registry.npmjs.org
+process.env.npm_config_registry # 读取
+</div></code></pre>
+<h3 id="npmrc">.npmrc</h3>
+<p>包管理工具（npm/pnpm/yarn）默认从项目的<code>.npmrc</code>文件中读取配置。</p>
+<pre><code><code><div>registy = https://registry.npmjs.org
+</div></code></code></pre>
+<h3 id="--regitry选项">--regitry选项</h3>
+<pre><code><code><div>npm install esbuild -- registry=https://registry.npmjs.org
+</div></code></code></pre>
+<h3 id="packagejson-publishconfig">package.json publishConfig</h3>
+<pre><code class="language-json"><div><span class="hljs-comment">// packags.json</span>
+{
+  ...
+  <span class="hljs-attr">&quot;publishConfig&quot;</span>: {
+    <span class="hljs-attr">&quot;registry&quot;</span>: <span class="hljs-string">&quot;https://registry.npmjs.org&quot;</span>
+  }
+}
+</div></code></pre>
+<h3 id="title">title</h3>
+<h3 id="title-1">title</h3>
 
         <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
