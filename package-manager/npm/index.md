@@ -255,5 +255,30 @@ npm install esbuild -- registry=https://registry.npmjs.org
   }
 }
 ```
-### title
+## exports
+||||||
+|-|-|-|-|-|
+|default|||||
+|import|||||
+|require|||||
+|browser|||||
+|node|||||
+
+```json
+{
+  "name": "pkg",
+  "exports": {
+    "./foo": {
+      "import": "./imported.mjs",
+      "require": "./required.cjs",
+      "default": "./fallback.js"
+    }
+  }
+}
+```
+
+## title
+## title
+## title
+## title
 ### title
