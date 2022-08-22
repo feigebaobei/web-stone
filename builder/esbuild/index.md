@@ -11,6 +11,7 @@
 > 默认不打包（它是一个打包器，居然默认不打包）
 > 支持静态引入打包，不支持动态引入打包。
 > 浏览器优先。（打包默认iife规范）
+> cli中的选项无前后顺序
 
 ### feature
 - 使用缓存也很快
@@ -152,29 +153,72 @@ func main() {
 
 |option|可用于哪个api|说明|默认值|枚举值|demo||
 |-|-|-|-|-|-|-|
-|`bundle`|||||||
-|`bundle`|||||||
-|`bundle`|||||||
-|`bundle`|||||||
-|`bundle`|||||||
-|`bundle`|||||||
-|`bundle`|||||||
-|`bundle`|||||||
-|`bundle`|||||||
-|`bundle`|||||||
-|`bundle`|||||||
-|`bundle`|||||||
-|`bundle`|||||||
-|`bundle`|||||||
-|`bundle`|||||||
-|`bundle`|||||||
-|`bundle`|||||||
-|`bundle`|||||||
-|`bundle`|||||||
-|`bundle`|||||||
-|`bundle`|||||||
-|`bundle`|||||||
-|`bundle`|||||||
+|`allow-overwrite`|build|是否允许打包文件覆盖|||||
+|`analyze`|build|是否启动分析功能。若启动会列出每个包的信息|-|true/verbose|`esbuild in.js --bundle --analyze`||
+|`asset-names`|build|当loader设置为file时，控制输出的额外的文件的名字。定义模板的名字。|-|-|`esbuild in.js --bundle --outdir=out --loader:.png=file --asset-names=assets/[name]-[hash]`||
+|`banner`|tranform/build|输出时直接在js/css文件的开头插入字符串。|-|-|`esbuild in.js --bundle --banner:js=//comment --banner:css=/*comment*/`||
+|`charset`|transform/build|指定编码集|||||
+|`chunk-names`|build|当使用代码分割时会产生子代码块（chunk）有可能是共用的。该选项是控制chunk的目录+文件名的占位符。|-|-|`esbuild in.js --bundle --outdir=out --splitting --format-esm --chunk-names=chunks/[name]-[hash]`||
+|`color`|transform/build|当出现错误、警告时，是否使用有色标记。|-|true/false|``||
+|`conditions`|build|不会|||`esbuild src/app.js --bundle --conditions=custom1,custom2`||
+|`drop`|transform/build|开始打包前删除一些代码|-|-|`esbuild in.js --bundle --drop:debugger`||
+|`entry-names`|build|不会|||||
+|`footer`|transform/build|输出时直接在js/css文件的结尾插入字符串。|-|-|`esbuild app.js --footer:js=//comment --footer:css=/*comment*/`||
+|`global-name`|transform/build|只与iife规范结合使用。设置全局变量|-|-|`esbuild in.js --bundle --format=iife --global-name=abc`||
+|`ignore-annotations`|transform/build|是否删除注释|-|-|``||
+|`incremental`|build|只在js、go api中使用。|||||
+|`jsx`|transform/build|指定如何编译jsx|-|transform/preserve/automatic|`esbuild in.js --bundle --loader=jsx --jsx=preserve`||
+|`jsx-dev`|transform/build|当jsx设置为automatic时，此字段控制是否把源文件及代码的位置信息打包|-|-|`esbuild in.js --bundle --jsx=automatic --jsx-dev`||
+|`jsx-factory`|transform/build|设置使用哪个方法解析jsx|-|-|`esbuild in.js --bundle --jsx-factory=h --loader=jsx`||
+|`jsx-fragment`|transform/build|指定处理jsx fragment的方法|-|-|`esbuild in.js --bundle --jsx-fragment=Fragment --loader=jsx`||
+|`jsx-import-source`|transform/build|当jsx设置为automatic时，此选项控制从哪儿引入jsx helper的方法。|-|-|`esbuild in.js --jsx=automatic --jsx-import-source=preact`||
+|`keep-names`|transform/build|是否保留方法、class的名字|||||
+|`legal-comments`|transform/build|如何处理遗留的注释|-|none/inline/eof/linked/external|`esbuild in.js --bundle --legal-comments=eof`||
+|`log-level`|transform/build|如何处理log|-|silent/error/warning/info/debug/verbose|||
+|`log-limit`|transform/build|控制日志的数量。为0时不输出|-|-|||
+|`log-override`|transform/build|控制哪些的log可显示|||||
+|`main-field`|build|不会|-|main/module/browser|||
+|`mangle-props`|transform/build|不会|||||
+|`metafile`|build|定义分析时的输出格式|||||
+|`NODE_PATH`|build|cjs时的环境变量|||||
+|`out-extension`|build|自定义扩展名|-|-|`esbuild in.js --bundle --outdir=dist --out-extension:.js=.mjs`||
+|`outbase`|build|设置输出时文件路径的base|-|-|``||
+|`preserve-symlinks`|build|指定源文件的路径|-|-|`esbuild in.js --bundle --preserve-symlinks --outfiles=out.js`||
+|`public-path`|build|与file loader一起使用时设置文件的前缀。|-|-|`esbuild in.js --bundle --loader:.png=file --public-pach=https://www.str.com/v1 --outdir=out`||
+|`pure`|transform/build|用于各种各样的js工具都使用这样的注释`/*@__PURE__*/`或`/*#__PURE__*/`表示若结果值未被使用，则该表达式可以删除。在tree shaking时会被删除。使用该字段标记可删除的。|-|-|`esbuild in.js --bundle --pure:document.createElement`|若要删除console等，请使用相应的选项|
+|`resolve-extensions`|build|指定解析无扩展名文件的扩展名顺序|-|'','.js','.json','.node'|`esbuild in.js --bundle --resolve-extensions=.ts,.js`||
+|`source-root`|transform/build|当source map可用时，该字段指明相关的source map.|-|-|`esbuild in.js --bundle --sourcemap --source-root=https://www.xx.com/path`||
+|`sourcefile`|transform/build|当没有输入文件名时，该字段设置输入文件名|-|-|`cat app.js | esbuild --bundle --sourcefile=abc.js --sourcemap`||
+|`sources-content`|transform/build|在生成的sourceMap文件中是否使用sourcesContent字段|-|-|`esbuild in.js --bundle --sourcemap --sources-content=false`||
+|*stdin*|build|设置输入|||||
+|`supported`|transform/build|设置esbuild不支持语法，打包时遇到该语法会报错。|-|-|`esbuild in.js --bundle --supoorted-bigint=false`||
+|`tree-shaking`|transform/build||当使用`--bundle`或`--format==iife`时默认启用。其他情况默认不启用。也可以强制启用|-|`esbuild in.js --tree-shaking=true`||
+|`tsconfig`|build|自动覆盖`tsconfig.json`。可以自定义ts的配置文件|-|-|`esbuild in.js --bundle --tsconfig-custom-tsconfig.json`||
+|`tsconfig-raw`|transform|当使用transform api时不使用访问文件系统，所以可以使用该字段设置|-|-|`echo xxx | esbuild --loader=ts --tsconfig-raw='{"compilerOptions": {"useDefineForClassFields": true}}'`||
+|*working directory*|build|设置工作目录。不支持cli.|默认为当前工作目录||||
+|*js-specific details*|||||||
+
+## 在浏览器中运行
+使用`esbuild-wasm`代替`esbuild`
+```shell
+npm i esbuild-wasm
+```
+```js
+let esbuild = require('esbuild-wasm')
+
+esbuild.initialize({
+  wasmURL: './node_modules/esbuild-wasm/esbuild.wasm',
+}).then(() => {
+  esbuild.transform(code, options).then(result => { ... })
+  esbuild.build(options).then(result => { ... })
+})
+```
+
+
+
+
+
+
 
 
 
@@ -323,18 +367,214 @@ inline + external
 - 多个入口都会到的公共文件。
 - 异步使用`import()`加载代码。
 
+### asset-names
+模板可用的占位符
+||||
+|-|-|-|
+|dir|相对于outbase的目录||
+|name|原生的文件，无扩展名部分。||
+|hash|关于内容的hash值，防止出现命名冲突。||
+|ext|文件的扩展名||
+
+### charset
+esbuild默认输出ASCII.非ASCII的被当作逃逸字符处理，因该类字符无法解释给浏览器。因此出现了`<meta charset="utf-8">`、回馈头的`Content-Type`、让浏览器解析变慢。
+
+注意
+- 不要在表达式中使用非ASCII
+- 不会作用于备注
+- **同时作用于js/css/json**
+
+### chunk-names
+|||||
+|-|-|-|-|
+|name||||
+|hash||||
+|ext|||`--chunk-name=chunks/[ext]/[name]-[hash]`|
+
+### conditions
+|||||
+|-|-|-|-|
+|default|它总是可以使用的，当无其他条件应用时使用此条件|||
+|import|只在esm规范下使用|||
+|require|只在cjs规范下使用|||
+|browser|只在platform是browser时使用|||
+|node|只在platform是node时使用|||
+
+### drop
+||||
+|-|-|-|
+|debugger|删除debugger||
+|console|删除console||
+
+### jsx
+当设置为automatic时，由react决定是否转换。react v17+会自动轮换。
+
+### legal-comments
+如何处理遗留注释
+|||||
+|-|-|-|-|
+|none|不保留|||
+|inline|保留|||
+|eof|全删除||与none有何区别|
+|linked|把遗留注释放在`.LEGAL.txt`中再链接到原文件|||
+|external|把遗留注释放在`.LEGAL.txt`中不链接到原文件|||
+
+### log-level
+|||||
+|-|-|-|-|
+|silent|不输出日志|||
+|error|只输出错误日志|||
+|warining|输出错误日志和警告日志|||
+|info|输出错误、警告、输出文件的概要|||
+|debug||||
+|verbose|显示全部信息|||
+
+### log-override
+|||||||
+|-|-|-|-|-|-|
+|assign-to-constant||||||
+|assign-to-import||||||
+|call-import-namespace||||||
+|commonjs-variable-in-esm||||||
+|delete-super-property||||||
+|duplicate-case||||||
+|duplicate-object-key||||||
+|empty-import-meta||||||
+|equals-nan||||||
+|equals-negative-zero||||||
+|eqauls-new-object||||||
+|html-comment-in-js||||||
+|impossible-typeof||||||
+|indirect-require||||||
+|private-name-will-throw||||||
+|semicolon-after-return||||||
+|suspicious-boolean-not||||||
+|this-is-undefined-in-esm||||||
+|unsupported-dynamic-import||||||
+|unsupported-jsx-comment||||||
+|unsupported-regexp||||||
+|unsupported-require-call||||||
+|css-syntax-error||||||
+|invalid-@charset||||||
+|invalid-@import||||||
+|invalid-@nest||||||
+|invalid-@layer||||||
+|invalid-calc||||||
+|js-comment-in-css||||||
+|unsupported-@charset||||||
+|unsupported-@namespace||||||
+|unsupported-css-property||||||
+|ambiguous-reexport||||||
+|differet-path-case||||||
+|ignored-bare-import||||||
+|ignored-dynamic-import||||||
+|import-is-undefined||||||
+|require-resolve-not-external||||||
+|invalid-source-mapping||||||
+|sections-in-source-map||||||
+|missing-source-map||||||
+|unsupported-source-map-comment||||||
+|package.json||||||
+|tsconfig.json||||||
+
+### metafile
+```ts
+interface Metadata {
+  inputs: {
+    [path: string]: {
+      bytes: number
+      imports: {
+        path: string
+        kind: string
+      }[]
+    }
+  }
+  outputs: {
+    [path: string]: {
+      bytes: number
+      inputs: {
+        [path: string]: {
+          bytesInOutput: number
+        }
+      }
+      imports: {
+        path: string
+        kind: string
+      }[]
+      exports: string[]
+      entryPoint?: string
+    }
+  }
+}
+```
+
+### supported
+何时使用：
+- 使用新js语法写时快，转换为旧js语法运行时慢。
+- 其他包已经支持，不用esbuild再支持。
+- 使用esbuild与别的工具合作时。
+
+- arbitrary-module-namespace-names
+- array-spread
+- arrow
+- async-await
+- async-generator
+- bigint
+- class
+- class-field
+- class-private-accessor
+- class-private-brand-check
+- class-private-field
+- class-private-method
+- class-private-static-accessor
+- class-private-static-field
+- class-private-static-method
+- class-static-blocks
+- class-static-field
+- const-and-let
+- default-argument
+- destructuring
+- dynamic-import
+- exponent-operator
+- export-star-as
+- for-await
+- for-of
+- generator
+- hashbang
+- import-assertions
+- import-meta
+- logical-assignment
+- nested-rest-binding
+- new-target
+- node-colon-prefix-import
+- node-colon-prefix-require
+- nullish-coalescing
+- object-accessors
+- object-extensions
+- object-rest-spread
+- optional-catch-binding
+- optional-chain
+- regexp-dot-all-flag
+- regexp-lookbehind-assertions
+- regexp-match-indices
+- regexp-named-capture-groups
+- regexp-sticky-and-unicode-flags
+- regexp-unicode-property-escapes
+- rest-argument
+- template-literal
+- top-level-await
+- typeof-exotic-object-is-object
+- unicode-escapes
+- hex-rgba
+- rebecca-purple
+- modern-rgb-hsl
+- inset-property
+- nesting
 
 
-
-
-
 ### title
 ### title
 ### title
-### title
-### title
-### title
-### titlev
 ### title
 ### title
 ### 缺陷
@@ -343,9 +583,12 @@ inline + external
 - tree shaking只作用于cjs规范。
 - 还有正在开发的工作。如：代码分割。
 
-
 ### [rollup](/builder/rollup/index.html)
 esbuild有些不足为什么还基于它做工作。（可能是因不致命，或可以在二开中解决。）
 写一builder还是挺难的。
 
+### 使用esbuild与别的工具合作，（甚至是打包工具）
+
+### title
+### title
 ### title
