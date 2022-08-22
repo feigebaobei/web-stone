@@ -1,4 +1,4 @@
-# `webpack`
+# `workbox-webpack-plugin`
 
 ## overview
 > TODO: description
@@ -9,14 +9,14 @@
 - feature2
 
 ## install
-`npm i webpack`
+`npm i workbox-webpack-plugin`
 
 ## usage
 同`./demo.md`
 ```
-const webpack = require('webpack');
+const workbox-webpack-plugin = require('workbox-webpack-plugin');
 // or
-// import webpack from 'webpack';
+// import workbox-webpack-plugin from 'workbox-webpack-plugin';
 // TODO: DEMONSTRATE API
 ```
 
@@ -28,13 +28,11 @@ const webpack = require('webpack');
 ||||||||
 ||||||||
 ## api
-`webpack.fn(param, first: string, second: boolean = true) => void`
+`workbox-webpack-plugin.fn(param, first: string, second: boolean = true) => void`
 description
 
-`webpack.fn(param, [options: {a: string, b?: number}])`
+`workbox-webpack-plugin.fn(param, [options: {a: string, b?: number}])`
 description
-
-## [plugin](/builder/webpack/plugin/index.html)
 
 ## principle
 此包的处理逻辑。
