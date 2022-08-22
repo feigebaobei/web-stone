@@ -3,6 +3,10 @@
 - 它是一个面向对象的语言。它比java中的对象更纯粹。js在es5后的有`class`，也不能说js中有了类。`class`的本质还是对象（`Object`）。
 - 没有继承，有引用。因为没有类，所以没有继承。引用是通过原型链实现引用。
 
+# 引擎
+- [V8](/language/javascript/v8.md)
+- [JavascriptCore](/language/javascript/javascriptCore.md)
+
 # 名词说明
 **动态编程语言**
 是指可在运行阶段时执行那些在编译阶段执行的操作的编程语言。比如，在 JavaScript 中， 我们可以在程序运行时改变变量的类型，或者为一个对象增加一个新属性或者方法。

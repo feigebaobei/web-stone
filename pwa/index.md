@@ -272,6 +272,7 @@ self.addEventListener('activate', event => {
 
 1. 再添加一些`fetch`/`activate`事件对应的方法
 
-必须要学习workbox + workbox-webpack-plugin
+必须要学习workbox + 
+### [workbox-webpack-plugin](/builder/webpack/plugin/workbox-webpack-plugin.html)
 
 ### 与vue结合使用 
