@@ -830,25 +830,7 @@ func main() {
 </tr>
 </tbody>
 </table>
-<h2 id="在浏览器中运行">在浏览器中运行</h2>
-<p>使用<code>esbuild-wasm</code>代替<code>esbuild</code></p>
-<pre><code class="language-shell"><div>npm i esbuild-wasm
-</div></code></pre>
-<pre><code class="language-js"><div><span class="hljs-keyword">let</span> esbuild = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;esbuild-wasm&#x27;</span>)
-
-esbuild.initialize({
-  <span class="hljs-attr">wasmURL</span>: <span class="hljs-string">&#x27;./node_modules/esbuild-wasm/esbuild.wasm&#x27;</span>,
-}).then(<span class="hljs-function">() =&gt;</span> {
-  esbuild.transform(code, options).then(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> { ... })
-  esbuild.build(options).then(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> { ... })
-})
-</div></code></pre>
-<h2 id="plugin">plugin</h2>
-<h2 id="principle">principle</h2>
-<p>此包的处理逻辑。</p>
-<h3 id="uml">uml</h3>
-<pre><code><code><div></div></code></code></pre>
-<h2 id="todo">todo</h2>
+<h2 id="选项的补充说明">选项的补充说明</h2>
 <h3 id="non-analyzable-imports">Non-analyzable imports</h3>
 <p>esbuild只会打包静态引入。（当有动态引入时不打包）
 有其他打包器支持打包动态引入。如<a href="/builder/webpack/index.html">webpack</a></p>
@@ -1840,6 +1822,93 @@ esbuild.initialize({
 <p>nesting</p>
 </li>
 </ul>
+<h2 id="在浏览器中运行">在浏览器中运行</h2>
+<p>使用<code>esbuild-wasm</code>代替<code>esbuild</code></p>
+<pre><code class="language-shell"><div>npm i esbuild-wasm
+</div></code></pre>
+<pre><code class="language-js"><div><span class="hljs-keyword">let</span> esbuild = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;esbuild-wasm&#x27;</span>)
+
+esbuild.initialize({
+  <span class="hljs-attr">wasmURL</span>: <span class="hljs-string">&#x27;./node_modules/esbuild-wasm/esbuild.wasm&#x27;</span>,
+}).then(<span class="hljs-function">() =&gt;</span> {
+  esbuild.transform(code, options).then(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> { ... })
+  esbuild.build(options).then(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> { ... })
+})
+</div></code></pre>
+<h2 id="loader">loader</h2>
+<p>为esbuild做翻译工作。即使有些文件已经设置了默认loader，也可以覆盖默认值。</p>
+<h3 id="js">js</h3>
+<ul>
+<li>加载<code>.js, .cjs, .mjs</code>时使用js loader.</li>
+<li>默认输出高级写法</li>
+<li>支持es5不太好。可以把es5输出为es6+。可以把es5输出为es5.</li>
+<li>使用WeakMap/WeakSet输出私有成员(<code>#name</code>)</li>
+<li>import会被提升到文件的顶部。</li>
+<li>不要使用<code>eval</code></li>
+<li>xxx</li>
+<li>不维持方法中的this。</li>
+<li>当输出default时，由esm转换cjs时有可能不兼容。</li>
+<li>babel转换</li>
+<li>node转换</li>
+</ul>
+<h3 id="ts">ts</h3>
+<ul>
+<li>loader是 ts或tsx</li>
+<li>默认作用于 .ts .tsx .mts .cts</li>
+</ul>
+<h3 id="jsx-1">jsx</h3>
+<ul>
+<li>loader是 jsx或tsx</li>
+<li>自动引入react等</li>
+</ul>
+<h3 id="json">json</h3>
+<ul>
+<li>loader是 json</li>
+</ul>
+<h3 id="css">css</h3>
+<ul>
+<li>loader是 css</li>
+<li>因在xxx.js中引入的css，是输出xxx.css</li>
+</ul>
+<h3 id="text">text</h3>
+<ul>
+<li>loader是 text</li>
+<li>作用于<code>.txt</code></li>
+</ul>
+<h3 id="binary">binary</h3>
+<ul>
+<li>loader是 binary</li>
+<li>把文件当作binary buffer打包，再以base64嵌入</li>
+</ul>
+<h3 id="base64">base64</h3>
+<ul>
+<li>loader是 base64</li>
+<li>把文件当作binary buffer打包，再以base64嵌入</li>
+</ul>
+<h3 id="dataurl">dataurl</h3>
+<ul>
+<li>loader是 dataurl</li>
+<li>把文件当作binary buffer打包，再以base64-encode data url 形式输出 如：<code>data:image/png;base64,iVBORw0KGgo=</code></li>
+</ul>
+<h3 id="external-file">external file</h3>
+<ul>
+<li>file loader
+<ul>
+<li>把文件复制到输出目录。输出文件名。</li>
+</ul>
+</li>
+<li>copy loader
+<ul>
+<li>把文件复制到输出目录。并重写引入路径</li>
+</ul>
+</li>
+</ul>
+<h2 id="plugin">plugin</h2>
+<h2 id="principle">principle</h2>
+<p>此包的处理逻辑。</p>
+<h3 id="uml">uml</h3>
+<pre><code><code><div></div></code></code></pre>
+<h2 id="todo">todo</h2>
 <h3 id="title">title</h3>
 <h3 id="title-1">title</h3>
 <h3 id="title-2">title</h3>
@@ -1856,9 +1925,16 @@ esbuild.initialize({
 <p>esbuild有些不足为什么还基于它做工作。（可能是因不致命，或可以在二开中解决。）
 写一builder还是挺难的。</p>
 <h3 id="使用esbuild与别的工具合作甚至是打包工具">使用esbuild与别的工具合作，（甚至是打包工具）</h3>
+<h3 id="eval">eval</h3>
+<p><code>(0, eval)(&lt;expression&gt;)</code>
+这里用了逗号操作符，逗号操作符总会返回表达式中的最后一项，所以0在这里基本上没有什么用，换成其他任意数值均可
+然后通过”()”来立即执行这个表达式，返回eval</p>
+<h3 id="总结">总结</h3>
+<p>为了快有好多功能没做。不支持功能：</p>
+<ul>
+<li>降级输出</li>
+</ul>
 <h3 id="title-5">title</h3>
-<h3 id="title-6">title</h3>
-<h3 id="title-7">title</h3>
 
         
         

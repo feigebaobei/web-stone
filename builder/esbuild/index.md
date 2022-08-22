@@ -198,39 +198,7 @@ func main() {
 |*working directory*|build|设置工作目录。不支持cli.|默认为当前工作目录||||
 |*js-specific details*|||||||
 
-## 在浏览器中运行
-使用`esbuild-wasm`代替`esbuild`
-```shell
-npm i esbuild-wasm
-```
-```js
-let esbuild = require('esbuild-wasm')
-
-esbuild.initialize({
-  wasmURL: './node_modules/esbuild-wasm/esbuild.wasm',
-}).then(() => {
-  esbuild.transform(code, options).then(result => { ... })
-  esbuild.build(options).then(result => { ... })
-})
-```
-
-
-
-
-
-
-
-
-
-## plugin
-## principle
-此包的处理逻辑。
-
-### uml
-```
-```
-
-## todo
+## 选项的补充说明
 ### Non-analyzable imports
 esbuild只会打包静态引入。（当有动态引入时不打包）
 有其他打包器支持打包动态引入。如[webpack](/builder/webpack/index.html)
@@ -571,6 +539,122 @@ interface Metadata {
 - inset-property
 - nesting
 
+## 在浏览器中运行
+使用`esbuild-wasm`代替`esbuild`
+```shell
+npm i esbuild-wasm
+```
+```js
+let esbuild = require('esbuild-wasm')
+
+esbuild.initialize({
+  wasmURL: './node_modules/esbuild-wasm/esbuild.wasm',
+}).then(() => {
+  esbuild.transform(code, options).then(result => { ... })
+  esbuild.build(options).then(result => { ... })
+})
+```
+
+## loader
+为esbuild做翻译工作。即使有些文件已经设置了默认loader，也可以覆盖默认值。
+
+### js
+- 加载`.js, .cjs, .mjs`时使用js loader.
+- 默认输出高级写法
+- 支持es5不太好。可以把es5输出为es6+。可以把es5输出为es5.  
+- 使用WeakMap/WeakSet输出私有成员(`#name`)  
+- import会被提升到文件的顶部。  
+- 不要使用`eval`
+- xxx
+- 不维持方法中的this。
+- 当输出default时，由esm转换cjs时有可能不兼容。
+- babel转换
+- node转换
+
+### ts
+- loader是 ts或tsx
+- 默认作用于 .ts .tsx .mts .cts
+
+### jsx
+- loader是 jsx或tsx
+- 自动引入react等
+
+### json
+- loader是 json
+
+### css
+- loader是 css
+- 因在xxx.js中引入的css，是输出xxx.css  
+
+### text
+- loader是 text
+- 作用于`.txt`
+
+### binary
+- loader是 binary
+- 把文件当作binary buffer打包，再以base64嵌入
+
+### base64
+- loader是 base64
+- 把文件当作binary buffer打包，再以base64嵌入
+
+### dataurl
+- loader是 dataurl
+- 把文件当作binary buffer打包，再以base64-encode data url 形式输出 如：`data:image/png;base64,iVBORw0KGgo=`
+
+### external file
+- file loader
+  - 把文件复制到输出目录。输出文件名。
+- copy loader
+  - 把文件复制到输出目录。并重写引入路径
+
+## plugin
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## principle
+此包的处理逻辑。
+
+### uml
+```
+```
+
+## todo
 
 ### title
 ### title
@@ -589,6 +673,13 @@ esbuild有些不足为什么还基于它做工作。（可能是因不致命，�
 
 ### 使用esbuild与别的工具合作，（甚至是打包工具）
 
-### title
-### title
+### eval
+`(0, eval)(<expression>)`
+这里用了逗号操作符，逗号操作符总会返回表达式中的最后一项，所以0在这里基本上没有什么用，换成其他任意数值均可
+然后通过”()”来立即执行这个表达式，返回eval
+
+### 总结
+为了快有好多功能没做。不支持功能：
+- 降级输出
+
 ### title
