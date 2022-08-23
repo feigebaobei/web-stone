@@ -779,7 +779,7 @@ dom.classList.toggle(s) // 若存在则删除，否不存在则添加。
   + Error
   + [symbol](/language/javascript/symbol.html)
   + null
-  + undefined
+  + [undefined](/language/javascript/undefined.html)
   + [bigint](/language/javascript/bigint.html)
   + [set](/language/javascript/set.html)
   + [map](/language/javascript/map.html)
