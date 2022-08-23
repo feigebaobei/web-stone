@@ -342,6 +342,20 @@ function isPromise(obj) {
 }
 ```
 
+### 回调方法转换为promise
+```js
+// callback
+// let fn = (params, cb) => {...}
+// callback: (err, res) => err ? reject(err) : resolve(res)
+
+let cbToP = (fn, params) => new Promise((s, j) => {
+    fn(params, (err, res) => {
+        return err ? j(err) : s(res)
+    })
+})
+let callbackToPromise = cbToP
+```
+
 ## eventLoop (异步 & 同步)
 所有js代码按执行时序可分为三部分：同步代码/宏任务/微任务。
 代码从上到下执行。遇到同步代码则依次序执行。遇到宏任务不执行，放入宏任务队列。遇到微任务不执行，入入微任务队列。执行完所有同步代码后执行一个宏任务队列中的宏任务，然后执行完所有微任务。再执行宏任务队列中的一个宏任务，再执行所有微任务。直到宏任务队列为空/微任务队列为空。

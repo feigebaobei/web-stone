@@ -466,6 +466,18 @@ return new Promise((s, j) =&gt; {
   return 'function' == typeof obj.then;
 }
 </div></code></code></pre>
+<h3 id="回调方法转换为promise">回调方法转换为promise</h3>
+<pre><code class="language-js"><div><span class="hljs-comment">// callback</span>
+<span class="hljs-comment">// let fn = (params, cb) =&gt; {...}</span>
+<span class="hljs-comment">// callback: (err, res) =&gt; err ? reject(err) : resolve(res)</span>
+
+<span class="hljs-keyword">let</span> cbToP = <span class="hljs-function">(<span class="hljs-params">fn, params</span>) =&gt;</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">s, j</span>) =&gt;</span> {
+    fn(params, <span class="hljs-function">(<span class="hljs-params">err, res</span>) =&gt;</span> {
+        <span class="hljs-keyword">return</span> err ? j(err) : s(res)
+    })
+})
+<span class="hljs-keyword">let</span> callbackToPromise = cbToP
+</div></code></pre>
 <h2 id="eventloop-异步--同步">eventLoop (异步 &amp; 同步)</h2>
 <p>所有js代码按执行时序可分为三部分：同步代码/宏任务/微任务。
 代码从上到下执行。遇到同步代码则依次序执行。遇到宏任务不执行，放入宏任务队列。遇到微任务不执行，入入微任务队列。执行完所有同步代码后执行一个宏任务队列中的宏任务，然后执行完所有微任务。再执行宏任务队列中的一个宏任务，再执行所有微任务。直到宏任务队列为空/微任务队列为空。

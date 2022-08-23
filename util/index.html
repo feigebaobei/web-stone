@@ -183,7 +183,7 @@
   isPrevent &amp;&amp; e.preventDefault() <span class="hljs-comment">// 阻止默认事件</span>
 }
 <span class="hljs-comment">// 转义HTML标签的方法</span>
-<span class="hljs-keyword">var</span> funEncodeHTML = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">str</span>) </span>{
+<span class="hljs-keyword">let</span> funEncodeHTML = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">str</span>) </span>{
     <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> str == <span class="hljs-string">&#x27;string&#x27;</span>) {
         <span class="hljs-keyword">return</span> str.replace(<span class="hljs-regexp">/&lt;|&amp;|&gt;/g</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">matches</span>) </span>{
             <span class="hljs-keyword">return</span> ({
@@ -196,7 +196,7 @@
     <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&#x27;</span>;
 };
 <span class="hljs-comment">// 反转义HTML标签的方法</span>
-<span class="hljs-keyword">var</span> funDecodeHTML = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">str</span>) </span>{
+<span class="hljs-keyword">let</span> funDecodeHTML = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">str</span>) </span>{
     <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> str == <span class="hljs-string">&#x27;string&#x27;</span>) {
         <span class="hljs-keyword">return</span> str.replace(<span class="hljs-regexp">/&amp;lt;|&amp;gt;|&amp;amp;/g</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">matches</span>) </span>{
             <span class="hljs-keyword">return</span> ({
@@ -208,7 +208,13 @@
     }
     <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&#x27;</span>;
 };
-
+<span class="hljs-comment">// 回调方法转换为promise</span>
+<span class="hljs-keyword">let</span> cbToP = <span class="hljs-function">(<span class="hljs-params">fn, params</span>) =&gt;</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">s, j</span>) =&gt;</span> {
+    fn(params, <span class="hljs-function">(<span class="hljs-params">err, res</span>) =&gt;</span> {
+        <span class="hljs-keyword">return</span> err ? j(err) : s(res)
+    })
+})
+<span class="hljs-keyword">let</span> callbackToPromise = cbToP
 
 
 
