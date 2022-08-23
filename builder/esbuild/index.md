@@ -608,47 +608,21 @@ esbuild.initialize({
 - copy loader
   - 把文件复制到输出目录。并重写引入路径
 
-## plugin
+## [plugin](/builder/esbuild/plugin/index.html)
+||cli|js|go|
+|-|-|-|-|
+|transform|x|x|x|
+|build|x|y|y|
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- 插件可以做什么？
+- 如何与esbuild结合工作
+- 基本结构是什么
+- 如何使用
 
 ## principle
-此包的处理逻辑。
+![图片](https://img-blog.csdnimg.cn/2021071720503017.png)  
+
+- 变量命名太好了。（很准确、见文知意）
 
 ### uml
 ```
@@ -666,6 +640,7 @@ esbuild.initialize({
 - api有杂糅的情况。如platform+format
 - tree shaking只作用于cjs规范。
 - 还有正在开发的工作。如：代码分割。
+- 环境变量的例子太难懂了。
 
 ### [rollup](/builder/rollup/index.html)
 esbuild有些不足为什么还基于它做工作。（可能是因不致命，或可以在二开中解决。）
