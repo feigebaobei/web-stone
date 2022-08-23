@@ -641,6 +641,7 @@ esbuild.initialize({
 - tree shaking只作用于cjs规范。
 - 还有正在开发的工作。如：代码分割。
 - 环境变量的例子太难懂了。
+- 关于插件的文档写的不好
 
 ### [rollup](/builder/rollup/index.html)
 esbuild有些不足为什么还基于它做工作。（可能是因不致命，或可以在二开中解决。）

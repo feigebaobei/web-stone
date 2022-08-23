@@ -40,46 +40,47 @@ require('esbuild').build({
         // build 可设置回调方法
         // 解决导入的模板路径时触发
         // 每个模块的每个import对应的文件都调用此方法
+        // 用于解析路径
         build.onResolve(options: {
             filter: ExpReg,         // 满足该正则的才能执行该回调。避免执行不需要的回调
             namespace?: string      // 默认值为file
         }, cb: (params: {
-            path: string;
-            importer: string;
-            namespace: string;
-            resolveDir: string;
-            kind: ResolveKind;
-            pluginData: any;
-        }) => {
-            errors?: Message[];
-            external?: boolean;
-            namespace?: string;
-            path?: string;
-            pluginData?: any;
-            pluginName?: string;
-            sideEffects?: boolean;
-            suffix?: string;
-            warnings?: Message[];
-            watchDirs?: string[];
-            watchFiles?: string[];
+            path: string;       // 代码中的原始path
+            importer: string;   // 引入当前文件的文件的path。当前文件是入口文件时该字段为''
+            namespace: string;  // 
+            resolveDir: string; // path所在文件系统中绝对路径
+            kind: ResolveKind;  // 引入方式
+            pluginData: any;    // 由前一个插件的onLoad方法设置
+        }) => {                 // 返回一个自定义路径
+            errors?: Message[];     // 
+            external?: boolean;     // true 不打包
+            namespace?: string;     // 默认为file
+            path?: string;          // 用于解析引入的明确路径。若未设置该字段则继续当前回调之后注册的onResolve。然后，如果路径仍然没有解析，esbuild将默认解析相对于当前模块的解析目录的路径。
+            pluginData?: any;       // 传递给下一个插件的数据。从onResolve传到onLoad，从onLoad传到onResolve
+            pluginName?: string;    // 用于代替plugin的name
+            sideEffects?: boolean;  // false，可删除
+            suffix?: string;        // 设置后缀
+            warnings?: Message[];   // 
+            watchDirs?: string[];   // 指定额外的需要scan的文件，用于watch模式
+            watchFiles?: string[];  // 指定额外的需要scan的文件，用于watch模式
         })
         // 解析模块前调用。主要是用于处理并返回模块的内容。告知 esbuild 要如何解析它们。
         build.onLoad(options: {
             filter: RegExp,
             namespace?: string,
         }, cb: (params: {
-            path: string,
-            namespace: string,
-            suffix: string,
-            pluginData: any,
+            path: string,       // 已经解析好的绝对路径
+            namespace: string,  // 
+            suffix: string,     // qs、hash 
+            pluginData: any,    // 前一个插件的onResolve方法设置的数据
         }) => { // 返回该模块的内容
-            contents?: string | Uint8Array;
-            errors?: Message[];
-            loader?: Loader;     // 默认为js
+            contents?: string | Uint8Array; // 模块的内容
+            errors?: Message[];             // 用于输出日志
+            loader?: Loader;                // 告诉esbuild应该使用什么loader解释该内容。默认为js
             pluginData?: any;
             pluginName?: string;
-            resolveDir?: string;
-            warnings?: Message[];
+            resolveDir?: string;            // 解析好的绝对路径
+            warnings?: Message[];           // 用于输出日志
             watchDirs?: string[];
             watchFiles?: string[];
         })
@@ -88,9 +89,19 @@ require('esbuild').build({
             // console.log('str')
         })
         // 每个打包结束时触发
+        // 可得到打包结果
         build.onEnd(result => {...})
     }
 }
+
+type ResolveKind =
+  | 'entry-point'       // 入口
+  | 'import-statement'  // 使用了import / export
+  | 'require-call'      // 使用package.json中的require字段引入
+  | 'dynamic-import'    // 
+  | 'require-resolve'   // 
+  | 'import-rule'       // 使用css @import 规则
+  | 'url-token'         // 
 
 interface Message {
   text: string;
@@ -124,7 +135,9 @@ let examplePlugin = {
 
 ### resolving paths
 
-
+### 使用缓存
+使打包更快
+可缓存在内存、硬盘。
 
 
 
@@ -155,6 +168,8 @@ let examplePlugin = {
 ### 写个插件练手
 - 替换
 - 转换
+- 列出每个打包文件
+- 指定缓存的文件
 
 ### title
 

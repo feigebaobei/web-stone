@@ -135,46 +135,47 @@
         <span class="hljs-comment">// build 可设置回调方法</span>
         <span class="hljs-comment">// 解决导入的模板路径时触发</span>
         <span class="hljs-comment">// 每个模块的每个import对应的文件都调用此方法</span>
+        <span class="hljs-comment">// 用于解析路径</span>
         build.onResolve(options: {
             <span class="hljs-attr">filter</span>: ExpReg,         <span class="hljs-comment">// 满足该正则的才能执行该回调。避免执行不需要的回调</span>
             <span class="hljs-keyword">namespace</span>?: string      // 默认值为file
         }, cb: (params: {
-            <span class="hljs-attr">path</span>: <span class="hljs-built_in">string</span>;
-            importer: <span class="hljs-built_in">string</span>;
-            <span class="hljs-keyword">namespace</span>: string;
-            resolveDir: string;
-            kind: ResolveKind;
-            pluginData: any;
-        }) =&gt; {
-            errors?: Message[];
-            external?: <span class="hljs-built_in">boolean</span>;
-            <span class="hljs-keyword">namespace</span>?: string;
-            path?: string;
-            pluginData?: any;
-            pluginName?: string;
-            sideEffects?: boolean;
-            suffix?: string;
-            warnings?: Message[];
-            watchDirs?: string[];
-            watchFiles?: string[];
+            <span class="hljs-attr">path</span>: <span class="hljs-built_in">string</span>;       <span class="hljs-comment">// 代码中的原始path</span>
+            importer: <span class="hljs-built_in">string</span>;   <span class="hljs-comment">// 引入当前文件的文件的path。当前文件是入口文件时该字段为&#x27;&#x27;</span>
+            <span class="hljs-keyword">namespace</span>: string;  // 
+            resolveDir: string; // path所在文件系统中绝对路径
+            kind: ResolveKind;  // 引入方式
+            pluginData: any;    // 由前一个插件的onLoad方法设置
+        }) =&gt; {                 <span class="hljs-comment">// 返回一个自定义路径</span>
+            errors?: Message[];     <span class="hljs-comment">// </span>
+            external?: <span class="hljs-built_in">boolean</span>;     <span class="hljs-comment">// true 不打包</span>
+            <span class="hljs-keyword">namespace</span>?: string;     // 默认为file
+            path?: string;          // 用于解析引入的明确路径。若未设置该字段则继续当前回调之后注册的onResolve。然后，如果路径仍然没有解析，esbuild将默认解析相对于当前模块的解析目录的路径。
+            pluginData?: any;       // 传递给下一个插件的数据。从onResolve传到onLoad，从onLoad传到onResolve
+            pluginName?: string;    // 用于代替plugin的name
+            sideEffects?: boolean;  // false，可删除
+            suffix?: string;        // 设置后缀
+            warnings?: Message[];   // 
+            watchDirs?: string[];   // 指定额外的需要scan的文件，用于watch模式
+            watchFiles?: string[];  // 指定额外的需要scan的文件，用于watch模式
         })
         // 解析模块前调用。主要是用于处理并返回模块的内容。告知 esbuild 要如何解析它们。
         build.onLoad(options: {
             <span class="hljs-attr">filter</span>: <span class="hljs-built_in">RegExp</span>,
             <span class="hljs-keyword">namespace</span>?: string,
         }, cb: (params: {
-            <span class="hljs-attr">path</span>: <span class="hljs-built_in">string</span>,
-            <span class="hljs-attr">namespace</span>: <span class="hljs-built_in">string</span>,
-            <span class="hljs-attr">suffix</span>: <span class="hljs-built_in">string</span>,
-            <span class="hljs-attr">pluginData</span>: <span class="hljs-built_in">any</span>,
+            <span class="hljs-attr">path</span>: <span class="hljs-built_in">string</span>,       <span class="hljs-comment">// 已经解析好的绝对路径</span>
+            <span class="hljs-attr">namespace</span>: <span class="hljs-built_in">string</span>,  <span class="hljs-comment">// </span>
+            <span class="hljs-attr">suffix</span>: <span class="hljs-built_in">string</span>,     <span class="hljs-comment">// qs、hash </span>
+            <span class="hljs-attr">pluginData</span>: <span class="hljs-built_in">any</span>,    <span class="hljs-comment">// 前一个插件的onResolve方法设置的数据</span>
         }) =&gt; { <span class="hljs-comment">// 返回该模块的内容</span>
-            contents?: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">Uint8Array</span>;
-            errors?: Message[];
-            loader?: Loader;     <span class="hljs-comment">// 默认为js</span>
+            contents?: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">Uint8Array</span>; <span class="hljs-comment">// 模块的内容</span>
+            errors?: Message[];             <span class="hljs-comment">// 用于输出日志</span>
+            loader?: Loader;                <span class="hljs-comment">// 告诉esbuild应该使用什么loader解释该内容。默认为js</span>
             pluginData?: <span class="hljs-built_in">any</span>;
             pluginName?: <span class="hljs-built_in">string</span>;
-            resolveDir?: <span class="hljs-built_in">string</span>;
-            warnings?: Message[];
+            resolveDir?: <span class="hljs-built_in">string</span>;            <span class="hljs-comment">// 解析好的绝对路径</span>
+            warnings?: Message[];           <span class="hljs-comment">// 用于输出日志</span>
             watchDirs?: <span class="hljs-built_in">string</span>[];
             watchFiles?: <span class="hljs-built_in">string</span>[];
         })
@@ -183,9 +184,19 @@
             <span class="hljs-comment">// console.log(&#x27;str&#x27;)</span>
         })
         <span class="hljs-comment">// 每个打包结束时触发</span>
+        <span class="hljs-comment">// 可得到打包结果</span>
         build.onEnd(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> {...})
     }
 }
+
+<span class="hljs-keyword">type</span> ResolveKind =
+  | <span class="hljs-string">&#x27;entry-point&#x27;</span>       <span class="hljs-comment">// 入口</span>
+  | <span class="hljs-string">&#x27;import-statement&#x27;</span>  <span class="hljs-comment">// 使用了import / export</span>
+  | <span class="hljs-string">&#x27;require-call&#x27;</span>      <span class="hljs-comment">// 使用package.json中的require字段引入</span>
+  | <span class="hljs-string">&#x27;dynamic-import&#x27;</span>    <span class="hljs-comment">// </span>
+  | <span class="hljs-string">&#x27;require-resolve&#x27;</span>   <span class="hljs-comment">// </span>
+  | <span class="hljs-string">&#x27;import-rule&#x27;</span>       <span class="hljs-comment">// 使用css @import 规则</span>
+  | <span class="hljs-string">&#x27;url-token&#x27;</span>         <span class="hljs-comment">// </span>
 
 <span class="hljs-keyword">interface</span> Message {
   <span class="hljs-attr">text</span>: <span class="hljs-built_in">string</span>;
@@ -215,6 +226,9 @@
 </div></code></pre>
 <p>在<code>incremental rebuild / watch mode / serve mode</code>时不更新打包配置。</p>
 <h3 id="resolving-paths">resolving paths</h3>
+<h3 id="使用缓存">使用缓存</h3>
+<p>使打包更快
+可缓存在内存、硬盘。</p>
 <h2 id="开发">开发</h2>
 <ul>
 <li>namespaces 不知道做什么的</li>
@@ -242,6 +256,8 @@
 <ul>
 <li>替换</li>
 <li>转换</li>
+<li>列出每个打包文件</li>
+<li>指定缓存的文件</li>
 </ul>
 <h3 id="title">title</h3>
 
