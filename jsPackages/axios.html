@@ -27,6 +27,41 @@
 	color: var(--vscode-editorError-foreground);
 }
 
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
 </style>
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
@@ -294,54 +329,73 @@ axios.post(<span class="hljs-string">&#x27;http://something.com/&#x27;</span>, p
 <h3 id="uml">uml</h3>
 <pre><code><code><div></div></code></code></pre>
 <h2 id="demo">demo</h2>
-<!-- 待测试 -->
 <pre><code class="language-js"><div><span class="hljs-keyword">import</span> axios <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;axios&#x27;</span>
-<span class="hljs-keyword">let</span> pendding = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Set</span>()
-<span class="hljs-keyword">let</span> isExist = <span class="hljs-function">(<span class="hljs-params">config</span>) =&gt;</span> {
-    <span class="hljs-comment">// 先只判断url是否重复</span>
-    <span class="hljs-keyword">if</span> (pendding.has(config.url)) {
-        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>
-    } <span class="hljs-keyword">else</span> {
-        pendding.add(config.url)
-        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>
-    }
-}
+<span class="hljs-keyword">import</span> md5 <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;md5&#x27;</span>
+<span class="hljs-keyword">import</span> createSimpleStore <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./simpleStore&#x27;</span>
+
+<span class="hljs-keyword">let</span> simpleStore = createSimpleStore()
+
 <span class="hljs-keyword">let</span> instance = axios.create({
-    <span class="hljs-attr">baseURL</span>: <span class="hljs-string">&#x27;http:www.xxx.com&#x27;</span>,
+    <span class="hljs-comment">// baseURL: &#x27;http:www.xxx.com&#x27;,</span>
+    <span class="hljs-comment">// 用于各种后端接口，所以不适合设置baseURL</span>
     <span class="hljs-attr">timeout</span>: <span class="hljs-number">5000</span>,
     <span class="hljs-attr">headers</span>: {
-        <span class="hljs-string">&#x27;key&#x27;</span>: <span class="hljs-string">&#x27;value&#x27;</span>
+        <span class="hljs-comment">// &#x27;key&#x27;: &#x27;value&#x27;</span>
     }
 })
 <span class="hljs-keyword">let</span> myInterceptor = instance.interceptors.request.use(<span class="hljs-function">(<span class="hljs-params">config</span>) =&gt;</span> {
     <span class="hljs-comment">// 取消重复请求</span>
-    <span class="hljs-keyword">if</span> (pendding.has(config.url)) {
+    <span class="hljs-keyword">let</span> hashStr = md5({
+        <span class="hljs-attr">url</span>: config.url,
+        <span class="hljs-attr">method</span>: config.method,
+        <span class="hljs-attr">params</span>: config.params,
+        <span class="hljs-attr">data</span>: config.data,
+    })
+    <span class="hljs-keyword">if</span> (simpleStore.isExist(hashStr)) {
         <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>
     } <span class="hljs-keyword">else</span> {
-        pendding.add(config.url)
         <span class="hljs-keyword">return</span> config
     }
 }, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">error</span>) </span>{
     <span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>.reject(error)
 })
-axios.interceptors.response.use(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
-    pendding.remove(res.config.url)
-    <span class="hljs-keyword">return</span> res
+instance.interceptors.response.use(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+    <span class="hljs-keyword">let</span> hashStr = md5({<span class="hljs-attr">url</span>: res.config.url, <span class="hljs-attr">method</span>: res.config.method, <span class="hljs-attr">params</span>: res.config.params, <span class="hljs-attr">data</span>: res.config.data})
+    simpleStore.remove(hashStr)
+    <span class="hljs-keyword">if</span> (res.status === <span class="hljs-number">200</span>) {
+        <span class="hljs-keyword">return</span> res.data
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>.reject(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">&#x27;请求出错&#x27;</span>))
+    }
 }, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">error</span>) </span>{
     <span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>.reject(error)
 })
+<span class="hljs-comment">// let cancelRequest = () =&gt; {</span>
+<span class="hljs-comment">//     axios.interceptors.request.eject(myInterceptor)</span>
+<span class="hljs-comment">// }</span>
 
 <span class="hljs-keyword">export</span> {
     instance,
     <span class="hljs-comment">// 强制取消请求</span>
-    <span class="hljs-attr">cancelRequest</span>: <span class="hljs-function">() =&gt;</span> {
-        axios.interceptors.request.eject(myInterceptor)
-    }
+    <span class="hljs-comment">// cancelRequest</span>
 }
-
-
-
-
+</div></code></pre>
+<pre><code class="language-js"><div><span class="hljs-keyword">let</span> createSimpleStore = <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-keyword">let</span> simpleStore = {
+        <span class="hljs-attr">value</span>: <span class="hljs-keyword">new</span> <span class="hljs-built_in">Set</span>(),
+        <span class="hljs-attr">isExist</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">v</span>) </span>{
+            <span class="hljs-keyword">return</span> simpleStore.value.has(v)
+        },
+        <span class="hljs-attr">add</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">v</span>) </span>{
+            simpleStore.value.add(v)
+        },
+        <span class="hljs-attr">remove</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">v</span>) </span>{
+            simpleStore.value.delete(v)
+        }
+    }
+    <span class="hljs-keyword">return</span> simpleStore
+}
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> createSimpleStore
 </div></code></pre>
 
         

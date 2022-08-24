@@ -249,53 +249,74 @@ axios.post('http://something.com/', params.toString());
 ```
 
 ## demo
-<!-- 待测试 -->
 ```js
 import axios from 'axios'
-let pendding = new Set()
-let isExist = (config) => {
-    // 先只判断url是否重复
-    if (pendding.has(config.url)) {
-        return true
-    } else {
-        pendding.add(config.url)
-        return false
-    }
-}
+import md5 from 'md5'
+import createSimpleStore from './simpleStore'
+
+let simpleStore = createSimpleStore()
+
 let instance = axios.create({
-    baseURL: 'http:www.xxx.com',
+    // baseURL: 'http:www.xxx.com',
+    // 用于各种后端接口，所以不适合设置baseURL
     timeout: 5000,
     headers: {
-        'key': 'value'
+        // 'key': 'value'
     }
 })
 let myInterceptor = instance.interceptors.request.use((config) => {
     // 取消重复请求
-    if (pendding.has(config.url)) {
+    let hashStr = md5({
+        url: config.url,
+        method: config.method,
+        params: config.params,
+        data: config.data,
+    })
+    if (simpleStore.isExist(hashStr)) {
         return null
     } else {
-        pendding.add(config.url)
         return config
     }
 }, function (error) {
     return Promise.reject(error)
 })
-axios.interceptors.response.use((res) => {
-    pendding.remove(res.config.url)
-    return res
+instance.interceptors.response.use((res) => {
+    let hashStr = md5({url: res.config.url, method: res.config.method, params: res.config.params, data: res.config.data})
+    simpleStore.remove(hashStr)
+    if (res.status === 200) {
+        return res.data
+    } else {
+        return Promise.reject(new Error('请求出错'))
+    }
 }, function (error) {
     return Promise.reject(error)
 })
+// let cancelRequest = () => {
+//     axios.interceptors.request.eject(myInterceptor)
+// }
 
 export {
     instance,
     // 强制取消请求
-    cancelRequest: () => {
-        axios.interceptors.request.eject(myInterceptor)
-    }
+    // cancelRequest
 }
+```
 
-
-
-
+```js
+let createSimpleStore = () => {
+    let simpleStore = {
+        value: new Set(),
+        isExist: function (v) {
+            return simpleStore.value.has(v)
+        },
+        add: function(v) {
+            simpleStore.value.add(v)
+        },
+        remove: function (v) {
+            simpleStore.value.delete(v)
+        }
+    }
+    return simpleStore
+}
+export default createSimpleStore
 ```
