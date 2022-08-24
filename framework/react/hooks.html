@@ -512,6 +512,7 @@ useLogger(stateValue)
 }
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> useOnline;
 </div></code></pre>
+<p>没发现它有独特的用途</p>
 <pre><code class="language-js"><div><span class="hljs-keyword">import</span> {useRef} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">useStore</span> (<span class="hljs-params">key, initValue</span>) </span>{
     <span class="hljs-keyword">let</span> ref = useRef({key, initValue})
@@ -525,6 +526,12 @@ useLogger(stateValue)
 }
 <span class="hljs-comment">// 使用</span>
 useStore(stateValue)
+</div></code></pre>
+<pre><code class="language-js"><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">useAsyncEffect</span>(<span class="hljs-params">fn, deps, ...args</span>) </span>{
+    useEffect((<span class="hljs-keyword">async</span> () =&gt; {
+        <span class="hljs-keyword">await</span> fn(...args)
+    })(), deps)
+}
 </div></code></pre>
 <h2 id="todo">todo</h2>
 <h3 id="title">title</h3>

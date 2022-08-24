@@ -428,6 +428,7 @@ function useOnline () {
 export default useOnline;
 ```
 
+没发现它有独特的用途
 ```js
 import {useRef} from 'react'
 export default function useStore (key, initValue) {
@@ -442,6 +443,14 @@ export default function useStore (key, initValue) {
 }
 // 使用
 useStore(stateValue)
+```
+
+```js
+export default function useAsyncEffect(fn, deps, ...args) {
+    useEffect((async () => {
+        await fn(...args)
+    })(), deps)
+}
 ```
 
 ## todo
