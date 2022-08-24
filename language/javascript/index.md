@@ -348,8 +348,8 @@ function isPromise(obj) {
 // let fn = (params, cb) => {...}
 // callback: (err, res) => err ? reject(err) : resolve(res)
 
-let cbToP = (fn, params) => new Promise((s, j) => {
-    fn(params, (err, res) => {
+let cbToP = (fn, ...params) => new Promise((s, j) => {
+    fn(...params, (err, res) => {
         return err ? j(err) : s(res)
     })
 })

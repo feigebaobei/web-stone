@@ -11,7 +11,7 @@
 - [html encode & decode](/confuse/htmlEncodeDecode.html)
 - [|| && ??](/confuse/shortCircuitOperator.html)
 - [react方法式组件使用ref ](/confuse/reactFnComp%26Ref.html)
-- [title](/confuse/title.html)
+- [性能优先的设计哲学](/confuse/title.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)

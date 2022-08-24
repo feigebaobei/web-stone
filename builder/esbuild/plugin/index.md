@@ -84,13 +84,13 @@ require('esbuild').build({
             watchDirs?: string[];
             watchFiles?: string[];
         })
-        // 每个打包开始时触发
+        // 打包开始时触发
         build.onStart(() => {
             // console.log('str')
         })
-        // 每个打包结束时触发
+        // 所有打包结束时触发
         // 可得到打包结果
-        build.onEnd(result => {...})
+        build.onEnd((result: { errors: [], warnings: [] }) => {...})
     }
 }
 
@@ -170,6 +170,59 @@ let examplePlugin = {
 - 转换
 - 列出每个打包文件
 - 指定缓存的文件
+
+```js
+
+// - 替换
+let replacePlugin = (source, target, filter = /^$/) => ({
+    name: 'replace',
+    setup(build) {
+    build.onLoad({filter}, (args) => {
+        return fs.promises.readFile(args.path, 'utf-8').then(res => {
+            return {
+                contents: res.replace(source, target)
+            }
+        })
+    })
+    }
+})
+
+// - 转换
+let transformPlugin = (filter = /^$/) => {
+    return {
+        name: 'transform',
+        setup: function (build) {
+            build.onLoad({filter}, (args) => {
+                return fs.promises.readFile(args.path, 'utf-8').then(source => {
+                    let arr = source.split(/;\n*/) // [k v, k1 v, ...]
+                    let str = arr.reduce((r, c) => {
+                        // c: k v
+                        let t = c.split(' ')
+                        r[t[0]] = t[1]
+                        return r
+                    }, {})
+                    str = JSON.stringify(str)
+                    return {
+                        contents: str,
+                        loader: 'json'
+                    }
+                })
+            })
+        }
+    }
+}
+
+require('esbuild').build({
+    entryPoints: ['src/index.js'],
+    bundle: true,
+    outdir: 'out',
+    format: 'esm',
+    plugins: [transformPlugin(), replacePlugin('let clog = console.log', 'let {log: clog} = console'), listFilePlugin()], // 把插件传入插件数组
+    // plugins: [cachePlugin()]
+}).then(() => {
+    clog('打包成功')
+}).catch(() => process.exit(1))
+```
 
 ### title
 

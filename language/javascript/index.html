@@ -471,8 +471,8 @@ return new Promise((s, j) =&gt; {
 <span class="hljs-comment">// let fn = (params, cb) =&gt; {...}</span>
 <span class="hljs-comment">// callback: (err, res) =&gt; err ? reject(err) : resolve(res)</span>
 
-<span class="hljs-keyword">let</span> cbToP = <span class="hljs-function">(<span class="hljs-params">fn, params</span>) =&gt;</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">s, j</span>) =&gt;</span> {
-    fn(params, <span class="hljs-function">(<span class="hljs-params">err, res</span>) =&gt;</span> {
+<span class="hljs-keyword">let</span> cbToP = <span class="hljs-function">(<span class="hljs-params">fn, ...params</span>) =&gt;</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">s, j</span>) =&gt;</span> {
+    fn(...params, <span class="hljs-function">(<span class="hljs-params">err, res</span>) =&gt;</span> {
         <span class="hljs-keyword">return</span> err ? j(err) : s(res)
     })
 })

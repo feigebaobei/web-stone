@@ -179,13 +179,13 @@
             watchDirs?: <span class="hljs-built_in">string</span>[];
             watchFiles?: <span class="hljs-built_in">string</span>[];
         })
-        <span class="hljs-comment">// 每个打包开始时触发</span>
+        <span class="hljs-comment">// 打包开始时触发</span>
         build.onStart(<span class="hljs-function">() =&gt;</span> {
             <span class="hljs-comment">// console.log(&#x27;str&#x27;)</span>
         })
-        <span class="hljs-comment">// 每个打包结束时触发</span>
+        <span class="hljs-comment">// 所有打包结束时触发</span>
         <span class="hljs-comment">// 可得到打包结果</span>
-        build.onEnd(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> {...})
+        build.onEnd(<span class="hljs-function">(<span class="hljs-params">result: { errors: [], warnings: [] }</span>) =&gt;</span> {...})
     }
 }
 
@@ -259,6 +259,57 @@
 <li>列出每个打包文件</li>
 <li>指定缓存的文件</li>
 </ul>
+<pre><code class="language-js"><div>
+<span class="hljs-comment">// - 替换</span>
+<span class="hljs-keyword">let</span> replacePlugin = <span class="hljs-function">(<span class="hljs-params">source, target, filter = <span class="hljs-regexp">/^$/</span></span>) =&gt;</span> ({
+    <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;replace&#x27;</span>,
+    <span class="hljs-function"><span class="hljs-title">setup</span>(<span class="hljs-params">build</span>)</span> {
+    build.onLoad({filter}, <span class="hljs-function">(<span class="hljs-params">args</span>) =&gt;</span> {
+        <span class="hljs-keyword">return</span> fs.promises.readFile(args.path, <span class="hljs-string">&#x27;utf-8&#x27;</span>).then(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
+            <span class="hljs-keyword">return</span> {
+                <span class="hljs-attr">contents</span>: res.replace(source, target)
+            }
+        })
+    })
+    }
+})
+
+<span class="hljs-comment">// - 转换</span>
+<span class="hljs-keyword">let</span> transformPlugin = <span class="hljs-function">(<span class="hljs-params">filter = <span class="hljs-regexp">/^$/</span></span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;transform&#x27;</span>,
+        <span class="hljs-attr">setup</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">build</span>) </span>{
+            build.onLoad({filter}, <span class="hljs-function">(<span class="hljs-params">args</span>) =&gt;</span> {
+                <span class="hljs-keyword">return</span> fs.promises.readFile(args.path, <span class="hljs-string">&#x27;utf-8&#x27;</span>).then(<span class="hljs-function"><span class="hljs-params">source</span> =&gt;</span> {
+                    <span class="hljs-keyword">let</span> arr = source.split(<span class="hljs-regexp">/;\n*/</span>) <span class="hljs-comment">// [k v, k1 v, ...]</span>
+                    <span class="hljs-keyword">let</span> str = arr.reduce(<span class="hljs-function">(<span class="hljs-params">r, c</span>) =&gt;</span> {
+                        <span class="hljs-comment">// c: k v</span>
+                        <span class="hljs-keyword">let</span> t = c.split(<span class="hljs-string">&#x27; &#x27;</span>)
+                        r[t[<span class="hljs-number">0</span>]] = t[<span class="hljs-number">1</span>]
+                        <span class="hljs-keyword">return</span> r
+                    }, {})
+                    str = <span class="hljs-built_in">JSON</span>.stringify(str)
+                    <span class="hljs-keyword">return</span> {
+                        <span class="hljs-attr">contents</span>: str,
+                        <span class="hljs-attr">loader</span>: <span class="hljs-string">&#x27;json&#x27;</span>
+                    }
+                })
+            })
+        }
+    }
+}
+
+<span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;esbuild&#x27;</span>).build({
+    <span class="hljs-attr">entryPoints</span>: [<span class="hljs-string">&#x27;src/index.js&#x27;</span>],
+    <span class="hljs-attr">bundle</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">outdir</span>: <span class="hljs-string">&#x27;out&#x27;</span>,
+    <span class="hljs-attr">format</span>: <span class="hljs-string">&#x27;esm&#x27;</span>,
+    <span class="hljs-attr">plugins</span>: [transformPlugin(), replacePlugin(<span class="hljs-string">&#x27;let clog = console.log&#x27;</span>, <span class="hljs-string">&#x27;let {log: clog} = console&#x27;</span>), listFilePlugin()], <span class="hljs-comment">// 把插件传入插件数组</span>
+    <span class="hljs-comment">// plugins: [cachePlugin()]</span>
+}).then(<span class="hljs-function">() =&gt;</span> {
+    clog(<span class="hljs-string">&#x27;打包成功&#x27;</span>)
+}).catch(<span class="hljs-function">() =&gt;</span> process.exit(<span class="hljs-number">1</span>))
+</div></code></pre>
 <h3 id="title">title</h3>
 
         <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>

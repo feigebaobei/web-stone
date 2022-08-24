@@ -129,8 +129,8 @@ let funDecodeHTML = function (str) {
     return '';
 };
 // 回调方法转换为promise
-let cbToP = (fn, params) => new Promise((s, j) => {
-    fn(params, (err, res) => {
+let cbToP = (fn, ...params) => new Promise((s, j) => {
+    fn(...params, (err, res) => {
         return err ? j(err) : s(res)
     })
 })
