@@ -26,37 +26,45 @@ pattern包括普通字符（eg:a-z。包括可打印字符、不可打印字符�
 
 ### 方法
 
-    var reg = new RegExp('\\d{5}', 'g')
-    var str = '1, 2, 3, 4, 5'
-    reg.exec(str) // 只返回一个匹配结果，并提供本次匹配的完整信息。
-    reg.test(str) // 是否有匹配结果
-    reg.compile(regexp, modifier) // 编译正则表达式。可以用于重新编译正则表达式。
+```js
+var reg = new RegExp('\\d{5}', 'g')
+var str = '1, 2, 3, 4, 5'
+reg.exec(str)
+// 返回被找到的值，或null。只返回一个匹配结果，并提供本次匹配的完整信息。其结果与str.match(reg) reg不带g 相同
+// 其结果与str.match(reg) reg不带g 相同
+reg.test(str) // 检查是否存在。返回boolean。  
+reg.compile(regexp, modifier) // 编译正则表达式。可以用于重新编译正则表达式。
+```
 
-    |关键字|更多遍历方法|速度|结果|
-    |-|-|-|-|
-    |exec()|使用reg.lastIndex()方法遍历。|慢|可以得到信息、位置、原数据。|
-    |test()|使用reg.lastIndex()方法遍历。|快（比exec()大约快5倍）|只有得到是否有匹配结果。|
+|关键字|更多遍历方法|速度|结果|
+|-|-|-|-|
+|exec()|使用reg.lastIndex()方法遍历。|慢|可以得到信息、位置、原数据。|
+|test()|使用reg.lastIndex()方法遍历。|快（比exec()大约快5倍）|只有得到是否有匹配结果。|
 
 ### string对象中支持reg的方法
+```js
+str.search(reg/substr) // 返回与正则表达式（或子字符串）相匹配的元素在指定元素中的下标。 number型。 若不匹配则返回-1
+str.match(reg/substr)
+// 若使用g。则返回如下：
+// [匹配结果0, 匹配结果1, 匹配结果2, ...]
+// 返回由匹配元素组成的数组。
+// 若不使用g，则返回如下：
+// ["123abc", index: 0, input: "123abc", groups: undefined]
+// 只返回一个匹配结果，并提供本次匹配的完整信息。
+str.replace(reg/substr, replacement) // 
+str.split(reg/substr, howmany) //
+```
 
-    str.search(reg/substr) // 返回与正则表达式（或子字符串）相匹配的元素在指定元素中的下标。 number型。 若不匹配则返回-1
-    str.match(reg/substr)
-    // 若不使用g，则返回如下：
-    // [匹配结果0, 匹配结果1, 匹配结果2, ...]
-    // 返回由匹配元素组成的数组。
-    // 若使用g。则返回如下：
-    // ["123abc", index: 0, input: "123abc", groups: undefined]
-    // 只返回一个匹配结果，并提供本次匹配的完整信息。
-    str.replace(reg/substr, replacement) // 
-    str.split(reg/substr, howmany) //
 ## 正则对于string
 
-    string.search(reg) // 返回第一个匹配的子串的位置。找不到匹配字符串就返回-1。不支持全局检索，因为它忽略正则表达式参数中的修饰符g。
-    string.replace(reg, item) // 替换reg匹配（全局或不全局）的子串为item。$1表示引用第一个子串
-    string.replace(reg, function (match, input, string) {return ...})
-    string.match(/*/g) // 全局检索时返回一个数组。里面的元素都是检索的结果。或 null
-    string.match(/*/)  // 非全局检索时返回一个类数组对象。["value", index: 0, input: '原string'] 或 null
-    '1, 2, 3, 4, 5'.split(/\s*,\s*/) // 返回[1, 2, 3, 4, 5]
+```js
+string.search(reg) // 返回第一个匹配的子串的位置。找不到匹配字符串就返回-1。不支持全局检索，因为它忽略正则表达式参数中的修饰符g。
+string.replace(reg, item) // 替换reg匹配（全局或不全局）的子串为item。$1表示引用第一个子串
+string.replace(reg, function (match, input, string) {return ...})
+string.match(/*/g) // 全局检索时返回一个数组。里面的元素都是检索的结果。或 null
+string.match(/*/)  // 非全局检索时返回一个类数组对象。["value", index: 0, input: '原string'] 或 null
+'1, 2, 3, 4, 5'.split(/\s*,\s*/) // 返回[1, 2, 3, 4, 5]
+```
 
 |||||
 |-|-|-|-|
@@ -83,7 +91,6 @@ pattern包括普通字符（eg:a-z。包括可打印字符、不可打印字符�
 |\v|垂直制表符|  
   </code>
 </details>
-
 
 <details>
   <summary>匹配符</summary>
@@ -151,6 +158,10 @@ pattern包括普通字符（eg:a-z。包括可打印字符、不可打印字符�
             <td>.</td>
             <td></td>
         </tr>
+        <tr>
+            <td>?</td>
+            <td></td>
+        </tr>
     </tbody>
 </table>
 </details>
@@ -189,23 +200,9 @@ pattern包括普通字符（eg:a-z。包括可打印字符、不可打印字符�
 |i|不区分大小写|
 |g|执行全文搜索|
 |m|执行多行搜索|
+|s|若设置为s则允许`.`包含`\n`，默认不包含。|
     </code>
 </details>
-
-## 方法
-**test(str)** 检查是否存在。返回的boolean。  
-
-    var reg0 = /e/
-    var bool0 = reg0.test('the best') // true
-
-**exec(str)** 返回被找到的值，或null。  
-    
-    var reg1 = /e/ig
-    var arr0 = reg0.exec('the best bEE apple')
-    // ["123abc", index: 0, input: "123abc", groups: undefined]
-    // 或者 null
-    // 其结果与str.match(reg)相同
-
 
 ## 贪婪匹配
 
@@ -216,23 +213,25 @@ pattern包括普通字符（eg:a-z。包括可打印字符、不可打印字符�
 
 尽可能少的匹配内容。`.*?`  
 在量词后面加`?`。  
-
-    {m, n}?
-    {m,}?
-    +?
-    ??
-    *?
+```
+{m, n}?
+{m,}?
++?
+??
+*?
+```
 
 ## 选择、分组、引用
-
-    /a|ab/ // 只匹配a。因为选择项的匹配匹配次序是从左到右。
-    () // 表示捕获分组。匹配会被缓存起来。使用n访问缓存。
-    使用括号分组
-    (?:  ) // 仅用于分组，不用到子表达式引用。
-    (?=  ) // 仅用于分组，不用到子表达式引用。`exp1(?=exp2)` 查找后面是exp2的exp1  正向先行断言  
-    (?!  ) // 仅用于分组，不用到子表达式引用。负向先行断言  
-    \1 // 第一个缓存的匹配内容
-    \2 // 第二个缓存的匹配内容
+```
+/a|ab/ // 只匹配a。因为选择项的匹配匹配次序是从左到右。
+() // 表示捕获分组。匹配会被缓存起来。使用n访问缓存。
+使用括号分组
+(?:  ) // 仅用于分组，不用到子表达式引用。
+(?=  ) // 仅用于分组，不用到子表达式引用。`exp1(?=exp2)` 查找后面是exp2的exp1  正向先行断言  
+(?!  ) // 仅用于分组，不用到子表达式引用。负向先行断言  
+\1 // 第一个缓存的匹配内容
+\2 // 第二个缓存的匹配内容
+```
 
 **`?=`和`?:`的区别**  
 
@@ -241,12 +240,10 @@ pattern包括普通字符（eg:a-z。包括可打印字符、不可打印字符�
 |`?=`|匹配一个位置|`123(?=456)`,匹配后面有456的123|
 |`?:`|不记入编号|`(a)(?:b)(c)\1\2`，匹配abcac|  
 
-
 `exp1(?=exp2)`   查找后面是exp2的exp1  
 `(?<=exp2)exp1`  查找exp2后面的exp1   
 `exp1(?!exp2)`   查找后面不是exp2的exp1  
 `(?<!exp2)exp1`  查找前面不是exp2的exp1  
-
 
 左右两侧单双引号匹配
     
@@ -255,21 +252,6 @@ pattern包括普通字符（eg:a-z。包括可打印字符、不可打印字符�
 左右两侧单双引号不匹配
 
     /['"][^'"]*['"]/
-
-
-## 修饰符
-用来说明高级匹配模式的规则。放在表达式的后面  
-
-    /^abc$/i
-
-|修饰符|说明|
-|-|-|
-|`i`|不区分大小写|
-|`g`|全局匹配|
-|`m`|多行模式|
-|`s`|若设置为s则允许`.`包含`\n`，默认不包含。|
-
-    ^$ // 可以匹配整个字符串的、每行的开始和结尾。
 
 ## 优先级
 
@@ -308,3 +290,11 @@ pattern包括普通字符（eg:a-z。包括可打印字符、不可打印字符�
 
     // 数字格式化 1,123,000
     "1234567890".replace(/\B(?=(?:\d{3})+(?!\d))/g,",") // 结果：1,234,567,890，匹配的是后面是3*n个数字的非单词边界(\B)
+
+**左右两侧单双引号匹配**
+    
+    /(['"])[^'"]*\1/
+
+**左右两侧单双引号不匹配**
+
+    /['"][^'"]*['"]/

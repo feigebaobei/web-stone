@@ -27,6 +27,41 @@
 	color: var(--vscode-editorError-foreground);
 }
 
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
 </style>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
 <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
@@ -98,37 +133,58 @@ let reg1 = /\d{5}/g
 </tbody>
 </table>
 <h3 id="方法">方法</h3>
-<pre><code>var reg = new RegExp('\\d{5}', 'g')
-var str = '1, 2, 3, 4, 5'
-reg.exec(str) // 只返回一个匹配结果，并提供本次匹配的完整信息。
-reg.test(str) // 是否有匹配结果
-reg.compile(regexp, modifier) // 编译正则表达式。可以用于重新编译正则表达式。
-
-|关键字|更多遍历方法|速度|结果|
-|-|-|-|-|
-|exec()|使用reg.lastIndex()方法遍历。|慢|可以得到信息、位置、原数据。|
-|test()|使用reg.lastIndex()方法遍历。|快（比exec()大约快5倍）|只有得到是否有匹配结果。|
-</code></pre>
+<pre><code class="language-js"><div><span class="hljs-keyword">var</span> reg = <span class="hljs-keyword">new</span> <span class="hljs-built_in">RegExp</span>(<span class="hljs-string">&#x27;\\d{5}&#x27;</span>, <span class="hljs-string">&#x27;g&#x27;</span>)
+<span class="hljs-keyword">var</span> str = <span class="hljs-string">&#x27;1, 2, 3, 4, 5&#x27;</span>
+reg.exec(str)
+<span class="hljs-comment">// 返回被找到的值，或null。只返回一个匹配结果，并提供本次匹配的完整信息。其结果与str.match(reg) reg不带g 相同</span>
+<span class="hljs-comment">// 其结果与str.match(reg) reg不带g 相同</span>
+reg.test(str) <span class="hljs-comment">// 检查是否存在。返回boolean。  </span>
+reg.compile(regexp, modifier) <span class="hljs-comment">// 编译正则表达式。可以用于重新编译正则表达式。</span>
+</div></code></pre>
+<table>
+<thead>
+<tr>
+<th>关键字</th>
+<th>更多遍历方法</th>
+<th>速度</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>exec()</td>
+<td>使用reg.lastIndex()方法遍历。</td>
+<td>慢</td>
+<td>可以得到信息、位置、原数据。</td>
+</tr>
+<tr>
+<td>test()</td>
+<td>使用reg.lastIndex()方法遍历。</td>
+<td>快（比exec()大约快5倍）</td>
+<td>只有得到是否有匹配结果。</td>
+</tr>
+</tbody>
+</table>
 <h3 id="string对象中支持reg的方法">string对象中支持reg的方法</h3>
-<pre><code>str.search(reg/substr) // 返回与正则表达式（或子字符串）相匹配的元素在指定元素中的下标。 number型。 若不匹配则返回-1
+<pre><code class="language-js"><div>str.search(reg/substr) <span class="hljs-comment">// 返回与正则表达式（或子字符串）相匹配的元素在指定元素中的下标。 number型。 若不匹配则返回-1</span>
 str.match(reg/substr)
-// 若不使用g，则返回如下：
-// [匹配结果0, 匹配结果1, 匹配结果2, ...]
-// 返回由匹配元素组成的数组。
-// 若使用g。则返回如下：
-// [&quot;123abc&quot;, index: 0, input: &quot;123abc&quot;, groups: undefined]
-// 只返回一个匹配结果，并提供本次匹配的完整信息。
-str.replace(reg/substr, replacement) // 
-str.split(reg/substr, howmany) //
-</code></pre>
+<span class="hljs-comment">// 若使用g。则返回如下：</span>
+<span class="hljs-comment">// [匹配结果0, 匹配结果1, 匹配结果2, ...]</span>
+<span class="hljs-comment">// 返回由匹配元素组成的数组。</span>
+<span class="hljs-comment">// 若不使用g，则返回如下：</span>
+<span class="hljs-comment">// [&quot;123abc&quot;, index: 0, input: &quot;123abc&quot;, groups: undefined]</span>
+<span class="hljs-comment">// 只返回一个匹配结果，并提供本次匹配的完整信息。</span>
+str.replace(reg/substr, replacement) <span class="hljs-comment">// </span>
+str.split(reg/substr, howmany) <span class="hljs-comment">//</span>
+</div></code></pre>
 <h2 id="正则对于string">正则对于string</h2>
-<pre><code>string.search(reg) // 返回第一个匹配的子串的位置。找不到匹配字符串就返回-1。不支持全局检索，因为它忽略正则表达式参数中的修饰符g。
-string.replace(reg, item) // 替换reg匹配（全局或不全局）的子串为item。$1表示引用第一个子串
-string.replace(reg, function (match, input, string) {return ...})
-string.match(/*/g) // 全局检索时返回一个数组。里面的元素都是检索的结果。或 null
-string.match(/*/)  // 非全局检索时返回一个类数组对象。[&quot;value&quot;, index: 0, input: '原string'] 或 null
-'1, 2, 3, 4, 5'.split(/\s*,\s*/) // 返回[1, 2, 3, 4, 5]
-</code></pre>
+<pre><code class="language-js"><div>string.search(reg) <span class="hljs-comment">// 返回第一个匹配的子串的位置。找不到匹配字符串就返回-1。不支持全局检索，因为它忽略正则表达式参数中的修饰符g。</span>
+string.replace(reg, item) <span class="hljs-comment">// 替换reg匹配（全局或不全局）的子串为item。$1表示引用第一个子串</span>
+string.replace(reg, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">match, input, string</span>) </span>{<span class="hljs-keyword">return</span> ...})
+string.match(<span class="hljs-comment">/*/g) // 全局检索时返回一个数组。里面的元素都是检索的结果。或 null
+string.match(/*/</span>)  <span class="hljs-comment">// 非全局检索时返回一个类数组对象。[&quot;value&quot;, index: 0, input: &#x27;原string&#x27;] 或 null</span>
+<span class="hljs-string">&#x27;1, 2, 3, 4, 5&#x27;</span>.split(<span class="hljs-regexp">/\s*,\s*/</span>) <span class="hljs-comment">// 返回[1, 2, 3, 4, 5]</span>
+</div></code></pre>
 <table>
 <thead>
 <tr>
@@ -252,6 +308,10 @@ string.match(/*/)  // 非全局检索时返回一个类数组对象。[&quot;val
             <td>.</td>
             <td></td>
         </tr>
+        <tr>
+            <td>?</td>
+            <td></td>
+        </tr>
     </tbody>
 </table>
 </details>
@@ -287,34 +347,23 @@ string.match(/*/)  // 非全局检索时返回一个类数组对象。[&quot;val
 |i|不区分大小写|
 |g|执行全文搜索|
 |m|执行多行搜索|
+|s|若设置为s则允许`.`包含`\n`，默认不包含。|
     </code>
 </details>
-<h2 id="方法-1">方法</h2>
-<p><strong>test(str)</strong> 检查是否存在。返回的boolean。</p>
-<pre><code>var reg0 = /e/
-var bool0 = reg0.test('the best') // true
-</code></pre>
-<p><strong>exec(str)</strong> 返回被找到的值，或null。</p>
-<pre><code>var reg1 = /e/ig
-var arr0 = reg0.exec('the best bEE apple')
-// [&quot;123abc&quot;, index: 0, input: &quot;123abc&quot;, groups: undefined]
-// 或者 null
-// 其结果与str.match(reg)相同
-</code></pre>
 <h2 id="贪婪匹配">贪婪匹配</h2>
 <p>尽可能多的匹配内容。<code>.*</code><br>
 使用<code>*</code>匹配。</p>
 <h2 id="惰性匹配">惰性匹配</h2>
 <p>尽可能少的匹配内容。<code>.*?</code><br>
 在量词后面加<code>?</code>。</p>
-<pre><code>{m, n}?
+<pre><code><code><div>{m, n}?
 {m,}?
 +?
 ??
 *?
-</code></pre>
+</div></code></code></pre>
 <h2 id="选择分组引用">选择、分组、引用</h2>
-<pre><code>/a|ab/ // 只匹配a。因为选择项的匹配匹配次序是从左到右。
+<pre><code><code><div>/a|ab/ // 只匹配a。因为选择项的匹配匹配次序是从左到右。
 () // 表示捕获分组。匹配会被缓存起来。使用n访问缓存。
 使用括号分组
 (?:  ) // 仅用于分组，不用到子表达式引用。
@@ -322,7 +371,7 @@ var arr0 = reg0.exec('the best bEE apple')
 (?!  ) // 仅用于分组，不用到子表达式引用。负向先行断言  
 \1 // 第一个缓存的匹配内容
 \2 // 第二个缓存的匹配内容
-</code></pre>
+</div></code></code></pre>
 <p><strong><code>?=</code>和<code>?:</code>的区别</strong></p>
 <table>
 <thead>
@@ -354,38 +403,6 @@ var arr0 = reg0.exec('the best bEE apple')
 </code></pre>
 <p>左右两侧单双引号不匹配</p>
 <pre><code>/['&quot;][^'&quot;]*['&quot;]/
-</code></pre>
-<h2 id="修饰符">修饰符</h2>
-<p>用来说明高级匹配模式的规则。放在表达式的后面</p>
-<pre><code>/^abc$/i
-</code></pre>
-<table>
-<thead>
-<tr>
-<th>修饰符</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>i</code></td>
-<td>不区分大小写</td>
-</tr>
-<tr>
-<td><code>g</code></td>
-<td>全局匹配</td>
-</tr>
-<tr>
-<td><code>m</code></td>
-<td>多行模式</td>
-</tr>
-<tr>
-<td><code>s</code></td>
-<td>若设置为s则允许<code>.</code>包含<code>\n</code>，默认不包含。</td>
-</tr>
-</tbody>
-</table>
-<pre><code>^$ // 可以匹配整个字符串的、每行的开始和结尾。
 </code></pre>
 <h2 id="优先级">优先级</h2>
 <table>
@@ -448,6 +465,12 @@ exp1(?!exp2) 查找后面不是exp2的exp1
 
 // 数字格式化 1,123,000
 &quot;1234567890&quot;.replace(/\B(?=(?:\d{3})+(?!\d))/g,&quot;,&quot;) // 结果：1,234,567,890，匹配的是后面是3*n个数字的非单词边界(\B)
+</code></pre>
+<p><strong>左右两侧单双引号匹配</strong></p>
+<pre><code>/(['&quot;])[^'&quot;]*\1/
+</code></pre>
+<p><strong>左右两侧单双引号不匹配</strong></p>
+<pre><code>/['&quot;][^'&quot;]*['&quot;]/
 </code></pre>
 
         <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
