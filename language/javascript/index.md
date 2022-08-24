@@ -802,7 +802,7 @@ dom.classList.toggle(s) // 若存在则删除，否不存在则添加。
 |iife||||||  
 |system||||||    
 
-
+# [函数式编程](/language/javascript/functionalProgramming.html)
 
 
 
