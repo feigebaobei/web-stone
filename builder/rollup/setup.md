@@ -1,5 +1,6 @@
 # overview
 以一个最基本的demo展示rollup的功能/用法。
+
 # init project
 ```
 mkdir exRollup
@@ -8,8 +9,8 @@ npm init
 npm i -d rollup
 npm i -d rollup-plugin-json
 ```
-# 编辑package.json
 
+# 编辑package.json
 ```
 {
   ...
@@ -77,6 +78,7 @@ export default {
   plugins: [ json() ]
 };
 ```
+
 # 编辑代码
 ```
 // src/foo.js

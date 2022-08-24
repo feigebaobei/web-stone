@@ -17,4 +17,3 @@
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
-- [title](/confuse/title.html)
