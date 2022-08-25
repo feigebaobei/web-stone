@@ -370,8 +370,29 @@ self.addEventListener('push', (event) => {
 ||text()|以纯文本的格式提取数据|||
 
 ### Notification API
-### title
-### title
+### WindowClient
+该对象是sw的控制范围。
+```js
+// 原型链
+Client <-- WindowClient
+```
+
+|||||||
+|-|-|-|-|-|-|
+|focused|指定的windowClient是否被聚焦|||||
+|vivibilityState||返回指定windowClient的可见状态|hidden/visible/prerender|||
+|focus()|聚集到当前client|||||
+|navigate(url)|加载指定的url到控制的client的页面|返回一个值为xxx的promise||||
+
+### Client
+该对象是可执行环境。如worker
+|||||
+|-|-|-|-|
+|id|client的惟一标识|只读||
+|type|client的种类|只读|window/worker/sharedworker|
+|url|client的url|只读||
+|postMessage()||||
+
 ### title
 ### title
 

@@ -356,6 +356,13 @@ self.addEventListener(<span class="hljs-string">&#x27;activate&#x27;</span>, <sp
 <td></td>
 </tr>
 <tr>
+<td></td>
+<td>startMessages()</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
 <td>事件</td>
 <td></td>
 <td></td>
@@ -923,10 +930,97 @@ self.addEventListener(<span class="hljs-string">&#x27;push&#x27;</span>, <span c
 </tbody>
 </table>
 <h3 id="notification-api">Notification API</h3>
+<h3 id="windowclient">WindowClient</h3>
+<p>该对象是sw的控制范围。</p>
+<pre><code class="language-js"><div><span class="hljs-comment">// 原型链</span>
+Client &lt;-- WindowClient
+</div></code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>focused</td>
+<td>指定的windowClient是否被聚焦</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>vivibilityState</td>
+<td></td>
+<td>返回指定windowClient的可见状态</td>
+<td>hidden/visible/prerender</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>focus()</td>
+<td>聚集到当前client</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>navigate(url)</td>
+<td>加载指定的url到控制的client的页面</td>
+<td>返回一个值为xxx的promise</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="client">Client</h3>
+<p>该对象是可执行环境。如worker</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>client的惟一标识</td>
+<td>只读</td>
+<td></td>
+</tr>
+<tr>
+<td>type</td>
+<td>client的种类</td>
+<td>只读</td>
+<td>window/worker/sharedworker</td>
+</tr>
+<tr>
+<td>url</td>
+<td>client的url</td>
+<td>只读</td>
+<td></td>
+</tr>
+<tr>
+<td>postMessage()</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h3 id="title">title</h3>
 <h3 id="title-1">title</h3>
-<h3 id="title-2">title</h3>
-<h3 id="title-3">title</h3>
 
         
         
