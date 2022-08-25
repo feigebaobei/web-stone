@@ -62,6 +62,7 @@
                 <button type="submit" id="submit">提交</button>
                 <button type="reset" id="reset">重置</button>
                 <button type="button" id="clearReset">请空结果</button>
+                <button type="button" id="format">格式化</button>
             </div>
         </form>
         <div>
@@ -117,6 +118,12 @@
         })
         document.querySelector('#resClearReset').addEventListener('click', (e) => {
             document.querySelector('#resResult').value = ''
+        })
+        document.querySelector('#format').addEventListener('click', (e) => {
+            let str = document.querySelector('#resResult').value
+            str = JSON.parse(str)
+            str = JSON.stringify(str, (k, v) => {return v}, 2)
+            document.querySelector('#resResult').value = str
         })
 
         document.querySelector('#submit').addEventListener('click', (e) => {
