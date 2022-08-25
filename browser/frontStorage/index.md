@@ -121,8 +121,19 @@ spandataspan
 |易用性|原生的方法较难使用，自己封装后会好用。|原生的方法就挺好用。可再交封装|原生的方法就挺好用。可再交封装||||
 
 ## flex
-## redux
+它已经太老了。有比它更好的包（redux/mobx）解决需求。 
+设计模式还是可以学一学的。  
+```js
+action ---> dispatcher ---> store ---> view
+
+              |---------- action -------|
+              V                         |
+action ---> dispatcher ---> store ---> view
+```
+
+## MobX
+## [redux & react-redux](/react/redux/index.html)
 ## vuex
-## pinia
+## [pinia](/frontStorage/pinia.html)
 ## ng应该还有一个
 它使用redux。vue应该也可以使用redux.

@@ -35,6 +35,7 @@ npm i -g yarn
 ```shell
 # for yarn 2+ / yarn 3+
 corepack enable
+yarn set version stable # 更新yarn 默认执行yarn init
 ```
 
 #### node < 16.0
@@ -45,7 +46,7 @@ npm i -g corepack
 ```shell
 yarn --version # 若返回版本号，则安装成功。  
 yarn init -2 # init project
-yarn set version stable # 更新yarn
+yarn set version stable # 更新yarn 默认执行yarn init
 yarn set version from sources # 更新到最新的master分支
 yarn set version from sources --branch 1211 # 更新为指定的PRs
 ```

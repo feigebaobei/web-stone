@@ -14,6 +14,7 @@
 - [rome](/builder/rome/index.html)
 - [ast](/builder/ast.html)
 - [other](/builder/other.html)
+- [swc](/builder/swc.html)
 - [other](/builder/other.html)
 - [other](/builder/other.html)
 - [other](/builder/other.html)

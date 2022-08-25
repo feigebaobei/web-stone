@@ -110,17 +110,8 @@ useEffect(() => {
     return (<AppContext.Provider value={[isLoggedIn, user]}>
       <Header />
       <Routes>
-        {/* <Route exact path="/" element={<Home/>}></Route>
-        <Route exact path="/about" element={<About/>}></Route>
-        <Route exact path="/users" element={<Users/>}></Route>
-        <Route exact path="/login" element={<Login/>}></Route>
-        <Route exact path="/signup" element={<Signup/>}></Route>
-        <Route path="*" element={<NotFound/>}></Route> */}
           {routes.map((route, index) => {
             if (route.protected === 'auth') {
-              // return (<AuthRoute key={index} path={route.path} exact={route.exact}>
-              //   <route.component />
-              // </AuthRoute>)
               if (isLoggedIn) {
                 return (<Route exact
                   path={route.path}

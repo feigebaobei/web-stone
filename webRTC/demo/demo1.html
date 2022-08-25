@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>webRTC</title>
+</head>
+<body>
+    <h2>接收</h2>
+    <video id="receiverVideo" width="40%" height="400px"></video>
+    <h2>发送</h2>
+    <video id="emitter-video" width="40%" height="400px"></video>
+    <button id="start">start button</button>
+    <script>
+        let clog = console.log
+        document.querySelector('#start').addEventListener('click', (e) => {
+            navigator.getUserMedia({
+                video: true,
+                audio: true,
+            }, function (stream) {
+                clog(stream)
+                let emitterVideo = document.querySelector('#emitter-video')
+                emitterVideo.src = window.URL.createObjectURL(stream)
+                emitterVideo.play()
+            }, function () {})
+        })
+    </script>
+</body>
+</html>

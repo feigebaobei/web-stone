@@ -172,11 +172,21 @@ git stash drop [stashIndex] # drop stashIndex
 git stash clear # clear all stash
 # 当使用`git stash pop`出现冲突时,git不会删除保存在stash中的记录。需要使用`git stash drop`进行删除。  
 
+git revert [commitId] # 撤销指定commitId的变动。该commitId之前、之后的都变动都存在。
+
 # delete repository
 rm -rf .git
 ```
 
 *tip:* master分支上是非常稳定的版本，用于发布。开发在dev分支上。各开发者在dev分支上再创建自己的分支。  
+
+### reset & revert
+||reset|revert||
+|-|-|-|-|
+||head向前移动|head向后移动||
+||撤销多个提交|撤销一个提交||
+||一般无冲突|一般有冲突||
+|之后的合并||||
 
 ### 多人协作
 1. 创建仓库。

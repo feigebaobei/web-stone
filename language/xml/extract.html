@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form>
+        <label for="file">源xml文件</label>
+        <input type="file" id="file" multiple/>
+        <label for="extractKey1">指定提取key1</label>
+        <input type="text" id="extractKey1" value="from"/>
+        <label for="extractKey2">指定提取key2</label>
+        <input type="text" id="extractKey2" value="from"/>
+    </form>
+    <textarea id="extractResult"></textarea>
+    <button id="resolve">resolve</button>
+
+    <script type="text/javascript">
+        let {log} = console
+
+        let extractFn = (files, k1, k2) => {
+            let regK1 = new RegExp(`(?<=<${k1}>)(.*)(?=<\/${k1}>)`, 'ig')
+            let regK2 = new RegExp(`(?<=<${k2}>)(.*)(?=<\/${k2}>)`, 'ig')
+            return files.map(file => {
+                return new Promise((s, j) => {
+                    let reader = new FileReader()
+                    reader.readAsText(file, 'UTF-8')
+                    reader.onload = (e) => {
+                        s(`${e.target.result.match(regK1)},${e.target.result.match(regK2)}`)
+                    }
+                    reader.onerror = (e) => {
+                        j(e)
+                    }
+                })
+            })
+        }
+
+        let button = document.querySelector('#resolve')
+        button.addEventListener('click', (e) => {
+            let file = document.querySelector('#file')
+            let extractKey1 = document.querySelector('#extractKey1')
+            let extractKey2 = document.querySelector('#extractKey2')
+            // log(file.files)
+            let ps = extractFn(Array.from(file.files), extractKey1.value, extractKey2.value)
+            Promise.all(ps).then(res => {
+                document.querySelector('#extractResult').value = res.join('\n')
+            }).catch(err => {
+                log('catch', err)
+            })
+        })
+    </script>
+</body>
+</html>
