@@ -217,18 +217,49 @@ ServiceWorkerContainer接口为service worker提供了一个容器般的功能�
 ||onupdatefound|-|||
 |方法|||||
 ||getNotifications(options?: {tag: string})|返回一个值是Notification的promise|||
-||showNotification(title, options?: {actions: [{action, title, icon}, ...], badge, body, data, dir, icon, image, lang, renotify, requireInteraction, silent, tag, timestamp, vibrate})|显示一个通知|||
+||showNotification(title, options?: {actions: [{action, title, icon}, ...], badge, body, data, dir, icon, image, lang, renotify, requireInteraction, silent, tag, timestamp, vibrate})|创建一个通知|||
 ||update(无参数)|当找到缓存时更新service worker的版本。返回一个值是ServiceWorkerRegistration的promise|||
 ||unregister()|注销个service worker，返回一个值是boolean的promise。boolean表示是否被注销。|||
 
 ### ServiceWorkerGlobalScope
 代表一个service worker的全局变量。  
-serviceworker中不能使用同步请求，可使用异步请求。
+serviceworker中不能使用同步请求，只能使用异步请求。
+
+代表sw的全局可执行环境。
+
+```js
+// 原型链
+EventTarget <-- WorkerGlobalScope <-- ServiceWorkerGlobalScope
+```
+
+|||||||
+|-|-|-|-|-|-|
+|属性|都是只读|||||
+||caches|使用sw得到CacheStorage||||
+||clients|返回与当前sw相关连的Clients对象||||
+||registration|返回当前sw的注册的ServiceWorkerRegistraion对象||||
+|事件||||||
+||activate|当ServiceWorkerRegistration执行active方法里执行。||||
+||contentdalete|当删除条目时触发||||
+||fetch|当发出请求时||||
+||install|当执行install方法时||||
+||message|当接收到消息时触发||||
+||notificationclick|当执行ServiceWorkerRegistration.showNotification()时触发||||
+||notificationclose|xx||||
+||sync|当注册了Syncmanager并连能时触发|不能取消冒泡|||
+||periodicsync|当注册PeriodicSyncManager时触发||||
+||push|当收到一个消息时触发||||
+||pushsubscriptionchange|好像是当改变推送订阅者是触发||||
+|方法|全部继承自worker|||||
+||skipWaiting()|强制等待sw成为active状态|Promise<undefined>|||
+||fetch(resource, options?: {method, headers, body, ...})|就是fetch方法|Promise<Response>|||
+||skipWaiting()|||||
 
 ### ServiceWorker
 - 继承自[worker]()
 - 这是一个实验中的功能  
 - 它是服务工作者  
+- 允许访问推送通知、后台同步api
 
 |||||||
 |-|-|-|-|-|-|
@@ -243,6 +274,29 @@ serviceworker中不能使用同步请求，可使用异步请求。
 ||push|||||
 |方法|全部继承自worker|||||
 
+### WorkerGlobalScope
+### SyncManager
+|||||||
+|-|-|-|-|-|-|
+|属性||||||
+|事件||||||
+|方法||||||
+||register(options?: {allowOnBattery, id, idleRequired, maxDelay, minDelay, minPeriod, minRequiredNetwork})|返回一个值为SyncRegistration的promise||||
+||getTags()|返回一个值为开发者定义的SyncManager注册证的标识的promise||||
+
+### PeriodicSyncManager
+https://developer.mozilla.org/en-US/docs/Web/API/Web_Periodic_Background_Synchronization_API  
+它的功能正如它的名字：定期同步消息。
+以前在项目中使用setInterval实现此功能。   
+
+|||||||
+|-|-|-|-|-|-|
+|属性||||||
+|事件||||||
+|方法||||||
+||register(tag, options?: {minInterval})|注册一个定期请求实现同步消息。|返回值Promise<undefined>|||
+||getTags()||返回注册证的标记。Promise<string[]>|||
+||unregister(tag)|注销指定的注册证|Promise|||
 
 ## 设置scope的范围
 前提：默认最大作用域在它的所在位置。  
@@ -257,7 +311,6 @@ serviceworker中不能使用同步请求，可使用异步请求。
 ### 名称
 工作线程。
 
-### PeriodicSyncManager
 ### PushManager
 ### SyncManager
 ### Notification
