@@ -154,6 +154,32 @@ if ('serviceWorker' in navigator) {
 window.addEventListener('install') // 好像用不到
 ```
 
+## 更新serviceWorker
+### 何时更新
+- 当进入sw控制的页面时
+- 当前已经安装的sw执行`navigator.serviceWorker.register()`到不同的url时。
+- 当前已经安装的sw执行`navigator.serviceWorker.register()`改变scope时。最好不要这样做。
+- 当“推送”或“同步”等事件在过去24小时内被触发时——但现在还不用担心这些事件。  
+
+### 如何更新
+- 如果合适，则使用`importScripts`一个一个地更新  
+- sw在顶级代码变动会引起生成新指纹。  
+
+### 手动触发更新
+上线sw功能时，要开发此功能做为兜底解决方案。  
+```js
+// 在主线程中执行
+// 当sw为active状态时更新
+navigater.serviceWorker.ready.then((registration) => {
+    registration.update()
+})
+```
+
+## 使用
+- 默认缓存一些文件
+- 开放供用户选择缓存、清缓存的ui交换界面。
+- 开放手动更新sw的功能。
+
 ## api
 ### ServiceWorkerContainer   (navigator.serviceWorker)
 ServiceWorkerContainer接口为service worker提供了一个容器般的功能。包括对service worker的注册、卸载、更新、和访问service worker的状态、 以及它们的注册者。 

@@ -291,6 +291,33 @@ self.addEventListener(<span class="hljs-string">&#x27;activate&#x27;</span>, <sp
 }
 <span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">&#x27;install&#x27;</span>) <span class="hljs-comment">// 好像用不到</span>
 </div></code></pre>
+<h2 id="更新serviceworker">更新serviceWorker</h2>
+<h3 id="何时更新">何时更新</h3>
+<ul>
+<li>当进入sw控制的页面时</li>
+<li>当前已经安装的sw执行<code>navigator.serviceWorker.register()</code>到不同的url时。</li>
+<li>当前已经安装的sw执行<code>navigator.serviceWorker.register()</code>改变scope时。最好不要这样做。</li>
+<li>当“推送”或“同步”等事件在过去24小时内被触发时——但现在还不用担心这些事件。</li>
+</ul>
+<h3 id="如何更新">如何更新</h3>
+<ul>
+<li>如果合适，则使用<code>importScripts</code>一个一个地更新</li>
+<li>sw在顶级代码变动会引起生成新指纹。</li>
+</ul>
+<h3 id="手动触发更新">手动触发更新</h3>
+<p>上线sw功能时，要开发此功能做为兜底解决方案。</p>
+<pre><code class="language-js"><div><span class="hljs-comment">// 在主线程中执行</span>
+<span class="hljs-comment">// 当sw为active状态时更新</span>
+navigater.serviceWorker.ready.then(<span class="hljs-function">(<span class="hljs-params">registration</span>) =&gt;</span> {
+    registration.update()
+})
+</div></code></pre>
+<h2 id="使用">使用</h2>
+<ul>
+<li>默认缓存一些文件</li>
+<li>开放供用户选择缓存、清缓存的ui交换界面。</li>
+<li>开放手动更新sw的功能。</li>
+</ul>
 <h2 id="api">api</h2>
 <h3 id="serviceworkercontainer---navigatorserviceworker">ServiceWorkerContainer   (navigator.serviceWorker)</h3>
 <p>ServiceWorkerContainer接口为service worker提供了一个容器般的功能。包括对service worker的注册、卸载、更新、和访问service worker的状态、 以及它们的注册者。
