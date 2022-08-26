@@ -44,6 +44,7 @@
 ## 创建icon
 - 留出系统裁剪的空间。
 - 图片内容在半径为宽度的40%以内。
+- [https://icon.wuruihong.com/](https://icon.wuruihong.com/)
 
 ## title
 ## title
