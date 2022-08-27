@@ -1,5 +1,5 @@
-const cacheWhiteList = ['v0', 'v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'v9', 'v10', 'v11'] // 设置需要删除的cacheName
-const currentVersion = 'v12'
+const cacheWhiteList = ['v0', 'v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'v9', 'v10', 'v11', 'v12'] // 设置需要删除的cacheName
+const currentVersion = 'v13'
 // const cacheSourceList = []
 const unCacheSourceList = ['/pwa.js']
 self.addEventListener('install', event => {
@@ -31,7 +31,7 @@ self.addEventListener('install', event => {
 
 // }
 self.addEventListener('fetch', event => {
-    console.log('event.request', event.request)
+    // console.log('event.request', event.request)
     event.respondWith(
         caches.match(event.request).then((response) => {
             // 若缓存中存在则返回，否则请求。
@@ -50,19 +50,16 @@ self.addEventListener('fetch', event => {
 })
 
 self.addEventListener('activate', event => {
-    console.log('activate', cacheWhiteList)
     event.waitUntil(
         caches.keys().then(keyList => {
-        console.log('keyList', keyList)
         return Promise.all(keyList.map(key => {
-                console.log('key', key)
                 // if (cacheWhiteList.
                 // includes(key)) {
                 //     console.log('true', true)
                 //     return caches.delete(key)
                 // }
                 if (key !== currentVersion) {
-                    console.log('true', true)
+                    console.log('被删除的缓存', key)
                     return caches.delete(key)
                 }
             }))
