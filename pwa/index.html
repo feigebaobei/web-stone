@@ -102,7 +102,7 @@
 <li><a href="/frontStore/cache.html">caches</a></li>
 <li><a href="/frontStore/indexedDB.html">indexedDB</a></li>
 <li><a href="/language/javascript/fetch.html">fetch</a></li>
-<li><a href="/language/javascript/fetch.html">push</a></li>
+<li><a href="/pwa/push.html">push</a></li>
 </ul>
 <h2 id="app-shell">app shell</h2>
 <p>就是与页面中主体部分无关、几乎每个页面都会使用的.<br>
@@ -273,6 +273,8 @@
   body {...}
 }
 </div></code></pre>
+<h2 id="卸载">卸载</h2>
+<p>使用homepage上的链接打开网站。在<code>...</code>中选择“卸载”</p>
 <h4 id="mediaquerylist">MediaQueryList</h4>
 <p>保存了媒体查询的信息。</p>
 <table>
@@ -512,7 +514,7 @@ tryRegister()
 
 <span class="hljs-comment">// serviceWorker.js</span>
 self.addEventListener(<span class="hljs-string">&#x27;install&#x27;</span>, <span class="hljs-function"><span class="hljs-params">event</span> =&gt;</span> {
-  event.waitUtil(
+  event.waitUntil(
     <span class="hljs-comment">// 使用新版本号，不会与别的版本有冲突</span>
     caches.open(<span class="hljs-string">&#x27;v2&#x27;</span>).then(<span class="hljs-function"><span class="hljs-params">cache</span> =&gt;</span> {
         <span class="hljs-keyword">return</span> cache.addAll([

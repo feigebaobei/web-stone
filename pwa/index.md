@@ -19,7 +19,7 @@
 - [caches](/frontStore/cache.html)
 - [indexedDB](/frontStore/indexedDB.html)
 - [fetch](/language/javascript/fetch.html)
-- [push](/language/javascript/fetch.html)  
+- [push](/pwa/push.html)  
 
 ## app shell
 就是与页面中主体部分无关、几乎每个页面都会使用的.  
@@ -139,6 +139,9 @@ window.matchMedia('(display-mode: standalone)').addEventListener('change', (e) =
 }
 ```
 
+## 卸载
+使用homepage上的链接打开网站。在`...`中选择“卸载”  
+
 #### MediaQueryList
 保存了媒体查询的信息。
 
@@ -222,7 +225,7 @@ tryRegister()
 
 // serviceWorker.js
 self.addEventListener('install', event => {
-  event.waitUtil(
+  event.waitUntil(
     // 使用新版本号，不会与别的版本有冲突
     caches.open('v2').then(cache => {
         return cache.addAll([

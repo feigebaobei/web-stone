@@ -6,10 +6,36 @@
 > 正式的扩展名是`.webmanifest`。即您可以设置为`app.webmanifest`.但是只要使用json格式编写，任意扩展名都能被解析。  
 
 ## usage
-```
+```html
 <!-- 定义并编辑 <root>/manifest.json -->
 <!-- index.html -->
 <link rel="manifest" href="/manifest.json" />
+```
+
+```json
+{
+    "name": "lixiaodan.org",
+    "short_name": "lxd",
+    "icons": [
+        {
+            "src": "web/icon-29.png",
+            "type": "image/png",
+            "sizes": "29x29"
+        },
+        {
+            "src": "web/icon-40.png",
+            "type": "image/png",
+            "sizes": "40x40"
+        },
+        {
+            "src": "web/icon-76.png",
+            "type": "image/png",
+            "sizes": "76x76"
+        }
+    ],
+    "start_url": ".",
+    "display": "standalone"
+}
 ```
 
 ## 调试

@@ -88,10 +88,34 @@
 正式的扩展名是<code>.webmanifest</code>。即您可以设置为<code>app.webmanifest</code>.但是只要使用json格式编写，任意扩展名都能被解析。</p>
 </blockquote>
 <h2 id="usage">usage</h2>
-<pre><code><code><div>&lt;!-- 定义并编辑 &lt;root&gt;/manifest.json --&gt;
-&lt;!-- index.html --&gt;
-&lt;link rel=&quot;manifest&quot; href=&quot;/manifest.json&quot; /&gt;
-</div></code></code></pre>
+<pre><code class="language-html"><div><span class="hljs-comment">&lt;!-- 定义并编辑 &lt;root&gt;/manifest.json --&gt;</span>
+<span class="hljs-comment">&lt;!-- index.html --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;manifest&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/manifest.json&quot;</span> /&gt;</span>
+</div></code></pre>
+<pre><code class="language-json"><div>{
+    <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;lixiaodan.org&quot;</span>,
+    <span class="hljs-attr">&quot;short_name&quot;</span>: <span class="hljs-string">&quot;lxd&quot;</span>,
+    <span class="hljs-attr">&quot;icons&quot;</span>: [
+        {
+            <span class="hljs-attr">&quot;src&quot;</span>: <span class="hljs-string">&quot;web/icon-29.png&quot;</span>,
+            <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;image/png&quot;</span>,
+            <span class="hljs-attr">&quot;sizes&quot;</span>: <span class="hljs-string">&quot;29x29&quot;</span>
+        },
+        {
+            <span class="hljs-attr">&quot;src&quot;</span>: <span class="hljs-string">&quot;web/icon-40.png&quot;</span>,
+            <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;image/png&quot;</span>,
+            <span class="hljs-attr">&quot;sizes&quot;</span>: <span class="hljs-string">&quot;40x40&quot;</span>
+        },
+        {
+            <span class="hljs-attr">&quot;src&quot;</span>: <span class="hljs-string">&quot;web/icon-76.png&quot;</span>,
+            <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;image/png&quot;</span>,
+            <span class="hljs-attr">&quot;sizes&quot;</span>: <span class="hljs-string">&quot;76x76&quot;</span>
+        }
+    ],
+    <span class="hljs-attr">&quot;start_url&quot;</span>: <span class="hljs-string">&quot;lixiaodan.org&quot;</span>,
+    <span class="hljs-attr">&quot;display&quot;</span>: <span class="hljs-string">&quot;standalone&quot;</span>
+}
+</div></code></pre>
 <h2 id="调试">调试</h2>
 <p>在浏览器的开发者工具-application-manifest</p>
 <h2 id="字段说明">字段说明</h2>
