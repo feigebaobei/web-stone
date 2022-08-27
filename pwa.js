@@ -1,29 +1,12 @@
-
-// if ('serviceWorker' in navigator) {
-//     navigator.serviceWorker.register(   // 注册
-//                                         // 注册完成后，sw.js 文件会自动
-//                                         // 1. 下载
-//                                         // 2. 安装
-//                                         // 3. 然后激活。
-//         'sw.js', // 相对于origin
-//         {scope: '/'} // 指定注册范围。即：能拦截网络调用的路径
-//     ) // 返回一个promise.其值是ServiceWrokerRegistration
-//     .then((registration) => {
-//         // ...
-//         console.log('then',registration )
-//     })
-//     .catch((err) => {
-//         console.log('catch', err)
-//     })
-// }
-
-
 let tryRegister = () => {
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('sw.js').then(registration => {
             console.log('注册成功', registration)
         }).catch(error => {
             console.log('注册失败', error)
+        })
+        navigator.serviceWorker.getRegistrations().then(registrationList => {
+            console.log('getRegistrations', registrationList)
         })
     } else {
         console.log('当前浏览器不支持serviceWorker')

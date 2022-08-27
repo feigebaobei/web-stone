@@ -244,7 +244,13 @@ c.on('ready', () => {
         }
         // let p = 'language/bun'
         let p = [
-            // 'ci/index.html',
+            'promote/customInterface.html',
+            'pwa/serviceWorker.html',
+            'pwa/index.html',
+            'pwa/install.html',
+            'pwa/manifestJson.html',
+            'pwa/push.html',
+            'pwa/workBox.html',
             // 'frontStore/dataTrasmit/index.html',
             // 'framework/stateManager/index.html',
             // 'framework/express/index.html',

@@ -27,7 +27,7 @@
 
 ## demo
 4. 创建一个html页面。
-5. 添加`manifest.json`文件  
+5. 添加 [`manifest.json`](/pwa/manifest.json) 文件  
 6. 添加`app.js`文件。在app.js中注册`serviceWorker.js`  
 7. 在`serviceWorker.js`中 
    1. install时缓存常用的资源。`cache.addAll([...])`  
