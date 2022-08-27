@@ -156,6 +156,14 @@ window.matchMedia('(display-mode: standalone)').addEventListener('change', (e) =
 |事件|||||
 ||change||||
 
+## 适用范围
+- 页面内容多用静态形式。
+- 一段时间内接口提供的数据无变化。
+- 应用中有一些资源需要前端缓存起来。如：游戏中的背景音乐
+- shell部分比较多。
+- 希望给用户提供一个基本的shell功能。
+- 希望提供最后一次覆盖的数据。
+
 ## todo
 ### Native App & Web App & Hybrid App & PWA
 ||Native App | Web App | Hybrid App | PWA||
