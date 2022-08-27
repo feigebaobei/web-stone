@@ -107,7 +107,77 @@
 <h2 id="app-shell">app shell</h2>
 <p>就是与页面中主体部分无关、几乎每个页面都会使用的.<br>
 尽快加载最小用户界面，然后缓存它，以便在后续访问时可以离线使用。下载使用时从缓存中取出。</p>
-<h2 id="安装桌面链接">安装桌面链接</h2>
+<h2 id="demo">demo</h2>
+<ol start="4">
+<li>创建一个html页面。</li>
+<li>添加<code>manifest.json</code>文件</li>
+<li>添加<code>app.js</code>文件。在app.js中注册<code>serviceWorker.js</code></li>
+<li>在<code>serviceWorker.js</code>中
+<ol>
+<li>install时缓存常用的资源。<code>cache.addAll([...])</code></li>
+<li>在fetch时缓存相应的资源。<code>cache.put(req, res)</code></li>
+<li>在activate时删除不用的cache缓存.<code>caches.delete(cacheName)</code></li>
+</ol>
+</li>
+</ol>
+<pre><code class="language-js"><div><span class="hljs-comment">// app.js</span>
+<span class="hljs-keyword">let</span> tryRegister = <span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-keyword">if</span> (<span class="hljs-string">&#x27;serviceWorker&#x27;</span> <span class="hljs-keyword">in</span> navigator) {
+    navigator.serviceWorker.register(<span class="hljs-string">&#x27;serviceWorker.js&#x27;</span>).then(<span class="hljs-function"><span class="hljs-params">registration</span> =&gt;</span> {
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;注册成功&#x27;</span>, registration)
+    }).catch(<span class="hljs-function"><span class="hljs-params">error</span> =&gt;</span> {
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;注册失败&#x27;</span>, error)
+    })
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;当前浏览器不支持serviceWorker&#x27;</span>)
+  }
+}
+tryRegister()
+
+<span class="hljs-comment">// serviceWorker.js</span>
+self.addEventListener(<span class="hljs-string">&#x27;install&#x27;</span>, <span class="hljs-function"><span class="hljs-params">event</span> =&gt;</span> {
+  event.waitUntil(
+    <span class="hljs-comment">// 使用新版本号，不会与别的版本有冲突</span>
+    caches.open(<span class="hljs-string">&#x27;v2&#x27;</span>).then(<span class="hljs-function"><span class="hljs-params">cache</span> =&gt;</span> {
+        <span class="hljs-keyword">return</span> cache.addAll([
+            <span class="hljs-string">&#x27;/&#x27;</span>,
+            <span class="hljs-string">&#x27;/index.html&#x27;</span>
+        ])
+    })
+  )
+})
+self.addEventListener(<span class="hljs-string">&#x27;fetch&#x27;</span>, <span class="hljs-function"><span class="hljs-params">event</span> =&gt;</span> {
+  event.respondWith(
+        caches.match(event.request).then(<span class="hljs-function">(<span class="hljs-params">response</span>) =&gt;</span> {
+            <span class="hljs-comment">// 若缓存中存在则返回，否则请求。</span>
+            <span class="hljs-keyword">return</span> response || fetch(event.request).then(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
+                <span class="hljs-comment">// 此时缓存中没有。</span>
+                <span class="hljs-keyword">return</span> caches.open(<span class="hljs-string">&#x27;v2&#x27;</span>).then(<span class="hljs-function"><span class="hljs-params">cache</span> =&gt;</span> {
+                    <span class="hljs-comment">// 把数据添加到缓存中</span>
+                    cache.put(event.request, res.clone())
+                    <span class="hljs-comment">// 把响应克隆一份后缓存起来。把原始响应返回给调用它的页面。</span>
+                    <span class="hljs-comment">// 请求和响应流只能被读取一次。缓存起来的是克隆出来的，返回给页面的是原始的。</span>
+                    <span class="hljs-keyword">return</span> res
+                })
+            })
+        })
+    )
+})
+self.addEventListener(<span class="hljs-string">&#x27;activate&#x27;</span>, <span class="hljs-function"><span class="hljs-params">event</span> =&gt;</span> {
+    <span class="hljs-keyword">let</span> cacheWhiteList = [<span class="hljs-string">&#x27;v1&#x27;</span>] <span class="hljs-comment">// 设置需要删除的cacheName</span>
+    event.waitUntil(
+        caches.keys().then(<span class="hljs-function"><span class="hljs-params">keyList</span> =&gt;</span> {
+            <span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>.all(keyList.map(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
+                <span class="hljs-keyword">if</span> (cacheWhiteList.
+                includes(key)) {
+                    <span class="hljs-keyword">return</span> caches.delete(key)
+                }
+            }))
+        })
+    )
+})
+</div></code></pre>
+<h2 id="安装桌面链接"><a href="/pwa/install.html">安装桌面链接</a></h2>
 <h3 id="自动安装条件">自动安装条件：</h3>
 <ul>
 <li>未安装该web应用。</li>
@@ -124,230 +194,11 @@
 </li>
 <li>使用 fetch 处理程序注册服务工作进程</li>
 </ul>
-<h3 id="推广安装的方法">推广安装的方法</h3>
-<ul>
-<li>将推广置于用户操作流程之外。例如，在 PWA 登录页面中，将行动号召放在登录表单和提交按钮下方。滥用推广模式会降低 PWA 的可用性，并对您的参与度指标产生负面影响。</li>
-<li>包括关闭或拒绝推广的功能。请记住用户在执行此操作时的偏好，并且仅在用户与您内容的关系发生变化（例如他们登录或完成购买）时才重新提示。</li>
-<li>在 PWA 的不同部分融入以上多种方法，但要小心不要让安装推广使您的用户应接不暇或感到懊恼 。</li>
-<li>仅在触发 beforeinstallprompt 事件后显示推广。</li>
-</ul>
-<h3 id="应用程序-ui-推广">应用程序 UI 推广</h3>
-<ul>
-<li><strong>简单安装按钮</strong> 最简单可行的用户体验是在 Web 内容的适当位置加入“安装”或“获取应用”按钮。确保该按钮不会阻止其他重要功能，并且不妨碍用户在您应用程序中的整个旅程。</li>
-<li><strong>固定标题</strong> 这是一个安装按钮，是您站点标题的一部分。其他标题内容通常包括站点品牌，例如徽标和汉堡菜单。标题可能是也可能不是 position:fixed，具体取决于您站点的功能和用户需求。</li>
-<li><strong>安装横幅</strong> 页面顶部的自定义安装横幅。页面顶部的可关闭横幅。大多数用户都在移动体验中遇到过安装横幅，并且熟悉横幅所提供的交互。横幅会干扰用户，因此应谨慎使用。</li>
-<li><strong>临时 UI</strong> snackbar</li>
-<li><strong>信息流内</strong> 您的 PWA 中的新闻文章或其他信息卡列表之间会出现一个信息流广告安装推广。微信就这么搞。</li>
-</ul>
-<h3 id="提示安装">提示安装</h3>
-<ul>
-<li>浏览器有在满足条件下提示安装。</li>
-<li>我们也可以自定义触发提示安装。</li>
-<li>自定义的安装提示比浏览器自带的要好看。</li>
-<li>当浏览器检测到web应用可安装时，会触发<code>beforeinstallprompt</code>事件。
-<ol>
-<li>监听beforeinstallprompt事件</li>
-<li>暂时保存它。后面会用。</li>
-<li>触发保存的事件</li>
-<li>此方法的兼容性不太好。</li>
-<li>此方法只是延迟安装+改变ui，仍然需要浏览器去安装。</li>
-</ol>
-</li>
-</ul>
-<pre><code class="language-js"><div><span class="hljs-keyword">let</span> deferredPrompt <span class="hljs-comment">// 也可以命名为别的变量</span>
-<span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">&#x27;beforeinstallprompt&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-    e.preventDefault()
-    deferredPrompt = e  <span class="hljs-comment">// 暂存安装事件</span>
-    showInAppInstallPromotion() <span class="hljs-comment">// 自定义的提示安装的方法</span>
-})
-<span class="hljs-keyword">let</span> showInAppInstallPromotion = <span class="hljs-function">() =&gt;</span> {
-  deferredPrompt.prompt() <span class="hljs-comment">// 使用暂存的安装事件</span>
-  deferredPrompt = <span class="hljs-literal">null</span>   <span class="hljs-comment">// 释放内存</span>
-}
-</div></code></pre>
-<h3 id="安装过程">安装过程</h3>
-<ol>
-<li>当浏览器检测到web应用可安装时，会触发<code>beforeinstallprompt</code>事件。</li>
-<li>安装时触发<code>appinstalled</code>事件，无论是浏览器触发、还是用户触发。可用户监听是否安装。</li>
-</ol>
-<h3 id="兼容性">兼容性</h3>
-<ul>
-<li>当浏览器不支持<code>beforeinstallprompt</code>时，就不能实现延迟安装了。</li>
-<li>需要使用显示教导用户手动安装的教程。</li>
-<li>使用'display'控制吧。</li>
-</ul>
-<h3 id="beforeinstallpromptevent">BeforeInstallPromptEvent</h3>
-<ul>
-<li>当用户被提示“安装”web到设备时触发。</li>
-<li>继承自<a href="/language/javascript/event.html">Event</a>接口</li>
-<li>兼容性不太好</li>
-</ul>
-<p><code>new window.BeforeInstallPromptEvent(name, eventInitOptions)</code></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>属性</td>
-<td>只读</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>platform</td>
-<td>设备平台信息</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>userChoice</td>
-<td>返回一个可以解析为DOMString的Promise</td>
-<td>'install' \ 'dismissed'</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>方法</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>prompt()</td>
-<td>弹出安装提示，返回promise</td>
-<td>无参数</td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<pre><code class="language-js"><div><span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">&quot;beforeinstallprompt&quot;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>{
-  <span class="hljs-comment">// log the platforms provided as options in an install prompt</span>
-  <span class="hljs-built_in">console</span>.log(e.platforms); <span class="hljs-comment">// e.g., [&quot;web&quot;, &quot;android&quot;, &quot;windows&quot;]</span>
-  e.userChoice.then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">outcome</span>) </span>{
-    <span class="hljs-built_in">console</span>.log(outcome); <span class="hljs-comment">// either &quot;installed&quot;, &quot;dismissed&quot;, etc.</span>
-  }, handleError);
-});
-</div></code></pre>
-<h3 id="检测启动方式">检测启动方式</h3>
-<p>css的<code>display-mode</code>与manifest.json中的display相同。可用于查询pwa的启动方式。</p>
-<pre><code class="language-js"><div><span class="hljs-comment">// 返回一个MediaQueryList</span>
-<span class="hljs-built_in">window</span>.matchMedis(mediaQueryString) =&gt; MediaQueryList
-<span class="hljs-keyword">let</span> mql = <span class="hljs-built_in">window</span>.matchMedia(<span class="hljs-string">&#x27;(max-width: 600px)&#x27;</span>)
-<span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">&#x27;.a&#x27;</span>).innerText = mql.matches
-<span class="hljs-comment">// 返回pwa的启动方式</span>
-<span class="hljs-keyword">let</span> getPWADisplayMode = <span class="hljs-function">() =&gt;</span> {
-  <span class="hljs-keyword">let</span> isStandalone = <span class="hljs-built_in">window</span>.matchMedia(<span class="hljs-string">&#x27;(display-mode: standalone)&#x27;</span>).matches
-  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">document</span>.referrer.startsWith(<span class="hljs-string">&#x27;android-app://&#x27;</span>)) {
-    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;twa&#x27;</span>
-  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (navigator.standalone || isStandalone) {
-    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;standalone&#x27;</span>
-  }
-  <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;browser&#x27;</span>
-}
-<span class="hljs-comment">// 跟踪显示模式变化</span>
-<span class="hljs-built_in">window</span>.matchMedia(<span class="hljs-string">&#x27;(display-mode: standalone)&#x27;</span>).addEventListener(<span class="hljs-string">&#x27;change&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-  <span class="hljs-keyword">let</span> displayMode = <span class="hljs-string">&#x27;browser&#x27;</span>
-  <span class="hljs-keyword">if</span>(e.matches) {
-    displayMode = <span class="hljs-string">&#x27;standalone&#x27;</span>
-  }
-})
-<span class="hljs-comment">// 使用媒体查询更新样式</span>
-@media all <span class="hljs-function"><span class="hljs-title">and</span>(<span class="hljs-params">display-mode: standalone</span>)</span> {
-  body {...}
-}
-</div></code></pre>
 <h2 id="卸载">卸载</h2>
 <p>使用homepage上的链接打开网站。在<code>...</code>中选择“卸载”</p>
-<h4 id="mediaquerylist">MediaQueryList</h4>
-<p>保存了媒体查询的信息。</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>属性</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>matches</td>
-<td>只读</td>
-<td>是否与当前document匹配</td>
-<td>boolean</td>
-</tr>
-<tr>
-<td></td>
-<td>media</td>
-<td>只读</td>
-<td>返回字符串</td>
-<td></td>
-</tr>
-<tr>
-<td>方法</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>addListener()</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>removeListener()</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>事件</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>change</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
 <h2 id="适用范围">适用范围</h2>
 <ul>
+<li>需要解决弱网、断网问题。</li>
 <li>页面内容多用静态形式。</li>
 <li>一段时间内接口提供的数据无变化。</li>
 <li>应用中有一些资源需要前端缓存起来。如：游戏中的背景音乐</li>
@@ -478,7 +329,7 @@
 <h3 id="streams-api">streams api</h3>
 <h3 id="materialize">materialize</h3>
 <h3 id="httpsdevelopersgooglecom"><a href="https://developers.google.com">https://developers.google.com</a></h3>
-<h3 id="indexeddb">indexedDB</h3>
+<h3 id="indexeddb"><a href="/frontStore/indexedDB.html">indexedDB</a></h3>
 <h3 id="ngrok"><a href="/jsPackages/ngrok.html">ngrok</a></h3>
 <p>可使用外网url访问本地服务的包。</p>
 <h3 id="vue-pwa-install"><a href="https://github.com/Bartozzz/vue-pwa-install">vue-pwa-install</a></h3>
@@ -487,83 +338,13 @@
 <h3 id="notification-triggers-api">notification triggers api</h3>
 <h3 id="idb"><a href="https://www.npmjs.com/package/idb">idb</a></h3>
 <h3 id="workbox"><a href="/pwa/workbox.html">workbox</a></h3>
-<h3 id="title-">title-</h3>
+<h3 id="title">title</h3>
 <h3 id="困难">困难</h3>
 <ol>
 <li>知识点多。pwa是渐进式的。若干知识点中，有一个支持了就是实现了pwa.</li>
 <li>无详细的、成体系的教程。</li>
 <li>好多属性、方法处理试验阶段。浏览器兼容性不好。</li>
 </ol>
-<h3 id="demo">demo</h3>
-<ol start="4">
-<li>创建一个html页面。</li>
-<li>添加<code>manifest.json</code>文件</li>
-<li>添加<code>app.js</code>文件。在app.js中注册<code>serviceWorker.js</code></li>
-<li>在<code>serviceWorker.js</code>中
-<ol>
-<li>install时缓存常用的资源。<code>cache.addAll([...])</code></li>
-<li>在fetch时缓存相应的资源。<code>cache.put(req, res)</code></li>
-<li>在activate时删除不用的cache缓存.<code>caches.delete(cacheName)</code></li>
-</ol>
-</li>
-</ol>
-<pre><code class="language-js"><div><span class="hljs-comment">// app.js</span>
-<span class="hljs-keyword">let</span> tryRegister = <span class="hljs-function">() =&gt;</span> {
-  <span class="hljs-keyword">if</span> (<span class="hljs-string">&#x27;serviceWorker&#x27;</span> <span class="hljs-keyword">in</span> navigator) {
-    navigator.serviceWorker.register(<span class="hljs-string">&#x27;serviceWorker.js&#x27;</span>).then(<span class="hljs-function"><span class="hljs-params">registration</span> =&gt;</span> {
-      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;注册成功&#x27;</span>, registration)
-    }).catch(<span class="hljs-function"><span class="hljs-params">error</span> =&gt;</span> {
-      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;注册失败&#x27;</span>, error)
-    })
-  } <span class="hljs-keyword">else</span> {
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;当前浏览器不支持serviceWorker&#x27;</span>)
-  }
-}
-tryRegister()
-
-<span class="hljs-comment">// serviceWorker.js</span>
-self.addEventListener(<span class="hljs-string">&#x27;install&#x27;</span>, <span class="hljs-function"><span class="hljs-params">event</span> =&gt;</span> {
-  event.waitUntil(
-    <span class="hljs-comment">// 使用新版本号，不会与别的版本有冲突</span>
-    caches.open(<span class="hljs-string">&#x27;v2&#x27;</span>).then(<span class="hljs-function"><span class="hljs-params">cache</span> =&gt;</span> {
-        <span class="hljs-keyword">return</span> cache.addAll([
-            <span class="hljs-string">&#x27;/&#x27;</span>,
-            <span class="hljs-string">&#x27;/index.html&#x27;</span>
-        ])
-    })
-  )
-})
-self.addEventListener(<span class="hljs-string">&#x27;fetch&#x27;</span>, <span class="hljs-function"><span class="hljs-params">event</span> =&gt;</span> {
-  event.respondWith(
-        caches.match(event.request).then(<span class="hljs-function">(<span class="hljs-params">response</span>) =&gt;</span> {
-            <span class="hljs-comment">// 若缓存中存在则返回，否则请求。</span>
-            <span class="hljs-keyword">return</span> response || fetch(event.request).then(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
-                <span class="hljs-comment">// 此时缓存中没有。</span>
-                <span class="hljs-keyword">return</span> caches.open(<span class="hljs-string">&#x27;v2&#x27;</span>).then(<span class="hljs-function"><span class="hljs-params">cache</span> =&gt;</span> {
-                    <span class="hljs-comment">// 把数据添加到缓存中</span>
-                    cache.put(event.request, res.clone())
-                    <span class="hljs-comment">// 把响应克隆一份后缓存起来。把原始响应返回给调用它的页面。</span>
-                    <span class="hljs-comment">// 请求和响应流只能被读取一次。缓存起来的是克隆出来的，返回给页面的是原始的。</span>
-                    <span class="hljs-keyword">return</span> res
-                })
-            })
-        })
-    )
-})
-self.addEventListener(<span class="hljs-string">&#x27;activate&#x27;</span>, <span class="hljs-function"><span class="hljs-params">event</span> =&gt;</span> {
-    <span class="hljs-keyword">let</span> cacheWhiteList = [<span class="hljs-string">&#x27;v1&#x27;</span>] <span class="hljs-comment">// 设置需要删除的cacheName</span>
-    event.waitUntil(
-        caches.keys().then(<span class="hljs-function"><span class="hljs-params">keyList</span> =&gt;</span> {
-            <span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>.all(keyList.map(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
-                <span class="hljs-keyword">if</span> (cacheWhiteList.
-                includes(key)) {
-                    <span class="hljs-keyword">return</span> caches.delete(key)
-                }
-            }))
-        })
-    )
-})
-</div></code></pre>
 <h3 id="与react结合使用">与react结合使用</h3>
 <ol>
 <li>

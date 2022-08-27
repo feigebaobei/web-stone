@@ -112,3 +112,17 @@ window.matchMedia('(display-mode: standalone)').addEventListener('change', (e) =
   body {...}
 }
 ```
+
+#### MediaQueryList
+保存了媒体查询的信息。
+
+||||||
+|-|-|-|-|-|
+|属性|||||
+||matches|只读|是否与当前document匹配|boolean|
+||media|只读|返回字符串||
+|方法|||||
+||addListener()||||
+||removeListener()||||
+|事件|||||
+||change||||
