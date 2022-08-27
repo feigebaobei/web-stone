@@ -1,4 +1,4 @@
-const cacheWhiteList = ['v6', 'v7', 'v8', 'v9', 'v10', 'v11'] // 设置需要删除的cacheName
+const cacheWhiteList = ['v0', 'v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'v9', 'v10', 'v11'] // 设置需要删除的cacheName
 const currentVersion = 'v12'
 // const cacheSourceList = []
 const unCacheSourceList = ['/pwa.js']
@@ -56,8 +56,12 @@ self.addEventListener('activate', event => {
         console.log('keyList', keyList)
         return Promise.all(keyList.map(key => {
                 console.log('key', key)
-                if (cacheWhiteList.
-                includes(key)) {
+                // if (cacheWhiteList.
+                // includes(key)) {
+                //     console.log('true', true)
+                //     return caches.delete(key)
+                // }
+                if (key !== currentVersion) {
                     console.log('true', true)
                     return caches.delete(key)
                 }
