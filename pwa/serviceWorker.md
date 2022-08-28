@@ -1,11 +1,11 @@
 # service worker
 > 本质上是web应用、浏览器与网络之间的代理服务器。
 > 是一个注册在指定源和路径下的事件驱动worker
-> 它设计为完全异步，同步api(如xhr/localStorage)不能在service worker中使用
-> 只能https承载。本地开发时可以使用`localhost`，也可以使用 [ngrok](/jsPackages/ngrok.html) + [serve](https://www.npmjs.com/package/serve)  
+> 它设计为完全异步，同步api(如(xhr)这好像有问题/localStorage)不能在service worker中使用
+> 只能https承载。本地开发时可以使用`localhost`。也可以使用 [ngrok](/jsPackages/ngrok.html) + [serve](https://www.npmjs.com/package/serve)  
 > 在firefox浏览器的用户隐私模式下，service worker不可用。
 > webworker / sharedworker 都叫worker。内部都用self指向全局变量。它们都是worker，它管不了主线程里的事。  
-> 它在`navigator`下。即：`navigator.serviceWorker`。navigator下还有好多东西。
+> 它在`navigator`下。即：`navigator.serviceWorker`。navigator下还有好多东西。发现好多调用原生、硬件的api在这个对象里。  
 > 是浏览器和网络之间的虚拟代理。  
 
 ## feature
@@ -21,7 +21,6 @@
 - 同步消息
 
 ## usage
-
 ```js
 // serviceWorker.js
 // demo0
@@ -141,7 +140,7 @@ if ('serviceWorker' in navigator) {
                                         // 1. 下载
                                         // 2. 安装
                                         // 3. 然后激活。
-        'url/path.js', // 相对于origin
+        'url/path.js', // 相对于origin。一般在根目录。
         {scope: '/path/'} // 指定注册范围。即：能拦截网络调用的路径
     ) // 返回一个promise.其值是ServiceWrokerRegistration
     .then((registration) => {
@@ -163,7 +162,7 @@ window.addEventListener('install') // 好像用不到
 
 ### 如何更新
 - 如果合适，则使用`importScripts`一个一个地更新  
-- sw在顶级代码变动会引起生成新指纹。  
+- sw在顶级代码变动会引起生成新指纹。（workbox）  
 
 ### 手动触发更新
 上线sw功能时，要开发此功能做为兜底解决方案。  
@@ -218,8 +217,8 @@ ServiceWorkerContainer接口为service worker提供了一个容器般的功能�
 |方法|||||
 ||getNotifications(options?: {tag: string})|返回一个值是Notification的promise|||
 ||showNotification(title, options?: {actions: [{action, title, icon}, ...], badge, body, data, dir, icon, image, lang, renotify, requireInteraction, silent, tag, timestamp, vibrate})|创建一个通知|||
-||update(无参数)|当找到缓存时更新service worker的版本。返回一个值是ServiceWorkerRegistration的promise|||
-||unregister()|注销个service worker，返回一个值是boolean的promise。boolean表示是否被注销。|||
+||update(无参数)|ServiceWorkerRegistration接口的update()方法试图更新service worker。它获取worker的脚本URL，如果新worker与当前worker不完全相同，它就安装新worker。如果之前的读取发生在24小时之前，那么worker的读取将绕过任何浏览器缓存。返回一个值是ServiceWorkerRegistration的promise|||
+||unregister()|注销这个service worker，返回一个值是boolean的promise。boolean表示是否被注销。|||
 
 ### ServiceWorkerGlobalScope
 代表一个service worker的全局变量。  

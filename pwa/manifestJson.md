@@ -48,6 +48,8 @@
 ||name|web应用的全名|用于显示在主屏幕、启动栏、程序坞、菜单|||
 ||short_name|name的简称|当显示空间不足时使用short_name.|请保持在12个字母以内||
 ||icons|由`{src, type, sizes, [purpose]}`组成的数组对象。||||
+|||purpose|明确用途。可以是一个或多个值，使用空格分开。|monochrome用户代理可以在需要带有实心填充的单色图标的地方显示此图标。图标中的颜色信息被丢弃，只使用alpha数据。然后，用户代理可以将该图标用作任何固体填充的蒙版。 maskable在设计图像时考虑到图标掩码和安全区，这样，安全区域之外的任何图像部分都可以被用户代理安全地忽略和屏蔽掉。 any用户代理可以在任何上下文中自由显示图标(这是默认值)。||
+|||sizes|长乘宽|eg: `64x64`|一般需要16x16 32x32 64x64 180x180 192x192 512x512|
 ||start_url|从安装后的应用打开时请求的url.||若不设置，则打开安装应用时的url||
 ||display|定义操作系统如何显示pwa应用。|'fullscreen' / 'standalone' / 'minimal-ui' / 'browser'|一般使用'standalone'||
 ||id||用于表示惟一pwa|非必填项|若无id,有start_url也行。chrome 96+当无id里会自动生成一个id.|
@@ -71,6 +73,9 @@
 - 留出系统裁剪的空间。
 - 图片内容在半径为宽度的40%以内。
 - [https://icon.wuruihong.com/](https://icon.wuruihong.com/)
+- [maskable.app]
+- [imageresizer.com]
+- [favicon.io]
 
 ## title
 ## title

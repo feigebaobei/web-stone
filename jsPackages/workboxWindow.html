@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>manifest&period;json</title>
+        <title>&DiacriticalGrave;workbox-window&DiacriticalGrave;</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -79,132 +79,48 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="manifestjson">manifest.json</h1>
+        <h1 id="workbox-window"><code>workbox-window</code></h1>
+<h2 id="overview">overview</h2>
 <blockquote>
-<p>描述符文件名为 manifest.json 并位于 网络应用 夹。
-使用可翻译的字符串作为应用程序的标题和描述。
-使浏览器知道如何对待该web应用。<br>
-一般在根目录。
-正式的扩展名是<code>.webmanifest</code>。即您可以设置为<code>app.webmanifest</code>.但是只要使用json格式编写，任意扩展名都能被解析。</p>
+<p>简化sw注册、更新。
+避免发生使用sw的错误。<br>
+简化window/sw scope之间的message</p>
 </blockquote>
+<h3 id="feature">feature</h3>
+<ul>
+<li>feature0</li>
+<li>feature1</li>
+<li>feature2</li>
+</ul>
+<h2 id="install">install</h2>
+<p><code>npm i workbox-window</code></p>
 <h2 id="usage">usage</h2>
-<pre><code class="language-html"><div><span class="hljs-comment">&lt;!-- 定义并编辑 &lt;root&gt;/manifest.json --&gt;</span>
-<span class="hljs-comment">&lt;!-- index.html --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;manifest&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/manifest.json&quot;</span> /&gt;</span>
-</div></code></pre>
-<pre><code class="language-json"><div>{
-    <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;lixiaodan.org&quot;</span>,
-    <span class="hljs-attr">&quot;short_name&quot;</span>: <span class="hljs-string">&quot;lxd&quot;</span>,
-    <span class="hljs-attr">&quot;icons&quot;</span>: [
-        {
-            <span class="hljs-attr">&quot;src&quot;</span>: <span class="hljs-string">&quot;web/icon-29.png&quot;</span>,
-            <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;image/png&quot;</span>,
-            <span class="hljs-attr">&quot;sizes&quot;</span>: <span class="hljs-string">&quot;29x29&quot;</span>
-        },
-        {
-            <span class="hljs-attr">&quot;src&quot;</span>: <span class="hljs-string">&quot;web/icon-40.png&quot;</span>,
-            <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;image/png&quot;</span>,
-            <span class="hljs-attr">&quot;sizes&quot;</span>: <span class="hljs-string">&quot;40x40&quot;</span>
-        },
-        {
-            <span class="hljs-attr">&quot;src&quot;</span>: <span class="hljs-string">&quot;web/icon-76.png&quot;</span>,
-            <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;image/png&quot;</span>,
-            <span class="hljs-attr">&quot;sizes&quot;</span>: <span class="hljs-string">&quot;76x76&quot;</span>
-        }
-    ],
-    <span class="hljs-attr">&quot;start_url&quot;</span>: <span class="hljs-string">&quot;.&quot;</span>,
-    <span class="hljs-attr">&quot;display&quot;</span>: <span class="hljs-string">&quot;standalone&quot;</span>
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span> {Workbox} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;workbox-window&#x27;</span>;
+
+<span class="hljs-keyword">if</span> (<span class="hljs-string">&#x27;serviceWorker&#x27;</span> <span class="hljs-keyword">in</span> navigator) {
+  <span class="hljs-keyword">const</span> wb = <span class="hljs-keyword">new</span> Workbox(<span class="hljs-string">&#x27;/sw.js&#x27;</span>);
+
+  wb.register();
 }
 </div></code></pre>
-<h2 id="调试">调试</h2>
-<p>在浏览器的开发者工具-application-manifest</p>
-<h2 id="字段说明">字段说明</h2>
+<h2 id="configuration">configuration</h2>
+<p>默认配置文件：<code>path/to/file.json</code>。</p>
 <table>
 <thead>
 <tr>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
+<th>key</th>
+<th>description</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
 <th></th>
 <th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>基本字段</td>
 <td></td>
 <td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>name</td>
-<td>web应用的全名</td>
-<td>用于显示在主屏幕、启动栏、程序坞、菜单</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>short_name</td>
-<td>name的简称</td>
-<td>当显示空间不足时使用short_name.</td>
-<td>请保持在12个字母以内</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>icons</td>
-<td>由<code>{src, type, sizes, [purpose]}</code>组成的数组对象。</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>purpose</td>
-<td>明确用途。可以是一个或多个值，使用空格分开。</td>
-<td>monochrome用户代理可以在需要带有实心填充的单色图标的地方显示此图标。图标中的颜色信息被丢弃，只使用alpha数据。然后，用户代理可以将该图标用作任何固体填充的蒙版。 maskable在设计图像时考虑到图标掩码和安全区，这样，安全区域之外的任何图像部分都可以被用户代理安全地忽略和屏蔽掉。 any用户代理可以在任何上下文中自由显示图标(这是默认值)。</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>sizes</td>
-<td>长乘宽</td>
-<td>eg: <code>64x64</code></td>
-<td>一般需要16x16 32x32 64x64 180x180 192x192 512x512</td>
-</tr>
-<tr>
-<td></td>
-<td>start_url</td>
-<td>从安装后的应用打开时请求的url.</td>
-<td></td>
-<td>若不设置，则打开安装应用时的url</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>display</td>
-<td>定义操作系统如何显示pwa应用。</td>
-<td>'fullscreen' / 'standalone' / 'minimal-ui' / 'browser'</td>
-<td>一般使用'standalone'</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>id</td>
-<td></td>
-<td>用于表示惟一pwa</td>
-<td>非必填项</td>
-<td>若无id,有start_url也行。chrome 96+当无id里会自动生成一个id.</td>
-</tr>
-<tr>
-<td>推荐字段</td>
 <td></td>
 <td></td>
 <td></td>
@@ -213,38 +129,7 @@
 </tr>
 <tr>
 <td></td>
-<td>theme_color</td>
-<td>主题色</td>
 <td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>background_color</td>
-<td>背景色</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>scope</td>
-<td>控制pwa窗口内的url.</td>
-<td>不会控制service worker的工作范围。</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>splashscreens</td>
-<td>pwa应用加载时的占位图。类似骨架图</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>扩展字段</td>
 <td></td>
 <td></td>
 <td></td>
@@ -253,70 +138,7 @@
 </tr>
 <tr>
 <td></td>
-<td>lang</td>
-<td>指定主要语言</td>
 <td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>dir</td>
-<td>指定方向性（direction）</td>
-<td>'auto' / 'ltr' / 'rtl'</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>orientation</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>promotional 字段</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>description</td>
-<td>说明本pwa</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>screenshots</td>
-<td>由<code>{src, type, sizes}</code>组成的数组。</td>
-<td>用于展示pwa</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>categories</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>iarc_cating_id</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>capabilites字段</td>
 <td></td>
 <td></td>
 <td></td>
@@ -325,23 +147,21 @@
 </tr>
 </tbody>
 </table>
-<h2 id="创建icon">创建icon</h2>
-<ul>
-<li>留出系统裁剪的空间。</li>
-<li>图片内容在半径为宽度的40%以内。</li>
-<li><a href="https://icon.wuruihong.com/">https://icon.wuruihong.com/</a></li>
-<li>[maskable.app]</li>
-<li>[<a href="http://imageresizer.com">imageresizer.com</a>]</li>
-<li>[<a href="http://favicon.io">favicon.io</a>]</li>
-</ul>
-<h2 id="title">title</h2>
-<h2 id="title-1">title</h2>
-<h2 id="title-2">title</h2>
+<h2 id="api">api</h2>
+<p><code>workbox-window.fn(param, first: string, second: boolean = true) =&gt; void</code>
+description</p>
+<p><code>workbox-window.fn(param, [options: {a: string, b?: number}])</code>
+description</p>
+<h2 id="principle">principle</h2>
+<p>此包的处理逻辑。</p>
+<h3 id="uml">uml</h3>
+<pre><code><code><div></div></code></code></pre>
 <h2 id="todo">todo</h2>
-<h3 id="title-3">title</h3>
-<h3 id="title-4">title</h3>
-<h3 id="title-5">title</h3>
-<h3 id="title-6">title</h3>
+<blockquote>
+<p>未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote>
 
         
         

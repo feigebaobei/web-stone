@@ -83,11 +83,11 @@
 <blockquote>
 <p>本质上是web应用、浏览器与网络之间的代理服务器。
 是一个注册在指定源和路径下的事件驱动worker
-它设计为完全异步，同步api(如xhr/localStorage)不能在service worker中使用
-只能https承载。本地开发时可以使用<code>localhost</code>，也可以使用 <a href="/jsPackages/ngrok.html">ngrok</a> + <a href="https://www.npmjs.com/package/serve">serve</a><br>
+它设计为完全异步，同步api(如(xhr)这好像有问题/localStorage)不能在service worker中使用
+只能https承载。本地开发时可以使用<code>localhost</code>。也可以使用 <a href="/jsPackages/ngrok.html">ngrok</a> + <a href="https://www.npmjs.com/package/serve">serve</a><br>
 在firefox浏览器的用户隐私模式下，service worker不可用。
 webworker / sharedworker 都叫worker。内部都用self指向全局变量。它们都是worker，它管不了主线程里的事。<br>
-它在<code>navigator</code>下。即：<code>navigator.serviceWorker</code>。navigator下还有好多东西。
+它在<code>navigator</code>下。即：<code>navigator.serviceWorker</code>。navigator下还有好多东西。发现好多调用原生、硬件的api在这个对象里。<br>
 是浏览器和网络之间的虚拟代理。</p>
 </blockquote>
 <h2 id="feature">feature</h2>
@@ -279,7 +279,7 @@ self.addEventListener(<span class="hljs-string">&#x27;activate&#x27;</span>, <sp
                                         <span class="hljs-comment">// 1. 下载</span>
                                         <span class="hljs-comment">// 2. 安装</span>
                                         <span class="hljs-comment">// 3. 然后激活。</span>
-        <span class="hljs-string">&#x27;url/path.js&#x27;</span>, <span class="hljs-comment">// 相对于origin</span>
+        <span class="hljs-string">&#x27;url/path.js&#x27;</span>, <span class="hljs-comment">// 相对于origin。一般在根目录。</span>
         {<span class="hljs-attr">scope</span>: <span class="hljs-string">&#x27;/path/&#x27;</span>} <span class="hljs-comment">// 指定注册范围。即：能拦截网络调用的路径</span>
     ) <span class="hljs-comment">// 返回一个promise.其值是ServiceWrokerRegistration</span>
     .then(<span class="hljs-function">(<span class="hljs-params">registration</span>) =&gt;</span> {
@@ -302,7 +302,7 @@ self.addEventListener(<span class="hljs-string">&#x27;activate&#x27;</span>, <sp
 <h3 id="如何更新">如何更新</h3>
 <ul>
 <li>如果合适，则使用<code>importScripts</code>一个一个地更新</li>
-<li>sw在顶级代码变动会引起生成新指纹。</li>
+<li>sw在顶级代码变动会引起生成新指纹。（workbox）</li>
 </ul>
 <h3 id="手动触发更新">手动触发更新</h3>
 <p>上线sw功能时，要开发此功能做为兜底解决方案。</p>
@@ -520,14 +520,14 @@ navigater.serviceWorker.ready.then(<span class="hljs-function">(<span class="hlj
 <tr>
 <td></td>
 <td>update(无参数)</td>
-<td>当找到缓存时更新service worker的版本。返回一个值是ServiceWorkerRegistration的promise</td>
+<td>ServiceWorkerRegistration接口的update()方法试图更新service worker。它获取worker的脚本URL，如果新worker与当前worker不完全相同，它就安装新worker。如果之前的读取发生在24小时之前，那么worker的读取将绕过任何浏览器缓存。返回一个值是ServiceWorkerRegistration的promise</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td>unregister()</td>
-<td>注销个service worker，返回一个值是boolean的promise。boolean表示是否被注销。</td>
+<td>注销这个service worker，返回一个值是boolean的promise。boolean表示是否被注销。</td>
 <td></td>
 <td></td>
 </tr>
