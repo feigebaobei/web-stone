@@ -4,7 +4,7 @@
 - [history](/browser/history.html)
 - [同源策略&cors](/browser/origin&cors.html)
 - [crypto](/browser/crypto.html)
-- [title](/browser/title.html)
+- [chrome devtools](/browser/chromeDevtools.html)
 - [title](/browser/title.html)
 - [title](/browser/title.html)
 - [title](/browser/title.html)
