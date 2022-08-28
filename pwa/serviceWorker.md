@@ -174,6 +174,19 @@ navigater.serviceWorker.ready.then((registration) => {
 })
 ```
 
+### 解决方案
+#### 解决sw中缓存不更新的问题
+1. 在主脚本中引入的sw文件名不用动。
+2. 在sw文件中定义当前版本号。
+3. 在install事件中使用当前版本号缓存资源。
+4. 在activate事件中删除非当前版本号的缓存。
+
+#### 一定要考虑清缓存策略
+
+#### 对于变动较频繁的接口，可使用“网络优先”解决。本地缓存在弱网、脱网时使用。
+
+### 增加版本号
+
 ## 使用
 - 默认缓存一些文件
 - 开放供用户选择缓存、清缓存的ui交换界面。
@@ -336,7 +349,7 @@ window.navigator.storage
 |safri|约1g。当达到限制时，会提示用户，每次可增加200m。|||||
 
 #### 开发者工具
-##### chrome
+##### [chrome](/browser/chromeDevtools.html)
 |||
 |-|-|
 |chrome://inspect/#service-workers | 展示当前设备上激活和存储的 service worker等。|

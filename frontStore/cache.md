@@ -67,9 +67,9 @@ StorageEstimate
 |方法|description|||||
 ||match(requestOrUrl, options?: {ignoreSearch, ignoreMethod, ignoreVery, cacheName})|返回一个值为response / undefined的promise||||
 ||matchAll([request, options: {ignoreSearch, ignoreMethod, ignoreVary, cacheName}])|返回一个值是匹配请求的数组的promise||||
-||add(requestOrUrl)|自动把request与对应的response缓存起来|返回值为undefined的promise|只能缓存response.status在200范围内的响应|只能在get请求中使用|
-||addAll(requestOrUrl[])|把数组中的每个request/response缓存起来|返回值为undefined的promise|只能缓存response.status在200范围内的响应|只能在get请求中使用|
-||put(request, reponse)|在cache对象中设置request与response的对应关系。会发生覆盖。|返回一个值为undefined的promise|可缓存任意状态码|只能在get请求中使用|
+||add(requestOrUrl)|自动把request与对应的response缓存起来|返回值为undefined的promise|只能缓存response.status在200范围内的响应||
+||addAll(requestOrUrl[])|把数组中的每个request/response缓存起来|返回值为undefined的promise|只能缓存response.status在200范围内的响应||
+||put(request, reponse)|在cache对象中设置request与response的对应关系。会发生覆盖。|返回一个值为undefined的promise|可缓存任意状态码||
 ||delete(request, options?: {ignoreSearch, ignoreMethod, ignoreVary, cacheName})||返回值为是否删除指定的缓存的promise|||
 ||keys(request?, options?: {ignoreSearch, ignoreMethod, ignoreVary, cacheName})||返回值为cache键组成的数组的promise|||
 

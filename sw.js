@@ -32,19 +32,34 @@ self.addEventListener('install', event => {
 // }
 self.addEventListener('fetch', event => {
     // console.log('event.request', event.request)
+
+    // console.log('for test')
     event.respondWith(
-        caches.match(event.request).then((response) => {
-            // 若缓存中存在则返回，否则请求。
-            return response || fetch(event.request).then(res => {
-                // 此时缓存中没有。
-                return caches.open(currentVersion).then(cache => {
-                    // 把数据添加到缓存中
-                    cache.put(event.request, res.clone())
-                    // 把响应克隆一份后缓存起来。把原始响应返回给调用它的页面。
-                    // 请求和响应流只能被读取一次。缓存起来的是克隆出来的，返回给页面的是原始的。
-                    return res
-                })
+        // 测试通过
+        // // 缓存优先
+        // caches.match(event.request).then((response) => {
+        //     // 若缓存中存在则返回，否则请求。
+        //     return response || fetch(event.request).then(res => {
+        //         // 此时缓存中没有。
+        //         return caches.open(currentVersion).then(cache => {
+        //             // 把数据添加到缓存中
+        //             cache.put(event.request, res.clone())
+        //             // 把响应克隆一份后缓存起来。把原始响应返回给调用它的页面。
+        //             // 请求和响应流只能被读取一次。缓存起来的是克隆出来的，返回给页面的是原始的。
+        //             return res
+        //         })
+        //     })
+        // })
+
+        // 网络优先
+        // 测试通过
+        fetch(event.request).then(res => {
+            return caches.open(currentVersion).then(cache => {
+                cache.put(event.request, res.clone())
+                return res
             })
+        }).catch(err => {
+            return err
         })
     )
 })

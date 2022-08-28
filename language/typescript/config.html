@@ -27,6 +27,41 @@
 	color: var(--vscode-editorError-foreground);
 }
 
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
 </style>
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
@@ -46,7 +81,8 @@
     <body class="vscode-body vscode-light">
         <h1 id="config-of-ts">config of ts</h1>
 <p>配置文件是：<code>tsconfig.json / jsconfig.json</code><br>
-配置文件是为<code>tsc</code>命令服务的。</p>
+配置文件是为<code>tsc</code>命令服务的。<br>
+把编译过程中遇到的所有情况都在配置文件中列出。每一个配置项，对应该情况的解决方案。</p>
 <h2 id="usage">usage</h2>
 <ul>
 <li>使用<code>--project / -p</code>。指定已经存在的配置文件的目录。则要此配置文件执行转换。</li>

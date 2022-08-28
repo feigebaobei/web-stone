@@ -38,7 +38,7 @@ icons
 - 脱网
 - update on reload 在每个页面加载时更新sw
 - bypass for network 强制浏览器使用网络请求的资源
-- update 更新一次sw
+- update 更新一次sw。若发现不同，则使用新sw/增加数字。
 - push 推送一个消息
 - unregister 注销指定的sw。clear storage可以清空已经被注销的sw相关的缓存。
 - source 列出sw脚本

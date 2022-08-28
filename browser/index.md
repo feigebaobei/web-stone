@@ -5,6 +5,18 @@
 - [同源策略&cors](/browser/origin&cors.html)
 - [crypto](/browser/crypto.html)
 - [chrome devtools](/browser/chromeDevtools.html)
+- app shortcut
+- contact picker
+  - navigator.contacts
+  - window.ContactsManager
+- geolocation
+  - window.navigator.geolocation
+- devide detect
+- external device
+- idle detection
+- file system
+- web share
+- [pwa limitation](/pwa/index.html)
 - [title](/browser/title.html)
 - [title](/browser/title.html)
 - [title](/browser/title.html)

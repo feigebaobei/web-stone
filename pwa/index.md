@@ -173,3 +173,11 @@ self.addEventListener('activate', event => {
 ### [workbox-webpack-plugin](/builder/webpack/plugin/workbox-webpack-plugin.html)
 
 ### 与vue结合使用 
+### 构思一个pwa框架
+**欢迎共建 baobeifeige@gmail.com**  
+
+- 目的是简化workbox。它太杂了。那么多小包。
+- 延用workbox提出的5种缓存策略。
+- 支持配置文件。作用于全局
+- 支持配置每个资源。覆盖全局的配置文件。（叶子优先于根）
+- 简化用法。只提供几个api、options.  
