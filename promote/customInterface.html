@@ -62,7 +62,6 @@
                 <button type="submit" id="submit">提交</button>
                 <button type="reset" id="reset">重置</button>
                 <button type="button" id="clearReset">请空结果</button>
-                <button type="button" id="format">格式化</button>
             </div>
         </form>
         <div>
@@ -94,6 +93,7 @@
                 <button type="submit" id="resSubmit">提交</button>
                 <button type="reset" id="resReset">重置</button>
                 <button type="button" id="resClearReset">请空结果</button>
+                <button type="button" id="format">格式化</button>
             </div>
         </form>
         <div>
@@ -112,6 +112,11 @@
         } else { // 开发
             domain = 'http://localhost:5000'
         }
+        let formatStr2Json = (str) => {
+            str = JSON.parse(str)
+            str = JSON.stringify(str, (k, v) => {return v}, 2)
+            return str
+        }
 
         document.querySelector('#clearReset').addEventListener('click', (e) => {
             document.querySelector('#result').value = ''
@@ -121,9 +126,9 @@
         })
         document.querySelector('#format').addEventListener('click', (e) => {
             let str = document.querySelector('#resResult').value
-            str = JSON.parse(str)
-            str = JSON.stringify(str, (k, v) => {return v}, 2)
-            document.querySelector('#resResult').value = str
+            // str = JSON.parse(str)
+            // str = JSON.stringify(str, (k, v) => {return v}, 2)
+            document.querySelector('#resResult').value = formatStr2Json(str)
         })
 
         document.querySelector('#submit').addEventListener('click', (e) => {
@@ -180,7 +185,7 @@
                     break;
             }
             axios(obj).then((res) => {
-                resultDom.value = JSON.stringify(res.data)
+                resultDom.value = formatStr2Json(JSON.stringify(res.data))
             }).catch((err) => {
                 resultDom.value = JSON.stringify(res)
             })
