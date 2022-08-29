@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>push</title>
+        <title>overview</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -63,7 +63,8 @@
 }
 
 </style>
-        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -79,201 +80,616 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <p>Notifications
-Web Push and Notifications</p>
-<p><a href="https://web.dev/notifications/">https://web.dev/notifications/</a></p>
-<h1 id="push">push</h1>
-<blockquote>
-<p>push api使web应用可以接收服务器提供的消息。<br>
-当使用pushMessages subscriptions时必须解决<a href="">xsrf/csrf</a>问题 <a href="https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html">https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html</a> <a href="https://blog.codinghorror.com/preventing-csrf-and-xsrf-attacks/">https://blog.codinghorror.com/preventing-csrf-and-xsrf-attacks/</a></p>
-</blockquote>
-<h2 id="feature">feature</h2>
-<ul>
-<li>feature0</li>
-<li>feature1</li>
-<li>feature2</li>
-</ul>
-<h2 id="usage">usage</h2>
-<pre><code class="language-js"><div><span class="hljs-comment">// 当sw处理active状态后</span>
-PushManager.subscribe() <span class="hljs-comment">// Promise&lt;obj&gt;</span>
-<span class="hljs-comment">// 创建或返回已经存在的push subscription</span>
-serviceWorkerRegistration.pushManager.subscribe().then(<span class="hljs-function"><span class="hljs-params">pushSubscription</span> =&gt;</span> {...}).catch(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> {...})
-</div></code></pre>
-<h2 id="推送消息的过程">推送消息的过程</h2>
-<pre><code><code><div>your server =&gt; web push protocol request =&gt; push service =&gt; message arrives on the device
+        <h1 id="overview">overview</h1>
+<p>node cli的完整解决方案。</p>
+<h1 id="installation">installation</h1>
+<p><code>npm i commander</code></p>
+<h1 id="宣布程序变量">宣布程序变量</h1>
+<p><code>commander</code>会输出一个全局对象，这样会方便快速开发程序。为了方便，在本reademe中都使用它。</p>
+<pre><code><code><div>const {program} = require('commander')
+program.version('0.0.2')
 </div></code></code></pre>
-<h2 id="pushmanager-api">PushManager api</h2>
-<p>该对象是接收后端服务来的消息的接口。<br>
-该接口使用<code>ServiceWorkerRegistration.pushManager</code>创建</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>属性</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>supportedContentEncodings</td>
-<td>返回一个受支持的内容编码数组，可以用来加密推送消息的有效负载。</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>事件</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>方法</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>getSubscription()</td>
-<td><code>Promise&lt;PushSubscription&gt;</code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>permissionState(options?: PushSubscriptionOptions)</td>
-<td>返回推送消息的权限状态 <code>Promise&lt;state&gt;</code></td>
-<td></td>
-<td>'prompt', 'denied', or 'granted'</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>subscribe(opt?: PushSubscriptionOptions)</td>
-<td>订阅一个push 服务<code>Promise&lt;PushSubscription&gt;</code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="pushsubscription-api">PushSubscription api</h2>
-<p>该对象提供一个订阅端口，支持取消订阅。</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>属性</td>
-<td>只读</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>endpoint</td>
-<td>返回订阅端口</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>expirationTime</td>
-<td>返回订阅期限</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>options</td>
-<td>返回PushSubscriptionOptions</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>事件</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>方法</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>getKey(name: p256dh / auth)</td>
-<td>返回公钥。可用于加密消息和发给后端。</td>
-<td>ArrayBuffer</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>toJSON()</td>
-<td>序列化订阅信息并返回</td>
-<td>JSON</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>unsubscribe()</td>
-<td>是否取消订阅成功<code>Promise&lt;boolean&gt;</code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<pre><code class="language-ts"><div>PushSubscriptionOptions: {
-    <span class="hljs-attr">userVisibleOnly</span>: <span class="hljs-built_in">boolean</span> <span class="hljs-comment">// 指示返回的推送订阅将只用于用户可见的消息。</span>
-    <span class="hljs-attr">applicationServerKey</span>: <span class="hljs-built_in">string</span> <span class="hljs-comment">// 你的推送服务器将使用一个公钥通过推送服务器向客户端应用程序发送消息。该值是应用程序服务器生成的签名密钥对的一部分，可用于P-256曲线上的椭圆曲线数字签名(ECDSA)。</span>
-}
-</div></code></pre>
-<h2 id="todo">todo</h2>
-<h3 id="title">title</h3>
-<h3 id="title-1">title</h3>
-<h3 id="title-2">title</h3>
+<p>该包在大型程序中有多种用法，包括多单元测试，最好使用本地<code>Command</code>对象。</p>
+<pre><code><code><div>const {Command} = require('commander')
+const program = new Command()           // program是Command的实例。 
+program.version('0.0.1')
+</div></code></code></pre>
+<p>支持esm规范，</p>
+<pre><code><code><div>// index.mjs
+import {Command} from 'commander/esm.mjs'
+const program = new Command()
+</div></code></code></pre>
+<p>支持ts</p>
+<pre><code><code><div>// index.ts
+import {Command} from 'commander'
+const program = new Command()
+</div></code></code></pre>
+<h1 id="options">Options</h1>
+<p>使用<code>.option()</code>方法定义选项。它也做为选项的文档。每一个选项可以有二种标记：短标记/长名字。使用<code>,</code>/<code> </code>/<code>|</code>分割。
+在<code>Command</code>对象上使用<code>.opts()</code>可得到选项。当使用多词选项（multi-word option）如：<code>--template-engine</code>时，会被转化为<code>camelCased</code>。如：<code>program.opts().templateEngine</code>。
+多个短标记可缩写为一个。如<code>-a -b -p 80</code> =&gt; <code>-ab -p80</code> / <code>-abp80</code>。
+使用<code>--</code>做为选项的结束符。可省略最后一个。
+默认行内选项没有次序。</p>
+<h2 id="common-option-types-boolean-and-value">Common option types, boolean and value</h2>
+<p>2种最常用的选项：boolean/从后面的参数中取值（使用<code>&lt;&gt;</code>处理，如：<code>--expect &lt;value&gt;</code>）。若二者都没有，则使用<code>undefined</code>。</p>
+<pre><code><code><div>program
+	.option('-d, --debug', 'output extra debuggin')
+	.option('-s, --small', 'small pizza size')
+	.option('-p, --pizza-type &lt;type&gt;', 'flavour of pizza')
+program.parse(process.argv)
+const options = program.opts()
+if (options.debug) console.log(options)
+console.log('pizza details:')
+if (options.small) console.log('-small pizza size')
+if (options.pizzaType) console.log(`-${options.pizzaType}`)
+</div></code></code></pre>
+<pre><code><code><div>$ pizza-options -d
+</div></code></code></pre>
+<h2 id="default-option-value">Default option value</h2>
+<p>可以设置一个默认值</p>
+<pre><code><code><div>program
+	.option('-c, --cheese &lt;type&gt;', 'add the specified type of cheese', 'blue')
+program.parse()
+console.log(`cheese: ${program.opts().cheese}`)
+</div></code></code></pre>
+<pre><code><code><div>$ pizza-options
+cheese: blue
+$ pizza-options --cheese stilton
+cheese: stilton
+</div></code></code></pre>
+<h2 id="other-option-types-negatable-boolean-and-booleanvalue">Other option types, negatable boolean and boolean|value</h2>
+<p>若定义了以<code>no-</code>开头和不以<code>no-</code>开头的相当的选项时，则这2个选项的默认值分别是false、true.
+若只定义了以<code>no-</code>开头的选项时，则该选项的默认值是true.
+使用<code>[]</code>处理可选参数<code>--optional [value]</code>，若不带参数，则可用作boolean选项。否则参数中得到值。</p>
+<pre><code><code><div>program
+  .option('-c, --cheese [type]', 'Add cheese with optional type');
 
-        
+program.parse(process.argv);
+
+const options = program.opts();
+if (options.cheese === undefined) console.log('no cheese');
+else if (options.cheese === true) console.log('add cheese');
+else console.log(`add cheese type ${options.cheese}`);
+</div></code></code></pre>
+<pre><code><code><div>$ pizza-options
+no cheese
+$ pizza-options --cheese
+add cheese
+$ pizza-options --cheese mozzarella
+add cheese type mozzarella
+</div></code></code></pre>
+<h2 id="required-option">Required option</h2>
+<p>使用<code>requiredOption()</code>定义必填属性。要么设置默认值，要么在命令行输入值。</p>
+<pre><code><code><div>program
+	.requiredOption('-c, --cheese &lt;type&gt;', 'pizza must have cheese')
+</div></code></code></pre>
+<h2 id="varidic-option">varidic option</h2>
+<p>要选项类型后面加<code>...</code>可设置为变长参数。即在一个数组内保存为该选项输入的数据。以<code>--</code>表示设置变长参数结束。</p>
+<pre><code><code><div>program
+  .option('-n, --number &lt;numbers...&gt;', 'specify numbers')
+  .option('-l, --letter [letters...]', 'specify letters');
+
+program.parse();
+
+console.log('Options: ', program.opts());
+console.log('Remaining arguments: ', program.args);
+</div></code></code></pre>
+<pre><code><code><div>$ collect -n 1 2 3 --letter a b c
+Options:  { number: [ '1', '2', '3' ], letter: [ 'a', 'b', 'c' ] }
+Remaining arguments:  []
+$ collect --letter=A -n80 operand
+Options:  { number: [ '80' ], letter: [ 'A' ] }
+Remaining arguments:  [ 'operand' ]
+$ collect --letter -n 1 -n 2 3 -- operand
+Options:  { number: [ '1', '2', '3' ], letter: true }
+Remaining arguments:  [ 'operand' ]
+</div></code></code></pre>
+<h2 id="版本选项">版本选项</h2>
+<p>可以使用<code>-V</code>/<code>--version</code>设置版本。设置了版本后，命令行会输出当前的版本号。
+用法与<code>option</code>相同。</p>
+<pre><code><code><div>program.version('0.0.1', '-v, --vers', 'output the current version');
+</div></code></code></pre>
+<h2 id="更多配置项">更多配置项</h2>
+<p>大多数情况下，选项均可通过.option()方法添加。但对某些不常见的用例，也可以直接构造Option对象，对选项进行更详尽的配置。</p>
+<pre><code><code><div>program
+  .addOption(new Option('-s, --secret').hideHelp())
+  .addOption(new Option('-t, --timeout &lt;delay&gt;', 'timeout in seconds').default(60, 'one minute'))
+  .addOption(new Option('-d, --drink &lt;size&gt;', 'drink size').choices(['small', 'medium', 'large']));
+</div></code></code></pre>
+<h2 id="自定义选项处理">自定义选项处理</h2>
+<p>选项的参数可以通过自定义函数来处理，该函数接收两个参数：用户新输入的参数值和当前已有的参数值（即上一次调用自定义处理函数后的返回值），返回新的选项参数值。</p>
+<p>自定义函数适用场景包括参数类型转换，参数暂存，或者其他自定义处理的场景。</p>
+<p>可以在自定义函数的后面设置选项参数的默认值或初始值（例如参数用list暂存时需要设置一个初始空集合)。</p>
+<pre><code><code><div>function myParseInt(value, dummyPrevious) {
+  // parseInt takes a string and a radix
+  const parsedValue = parseInt(value, 10);
+  if (isNaN(parsedValue)) {
+    throw new commander.InvalidOptionArgumentError('Not a number.');
+  }
+  return parsedValue;
+}
+
+function increaseVerbosity(dummyValue, previous) {
+  return previous + 1;
+}
+
+function collect(value, previous) {
+  return previous.concat([value]);
+}
+
+function commaSeparatedList(value, dummyPrevious) {
+  return value.split(',');
+}
+
+program
+  .option('-f, --float &lt;number&gt;', 'float argument', parseFloat)
+  .option('-i, --integer &lt;number&gt;', 'integer argument', myParseInt)
+  .option('-v, --verbose', 'verbosity that can be increased', increaseVerbosity, 0)
+  .option('-c, --collect &lt;value&gt;', 'repeatable value', collect, [])
+  .option('-l, --list &lt;items&gt;', 'comma separated list', commaSeparatedList)
+;
+
+program.parse();
+
+const options = program.opts();
+if (options.float !== undefined) console.log(`float: ${options.float}`);
+if (options.integer !== undefined) console.log(`integer: ${options.integer}`);
+if (options.verbose &gt; 0) console.log(`verbosity: ${options.verbose}`);
+if (options.collect.length &gt; 0) console.log(options.collect);
+if (options.list !== undefined) console.log(options.list);
+</div></code></code></pre>
+<pre><code><code><div>$ custom -f 1e2
+float: 100
+$ custom --integer 2
+integer: 2
+$ custom -v -v -v
+verbose: 3
+$ custom -c a -c b -c c
+[ 'a', 'b', 'c' ]
+$ custom --list x,y,z
+[ 'x', 'y', 'z' ]
+</div></code></code></pre>
+<h1 id="命令">命令</h1>
+<p>使用<code>.command()</code>/<code>.addCommand()</code>添加（子）命令。必须设置行为或独立的可以执行文件。
+<code>.command(commandName)</code>
+commandName    命令的名字，可必填，可选填。</p>
+<h1 id="绑定触发事件">绑定、触发事件</h1>
+<p>绑定</p>
+<ul>
+<li>option</li>
+<li>requireOption</li>
+<li>parse</li>
+<li>parseAsync</li>
+</ul>
+<p>触发</p>
+<ul>
+<li>parse</li>
+<li>parseAsync</li>
+</ul>
+<h1 id="overview-1">overview</h1>
+<h1 id="overview-2">overview</h1>
+<h1 id="overview-3">overview</h1>
+<h1 id="overview-4">overview</h1>
+<h1 id="overview-5">overview</h1>
+<h1 id="overview-6">overview</h1>
+<h1 id="overview-7">overview</h1>
+<h1 id="overview-8">overview</h1>
+<h1 id="overview-9">overview</h1>
+<h1 id="overview-10">overview</h1>
+<h1 id="overview-11">overview</h1>
+<h1 id="overview-12">overview</h1>
+<h1 id="overview-13">overview</h1>
+<h1 id="读各版本源码">读各版本源码</h1>
+<h2 id="000">0.0.0</h2>
+<p>输出了2个构造函数：Option/Command。
+输出默认值<code>new Command()</code></p>
+<h2 id="100">1.0.0</h2>
+<p>与0.0.0相似</p>
+<h2 id="200">2.0.0</h2>
+<p>与0.0.0相似
+入口文件为<code>index</code>
+删除了example</p>
+<h2 id="300">3.0.0</h2>
+<p>基于<code>events.EventEmitter</code>开发的。
+使用<code>on</code>定义事件，使用<code>emit</code>触发事件。没有移除事件。
+<code>parse</code>是解析的意思，tj把它用于执行选项、命令了。
+可定义选项，可定义命令。</p>
+<h2 id="400">4.0.0</h2>
+<p>兼容不知道的选项。</p>
+<h3 id="option">Option</h3>
+<p>定义<code>Option</code>构造函数，</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+<th>参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Option#name</td>
+<td>返回长名</td>
+<td></td>
+</tr>
+<tr>
+<td>Option#attributeName</td>
+<td>返回没有no-的长名</td>
+<td></td>
+</tr>
+<tr>
+<td>Option#is</td>
+<td>是否是长名或短名</td>
+<td>arg</td>
+</tr>
+</tbody>
+</table>
+<h3 id="commandererror">CommanderError</h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+<th>参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CommanderError</td>
+<td>基于error类，返回一个包含各错误字段的对象。</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="command">Command</h3>
+<p>Command是基于<code>EventEmitter</code>开发的。</p>
+<h4 id="commandcommandnameandargs-actionoptsorexecdesc-execopts">Command#command(nameAndArgs[[, actionOptsOrExecDesc], execOpts])</h4>
+<p>定义一个命令。
+nameAndArgs            命令的名字和参数  <code>'clone &lt;surce&gt; [description]'</code>
+actionOptsOrExecDesc   为action设置选项，或为可执行文件设置说明。
+execOpts               为可执行文件设置选项。
+会把定义好的文件放在<code>commands</code>数组里。
+返回<code>Command</code>实例。</p>
+<h4 id="commandargumentsdesc">Command#arguments(desc)</h4>
+<p>为顶层命令定义参数。<code>&lt;xxx&gt;</code>表示必填。<code>[xxx]</code>表示选填。
+desc   string
+使用<code>parseExpectedArgs</code>解析参数。
+返回<code>Command</code>实例。</p>
+<h4 id="commandaddimplicithelpcommand">Command#addImplicitHelpCommand()</h4>
+<p>为指定的命令添加一个子命令
+调用<code>this.command</code>
+无返回。</p>
+<h4 id="commandparseexpectedargsargs">Command#parseExpectedArgs(args)</h4>
+<p>把解析好的参数保存在<code>_args</code>数组里。
+返回<code>Command</code>实例。</p>
+<h4 id="commandexitoverridefn">Command#exitOverride([fn])</h4>
+<p>为<code>process.exit</code>注册一个回调方法。
+fn   自定义的回调方法。
+根据fn处理<code>this._exitCallback</code>。
+返回<code>Command</code>实例</p>
+<h4 id="command_exitexitcode-code-message">Command#_exit(exitCode, code, message)</h4>
+<p>执行process.exit。若存在<code>_exitCallback</code>，则执行。
+exitCode   退出码
+code       代表错误的字符串
+message    错误消息
+无返回</p>
+<h4 id="commandactionfn">Command#action(fn)</h4>
+<p>注册当前命令的回调方法。
+fn   回调方法
+绑定事件<code>command:${name}</code>。name是命令的名字，事件对应的方法是<code>listener</code>。
+若有别名，再为别名绑定<code>listener</code>。
+<code>listener(args, unknown)</code>：执行回调函数，回调函数的参数是<code>actionArgs</code>
+返回<code>Command</code>实例
+我没看懂<code>listener</code>方法。</p>
+<h4 id="commandoutputhelpcb">Command#outputHelp(cb)</h4>
+<p>为当前命令输出帮助信息。
+回调方法的入参是<code>Command#helpInformation()</code>的返回值。
+调用<code>process.stdout.write(..)</code>再调用<code>this.emit(this._helpLongFlag)</code>（即：执行help命令）</p>
+<h4 id="commandhelpinformation">Command#helpInformation()</h4>
+<p>返回当前命令的帮助文档。
+从<code>this._description</code>和<code>this._argsDescription</code>中取出说明信息，处理成文本后输出。</p>
+<h4 id="commandunknownoptionflag">Command#unknownOption(flag)</h4>
+<p>输出不知道的选项，停止线程。
+flag  选项中的标记</p>
+<h4 id="command_optionexconfig-flags-description-fn-defaultvalue">Command#_optionEx(config, flags, description, fn, defaultValue)</h4>
+<p>被<code>.option()</code>/<code>.requiredOption()</code>共享的内部方法。用于处理选项。
+config         配置项
+flags          标志
+description    说明
+fn             生成默认值的方法
+defaultValue   默认值。
+绑定<code>options:${optionName}</code>及其回调方法。
+返回<code>Command</code>实例</p>
+<h4 id="commandoptionflags-description-fn-defaultvalue">Command#option(flags, description, fn, defaultValue)</h4>
+<p>使用标记、说明定义选项。
+flags           标志
+description     说明
+fn              生成默认值的方法
+defaultValue    默认值
+调用<code>_optionEx</code>
+返回<code>Command</code>实例</p>
+<h4 id="commandrequiredoptionflags-description-fn-defaultvalue">Command#requiredOption(flags, description, fn, defaultValue)</h4>
+<p>调用<code>_optionEx</code>
+返回<code>Command</code>实例</p>
+<h4 id="commandallowunknownoptionarg">Command#allowUnknownOption(arg)</h4>
+<p>在命令行中允许不知道的选项
+返回<code>Command</code>实例</p>
+<h4 id="commandparseargv">Command#parse(argv)</h4>
+<p>解析argv，设置选项并调用命令。
+在定义时，解析argv、设置option、执行command。
+序列化argv，再执行选项，再执行命令，再执行子命令。
+返回<code>Command</code>实例</p>
+<h4 id="commandexecustesubcommandargv-args-unknown-executablefile">Command#execusteSubCommand(argv, args, unknown, executableFile)</h4>
+<p>执行可执行的子命令
+处理逻辑中有好多线程的知识，我不会。
+无返回。</p>
+<h4 id="commandopts">Command#opts()</h4>
+<p>返回一个由选项组成的对象。</p>
+<h4 id="commandoptionmissingargumentoption-flag">Command#optionMissingArgument(option, flag)</h4>
+<p>显示由于缺少必填选项引起的错误。结束线程。
+无返回</p>
+<h4 id="commandmissingmandatoryoptionvaluedesc">Command#missingMandatoryOptionValue(desc)</h4>
+<p>显示由于缺少选项元数据引起的错误，结束线程。</p>
+<h4 id="commandversionstr-flags-description">Command#version(str, flags, description)</h4>
+<p>设置版本号。
+我一直不知道有什么用。我也不看到在哪儿使用版本号了。
+返回<code>Command</code>实例</p>
+<h4 id="commanddescriptionstr-argsdescription">Command#description(str, argsDescription)</h4>
+<p>为当前命令设置说明、参数说明。
+返回<code>Command</code>实例</p>
+<h4 id="commandaliasalias">Command#alias(alias)</h4>
+<p>为命令定义别名
+返回<code>Command</code>实例</p>
+<h4 id="commandusagestr">Command#usage(str)</h4>
+<p>设置、得到命令的用法。
+返回一个人类可读的帮助信息。
+返回<code>Command</code>实例</p>
+<h4 id="commandnamestr">Command#name(str)</h4>
+<p>得到、设置命令的名字
+str  名字
+返回<code>Command</code>实例</p>
+<h4 id="commandpreparecommands">Command#prepareCommands()</h4>
+<p>返回所有命令的比较信息。</p>
+<h4 id="commandlargestcommandlength">Command#largestCommandLength()</h4>
+<p>返回最大的命令。</p>
+<h4 id="commandlargestoptionlength">Command#largestOptionLength()</h4>
+<p>返回最大的选项。即：标记最多的。</p>
+<h4 id="commandlargestarglength">Command#largestArgLength()</h4>
+<p>返回最大的参数。</p>
+<h4 id="commandpadwidth">Command#padWidth()</h4>
+<p>返回命令、选项、参数中最大的。</p>
+<h4 id="commandoptionhelpdesc">Command#optionHelp(desc)</h4>
+<p>返回选项的帮助信息</p>
+<h4 id="commandcommandhelpdesc">Command#commandHelp(desc)</h4>
+<p>返回命令的帮助信息</p>
+<h4 id="commandhelpoptionflags-decription">Command#helpOption(flags, decription)</h4>
+<p>为命令注入标志、说明去代替默念的帮助中的标记、说明。
+返回<code>Command</code>实例</p>
+<h4 id="commandhelpcb">Command#help(cb)</h4>
+<p>输出当前命令的帮助信息。</p>
+<h4 id="commandparseargsargs-unknown">Command#parseArgs(args, unknown)</h4>
+<p>执行命令
+触发命令对应的事件。参数是<code>args</code>。
+返回<code>Command</code>实例</p>
+<h4 id="commandmissingmandatoryoptionvalueoption">Command#missingMandatoryOptionValue(option))</h4>
+<p>显示一个选项中没有元数据的错误信息
+结束线程
+无返回</p>
+<h4 id="command_checkformissingmandatoryoptionsdesc">Command#_checkForMissingMandatoryOptions(desc)</h4>
+<p>若选项的元数据没有值，则显示错误信息。</p>
+<h4 id="commandoptionforarg">Command#optionFor(arg)</h4>
+<p>返回一个匹配arg的选项。</p>
+<h4 id="commandparseoptionsargv">Command#parseOptions(argv)</h4>
+<p>解析argv
+找到与argv相关的选项，然后触发该选项对应的事件。然后检查是否有元数据错误。
+返回一个对象：<code>{args, unknown: unknownOptions}</code></p>
+<h4 id="commandnormalizeargs">Command#normalize(args)</h4>
+<p>序列化短标志。
+返回标记组成的数组。</p>
+<h4 id="commandvariadicargnotlastdesc">Command#variadicArgNotLast(desc)</h4>
+<p>提示长参数不是最后一个参数。中止线程。</p>
+<h4 id="commandmissingargumentname">Command#missingArgument(name)</h4>
+<p>提示当前参数是丢失。中止线程。
+无返回。</p>
+<h4 id="outputhelpifnecessarycmd-options">outputHelpIfNecessary(cmd, options)</h4>
+<p>若是必填的，则输出提示信息
+cmd               命令
+options   array   需要提示帮助信息的选项组成的数组。
+根据</p>
+<h4 id="humanreadableargnamearg">humanReadableArgName(arg)</h4>
+<p>返回一个人类可读的帮助信息。</p>
+<h4 id="camelcaseflag">camelcase(flag)</h4>
+<p>序列化标志。
+把标志处理为</p>
+<h4 id="padstr-width">pad(str, width)</h4>
+<p>把str添加空格，使长度达到width。
+返回操作后的str。</p>
+<h4 id="wrapstr-width-indent">wrap(str, width, indent)</h4>
+<p>包装字符串，处理缩进等。</p>
+<h4 id="optionalwrapstr-width-indent">optionalWrap(str, width, indent)</h4>
+<p>包装字符串，处理缩进等。
+使用wrap处理。</p>
+<h4 id="outputhelpifnecessaryarg">outputHelpIfNecessary(arg)</h4>
+<p>输出帮助信息。</p>
+<h4 id="existsfile">exists（file）</h4>
+<p>是否存在指定的文件</p>
+<h4 id="incrementnodeinspectorportargs">incrementNodeInspectorPort(args)</h4>
+<p>使用node inspect端口处理。</p>
+<h2 id="500">5.0.0</h2>
+<p>构造函数 =&gt; class</p>
+<h2 id="600">6.0.0</h2>
+<p>在构造器中多了一些属性。
+私有方法使用下划线开头。</p>
+<h2 id="700">7.0.0</h2>
+<h2 id="720">7.2.0</h2>
+<h4 id="commandactionfn-1">Command#action(fn)</h4>
+<p>为命令设置回调方法。
+fn  回调方法。
+定义<code>listener</code>方法。参数是当前的args、额外的参数、当前命令。再设置<code>this._actionHandler</code>设置为<code>listener</code>
+返回当前命令。</p>
+<h4 id="commandparseasync">Command#parseAsync()</h4>
+<p>异步调用<code>parse()</code>。
+返回promise对象。</p>
+<h2 id="为什么先讲option再讲command">为什么先讲option，再讲command</h2>
+<h3 id="定义命令">定义命令</h3>
+<p>项目中的<code>package.json</code>。</p>
+<pre><code><code><div>{
+	...
+	&quot;bin&quot;: {
+		commandKey: &quot;commandFile&quot;
+	}
+}
+</div></code></code></pre>
+<h3 id="usage">usage</h3>
+<pre><code><code><div>commandKey
+</div></code></code></pre>
+<h3 id="命令的选项">命令的选项</h3>
+<p>在上一块代码中只有命令，没有选项。若真是这样，真是太难用了。
+在<code>commandFile</code>中设置选项。</p>
+<pre><code><code><div>const program = require('commander') // 因为cli中使用node运行的，所有采用commonjs规范。
+program.version('0.0.1')
+program
+	.option('', '')
+</div></code></code></pre>
+<p>program是<code>Command</code>的实例，
+Command#option(flags, description, [[fn], defaultValue])
+flags         选项的标记
+description   选项的说明
+fn            处理参数。（用户新输入的参数值, 上一次调用该函数返回的值）
+defaultValue  默认值</p>
+<h2 id="command构造函数或类">Command构造函数（或类）</h2>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+<th>参数</th>
+<th>demo</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Command#parse</td>
+<td>在定义时设置选项并执行命令</td>
+<td>argv[]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Command#parseArgs</td>
+<td>解析命令<code>args</code></td>
+<td>args[], unknown</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Command#action</td>
+<td>为命令定义回调函数</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Command#parseOptions</td>
+<td>从<code>argv</code>中解析出选项，再返回<code>argv</code></td>
+<td>argv[]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Command#parse</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Command#parse</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Command#parse</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Command#parse</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Command#parse</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Command#parse</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Command#parse</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Command#parse</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Command#parse</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="困难">困难</h2>
+<p>我以前没有接触过编辑命令行。于是用编辑function的思路去理解编辑命令行。结果有好多地方是不通的。tj也不把readme写的入门一点，也没有api。害得我从<code>0.0.1</code>开始读它的代码。
+我发现写命令行需要5个要素：命令 选项 标记 参数(或变量) 值。
+写方法需要2个要素： 方法名 参数。</p>
+<h2 id="demo">demo</h2>
+<pre><code><code><div>// 快速引入Commander的实例
+const program = require('commander')
+// 定义选择
+program
+	.option('-d, --debug', 'output extra debugging')
+	.option('-s, --small', 'small pizza size')
+// 解析选项，即：执行选项
+program.parse(process.argv)
+	// process.argv 会获取命令行的数据，返回类型是数组。
+// 根据选项及其值，执行相应逻辑。
+if (program.debug) console.log(program.opts())
+if (program.small) console.log('- small pizza size')
+</div></code></code></pre>
+<h1 id="读源码时用到的基本知识">读源码时用到的基本知识</h1>
+<h2 id="processexit">process.exit()</h2>
+<p>终止当前进程并返回给定的 code。如果省略了 code，退出是会默认返回成功的状态码('success' code) 也就是 0：
+<code>process.exit(1);</code>//node的shell将捕获到值为1的返回码</p>
+<h2 id="解析就是执行">解析就是执行</h2>
+<p>源码中用到好多parse都是在触发事件。可能作者认为解析命令行的过程就是执行命令行的过程，毕竟命令行是一个字符串。</p>
+<h2 id="需要node的知识">需要node的知识</h2>
+<p>好多代码涉及到线程、环境变量等。这些知识在前端环境中没有。想写一个命令行工具，需要有一定的node知识。</p>
+
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
     </body>
     </html>

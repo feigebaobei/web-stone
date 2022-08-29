@@ -22,6 +22,11 @@ PushManager.subscribe() // Promise<obj>
 serviceWorkerRegistration.pushManager.subscribe().then(pushSubscription => {...}).catch(err => {...})
 ```
 
+## 推送消息的过程
+```
+your server => web push protocol request => push service => message arrives on the device
+```
+
 ## PushManager api
 该对象是接收后端服务来的消息的接口。  
 该接口使用`ServiceWorkerRegistration.pushManager`创建  
