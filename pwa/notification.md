@@ -16,7 +16,6 @@
 ## usage
 ```js
 requestPermission()
-
 ```
 
 ## 基本逻辑

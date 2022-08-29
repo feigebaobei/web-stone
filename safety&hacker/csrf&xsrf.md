@@ -1,11 +1,4 @@
-Notifications
-Web Push and Notifications
-
-https://web.dev/notifications/
-
-
-
-# push
+# csrf & xsrf
 > 概述
 
 ## feature

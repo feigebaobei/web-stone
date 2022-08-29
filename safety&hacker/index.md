@@ -1,5 +1,5 @@
 - [ddos](/hacker/ddos.html)
-- [title](/hacker/title.html)
+- [xsrf&xsrf](/hacker/xsrf.html)
 - [title](/hacker/title.html)
 - [title](/hacker/title.html)
 - [title](/hacker/title.html)
