@@ -89,6 +89,8 @@
 |key|description|||||
 
 ## todo
-### title
+### 吐槽
+它想简化sw。结果只简化了api.创建了好多小包（如workbox-routing）。学习基本sw/cache知识与学习一群小包，工作量几乎相等。  
+
 ### title
 ### title

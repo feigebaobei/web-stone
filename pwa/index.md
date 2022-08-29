@@ -20,6 +20,7 @@
 - [indexedDB](/frontStore/indexedDB.html)
 - [fetch](/language/javascript/fetch.html)
 - [push](/pwa/push.html)  
+- [sync](/pwa/sync.html)  
 
 ## app shell
 就是与页面中主体部分无关、几乎每个页面都会使用的.  
@@ -180,4 +181,8 @@ self.addEventListener('activate', event => {
 - 延用workbox提出的5种缓存策略。
 - 支持配置文件。作用于全局
 - 支持配置每个资源。覆盖全局的配置文件。（叶子优先于根）
+  - 达到最大容量前提示
+  - 最大容量的80为临界值
+  - 达到临界值时 不缓存、释放
+  - 
 - 简化用法。只提供几个api、options.  
