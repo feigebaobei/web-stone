@@ -17,6 +17,6 @@
 - file system
 - web share
 - [pwa limitation](/pwa/index.html)
-- [title](/browser/title.html)
+- [navigator](/browser/navigator.html)
 - [title](/browser/title.html)
 - [title](/browser/title.html)
