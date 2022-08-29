@@ -323,7 +323,8 @@ https://developer.mozilla.org/en-US/docs/Web/API/Web_Periodic_Background_Synchro
 ### 名称
 工作线程。
 
-### PushManager
+### [PushManager](/pwa/push.html)
+
 ### SyncManager
 ### Notification
 ### StorageManager

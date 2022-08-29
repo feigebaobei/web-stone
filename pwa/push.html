@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <title>push</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -82,6 +82,193 @@
         <p>Notifications
 Web Push and Notifications</p>
 <p><a href="https://web.dev/notifications/">https://web.dev/notifications/</a></p>
+<h1 id="push">push</h1>
+<blockquote>
+<p>push api使web应用可以接收服务器提供的消息。<br>
+当使用pushMessages subscriptions时必须解决<a href="">xsrf/csrf</a>问题 <a href="https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html">https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html</a> <a href="https://blog.codinghorror.com/preventing-csrf-and-xsrf-attacks/">https://blog.codinghorror.com/preventing-csrf-and-xsrf-attacks/</a></p>
+</blockquote>
+<h2 id="feature">feature</h2>
+<ul>
+<li>feature0</li>
+<li>feature1</li>
+<li>feature2</li>
+</ul>
+<h2 id="usage">usage</h2>
+<pre><code class="language-js"><div><span class="hljs-comment">// 当sw处理active状态后</span>
+PushManager.subscribe() <span class="hljs-comment">// Promise&lt;obj&gt;</span>
+<span class="hljs-comment">// 创建或返回已经存在的push subscription</span>
+serviceWorkerRegistration.pushManager.subscribe().then(<span class="hljs-function"><span class="hljs-params">pushSubscription</span> =&gt;</span> {...}).catch(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> {...})
+</div></code></pre>
+<h2 id="pushmanager-api">PushManager api</h2>
+<p>该对象是接收后端服务来的消息的接口。<br>
+该接口使用<code>ServiceWorkerRegistration.pushManager</code>创建</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>属性</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>supportedContentEncodings</td>
+<td>返回一个受支持的内容编码数组，可以用来加密推送消息的有效负载。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>事件</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>方法</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>getSubscription()</td>
+<td><code>Promise&lt;PushSubscription&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>permissionState(options?: PushSubscriptionOptions)</td>
+<td>返回推送消息的权限状态 <code>Promise&lt;state&gt;</code></td>
+<td></td>
+<td>'prompt', 'denied', or 'granted'</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>subscribe(opt?: PushSubscriptionOptions)</td>
+<td>订阅一个push 服务<code>Promise&lt;PushSubscription&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="pushsubscription-api">PushSubscription api</h2>
+<p>该对象提供一个订阅端口，支持取消订阅。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>属性</td>
+<td>只读</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>endpoint</td>
+<td>返回订阅端口</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>expirationTime</td>
+<td>返回订阅期限</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>options</td>
+<td>返回PushSubscriptionOptions</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>事件</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>方法</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>getKey(name: p256dh / auth)</td>
+<td>返回公钥。可用于加密消息和发给后端。</td>
+<td>ArrayBuffer</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>toJSON()</td>
+<td>序列化订阅信息并返回</td>
+<td>JSON</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>unsubscribe()</td>
+<td>是否取消订阅成功<code>Promise&lt;boolean&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-ts"><div>PushSubscriptionOptions: {
+    <span class="hljs-attr">userVisibleOnly</span>: <span class="hljs-built_in">boolean</span> <span class="hljs-comment">// 指示返回的推送订阅将只用于用户可见的消息。</span>
+    <span class="hljs-attr">applicationServerKey</span>: <span class="hljs-built_in">string</span> <span class="hljs-comment">// 你的推送服务器将使用一个公钥通过推送服务器向客户端应用程序发送消息。该值是应用程序服务器生成的签名密钥对的一部分，可用于P-256曲线上的椭圆曲线数字签名(ECDSA)。</span>
+}
+</div></code></pre>
+<h2 id="todo">todo</h2>
+<h3 id="title">title</h3>
+<h3 id="title-1">title</h3>
+<h3 id="title-2">title</h3>
 
         
         
