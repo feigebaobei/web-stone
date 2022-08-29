@@ -1,7 +1,9 @@
-const cacheWhiteList = ['v0', 'v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'v9', 'v10', 'v11', 'v12'] // 设置需要删除的cacheName
-const currentVersion = 'v13'
+const cacheWhiteList = ['v0', 'v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'v9', 'v10', 'v11', 'v12', 'v13', 'v14'] // 设置需要删除的cacheName
+const currentVersion = 'v15'
 // const cacheSourceList = []
 const unCacheSourceList = ['/pwa.js']
+const log = console.log
+
 self.addEventListener('install', event => {
     event.waitUntil(
       // 使用新版本号，不会与别的版本有冲突
@@ -58,8 +60,11 @@ self.addEventListener('fetch', event => {
                 cache.put(event.request, res.clone())
                 return res
             })
-        }).catch(err => {
-            return err
+        }).catch(err => { // 若断网，则走这
+            // log('err', err)
+            // return err
+            // 从pwa-box中取出默认返回的数据
+            return caches.match(event.request) || {code: 0, message: '', data: {}}
         })
     )
 })
@@ -74,7 +79,7 @@ self.addEventListener('activate', event => {
                 //     return caches.delete(key)
                 // }
                 if (key !== currentVersion) {
-                    console.log('被删除的缓存', key)
+                    log('被删除的缓存', key)
                     return caches.delete(key)
                 }
             }))
