@@ -242,24 +242,18 @@ c.on('ready', () => {
             log('cwd', 'htdocs', err)
             throw err
         }
-        // let p = 'language/bun'
+        // let p = 'jsPackages/commander'
         let p = [
-            'promote/customInterface.html',
-            'pwa/serviceWorker.html',
-            'pwa/index.html',
-            'pwa/sync.html',
-            'pwa/install.html',
-            'pwa/manifestJson.html',
-            'pwa/push.html',
-            'pwa/workBox.html',
-            'pwa/push.html',
-            'pwa/notification.html',
-            'browser/navigator.html',
-            'browser/index.html',
-            // 'frontStore/dataTrasmit/index.html',
-            // 'framework/stateManager/index.html',
-            // 'framework/express/index.html',
-            // 'language/bun/index.html',
+            'jsPackages/commander/index.html',
+            // 'pwa/sync.html',
+            // 'pwa/install.html',
+            // 'pwa/manifestJson.html',
+            // 'pwa/push.html',
+            // 'pwa/workBox.html',
+            // 'pwa/push.html',
+            // 'pwa/notification.html',
+            // 'browser/navigator.html',
+            // 'browser/index.html',
         ]
         // 检测指定目录是否存在
         // checkDir(p)
