@@ -47,14 +47,14 @@ requestPermission()
 |实例属性|title|||||
 |实例属性|vibrate|是否振动||||
 |方法||||||
-|静态方法|requestPermission()|请求显示消息权限||||
+|静态方法|requestPermission()|请求显示消息权限|返回`Promise<granted | denied | default>`|||
 |实例方法|close()|关闭消息||||
 |实例方法|description|||||
 |事件||||||
-||click|||||
-||close|||||
-||error|||||
-||show|||||
+||click|当点击消息时触发|||`notification.onclick = (event) => {...}`|
+||close|当关闭消息时触发||||
+||error|当消息出错时触发||||
+||show|当消息显示时触发||||
 
 ## 适用场景
 - 及时、相关、精确地为用户提示信息。  
