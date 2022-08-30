@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <title>overview</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -79,42 +79,86 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <ul>
-<li><a href="/jsPackages/ftp.html">ftp</a></li>
-<li><a href="/jsPackages/crtp-cli.html">crtp-cli</a></li>
-<li><a href="/jsPackages/co.html">co</a></li>
-<li><a href="/jsPackages/nvm.html">nvm</a></li>
-<li><a href="/jsPackages/nrm.html">nrm</a></li>
-<li><a href="/jsPackages/siroc.html">siroc</a></li>
-<li><a href="/jsPackages/h3.html">h3</a></li>
-<li><a href="/jsPackages/whistle.html">whistle</a></li>
-<li><a href="/jsPackages/unsplash.html">unsplash</a></li>
-<li><a href="/jsPackages/eleventy.html">@11ty/eleventy</a></li>
-<li><a href="/jsPackages/history.html">history</a></li>
-<li><a href="/jsPackages/ftp.html">ftp</a></li>
-<li><a href="/jsPackages/pm2.html">pm2</a></li>
-<li><a href="/jsPackages/redux.html">redux</a></li>
-<li><a href="/jsPackages/@reduxjs-toolkit.html">@reduxjs/toolkit</a></li>
-<li><a href="/jsPackages/lerna/index.html">lerna</a></li>
-<li><a href="/jsPackages/axios.html">axios</a></li>
-<li><a href="/jsPackages/prop-types.html">prop-types</a></li>
-<li><a href="/jsPackages/ngrok.html">ngrok</a></li>
-<li><a href="/jsPackages/md5.html">md5</a></li>
-<li><a href="/jsPackages/commander/index.html">commander</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-</ul>
+        <h1 id="overview">overview</h1>
+<p>官网写的readme太差了，连一个像样的demo都没有。我看了几天readme也没学会。后来还是去看源码自己揣摸出来的。是tj太nb了，让我这个小白的看不懂他的的文章，还是写不清楚自己的库能干什么、怎么干。下面是我写的demo。方便像我这样的小白入门。若你能看懂tj写的readme。关了这个页面吧。</p>
+<h1 id="init-project">init project</h1>
+<pre><code><code><div>mkdir projectCommand
+cd projectCommand
+lerna init
+lerna create testCommand
+lerna add commander
+</div></code></code></pre>
+<h1 id="defined">defined</h1>
+<p>修改<code>./projectCommand/packages/testCommand/package.json</code></p>
+<pre><code><code><div>{
+	...
+	&quot;bin&quot;: {
+		&quot;demo&quot;: &quot;./bin/index.js&quot;
+	}
+}
+</div></code></code></pre>
+<h1 id="init-cli">init cli</h1>
+<p>在中创建<code>./projectCommand/packages/testCommand/bin/index.js</code>。编辑内容如下：</p>
+<pre><code><code><div>#!/usr/bin/env node
+
+// 快速引入Commander的实例
+const program = require('commander')
+// 定义选项
+program
+	.option('-d, --debug', 'output extra debugging')
+	.option('-s, --small', 'small pizza size')
+// 解析选项，即：执行选项
+program.parse(process.argv)
+	// process.argv 会获取命令行的数据，返回类型是数组。
+// 根据选项及其值，执行相应逻辑。
+if (program.debug) console.log(program.opts())
+if (program.small) console.log('- small pizza size')
+</div></code></code></pre>
+<p>该文件的处理逻辑：根据选项执行相应输出。</p>
+<h1 id="usage">usage</h1>
+<h2 id="在本包中使用命令">在本包中使用命令</h2>
+<p>在<code>./projectCommand/packages/testCommand</code>下执行<code>npm link</code>
+再执行<code>demo -d</code>，则输出：<code>{ debug: true, small: undefined }</code>
+再执行<code>demo -s</code>，则输出：<code>- small pizza size</code>
+若得到相应输出，则验证cli运行正确。</p>
+<h2 id="在其他包中使用命令">在其他包中使用命令</h2>
+<p>创建一个其他包
+在<code>./projectCommand/</code>中执行</p>
+<pre><code><code><div>lerna create useCommand
+lerna add testCommand
+cd packages/testCommand
+npm unlink               // 取消全局软链接该包
+demo -d                  // 验证是否取消成功
+// =&gt; zsh: command not found: demo
+</div></code></code></pre>
+<p>编辑<code>./projectCommand/packages/useCommand/package.json</code></p>
+<pre><code><code><div>{
+	...
+	&quot;script&quot;: {
+		...
+		&quot;useDemo&quot;: &quot;demo -d&quot;
+	}
+}
+</div></code></code></pre>
+<p>在<code>./projectCommand/packages/useCommand/</code>下执行</p>
+<pre><code><code><div>npm run useDemo
+// =&gt; { debug: true, small: undefined }
+</div></code></code></pre>
+<p>若得到相应输出，则验证cli运行正确。</p>
+<h1 id="后记">后记</h1>
+<p>记得在<code>./projectCommand/packages/testCommand</code>下执行<code>npm unlink</code>
+删除<code>projectCommand</code>项目。</p>
+<h2 id="为什么使用lerna创建项目">为什么使用lerna创建项目</h2>
+<p>我已经学习了lerna。不用也是浪费。</p>
+<h2 id="packagejson中的bin字段">package.json中的bin字段</h2>
+<p>它是定义命令的地方。本地中定义的命令叫<code>demo</code>。读者也可以叫别的名字。也可以定义多个命令。
+定义命令在package.json中。使用命令在终端中。执行命令时会执行package.json中bin字段对应的文件。</p>
+<h2 id="命令对应的文件">命令对应的文件</h2>
+<p><code>#!/usr/bin/env node</code>是标明当前文件是可执行文件。使用node解析当前文件。可执行文件的第一行必须是它。
+请使用commonjs规范编辑该文件。</p>
+<h2 id="使用命令">使用命令</h2>
+<p>若是全局安装该包则全局可以使用该包的命令。
+若是局部安装该包则局部可以使用该包的命令。</p>
 
         
         

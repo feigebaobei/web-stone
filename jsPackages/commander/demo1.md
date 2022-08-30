@@ -23,7 +23,7 @@ lerna add commander
 ```
 # init cli
 在中创建`./projectCommand/packages/testCommand/bin/initProject.js`。编辑内容如下：
-```
+```js
 #!/usr/bin/env node
 
 const program = require('commander')

@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <title>overview</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -63,7 +63,8 @@
 }
 
 </style>
-        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -79,44 +80,96 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <ul>
-<li><a href="/jsPackages/ftp.html">ftp</a></li>
-<li><a href="/jsPackages/crtp-cli.html">crtp-cli</a></li>
-<li><a href="/jsPackages/co.html">co</a></li>
-<li><a href="/jsPackages/nvm.html">nvm</a></li>
-<li><a href="/jsPackages/nrm.html">nrm</a></li>
-<li><a href="/jsPackages/siroc.html">siroc</a></li>
-<li><a href="/jsPackages/h3.html">h3</a></li>
-<li><a href="/jsPackages/whistle.html">whistle</a></li>
-<li><a href="/jsPackages/unsplash.html">unsplash</a></li>
-<li><a href="/jsPackages/eleventy.html">@11ty/eleventy</a></li>
-<li><a href="/jsPackages/history.html">history</a></li>
-<li><a href="/jsPackages/ftp.html">ftp</a></li>
-<li><a href="/jsPackages/pm2.html">pm2</a></li>
-<li><a href="/jsPackages/redux.html">redux</a></li>
-<li><a href="/jsPackages/@reduxjs-toolkit.html">@reduxjs/toolkit</a></li>
-<li><a href="/jsPackages/lerna/index.html">lerna</a></li>
-<li><a href="/jsPackages/axios.html">axios</a></li>
-<li><a href="/jsPackages/prop-types.html">prop-types</a></li>
-<li><a href="/jsPackages/ngrok.html">ngrok</a></li>
-<li><a href="/jsPackages/md5.html">md5</a></li>
-<li><a href="/jsPackages/commander/index.html">commander</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-</ul>
+        <h1 id="overview">overview</h1>
+<p>本示例可以创建一个目录、二个文件。</p>
+<h1 id="init-project">init project</h1>
+<pre><code><code><div>mkdir projectCommand
+cd projectCommand
+lerna init
+lerna create testCommand
+lerna add commander
+</div></code></code></pre>
+<h1 id="defined">defined</h1>
+<p>修改<code>./projectCommand/packages/testCommand/package.json</code></p>
+<pre><code><code><div>{
+	...
+	&quot;bin&quot;: {
+        ...
+		&quot;demo&quot;: &quot;./bin/initProject.js&quot;,
 
-        
+	}
+}
+</div></code></code></pre>
+<h1 id="init-cli">init cli</h1>
+<p>在中创建<code>./projectCommand/packages/testCommand/bin/initProject.js</code>。编辑内容如下：</p>
+<pre><code class="language-js"><div><span class="hljs-meta">#!/usr/bin/env node</span>
+
+<span class="hljs-keyword">const</span> program = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;commander&#x27;</span>)
+<span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;fs&#x27;</span>)
+
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;begin&#x27;</span>)
+&lt;!-- 定义命令 start --&gt;
+program
+    .command(<span class="hljs-string">&#x27;create &lt;project-name&gt;&#x27;</span>)
+    .description(<span class="hljs-string">&#x27;create a new project&#x27;</span>)
+    .option(<span class="hljs-string">&#x27;-f, --file &lt;file&gt;&#x27;</span>, <span class="hljs-string">&#x27;name of main file&#x27;</span>)
+    .option(<span class="hljs-string">&#x27;-m, --minor&#x27;</span>, <span class="hljs-string">&#x27;create minor file&#x27;</span>)
+    .action(<span class="hljs-function">(<span class="hljs-params">projectName, options</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;projectName&#x27;</span>, projectName)
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;options&#x27;</span>, options)
+        fs.mkdir(<span class="hljs-string">`./<span class="hljs-subst">${projectName}</span>`</span>, <span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> {
+        <span class="hljs-keyword">if</span> (error) {
+            <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;项目已经存在，不能再次创建。&#x27;</span>)
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;创建目录成功&#x27;</span>)
+            fs.writeFile(<span class="hljs-string">`./<span class="hljs-subst">${projectName}</span>/<span class="hljs-subst">${options.file}</span>`</span>, <span class="hljs-string">&#x27;this is main file.&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+                <span class="hljs-keyword">if</span> (err) {
+                    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;创建主文件失败&#x27;</span>)
+                } <span class="hljs-keyword">else</span> {
+                    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;创建主文件成功&#x27;</span>)
+                }
+            })
+            <span class="hljs-keyword">if</span> (options.minor) {
+                fs.writeFile(<span class="hljs-string">`./<span class="hljs-subst">${projectName}</span>/minor.md`</span>, <span class="hljs-string">&#x27;this is minor file.&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+                    <span class="hljs-keyword">if</span> (err) {
+                        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;创建主文件失败&#x27;</span>)
+                    } <span class="hljs-keyword">else</span> {
+                        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;创建主文件成功&#x27;</span>)
+                    }
+                })
+            }
+        }
+    })
+})
+&lt;!-- 定义命令 end --&gt;
+
+<span class="hljs-comment">// 解析命令。即根据输入到终端的内容执行相应命令。</span>
+program.parse(process.argv)
+</div></code></pre>
+<h1 id="usage">usage</h1>
+<h2 id="在本包中使用命令">在本包中使用命令</h2>
+<p>在<code>./projectCommand/packages/testCommand</code>下执行<code>npm link</code>
+再执行<code>initProject create li -f main.js -m</code>，则输出:</p>
+<pre><code><code><div>begin
+projectName li
+options { file: 'main.js', minor: true }
+创建目录成功
+创建主文件成功
+创建主文件成功
+</div></code></code></pre>
+<p>若执行<code>initProject create li1 -f main.js</code>，也会执行相应输出。</p>
+<h1 id="后记">后记</h1>
+<h2 id="commander做的工作">commander做的工作</h2>
+<p>把终端中命令、标记、参数等。传入已经定义好的方法中。</p>
+<h2 id="写一个命令行需要什么">写一个命令行需要什么</h2>
+<ol>
+<li>会用commander就行。主要是<code>program.command(..).option(..)</code>。这个太简单了。</li>
+<li>有一定node.js的基础。这点需要一些知识储备。这个比较难。</li>
+</ol>
+<h2 id="恢复工作">恢复工作</h2>
+<p>在<code>./projectCommand/packages/testCommand</code>下执行<code>npm unlink</code></p>
+
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
     </body>
     </html>
