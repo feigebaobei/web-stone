@@ -1,7 +1,10 @@
 # overview
 > node cli的完整解决方案。  
 > 先定义好命令、选项。再解析命令行文本。解析后运行相应的命令。
-> 即使做了一件很小的事，做好了也能改变世界。
+> 定义一堆方法，然后把字符串转化为参数，再传入该方法。  
+> 即使做了一件很小的事，做好了也能改变世界。它定义了好多规范。
+  > `<>`必填
+  > `[]`选填
 
 # feature
 - 解决cli中的命令、参数、选项。
@@ -57,7 +60,7 @@ const program = new Command()
   - `.getOptionValueSource() / setOptionValueSource()` 从哪儿来的。  
 - 多个简写boolean类型的选项可写在一起。如`-a -b -c` => `-abc`  
 - 以`no-`开头的全称，且是boolean值。则它是作为false使用的。 不会  
-- `--optional [value]` 可为boolean，也可接收其他值  
+- `--optional [value]` 可为boolean，也可接收其他值，选填。  
 - 选项值不能以`-`开头。可以这样写`--id=-5`
 - `.requiredOption('-c, --cheese <type>', 'description')`设置为必填值   
 - 可扩展值
@@ -163,27 +166,130 @@ program.command('ssss')
 ```
 
 # api
-## Command构造函数（或类）
+## Command
+```js
+class Command extends EventEmitter {
+  // 构造函数
+  constructor(name) {
+    super();
+    this.options = [];
+    this._args = [];
+    this._lifeCycleHooks = {}; // a hash of arrays
+  }
 
-|方法|说明|参数|demo|备注|
-|-|-|-|-|-|
-|Command#parse|在定义时设置选项并执行命令|argv[]|||
-|Command#parseArgs|解析命令`args`|args[], unknown|||
-|Command#action|为命令定义回调函数||||
-|Command#parseOptions|从`argv`中解析出选项，再返回`argv`|argv[]|||
-|Command#parse|||||
-|Command#parse|||||
-|Command#parse|||||
-|Command#parse|||||
-|Command#parse|||||
-|Command#parse|||||
-|Command#parse|||||
-|Command#parse|||||
-|Command#parse|||||
+  // 选项
+  option(flags, description, fn, defaultValue) {
+    return this._optionEx({}, flags, description, fn, defaultValue);
+
+  }
+  _optionEx(config, flags, description, fn, defaultValue) {
+    const option = this.createOption(flags, description);
+    // ...
+    return this.addOption(option);
+  }
+  createOption(flags, description) {
+    return new Option(flags, description);
+  }
+  addOption(option) {
+    this.on('option:' + oname, (val) => {
+    })
+    return this;
+  }
+
+  // 参数
+  argument(name, description, fn, defaultValue) {
+    const argument = this.createArgument(name, description);
+    return this;
+  }
+  createArgument(name, description) {
+    return new Argument(name, description);
+  }
+  addArgument(argument) {
+    this._args.push(argument);
+    return this;
+  }
+
+  // 命令
+  command(nameAndArgs, actionOptsOrExecDesc, execOpts) {
+    let desc = actionOptsOrExecDesc;
+    const cmd = this.createCommand(name);
+    if (args) cmd.arguments(args);
+    this.commands.push(cmd);
+    cmd.parent = this;
+    cmd.copyInheritedSettings(this);
+    if (desc) return this;
+    return cmd;
+  }
+  createCommand(name) {
+    return new Command(name); // 创建一个命令。当前class就是Command
+  }
+  addCommand(cmd, opts) {
+    this.commands.push(cmd);
+    cmd.parent = this;
+    return this;
+  }
+  action(fn) {
+    this._actionHandler = (args) => {
+      return fn.apply(this, args.slice(0, this._args.length;););
+    }
+    return this
+  }
+
+  // hooks
+  hook(event, listener) {
+    const allowedValues = ['preSubcommand', 'preAction', 'postAction'];
+    this._lifeCycleHooks[event].push(listener);
+    return this;
+  }
+
+  // 解析
+  parse(argv, parseOptions) {}
+  async parseAsync(argv, parseOptions) {}
+  _parseCommand(operands, unknown) {
+  }
+
+
+}
+```
+
+## Argument
+```js
+class Argument {
+  name() {}
+  default(value, description) {}
+  argParser(fn) {}
+  choices(values) {}
+}
+```
+## Help
+## Option
+```js
+class Option {
+  // 设置默认值
+  default(value, description) {}
+  // 隐藏
+  hideHelp(hide = true) {}
+  // 名字
+  name() {}
+  // xxxx
+  attributeName() {}
+}
+// a-b => aB
+function camelcase(str) {}
+```
 
 # uml
+- 没有打包，居然。
+- 在package.json中使用exports明确导出内容。
+- esm/cjs的导出内容不同。
+- 外国人好像很喜欢这种循环引入后导出。`exports = module.exports = new Command();exports.program = exports; // More explicit access to global command.`
+- 主要输出
+  - Argument
+  - Command
+  - Help
+  - Option
 
-
+没发现什么有营养的。就是一个一个方法罗列。  
 
 ## [读各版本源码](/jsPackages/commander/versionLog.html)
 

@@ -83,7 +83,10 @@
 <blockquote>
 <p>node cli的完整解决方案。<br>
 先定义好命令、选项。再解析命令行文本。解析后运行相应的命令。
-即使做了一件很小的事，做好了也能改变世界。</p>
+定义一堆方法，然后把字符串转化为参数，再传入该方法。<br>
+即使做了一件很小的事，做好了也能改变世界。它定义了好多规范。
+<code>&lt;&gt;</code>必填
+<code>[]</code>选填</p>
 </blockquote>
 <h1 id="feature">feature</h1>
 <ul>
@@ -141,7 +144,7 @@ program.parse(process.argv) <span class="hljs-comment">// 参数默认是process
 </li>
 <li>多个简写boolean类型的选项可写在一起。如<code>-a -b -c</code> =&gt; <code>-abc</code></li>
 <li>以<code>no-</code>开头的全称，且是boolean值。则它是作为false使用的。 不会</li>
-<li><code>--optional [value]</code> 可为boolean，也可接收其他值</li>
+<li><code>--optional [value]</code> 可为boolean，也可接收其他值，选填。</li>
 <li>选项值不能以<code>-</code>开头。可以这样写<code>--id=-5</code></li>
 <li><code>.requiredOption('-c, --cheese &lt;type&gt;', 'description')</code>设置为必填值</li>
 <li>可扩展值
@@ -263,112 +266,129 @@ program.command(<span class="hljs-string">&#x27;ssss&#x27;</span>)
   })
 </div></code></pre>
 <h1 id="api">api</h1>
-<h2 id="command构造函数或类">Command构造函数（或类）</h2>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>说明</th>
-<th>参数</th>
-<th>demo</th>
-<th>备注</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Command#parse</td>
-<td>在定义时设置选项并执行命令</td>
-<td>argv[]</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>Command#parseArgs</td>
-<td>解析命令<code>args</code></td>
-<td>args[], unknown</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>Command#action</td>
-<td>为命令定义回调函数</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>Command#parseOptions</td>
-<td>从<code>argv</code>中解析出选项，再返回<code>argv</code></td>
-<td>argv[]</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>Command#parse</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>Command#parse</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>Command#parse</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>Command#parse</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>Command#parse</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>Command#parse</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>Command#parse</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>Command#parse</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>Command#parse</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
+<h2 id="command-1">Command</h2>
+<pre><code class="language-js"><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Command</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">EventEmitter</span> </span>{
+  <span class="hljs-comment">// 构造函数</span>
+  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">name</span>)</span> {
+    <span class="hljs-built_in">super</span>();
+    <span class="hljs-built_in">this</span>.options = [];
+    <span class="hljs-built_in">this</span>._args = [];
+    <span class="hljs-built_in">this</span>._lifeCycleHooks = {}; <span class="hljs-comment">// a hash of arrays</span>
+  }
+
+  <span class="hljs-comment">// 选项</span>
+  <span class="hljs-function"><span class="hljs-title">option</span>(<span class="hljs-params">flags, description, fn, defaultValue</span>)</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>._optionEx({}, flags, description, fn, defaultValue);
+
+  }
+  <span class="hljs-function"><span class="hljs-title">_optionEx</span>(<span class="hljs-params">config, flags, description, fn, defaultValue</span>)</span> {
+    <span class="hljs-keyword">const</span> option = <span class="hljs-built_in">this</span>.createOption(flags, description);
+    <span class="hljs-comment">// ...</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.addOption(option);
+  }
+  <span class="hljs-function"><span class="hljs-title">createOption</span>(<span class="hljs-params">flags, description</span>)</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Option(flags, description);
+  }
+  <span class="hljs-function"><span class="hljs-title">addOption</span>(<span class="hljs-params">option</span>)</span> {
+    <span class="hljs-built_in">this</span>.on(<span class="hljs-string">&#x27;option:&#x27;</span> + oname, <span class="hljs-function">(<span class="hljs-params">val</span>) =&gt;</span> {
+    })
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>;
+  }
+
+  <span class="hljs-comment">// 参数</span>
+  <span class="hljs-function"><span class="hljs-title">argument</span>(<span class="hljs-params">name, description, fn, defaultValue</span>)</span> {
+    <span class="hljs-keyword">const</span> argument = <span class="hljs-built_in">this</span>.createArgument(name, description);
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>;
+  }
+  <span class="hljs-function"><span class="hljs-title">createArgument</span>(<span class="hljs-params">name, description</span>)</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Argument(name, description);
+  }
+  <span class="hljs-function"><span class="hljs-title">addArgument</span>(<span class="hljs-params">argument</span>)</span> {
+    <span class="hljs-built_in">this</span>._args.push(argument);
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>;
+  }
+
+  <span class="hljs-comment">// 命令</span>
+  <span class="hljs-function"><span class="hljs-title">command</span>(<span class="hljs-params">nameAndArgs, actionOptsOrExecDesc, execOpts</span>)</span> {
+    <span class="hljs-keyword">let</span> desc = actionOptsOrExecDesc;
+    <span class="hljs-keyword">const</span> cmd = <span class="hljs-built_in">this</span>.createCommand(name);
+    <span class="hljs-keyword">if</span> (args) cmd.arguments(args);
+    <span class="hljs-built_in">this</span>.commands.push(cmd);
+    cmd.parent = <span class="hljs-built_in">this</span>;
+    cmd.copyInheritedSettings(<span class="hljs-built_in">this</span>);
+    <span class="hljs-keyword">if</span> (desc) <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>;
+    <span class="hljs-keyword">return</span> cmd;
+  }
+  <span class="hljs-function"><span class="hljs-title">createCommand</span>(<span class="hljs-params">name</span>)</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Command(name); <span class="hljs-comment">// 创建一个命令。当前class就是Command</span>
+  }
+  <span class="hljs-function"><span class="hljs-title">addCommand</span>(<span class="hljs-params">cmd, opts</span>)</span> {
+    <span class="hljs-built_in">this</span>.commands.push(cmd);
+    cmd.parent = <span class="hljs-built_in">this</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>;
+  }
+  <span class="hljs-function"><span class="hljs-title">action</span>(<span class="hljs-params">fn</span>)</span> {
+    <span class="hljs-built_in">this</span>._actionHandler = <span class="hljs-function">(<span class="hljs-params">args</span>) =&gt;</span> {
+      <span class="hljs-keyword">return</span> fn.apply(<span class="hljs-built_in">this</span>, args.slice(<span class="hljs-number">0</span>, <span class="hljs-built_in">this</span>._args.length;););
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>
+  }
+
+  <span class="hljs-comment">// hooks</span>
+  <span class="hljs-function"><span class="hljs-title">hook</span>(<span class="hljs-params">event, listener</span>)</span> {
+    <span class="hljs-keyword">const</span> allowedValues = [<span class="hljs-string">&#x27;preSubcommand&#x27;</span>, <span class="hljs-string">&#x27;preAction&#x27;</span>, <span class="hljs-string">&#x27;postAction&#x27;</span>];
+    <span class="hljs-built_in">this</span>._lifeCycleHooks[event].push(listener);
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>;
+  }
+
+  <span class="hljs-comment">// 解析</span>
+  <span class="hljs-function"><span class="hljs-title">parse</span>(<span class="hljs-params">argv, parseOptions</span>)</span> {}
+  <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-title">parseAsync</span>(<span class="hljs-params">argv, parseOptions</span>)</span> {}
+  <span class="hljs-function"><span class="hljs-title">_parseCommand</span>(<span class="hljs-params">operands, unknown</span>)</span> {
+  }
+
+
+}
+</div></code></pre>
+<h2 id="argument">Argument</h2>
+<pre><code class="language-js"><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Argument</span> </span>{
+  <span class="hljs-function"><span class="hljs-title">name</span>(<span class="hljs-params"></span>)</span> {}
+  <span class="hljs-function"><span class="hljs-title">default</span>(<span class="hljs-params">value, description</span>)</span> {}
+  <span class="hljs-function"><span class="hljs-title">argParser</span>(<span class="hljs-params">fn</span>)</span> {}
+  <span class="hljs-function"><span class="hljs-title">choices</span>(<span class="hljs-params">values</span>)</span> {}
+}
+</div></code></pre>
+<h2 id="help">Help</h2>
+<h2 id="option">Option</h2>
+<pre><code class="language-js"><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Option</span> </span>{
+  <span class="hljs-comment">// 设置默认值</span>
+  <span class="hljs-function"><span class="hljs-title">default</span>(<span class="hljs-params">value, description</span>)</span> {}
+  <span class="hljs-comment">// 隐藏</span>
+  <span class="hljs-function"><span class="hljs-title">hideHelp</span>(<span class="hljs-params">hide = <span class="hljs-literal">true</span></span>)</span> {}
+  <span class="hljs-comment">// 名字</span>
+  <span class="hljs-function"><span class="hljs-title">name</span>(<span class="hljs-params"></span>)</span> {}
+  <span class="hljs-comment">// xxxx</span>
+  <span class="hljs-function"><span class="hljs-title">attributeName</span>(<span class="hljs-params"></span>)</span> {}
+}
+<span class="hljs-comment">// a-b =&gt; aB</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">camelcase</span>(<span class="hljs-params">str</span>) </span>{}
+</div></code></pre>
 <h1 id="uml">uml</h1>
+<ul>
+<li>没有打包，居然。</li>
+<li>在package.json中使用exports明确导出内容。</li>
+<li>esm/cjs的导出内容不同。</li>
+<li>外国人好像很喜欢这种循环引入后导出。<code>exports = module.exports = new Command();exports.program = exports; // More explicit access to global command.</code></li>
+<li>主要输出
+<ul>
+<li>Argument</li>
+<li>Command</li>
+<li>Help</li>
+<li>Option</li>
+</ul>
+</li>
+</ul>
+<p>没发现什么有营养的。就是一个一个方法罗列。</p>
 <h2 id="读各版本源码"><a href="/jsPackages/commander/versionLog.html">读各版本源码</a></h2>
 <h1 id="困难">困难</h1>
 <p>我以前没有接触过编辑命令行。于是用编辑function的思路去理解编辑命令行。结果有好多地方是不通的。tj也不把readme写的入门一点，也没有api。害得我从<code>0.0.1</code>开始读它的代码。
