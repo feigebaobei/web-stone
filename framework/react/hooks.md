@@ -447,9 +447,11 @@ useStore(stateValue)
 
 ```js
 export default function useAsyncEffect(fn, deps, ...args) {
-    useEffect((async () => {
-        await fn(...args)
-    })(), deps)
+    useEffect(() => {
+        (async function () {
+            await fn(...args)
+        })()
+    }, deps)
 }
 ```
 

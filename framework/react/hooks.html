@@ -528,9 +528,11 @@ useLogger(stateValue)
 useStore(stateValue)
 </div></code></pre>
 <pre><code class="language-js"><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">useAsyncEffect</span>(<span class="hljs-params">fn, deps, ...args</span>) </span>{
-    useEffect((<span class="hljs-keyword">async</span> () =&gt; {
-        <span class="hljs-keyword">await</span> fn(...args)
-    })(), deps)
+    useEffect(<span class="hljs-function">() =&gt;</span> {
+        (<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+            <span class="hljs-keyword">await</span> fn(...args)
+        })()
+    }, deps)
 }
 </div></code></pre>
 <h2 id="todo">todo</h2>
