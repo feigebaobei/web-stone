@@ -63,8 +63,7 @@
 }
 
 </style>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
-<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -82,7 +81,9 @@
     <body class="vscode-body vscode-light">
         <h1 id="overview">overview</h1>
 <blockquote>
-<p>node cli的完整解决方案。</p>
+<p>node cli的完整解决方案。<br>
+先定义好命令、选项。再解析命令行文本。解析后运行相应的命令。
+即使做了一件很小的事，做好了也能改变世界。</p>
 </blockquote>
 <h1 id="feature">feature</h1>
 <ul>
@@ -153,9 +154,15 @@ program.parse(process.argv) <span class="hljs-comment">// 参数默认是process
 <li><code>program.version('0.0.1')</code> 默认选项是<code>-V --version</code></li>
 </ul>
 </li>
-<li>追加选项。
+<li>追加选项。 <code>program.addOption(new Option('-s, --secret'))</code>
 <ul>
-<li><code>program.addOption(new Option('-s, --secret'))</code></li>
+<li><code>.hideHelp()</code></li>
+<li><code>.default()</code></li>
+<li><code>.choices()</code></li>
+<li><code>.env()</code></li>
+<li><code>.preset()</code></li>
+<li><code>.conflicts()</code></li>
+<li><code>.implies()</code></li>
 </ul>
 </li>
 <li>支持自定义选项处理方法 <code>program.options('', '', fn)</code></li>
@@ -179,8 +186,75 @@ program
   .option(<span class="hljs-string">&#x27;-i, --integer &lt;number&gt;&#x27;</span>, <span class="hljs-string">&#x27;integer argument&#x27;</span>, myParseInt)
 program.parse()
 </div></code></pre>
+<h1 id="command">command</h1>
+<ul>
+<li>使用<code>.commnad()</code> / <code>addCommand()</code>定义命令、子命令</li>
+<li>使用<code>.argument()</code>定义命令的参数。<code>&lt;required&gt;</code>, <code>[optional]</code> 尖括号为必填参数，方括号为可选参数。</li>
+<li>也可以把命令与参数写在一行。<code>.command('clone &lt;source&gt; [destination]')</code></li>
+<li>使用<code>...</code>接收多个参数。数组形式。</li>
+<li>一次定义多个参数 <code>.arguments('&lt;username&gt; &lt;password&gt;')</code></li>
+<li>添加已经设置好的参数 <code>.addArgument(new Commander.Argument('&lt;drink-size&gt;', 'description').cloise(['small', 'large']))</code></li>
+<li>自定义参数处理方法 <code>.argument('&lt;first&gt;', 'desription', fn, defaultValue)</code></li>
+<li>命令的处理器 <code>.action((argOfCommand, options, command) =&gt; {...})</code>
+<ul>
+<li>异步解析 <code>program.command('run').action(fn)</code></li>
+</ul>
+</li>
+<li>检查参数
+<ul>
+<li><code>.allowUnknownOption</code></li>
+<li><code>.allowExcessArguments(false)</code></li>
+</ul>
+</li>
+<li>hooks
+<ul>
+<li>preAction     在当前命令及其后代命令的action方法前执行    （thisCommand, actionCommand)</li>
+<li>poseAction    在当前命令及其后代命令的action方法后执行    （thisCommand, actionCommand)</li>
+<li>preSubcommand 在当前命令的后代命令的action方法前执行          （thisCommand, subCommand)</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-js"><div><span class="hljs-comment">// 异步解析</span>
+<span class="hljs-keyword">let</span> fn = <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{...}
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>) </span>{
+  program.command(<span class="hljs-string">&#x27;run&#x27;</span>).action(fn)
+  <span class="hljs-keyword">await</span> program.parseAsync(process.argv)
+}
+</div></code></pre>
+<h1 id="帮助文档">帮助文档</h1>
+<ul>
+<li>自动生成帮助文档 <code>COMM --help</code></li>
+<li>支持自定义help说明 <code>.option('-f, --foo', 'description')</code></li>
+<li>帮忙文档在哪儿显示
+<ul>
+<li><code>beforeAll</code></li>
+<li><code>before</code></li>
+<li><code>after</code></li>
+<li><code>afterAll</code></li>
+</ul>
+</li>
+<li>在出现错误时显示帮助文档</li>
+<li>显示一些提示
+<ul>
+<li><code>.name</code> 显示命令的名字</li>
+<li><code>.usage</code> 定义用法说明</li>
+<li><code>.dsecription</code> <code>.summary</code></li>
+<li><code>.helpOption(flags, desription)</code> 默认每个命令都有一个help option. 使用此方法可自定义。</li>
+<li><code>.addHelpCommand()</code></li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-js"><div>program.showHelpAfterError()
+program.showHelpAfterError(<span class="hljs-string">&#x27;(add --help for additional information)&#x27;</span>)
+</div></code></pre>
+<h1 id="自定义事件监听">自定义事件监听</h1>
+<pre><code class="language-js"><div>program.on(<span class="hljs-string">&#x27;option:verbose&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+  process.env.VERBOSE = <span class="hljs-built_in">this</span>.opts().verbose;
+});
+</div></code></pre>
 <h1 id="基本结构">基本结构</h1>
 <pre><code class="language-js"><div><span class="hljs-meta">#!/usr/bin/env node</span>
+
 <span class="hljs-keyword">const</span> program = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;commander&#x27;</span>)
 program.command(<span class="hljs-string">&#x27;ssss&#x27;</span>)
   .option(<span class="hljs-string">&#x27;-p, --options &lt;opt&gt;&#x27;</span>, <span class="hljs-string">&#x27;description&#x27;</span>, <span class="hljs-string">&#x27;defaultValue&#x27;</span>)
@@ -188,201 +262,7 @@ program.command(<span class="hljs-string">&#x27;ssss&#x27;</span>)
     ...
   })
 </div></code></pre>
-<p><code>commander</code>会输出一个全局对象，这样会方便快速开发程序。为了方便，在本reademe中都使用它。</p>
-<pre><code><code><div>const {program} = require('commander')
-program.version('0.0.2')
-</div></code></code></pre>
-<p>该包在大型程序中有多种用法，包括多单元测试，最好使用本地<code>Command</code>对象。</p>
-<pre><code><code><div>const {Command} = require('commander')
-const program = new Command()           // program是Command的实例。 
-program.version('0.0.1')
-</div></code></code></pre>
-<p>支持esm规范，</p>
-<pre><code><code><div>// index.mjs
-import {Command} from 'commander/esm.mjs'
-const program = new Command()
-</div></code></code></pre>
-<p>支持ts</p>
-<pre><code><code><div>// index.ts
-import {Command} from 'commander'
-const program = new Command()
-</div></code></code></pre>
-<h1 id="options-1">Options</h1>
-<p>使用<code>.option()</code>方法定义选项。它也做为选项的文档。每一个选项可以有二种标记：短标记/长名字。使用<code>,</code>/<code> </code>/<code>|</code>分割。
-在<code>Command</code>对象上使用<code>.opts()</code>可得到选项。当使用多词选项（multi-word option）如：<code>--template-engine</code>时，会被转化为<code>camelCased</code>。如：<code>program.opts().templateEngine</code>。
-多个短标记可缩写为一个。如<code>-a -b -p 80</code> =&gt; <code>-ab -p80</code> / <code>-abp80</code>。
-使用<code>--</code>做为选项的结束符。可省略最后一个。
-默认行内选项没有次序。</p>
-<h2 id="common-option-types-boolean-and-value">Common option types, boolean and value</h2>
-<p>2种最常用的选项：boolean/从后面的参数中取值（使用<code>&lt;&gt;</code>处理，如：<code>--expect &lt;value&gt;</code>）。若二者都没有，则使用<code>undefined</code>。</p>
-<pre><code><code><div>program
-	.option('-d, --debug', 'output extra debuggin')
-	.option('-s, --small', 'small pizza size')
-	.option('-p, --pizza-type &lt;type&gt;', 'flavour of pizza')
-program.parse(process.argv)
-const options = program.opts()
-if (options.debug) console.log(options)
-console.log('pizza details:')
-if (options.small) console.log('-small pizza size')
-if (options.pizzaType) console.log(`-${options.pizzaType}`)
-</div></code></code></pre>
-<pre><code><code><div>$ pizza-options -d
-</div></code></code></pre>
-<h2 id="default-option-value">Default option value</h2>
-<p>可以设置一个默认值</p>
-<pre><code><code><div>program
-	.option('-c, --cheese &lt;type&gt;', 'add the specified type of cheese', 'blue')
-program.parse()
-console.log(`cheese: ${program.opts().cheese}`)
-</div></code></code></pre>
-<pre><code><code><div>$ pizza-options
-cheese: blue
-$ pizza-options --cheese stilton
-cheese: stilton
-</div></code></code></pre>
-<h2 id="other-option-types-negatable-boolean-and-booleanvalue">Other option types, negatable boolean and boolean|value</h2>
-<p>若定义了以<code>no-</code>开头和不以<code>no-</code>开头的相当的选项时，则这2个选项的默认值分别是false、true.
-若只定义了以<code>no-</code>开头的选项时，则该选项的默认值是true.
-使用<code>[]</code>处理可选参数<code>--optional [value]</code>，若不带参数，则可用作boolean选项。否则参数中得到值。</p>
-<pre><code><code><div>program
-  .option('-c, --cheese [type]', 'Add cheese with optional type');
-
-program.parse(process.argv);
-
-const options = program.opts();
-if (options.cheese === undefined) console.log('no cheese');
-else if (options.cheese === true) console.log('add cheese');
-else console.log(`add cheese type ${options.cheese}`);
-</div></code></code></pre>
-<pre><code><code><div>$ pizza-options
-no cheese
-$ pizza-options --cheese
-add cheese
-$ pizza-options --cheese mozzarella
-add cheese type mozzarella
-</div></code></code></pre>
-<h2 id="required-option">Required option</h2>
-<p>使用<code>requiredOption()</code>定义必填属性。要么设置默认值，要么在命令行输入值。</p>
-<pre><code><code><div>program
-	.requiredOption('-c, --cheese &lt;type&gt;', 'pizza must have cheese')
-</div></code></code></pre>
-<h2 id="varidic-option">varidic option</h2>
-<p>要选项类型后面加<code>...</code>可设置为变长参数。即在一个数组内保存为该选项输入的数据。以<code>--</code>表示设置变长参数结束。</p>
-<pre><code><code><div>program
-  .option('-n, --number &lt;numbers...&gt;', 'specify numbers')
-  .option('-l, --letter [letters...]', 'specify letters');
-
-program.parse();
-
-console.log('Options: ', program.opts());
-console.log('Remaining arguments: ', program.args);
-</div></code></code></pre>
-<pre><code><code><div>$ collect -n 1 2 3 --letter a b c
-Options:  { number: [ '1', '2', '3' ], letter: [ 'a', 'b', 'c' ] }
-Remaining arguments:  []
-$ collect --letter=A -n80 operand
-Options:  { number: [ '80' ], letter: [ 'A' ] }
-Remaining arguments:  [ 'operand' ]
-$ collect --letter -n 1 -n 2 3 -- operand
-Options:  { number: [ '1', '2', '3' ], letter: true }
-Remaining arguments:  [ 'operand' ]
-</div></code></code></pre>
-<h2 id="版本选项">版本选项</h2>
-<p>可以使用<code>-V</code>/<code>--version</code>设置版本。设置了版本后，命令行会输出当前的版本号。
-用法与<code>option</code>相同。</p>
-<pre><code><code><div>program.version('0.0.1', '-v, --vers', 'output the current version');
-</div></code></code></pre>
-<h2 id="更多配置项">更多配置项</h2>
-<p>大多数情况下，选项均可通过.option()方法添加。但对某些不常见的用例，也可以直接构造Option对象，对选项进行更详尽的配置。</p>
-<pre><code><code><div>program
-  .addOption(new Option('-s, --secret').hideHelp())
-  .addOption(new Option('-t, --timeout &lt;delay&gt;', 'timeout in seconds').default(60, 'one minute'))
-  .addOption(new Option('-d, --drink &lt;size&gt;', 'drink size').choices(['small', 'medium', 'large']));
-</div></code></code></pre>
-<h2 id="自定义选项处理">自定义选项处理</h2>
-<p>选项的参数可以通过自定义函数来处理，该函数接收两个参数：用户新输入的参数值和当前已有的参数值（即上一次调用自定义处理函数后的返回值），返回新的选项参数值。</p>
-<p>自定义函数适用场景包括参数类型转换，参数暂存，或者其他自定义处理的场景。</p>
-<p>可以在自定义函数的后面设置选项参数的默认值或初始值（例如参数用list暂存时需要设置一个初始空集合)。</p>
-<pre><code><code><div>function myParseInt(value, dummyPrevious) {
-  // parseInt takes a string and a radix
-  const parsedValue = parseInt(value, 10);
-  if (isNaN(parsedValue)) {
-    throw new commander.InvalidOptionArgumentError('Not a number.');
-  }
-  return parsedValue;
-}
-
-function increaseVerbosity(dummyValue, previous) {
-  return previous + 1;
-}
-
-function collect(value, previous) {
-  return previous.concat([value]);
-}
-
-function commaSeparatedList(value, dummyPrevious) {
-  return value.split(',');
-}
-
-program
-  .option('-f, --float &lt;number&gt;', 'float argument', parseFloat)
-  .option('-i, --integer &lt;number&gt;', 'integer argument', myParseInt)
-  .option('-v, --verbose', 'verbosity that can be increased', increaseVerbosity, 0)
-  .option('-c, --collect &lt;value&gt;', 'repeatable value', collect, [])
-  .option('-l, --list &lt;items&gt;', 'comma separated list', commaSeparatedList)
-;
-
-program.parse();
-
-const options = program.opts();
-if (options.float !== undefined) console.log(`float: ${options.float}`);
-if (options.integer !== undefined) console.log(`integer: ${options.integer}`);
-if (options.verbose &gt; 0) console.log(`verbosity: ${options.verbose}`);
-if (options.collect.length &gt; 0) console.log(options.collect);
-if (options.list !== undefined) console.log(options.list);
-</div></code></code></pre>
-<pre><code><code><div>$ custom -f 1e2
-float: 100
-$ custom --integer 2
-integer: 2
-$ custom -v -v -v
-verbose: 3
-$ custom -c a -c b -c c
-[ 'a', 'b', 'c' ]
-$ custom --list x,y,z
-[ 'x', 'y', 'z' ]
-</div></code></code></pre>
-<h1 id="命令">命令</h1>
-<p>使用<code>.command()</code>/<code>.addCommand()</code>添加（子）命令。必须设置行为或独立的可以执行文件。
-<code>.command(commandName)</code>
-commandName    命令的名字，可必填，可选填。</p>
-<h1 id="绑定触发事件">绑定、触发事件</h1>
-<p>绑定</p>
-<ul>
-<li>option</li>
-<li>requireOption</li>
-<li>parse</li>
-<li>parseAsync</li>
-</ul>
-<p>触发</p>
-<ul>
-<li>parse</li>
-<li>parseAsync</li>
-</ul>
-<h1 id="overview-1">overview</h1>
-<h1 id="overview-2">overview</h1>
-<h1 id="overview-3">overview</h1>
-<h1 id="overview-4">overview</h1>
-<h1 id="overview-5">overview</h1>
-<h1 id="overview-6">overview</h1>
-<h1 id="overview-7">overview</h1>
-<h1 id="overview-8">overview</h1>
-<h1 id="overview-9">overview</h1>
-<h1 id="overview-10">overview</h1>
-<h1 id="overview-11">overview</h1>
-<h1 id="overview-12">overview</h1>
-<h1 id="overview-13">overview</h1>
-<h2 id="读各版本源码"><a href="/jsPackages/commander/versionLog.html">读各版本源码</a></h2>
+<h1 id="api">api</h1>
 <h2 id="command构造函数或类">Command构造函数（或类）</h2>
 <table>
 <thead>
@@ -488,7 +368,9 @@ commandName    命令的名字，可必填，可选填。</p>
 </tr>
 </tbody>
 </table>
-<h2 id="困难">困难</h2>
+<h1 id="uml">uml</h1>
+<h2 id="读各版本源码"><a href="/jsPackages/commander/versionLog.html">读各版本源码</a></h2>
+<h1 id="困难">困难</h1>
 <p>我以前没有接触过编辑命令行。于是用编辑function的思路去理解编辑命令行。结果有好多地方是不通的。tj也不把readme写的入门一点，也没有api。害得我从<code>0.0.1</code>开始读它的代码。
 我发现写命令行需要5个要素：命令 选项 标记 参数(或变量) 值。
 写方法需要2个要素： 方法名 参数。</p>
@@ -501,7 +383,7 @@ commandName    命令的名字，可必填，可选填。</p>
 <h2 id="需要node的知识">需要node的知识</h2>
 <p>好多代码涉及到线程、环境变量等。这些知识在前端环境中没有。想写一个命令行工具，需要有一定的node知识。</p>
 
-        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
         
     </body>
     </html>
