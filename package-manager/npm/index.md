@@ -333,6 +333,26 @@ npm install esbuild -- registry=https://registry.npmjs.org
     }
   }
 }
+
+{
+  "name": "my-awesome-lib",
+  "exports": {
+    ".": { // 支持所有引入
+      "browser": {
+        "default": "./lib/whole-lib.browser.js"
+      }
+    },
+    "module-a": { // 支持 'my-awesome-lib/module-a'
+      "import": "./lib/public-module-a.mjs",
+      "require": "./lib/public-module-a.cjs"
+    },
+    "module-b": { // 支持 'my-awesome-lib/module-b'
+      "import": "./lib/public-module-b.mjs",
+      "require": "./lib/public-module-b.cjs"
+    }
+  }
+}
+
 ```
 
 ## title

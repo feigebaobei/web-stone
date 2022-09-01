@@ -245,7 +245,8 @@ c.on('ready', () => {
         // let p = 'jsPackages/commander'
         let p = [
             'jsPackages/commander/index.html',
-            // 'pwa/sync.html',
+            'jsPackages/commander/versionLog.html',
+            'promote/customInterface.html',
             // 'pwa/install.html',
             // 'pwa/manifestJson.html',
             // 'pwa/push.html',
