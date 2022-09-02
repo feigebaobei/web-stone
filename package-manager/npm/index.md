@@ -4,35 +4,6 @@
 不需要专门安装。npm已经内置于node。
 
 # use
-
-    npm install (with no args, in package dir)
-    npm install [<@scope>/]<name>
-    npm install [<@scope>/]<name>@<tag>
-    npm install [<@scope>/]<name>@<latest>
-    npm install [<@scope>/]<name>@<version>
-    npm install [<@scope>/]<name>@<version range>
-    npm install <tarball file>
-    npm install <tarball url>
-    npm install <folder>
-
-    npm uninstall xxx
-    npm uninstall -g xxx
-
-    npm i
-
-|缩写|全写||
-|-|-|-|
-|-S|--save|安装包信息将加入dependencies(生产阶段的依赖)（默认）|
-|-D|--save-dev|安装包信息将加入到devdependencies(开发阶段的依赖)|
-|-O|--save-optional|optionalDependencies(可选阶段的依赖)|
-|-E|--save-exact|精确安装指定模块版本|
-||--dry-run||
-||local|本地安装|
-|-g|--global|全局安装|  
-
-npm uninstall 卸载模块  
-npm  
-
 ||||
 |-|-|-|
 |uninstall|卸载模块||

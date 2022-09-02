@@ -84,6 +84,7 @@
 <p>node cli的完整解决方案。<br>
 先定义好命令、选项。再解析命令行文本。解析后运行相应的命令。
 定义一堆方法，然后把字符串转化为参数，再传入该方法。<br>
+可链式调用
 即使做了一件很小的事，做好了也能改变世界。它定义了好多规范。
 <code>&lt;&gt;</code>必填
 <code>[]</code>选填</p>
@@ -259,13 +260,115 @@ program.showHelpAfterError(<span class="hljs-string">&#x27;(add --help for addit
 <pre><code class="language-js"><div><span class="hljs-meta">#!/usr/bin/env node</span>
 
 <span class="hljs-keyword">const</span> program = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;commander&#x27;</span>)
-program.command(<span class="hljs-string">&#x27;ssss&#x27;</span>)
+program.command(<span class="hljs-string">&#x27;commanderName &lt;option&gt; [destination]&#x27;</span>)
   .option(<span class="hljs-string">&#x27;-p, --options &lt;opt&gt;&#x27;</span>, <span class="hljs-string">&#x27;description&#x27;</span>, <span class="hljs-string">&#x27;defaultValue&#x27;</span>)
-  .action(<span class="hljs-function">(<span class="hljs-params">xxxs, userOptions</span>) =&gt;</span> {
+  .action(<span class="hljs-function">(<span class="hljs-params">commanderName, destination</span>) =&gt;</span> {
     ...
   })
 </div></code></pre>
 <h1 id="api">api</h1>
+<p>只有一个类<code>Command</code>。</p>
+<pre><code class="language-js"><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Command</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">EventEmitter</span> </span>{
+  <span class="hljs-comment">// * @param {string[]} [argv] - optional, defaults to process.argv</span>
+  <span class="hljs-comment">//  * @param {Object} [parseOptions] - optionally specify style of options with from: node/user/electron</span>
+  <span class="hljs-comment">//  * @param {string} [parseOptions.from] - where the args are from: &#x27;node&#x27;, &#x27;user&#x27;, &#x27;electron&#x27;</span>
+  <span class="hljs-comment">//  * @return {Command} `this` command for chaining</span>
+  parse(argv, parseOptions)
+  
+  <span class="hljs-keyword">async</span> parseAsync(argv, parseOptions)
+
+  <span class="hljs-comment">//  * @param {string} nameAndArgs - command name and arguments, args are `&lt;required&gt;` or `[optional]` and last may also be `variadic...`</span>
+  <span class="hljs-comment">//  * @param {Object|string} [actionOptsOrExecDesc] - configuration options (for action), or description (for executable)</span>
+  <span class="hljs-comment">//  * @param {Object} [execOpts] - configuration options (for executable)</span>
+  <span class="hljs-comment">//  * @return {Command} returns new command for action handler, or `this` for executable command</span>
+  command(nameAndArgs, actionOptsOrExecDesc, execOpts)
+
+  <span class="hljs-comment">// * Add a prepared subcommand.</span>
+  <span class="hljs-comment">// See .command() for creating an attached subcommand which inherits settings from its parent.</span>
+  <span class="hljs-comment">// * @param {Command} cmd - new subcommand</span>
+  <span class="hljs-comment">//  * @param {Object} [opts] - configuration options</span>
+  <span class="hljs-comment">//  * @return {Command} `this` command for chaining</span>
+  addCommand(cmd, opts)
+
+  <span class="hljs-comment">// * Define argument syntax for command.</span>
+  <span class="hljs-comment">//  * @param {string} name</span>
+  <span class="hljs-comment">//  * @param {string} [description]</span>
+  <span class="hljs-comment">//  * @param {Function|*} [fn] - custom argument processing function</span>
+  <span class="hljs-comment">//  * @param {*} [defaultValue]</span>
+  <span class="hljs-comment">//  * @return {Command} `this` command for chaining</span>
+  argument(name, description, fn, defaultValue)
+
+  <span class="hljs-comment">// * Define argument syntax for command, adding a prepared argument.</span>
+  <span class="hljs-comment">//  * @param {Argument} argument</span>
+  <span class="hljs-comment">//  * @return {Command} `this` command for chaining</span>
+  addArgument(argument)
+
+  <span class="hljs-comment">//  * Add hook for life cycle event.</span>
+  <span class="hljs-comment">//  *</span>
+  <span class="hljs-comment">//  * @param {string} event</span>
+  <span class="hljs-comment">//  * @param {Function} listener</span>
+  <span class="hljs-comment">//  * @return {Command} `this` command for chaining</span>
+  hook(event, listener)
+
+  <span class="hljs-comment">// Register callback `fn` for the command.</span>
+  action(fn) <span class="hljs-comment">// 需要再读</span>
+
+  <span class="hljs-comment">// * @param {string} flags</span>
+  <span class="hljs-comment">// The `flags` string contains the short and/or long flags, separated by comma, a pipe or space.</span>
+  <span class="hljs-comment">// * @param {string} [description]</span>
+  <span class="hljs-comment">// * @param {Function|*} [fn] - custom option processing function or default value</span>
+  <span class="hljs-comment">// * @param {*} [defaultValue]</span>
+  <span class="hljs-comment">// * @return {Command} `this` command for chaining</span>
+  option(flags, description, fn, defaultValue)
+  <span class="hljs-comment">// * program.option(&#x27;-C, --chdir &lt;path&gt;&#x27;, &#x27;change the working directory&#x27;);</span>
+  <span class="hljs-comment">// * program.option(&#x27;-c, --cheese [type]&#x27;, &#x27;add cheese [marble]&#x27;);</span>
+
+  <span class="hljs-comment">// * Add an option.</span>
+  <span class="hljs-comment">// * @param {Option} option</span>
+  <span class="hljs-comment">//  * @return {Command} `this` command for chaining</span>
+  addOption(option)
+
+  requiredOption(flags, description, fn, defaultValue) <span class="hljs-comment">// 是基于option开发的。用法与option相同，功能为必填。</span>
+
+  <span class="hljs-comment">// * Retrieve option value.</span>
+  getOptionValue(key)
+
+  <span class="hljs-comment">// * Store option value.</span>
+  setOptionValue(key, value)
+  
+  <span class="hljs-comment">//  * @param {string} str       This method auto-registers the &quot;-V, --version&quot; flag. which will print the version number when passed.</span>
+  <span class="hljs-comment">//  * @param {string} [flags]</span>
+  <span class="hljs-comment">//  * @param {string} [description]</span>
+  <span class="hljs-comment">//  * @return {this | string} `this` command for chaining, or version string if no arguments</span>
+  version(str, flags, description)
+
+  <span class="hljs-comment">// * Set the description.</span>
+  description(str, argsDescription)
+
+  <span class="hljs-comment">// * Set aliases for the command.  Only the first alias is shown in the auto-generated help.</span>
+  aliases(aliases)
+
+  <span class="hljs-comment">// * Set / get the command usage `str`.</span>
+  usage(str)
+
+  <span class="hljs-comment">// Get or set the name of the command.</span>
+  name(str)
+
+  <span class="hljs-comment">// * Get or set the directory for searching for executable subcommands of this command.</span>
+  executableDir(path)
+
+  <span class="hljs-comment">// Return program help documentation.</span>
+  helpInformation(contextOptions)
+
+  <span class="hljs-comment">//  * You can pass in flags and a description to override the help</span>
+  <span class="hljs-comment">//  * flags and help description for your command. Pass in false to</span>
+  <span class="hljs-comment">//  * disable the built-in help option.</span>
+  helpOption(flags, description)
+
+  <span class="hljs-comment">// Output help information and exit.</span>
+  help(contextOptions)
+}
+</div></code></pre>
 <h2 id="command-1">Command</h2>
 <pre><code class="language-js"><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Command</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">EventEmitter</span> </span>{
   <span class="hljs-comment">// 构造函数</span>

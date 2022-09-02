@@ -2,6 +2,7 @@
 > node cli的完整解决方案。  
 > 先定义好命令、选项。再解析命令行文本。解析后运行相应的命令。
 > 定义一堆方法，然后把字符串转化为参数，再传入该方法。  
+> 可链式调用
 > 即使做了一件很小的事，做好了也能改变世界。它定义了好多规范。
   > `<>`必填
   > `[]`选填
@@ -158,14 +159,121 @@ program.on('option:verbose', function () {
 #!/usr/bin/env node
 
 const program = require('commander')
-program.command('ssss')
+program.command('commanderName <option> [destination]')
   .option('-p, --options <opt>', 'description', 'defaultValue')
-  .action((xxxs, userOptions) => {
+  .action((commanderName, destination) => {
     ...
   })
 ```
 
 # api
+只有一个类`Command`。  
+```js
+class Command extends EventEmitter {
+  // * @param {string[]} [argv] - optional, defaults to process.argv
+  //  * @param {Object} [parseOptions] - optionally specify style of options with from: node/user/electron
+  //  * @param {string} [parseOptions.from] - where the args are from: 'node', 'user', 'electron'
+  //  * @return {Command} `this` command for chaining
+  parse(argv, parseOptions)
+  
+  async parseAsync(argv, parseOptions)
+
+  //  * @param {string} nameAndArgs - command name and arguments, args are `<required>` or `[optional]` and last may also be `variadic...`
+  //  * @param {Object|string} [actionOptsOrExecDesc] - configuration options (for action), or description (for executable)
+  //  * @param {Object} [execOpts] - configuration options (for executable)
+  //  * @return {Command} returns new command for action handler, or `this` for executable command
+  command(nameAndArgs, actionOptsOrExecDesc, execOpts)
+
+  // * Add a prepared subcommand.
+  // See .command() for creating an attached subcommand which inherits settings from its parent.
+  // * @param {Command} cmd - new subcommand
+  //  * @param {Object} [opts] - configuration options
+  //  * @return {Command} `this` command for chaining
+  addCommand(cmd, opts)
+
+  // * Define argument syntax for command.
+  //  * @param {string} name
+  //  * @param {string} [description]
+  //  * @param {Function|*} [fn] - custom argument processing function
+  //  * @param {*} [defaultValue]
+  //  * @return {Command} `this` command for chaining
+  argument(name, description, fn, defaultValue)
+
+  // * Define argument syntax for command, adding a prepared argument.
+  //  * @param {Argument} argument
+  //  * @return {Command} `this` command for chaining
+  addArgument(argument)
+
+  //  * Add hook for life cycle event.
+  //  *
+  //  * @param {string} event
+  //  * @param {Function} listener
+  //  * @return {Command} `this` command for chaining
+  hook(event, listener)
+
+  // Register callback `fn` for the command.
+  action(fn) // 需要再读
+
+  // * @param {string} flags
+  // The `flags` string contains the short and/or long flags, separated by comma, a pipe or space.
+  // * @param {string} [description]
+  // * @param {Function|*} [fn] - custom option processing function or default value
+  // * @param {*} [defaultValue]
+  // * @return {Command} `this` command for chaining
+  option(flags, description, fn, defaultValue)
+  // * program.option('-C, --chdir <path>', 'change the working directory');
+  // * program.option('-c, --cheese [type]', 'add cheese [marble]');
+
+  // * Add an option.
+  // * @param {Option} option
+  //  * @return {Command} `this` command for chaining
+  addOption(option)
+
+  requiredOption(flags, description, fn, defaultValue) // 是基于option开发的。用法与option相同，功能为必填。
+
+  // * Retrieve option value.
+  getOptionValue(key)
+
+  // * Store option value.
+  setOptionValue(key, value)
+  
+  //  * @param {string} str       This method auto-registers the "-V, --version" flag. which will print the version number when passed.
+  //  * @param {string} [flags]
+  //  * @param {string} [description]
+  //  * @return {this | string} `this` command for chaining, or version string if no arguments
+  version(str, flags, description)
+
+  // * Set the description.
+  description(str, argsDescription)
+
+  // * Set aliases for the command.  Only the first alias is shown in the auto-generated help.
+  aliases(aliases)
+
+  // * Set / get the command usage `str`.
+  usage(str)
+
+  // Get or set the name of the command.
+  name(str)
+
+  // * Get or set the directory for searching for executable subcommands of this command.
+  executableDir(path)
+
+  // Return program help documentation.
+  helpInformation(contextOptions)
+
+  //  * You can pass in flags and a description to override the help
+  //  * flags and help description for your command. Pass in false to
+  //  * disable the built-in help option.
+  helpOption(flags, description)
+
+  // Output help information and exit.
+  help(contextOptions)
+}
+```
+
+
+
+
 ## Command
 ```js
 class Command extends EventEmitter {

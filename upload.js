@@ -244,7 +244,7 @@ c.on('ready', () => {
         }
         // let p = 'jsPackages/commander'
         let p = [
-            // 'jsPackages/commander/index.html',
+            'jsPackages/commander/index.html',
             // 'jsPackages/commander/versionLog.html',
             // 'promote/customInterface.html',
             // 'pwa/install.html',
@@ -253,8 +253,8 @@ c.on('ready', () => {
             // 'pwa/workBox.html',
             // 'pwa/push.html',
             // 'pwa/notification.html',
-            // 'browser/navigator.html',
-            'package-manager/npm/index.html',
+            // 'framework/react/hooks.html',
+            // 'ja/npm/index.html',
         ]
         // 检测指定目录是否存在
         // checkDir(p)
