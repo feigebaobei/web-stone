@@ -1,71 +1,48 @@
 # introduction
 
 ## overview
-把若干小片js代码打包成为一个指定规范的大段js文件。
+> 把若干小片js代码打包成为一个指定规范的大段js文件。  
+> 可打包为多种规范。  
 
 ## install
 
 `npm i -g rollup`
 
 ## quick start
+```shell
+rollup --help
+```
 
 假设入口是`main.js`，打包为`bundle.js`，规范是`iife`。为了方便浏览器使用。
 `-o`表示输出的文件。
 `-f`表示输出的格式。
-```
-rollup main.js -o bundle.js -f iife
-```
-打包后的规范是`commonjs`。
-```
-rollup main.js -o bundle.js -f cjs // 为了方便node使用。
+```shell
+rollup main.js -o bundle.js -f iife # iife规范
+rollup main.js -o bundle.js -f cjs # 为了方便node使用。
+# commonjs 规范
+rollup main.js -o bundle.js -f umd --name "myBundle"
+# umd 规范。
+# 规范是umd。在browser/node.js中都可使用。
 ```
 
-规范是umd。在browser/node.js中都可使用。
-```
-rollup main.js -o bundle.js -f umd --name "myBundle"
-```
+## 为什么使用rollup
+在es6前。每段js代码都是独立的，无法与其它js代码联系起来。在es6之后，可以使用`import / export`输入/输出。可它仍有缺点：只能运行在现代浏览器中。rollup可以把小段代码打包成指定格式的大段代码。支持的格式：esm/commonjs/amd/umd/iife-style/system.
+
+## tree-shaking
+rollup支持静态分析引入的代码，排除不使用的。判断出哪些方法/变量等被使用过，哪些未被使用。在打包后的代码中使用包含被使用到的。
+
 ## rollup的使用方式
 - cli
 - rollup.config.js
 - api
 
-### api
-```
-// rollup-build.js
-let rollup = require('rollup')
-let inputOption = require('path/to/input.js')
-let outputOpiton = require('path/to/output.js')
-let bundle = rollup.rollup(inputOption)         // 生成打包文件
-bundle.write(outputOpiton)                      // 根据配置文件输出打包文件。
-```
-```
-// path/to/input.js
-module.exports = {
-    input: './src/main.js'
-}
-```
-```
-// path/to/output.js
-module.exports = {
-    file: './bundle.js',
-    format: 'cjs',
-}
-```
-```
-// 执行打包脚本
-node rollup-build.js
-```
-## 为什么使用rollup
-在es6前。每段js代码都是独立的，无法与其它js代码联系起来。在es6之后，可以使用`import / export`输入/输出。可它仍有缺点：只能运行在现代浏览器中。rollup可以把小段代码打包成指定格式的大段代码。支持的格式：esm/commonjs/amd/umd/iife-style/system.
-
-## tree-shaking
-
-rollup支持静态分析代码。判断出哪些方法/变量等被使用过，哪些未被使用。在打包后的代码中使用包含被使用到的。
-
 ## 兼容性
+- 使用插件`@rollup/plugin-commonjs`引入`cjs`规范的代码。
+- 
 
-使用插件`@rollup/plugin-commonjs`可引入`commonjs`规范的代码，输出`esm`规范的代码。
-把其他规范的代码打包为esm规范的代码。
+
+
+
 
 # command link interface
 
@@ -335,3 +312,31 @@ commonjs({include: /node_modules/})
 ## overview
 ## overview
 ## overview
+
+
+### api
+```
+// rollup-build.js
+let rollup = require('rollup')
+let inputOption = require('path/to/input.js')
+let outputOpiton = require('path/to/output.js')
+let bundle = rollup.rollup(inputOption)         // 生成打包文件
+bundle.write(outputOpiton)                      // 根据配置文件输出打包文件。
+```
+```
+// path/to/input.js
+module.exports = {
+    input: './src/main.js'
+}
+```
+```
+// path/to/output.js
+module.exports = {
+    file: './bundle.js',
+    format: 'cjs',
+}
+```
+```
+// 执行打包脚本
+node rollup-build.js
+```
