@@ -1,10 +1,19 @@
-# install
-## 介绍
+# 介绍
 - 一台高性能web服务器  
 - 最初是为解决c10k问题（同时连接处理10000连接数的web服务器）。
+- 开源
+- 为静态资源提供高效web服务。
+- 当初是为http web服务的，现在为HTTP, HTTPS, SMTP, IMAP, POP3做反向代理。  
 - 模块化设计的。  
 - 可以配置成web加速器、web服务器、邮件代理。  
-- 
+- 默认监听8080端口
+
+
+
+
+
+
+# install
 
 ## 在linux使用yum安装
 ```
@@ -15,6 +24,11 @@ systemctl status nginx.service
 ```
 
 ## 在windows中安装
+## 使用brew安装
+```shell
+brew install nginx
+# 安装在 /usr/local/cellar
+```
 
 ## 源代码安装
 可以自定义功能。  
@@ -95,8 +109,8 @@ location @name {...}
 |--with-http_realip_module|||||||
 |--without-http_charset_module|||||||
 
-# title
-# title
+# [学习网站](https://www.javatpoint.com/installing-nginx-on-mac)
+# [网友笔记](https://juejin.cn/post/6844904131161784333)
 # title
 # title
 # title
