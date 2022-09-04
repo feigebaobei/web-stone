@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <title>mkcert</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -63,7 +63,8 @@
 }
 
 </style>
-        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -79,45 +80,112 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <ul>
-<li><a href="/jsPackages/ftp.html">ftp</a></li>
-<li><a href="/jsPackages/crtp-cli.html">crtp-cli</a></li>
-<li><a href="/jsPackages/co.html">co</a></li>
-<li><a href="/jsPackages/nvm.html">nvm</a></li>
-<li><a href="/jsPackages/nrm.html">nrm</a></li>
-<li><a href="/jsPackages/siroc.html">siroc</a></li>
-<li><a href="/jsPackages/h3.html">h3</a></li>
-<li><a href="/jsPackages/whistle.html">whistle</a></li>
-<li><a href="/jsPackages/unsplash.html">unsplash</a></li>
-<li><a href="/jsPackages/eleventy.html">@11ty/eleventy</a></li>
-<li><a href="/jsPackages/history.html">history</a></li>
-<li><a href="/jsPackages/ftp.html">ftp</a></li>
-<li><a href="/jsPackages/pm2.html">pm2</a></li>
-<li><a href="/jsPackages/redux.html">redux</a></li>
-<li><a href="/jsPackages/@reduxjs-toolkit.html">@reduxjs/toolkit</a></li>
-<li><a href="/jsPackages/lerna/index.html">lerna</a></li>
-<li><a href="/jsPackages/axios.html">axios</a></li>
-<li><a href="/jsPackages/prop-types.html">prop-types</a></li>
-<li><a href="/jsPackages/ngrok.html">ngrok</a></li>
-<li><a href="/jsPackages/mkcert.html">mkcert</a></li>
-<li><a href="/jsPackages/md5.html">md5</a></li>
-<li><a href="/jsPackages/commander/index.html">commander</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
+        <h1 id="mkcert">mkcert</h1>
+<blockquote>
+<p>它是使用go写的。不能使用npm安装。
+<a href="https://github.com/FiloSottile/mkcert">官网</a></p>
+</blockquote>
+<h2 id="feature">feature</h2>
+<ul>
+<li>生成自签名的CA证书并保存在本地系统中。</li>
+<li>不需要配置。</li>
+<li>可以指定域名。</li>
+<li>需要解决自签名CA证书引起的错误。</li>
 </ul>
+<h2 id="install">install</h2>
+<h3 id="macos">macos</h3>
+<pre><code class="language-shell"><div>brew install mkcert
+brew install mss # 若使用ff
+<span class="hljs-meta">#</span><span class="bash"> or</span> 
+sudo port selfupdate
+sudo port install mkcert
+sudo port install nss # if you use Firefox
+</div></code></pre>
+<h3 id="linux">linux</h3>
+<pre><code class="language-shell"><div><span class="hljs-meta">#</span><span class="bash"> 1. install certutil</span>
+sudo apt install libnss3-tools
+    -or-
+sudo yum install nss-tools
+    -or-
+sudo pacman -S nss
+    -or-
+sudo zypper install mozilla-nss-tools
+<span class="hljs-meta">#</span><span class="bash"> 2.1 install mkcert</span>
+brew install mkcert
+<span class="hljs-meta">#</span><span class="bash"> 2.2 使用源码打包</span>
+git clone https://github.com/FiloSottile/mkcert &amp;&amp; cd mkcert
+go build -ldflags &quot;-X main.Version=$(git describe --tags)&quot;
+<span class="hljs-meta">#</span><span class="bash"> 2.3 使用已经打包的二进制文件</span>
+curl -JLO &quot;https://dl.filippo.io/mkcert/latest?for=linux/amd64&quot;
+chmod +x mkcert-v*-linux-amd64
+sudo cp mkcert-v*-linux-amd64 /usr/local/bin/mkcert
+<span class="hljs-meta">#</span><span class="bash"> 2.4 For Arch Linux users, mkcert is available on the official Arch Linux repository.</span>
+sudo pacman -Syu mkcert
+</div></code></pre>
+<h3 id="window">window</h3>
+<h2 id="usage">usage</h2>
+<pre><code class="language-shell"><div>mkcert -install
+<span class="hljs-meta">#</span><span class="bash"> 创建一个本地CA，并安装在本地系统中。重新找开ff浏览器可生效。</span>
+mkcert example.com &quot;*.example.com&quot; example.test localhost 127.0.0.1 ::1
+<span class="hljs-meta">#</span><span class="bash"> 为这些域名生成自签名证书。</span>
+<span class="hljs-meta">#</span><span class="bash"> 证书在 ./example.com+5.pem ./example.com+5-key.pem</span>
+</div></code></pre>
+<h2 id="支持的root-stores">支持的root stores</h2>
+<ul>
+<li>macOS system store</li>
+<li>Windows system store</li>
+<li>Linux variants that provide either
+<ul>
+<li>update-ca-trust (Fedora, RHEL, CentOS) or</li>
+<li>update-ca-certificates (Ubuntu, Debian, OpenSUSE, SLES) or</li>
+<li>trust (Arch)</li>
+</ul>
+</li>
+<li>Firefox (macOS and Linux only)</li>
+<li>Chrome and Chromium</li>
+<li>Java (when JAVA_HOME is set)</li>
+</ul>
+<p>若要只安装在其中几个，您可以设置<code>TRUST_STORES</code>环境变量，可选值是&quot;system&quot;/&quot;java&quot;/&quot;nss&quot;</p>
+<h2 id="高级选项">高级选项</h2>
+<pre><code class="language-shell"><div>-cert-file FILE, -key-file FILE, -p12-file FILE
+    Customize the output paths.
 
-        
+-client
+    Generate a certificate for client authentication.
+
+-ecdsa
+    Generate a certificate with an ECDSA key.
+
+-pkcs12
+    Generate a &quot;.p12&quot; PKCS #12 file, also know as a &quot;.pfx&quot; file,
+    containing certificate and key for legacy applications.
+
+-csr CSR
+    Generate a certificate based on the supplied CSR. Conflicts with
+    all other flags and arguments except -install and -cert-file.
+</div></code></pre>
+<p>必须先写这些选项，再写域名。如：<br>
+<code>mkcert -key-file key.pem -cert-file cert.pem example.com *.example.com</code></p>
+<h2 id="smime">S/MIME</h2>
+<p>如果域名是email地址时，自动生成S/MIME证书。<br>
+<code>mkcert filippo@example.com</code></p>
+<h2 id="移动设备">移动设备</h2>
+<h2 id="与nodejs结合使用">与node.js结合使用</h2>
+<h2 id="改变ca方法的位置">改变CA方法的位置</h2>
+<h2 id="安装ca到别的系统">安装CA到别的系统</h2>
+<h2 id="title">title</h2>
+<h2 id="title-1">title</h2>
+<h2 id="title-2">title</h2>
+<h2 id="title-3">title</h2>
+<h2 id="todo">todo</h2>
+<h3 id="证书说明">证书说明</h3>
+<p>example.org-key.pem文件是SSL证书的Key，可在Nginx的ssl_certificate_key指令使用。<br>
+example.org.pem文件是SSL证书，在Nginx的ssl_certificate指令使用。</p>
+<h3 id="title-4">title</h3>
+<h3 id="title-5">title</h3>
+<h3 id="title-6">title</h3>
+
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
     </body>
     </html>
