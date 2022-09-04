@@ -6,6 +6,7 @@ netstat -ntlp # 查看端口
 # [nvm node的版本管理工具](/linux/nvm.html)
 # [cp](/linux/cp.html)
 # [cat](/linux/cat.html)
+# [systemctl](/linux/systemctl.html)
 # title
 # title
 # title

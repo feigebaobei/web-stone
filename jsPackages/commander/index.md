@@ -127,7 +127,7 @@ async function main() {
 ```
 
 # 帮助文档
-- 自动生成帮助文档 `COMM --help`  
+- 自动生成帮助文档 `COMMAND --help`  
 - 支持自定义help说明 `.option('-f, --foo', 'description')`  
 - 帮忙文档在哪儿显示
   - `beforeAll`
@@ -159,7 +159,8 @@ program.on('option:verbose', function () {
 #!/usr/bin/env node
 
 const program = require('commander')
-program.command('commanderName <option> [destination]')
+program.command('commanderName <option>') // 不要在这里设置description
+  .description('str')
   .option('-p, --options <opt>', 'description', 'defaultValue')
   .action((commanderName, destination) => {
     ...
