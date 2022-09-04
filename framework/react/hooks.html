@@ -449,18 +449,16 @@ useLogger(stateValue)
     <span class="hljs-keyword">let</span> savedCallback = useRef()
     useEffect(<span class="hljs-function">() =&gt;</span> {
         savedCallback.current = cb
-    })
+    }, [cb])
     useEffect(<span class="hljs-function">() =&gt;</span> {
         <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">tick</span>(<span class="hljs-params"></span>) </span>{
             savedCallback.current()
         }
         <span class="hljs-keyword">if</span> (delay !== <span class="hljs-literal">null</span>) {
             <span class="hljs-keyword">let</span> id = <span class="hljs-built_in">setInterval</span>(tick, delay)
-            <span class="hljs-keyword">return</span> <span class="hljs-function">() =&gt;</span> {
-                <span class="hljs-built_in">clearInterval</span>(id)
-            }
+            <span class="hljs-keyword">return</span> <span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">clearInterval</span>(id)
         }
-    }, [cb, delay])
+    }, [delay])
 }
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> useInterval
 </div></code></pre>
@@ -527,6 +525,7 @@ useLogger(stateValue)
 <span class="hljs-comment">// 使用</span>
 useStore(stateValue)
 </div></code></pre>
+<p>当依赖项改变时，执行异步方法。</p>
 <pre><code class="language-js"><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">useAsyncEffect</span>(<span class="hljs-params">fn, deps, ...args</span>) </span>{
     useEffect(<span class="hljs-function">() =&gt;</span> {
         (<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
@@ -535,6 +534,53 @@ useStore(stateValue)
     }, deps)
 }
 </div></code></pre>
+<p>懒加载非首屏的组件。可用于减少打包体积、减小非必要回馈。</p>
+<pre><code class="language-jsx"><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">usePrefetch</span>(<span class="hljs-params">factory</span>) </span>{
+    <span class="hljs-keyword">let</span> [comp, setComp] = useState(<span class="hljs-literal">null</span>)
+    useEffect(<span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-keyword">let</span> comp = lazy(factory)
+        setComp(comp)
+    }, [factory])
+    <span class="hljs-keyword">return</span> comp
+}
+<span class="hljs-keyword">let</span> importModal = <span class="hljs-function">() =&gt;</span> <span class="hljs-keyword">import</span>(<span class="hljs-string">&#x27;./Modal&#x27;</span>)
+<span class="hljs-keyword">let</span> Modal = usePrefetch(importModal) <span class="hljs-comment">// 一定要写成这样，否则会是触发useEffect</span>
+isShow &amp;&amp; &lt;Modal&gt;
+</div></code></pre>
+<pre><code class="language-jsx"><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">useGeo</span>(<span class="hljs-params">opts</span>) </span>{
+    <span class="hljs-keyword">let</span> [isLoading, setIsLoading] = useState(<span class="hljs-literal">true</span>)
+    <span class="hljs-keyword">let</span> [error, setError] = useState(<span class="hljs-literal">null</span>)
+    <span class="hljs-keyword">let</span> [geo, setGeo] = useState({})
+    <span class="hljs-keyword">let</span> isLoad = <span class="hljs-literal">true</span>
+    <span class="hljs-keyword">let</span> id
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">onSuccess</span>(<span class="hljs-params">event</span>) </span>{
+        <span class="hljs-keyword">if</span> (isLoad) {
+            setIsLoading(<span class="hljs-literal">false</span>)
+            setGeo(event.coords)
+        }
+    }
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">opFailure</span>(<span class="hljs-params">error</span>) </span>{
+        <span class="hljs-keyword">if</span> (isLoad) {
+            setIsLoading(<span class="hljs-literal">false</span>)
+            setError(error)
+        }
+    }
+    useEffect(<span class="hljs-function">() =&gt;</span> {
+        navigator.geolocation.getCurrentPosition(onSuccess, onFailure, opts)
+        id = navigator.geolocation.watchPosition(onSuccess, onFailure, opts)
+        isLoad = <span class="hljs-literal">false</span>
+        navigator.geolocation.clearWatch(id)
+    }, [opts])
+}
+<span class="hljs-keyword">let</span> {geo, isLoading, error} = useGeo()
+(!isLoading &amp;&amp; !error) ? <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span> : <span class="hljs-literal">null</span>
+</div></code></pre>
+<h2 id="自定义hooks的包">自定义hooks的包</h2>
+<ul>
+<li><a href="">title</a></li>
+<li><a href="">title</a></li>
+<li><a href="">title</a></li>
+</ul>
 <h2 id="todo">todo</h2>
 <h3 id="title">title</h3>
 <p>有缓存功能的都可用于性能优化</p>

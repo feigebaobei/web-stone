@@ -358,18 +358,16 @@ function useInterval (cb = () => {}, delay = 10) {
     let savedCallback = useRef()
     useEffect(() => {
         savedCallback.current = cb
-    })
+    }, [cb])
     useEffect(() => {
         function tick() {
             savedCallback.current()
         }
         if (delay !== null) {
             let id = setInterval(tick, delay)
-            return () => {
-                clearInterval(id)
-            }
+            return () => clearInterval(id)
         }
-    }, [cb, delay])
+    }, [delay])
 }
 export default useInterval
 ```
@@ -445,6 +443,7 @@ export default function useStore (key, initValue) {
 useStore(stateValue)
 ```
 
+当依赖项改变时，执行异步方法。
 ```js
 export default function useAsyncEffect(fn, deps, ...args) {
     useEffect(() => {
@@ -454,6 +453,56 @@ export default function useAsyncEffect(fn, deps, ...args) {
     }, deps)
 }
 ```
+
+懒加载非首屏的组件。可用于减少打包体积、减小非必要回馈。
+```jsx
+function usePrefetch(factory) {
+    let [comp, setComp] = useState(null)
+    useEffect(() => {
+        let comp = lazy(factory)
+        setComp(comp)
+    }, [factory])
+    return comp
+}
+let importModal = () => import('./Modal')
+let Modal = usePrefetch(importModal) // 一定要写成这样，否则会是触发useEffect
+isShow && <Modal>
+```
+
+```jsx
+function useGeo(opts) {
+    let [isLoading, setIsLoading] = useState(true)
+    let [error, setError] = useState(null)
+    let [geo, setGeo] = useState({})
+    let isLoad = true
+    let id
+    function onSuccess(event) {
+        if (isLoad) {
+            setIsLoading(false)
+            setGeo(event.coords)
+        }
+    }
+    function opFailure(error) {
+        if (isLoad) {
+            setIsLoading(false)
+            setError(error)
+        }
+    }
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition(onSuccess, onFailure, opts)
+        id = navigator.geolocation.watchPosition(onSuccess, onFailure, opts)
+        isLoad = false
+        navigator.geolocation.clearWatch(id)
+    }, [opts])
+}
+let {geo, isLoading, error} = useGeo()
+(!isLoading && !error) ? <div></div> : null
+```
+
+## 自定义hooks的包
+- [title]()
+- [title]()
+- [title]()
 
 ## todo
 ### title
