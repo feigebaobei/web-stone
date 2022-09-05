@@ -113,13 +113,103 @@ rollup main.js -o bundle.js -f umd --name &quot;myBundle&quot;
 <h2 id="兼容性">兼容性</h2>
 <ul>
 <li>使用插件<code>@rollup/plugin-commonjs</code>引入<code>cjs</code>规范的代码。</li>
-<li></li>
 </ul>
-<h1 id="command-link-interface">command link interface</h1>
+<h1 id="command-link-interface命令行的用法">command link interface（命令行的用法）</h1>
 <p>rollup可以使用命令行功能。</p>
 <h2 id="configuration-files">configuration files</h2>
-<p>rollup的配置文件是可选的。若使用配置文件会更方便，所以推荐使用配置文件。</p>
-<pre><code><code><div>// demo
+<p>rollup的配置文件是可选的。若使用配置文件会更方便，所以推荐使用配置文件。<br>
+<strong>配置文件的全量字段</strong></p>
+<pre><code class="language-js"><div><span class="hljs-comment">// rollup.config.js</span>
+
+<span class="hljs-comment">// can be an array (for multiple inputs)</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  <span class="hljs-comment">// core input options</span>
+  external,
+  input, <span class="hljs-comment">// conditionally required</span>
+  plugins,
+
+  <span class="hljs-comment">// advanced input options</span>
+  cache,
+  onwarn,
+  preserveEntrySignatures,
+  strictDeprecations,
+
+  <span class="hljs-comment">// danger zone</span>
+  acorn,
+  acornInjectPlugins,
+  context,
+  moduleContext,
+  preserveSymlinks,
+  shimMissingExports,
+  treeshake,
+
+  <span class="hljs-comment">// experimental</span>
+  experimentalCacheExpiry,
+  perf,
+
+  <span class="hljs-comment">// required (can be an array, for multiple outputs)</span>
+  <span class="hljs-attr">output</span>: {
+    <span class="hljs-comment">// core output options</span>
+    dir,
+    file,
+    format, <span class="hljs-comment">// required</span>
+    globals,
+    name,
+    plugins,
+
+    <span class="hljs-comment">// advanced output options</span>
+    assetFileNames,
+    banner,
+    chunkFileNames,
+    compact,
+    entryFileNames,
+    extend,
+    footer,
+    hoistTransitiveImports,
+    inlineDynamicImports,
+    interop,
+    intro,
+    manualChunks,
+    minifyInternalExports,
+    outro,
+    paths,
+    preserveModules,
+    preserveModulesRoot,
+    sourcemap,
+    sourcemapBaseUrl,
+    sourcemapExcludeSources,
+    sourcemapFile,
+    sourcemapPathTransform,
+    validate,
+
+    <span class="hljs-comment">// danger zone</span>
+    amd,
+    esModule,
+    <span class="hljs-built_in">exports</span>,
+    externalLiveBindings,
+    freeze,
+    indent,
+    namespaceToStringTag,
+    noConflict,
+    preferConst,
+    sanitizeFileName,
+    strict,
+    systemNullSetters
+  },
+
+  <span class="hljs-attr">watch</span>: {
+    buildDelay,
+    chokidar,
+    clearScreen,
+    skipWrite,
+    exclude,
+    include
+  }
+};
+</div></code></pre>
+<details>
+  <summary>demo 最基本的配置</summary>
+  <code>
 // rollup.config.js
 export default {
 	input: 'src/main.js',
@@ -128,25 +218,133 @@ export default {
 		format: 'cjs'
 	}
 }
-</div></code></code></pre>
-<p>一般配置文件是<code>*.json</code>，rollup的配置文件是<code>*.js</code>。好特别。
-该配置文件一般在项目的根目录，一般命名为<code>rollup.config.js</code>
-若配置文件是commonjs规范，请使用<code>require / module.exports</code>。
-<code>output.format</code>可控制输出的文件格式。
-当<code>output</code>是数组时，可打包出多个相应输出配置的包。
-当使用异步配置项时，rollup会生成一个<code>promise</code>处理它成为一个object/array。也可以使用<code>Promise.all([...])</code>处理成为异步的配置文件。
-rollup使用<code>-c</code>/<code>--config</code>指定配置文件。
-若返回一个方法。参数是命令行中的参数组成的对象，返回值是配置文件格式的对象。</p>
-<h3 id="overview-1">overview</h3>
-<p>在配置文件中有几个必填项</p>
-<pre><code><code><div>export default {
-	input:      // 入口
-	output: {   // 出口
-		file:   // 文件名 // 非必填。但是不设置会得不到打包后的文件。
-		format: // 输出文件的格式
-	}
+<!-- 在配置文件中有几个必填项 -->
+<p>export default {
+input:      // 入口
+output: {   // 出口
+file:   // 文件名 // 非必填。但是不设置会得不到打包后的文件。
+format: // 输出文件的格式
 }
-</div></code></code></pre>
+}
+</code></p>
+</details>
+<details>
+  <summary>demo 多个输出</summary>
+  <code>
+// rollup.config.js (building more than one bundle)
+export default [
+  {
+    input: 'main-a.js',
+    output: {
+      file: 'dist/bundle-a.js',
+      format: 'cjs'
+    }
+  },
+  {
+    input: 'main-b.js',
+    output: [
+      {
+        file: 'dist/bundle-b1.js',
+        format: 'cjs'
+      },
+      {
+        file: 'dist/bundle-b2.js',
+        format: 'es'
+      }
+    ]
+  }
+];
+  </code>
+</details>
+<details>
+  <summary>demo 异步输出配置文件</summary>
+  <code>
+// rollup.config.js
+import fetch from 'node-fetch';
+export default fetch('/some-remote-service-or-file-which-returns-actual-config');
+// or 
+// export default Promise.all([fetch('get-config-1'), fetch('get-config-2')]);
+  </code>
+</details>
+<details>
+  <summary>demo 动态配置</summary>
+  <code>
+// shell
+rollup main.js --config --configDebug
+<p>// rollup.config.js
+import defaultConfig from './rollup.default.config.js';
+import debugConfig from './rollup.debug.config.js';
+// commandLineArgs可得到命令行中的数据
+export default commandLineArgs =&gt; {
+if (commandLineArgs.configDebug === true) {
+return debugConfig;
+}
+return defaultConfig;
+};
+</code></p>
+</details>
+<ul>
+<li>推荐使用esm规范。</li>
+<li>一般命名不<code>rollup.config.js</code></li>
+<li>当<code>output</code>是数组时，可打包出多个相应输出配置的包。</li>
+<li>当使用异步配置项时，rollup会生成一个<code>promise</code>处理它成为一个object/array。也可以使用<code>Promise.all([...])</code>处理成为异步的配置文件。</li>
+<li>rollup使用<code>-c</code>/<code>--config</code>指定配置文件。</li>
+<li>若返回一个方法。参数是命令行中的参数组成的对象，返回值是配置文件格式的对象。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>esm</th>
+<th>cjs</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>推荐</td>
+<td>支持</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>需要转换</td>
+<td>不需要转换</td>
+<td></td>
+</tr>
+<tr>
+<td>命名</td>
+<td><code>*.js</code></td>
+<td><code>*.cjs</code></td>
+<td></td>
+</tr>
+<tr>
+<td>输出</td>
+<td>输出默认对象</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>方便esm文件共享</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>node v13+ 且 <code>*.mjs</code>，则不转换。但是入口文件必须是esm规范</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Esm比cjs好用这么多。请使用esm。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h3 id="differences-to-the-javascript-api">differences to the javascript api</h3>
 <p>与js api的不同。
 配置文件不能被其他打包工具去打包。现在可以在脚本中以编辑方式调用rollup.</p>
@@ -261,12 +459,12 @@ module.exports = {
 
 </div></code></code></pre>
 <h3 id="reading-a-file-from-stdin">reading a file from stdin</h3>
+<h2 id="overview-1">overview</h2>
 <h2 id="overview-2">overview</h2>
 <h2 id="overview-3">overview</h2>
 <h2 id="overview-4">overview</h2>
 <h2 id="overview-5">overview</h2>
 <h2 id="overview-6">overview</h2>
-<h2 id="overview-7">overview</h2>
 <h1 id="js-api">js api</h1>
 <h1 id="es-module-syntax">es module syntax</h1>
 <h1 id="tutorial">tutorial</h1>
@@ -301,13 +499,13 @@ import terser from 'rollup-plugin-json'
 <h1 id="integrating-rollup-with-other-tools">integrating rollup with other tools</h1>
 <h1 id="troubleshooting">troubleshooting</h1>
 <h1 id="big-list-of-options">big list of options</h1>
+<h2 id="overview-7">overview</h2>
 <h2 id="overview-8">overview</h2>
 <h2 id="overview-9">overview</h2>
 <h2 id="overview-10">overview</h2>
 <h2 id="overview-11">overview</h2>
 <h2 id="overview-12">overview</h2>
 <h2 id="overview-13">overview</h2>
-<h2 id="overview-14">overview</h2>
 <h2 id="use-plugin">use plugin</h2>
 <h3 id="rollupplugin-commonjs">@rollup/plugin-commonjs</h3>
 <p>把commonjs规范的代码打包为esm规范的代码。</p>
@@ -365,13 +563,13 @@ export default {
 <h5 id="dynamicrequiretargets-12">dynamicRequireTargets</h5>
 <h5 id="dynamicrequiretargets-13">dynamicRequireTargets</h5>
 <h3 id="rollupplugin-node-resolve">@rollup/plugin-node-resolve</h3>
+<h2 id="overview-14">overview</h2>
 <h2 id="overview-15">overview</h2>
 <h2 id="overview-16">overview</h2>
 <h2 id="overview-17">overview</h2>
 <h2 id="overview-18">overview</h2>
 <h2 id="overview-19">overview</h2>
 <h2 id="overview-20">overview</h2>
-<h2 id="overview-21">overview</h2>
 <h3 id="api-1">api</h3>
 <pre><code><code><div>// rollup-build.js
 let rollup = require('rollup')

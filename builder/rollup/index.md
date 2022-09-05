@@ -38,21 +38,106 @@ rollup支持静态分析引入的代码，排除不使用的。判断出哪些�
 
 ## 兼容性
 - 使用插件`@rollup/plugin-commonjs`引入`cjs`规范的代码。
-- 
 
-
-
-
-
-# command link interface
-
+# command link interface（命令行的用法）
 rollup可以使用命令行功能。
 
 ## configuration files
+rollup的配置文件是可选的。若使用配置文件会更方便，所以推荐使用配置文件。  
+**配置文件的全量字段**
+```js
+// rollup.config.js
 
-rollup的配置文件是可选的。若使用配置文件会更方便，所以推荐使用配置文件。
+// can be an array (for multiple inputs)
+export default {
+  // core input options
+  external,
+  input, // conditionally required
+  plugins,
+
+  // advanced input options
+  cache,
+  onwarn,
+  preserveEntrySignatures,
+  strictDeprecations,
+
+  // danger zone
+  acorn,
+  acornInjectPlugins,
+  context,
+  moduleContext,
+  preserveSymlinks,
+  shimMissingExports,
+  treeshake,
+
+  // experimental
+  experimentalCacheExpiry,
+  perf,
+
+  // required (can be an array, for multiple outputs)
+  output: {
+    // core output options
+    dir,
+    file,
+    format, // required
+    globals,
+    name,
+    plugins,
+
+    // advanced output options
+    assetFileNames,
+    banner,
+    chunkFileNames,
+    compact,
+    entryFileNames,
+    extend,
+    footer,
+    hoistTransitiveImports,
+    inlineDynamicImports,
+    interop,
+    intro,
+    manualChunks,
+    minifyInternalExports,
+    outro,
+    paths,
+    preserveModules,
+    preserveModulesRoot,
+    sourcemap,
+    sourcemapBaseUrl,
+    sourcemapExcludeSources,
+    sourcemapFile,
+    sourcemapPathTransform,
+    validate,
+
+    // danger zone
+    amd,
+    esModule,
+    exports,
+    externalLiveBindings,
+    freeze,
+    indent,
+    namespaceToStringTag,
+    noConflict,
+    preferConst,
+    sanitizeFileName,
+    strict,
+    systemNullSetters
+  },
+
+  watch: {
+    buildDelay,
+    chokidar,
+    clearScreen,
+    skipWrite,
+    exclude,
+    include
+  }
+};
 ```
-// demo
+
+<details>
+  <summary>demo 最基本的配置</summary>
+  <code>
 // rollup.config.js
 export default {
 	input: 'src/main.js',
@@ -61,19 +146,8 @@ export default {
 		format: 'cjs'
 	}
 }
-```
-一般配置文件是`*.json`，rollup的配置文件是`*.js`。好特别。
-该配置文件一般在项目的根目录，一般命名为`rollup.config.js`
-若配置文件是commonjs规范，请使用`require / module.exports`。
-`output.format`可控制输出的文件格式。
-当`output`是数组时，可打包出多个相应输出配置的包。
-当使用异步配置项时，rollup会生成一个`promise`处理它成为一个object/array。也可以使用`Promise.all([...])`处理成为异步的配置文件。
-rollup使用`-c`/`--config`指定配置文件。
-若返回一个方法。参数是命令行中的参数组成的对象，返回值是配置文件格式的对象。
 
-### overview
-在配置文件中有几个必填项
-```
+<!-- 在配置文件中有几个必填项 -->
 export default {
 	input:      // 入口
 	output: {   // 出口
@@ -81,7 +155,84 @@ export default {
 		format: // 输出文件的格式
 	}
 }
-```
+  </code>
+</details>
+
+<details>
+  <summary>demo 多个输出</summary>
+  <code>
+// rollup.config.js (building more than one bundle)
+export default [
+  {
+    input: 'main-a.js',
+    output: {
+      file: 'dist/bundle-a.js',
+      format: 'cjs'
+    }
+  },
+  {
+    input: 'main-b.js',
+    output: [
+      {
+        file: 'dist/bundle-b1.js',
+        format: 'cjs'
+      },
+      {
+        file: 'dist/bundle-b2.js',
+        format: 'es'
+      }
+    ]
+  }
+];
+  </code>
+</details>
+
+<details>
+  <summary>demo 异步输出配置文件</summary>
+  <code>
+// rollup.config.js
+import fetch from 'node-fetch';
+export default fetch('/some-remote-service-or-file-which-returns-actual-config');
+// or 
+// export default Promise.all([fetch('get-config-1'), fetch('get-config-2')]);
+  </code>
+</details>
+
+<details>
+  <summary>demo 动态配置</summary>
+  <code>
+// shell
+rollup main.js --config --configDebug
+
+// rollup.config.js
+import defaultConfig from './rollup.default.config.js';
+import debugConfig from './rollup.debug.config.js';
+// commandLineArgs可得到命令行中的数据
+export default commandLineArgs => {
+  if (commandLineArgs.configDebug === true) {
+    return debugConfig;
+  }
+  return defaultConfig;
+};
+  </code>
+</details>
+
+- 推荐使用esm规范。
+- 一般命名不`rollup.config.js`  
+- 当`output`是数组时，可打包出多个相应输出配置的包。
+- 当使用异步配置项时，rollup会生成一个`promise`处理它成为一个object/array。也可以使用`Promise.all([...])`处理成为异步的配置文件。
+- rollup使用`-c`/`--config`指定配置文件。
+- 若返回一个方法。参数是命令行中的参数组成的对象，返回值是配置文件格式的对象。
+
+||esm|cjs||
+|-|-|-|-|
+||推荐|支持||
+||需要转换|不需要转换||
+|命名|`*.js`|`*.cjs`||
+|输出|输出默认对象|||
+||方便esm文件共享|||
+||node v13+ 且 `*.mjs`，则不转换。但是入口文件必须是esm规范|||
+|Esm比cjs好用这么多。请使用esm。||||
 
 ### differences to the javascript api
 与js api的不同。

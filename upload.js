@@ -247,13 +247,13 @@ c.on('ready', () => {
             'jsPackages/commander/index.html',
             // 'jsPackages/commander/versionLog.html',
             // 'promote/customInterface.html',
-            // 'pwa/install.html',
+            'util/index.html',
             // 'pwa/manifestJson.html',
             // 'pwa/push.html',
             // 'pwa/workBox.html',
             // 'pwa/push.html',
             // 'pwa/notification.html',
-            // 'framework/react/hooks.html',
+            'framework/react/hooks.html',
             // 'ja/npm/index.html',
         ]
         // 检测指定目录是否存在
