@@ -216,7 +216,34 @@
 })
 <span class="hljs-keyword">let</span> callbackToPromise = cbToP
 
+<span class="hljs-comment">// 把setTimeout封装为Promise</span>
+<span class="hljs-comment">// 考虑一下要不要做成像 Proxy Proxy.revocable 一样，分别控制不可取消与可取消。</span>
+<span class="hljs-keyword">let</span> setTimeoutPromise = <span class="hljs-function">(<span class="hljs-params">cb: () =&gt; {}, delay: <span class="hljs-number">0</span></span>) =&gt;</span> {
+  <span class="hljs-comment">// return new Promise((s) =&gt; {</span>
+  <span class="hljs-comment">//   setTimeout(() =&gt; {s(cb())}, delay)</span>
+  <span class="hljs-comment">// })</span>
+  <span class="hljs-keyword">let</span> timeoutId
+  <span class="hljs-keyword">let</span> timeout = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">s</span>) =&gt;</span> {
+    timeoutId = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+      s(cb())
+    }, delay)
+  })
+  <span class="hljs-attr">cancel</span>: <span class="hljs-function">() =&gt;</span> timeoutId &amp;&amp; <span class="hljs-built_in">clearTimeout</span>(timeoutId)
+  <span class="hljs-keyword">return</span> {timeout, cancel}
+}
 
+<span class="hljs-comment">// 指定时长后再执行</span>
+<span class="hljs-keyword">let</span> sleep = <span class="hljs-function">(<span class="hljs-params">delay</span>) =&gt;</span> {
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">s</span>) =&gt;</span> {
+    <span class="hljs-built_in">setTimeout</span>(s, delay)
+  })
+}
+
+<span class="hljs-comment">// 达到最大时长时，返回默认值</span>
+<span class="hljs-comment">// 也可处理为高阶函数</span>
+<span class="hljs-keyword">let</span> timeoutValue = <span class="hljs-function">(<span class="hljs-params">realPromiseFn, delay, defalutValue</span>) =&gt;</span> {
+  <span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>.any([realPromiseFn(), setTimeoutPromise(<span class="hljs-function">() =&gt;</span> defaultValue, delay)])
+}
 
 
 

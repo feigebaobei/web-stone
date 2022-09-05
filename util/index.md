@@ -136,7 +136,34 @@ let cbToP = (fn, ...params) => new Promise((s, j) => {
 })
 let callbackToPromise = cbToP
 
+// 把setTimeout封装为Promise
+// 考虑一下要不要做成像 Proxy Proxy.revocable 一样，分别控制不可取消与可取消。
+let setTimeoutPromise = (cb: () => {}, delay: 0) => {
+  // return new Promise((s) => {
+  //   setTimeout(() => {s(cb())}, delay)
+  // })
+  let timeoutId
+  let timeout = new Promise((s) => {
+    timeoutId = setTimeout(() => {
+      s(cb())
+    }, delay)
+  })
+  cancel: () => timeoutId && clearTimeout(timeoutId)
+  return {timeout, cancel}
+}
 
+// 指定时长后再执行
+let sleep = (delay) => {
+  return new Promise((s) => {
+    setTimeout(s, delay)
+  })
+}
+
+// 达到最大时长时，返回默认值
+// 也可处理为高阶函数
+let timeoutValue = (realPromiseFn, delay, defalutValue) => {
+  return Promise.any([realPromiseFn(), setTimeoutPromise(() => defaultValue, delay)])
+}
 
 
 
