@@ -248,6 +248,7 @@ c.on('ready', () => {
             // 'jsPackages/commander/versionLog.html',
             // 'promote/customInterface.html',
             'util/index.html',
+            'builder/rollup/index.html',
             // 'pwa/manifestJson.html',
             // 'pwa/push.html',
             // 'pwa/workBox.html',

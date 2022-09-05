@@ -3,6 +3,7 @@
 ## overview
 > 把若干小片js代码打包成为一个指定规范的大段js文件。  
 > 可打包为多种规范。  
+> 支持stdin输入（esbuild也支持）
 
 ## install
 
@@ -261,22 +262,26 @@ module.exports = {
 ```
 
 ### command line flag
-
 ```
 -c, --config <filename>     Use this config file (if argument is used but value
                               is unspecified, defaults to rollup.config.js)
+							指定配置文件
 -d, --dir <dirname>         Directory for chunks (if absent, prints to stdout)
 -e, --external <ids>        Comma-separate list of module IDs to exclude
 -f, --format <format>       Type of output (amd, cjs, es, iife, umd, system)
 -g, --globals <pairs>       Comma-separate list of `moduleID:Global` pairs
 -h, --help                  Show this help message
 -i, --input <filename>      Input (alternative to <entry file>)
+							指定入口文件
 -m, --sourcemap             Generate sourcemap (`-m inline` for inline map)
+							生成sourcemap的方式
 -n, --name <name>           Name for UMD export
 -o, --file <output>         Single output file (if absent, prints to stdout)
 -p, --plugin <plugin>       Use the plugin specified (may be repeated)
+							指定插件
 -v, --version               Show version number
 -w, --watch                 Watch files in bundle and rebuild on changes
+							启动观察模式
 --amd.id <id>               ID for AMD module (default is anonymous)
 --amd.autoId                Generate the AMD ID based off the chunk name
 --amd.basePath <prefix>     Path to prepend to auto generated AMD ID
@@ -284,20 +289,27 @@ module.exports = {
 --assetFileNames <pattern>  Name pattern for emitted assets
 --banner <text>             Code to insert at top of bundle (outside wrapper)
 --chunkFileNames <pattern>  Name pattern for emitted secondary chunks
+							代码块的名字的第二部分模式
 --compact                   Minify wrapper code
 --context <variable>        Specify top-level `this` value
+							代码中的上下文环境变量
 --entryFileNames <pattern>  Name pattern for emitted entry chunks
+							xxx不会
 --environment <values>      Settings passed to config file (see example)
+							为process.env对象设置值
 --no-esModule               Do not add __esModule property
 --exports <mode>            Specify export mode (auto, default, named, none)
 --extend                    Extend global variable defined by --name
 --no-externalLiveBindings   Do not generate code to support live bindings
 --failAfterWarnings         Exit with an error if the build produced warnings
+							在构建时若出错警告是否当作错误处理
 --footer <text>             Code to insert at end of bundle (outside wrapper)
 --no-freeze                 Do not freeze namespace objects
 --no-hoistTransitiveImports Do not hoist transitive imports into entry chunks
 --no-indent                 Don't indent result
+							不缩进
 --no-interop                Do not include interop block
+							不会
 --inlineDynamicImports      Create single bundle when using dynamic imports
 --intro <text>              Code to insert at top of bundle (inside wrapper)
 --minifyInternalExports     Force or disable minification of internal exports
@@ -307,10 +319,12 @@ module.exports = {
 --preferConst               Use `const` instead of `var` for exports
 --no-preserveEntrySignatures Avoid facade chunks for entry points
 --preserveModules           Preserve module structure
+							维持模块结构
 --preserveModulesRoot       Put preserved modules under this path at root level
 --preserveSymlinks          Do not follow symlinks when resolving files
 --shimMissingExports        Create shim variables for missing exports
 --silent                    Don't print warnings
+							不输出警告
 --sourcemapExcludeSources   Do not include source code in source maps
 --sourcemapFile <file>      Specify bundle position for source maps
 --stdin=ext                 Specify file extension used for stdin input
@@ -319,37 +333,67 @@ module.exports = {
 --strictDeprecations        Throw errors for deprecated features
 --systemNullSetters         Replace empty SystemJS setters with `null`
 --no-treeshake              Disable tree-shaking optimisations
+							不使用treeshake
 --no-treeshake.annotations  Ignore pure call annotations
 --no-treeshake.moduleSideEffects Assume modules have no side-effects
 --no-treeshake.propertyReadSideEffects Ignore property access side-effects
 --no-treeshake.tryCatchDeoptimization Do not turn off try-catch-tree-shaking
 --no-treeshake.unknownGlobalSideEffects Assume unknown globals do not throw
 --waitForBundleInput        Wait for bundle input files
+							等待所有入口都可以得到时打包
 --watch.buildDelay <number> Throttle watch rebuilds
 --no-watch.clearScreen      Do not clear the screen when rebuilding
+							观察模式时不清屏
 --watch.skipWrite           Do not write files to disk when watching
 --watch.exclude <files>     Exclude files from being watched
 --watch.include <files>     Limit watching to specified files
 --validate                  Validate output
-
 ```
 
-### reading a file from stdin
+<details>
+  <summary>demo -p, --plugin</summary>
+  <code>
+// shell
+rollup -i input.js -f es -p ./my-plugin.js
+rollup -i input.js -f es -p @rollup/plugin-node-resolve
+rollup -i input.js -f es -p node-resolve
+rollup -i input.js -f es -p '{transform: (c, i) => `\n${c}`}'
+rollup -i input.js -f es -p commonjs,json
+rollup -i input.js -f es -p 'terser={output: {beautify: true, indent_level: 2}}'
+  </code>
+</details>
 
+<details>
+  <summary>demo --configPlugin</summary>
+  <code>
+// shell
+rollup --config rollup.config.js --configPlugin @rollup/plugin-typescript
 
-
-
-
-
-## overview
-## overview
-## overview
-## overview
-## overview
-## overview
-
+// tsconfig.json
+{
+	...
+	"include": ["src/**/*", "rollup.config.js"]
+}
+  </code>
+</details>
 
 # js api
+
+## usage
+
+
+
+
+
+
+
+## overview
+## overview
+## overview
+## overview
+
+
+
 # es module syntax
 # tutorial
 1. cli

@@ -87,7 +87,8 @@
 可链式调用
 即使做了一件很小的事，做好了也能改变世界。它定义了好多规范。
 <code>&lt;&gt;</code>必填
-<code>[]</code>选填</p>
+<code>[]</code>选填
+<code>no-</code>开头的选项的默认值为否值</p>
 </blockquote>
 <h1 id="feature">feature</h1>
 <ul>
@@ -227,7 +228,7 @@ program.parse()
 </div></code></pre>
 <h1 id="帮助文档">帮助文档</h1>
 <ul>
-<li>自动生成帮助文档 <code>COMM --help</code></li>
+<li>自动生成帮助文档 <code>COMMAND --help</code></li>
 <li>支持自定义help说明 <code>.option('-f, --foo', 'description')</code></li>
 <li>帮忙文档在哪儿显示
 <ul>
@@ -260,7 +261,8 @@ program.showHelpAfterError(<span class="hljs-string">&#x27;(add --help for addit
 <pre><code class="language-js"><div><span class="hljs-meta">#!/usr/bin/env node</span>
 
 <span class="hljs-keyword">const</span> program = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;commander&#x27;</span>)
-program.command(<span class="hljs-string">&#x27;commanderName &lt;option&gt; [destination]&#x27;</span>)
+program.command(<span class="hljs-string">&#x27;commanderName &lt;option&gt;&#x27;</span>) <span class="hljs-comment">// 不要在这里设置description</span>
+  .description(<span class="hljs-string">&#x27;str&#x27;</span>)
   .option(<span class="hljs-string">&#x27;-p, --options &lt;opt&gt;&#x27;</span>, <span class="hljs-string">&#x27;description&#x27;</span>, <span class="hljs-string">&#x27;defaultValue&#x27;</span>)
   .action(<span class="hljs-function">(<span class="hljs-params">commanderName, destination</span>) =&gt;</span> {
     ...

@@ -63,7 +63,8 @@
 }
 
 </style>
-        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -83,7 +84,8 @@
 <h2 id="overview">overview</h2>
 <blockquote>
 <p>把若干小片js代码打包成为一个指定规范的大段js文件。<br>
-可打包为多种规范。</p>
+可打包为多种规范。<br>
+支持stdin输入（esbuild也支持）</p>
 </blockquote>
 <h2 id="install">install</h2>
 <p><code>npm i -g rollup</code></p>
@@ -390,18 +392,23 @@ module.exports = {
 <h3 id="command-line-flag">command line flag</h3>
 <pre><code><code><div>-c, --config &lt;filename&gt;     Use this config file (if argument is used but value
                               is unspecified, defaults to rollup.config.js)
+							指定配置文件
 -d, --dir &lt;dirname&gt;         Directory for chunks (if absent, prints to stdout)
 -e, --external &lt;ids&gt;        Comma-separate list of module IDs to exclude
 -f, --format &lt;format&gt;       Type of output (amd, cjs, es, iife, umd, system)
 -g, --globals &lt;pairs&gt;       Comma-separate list of `moduleID:Global` pairs
 -h, --help                  Show this help message
 -i, --input &lt;filename&gt;      Input (alternative to &lt;entry file&gt;)
+							指定入口文件
 -m, --sourcemap             Generate sourcemap (`-m inline` for inline map)
+							生成sourcemap的方式
 -n, --name &lt;name&gt;           Name for UMD export
 -o, --file &lt;output&gt;         Single output file (if absent, prints to stdout)
 -p, --plugin &lt;plugin&gt;       Use the plugin specified (may be repeated)
+							指定插件
 -v, --version               Show version number
 -w, --watch                 Watch files in bundle and rebuild on changes
+							启动观察模式
 --amd.id &lt;id&gt;               ID for AMD module (default is anonymous)
 --amd.autoId                Generate the AMD ID based off the chunk name
 --amd.basePath &lt;prefix&gt;     Path to prepend to auto generated AMD ID
@@ -409,20 +416,27 @@ module.exports = {
 --assetFileNames &lt;pattern&gt;  Name pattern for emitted assets
 --banner &lt;text&gt;             Code to insert at top of bundle (outside wrapper)
 --chunkFileNames &lt;pattern&gt;  Name pattern for emitted secondary chunks
+							代码块的名字的第二部分模式
 --compact                   Minify wrapper code
 --context &lt;variable&gt;        Specify top-level `this` value
+							代码中的上下文环境变量
 --entryFileNames &lt;pattern&gt;  Name pattern for emitted entry chunks
+							xxx不会
 --environment &lt;values&gt;      Settings passed to config file (see example)
+							为process.env对象设置值
 --no-esModule               Do not add __esModule property
 --exports &lt;mode&gt;            Specify export mode (auto, default, named, none)
 --extend                    Extend global variable defined by --name
 --no-externalLiveBindings   Do not generate code to support live bindings
 --failAfterWarnings         Exit with an error if the build produced warnings
+							在构建时若出错警告是否当作错误处理
 --footer &lt;text&gt;             Code to insert at end of bundle (outside wrapper)
 --no-freeze                 Do not freeze namespace objects
 --no-hoistTransitiveImports Do not hoist transitive imports into entry chunks
 --no-indent                 Don't indent result
+							不缩进
 --no-interop                Do not include interop block
+							不会
 --inlineDynamicImports      Create single bundle when using dynamic imports
 --intro &lt;text&gt;              Code to insert at top of bundle (inside wrapper)
 --minifyInternalExports     Force or disable minification of internal exports
@@ -432,10 +446,12 @@ module.exports = {
 --preferConst               Use `const` instead of `var` for exports
 --no-preserveEntrySignatures Avoid facade chunks for entry points
 --preserveModules           Preserve module structure
+							维持模块结构
 --preserveModulesRoot       Put preserved modules under this path at root level
 --preserveSymlinks          Do not follow symlinks when resolving files
 --shimMissingExports        Create shim variables for missing exports
 --silent                    Don't print warnings
+							不输出警告
 --sourcemapExcludeSources   Do not include source code in source maps
 --sourcemapFile &lt;file&gt;      Specify bundle position for source maps
 --stdin=ext                 Specify file extension used for stdin input
@@ -444,28 +460,52 @@ module.exports = {
 --strictDeprecations        Throw errors for deprecated features
 --systemNullSetters         Replace empty SystemJS setters with `null`
 --no-treeshake              Disable tree-shaking optimisations
+							不使用treeshake
 --no-treeshake.annotations  Ignore pure call annotations
 --no-treeshake.moduleSideEffects Assume modules have no side-effects
 --no-treeshake.propertyReadSideEffects Ignore property access side-effects
 --no-treeshake.tryCatchDeoptimization Do not turn off try-catch-tree-shaking
 --no-treeshake.unknownGlobalSideEffects Assume unknown globals do not throw
 --waitForBundleInput        Wait for bundle input files
+							等待所有入口都可以得到时打包
 --watch.buildDelay &lt;number&gt; Throttle watch rebuilds
 --no-watch.clearScreen      Do not clear the screen when rebuilding
+							观察模式时不清屏
 --watch.skipWrite           Do not write files to disk when watching
 --watch.exclude &lt;files&gt;     Exclude files from being watched
 --watch.include &lt;files&gt;     Limit watching to specified files
 --validate                  Validate output
-
 </div></code></code></pre>
-<h3 id="reading-a-file-from-stdin">reading a file from stdin</h3>
+<details>
+  <summary>demo -p, --plugin</summary>
+  <code>
+// shell
+rollup -i input.js -f es -p ./my-plugin.js
+rollup -i input.js -f es -p @rollup/plugin-node-resolve
+rollup -i input.js -f es -p node-resolve
+rollup -i input.js -f es -p '{transform: (c, i) => `\n${c}`}'
+rollup -i input.js -f es -p commonjs,json
+rollup -i input.js -f es -p 'terser={output: {beautify: true, indent_level: 2}}'
+  </code>
+</details>
+<details>
+  <summary>demo --configPlugin</summary>
+  <code>
+// shell
+rollup --config rollup.config.js --configPlugin @rollup/plugin-typescript
+<p>// tsconfig.json
+{
+...
+&quot;include&quot;: [&quot;src/**/*&quot;, &quot;rollup.config.js&quot;]
+}
+</code></p>
+</details>
+<h1 id="js-api">js api</h1>
+<h2 id="usage">usage</h2>
 <h2 id="overview-1">overview</h2>
 <h2 id="overview-2">overview</h2>
 <h2 id="overview-3">overview</h2>
 <h2 id="overview-4">overview</h2>
-<h2 id="overview-5">overview</h2>
-<h2 id="overview-6">overview</h2>
-<h1 id="js-api">js api</h1>
 <h1 id="es-module-syntax">es module syntax</h1>
 <h1 id="tutorial">tutorial</h1>
 <ol>
@@ -499,13 +539,13 @@ import terser from 'rollup-plugin-json'
 <h1 id="integrating-rollup-with-other-tools">integrating rollup with other tools</h1>
 <h1 id="troubleshooting">troubleshooting</h1>
 <h1 id="big-list-of-options">big list of options</h1>
+<h2 id="overview-5">overview</h2>
+<h2 id="overview-6">overview</h2>
 <h2 id="overview-7">overview</h2>
 <h2 id="overview-8">overview</h2>
 <h2 id="overview-9">overview</h2>
 <h2 id="overview-10">overview</h2>
 <h2 id="overview-11">overview</h2>
-<h2 id="overview-12">overview</h2>
-<h2 id="overview-13">overview</h2>
 <h2 id="use-plugin">use plugin</h2>
 <h3 id="rollupplugin-commonjs">@rollup/plugin-commonjs</h3>
 <p>把commonjs规范的代码打包为esm规范的代码。</p>
@@ -563,13 +603,13 @@ export default {
 <h5 id="dynamicrequiretargets-12">dynamicRequireTargets</h5>
 <h5 id="dynamicrequiretargets-13">dynamicRequireTargets</h5>
 <h3 id="rollupplugin-node-resolve">@rollup/plugin-node-resolve</h3>
+<h2 id="overview-12">overview</h2>
+<h2 id="overview-13">overview</h2>
 <h2 id="overview-14">overview</h2>
 <h2 id="overview-15">overview</h2>
 <h2 id="overview-16">overview</h2>
 <h2 id="overview-17">overview</h2>
 <h2 id="overview-18">overview</h2>
-<h2 id="overview-19">overview</h2>
-<h2 id="overview-20">overview</h2>
 <h3 id="api-1">api</h3>
 <pre><code><code><div>// rollup-build.js
 let rollup = require('rollup')
@@ -593,7 +633,7 @@ module.exports = {
 node rollup-build.js
 </div></code></code></pre>
 
-        
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
     </body>
     </html>
