@@ -378,16 +378,134 @@ rollup --config rollup.config.js --configPlugin @rollup/plugin-typescript
 </details>
 
 # js api
+为node.js使用rollup  
+
 
 ## usage
+```js
+import {rollup} from 'rollup'
+rollup(inputOptions).then(bundle => {
+	bundle.generate(outputOptions) // 在内存中生成打包结果
+	bundle.write() // 把打包结果写入硬盘
+})
+```
+
+## type 类型
+
+```ts
+rollup.rollup: (inputOptions) => Promise<bundle>
+type inputOption = {
+  // core input options
+  external,
+  input, // conditionally required
+  plugins,
+
+  // advanced input options
+  cache,
+  onwarn,
+  preserveEntrySignatures,
+  strictDeprecations,
+
+  // danger zone
+  acorn,
+  acornInjectPlugins,
+  context,
+  moduleContext,
+  preserveSymlinks,
+  shimMissingExports,
+  treeshake,
+
+  // experimental
+  experimentalCacheExpiry,
+  perf
+};
+
+type outputOptions = {
+  // core output options
+  dir,
+  file,
+  format, // required
+  globals,
+  name,
+  plugins,
+
+  // advanced output options
+  assetFileNames,
+  banner,
+  chunkFileNames,
+  compact,
+  entryFileNames,
+  extend,
+  externalLiveBindings,
+  footer,
+  hoistTransitiveImports,
+  inlineDynamicImports,
+  interop,
+  intro,
+  manualChunks,
+  minifyInternalExports,
+  outro,
+  paths,
+  preserveModules,
+  preserveModulesRoot,
+  sourcemap,
+  sourcemapExcludeSources,
+  sourcemapFile,
+  sourcemapPathTransform,
+  validate,
+
+  // danger zone
+  amd,
+  esModule,
+  exports,
+  freeze,
+  indent,
+  namespaceToStringTag,
+  noConflict,
+  preferConst,
+  sanitizeFileName,
+  strict,
+  systemNullSetters
+};
+const watchOptions = {
+  ...inputOptions,
+  output: [outputOptions],
+  watch: {
+    buildDelay,
+    chokidar,
+    clearScreen,
+    skipWrite,
+    exclude,
+    include
+  }
+};
+```
+
+## watch
+```js
+let rollup = require('rollup')
+let watchOptions = {...}
+let watcher = rollup.watch(watchOptions)
+watcher.on('event', event => {
+	// event.code
+	// 	START			全部开始
+	// 	BUNDLE_START	开始打包每个个体文件
+	// 	BUNDLE_END		打包完每一个人体文件
+	// 	END				全部结束
+	// 	ERROR			打包时出现的错误
+})
+watcher.on('event', ({result}) => {
+	if (result) {
+		result.close()
+	}
+})
+watcher.close() // 停止监听
+```
 
 
 
 
 
-
-
-## overview
 ## overview
 ## overview
 ## overview

@@ -501,11 +501,124 @@ rollup --config rollup.config.js --configPlugin @rollup/plugin-typescript
 </code></p>
 </details>
 <h1 id="js-api">js api</h1>
+<p>为node.js使用rollup</p>
 <h2 id="usage">usage</h2>
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span> {rollup} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;rollup&#x27;</span>
+rollup(inputOptions).then(<span class="hljs-function"><span class="hljs-params">bundle</span> =&gt;</span> {
+	bundle.generate(outputOptions) <span class="hljs-comment">// 在内存中生成打包结果</span>
+	bundle.write() <span class="hljs-comment">// 把打包结果写入硬盘</span>
+})
+</div></code></pre>
+<h2 id="type-类型">type 类型</h2>
+<pre><code class="language-ts"><div>rollup.rollup: <span class="hljs-function">(<span class="hljs-params">inputOptions</span>) =&gt;</span> <span class="hljs-built_in">Promise</span>&lt;bundle&gt;
+<span class="hljs-keyword">type</span> inputOption = {
+  <span class="hljs-comment">// core input options</span>
+  external,
+  input, <span class="hljs-comment">// conditionally required</span>
+  plugins,
+
+  <span class="hljs-comment">// advanced input options</span>
+  cache,
+  onwarn,
+  preserveEntrySignatures,
+  strictDeprecations,
+
+  <span class="hljs-comment">// danger zone</span>
+  acorn,
+  acornInjectPlugins,
+  context,
+  moduleContext,
+  preserveSymlinks,
+  shimMissingExports,
+  treeshake,
+
+  <span class="hljs-comment">// experimental</span>
+  experimentalCacheExpiry,
+  perf
+};
+
+<span class="hljs-keyword">type</span> outputOptions = {
+  <span class="hljs-comment">// core output options</span>
+  dir,
+  file,
+  format, <span class="hljs-comment">// required</span>
+  globals,
+  name,
+  plugins,
+
+  <span class="hljs-comment">// advanced output options</span>
+  assetFileNames,
+  banner,
+  chunkFileNames,
+  compact,
+  entryFileNames,
+  extend,
+  externalLiveBindings,
+  footer,
+  hoistTransitiveImports,
+  inlineDynamicImports,
+  interop,
+  intro,
+  manualChunks,
+  minifyInternalExports,
+  outro,
+  paths,
+  preserveModules,
+  preserveModulesRoot,
+  sourcemap,
+  sourcemapExcludeSources,
+  sourcemapFile,
+  sourcemapPathTransform,
+  validate,
+
+  <span class="hljs-comment">// danger zone</span>
+  amd,
+  esModule,
+  <span class="hljs-built_in">exports</span>,
+  freeze,
+  indent,
+  namespaceToStringTag,
+  noConflict,
+  preferConst,
+  sanitizeFileName,
+  strict,
+  systemNullSetters
+};
+<span class="hljs-keyword">const</span> watchOptions = {
+  ...inputOptions,
+  <span class="hljs-attr">output</span>: [outputOptions],
+  <span class="hljs-attr">watch</span>: {
+    buildDelay,
+    chokidar,
+    clearScreen,
+    skipWrite,
+    exclude,
+    include
+  }
+};
+</div></code></pre>
+<h2 id="watch">watch</h2>
+<pre><code class="language-js"><div><span class="hljs-keyword">let</span> rollup = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;rollup&#x27;</span>)
+<span class="hljs-keyword">let</span> watchOptions = {...}
+<span class="hljs-keyword">let</span> watcher = rollup.watch(watchOptions)
+watcher.on(<span class="hljs-string">&#x27;event&#x27;</span>, <span class="hljs-function"><span class="hljs-params">event</span> =&gt;</span> {
+	<span class="hljs-comment">// event.code</span>
+	<span class="hljs-comment">// 	START			全部开始</span>
+	<span class="hljs-comment">// 	BUNDLE_START	开始打包每个个体文件</span>
+	<span class="hljs-comment">// 	BUNDLE_END		打包完每一个人体文件</span>
+	<span class="hljs-comment">// 	END				全部结束</span>
+	<span class="hljs-comment">// 	ERROR			打包时出现的错误</span>
+})
+watcher.on(<span class="hljs-string">&#x27;event&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">{result}</span>) =&gt;</span> {
+	<span class="hljs-keyword">if</span> (result) {
+		result.close()
+	}
+})
+watcher.close() <span class="hljs-comment">// 停止监听</span>
+</div></code></pre>
 <h2 id="overview-1">overview</h2>
 <h2 id="overview-2">overview</h2>
 <h2 id="overview-3">overview</h2>
-<h2 id="overview-4">overview</h2>
 <h1 id="es-module-syntax">es module syntax</h1>
 <h1 id="tutorial">tutorial</h1>
 <ol>
@@ -539,13 +652,13 @@ import terser from 'rollup-plugin-json'
 <h1 id="integrating-rollup-with-other-tools">integrating rollup with other tools</h1>
 <h1 id="troubleshooting">troubleshooting</h1>
 <h1 id="big-list-of-options">big list of options</h1>
+<h2 id="overview-4">overview</h2>
 <h2 id="overview-5">overview</h2>
 <h2 id="overview-6">overview</h2>
 <h2 id="overview-7">overview</h2>
 <h2 id="overview-8">overview</h2>
 <h2 id="overview-9">overview</h2>
 <h2 id="overview-10">overview</h2>
-<h2 id="overview-11">overview</h2>
 <h2 id="use-plugin">use plugin</h2>
 <h3 id="rollupplugin-commonjs">@rollup/plugin-commonjs</h3>
 <p>把commonjs规范的代码打包为esm规范的代码。</p>
@@ -603,13 +716,13 @@ export default {
 <h5 id="dynamicrequiretargets-12">dynamicRequireTargets</h5>
 <h5 id="dynamicrequiretargets-13">dynamicRequireTargets</h5>
 <h3 id="rollupplugin-node-resolve">@rollup/plugin-node-resolve</h3>
+<h2 id="overview-11">overview</h2>
 <h2 id="overview-12">overview</h2>
 <h2 id="overview-13">overview</h2>
 <h2 id="overview-14">overview</h2>
 <h2 id="overview-15">overview</h2>
 <h2 id="overview-16">overview</h2>
 <h2 id="overview-17">overview</h2>
-<h2 id="overview-18">overview</h2>
 <h3 id="api-1">api</h3>
 <pre><code><code><div>// rollup-build.js
 let rollup = require('rollup')
