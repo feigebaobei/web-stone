@@ -500,12 +500,10 @@ let {geo, isLoading, error} = useGeo()
 ```
 
 节流
-好像不通
 ```js
 function useThrottle<T>(value: T, interval = 500): T {
   const [throttledValue, setThrottledValue] = useState<T>(value)
   const lastExecuted = useRef<number>(Date.now())
-
   useEffect(() => {
     if (Date.now() >= lastExecuted.current + interval) {
       lastExecuted.current = Date.now()
@@ -515,14 +513,48 @@ function useThrottle<T>(value: T, interval = 500): T {
         lastExecuted.current = Date.now()
         setThrottledValue(value)
       }, interval)
-
       return () => clearTimeout(timerId)
     }
   }, [value, interval])
-
   return throttledValue
 }
+// let cb = useCallback(() => {
+//     fn(args)
+// }, args)
+let prevRef = useRef(new Date().getTime())
+function useThrottleFn(fn, args, delay, opts) {
+    useEffect(() => {
+        let now = new Date().getTime()
+        if (now - prevRef.current > delay) {
+            fn(args)
+            prevRef.current = now
+        }
+    }, opts)
+}
+```
 
+去抖
+指定时长后执行
+待测试
+```js
+let prevRef = useRef(new Date().getTime())
+let timeoutId = useRef()
+function useDebounceFn(fn, args, delay, opts) {
+    useEffect(() => {
+        let now = new Date().getTime()
+        // 先清空
+        timeoutId.current && clearTimeout(timeoutId.current)
+        // 再定义
+        timeoutId.current = setTimeout(() => {
+            fn(args)
+            prevRef.current = now
+        }, delay)
+        return () => {
+            // 卸载时清空
+            clearTimeout(timeoutId.current)
+        }
+    }, opts)
+}
 ```
 
 

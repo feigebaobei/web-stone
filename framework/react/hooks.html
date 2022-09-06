@@ -575,6 +575,60 @@ isShow &amp;&amp; &lt;Modal&gt;
 <span class="hljs-keyword">let</span> {geo, isLoading, error} = useGeo()
 (!isLoading &amp;&amp; !error) ? <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span> : <span class="hljs-literal">null</span>
 </div></code></pre>
+<p>节流</p>
+<pre><code class="language-js"><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">useThrottle</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">value: T, interval = <span class="hljs-number">500</span></span>): <span class="hljs-title">T</span> </span>{
+  <span class="hljs-keyword">const</span> [throttledValue, setThrottledValue] = useState&lt;T&gt;(value)
+  <span class="hljs-keyword">const</span> lastExecuted = useRef&lt;number&gt;(<span class="hljs-built_in">Date</span>.now())
+  useEffect(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Date</span>.now() &gt;= lastExecuted.current + interval) {
+      lastExecuted.current = <span class="hljs-built_in">Date</span>.now()
+      setThrottledValue(value)
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">const</span> timerId = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+        lastExecuted.current = <span class="hljs-built_in">Date</span>.now()
+        setThrottledValue(value)
+      }, interval)
+      <span class="hljs-keyword">return</span> <span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">clearTimeout</span>(timerId)
+    }
+  }, [value, interval])
+  <span class="hljs-keyword">return</span> throttledValue
+}
+<span class="hljs-comment">// let cb = useCallback(() =&gt; {</span>
+<span class="hljs-comment">//     fn(args)</span>
+<span class="hljs-comment">// }, args)</span>
+<span class="hljs-keyword">let</span> prevRef = useRef(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().getTime())
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">useThrottleFn</span>(<span class="hljs-params">fn, args, delay, opts</span>) </span>{
+    useEffect(<span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-keyword">let</span> now = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().getTime()
+        <span class="hljs-keyword">if</span> (now - prevRef.current &gt; delay) {
+            fn(args)
+            prevRef.current = now
+        }
+    }, opts)
+}
+</div></code></pre>
+<p>去抖
+指定时长后执行
+待测试</p>
+<pre><code class="language-js"><div><span class="hljs-keyword">let</span> prevRef = useRef(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().getTime())
+<span class="hljs-keyword">let</span> timeoutId = useRef()
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">useDebounceFn</span>(<span class="hljs-params">fn, args, delay, opts</span>) </span>{
+    useEffect(<span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-keyword">let</span> now = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().getTime()
+        <span class="hljs-comment">// 先清空</span>
+        timeoutId.current &amp;&amp; <span class="hljs-built_in">clearTimeout</span>(timeoutId.current)
+        <span class="hljs-comment">// 再定义</span>
+        timeoutId.current = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+            fn(args)
+            prevRef.current = now
+        }, delay)
+        <span class="hljs-keyword">return</span> <span class="hljs-function">() =&gt;</span> {
+            <span class="hljs-comment">// 卸载时清空</span>
+            <span class="hljs-built_in">clearTimeout</span>(timeoutId.current)
+        }
+    }, opts)
+}
+</div></code></pre>
 <h2 id="自定义hooks的包">自定义hooks的包</h2>
 <ul>
 <li><a href="">title</a></li>
