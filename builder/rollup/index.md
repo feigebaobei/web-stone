@@ -4,6 +4,8 @@
 > 把若干小片js代码打包成为一个指定规范的大段js文件。  
 > 可打包为多种规范。  
 > 支持stdin输入（esbuild也支持）
+> 选项级 cli > rollup.config.js
+> 推荐使用esm规范的rollup.config.js  
 
 ## install
 
@@ -219,7 +221,7 @@ export default commandLineArgs => {
 </details>
 
 - 推荐使用esm规范。
-- 一般命名不`rollup.config.js`  
+- 一般命名为`rollup.config.js`  
 - 当`output`是数组时，可打包出多个相应输出配置的包。
 - 当使用异步配置项时，rollup会生成一个`promise`处理它成为一个object/array。也可以使用`Promise.all([...])`处理成为异步的配置文件。
 - rollup使用`-c`/`--config`指定配置文件。
@@ -277,6 +279,7 @@ module.exports = {
 							生成sourcemap的方式
 -n, --name <name>           Name for UMD export
 -o, --file <output>         Single output file (if absent, prints to stdout)
+							基于 --dir
 -p, --plugin <plugin>       Use the plugin specified (may be repeated)
 							指定插件
 -v, --version               Show version number
@@ -502,49 +505,103 @@ watcher.on('event', ({result}) => {
 watcher.close() // 停止监听
 ```
 
-
-
-
-
-## overview
-## overview
-## overview
-
-
-
 # es module syntax
+就正常使用就行。
+
 # tutorial
-1. cli
-2. config
-3. use plugins
-	```
-	npm i -D @rollup/plugin-json
-	// rollup.config.js
-	import json from '@rollup/plugin-json'
-	{
-		...
-		plugins: [json()]
-	}
-	```
-3. use output plugins
-	```
-	npm i -D rollup-plugin-json
-	// rollup.config.js
-	import terser from 'rollup-plugin-json'
-	{
-		...
-		output: {
-			...
-			plugins: [terser()]
-		}
-	}
-	```
-4. 代码分离
+示例请看 setup  
+
+## using plugins
+
+```shell
+npm i -D @rollup/plugin-json
+```
+```js
+import {version} from '../package.json'
+export default function () {
+	console.log('version', version)
+}
+```
+```js
+// rollup.config.js
+import json from '@rollup/plugin-json'
+export default {
+	input: 'src/main.js',
+	output: {
+		file: 'bundle.js',
+		format: 'cjs'
+	},
+	plugins: [json()]
+}
+```
+```shell
+npm run build
+# "build": "rollup -c"
+```
+
+### 常用插件列表
+- [awesome](https://github.com/rollup/awesome) 功能功能功能功能
+- [@rollup/plugin-node-resolve]() 找到外部依赖
+- [@rollup/plugin-commonjs]() 把cjs转换为esm
+- [@rollup/plugin-babel]() 转换js代码的版本
+- [@rollup/plugin-node-resolve]() 功能功能功能功能
+- [@rollup/plugin-node-resolve]() 功能功能功能功能
+- [@rollup/plugin-node-resolve]() 功能功能功能功能
+- [@rollup/plugin-node-resolve]() 功能功能功能功能
+- [@rollup/plugin-node-resolve]() 功能功能功能功能
+- [@rollup/plugin-node-resolve]() 功能功能功能功能
+- [@rollup/plugin-node-resolve]() 功能功能功能功能
+
+## 代码分割
+- 自动代码分割
+- `output.manualChunks`
+- `output.chunkFileNames`
+- `output.entryFileNames`
+- 动态加载时分使用代码分割
+
+```js
+export default function () {
+	import('./file.js').then(({default: file}) => {
+		console.log(file)
+	})
+}
+```
+
+# 插件
+## title
+
+
+## title
+## title
+## title
+## title
+## title
+## title
+## title
+## title
+
+
+
 
 # plugin development
 # frequently asked questions
 # integrating rollup with other tools
-# troubleshooting
+## 同等依赖
+external 不打包
+## babel
+## gulp
+## deno
+
+# troubleshooting 
+- 不要使用eval
+- 有tree-shaking不管用
+- [name] is not exproted by [module]
+- this is undefined. rollup会设置this为undefined
+- sourcemap is likely to be incorrect. 是否使用多个插件处理sourcemap
+- "Treating [module] as external dependency"
+- EMFILE: too many open files"  设置watch.chokidar.useFsEvents: false
+- JavaScript heap out of memory. rollup的代码分析、tree-shaking都在内存中。 `node --max-old-space-size=8192 node_modules/rollup/bin/rollup -c`
+
 # big list of options
 ## overview
 ## overview

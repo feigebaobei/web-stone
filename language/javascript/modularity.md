@@ -120,3 +120,18 @@ ts的`enum`类型就是使用iife.
 ### 解决commonjs的循环引用问题
 1. 利用变量提升+commonjs的执行顺序。在模块的最后使用`var`定义引入的模块。
 2. 利用js的异步机制。在setTimeout中使用引入模块。
+
+## demo for import & export
+```js
+import { key } from './file.js'
+import def from './file.js'
+import { key as alias } from './file.js'
+import * as module from './file.js'
+import './file.js' // 不知道什么意思
+import('./file.js').then(({default: def, key}) => {...})
+
+export {key}
+export {key as alias}
+export let key = 'str'
+export default key
+```

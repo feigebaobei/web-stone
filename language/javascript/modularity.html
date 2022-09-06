@@ -308,6 +308,19 @@ import v from '...'
 <li>利用变量提升+commonjs的执行顺序。在模块的最后使用<code>var</code>定义引入的模块。</li>
 <li>利用js的异步机制。在setTimeout中使用引入模块。</li>
 </ol>
+<h2 id="demo-for-import--export">demo for import &amp; export</h2>
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span> { key } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./file.js&#x27;</span>
+<span class="hljs-keyword">import</span> def <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./file.js&#x27;</span>
+<span class="hljs-keyword">import</span> { key <span class="hljs-keyword">as</span> alias } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./file.js&#x27;</span>
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> <span class="hljs-built_in">module</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./file.js&#x27;</span>
+<span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;./file.js&#x27;</span> <span class="hljs-comment">// 不知道什么意思</span>
+<span class="hljs-keyword">import</span>(<span class="hljs-string">&#x27;./file.js&#x27;</span>).then(<span class="hljs-function">(<span class="hljs-params">{<span class="hljs-keyword">default</span>: def, key}</span>) =&gt;</span> {...})
+
+<span class="hljs-keyword">export</span> {key}
+<span class="hljs-keyword">export</span> {key <span class="hljs-keyword">as</span> alias}
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">let</span> key = <span class="hljs-string">&#x27;str&#x27;</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> key
+</div></code></pre>
 
         <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         

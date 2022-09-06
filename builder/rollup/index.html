@@ -85,7 +85,9 @@
 <blockquote>
 <p>把若干小片js代码打包成为一个指定规范的大段js文件。<br>
 可打包为多种规范。<br>
-支持stdin输入（esbuild也支持）</p>
+支持stdin输入（esbuild也支持）
+选项级 cli &gt; rollup.config.js
+推荐使用esm规范的rollup.config.js</p>
 </blockquote>
 <h2 id="install">install</h2>
 <p><code>npm i -g rollup</code></p>
@@ -287,7 +289,7 @@ return defaultConfig;
 </details>
 <ul>
 <li>推荐使用esm规范。</li>
-<li>一般命名不<code>rollup.config.js</code></li>
+<li>一般命名为<code>rollup.config.js</code></li>
 <li>当<code>output</code>是数组时，可打包出多个相应输出配置的包。</li>
 <li>当使用异步配置项时，rollup会生成一个<code>promise</code>处理它成为一个object/array。也可以使用<code>Promise.all([...])</code>处理成为异步的配置文件。</li>
 <li>rollup使用<code>-c</code>/<code>--config</code>指定配置文件。</li>
@@ -404,6 +406,7 @@ module.exports = {
 							生成sourcemap的方式
 -n, --name &lt;name&gt;           Name for UMD export
 -o, --file &lt;output&gt;         Single output file (if absent, prints to stdout)
+							基于 --dir
 -p, --plugin &lt;plugin&gt;       Use the plugin specified (may be repeated)
 							指定插件
 -v, --version               Show version number
@@ -616,49 +619,97 @@ watcher.on(<span class="hljs-string">&#x27;event&#x27;</span>, <span class="hljs
 })
 watcher.close() <span class="hljs-comment">// 停止监听</span>
 </div></code></pre>
-<h2 id="overview-1">overview</h2>
-<h2 id="overview-2">overview</h2>
-<h2 id="overview-3">overview</h2>
 <h1 id="es-module-syntax">es module syntax</h1>
+<p>就正常使用就行。</p>
 <h1 id="tutorial">tutorial</h1>
-<ol>
-<li>cli</li>
-<li>config</li>
-<li>use plugins<pre><code><code><div>npm i -D @rollup/plugin-json
-// rollup.config.js
-import json from '@rollup/plugin-json'
-{
-	...
-	plugins: [json()]
+<p>示例请看 setup</p>
+<h2 id="using-plugins">using plugins</h2>
+<pre><code class="language-shell"><div>npm i -D @rollup/plugin-json
+</div></code></pre>
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span> {version} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../package.json&#x27;</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+	<span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;version&#x27;</span>, version)
 }
-</div></code></code></pre>
-</li>
-<li>use output plugins<pre><code><code><div>npm i -D rollup-plugin-json
-// rollup.config.js
-import terser from 'rollup-plugin-json'
-{
-	...
-	output: {
-		...
-		plugins: [terser()]
-	}
+</div></code></pre>
+<pre><code class="language-js"><div><span class="hljs-comment">// rollup.config.js</span>
+<span class="hljs-keyword">import</span> json <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@rollup/plugin-json&#x27;</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+	<span class="hljs-attr">input</span>: <span class="hljs-string">&#x27;src/main.js&#x27;</span>,
+	<span class="hljs-attr">output</span>: {
+		<span class="hljs-attr">file</span>: <span class="hljs-string">&#x27;bundle.js&#x27;</span>,
+		<span class="hljs-attr">format</span>: <span class="hljs-string">&#x27;cjs&#x27;</span>
+	},
+	<span class="hljs-attr">plugins</span>: [json()]
 }
-</div></code></code></pre>
-</li>
-<li>代码分离</li>
-</ol>
+</div></code></pre>
+<pre><code class="language-shell"><div>npm run build
+<span class="hljs-meta">#</span><span class="bash"> <span class="hljs-string">&quot;build&quot;</span>: <span class="hljs-string">&quot;rollup -c&quot;</span></span>
+</div></code></pre>
+<h3 id="常用插件列表">常用插件列表</h3>
+<ul>
+<li><a href="https://github.com/rollup/awesome">awesome</a> 功能功能功能功能</li>
+<li><a href="">@rollup/plugin-node-resolve</a> 找到外部依赖</li>
+<li><a href="">@rollup/plugin-commonjs</a> 把cjs转换为esm</li>
+<li><a href="">@rollup/plugin-babel</a> 转换js代码的版本</li>
+<li><a href="">@rollup/plugin-node-resolve</a> 功能功能功能功能</li>
+<li><a href="">@rollup/plugin-node-resolve</a> 功能功能功能功能</li>
+<li><a href="">@rollup/plugin-node-resolve</a> 功能功能功能功能</li>
+<li><a href="">@rollup/plugin-node-resolve</a> 功能功能功能功能</li>
+<li><a href="">@rollup/plugin-node-resolve</a> 功能功能功能功能</li>
+<li><a href="">@rollup/plugin-node-resolve</a> 功能功能功能功能</li>
+<li><a href="">@rollup/plugin-node-resolve</a> 功能功能功能功能</li>
+</ul>
+<h2 id="代码分割">代码分割</h2>
+<ul>
+<li>自动代码分割</li>
+<li><code>output.manualChunks</code></li>
+<li><code>output.chunkFileNames</code></li>
+<li><code>output.entryFileNames</code></li>
+<li>动态加载时分使用代码分割</li>
+</ul>
+<pre><code class="language-js"><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+	<span class="hljs-keyword">import</span>(<span class="hljs-string">&#x27;./file.js&#x27;</span>).then(<span class="hljs-function">(<span class="hljs-params">{<span class="hljs-keyword">default</span>: file}</span>) =&gt;</span> {
+		<span class="hljs-built_in">console</span>.log(file)
+	})
+}
+</div></code></pre>
+<h1 id="插件">插件</h1>
+<h2 id="title">title</h2>
+<h2 id="title-1">title</h2>
+<h2 id="title-2">title</h2>
+<h2 id="title-3">title</h2>
+<h2 id="title-4">title</h2>
+<h2 id="title-5">title</h2>
+<h2 id="title-6">title</h2>
+<h2 id="title-7">title</h2>
+<h2 id="title-8">title</h2>
 <h1 id="plugin-development">plugin development</h1>
 <h1 id="frequently-asked-questions">frequently asked questions</h1>
 <h1 id="integrating-rollup-with-other-tools">integrating rollup with other tools</h1>
+<h2 id="同等依赖">同等依赖</h2>
+<p>external 不打包</p>
+<h2 id="babel">babel</h2>
+<h2 id="gulp">gulp</h2>
+<h2 id="deno">deno</h2>
 <h1 id="troubleshooting">troubleshooting</h1>
+<ul>
+<li>不要使用eval</li>
+<li>有tree-shaking不管用</li>
+<li>[name] is not exproted by [module]</li>
+<li>this is undefined. rollup会设置this为undefined</li>
+<li>sourcemap is likely to be incorrect. 是否使用多个插件处理sourcemap</li>
+<li>&quot;Treating [module] as external dependency&quot;</li>
+<li>EMFILE: too many open files&quot;  设置watch.chokidar.useFsEvents: false</li>
+<li>JavaScript heap out of memory. rollup的代码分析、tree-shaking都在内存中。 <code>node --max-old-space-size=8192 node_modules/rollup/bin/rollup -c</code></li>
+</ul>
 <h1 id="big-list-of-options">big list of options</h1>
+<h2 id="overview-1">overview</h2>
+<h2 id="overview-2">overview</h2>
+<h2 id="overview-3">overview</h2>
 <h2 id="overview-4">overview</h2>
 <h2 id="overview-5">overview</h2>
 <h2 id="overview-6">overview</h2>
 <h2 id="overview-7">overview</h2>
-<h2 id="overview-8">overview</h2>
-<h2 id="overview-9">overview</h2>
-<h2 id="overview-10">overview</h2>
 <h2 id="use-plugin">use plugin</h2>
 <h3 id="rollupplugin-commonjs">@rollup/plugin-commonjs</h3>
 <p>把commonjs规范的代码打包为esm规范的代码。</p>
@@ -716,13 +767,13 @@ export default {
 <h5 id="dynamicrequiretargets-12">dynamicRequireTargets</h5>
 <h5 id="dynamicrequiretargets-13">dynamicRequireTargets</h5>
 <h3 id="rollupplugin-node-resolve">@rollup/plugin-node-resolve</h3>
+<h2 id="overview-8">overview</h2>
+<h2 id="overview-9">overview</h2>
+<h2 id="overview-10">overview</h2>
 <h2 id="overview-11">overview</h2>
 <h2 id="overview-12">overview</h2>
 <h2 id="overview-13">overview</h2>
 <h2 id="overview-14">overview</h2>
-<h2 id="overview-15">overview</h2>
-<h2 id="overview-16">overview</h2>
-<h2 id="overview-17">overview</h2>
 <h3 id="api-1">api</h3>
 <pre><code><code><div>// rollup-build.js
 let rollup = require('rollup')
