@@ -351,7 +351,23 @@ return defaultConfig;
 </tbody>
 </table>
 <h3 id="配置文件的基本结构">配置文件的基本结构</h3>
-<pre><code class="language-js"><div>
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span> { nodeResolve } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@rollup/plugin-node-resolve&#x27;</span>;
+<span class="hljs-keyword">import</span> commonjs <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@rollup/plugin-commonjs&#x27;</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> [
+  {
+    <span class="hljs-attr">input</span>: [<span class="hljs-string">&#x27;index.js&#x27;</span>],
+    <span class="hljs-attr">output</span>: {
+      <span class="hljs-attr">dir</span>: <span class="hljs-string">&#x27;dist&#x27;</span>,
+      <span class="hljs-comment">// entryFileNames: [name].js,</span>
+      <span class="hljs-attr">assetFileNames</span>: [name]-[hash][extend],
+      <span class="hljs-attr">chunkFileNames</span>: [name]-[hash].js,
+      <span class="hljs-attr">format</span>: <span class="hljs-string">&#x27;esm&#x27;</span>,
+      <span class="hljs-attr">compact</span>: <span class="hljs-literal">false</span>
+    },
+    <span class="hljs-attr">external</span>: [],
+    <span class="hljs-attr">plugins</span>: [nodeResolve(), commonjs()]
+  }
+]
 </div></code></pre>
 <h3 id="differences-to-the-javascript-api">differences to the javascript api</h3>
 <p>与js api的不同。
