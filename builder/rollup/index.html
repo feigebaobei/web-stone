@@ -356,14 +356,16 @@ return defaultConfig;
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> [
   {
     <span class="hljs-attr">input</span>: [<span class="hljs-string">&#x27;index.js&#x27;</span>],
-    <span class="hljs-attr">output</span>: {
-      <span class="hljs-attr">dir</span>: <span class="hljs-string">&#x27;dist&#x27;</span>,
-      <span class="hljs-comment">// entryFileNames: [name].js,</span>
-      <span class="hljs-attr">assetFileNames</span>: [name]-[hash][extend],
-      <span class="hljs-attr">chunkFileNames</span>: [name]-[hash].js,
-      <span class="hljs-attr">format</span>: <span class="hljs-string">&#x27;esm&#x27;</span>,
-      <span class="hljs-attr">compact</span>: <span class="hljs-literal">false</span>
-    },
+    <span class="hljs-attr">output</span>: [
+      {
+        <span class="hljs-attr">dir</span>: <span class="hljs-string">&#x27;dist&#x27;</span>,
+        <span class="hljs-comment">// entryFileNames: [name].js,</span>
+        <span class="hljs-attr">assetFileNames</span>: <span class="hljs-string">&#x27;[name]-[hash][extend]&#x27;</span>,
+        <span class="hljs-attr">chunkFileNames</span>: <span class="hljs-string">&#x27;[name]-[hash].js&#x27;</span>,
+        <span class="hljs-attr">format</span>: <span class="hljs-string">&#x27;esm&#x27;</span>,
+        <span class="hljs-attr">compact</span>: <span class="hljs-literal">false</span>
+      }
+    ],
     <span class="hljs-attr">external</span>: [],
     <span class="hljs-attr">plugins</span>: [nodeResolve(), commonjs()]
   }
@@ -667,15 +669,15 @@ watcher.close() <span class="hljs-comment">// 停止监听</span>
 </div></code></pre>
 <h3 id="常用插件列表">常用插件列表</h3>
 <ul>
-<li><a href="https://github.com/rollup/awesome">awesome</a> 功能功能功能功能</li>
-<li><a href="">@rollup/plugin-node-resolve</a> 找到外部依赖</li>
-<li><a href="">@rollup/plugin-commonjs</a> 把cjs转换为esm</li>
-<li><a href="">@rollup/plugin-babel</a> 转换js代码的版本</li>
-<li><a href="">@rollup/plugin-node-resolve</a> 功能功能功能功能</li>
-<li><a href="">@rollup/plugin-node-resolve</a> 功能功能功能功能</li>
-<li><a href="">@rollup/plugin-node-resolve</a> 功能功能功能功能</li>
-<li><a href="">@rollup/plugin-node-resolve</a> 功能功能功能功能</li>
-<li><a href="">@rollup/plugin-node-resolve</a> 功能功能功能功能</li>
+<li><a href="https://github.com/rollup/awesome">awesome</a>  功能功能功能功能</li>
+<li><a href="">@rollup/plugin-node-resolve</a>               找到外部依赖（在node_modules中找）</li>
+<li><a href="">@rollup/plugin-commonjs</a>                   把cjs转换为esm</li>
+<li><a href="">@rollup/plugin-babel</a>                      转换js代码的版本</li>
+<li><a href="">@rollup/plugin-json</a>                       把json转换为esm</li>
+<li><a href="">@rollup/plugin-data-uri</a>                   以 data uri 的形式引入资源</li>
+<li><a href="">@rollup/plugin-html</a>                       创建一个html文件为rollup打包服务</li>
+<li><a href="">@rollup/plugin-typescript</a>                 与ts合作</li>
+<li><a href="">@rollup/plugin-yaml</a>                       yarm =&gt; esm</li>
 <li><a href="">@rollup/plugin-node-resolve</a> 功能功能功能功能</li>
 <li><a href="">@rollup/plugin-node-resolve</a> 功能功能功能功能</li>
 </ul>

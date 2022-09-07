@@ -245,14 +245,16 @@ import commonjs from '@rollup/plugin-commonjs';
 export default [
   {
     input: ['index.js'],
-    output: {
-      dir: 'dist',
-      // entryFileNames: [name].js,
-      assetFileNames: [name]-[hash][extend],
-      chunkFileNames: [name]-[hash].js,
-      format: 'esm',
-      compact: false
-    },
+    output: [
+      {
+        dir: 'dist',
+        // entryFileNames: [name].js,
+        assetFileNames: '[name]-[hash][extend]',
+        chunkFileNames: '[name]-[hash].js',
+        format: 'esm',
+        compact: false
+      }
+    ],
     external: [],
     plugins: [nodeResolve(), commonjs()]
   }
@@ -562,15 +564,15 @@ npm run build
 ```
 
 ### 常用插件列表
-- [awesome](https://github.com/rollup/awesome) 功能功能功能功能
-- [@rollup/plugin-node-resolve]() 找到外部依赖
-- [@rollup/plugin-commonjs]() 把cjs转换为esm
-- [@rollup/plugin-babel]() 转换js代码的版本
-- [@rollup/plugin-node-resolve]() 功能功能功能功能
-- [@rollup/plugin-node-resolve]() 功能功能功能功能
-- [@rollup/plugin-node-resolve]() 功能功能功能功能
-- [@rollup/plugin-node-resolve]() 功能功能功能功能
-- [@rollup/plugin-node-resolve]() 功能功能功能功能
+- [awesome](https://github.com/rollup/awesome)  功能功能功能功能
+- [@rollup/plugin-node-resolve]()               找到外部依赖（在node_modules中找）
+- [@rollup/plugin-commonjs]()                   把cjs转换为esm
+- [@rollup/plugin-babel]()                      转换js代码的版本
+- [@rollup/plugin-json]()                       把json转换为esm
+- [@rollup/plugin-data-uri]()                   以 data uri 的形式引入资源
+- [@rollup/plugin-html]()                       创建一个html文件为rollup打包服务
+- [@rollup/plugin-typescript]()                 与ts合作
+- [@rollup/plugin-yaml]()                       yarm => esm
 - [@rollup/plugin-node-resolve]() 功能功能功能功能
 - [@rollup/plugin-node-resolve]() 功能功能功能功能
 
