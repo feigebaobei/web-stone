@@ -158,10 +158,3 @@ pnpm run lint --filter ./packages/<name>
 ## hookfn
 ## hookfn
 ## hookfn
-# esbuild & rollup & xxx & xxx
-||esbuild|rollup|xxx|xxx||||
-|-|-|-|-|-|-|-|-|
-||不使用缓存|可以使用缓存||||||
-||可简单的插件|可插件||||||
-|||||||||
-|||||||||

@@ -127,7 +127,7 @@ import { key } from './file.js'
 import def from './file.js'
 import { key as alias } from './file.js'
 import * as module from './file.js'
-import './file.js' // 不知道什么意思
+import './file.js' // 整个模块仅为副作用（中性词，无贬义含义）而导入，而不导入模块中的任何内容（接口）。 这将运行模块中的全局代码，但实际上不导入任何值。
 import('./file.js').then(({default: def, key}) => {...})
 
 export {key}

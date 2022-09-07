@@ -726,165 +726,531 @@ Type: Plugin | (Plugin | void)[]
 引入时使用的插件
 
 ## advanced funcitonality
-### external
+### cache
 ```js
+Type: RollupCache | false
+```
+在观察模式时会默认使用缓存。
+
+### makeAbsoluteExternalsRelative
+```js
+Type: boolean | "ifRelativeSource"
+CLI: --makeAbsoluteExternalsRelative/--no-makeAbsoluteExternalsRelative
+Default: true
+```
+是否把绝对路径转换为相对路径。
+
+### maxParallelFileOps
+```js
+Type: number
+CLI: --maxParallelFileOps <number>
+Default: 20
+```
+最大并行打包的文件数量。
+
+### onwarn
+```js
+Type: (warning: RollupWarning, defaultHandler: (warning: string | RollupWarning) => void) => void;
+```
+提供一个方法处理警告信息。若使用`--silent`则不显示警告。
+
+### output.assetFileNames
+```js
+Type: string | ((assetInfo: AssetInfo) => string)
+CLI: --assetFileNames <pattern>
+Default: "assets/[name]-[hash][extname]"
+```
+设置资源的文件名
+
+- [extname] 有点开头的扩展名
+- [ext]     无点开头的扩展名
+- [hash]    基于文件名与内容的散列值
+- [name]    不包含扩展名的文件名
+
+### output.banner/output.footer
+```js
+Type: string | (() => string | Promise<string>)
+CLI: --banner/--footer <text>
+```
+为文件内容设置前缀、后缀。
+
+### output.chunkFileNames
+```js
+Type: string | ((chunkInfo: ChunkInfo) => string)
+CLI: --chunkFileNames <pattern>
+Default: "[name]-[hash].js"
+```
+指定使用代码分割时文件的模板。
+
+- [format]  在output指定渲染格式
+- [hash]    基于内容和内容的依赖的散列值
+- [name]    chuck的名字
+
+### output.compact
+```js
+Type: boolean
+CLI: --compact/--no-compact
+Default: false
+```
+是否压缩
+
+### output.entryFileNames
+```js
+Type: string | ((chunkInfo: ChunkInfo) => string)
+CLI: --entryFileNames <pattern>
+Default: "[name].js"
+```
+指定入口文件的文件名模板
+
+- [format]
+- [hash]
+- [name]
+
+### output.extend
+```js
+Type: boolean
+CLI: --extend/--no-extend
+Default: false
+```
+是否扩展全局变量。
+```js
+// true
+global.name = global.name || {}
+// false
+global.name = {} // 可能被覆盖（重写）
 ```
 
-### external
+### output.generatedCode
 ```js
+Type: "es5" | "es2015" | { arrowFunctions?: boolean, constBindings?: boolean, objectShorthand?: boolean, preset?: "es5" | "es2015", reservedNamesAsProps?: boolean, symbols?: boolean }
+CLI: --generatedCode <preset>
+Default: "es5"
+```
+设置生成代码的版本
+- es5       不使用es2015+的功能。如箭头函数。
+- es2015    使用es2015版本
+
+### output.generatedCode.arrowFunctions
+```js
+Type: boolean
+CLI: --generatedCode.arrowFunctions/--no-generatedCode.arrowFunctions
+Default: false
 ```
 
-### external
+### output.generatedCode.constBindings
 ```js
+Type: boolean
+CLI: --generatedCode.constBindings/--no-generatedCode.constBindings
+Default: false
 ```
 
-### external
+### output.generatedCode.objectShorthand
 ```js
+Type: boolean
+CLI: --generatedCode.objectShorthand/--no-generatedCode.objectShorthand
+Default: false
+```
+是否使用对象短赋值。
+
+### output.generatedCode.preset
+```js
+Type: "es5" | "es2015"
+CLI: --generatedCode <value>
 ```
 
-### external
+### output.generatedCode.reservedNamesAsProps
 ```js
+Type: boolean
+CLI: --generatedCode.reservedNamesAsProps/--no-generatedCode.reservedNamesAsProps
+Default: false
 ```
 
-### external
+### output.generatedCode.symbols
 ```js
+Type: boolean
+CLI: --generatedCode.symbols/--no-generatedCode.symbols
+Default: false
+```
+是否可以使用symbol
+
+### output.hoistTransitiveImports
+```js
+Type: boolean
+CLI: --hoistTransitiveImports/--no-hoistTransitiveImports
+Default: true
+```
+当打包多个chunk时，是否把引入文件提升到入口chunk中引入。
+
+### output.inlineDynamicImports
+```js
+Type: boolean
+CLI: --inlineDynamicImports/--no-inlineDynamicImports Default: false
+```
+当遇到动态引入时是否打包为chunk
+
+### output.interop
+```js
+Type: "auto" | "esModule" | "default" | "defaultOnly" | boolean | ((id: string) => "auto" | "esModule" | "default" | "defaultOnly" | boolean)
+CLI: --interop <value>
+Default: true
+```
+不会
+
+### output.intro/output.outro
+```js
+Type: string | (() => string | Promise<string>)
+CLI: --intro/--outro <text>
+```
+设置代码。
+
+### output.manualChunks
+```js
+Type: { [chunkAlias: string]: string[] } | ((id: string, {getModuleInfo, getModuleIds}) => string | void)
+```
+允许创建自定义共享公共块。
+
+### output.minifyInternalExports
+```js
+Type: boolean
+CLI: --minifyInternalExports/--no-minifyInternalExports
+Default: true for formats es and system or if output.compact is true, false otherwise
+```
+es / system / output.compact: true 时使用一个字母输出变量。  
+
+### output.paths
+```js
+Type: { [id: string]: string } | ((id: string) => string)
+```
+映射external的moduleId到url上。
+```js
+external: ['d3'],
+output: {
+  ...
+  paths: {
+    d3: 'https://d3js.org/d3.v4.min'
+  }
+}
 ```
 
-### external
+### output.preserveModules
 ```js
+Type: boolean
+CLI: --preserveModules/--no-preserveModules
+Default: false
+```
+尽量使用原本文件名。保持原来的目录结构。（rollup默认会创建较小数量的chunck）  
+
+### output.preserveModulesRoot
+```js
+Type: string
+CLI: --preserveModulesRoot <directory-name>
 ```
 
-### external
+### output.sourcemap
 ```js
+Type: boolean | 'inline' | 'hidden'
+CLI: -m/--sourcemap/--no-sourcemap
+Default: false
 ```
 
-### external
+### output.sourcemapBaseUrl
 ```js
+Type: string
+CLI: --sourcemapBaseUrl <url>
+```
+默认生成sourcemap的相对url.
+
+### output.sourcemapExcludeSources
+```js
+Type: boolean
+CLI: --sourcemapExcludeSources/--no-sourcemapExcludeSources
+Default: false
 ```
 
-### external
+### output.sourcemapFile
 ```js
+Type: string
+CLI: --sourcemapFile <file-name-with-path>
 ```
 
-### external
+### output.sourcemapPathTransform
 ```js
+Type: (relativeSourcePath: string, sourcemapPath: string) => string
 ```
 
-### external
+### output.validate
 ```js
+Type: boolean
+CLI: --validate/--no-validate
+Default: false
 ```
 
-### external
+### preserveEntrySignatures
 ```js
+Type: "strict" | "allow-extension" | "exports-only" | false
+CLI: --preserveEntrySignatures <strict|allow-extension>/--no-preserveEntrySignatures
+Default: "strict"
+```
+
+### strictDeprecations
+```js
+Type: boolean
+CLI: --strictDeprecations/--no-strictDeprecations
+Default: false
 ```
 
 ## danger zone
+### acorn
+```js
+Type: AcornOptions
+```
+
+### acornInjectPlugins
+```js
+Type: AcornPluginFunction | AcornPluginFunction[]
+```
+
+### context
+```js
+Type: string
+CLI: --context <contextVariable>
+Default: undefined
+```
+
+### moduleContext
+```js
+Type: ((id: string) => string) | { [id: string]: string }
+```
+
+### output.amd
+```js
+Type: { id?: string, autoId?: boolean, basePath?: string, define?: string }
+```
+
+### output.amd.id
+```js
+Type: string
+CLI: --amd.id <amdId>
+```
+
+### output.amd.autoId
+```js
+Type: boolean
+CLI: --amd.autoId
+```
+
+### output.amd.basePath
+```js
+Type: string
+CLI: --amd.basePath
+```
+
+### output.amd.define
+```js
+Type: string
+CLI: --amd.define <defineFunctionName>
+```
+
+### output.esModule
+```js
+Type: boolean
+CLI: --esModule/--no-esModule
+Default: true
+```
+
+### output.exports
+```js
+Type: string
+CLI: --exports <exportMode>
+Default: 'auto'
+```
+
+### output.externalLiveBindings
+```js
+Type: boolean
+CLI: --externalLiveBindings/--no-externalLiveBindings
+Default: true
+```
+
+### output.freeze
+```js
+Type: boolean
+CLI: --freeze/--no-freeze
+Default: true
+```
+
+### output.indent
+```js
+Type: boolean | string
+CLI: --indent/--no-indent
+Default: true
+```
+
+### output.noConflict
+```js
+Type: boolean
+CLI: --noConflict/--no-noConflict
+Default: false
+```
+
+### output.preferConst
+```js
+Type: boolean
+CLI: --preferConst/--no-preferConst
+Default: false
+```
+
+### output.sanitizeFileName
+```js
+Type: boolean | (string) => string
+CLI: --sanitizeFileName/no-sanitizeFileName Default: true
+```
+
+### output.strict
+```js
+Type: boolean
+CLI: --strict/--no-strict
+Default: true
+```
+
+### output.systemNullSetters
+```js
+Type: boolean
+CLI: --systemNullSetters/--no-systemNullSetters
+Default: false
+```
+
+### preserveSymlinks
+```js
+Type: boolean
+CLI: --preserveSymlinks
+Default: false
+```
+
+### shimMissingExports
+```js
+Type: boolean
+CLI: --shimMissingExports/--no-shimMissingExports
+Default: false
+```
+
+### treeshake
+```js
+Type: boolean | "smallest" | "safest" | "recommended" | { annotations?: boolean, correctVarValueBeforeDeclaration?: boolean, moduleSideEffects?: ModuleSideEffectsOption, preset?: "smallest" | "safest" | "recommended", propertyReadSideEffects?: boolean | 'always', tryCatchDeoptimization?: boolean, unknownGlobalSideEffects?: boolean }
+CLI: --treeshake/--no-treeshake
+Default: true
+```
+
+### treeshake.annotations
+```js
+Type: boolean
+CLI: --treeshake.annotations/--no-treeshake.annotations
+Default: true
+```
+
+### treeshake.correctVarValueBeforeDeclaration
+```js
+Type: boolean
+CLI: --treeshake.correctVarValueBeforeDeclaration/--no-treeshake.correctVarValueBeforeDeclaration
+Default: false
+```
+
+### treeshake.moduleSideEffects
+```js
+Type: boolean | "no-external" | string[] | (id: string, external: boolean) => boolean
+CLI: --treeshake.moduleSideEffects/--no-treeshake.moduleSideEffects/--treeshake.moduleSideEffects no-external
+Default: true
+```
+
+### treeshake.preset
+```js
+Type: "smallest" | "safest" | "recommended"
+CLI: --treeshake <value>
+```
+
+### treeshake.propertyReadSideEffects
+```js
+Type: boolean | 'always'
+CLI: --treeshake.propertyReadSideEffects/--no-treeshake.propertyReadSideEffects
+Default: true
+```
+
+### treeshake.tryCatchDeoptimization
+```js
+Type: boolean
+CLI: --treeshake.tryCatchDeoptimization/--no-treeshake.tryCatchDeoptimization
+Default: true
+```
+
+### treeshake.unknownGlobalSideEffects
+```js
+Type: boolean
+CLI: --treeshake.unknownGlobalSideEffects/--no-treeshake.unknownGlobalSideEffects
+Default: true
+```
 ## experimental options
-## watch options
-## deprecated options
-
-
-
-
-## overview
-## overview
-## use plugin
-### @rollup/plugin-commonjs
-把commonjs规范的代码打包为esm规范的代码。
-
-```
-// install
-npm i @rollup/plugin-commonjs -D
-
-// usage
-// rollup.config.js
-import commonjs from '@rollup/plugin-commonjs'
-export default {
-	...
-	plugin: [commonjs()]
-}
-```
-#### api
-
-##### dynamicRequireTargets
-##### exclude
-##### include
-##### extensions
-##### ignoreGlobal
-##### sourceMap
-##### trasnformMixedEsModules
-##### ignore
-##### ignoreTryCatch
-##### ignoreDynamicRequires
-##### esmExternals
-##### defaultIsModuleExports
-##### requireReturesDefault
-#### using with @rollup/plugin-node-resolve
-在commonjs后很多引入来自`node_modules`。`@rollup/plugin-node-resolve`可解决来自`node_modules`的问题。
-```
-// rollup.config.js
-import resolve from '@rollup/plugin-node-resolve'
-import commonjs from '@rollup/plugin-commonjs'
-export default {
-	...
-	plugin: [resolve(), commonjs()]
-}
-```
-#### usage width symlinks
-与软链接一起使用。
-软链接一般在一库多包中使用。rollup使用`@rollup/plugin-node-resolve`把解析模块到指定的真实目录。e.g. `../common/node_modules/**` => `node_modules/**`。
-```
-commonjs({include: /node_modules/})
+### experimentalCacheExpiry
+```js
+Type: number
+CLI: --experimentalCacheExpiry <numberOfRuns>
+Default: 10
 ```
 
-##### dynamicRequireTargets
-##### dynamicRequireTargets
-##### dynamicRequireTargets
-##### dynamicRequireTargets
-##### dynamicRequireTargets
-##### dynamicRequireTargets
-##### dynamicRequireTargets
-##### dynamicRequireTargets
-##### dynamicRequireTargets
-##### dynamicRequireTargets
-##### dynamicRequireTargets
-##### dynamicRequireTargets
-##### dynamicRequireTargets
+### perf
+```js
+Type: boolean
+CLI: --perf/--no-perf
+Default: false
+```
 
-### @rollup/plugin-node-resolve
+## Watch options
+```js
+Type: { buildDelay?: number, chokidar?: ChokidarOptions, clearScreen?: boolean, exclude?: string, include?: string, skipWrite?: boolean } | false
+Default: {}
+```
 
-## overview
-## overview
-## overview
-## overview
-## overview
-## overview
-## overview
+### watch.buildDelay
+```js
+Type: number
+CLI: --watch.buildDelay <number>
+Default: 0
+```
 
+### watch.chokidar
+```js
+Type: ChokidarOptions
+```
 
-### api
+### watch.clearScreen
+```js
+Type: boolean
+CLI: --watch.clearScreen/--no-watch.clearScreen
+Default: true
 ```
-// rollup-build.js
-let rollup = require('rollup')
-let inputOption = require('path/to/input.js')
-let outputOpiton = require('path/to/output.js')
-let bundle = rollup.rollup(inputOption)         // 生成打包文件
-bundle.write(outputOpiton)                      // 根据配置文件输出打包文件。
+
+### watch.exclude
+```js
+Type: string | RegExp | (string | RegExp)[]
+CLI: --watch.exclude <files>
 ```
+
+### watch.include
+```js
+Type: string | RegExp | (string | RegExp)[]
+CLI: --watch.include <files>
 ```
-// path/to/input.js
-module.exports = {
-    input: './src/main.js'
-}
+
+### watch.skipWrite
+```js
+Type: boolean
+CLI: --watch.skipWrite/--no-watch.skipWrite
+Default: false
 ```
-```
-// path/to/output.js
-module.exports = {
-    file: './bundle.js',
-    format: 'cjs',
-}
-```
-```
-// 执行打包脚本
-node rollup-build.js
-```
+
+# esbuild & rollup & xxx & xxx
+||esbuild|rollup|xxx|xxx||||
+|-|-|-|-|-|-|-|-|
+||不使用缓存|可以使用缓存||||||
+||可简单的插件|可插件||||||
+||不支持缓存|支持缓存||||||
+|||||||||

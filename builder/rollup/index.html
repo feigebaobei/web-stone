@@ -831,124 +831,444 @@ iife/umd的必填项。</p>
 </div></code></pre>
 <p>引入时使用的插件</p>
 <h2 id="advanced-funcitonality">advanced funcitonality</h2>
-<h3 id="external-1">external</h3>
-<pre><code class="language-js"><div></div></code></pre>
-<h3 id="external-2">external</h3>
-<pre><code class="language-js"><div></div></code></pre>
-<h3 id="external-3">external</h3>
-<pre><code class="language-js"><div></div></code></pre>
-<h3 id="external-4">external</h3>
-<pre><code class="language-js"><div></div></code></pre>
-<h3 id="external-5">external</h3>
-<pre><code class="language-js"><div></div></code></pre>
-<h3 id="external-6">external</h3>
-<pre><code class="language-js"><div></div></code></pre>
-<h3 id="external-7">external</h3>
-<pre><code class="language-js"><div></div></code></pre>
-<h3 id="external-8">external</h3>
-<pre><code class="language-js"><div></div></code></pre>
-<h3 id="external-9">external</h3>
-<pre><code class="language-js"><div></div></code></pre>
-<h3 id="external-10">external</h3>
-<pre><code class="language-js"><div></div></code></pre>
-<h3 id="external-11">external</h3>
-<pre><code class="language-js"><div></div></code></pre>
-<h3 id="external-12">external</h3>
-<pre><code class="language-js"><div></div></code></pre>
-<h3 id="external-13">external</h3>
-<pre><code class="language-js"><div></div></code></pre>
+<h3 id="cache">cache</h3>
+<pre><code class="language-js"><div>Type: RollupCache | <span class="hljs-literal">false</span>
+</div></code></pre>
+<p>在观察模式时会默认使用缓存。</p>
+<h3 id="makeabsoluteexternalsrelative">makeAbsoluteExternalsRelative</h3>
+<pre><code class="language-js"><div>Type: boolean | <span class="hljs-string">&quot;ifRelativeSource&quot;</span>
+<span class="hljs-attr">CLI</span>: --makeAbsoluteExternalsRelative/--no-makeAbsoluteExternalsRelative
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">true</span>
+</div></code></pre>
+<p>是否把绝对路径转换为相对路径。</p>
+<h3 id="maxparallelfileops">maxParallelFileOps</h3>
+<pre><code class="language-js"><div>Type: number
+<span class="hljs-attr">CLI</span>: --maxParallelFileOps &lt;number&gt;
+Default: <span class="hljs-number">20</span>
+</div></code></pre>
+<p>最大并行打包的文件数量。</p>
+<h3 id="onwarn">onwarn</h3>
+<pre><code class="language-js"><div>Type: <span class="hljs-function">(<span class="hljs-params">warning: RollupWarning, defaultHandler: (warning: string | RollupWarning) =&gt; <span class="hljs-keyword">void</span></span>) =&gt;</span> <span class="hljs-keyword">void</span>;
+</div></code></pre>
+<p>提供一个方法处理警告信息。若使用<code>--silent</code>则不显示警告。</p>
+<h3 id="outputassetfilenames">output.assetFileNames</h3>
+<pre><code class="language-js"><div>Type: string | (<span class="hljs-function">(<span class="hljs-params">assetInfo: AssetInfo</span>) =&gt;</span> string)
+<span class="hljs-attr">CLI</span>: --assetFileNames &lt;pattern&gt;
+Default: <span class="hljs-string">&quot;assets/[name]-[hash][extname]&quot;</span>
+</div></code></pre>
+<p>设置资源的文件名</p>
+<ul>
+<li>[extname] 有点开头的扩展名</li>
+<li>[ext]     无点开头的扩展名</li>
+<li>[hash]    基于文件名与内容的散列值</li>
+<li>[name]    不包含扩展名的文件名</li>
+</ul>
+<h3 id="outputbanneroutputfooter">output.banner/output.footer</h3>
+<pre><code class="language-js"><div>Type: string | (<span class="hljs-function">() =&gt;</span> string | <span class="hljs-built_in">Promise</span>&lt;string&gt;)
+<span class="hljs-attr">CLI</span>: --banner/--footer &lt;text&gt;
+</div></code></pre>
+<p>为文件内容设置前缀、后缀。</p>
+<h3 id="outputchunkfilenames">output.chunkFileNames</h3>
+<pre><code class="language-js"><div>Type: string | (<span class="hljs-function">(<span class="hljs-params">chunkInfo: ChunkInfo</span>) =&gt;</span> string)
+<span class="hljs-attr">CLI</span>: --chunkFileNames &lt;pattern&gt;
+Default: <span class="hljs-string">&quot;[name]-[hash].js&quot;</span>
+</div></code></pre>
+<p>指定使用代码分割时文件的模板。</p>
+<ul>
+<li>[format]  在output指定渲染格式</li>
+<li>[hash]    基于内容和内容的依赖的散列值</li>
+<li>[name]    chuck的名字</li>
+</ul>
+<h3 id="outputcompact">output.compact</h3>
+<pre><code class="language-js"><div>Type: boolean
+<span class="hljs-attr">CLI</span>: --compact/--no-compact
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
+</div></code></pre>
+<p>是否压缩</p>
+<h3 id="outputentryfilenames">output.entryFileNames</h3>
+<pre><code class="language-js"><div>Type: string | (<span class="hljs-function">(<span class="hljs-params">chunkInfo: ChunkInfo</span>) =&gt;</span> string)
+<span class="hljs-attr">CLI</span>: --entryFileNames &lt;pattern&gt;
+Default: <span class="hljs-string">&quot;[name].js&quot;</span>
+</div></code></pre>
+<p>指定入口文件的文件名模板</p>
+<ul>
+<li>[format]</li>
+<li>[hash]</li>
+<li>[name]</li>
+</ul>
+<h3 id="outputextend">output.extend</h3>
+<pre><code class="language-js"><div>Type: boolean
+<span class="hljs-attr">CLI</span>: --extend/--no-extend
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
+</div></code></pre>
+<p>是否扩展全局变量。</p>
+<pre><code class="language-js"><div><span class="hljs-comment">// true</span>
+<span class="hljs-built_in">global</span>.name = <span class="hljs-built_in">global</span>.name || {}
+<span class="hljs-comment">// false</span>
+<span class="hljs-built_in">global</span>.name = {} <span class="hljs-comment">// 可能被覆盖（重写）</span>
+</div></code></pre>
+<h3 id="outputgeneratedcode">output.generatedCode</h3>
+<pre><code class="language-js"><div>Type: <span class="hljs-string">&quot;es5&quot;</span> | <span class="hljs-string">&quot;es2015&quot;</span> | { arrowFunctions?: boolean, constBindings?: boolean, objectShorthand?: boolean, preset?: <span class="hljs-string">&quot;es5&quot;</span> | <span class="hljs-string">&quot;es2015&quot;</span>, reservedNamesAsProps?: boolean, symbols?: boolean }
+<span class="hljs-attr">CLI</span>: --generatedCode &lt;preset&gt;
+Default: <span class="hljs-string">&quot;es5&quot;</span>
+</div></code></pre>
+<p>设置生成代码的版本</p>
+<ul>
+<li>es5       不使用es2015+的功能。如箭头函数。</li>
+<li>es2015    使用es2015版本</li>
+</ul>
+<h3 id="outputgeneratedcodearrowfunctions">output.generatedCode.arrowFunctions</h3>
+<pre><code class="language-js"><div>Type: boolean
+<span class="hljs-attr">CLI</span>: --generatedCode.arrowFunctions/--no-generatedCode.arrowFunctions
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
+</div></code></pre>
+<h3 id="outputgeneratedcodeconstbindings">output.generatedCode.constBindings</h3>
+<pre><code class="language-js"><div>Type: boolean
+<span class="hljs-attr">CLI</span>: --generatedCode.constBindings/--no-generatedCode.constBindings
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
+</div></code></pre>
+<h3 id="outputgeneratedcodeobjectshorthand">output.generatedCode.objectShorthand</h3>
+<pre><code class="language-js"><div>Type: boolean
+<span class="hljs-attr">CLI</span>: --generatedCode.objectShorthand/--no-generatedCode.objectShorthand
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
+</div></code></pre>
+<p>是否使用对象短赋值。</p>
+<h3 id="outputgeneratedcodepreset">output.generatedCode.preset</h3>
+<pre><code class="language-js"><div>Type: <span class="hljs-string">&quot;es5&quot;</span> | <span class="hljs-string">&quot;es2015&quot;</span>
+<span class="hljs-attr">CLI</span>: --generatedCode &lt;value&gt;
+</div></code></pre>
+<h3 id="outputgeneratedcodereservednamesasprops">output.generatedCode.reservedNamesAsProps</h3>
+<pre><code class="language-js"><div>Type: boolean
+<span class="hljs-attr">CLI</span>: --generatedCode.reservedNamesAsProps/--no-generatedCode.reservedNamesAsProps
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
+</div></code></pre>
+<h3 id="outputgeneratedcodesymbols">output.generatedCode.symbols</h3>
+<pre><code class="language-js"><div>Type: boolean
+<span class="hljs-attr">CLI</span>: --generatedCode.symbols/--no-generatedCode.symbols
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
+</div></code></pre>
+<p>是否可以使用symbol</p>
+<h3 id="outputhoisttransitiveimports">output.hoistTransitiveImports</h3>
+<pre><code class="language-js"><div>Type: boolean
+<span class="hljs-attr">CLI</span>: --hoistTransitiveImports/--no-hoistTransitiveImports
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">true</span>
+</div></code></pre>
+<p>当打包多个chunk时，是否把引入文件提升到入口chunk中引入。</p>
+<h3 id="outputinlinedynamicimports">output.inlineDynamicImports</h3>
+<pre><code class="language-js"><div>Type: boolean
+<span class="hljs-attr">CLI</span>: --inlineDynamicImports/--no-inlineDynamicImports Default: <span class="hljs-literal">false</span>
+</div></code></pre>
+<p>当遇到动态引入时是否打包为chunk</p>
+<h3 id="outputinterop">output.interop</h3>
+<pre><code class="language-js"><div>Type: <span class="hljs-string">&quot;auto&quot;</span> | <span class="hljs-string">&quot;esModule&quot;</span> | <span class="hljs-string">&quot;default&quot;</span> | <span class="hljs-string">&quot;defaultOnly&quot;</span> | boolean | (<span class="hljs-function">(<span class="hljs-params">id: string</span>) =&gt;</span> <span class="hljs-string">&quot;auto&quot;</span> | <span class="hljs-string">&quot;esModule&quot;</span> | <span class="hljs-string">&quot;default&quot;</span> | <span class="hljs-string">&quot;defaultOnly&quot;</span> | boolean)
+<span class="hljs-attr">CLI</span>: --interop &lt;value&gt;
+Default: <span class="hljs-literal">true</span>
+</div></code></pre>
+<p>不会</p>
+<h3 id="outputintrooutputoutro">output.intro/output.outro</h3>
+<pre><code class="language-js"><div>Type: string | (<span class="hljs-function">() =&gt;</span> string | <span class="hljs-built_in">Promise</span>&lt;string&gt;)
+<span class="hljs-attr">CLI</span>: --intro/--outro &lt;text&gt;
+</div></code></pre>
+<p>设置代码。</p>
+<h3 id="outputmanualchunks">output.manualChunks</h3>
+<pre><code class="language-js"><div>Type: { [chunkAlias: string]: string[] } | (<span class="hljs-function">(<span class="hljs-params">id: string, {getModuleInfo, getModuleIds}</span>) =&gt;</span> string | <span class="hljs-keyword">void</span>)
+</div></code></pre>
+<p>允许创建自定义共享公共块。</p>
+<h3 id="outputminifyinternalexports">output.minifyInternalExports</h3>
+<pre><code class="language-js"><div>Type: boolean
+<span class="hljs-attr">CLI</span>: --minifyInternalExports/--no-minifyInternalExports
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">true</span> <span class="hljs-keyword">for</span> formats es and system or <span class="hljs-keyword">if</span> output.compact is <span class="hljs-literal">true</span>, <span class="hljs-literal">false</span> otherwise
+</div></code></pre>
+<p>es / system / output.compact: true 时使用一个字母输出变量。</p>
+<h3 id="outputpaths">output.paths</h3>
+<pre><code class="language-js"><div>Type: { [id: string]: string } | (<span class="hljs-function">(<span class="hljs-params">id: string</span>) =&gt;</span> string)
+</div></code></pre>
+<p>映射external的moduleId到url上。</p>
+<pre><code class="language-js"><div>external: [<span class="hljs-string">&#x27;d3&#x27;</span>],
+<span class="hljs-attr">output</span>: {
+  ...
+  <span class="hljs-attr">paths</span>: {
+    <span class="hljs-attr">d3</span>: <span class="hljs-string">&#x27;https://d3js.org/d3.v4.min&#x27;</span>
+  }
+}
+</div></code></pre>
+<h3 id="outputpreservemodules">output.preserveModules</h3>
+<pre><code class="language-js"><div>Type: boolean
+<span class="hljs-attr">CLI</span>: --preserveModules/--no-preserveModules
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
+</div></code></pre>
+<p>尽量使用原本文件名。保持原来的目录结构。（rollup默认会创建较小数量的chunck）</p>
+<h3 id="outputpreservemodulesroot">output.preserveModulesRoot</h3>
+<pre><code class="language-js"><div>Type: string
+<span class="hljs-attr">CLI</span>: --preserveModulesRoot &lt;directory-name&gt;
+</div></code></pre>
+<h3 id="outputsourcemap">output.sourcemap</h3>
+<pre><code class="language-js"><div>Type: boolean | <span class="hljs-string">&#x27;inline&#x27;</span> | <span class="hljs-string">&#x27;hidden&#x27;</span>
+<span class="hljs-attr">CLI</span>: -m/--sourcemap/--no-sourcemap
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
+</div></code></pre>
+<h3 id="outputsourcemapbaseurl">output.sourcemapBaseUrl</h3>
+<pre><code class="language-js"><div>Type: string
+<span class="hljs-attr">CLI</span>: --sourcemapBaseUrl &lt;url&gt;
+</div></code></pre>
+<p>默认生成sourcemap的相对url.</p>
+<h3 id="outputsourcemapexcludesources">output.sourcemapExcludeSources</h3>
+<pre><code class="language-js"><div>Type: boolean
+<span class="hljs-attr">CLI</span>: --sourcemapExcludeSources/--no-sourcemapExcludeSources
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
+</div></code></pre>
+<h3 id="outputsourcemapfile">output.sourcemapFile</h3>
+<pre><code class="language-js"><div>Type: string
+<span class="hljs-attr">CLI</span>: --sourcemapFile &lt;file-name-<span class="hljs-keyword">with</span>-path&gt;
+</div></code></pre>
+<h3 id="outputsourcemappathtransform">output.sourcemapPathTransform</h3>
+<pre><code class="language-js"><div>Type: <span class="hljs-function">(<span class="hljs-params">relativeSourcePath: string, sourcemapPath: string</span>) =&gt;</span> string
+</div></code></pre>
+<h3 id="outputvalidate">output.validate</h3>
+<pre><code class="language-js"><div>Type: boolean
+<span class="hljs-attr">CLI</span>: --validate/--no-validate
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
+</div></code></pre>
+<h3 id="preserveentrysignatures">preserveEntrySignatures</h3>
+<pre><code class="language-js"><div>Type: <span class="hljs-string">&quot;strict&quot;</span> | <span class="hljs-string">&quot;allow-extension&quot;</span> | <span class="hljs-string">&quot;exports-only&quot;</span> | <span class="hljs-literal">false</span>
+<span class="hljs-attr">CLI</span>: --preserveEntrySignatures &lt;strict|allow-extension&gt;/--no-preserveEntrySignatures
+<span class="hljs-attr">Default</span>: <span class="hljs-string">&quot;strict&quot;</span>
+</div></code></pre>
+<h3 id="strictdeprecations">strictDeprecations</h3>
+<pre><code class="language-js"><div>Type: boolean
+<span class="hljs-attr">CLI</span>: --strictDeprecations/--no-strictDeprecations
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
+</div></code></pre>
 <h2 id="danger-zone">danger zone</h2>
+<h3 id="acorn">acorn</h3>
+<pre><code class="language-js"><div>Type: AcornOptions
+</div></code></pre>
+<h3 id="acorninjectplugins">acornInjectPlugins</h3>
+<pre><code class="language-js"><div>Type: AcornPluginFunction | AcornPluginFunction[]
+</div></code></pre>
+<h3 id="context">context</h3>
+<pre><code class="language-js"><div>Type: string
+<span class="hljs-attr">CLI</span>: --context &lt;contextVariable&gt;
+Default: <span class="hljs-literal">undefined</span>
+</div></code></pre>
+<h3 id="modulecontext">moduleContext</h3>
+<pre><code class="language-js"><div>Type: (<span class="hljs-function">(<span class="hljs-params">id: string</span>) =&gt;</span> string) | { [id: string]: string }
+</div></code></pre>
+<h3 id="outputamd">output.amd</h3>
+<pre><code class="language-js"><div>Type: { id?: string, autoId?: boolean, basePath?: string, define?: string }
+</div></code></pre>
+<h3 id="outputamdid"><a href="http://output.amd.id">output.amd.id</a></h3>
+<pre><code class="language-js"><div>Type: string
+<span class="hljs-attr">CLI</span>: --amd.id &lt;amdId&gt;
+</div></code></pre>
+<h3 id="outputamdautoid">output.amd.autoId</h3>
+<pre><code class="language-js"><div>Type: boolean
+<span class="hljs-attr">CLI</span>: --amd.autoId
+</div></code></pre>
+<h3 id="outputamdbasepath">output.amd.basePath</h3>
+<pre><code class="language-js"><div>Type: string
+<span class="hljs-attr">CLI</span>: --amd.basePath
+</div></code></pre>
+<h3 id="outputamddefine">output.amd.define</h3>
+<pre><code class="language-js"><div>Type: string
+<span class="hljs-attr">CLI</span>: --amd.define &lt;defineFunctionName&gt;
+</div></code></pre>
+<h3 id="outputesmodule">output.esModule</h3>
+<pre><code class="language-js"><div>Type: boolean
+<span class="hljs-attr">CLI</span>: --esModule/--no-esModule
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">true</span>
+</div></code></pre>
+<h3 id="outputexports">output.exports</h3>
+<pre><code class="language-js"><div>Type: string
+<span class="hljs-attr">CLI</span>: --<span class="hljs-built_in">exports</span> &lt;exportMode&gt;
+Default: <span class="hljs-string">&#x27;auto&#x27;</span>
+</div></code></pre>
+<h3 id="outputexternallivebindings">output.externalLiveBindings</h3>
+<pre><code class="language-js"><div>Type: boolean
+<span class="hljs-attr">CLI</span>: --externalLiveBindings/--no-externalLiveBindings
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">true</span>
+</div></code></pre>
+<h3 id="outputfreeze">output.freeze</h3>
+<pre><code class="language-js"><div>Type: boolean
+<span class="hljs-attr">CLI</span>: --freeze/--no-freeze
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">true</span>
+</div></code></pre>
+<h3 id="outputindent">output.indent</h3>
+<pre><code class="language-js"><div>Type: boolean | string
+<span class="hljs-attr">CLI</span>: --indent/--no-indent
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">true</span>
+</div></code></pre>
+<h3 id="outputnoconflict">output.noConflict</h3>
+<pre><code class="language-js"><div>Type: boolean
+<span class="hljs-attr">CLI</span>: --noConflict/--no-noConflict
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
+</div></code></pre>
+<h3 id="outputpreferconst">output.preferConst</h3>
+<pre><code class="language-js"><div>Type: boolean
+<span class="hljs-attr">CLI</span>: --preferConst/--no-preferConst
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
+</div></code></pre>
+<h3 id="outputsanitizefilename">output.sanitizeFileName</h3>
+<pre><code class="language-js"><div>Type: boolean | <span class="hljs-function">(<span class="hljs-params">string</span>) =&gt;</span> string
+<span class="hljs-attr">CLI</span>: --sanitizeFileName/no-sanitizeFileName Default: <span class="hljs-literal">true</span>
+</div></code></pre>
+<h3 id="outputstrict">output.strict</h3>
+<pre><code class="language-js"><div>Type: boolean
+<span class="hljs-attr">CLI</span>: --strict/--no-strict
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">true</span>
+</div></code></pre>
+<h3 id="outputsystemnullsetters">output.systemNullSetters</h3>
+<pre><code class="language-js"><div>Type: boolean
+<span class="hljs-attr">CLI</span>: --systemNullSetters/--no-systemNullSetters
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
+</div></code></pre>
+<h3 id="preservesymlinks">preserveSymlinks</h3>
+<pre><code class="language-js"><div>Type: boolean
+<span class="hljs-attr">CLI</span>: --preserveSymlinks
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
+</div></code></pre>
+<h3 id="shimmissingexports">shimMissingExports</h3>
+<pre><code class="language-js"><div>Type: boolean
+<span class="hljs-attr">CLI</span>: --shimMissingExports/--no-shimMissingExports
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
+</div></code></pre>
+<h3 id="treeshake">treeshake</h3>
+<pre><code class="language-js"><div>Type: boolean | <span class="hljs-string">&quot;smallest&quot;</span> | <span class="hljs-string">&quot;safest&quot;</span> | <span class="hljs-string">&quot;recommended&quot;</span> | { annotations?: boolean, correctVarValueBeforeDeclaration?: boolean, moduleSideEffects?: ModuleSideEffectsOption, preset?: <span class="hljs-string">&quot;smallest&quot;</span> | <span class="hljs-string">&quot;safest&quot;</span> | <span class="hljs-string">&quot;recommended&quot;</span>, propertyReadSideEffects?: boolean | <span class="hljs-string">&#x27;always&#x27;</span>, tryCatchDeoptimization?: boolean, unknownGlobalSideEffects?: boolean }
+<span class="hljs-attr">CLI</span>: --treeshake/--no-treeshake
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">true</span>
+</div></code></pre>
+<h3 id="treeshakeannotations">treeshake.annotations</h3>
+<pre><code class="language-js"><div>Type: boolean
+<span class="hljs-attr">CLI</span>: --treeshake.annotations/--no-treeshake.annotations
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">true</span>
+</div></code></pre>
+<h3 id="treeshakecorrectvarvaluebeforedeclaration">treeshake.correctVarValueBeforeDeclaration</h3>
+<pre><code class="language-js"><div>Type: boolean
+<span class="hljs-attr">CLI</span>: --treeshake.correctVarValueBeforeDeclaration/--no-treeshake.correctVarValueBeforeDeclaration
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
+</div></code></pre>
+<h3 id="treeshakemodulesideeffects">treeshake.moduleSideEffects</h3>
+<pre><code class="language-js"><div>Type: boolean | <span class="hljs-string">&quot;no-external&quot;</span> | string[] | <span class="hljs-function">(<span class="hljs-params">id: string, external: boolean</span>) =&gt;</span> boolean
+<span class="hljs-attr">CLI</span>: --treeshake.moduleSideEffects/--no-treeshake.moduleSideEffects/--treeshake.moduleSideEffects no-external
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">true</span>
+</div></code></pre>
+<h3 id="treeshakepreset">treeshake.preset</h3>
+<pre><code class="language-js"><div>Type: <span class="hljs-string">&quot;smallest&quot;</span> | <span class="hljs-string">&quot;safest&quot;</span> | <span class="hljs-string">&quot;recommended&quot;</span>
+<span class="hljs-attr">CLI</span>: --treeshake &lt;value&gt;
+</div></code></pre>
+<h3 id="treeshakepropertyreadsideeffects">treeshake.propertyReadSideEffects</h3>
+<pre><code class="language-js"><div>Type: boolean | <span class="hljs-string">&#x27;always&#x27;</span>
+<span class="hljs-attr">CLI</span>: --treeshake.propertyReadSideEffects/--no-treeshake.propertyReadSideEffects
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">true</span>
+</div></code></pre>
+<h3 id="treeshaketrycatchdeoptimization">treeshake.tryCatchDeoptimization</h3>
+<pre><code class="language-js"><div>Type: boolean
+<span class="hljs-attr">CLI</span>: --treeshake.tryCatchDeoptimization/--no-treeshake.tryCatchDeoptimization
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">true</span>
+</div></code></pre>
+<h3 id="treeshakeunknownglobalsideeffects">treeshake.unknownGlobalSideEffects</h3>
+<pre><code class="language-js"><div>Type: boolean
+<span class="hljs-attr">CLI</span>: --treeshake.unknownGlobalSideEffects/--no-treeshake.unknownGlobalSideEffects
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">true</span>
+</div></code></pre>
 <h2 id="experimental-options">experimental options</h2>
-<h2 id="watch-options">watch options</h2>
-<h2 id="deprecated-options">deprecated options</h2>
-<h2 id="overview-1">overview</h2>
-<h2 id="overview-2">overview</h2>
-<h2 id="use-plugin">use plugin</h2>
-<h3 id="rollupplugin-commonjs">@rollup/plugin-commonjs</h3>
-<p>把commonjs规范的代码打包为esm规范的代码。</p>
-<pre><code><code><div>// install
-npm i @rollup/plugin-commonjs -D
-
-// usage
-// rollup.config.js
-import commonjs from '@rollup/plugin-commonjs'
-export default {
-	...
-	plugin: [commonjs()]
-}
-</div></code></code></pre>
-<h4 id="api">api</h4>
-<h5 id="dynamicrequiretargets">dynamicRequireTargets</h5>
-<h5 id="exclude">exclude</h5>
-<h5 id="include">include</h5>
-<h5 id="extensions">extensions</h5>
-<h5 id="ignoreglobal">ignoreGlobal</h5>
-<h5 id="sourcemap">sourceMap</h5>
-<h5 id="trasnformmixedesmodules">trasnformMixedEsModules</h5>
-<h5 id="ignore">ignore</h5>
-<h5 id="ignoretrycatch">ignoreTryCatch</h5>
-<h5 id="ignoredynamicrequires">ignoreDynamicRequires</h5>
-<h5 id="esmexternals">esmExternals</h5>
-<h5 id="defaultismoduleexports">defaultIsModuleExports</h5>
-<h5 id="requirereturesdefault">requireReturesDefault</h5>
-<h4 id="using-with-rollupplugin-node-resolve">using with @rollup/plugin-node-resolve</h4>
-<p>在commonjs后很多引入来自<code>node_modules</code>。<code>@rollup/plugin-node-resolve</code>可解决来自<code>node_modules</code>的问题。</p>
-<pre><code><code><div>// rollup.config.js
-import resolve from '@rollup/plugin-node-resolve'
-import commonjs from '@rollup/plugin-commonjs'
-export default {
-	...
-	plugin: [resolve(), commonjs()]
-}
-</div></code></code></pre>
-<h4 id="usage-width-symlinks">usage width symlinks</h4>
-<p>与软链接一起使用。
-软链接一般在一库多包中使用。rollup使用<code>@rollup/plugin-node-resolve</code>把解析模块到指定的真实目录。e.g. <code>../common/node_modules/**</code> =&gt; <code>node_modules/**</code>。</p>
-<pre><code><code><div>commonjs({include: /node_modules/})
-</div></code></code></pre>
-<h5 id="dynamicrequiretargets-1">dynamicRequireTargets</h5>
-<h5 id="dynamicrequiretargets-2">dynamicRequireTargets</h5>
-<h5 id="dynamicrequiretargets-3">dynamicRequireTargets</h5>
-<h5 id="dynamicrequiretargets-4">dynamicRequireTargets</h5>
-<h5 id="dynamicrequiretargets-5">dynamicRequireTargets</h5>
-<h5 id="dynamicrequiretargets-6">dynamicRequireTargets</h5>
-<h5 id="dynamicrequiretargets-7">dynamicRequireTargets</h5>
-<h5 id="dynamicrequiretargets-8">dynamicRequireTargets</h5>
-<h5 id="dynamicrequiretargets-9">dynamicRequireTargets</h5>
-<h5 id="dynamicrequiretargets-10">dynamicRequireTargets</h5>
-<h5 id="dynamicrequiretargets-11">dynamicRequireTargets</h5>
-<h5 id="dynamicrequiretargets-12">dynamicRequireTargets</h5>
-<h5 id="dynamicrequiretargets-13">dynamicRequireTargets</h5>
-<h3 id="rollupplugin-node-resolve">@rollup/plugin-node-resolve</h3>
-<h2 id="overview-3">overview</h2>
-<h2 id="overview-4">overview</h2>
-<h2 id="overview-5">overview</h2>
-<h2 id="overview-6">overview</h2>
-<h2 id="overview-7">overview</h2>
-<h2 id="overview-8">overview</h2>
-<h2 id="overview-9">overview</h2>
-<h3 id="api-1">api</h3>
-<pre><code><code><div>// rollup-build.js
-let rollup = require('rollup')
-let inputOption = require('path/to/input.js')
-let outputOpiton = require('path/to/output.js')
-let bundle = rollup.rollup(inputOption)         // 生成打包文件
-bundle.write(outputOpiton)                      // 根据配置文件输出打包文件。
-</div></code></code></pre>
-<pre><code><code><div>// path/to/input.js
-module.exports = {
-    input: './src/main.js'
-}
-</div></code></code></pre>
-<pre><code><code><div>// path/to/output.js
-module.exports = {
-    file: './bundle.js',
-    format: 'cjs',
-}
-</div></code></code></pre>
-<pre><code><code><div>// 执行打包脚本
-node rollup-build.js
-</div></code></code></pre>
+<h3 id="experimentalcacheexpiry">experimentalCacheExpiry</h3>
+<pre><code class="language-js"><div>Type: number
+<span class="hljs-attr">CLI</span>: --experimentalCacheExpiry &lt;numberOfRuns&gt;
+Default: <span class="hljs-number">10</span>
+</div></code></pre>
+<h3 id="perf">perf</h3>
+<pre><code class="language-js"><div>Type: boolean
+<span class="hljs-attr">CLI</span>: --perf/--no-perf
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
+</div></code></pre>
+<h2 id="watch-options">Watch options</h2>
+<pre><code class="language-js"><div>Type: { buildDelay?: number, chokidar?: ChokidarOptions, clearScreen?: boolean, exclude?: string, include?: string, skipWrite?: boolean } | <span class="hljs-literal">false</span>
+<span class="hljs-attr">Default</span>: {}
+</div></code></pre>
+<h3 id="watchbuilddelay">watch.buildDelay</h3>
+<pre><code class="language-js"><div>Type: number
+<span class="hljs-attr">CLI</span>: --watch.buildDelay &lt;number&gt;
+Default: <span class="hljs-number">0</span>
+</div></code></pre>
+<h3 id="watchchokidar">watch.chokidar</h3>
+<pre><code class="language-js"><div>Type: ChokidarOptions
+</div></code></pre>
+<h3 id="watchclearscreen">watch.clearScreen</h3>
+<pre><code class="language-js"><div>Type: boolean
+<span class="hljs-attr">CLI</span>: --watch.clearScreen/--no-watch.clearScreen
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">true</span>
+</div></code></pre>
+<h3 id="watchexclude">watch.exclude</h3>
+<pre><code class="language-js"><div>Type: string | <span class="hljs-built_in">RegExp</span> | (string | <span class="hljs-built_in">RegExp</span>)[]
+<span class="hljs-attr">CLI</span>: --watch.exclude &lt;files&gt;
+</div></code></pre>
+<h3 id="watchinclude">watch.include</h3>
+<pre><code class="language-js"><div>Type: string | <span class="hljs-built_in">RegExp</span> | (string | <span class="hljs-built_in">RegExp</span>)[]
+<span class="hljs-attr">CLI</span>: --watch.include &lt;files&gt;
+</div></code></pre>
+<h3 id="watchskipwrite">watch.skipWrite</h3>
+<pre><code class="language-js"><div>Type: boolean
+<span class="hljs-attr">CLI</span>: --watch.skipWrite/--no-watch.skipWrite
+<span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
+</div></code></pre>
+<h1 id="esbuild--rollup--xxx--xxx">esbuild &amp; rollup &amp; xxx &amp; xxx</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>esbuild</th>
+<th>rollup</th>
+<th>xxx</th>
+<th>xxx</th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>不使用缓存</td>
+<td>可以使用缓存</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>可简单的插件</td>
+<td>可插件</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>不支持缓存</td>
+<td>支持缓存</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 
         <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
