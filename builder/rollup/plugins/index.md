@@ -1,7 +1,72 @@
 # overview
 rollup的一站式插件库。
-现在（2021/05/20）rollup的插件是这样的`@rollup/plugin-<name>`，以前是这样的`rollup-plugin-<name>`。不要用以前的，用现在的。未来更新的怎么办？我也不知道。
+现在（2021/05/20）rollup的插件是这样的`@rollup/plugin-<name>`，以前是这样的`rollup-plugin-<name>`。不要用以前的，用现在的。
 这是一个一库多包的仓库。
+
+# demo
+不会
+```js
+```
+
+# 惯例
+- 以`rollup-plugin-`开头。  
+- 在package.json中写上rollup-plugin关键字
+- 发布前测试。推荐使用[mocha]()/[ava]()
+- 优先使用异步方法
+- 请使用英文编写文档
+- 尽量输出sourcemap
+- 若使用到了virtual modules，则请以\0开头命名module ID
+
+# properties 
+name 插件的名字，在错误、警告时使用。  
+
+# build hooks
+- 在打包时调用的方法。
+- 参数为打包信息
+- build hooks存在于build阶段。由`rollup.rollup(inputOptions)`触发。
+- 最开始是`options`，若无错误，则最后一个是`buildEnd`，否则最后一个是`closeBundle`。  
+- 在观察模式下`watchChange`会在任意时间触发。  
+- `closeWatcher`关闭观察模式  
+
+hooks的种类
+- async 必须返回Promise对象
+- first 若一些插件都设置此值，则依次执行，直到hook返回不是null/undefined  
+- sequential 若一些插件都设置此值，则依次执行。若hook是async，则等待前面的hook为resolved时执行。  
+- parallel 若一些插件都设置此值，则按照特定顺序执行。若hook是async，则不等待当前hook执行结束就执行。
+
+hooks可以是方法，也可以是对象。若是对象，则可类型为：
+```ts
+type XXXX = {
+    order: 'pre' | 'post' | null; // 指定在一系统插件中何时执行此插件
+    sequential: boolean // 只能用于parallel hook，是否并行执行。常用于是否等待前面的插件的结果。
+
+}
+```
+
+![流程图]()  
+
+||type|kind|前hook|后hook|说明||
+|-|-|-|-|-|-|-|
+|buildEnd|`(error?: Error) => void`|aysnc / parallel|moduleParsed / resolveId / resolveDynamicImport|-|最后钩子。它后面是`generate / write`。若打包时有错，则抛出错误。可以写为promise.||
+|buildStart|`(options: InputOptions) => void`|async / parallel|options|resovleId并行解决每一个入口|接收`rollup.rollup()`的参数||
+|closeWatcher|`() => void`|async / parallel|-|-|当有新的`watchChange`事件时触发。||
+|load|||||||
+|moduleParsed|||||||
+|options|||||||
+|resolveDynamicImport|||||||
+|resolveId|||||||
+|shouldTransformCachedModule|||||||
+|transform|||||||
+|watchChange|||||||
+
+
+## 基本结构
+## title
+## title
+## title
+## title
+## title
+
 
 # list of plugin
 |name|description|||
@@ -94,4 +159,10 @@ pnpm run lint --filter ./packages/<name>
 ## hookfn
 ## hookfn
 ## hookfn
-## hookfn
+# esbuild & rollup & xxx & xxx
+||esbuild|rollup|xxx|xxx||||
+|-|-|-|-|-|-|-|-|
+||不使用缓存|可以使用缓存||||||
+||可简单的插件|可插件||||||
+|||||||||
+|||||||||

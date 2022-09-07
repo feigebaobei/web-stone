@@ -567,7 +567,7 @@ export default function () {
 }
 ```
 
-# 插件
+# [插件](/builder/rollup/plugin/index.html)
 ## title
 
 

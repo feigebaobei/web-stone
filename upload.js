@@ -249,6 +249,7 @@ c.on('ready', () => {
             // 'promote/customInterface.html',
             // 'util/index.html',
             'builder/rollup/index.html',
+            'builder/rollup/plugins/index.html',
             'language/javascript/modularity.html',
             // 'framework/react/hooks.html',
             // 'pwa/manifestJson.html',
