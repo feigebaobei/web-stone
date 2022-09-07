@@ -250,7 +250,7 @@ c.on('ready', () => {
             // 'util/index.html',
             'builder/rollup/index.html',
             'builder/rollup/plugins/index.html',
-            'language/javascript/modularity.html',
+            // 'language/javascript/modularity.html',
             // 'framework/react/hooks.html',
             // 'pwa/manifestJson.html',
             // 'pwa/push.html',

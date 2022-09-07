@@ -6,6 +6,7 @@
 > 支持stdin输入（esbuild也支持）
 > 选项级 cli > rollup.config.js
 > 推荐使用esm规范的rollup.config.js  
+> 该团队做随便扩张rollup的功能。让rollup只做rollup的事。插件做插件的事。在产品级做到了单一原则。
 
 ## install
 
@@ -236,6 +237,11 @@ export default commandLineArgs => {
 ||方便esm文件共享|||
 ||node v13+ 且 `*.mjs`，则不转换。但是入口文件必须是esm规范|||
 |Esm比cjs好用这么多。请使用esm。||||
+
+### 配置文件的基本结构
+```js
+
+```
 
 ### differences to the javascript api
 与js api的不同。
@@ -568,23 +574,46 @@ export default function () {
 ```
 
 # [插件](/builder/rollup/plugin/index.html)
-## title
+插件部分写的一团糟。还得让我去看rollup的源码、插件的源码。  
 
-
-## title
-## title
-## title
-## title
-## title
-## title
-## title
-## title
-
-
-
+- Rollup的运行逻辑是什么，如何与插件合作？
+- 插件demo的功能是什么？定出具体代码。
+- 各钩子的运行顺序。
+- 各钩子的api（包括：参数、返回值）
 
 # plugin development
 # frequently asked questions
+## 为什么使用esm代码cjs
+|esm|cjs|
+|-|-|
+|官方标准|怪癖的遗留格式|
+
+## tree-shaking是什么
+"live code inclusion"包含活跃代码。  
+使用ast(abstract syntax tree)实现。
+
+## 如何使用rollup处理node.js、cjs
+rollup是为esm服务的。若要处理cjs，请使用`node-resolve / commonjs`插件。处理json，请使用`json`插件。
+
+## 为什么不内置`node-resolve`
+- rollup是node和browsers的适配器。`import`不能在浏览器中工作。
+- 使用插件对于软件工程师来说非常简单。
+- 使核心包变小。
+
+## 为什么在代码拆分时在入口块中出现额外的导入?
+默认情况下，当创建多个块时，条目块依赖项的导入将作为空导入添加到条目块本身。
+加快加载和解析代码的速度。
+可以使用`output.hoistTransitiveImports`打开、关闭此优化。
+在使用`preserveModules`时不可使用此优化。  
+
+## 如何在打包结果中使用polyfills
+以下情况不使用：
+- 代码分割
+- 外部依赖
+
+## rollup是为了打包libraries / applications 吗？
+是的。
+
 # integrating rollup with other tools
 ## 同等依赖
 external 不打包
@@ -593,12 +622,19 @@ external 不打包
 ## deno
 
 # troubleshooting 
-- 不要使用eval
+- 不要使用eval 
+  - `let evalAlias = eval`
 - 有tree-shaking不管用
+  - 静态分析比较困难。
+  - 请使用`import key from './file.js'`代替`import {key} from './file.js'`
+  - 静态分析超时
 - [name] is not exproted by [module]
+  - 查看是否是默认输出
+  - 经常使用`@rollup/plugin-commonjs`可解决。
 - this is undefined. rollup会设置this为undefined
 - sourcemap is likely to be incorrect. 是否使用多个插件处理sourcemap
 - "Treating [module] as external dependency"
+  - 检查external的选项是否包括该包。
 - EMFILE: too many open files"  设置watch.chokidar.useFsEvents: false
 - JavaScript heap out of memory. rollup的代码分析、tree-shaking都在内存中。 `node --max-old-space-size=8192 node_modules/rollup/bin/rollup -c`
 

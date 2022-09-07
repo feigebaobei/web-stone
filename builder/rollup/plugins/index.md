@@ -61,11 +61,10 @@ type XXXX = {
 
 
 ## 基本结构
-## title
-## title
-## title
-## title
-## title
+```js
+```
+
+
 
 
 # list of plugin

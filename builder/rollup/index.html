@@ -87,7 +87,8 @@
 可打包为多种规范。<br>
 支持stdin输入（esbuild也支持）
 选项级 cli &gt; rollup.config.js
-推荐使用esm规范的rollup.config.js</p>
+推荐使用esm规范的rollup.config.js<br>
+该团队做随便扩张rollup的功能。让rollup只做rollup的事。插件做插件的事。在产品级做到了单一原则。</p>
 </blockquote>
 <h2 id="install">install</h2>
 <p><code>npm i -g rollup</code></p>
@@ -349,6 +350,9 @@ return defaultConfig;
 </tr>
 </tbody>
 </table>
+<h3 id="配置文件的基本结构">配置文件的基本结构</h3>
+<pre><code class="language-js"><div>
+</div></code></pre>
 <h3 id="differences-to-the-javascript-api">differences to the javascript api</h3>
 <p>与js api的不同。
 配置文件不能被其他打包工具去打包。现在可以在脚本中以编辑方式调用rollup.</p>
@@ -673,18 +677,55 @@ watcher.close() <span class="hljs-comment">// 停止监听</span>
 	})
 }
 </div></code></pre>
-<h1 id="插件">插件</h1>
-<h2 id="title">title</h2>
-<h2 id="title-1">title</h2>
-<h2 id="title-2">title</h2>
-<h2 id="title-3">title</h2>
-<h2 id="title-4">title</h2>
-<h2 id="title-5">title</h2>
-<h2 id="title-6">title</h2>
-<h2 id="title-7">title</h2>
-<h2 id="title-8">title</h2>
+<h1 id="插件"><a href="/builder/rollup/plugin/index.html">插件</a></h1>
+<p>插件部分写的一团糟。还得让我去看rollup的源码、插件的源码。</p>
+<ul>
+<li>Rollup的运行逻辑是什么，如何与插件合作？</li>
+<li>插件demo的功能是什么？定出具体代码。</li>
+<li>各钩子的运行顺序。</li>
+<li>各钩子的api（包括：参数、返回值）</li>
+</ul>
 <h1 id="plugin-development">plugin development</h1>
 <h1 id="frequently-asked-questions">frequently asked questions</h1>
+<h2 id="为什么使用esm代码cjs">为什么使用esm代码cjs</h2>
+<table>
+<thead>
+<tr>
+<th>esm</th>
+<th>cjs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>官方标准</td>
+<td>怪癖的遗留格式</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tree-shaking是什么">tree-shaking是什么</h2>
+<p>&quot;live code inclusion&quot;包含活跃代码。<br>
+使用ast(abstract syntax tree)实现。</p>
+<h2 id="如何使用rollup处理nodejscjs">如何使用rollup处理node.js、cjs</h2>
+<p>rollup是为esm服务的。若要处理cjs，请使用<code>node-resolve / commonjs</code>插件。处理json，请使用<code>json</code>插件。</p>
+<h2 id="为什么不内置node-resolve">为什么不内置<code>node-resolve</code></h2>
+<ul>
+<li>rollup是node和browsers的适配器。<code>import</code>不能在浏览器中工作。</li>
+<li>使用插件对于软件工程师来说非常简单。</li>
+<li>使核心包变小。</li>
+</ul>
+<h2 id="为什么在代码拆分时在入口块中出现额外的导入">为什么在代码拆分时在入口块中出现额外的导入?</h2>
+<p>默认情况下，当创建多个块时，条目块依赖项的导入将作为空导入添加到条目块本身。
+加快加载和解析代码的速度。
+可以使用<code>output.hoistTransitiveImports</code>打开、关闭此优化。
+在使用<code>preserveModules</code>时不可使用此优化。</p>
+<h2 id="如何在打包结果中使用polyfills">如何在打包结果中使用polyfills</h2>
+<p>以下情况不使用：</p>
+<ul>
+<li>代码分割</li>
+<li>外部依赖</li>
+</ul>
+<h2 id="rollup是为了打包libraries--applications-吗">rollup是为了打包libraries / applications 吗？</h2>
+<p>是的。</p>
 <h1 id="integrating-rollup-with-other-tools">integrating rollup with other tools</h1>
 <h2 id="同等依赖">同等依赖</h2>
 <p>external 不打包</p>
@@ -693,12 +734,31 @@ watcher.close() <span class="hljs-comment">// 停止监听</span>
 <h2 id="deno">deno</h2>
 <h1 id="troubleshooting">troubleshooting</h1>
 <ul>
-<li>不要使用eval</li>
-<li>有tree-shaking不管用</li>
-<li>[name] is not exproted by [module]</li>
+<li>不要使用eval
+<ul>
+<li><code>let evalAlias = eval</code></li>
+</ul>
+</li>
+<li>有tree-shaking不管用
+<ul>
+<li>静态分析比较困难。</li>
+<li>请使用<code>import key from './file.js'</code>代替<code>import {key} from './file.js'</code></li>
+<li>静态分析超时</li>
+</ul>
+</li>
+<li>[name] is not exproted by [module]
+<ul>
+<li>查看是否是默认输出</li>
+<li>经常使用<code>@rollup/plugin-commonjs</code>可解决。</li>
+</ul>
+</li>
 <li>this is undefined. rollup会设置this为undefined</li>
 <li>sourcemap is likely to be incorrect. 是否使用多个插件处理sourcemap</li>
-<li>&quot;Treating [module] as external dependency&quot;</li>
+<li>&quot;Treating [module] as external dependency&quot;
+<ul>
+<li>检查external的选项是否包括该包。</li>
+</ul>
+</li>
 <li>EMFILE: too many open files&quot;  设置watch.chokidar.useFsEvents: false</li>
 <li>JavaScript heap out of memory. rollup的代码分析、tree-shaking都在内存中。 <code>node --max-old-space-size=8192 node_modules/rollup/bin/rollup -c</code></li>
 </ul>
