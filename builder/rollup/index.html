@@ -763,13 +763,106 @@ watcher.close() <span class="hljs-comment">// 停止监听</span>
 <li>JavaScript heap out of memory. rollup的代码分析、tree-shaking都在内存中。 <code>node --max-old-space-size=8192 node_modules/rollup/bin/rollup -c</code></li>
 </ul>
 <h1 id="big-list-of-options">big list of options</h1>
+<h2 id="core-functionality">core functionality</h2>
+<h3 id="external">external</h3>
+<pre><code class="language-ts"><div>Type: (<span class="hljs-built_in">string</span> | <span class="hljs-built_in">RegExp</span>)[] | <span class="hljs-built_in">RegExp</span> | <span class="hljs-built_in">string</span> | <span class="hljs-function">(<span class="hljs-params">id: <span class="hljs-built_in">string</span>, parentId: <span class="hljs-built_in">string</span>, isResolved: <span class="hljs-built_in">boolean</span></span>) =&gt;</span> <span class="hljs-built_in">boolean</span>
+<span class="hljs-attr">CLI</span>: -e/--external &lt;external-id,another-external-id,...&gt;
+</div></code></pre>
+<p>指定不打包的包</p>
+<h3 id="input">input</h3>
+<pre><code class="language-ts"><div>Type: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">string</span> [] | { [entryName: <span class="hljs-built_in">string</span>]: <span class="hljs-built_in">string</span> }
+<span class="hljs-attr">CLI</span>: -i/--input &lt;filename&gt;
+</div></code></pre>
+<p>指定入口文件。若为多入口，则多出口。</p>
+<h3 id="outputdir">output.dir</h3>
+<pre><code class="language-ts"><div>Type: <span class="hljs-built_in">string</span>
+<span class="hljs-attr">CLI</span>: -d/--dir &lt;dirname&gt;
+</div></code></pre>
+<p>出口的目录</p>
+<h3 id="outputfile">output.file</h3>
+<pre><code class="language-ts"><div>Type: <span class="hljs-built_in">string</span>
+<span class="hljs-attr">CLI</span>: -o/--file &lt;filename&gt;
+</div></code></pre>
+<p>出口的文件</p>
+<h3 id="outputformat">output.format</h3>
+<pre><code class="language-ts"><div>Type: <span class="hljs-built_in">string</span>
+<span class="hljs-attr">CLI</span>: -f/--format &lt;formatspecifier&gt;
+Default: <span class="hljs-string">&quot;es&quot;</span>
+<span class="hljs-attr">enum</span>: amd     
+      cjs     
+      es      适用于bundler / <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="javascript">
+        别名为 esm / <span class="hljs-built_in">module</span>
+      iife      自执行函数
+      umd       
+      system    原生格式 Native format <span class="hljs-keyword">of</span> the SystemJS loader (alias: systemjs)
+        别名为 systemjs
+</span></span></div></code></pre>
+<p>指定输出规范</p>
+<h3 id="outputglobals">output.globals</h3>
+<pre><code class="language-ts"><div>Type: { [id: <span class="hljs-built_in">string</span>]: <span class="hljs-built_in">string</span> } | (<span class="hljs-function">(<span class="hljs-params">id: <span class="hljs-built_in">string</span></span>) =&gt;</span> <span class="hljs-built_in">string</span>)
+<span class="hljs-attr">CLI</span>: -g/--globals &lt;external-id:variableName,another-external-id:anotherVariableName,...&gt;
+</div></code></pre>
+<p>指定全局变量。用于umd/iife规范。</p>
+<pre><code class="language-js"><div><span class="hljs-comment">// 告诉rollup全局变量是jquery，并且与全局变量$相等。</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  ...
+  <span class="hljs-attr">external</span>: [<span class="hljs-string">&#x27;jquery&#x27;</span>],
+  <span class="hljs-attr">output</span>: {
+    <span class="hljs-attr">format</span>: <span class="hljs-string">&#x27;iife&#x27;</span>,
+    <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;myBundle&quot;</span>,
+    <span class="hljs-attr">globals</span>: {
+      <span class="hljs-attr">jquery</span>: <span class="hljs-string">&#x27;$&#x27;</span>
+    }
+  }
+}
+</div></code></pre>
+<h3 id="outputname"><a href="http://output.name">output.name</a></h3>
+<pre><code class="language-ts"><div>Type: <span class="hljs-built_in">string</span>
+<span class="hljs-attr">CLI</span>: -n/--name &lt;variableName&gt;
+</div></code></pre>
+<p>指定全局变量名。
+iife/umd的必填项。</p>
+<h3 id="outputplugins">output.plugins</h3>
+<pre><code class="language-ts"><div>Type: OutputPlugin | (OutputPlugin | <span class="hljs-built_in">void</span>)[]
+</div></code></pre>
+<p>输出时使用的插件</p>
+<h3 id="plugin">plugin</h3>
+<pre><code class="language-ts"><div>Type: Plugin | (Plugin | <span class="hljs-built_in">void</span>)[]
+</div></code></pre>
+<p>引入时使用的插件</p>
+<h2 id="advanced-funcitonality">advanced funcitonality</h2>
+<h3 id="external-1">external</h3>
+<pre><code class="language-js"><div></div></code></pre>
+<h3 id="external-2">external</h3>
+<pre><code class="language-js"><div></div></code></pre>
+<h3 id="external-3">external</h3>
+<pre><code class="language-js"><div></div></code></pre>
+<h3 id="external-4">external</h3>
+<pre><code class="language-js"><div></div></code></pre>
+<h3 id="external-5">external</h3>
+<pre><code class="language-js"><div></div></code></pre>
+<h3 id="external-6">external</h3>
+<pre><code class="language-js"><div></div></code></pre>
+<h3 id="external-7">external</h3>
+<pre><code class="language-js"><div></div></code></pre>
+<h3 id="external-8">external</h3>
+<pre><code class="language-js"><div></div></code></pre>
+<h3 id="external-9">external</h3>
+<pre><code class="language-js"><div></div></code></pre>
+<h3 id="external-10">external</h3>
+<pre><code class="language-js"><div></div></code></pre>
+<h3 id="external-11">external</h3>
+<pre><code class="language-js"><div></div></code></pre>
+<h3 id="external-12">external</h3>
+<pre><code class="language-js"><div></div></code></pre>
+<h3 id="external-13">external</h3>
+<pre><code class="language-js"><div></div></code></pre>
+<h2 id="danger-zone">danger zone</h2>
+<h2 id="experimental-options">experimental options</h2>
+<h2 id="watch-options">watch options</h2>
+<h2 id="deprecated-options">deprecated options</h2>
 <h2 id="overview-1">overview</h2>
 <h2 id="overview-2">overview</h2>
-<h2 id="overview-3">overview</h2>
-<h2 id="overview-4">overview</h2>
-<h2 id="overview-5">overview</h2>
-<h2 id="overview-6">overview</h2>
-<h2 id="overview-7">overview</h2>
 <h2 id="use-plugin">use plugin</h2>
 <h3 id="rollupplugin-commonjs">@rollup/plugin-commonjs</h3>
 <p>把commonjs规范的代码打包为esm规范的代码。</p>
@@ -827,13 +920,13 @@ export default {
 <h5 id="dynamicrequiretargets-12">dynamicRequireTargets</h5>
 <h5 id="dynamicrequiretargets-13">dynamicRequireTargets</h5>
 <h3 id="rollupplugin-node-resolve">@rollup/plugin-node-resolve</h3>
+<h2 id="overview-3">overview</h2>
+<h2 id="overview-4">overview</h2>
+<h2 id="overview-5">overview</h2>
+<h2 id="overview-6">overview</h2>
+<h2 id="overview-7">overview</h2>
 <h2 id="overview-8">overview</h2>
 <h2 id="overview-9">overview</h2>
-<h2 id="overview-10">overview</h2>
-<h2 id="overview-11">overview</h2>
-<h2 id="overview-12">overview</h2>
-<h2 id="overview-13">overview</h2>
-<h2 id="overview-14">overview</h2>
 <h3 id="api-1">api</h3>
 <pre><code><code><div>// rollup-build.js
 let rollup = require('rollup')

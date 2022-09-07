@@ -639,11 +639,153 @@ external 不打包
 - JavaScript heap out of memory. rollup的代码分析、tree-shaking都在内存中。 `node --max-old-space-size=8192 node_modules/rollup/bin/rollup -c`
 
 # big list of options
-## overview
-## overview
-## overview
-## overview
-## overview
+## core functionality
+### external
+```ts
+Type: (string | RegExp)[] | RegExp | string | (id: string, parentId: string, isResolved: boolean) => boolean
+CLI: -e/--external <external-id,another-external-id,...>
+```
+指定不打包的包
+
+### input
+```ts
+Type: string | string [] | { [entryName: string]: string }
+CLI: -i/--input <filename>
+```
+指定入口文件。若为多入口，则多出口。  
+
+### output.dir
+```ts
+Type: string
+CLI: -d/--dir <dirname>
+```
+出口的目录
+
+### output.file
+```ts
+Type: string
+CLI: -o/--file <filename>
+```
+出口的文件
+
+### output.format
+```ts
+Type: string
+CLI: -f/--format <formatspecifier>
+Default: "es"
+enum: amd     
+      cjs     
+      es      适用于bundler / <script type="module">
+        别名为 esm / module
+      iife      自执行函数
+      umd       
+      system    原生格式 Native format of the SystemJS loader (alias: systemjs)
+        别名为 systemjs
+```
+指定输出规范
+
+### output.globals
+```ts
+Type: { [id: string]: string } | ((id: string) => string)
+CLI: -g/--globals <external-id:variableName,another-external-id:anotherVariableName,...>
+```
+指定全局变量。用于umd/iife规范。
+```js
+// 告诉rollup全局变量是jquery，并且与全局变量$相等。
+export default {
+  ...
+  external: ['jquery'],
+  output: {
+    format: 'iife',
+    name: "myBundle",
+    globals: {
+      jquery: '$'
+    }
+  }
+}
+```
+
+### output.name
+```ts
+Type: string
+CLI: -n/--name <variableName>
+```
+指定全局变量名。
+iife/umd的必填项。
+
+### output.plugins
+```ts
+Type: OutputPlugin | (OutputPlugin | void)[]
+```
+输出时使用的插件
+
+### plugin
+```ts
+Type: Plugin | (Plugin | void)[]
+```
+引入时使用的插件
+
+## advanced funcitonality
+### external
+```js
+```
+
+### external
+```js
+```
+
+### external
+```js
+```
+
+### external
+```js
+```
+
+### external
+```js
+```
+
+### external
+```js
+```
+
+### external
+```js
+```
+
+### external
+```js
+```
+
+### external
+```js
+```
+
+### external
+```js
+```
+
+### external
+```js
+```
+
+### external
+```js
+```
+
+### external
+```js
+```
+
+## danger zone
+## experimental options
+## watch options
+## deprecated options
+
+
+
+
 ## overview
 ## overview
 ## use plugin
