@@ -252,8 +252,15 @@ export default [
         assetFileNames: '[name]-[hash][extend]',
         chunkFileNames: '[name]-[hash].js',
         format: 'esm',
+        sourcemap: true,
         compact: false
-      }
+      },
+      // {
+      //   dir: 'dist',
+      //   format: 'umd',
+      //   name: 'umdModuleName',
+      //   sourcemap: true,
+      // }
     ],
     external: [],
     plugins: [nodeResolve(), commonjs()]
@@ -1264,11 +1271,3 @@ Type: boolean
 CLI: --watch.skipWrite/--no-watch.skipWrite
 Default: false
 ```
-
-# esbuild & rollup & xxx & xxx
-||esbuild|rollup|xxx|xxx||||
-|-|-|-|-|-|-|-|-|
-||不使用缓存|可以使用缓存||||||
-||可简单的插件|可插件||||||
-||不支持缓存|支持缓存||||||
-|||||||||

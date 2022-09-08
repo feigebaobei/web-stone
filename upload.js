@@ -242,7 +242,7 @@ c.on('ready', () => {
             log('cwd', 'htdocs', err)
             throw err
         }
-        // let p = 'jsPackages/commander'
+        // let p = 'builder/webpack5' // 待上传
         let p = [
             // 'jsPackages/commander/index.html',
             // 'jsPackages/commander/versionLog.html',
