@@ -242,24 +242,10 @@ c.on('ready', () => {
             log('cwd', 'htdocs', err)
             throw err
         }
-        // let p = 'builder/webpack5' // 待上传
+        // let p = 'builder/webpack'
         let p = [
-            // 'jsPackages/commander/index.html',
-            // 'jsPackages/commander/versionLog.html',
-            // 'promote/customInterface.html',
-            // 'util/index.html',
-            'builder/index.html',
-            'builder/webpack5/index.html',
-            // 'builder/rollup/plugins/index.html',
-            // 'language/javascript/modularity.html',
-            // 'framework/react/hooks.html',
-            // 'pwa/manifestJson.html',
-            // 'pwa/push.html',
-            // 'pwa/workBox.html',
-            // 'pwa/push.html',
-            // 'pwa/notification.html',
-            // 'framework/react/hooks.html',
-            // 'ja/npm/index.html',
+            // 'builder/index.html',
+            // 'builder/webpack5/index.html',
         ]
         // 检测指定目录是否存在
         // checkDir(p)
