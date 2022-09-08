@@ -1,7 +1,8 @@
 # webpack5
 
 ## overview
-> TODO: description
+> 强大的打包工具
+> node v10.13+
 
 ### feature
 - feature0
@@ -11,18 +12,66 @@
 ## install
 `npm i webpack`
 
-## usage
+## concepts / usage
 ```js
-const webpack = require('webpack');
-// or
-// import webpack from 'webpack';
-// TODO: DEMONSTRATE API
-```
+let path = require('path') // node内置包
+let HtmlWebpackPlugin = require('html-webpack-plugin')
 
-## concepts
+module.exports = {
+    entry: './path/to/entry.js',
+    output: {
+        path: path.resovle(__dirname, 'dist'),
+        filename: 'index.bundle.js'
+    },
+    module: { // 在这里为资源设置loader
+        rules: [
+            {test: /\.txt$/, use: 'raw-loader'}
+        ]
+    },
+    plugins: [new HtmlWebpackPlugin({template: './src/index.html'})],
+    mode: 'production'
+}
+```
 
 
 ## entry points
+开始打包的地方。
+```ts
+entry: string | [string]
+```
+demo
+```ts
+module.exports = {
+    entry: './entry.js',
+    entry: ['./entry1.js', './entry2.js'],
+    entry: {
+        main: './entry.js'
+    },
+    entry: {
+        app: './index.js',
+        first: './first.js'
+    }
+}
+```
+```ts
+type EntryDescription = {
+    dependon: string;       // 当前入口文件依赖着哪个文件，必须在依赖文件后加载。
+    filename: string;       // 输出在硬盘上的文件
+    import: string;         // 入口文件
+    library: string;        // Specify library options to bundle a library from current entry.
+    runtime: string;        // 设置运行时的chunk name
+    publicPath: string;     // 为输出文件设置url。
+}
+// runtime / dependon 不能同时使用
+// dependon 不能循环依赖
+```
+- 若打为多个包，则在某些无变动时，它的hash值不变，浏览器就可以使用缓存中的文件。
+- 多页面应用。
+
+
+
+
+
 ## output
 ## loaders
 

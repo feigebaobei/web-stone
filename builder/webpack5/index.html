@@ -63,7 +63,8 @@
 }
 
 </style>
-        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -82,7 +83,8 @@
         <h1 id="webpack5">webpack5</h1>
 <h2 id="overview">overview</h2>
 <blockquote>
-<p>TODO: description</p>
+<p>强大的打包工具
+node v10.13+</p>
 </blockquote>
 <h3 id="feature">feature</h3>
 <ul>
@@ -92,14 +94,57 @@
 </ul>
 <h2 id="install">install</h2>
 <p><code>npm i webpack</code></p>
-<h2 id="usage">usage</h2>
-<pre><code class="language-js"><div><span class="hljs-keyword">const</span> webpack = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;webpack&#x27;</span>);
-<span class="hljs-comment">// or</span>
-<span class="hljs-comment">// import webpack from &#x27;webpack&#x27;;</span>
-<span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> DEMONSTRATE API</span>
+<h2 id="concepts--usage">concepts / usage</h2>
+<pre><code class="language-js"><div><span class="hljs-keyword">let</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;path&#x27;</span>) <span class="hljs-comment">// node内置包</span>
+<span class="hljs-keyword">let</span> HtmlWebpackPlugin = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;html-webpack-plugin&#x27;</span>)
+
+<span class="hljs-built_in">module</span>.exports = {
+    <span class="hljs-attr">entry</span>: <span class="hljs-string">&#x27;./path/to/entry.js&#x27;</span>,
+    <span class="hljs-attr">output</span>: {
+        <span class="hljs-attr">path</span>: path.resovle(__dirname, <span class="hljs-string">&#x27;dist&#x27;</span>),
+        <span class="hljs-attr">filename</span>: <span class="hljs-string">&#x27;index.bundle.js&#x27;</span>
+    },
+    <span class="hljs-attr">module</span>: { <span class="hljs-comment">// 在这里为资源设置loader</span>
+        <span class="hljs-attr">rules</span>: [
+            {<span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.txt$/</span>, use: <span class="hljs-string">&#x27;raw-loader&#x27;</span>}
+        ]
+    },
+    <span class="hljs-attr">plugins</span>: [<span class="hljs-keyword">new</span> HtmlWebpackPlugin({<span class="hljs-attr">template</span>: <span class="hljs-string">&#x27;./src/index.html&#x27;</span>})],
+    <span class="hljs-attr">mode</span>: <span class="hljs-string">&#x27;production&#x27;</span>
+}
 </div></code></pre>
-<h2 id="concepts">concepts</h2>
 <h2 id="entry-points">entry points</h2>
+<p>开始打包的地方。</p>
+<pre><code class="language-ts"><div>entry: <span class="hljs-built_in">string</span> | [<span class="hljs-built_in">string</span>]
+</div></code></pre>
+<p>demo</p>
+<pre><code class="language-ts"><div><span class="hljs-built_in">module</span>.exports = {
+    <span class="hljs-attr">entry</span>: <span class="hljs-string">&#x27;./entry.js&#x27;</span>,
+    <span class="hljs-attr">entry</span>: [<span class="hljs-string">&#x27;./entry1.js&#x27;</span>, <span class="hljs-string">&#x27;./entry2.js&#x27;</span>],
+    <span class="hljs-attr">entry</span>: {
+        <span class="hljs-attr">main</span>: <span class="hljs-string">&#x27;./entry.js&#x27;</span>
+    },
+    <span class="hljs-attr">entry</span>: {
+        <span class="hljs-attr">app</span>: <span class="hljs-string">&#x27;./index.js&#x27;</span>,
+        <span class="hljs-attr">first</span>: <span class="hljs-string">&#x27;./first.js&#x27;</span>
+    }
+}
+</div></code></pre>
+<pre><code class="language-ts"><div><span class="hljs-keyword">type</span> EntryDescription = {
+    <span class="hljs-attr">dependon</span>: <span class="hljs-built_in">string</span>;       <span class="hljs-comment">// 当前入口文件依赖着哪个文件，必须在依赖文件后加载。</span>
+    filename: <span class="hljs-built_in">string</span>;       <span class="hljs-comment">// 输出在硬盘上的文件</span>
+    <span class="hljs-keyword">import</span>: <span class="hljs-built_in">string</span>;         <span class="hljs-comment">// 入口文件</span>
+    library: <span class="hljs-built_in">string</span>;        <span class="hljs-comment">// Specify library options to bundle a library from current entry.</span>
+    runtime: <span class="hljs-built_in">string</span>;        <span class="hljs-comment">// 设置运行时的chunk name</span>
+    publicPath: <span class="hljs-built_in">string</span>;     <span class="hljs-comment">// 为输出文件设置url。</span>
+}
+<span class="hljs-comment">// runtime / dependon 不能同时使用</span>
+<span class="hljs-comment">// dependon 不能循环依赖</span>
+</div></code></pre>
+<ul>
+<li>若打为多个包，则在某些无变动时，它的hash值不变，浏览器就可以使用缓存中的文件。</li>
+<li>多页面应用。</li>
+</ul>
 <h2 id="output">output</h2>
 <h2 id="loaders">loaders</h2>
 <h2 id="plugin"><a href="/builder/webpack/plugin/index.html">plugin</a></h2>
@@ -172,7 +217,7 @@ description</p>
 未来迭代计划。</p>
 </blockquote>
 
-        
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
     </body>
     </html>
