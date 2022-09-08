@@ -37,6 +37,8 @@
 |配置文件||rollup.config.js (esm / cjs / ts)||非必须，webpack.config.js (cjs)|||||||
 |||||写法宽泛|||||||
 |认知范围|esm / cjs|esm||js / json|||||||
+|支持的语言||||coffeescript/ts/esnext/less/sass/stylus/elm|||||||
+|支持的编写规范||||esm/cjs/amd/assets/wasm|||||||
 |loader|||||||||||
 |代码分割||动态引入时||动态引入时|||||||
 |优先方|浏览器||||||||||

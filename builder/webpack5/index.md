@@ -3,6 +3,7 @@
 ## overview
 > 强大的打包工具
 > node v10.13+
+> 本文中简称wp
 
 ### feature
 - feature0
@@ -141,8 +142,65 @@ module.exports = {
 ||||||||
 
 ## modules
+模块化开发。
+webpack可以理解的模块化
+- es2015 import
+- cjs require()
+- amd define/require
+- css / sass / less @import statement
+- css img url(...) / html `<img src=...>`
+
+webpack支持的编写规范
+- esm
+- cjs
+- amd
+- assets
+- webassembly modules
+
+webpack支持的语言
+- coffeescript
+- ts
+- esnext
+- sass
+- less
+- stylus
+- elm
+
+webpack支持的引入规则
+- `import '/file'`
+- `import 'C:\\path\\file'`
+- `import '../file'`
+- `import './file'`
+- `import 'file'`
+- `import 'file/sub'`
+
+可以使用`resolve.alias`解决解决繁杂的引入路径。
+若路径是文件，解决方案：
+- 若文件有扩展名，直接引入
+- 若文件无扩展名，则告诉wp可接受的扩展名 `resolve.extensions`  
+若路径是目录，解决方案：
+- 若目录中有package.json，则该文件中必须包括resovle.mainFields中有的字段。
+- 若目录中无package.json，或resolve.mainfields返回一个有效路径。文件名必须在resovle.mainFiles中出现（有顺序要求）。
+- 文件扩展名resolve.extensions
+
+### 缓存
+若文件从文件系统中访问多次，或平行，或依次。为了更快些，则使用缓存模式，直到该文件有变动，才更新缓存中的该文件。
+
 ## module resolution
-## module federation
+## module federation（模块联邦）
+### 动机
+若模块之间无联系，则分开部署。
+
+### low-level concepts
+
+### high-level concepts
+### low-level concepts
+### low-level concepts
+### low-level concepts
+### low-level concepts
+### low-level concepts
+
+
 ## dependency graph
 ## targets
 ## the manifest

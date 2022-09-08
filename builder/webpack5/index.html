@@ -84,7 +84,8 @@
 <h2 id="overview">overview</h2>
 <blockquote>
 <p>强大的打包工具
-node v10.13+</p>
+node v10.13+
+本文中简称wp</p>
 </blockquote>
 <h3 id="feature">feature</h3>
 <ul>
@@ -250,8 +251,65 @@ demo
 </tbody>
 </table>
 <h2 id="modules">modules</h2>
+<p>模块化开发。
+webpack可以理解的模块化</p>
+<ul>
+<li>es2015 import</li>
+<li>cjs require()</li>
+<li>amd define/require</li>
+<li>css / sass / less @import statement</li>
+<li>css img url(...) / html <code>&lt;img src=...&gt;</code></li>
+</ul>
+<p>webpack支持的编写规范</p>
+<ul>
+<li>esm</li>
+<li>cjs</li>
+<li>amd</li>
+<li>assets</li>
+<li>webassembly modules</li>
+</ul>
+<p>webpack支持的语言</p>
+<ul>
+<li>coffeescript</li>
+<li>ts</li>
+<li>esnext</li>
+<li>sass</li>
+<li>less</li>
+<li>stylus</li>
+<li>elm</li>
+</ul>
+<p>webpack支持的引入规则</p>
+<ul>
+<li><code>import '/file'</code></li>
+<li><code>import 'C:\\path\\file'</code></li>
+<li><code>import '../file'</code></li>
+<li><code>import './file'</code></li>
+<li><code>import 'file'</code></li>
+<li><code>import 'file/sub'</code></li>
+</ul>
+<p>可以使用<code>resolve.alias</code>解决解决繁杂的引入路径。
+若路径是文件，解决方案：</p>
+<ul>
+<li>若文件有扩展名，直接引入</li>
+<li>若文件无扩展名，则告诉wp可接受的扩展名 <code>resolve.extensions</code><br>
+若路径是目录，解决方案：</li>
+<li>若目录中有package.json，则该文件中必须包括resovle.mainFields中有的字段。</li>
+<li>若目录中无package.json，或resolve.mainfields返回一个有效路径。文件名必须在resovle.mainFiles中出现（有顺序要求）。</li>
+<li>文件扩展名resolve.extensions</li>
+</ul>
+<h3 id="缓存">缓存</h3>
+<p>若文件从文件系统中访问多次，或平行，或依次。为了更快些，则使用缓存模式，直到该文件有变动，才更新缓存中的该文件。</p>
 <h2 id="module-resolution">module resolution</h2>
-<h2 id="module-federation">module federation</h2>
+<h2 id="module-federation模块联邦">module federation（模块联邦）</h2>
+<h3 id="动机">动机</h3>
+<p>若模块之间无联系，则分开部署。</p>
+<h3 id="low-level-concepts">low-level concepts</h3>
+<h3 id="high-level-concepts">high-level concepts</h3>
+<h3 id="low-level-concepts-1">low-level concepts</h3>
+<h3 id="low-level-concepts-2">low-level concepts</h3>
+<h3 id="low-level-concepts-3">low-level concepts</h3>
+<h3 id="low-level-concepts-4">low-level concepts</h3>
+<h3 id="low-level-concepts-5">low-level concepts</h3>
 <h2 id="dependency-graph">dependency graph</h2>
 <h2 id="targets">targets</h2>
 <h2 id="the-manifest">the manifest</h2>

@@ -271,11 +271,50 @@
 <td></td>
 </tr>
 <tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>写法宽泛</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
 <td>认知范围</td>
 <td>esm / cjs</td>
 <td>esm</td>
 <td></td>
 <td>js / json</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>支持的语言</td>
+<td></td>
+<td></td>
+<td></td>
+<td>coffeescript/ts/esnext/less/sass/stylus/elm</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>支持的编写规范</td>
+<td></td>
+<td></td>
+<td></td>
+<td>esm/cjs/amd/assets/wasm</td>
 <td></td>
 <td></td>
 <td></td>
@@ -468,7 +507,12 @@
 </tbody>
 </table>
 <h1 id="todo">todo</h1>
-<p>把代码输入进去。它把代码输出出来。不改变运行逻辑，可以改变代码结构。</p>
+<h2 id="对builder的理解">对builder的理解</h2>
+<p>把代码输入进去。它把代码输出出来。不改变运行逻辑，可以改变代码结构。
+esbuild直接支持stdin输入。
+rollup直接build.generater() // stdout输出。</p>
+<h2 id="代码分割">代码分割</h2>
+<p>动态引入时使用import/require。import()返回一个promise.当在满足条件时才加载相关代码。即相关代码需要异步加载。builder使用代码分割懒加载代码。代码分割是为懒加载服务的。可以用于减小包体积、减小首屏加载时长、分成若干小包。</p>
 
         
         
