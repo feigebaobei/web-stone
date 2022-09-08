@@ -146,8 +146,65 @@ node v10.13+</p>
 <li>多页面应用。</li>
 </ul>
 <h2 id="output">output</h2>
+<p>输出选项，不管入口文件有多少个。
+demo</p>
+<pre><code class="language-ts"><div><span class="hljs-built_in">module</span>.exports = {
+    <span class="hljs-attr">output</span>: {<span class="hljs-attr">filename</span>: <span class="hljs-string">&#x27;bundle.js&#x27;</span>},
+    <span class="hljs-attr">output</span>: {
+        <span class="hljs-attr">filename</span>: <span class="hljs-string">&#x27;[name].js&#x27;</span>,
+        <span class="hljs-attr">path</span>: __dirname + <span class="hljs-string">&#x27;/dist&#x27;</span>,
+        <span class="hljs-attr">publicPath</span>: <span class="hljs-string">&#x27;https://www.test.com/assets/[fullhash]/&#x27;</span>
+    },
+}
+</div></code></pre>
 <h2 id="loaders">loaders</h2>
+<p>webpack的核心包并不大。它只认识js/json。其他类型的文件需要由loader转化为js，然后才能打包。
+demo
+<code>npm i -D style-loader css-loader sass-loader ts-loader</code></p>
+<pre><code class="language-js"><div><span class="hljs-built_in">module</span>.exports = {
+    <span class="hljs-attr">module</span>: {
+        <span class="hljs-attr">rules</span>: [
+            {
+                <span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.css$/</span>, 
+                use: [
+                    {<span class="hljs-attr">loader</span>: <span class="hljs-string">&#x27;style-loader&#x27;</span>},
+                    {
+                        <span class="hljs-attr">loader</span>: <span class="hljs-string">&#x27;css-loader&#x27;</span>,
+                        <span class="hljs-attr">options</span>: {<span class="hljs-attr">modules</span>: <span class="hljs-literal">true</span>}
+                    },
+                    {<span class="hljs-attr">loader</span>: <span class="hljs-string">&#x27;sass-loader&#x27;</span>},
+                ]
+            },
+            {<span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.ts$/</span>, use: <span class="hljs-string">&#x27;ts-loader&#x27;</span>},
+        ]
+    }
+}
+</div></code></pre>
+<p>不会行内写法。<br>
+行内优先于配置文件。</p>
+<ul>
+<li>可链式调用。倒序执行。其运行结果，是下一个loader的入参。所有loader有规范。</li>
+<li>可同步也可异步</li>
+<li>node.js运行loader</li>
+<li>使用<code>options</code>对象为loader设置配置。</li>
+<li>通常package.json中<code>main:loader</code></li>
+</ul>
+<h3 id="常用loader">常用loader</h3>
+<ul>
+<li><a href="">style-loader</a>         xxxx</li>
+<li><a href="">css-loader</a>         xxxx</li>
+<li><a href="">sass-loader</a>         xxxx</li>
+<li><a href="">ts-loader</a>         xxxx</li>
+<li><a href="">title</a>         xxxx</li>
+<li><a href="">title</a>         xxxx</li>
+<li><a href="">title</a>         xxxx</li>
+<li><a href="">title</a>         xxxx</li>
+</ul>
 <h2 id="plugin"><a href="/builder/webpack/plugin/index.html">plugin</a></h2>
+<p>插件是webpack的主要部分。
+插件是一个有<code>apply()</code>的对象，该方法被webpack compiler调用。</p>
+<h3 id="常用插件">常用插件</h3>
+<h3 id="内置插件">内置插件</h3>
 <h2 id="configuration">configuration</h2>
 <p>默认配置文件：<code>path/to/file.json</code>。</p>
 <table>

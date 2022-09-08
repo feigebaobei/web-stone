@@ -68,14 +68,69 @@ type EntryDescription = {
 - 若打为多个包，则在某些无变动时，它的hash值不变，浏览器就可以使用缓存中的文件。
 - 多页面应用。
 
-
-
-
-
 ## output
+输出选项，不管入口文件有多少个。
+demo
+```ts
+module.exports = {
+    output: {filename: 'bundle.js'},
+    output: {
+        filename: '[name].js',
+        path: __dirname + '/dist',
+        publicPath: 'https://www.test.com/assets/[fullhash]/'
+    },
+}
+```
+
 ## loaders
+webpack的核心包并不大。它只认识js/json。其他类型的文件需要由loader转化为js，然后才能打包。
+demo
+`npm i -D style-loader css-loader sass-loader ts-loader`
+```js
+module.exports = {
+    module: {
+        rules: [
+            {
+                test: /\.css$/, 
+                use: [
+                    {loader: 'style-loader'},
+                    {
+                        loader: 'css-loader',
+                        options: {modules: true}
+                    },
+                    {loader: 'sass-loader'},
+                ]
+            },
+            {test: /\.ts$/, use: 'ts-loader'},
+        ]
+    }
+}
+```
+不会行内写法。  
+行内优先于配置文件。  
+
+- 可链式调用。倒序执行。其运行结果，是下一个loader的入参。所有loader有规范。
+- 可同步也可异步
+- node.js运行loader
+- 使用`options`对象为loader设置配置。  
+- 通常package.json中`main:loader`
+
+### 常用loader
+- [style-loader]()         xxxx
+- [css-loader]()         xxxx
+- [sass-loader]()         xxxx
+- [ts-loader]()         xxxx
+- [title]()         xxxx
+- [title]()         xxxx
+- [title]()         xxxx
+- [title]()         xxxx
 
 ## [plugin](/builder/webpack/plugin/index.html)
+插件是webpack的主要部分。
+插件是一个有`apply()`的对象，该方法被webpack compiler调用。
+
+### 常用插件
+### 内置插件
 
 ## configuration
 默认配置文件：`path/to/file.json`。
