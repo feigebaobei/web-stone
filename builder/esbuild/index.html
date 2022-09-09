@@ -82,20 +82,20 @@
         <h1 id="esbuild"><code>esbuild</code></h1>
 <h2 id="overview">overview</h2>
 <blockquote>
-<p>我们目前的web构建工具的速度比他们可以做到的慢10-100倍。esbuild捆绑包项目的主要目标是带来构建工具性能的新时代，并在此过程中创建一个易于使用的现代捆绑包。</p>
-<p>它处理ts -&gt; js的速度是tsc的20-30倍
-当使用api方式时，esbuild的可执行文件在child process中运行。
-plugin只支持异步api
-主要使用go(40%)/js+ts(40%)编写。
-主要使用go/js/ts编写。
-默认不打包（它是一个打包器，居然默认不打包）
-支持静态引入打包，不支持动态引入打包。
-浏览器优先。（打包默认iife规范）
+<p>我们目前的web构建工具的速度比他们可以做到的慢10-100倍。esbuild捆绑包项目的主要目标是带来构建工具性能的新时代，并在此过程中创建一个易于使用的现代捆绑包。<br>
+它处理ts -&gt; js的速度是tsc的20-30倍<br>
+当使用api方式时，esbuild的可执行文件在child process中运行。<br>
+plugin只支持异步api<br>
+主要使用go(40%)/js+ts(40%)编写。<br>
+主要使用go/js/ts编写。<br>
+默认不打包（它是一个打包器，居然默认不打包）<br>
+支持静态引入打包，不支持动态引入打包。<br>
+浏览器优先。（打包默认iife规范）<br>
 cli中的选项无前后顺序</p>
 </blockquote>
 <h3 id="feature">feature</h3>
 <ul>
-<li>使用缓存也很快</li>
+<li>不使用缓存也很快</li>
 <li>支持esm/cjs</li>
 <li>esm 可 tree shaking</li>
 <li>支持js / go 使用 api</li>
@@ -105,14 +105,13 @@ cli中的选项无前后顺序</p>
 <li>可插件</li>
 <li>支持cli</li>
 <li>支持编写js代码</li>
-<li></li>
 </ul>
 <h2 id="install">install</h2>
 <pre><code class="language-shell"><div>npm i esbuild
 npm i esbuild-wasm
 </div></code></pre>
 <h2 id="usage">usage</h2>
-<p>同<code>./demo.html</code></p>
+<p><a href="/builder/esbuild/demo0.html">demo0</a></p>
 <h2 id="打包结果的多种用途">打包结果的多种用途</h2>
 <h3 id="browser">browser</h3>
 <pre><code class="language-shell"><div>esbuild input.js --target=chrome58,firefox57,safari11,edge16

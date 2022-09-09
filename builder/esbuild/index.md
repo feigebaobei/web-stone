@@ -2,19 +2,18 @@
 
 ## overview
 > 我们目前的web构建工具的速度比他们可以做到的慢10-100倍。esbuild捆绑包项目的主要目标是带来构建工具性能的新时代，并在此过程中创建一个易于使用的现代捆绑包。  
-> 
-> 它处理ts -> js的速度是tsc的20-30倍
-> 当使用api方式时，esbuild的可执行文件在child process中运行。
-> plugin只支持异步api
-> 主要使用go(40%)/js+ts(40%)编写。
-> 主要使用go/js/ts编写。
-> 默认不打包（它是一个打包器，居然默认不打包）
-> 支持静态引入打包，不支持动态引入打包。
-> 浏览器优先。（打包默认iife规范）
-> cli中的选项无前后顺序
+> 它处理ts -> js的速度是tsc的20-30倍  
+> 当使用api方式时，esbuild的可执行文件在child process中运行。  
+> plugin只支持异步api  
+> 主要使用go(40%)/js+ts(40%)编写。  
+> 主要使用go/js/ts编写。  
+> 默认不打包（它是一个打包器，居然默认不打包）  
+> 支持静态引入打包，不支持动态引入打包。  
+> 浏览器优先。（打包默认iife规范）  
+> cli中的选项无前后顺序  
 
 ### feature
-- 使用缓存也很快
+- 不使用缓存也很快
 - 支持esm/cjs
 - esm 可 tree shaking
 - 支持js / go 使用 api
@@ -24,7 +23,6 @@
 - 可插件
 - 支持cli
 - 支持编写js代码
-- 
 
 ## install
 ```shell
@@ -32,8 +30,7 @@ npm i esbuild
 npm i esbuild-wasm
 ```
 
-## usage
-同`./demo.html`
+[demo0](/builder/esbuild/demo0.html)  
 
 ## 打包结果的多种用途
 
