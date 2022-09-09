@@ -188,21 +188,31 @@ webpack支持的引入规则
 
 ## module resolution
 ## module federation（模块联邦）
+需要重读wp module部分的文档
+
 ### 动机
 若模块之间无联系，则分开部署。
 
-### low-level concepts
-
 ### high-level concepts
-### low-level concepts
-### low-level concepts
-### low-level concepts
-### low-level concepts
+
 ### low-level concepts
 
+### low-level concepts
+
+### low-level concepts
+### low-level concepts
+### low-level concepts
+###  concept goals
+- 模块应该暴露所有wp支持的模块类型
+- 代码块应该使用平行加载
+- 控制从消费者到内容者
+  - 
 
 ## dependency graph
+wp根据import / require绘制依赖图。
+
 ## targets
+
 ## the manifest
 ## hot module replacement
 ## why webpack

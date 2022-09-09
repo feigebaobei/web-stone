@@ -244,8 +244,8 @@ c.on('ready', () => {
         }
         // let p = 'builder/webpack'
         let p = [
-            // 'builder/index.html',
-            // 'builder/webpack5/index.html',
+            'builder/index.html',
+            'builder/webpack5/index.html',
         ]
         // 检测指定目录是否存在
         // checkDir(p)
