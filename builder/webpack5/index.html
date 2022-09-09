@@ -321,6 +321,26 @@ webpack可以理解的模块化</p>
 <h2 id="dependency-graph">dependency graph</h2>
 <p>wp根据import / require绘制依赖图。</p>
 <h2 id="targets">targets</h2>
+<p><code>target: 'node'</code> // 指定运行环境</p>
+<p>多个输出（多个运行环境）</p>
+<pre><code class="language-js"><div><span class="hljs-comment">// webpack.config.js</span>
+<span class="hljs-keyword">let</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;path&#x27;</span>)
+<span class="hljs-keyword">let</span> serverConfig = {
+    <span class="hljs-attr">target</span>: <span class="hljs-string">&#x27;node&#x27;</span>,
+    <span class="hljs-attr">output</span>: {
+        <span class="hljs-attr">path</span>: path.resovle(__dirname, <span class="hljs-string">&#x27;dist&#x27;</span>),
+        <span class="hljs-attr">filename</span>: <span class="hljs-string">&#x27;lib.node.js&#x27;</span>
+    }
+}
+<span class="hljs-keyword">let</span> clientConfig = {
+    <span class="hljs-attr">target</span>: <span class="hljs-string">&#x27;web&#x27;</span>,
+    <span class="hljs-attr">output</span>: {
+        <span class="hljs-attr">path</span>: path.resovle(__dirname, <span class="hljs-string">&#x27;dist&#x27;</span>),
+        <span class="hljs-attr">filename</span>: <span class="hljs-string">&#x27;lib.js&#x27;</span>
+    }
+}
+<span class="hljs-built_in">module</span>.exports = [serverConfig, clientConfig]
+</div></code></pre>
 <h2 id="the-manifest">the manifest</h2>
 <h2 id="hot-module-replacement">hot module replacement</h2>
 <h2 id="why-webpack">why webpack</h2>

@@ -212,6 +212,28 @@ webpack支持的引入规则
 wp根据import / require绘制依赖图。
 
 ## targets
+`target: 'node'` // 指定运行环境
+
+多个输出（多个运行环境）
+```js
+// webpack.config.js
+let path = require('path')
+let serverConfig = {
+    target: 'node',
+    output: {
+        path: path.resovle(__dirname, 'dist'),
+        filename: 'lib.node.js'
+    }
+}
+let clientConfig = {
+    target: 'web',
+    output: {
+        path: path.resovle(__dirname, 'dist'),
+        filename: 'lib.js'
+    }
+}
+module.exports = [serverConfig, clientConfig]
+```
 
 ## the manifest
 ## hot module replacement
