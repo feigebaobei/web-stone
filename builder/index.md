@@ -36,7 +36,7 @@
 |用法|cli / js / go|cli / js||cli / js|||||||
 |配置文件||rollup.config.js (esm / cjs / ts)||非必须，webpack.config.js (cjs)|||||||
 |||||写法宽泛|||||||
-|认知范围|esm / cjs|esm||js / json|||||||
+|认知范围|esm / cjs / jsx|esm||js / json|||||||
 |支持的语言||||coffeescript/ts/esnext/less/sass/stylus/elm|||||||
 |支持的编写规范||||esm/cjs/amd/assets/wasm|||||||
 |loader|||||||||||
@@ -63,6 +63,7 @@ rollup直接build.generater() // stdout输出。
 ## 代码分割
 动态引入时使用import/require。import()返回一个promise.当在满足条件时才加载相关代码。即相关代码需要异步加载。builder使用代码分割懒加载代码。代码分割是为懒加载服务的。可以用于减小包体积、减小首屏加载时长、分成若干小包。
 
-
+## title
+读完这几个打包工具后，发现它们对项目结构、框架没有影响。即：在项目开发中期是发现早期选择的打包工具不好用了，再换也来得及，没有多大影响。
 
 

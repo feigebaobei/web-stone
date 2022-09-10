@@ -11,18 +11,27 @@
 > 支持静态引入打包，不支持动态引入打包。  
 > 浏览器优先。（打包默认iife规范）  
 > cli中的选项无前后顺序  
+> 面向平台打包 `--target`
+> 编译时的打包器。
+> 推荐使用js写法。（其他写法是cli、go）
 
 ### feature
 - 不使用缓存也很快
 - 支持esm/cjs
 - esm 可 tree shaking
-- 支持js / go 使用 api
+- 支持 cli / js / go
 - 支持ts/jsx
 - source map
 - minification
-- 可插件
-- 支持cli
+- 可编写简单插件，插件只支持异步api.
 - 支持编写js代码
+- 支持jsx默认转换为js，不需要loader
+- api只有2个：
+  - transform   用于stdin
+  - build       用于文件系统
+- 不支持运行时引入
+- 没有配置文件
+- 所以只能打包**静态引入**的资源。因它是编译时的打包器。
 
 ## install
 ```shell
@@ -55,6 +64,8 @@ require('esbuild').buildSync({
 既然打包时排除了，那么在使用该包时。这些排除项也要在运行时存在。（有些同等依赖）
 
 ## configuration
+待完善  
+没有配置文件
 默认配置文件：`path/to/file.json`。
 |key|description|default|enum|demo|||
 |-|-|-|-|-|-|-|
@@ -75,6 +86,11 @@ require('esbuild').buildSync({
 - 当没有指定输入文件和`--bundle`时，输入使用标准输入的字符串，输出使用标准输出。  
 - 该api就是为无文件系统时提供的。（它没有入口选项）
 使用方式
+
+```ts
+transformSync(sourceCode: string, options: {...}) => string
+```
+
 ```
 // shell
 echo 'let x: number = 1' | esbuild --loader=ts
@@ -92,11 +108,18 @@ func main() {
 ```
 
 ### build
-`build`api可操作文件系统中的一个或多个文件。允许文件引用别的文件。
+- `build` api可操作文件系统中的一个或多个文件。允许文件引用别的文件。
 - 当项目至少一个输入文件或`--bundle`标记时，esbuild会调用此api.  
 - 默认不打包，必须明确使用`--bundle`才会去打包  
 - 当没有输入文件时，使用标准输入。
 - （有入口选项）  
+
+```ts
+buildSync(options: {
+  ...
+}) => obj
+```
+
 使用方式
 ```
 // cli
@@ -129,7 +152,7 @@ func main() {
 
 |option|可用于哪个api|说明|默认值|枚举值|demo||
 |-|-|-|-|-|-|-|
-|`bundle`|build|把所有依赖、引入打包为内联的。可递归打包。默认输出iife规范的文件。|**默认不打包输入文件。**。若要打包必须明确使用此选项。多个输入时，会默认打包出对应的多个文件。可以把多个文件引入到一个文件中，再打包这个文件。||`esbuild in.js --bundle`||
+|`bundle`|build|把所有依赖、引入打包为内联的。可递归打包。默认输出iife规范的文件。|**默认不打包输入文件。**。若要打包必须明确使用此选项。多个输入时，会默认打包出对应的多个文件。可以把多个文件引入到一个文件中，再打包这个文件。||`esbuild in.js --bundle`|只支持打包静态资源。请确保在运行可引入排除的包。|
 |`define`|trasform/build|定义全局替换的内容（类似宏替换）。若定义string，则必须使用引号。请遵守操作系统的斜线的数量。|-|json对象/单个变量|`echo 'id, str' | esbuild --define:id=text --define:str=\"text\"`||
 |*入口*|build|明确打包的文件。一般与其一起使用的选项还有：outdir/outfile/outbase/xxx/xxx/...|-|一个文件或多个文件|||
 |`external`|build|指定不打包的文件|||||
@@ -194,6 +217,16 @@ func main() {
 |`tsconfig-raw`|transform|当使用transform api时不使用访问文件系统，所以可以使用该字段设置|-|-|`echo xxx | esbuild --loader=ts --tsconfig-raw='{"compilerOptions": {"useDefineForClassFields": true}}'`||
 |*working directory*|build|设置工作目录。不支持cli.|默认为当前工作目录||||
 |*js-specific details*|||||||
+
+### 基本结构
+```js
+require('esbuild').buildSync({
+  entryPoints: ['src/index.js'],
+  bundle: true,
+  write: true,
+  outdir: 'out'
+})
+```
 
 ## 选项的补充说明
 ### Non-analyzable imports
@@ -655,5 +688,9 @@ esbuild有些不足为什么还基于它做工作。（可能是因不致命，�
 为了快有好多功能没做。不支持功能：
 - 降级输出
 - 本可以再做的更宽泛，但是esbuild往宽的做，而是向精细的做。专注于做自己的事。
+
+我记得好像有过一个用go重写的webpack  
+两个语言支持相同api。差不多是个产品都会要求程序员这样做。好保持产品对外输出一致。
+在介绍环节就应该把产品的全部功能带一遍给读者。像《红楼梦》在前五章就映射了全书的内容。比“总-分-总”结构要高一个档次  
 
 ### title
