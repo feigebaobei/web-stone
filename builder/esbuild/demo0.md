@@ -12,7 +12,7 @@
 mkdir projDir
 cd projDir
 npm init
-npm i reate react-dom
+npm i react react-dom
 npm i esbuild -D
 npm set-script build "esbuild app.jsx --bundle --outfile=out.js" # 需要npm v8+ 若设置不成功，则请手动编辑package.json中的脚本
 npm set-script jsb "node ./jsb.js"
