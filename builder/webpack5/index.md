@@ -236,7 +236,18 @@ module.exports = [serverConfig, clientConfig]
 ```
 
 ## the manifest
+manifest怎么控制的资源？
+- runtime 在浏览器运行环境，wp用来连接模块化应用程序所需的所有代码。
+    - 在模块交互时，连接模块所需的加载和解析逻辑，
+- manifest 使用该文件管理各种资源的加载与链接。
+  - 
+
 ## hot module replacement
+- 保留完全重新加载页面期间丢失的应用程序状态
+- 只更新变更内容 
+- 源代码的内容变动时，浏览器更新。
+
+
 ## why webpack
 ## under the hood
 
