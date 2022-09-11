@@ -16,7 +16,7 @@ const {Search} = Input
 export default function App () {
     let [wordList, setWordList] = useState([])
     let [drawerOpen, setDrawerOpen] = useState(false)
-    let oldSetBox = JSON.parse(window.localStorage.setBox || '{}')
+    let oldSetBox = JSON.parse(window.localStorage.setBox || '{num: 5}')
     let [state, dispatch] = useReducer((state, action) => {
         let res = state
         switch (action.type) {
@@ -28,7 +28,7 @@ export default function App () {
         }
         return res
     }, {
-        num: oldSetBox.num || 5,
+        num: oldSetBox.num, // || 5,
         ver: '3.0',
         doctype: 'json',
         cache: 'false',
@@ -72,7 +72,7 @@ export default function App () {
             // url: 'http://localhost:5000/searchWord',
             url,
             params: {
-                num: '5',
+                num: state.num,
                 ver: '3.0',
                 doctype: 'json',
                 cache: 'false',
@@ -123,6 +123,7 @@ export default function App () {
             onClose={drawerCloseHandler}
             open={drawerOpen}
         >
+            <p>{state.num}</p>
             <Form>
                 <Form.Item
                     label="查询数量"

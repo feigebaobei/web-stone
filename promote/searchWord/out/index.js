@@ -1319,7 +1319,7 @@
               }
             }
           }
-          function checkPropTypes(typeSpecs, values, location, componentName, element) {
+          function checkPropTypes(typeSpecs, values, location2, componentName, element) {
             {
               var has = Function.call.bind(hasOwnProperty);
               for (var typeSpecName in typeSpecs) {
@@ -1327,23 +1327,23 @@
                   var error$1 = void 0;
                   try {
                     if (typeof typeSpecs[typeSpecName] !== "function") {
-                      var err = Error((componentName || "React class") + ": " + location + " type `" + typeSpecName + "` is invalid; it must be a function, usually from the `prop-types` package, but received `" + typeof typeSpecs[typeSpecName] + "`.This often happens because of typos such as `PropTypes.function` instead of `PropTypes.func`.");
+                      var err = Error((componentName || "React class") + ": " + location2 + " type `" + typeSpecName + "` is invalid; it must be a function, usually from the `prop-types` package, but received `" + typeof typeSpecs[typeSpecName] + "`.This often happens because of typos such as `PropTypes.function` instead of `PropTypes.func`.");
                       err.name = "Invariant Violation";
                       throw err;
                     }
-                    error$1 = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, "SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED");
+                    error$1 = typeSpecs[typeSpecName](values, typeSpecName, componentName, location2, null, "SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED");
                   } catch (ex) {
                     error$1 = ex;
                   }
                   if (error$1 && !(error$1 instanceof Error)) {
                     setCurrentlyValidatingElement(element);
-                    error("%s: type specification of %s `%s` is invalid; the type checker function must return `null` or an `Error` but returned a %s. You may have forgotten to pass an argument to the type checker creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and shape all require an argument).", componentName || "React class", location, typeSpecName, typeof error$1);
+                    error("%s: type specification of %s `%s` is invalid; the type checker function must return `null` or an `Error` but returned a %s. You may have forgotten to pass an argument to the type checker creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and shape all require an argument).", componentName || "React class", location2, typeSpecName, typeof error$1);
                     setCurrentlyValidatingElement(null);
                   }
                   if (error$1 instanceof Error && !(error$1.message in loggedTypeFailures)) {
                     loggedTypeFailures[error$1.message] = true;
                     setCurrentlyValidatingElement(element);
-                    error("Failed %s type: %s", location, error$1.message);
+                    error("Failed %s type: %s", location2, error$1.message);
                     setCurrentlyValidatingElement(null);
                   }
                 }
@@ -10328,7 +10328,7 @@
               }
             }
           }
-          function checkPropTypes(typeSpecs, values, location, componentName, element) {
+          function checkPropTypes(typeSpecs, values, location2, componentName, element) {
             {
               var has2 = Function.call.bind(hasOwnProperty);
               for (var typeSpecName in typeSpecs) {
@@ -10336,23 +10336,23 @@
                   var error$1 = void 0;
                   try {
                     if (typeof typeSpecs[typeSpecName] !== "function") {
-                      var err = Error((componentName || "React class") + ": " + location + " type `" + typeSpecName + "` is invalid; it must be a function, usually from the `prop-types` package, but received `" + typeof typeSpecs[typeSpecName] + "`.This often happens because of typos such as `PropTypes.function` instead of `PropTypes.func`.");
+                      var err = Error((componentName || "React class") + ": " + location2 + " type `" + typeSpecName + "` is invalid; it must be a function, usually from the `prop-types` package, but received `" + typeof typeSpecs[typeSpecName] + "`.This often happens because of typos such as `PropTypes.function` instead of `PropTypes.func`.");
                       err.name = "Invariant Violation";
                       throw err;
                     }
-                    error$1 = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, "SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED");
+                    error$1 = typeSpecs[typeSpecName](values, typeSpecName, componentName, location2, null, "SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED");
                   } catch (ex) {
                     error$1 = ex;
                   }
                   if (error$1 && !(error$1 instanceof Error)) {
                     setCurrentlyValidatingElement(element);
-                    error("%s: type specification of %s `%s` is invalid; the type checker function must return `null` or an `Error` but returned a %s. You may have forgotten to pass an argument to the type checker creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and shape all require an argument).", componentName || "React class", location, typeSpecName, typeof error$1);
+                    error("%s: type specification of %s `%s` is invalid; the type checker function must return `null` or an `Error` but returned a %s. You may have forgotten to pass an argument to the type checker creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and shape all require an argument).", componentName || "React class", location2, typeSpecName, typeof error$1);
                     setCurrentlyValidatingElement(null);
                   }
                   if (error$1 instanceof Error && !(error$1.message in loggedTypeFailures)) {
                     loggedTypeFailures[error$1.message] = true;
                     setCurrentlyValidatingElement(element);
-                    error("Failed %s type: %s", location, error$1.message);
+                    error("Failed %s type: %s", location2, error$1.message);
                     setCurrentlyValidatingElement(null);
                   }
                 }
@@ -42477,6 +42477,20 @@
     return Promise.reject(error);
   });
 
+  // src/util/index.js
+  var getEnv = () => {
+    let { host } = location;
+    if (host.includes("localhost")) {
+      return 0;
+    } else if (host.includes("lixiaodan.org")) {
+      return 20;
+    } else if (host.includes("vercel")) {
+      return 21;
+    } else if (host.includes("netlify")) {
+      return 22;
+    }
+  };
+
   // node_modules/@ant-design/icons/es/icons/SettingOutlined.js
   var React109 = __toESM(require_react());
 
@@ -42494,14 +42508,15 @@
   SettingOutlined2.displayName = "SettingOutlined";
   var SettingOutlined_default2 = /* @__PURE__ */ React109.forwardRef(SettingOutlined2);
 
-  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-82298-9lLWCpbC38wm/searchWord/src/app.module.css.js
+  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-83798-nnQaFmAUQfWt/searchWord/src/app.module.css.js
   var digest = "1b7c9674ef6f5e70d9ffb8c89c347b06acd8096cf16dc54fc9ded741e7cdaa87";
-  var css2 = `._appRp_1dprn_1 {
+  var css2 = `._appRp_ho3lb_1 {
     position: relative;
     width: 100vw;
     height: 100vh;
+    overflow: auto;
 }
-._setBox_1dprn_6 {
+._setBox_ho3lb_7 {
     position: absolute;
     left: 35px;
     bottom: 80px;
@@ -42517,15 +42532,14 @@
       document.head.appendChild(el);
     }
   })();
-  var app_module_css_default = { "appRp": "_appRp_1dprn_1", "setBox": "_setBox_1dprn_6" };
+  var app_module_css_default = { "appRp": "_appRp_ho3lb_1", "setBox": "_setBox_ho3lb_7" };
 
   // src/App.js
   var { Search: Search2 } = input_default;
   function App() {
     let [wordList, setWordList] = (0, import_react36.useState)([]);
     let [drawerOpen, setDrawerOpen] = (0, import_react36.useState)(false);
-    let oldSetBox = JSON.parse(window.localStorage.setBox || "{}");
-    console.log("oldSetBox", oldSetBox);
+    let oldSetBox = JSON.parse(window.localStorage.setBox || "{num: 5}");
     let [state, dispatch2] = (0, import_react36.useReducer)((state2, action) => {
       let res = state2;
       switch (action.type) {
@@ -42537,7 +42551,7 @@
       }
       return res;
     }, {
-      num: oldSetBox.num || 5,
+      num: oldSetBox.num,
       ver: "3.0",
       doctype: "json",
       cache: "false",
@@ -42556,11 +42570,27 @@
       setDrawerOpen(true);
     };
     let searchHandler = (searchStr) => {
+      let url2 = "";
+      switch (getEnv) {
+        case 0:
+        default:
+          url2 = "http://localhost:5000/searchWord";
+          break;
+        case 20:
+          url2 = "https://lixiaodan.org/searchWord";
+          break;
+        case 21:
+          url2 = "https://lixiaodanend.vercel.app/searchWord";
+          break;
+        case 22:
+          url2 = "https://lixiaodanend.netlify.app/searchWord";
+          break;
+      }
       instance({
         method: "get",
-        url: "http://localhost:5000/searchWord",
+        url: url2,
         params: {
-          num: "5",
+          num: state.num,
           ver: "3.0",
           doctype: "json",
           cache: "false",
@@ -42576,13 +42606,9 @@
       });
     };
     let saveSet = () => {
-      console.log("saveSet");
-      let obj = {};
-      obj.num = state.num;
-      window.localStorage.setItem("setBox", JSON.stringify(obj));
+      window.localStorage.setItem("setBox", JSON.stringify({ num: state.num }));
     };
     let NumberChangeHandler = (v) => {
-      console.log("NumberChangeHandler", v);
       dispatch2({ type: "num", payload: v });
     };
     return /* @__PURE__ */ import_react36.default.createElement("main", {
