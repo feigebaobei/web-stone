@@ -1,12 +1,30 @@
 import axios from 'axios'
 import md5 from 'md5'
 import createSimpleStore from './simpleStore'
+import {getEnv} from './baseUtil'
 
 let simpleStore = createSimpleStore()
+let baseURL = ''
+switch (getEnv()) {
+    case 0:
+    default:
+        baseURL = 'http://localhost:5000'
+        break
+    case 20:
+        baseURL = 'https://lixiaodan.org'
+        break
+    case 21:
+        baseURL = 'https://lixiaodanend.vercel.app'
+        break
+    case 22:
+        baseURL = 'https://lixiaodanend.netlify.app'
+        break
+}
 
 let instance = axios.create({
     // baseURL: 'http:www.xxx.com',
     // 用于各种后端接口，所以不适合设置baseURL
+    baseURL,
     timeout: 5000,
     headers: {
         // 'key': 'value'

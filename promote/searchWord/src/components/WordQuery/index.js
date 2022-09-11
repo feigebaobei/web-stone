@@ -5,18 +5,15 @@ import React, {
     useReducer,
 } from "react";
 // import First from "./components/First";
-import 'antd/dist/antd.css';
 import {Button, Input, message, Drawer, Form, InputNumber} from 'antd'
-import {clog, getEnv, instance} from './util/index'
+import {clog, getEnv, instance} from '../../util/index'
 import { SettingOutlined } from '@ant-design/icons';
 import styles from './app.module.css'
-import {Routes, Route} from 'react-router-dom'
-import Home from './components/WordQuery'
-import About from './components/History'
 
+// 本模块内的变量
 const {Search} = Input
 
-export default function App () {
+export default function WordQuery () {
     let [wordList, setWordList] = useState([])
     let [drawerOpen, setDrawerOpen] = useState(false)
     let oldSetBox = JSON.parse(window.localStorage.setBox || '{num: 5}')
@@ -53,7 +50,7 @@ export default function App () {
     }
     let searchHandler = (searchStr) => {
         let url = ''
-        switch (getEnv) {
+        switch (getEnv()) {
             case 0:
             default:
                 url = 'http://localhost:5000/searchWord'
@@ -97,19 +94,6 @@ export default function App () {
         dispatch({type: 'num', payload: v})
     }
     return <main className={styles.appRp}>
-        {/* 考虑使用react-router */}
-        <Routes>
-            <Route path="/" element={<Home/>} />
-            <Route path="about" element={<About/>} />
-        </Routes>
-        <header>
-            <Button onClick={searchClickHandler}>
-            查询
-            </Button>
-            <Button onClick={historeClickHandler}>
-            历史
-            </Button>
-        </header>
         <div>
             <Search placeholder="input search text" onSearch={searchHandler}/>
         </div>
