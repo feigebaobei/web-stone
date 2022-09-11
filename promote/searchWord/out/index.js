@@ -43521,8 +43521,8 @@
   SettingOutlined2.displayName = "SettingOutlined";
   var SettingOutlined_default2 = /* @__PURE__ */ React109.forwardRef(SettingOutlined2);
 
-  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-89576-oTo8YQ7qbyPG/searchWord/src/components/WordQuery/app.module.css.js
-  var digest = "4f7e1b16236f260ae774d3b5c297e770a4d6c7b540d0dd06cf0bf52539c53b8e";
+  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-91624-Sz67QZr7h0kM/searchWord/src/components/WordQuery/app.module.css.js
+  var digest = "4b1fffe8433ec247c39f63dcf478b067ab9b69249733de34dd7453b31bd29aa0";
   var css2 = `._appRp_ho3lb_1 {
     position: relative;
     width: 100vw;
@@ -43552,7 +43552,8 @@
   function WordQuery() {
     let [wordList, setWordList] = (0, import_react38.useState)([]);
     let [drawerOpen, setDrawerOpen] = (0, import_react38.useState)(false);
-    let oldSetBox = JSON.parse(window.localStorage.setBox || "{num: 5}");
+    let defaultSetBox = { num: 5 };
+    let oldSetBox = JSON.parse(window.localStorage.getItem("setBox") || JSON.stringify(defaultSetBox));
     let [state, dispatch2] = (0, import_react38.useReducer)((state2, action) => {
       let res = state2;
       switch (action.type) {
@@ -43662,8 +43663,8 @@
   // src/components/History/index.js
   var import_react39 = __toESM(require_react());
 
-  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-89576-T0udd86xPWDW/searchWord/src/components/History/index.module.css.js
-  var digest2 = "23c6b91f960ff015eba7c0b743afda21a791c508e2ad76f4149ac5e25950fe61";
+  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-91624-aIbShhKWOb5C/searchWord/src/components/History/index.module.css.js
+  var digest2 = "4c3920ab222e5475e095aa0cea0d1a58b5d87521cb16e54a89a851925ffeb456";
   var css3 = `._wordItem_1beb0_1 {
     display: flex;
     cursor: pointer;

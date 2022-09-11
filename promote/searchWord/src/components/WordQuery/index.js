@@ -16,7 +16,8 @@ const {Search} = Input
 export default function WordQuery () {
     let [wordList, setWordList] = useState([])
     let [drawerOpen, setDrawerOpen] = useState(false)
-    let oldSetBox = JSON.parse(window.localStorage.setBox || '{num: 5}')
+    let defaultSetBox = {num: 5}
+    let oldSetBox = JSON.parse(window.localStorage.getItem('setBox') || JSON.stringify(defaultSetBox))
     let [state, dispatch] = useReducer((state, action) => {
         let res = state
         switch (action.type) {
