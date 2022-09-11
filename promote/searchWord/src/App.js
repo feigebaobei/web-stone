@@ -7,7 +7,7 @@ import React, {
 // import First from "./components/First";
 import 'antd/dist/antd.css';
 import {Button, Input, message, Drawer, Form, InputNumber} from 'antd'
-import {clog, instance} from '../src/util/index'
+import {clog, getEnv, instance} from '../src/util/index'
 import { SettingOutlined } from '@ant-design/icons';
 import styles from './app.module.css'
 
@@ -15,15 +15,12 @@ const {Search} = Input
 
 export default function App () {
     let [wordList, setWordList] = useState([])
-    // console.log('wordList', wordList)
     let [drawerOpen, setDrawerOpen] = useState(false)
     let oldSetBox = JSON.parse(window.localStorage.setBox || '{}')
-    console.log('oldSetBox', oldSetBox)
     let [state, dispatch] = useReducer((state, action) => {
         let res = state
         switch (action.type) {
             case 'num':
-                // res = {num: }
                 res.num = action.payload
                 break
             default:
@@ -31,7 +28,6 @@ export default function App () {
         }
         return res
     }, {
-        // num: '5',
         num: oldSetBox.num || 5,
         ver: '3.0',
         doctype: 'json',
@@ -46,21 +42,35 @@ export default function App () {
 
     }
     let drawerCloseHandler = () => {
-        // clog('drawerCloseHandler')
         setDrawerOpen(false)
         saveSet()
     }
     let setButtonClickHandler = () => {
-        // clog('drawerOpenHandler')
         setDrawerOpen(true)
     }
     let searchHandler = (searchStr) => {
-        // clog('searchHandler', '调用接口', searchStr)
+        let url = ''
+        switch (getEnv) {
+            case 0:
+            default:
+                url = 'http://localhost:5000/searchWord'
+                break
+            case 20:
+                url = 'https://lixiaodan.org/searchWord'
+                break
+            case 21:
+                url = 'https://lixiaodanend.vercel.app/searchWord'
+                break
+            case 22:
+                url = 'https://lixiaodanend.netlify.app/searchWord'
+                break
+        }
         instance({
             method: 'get',
             // https://dict.youdao.com/suggest?num=5&ver=3.0&doctype=json&cache=false&le=en&q=evaluate
             // url: 'https://dict.youdao.com/suggest',
-            url: 'http://localhost:5000/searchWord',
+            // url: 'http://localhost:5000/searchWord',
+            url,
             params: {
                 num: '5',
                 ver: '3.0',
@@ -69,11 +79,6 @@ export default function App () {
                 le: 'en',
                 q: searchStr
             },
-            // headers: {
-            //     Origin: 'https://dict.youdao.com',
-            //     Referer: 'https://dict.youdao.com',
-            //     k: 'v'
-            // }
         }).then(res => {
             if (!res.code) {
                 setWordList(res.data)
@@ -83,9 +88,7 @@ export default function App () {
         })
     }
     let saveSet = () => {
-        let obj = {}
-        obj.num = state.num
-        window.localStorage.setItem('setBox', JSON.stringify(obj))
+        window.localStorage.setItem('setBox', JSON.stringify({num: state.num}))
     }
     let NumberChangeHandler = (v) => {
         dispatch({type: 'num', payload: v})
@@ -119,15 +122,7 @@ export default function App () {
             placement="left"
             onClose={drawerCloseHandler}
             open={drawerOpen}
-            // key={placement}
         >
-    {/* //   num: '5',
-    //   ver: '3.0',
-    //   doctype: 'json',
-    //   cache: 'false',
-    //   le: 'en',
-    //   q: req.query.q || '' */}
-    <p>{state.num}</p>
             <Form>
                 <Form.Item
                     label="查询数量"
