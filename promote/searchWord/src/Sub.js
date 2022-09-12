@@ -52,22 +52,22 @@ export default function App () {
         setDrawerOpen(true)
     }
     let searchHandler = (searchStr) => {
-        let url = ''
-        switch (getEnv) {
-            case 0:
-            default:
-                url = 'http://localhost:5000/searchWord'
-                break
-            case 20:
-                url = 'https://lixiaodan.org/searchWord'
-                break
-            case 21:
-                url = 'https://lixiaodanend.vercel.app/searchWord'
-                break
-            case 22:
-                url = 'https://lixiaodanend.netlify.app/searchWord'
-                break
-        }
+        let url = 'searchWord'
+        // switch (getEnv) {
+        //     case 0:
+        //     default:
+        //         url = 'http://localhost:5000/searchWord'
+        //         break
+        //     case 20:
+        //         url = 'https://lixiaodan.org/searchWord'
+        //         break
+        //     case 21:
+        //         url = 'https://lixiaodanend.vercel.app/searchWord'
+        //         break
+        //     case 22:
+        //         url = 'https://lixiaodanend.netlify.app/searchWord'
+        //         break
+        // }
         instance({
             method: 'get',
             // https://dict.youdao.com/suggest?num=5&ver=3.0&doctype=json&cache=false&le=en&q=evaluate
