@@ -11,13 +11,16 @@ switch (getEnv()) {
         baseURL = 'http://localhost:5000'
         break
     case 20:
-        baseURL = 'https://lixiaodan.org'
+        // baseURL = 'https://lixiaodan.org'
+        baseURL = 'http://wushusandavercel.com:5000'
         break
     case 21:
-        baseURL = 'https://lixiaodanend.vercel.app'
+        // baseURL = 'https://lixiaodanend.vercel.app'
+        baseURL = 'http://wushusandavercel.com:5000'
         break
     case 22:
-        baseURL = 'https://lixiaodanend.netlify.app'
+        // baseURL = 'https://lixiaodanend.netlify.app'
+        baseURL = 'http://wushusandavercel.com:5000'
         break
 }
 
