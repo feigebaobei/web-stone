@@ -7,11 +7,12 @@ import React, {
 import {Routes, Route, Link} from 'react-router-dom'
 import WordQuery from './components/WordQuery'
 import History from './components/History'
+import styles from './app.module.css'
 
 export default function App () {
     return (
-        <div>
-            <nav>
+        <div className={styles.cont}>
+            <nav className={styles.navBox}>
                 <Link to="/">查询</Link>
                 <Link to="/history">历史</Link>
             </nav>

@@ -10021,9 +10021,9 @@
           }
           function getSuspenseInstanceFallbackErrorDetails(instance2) {
             var dataset = instance2.nextSibling && instance2.nextSibling.dataset;
-            var digest3, message, stack;
+            var digest4, message, stack;
             if (dataset) {
-              digest3 = dataset.dgst;
+              digest4 = dataset.dgst;
               {
                 message = dataset.msg;
                 stack = dataset.stck;
@@ -10032,7 +10032,7 @@
             {
               return {
                 message,
-                digest: digest3,
+                digest: digest4,
                 stack
               };
             }
@@ -15395,12 +15395,12 @@
               digest: null
             };
           }
-          function createCapturedValue(value, digest3, stack) {
+          function createCapturedValue(value, digest4, stack) {
             return {
               value,
               source: null,
               stack: stack != null ? stack : null,
-              digest: digest3 != null ? digest3 : null
+              digest: digest4 != null ? digest4 : null
             };
           }
           function showErrorDialog(boundary, errorInfo) {
@@ -16674,10 +16674,10 @@
                 );
               }
               if (isSuspenseInstanceFallback(suspenseInstance)) {
-                var digest3, message, stack;
+                var digest4, message, stack;
                 {
                   var _getSuspenseInstanceF = getSuspenseInstanceFallbackErrorDetails(suspenseInstance);
-                  digest3 = _getSuspenseInstanceF.digest;
+                  digest4 = _getSuspenseInstanceF.digest;
                   message = _getSuspenseInstanceF.message;
                   stack = _getSuspenseInstanceF.stack;
                 }
@@ -16687,7 +16687,7 @@
                 } else {
                   error2 = new Error("The server could not finish this Suspense boundary, likely due to an error during server rendering. Switched to client rendering.");
                 }
-                var capturedValue = createCapturedValue(error2, digest3, stack);
+                var capturedValue = createCapturedValue(error2, digest4, stack);
                 return retrySuspenseComponentWithoutHydrating(current2, workInProgress2, renderLanes2, capturedValue);
               }
               var hasContextChanged2 = includesSomeLane(renderLanes2, current2.childLanes);
@@ -20713,10 +20713,10 @@
               for (var i = 0; i < recoverableErrors.length; i++) {
                 var recoverableError = recoverableErrors[i];
                 var componentStack = recoverableError.stack;
-                var digest3 = recoverableError.digest;
+                var digest4 = recoverableError.digest;
                 onRecoverableError(recoverableError.value, {
                   componentStack,
-                  digest: digest3
+                  digest: digest4
                 });
               }
             }
@@ -33427,7 +33427,7 @@
       return node.tagName === "STYLE";
     });
   }
-  function injectCSS(css4) {
+  function injectCSS(css5) {
     var option = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
     if (!canUseDom()) {
       return null;
@@ -33438,7 +33438,7 @@
     if (csp === null || csp === void 0 ? void 0 : csp.nonce) {
       styleNode.nonce = csp === null || csp === void 0 ? void 0 : csp.nonce;
     }
-    styleNode.innerHTML = css4;
+    styleNode.innerHTML = css5;
     var container = getContainer(option);
     var firstChild = container.firstChild;
     if (prepend) {
@@ -33464,7 +33464,7 @@
       return node.getAttribute(getMark(option)) === key2;
     });
   }
-  function updateCSS(css4, key2) {
+  function updateCSS(css5, key2) {
     var option = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {};
     var container = getContainer(option);
     if (!containerCache.has(container)) {
@@ -33480,12 +33480,12 @@
         var _option$csp3;
         existNode.nonce = (_option$csp3 = option.csp) === null || _option$csp3 === void 0 ? void 0 : _option$csp3.nonce;
       }
-      if (existNode.innerHTML !== css4) {
-        existNode.innerHTML = css4;
+      if (existNode.innerHTML !== css5) {
+        existNode.innerHTML = css5;
       }
       return existNode;
     }
-    var newNode = injectCSS(css4, option);
+    var newNode = injectCSS(css5, option);
     newNode.setAttribute(getMark(option), key2);
     return newNode;
   }
@@ -43521,15 +43521,15 @@
   SettingOutlined2.displayName = "SettingOutlined";
   var SettingOutlined_default2 = /* @__PURE__ */ React109.forwardRef(SettingOutlined2);
 
-  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-93419-jsA8wyAcmVNB/searchWord/src/components/WordQuery/app.module.css.js
-  var digest = "4f7e1b16236f260ae774d3b5c297e770a4d6c7b540d0dd06cf0bf52539c53b8e";
-  var css2 = `._appRp_ho3lb_1 {
-    position: relative;
+  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-96036-OWpepa7a5LMm/searchWord/src/components/WordQuery/index.module.css.js
+  var digest = "fda213b366d4eda15fa12097a34a8f1fe9b1f6d11b1f9d4e5b737c2b76d6f398";
+  var css2 = `._appRp_1r99y_1 {
+    /* position: relative;
     width: 100vw;
     height: 100vh;
-    overflow: auto;
+    overflow: auto; */
 }
-._setBox_ho3lb_7 {
+._setBox_1r99y_7 {
     position: absolute;
     left: 35px;
     bottom: 80px;
@@ -43545,7 +43545,7 @@
       document.head.appendChild(el);
     }
   })();
-  var app_module_css_default = { "appRp": "_appRp_ho3lb_1", "setBox": "_setBox_ho3lb_7" };
+  var index_module_css_default = { "appRp": "_appRp_1r99y_1", "setBox": "_setBox_1r99y_7" };
 
   // src/components/WordQuery/index.js
   var { Search: Search2 } = input_default;
@@ -43610,8 +43610,9 @@
       dispatch2({ type: "num", payload: v });
     };
     return /* @__PURE__ */ import_react38.default.createElement("main", {
-      className: app_module_css_default.appRp
+      className: index_module_css_default.appRp
     }, /* @__PURE__ */ import_react38.default.createElement("div", null, /* @__PURE__ */ import_react38.default.createElement(Search2, {
+      size: "large",
       placeholder: "input search text",
       onSearch: searchHandler
     })), /* @__PURE__ */ import_react38.default.createElement("main", null, wordList.map((wordItem, index2) => {
@@ -43619,7 +43620,7 @@
         key: index2
       }, /* @__PURE__ */ import_react38.default.createElement("h2", null, wordItem.entry), /* @__PURE__ */ import_react38.default.createElement("p", null, wordItem.explain));
     })), /* @__PURE__ */ import_react38.default.createElement("div", {
-      className: app_module_css_default.setBox
+      className: index_module_css_default.setBox
     }, /* @__PURE__ */ import_react38.default.createElement(button_default2, {
       type: "primary",
       shape: "circle",
@@ -43647,8 +43648,8 @@
   // src/components/History/index.js
   var import_react39 = __toESM(require_react());
 
-  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-93419-18six9fUATJX/searchWord/src/components/History/index.module.css.js
-  var digest2 = "23c6b91f960ff015eba7c0b743afda21a791c508e2ad76f4149ac5e25950fe61";
+  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-96036-2INj6n3gwr4v/searchWord/src/components/History/index.module.css.js
+  var digest2 = "3398dea2b331c5673c48d5bf73778921a9aa1dd8fc635df26029b6b173e08b2d";
   var css3 = `._wordItem_1beb0_1 {
     display: flex;
     cursor: pointer;
@@ -43683,7 +43684,7 @@
       document.head.appendChild(el);
     }
   })();
-  var index_module_css_default = { "wordItem": "_wordItem_1beb0_1", "entry": "_entry_1beb0_5", "explain": "_explain_1beb0_12", "icon": "_icon_1beb0_19" };
+  var index_module_css_default2 = { "wordItem": "_wordItem_1beb0_1", "entry": "_entry_1beb0_5", "explain": "_explain_1beb0_12", "icon": "_icon_1beb0_19" };
 
   // src/components/History/index.js
   function History() {
@@ -43726,15 +43727,15 @@
       return /* @__PURE__ */ import_react39.default.createElement(import_react39.Fragment, {
         key: wordItem.entry
       }, /* @__PURE__ */ import_react39.default.createElement("section", {
-        className: index_module_css_default.wordItem
+        className: index_module_css_default2.wordItem
       }, /* @__PURE__ */ import_react39.default.createElement("span", {
-        className: index_module_css_default.entry,
+        className: index_module_css_default2.entry,
         onClick: entryClickHandler
       }, wordItem.entry), /* @__PURE__ */ import_react39.default.createElement("span", {
-        className: index_module_css_default.explain,
+        className: index_module_css_default2.explain,
         onClick: explainClickHandler
       }, wordItem.explain), /* @__PURE__ */ import_react39.default.createElement(CloseCircleOutlined_default2, {
-        className: index_module_css_default.icon,
+        className: index_module_css_default2.icon,
         onClick: () => {
           iconClickHandler(wordItem.entry);
         }
@@ -43742,9 +43743,45 @@
     })));
   }
 
+  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-96036-a2rNxV0RKJ7O/searchWord/src/app.module.css.js
+  var digest3 = "1b7c9674ef6f5e70d9ffb8c89c347b06acd8096cf16dc54fc9ded741e7cdaa87";
+  var css4 = `._cont_1ml9b_1 {
+    width: 75%;
+    max-width: 900px;
+    min-width: 450px;
+    margin: 0 auto;
+}
+._navBox_1ml9b_7 {
+    display: flex;
+}
+._navBox_1ml9b_7 > a {
+    flex-basis: 50%;
+    flex-grow: 0;
+    flex-shrink: 0;
+    font-size: 20px;
+    padding: 8px;
+    text-align: center;
+}`;
+  (function() {
+    if (typeof document === "undefined") {
+      return;
+    }
+    if (!document.getElementById(digest3)) {
+      var el = document.createElement("style");
+      el.id = digest3;
+      el.textContent = css4;
+      document.head.appendChild(el);
+    }
+  })();
+  var app_module_css_default = { "cont": "_cont_1ml9b_1", "navBox": "_navBox_1ml9b_7" };
+
   // src/App.js
   function App() {
-    return /* @__PURE__ */ import_react40.default.createElement("div", null, /* @__PURE__ */ import_react40.default.createElement("nav", null, /* @__PURE__ */ import_react40.default.createElement(Link, {
+    return /* @__PURE__ */ import_react40.default.createElement("div", {
+      className: app_module_css_default.cont
+    }, /* @__PURE__ */ import_react40.default.createElement("nav", {
+      className: app_module_css_default.navBox
+    }, /* @__PURE__ */ import_react40.default.createElement(Link, {
       to: "/"
     }, "\u67E5\u8BE2"), /* @__PURE__ */ import_react40.default.createElement(Link, {
       to: "/history"
