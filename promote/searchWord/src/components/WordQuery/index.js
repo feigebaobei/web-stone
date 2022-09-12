@@ -76,10 +76,10 @@ export default function WordQuery () {
         dispatch({type: 'num', payload: v})
     }
     return <main className={styles.appRp}>
-        <div>
+        <div className={styles.searchBox}>
             <Search size="large" placeholder="input search text" onSearch={searchHandler}/>
         </div>
-        <main>
+        <main className={styles.mainBox}>
             {wordList.map((wordItem, index) => {
                 return <Fragment key={index}>
                     <h2>{wordItem.entry}</h2>

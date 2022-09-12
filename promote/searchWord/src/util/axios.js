@@ -8,7 +8,8 @@ let baseURL = ''
 switch (getEnv()) {
     case 0:
     default:
-        baseURL = 'http://localhost:5000'
+        // baseURL = 'http://localhost:5000'
+        baseURL = 'http://wushusandavercel.com:5000' // 使用远端服务
         break
     case 20:
         // baseURL = 'https://lixiaodan.org'

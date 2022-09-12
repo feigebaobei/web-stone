@@ -245,6 +245,8 @@ c.on('ready', () => {
         // let p = 'promote/searchWord/out'
         let p = [
             // 'index.html',
+            'promote/searchWord/out/index.css',
+            'promote/searchWord/out/index.js'
         ]
         // 检测指定目录是否存在
         // checkDir(p)

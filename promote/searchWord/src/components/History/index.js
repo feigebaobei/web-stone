@@ -29,20 +29,24 @@ export default function History () {
     }
     let iconClickHandler = (entry) => {
         if (selected) {
-            setWordList(wordList.filter(word => word.entry !== entry))
-            setSelected('')
-            instance({
-                method: 'delete',
-                url: 'searchWord/history',
-                data: {
-                    entry
-                }
-            }).then(res => {
-                // if (res.code === 0) {
-                //     // setWordList(wordList.filter(word => word.entry !== entry))
-                //     // setSelected('')
-                // }
-            })
+            if (selected === entry) {
+                setWordList(wordList.filter(word => word.entry !== entry))
+                setSelected('')
+                instance({
+                    method: 'delete',
+                    url: 'searchWord/history',
+                    data: {
+                        entry
+                    }
+                }).then(res => {
+                    // if (res.code === 0) {
+                    //     // setWordList(wordList.filter(word => word.entry !== entry))
+                    //     // setSelected('')
+                    // }
+                })
+            } else {
+                setSelected(entry)
+            }
         } else {
             setSelected(entry)
         }
@@ -55,7 +59,7 @@ export default function History () {
                     <section className={styles.wordItem}>
                         <span className={styles.entry} onClick={entryClickHandler}>{wordItem.entry}</span>
                         <span className={styles.explain} onClick={explainClickHandler}>{wordItem.explain}</span>
-                        <CloseCircleOutlined className={styles.icon} onClick={() => {iconClickHandler(wordItem.entry)}}/>
+                        <CloseCircleOutlined className={`${styles.icon} ${selected === wordItem.entry ? styles.iconSelected : ''}`} onClick={() => {iconClickHandler(wordItem.entry)}}/>
                     </section>
                 </Fragment>
             })}
