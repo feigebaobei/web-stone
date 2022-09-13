@@ -26,9 +26,10 @@
 - 可编写简单插件，插件只支持异步api.
 - 支持编写js代码
 - 支持jsx默认转换为js，不需要loader
-- api只有2个：
-  - transform   用于stdin
-  - build       用于文件系统
+- api只有3个：
+  - transform   用于stdin的打包
+  - build       用于有文件系统的打包
+  - serve       用于开发时打包
 - 不支持运行时引入
 - 没有配置文件
 - 所以只能打包**静态引入**的资源。因它是编译时的打包器。
@@ -153,14 +154,17 @@ func main() {
 |option|可用于哪个api|说明|默认值|枚举值|demo||
 |-|-|-|-|-|-|-|
 |`bundle`|build|把所有依赖、引入打包为内联的。可递归打包。默认输出iife规范的文件。|**默认不打包输入文件。**。若要打包必须明确使用此选项。多个输入时，会默认打包出对应的多个文件。可以把多个文件引入到一个文件中，再打包这个文件。||`esbuild in.js --bundle`|只支持打包静态资源。请确保在运行可引入排除的包。|
-|`define`|trasform/build|定义全局替换的内容（类似宏替换）。若定义string，则必须使用引号。请遵守操作系统的斜线的数量。|-|json对象/单个变量|`echo 'id, str' | esbuild --define:id=text --define:str=\"text\"`||
-|*入口*|build|明确打包的文件。一般与其一起使用的选项还有：outdir/outfile/outbase/xxx/xxx/...|-|一个文件或多个文件|||
+|`define`|trasform/build|定义全局替换的内容（类似宏替换）。若定义string，则必须使用引号。请遵守操作系统的斜线的数量。|-|json对象/单个变量|`echo 'id, str' | esbuild --define:id=text --define:str=\"text\"`|建议不要用于代码逻辑|
+|*入口*|build|明确打包的文件。一般与其一起使用的选项还有：outdir/outfile/outbase/xxx/xxx/...|-|一个文件或多个文件||可以是string / string[] / {key: path}|
 |`external`|build|指定不打包的文件|||||
-|`format`|tranform / build|指定输出规范|当无format时输出文件使用输入文件的规范。当`platform`设置为browser时，自动使用`iife`规范。当`platform`设置为node时，自动使用`commonjs`规范。当`platform`设置为neutral时，自动使用`esm`规范。|iife/cjs/esm|`esbuild in.js --format=cjs`||
+|`format`|tranform / build|指定输出规范|当无format时输出文件使用输入文件的规范。当`platform`设置为browser时，自动使用`iife`规范。当`platform`设置为node时，自动使用`commonjs`规范。当`platform`设置为neutral时，自动使用`esm`规范。|iife/cjs/esm|`esbuild in.js --format=cjs`|只支持iife/esm/cjs|
 |`inject`|build|注入文件。从别的文件引入全局变量并替换。它有4个功能：1.可以与define一起使用。 2.为jsx自动引入react. 3.您还可以将此功能用于没有导出的文件。在这种情况下，注入的文件只是排在输出的其余部分之前，就好像每个输入文件都包含import "./file.js"。 4.按条件注入一个文件|-|-|`esbuild in.js --bundle --inject:./p.js`||
-|`loader`|transform/build|用于给esbuild翻译输入文件。|-|-|`esbuild in.js --bundle --loader:.png=dataurl`||
+|`loader`|transform/build|用于给esbuild翻译输入文件。|-|-|`esbuild in.js --bundle --loader:.png=dataurl`|可以根据扩展名、路径设置loader|
 |`minfy`|transform/build|生产压缩后的代码。压缩后的代码可以让下载更快、调试更难、一般于生产环境。可用于css/js|-|-|`esbuild in.js --minify`||
-|`outdir`|build|设置输出的目录。若已经存在，则不会清空。会覆盖相同文件。需要程序员自己清空输出目录|-|-|`esbuild in.js --bundle --outdir=out`||
+|`minfyWhitespace`|transform/build||-|-|``||
+|`minfyIdentifiers`|transform/build||-|-|``||
+|`minfySyntax`|transform/build||-|-|``||
+|`outdir`|build|设置输出的目录。若已经存在，则不会清空。会覆盖相同文件。需要程序员自己清空输出目录|-|-|`esbuild in.js --bundle --outdir=out`|不能与outfile一同使用|
 |`outfile`|build|指定输出文件名。当输入文件只有一个时，有效。|-|-|``||
 |`platform`|transform/build|指定打包后代码的运行平台。|browser|browser/node/neutral|||
 |`servedir`|build|不会，好像是（为相对于输出目录的额外目录为也提供静态服务功能。额外目录中的文件变动时会触发rebuild.）|||||
@@ -218,7 +222,61 @@ func main() {
 |*working directory*|build|设置工作目录。不支持cli.|默认为当前工作目录||||
 |*js-specific details*|||||||
 
+### 开发时
+为方便开发；
+- 使用观察模式
+- 设置编辑器在保存时打包
+- 每次请求时打包
+
+demo:
+```js
+const cssModulesPlugin = require('esbuild-css-modules-plugin');
+const esbuild = require('esbuild')
+esbuild.serve({
+    port: 4000, // default 3000
+    // hsot: 0.0.0.0 // default 0.0.0.0
+    servedir: __dirname, // .
+    onRequest: (obj) => {
+        console.log('obj', obj)
+    }
+}, {
+    entryPoints: ['src/index.js'],
+    bundle: true,
+    outdir: 'out',
+    loader: {
+        '.js': 'jsx',
+        '.css': 'css',
+    },
+    plugins: [cssModulesPlugin()]
+})
+```
+
+用法
+```ts
+esbuild.serve(opt: ServeOptions, opt2: xxx) => ServeResult
+interface ServeOptions {
+  port?: number;        // default 3000
+  host?: number;
+  servedir?: number;    // 服务目录
+  onReqeset?: (args: ServeOnRequestArgs) => void; // 每次请求时执行
+}
+interface ServeOnRequestArgs {
+  remoteAddress: string;
+  method: string;
+  path: string;
+  status: number;
+  timeInMS: number;
+}
+interface ServeResult {
+  port: number;
+  host: string;
+  wait: Promise<void>; // 为web server 提示被打断了
+  stop: () => void;    // 停止web server.
+}
+```
+
 ### 基本结构
+待完善
 ```js
 require('esbuild').buildSync({
   entryPoints: ['src/index.js'],
@@ -587,6 +645,22 @@ esbuild.initialize({
 
 ## loader
 为esbuild做翻译工作。即使有些文件已经设置了默认loader，也可以覆盖默认值。
+
+**常用loader**
+||||||
+|-|-|-|-|-|
+|js|||||
+|ts|||||
+|js|||||
+|js|||||
+|js|||||
+|js|||||
+|js|||||
+|js|||||
+|js|||||
+|js|||||
+|js|||||
+
 
 ### js
 - 加载`.js, .cjs, .mjs`时使用js loader.

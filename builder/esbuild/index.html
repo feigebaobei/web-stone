@@ -108,10 +108,11 @@ cli中的选项无前后顺序<br>
 <li>可编写简单插件，插件只支持异步api.</li>
 <li>支持编写js代码</li>
 <li>支持jsx默认转换为js，不需要loader</li>
-<li>api只有2个：
+<li>api只有3个：
 <ul>
-<li>transform   用于stdin</li>
-<li>build       用于文件系统</li>
+<li>transform   用于stdin的打包</li>
+<li>build       用于有文件系统的打包</li>
+<li>serve       用于开发时打包</li>
 </ul>
 </li>
 <li>不支持运行时引入</li>
@@ -298,7 +299,7 @@ func main() {
 <td>-</td>
 <td>一个文件或多个文件</td>
 <td></td>
-<td></td>
+<td>可以是string / string[] / {key: path}</td>
 </tr>
 <tr>
 <td><code>external</code></td>
@@ -316,7 +317,7 @@ func main() {
 <td>当无format时输出文件使用输入文件的规范。当<code>platform</code>设置为browser时，自动使用<code>iife</code>规范。当<code>platform</code>设置为node时，自动使用<code>commonjs</code>规范。当<code>platform</code>设置为neutral时，自动使用<code>esm</code>规范。</td>
 <td>iife/cjs/esm</td>
 <td><code>esbuild in.js --format=cjs</code></td>
-<td></td>
+<td>只支持iife/esm/cjs</td>
 </tr>
 <tr>
 <td><code>inject</code></td>
@@ -334,7 +335,7 @@ func main() {
 <td>-</td>
 <td>-</td>
 <td><code>esbuild in.js --bundle --loader:.png=dataurl</code></td>
-<td></td>
+<td>可以根据扩展名、路径设置loader</td>
 </tr>
 <tr>
 <td><code>minfy</code></td>
@@ -346,13 +347,40 @@ func main() {
 <td></td>
 </tr>
 <tr>
+<td><code>minfyWhitespace</code></td>
+<td>transform/build</td>
+<td></td>
+<td>-</td>
+<td>-</td>
+<td>``</td>
+<td></td>
+</tr>
+<tr>
+<td><code>minfyIdentifiers</code></td>
+<td>transform/build</td>
+<td></td>
+<td>-</td>
+<td>-</td>
+<td>``</td>
+<td></td>
+</tr>
+<tr>
+<td><code>minfySyntax</code></td>
+<td>transform/build</td>
+<td></td>
+<td>-</td>
+<td>-</td>
+<td>``</td>
+<td></td>
+</tr>
+<tr>
 <td><code>outdir</code></td>
 <td>build</td>
 <td>设置输出的目录。若已经存在，则不会清空。会覆盖相同文件。需要程序员自己清空输出目录</td>
 <td>-</td>
 <td>-</td>
 <td><code>esbuild in.js --bundle --outdir=out</code></td>
-<td></td>
+<td>不能与outfile一同使用</td>
 </tr>
 <tr>
 <td><code>outfile</code></td>
@@ -848,7 +876,58 @@ func main() {
 </tr>
 </tbody>
 </table>
+<h3 id="开发时">开发时</h3>
+<p>为方便开发；</p>
+<ul>
+<li>使用观察模式</li>
+<li>设置编辑器在保存时打包</li>
+<li>每次请求时打包</li>
+</ul>
+<p>demo:</p>
+<pre><code class="language-js"><div><span class="hljs-keyword">const</span> cssModulesPlugin = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;esbuild-css-modules-plugin&#x27;</span>);
+<span class="hljs-keyword">const</span> esbuild = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;esbuild&#x27;</span>)
+esbuild.serve({
+    <span class="hljs-attr">port</span>: <span class="hljs-number">4000</span>, <span class="hljs-comment">// default 3000</span>
+    <span class="hljs-comment">// hsot: 0.0.0.0 // default 0.0.0.0</span>
+    <span class="hljs-attr">servedir</span>: __dirname, <span class="hljs-comment">// .</span>
+    <span class="hljs-attr">onRequest</span>: <span class="hljs-function">(<span class="hljs-params">obj</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;obj&#x27;</span>, obj)
+    }
+}, {
+    <span class="hljs-attr">entryPoints</span>: [<span class="hljs-string">&#x27;src/index.js&#x27;</span>],
+    <span class="hljs-attr">bundle</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">outdir</span>: <span class="hljs-string">&#x27;out&#x27;</span>,
+    <span class="hljs-attr">loader</span>: {
+        <span class="hljs-string">&#x27;.js&#x27;</span>: <span class="hljs-string">&#x27;jsx&#x27;</span>,
+        <span class="hljs-string">&#x27;.css&#x27;</span>: <span class="hljs-string">&#x27;css&#x27;</span>,
+    },
+    <span class="hljs-attr">plugins</span>: [cssModulesPlugin()]
+})
+</div></code></pre>
+<p>用法</p>
+<pre><code class="language-ts"><div>esbuild.serve(opt: ServeOptions, <span class="hljs-attr">opt2</span>: xxx) =&gt; ServeResult
+<span class="hljs-keyword">interface</span> ServeOptions {
+  port?: <span class="hljs-built_in">number</span>;        <span class="hljs-comment">// default 3000</span>
+  host?: <span class="hljs-built_in">number</span>;
+  servedir?: <span class="hljs-built_in">number</span>;    <span class="hljs-comment">// 服务目录</span>
+  onReqeset?: <span class="hljs-function">(<span class="hljs-params">args: ServeOnRequestArgs</span>) =&gt;</span> <span class="hljs-built_in">void</span>; <span class="hljs-comment">// 每次请求时执行</span>
+}
+<span class="hljs-keyword">interface</span> ServeOnRequestArgs {
+  <span class="hljs-attr">remoteAddress</span>: <span class="hljs-built_in">string</span>;
+  method: <span class="hljs-built_in">string</span>;
+  path: <span class="hljs-built_in">string</span>;
+  status: <span class="hljs-built_in">number</span>;
+  timeInMS: <span class="hljs-built_in">number</span>;
+}
+<span class="hljs-keyword">interface</span> ServeResult {
+  <span class="hljs-attr">port</span>: <span class="hljs-built_in">number</span>;
+  host: <span class="hljs-built_in">string</span>;
+  wait: <span class="hljs-built_in">Promise</span>&lt;<span class="hljs-built_in">void</span>&gt;; <span class="hljs-comment">// 为web server 提示被打断了</span>
+  stop: <span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">void</span>;    <span class="hljs-comment">// 停止web server.</span>
+}
+</div></code></pre>
 <h3 id="基本结构">基本结构</h3>
+<p>待完善</p>
 <pre><code class="language-js"><div><span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;esbuild&#x27;</span>).buildSync({
   <span class="hljs-attr">entryPoints</span>: [<span class="hljs-string">&#x27;src/index.js&#x27;</span>],
   <span class="hljs-attr">bundle</span>: <span class="hljs-literal">true</span>,
@@ -1863,6 +1942,97 @@ esbuild.initialize({
 </div></code></pre>
 <h2 id="loader">loader</h2>
 <p>为esbuild做翻译工作。即使有些文件已经设置了默认loader，也可以覆盖默认值。</p>
+<p><strong>常用loader</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>js</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ts</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>js</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>js</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>js</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>js</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>js</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>js</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>js</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>js</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>js</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h3 id="js">js</h3>
 <ul>
 <li>加载<code>.js, .cjs, .mjs</code>时使用js loader.</li>
