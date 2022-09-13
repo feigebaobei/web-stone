@@ -43521,7 +43521,7 @@
   SettingOutlined2.displayName = "SettingOutlined";
   var SettingOutlined_default2 = /* @__PURE__ */ React109.forwardRef(SettingOutlined2);
 
-  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-8140-SexsHQz8x4VZ/searchWord/src/components/WordQuery/index.module.css.js
+  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-10717-71KVI1Fjsz4P/searchWord/src/components/WordQuery/index.module.css.js
   var digest = "fda213b366d4eda15fa12097a34a8f1fe9b1f6d11b1f9d4e5b737c2b76d6f398";
   var css2 = `._appRp_1lyu3_1 {
     /* position: relative;
@@ -43628,9 +43628,9 @@
     }, wordList.map((wordItem, index2) => {
       return /* @__PURE__ */ import_react38.default.createElement(import_react38.Fragment, {
         key: index2
-      }, /* @__PURE__ */ import_react38.default.createElement("h2", null, wordItem.entry), wordItem.entry === wordItem.query ? /* @__PURE__ */ import_react38.default.createElement("p", null, wordItem.ukphone && /* @__PURE__ */ import_react38.default.createElement("span", {
+      }, /* @__PURE__ */ import_react38.default.createElement("h2", null, wordItem.entry), wordItem.entry === wordItem.query && /* @__PURE__ */ import_react38.default.createElement("p", null, wordItem.ukphone && /* @__PURE__ */ import_react38.default.createElement("span", {
         style: { marginRight: "8px" }
-      }, /* @__PURE__ */ import_react38.default.createElement("span", null, "\u82F1"), " ", /* @__PURE__ */ import_react38.default.createElement("span", null, wordItem.ukphone)), wordItem.usphone && /* @__PURE__ */ import_react38.default.createElement("span", null, /* @__PURE__ */ import_react38.default.createElement("span", null, "\u7F8E"), " ", /* @__PURE__ */ import_react38.default.createElement("span", null, wordItem.usphone))) : null, /* @__PURE__ */ import_react38.default.createElement("p", null, wordItem.explain));
+      }, /* @__PURE__ */ import_react38.default.createElement("span", null, "\u82F1"), " ", /* @__PURE__ */ import_react38.default.createElement("span", null, wordItem.ukphone)), wordItem.usphone && /* @__PURE__ */ import_react38.default.createElement("span", null, /* @__PURE__ */ import_react38.default.createElement("span", null, "\u7F8E"), " ", /* @__PURE__ */ import_react38.default.createElement("span", null, wordItem.usphone))), /* @__PURE__ */ import_react38.default.createElement("p", null, wordItem.explain));
     })), /* @__PURE__ */ import_react38.default.createElement("div", {
       className: index_module_css_default.setBox
     }, /* @__PURE__ */ import_react38.default.createElement(button_default2, {
@@ -43660,7 +43660,7 @@
   // src/components/History/index.js
   var import_react39 = __toESM(require_react());
 
-  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-8140-gGMoWNGYzYSF/searchWord/src/components/History/index.module.css.js
+  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-10717-7NGS79tlSI91/searchWord/src/components/History/index.module.css.js
   var digest2 = "3398dea2b331c5673c48d5bf73778921a9aa1dd8fc635df26029b6b173e08b2d";
   var css3 = `._wordItem_sa5vh_1 {
     display: flex;
@@ -43767,7 +43767,7 @@
     })));
   }
 
-  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-8140-N92N0c0q0Rpp/searchWord/src/app.module.css.js
+  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-10717-2OwZnjd20zDN/searchWord/src/app.module.css.js
   var digest3 = "1b7c9674ef6f5e70d9ffb8c89c347b06acd8096cf16dc54fc9ded741e7cdaa87";
   var css4 = `._cont_jdn4c_1 {
     width: 75%;

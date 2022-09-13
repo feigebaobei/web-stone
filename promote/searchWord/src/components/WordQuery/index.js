@@ -83,10 +83,10 @@ export default function WordQuery () {
             {wordList.map((wordItem, index) => {
                 return <Fragment key={index}>
                     <h2>{wordItem.entry}</h2>
-                    {wordItem.entry === wordItem.query ? <p>
+                    {wordItem.entry === wordItem.query && <p>
                         {wordItem.ukphone && <span style={{marginRight: '8px'}}><span>英</span> <span>{wordItem.ukphone}</span></span>}
                         {wordItem.usphone && <span><span>美</span> <span>{wordItem.usphone}</span></span>}
-                    </p> : null}
+                    </p>}
                     <p>{wordItem.explain}</p>
                 </Fragment>
             })}
