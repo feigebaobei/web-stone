@@ -316,8 +316,8 @@ require('esbuild').build({
     const esbuild = require('esbuild')
     let result = await esbuild.build({
         entryPoints: ['src/index.js'],
-        assetNames: 'assets/[name]-[hash]'
-        entryNames: ''
+        assetNames: 'assets/[name]-[hash]',
+        entryNames: '[name]',
         bundle: true,
         outdir: 'out',
         loader: {
@@ -326,7 +326,6 @@ require('esbuild').build({
         },
         watch: true,
         metafile: true, // 用于分析
-
         banner: {
           js: '// author: xxx',
           css: '/* author: xxx */',
@@ -344,7 +343,7 @@ require('esbuild').build({
         // logLimit: 10, // default
         supported: {
           // biging: false
-        }
+        },
         plugins: [cssModulesPlugin()]
     })
     require('fs').writeFileSync('meta.json', JSON.stringify(result.metafile))
@@ -857,4 +856,10 @@ esbuild有些不足为什么还基于它做工作。（可能是因不致命，�
 两个语言支持相同api。差不多是个产品都会要求程序员这样做。好保持产品对外输出一致。
 在介绍环节就应该把产品的全部功能带一遍给读者。像《红楼梦》在前五章就映射了全书的内容。比“总-分-总”结构要高一个档次  
 
-### title
+### 为什么快
+
+- Go 是为并行性而设计的（多线程），而 JavaScript 不是。
+- Go在线程之间共享内存，而JavaScript必须在线程之间序列化数据。
+- Go 和 JavaScript都有并行的垃圾收集器，但是Go的堆在所有线程之间共享，而对于JavaScript, 每个JavaScript线程中都有一个单独的堆。
+
+

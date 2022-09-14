@@ -962,8 +962,8 @@ esbuild.serve({
     <span class="hljs-keyword">const</span> esbuild = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;esbuild&#x27;</span>)
     <span class="hljs-keyword">let</span> result = <span class="hljs-keyword">await</span> esbuild.build({
         <span class="hljs-attr">entryPoints</span>: [<span class="hljs-string">&#x27;src/index.js&#x27;</span>],
-        <span class="hljs-attr">assetNames</span>: <span class="hljs-string">&#x27;assets/[name]-[hash]&#x27;</span>
-        <span class="hljs-attr">entryNames</span>: <span class="hljs-string">&#x27;&#x27;</span>
+        <span class="hljs-attr">assetNames</span>: <span class="hljs-string">&#x27;assets/[name]-[hash]&#x27;</span>,
+        <span class="hljs-attr">entryNames</span>: <span class="hljs-string">&#x27;[name]&#x27;</span>,
         <span class="hljs-attr">bundle</span>: <span class="hljs-literal">true</span>,
         <span class="hljs-attr">outdir</span>: <span class="hljs-string">&#x27;out&#x27;</span>,
         <span class="hljs-attr">loader</span>: {
@@ -972,7 +972,6 @@ esbuild.serve({
         },
         <span class="hljs-attr">watch</span>: <span class="hljs-literal">true</span>,
         <span class="hljs-attr">metafile</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// 用于分析</span>
-
         <span class="hljs-attr">banner</span>: {
           <span class="hljs-attr">js</span>: <span class="hljs-string">&#x27;// author: xxx&#x27;</span>,
           <span class="hljs-attr">css</span>: <span class="hljs-string">&#x27;/* author: xxx */&#x27;</span>,
@@ -990,7 +989,7 @@ esbuild.serve({
         <span class="hljs-comment">// logLimit: 10, // default</span>
         <span class="hljs-attr">supported</span>: {
           <span class="hljs-comment">// biging: false</span>
-        }
+        },
         <span class="hljs-attr">plugins</span>: [cssModulesPlugin()]
     })
     <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;fs&#x27;</span>).writeFileSync(<span class="hljs-string">&#x27;meta.json&#x27;</span>, <span class="hljs-built_in">JSON</span>.stringify(result.metafile))

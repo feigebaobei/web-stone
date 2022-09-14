@@ -20,7 +20,7 @@
 - [mkcert](/jsPackages/mkcert.html)
 - [md5](/jsPackages/md5.html)
 - [commander](/jsPackages/commander/index.html)
-- [title](/jsPackages/title.html)
+- [sql.js](/jsPackages/sql.js.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
