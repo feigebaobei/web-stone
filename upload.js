@@ -242,11 +242,15 @@ c.on('ready', () => {
             log('cwd', 'htdocs', err)
             throw err
         }
-        // let p = 'promote/searchWord/out'
+        // let p = 'promote/searchWord/out/index.js'
+        // let p = 'promote/searchWord/out/index.css'
         let p = [
-            // 'index.html',
-            'promote/searchWord/out/index.css',
-            'promote/searchWord/out/index.js'
+            'promote/searchWord/jsAnalyze.js',
+            'promote/searchWord/jsbserve.js',
+            'promote/searchWord/jsbuild.js',
+            'promote/searchWord/jsWatch.js',
+            'promote/searchWord/meta.json',
+            'promote/searchWord/package.json',
         ]
         // 检测指定目录是否存在
         // checkDir(p)

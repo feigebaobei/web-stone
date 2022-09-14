@@ -94,7 +94,9 @@ plugin只支持异步api<br>
 cli中的选项无前后顺序<br>
 面向平台打包 <code>--target</code>
 编译时的打包器。
-推荐使用js写法。（其他写法是cli、go）</p>
+推荐使用js写法。（其他写法是cli、go）
+cli中的选项以中划线分割，js中选项使用驼峰命名法。<br>
+默认在<code>format: 'esm'</code>时支持tree-shaking</p>
 </blockquote>
 <h3 id="feature">feature</h3>
 <ul>
@@ -108,11 +110,13 @@ cli中的选项无前后顺序<br>
 <li>可编写简单插件，插件只支持异步api.</li>
 <li>支持编写js代码</li>
 <li>支持jsx默认转换为js，不需要loader</li>
-<li>api只有3个：
+<li>api只有5个：
 <ul>
-<li>transform   用于stdin的打包</li>
-<li>build       用于有文件系统的打包</li>
-<li>serve       用于开发时打包</li>
+<li>transform       用于stdin的打包</li>
+<li>transformSync   用于stdin的打包</li>
+<li>build           用于有文件系统的打包</li>
+<li>buildSync       用于有文件系统的打包</li>
+<li>serve           用于开发时打包</li>
 </ul>
 </li>
 <li>不支持运行时引入</li>
@@ -412,11 +416,11 @@ func main() {
 <tr>
 <td><code>serve</code></td>
 <td>build</td>
-<td>为outdir提供静态服务。</td>
+<td>提供静态服务。打包后才能提供服务。打包结果放在内存中。</td>
 <td></td>
 <td></td>
 <td><code>esbuild in.js --bundle --outfile=out.js --serve=8080</code>访问http://localhost:8080/out.js</td>
-<td></td>
+<td>详见 开发时</td>
 </tr>
 <tr>
 <td><code>sourcemap</code></td>
@@ -430,19 +434,19 @@ func main() {
 <tr>
 <td><code>splitting</code></td>
 <td>build</td>
-<td>代码分块打包（也叫：代码分割），只能在esm中使用（<code>--format=esm</code>）</td>
+<td>代码分块打包（也叫：代码分割），<strong>当前只能在esm中使用</strong>（<code>--format=esm</code>）</td>
 <td>-</td>
 <td>-</td>
 <td><code>esbuild in.js --bundle --splitting --outdir=out --format=esm</code></td>
-<td></td>
+<td>用途：1. 多入口。 2. 异步引入</td>
 </tr>
 <tr>
 <td><code>target</code></td>
 <td>transform/build</td>
-<td>指定js/css的运行环境。esbuild会把代码转换为该环境支持的写法。</td>
+<td>指定js/css的运行环境。esbuild会把代码转换为该环境支持的写法。可指定js版本，如<code>es2020</code>。</td>
 <td>-</td>
 <td>chrome/edge/firefox/hermes/ie/ios/node及版本/opera/rhino/safari/js的版本</td>
-<td></td>
+<td><code>esbuild in.js --bundle --target=es2020,chrome58,edge16,firefox57,node12,safari11</code></td>
 <td></td>
 </tr>
 <tr>
@@ -457,7 +461,7 @@ func main() {
 <tr>
 <td><code>write</code></td>
 <td>build</td>
-<td>输出到文件系统或内存中。js/go才能使用该选项。cli直接输出到文件系统。</td>
+<td>build api可以输出到文件系统也可以输出到内存中。默认cli/js输出到文件系统中。go输出到内存中。</td>
 <td></td>
 <td></td>
 <td></td>
@@ -488,7 +492,7 @@ func main() {
 <td></td>
 </tr>
 <tr>
-<td><code>analyze</code></td>
+<td></td>
 <td>build</td>
 <td>是否启动分析功能。若启动会列出每个包的信息</td>
 <td>-</td>
@@ -544,7 +548,7 @@ func main() {
 <tr>
 <td><code>conditions</code></td>
 <td>build</td>
-<td>不会</td>
+<td>不会。与package.json中的exports有关</td>
 <td></td>
 <td></td>
 <td><code>esbuild src/app.js --bundle --conditions=custom1,custom2</code></td>
@@ -562,7 +566,7 @@ func main() {
 <tr>
 <td><code>entry-names</code></td>
 <td>build</td>
-<td>不会</td>
+<td>指定入口文件的输出时的文件名</td>
 <td></td>
 <td></td>
 <td></td>
@@ -733,7 +737,7 @@ func main() {
 <tr>
 <td><code>out-extension</code></td>
 <td>build</td>
-<td>自定义扩展名</td>
+<td>指定输出的自定义扩展名</td>
 <td>-</td>
 <td>-</td>
 <td><code>esbuild in.js --bundle --outdir=dist --out-extension:.js=.mjs</code></td>
@@ -877,6 +881,7 @@ func main() {
 </tbody>
 </table>
 <h3 id="开发时">开发时</h3>
+<h4 id="serve">serve</h4>
 <p>为方便开发；</p>
 <ul>
 <li>使用观察模式</li>
@@ -926,14 +931,70 @@ esbuild.serve({
   stop: <span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">void</span>;    <span class="hljs-comment">// 停止web server.</span>
 }
 </div></code></pre>
+<h4 id="watch">watch</h4>
+<pre><code class="language-js"><div><span class="hljs-keyword">const</span> cssModulesPlugin = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;esbuild-css-modules-plugin&#x27;</span>);
+
+<span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;esbuild&#x27;</span>).build({
+    <span class="hljs-attr">entryPoints</span>: [<span class="hljs-string">&#x27;src/index.js&#x27;</span>],
+    <span class="hljs-attr">bundle</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">outdir</span>: <span class="hljs-string">&#x27;out&#x27;</span>,
+    <span class="hljs-attr">loader</span>: {
+        <span class="hljs-string">&#x27;.js&#x27;</span>: <span class="hljs-string">&#x27;jsx&#x27;</span>,
+        <span class="hljs-string">&#x27;.css&#x27;</span>: <span class="hljs-string">&#x27;css&#x27;</span>,
+    },
+    <span class="hljs-attr">watch</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">plugins</span>: [cssModulesPlugin()]
+    <span class="hljs-comment">// outfile: &#x27;out.js&#x27;,</span>
+}).then(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;result&#x27;</span>, result)
+}).catch(<span class="hljs-function">() =&gt;</span> process.exit(<span class="hljs-number">1</span>))
+</div></code></pre>
 <h3 id="基本结构">基本结构</h3>
 <p>待完善</p>
-<pre><code class="language-js"><div><span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;esbuild&#x27;</span>).buildSync({
-  <span class="hljs-attr">entryPoints</span>: [<span class="hljs-string">&#x27;src/index.js&#x27;</span>],
-  <span class="hljs-attr">bundle</span>: <span class="hljs-literal">true</span>,
-  <span class="hljs-attr">write</span>: <span class="hljs-literal">true</span>,
-  <span class="hljs-attr">outdir</span>: <span class="hljs-string">&#x27;out&#x27;</span>
-})
+<pre><code class="language-json"><div><span class="hljs-comment">// package.json</span>
+<span class="hljs-string">&quot;script&quot;</span>: {
+  <span class="hljs-attr">&quot;bw&quot;</span>: <span class="hljs-string">&quot;node ./jsWatch.js &amp; serve&quot;</span>
+}
+</div></code></pre>
+<pre><code class="language-js"><div><span class="hljs-comment">// jsWatch.js</span>
+(<span class="hljs-keyword">async</span> () =&gt; {
+    <span class="hljs-keyword">const</span> cssModulesPlugin = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;esbuild-css-modules-plugin&#x27;</span>);
+    <span class="hljs-keyword">const</span> esbuild = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;esbuild&#x27;</span>)
+    <span class="hljs-keyword">let</span> result = <span class="hljs-keyword">await</span> esbuild.build({
+        <span class="hljs-attr">entryPoints</span>: [<span class="hljs-string">&#x27;src/index.js&#x27;</span>],
+        <span class="hljs-attr">assetNames</span>: <span class="hljs-string">&#x27;assets/[name]-[hash]&#x27;</span>
+        <span class="hljs-attr">entryNames</span>: <span class="hljs-string">&#x27;&#x27;</span>
+        <span class="hljs-attr">bundle</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">outdir</span>: <span class="hljs-string">&#x27;out&#x27;</span>,
+        <span class="hljs-attr">loader</span>: {
+            <span class="hljs-string">&#x27;.js&#x27;</span>: <span class="hljs-string">&#x27;jsx&#x27;</span>,
+            <span class="hljs-string">&#x27;.css&#x27;</span>: <span class="hljs-string">&#x27;css&#x27;</span>,
+        },
+        <span class="hljs-attr">watch</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">metafile</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// 用于分析</span>
+
+        <span class="hljs-attr">banner</span>: {
+          <span class="hljs-attr">js</span>: <span class="hljs-string">&#x27;// author: xxx&#x27;</span>,
+          <span class="hljs-attr">css</span>: <span class="hljs-string">&#x27;/* author: xxx */&#x27;</span>,
+        },
+        <span class="hljs-attr">chunkNames</span>: <span class="hljs-string">&#x27;[name]-[hash]&#x27;</span>,
+        <span class="hljs-attr">color</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">drop</span>: [<span class="hljs-string">&#x27;debugger&#x27;</span>, <span class="hljs-string">&#x27;console&#x27;</span>],
+        <span class="hljs-attr">incremental</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-comment">// jsx: &#x27;automatic&#x27;,</span>
+        <span class="hljs-comment">// jsxDev: true,</span>
+        <span class="hljs-comment">// jsFactory: &#x27;Fragmet&#x27;,</span>
+        <span class="hljs-attr">keepNames</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">legalComments</span>: <span class="hljs-string">&#x27;eof&#x27;</span>,
+        <span class="hljs-attr">logLevel</span>: <span class="hljs-string">&#x27;error&#x27;</span>,
+        <span class="hljs-comment">// logLimit: 10, // default</span>
+        <span class="hljs-attr">supported</span>: {
+          <span class="hljs-comment">// biging: false</span>
+        }
+        <span class="hljs-attr">plugins</span>: [cssModulesPlugin()]
+    })
+    <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;fs&#x27;</span>).writeFileSync(<span class="hljs-string">&#x27;meta.json&#x27;</span>, <span class="hljs-built_in">JSON</span>.stringify(result.metafile))
+})()
 </div></code></pre>
 <h2 id="选项的补充说明">选项的补充说明</h2>
 <h3 id="non-analyzable-imports">Non-analyzable imports</h3>
@@ -1055,7 +1116,7 @@ esbuild.serve({
 </ul>
 </li>
 </ul>
-<h3 id="serve">serve</h3>
+<h3 id="serve-1">serve</h3>
 <p>有三种方法启动本地服务</p>
 <ul>
 <li>使用<code>--watch</code>选项</li>
@@ -1928,7 +1989,8 @@ esbuild.serve({
 </li>
 </ul>
 <h2 id="在浏览器中运行">在浏览器中运行</h2>
-<p>使用<code>esbuild-wasm</code>代替<code>esbuild</code></p>
+<p>在浏览器中使用esbuild-wasm 在web worker中运行。<br>
+使用<code>esbuild-wasm</code>代替<code>esbuild</code></p>
 <pre><code class="language-shell"><div>npm i esbuild-wasm
 </div></code></pre>
 <pre><code class="language-js"><div><span class="hljs-keyword">let</span> esbuild = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;esbuild-wasm&#x27;</span>)
@@ -1939,6 +2001,21 @@ esbuild.initialize({
   esbuild.transform(code, options).then(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> { ... })
   esbuild.build(options).then(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> { ... })
 })
+</div></code></pre>
+<pre><code class="language-html"><div><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./node_modules/esbuild-wasm/lib/browser.min.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+  esbuild.initialize({
+    <span class="hljs-attr">wasmURL</span>: <span class="hljs-string">&#x27;./node_modules/esbuild-wasm/esbuild.wasm&#x27;</span>,
+  }).then(<span class="hljs-function">() =&gt;</span> { ... })
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</div></code></pre>
+<pre><code class="language-html"><div><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="javascript">
+  <span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> esbuild <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./node_modules/esbuild-wasm/esm/browser.min.js&#x27;</span>
+
+  esbuild.initialize({
+    <span class="hljs-attr">wasmURL</span>: <span class="hljs-string">&#x27;./node_modules/esbuild-wasm/esbuild.wasm&#x27;</span>,
+  }).then(<span class="hljs-function">() =&gt;</span> { ... })
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 </div></code></pre>
 <h2 id="loader">loader</h2>
 <p>为esbuild做翻译工作。即使有些文件已经设置了默认loader，也可以覆盖默认值。</p>

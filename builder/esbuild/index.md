@@ -14,6 +14,8 @@
 > 面向平台打包 `--target`
 > 编译时的打包器。
 > 推荐使用js写法。（其他写法是cli、go）
+> cli中的选项以中划线分割，js中选项使用驼峰命名法。  
+> 默认在`format: 'esm'`时支持tree-shaking  
 
 ### feature
 - 不使用缓存也很快
@@ -26,10 +28,12 @@
 - 可编写简单插件，插件只支持异步api.
 - 支持编写js代码
 - 支持jsx默认转换为js，不需要loader
-- api只有3个：
-  - transform   用于stdin的打包
-  - build       用于有文件系统的打包
-  - serve       用于开发时打包
+- api只有5个：
+  - transform       用于stdin的打包
+  - transformSync   用于stdin的打包
+  - build           用于有文件系统的打包
+  - buildSync       用于有文件系统的打包
+  - serve           用于开发时打包
 - 不支持运行时引入
 - 没有配置文件
 - 所以只能打包**静态引入**的资源。因它是编译时的打包器。
@@ -168,25 +172,25 @@ func main() {
 |`outfile`|build|指定输出文件名。当输入文件只有一个时，有效。|-|-|``||
 |`platform`|transform/build|指定打包后代码的运行平台。|browser|browser/node/neutral|||
 |`servedir`|build|不会，好像是（为相对于输出目录的额外目录为也提供静态服务功能。额外目录中的文件变动时会触发rebuild.）|||||
-|`serve`|build|为outdir提供静态服务。|||`esbuild in.js --bundle --outfile=out.js --serve=8080`访问http://localhost:8080/out.js||
+|`serve`|build|提供静态服务。打包后才能提供服务。打包结果放在内存中。|||`esbuild in.js --bundle --outfile=out.js --serve=8080`访问http://localhost:8080/out.js|详见 开发时|
 |`sourcemap`|transform/build|指定代码地图的种类|linked|linked/external/inline/both|||
-|`splitting`|build|代码分块打包（也叫：代码分割），只能在esm中使用（`--format=esm`）|-|-|`esbuild in.js --bundle --splitting --outdir=out --format=esm`||
-|`target`|transform/build|指定js/css的运行环境。esbuild会把代码转换为该环境支持的写法。|-|chrome/edge/firefox/hermes/ie/ios/node及版本/opera/rhino/safari/js的版本|||
+|`splitting`|build|代码分块打包（也叫：代码分割），**当前只能在esm中使用**（`--format=esm`）|-|-|`esbuild in.js --bundle --splitting --outdir=out --format=esm`|用途：1. 多入口。 2. 异步引入|
+|`target`|transform/build|指定js/css的运行环境。esbuild会把代码转换为该环境支持的写法。可指定js版本，如`es2020`。|-|chrome/edge/firefox/hermes/ie/ios/node及版本/opera/rhino/safari/js的版本|`esbuild in.js --bundle --target=es2020,chrome58,edge16,firefox57,node12,safari11`||
 |`watch`|build|当改变时rebuild|||||
-|`write`|build|输出到文件系统或内存中。js/go才能使用该选项。cli直接输出到文件系统。|||||
+|`write`|build|build api可以输出到文件系统也可以输出到内存中。默认cli/js输出到文件系统中。go输出到内存中。|||||
 
 |option|可用于哪个api|说明|默认值|枚举值|demo||
 |-|-|-|-|-|-|-|
 |`allow-overwrite`|build|是否允许打包文件覆盖|||||
-|`analyze`|build|是否启动分析功能。若启动会列出每个包的信息|-|true/verbose|`esbuild in.js --bundle --analyze`||
+||build|是否启动分析功能。若启动会列出每个包的信息|-|true/verbose|`esbuild in.js --bundle --analyze`||
 |`asset-names`|build|当loader设置为file时，控制输出的额外的文件的名字。定义模板的名字。|-|-|`esbuild in.js --bundle --outdir=out --loader:.png=file --asset-names=assets/[name]-[hash]`||
 |`banner`|tranform/build|输出时直接在js/css文件的开头插入字符串。|-|-|`esbuild in.js --bundle --banner:js=//comment --banner:css=/*comment*/`||
 |`charset`|transform/build|指定编码集|||||
 |`chunk-names`|build|当使用代码分割时会产生子代码块（chunk）有可能是共用的。该选项是控制chunk的目录+文件名的占位符。|-|-|`esbuild in.js --bundle --outdir=out --splitting --format-esm --chunk-names=chunks/[name]-[hash]`||
 |`color`|transform/build|当出现错误、警告时，是否使用有色标记。|-|true/false|``||
-|`conditions`|build|不会|||`esbuild src/app.js --bundle --conditions=custom1,custom2`||
+|`conditions`|build|不会。与package.json中的exports有关|||`esbuild src/app.js --bundle --conditions=custom1,custom2`||
 |`drop`|transform/build|开始打包前删除一些代码|-|-|`esbuild in.js --bundle --drop:debugger`||
-|`entry-names`|build|不会|||||
+|`entry-names`|build|指定入口文件的输出时的文件名|||||
 |`footer`|transform/build|输出时直接在js/css文件的结尾插入字符串。|-|-|`esbuild app.js --footer:js=//comment --footer:css=/*comment*/`||
 |`global-name`|transform/build|只与iife规范结合使用。设置全局变量|-|-|`esbuild in.js --bundle --format=iife --global-name=abc`||
 |`ignore-annotations`|transform/build|是否删除注释|-|-|``||
@@ -205,7 +209,7 @@ func main() {
 |`mangle-props`|transform/build|不会|||||
 |`metafile`|build|定义分析时的输出格式|||||
 |`NODE_PATH`|build|cjs时的环境变量|||||
-|`out-extension`|build|自定义扩展名|-|-|`esbuild in.js --bundle --outdir=dist --out-extension:.js=.mjs`||
+|`out-extension`|build|指定输出的自定义扩展名|-|-|`esbuild in.js --bundle --outdir=dist --out-extension:.js=.mjs`||
 |`outbase`|build|设置输出时文件路径的base|-|-|``||
 |`preserve-symlinks`|build|指定源文件的路径|-|-|`esbuild in.js --bundle --preserve-symlinks --outfiles=out.js`||
 |`public-path`|build|与file loader一起使用时设置文件的前缀。|-|-|`esbuild in.js --bundle --loader:.png=file --public-pach=https://www.str.com/v1 --outdir=out`||
@@ -223,6 +227,8 @@ func main() {
 |*js-specific details*|||||||
 
 ### 开发时
+
+#### serve
 为方便开发；
 - 使用观察模式
 - 设置编辑器在保存时打包
@@ -275,15 +281,74 @@ interface ServeResult {
 }
 ```
 
+#### watch
+```js
+const cssModulesPlugin = require('esbuild-css-modules-plugin');
+
+require('esbuild').build({
+    entryPoints: ['src/index.js'],
+    bundle: true,
+    outdir: 'out',
+    loader: {
+        '.js': 'jsx',
+        '.css': 'css',
+    },
+    watch: true,
+    plugins: [cssModulesPlugin()]
+    // outfile: 'out.js',
+}).then(result => {
+    console.log('result', result)
+}).catch(() => process.exit(1))
+```
+
 ### 基本结构
 待完善
+```json
+// package.json
+"script": {
+  "bw": "node ./jsWatch.js & serve"
+}
+```
 ```js
-require('esbuild').buildSync({
-  entryPoints: ['src/index.js'],
-  bundle: true,
-  write: true,
-  outdir: 'out'
-})
+// jsWatch.js
+(async () => {
+    const cssModulesPlugin = require('esbuild-css-modules-plugin');
+    const esbuild = require('esbuild')
+    let result = await esbuild.build({
+        entryPoints: ['src/index.js'],
+        assetNames: 'assets/[name]-[hash]'
+        entryNames: ''
+        bundle: true,
+        outdir: 'out',
+        loader: {
+            '.js': 'jsx',
+            '.css': 'css',
+        },
+        watch: true,
+        metafile: true, // 用于分析
+
+        banner: {
+          js: '// author: xxx',
+          css: '/* author: xxx */',
+        },
+        chunkNames: '[name]-[hash]',
+        color: true,
+        drop: ['debugger', 'console'],
+        incremental: true,
+        // jsx: 'automatic',
+        // jsxDev: true,
+        // jsFactory: 'Fragmet',
+        keepNames: true,
+        legalComments: 'eof',
+        logLevel: 'error',
+        // logLimit: 10, // default
+        supported: {
+          // biging: false
+        }
+        plugins: [cssModulesPlugin()]
+    })
+    require('fs').writeFileSync('meta.json', JSON.stringify(result.metafile))
+})()
 ```
 
 ## 选项的补充说明
@@ -628,7 +693,8 @@ interface Metadata {
 - nesting
 
 ## 在浏览器中运行
-使用`esbuild-wasm`代替`esbuild`
+在浏览器中使用esbuild-wasm 在web worker中运行。  
+使用`esbuild-wasm`代替`esbuild`  
 ```shell
 npm i esbuild-wasm
 ```
@@ -641,6 +707,23 @@ esbuild.initialize({
   esbuild.transform(code, options).then(result => { ... })
   esbuild.build(options).then(result => { ... })
 })
+```
+```html
+<script src="./node_modules/esbuild-wasm/lib/browser.min.js"></script>
+<script>
+  esbuild.initialize({
+    wasmURL: './node_modules/esbuild-wasm/esbuild.wasm',
+  }).then(() => { ... })
+</script>
+```
+```html
+<script type="module">
+  import * as esbuild from './node_modules/esbuild-wasm/esm/browser.min.js'
+
+  esbuild.initialize({
+    wasmURL: './node_modules/esbuild-wasm/esbuild.wasm',
+  }).then(() => { ... })
+</script>
 ```
 
 ## loader
