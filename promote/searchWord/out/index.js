@@ -43521,8 +43521,8 @@
   SettingOutlined2.displayName = "SettingOutlined";
   var SettingOutlined_default2 = /* @__PURE__ */ React109.forwardRef(SettingOutlined2);
 
-  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-51267-Pp3zYWbsjypr/searchWord/src/components/WordQuery/index.module.css.js
-  var digest = "9b183e333c4c49a9f6f29599dea2e25f70a3b19205c49f3731ce4b1cd187d75a";
+  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-51977-J3xRMatlID76/searchWord/src/components/WordQuery/index.module.css.js
+  var digest = "c85b0badf8ad1918070583edd2bf4f581f99c31017d518bb7f1fc4c9ac8393a4";
   var css2 = `._appRp_1lyu3_1 {
     /* position: relative;
     width: 100vw;
@@ -43590,10 +43590,7 @@
     let setButtonClickHandler = () => {
       setDrawerOpen(true);
     };
-    let searchHandler = (searchStr) => {
-      if (!searchStr || !searchStr.trim()) {
-        return;
-      }
+    let searchFn = (searchStr) => {
       instance({
         method: "get",
         url: "/searchWord",
@@ -43614,6 +43611,16 @@
       }).finally(() => {
         searchRef.current.blur();
       });
+    };
+    let searchHandler = (searchStr) => {
+      if (!searchStr || !searchStr.trim()) {
+        return;
+      }
+      searchFn();
+    };
+    let searchPressEnterHandler = (event) => {
+      let value = event.target.value;
+      searchFn(value);
     };
     let saveSet = () => {
       window.localStorage.setItem("setBox", JSON.stringify({ num: state.num }));
@@ -43641,6 +43648,7 @@
       size: "large",
       allowClear: true,
       placeholder: "input search text",
+      onPressEnter: searchPressEnterHandler,
       onSearch: searchHandler
     })), /* @__PURE__ */ import_react38.default.createElement("main", {
       className: index_module_css_default.mainBox
@@ -43679,8 +43687,8 @@
   // src/components/History/index.js
   var import_react39 = __toESM(require_react());
 
-  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-51267-ELcf0qGnDQo5/searchWord/src/components/History/index.module.css.js
-  var digest2 = "05830892f2b6d671a4dad6f80de0313495f075a5b7d15334763880db25a9a9f4";
+  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-51977-jBzfMc8jaVJe/searchWord/src/components/History/index.module.css.js
+  var digest2 = "6ed44d820d477152786e41db4326b7e1f23394e111e17799ce68b49877a641e6";
   var css3 = `._wordItem_sa5vh_1 {
     display: flex;
     cursor: pointer;
@@ -43786,8 +43794,8 @@
     })));
   }
 
-  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-51267-U3XDNQmHRkju/searchWord/src/app.module.css.js
-  var digest3 = "76d0ef838480378edfaa3a138cc8b99bce2c95ee2592655dba277e9f0bd723d5";
+  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-51977-VDIkjPdPYDpA/searchWord/src/app.module.css.js
+  var digest3 = "92c7a503aeff1aad540df0bcacb91ee889f1e11f452e1b5ac50581bf0a9c1bb0";
   var css4 = `._cont_jdn4c_1 {
     width: 75%;
     max-width: 900px;

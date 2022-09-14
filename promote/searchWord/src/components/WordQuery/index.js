@@ -51,8 +51,7 @@ export default function WordQuery () {
     let setButtonClickHandler = () => {
         setDrawerOpen(true)
     }
-    let searchHandler = (searchStr) => {
-        if (!searchStr || !searchStr.trim()) {return}
+    let searchFn = (searchStr) => {
         instance({
             method: 'get',
             url: '/searchWord',
@@ -74,6 +73,15 @@ export default function WordQuery () {
             searchRef.current.blur()
         })
     }
+    let searchHandler = (searchStr) => {
+        if (!searchStr || !searchStr.trim()) {return}
+        searchFn()
+    }
+    let searchPressEnterHandler = (event) => {
+        let value = event.target.value
+        // console.log('searchPressEnterHandler', event.target.value)
+        searchFn(value)
+    }
     let saveSet = () => {
         window.localStorage.setItem('setBox', JSON.stringify({num: state.num}))
     }
@@ -93,7 +101,7 @@ export default function WordQuery () {
     }
     return <main className={styles.appRp}>
         <div className={styles.searchBox}>
-            <Search ref={searchRef} size="large" allowClear placeholder="input search text" onSearch={searchHandler}/>
+            <Search ref={searchRef} size="large" allowClear placeholder="input search text" onPressEnter={searchPressEnterHandler} onSearch={searchHandler}/>
         </div>
         <main className={styles.mainBox}>
             {wordList.map((wordItem, index) => {
