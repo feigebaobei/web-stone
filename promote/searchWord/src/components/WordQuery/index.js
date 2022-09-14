@@ -75,6 +75,13 @@ export default function WordQuery () {
     let NumberChangeHandler = (v) => {
         dispatch({type: 'num', payload: v})
     }
+    let isEq = (a, b, strict = false) => {
+        if (strict) {
+            return a === b
+        } else {
+            return a.toLowerCase() === b.toLowerCase()
+        }
+    }
     return <main className={styles.appRp}>
         <div className={styles.searchBox}>
             <Search size="large" placeholder="input search text" onSearch={searchHandler}/>
@@ -83,7 +90,7 @@ export default function WordQuery () {
             {wordList.map((wordItem, index) => {
                 return <Fragment key={index}>
                     <h2>{wordItem.entry}</h2>
-                    {wordItem.entry === wordItem.query && <p>
+                    {isEq(wordItem.entry, wordItem.query) && <p>
                         {wordItem.ukphone && <span style={{marginRight: '8px'}}><span>英</span> <span>{wordItem.ukphone}</span></span>}
                         {wordItem.usphone && <span><span>美</span> <span>{wordItem.usphone}</span></span>}
                     </p>}
