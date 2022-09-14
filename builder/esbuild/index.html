@@ -2023,8 +2023,8 @@ esbuild.initialize({
 <table>
 <thead>
 <tr>
-<th></th>
-<th></th>
+<th>loader</th>
+<th>可翻译的文件</th>
 <th></th>
 <th></th>
 <th></th>
@@ -2033,35 +2033,70 @@ esbuild.initialize({
 <tbody>
 <tr>
 <td>js</td>
-<td></td>
+<td><code>.js / .cjs / .mjs</code></td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td>ts</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>js</td>
-<td></td>
+<td><code>.ts / .tsx / .mts / .cts</code></td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td>js</td>
-<td></td>
+<td>jsx / tsx</td>
+<td><code>.jsx</code></td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td>js</td>
+<td>json</td>
+<td><code>.json</code></td>
 <td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>css</td>
+<td><code>.css</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>text</td>
+<td><code>.txt</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>binary</td>
+<td>当作binary buffer加载，并打包到包中。再默认导出为<code>uint8array</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>base64</td>
+<td>当作binary buffer加载，并打包到包中。再默认导出为<code>base64string</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>dataurl</td>
+<td>当作binary buffer加载，并以base64-encoded data url方式打包到包中。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>file / copy</td>
+<td>把文件复制到输出目录</td>
 <td></td>
 <td></td>
 <td></td>
@@ -2177,6 +2212,7 @@ esbuild.initialize({
 </li>
 </ul>
 <h2 id="plugin"><a href="/builder/esbuild/plugin/index.html">plugin</a></h2>
+<p>正在开发阶段。</p>
 <table>
 <thead>
 <tr>

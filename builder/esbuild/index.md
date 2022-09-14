@@ -730,13 +730,18 @@ esbuild.initialize({
 为esbuild做翻译工作。即使有些文件已经设置了默认loader，也可以覆盖默认值。
 
 **常用loader**
-||||||
+|loader|可翻译的文件||||
 |-|-|-|-|-|
-|js|||||
-|ts|||||
-|js|||||
-|js|||||
-|js|||||
+|js|`.js / .cjs / .mjs`||||
+|ts|`.ts / .tsx / .mts / .cts`||||
+|jsx / tsx|`.jsx`||||
+|json|`.json`||||
+|css|`.css`||||
+|text|`.txt`||||
+|binary|当作binary buffer加载，并打包到包中。再默认导出为`uint8array`||||
+|base64|当作binary buffer加载，并打包到包中。再默认导出为`base64string`||||
+|dataurl|当作binary buffer加载，并以base64-encoded data url方式打包到包中。||||
+|file / copy|把文件复制到输出目录||||
 |js|||||
 |js|||||
 |js|||||
@@ -796,6 +801,8 @@ esbuild.initialize({
   - 把文件复制到输出目录。并重写引入路径
 
 ## [plugin](/builder/esbuild/plugin/index.html)
+正在开发阶段。  
+
 ||cli|js|go|
 |-|-|-|-|
 |transform|x|x|x|
