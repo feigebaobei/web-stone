@@ -33,7 +33,9 @@ rollup main.js -o bundle.js -f umd --name "myBundle"
 在es6前。每段js代码都是独立的，无法与其它js代码联系起来。在es6之后，可以使用`import / export`输入/输出。可它仍有缺点：只能运行在现代浏览器中。rollup可以把小段代码打包成指定格式的大段代码。支持的格式：esm/commonjs/amd/umd/iife-style/system.
 
 ## tree-shaking
-rollup支持静态分析引入的代码，排除不使用的。判断出哪些方法/变量等被使用过，哪些未被使用。在打包后的代码中使用包含被使用到的。
+- esm  
+- rollup支持静态分析引入的代码，  
+- 排除不使用的。判断出哪些方法/变量等被使用过，哪些未被使用。在打包后的代码中使用包含被使用到的。  
 
 ## rollup的使用方式
 - cli
@@ -228,6 +230,7 @@ export default commandLineArgs => {
 - rollup使用`-c`/`--config`指定配置文件。
 - 若返回一个方法。参数是命令行中的参数组成的对象，返回值是配置文件格式的对象。
 
+配置文件的编写规范：  
 ||esm|cjs||
 |-|-|-|-|
 ||推荐|支持||
@@ -620,8 +623,8 @@ export default function () {
 ## 如何使用rollup处理node.js、cjs
 rollup是为esm服务的。若要处理cjs，请使用`node-resolve / commonjs`插件。处理json，请使用`json`插件。
 
-## 为什么不内置`node-resolve`
-- rollup是node和browsers的适配器。`import`不能在浏览器中工作。
+## 为什么不内置`node-resolve`。这种品质太宝贵了。
+- rollup是node和browsers的适配器。解决`import`不能在浏览器中工作的问题。
 - 使用插件对于软件工程师来说非常简单。
 - 使核心包变小。
 
@@ -714,7 +717,7 @@ enum: amd
 Type: { [id: string]: string } | ((id: string) => string)
 CLI: -g/--globals <external-id:variableName,another-external-id:anotherVariableName,...>
 ```
-指定全局变量。用于umd/iife规范。
+指定包的全局变量名。用于umd/iife规范。
 ```js
 // 告诉rollup全局变量是jquery，并且与全局变量$相等。
 export default {

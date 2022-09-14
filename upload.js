@@ -251,7 +251,9 @@ c.on('ready', () => {
             // 'promote/searchWord/jsWatch.js',
             // 'promote/searchWord/meta.json',
             // 'promote/searchWord/package.json',
-            'promote/searchWord/out/index.js',
+            // 'promote/searchWord/out/index.js',
+            'jsPackage/index.html',
+            'jsPackage/sql.js.html',
         ]
         // 检测指定目录是否存在
         // checkDir(p)
