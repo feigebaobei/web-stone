@@ -1008,7 +1008,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useReducer(reducer, initialArg, init);
           }
-          function useRef46(initialValue) {
+          function useRef47(initialValue) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
@@ -1799,7 +1799,7 @@
           exports.useLayoutEffect = useLayoutEffect6;
           exports.useMemo = useMemo25;
           exports.useReducer = useReducer2;
-          exports.useRef = useRef46;
+          exports.useRef = useRef47;
           exports.useState = useState25;
           exports.useSyncExternalStore = useSyncExternalStore;
           exports.useTransition = useTransition;
@@ -43521,8 +43521,8 @@
   SettingOutlined2.displayName = "SettingOutlined";
   var SettingOutlined_default2 = /* @__PURE__ */ React109.forwardRef(SettingOutlined2);
 
-  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-36171-4E327RUY1P72/searchWord/src/components/WordQuery/index.module.css.js
-  var digest = "498d2d14a67e8177e1c20064a978134510717979d31b4b2dfb59853a005d8177";
+  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-51267-Pp3zYWbsjypr/searchWord/src/components/WordQuery/index.module.css.js
+  var digest = "9b183e333c4c49a9f6f29599dea2e25f70a3b19205c49f3731ce4b1cd187d75a";
   var css2 = `._appRp_1lyu3_1 {
     /* position: relative;
     width: 100vw;
@@ -43558,6 +43558,7 @@
   function WordQuery() {
     let [wordList, setWordList] = (0, import_react38.useState)([]);
     let [drawerOpen, setDrawerOpen] = (0, import_react38.useState)(false);
+    let searchRef = (0, import_react38.useRef)();
     let defaultSetBox = { num: 5 };
     let oldSetBox = JSON.parse(window.localStorage.getItem("setBox") || JSON.stringify(defaultSetBox));
     let [state, dispatch2] = (0, import_react38.useReducer)((state2, action) => {
@@ -43590,6 +43591,9 @@
       setDrawerOpen(true);
     };
     let searchHandler = (searchStr) => {
+      if (!searchStr || !searchStr.trim()) {
+        return;
+      }
       instance({
         method: "get",
         url: "/searchWord",
@@ -43607,6 +43611,8 @@
         } else {
           message_default.error(`\u51FA\u9519\u4E86\uFF0C\u518D\u8BD5\u4E00\u6B21\u5427\uFF01   ${res.message}`);
         }
+      }).finally(() => {
+        searchRef.current.blur();
       });
     };
     let saveSet = () => {
@@ -43616,10 +43622,14 @@
       dispatch2({ type: "num", payload: v });
     };
     let isEq = (a, b, strict = false) => {
-      if (strict) {
-        return a === b;
+      if (a && b) {
+        if (strict) {
+          return a === b;
+        } else {
+          return a.toLowerCase() === b.toLowerCase();
+        }
       } else {
-        return a.toLowerCase() === b.toLowerCase();
+        return false;
       }
     };
     return /* @__PURE__ */ import_react38.default.createElement("main", {
@@ -43627,7 +43637,9 @@
     }, /* @__PURE__ */ import_react38.default.createElement("div", {
       className: index_module_css_default.searchBox
     }, /* @__PURE__ */ import_react38.default.createElement(Search2, {
+      ref: searchRef,
       size: "large",
+      allowClear: true,
       placeholder: "input search text",
       onSearch: searchHandler
     })), /* @__PURE__ */ import_react38.default.createElement("main", {
@@ -43667,8 +43679,8 @@
   // src/components/History/index.js
   var import_react39 = __toESM(require_react());
 
-  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-36171-jgD8vbxgGDRn/searchWord/src/components/History/index.module.css.js
-  var digest2 = "82a9d380438afb831bc6ce470d5c3bb6ddb83d30644fc36cfb7b580a4c5d0b5d";
+  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-51267-ELcf0qGnDQo5/searchWord/src/components/History/index.module.css.js
+  var digest2 = "05830892f2b6d671a4dad6f80de0313495f075a5b7d15334763880db25a9a9f4";
   var css3 = `._wordItem_sa5vh_1 {
     display: flex;
     cursor: pointer;
@@ -43774,8 +43786,8 @@
     })));
   }
 
-  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-36171-6cqXqg2HUQ9Z/searchWord/src/app.module.css.js
-  var digest3 = "1b7c9674ef6f5e70d9ffb8c89c347b06acd8096cf16dc54fc9ded741e7cdaa87";
+  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-51267-U3XDNQmHRkju/searchWord/src/app.module.css.js
+  var digest3 = "76d0ef838480378edfaa3a138cc8b99bce2c95ee2592655dba277e9f0bd723d5";
   var css4 = `._cont_jdn4c_1 {
     width: 75%;
     max-width: 900px;

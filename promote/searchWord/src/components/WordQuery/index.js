@@ -3,6 +3,7 @@ import React, {
     // useEffect,
     Fragment,
     useReducer,
+    useRef,
 } from "react";
 // import First from "./components/First";
 import {Button, Input, message, Drawer, Form, InputNumber} from 'antd'
@@ -16,6 +17,7 @@ const {Search} = Input
 export default function WordQuery () {
     let [wordList, setWordList] = useState([])
     let [drawerOpen, setDrawerOpen] = useState(false)
+    let searchRef = useRef()
     let defaultSetBox = {num: 5}
     let oldSetBox = JSON.parse(window.localStorage.getItem('setBox') || JSON.stringify(defaultSetBox))
     let [state, dispatch] = useReducer((state, action) => {
@@ -50,6 +52,7 @@ export default function WordQuery () {
         setDrawerOpen(true)
     }
     let searchHandler = (searchStr) => {
+        if (!searchStr || !searchStr.trim()) {return}
         instance({
             method: 'get',
             url: '/searchWord',
@@ -67,6 +70,8 @@ export default function WordQuery () {
             } else {
                 message.error(`出错了，再试一次吧！   ${res.message}`)
             }
+        }).finally(() => {
+            searchRef.current.blur()
         })
     }
     let saveSet = () => {
@@ -76,15 +81,19 @@ export default function WordQuery () {
         dispatch({type: 'num', payload: v})
     }
     let isEq = (a, b, strict = false) => {
-        if (strict) {
-            return a === b
+        if (a && b) {
+            if (strict) {
+                return a === b
+            } else {
+                return a.toLowerCase() === b.toLowerCase()
+            }
         } else {
-            return a.toLowerCase() === b.toLowerCase()
+            return false
         }
     }
     return <main className={styles.appRp}>
         <div className={styles.searchBox}>
-            <Search size="large" placeholder="input search text" onSearch={searchHandler}/>
+            <Search ref={searchRef} size="large" allowClear placeholder="input search text" onSearch={searchHandler}/>
         </div>
         <main className={styles.mainBox}>
             {wordList.map((wordItem, index) => {
