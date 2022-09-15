@@ -245,15 +245,17 @@ c.on('ready', () => {
         // let p = 'promote/searchWord/out/index.js'
         // let p = 'promote/searchWord/out/index.css'
         let p = [
-            // 'promote/searchWord/jsAnalyze.js',
+            'language/css/index.html',
             // 'promote/searchWord/jsbserve.js',
             // 'promote/searchWord/jsbuild.js',
             // 'promote/searchWord/jsWatch.js',
             // 'promote/searchWord/meta.json',
             // 'promote/searchWord/package.json',
             // 'promote/searchWord/out/index.js',
-            'jsPackage/index.html',
-            'jsPackage/sql.js.html',
+            // 'jsPackages/index.html',
+            // 'jsPackages/sql.js.html',
+            // 'builder/index.html',
+            // 'builder/esbuild/index.html',
         ]
         // 检测指定目录是否存在
         // checkDir(p)

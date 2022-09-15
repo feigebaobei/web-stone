@@ -83,3 +83,11 @@ css in js
 
 
 # [图片](/css/image/index.html)
+
+# 引入方式
+||||||||
+|-|-|-|-|-|-|-|
+|外联|`<link rel="stylesheet" href="link/to/file.css"></link>`||||||
+|内联|`<style>.c{color: red;}</style>`||||||
+|行内|`<tag style="color: red;"> </tag>`||||||
+|引入|`<style>@import url(./link.css)</style>`||||||
