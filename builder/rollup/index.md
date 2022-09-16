@@ -7,7 +7,10 @@
 > 选项级 cli > rollup.config.js
 > 推荐使用esm规范的rollup.config.js  
 > 该团队做随便扩张rollup的功能。让rollup只做rollup的事。插件做插件的事。在产品级做到了单一原则。
-
+> 它的loader是使用plugin实现的。
+  > plugin          用于加载文件
+  > output.plugin   用于输出是的插件
+> 没有loader
 ## install
 
 `npm i -g rollup`
@@ -245,6 +248,7 @@ export default commandLineArgs => {
 ```js
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
+import {terser} from 'rollup-plugin-terser';
 export default [
   {
     input: ['index.js'],
@@ -256,7 +260,8 @@ export default [
         chunkFileNames: '[name]-[hash].js',
         format: 'esm',
         sourcemap: true,
-        compact: false
+        compact: false,
+        plugins: [terser()]
       },
       // {
       //   dir: 'dist',
@@ -365,6 +370,7 @@ module.exports = {
 --sourcemapExcludeSources   Do not include source code in source maps
 --sourcemapFile <file>      Specify bundle position for source maps
 --stdin=ext                 Specify file extension used for stdin input
+              支持标准输入的扩展名
 --no-stdin                  Do not read "-" from stdin
 --no-strict                 Don't emit `"use strict";` in the generated modules
 --strictDeprecations        Throw errors for deprecated features
@@ -384,6 +390,12 @@ module.exports = {
 --watch.skipWrite           Do not write files to disk when watching
 --watch.exclude <files>     Exclude files from being watched
 --watch.include <files>     Limit watching to specified files
+--watch.onStart <cmd>       Shell command to run on `"START"` event
+              cmd 是回调命令
+--watch.onBundleStart <cmd> Shell command to run on `"BUNDLE_START"` event
+--watch.onBundleEnd <cmd>   Shell command to run on `"BUNDLE_END"` event
+--watch.onEnd <cmd>         Shell command to run on `"END"` event
+--watch.onError <cmd>       Shell command to run on `"ERROR"` event
 --validate                  Validate output
 ```
 
@@ -417,6 +429,84 @@ rollup --config rollup.config.js --configPlugin @rollup/plugin-typescript
 # js api
 为node.js使用rollup  
 
+```ts
+rollup.rollup(inputOptions) => Promise<bundle>
+rollup.watch(watchOptions) => watcher
+watcher.on('event', event => {...})
+
+interface inputOptions {
+  // core input options
+  external;
+  input; // conditionally required
+  plugins;
+  // advanced input options
+  cache;
+  onwarn;
+  preserveEntrySignatures;
+  strictDeprecations;
+  // danger zone
+  acorn;
+  acornInjectPlugins;
+  context;
+  moduleContext;
+  preserveSymlinks;
+  shimMissingExports;
+  treeshake;
+  // experimental
+  experimentalCacheExpiry;
+  perf;
+}
+interface outputOptions {
+  // core output options
+  dir,
+  file,
+  format, // required
+  globals,
+  name,
+  plugins,
+  // advanced output options
+  assetFileNames,
+  banner,
+  chunkFileNames,
+  compact,
+  entryFileNames,
+  extend,
+  externalLiveBindings,
+  footer,
+  hoistTransitiveImports,
+  inlineDynamicImports,
+  interop,
+  intro,
+  manualChunks,
+  minifyInternalExports,
+  outro,
+  paths,
+  preserveModules,
+  preserveModulesRoot,
+  sourcemap,
+  sourcemapExcludeSources,
+  sourcemapFile,
+  sourcemapPathTransform,
+  validate,
+  // danger zone
+  amd,
+  esModule,
+  exports,
+  freeze,
+  indent,
+  namespaceToStringTag,
+  noConflict,
+  preferConst,
+  sanitizeFileName,
+  strict,
+  systemNullSetters
+}
+interface watchOptions {
+}
+interface bundle {
+
+}
+```
 
 ## usage
 ```js
@@ -527,7 +617,7 @@ watcher.on('event', event => {
 	// event.code
 	// 	START			全部开始
 	// 	BUNDLE_START	开始打包每个个体文件
-	// 	BUNDLE_END		打包完每一个人体文件
+	// 	BUNDLE_END		打包完每一个个体文件
 	// 	END				全部结束
 	// 	ERROR			打包时出现的错误
 })
@@ -587,6 +677,8 @@ npm run build
 - [@rollup/plugin-node-resolve]() 功能功能功能功能
 
 ## 代码分割
+动态引入、多入口会触发代码分割。  
+
 - 自动代码分割
 - `output.manualChunks`
 - `output.chunkFileNames`

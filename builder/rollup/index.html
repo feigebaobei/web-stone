@@ -88,7 +88,10 @@
 支持stdin输入（esbuild也支持）
 选项级 cli &gt; rollup.config.js
 推荐使用esm规范的rollup.config.js<br>
-该团队做随便扩张rollup的功能。让rollup只做rollup的事。插件做插件的事。在产品级做到了单一原则。</p>
+该团队做随便扩张rollup的功能。让rollup只做rollup的事。插件做插件的事。在产品级做到了单一原则。
+它的loader是使用plugin实现的。
+plugin          用于加载文件
+output.plugin   用于输出是的插件</p>
 </blockquote>
 <h2 id="install">install</h2>
 <p><code>npm i -g rollup</code></p>
@@ -492,6 +495,7 @@ module.exports = {
 --sourcemapExcludeSources   Do not include source code in source maps
 --sourcemapFile &lt;file&gt;      Specify bundle position for source maps
 --stdin=ext                 Specify file extension used for stdin input
+              支持标准输入的扩展名
 --no-stdin                  Do not read &quot;-&quot; from stdin
 --no-strict                 Don't emit `&quot;use strict&quot;;` in the generated modules
 --strictDeprecations        Throw errors for deprecated features
@@ -511,6 +515,12 @@ module.exports = {
 --watch.skipWrite           Do not write files to disk when watching
 --watch.exclude &lt;files&gt;     Exclude files from being watched
 --watch.include &lt;files&gt;     Limit watching to specified files
+--watch.onStart &lt;cmd&gt;       Shell command to run on `&quot;START&quot;` event
+              cmd 是回调命令
+--watch.onBundleStart &lt;cmd&gt; Shell command to run on `&quot;BUNDLE_START&quot;` event
+--watch.onBundleEnd &lt;cmd&gt;   Shell command to run on `&quot;BUNDLE_END&quot;` event
+--watch.onEnd &lt;cmd&gt;         Shell command to run on `&quot;END&quot;` event
+--watch.onError &lt;cmd&gt;       Shell command to run on `&quot;ERROR&quot;` event
 --validate                  Validate output
 </div></code></code></pre>
 <details>
@@ -539,6 +549,83 @@ rollup --config rollup.config.js --configPlugin @rollup/plugin-typescript
 </details>
 <h1 id="js-api">js api</h1>
 <p>为node.js使用rollup</p>
+<pre><code class="language-ts"><div>rollup.rollup(inputOptions) =&gt; <span class="hljs-built_in">Promise</span>&lt;bundle&gt;
+rollup.watch(watchOptions) =&gt; watcher
+watcher.on(<span class="hljs-string">&#x27;event&#x27;</span>, <span class="hljs-function"><span class="hljs-params">event</span> =&gt;</span> {...})
+
+<span class="hljs-keyword">interface</span> inputOptions {
+  <span class="hljs-comment">// core input options</span>
+  external;
+  input; <span class="hljs-comment">// conditionally required</span>
+  plugins;
+  <span class="hljs-comment">// advanced input options</span>
+  cache;
+  onwarn;
+  preserveEntrySignatures;
+  strictDeprecations;
+  <span class="hljs-comment">// danger zone</span>
+  acorn;
+  acornInjectPlugins;
+  context;
+  moduleContext;
+  preserveSymlinks;
+  shimMissingExports;
+  treeshake;
+  <span class="hljs-comment">// experimental</span>
+  experimentalCacheExpiry;
+  perf;
+}
+<span class="hljs-keyword">interface</span> outputOptions {
+  <span class="hljs-comment">// core output options</span>
+  dir,
+  file,
+  format, <span class="hljs-comment">// required</span>
+  globals,
+  name,
+  plugins,
+  <span class="hljs-comment">// advanced output options</span>
+  assetFileNames,
+  banner,
+  chunkFileNames,
+  compact,
+  entryFileNames,
+  extend,
+  externalLiveBindings,
+  footer,
+  hoistTransitiveImports,
+  inlineDynamicImports,
+  interop,
+  intro,
+  manualChunks,
+  minifyInternalExports,
+  outro,
+  paths,
+  preserveModules,
+  preserveModulesRoot,
+  sourcemap,
+  sourcemapExcludeSources,
+  sourcemapFile,
+  sourcemapPathTransform,
+  validate,
+  <span class="hljs-comment">// danger zone</span>
+  amd,
+  esModule,
+  <span class="hljs-built_in">exports</span>,
+  freeze,
+  indent,
+  namespaceToStringTag,
+  noConflict,
+  preferConst,
+  sanitizeFileName,
+  strict,
+  systemNullSetters
+}
+<span class="hljs-keyword">interface</span> watchOptions {
+}
+<span class="hljs-keyword">interface</span> bundle {
+
+}
+</div></code></pre>
 <h2 id="usage">usage</h2>
 <pre><code class="language-js"><div><span class="hljs-keyword">import</span> {rollup} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;rollup&#x27;</span>
 rollup(inputOptions).then(<span class="hljs-function"><span class="hljs-params">bundle</span> =&gt;</span> {
@@ -642,7 +729,7 @@ watcher.on(<span class="hljs-string">&#x27;event&#x27;</span>, <span class="hljs
 	<span class="hljs-comment">// event.code</span>
 	<span class="hljs-comment">// 	START			全部开始</span>
 	<span class="hljs-comment">// 	BUNDLE_START	开始打包每个个体文件</span>
-	<span class="hljs-comment">// 	BUNDLE_END		打包完每一个人体文件</span>
+	<span class="hljs-comment">// 	BUNDLE_END		打包完每一个个体文件</span>
 	<span class="hljs-comment">// 	END				全部结束</span>
 	<span class="hljs-comment">// 	ERROR			打包时出现的错误</span>
 })

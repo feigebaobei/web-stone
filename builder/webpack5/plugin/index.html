@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <title>&#x57fa;&#x672c;&#x7ed3;&#x6784;</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -88,6 +88,19 @@
 <li><a href="/builder/webpack/plugin/title-webpack-plugin.html">title-webpack-plugin</a></li>
 <li><a href="/builder/webpack/plugin/title-webpack-plugin.html">title-webpack-plugin</a></li>
 </ul>
+<h2 id="基本结构">基本结构</h2>
+<pre><code class="language-js"><div><span class="hljs-keyword">const</span> pluginName = <span class="hljs-string">&#x27;ConsoleLogOnBuildWebpackPlugin&#x27;</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ConsoleLogOnBuildWebpackPlugin</span> </span>{
+  <span class="hljs-function"><span class="hljs-title">apply</span>(<span class="hljs-params">compiler</span>)</span> {
+    compiler.hooks.run.tap(pluginName, <span class="hljs-function">(<span class="hljs-params">compilation</span>) =&gt;</span> {
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;The webpack build process is starting!&#x27;</span>);
+    });
+  }
+}
+
+<span class="hljs-built_in">module</span>.exports = ConsoleLogOnBuildWebpackPlugin;
+</div></code></pre>
 
         
         

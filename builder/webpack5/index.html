@@ -83,19 +83,28 @@
         <h1 id="webpack5">webpack5</h1>
 <h2 id="overview">overview</h2>
 <blockquote>
-<p>强大的打包工具
-node v10.13+
-本文中简称wp</p>
+<p>强大的打包工具<br>
+本文中简称wp<br>
+静态资源打包器<br>
+核心部分<br>
+entry<br>
+output<br>
+loaders<br>
+plugins<br>
+mode<br>
+browser compatiblity<br>
+wp5需要node v10.13.0+</p>
 </blockquote>
 <h3 id="feature">feature</h3>
 <ul>
-<li>feature0</li>
+<li>配置文件非必需（v4+）</li>
 <li>feature1</li>
 <li>feature2</li>
 </ul>
 <h2 id="install">install</h2>
 <p><code>npm i webpack</code></p>
-<h2 id="concepts--usage">concepts / usage</h2>
+<h2 id="usage">usage</h2>
+<h2 id="concepts">concepts</h2>
 <pre><code class="language-js"><div><span class="hljs-keyword">let</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;path&#x27;</span>) <span class="hljs-comment">// node内置包</span>
 <span class="hljs-keyword">let</span> HtmlWebpackPlugin = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;html-webpack-plugin&#x27;</span>)
 
@@ -114,7 +123,7 @@ node v10.13+
     <span class="hljs-attr">mode</span>: <span class="hljs-string">&#x27;production&#x27;</span>
 }
 </div></code></pre>
-<h2 id="entry-points">entry points</h2>
+<h3 id="entry-points">entry points</h3>
 <p>开始打包的地方。</p>
 <pre><code class="language-ts"><div>entry: <span class="hljs-built_in">string</span> | [<span class="hljs-built_in">string</span>]
 </div></code></pre>
@@ -146,7 +155,7 @@ node v10.13+
 <li>若打为多个包，则在某些无变动时，它的hash值不变，浏览器就可以使用缓存中的文件。</li>
 <li>多页面应用。</li>
 </ul>
-<h2 id="output">output</h2>
+<h3 id="output">output</h3>
 <p>输出选项，不管入口文件有多少个。
 demo</p>
 <pre><code class="language-ts"><div><span class="hljs-built_in">module</span>.exports = {
@@ -158,99 +167,14 @@ demo</p>
     },
 }
 </div></code></pre>
-<h2 id="loaders">loaders</h2>
-<p>webpack的核心包并不大。它只认识js/json。其他类型的文件需要由loader转化为js，然后才能打包。
-demo
-<code>npm i -D style-loader css-loader sass-loader ts-loader</code></p>
-<pre><code class="language-js"><div><span class="hljs-built_in">module</span>.exports = {
-    <span class="hljs-attr">module</span>: {
-        <span class="hljs-attr">rules</span>: [
-            {
-                <span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.css$/</span>, 
-                use: [
-                    {<span class="hljs-attr">loader</span>: <span class="hljs-string">&#x27;style-loader&#x27;</span>},
-                    {
-                        <span class="hljs-attr">loader</span>: <span class="hljs-string">&#x27;css-loader&#x27;</span>,
-                        <span class="hljs-attr">options</span>: {<span class="hljs-attr">modules</span>: <span class="hljs-literal">true</span>}
-                    },
-                    {<span class="hljs-attr">loader</span>: <span class="hljs-string">&#x27;sass-loader&#x27;</span>},
-                ]
-            },
-            {<span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.ts$/</span>, use: <span class="hljs-string">&#x27;ts-loader&#x27;</span>},
-        ]
-    }
-}
-</div></code></pre>
-<p>不会行内写法。<br>
-行内优先于配置文件。</p>
+<h3 id="mode">mode</h3>
+<p>wp会根据此字段做内部优化。</p>
 <ul>
-<li>可链式调用。倒序执行。其运行结果，是下一个loader的入参。所有loader有规范。</li>
-<li>可同步也可异步</li>
-<li>node.js运行loader</li>
-<li>使用<code>options</code>对象为loader设置配置。</li>
-<li>通常package.json中<code>main:loader</code></li>
+<li>production // default</li>
+<li>development</li>
+<li>none</li>
 </ul>
-<h3 id="常用loader">常用loader</h3>
-<ul>
-<li><a href="">style-loader</a>         xxxx</li>
-<li><a href="">css-loader</a>         xxxx</li>
-<li><a href="">sass-loader</a>         xxxx</li>
-<li><a href="">ts-loader</a>         xxxx</li>
-<li><a href="">title</a>         xxxx</li>
-<li><a href="">title</a>         xxxx</li>
-<li><a href="">title</a>         xxxx</li>
-<li><a href="">title</a>         xxxx</li>
-</ul>
-<h2 id="plugin"><a href="/builder/webpack/plugin/index.html">plugin</a></h2>
-<p>插件是webpack的主要部分。
-插件是一个有<code>apply()</code>的对象，该方法被webpack compiler调用。</p>
-<h3 id="常用插件">常用插件</h3>
-<h3 id="内置插件">内置插件</h3>
-<h2 id="configuration">configuration</h2>
-<p>默认配置文件：<code>path/to/file.json</code>。</p>
-<table>
-<thead>
-<tr>
-<th>key</th>
-<th>description</th>
-<th>default</th>
-<th>enum</th>
-<th>demo</th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="modules">modules</h2>
+<h3 id="modules">modules</h3>
 <p>模块化开发。
 webpack可以理解的模块化</p>
 <ul>
@@ -297,20 +221,20 @@ webpack可以理解的模块化</p>
 <li>若目录中无package.json，或resolve.mainfields返回一个有效路径。文件名必须在resovle.mainFiles中出现（有顺序要求）。</li>
 <li>文件扩展名resolve.extensions</li>
 </ul>
-<h3 id="缓存">缓存</h3>
+<h4 id="缓存">缓存</h4>
 <p>若文件从文件系统中访问多次，或平行，或依次。为了更快些，则使用缓存模式，直到该文件有变动，才更新缓存中的该文件。</p>
-<h2 id="module-resolution">module resolution</h2>
-<h2 id="module-federation模块联邦">module federation（模块联邦）</h2>
+<h3 id="module-resolution">module resolution</h3>
+<h3 id="module-federation模块联邦">module federation（模块联邦）</h3>
 <p>需要重读wp module部分的文档</p>
-<h3 id="动机">动机</h3>
+<h4 id="动机">动机</h4>
 <p>若模块之间无联系，则分开部署。</p>
-<h3 id="high-level-concepts">high-level concepts</h3>
-<h3 id="low-level-concepts">low-level concepts</h3>
-<h3 id="low-level-concepts-1">low-level concepts</h3>
-<h3 id="low-level-concepts-2">low-level concepts</h3>
-<h3 id="low-level-concepts-3">low-level concepts</h3>
-<h3 id="low-level-concepts-4">low-level concepts</h3>
-<h3 id="concept-goals">concept goals</h3>
+<h4 id="high-level-concepts">high-level concepts</h4>
+<h4 id="low-level-concepts">low-level concepts</h4>
+<h4 id="low-level-concepts-1">low-level concepts</h4>
+<h4 id="low-level-concepts-2">low-level concepts</h4>
+<h4 id="low-level-concepts-3">low-level concepts</h4>
+<h4 id="low-level-concepts-4">low-level concepts</h4>
+<h4 id="concept-goals">concept goals</h4>
 <ul>
 <li>模块应该暴露所有wp支持的模块类型</li>
 <li>代码块应该使用平行加载</li>
@@ -318,9 +242,9 @@ webpack可以理解的模块化</p>
 <h2 id="控制从消费者到内容者">控制从消费者到内容者</h2>
 </li>
 </ul>
-<h2 id="dependency-graph">dependency graph</h2>
+<h3 id="dependency-graph">dependency graph</h3>
 <p>wp根据import / require绘制依赖图。</p>
-<h2 id="targets">targets</h2>
+<h3 id="targets">targets</h3>
 <p><code>target: 'node'</code> // 指定运行环境</p>
 <p>多个输出（多个运行环境）</p>
 <pre><code class="language-js"><div><span class="hljs-comment">// webpack.config.js</span>
@@ -341,7 +265,7 @@ webpack可以理解的模块化</p>
 }
 <span class="hljs-built_in">module</span>.exports = [serverConfig, clientConfig]
 </div></code></pre>
-<h2 id="the-manifest">the manifest</h2>
+<h3 id="the-manifest">the manifest</h3>
 <p>manifest怎么控制的资源？</p>
 <ul>
 <li>runtime 在浏览器运行环境，wp用来连接模块化应用程序所需的所有代码。
@@ -353,14 +277,109 @@ webpack可以理解的模块化</p>
 <h2 id="manifest-使用该文件管理各种资源的加载与链接">manifest 使用该文件管理各种资源的加载与链接。</h2>
 </li>
 </ul>
-<h2 id="hot-module-replacement">hot module replacement</h2>
+<h3 id="hot-module-replacement">hot module replacement</h3>
 <ul>
 <li>保留完全重新加载页面期间丢失的应用程序状态</li>
 <li>只更新变更内容</li>
 <li>源代码的内容变动时，浏览器更新。</li>
 </ul>
-<h2 id="why-webpack">why webpack</h2>
-<h2 id="under-the-hood">under the hood</h2>
+<h3 id="why-webpack">why webpack</h3>
+<h3 id="under-the-hood">under the hood</h3>
+<h2 id="loaders">loaders</h2>
+<p>webpack的核心包并不大。它只认识js/json。其他类型的文件需要由loader转化为js，然后才能打包。
+demo
+<code>npm i -D style-loader css-loader sass-loader ts-loader</code></p>
+<pre><code class="language-js"><div><span class="hljs-built_in">module</span>.exports = {
+    <span class="hljs-attr">module</span>: {
+        <span class="hljs-attr">rules</span>: [
+            {
+                <span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.css$/</span>, 
+                use: [
+                    {<span class="hljs-attr">loader</span>: <span class="hljs-string">&#x27;style-loader&#x27;</span>},
+                    {
+                        <span class="hljs-attr">loader</span>: <span class="hljs-string">&#x27;css-loader&#x27;</span>,
+                        <span class="hljs-attr">options</span>: {<span class="hljs-attr">modules</span>: <span class="hljs-literal">true</span>}
+                    },
+                    {<span class="hljs-attr">loader</span>: <span class="hljs-string">&#x27;sass-loader&#x27;</span>},
+                ]
+            },
+            {<span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.ts$/</span>, use: <span class="hljs-string">&#x27;ts-loader&#x27;</span>},
+        ]
+    }
+}
+</div></code></pre>
+<p>不会行内写法。<br>
+行内优先于配置文件。</p>
+<ul>
+<li>可链式调用。倒序执行。其运行结果，是下一个loader的入参。所有loader有规范。</li>
+<li>可同步也可异步</li>
+<li>node.js运行loader</li>
+<li>使用<code>options</code>对象为loader设置配置。</li>
+<li>通常package.json中<code>main:loader</code></li>
+</ul>
+<h4 id="常用loader">常用loader</h4>
+<ul>
+<li><a href="">style-loader</a>         xxxx</li>
+<li><a href="">css-loader</a>         xxxx</li>
+<li><a href="">sass-loader</a>         xxxx</li>
+<li><a href="">ts-loader</a>         xxxx</li>
+<li><a href="">title</a>         xxxx</li>
+<li><a href="">title</a>         xxxx</li>
+<li><a href="">title</a>         xxxx</li>
+<li><a href="">title</a>         xxxx</li>
+</ul>
+<h2 id="plugin"><a href="/builder/webpack/plugin/index.html">plugin</a></h2>
+<p>插件是webpack的主要部分。
+插件是一个有<code>apply()</code>的对象，该方法被webpack compiler调用。
+可以作用于整个过程。(由wp的项目结构决定了)。如：优先打包、管理资源、注入环境变量。</p>
+<h3 id="常用插件">常用插件</h3>
+<h3 id="内置插件">内置插件</h3>
+<h2 id="浏览器兼容">浏览器兼容。</h2>
+<p>wp支持ie8+及其他浏览器。内部使用<code>es5-compliant</code>实现兼容。</p>
+<h2 id="configuration">configuration</h2>
+<p>默认配置文件：<code>path/to/file.json</code>。</p>
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h2 id="api">api</h2>
 <p><code>webpack.fn(param, first: string, second: boolean = true) =&gt; void</code>
 description</p>
