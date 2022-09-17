@@ -246,12 +246,13 @@ c.on('ready', () => {
         // let p = 'builder/webpack5/plugin'
         let p = [
             // 'language/css/index.html',
-            // 'builder/index.js',
+            'builder/index.html',
             // 'builder/rollup/index.js',
-            // 'builder/webpack5/index.js',
+            'builder/webpack5/index.html',
             // 'builder/webpack5/plugin/index.js',
             'index.html',
-            // 'promote/learnConstruct.html',
+            'promote/learnConstruct.html',
+            'promote/searchWord/out/index.js',
         ]
         // 检测指定目录是否存在
         // checkDir(p)

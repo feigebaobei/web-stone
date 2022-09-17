@@ -1012,7 +1012,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
-          function useEffect29(create, deps) {
+          function useEffect30(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useEffect(create, deps);
           }
@@ -1792,7 +1792,7 @@
           exports.useContext = useContext37;
           exports.useDebugValue = useDebugValue;
           exports.useDeferredValue = useDeferredValue;
-          exports.useEffect = useEffect29;
+          exports.useEffect = useEffect30;
           exports.useId = useId;
           exports.useImperativeHandle = useImperativeHandle10;
           exports.useInsertionEffect = useInsertionEffect;
@@ -43521,8 +43521,8 @@
   SettingOutlined2.displayName = "SettingOutlined";
   var SettingOutlined_default2 = /* @__PURE__ */ React109.forwardRef(SettingOutlined2);
 
-  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-51977-J3xRMatlID76/searchWord/src/components/WordQuery/index.module.css.js
-  var digest = "c85b0badf8ad1918070583edd2bf4f581f99c31017d518bb7f1fc4c9ac8393a4";
+  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-8997-yOY6IBuo5oqV/searchWord/src/components/WordQuery/index.module.css.js
+  var digest = "498d2d14a67e8177e1c20064a978134510717979d31b4b2dfb59853a005d8177";
   var css2 = `._appRp_1lyu3_1 {
     /* position: relative;
     width: 100vw;
@@ -43579,6 +43579,16 @@
       le: "en",
       q: ""
     });
+    (0, import_react38.useEffect)(function() {
+      let fn = () => {
+        searchRef.current.focus();
+      };
+      window.addEventListener("focus", fn);
+      searchRef.current.focus();
+      return () => {
+        window.removeEventListener("focus", fn);
+      };
+    }, []);
     let searchClickHandler = () => {
     };
     let historeClickHandler = () => {
@@ -43687,8 +43697,8 @@
   // src/components/History/index.js
   var import_react39 = __toESM(require_react());
 
-  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-51977-jBzfMc8jaVJe/searchWord/src/components/History/index.module.css.js
-  var digest2 = "6ed44d820d477152786e41db4326b7e1f23394e111e17799ce68b49877a641e6";
+  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-8997-95ARk1RSGULD/searchWord/src/components/History/index.module.css.js
+  var digest2 = "82a9d380438afb831bc6ce470d5c3bb6ddb83d30644fc36cfb7b580a4c5d0b5d";
   var css3 = `._wordItem_sa5vh_1 {
     display: flex;
     cursor: pointer;
@@ -43794,8 +43804,8 @@
     })));
   }
 
-  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-51977-VDIkjPdPYDpA/searchWord/src/app.module.css.js
-  var digest3 = "92c7a503aeff1aad540df0bcacb91ee889f1e11f452e1b5ac50581bf0a9c1bb0";
+  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-8997-zOpSOVUJcBLF/searchWord/src/app.module.css.js
+  var digest3 = "1b7c9674ef6f5e70d9ffb8c89c347b06acd8096cf16dc54fc9ded741e7cdaa87";
   var css4 = `._cont_jdn4c_1 {
     width: 75%;
     max-width: 900px;

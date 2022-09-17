@@ -1,6 +1,6 @@
 import React, {
     useState,
-    // useEffect,
+    useEffect,
     Fragment,
     useReducer,
     useRef,
@@ -10,6 +10,7 @@ import {Button, Input, message, Drawer, Form, InputNumber} from 'antd'
 import {clog, getEnv, instance} from '../../util/index'
 import { SettingOutlined } from '@ant-design/icons';
 import styles from './index.module.css'
+// import { useEffect } from "react/cjs/react.production.min";
 
 // 本模块内的变量
 const {Search} = Input
@@ -38,6 +39,18 @@ export default function WordQuery () {
         le: 'en',
         q: '' 
     })
+    useEffect(function () {
+        let fn = () => {
+            // console.log('focus')
+            searchRef.current.focus()
+        }
+        window.addEventListener('focus', fn)
+        searchRef.current.focus() // 打开就聚焦
+        return () => {
+            // console.log('un focuse')
+            window.removeEventListener('focus', fn)
+        }
+    }, [])
     let searchClickHandler = () => {
 
     }
