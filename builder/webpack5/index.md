@@ -99,6 +99,67 @@ wp会根据此字段做内部优化。
 - development
 - none
 
+### [loaders]()
+webpack的核心包并不大。它只认识js/json。其他类型的文件需要由loader转化为js，然后才能打包。
+demo
+`npm i -D style-loader css-loader sass-loader ts-loader`
+```js
+module.exports = {
+    module: {
+        rules: [
+            {
+                test: /\.css$/, 
+                use: [
+                    {loader: 'style-loader'},
+                    {
+                        loader: 'css-loader',
+                        options: {modules: true}
+                    },
+                    {loader: 'sass-loader'},
+                ]
+            },
+            {test: /\.ts$/, use: 'ts-loader'},
+        ]
+    }
+}
+```
+不会行内写法。  
+行内优先于配置文件。  
+
+- 可链式调用。倒序执行。其运行结果，是下一个loader的入参。所有loader有规范。
+- 可同步也可异步
+- node.js运行loader
+- 使用`options`对象为loader设置配置。  
+- 通常package.json中`main:loader`
+
+#### 常用loader
+- [style-loader]()         xxxx
+- [css-loader]()         xxxx
+- [sass-loader]()         xxxx
+- [ts-loader]()         xxxx
+- [title]()         xxxx
+- [title]()         xxxx
+- [title]()         xxxx
+- [title]()         xxxx
+
+### [plugin](/builder/webpack/plugin/index.html)
+插件是webpack的主要部分。
+插件是一个有`apply()`的对象，该方法被webpack compiler调用。
+可以作用于整个过程。(由wp的项目结构决定了)。如：优先打包、管理资源、注入环境变量。
+
+#### 常用插件
+#### 内置插件
+
+### configuration
+- 一般使用cjs规范。  
+- `require(...)`  
+- 可使用分支逻辑  
+- 使用`--env`代替从cli取数据  
+- 不输出不确定的值  
+- 避免编辑长配置文件  
+
+
+
 
 ### modules
 模块化开发。
@@ -145,7 +206,9 @@ webpack支持的引入规则
 #### 缓存
 若文件从文件系统中访问多次，或平行，或依次。为了更快些，则使用缓存模式，直到该文件有变动，才更新缓存中的该文件。
 
-### module resolution
+#### module resolution
+使用[`enhanced-resolve`](/jsPackages/enhancedResovle.html)解决模块引用的功能。  
+
 ### module federation（模块联邦）
 需要重读wp module部分的文档
 
@@ -193,22 +256,24 @@ let clientConfig = {
 }
 module.exports = [serverConfig, clientConfig]
 ```
+rollup是需要运行多次打包方法（参数时不同的配置对象）。  
 
 ### the manifest
-manifest怎么控制的资源？
-- runtime 在浏览器运行环境，wp用来连接模块化应用程序所需的所有代码。
-    - 在模块交互时，连接模块所需的加载和解析逻辑，
-- manifest 使用该文件管理各种资源的加载与链接。
-  - 
+manifest为wp提供管理打包后的模块之间交互。  
+编译时，wp记录各模块的详细要点，整理成为manifest。浏览器请求应用时，把manifest发给客户端。在运行时根据该文件处理各打包后的模块的交互。`require / import`会被编译为`__webpack_requrie__`方法。  
 
-### hot module replacement
+### (hmr) hot module replacement
 - 保留完全重新加载页面期间丢失的应用程序状态
 - 只更新变更内容 
 - 源代码的内容变动时，浏览器更新。
 
-
 ### why webpack
 ### under the hood
+入口 + 依赖图 = chunk
+
+chunk的形式：
+- initial       明确入口的文件  
+- non-initial   可以延迟加载的块
 
 
 
@@ -216,59 +281,6 @@ manifest怎么控制的资源？
 
 
 
-## loaders
-webpack的核心包并不大。它只认识js/json。其他类型的文件需要由loader转化为js，然后才能打包。
-demo
-`npm i -D style-loader css-loader sass-loader ts-loader`
-```js
-module.exports = {
-    module: {
-        rules: [
-            {
-                test: /\.css$/, 
-                use: [
-                    {loader: 'style-loader'},
-                    {
-                        loader: 'css-loader',
-                        options: {modules: true}
-                    },
-                    {loader: 'sass-loader'},
-                ]
-            },
-            {test: /\.ts$/, use: 'ts-loader'},
-        ]
-    }
-}
-```
-不会行内写法。  
-行内优先于配置文件。  
-
-- 可链式调用。倒序执行。其运行结果，是下一个loader的入参。所有loader有规范。
-- 可同步也可异步
-- node.js运行loader
-- 使用`options`对象为loader设置配置。  
-- 通常package.json中`main:loader`
-
-#### 常用loader
-- [style-loader]()         xxxx
-- [css-loader]()         xxxx
-- [sass-loader]()         xxxx
-- [ts-loader]()         xxxx
-- [title]()         xxxx
-- [title]()         xxxx
-- [title]()         xxxx
-- [title]()         xxxx
-
-## [plugin](/builder/webpack/plugin/index.html)
-插件是webpack的主要部分。
-插件是一个有`apply()`的对象，该方法被webpack compiler调用。
-可以作用于整个过程。(由wp的项目结构决定了)。如：优先打包、管理资源、注入环境变量。
-
-### 常用插件
-### 内置插件
-
-## 浏览器兼容。
-wp支持ie8+及其他浏览器。内部使用`es5-compliant`实现兼容。  
 
 ## configuration
 默认配置文件：`path/to/file.json`。
@@ -298,3 +310,10 @@ description
 > 未来迭代计划。
 > 未来迭代计划。
 > 未来迭代计划。
+
+
+
+
+
+## 浏览器兼容。
+wp支持ie8+及其他浏览器。内部使用`es5-compliant`实现兼容。  

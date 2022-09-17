@@ -13,8 +13,12 @@
 - [spago](/builder/spago.html)
 - [rome](/builder/rome/index.html)
 - [ast](/builder/ast.html)
-- [other](/builder/other.html)
 - [swc](/builder/swc.html)
+- [make](/builder/make.html) 可能有它
+- [Browserify](/builder/Browserify.html)
+- [RequireJS](/builder/RequireJS.html)
+- [SystemJS](/builder/SystemJS.html)
+- [other](/builder/other.html)
 - [other](/builder/other.html)
 - [other](/builder/other.html)
 - [other](/builder/other.html)
@@ -34,7 +38,7 @@
 |tree-shaking|esm|使用静态分析支持tree-shaking||使用静态分析支持tree-shaking|||||||
 |sourcemap|支持|支持||支持|||||||
 |用法|cli / js / go|cli / js||cli / js|||||||
-|配置文件||rollup.config.js (esm / cjs / ts)||非必须，webpack.config.js (cjs)|||||||
+|配置文件|cjs|rollup.config.js (esm / cjs / ts)||非必须，webpack.config.js (cjs)|||||||
 ||可从cli中得到自定义选项|||写法宽泛|||||||
 |认知范围|esm / cjs / jsx|esm||js / json|||||||
 |支持的语言||||coffeescript/ts/esnext/less/sass/stylus/elm|||||||
@@ -52,7 +56,7 @@
 ||工程化特性较少，不适用于大型项目。||||||||||
 ||有观察模式，不支持hmr||||||||||
 |文档|-|-|-|写的最好|||||||
-||||||||||||
+|hmr|不支持|不支持||支持|||||||
 ||||||||||||
 
 # todo
