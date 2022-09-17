@@ -243,13 +243,15 @@ c.on('ready', () => {
             throw err
         }
         // let p = 'promote/searchWord/out/index.js'
-        // let p = 'promote/searchWord/out/index.css'
+        // let p = 'builder/webpack5/plugin'
         let p = [
-            'language/css/index.html',
-            'builder/index.js',
-            'builder/rollup/index.js',
-            'builder/webpack5/index.js',
-            'builder/webpack5/plugin/index.js',
+            // 'language/css/index.html',
+            // 'builder/index.js',
+            // 'builder/rollup/index.js',
+            // 'builder/webpack5/index.js',
+            // 'builder/webpack5/plugin/index.js',
+            'index.html',
+            'promote/learnConstruct.html',
         ]
         // 检测指定目录是否存在
         // checkDir(p)
