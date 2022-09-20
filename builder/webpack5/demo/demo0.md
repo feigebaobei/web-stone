@@ -4,7 +4,7 @@
 - 如何使用webpack打包
 
 # init project
-```
+```shell
 mkdir projDir
 cd projDir
 npm init -y
