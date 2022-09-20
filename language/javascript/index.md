@@ -121,7 +121,12 @@ class A {
     static s () {}       // 静态属性
     static sa = 0       // 静态属性
 }
-class A extends B {}     // 类A继承类B
+class A extends B {     // 类A继承类B
+    constructor() {
+        super()
+        // ...
+    }
+}
 ```
 静态方法的本质是定义在构造方法上的方法。所以有人理解为不使用实例化就能使用的方法。也有人理解为不能在实例上使用，只能在类上使用的方法。
 如果把静态方法的本质写出来，则如下：

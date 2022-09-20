@@ -48,7 +48,7 @@ let cloneDeep = (p, c = {}) => {
     if (p.hasOwnProperty(k)) {
       if (typeof p[k] === 'object') {
         c[k] = getType(p[k]) === 'Array' ? [] : {}
-        clone(p[k], c[k])
+        cloneDeep(p[k], c[k])
       } else {
         c[k] = p[k]
       }
