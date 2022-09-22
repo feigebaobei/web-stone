@@ -16,7 +16,7 @@
 ### feature
 - 配置文件非必需（v4+）  
 - 可打包任意文件。  
-- feature2  
+- 使用新版本性能更好。    
 
 ## install
 `npm i webpack`
@@ -32,6 +32,132 @@
 |推荐|webpack-dev-server|提供基本的web服务|只能在打包结束后提供服务|`"wpServe": "webpack serve --open"`||||
 ||--watch|当文件变化时重新打包。|只是重新打包。需要程序员手动在浏览器中刷新页面|||||
 ||webpack-dev-middleware||好像需要与后端服务结合使用|||||
+
+### 代码分割
+触发代码分割的方法：
+- 多入口  
+- 入口依赖 或 splitchunkplugin  
+- 动态引入  
+
+打包分析工具： 
+- [webpack-chart](/jsPackages/xxx.html)
+- [webpack-visualizer](/jsPackages/xxx.html)
+- [webpack-bundle-analyzer](/jsPackages/xxx.html)
+- [webpack bundle optimize helper](/jsPackages/xxx.html)
+- [bundle-stats](/jsPackages/xxx.html)
+
+Prefetching/Preloading modules
+
+### caching
+说了好多optimization中设置项。因不懂它们是做什么的。所有没看懂。学习了config后再看这里。
+
+### 写一个库
+[demo2](/builder/webpack5/demo/demo2.html)
+
+### 环境变量
+定义环境变量
+```shell
+npx webpack --env goal=local --env production --progress
+```
+使用环境变量
+```js
+const path = require('path');
+
+module.exports = (env) => {
+  // Use env.<YOUR VARIABLE> here:
+  console.log('Goal: ', env.goal); // 'local'
+  console.log('Production: ', env.production); // true
+
+  return {
+    entry: './src/index.js',
+    output: {
+      filename: 'bundle.js',
+      path: path.resolve(__dirname, 'dist'),
+    },
+  };
+};
+```
+
+### build performance
+- 通用的  
+  - 每个loader/plugin都使用消耗时间（性能），应该非必须，不使用。  
+  - resolve  
+    - 减少 `resovle.modules / resolve.extensions / resolve.mainFiles / resolve.descriptionFiles` 的值的数量。  
+    - 不使用symlinks `resolve.symlinks: false`  
+    - `resolve.cacheWithContext: false`  
+  - DllPlugin可提高编译速度
+  - small = faster
+    - 少用几个包、用小体积包。  
+    - 使用`SplitChunksPlugin`分为多页面应用。  
+    - 删除不用的代码  
+    - 只编译本次开发的部分。  
+  - worker pool  
+    - 使用`thread-loader`  
+  - persistent cache  
+    - xxx  
+  - progress plugin  
+- 开发的
+  - 若使用webpack的watch模式，则不要使用别的watch工具  
+  - 在内存中编译  
+    - webpack-dev-server  
+    - webpack-hot-middleware  
+    - webpack-dev-middleware  
+  - state.toJson() 不会  
+  - devtool  
+    - eval 不会被转换代码  
+    - cheap-source-map  
+    - eval-source-map  
+    - eval-cheap-module-source-map  
+    - 不使用生产时的功能  
+      - terserPlugin  
+      - [fullhash]/[chunkhash]/[contenthash]  
+      - aggressiveSplittingPlugin  
+      - AgressiveMergingPlugin  
+      - ModuleConcatenationPlugin  
+    - 最小化入口 `optimization.runtimeChunk: true`  
+    - 不使用额外的步骤  
+    - 不输出路径信息`output.pathinfo: false`  
+    - 请使用高长版本node  
+    - 对于ts，只做类型检查。`{loader: 'ts-loader', options: {transpileOnly: true}}`  
+- 生产的  
+  - 若不需要sourcemap，则不输出  
+- 特殊工具  
+  - babel 最小化preset/plugins
+  - ts
+  - sass 有一个bug。当使用`thread-loader`时设置`workerParallelJobs: 2`
+
+### content security policies
+使用入口脚本文件中设置`__webpack__nonce__`为所有脚本的nonce  
+```js
+// 如
+__webpack__nonce__ = 'c29tZSBjb29sIHN0cmluZyB3aWxsIHBvcCB1cCAxMjM='
+```
+
+### development vagrant
+### 依赖管理  
+wp支持类似文件管理的能力。  
+支持动态引入表达式。  
+esbuild只支持静态引入表达式。  
+
+### installation
+[webpack](/jsPackages/webpack.html)
+[webpack-cli](/jsPackages/webpackCli.html)
+
+
+
+
+
+### title
+### title
+
+
+
+
+
+
+
+
+
 
 ## concepts
 ```js
@@ -292,7 +418,7 @@ chunk的形式：
 
 
 
-## configuration
+## [configuration](/builder/webpack5/config/index.html)
 默认配置文件：`path/to/file.json`。
 |key|description|default|enum|demo|||
 |-|-|-|-|-|-|-|
@@ -326,7 +452,10 @@ module.exports = {
         path: path.resolve(__dirname, 'dist')
     },
     optimization: {
-        runtimeChunk: 'single'
+        runtimeChunk: 'single', // 多入口时需要此字段
+        splitChunks: {          // 待明确
+            chunks: 'all',
+        },
     }
 }
 ```

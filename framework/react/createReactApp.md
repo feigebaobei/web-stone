@@ -158,6 +158,7 @@ export default App;
 - 
 
 扩展环境变量。需要`react-scripts@1.1.0`
+定义示例：  
 ```
 // .env
 // 不用以 REACT_APP_ 开头

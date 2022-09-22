@@ -99,7 +99,7 @@ wp5需要node v10.13.0+</p>
 <ul>
 <li>配置文件非必需（v4+）</li>
 <li>可打包任意文件。</li>
-<li>feature2</li>
+<li>使用新版本性能更好。</li>
 </ul>
 <h2 id="install">install</h2>
 <p><code>npm i webpack</code></p>
@@ -113,6 +113,144 @@ wp5需要node v10.13.0+</p>
 |推荐|webpack-dev-server|提供基本的web服务|只能在打包结束后提供服务|<code>&quot;wpServe&quot;: &quot;webpack serve --open&quot;</code>||||
 ||--watch|当文件变化时重新打包。|只是重新打包。需要程序员手动在浏览器中刷新页面|||||
 ||webpack-dev-middleware||好像需要与后端服务结合使用|||||</p>
+<h3 id="代码分割">代码分割</h3>
+<p>触发代码分割的方法：</p>
+<ul>
+<li>多入口</li>
+<li>入口依赖 或 splitchunkplugin</li>
+<li>动态引入</li>
+</ul>
+<p>打包分析工具：</p>
+<ul>
+<li><a href="/jsPackages/xxx.html">webpack-chart</a></li>
+<li><a href="/jsPackages/xxx.html">webpack-visualizer</a></li>
+<li><a href="/jsPackages/xxx.html">webpack-bundle-analyzer</a></li>
+<li><a href="/jsPackages/xxx.html">webpack bundle optimize helper</a></li>
+<li><a href="/jsPackages/xxx.html">bundle-stats</a></li>
+</ul>
+<p>Prefetching/Preloading modules</p>
+<h3 id="caching">caching</h3>
+<p>说了好多optimization中设置项。因不懂它们是做什么的。所有没看懂。学习了config后再看这里。</p>
+<h3 id="写一个库">写一个库</h3>
+<p><a href="/builder/webpack5/demo/demo2.html">demo2</a></p>
+<h3 id="环境变量">环境变量</h3>
+<p>定义环境变量</p>
+<pre><code class="language-shell"><div>npx webpack --env goal=local --env production --progress
+</div></code></pre>
+<p>使用环境变量</p>
+<pre><code class="language-js"><div><span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;path&#x27;</span>);
+
+<span class="hljs-built_in">module</span>.exports = <span class="hljs-function">(<span class="hljs-params">env</span>) =&gt;</span> {
+  <span class="hljs-comment">// Use env.&lt;YOUR VARIABLE&gt; here:</span>
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;Goal: &#x27;</span>, env.goal); <span class="hljs-comment">// &#x27;local&#x27;</span>
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;Production: &#x27;</span>, env.production); <span class="hljs-comment">// true</span>
+
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">entry</span>: <span class="hljs-string">&#x27;./src/index.js&#x27;</span>,
+    <span class="hljs-attr">output</span>: {
+      <span class="hljs-attr">filename</span>: <span class="hljs-string">&#x27;bundle.js&#x27;</span>,
+      <span class="hljs-attr">path</span>: path.resolve(__dirname, <span class="hljs-string">&#x27;dist&#x27;</span>),
+    },
+  };
+};
+</div></code></pre>
+<h3 id="build-performance">build performance</h3>
+<ul>
+<li>通用的
+<ul>
+<li>每个loader/plugin都使用消耗时间（性能），应该非必须，不使用。</li>
+<li>resolve
+<ul>
+<li>减少 <code>resovle.modules / resolve.extensions / resolve.mainFiles / resolve.descriptionFiles</code> 的值的数量。</li>
+<li>不使用symlinks <code>resolve.symlinks: false</code></li>
+<li><code>resolve.cacheWithContext: false</code></li>
+</ul>
+</li>
+<li>DllPlugin可提高编译速度</li>
+<li>small = faster
+<ul>
+<li>少用几个包、用小体积包。</li>
+<li>使用<code>SplitChunksPlugin</code>分为多页面应用。</li>
+<li>删除不用的代码</li>
+<li>只编译本次开发的部分。</li>
+</ul>
+</li>
+<li>worker pool
+<ul>
+<li>使用<code>thread-loader</code></li>
+</ul>
+</li>
+<li>persistent cache
+<ul>
+<li>xxx</li>
+</ul>
+</li>
+<li>progress plugin</li>
+</ul>
+</li>
+<li>开发的
+<ul>
+<li>若使用webpack的watch模式，则不要使用别的watch工具</li>
+<li>在内存中编译
+<ul>
+<li>webpack-dev-server</li>
+<li>webpack-hot-middleware</li>
+<li>webpack-dev-middleware</li>
+</ul>
+</li>
+<li>state.toJson() 不会</li>
+<li>devtool
+<ul>
+<li>eval 不会被转换代码</li>
+<li>cheap-source-map</li>
+<li>eval-source-map</li>
+<li>eval-cheap-module-source-map</li>
+<li>不使用生产时的功能
+<ul>
+<li>terserPlugin</li>
+<li>[fullhash]/[chunkhash]/[contenthash]</li>
+<li>aggressiveSplittingPlugin</li>
+<li>AgressiveMergingPlugin</li>
+<li>ModuleConcatenationPlugin</li>
+</ul>
+</li>
+<li>最小化入口 <code>optimization.runtimeChunk: true</code></li>
+<li>不使用额外的步骤</li>
+<li>不输出路径信息<code>output.pathinfo: false</code></li>
+<li>请使用高长版本node</li>
+<li>对于ts，只做类型检查。<code>{loader: 'ts-loader', options: {transpileOnly: true}}</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>生产的
+<ul>
+<li>若不需要sourcemap，则不输出</li>
+</ul>
+</li>
+<li>特殊工具
+<ul>
+<li>babel 最小化preset/plugins</li>
+<li>ts</li>
+<li>sass 有一个bug。当使用<code>thread-loader</code>时设置<code>workerParallelJobs: 2</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="content-security-policies">content security policies</h3>
+<p>使用入口脚本文件中设置<code>__webpack__nonce__</code>为所有脚本的nonce</p>
+<pre><code class="language-js"><div><span class="hljs-comment">// 如</span>
+__webpack__nonce__ = <span class="hljs-string">&#x27;c29tZSBjb29sIHN0cmluZyB3aWxsIHBvcCB1cCAxMjM=&#x27;</span>
+</div></code></pre>
+<h3 id="development-vagrant">development vagrant</h3>
+<h3 id="依赖管理">依赖管理</h3>
+<p>wp支持类似文件管理的能力。<br>
+支持动态引入表达式。<br>
+esbuild只支持静态引入表达式。</p>
+<h3 id="installation">installation</h3>
+<p><a href="/jsPackages/webpack.html">webpack</a>
+<a href="/jsPackages/webpackCli.html">webpack-cli</a></p>
+<h3 id="title">title</h3>
+<h3 id="title-1">title</h3>
 <h2 id="concepts">concepts</h2>
 <pre><code class="language-js"><div><span class="hljs-keyword">let</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;path&#x27;</span>) <span class="hljs-comment">// node内置包</span>
 <span class="hljs-keyword">let</span> HtmlWebpackPlugin = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;html-webpack-plugin&#x27;</span>)
@@ -349,7 +487,7 @@ webpack可以理解的模块化</p>
 <li>initial       明确入口的文件</li>
 <li>non-initial   可以延迟加载的块</li>
 </ul>
-<h2 id="configuration-1">configuration</h2>
+<h2 id="configuration-1"><a href="/builder/webpack5/config/index.html">configuration</a></h2>
 <p>默认配置文件：<code>path/to/file.json</code>。</p>
 <table>
 <thead>
@@ -417,7 +555,10 @@ webpack可以理解的模块化</p>
         <span class="hljs-attr">path</span>: path.resolve(__dirname, <span class="hljs-string">&#x27;dist&#x27;</span>)
     },
     <span class="hljs-attr">optimization</span>: {
-        <span class="hljs-attr">runtimeChunk</span>: <span class="hljs-string">&#x27;single&#x27;</span>
+        <span class="hljs-attr">runtimeChunk</span>: <span class="hljs-string">&#x27;single&#x27;</span>, <span class="hljs-comment">// 多入口时需要此字段</span>
+        <span class="hljs-attr">splitChunks</span>: {          <span class="hljs-comment">// 待明确</span>
+            <span class="hljs-attr">chunks</span>: <span class="hljs-string">&#x27;all&#x27;</span>,
+        },
     }
 }
 </div></code></pre>

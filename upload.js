@@ -242,20 +242,25 @@ c.on('ready', () => {
             log('cwd', 'htdocs', err)
             throw err
         }
-        // let p = 'promote/searchWord/out/index.js'
-        // let p = 'builder/webpack5/loader'
+        // let p = 'builder/webpack5/demo'
         let p = [
             'builder/index.html',
+            'framework/react/createReactApp.html',
             'builder/webpack5/index.html',
-            'index.html',
-            'promote/learnConstruct.html',
-            'promote/searchWord/out/index.js',
-            'builder/webpack5/demo0.html',
-            'builder/webpack5/demo1.html',
-            'framework/react/hooks.html',
-            'util/index.html',
-            'promote/searchWord/index.html',
-            'language/javascript/index.html',
+            // 'index.html',
+            // 'promote/learnConstruct.html',
+            // 'promote/searchWord/out/index.js',
+            // 'builder/webpack5/demo0.html',
+            // 'builder/webpack5/demo1.html',
+            // 'framework/react/hooks.html',
+            // 'util/index.html',
+            // 'promote/searchWord/index.html',
+            // 'language/javascript/index.html',
+            // 'manifest.json',
+            // 'builder/webpack5/config/index.html',
+            // 'builder/webpack5/demo/demo0.html',
+            // 'builder/webpack5/demo/demo1.html',
+            // 'builder/webpack5/demo/demo2.html',
         ]
         // 检测指定目录是否存在
         // checkDir(p)
