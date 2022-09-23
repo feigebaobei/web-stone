@@ -1,7 +1,7 @@
-# webpack-cli
+# lath
 
 ## overview
-> 在cli中使用webpack的工具  
+> 页面之间无缝连接的框架。  
 
 ### feature
 - feature0
@@ -9,14 +9,14 @@
 - feature2
 
 ## install
-`npm i webpack-cli`
+`npm i lath`
 
 ## usage
 同`./demo.md`
 ```
-const webpack-cli = require('webpack-cli');
+const lath = require('lath');
 // or
-// import webpack-cli from 'webpack-cli';
+// import lath from 'lath';
 // TODO: DEMONSTRATE API
 ```
 
@@ -28,10 +28,10 @@ const webpack-cli = require('webpack-cli');
 ||||||||
 ||||||||
 ## api
-`webpack-cli.fn(param, first: string, second: boolean = true) => void`
+`lath.fn(param, first: string, second: boolean = true) => void`
 description
 
-`webpack-cli.fn(param, [options: {a: string, b?: number}])`
+`lath.fn(param, [options: {a: string, b?: number}])`
 description
 
 ## principle

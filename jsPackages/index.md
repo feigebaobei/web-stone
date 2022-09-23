@@ -20,7 +20,7 @@
 - [md5](/jsPackages/md5.html)
 - [commander](/jsPackages/commander/index.html)
 - [sql.js](/jsPackages/sql.js.html)
-- [title](/jsPackages/title.html)
+- [lath](/jsPackages/lath.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
