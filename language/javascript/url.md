@@ -1,5 +1,4 @@
-# URL
-> 本方聊的是window.URL
+# window.URL
 
 `URL.createObjectURL(obj: File | Blob | MediaSource) => DOMString`  
 每次调用都会返回一个新的URL对象。  
@@ -27,6 +26,49 @@ let fileChangeHandler = (event) => {
     }
 }
 ```
+
+# URL
+js也有一个构造函数URL
+
+```js
+let url = new URL(urlStr)
+```
+
+## api
+|url||||||
+|-|-|-|-|-|-|
+|属性||||||
+||hash|||||
+||host|||||
+||hostname|||||
+||href|||||
+||origin|||||
+||pathname|||||
+||port|||||
+||protocol|||||
+||search|||||
+||searchParams|||||
+||username|||||
+||password|||||
+|方法||||||
+||toString()|||||
+|事件||||||
+
+|searchParams||||||
+|-|-|-|-|-|-|
+|属性||||||
+|方法|调用这些方法会改变相应的url对象|||||
+||append(k, v)|||||
+||delete(k)|||||
+||set(k, v)|||||
+||has(k)|||||
+||get(k)|||||
+||getAll(...ks)|||||
+||entries()|||||
+||keys()|||||
+||values()|||||
+||sort()|按键名排序||||
+|事件||||||
 
 ## todo
 ### DOMString

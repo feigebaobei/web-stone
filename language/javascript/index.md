@@ -788,6 +788,7 @@ dom.classList.toggle(s) // 若存在则删除，否不存在则添加。
   + [bigint](/language/javascript/bigint.html)
   + [set](/language/javascript/set.html)
   + [map](/language/javascript/map.html)
+  + [url](/language/javascript/url.html)
 - js内置对象
     + [Math](/language/javascript/math.html)
     + [JSON](/language/javascript/json.html)
