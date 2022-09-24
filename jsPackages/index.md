@@ -21,7 +21,7 @@
 - [commander](/jsPackages/commander/index.html)
 - [sql.js](/jsPackages/sql.js.html)
 - [lath](/jsPackages/lath.html)
-- [title](/jsPackages/title.html)
+- [html-server](/jsPackages/html-server.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
