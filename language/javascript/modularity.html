@@ -320,6 +320,26 @@ import v from '...'
 <span class="hljs-keyword">export</span> {key <span class="hljs-keyword">as</span> alias}
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">let</span> key = <span class="hljs-string">&#x27;str&#x27;</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> key
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> CONSTANT = <span class="hljs-number">42</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">let</span> variable = <span class="hljs-number">42</span>;
+<span class="hljs-comment">// only reading is exposed</span>
+<span class="hljs-comment">// it&#x27;s not possible to modify the variable from outside</span>
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fun</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;fun&#x27;</span>);
+}
+<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">C</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Super</span> </span>{
+  <span class="hljs-function"><span class="hljs-title">method</span>(<span class="hljs-params"></span>)</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;method&#x27;</span>);
+  }
+}
+<span class="hljs-keyword">let</span> a, b, other;
+<span class="hljs-keyword">export</span> { a, b, other <span class="hljs-keyword">as</span> c };
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-number">1</span> + <span class="hljs-number">2</span> + <span class="hljs-number">3</span> + more();
+</div></code></pre>
+<h2 id="指明包规范">指明包规范</h2>
+<pre><code class="language-json"><div><span class="hljs-comment">// package.json</span>
+<span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;module&quot;</span>
 </div></code></pre>
 
         <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>

@@ -249,6 +249,154 @@ esbuild只支持静态引入表达式。</p>
 <h3 id="installation">installation</h3>
 <p><a href="/jsPackages/webpack.html">webpack</a>
 <a href="/jsPackages/webpackCli.html">webpack-cli</a></p>
+<h3 id="hmr-hot-module-replacement">hmr (hot module replacement)</h3>
+<p>hmr: wp提供在不刷新页面时运行时可更新所有模块的能力。<br>
+<a href="/jsPackages/webpackDevServer.html">webpack-dev-server</a>内置了hmr插件。v4+默认支持hmr.</p>
+<h3 id="tree-shaking">tree shaking</h3>
+<p>不打包死代码。<br>
+依赖esm模块语法。<code>import / export</code>
+在<code>package.json</code>中设置<code>sideEffects: false</code>，则wp根据此字段删除死代码。</p>
+<pre><code class="language-json"><div>&lt;!-- demo --&gt;
+<span class="hljs-string">&quot;sideEffects&quot;</span>: [<span class="hljs-string">&quot;./src/some-side-effectful-file.js&quot;</span>, <span class="hljs-string">&quot;*.css&quot;</span>]
+</div></code></pre>
+<ul>
+<li>sideEffects 跳过指定的文件</li>
+<li>usedExports 依赖terser去探测side effects 声明</li>
+</ul>
+<h3 id="production">production</h3>
+<p>推荐把配置文件分开。<br>
+合并时会用到<a href="/jsPackages/webpackMerge.html">webpack-merge</a></p>
+<pre><code class="language-js"><div><span class="hljs-keyword">const</span> {merge} = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;webpack-merge&#x27;</span>)
+<span class="hljs-keyword">const</span> common = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;./webpack.common.js&#x27;</span>)
+<span class="hljs-built_in">module</span>.exports = merge(common, {
+    <span class="hljs-attr">mode</span>: <span class="hljs-string">&#x27;production&#x27;</span>
+})
+</div></code></pre>
+<p>然后在package.json中定义脚本。</p>
+<ul>
+<li>不使用sourcemap</li>
+<li>minimize css</li>
+<li>cli alernatives (即cli优先)</li>
+</ul>
+<h3 id="lazy-loading">lazy loading</h3>
+<pre><code class="language-js"><div>button.onclick = <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> <span class="hljs-keyword">import</span>(<span class="hljs-string">&#x27;./print&#x27;</span>).then(<span class="hljs-function"><span class="hljs-params">module</span> =&gt;</span> {
+    <span class="hljs-keyword">let</span> p = <span class="hljs-built_in">module</span>.default
+    p()
+})
+</div></code></pre>
+<p>当使用<code>import()</code>时，引入的必须使用<code>.default</code>属性</p>
+<h3 id="shimming">shimming</h3>
+<h3 id="ts">ts</h3>
+<pre><code class="language-shell"><div>npm i typescript ts-loader -D
+</div></code></pre>
+<p>创建<code>&lt;root&gt;/tsconfig.json</code></p>
+<pre><code class="language-json"><div>{
+  <span class="hljs-attr">&quot;compilerOptions&quot;</span>: {
+    <span class="hljs-attr">&quot;outDir&quot;</span>: <span class="hljs-string">&quot;./dist/&quot;</span>,
+    <span class="hljs-attr">&quot;noImplicitAny&quot;</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">&quot;module&quot;</span>: <span class="hljs-string">&quot;es6&quot;</span>,
+    <span class="hljs-attr">&quot;target&quot;</span>: <span class="hljs-string">&quot;es5&quot;</span>,
+    <span class="hljs-attr">&quot;jsx&quot;</span>: <span class="hljs-string">&quot;react&quot;</span>,
+    <span class="hljs-attr">&quot;allowJs&quot;</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">&quot;moduleResolution&quot;</span>: <span class="hljs-string">&quot;node&quot;</span>
+  }
+}
+</div></code></pre>
+<p>创建<code>&lt;root&gt;/webpack.config.js</code></p>
+<pre><code class="language-js"><div><span class="hljs-built_in">module</span>.exports = {
+    <span class="hljs-attr">entry</span>: <span class="hljs-string">&#x27;...&#x27;</span>,
+    <span class="hljs-attr">module</span>: {
+        <span class="hljs-attr">rules</span>: [
+            {
+                <span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.tsx?$/</span>,
+                use: <span class="hljs-string">&#x27;ts-loader&#x27;</span>,
+                <span class="hljs-attr">exclude</span>: <span class="hljs-regexp">/node_modules/</span>,
+            }
+        ]
+    },
+    <span class="hljs-attr">resolve</span>: {
+        <span class="hljs-attr">extensions</span>: [<span class="hljs-string">&#x27;.tsx&#x27;</span>, <span class="hljs-string">&#x27;.ts&#x27;</span>, <span class="hljs-string">&#x27;.js&#x27;</span>]
+    },
+    <span class="hljs-attr">output</span>: {...}
+}
+</div></code></pre>
+<p>ts-loader会根据tsconfig.json转化ts文件。</p>
+<h4 id="使用自自定义声明文件">使用自自定义声明文件</h4>
+<pre><code class="language-ts"><div><span class="hljs-comment">/// &lt;reference types=&quot;webpack/module&quot; /&gt;</span>
+... other ts code
+</div></code></pre>
+<h4 id="使用第三方声明文件">使用第三方声明文件</h4>
+<p><code>npm i @types/lodash</code></p>
+<h3 id="web-workers">web workers</h3>
+<p>在wp5时，不用<code>worker-loader</code>也能使用<code>Web Workers</code></p>
+<pre><code class="language-js"><div><span class="hljs-keyword">new</span> Worker(<span class="hljs-keyword">new</span> URL(<span class="hljs-string">&#x27;./worker.js&#x27;</span>, <span class="hljs-keyword">import</span>.meta.url))
+</div></code></pre>
+<h3 id="pwa-progressive-web-application">pwa (progressive web application)</h3>
+<p><code>npm i workbox-webpack-plugin</code></p>
+<pre><code class="language-js"><div><span class="hljs-comment">// webpack.config.js</span>
+<span class="hljs-keyword">const</span> WorkboxPlugin = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;workbox-webpack-plugin&#x27;</span>)
+<span class="hljs-built_in">module</span>.exports = {
+    <span class="hljs-attr">plugins</span>: [
+        <span class="hljs-keyword">new</span> WorkboxPlugin({
+            <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;....&#x27;</span>
+        }),
+        <span class="hljs-keyword">new</span> WorkboxPlugin.GenerateSW({
+            <span class="hljs-attr">clientClaim</span>: <span class="hljs-literal">true</span>,
+            <span class="hljs-attr">skipWaiting</span>: <span class="hljs-literal">true</span>,
+        })
+    ]
+}
+</div></code></pre>
+<pre><code class="language-js"><div><span class="hljs-comment">// index.js</span>
+<span class="hljs-keyword">if</span> (<span class="hljs-string">&#x27;serviceWorker&#x27;</span> <span class="hljs-keyword">in</span> navigator) {
+    <span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">&#x27;load&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+        navigator.serviceWorker.register(<span class="hljs-string">&#x27;./sw.js&#x27;</span>).then(<span class="hljs-function"><span class="hljs-params">registration</span> =&gt;</span> {
+            <span class="hljs-built_in">console</span>.log(....)
+        }).catch(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> {...})
+    })
+}
+</div></code></pre>
+<h3 id="public-path">public path</h3>
+<p>应用可直接访问的资源路径。</p>
+<h3 id="integrations">integrations</h3>
+<p>与下列工具一起使用：</p>
+<ul>
+<li>npm scritp</li>
+<li>grunt</li>
+<li>gulp</li>
+<li>mocka</li>
+<li>karma</li>
+</ul>
+<h3 id="asset-modules">asset modules</h3>
+<p>常用这三个loader:</p>
+<ul>
+<li>raw-loader</li>
+<li>url-loader</li>
+<li>file-loader</li>
+</ul>
+<p>支持的模块类型：</p>
+<ul>
+<li>asset/resource    把文件分开并输出url             默认值
+<ul>
+<li>适用于png等</li>
+</ul>
+</li>
+<li>asset/inline      输出资源的data uri
+<ul>
+<li>适用于svg等</li>
+</ul>
+</li>
+<li>asset/source      输出源代码</li>
+<li>asset             自动选择asset/resource 和 asset/inline
+<ul>
+<li>适用于txt等</li>
+</ul>
+</li>
+</ul>
+<h3 id="advanced-entry">advanced entry</h3>
+<p>可以使用多入口。如把css/js分开打包。</p>
+<h3 id="package-exports">package exports</h3>
+<h4 id="t9tllsdf">t9tllsdf</h4>
 <h3 id="title">title</h3>
 <h3 id="title-1">title</h3>
 <h2 id="concepts">concepts</h2>
@@ -473,7 +621,7 @@ webpack可以理解的模块化</p>
 <h3 id="the-manifest">the manifest</h3>
 <p>manifest为wp提供管理打包后的模块之间交互。<br>
 编译时，wp记录各模块的详细要点，整理成为manifest。浏览器请求应用时，把manifest发给客户端。在运行时根据该文件处理各打包后的模块的交互。<code>require / import</code>会被编译为<code>__webpack_requrie__</code>方法。</p>
-<h3 id="hmr-hot-module-replacement">(hmr) hot module replacement</h3>
+<h3 id="hmr-hot-module-replacement-1">(hmr) hot module replacement</h3>
 <ul>
 <li>保留完全重新加载页面期间丢失的应用程序状态</li>
 <li>只更新变更内容</li>
@@ -635,24 +783,24 @@ description</p>
 <td></td>
 </tr>
 <tr>
-<td>css-loader</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>css-loader</td>
-<td></td>
+<td>raw-loader</td>
+<td>以字符串的形式导入</td>
 <td></td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td>css-loader</td>
+<td>url-loader</td>
+<td>以data url的形式导入</td>
 <td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>file-loader</td>
+<td>把文件复制到output directory</td>
 <td></td>
 <td></td>
 <td></td>
@@ -771,12 +919,12 @@ description</p>
 <td></td>
 </tr>
 <tr>
-<td>pluginname</td>
+<td>workbox-webpack-plugin</td>
 <td></td>
 <td></td>
 <td></td>
 <td></td>
-<td></td>
+<td>搞清它是如何工作的</td>
 </tr>
 <tr>
 <td>pluginname</td>
@@ -836,6 +984,69 @@ description</p>
 </tr>
 <tr>
 <td>pluginname</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>pluginname</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>pluginname</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>pluginname</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>pluginname</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="内置插件-1">内置插件</h3>
+<p>用法如</p>
+<pre><code class="language-js"><div><span class="hljs-keyword">const</span> webpack = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;webpack&#x27;</span>)
+<span class="hljs-built_in">module</span>.exports = {
+    <span class="hljs-attr">plugins</span>: [<span class="hljs-keyword">new</span> webpack.ProvidePlugin({
+        <span class="hljs-attr">_</span>: <span class="hljs-string">&#x27;lodash&#x27;</span>
+    })]
+}
+</div></code></pre>
+<table>
+<thead>
+<tr>
+<th>插件名</th>
+<th>说明（功能）</th>
+<th>使用方法</th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ProvidePlugin</td>
 <td></td>
 <td></td>
 <td></td>

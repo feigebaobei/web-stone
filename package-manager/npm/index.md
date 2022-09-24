@@ -297,11 +297,23 @@ npm install esbuild -- registry=https://registry.npmjs.org
 {
   "name": "pkg",
   "exports": {
+    // 使用明确的子路径引入
     "./foo": {
-      "import": "./imported.mjs",
-      "require": "./required.cjs",
+      // 条件引入语法
+      "import": "./imported.mjs",   // esm
+      "require": "./required.cjs",  // cjs/amd
       "default": "./fallback.js"
-    }
+    },
+    // 指定优先级
+    "./bar": ["./bar0/", "./bar1"],
+    // 条件语法
+    ".": {
+      "red": "./a.js",    // 有顺序
+      "green": "./b.js",
+      "default": "./c.js", // 最后一个总是default.总是被触发。
+    },
+    // 缩写
+    ".": "./a.js",
   }
 }
 
@@ -323,7 +335,6 @@ npm install esbuild -- registry=https://registry.npmjs.org
     }
   }
 }
-
 ```
 
 ## title

@@ -77,7 +77,7 @@ EventTarget <--- Worker
 
 # 加载worker脚本
 ```html
-<!-- type是浏览器不认识的值 -->
+<!-- type的值是浏览器不认识的值 -->
 <script id="worker" type="app/worker">
     addEventListener('message', (e) => {
         postMessage('hi')

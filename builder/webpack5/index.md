@@ -143,6 +143,168 @@ esbuild只支持静态引入表达式。
 [webpack](/jsPackages/webpack.html)
 [webpack-cli](/jsPackages/webpackCli.html)
 
+### hmr (hot module replacement)  
+hmr: wp提供在不刷新页面时运行时可更新所有模块的能力。  
+[webpack-dev-server](/jsPackages/webpackDevServer.html)内置了hmr插件。v4+默认支持hmr.  
+
+### tree shaking
+不打包死代码。  
+依赖esm模块语法。`import / export`
+在`package.json`中设置`sideEffects: false`，则wp根据此字段删除死代码。  
+```json
+<!-- demo -->
+"sideEffects": ["./src/some-side-effectful-file.js", "*.css"]
+```
+
+- sideEffects 跳过指定的文件  
+- usedExports 依赖terser去探测side effects 声明  
+
+### production
+推荐把配置文件分开。  
+合并时会用到[webpack-merge](/jsPackages/webpackMerge.html)  
+```js
+const {merge} = require('webpack-merge')
+const common = require('./webpack.common.js')
+module.exports = merge(common, {
+    mode: 'production'
+})
+```
+然后在package.json中定义脚本。
+
+- 不使用sourcemap  
+- minimize css  
+- cli alernatives (即cli优先)  
+
+### lazy loading
+```js
+button.onclick = e => import('./print').then(module => {
+    let p = module.default
+    p()
+})
+```
+当使用`import()`时，引入的必须使用`.default`属性
+
+### shimming
+
+### ts
+```shell
+npm i typescript ts-loader -D
+```
+创建`<root>/tsconfig.json`
+```json
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "noImplicitAny": true,
+    "module": "es6",
+    "target": "es5",
+    "jsx": "react",
+    "allowJs": true,
+    "moduleResolution": "node"
+  }
+}
+```
+创建`<root>/webpack.config.js`
+```js
+module.exports = {
+    entry: '...',
+    module: {
+        rules: [
+            {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+            }
+        ]
+    },
+    resolve: {
+        extensions: ['.tsx', '.ts', '.js']
+    },
+    output: {...}
+}
+```
+ts-loader会根据tsconfig.json转化ts文件。  
+
+#### 使用自自定义声明文件
+```ts   
+/// <reference types="webpack/module" />
+... other ts code
+```
+
+#### 使用第三方声明文件
+`npm i @types/lodash`  
+
+### web workers
+在wp5时，不用`worker-loader`也能使用`Web Workers`  
+```js
+new Worker(new URL('./worker.js', import.meta.url))
+```
+### pwa (progressive web application)
+`npm i workbox-webpack-plugin`
+```js
+// webpack.config.js
+const WorkboxPlugin = require('workbox-webpack-plugin')
+module.exports = {
+    plugins: [
+        new WorkboxPlugin({
+            title: '....'
+        }),
+        new WorkboxPlugin.GenerateSW({
+            clientClaim: true,
+            skipWaiting: true,
+        })
+    ]
+}
+```
+```js
+// index.js
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').then(registration => {
+            console.log(....)
+        }).catch(err => {...})
+    })
+}
+```
+
+### public path
+应用可直接访问的资源路径。  
+
+### integrations
+与下列工具一起使用：
+- npm scritp  
+- grunt  
+- gulp  
+- mocka  
+- karma  
+
+### asset modules
+常用这三个loader:   
+- raw-loader  
+- url-loader  
+- file-loader  
+
+支持的模块类型：  
+- asset/resource    把文件分开并输出url             默认值  
+  - 适用于png等
+- asset/inline      输出资源的data uri  
+  - 适用于svg等
+- asset/source      输出源代码  
+- asset             自动选择asset/resource 和 asset/inline  
+  - 适用于txt等
+
+### advanced entry
+可以使用多入口。如把css/js分开打包。  
+
+### package exports
+
+
+
+
+
+
+#### t9tllsdf
+
 
 
 
@@ -525,9 +687,9 @@ description
 |插件名|说明（功能）|使用方法||||
 |-|-|-|-|-|-|
 |css-loader||||||
-|css-loader||||||
-|css-loader||||||
-|css-loader||||||
+|raw-loader|以字符串的形式导入|||||
+|url-loader|以data url的形式导入|||||
+|file-loader|把文件复制到output directory|||||
 |css-loader||||||
 |css-loader||||||
 |css-loader||||||
@@ -546,8 +708,7 @@ description
 |-|-|-|-|-|-|
 |html-webpack-plugin||||||
 |webpackmanifestplugin||||||
-|pluginname||||||
-|pluginname||||||
+|workbox-webpack-plugin|||||搞清它是如何工作的|
 |pluginname||||||
 |pluginname||||||
 |pluginname||||||
@@ -561,6 +722,24 @@ description
 |pluginname||||||
 |pluginname||||||
 
+### 内置插件
+用法如
+```js
+const webpack = require('webpack')
+module.exports = {
+    plugins: [new webpack.ProvidePlugin({
+        _: 'lodash'
+    })]
+}
+```
+|插件名|说明（功能）|使用方法||||
+|-|-|-|-|-|-|
+|ProvidePlugin||||||
+|pluginname||||||
+|pluginname||||||
+|pluginname||||||
+|pluginname||||||
+|pluginname||||||
 
 
 ## principle

@@ -893,11 +893,23 @@ process.env.npm_config_registry # 读取
 <pre><code class="language-json"><div>{
   <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;pkg&quot;</span>,
   <span class="hljs-attr">&quot;exports&quot;</span>: {
+    <span class="hljs-comment">// 使用明确的子路径引入</span>
     <span class="hljs-attr">&quot;./foo&quot;</span>: {
-      <span class="hljs-attr">&quot;import&quot;</span>: <span class="hljs-string">&quot;./imported.mjs&quot;</span>,
-      <span class="hljs-attr">&quot;require&quot;</span>: <span class="hljs-string">&quot;./required.cjs&quot;</span>,
+      <span class="hljs-comment">// 条件引入语法</span>
+      <span class="hljs-attr">&quot;import&quot;</span>: <span class="hljs-string">&quot;./imported.mjs&quot;</span>,   <span class="hljs-comment">// esm</span>
+      <span class="hljs-attr">&quot;require&quot;</span>: <span class="hljs-string">&quot;./required.cjs&quot;</span>,  <span class="hljs-comment">// cjs/amd</span>
       <span class="hljs-attr">&quot;default&quot;</span>: <span class="hljs-string">&quot;./fallback.js&quot;</span>
-    }
+    },
+    <span class="hljs-comment">// 指定优先级</span>
+    <span class="hljs-attr">&quot;./bar&quot;</span>: [<span class="hljs-string">&quot;./bar0/&quot;</span>, <span class="hljs-string">&quot;./bar1&quot;</span>],
+    <span class="hljs-comment">// 条件语法</span>
+    <span class="hljs-attr">&quot;.&quot;</span>: {
+      <span class="hljs-attr">&quot;red&quot;</span>: <span class="hljs-string">&quot;./a.js&quot;</span>,    <span class="hljs-comment">// 有顺序</span>
+      <span class="hljs-attr">&quot;green&quot;</span>: <span class="hljs-string">&quot;./b.js&quot;</span>,
+      <span class="hljs-attr">&quot;default&quot;</span>: <span class="hljs-string">&quot;./c.js&quot;</span>, <span class="hljs-comment">// 最后一个总是default.总是被触发。</span>
+    },
+    <span class="hljs-comment">// 缩写</span>
+    <span class="hljs-attr">&quot;.&quot;</span>: <span class="hljs-string">&quot;./a.js&quot;</span>,
   }
 }
 
@@ -919,7 +931,6 @@ process.env.npm_config_registry # 读取
     }
   }
 }
-
 </div></code></pre>
 <h2 id="title">title</h2>
 <h2 id="title-1">title</h2>
