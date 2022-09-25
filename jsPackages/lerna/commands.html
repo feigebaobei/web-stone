@@ -27,6 +27,41 @@
 	color: var(--vscode-editorError-foreground);
 }
 
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
 </style>
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
@@ -129,23 +164,23 @@ xxx</p>
 }
 </div></code></code></pre>
 <h2 id="options-3">options</h2>
-<p><code>--hoist [glob]</code>
-不会
-<code>--strict</code>
-不会
-<code>--nohoist [glob]</code>
-不会
-<code>--ignore</code>
-设置执行<code>lerna bootstrap</code>时忽略的内容。
-<code>--ingore-prepublish</code>
-跳过<code>prepublish</code>生命周期钩子。
-<code>--ignore-scripts</code>
-跳过所有的生命周期钩子。
-<code>--resgistry &lt;url&gt;</code>
-xxx
-<code>--npm-client</code>
-xxx
-<code>--use-workspaces</code>
+<p><code>--hoist [glob]</code><br>
+把依赖项提升到根项目里。<br>
+<code>--strict</code><br>
+不会<br>
+<code>--nohoist [glob]</code><br>
+不会<br>
+<code>--ignore</code><br>
+设置执行<code>lerna bootstrap</code>时忽略的内容。<br>
+<code>--ingore-prepublish</code><br>
+跳过<code>prepublish</code>生命周期钩子。<br>
+<code>--ignore-scripts</code><br>
+跳过所有的生命周期钩子。<br>
+<code>--resgistry &lt;url&gt;</code><br>
+xxx<br>
+<code>--npm-client</code><br>
+xxx<br>
+<code>--use-workspaces</code><br>
 xxx</p>
 <p><code>--no-ci</code>
 跳过<code>npm ci</code>
@@ -168,6 +203,7 @@ xxx</p>
 <li>发布指定git标签的包。</li>
 <li>发布最后一次commit的包。</li>
 <li>发布前一次提交中有更新的包。</li>
+<li>若测试private为true则不发布该包。</li>
 </ul>
 <h2 id="usage-3">usage</h2>
 <pre><code><code><div>lerna publish

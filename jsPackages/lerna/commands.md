@@ -113,24 +113,24 @@ xxx
 ```
 
 ## options
-`--hoist [glob]`
-不会
-`--strict`
-不会
-`--nohoist [glob]`
-不会
-`--ignore`
-设置执行`lerna bootstrap`时忽略的内容。
-`--ingore-prepublish`
-跳过`prepublish`生命周期钩子。
-`--ignore-scripts`
-跳过所有的生命周期钩子。
-`--resgistry <url>`
-xxx
-`--npm-client`
-xxx
-`--use-workspaces`
-xxx
+`--hoist [glob]`  
+把依赖项提升到根项目里。  
+`--strict`  
+不会  
+`--nohoist [glob]`  
+不会  
+`--ignore`  
+设置执行`lerna bootstrap`时忽略的内容。  
+`--ingore-prepublish`  
+跳过`prepublish`生命周期钩子。  
+`--ignore-scripts`  
+跳过所有的生命周期钩子。  
+`--resgistry <url>`  
+xxx  
+`--npm-client`  
+xxx  
+`--use-workspaces`  
+xxx  
 
 `--no-ci`
 跳过`npm ci`

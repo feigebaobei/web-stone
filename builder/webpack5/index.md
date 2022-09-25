@@ -298,29 +298,6 @@ if ('serviceWorker' in navigator) {
 
 ### package exports
 
-
-
-
-
-
-#### t9tllsdf
-
-
-
-
-
-### title
-### title
-
-
-
-
-
-
-
-
-
-
 ## concepts
 ```js
 let path = require('path') // node内置包
@@ -341,7 +318,6 @@ module.exports = {
     mode: 'production'
 }
 ```
-
 
 ### entry points
 开始打包的地方。
@@ -445,8 +421,20 @@ module.exports = {
 插件是一个有`apply()`的对象，该方法被webpack compiler调用。
 可以作用于整个过程。(由wp的项目结构决定了)。如：优先打包、管理资源、注入环境变量。
 
-#### 常用插件
-#### 内置插件
+#### 用法
+**1. config**
+...
+
+**2. node api**
+```js
+const webpack = require('webpack')
+const config = require('./webpack.config.js')
+let compiler = webpack(config)
+new webpack.ProgressPlugin().apply(compiler)
+compiler.run((err, stats) => {
+    ...
+})
+```
 
 ### configuration
 - 一般使用cjs规范。  
@@ -455,9 +443,6 @@ module.exports = {
 - 使用`--env`代替从cli取数据  
 - 不输出不确定的值  
 - 避免编辑长配置文件  
-
-
-
 
 ### modules
 模块化开发。
@@ -532,7 +517,7 @@ webpack支持的引入规则
 wp根据import / require绘制依赖图。
 
 ### targets
-`target: 'node'` // 指定运行环境
+`target: 'node'` // 指定运行环境。默认为web
 
 多个输出（多个运行环境）
 ```js
@@ -566,19 +551,14 @@ manifest为wp提供管理打包后的模块之间交互。
 - 源代码的内容变动时，浏览器更新。
 
 ### why webpack
+要么在一个js中包含所有代码，要么把所有代码分在多个js中。程序员要在二者中找到平衡点。  
+
 ### under the hood
 入口 + 依赖图 = chunk
 
 chunk的形式：
 - initial       明确入口的文件  
 - non-initial   可以延迟加载的块
-
-
-
-
-
-
-
 
 ## [configuration](/builder/webpack5/config/index.html)
 默认配置文件：`path/to/file.json`。
@@ -587,7 +567,6 @@ chunk的形式：
 ||||||||
 ||||||||
 ||||||||
-
 
 ### 基本结构
 ```js
@@ -621,6 +600,12 @@ module.exports = {
     }
 }
 ```
+使用webpack-cli生成的配置文件是配置对象+方法  
+
+
+
+
+
 
 
 ## cli
@@ -700,7 +685,6 @@ description
 |css-loader||||||
 |css-loader||||||
 |css-loader||||||
-
 
 ## [plugins](/builder/webpack5/plugin/index.html)
 常用插件  

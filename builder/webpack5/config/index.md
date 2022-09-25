@@ -8,8 +8,7 @@ module.exports = {
   // Chosen mode tells webpack to use its built-in optimizations accordingly.
   entry: "./app/entry", // string | object | array
   // defaults to ./src
-  // Here the application starts executing
-  // and webpack starts bundling
+  // 打包时从这里开始。
   output: {
     // options related to how webpack emits results
     path:path.resolve(__dirname, "dist"), // string (default)
@@ -55,6 +54,7 @@ module.exports = {
         // - Try to avoid exclude and prefer include
         // Each condition can also receive an object with "and", "or" or "not" properties
         // which are an array of conditions.
+        // 不会issue
         issuer: /\.css$/,
         issuer: path.resolve(__dirname, "app"),
         issuer: { and: [ /\.css$/, path.resolve(__dirname, "app") ] },
@@ -101,9 +101,7 @@ module.exports = {
     ],
     /* Advanced module configuration (click to show) */
   },
-  resolve: {
-    // options for resolving module requests
-    // (does not apply to resolving of loaders)
+  resolve: { // 解决模块的引入选项。不能解决引入的loader
     modules: ["node_modules",path.resolve(__dirname, "app")],
     // directories where to look for modules (in order)
     extensions: [".js", ".json", ".jsx", ".css"],
