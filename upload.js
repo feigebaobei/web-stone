@@ -242,8 +242,10 @@ c.on('ready', () => {
             log('cwd', 'htdocs', err)
             throw err
         }
-        // let p = 'builder/webpack5/demo'
+        // let p = 'language/emscripten'
         let p = [
+            'index.html',
+            'language/emscripten/index.html',
         ]
         // 检测指定目录是否存在
         // checkDir(p)

@@ -789,6 +789,7 @@ dom.classList.toggle(s) // 若存在则删除，否不存在则添加。
   + [set](/language/javascript/set.html)
   + [map](/language/javascript/map.html)
   + [url](/language/javascript/url.html)
+  + [typedArray](/language/javascript/typedArray.html)
 - js内置对象
     + [Math](/language/javascript/math.html)
     + [JSON](/language/javascript/json.html)
@@ -810,7 +811,15 @@ dom.classList.toggle(s) // 若存在则删除，否不存在则添加。
 
 # [函数式编程](/language/javascript/functionalProgramming.html)
 
-
+# 低层
+|||||||
+|-|-|-|-|-|-|
+|web interfaces|Javascript暴露给web APP的接口，也就是ES定义的接口。|||||
+|web IDL (web interface definition language)|用来定义Web interfaces的语言，其通过一种规范实现了JS engine(V8)和Web core(Blink)之间的低耦合绑定.|||||
+|||||||
+|||||||
+|||||||
+|||||||
 
 
 

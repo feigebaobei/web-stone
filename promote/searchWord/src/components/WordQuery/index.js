@@ -41,13 +41,11 @@ export default function WordQuery () {
     })
     useEffect(function () {
         let fn = () => {
-            // console.log('focus')
-            searchRef.current.focus()
+            searchRef.current.focus({cursor: 'all'})
         }
         window.addEventListener('focus', fn)
-        searchRef.current.focus() // 打开就聚焦
+        searchRef.current.focus({cursor: 'all'}) // 打开就聚焦
         return () => {
-            // console.log('un focuse')
             window.removeEventListener('focus', fn)
         }
     }, [])
