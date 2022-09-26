@@ -1,6 +1,5 @@
 # Emscripten
-> 概览
-
+> [概览](https://emscripten.org/docs/introducing_emscripten/index.html)
 ## usage
 
 ## api

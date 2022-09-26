@@ -101,6 +101,7 @@ typeOffset      相对缓存开头的偏移byte
 # ArrayBuffer
 ## 简介
 > 返回一个固定长度的生的二进制数据缓存  
+> 操作二进制数据，更方便。比array快很多。  
 
 ## api
 ```js

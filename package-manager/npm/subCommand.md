@@ -74,5 +74,48 @@ npx cowsay[@version] hi
 # rm
 删除（`package.json`中）指定的包。
 
+# ci
+```shell
+npm ci
+# aliases: clean-install, ic, install-clean
+```
+
+与`npm install`类似。  
+
+|install|ci|||
+|-|-|-|-|
+||必须存在`package-lock.json`、`npm-shrinkwrap.json`|||
+||当锁文件与package.json的依赖不相同时，抛出错误。|||
+||只能安装全部依赖|||
+||若node_modules已经存在，则先删除，再创建。|||
+||不会修改package.json和锁文件。|||
+
+## configuration
+||说明|ult||
+|-|-|-|-|
+|save||||
+|save-exact||||
+|global||||
+|global-style||||
+|legacy-bundling||||
+|omit||||
+|strict-peer-deps||||
+|package-lock||||
+|foreground-scripts||||
+|ignore-scripts||||
+|audit||||
+|bin-links||||
+|fund||||
+|dry-run||||
+|workspace||||
+|workspaces||||
+|include-workspace-root||||
+|install-links||false||
+
+# title
+# title
+# title
+# title
+# title
 # title
 # title
