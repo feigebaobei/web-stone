@@ -242,10 +242,9 @@ c.on('ready', () => {
             log('cwd', 'htdocs', err)
             throw err
         }
-        // let p = 'language/emscripten'
+        // let p = 'language/webassembly'
         let p = [
-            'index.html',
-            'language/emscripten/index.html',
+            'jsPackages/sql.js.html',
         ]
         // 检测指定目录是否存在
         // checkDir(p)
