@@ -14,7 +14,7 @@
 - 可在浏览器中查询。  
 - 可打包  
 - dist目录中包括js/wasm/asm/worker.sql-xxx.js  
-- 输出为Uint8Array的数据。  
+- 输出为[Uint8Array](/language/javascript/typedArray.html)的数据。  
 
 ## install
 `npm i sql.js`

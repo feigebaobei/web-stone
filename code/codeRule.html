@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>sql&period;js</title>
+        <title>&#x5199;&#x4e00;&#x4e2a;&#x5e72;&#x51c0;&#x7684;&#x4ee3;&#x7801;</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -63,8 +63,7 @@
 }
 
 </style>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
-<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -80,123 +79,53 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="sqljs">sql.js</h1>
-<h2 id="overview">overview</h2>
-<blockquote>
-<p>它是一个js sql 数据库。<br>
-数据放在内存中。<br>
-不用协同数据库变化。<br>
-可引入已经存在的sqlite file<br>
-导出为array类型。<br>
-使用<a href="/language/emscripten/index.html">emscripten</a>语言编译sqlite为webassembly<br>
-文档中有错别字。</p>
-</blockquote>
-<h3 id="feature">feature</h3>
+        <h1 id="写一个干净的代码">写一个干净的代码</h1>
+<h2 id="缩进--空格">缩进 + 空格</h2>
+<p>参数之间的空格。</p>
+<h2 id="全名">全名</h2>
 <ul>
-<li>可创建关系型数据库。</li>
-<li>可在浏览器中查询。</li>
-<li>可打包</li>
-<li>dist目录中包括js/wasm/asm/worker.sql-xxx.js</li>
-<li>输出为<a href="/language/javascript/typedArray.html">Uint8Array</a>的数据。</li>
+<li>camelCase</li>
+<li>PascalCase</li>
+<li>snake_case</li>
+<li>不使用缩写</li>
+<li>boolean是以‘is’/'has'开头</li>
+<li>function: 动作+做什么事。eg: getUserDetails / findUserId</li>
 </ul>
-<h2 id="install">install</h2>
-<p><code>npm i sql.js</code></p>
-<h2 id="usage">usage</h2>
-<pre><code class="language-js"><div><span class="hljs-keyword">const</span> initSqlJs = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;sql.js&#x27;</span>); <span class="hljs-comment">// 引入</span>
-<span class="hljs-comment">// or window.initSqlJs</span>
-<span class="hljs-keyword">const</span> SQL = <span class="hljs-keyword">await</span> initSqlJs({
-    <span class="hljs-attr">locateFile</span>: <span class="hljs-function"><span class="hljs-params">file</span> =&gt;</span> <span class="hljs-string">`https://sql.js.org/dist/<span class="hljs-subst">${file}</span>`</span>
-}) <span class="hljs-comment">// init</span>
-<span class="hljs-keyword">const</span> db = <span class="hljs-keyword">new</span> SQL.Database() <span class="hljs-comment">// 创建数据库</span>
-<span class="hljs-keyword">let</span> sqlstr = <span class="hljs-string">&#x27;CREATE TABLE hello (a int, b char); \
-INSERT INTO hello VALUES (0, &#x27;</span>hello<span class="hljs-string">&#x27;); \
-INSERT INTO hello VALUES (1, &#x27;</span>world<span class="hljs-string">&#x27;);&#x27;</span>
-db.run(sqlstr) <span class="hljs-comment">// 执行</span>
-<span class="hljs-keyword">const</span> stmt = db.prepare(<span class="hljs-string">&#x27;SELELCT * FROM hello WHERE a=:aval AND b=:bval&#x27;</span>)
-<span class="hljs-keyword">const</span> result = stmt.getAsObject({<span class="hljs-string">&#x27;:aval&#x27;</span>: <span class="hljs-number">1</span>, <span class="hljs-string">&#x27;:bval&#x27;</span>: <span class="hljs-string">&#x27;world&#x27;</span>}) <span class="hljs-comment">// {a: 1, b: &#x27;world&#x27;}</span>
-stmt.bind([<span class="hljs-number">0</span>, <span class="hljs-string">&#x27;hello&#x27;</span>])
-<span class="hljs-keyword">while</span> (stmt.step()) <span class="hljs-built_in">console</span>.log(stmt.get())
-stmt.free()
-<span class="hljs-keyword">const</span> res = db.exec(<span class="hljs-string">&#x27;SELECT * FROM hello&#x27;</span>) <span class="hljs-comment">// [{columns: [&#x27;a&#x27;, &#x27;b&#x27;]}, values: [[0, &#x27;hello&#x27;], [1, &#x27;world&#x27;]]}]</span>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">add</span>(<span class="hljs-params">a, b</span>) </span>{<span class="hljs-keyword">return</span> a + b}
-db.create_function(<span class="hljs-string">&#x27;add_js&#x27;</span>, add)
-db.run(<span class="hljs-string">&quot;INSERT INTO hello VALUES (add_js(7, 3), add_js(&#x27;hello &#x27;, &#x27;world&#x27;));&quot;</span>)
-db.create_aggregate(<span class="hljs-string">&quot;json_agg&quot;</span>, {
-    <span class="hljs-attr">init</span>: <span class="hljs-function">() =&gt;</span> [],
-    <span class="hljs-attr">step</span>: <span class="hljs-function">(<span class="hljs-params">state, val</span>) =&gt;</span> [...state, val],
-    <span class="hljs-attr">finalize</span>: <span class="hljs-function">(<span class="hljs-params">state</span>) =&gt;</span> <span class="hljs-built_in">JSON</span>.stringify(state)
-})
-db.exec(<span class="hljs-string">&#x27;SELECT json_agg(column1) FROM (VALUES (&quot;hello&quot;), (&quot;world&quot;))&#x27;</span>)
-<span class="hljs-keyword">const</span> binaryArray = db.export() <span class="hljs-comment">// 导出数据</span>
+<h2 id="注释">注释</h2>
+<pre><code class="language-js"><div><span class="hljs-comment">/**
+ * Returns the sum of a and b
+ * <span class="hljs-doctag">@param <span class="hljs-type">{number}</span> <span class="hljs-variable">a</span></span>
+ * <span class="hljs-doctag">@param <span class="hljs-type">{number}</span> <span class="hljs-variable">b</span></span>
+ * <span class="hljs-doctag">@returns <span class="hljs-type">{number}</span></span>
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sum</span>(<span class="hljs-params">a, b</span>) </span>{
+    <span class="hljs-keyword">return</span> a + b
+}
 </div></code></pre>
-<p><strong>在浏览器中使用</strong></p>
-<pre><code class="language-html"><div><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/dist/sql-wasm.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
-    <span class="hljs-keyword">let</span> config = {
-        <span class="hljs-attr">locateFile</span>: <span class="hljs-string">&#x27;xxxx&#x27;</span>
-    }
-    initSqlJs(config).then(<span class="hljs-function">(<span class="hljs-params">SQL</span>) =&gt;</span> {
-        <span class="hljs-keyword">let</span> db = <span class="hljs-keyword">new</span> SQL.Database()
-        db.run(<span class="hljs-string">&#x27;CRAETE TABLE TEST (col1, col2)&#x27;</span>)
-        db.run(<span class="hljs-string">&quot;INSERT INTO test VALUES (?,?), (?,?), [1, 111, 2, 222]&quot;</span>)
-        <span class="hljs-keyword">let</span> stmt = db.prepare(<span class="hljs-string">&quot;SELECT * FROM test WHERE col1 BETWEEN $start AND $end&quot;</span>)
-        stmt.getAsObject({<span class="hljs-attr">$state</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">$end</span>: <span class="hljs-number">1</span>})
-        stmt.bind({<span class="hljs-attr">$start</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">$end</span>: <span class="hljs-number">2</span>})
-        <span class="hljs-keyword">while</span>(stmt.step()) {
-            <span class="hljs-keyword">let</span> row = stmt.getAsObject()
-            <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`row: <span class="hljs-subst">${<span class="hljs-built_in">JSON</span>.stringify(row)}</span>`</span>)
-        }
-    })
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<h2 id="设置默认值">设置默认值</h2>
+<pre><code><code><div>const greeting = a || b
+const foo = a ?? b
+</div></code></code></pre>
+<h2 id="可考虑使用操作链">可考虑使用操作链</h2>
+<pre><code class="language-js"><div><span class="hljs-keyword">let</span> a = o?.k0?.k1
 </div></code></pre>
-<p><strong>使用用户选择的文件创建database</strong></p>
-<pre><code class="language-js"><div></div></code></pre>
-<p><strong>从服务端加载database</strong></p>
-<pre><code class="language-js"><div><span class="hljs-keyword">let</span> sqlPromise = initSqlJs({
-    <span class="hljs-attr">locateFile</span>: <span class="hljs-function"><span class="hljs-params">file</span> =&gt;</span> <span class="hljs-string">`https://path/to/<span class="hljs-subst">${file}</span>`</span>
-})
-<span class="hljs-keyword">let</span> dataPromise = fetch(<span class="hljs-string">&#x27;/path&#x27;</span>).then(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> res.arrayBuffer())
-<span class="hljs-keyword">const</span> [SQL, buf] = <span class="hljs-keyword">await</span> <span class="hljs-built_in">Promise</span>.all([sqlPromise, dataPromise])
-<span class="hljs-keyword">const</span> db = <span class="hljs-keyword">new</span> SQL.Database(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Uint8Array</span>(buf))
-</div></code></pre>
-<p><strong>用xhr请求</strong></p>
-<pre><code class="language-js"><div></div></code></pre>
-<p><strong>在node环境中使用</strong></p>
-<pre><code class="language-js"><div><span class="hljs-keyword">let</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;fs&#x27;</span>)
-<span class="hljs-keyword">let</span> initSqlJs = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;sql-wasm.js&#x27;</span>) <span class="hljs-comment">// 可能需要从dist目录中引入。</span>
-<span class="hljs-keyword">let</span> filebuffer = fs.readFileSync(<span class="hljs-string">&#x27;test.sqlite&#x27;</span>)
-initSqlJs().then(<span class="hljs-function">(<span class="hljs-params">SQL</span>) =&gt;</span> {
-    <span class="hljs-keyword">let</span> db = <span class="hljs-keyword">new</span> SQL.Database(filebuffer)
-})
-</div></code></pre>
-<p><strong>写入硬盘</strong></p>
-<pre><code class="language-js"><div><span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;fs&#x27;</span>)
-<span class="hljs-keyword">const</span> data = db.export()
-<span class="hljs-keyword">const</span> buffer = Buffer.from(data)
-fs.writeFileSync(<span class="hljs-string">&quot;filename.sqlite&quot;</span>, buffer)
-</div></code></pre>
-<p><strong>与web worker一起使用</strong></p>
-<pre><code class="language-js"><div></div></code></pre>
-<p><strong>支持bigint</strong></p>
-<pre><code class="language-js"><div></div></code></pre>
-<h2 id="api">api</h2>
-<p>待完善
-<code>sql.js.fn(param, first: string, second: boolean = true) =&gt; void</code>
-description</p>
-<p><code>sql.js.fn(param, [options: {a: string, b?: number}])</code>
-description</p>
-<h2 id="principle">principle</h2>
-<p>此包的处理逻辑。</p>
-<h3 id="uml">uml</h3>
-<pre><code><code><div></div></code></code></pre>
-<h2 id="todo">todo</h2>
-<blockquote>
-<p>找不到sql-wasm.js<br>
-未来迭代计划。
-未来迭代计划。</p>
-</blockquote>
+<h2 id="控制错误">控制错误</h2>
+<p><code>try...catch</code></p>
+<h2 id="使用内置的遍历方法">使用内置的遍历方法</h2>
+<ul>
+<li>forEach</li>
+<li>map</li>
+<li>filter</li>
+<li>...</li>
+</ul>
+<h2 id="减少不必要的逻辑分支">减少不必要的逻辑分支</h2>
+<ul>
+<li>if...else</li>
+<li>...</li>
+</ul>
+<h2 id="按字母排序当10时">按字母排序。当&gt;10时</h2>
 
-        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
         
     </body>
     </html>
