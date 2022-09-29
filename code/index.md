@@ -1,4 +1,5 @@
 ## 编码
+- [写一个干净的代码](/code/codeRule.html)
 - [ascii](/code/ascii.html)
 - [base64]()
 - [base32]()

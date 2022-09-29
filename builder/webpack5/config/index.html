@@ -63,8 +63,7 @@
 }
 
 </style>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
-<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -81,299 +80,482 @@
     </head>
     <body class="vscode-body vscode-light">
         <h1 id="config">config</h1>
-<pre><code class="language-js"><div><span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;path&#x27;</span>);
+<h2 id="configuration-language">configuration language</h2>
+<ul>
+<li>js (cjs)          推荐</li>
+<li>ts</li>
+<li>coffeescript</li>
+<li>babel / jsx       会被转化为json</li>
+</ul>
+<h2 id="configuration-types">configuration types</h2>
+<p>配置文件的形式：</p>
+<ul>
+<li>输出一个返回对象的方法。该方法的参数是env、argv  <code>(env, argc) =&gt; object</code></li>
+<li>输出一个返回promise的方法。  <code>() =&gt; Promise&lt;object&gt;</code></li>
+<li>多个配置文件。需要处理好：
+<ul>
+<li>依赖关系。  <code>dependencies:['moduleName']</code></li>
+<li>最大同时打包数量。  <code>module.exports.parallelism = 1</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="entry-and-context">entry and context</h2>
+<p>context使用绝对路径定义entry的相对目录。</p>
+<h2 id="mode">mode</h2>
+<p><code>string = 'production': 'none' | 'development' | 'production' </code></p>
+<h2 id="output">output</h2>
+<table>
+<thead>
+<tr>
+<th>options</th>
+<th>说明</th>
+<th>type</th>
+<th>default</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>assetModuleFilename</td>
+<td>为asset module设置打包后的名字</td>
+<td>string</td>
+<td><code>'[hash][ext][query]'</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>asyncChunks</td>
+<td>明确（强制）使用异步加载模块</td>
+<td>boolean</td>
+<td>true</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>auxiliaryComment</td>
+<td>设置输出时的注释</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>charset</td>
+<td>告诉wp为<code>&lt;script&gt;</code>标签添加<code>charset=&quot;utf-8&quot;</code></td>
+<td>boolean</td>
+<td>true</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>chunkFilename</td>
+<td>指定模块的名字</td>
+<td>string</td>
+<td><code>'[id].js'</code></td>
+<td>优先级小于<code>output.filename</code></td>
+<td></td>
+</tr>
+<tr>
+<td>chunkFormat</td>
+<td>指定模块的规范</td>
+<td>string</td>
+<td>`'array-push' (web/webworker)</td>
+<td>'commonjs'</td>
+<td>'module'</td>
+</tr>
+<tr>
+<td>chunkLoadTimeout</td>
+<td>请求过期的毫秒值</td>
+<td>number</td>
+<td>12000 (ms)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>chunkLoadingGlobal</td>
+<td>wp加载模块时的全局变量</td>
+<td>string</td>
+<td>-</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>chunkLoading</td>
+<td>加载模块的方式</td>
+<td>string</td>
+<td>`'jsonp' (default) (web)</td>
+<td>'import-scripts' (webworker)</td>
+<td>'require' (sync node)</td>
+</tr>
+<tr>
+<td>clean</td>
+<td>是否清除以前的打包结果</td>
+<td>boolean</td>
+<td>-</td>
+<td>5.20.0+</td>
+<td></td>
+</tr>
+<tr>
+<td>clean.dry</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>clean.keep</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>compareBeforeEmit</td>
+<td>是否比对已经打包好的内容</td>
+<td>boolean</td>
+<td>true</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>crossOriginLoading</td>
+<td>只工作在target=web时。使用jsonp加载。</td>
+<td>boolean / string</td>
+<td>false</td>
+<td>'use-credentials' / 'anonymous'</td>
+<td></td>
+</tr>
+<tr>
+<td>devtoolFallbackModuleFilenameTemplate</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>devtoolModuleFilenameTemplate</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>devtoolNamespace</td>
+<td>devtoolModuleFilenameTemplate的模块的全名空间</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>enabledChunkLoadingTypes</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>enabledLibraryTypes</td>
+<td>可以用于入口的包的书写规范。</td>
+<td>string</td>
+<td>-</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>enabledWasmLoadingTypes</td>
+<td>为入口文件设置wasm loading type</td>
+<td>string</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>environment</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>filename</td>
+<td>为每个出口文件定义名字</td>
+<td>string</td>
+<td>-</td>
+<td><code>[fullhash] [id] [name] [chunkhash] [ontenthash] ...</code></td>
+<td></td>
+</tr>
+<tr>
+<td>globalObject</td>
+<td>当libraryTarget=umd时，定义全局变量对象</td>
+<td>string</td>
+<td>'self'</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hashDigest</td>
+<td>指定使用哪种hash</td>
+<td>string</td>
+<td>'hex'</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hashDigsetLength</td>
+<td>hash的长度</td>
+<td>number</td>
+<td>20</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hashFunction</td>
+<td>指定hash算法</td>
+<td>string</td>
+<td>md4</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hashSalt</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hotUpdateChunkFilename</td>
+<td>热更新的chunk文件名</td>
+<td>string</td>
+<td><code>'[id].[fullhash].hot-update.js'</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hotUpdateGlobal</td>
+<td>只在target为web时有效。使用jsonp方式异步加载。</td>
+<td>string</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hotUpdateMainFilename</td>
+<td>自定义热更新文件名</td>
+<td>string</td>
+<td><code>'[runtime].[fullhash].hot-update.json'</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>iife</td>
+<td>是否使用iife方法包裹</td>
+<td>boolean</td>
+<td>true</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>importFuntionName</td>
+<td>引入代码的方法</td>
+<td>string</td>
+<td><code>'import'</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>library</td>
+<td>打包为库的输出</td>
+<td>string / string[] / object</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="http://library.name">library.name</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>library.type</td>
+<td>string</td>
+<td>'var'</td>
+<td>'module', 'assign', 'assign-properties', 'this', 'window', 'self', 'global', 'commonjs', 'commonjs2', 'commonjs-module', 'commonjs-static', 'amd', 'amd-require', 'umd', 'umd2', 'jsonp' and 'system',</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>output.export</td>
+<td>指定输出点</td>
+<td>string / string[]</td>
+<td>-</td>
+<td><code>['default', 'subModule']</code></td>
+<td></td>
+</tr>
+<tr>
+<td>output.libray.auxiliaryComment</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>output.library.umdNamedDefine</td>
+<td>（好像与amd/umd有关）</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>output.path</td>
+<td>指定输出的绝对路径</td>
+<td>string</td>
+<td><code>path.join(process.cwd(), 'dist')</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>pathinfo</td>
+<td>是否把模块的信息包含在打包结果中。</td>
+<td>boolean/string</td>
+<td>true / 'verbose'</td>
+<td></td>
+<td>不要在生产时使用</td>
+</tr>
+<tr>
+<td>publicPath</td>
+<td>指定公开路径。浏览器可访问的路径。</td>
+<td>function / string</td>
+<td>当target是web/webworker时，默认为'auto'</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>scriptType</td>
+<td>为script标签设置type属性。用于自定义异步加载脚本</td>
+<td>string/boolean</td>
+<td>'module'</td>
+<td>'text/javascript' / false</td>
+<td></td>
+</tr>
+<tr>
+<td>sourceMapFilename</td>
+<td>指定source map文件的名字。</td>
+<td>string</td>
+<td><code>'[file].map[query]'</code></td>
+<td><code>[name], [id], [fullhash], [chunkhash]</code></td>
+<td></td>
+</tr>
+<tr>
+<td>sourcePrefix</td>
+<td>定义在chunk块中每一行的前缀</td>
+<td>string</td>
+<td>''</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>strictModuleErrorHandling</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>trustedTypes</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>uniqueName</td>
+<td>用于避免全局冲突</td>
+<td>string</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>wasmLoading</td>
+<td>指定加载wasm模块的方法。</td>
+<td>boolean / string</td>
+<td>false / 'fetch'(web/webworker) / 'async-node'</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>workerChunkLoading</td>
+<td>指定加载working的方法</td>
+<td>string / boolean</td>
+<td>'require' / 'import-scripts' / 'async-node' / 'import' / 'universal'/ false</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>assetModuleFilename</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>assetModuleFilename</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>assetModuleFilename</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>assetModuleFilename</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="title">title</h2>
+<h2 id="title-1">title</h2>
+<h2 id="title-2">title</h2>
+<h2 id="title-3">title</h2>
+<h2 id="title-4">title</h2>
+<h2 id="title-5">title</h2>
+<h2 id="title-6">title</h2>
+<h2 id="title-7">title</h2>
+<h2 id="title-8">title</h2>
+<h2 id="title-9">title</h2>
+<h2 id="title-10">title</h2>
+<h2 id="title-11">title</h2>
 
-<span class="hljs-built_in">module</span>.exports = {
-  <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;my-config&quot;</span>, <span class="hljs-comment">// name of the configuration, shown in output</span>
-  <span class="hljs-attr">mode</span>: <span class="hljs-string">&quot;production&quot;</span>, <span class="hljs-comment">// &quot;production&quot; | &quot;development&quot; | &quot;none&quot;</span>
-  <span class="hljs-comment">// Chosen mode tells webpack to use its built-in optimizations accordingly.</span>
-  <span class="hljs-attr">entry</span>: <span class="hljs-string">&quot;./app/entry&quot;</span>, <span class="hljs-comment">// string | object | array</span>
-  <span class="hljs-comment">// defaults to ./src</span>
-  <span class="hljs-comment">// 打包时从这里开始。</span>
-  <span class="hljs-attr">output</span>: {
-    <span class="hljs-comment">// options related to how webpack emits results</span>
-    <span class="hljs-attr">path</span>:path.resolve(__dirname, <span class="hljs-string">&quot;dist&quot;</span>), <span class="hljs-comment">// string (default)</span>
-    <span class="hljs-comment">// the target directory for all output files</span>
-    <span class="hljs-comment">// must be an absolute path (use the Node.js path module)</span>
-    <span class="hljs-attr">filename</span>: <span class="hljs-string">&quot;[name].js&quot;</span>, <span class="hljs-comment">// string (default)</span>
-    <span class="hljs-comment">// the filename template for entry chunks</span>
-    <span class="hljs-attr">publicPath</span>: <span class="hljs-string">&quot;/assets/&quot;</span>, <span class="hljs-comment">// string</span>
-    <span class="hljs-comment">// the url to the output directory resolved relative to the HTML page</span>
-    <span class="hljs-attr">library</span>: { <span class="hljs-comment">// There is also an old syntax for this available (click to show)</span>
-      <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;umd&quot;</span>, <span class="hljs-comment">// universal module definition</span>
-      <span class="hljs-comment">// the type of the exported library</span>
-      <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;MyLibrary&quot;</span>, <span class="hljs-comment">// string | string[]</span>
-      <span class="hljs-comment">// the name of the exported library</span>
-
-      <span class="hljs-comment">/* Advanced output.library configuration (click to show) */</span>
-    },
-    <span class="hljs-attr">uniqueName</span>: <span class="hljs-string">&quot;my-application&quot;</span>, <span class="hljs-comment">// (defaults to package.json &quot;name&quot;)</span>
-    <span class="hljs-comment">// unique name for this build to avoid conflicts with other builds in the same HTML</span>
-    <span class="hljs-comment">/* Advanced output configuration (click to show) */</span>
-    <span class="hljs-comment">/* Expert output configuration 1 (on own risk) */</span>
-    <span class="hljs-comment">/* Expert output configuration 2 (on own risk) */</span>
-  },
-  <span class="hljs-attr">module</span>: {
-    <span class="hljs-comment">// configuration regarding modules</span>
-    <span class="hljs-attr">rules</span>: [
-      <span class="hljs-comment">// rules for modules (configure loaders, parser options, etc.)</span>
-      {
-        <span class="hljs-comment">// Conditions:</span>
-        <span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.jsx?$/</span>,
-        include: [
-          path.resolve(__dirname, <span class="hljs-string">&quot;app&quot;</span>)
-        ],
-        <span class="hljs-attr">exclude</span>: [
-          path.resolve(__dirname, <span class="hljs-string">&quot;app/demo-files&quot;</span>)
-        ],
-        <span class="hljs-comment">// these are matching conditions, each accepting a regular expression or string</span>
-        <span class="hljs-comment">// test and include have the same behavior, both must be matched</span>
-        <span class="hljs-comment">// exclude must not be matched (takes preferrence over test and include)</span>
-        <span class="hljs-comment">// Best practices:</span>
-        <span class="hljs-comment">// - Use RegExp only in test and for filename matching</span>
-        <span class="hljs-comment">// - Use arrays of absolute paths in include and exclude to match the full path</span>
-        <span class="hljs-comment">// - Try to avoid exclude and prefer include</span>
-        <span class="hljs-comment">// Each condition can also receive an object with &quot;and&quot;, &quot;or&quot; or &quot;not&quot; properties</span>
-        <span class="hljs-comment">// which are an array of conditions.</span>
-        <span class="hljs-attr">issuer</span>: <span class="hljs-regexp">/\.css$/</span>,
-        issuer: path.resolve(__dirname, <span class="hljs-string">&quot;app&quot;</span>),
-        <span class="hljs-attr">issuer</span>: { <span class="hljs-attr">and</span>: [ <span class="hljs-regexp">/\.css$/</span>, path.resolve(__dirname, <span class="hljs-string">&quot;app&quot;</span>) ] },
-        <span class="hljs-attr">issuer</span>: { <span class="hljs-attr">or</span>: [ <span class="hljs-regexp">/\.css$/</span>, path.resolve(__dirname, <span class="hljs-string">&quot;app&quot;</span>) ] },
-        <span class="hljs-attr">issuer</span>: { <span class="hljs-attr">not</span>: [ <span class="hljs-regexp">/\.css$/</span> ] },
-        <span class="hljs-attr">issuer</span>: [ <span class="hljs-regexp">/\.css$/</span>, path.resolve(__dirname, <span class="hljs-string">&quot;app&quot;</span>) ], <span class="hljs-comment">// like &quot;or&quot;</span>
-        <span class="hljs-comment">// conditions for the issuer (the origin of the import)</span>
-        <span class="hljs-comment">/* Advanced conditions (click to show) */</span>
-
-        <span class="hljs-comment">// Actions:</span>
-        <span class="hljs-attr">loader</span>: <span class="hljs-string">&quot;babel-loader&quot;</span>,
-        <span class="hljs-comment">// the loader which should be applied, it&#x27;ll be resolved relative to the context</span>
-        <span class="hljs-attr">options</span>: {
-          <span class="hljs-attr">presets</span>: [<span class="hljs-string">&quot;es2015&quot;</span>]
-        },
-        <span class="hljs-comment">// options for the loader</span>
-        <span class="hljs-attr">use</span>: [
-          <span class="hljs-comment">// apply multiple loaders and options instead</span>
-          <span class="hljs-string">&quot;htmllint-loader&quot;</span>,
-          {
-            <span class="hljs-attr">loader</span>: <span class="hljs-string">&quot;html-loader&quot;</span>,
-            <span class="hljs-attr">options</span>: {
-              <span class="hljs-comment">// ...</span>
-            }
-          }
-        ],
-        <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;javascript/auto&quot;</span>,
-        <span class="hljs-comment">// specifies the module type</span>
-        <span class="hljs-comment">/* Advanced actions (click to show) */</span>
-      },
-      {
-        <span class="hljs-attr">oneOf</span>: [
-          <span class="hljs-comment">// ... (rules)</span>
-        ]
-        <span class="hljs-comment">// only use one of these nested rules</span>
-      },
-      {
-        <span class="hljs-comment">// ... (conditions)</span>
-        <span class="hljs-attr">rules</span>: [
-          <span class="hljs-comment">// ... (rules)</span>
-        ]
-        <span class="hljs-comment">// use all of these nested rules (combine with conditions to be useful)</span>
-      },
-    ],
-    <span class="hljs-comment">/* Advanced module configuration (click to show) */</span>
-  },
-  <span class="hljs-attr">resolve</span>: {
-    <span class="hljs-comment">// options for resolving module requests</span>
-    <span class="hljs-comment">// (does not apply to resolving of loaders)</span>
-    <span class="hljs-attr">modules</span>: [<span class="hljs-string">&quot;node_modules&quot;</span>,path.resolve(__dirname, <span class="hljs-string">&quot;app&quot;</span>)],
-    <span class="hljs-comment">// directories where to look for modules (in order)</span>
-    <span class="hljs-attr">extensions</span>: [<span class="hljs-string">&quot;.js&quot;</span>, <span class="hljs-string">&quot;.json&quot;</span>, <span class="hljs-string">&quot;.jsx&quot;</span>, <span class="hljs-string">&quot;.css&quot;</span>],
-    <span class="hljs-comment">// extensions that are used</span>
-    <span class="hljs-attr">alias</span>: {
-      <span class="hljs-comment">// a list of module name aliases</span>
-      <span class="hljs-comment">// aliases are imported relative to the current context</span>
-      <span class="hljs-string">&quot;module&quot;</span>: <span class="hljs-string">&quot;new-module&quot;</span>,
-      <span class="hljs-comment">// alias &quot;module&quot; -&gt; &quot;new-module&quot; and &quot;module/path/file&quot; -&gt; &quot;new-module/path/file&quot;</span>
-      <span class="hljs-string">&quot;only-module$&quot;</span>: <span class="hljs-string">&quot;new-module&quot;</span>,
-      <span class="hljs-comment">// alias &quot;only-module&quot; -&gt; &quot;new-module&quot;, but not &quot;only-module/path/file&quot; -&gt; &quot;new-module/path/file&quot;</span>
-      <span class="hljs-string">&quot;module&quot;</span>: path.resolve(__dirname, <span class="hljs-string">&quot;app/third/module.js&quot;</span>),
-      <span class="hljs-comment">// alias &quot;module&quot; -&gt; &quot;./app/third/module.js&quot; and &quot;module/file&quot; results in error</span>
-      <span class="hljs-string">&quot;module&quot;</span>: path.resolve(__dirname, <span class="hljs-string">&quot;app/third&quot;</span>),
-      <span class="hljs-comment">// alias &quot;module&quot; -&gt; &quot;./app/third&quot; and &quot;module/file&quot; -&gt; &quot;./app/third/file&quot;</span>
-      [path.resolve(__dirname, <span class="hljs-string">&quot;app/module.js&quot;</span>)]: path.resolve(__dirname, <span class="hljs-string">&quot;app/alternative-module.js&quot;</span>),
-      <span class="hljs-comment">// alias &quot;./app/module.js&quot; -&gt; &quot;./app/alternative-module.js&quot;</span>
-    },
-    <span class="hljs-comment">/* Alternative alias syntax (click to show) */</span>
-    <span class="hljs-comment">/* Advanced resolve configuration (click to show) */</span>
-    <span class="hljs-comment">/* Expert resolve configuration (click to show) */</span>
-  },
-  <span class="hljs-attr">performance</span>: {
-    <span class="hljs-attr">hints</span>: <span class="hljs-string">&quot;warning&quot;</span>, <span class="hljs-comment">// enum</span>
-    <span class="hljs-attr">maxAssetSize</span>: <span class="hljs-number">200000</span>, <span class="hljs-comment">// int (in bytes),</span>
-    <span class="hljs-attr">maxEntrypointSize</span>: <span class="hljs-number">400000</span>, <span class="hljs-comment">// int (in bytes)</span>
-    <span class="hljs-attr">assetFilter</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">assetFilename</span>) </span>{
-      <span class="hljs-comment">// Function predicate that provides asset filenames</span>
-      <span class="hljs-keyword">return</span> assetFilename.endsWith(<span class="hljs-string">&#x27;.css&#x27;</span>) || assetFilename.endsWith(<span class="hljs-string">&#x27;.js&#x27;</span>);
-    }
-  },
-  <span class="hljs-attr">devtool</span>: <span class="hljs-string">&quot;source-map&quot;</span>, <span class="hljs-comment">// enum</span>
-  <span class="hljs-comment">// enhance debugging by adding meta info for the browser devtools</span>
-  <span class="hljs-comment">// source-map most detailed at the expense of build speed.</span>
-  <span class="hljs-attr">context</span>: __dirname, <span class="hljs-comment">// string (absolute path!)</span>
-  <span class="hljs-comment">// the home directory for webpack</span>
-  <span class="hljs-comment">// the entry and module.rules.loader option</span>
-  <span class="hljs-comment">//   is resolved relative to this directory</span>
-  <span class="hljs-attr">target</span>: <span class="hljs-string">&quot;web&quot;</span>, <span class="hljs-comment">// enum</span>
-  <span class="hljs-comment">// the environment in which the bundle should run</span>
-  <span class="hljs-comment">// changes chunk loading behavior, available external modules</span>
-  <span class="hljs-comment">// and generated code style</span>
-  <span class="hljs-attr">externals</span>: [<span class="hljs-string">&quot;react&quot;</span>, <span class="hljs-regexp">/^@angular/</span>],
-  <span class="hljs-comment">// Don&#x27;t follow/bundle these modules, but request them at runtime from the environment</span>
-  <span class="hljs-attr">externalsType</span>: <span class="hljs-string">&quot;var&quot;</span>, <span class="hljs-comment">// (defaults to output.library.type)</span>
-  <span class="hljs-comment">// Type of externals, when not specified inline in externals</span>
-  <span class="hljs-attr">externalsPresets</span>: { <span class="hljs-comment">/* ... */</span> },
-  <span class="hljs-comment">// presets of externals</span>
-  <span class="hljs-attr">ignoreWarnings</span>: [<span class="hljs-regexp">/warning/</span>],
-  <span class="hljs-attr">stats</span>: <span class="hljs-string">&quot;errors-only&quot;</span>,
-  <span class="hljs-attr">stats</span>: {
-    <span class="hljs-comment">// lets you precisely control what bundle information gets displayed</span>
-    <span class="hljs-attr">preset</span>: <span class="hljs-string">&quot;errors-only&quot;</span>,
-    <span class="hljs-comment">// A stats preset</span>
-
-    <span class="hljs-comment">/* Advanced global settings (click to show) */</span>
-
-    <span class="hljs-attr">env</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-comment">// include value of --env in the output</span>
-    <span class="hljs-attr">outputPath</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-comment">// include absolute output path in the output</span>
-    <span class="hljs-attr">publicPath</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-comment">// include public path in the output</span>
-
-    <span class="hljs-attr">assets</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-comment">// show list of assets in output</span>
-    <span class="hljs-comment">/* Advanced assets settings (click to show) */</span>
-
-    <span class="hljs-attr">entrypoints</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-comment">// show entrypoints list</span>
-    <span class="hljs-attr">chunkGroups</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-comment">// show named chunk group list</span>
-    <span class="hljs-comment">/* Advanced chunk group settings (click to show) */</span>
-
-    <span class="hljs-attr">chunks</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-comment">// show list of chunks in output</span>
-    <span class="hljs-comment">/* Advanced chunk group settings (click to show) */</span>
-
-    <span class="hljs-attr">modules</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-comment">// show list of modules in output</span>
-    <span class="hljs-comment">/* Advanced module settings (click to show) */</span>
-    <span class="hljs-comment">/* Expert module settings (click to show) */</span>
-
-    <span class="hljs-comment">/* Advanced optimization settings (click to show) */</span>
-
-    <span class="hljs-attr">children</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-comment">// show stats for child compilations</span>
-
-    <span class="hljs-attr">logging</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-comment">// show logging in output</span>
-    <span class="hljs-attr">loggingDebug</span>: <span class="hljs-regexp">/webpack/</span>,
-    <span class="hljs-comment">// show debug type logging for some loggers</span>
-    loggingTrace: <span class="hljs-literal">true</span>,
-    <span class="hljs-comment">// show stack traces for warnings and errors in logging output</span>
-
-    <span class="hljs-attr">warnings</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-comment">// show warnings</span>
-
-    <span class="hljs-attr">errors</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-comment">// show errors</span>
-    <span class="hljs-attr">errorDetails</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-comment">// show details for errors</span>
-    <span class="hljs-attr">errorStack</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-comment">// show internal stack trace for errors</span>
-    <span class="hljs-attr">moduleTrace</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-comment">// show module trace for errors</span>
-    <span class="hljs-comment">// (why was causing module referenced)</span>
-
-    <span class="hljs-attr">builtAt</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-comment">// show timestamp in summary</span>
-    <span class="hljs-attr">errorsCount</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-comment">// show errors count in summary</span>
-    <span class="hljs-attr">warningsCount</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-comment">// show warnings count in summary</span>
-    <span class="hljs-attr">timings</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-comment">// show build timing in summary</span>
-    <span class="hljs-attr">version</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-comment">// show webpack version in summary</span>
-    <span class="hljs-attr">hash</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-comment">// show build hash in summary</span>
-  },
-  <span class="hljs-attr">devServer</span>: {
-    <span class="hljs-attr">proxy</span>: { <span class="hljs-comment">// proxy URLs to backend development server</span>
-      <span class="hljs-string">&#x27;/api&#x27;</span>: <span class="hljs-string">&#x27;http://localhost:3000&#x27;</span>
-    },
-    <span class="hljs-attr">static</span>: path.join(__dirname, <span class="hljs-string">&#x27;public&#x27;</span>), <span class="hljs-comment">// boolean | string | array | object, static file location</span>
-    <span class="hljs-attr">compress</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// enable gzip compression</span>
-    <span class="hljs-attr">historyApiFallback</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// true for index.html upon 404, object for multiple paths</span>
-    <span class="hljs-attr">hot</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// hot module replacement. Depends on HotModuleReplacementPlugin</span>
-    <span class="hljs-attr">https</span>: <span class="hljs-literal">false</span>, <span class="hljs-comment">// true for self-signed, object for cert authority</span>
-    <span class="hljs-comment">// ...</span>
-  },
-  <span class="hljs-attr">experiments</span>: {
-    <span class="hljs-attr">asyncWebAssembly</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-comment">// WebAssembly as async module (Proposal)</span>
-    <span class="hljs-attr">syncWebAssembly</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-comment">// WebAssembly as sync module (deprecated)</span>
-    <span class="hljs-attr">outputModule</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-comment">// Allow to output ESM</span>
-    <span class="hljs-attr">topLevelAwait</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-comment">// Allow to use await on module evaluation (Proposal)</span>
-  },
-  <span class="hljs-attr">plugins</span>: [
-    <span class="hljs-comment">// ...</span>
-  ],
-  <span class="hljs-comment">// list of additional plugins</span>
-  <span class="hljs-attr">optimization</span>: {
-    <span class="hljs-attr">chunkIds</span>: <span class="hljs-string">&quot;size&quot;</span>,
-    <span class="hljs-comment">// method of generating ids for chunks</span>
-    <span class="hljs-attr">moduleIds</span>: <span class="hljs-string">&quot;size&quot;</span>,
-    <span class="hljs-comment">// method of generating ids for modules</span>
-    <span class="hljs-attr">mangleExports</span>: <span class="hljs-string">&quot;size&quot;</span>,
-    <span class="hljs-comment">// rename export names to shorter names</span>
-    <span class="hljs-attr">minimize</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-comment">// minimize the output files</span>
-    <span class="hljs-attr">minimizer</span>: [<span class="hljs-keyword">new</span> CssMinimizer(), <span class="hljs-string">&quot;...&quot;</span>],
-    <span class="hljs-comment">// minimizers to use for the output files</span>
-
-    <span class="hljs-comment">/* Advanced optimizations (click to show) */</span>
-
-    <span class="hljs-attr">splitChunks</span>: {
-      <span class="hljs-attr">cacheGroups</span>: {
-        <span class="hljs-string">&quot;my-name&quot;</span>: {
-          <span class="hljs-comment">// define groups of modules with specific</span>
-          <span class="hljs-comment">// caching behavior</span>
-          <span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.sass$/</span>,
-          type: <span class="hljs-string">&quot;css/mini-extract&quot;</span>,
-
-          <span class="hljs-comment">/* Advanced selectors (click to show) */</span>
-
-          <span class="hljs-comment">/* Advanced effects (click to show) */</span>
-        }
-      },
-
-      <span class="hljs-attr">fallbackCacheGroup</span>: { <span class="hljs-comment">/* Advanced (click to show) */</span> }
-
-      <span class="hljs-comment">/* Advanced selectors (click to show) */</span>
-
-      <span class="hljs-comment">/* Advanced effects (click to show) */</span>
-
-      <span class="hljs-comment">/* Expert settings (click to show) */</span>
-    }
-  },
-  <span class="hljs-comment">/* Advanced configuration (click to show) */</span>
-  <span class="hljs-comment">/* Advanced caching configuration (click to show) */</span>
-  <span class="hljs-comment">/* Advanced build configuration (click to show) */</span>
-}
-</div></code></pre>
-
-        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
         
     </body>
     </html>

@@ -1,292 +1,95 @@
 # config
-```js
-const path = require('path');
 
-module.exports = {
-  name: "my-config", // name of the configuration, shown in output
-  mode: "production", // "production" | "development" | "none"
-  // Chosen mode tells webpack to use its built-in optimizations accordingly.
-  entry: "./app/entry", // string | object | array
-  // defaults to ./src
-  // 打包时从这里开始。
-  output: {
-    // options related to how webpack emits results
-    path:path.resolve(__dirname, "dist"), // string (default)
-    // the target directory for all output files
-    // must be an absolute path (use the Node.js path module)
-    filename: "[name].js", // string (default)
-    // the filename template for entry chunks
-    publicPath: "/assets/", // string
-    // the url to the output directory resolved relative to the HTML page
-    library: { // There is also an old syntax for this available (click to show)
-      type: "umd", // universal module definition
-      // the type of the exported library
-      name: "MyLibrary", // string | string[]
-      // the name of the exported library
+## configuration language
+- js (cjs)          推荐
+- ts  
+- coffeescript  
+- babel / jsx       会被转化为json
 
-      /* Advanced output.library configuration (click to show) */
-    },
-    uniqueName: "my-application", // (defaults to package.json "name")
-    // unique name for this build to avoid conflicts with other builds in the same HTML
-    /* Advanced output configuration (click to show) */
-    /* Expert output configuration 1 (on own risk) */
-    /* Expert output configuration 2 (on own risk) */
-  },
-  module: {
-    // configuration regarding modules
-    rules: [
-      // rules for modules (configure loaders, parser options, etc.)
-      {
-        // Conditions:
-        test: /\.jsx?$/,
-        include: [
-          path.resolve(__dirname, "app")
-        ],
-        exclude: [
-          path.resolve(__dirname, "app/demo-files")
-        ],
-        // these are matching conditions, each accepting a regular expression or string
-        // test and include have the same behavior, both must be matched
-        // exclude must not be matched (takes preferrence over test and include)
-        // Best practices:
-        // - Use RegExp only in test and for filename matching
-        // - Use arrays of absolute paths in include and exclude to match the full path
-        // - Try to avoid exclude and prefer include
-        // Each condition can also receive an object with "and", "or" or "not" properties
-        // which are an array of conditions.
-        // 不会issue
-        issuer: /\.css$/,
-        issuer: path.resolve(__dirname, "app"),
-        issuer: { and: [ /\.css$/, path.resolve(__dirname, "app") ] },
-        issuer: { or: [ /\.css$/, path.resolve(__dirname, "app") ] },
-        issuer: { not: [ /\.css$/ ] },
-        issuer: [ /\.css$/, path.resolve(__dirname, "app") ], // like "or"
-        // conditions for the issuer (the origin of the import)
-        /* Advanced conditions (click to show) */
+## configuration types
+配置文件的形式：  
+- 输出一个返回对象的方法。该方法的参数是env、argv  `(env, argc) => object`  
+- 输出一个返回promise的方法。  `() => Promise<object>`  
+- 多个配置文件。需要处理好：
+  - 依赖关系。  `dependencies:['moduleName']`
+  - 最大同时打包数量。  `module.exports.parallelism = 1`  
 
-        // Actions:
-        loader: "babel-loader",
-        // the loader which should be applied, it'll be resolved relative to the context
-        options: {
-          presets: ["es2015"]
-        },
-        // options for the loader
-        use: [
-          // apply multiple loaders and options instead
-          "htmllint-loader",
-          {
-            loader: "html-loader",
-            options: {
-              // ...
-            }
-          }
-        ],
-        type: "javascript/auto",
-        // specifies the module type
-        /* Advanced actions (click to show) */
-      },
-      {
-        oneOf: [
-          // ... (rules)
-        ]
-        // only use one of these nested rules
-      },
-      {
-        // ... (conditions)
-        rules: [
-          // ... (rules)
-        ]
-        // use all of these nested rules (combine with conditions to be useful)
-      },
-    ],
-    /* Advanced module configuration (click to show) */
-  },
-  resolve: { // 解决模块的引入选项。不能解决引入的loader
-    modules: ["node_modules",path.resolve(__dirname, "app")],
-    // directories where to look for modules (in order)
-    extensions: [".js", ".json", ".jsx", ".css"],
-    // extensions that are used
-    alias: {
-      // a list of module name aliases
-      // aliases are imported relative to the current context
-      "module": "new-module",
-      // alias "module" -> "new-module" and "module/path/file" -> "new-module/path/file"
-      "only-module$": "new-module",
-      // alias "only-module" -> "new-module", but not "only-module/path/file" -> "new-module/path/file"
-      "module": path.resolve(__dirname, "app/third/module.js"),
-      // alias "module" -> "./app/third/module.js" and "module/file" results in error
-      "module": path.resolve(__dirname, "app/third"),
-      // alias "module" -> "./app/third" and "module/file" -> "./app/third/file"
-      [path.resolve(__dirname, "app/module.js")]: path.resolve(__dirname, "app/alternative-module.js"),
-      // alias "./app/module.js" -> "./app/alternative-module.js"
-    },
-    /* Alternative alias syntax (click to show) */
-    /* Advanced resolve configuration (click to show) */
-    /* Expert resolve configuration (click to show) */
-  },
-  performance: {
-    hints: "warning", // enum
-    maxAssetSize: 200000, // int (in bytes),
-    maxEntrypointSize: 400000, // int (in bytes)
-    assetFilter: function(assetFilename) {
-      // Function predicate that provides asset filenames
-      return assetFilename.endsWith('.css') || assetFilename.endsWith('.js');
-    }
-  },
-  devtool: "source-map", // enum
-  // enhance debugging by adding meta info for the browser devtools
-  // source-map most detailed at the expense of build speed.
-  context: __dirname, // string (absolute path!)
-  // the home directory for webpack
-  // the entry and module.rules.loader option
-  //   is resolved relative to this directory
-  target: "web", // enum
-  // the environment in which the bundle should run
-  // changes chunk loading behavior, available external modules
-  // and generated code style
-  externals: ["react", /^@angular/],
-  // Don't follow/bundle these modules, but request them at runtime from the environment
-  externalsType: "var", // (defaults to output.library.type)
-  // Type of externals, when not specified inline in externals
-  externalsPresets: { /* ... */ },
-  // presets of externals
-  ignoreWarnings: [/warning/],
-  stats: "errors-only",
-  stats: {
-    // lets you precisely control what bundle information gets displayed
-    preset: "errors-only",
-    // A stats preset
+## entry and context
+context使用绝对路径定义entry的相对目录。  
 
-    /* Advanced global settings (click to show) */
+## mode
+`string = 'production': 'none' | 'development' | 'production' `
 
-    env: true,
-    // include value of --env in the output
-    outputPath: true,
-    // include absolute output path in the output
-    publicPath: true,
-    // include public path in the output
+## output
+|options|说明|type|default|||
+|-|-|-|-|-|-|
+|assetModuleFilename|为asset module设置打包后的名字|string|`'[hash][ext][query]'`|||
+|asyncChunks|明确（强制）使用异步加载模块|boolean|true|||
+|auxiliaryComment|设置输出时的注释|||||
+|charset|告诉wp为`<script>`标签添加`charset="utf-8"`|boolean|true|||
+|chunkFilename|指定模块的名字|string|`'[id].js'`|优先级小于`output.filename`||
+|chunkFormat|指定模块的规范|string|`'array-push' (web/webworker) | 'commonjs' | 'module' | <any string>`|||
+|chunkLoadTimeout|请求过期的毫秒值|number|12000 (ms)|||
+|chunkLoadingGlobal|wp加载模块时的全局变量|string|-|||
+|chunkLoading|加载模块的方式|string|`'jsonp' (default) (web) | 'import-scripts' (webworker) | 'require' (sync node) | 'async-node' (async node) | 'import' (esm) | <any string>`|`'jsonp'`||
+|clean|是否清除以前的打包结果|boolean|-|5.20.0+||
+|clean.dry||||||
+|clean.keep||||||
+|compareBeforeEmit|是否比对已经打包好的内容|boolean|true|||
+|crossOriginLoading|只工作在target=web时。使用jsonp加载。|boolean / string|false|'use-credentials' / 'anonymous'||
+|devtoolFallbackModuleFilenameTemplate||||||
+|devtoolModuleFilenameTemplate||||||
+|devtoolNamespace|devtoolModuleFilenameTemplate的模块的全名空间|||||
+|enabledChunkLoadingTypes||||||
+|enabledLibraryTypes|可以用于入口的包的书写规范。|string|-|||
+|enabledWasmLoadingTypes|为入口文件设置wasm loading type|string||||
+|environment||||||
+|filename|为每个出口文件定义名字|string|-|`[fullhash] [id] [name] [chunkhash] [ontenthash] ...`||
+|globalObject|当libraryTarget=umd时，定义全局变量对象|string|'self'|||
+|hashDigest|指定使用哪种hash|string|'hex'|||
+|hashDigsetLength|hash的长度|number|20|||
+|hashFunction|指定hash算法|string|md4|||
+|hashSalt||||||
+|hotUpdateChunkFilename|热更新的chunk文件名|string|`'[id].[fullhash].hot-update.js'`|||
+|hotUpdateGlobal|只在target为web时有效。使用jsonp方式异步加载。|string||||
+|hotUpdateMainFilename|自定义热更新文件名|string|`'[runtime].[fullhash].hot-update.json'`|||
+|iife|是否使用iife方法包裹|boolean|true|||
+|importFuntionName|引入代码的方法|string|`'import'`|||
+|library|打包为库的输出|string / string[] / object||||
+|library.name||||||
+|library.type|string|'var'|'module', 'assign', 'assign-properties', 'this', 'window', 'self', 'global', 'commonjs', 'commonjs2', 'commonjs-module', 'commonjs-static', 'amd', 'amd-require', 'umd', 'umd2', 'jsonp' and 'system',|||
+|output.export|指定输出点|string / string[]|-|`['default', 'subModule']`||
+|output.libray.auxiliaryComment||||||
+|output.library.umdNamedDefine|（好像与amd/umd有关）|||||
+|output.path|指定输出的绝对路径|string|`path.join(process.cwd(), 'dist')`|||
+|pathinfo|是否把模块的信息包含在打包结果中。|boolean/string|true / 'verbose'||不要在生产时使用|
+|publicPath|指定公开路径。浏览器可访问的路径。|function / string|当target是web/webworker时，默认为'auto'|||
+|scriptType|为script标签设置type属性。用于自定义异步加载脚本|string/boolean|'module'|'text/javascript' / false||
+|sourceMapFilename|指定source map文件的名字。|string|`'[file].map[query]'`|`[name], [id], [fullhash], [chunkhash]`||
+|sourcePrefix|定义在chunk块中每一行的前缀|string|''|||
+|strictModuleErrorHandling||||||
+|trustedTypes||||||
+|uniqueName|用于避免全局冲突|string||||
+|wasmLoading|指定加载wasm模块的方法。|boolean / string|false / 'fetch'(web/webworker) / 'async-node'|||
+|workerChunkLoading|指定加载working的方法|string / boolean|'require' / 'import-scripts' / 'async-node' / 'import' / 'universal'/ false|||
+|assetModuleFilename||||||
+|assetModuleFilename||||||
+|assetModuleFilename||||||
+|assetModuleFilename||||||
 
-    assets: true,
-    // show list of assets in output
-    /* Advanced assets settings (click to show) */
 
-    entrypoints: true,
-    // show entrypoints list
-    chunkGroups: true,
-    // show named chunk group list
-    /* Advanced chunk group settings (click to show) */
 
-    chunks: true,
-    // show list of chunks in output
-    /* Advanced chunk group settings (click to show) */
 
-    modules: true,
-    // show list of modules in output
-    /* Advanced module settings (click to show) */
-    /* Expert module settings (click to show) */
 
-    /* Advanced optimization settings (click to show) */
-
-    children: true,
-    // show stats for child compilations
-
-    logging: true,
-    // show logging in output
-    loggingDebug: /webpack/,
-    // show debug type logging for some loggers
-    loggingTrace: true,
-    // show stack traces for warnings and errors in logging output
-
-    warnings: true,
-    // show warnings
-
-    errors: true,
-    // show errors
-    errorDetails: true,
-    // show details for errors
-    errorStack: true,
-    // show internal stack trace for errors
-    moduleTrace: true,
-    // show module trace for errors
-    // (why was causing module referenced)
-
-    builtAt: true,
-    // show timestamp in summary
-    errorsCount: true,
-    // show errors count in summary
-    warningsCount: true,
-    // show warnings count in summary
-    timings: true,
-    // show build timing in summary
-    version: true,
-    // show webpack version in summary
-    hash: true,
-    // show build hash in summary
-  },
-  devServer: {
-    proxy: { // proxy URLs to backend development server
-      '/api': 'http://localhost:3000'
-    },
-    static: path.join(__dirname, 'public'), // boolean | string | array | object, static file location
-    compress: true, // enable gzip compression
-    historyApiFallback: true, // true for index.html upon 404, object for multiple paths
-    hot: true, // hot module replacement. Depends on HotModuleReplacementPlugin
-    https: false, // true for self-signed, object for cert authority
-    // ...
-  },
-  experiments: {
-    asyncWebAssembly: true,
-    // WebAssembly as async module (Proposal)
-    syncWebAssembly: true,
-    // WebAssembly as sync module (deprecated)
-    outputModule: true,
-    // Allow to output ESM
-    topLevelAwait: true,
-    // Allow to use await on module evaluation (Proposal)
-  },
-  plugins: [
-    // ...
-  ],
-  // list of additional plugins
-  optimization: {
-    chunkIds: "size",
-    // method of generating ids for chunks
-    moduleIds: "size",
-    // method of generating ids for modules
-    mangleExports: "size",
-    // rename export names to shorter names
-    minimize: true,
-    // minimize the output files
-    minimizer: [new CssMinimizer(), "..."],
-    // minimizers to use for the output files
-
-    /* Advanced optimizations (click to show) */
-
-    splitChunks: {
-      cacheGroups: {
-        "my-name": {
-          // define groups of modules with specific
-          // caching behavior
-          test: /\.sass$/,
-          type: "css/mini-extract",
-
-          /* Advanced selectors (click to show) */
-
-          /* Advanced effects (click to show) */
-        }
-      },
-
-      fallbackCacheGroup: { /* Advanced (click to show) */ }
-
-      /* Advanced selectors (click to show) */
-
-      /* Advanced effects (click to show) */
-
-      /* Expert settings (click to show) */
-    }
-  },
-  /* Advanced configuration (click to show) */
-  /* Advanced caching configuration (click to show) */
-  /* Advanced build configuration (click to show) */
-}
-```
+## title
+## title
+## title
+## title
+## title
+## title
+## title
+## title
+## title
+## title
+## title
+## title

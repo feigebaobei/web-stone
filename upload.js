@@ -244,7 +244,9 @@ c.on('ready', () => {
         }
         // let p = 'language/webassembly'
         let p = [
-            'jsPackages/sql.js.html',
+            // 'jsPackages/sql.js.html',
+            // 'code/codeRule.html',
+            // 'code/index.html',
         ]
         // 检测指定目录是否存在
         // checkDir(p)

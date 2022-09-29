@@ -27,9 +27,9 @@ const SQL = await initSqlJs({
     locateFile: file => `https://sql.js.org/dist/${file}`
 }) // init
 const db = new SQL.Database() // 创建数据库
-let sqlstr = 'CREATE TABLE hello (a int, b char); \
+let sqlstr = "CREATE TABLE hello (a int, b char); \
 INSERT INTO hello VALUES (0, 'hello'); \
-INSERT INTO hello VALUES (1, 'world');'
+INSERT INTO hello VALUES (1, 'world');" // 必须要有引号
 db.run(sqlstr) // 执行
 const stmt = db.prepare('SELELCT * FROM hello WHERE a=:aval AND b=:bval')
 const result = stmt.getAsObject({':aval': 1, ':bval': 'world'}) // {a: 1, b: 'world'}

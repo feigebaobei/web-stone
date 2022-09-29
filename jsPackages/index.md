@@ -22,7 +22,7 @@
 - [sql.js](/jsPackages/sql.js.html)
 - [lath](/jsPackages/lath.html)
 - [html-server](/jsPackages/html-server.html)
-- [title](/jsPackages/title.html)
+- [node-schedule](/jsPackages/node-schedule.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
