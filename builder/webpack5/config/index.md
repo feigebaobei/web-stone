@@ -23,7 +23,7 @@ context使用绝对路径定义entry的相对目录。
 ## output
 |options|说明|type|default|||
 |-|-|-|-|-|-|
-|assetModuleFilename|为asset module设置打包后的名字|string|`'[hash][ext][query]'`|||
+|assetModuleFilename|为asset module设置打包后的名字。只能工作在`rule.type : 'asset' | 'asset/resource'`时。|string|`'[hash][ext][query]'`|||
 |asyncChunks|明确（强制）使用异步加载模块|boolean|true|||
 |auxiliaryComment|设置输出时的注释|||||
 |charset|告诉wp为`<script>`标签添加`charset="utf-8"`|boolean|true|||
@@ -72,17 +72,85 @@ context使用绝对路径定义entry的相对目录。
 |uniqueName|用于避免全局冲突|string||||
 |wasmLoading|指定加载wasm模块的方法。|boolean / string|false / 'fetch'(web/webworker) / 'async-node'|||
 |workerChunkLoading|指定加载working的方法|string / boolean|'require' / 'import-scripts' / 'async-node' / 'import' / 'universal'/ false|||
-|assetModuleFilename||||||
-|assetModuleFilename||||||
-|assetModuleFilename||||||
-|assetModuleFilename||||||
+
+## Module
+定义如何对待不同类型的module
+
+|module的选项|说明|type|default|||
+|-|-|-|-|-|-|
+|generator|控制所有的生产选项|||||
+|generator.dataUrl|指定生产ur的方法|object / function|`{ encoding string = 'base64' | false, mimetype string = undefined | false } function (content, { filename, module }) => string`|||
+|generator.emit||||||
+|generator.filename||||||
+|generator.publicPath|为资源设置自定义的publicPath|string / function||||
+|generator.outputPath||||||
+|parser|控制所有的解析选项|||||
+|parser.javascript|指定如何解析js|||||
+|parser.javascript.commonjsMagicCommonts|是否支持逻辑注释。（wp写的）|||||
+|parser.javascript.dynamicImportMode|为动态引入指定全局的模式属性|string|'eager' / 'weak' / 'lazy' / 'lazy-once'|||
+|parser.javascript.dynamicImportPrefetch|为动态引入指定全局的prefetch|number / boolean||||
+|parser.javascript.dynamicImportPreload|为动态引入指定全局的preload|||||
+|parser.javascript.exportsPresence|当遇到非法的输出名字是如何提示信息。作用于import/exports|string / boolean|'error' / 'warn' / 'auto' / false|||
+|parser.javascript.importExportsPresence|作用于import|||||
+|parser.javascript.importMeta|是否可以使用`import.meta`|||||
+|parser.javascript.importMetaContext|是否可以使用`import.meta.webpackContext`|||||
+|parser.javascript.reexportExportsPresence||||||
+|parser.javascript.url|是否解析`new URL()`|boolean / string|true / 'relative'|||
+|parser.amd|||||
+|parser.commonjs|||||
+|parser.system|||||
+|parser.harmony|不会||||
+|parser.requireInclude|是否可使用require.include||||
+|parser.requireEnsure|||||
+|parser.requireContext|||||
+|parser.browserify|||||
+|parser.requireJs|是否可使用requirejs.*||||
+|parser.node|||||
+|parser.commonjsMagicComments|||||
+|parser.node: {....}|||||
+|parser.worker|||||
+|parser.dataUrlCondition|若小于maxSize，则使用base64编码放在原来的文件中，否则创建一个相应的文件放在输出目录中。|object / function(source, {filename, module} => boolean)|{maxSize: 8096}|这个数比较奇怪。4096、8192|
+|noParse|指定不解析的部分。（一般该部分没有引入东西，import/require/...）|RegExp / function(resource) / string||`noParse: /jquery|lodash/`||
+|unsafeCache|指定如何处理缓存|boolean/ function(module)||||
+|rules|处理模块的规则。可包括：loader/parser/...|{}[]||||
+||rule.enforce|不会||||
+||rule.exclude|不能与rule.resource一起使用。||||
+||rule.include|不能与rule.resource一起使用。||||
+||rule.issuer|||||
+||rule.issuerLayer|||||
+||rule.layer|||||
+||rule.loader|指定loader|string / string[]|||
+||rule.mimetype|||||
+||rule.oneOf|任一匹配规则||||
+||rule.resource|匹配规则||||
+||rule.resourceQuery|||||
+||rule.scheme|||||
+||rule.sideEffects|||||
+||rule.test|匹配断言。不能与rule.resource一起使用|string / regexp / function / condition[] / object: {add?: condition, or?: condition, not?: condition}|||
+||rule.type|指定文件类型|string|`'javascript/auto' | 'javascript/dynamic' | 'javascript/esm' | 'json' | 'webassembly/sync' | 'webassembly/async' | 'asset' | 'asset/source' | 'asset/resource' | 'asset/inline'`||
+||rule.use|指定loader||||
+||rule.resolve|||||
+||rule.resolve.fullySpecified|||||
+
+rule conditions  
+- resource  资源  
+- issuer    发起者  
+
+rule results  
+只对满足rule conditions的文件处理。  
+- 调用loader  
+- 使用解析  
+
+nested rule 
+其下包括rules/oneof  
+当满足parent rule时执行  
+- the parent rule  
+- rules  
+- oneof  
+
+## resolve
 
 
-
-
-
-## title
-## title
 ## title
 ## title
 ## title
