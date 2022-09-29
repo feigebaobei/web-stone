@@ -244,9 +244,12 @@ c.on('ready', () => {
         }
         // let p = 'language/webassembly'
         let p = [
+            'language/javascript/index.html',
             // 'jsPackages/sql.js.html',
-            // 'code/codeRule.html',
+            // 'jsPackages/node-schedule.html',
+            // 'builder/index.html',
             // 'code/index.html',
+            // 'builder/webpack5/config/index.html',
         ]
         // 检测指定目录是否存在
         // checkDir(p)
