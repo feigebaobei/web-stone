@@ -40,13 +40,19 @@ separator，分隔符。
 
     newd.push('a'); // 5 
 
-**reverse()** 把指定数组排倒序  
-
-    newd.reverse(); // ['a', 4, 3, 2, 1]
-
 **shift()** 返回并删除指定数组的第一个元素  
 
     newd.shift(); // 'a'
+
+**unshift(item0, item1, ...)** 在数组的头部添加若干个元素,并返回新的长度。   
+
+    f.unshift(0,1,2); // 6
+
+添加时返回新的长度，删除时返回被删除的元素。都会改变原数组。  
+
+**reverse()** 把指定数组排倒序  
+
+    newd.reverse(); // ['a', 4, 3, 2, 1]
 
 **slice(start, end)** 返回指定数组的选定部分  
 start，必填。
@@ -84,10 +90,6 @@ item0,...，非必填。
 **toLocaleString()** 返回由指定数组转化的本地字符串。不改变原数组。  
 
     f.toLocaleString(); // '1,2,a,8'
-
-**unshift(item0, item1, ...)** 在数组的头部添加若干个元素,并返回新的长度。   
-
-    f.unshift(0,1,2); // 6
 
 **valueOf()** 返回指定数据  
 
@@ -220,8 +222,12 @@ end 选填。结束的位置。不包含这个位置。
         console.log(key)
     }
 
-**copyWithin(target, start = 0, end = this.length)** 将数组内部指定位置的成员复制到其它位置（会覆盖原有成员）。不会改变数组长度.  
+**copyWithin(target, start? = 0, end? = this.length)** 将数组内部指定位置的成员复制到其它位置（会覆盖原有成员）。不会改变数组长度.  
+target  开始覆盖的下标
+start   开始复制的下标
+end     结束复制的下标
 
+    console.log([1, 2, 3, 4, 5].copyWithin(-2, -3, -1)); // [1, 2, 3, 3, 4]
 
 **includes(value, start)** 数组中是否包含给定的值。  
 
@@ -261,4 +267,4 @@ Array.from(obj, mapFn, thisArg) <=> Array.from(obj).map(mapFn, thisArg)
     console.log(arr1.flat()); // [0, 1, 2, 3, 4]
 
 
-## TypedArray
+## [TypedArray](/language/javascript/typedArray.html)

@@ -245,6 +245,7 @@ c.on('ready', () => {
         // let p = 'language/webassembly'
         let p = [
             'language/javascript/index.html',
+            'language/javascript/array.html',
             // 'jsPackages/sql.js.html',
             // 'jsPackages/node-schedule.html',
             // 'builder/index.html',

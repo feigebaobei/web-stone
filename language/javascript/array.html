@@ -27,6 +27,41 @@
 	color: var(--vscode-editorError-foreground);
 }
 
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
 </style>
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
@@ -77,11 +112,15 @@ var joinStr = d.join('ok'); // &quot;1ok2ok3ok4&quot;</p>
 <p><strong>push()</strong> 在数组的末尾添加新元素并返回数组的新长度</p>
 <pre><code>newd.push('a'); // 5 
 </code></pre>
-<p><strong>reverse()</strong> 把指定数组排倒序</p>
-<pre><code>newd.reverse(); // ['a', 4, 3, 2, 1]
-</code></pre>
 <p><strong>shift()</strong> 返回并删除指定数组的第一个元素</p>
 <pre><code>newd.shift(); // 'a'
+</code></pre>
+<p><strong>unshift(item0, item1, ...)</strong> 在数组的头部添加若干个元素,并返回新的长度。</p>
+<pre><code>f.unshift(0,1,2); // 6
+</code></pre>
+<p>添加时返回新的长度，删除时返回被删除的元素。都会改变原数组。</p>
+<p><strong>reverse()</strong> 把指定数组排倒序</p>
+<pre><code>newd.reverse(); // ['a', 4, 3, 2, 1]
 </code></pre>
 <p><strong>slice(start, end)</strong> 返回指定数组的选定部分<br>
 start，必填。
@@ -129,9 +168,6 @@ item0,...，非必填。</p>
 </code></pre>
 <p><strong>toLocaleString()</strong> 返回由指定数组转化的本地字符串。不改变原数组。</p>
 <pre><code>f.toLocaleString(); // '1,2,a,8'
-</code></pre>
-<p><strong>unshift(item0, item1, ...)</strong> 在数组的头部添加若干个元素,并返回新的长度。</p>
-<pre><code>f.unshift(0,1,2); // 6
 </code></pre>
 <p><strong>valueOf()</strong> 返回指定数据</p>
 <pre><code>f.valueOf(); // [0,1,2,1,2,'a',8]
@@ -243,7 +279,12 @@ for ( let [key, value] of arr.entries()) {
     console.log(key)
 }
 </code></pre>
-<p><strong>copyWithin(target, start = 0, end = this.length)</strong> 将数组内部指定位置的成员复制到其它位置（会覆盖原有成员）。不会改变数组长度.</p>
+<p><strong>copyWithin(target, start? = 0, end? = this.length)</strong> 将数组内部指定位置的成员复制到其它位置（会覆盖原有成员）。不会改变数组长度.<br>
+target  开始覆盖的下标
+start   开始复制的下标
+end     结束复制的下标</p>
+<pre><code>console.log([1, 2, 3, 4, 5].copyWithin(-2, -3, -1)); // [1, 2, 3, 3, 4]
+</code></pre>
 <p><strong>includes(value, start)</strong> 数组中是否包含给定的值。</p>
 <pre><code>arr.includes('3') // true,
 arr.includes(9) // false,
@@ -273,7 +314,7 @@ Array.from({length: 5}, (item, index) =&gt; index) // [0, 1, 2, 3, 4]
 <pre><code>const arr1 = [0, 1, 2, [3, 4]];
 console.log(arr1.flat()); // [0, 1, 2, 3, 4]
 </code></pre>
-<h2 id="typedarray">TypedArray</h2>
+<h2 id="typedarray"><a href="/language/javascript/typedArray.html">TypedArray</a></h2>
 
         
         
