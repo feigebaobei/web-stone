@@ -693,7 +693,7 @@ description
 |html-webpack-plugin||||||
 |webpackmanifestplugin||||||
 |workbox-webpack-plugin|||||搞清它是如何工作的|
-|pluginname||||||
+|SplitChunksPlugin|代码分割|||||
 |pluginname||||||
 |pluginname||||||
 |pluginname||||||

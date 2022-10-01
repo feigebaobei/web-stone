@@ -186,7 +186,43 @@ nested rule
 Module定义解决项目内自己写的代码的方法。  
 Resolve定义解决nodemodule里的代码的方法。
 
-## title
+## Optimization
+设置优化选项。  
+依赖mode选项设置此字段。  
+需要手动设置  
+
+|optimization的选项|说明|type|default|||
+|-|-|-|-|-|-|
+|chunkIds|设置计算chunkId的算法。若为false则使用内置的算法。|boolean / string|false|`boolean = false string: 'natural'(按使用的顺序依次增加) | 'named'（可读性好） | 'size'（init时的大小） | 'total-size'（总共的下载大小） | 'deterministic'（在未改变文件时不改变numeric ids，对于较长时间缓存好。一般在生产环境不使用）`||
+|concatenateModules|依赖于optimization.providedExports和optimization.usedExports。告诉wp去发现模块图的片段，连接成一个。在生产环境中使用。|boolean||||
+|emitOnErrors|在编译时出错是否抛出错误|boolean|false|||
+|flagIncludedChunks|是否标记chunk做为别的chunks的子集。在生产环境中使用。|boolean||||
+|innerGraph|是否为没用到的输出执行内部图分析|boolean|true|||
+|mangleExports|在生产时使用|boolean / string||||
+|mangleWasmImports|减小wasm的大小|boolean|false|||
+|mergeDuplicateChunks|是否合并相同的chunk|boolean|true|||
+|minimize|是否使用压缩代码。|boolean|true|||
+|minimizer|设置压缩插件|`[TerserPlugin] and or [function (compiler)]`||||
+|moduleIds|与chunkIds差不多|||||
+|nodeEnv|设置`process.env.NODE_ENV`|boolean / string||||
+|portableRecords|不会|boolean||||
+|providedExports|是否`export * from ...`|boolean||||
+|realContentHash|是否添加hash|boolean|true|||
+|removeAvailableModules|当在所有的父级是存在时，是否移除modules。默认只在生产时使用。|boolean|false|||
+|removeEmptyChunks|当chunk是空时，是否删除。|boolean|true|||
+|runtimeChunk|不会|object / string / boolean||||
+|sideEffects|-|boolean / string||||
+|splitChunks|不会|||||
+|usedExports|依赖providedExports。指定每个模板的输出。用于优化和代码生成。如：不生成无用输出。最小化死代码。|||||
+|chunkIds||||||
+|chunkIds||||||
+|chunkIds||||||
+|chunkIds||||||
+|chunkIds||||||
+|chunkIds||||||
+
+
+
 ## title
 ## title
 ## title

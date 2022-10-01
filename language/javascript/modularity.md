@@ -150,6 +150,8 @@ export class C extends Super {
 let a, b, other;
 export { a, b, other as c };
 export default 1 + 2 + 3 + more();
+export * from xxx                   // 把xxx中的非default全部导出
+export {default as alias} from xxx  // 把xxx中的default以alias导出
 ```
 
 ## 指明包规范
