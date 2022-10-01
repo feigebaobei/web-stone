@@ -214,18 +214,19 @@ Resolve定义解决nodemodule里的代码的方法。
 |sideEffects|-|boolean / string||||
 |splitChunks|不会|||||
 |usedExports|依赖providedExports。指定每个模板的输出。用于优化和代码生成。如：不生成无用输出。最小化死代码。|||||
-|chunkIds||||||
-|chunkIds||||||
-|chunkIds||||||
-|chunkIds||||||
-|chunkIds||||||
-|chunkIds||||||
+
+## plugins
+wp打包时使用的插件。  
+内置插件是`webpack.[pluginName]`  
+
+|plugins的选项(类型是`[Plugin]`)|说明|type|default|||
+|-|-|-|-|-|-|
+|||||||
+
+## devServer
 
 
-
-## title
-## title
-## title
+## cache
 ## title
 ## title
 ## title
