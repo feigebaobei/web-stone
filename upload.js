@@ -244,10 +244,8 @@ c.on('ready', () => {
         }
         // let p = 'language/toml'
         let p = [
-            'language/javascript/index.html',
-            'language/javascript/array.html',
-            'language/toml/array.html',
-            'builder/webpack5/config/index.html',
+            // 'language/css/sticky/index.html',
+            // 'language/toml/index.html',
         ]
         // 检测指定目录是否存在
         // checkDir(p)

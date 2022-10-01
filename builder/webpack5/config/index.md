@@ -149,9 +149,43 @@ nested rule
 - oneof  
 
 ## resolve
+设置wp如何解决自己写的modules  
+一般使用默认的。  
+有好多为package.json的字段设置的选项。真要是都用上，说明这个包写的太不规范了。若把包写规范了。不用上这些字段。  
 
+|resolve的选项|说明|type|default|||
+|-|-|-|-|-|-|
+|alias|别名，指定绝对路径||||与esbuild中的define差不多|
+|aliasFields||||||
+|cacheWithContext|是否使用缓存|boolean||||
+|conditionNames|定义为exports字段设置|string[]|-|`resolve.conditionNames: ['require', 'node']`||
+|descriptionFiles|指定说明文件。一般默认为package.json|string[]||||
+|enforceExtension|是否使用严格扩展名|boolean|false||false更方便一点|
+|extensionAlias|为扩展名定义别名。|object|||别名这个东西有多方便就有多烦锁|
+|extensions|可扩展名。当引入的文件名中没有扩展名时从此字段中依次尝试取扩展名。|string[]|`['.js', '.json', '.wasm']`|||
+|fallback|当解析失败是触发|object||||
+|mainFields|主要字段。也是为package.json服务的。|string[]||||
+|mainFiles|当引入目录时，引入的文件。|string[]|`['index']`|||
+|exportsFields|-|||||
+|modules|指定引入的依赖的目录|string[]|`['node_moduels']`|||
+|unsafeCache|指定缓存的内容|RegExp[]/boolean|true|当为true时全缓存。||
+|useSyncFileSystemCalls|是否使用同步方式处理文件系统|boolean|-|||
+|plugins|||||[DirectoryNamedWebpackPlugin](/builder/webpack5/plugin/dirctoryNamedWebpackPlugin.html)|
+|preferRelative|是否使用相对路径代替node_modules目录中的文件路径。|boolean|-|||
+|preferAbsolute||||||
+|symlinks|是否使用本地的软链接|||||
+|cachePredicate|是否使用缓存|||||
+|restrictions|限制。|`string[]/regexp[]`|-|`resolve.restriction: [/\.(sass|scss|css)/]`||
+|roots||||||
+|importsFields|-|||||
+|byDependency|引入模块的选项。|||||
+|resolveLoader||||||
 
-## title
+## module & resolve
+
+Module定义解决项目内自己写的代码的方法。  
+Resolve定义解决nodemodule里的代码的方法。
+
 ## title
 ## title
 ## title

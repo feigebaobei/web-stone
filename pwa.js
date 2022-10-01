@@ -28,26 +28,26 @@ let showInAppInstallPromotion = () => {
 
 // 添加更新按钮
 // 测试通过
-let addUpdateButton = () => {
-    let body = document.querySelector('body')
-    let board = document.createElement('div')
-    let button = document.createElement('button')
-    button.innerText = '强制更新 service worker'
-    let clickButtonHandler = (event) => {
-        console.log('clickButtonHandler', event)
-        navigator.serviceWorker.ready.then((registration) => {
-            console.log('更新了', registration)
-            registration.update()
-        })
+// let addUpdateButton = () => {
+//     let body = document.querySelector('body')
+//     let board = document.createElement('div')
+//     let button = document.createElement('button')
+//     button.innerText = '强制更新 service worker'
+//     let clickButtonHandler = (event) => {
+//         console.log('clickButtonHandler', event)
+//         navigator.serviceWorker.ready.then((registration) => {
+//             console.log('更新了', registration)
+//             registration.update()
+//         })
         
-    }
-    button.addEventListener('click', clickButtonHandler)
-    board.appendChild(button)
-    board.style = {
-        position: 'absolute',
-        right: '15px',
-        bottom: '50px',
-    }
-    body.appendChild(board)
-}
-// addUpdateButton()
+//     }
+//     button.addEventListener('click', clickButtonHandler)
+//     board.appendChild(button)
+//     board.style = {
+//         position: 'absolute',
+//         right: '15px',
+//         bottom: '50px',
+//     }
+//     body.appendChild(board)
+// }
+// // addUpdateButton()

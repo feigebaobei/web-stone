@@ -1,5 +1,5 @@
-const cacheWhiteList = ['v0', 'v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'v9', 'v10', 'v11', 'v12', 'v13', 'v14'] // 设置需要删除的cacheName
-const currentVersion = 'v15'
+const cacheWhiteList = ['v0', 'v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'v9', 'v10', 'v11', 'v12', 'v13', 'v14', 'v15'] // 设置需要删除的cacheName
+const currentVersion = 'v16'
 // const cacheSourceList = []
 const unCacheSourceList = ['/pwa.js']
 const log = console.log
@@ -65,6 +65,12 @@ self.addEventListener('fetch', event => {
             // 从pwa-box中取出默认返回的数据
             return caches.match(event.request) || {code: 0, message: '', data: {}}
         })
+
+        // 优先使用本地中缓存数据，其次使用网络请求。
+        // 待测试
+        // caches.open(currentVersion).then(cacheData => {
+        //    xxx 
+        // })
     )
 })
 

@@ -17,7 +17,7 @@ flex布局也被称为弹性布局。它在一维空间上设置元素位置/大
 ## [grid](/language/css/grid/index.html)
 也被称为网格布局，它是在二维空间上设置元素位置/大小。比flex较难。需要父/子元素共同设置指定样式属性才能实现效果。
 
-## 浮云布局
+## 浮动布局
 ```
 float: none | left | right | inherit
 ```
@@ -34,8 +34,7 @@ position: static | relative | absolute | fixed | sticky
 |absolute|相对于最近的非静态定位的父元素定位。会脱离文档流。|||
 |fixed|相对于浏览器视口定位。|||
 
-### [sticky](/css/sticky/index.html)
-粘性布局  
+### [sticky 粘性布局](/language//css/sticky/index.html)
 
 ## 静态布局
 就是为指定元素设置指定的值（大小/位置）。如：

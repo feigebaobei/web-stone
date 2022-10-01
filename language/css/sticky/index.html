@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>&#x5e03;&#x5c40;</title>
+        <title>sticky</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -79,147 +79,26 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="布局">布局</h1>
-<p>常见的布局类型：</p>
+        <h1 id="sticky">sticky</h1>
+<h2 id="overview">overview</h2>
+<blockquote>
+<p>相当于介于relative/fixed之间的布局方式。</p>
+</blockquote>
+<h3 id="要求">要求</h3>
 <ul>
-<li>正常布局流 使用默认样式</li>
-<li>display  使用指定的默认样式</li>
-<li>flex 弹性布局 线性布局 一维布局</li>
-<li>grid         网格布局 二维布局</li>
-<li>浮动布局</li>
-<li>定位布局</li>
-<li>粘性布局</li>
-<li>静态布局</li>
-<li>自适应布局</li>
-<li>表格布局 使用table定位元素</li>
+<li>父元素不能是<code>overflow: hidden</code> / <code>overflow: auto</code>。这条有问题。</li>
+<li>必须设置<code>top / right / bottom / left</code>至少一个。</li>
+<li>父元素的宽度（高度）必须大于sticky元素的宽度（高度）。为了可以滚动。</li>
+<li>sticky元素只能在父元素内生效。</li>
 </ul>
-<h2 id="flex"><a href="/language/css/flex/index.html">flex</a></h2>
-<p>flex布局也被称为弹性布局。它在一维空间上设置元素位置/大小。当前浏览器已经普遍支持。需要父/子元素共同设置指定样式属性才能实现效果。</p>
-<h2 id="grid"><a href="/language/css/grid/index.html">grid</a></h2>
-<p>也被称为网格布局，它是在二维空间上设置元素位置/大小。比flex较难。需要父/子元素共同设置指定样式属性才能实现效果。</p>
-<h2 id="浮动布局">浮动布局</h2>
-<pre><code><code><div>float: none | left | right | inherit
-</div></code></code></pre>
-<h2 id="定位布局">定位布局</h2>
-<pre><code><code><div>position: static | relative | absolute | fixed | sticky
-</div></code></code></pre>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>static</td>
-<td>默认定位值</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>relative</td>
-<td>允许我们相对于元素在正常的文档流中的位置移动它。</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>absolute</td>
-<td>相对于最近的非静态定位的父元素定位。会脱离文档流。</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>fixed</td>
-<td>相对于浏览器视口定位。</td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h3 id="sticky-粘性布局"><a href="/language//css/sticky/index.html">sticky 粘性布局</a></h3>
-<h2 id="静态布局">静态布局</h2>
-<p>就是为指定元素设置指定的值（大小/位置）。如：</p>
-<pre><code><code><div>.class {
-    width: 20px;
-    height: 38px;
+<h2 id="usage">usage</h2>
+<h3 id="demo">demo</h3>
+<pre><code class="language-css"><div><span class="hljs-selector-class">.cn</span> {
+    <span class="hljs-attribute">position</span>: sticky;
+    <span class="hljs-attribute">left</span>: <span class="hljs-number">0px</span>;
+    <span class="hljs-attribute">top</span>: <span class="hljs-number">0px</span>;
 }
-</div></code></code></pre>
-<h2 id="浮动布局-1">浮动布局</h2>
-<p>把元素设置为浮动元素。浮动元素会脱离文档流，其父元素无法得到其高度。如：</p>
-<pre><code><code><div>.class {
-    float: left;
-}
-</div></code></code></pre>
-<h2 id="自适应布局">自适应布局</h2>
-<p>因用户端设备较多。需要为每种设备设置相应的样式。自适应布局可使用一套样式代码同时支持多种设备。
-常使用百分比/媒体查询。如：</p>
-<pre><code><code><div>.class {
-    width: 50%;
-}
-@media screen and (max-width: 600px) {
-    .class {
-        width: 100%
-    }
-}
-@media screen and (min-width: 600px) {
-    .class {
-        width: 50%
-    }
-}
-</div></code></code></pre>
-<h2 id="居中">居中</h2>
-<p>水平居中
-text-align: center;</p>
-<p>width: npx;
-margin: 0 auto;</p>
-<p>display: flex;
-justify-content: center;</p>
-<p>竖直居中
-line-height: 100%;
-height: 100%;
-vertical-align: middle;</p>
-<p>display: flex;
-flex-direction: column;
-height: npx;
-justify-content: center</p>
-<p>二列布局</p>
-<pre><code><code><div>.parent {
-    display: flex;
-}
-.child0 {
-    flex-basis: 200px;
-    flex-shrink: 0;
-    background: #274;
-}
-.child1 {
-    flex-basis: 80%;
-    flex-grow: 1;
-    background: #624;
-}
-</div></code></code></pre>
-<p>三列布局</p>
-<pre><code><code><div>.parent {
-    display: flex;
-}
-.child0 {
-    flex-basis: 200px;
-    flex-shrink: 0;
-    background: #274;
-}
-.child1 {
-    flex-basis: 80%;
-    flex-grow: 1;
-    background: #624;
-}
-.child2 {
-    flex-basis: 20%;
-    flex-shrink: 0;
-    background: #725;
-}
-</div></code></code></pre>
+</div></code></pre>
 
         
         

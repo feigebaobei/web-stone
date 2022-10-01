@@ -84,7 +84,7 @@
 <ul>
 <li>(缩写：JS)是一门完备的 动态编程语言。当应用于 HTML 文档时，可为网站提供动态交互特性。由布兰登·艾克（ Brendan Eich，Mozilla 项目、Mozilla 基金会和 Mozilla 公司的联合创始人）发明。</li>
 <li>它是一个面向对象的语言。它比java中的对象更纯粹。js在es5后的有<code>class</code>，也不能说js中有了类。<code>class</code>的本质还是对象（<code>Object</code>）。</li>
-<li>没有继承，有引用。因为没有类，所以没有继承。引用是通过原型链实现引用。</li>
+<li>没有继承，所以没有继承。有引用，没有类，引用是通过原型链实现引用。</li>
 </ul>
 <h1 id="引擎">引擎</h1>
 <ul>
@@ -92,11 +92,11 @@
 <li><a href="/language/javascript/javascriptCore.html">JavascriptCore</a></li>
 </ul>
 <h1 id="名词说明">名词说明</h1>
-<p><strong>动态编程语言</strong>
+<p><strong>动态编程语言</strong><br>
 是指可在运行阶段时执行那些在编译阶段执行的操作的编程语言。比如，在 JavaScript 中， 我们可以在程序运行时改变变量的类型，或者为一个对象增加一个新属性或者方法。<br>
-<strong>对象的属性</strong>
-对象是复杂数据类型（亦称：引用数据类型）。对象的每个key对应的值可以是简单数据类型也可以是复杂数据类型。作者把每个key对应的值都称为属性，不论是简单数据类型还是复杂数据类型。<br>
-<strong>原型对象上的方法</strong>
+<strong>对象的属性</strong><br>
+对象是复杂数据类型（亦称：引用数据类型）。对象的每个key对应的值可以是简单数据类型也可以是复杂数据类型。作者把每个key对应的值都称为属性值，不论是简单数据类型还是复杂数据类型。<br>
+<strong>原型对象上的方法</strong><br>
 prop#method。如：<code>Promise#then</code>。</p>
 <h1 id="数据类型">数据类型</h1>
 <p>String
@@ -107,6 +107,7 @@ undefined
 Object
 Symbol
 BigInt</p>
+<p>typeof命令返回数据类型</p>
 <h1 id="变量">变量</h1>
 <h2 id="var--let--const">var &amp; let &amp; const</h2>
 <table>
@@ -157,12 +158,14 @@ var n = 0 // 定义
 一条链中不能有分支。
 原型链的下游对象可以访问原型链的上游对象的属性。</p>
 <h2 id="new的过程做了什么">new的过程做了什么</h2>
-<p>var a = Object.create(Object)
-a[[prototype]] = Foo.prototype
+<ol>
+<li>var a = Object.create(Object)</li>
+<li>a[[prototype]] = Foo.prototype<br>
 // or
-// a.<strong>proto</strong> = Foo.prototype
-Foo.call(a)
-先创建一个实例，再把实例添加到原型链中。</p>
+// a.<strong>proto</strong> = Foo.prototype</li>
+<li>Foo.call(a)</li>
+<li>先创建一个实例，再把实例添加到原型链中。</li>
+</ol>
 <h1 id="作用域链">作用域链</h1>
 <p>js在宏观上使用函数作用域，同时支持块级作用域。
 函数作用域。。。。

@@ -1,18 +1,18 @@
 # javascript
 - (缩写：JS)是一门完备的 动态编程语言。当应用于 HTML 文档时，可为网站提供动态交互特性。由布兰登·艾克（ Brendan Eich，Mozilla 项目、Mozilla 基金会和 Mozilla 公司的联合创始人）发明。
 - 它是一个面向对象的语言。它比java中的对象更纯粹。js在es5后的有`class`，也不能说js中有了类。`class`的本质还是对象（`Object`）。
-- 没有继承，有引用。因为没有类，所以没有继承。引用是通过原型链实现引用。
+- 没有继承，所以没有继承。有引用，没有类，引用是通过原型链实现引用。
 
 # 引擎
 - [V8](/language/javascript/v8.md)
 - [JavascriptCore](/language/javascript/javascriptCore.md)
 
 # 名词说明
-**动态编程语言**
+**动态编程语言**  
 是指可在运行阶段时执行那些在编译阶段执行的操作的编程语言。比如，在 JavaScript 中， 我们可以在程序运行时改变变量的类型，或者为一个对象增加一个新属性或者方法。  
-**对象的属性**
-对象是复杂数据类型（亦称：引用数据类型）。对象的每个key对应的值可以是简单数据类型也可以是复杂数据类型。作者把每个key对应的值都称为属性，不论是简单数据类型还是复杂数据类型。  
-**原型对象上的方法**
+**对象的属性**  
+对象是复杂数据类型（亦称：引用数据类型）。对象的每个key对应的值可以是简单数据类型也可以是复杂数据类型。作者把每个key对应的值都称为属性值，不论是简单数据类型还是复杂数据类型。  
+**原型对象上的方法**  
 prop#method。如：`Promise#then`。
 
 # 数据类型
@@ -24,6 +24,8 @@ undefined
 Object
 Symbol
 BigInt
+
+typeof命令返回数据类型  
 
 # 变量
 ## var & let & const
@@ -56,12 +58,12 @@ function、var都会触发变量提升。
 原型链的下游对象可以访问原型链的上游对象的属性。
 
 ## new的过程做了什么
-var a = Object.create(Object)
-a[[prototype]] = Foo.prototype
+1. var a = Object.create(Object)  
+2. a[[prototype]] = Foo.prototype  
 // or
 // a.__proto__ = Foo.prototype
-Foo.call(a)
-先创建一个实例，再把实例添加到原型链中。
+3. Foo.call(a)  
+4. 先创建一个实例，再把实例添加到原型链中。  
 
 # 作用域链
 js在宏观上使用函数作用域，同时支持块级作用域。
