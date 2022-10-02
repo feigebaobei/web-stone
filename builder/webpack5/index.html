@@ -769,6 +769,109 @@ watch|w [entries...] [options]         Run webpack and watch for files changes.<
 description</p>
 <p><code>webpack.fn(param, [options: {a: string, b?: number}])</code>
 description</p>
+<h3 id="webpack-dev-server">webpack-dev-server</h3>
+<p>该包为node.js提供了api，可直接使用。</p>
+<h4 id="install-1">install</h4>
+<p><code>npm i -D webpack webpack-dev-server</code></p>
+<h4 id="usage-1">usage</h4>
+<p>在node中使用api</p>
+<pre><code class="language-js"><div><span class="hljs-comment">// server.js</span>
+<span class="hljs-keyword">const</span> Webpack = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;webpack&#x27;</span>)
+<span class="hljs-keyword">const</span> WebpackDevServer = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;webpack-dev-server&#x27;</span>)
+<span class="hljs-keyword">const</span> config = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;./webpack.config.js&#x27;</span>)
+<span class="hljs-keyword">const</span> compiler = webpack(config)
+<span class="hljs-keyword">const</span> devServerOptions = {...config.devServer, <span class="hljs-attr">open</span>: <span class="hljs-literal">true</span>}
+<span class="hljs-keyword">const</span> server = <span class="hljs-keyword">new</span> WebpackDevServer(devServerOptions, compiler)
+cons runServer = <span class="hljs-keyword">async</span> () =&gt; {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;start&#x27;</span>)
+    <span class="hljs-keyword">await</span> server.start()
+}
+runServer()
+</div></code></pre>
+<pre><code class="language-shell"><div>node server.js
+</div></code></pre>
+<p>在cli中使用方法</p>
+<pre><code class="language-shell"><div>npx webpack serve
+</div></code></pre>
+<h4 id="api-1">api</h4>
+<!-- 待完善 -->
+<pre><code class="language-js"><div>WebpackDevServer: {
+    <span class="hljs-title">constructor</span> (<span class="hljs-params">config, compiler</span>) {
+
+    }
+    start()
+}
+</div></code></pre>
+<table>
+<thead>
+<tr>
+<th>webpackDevServer的实例的属性</th>
+<th>说明</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>start()</td>
+<td>启动服务</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>startCallback(cb)</td>
+<td>启动后回调</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>stop()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>stopCallback(cb)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>internalIP(family: &quot;v4&quot;</td>
+<td>&quot;v6&quot;)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>internalIPSync(family: &quot;v4&quot;</td>
+<td>&quot;v6&quot;)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>默认为异步。有等效的同步方法。</p>
 <h2 id="loader"><a href="/builder/webpack5/loader/index.html">loader</a></h2>
 <p>常用loader</p>
 <table>

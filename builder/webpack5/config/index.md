@@ -226,7 +226,47 @@ wp打包时使用的插件。
 ## devServer
 这是为 `webpack-dev-server` 提供的设置项。  
 `npx webpack serve` 会启动webpack-dev-server  
+这个选项与它的包名很对应。  
 
+|devServer的选项|说明|type|default|||
+|-|-|-|-|-|-|
+|allowedHosts|可访问开发服务的白名单|string[] / 'all' / 'auto'||||
+|bonjour|是否使用bonjour开始服务|||||
+|client.logging|设置可以在客户端显示日志的级别||'log' / 'info' / 'warn' / 'error' / 'none' / 'verbose'|||
+|client.overlay|当有编译错误时，是否全屏遮罩显示错误。|boolean/object|true|||
+|client.progess|是否在浏览器中显示打包百分比进度|||||
+|client.reconnect|重新链接次数|boolean / number|true|||
+|client.webSocketTransport|不会||'ws' / 'sockjs' string|||
+|client.webSocketURL|指定web socket server|string / object:{hostname, pathname, password, port, protocol, username}||||
+|compress|是否使用gzip压缩|||||
+|devMiddleware|为webpack-dev-middleware设置选项|||||
+|http2||||||
+|https||||||
+|headers|设置response的header|||||
+|historyApiFallback|是否使用html5 history api|boolean||||
+|host||||||
+|host|指定host|string|'local-ip' / 'local-ipv4' / 'local-ipv6'|||
+|hot|是否启动hmr|boolean|true|||
+|ipc|unix环境的host|||||
+|liveReload|当文件改变时是否reload/refresh|boolean|true|||
+|magicHtml|是否使用magic html routes   不会|boolean|true|||
+|onAfterSetupMiddleware|不会|||||
+|onBeforeSetupMiddleware|不会|||||
+|onListening|当服务开始时执行的方法|||||
+|open|启动服务后是否在浏览器打开相应页面|string / boolean / object||||
+|port|监听的端口|string / number / 'auto'|'auto'|||
+|proxy|设置代理|object:{key: {target, bypass, context(支持多个目标), }} / [object, function]||||
+|server|设置服务的访问协议|string / object / 'http' / 'https' / 'spdy'|'http'|||
+|setupExitSignals|关闭服务时执行exit在SIGINT / SIGTERM|||||
+|setupMiddlewares|提供执行自定义中间的能力|(middlewares, devServer) => {}||||
+|static|是否为静态文件提供服务|boolean / string / object [string, object]||||
+|static.directory||strgin = path.join(process.cwd(), 'public')||||
+|static.redirect|是否可重定向|||||
+|static.publicPath||||||
+|static.serveIndex||||||
+|static.watch||||||
+|static.watchFiles||||||
+|webSocketServer||||||
 
 ## cache
 ## title

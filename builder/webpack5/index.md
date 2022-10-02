@@ -692,7 +692,12 @@ runServer()
 node server.js
 ```
 
-没找到在cli中使用方法
+在cli中使用方法
+```shell
+npx webpack serve
+```
+
+
 
 #### api
 <!-- 待完善 -->
