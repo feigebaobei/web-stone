@@ -667,6 +667,60 @@ description
 `webpack.fn(param, [options: {a: string, b?: number}])`
 description
 
+### webpack-dev-server
+该包为node.js提供了api，可直接使用。  
+#### install
+`npm i -D webpack webpack-dev-server`
+
+#### usage
+在node中使用api  
+```js
+// server.js
+const Webpack = require('webpack')
+const WebpackDevServer = require('webpack-dev-server')
+const config = require('./webpack.config.js')
+const compiler = webpack(config)
+const devServerOptions = {...config.devServer, open: true}
+const server = new WebpackDevServer(devServerOptions, compiler)
+cons runServer = async () => {
+    console.log('start')
+    await server.start()
+}
+runServer()
+```
+```shell
+node server.js
+```
+
+没找到在cli中使用方法
+
+#### api
+<!-- 待完善 -->
+```js
+WebpackDevServer: {
+    constructor (config, compiler) {
+
+    }
+    start()
+}
+```
+
+|webpackDevServer的实例的属性|说明||||||
+|-|-|-|-|-|-|-|
+|start()|启动服务||||||
+|startCallback(cb)|启动后回调||||||
+|stop()|||||||
+|stopCallback(cb)|||||||
+|internalIP(family: "v4"|"v6")|||||||
+|internalIPSync(family: "v4"|"v6")|||||||
+
+默认为异步。有等效的同步方法。  
+
+
+
+
+
+
 ## [loader](/builder/webpack5/loader/index.html)
 常用loader  
 |插件名|说明（功能）|使用方法||||

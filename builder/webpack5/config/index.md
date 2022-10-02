@@ -58,10 +58,10 @@ context使用绝对路径定义entry的相对目录。
 |library|打包为库的输出|string / string[] / object||||
 |library.name||||||
 |library.type|string|'var'|'module', 'assign', 'assign-properties', 'this', 'window', 'self', 'global', 'commonjs', 'commonjs2', 'commonjs-module', 'commonjs-static', 'amd', 'amd-require', 'umd', 'umd2', 'jsonp' and 'system',|||
-|output.export|指定输出点|string / string[]|-|`['default', 'subModule']`||
-|output.libray.auxiliaryComment||||||
-|output.library.umdNamedDefine|（好像与amd/umd有关）|||||
-|output.path|指定输出的绝对路径|string|`path.join(process.cwd(), 'dist')`|||
+|export|指定输出点|string / string[]|-|`['default', 'subModule']`||
+|libray.auxiliaryComment||||||
+|library.umdNamedDefine|（好像与amd/umd有关）|||||
+|path|指定输出的绝对路径|string|`path.join(process.cwd(), 'dist')`|||
 |pathinfo|是否把模块的信息包含在打包结果中。|boolean/string|true / 'verbose'||不要在生产时使用|
 |publicPath|指定公开路径。浏览器可访问的路径。|function / string|当target是web/webworker时，默认为'auto'|||
 |scriptType|为script标签设置type属性。用于自定义异步加载脚本|string/boolean|'module'|'text/javascript' / false||
@@ -224,6 +224,8 @@ wp打包时使用的插件。
 |||||||
 
 ## devServer
+这是为 `webpack-dev-server` 提供的设置项。  
+`npx webpack serve` 会启动webpack-dev-server  
 
 
 ## cache
