@@ -1667,7 +1667,7 @@ Resolve定义解决nodemodule里的代码的方法。</p>
 </tr>
 <tr>
 <td>static.redirect</td>
-<td>是否可重定向</td>
+<td>是否直接在<code>/</code>后面使用pathname</td>
 <td></td>
 <td></td>
 <td></td>
@@ -1716,6 +1716,119 @@ Resolve定义解决nodemodule里的代码的方法。</p>
 </tbody>
 </table>
 <h2 id="cache">cache</h2>
+<table>
+<thead>
+<tr>
+<th>cache的选项</th>
+<th>说明</th>
+<th>type</th>
+<th>default</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cache</td>
+<td>是否缓存打包结果。可用于提高打包速度</td>
+<td>boolean / object</td>
+<td>false</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cache.allowCollectingMemory</td>
+<td>只在cache.type为'filesystem'时，收集不使用的内存。生产时使用false.</td>
+<td>boolean</td>
+<td>false</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cache.buildDependencies</td>
+<td>缓存依赖。默认缓存所有依赖</td>
+<td>object</td>
+<td></td>
+<td></td>
+<td><code>cache.buildDependencies.config = [__filename]</code></td>
+</tr>
+<tr>
+<td>cache.cacheDirectory</td>
+<td>只有在cache.type='filesystem'时有效。设置缓存的目录。</td>
+<td>string</td>
+<td><code>node_modules/.cache/webpack</code></td>
+<td></td>
+<td><code>cache.cacheDirectory: path.resolve(__dirname, '.temp_cache')</code></td>
+</tr>
+<tr>
+<td>cache.cacheLocation</td>
+<td>缓存的location</td>
+<td>string</td>
+<td><code>path.resolve(cache.cacheDirectory, cache.name)</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cache.cacheUnaffected</td>
+<td>只能在<code>cache.type = 'memory'</code>时有效。缓存没有改变的模块。</td>
+<td>boolean</td>
+<td>true</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cache.compression</td>
+<td>在缓存文件中使用压缩文件。一般在开始是不使用缓存。在生产时使用gzip.</td>
+<td>boolean / 'gzip' / 'brotli'</td>
+<td>false</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cache.hashAlgorithm</td>
+<td></td>
+<td>string</td>
+<td>md4</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cache.idleTimeout</td>
+<td>只能在<code>cache.type = 'filesystem'</code>时有效。多长时间后开始缓存</td>
+<td>number</td>
+<td>60000</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cache.idleTimeoutAfterLargeChanges</td>
+<td>只能在<code>cache.type = 'filesystem'</code>时有效。</td>
+<td>number</td>
+<td>1000</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cache.idleTimeoutForInitialStore</td>
+<td>只能在<code>cache.type = 'filesystem'</code>时有效。多长时凌后init缓存。</td>
+<td>number</td>
+<td>5000</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- |cache.managedPaths|||||| -->
+<!-- |cache.snapshot.managedPaths|||||| -->
+<p>|cache.maxAge|若缓存文件不被使用，最大缓存多长时间。只能在<code>cache.type = 'filesystem'</code>时有效。|number|5184000000|||
+|cache.maxGenerations|定义在缓存中存在的文件寿命。1: 删除不使用的单个编译。 Infinity: 一直存在。|number||||
+|cache.maxMemoryGenrations||||||
+|cache.memoryCacheUnaffected|只能在<code>cache.type = 'filesystem'</code>时有效。当模块或模块的引入模块未改变时，缓存计算该模块。|boolean|-|||
+|cache.name|只能在<code>cache.type = 'filesystem'</code>时有效。指定缓存的名字，不同的名字会同时存在。|string||||
+|cache.profile|只能在<code>cache.type = 'filesystem'</code>时有效。跟踪并记录模块的信息。|boolean|false|||
+|cache.store|指定缓存的数据。pack: 缓存一个单独的文件|string|<code>'pack'</code>|||
+|cache.type|指定缓存形式|string|<code>'memory' | 'filesystem'</code>|||
+|cache.version|只能在<code>cache.type = 'filesystem'</code>时有效。指定缓存的版本。不同的版本不能重用缓存。|||||</p>
 <h2 id="title">title</h2>
 <h2 id="title-1">title</h2>
 <h2 id="title-2">title</h2>

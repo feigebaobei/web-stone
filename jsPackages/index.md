@@ -23,7 +23,7 @@
 - [lath](/jsPackages/lath.html)
 - [html-server](/jsPackages/html-server.html)
 - [node-schedule](/jsPackages/node-schedule.html)
-- [title](/jsPackages/title.html)
+- [webpack-dev-server](/jsPackages/webpack-dev-server.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)

@@ -245,6 +245,8 @@ c.on('ready', () => {
         // let p = 'language/toml'
         let p = [
             // 'builder/webpack5/index.html',
+            'jsPackages/index.html',
+            'jsPackages/webpack-dev-server.html',
             'builder/webpack5/config/index.html',
             // 'language/javascript/modularity.html',
         ]

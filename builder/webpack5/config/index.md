@@ -261,7 +261,7 @@ wp打包时使用的插件。
 |setupMiddlewares|提供执行自定义中间的能力|(middlewares, devServer) => {}||||
 |static|是否为静态文件提供服务|boolean / string / object [string, object]||||
 |static.directory||strgin = path.join(process.cwd(), 'public')||||
-|static.redirect|是否可重定向|||||
+|static.redirect|是否直接在`/`后面使用pathname|||||
 |static.publicPath||||||
 |static.serveIndex||||||
 |static.watch||||||
@@ -269,6 +269,32 @@ wp打包时使用的插件。
 |webSocketServer||||||
 
 ## cache
+
+|cache的选项|说明|type|default|||
+|-|-|-|-|-|-|
+|cache|是否缓存打包结果。可用于提高打包速度|boolean / object|false|||
+|cache.allowCollectingMemory|只在cache.type为'filesystem'时，收集不使用的内存。生产时使用false.|boolean|false|||
+|cache.buildDependencies|缓存依赖。默认缓存所有依赖|object|||`cache.buildDependencies.config = [__filename]`|
+|cache.cacheDirectory|只有在cache.type='filesystem'时有效。设置缓存的目录。|string|`node_modules/.cache/webpack`||`cache.cacheDirectory: path.resolve(__dirname, '.temp_cache')`|
+|cache.cacheLocation|缓存的location|string|`path.resolve(cache.cacheDirectory, cache.name)`|||
+|cache.cacheUnaffected|只能在`cache.type = 'memory'`时有效。缓存没有改变的模块。|boolean|true|||
+|cache.compression|在缓存文件中使用压缩文件。一般在开始是不使用缓存。在生产时使用gzip.|boolean / 'gzip' / 'brotli'|false|||
+|cache.hashAlgorithm||string|md4|||
+|cache.idleTimeout|只能在`cache.type = 'filesystem'`时有效。多长时间后开始缓存|number|60000|||
+|cache.idleTimeoutAfterLargeChanges|只能在`cache.type = 'filesystem'`时有效。|number|1000|||
+|cache.idleTimeoutForInitialStore|只能在`cache.type = 'filesystem'`时有效。多长时凌后init缓存。|number|5000|||
+<!-- |cache.managedPaths|||||| -->
+<!-- |cache.snapshot.managedPaths|||||| -->
+|cache.maxAge|若缓存文件不被使用，最大缓存多长时间。只能在`cache.type = 'filesystem'`时有效。|number|5184000000|||
+|cache.maxGenerations|定义在缓存中存在的文件寿命。1: 删除不使用的单个编译。 Infinity: 一直存在。|number||||
+|cache.maxMemoryGenrations||||||
+|cache.memoryCacheUnaffected|只能在`cache.type = 'filesystem'`时有效。当模块或模块的引入模块未改变时，缓存计算该模块。|boolean|-|||
+|cache.name|只能在`cache.type = 'filesystem'`时有效。指定缓存的名字，不同的名字会同时存在。|string||||
+|cache.profile|只能在`cache.type = 'filesystem'`时有效。跟踪并记录模块的信息。|boolean|false|||
+|cache.store|指定缓存的数据。pack: 缓存一个单独的文件|string|`'pack'`|||
+|cache.type|指定缓存形式|string|`'memory' | 'filesystem'`|||
+|cache.version|只能在`cache.type = 'filesystem'`时有效。指定缓存的版本。不同的版本不能重用缓存。|||||
+
 ## title
 ## title
 ## title
