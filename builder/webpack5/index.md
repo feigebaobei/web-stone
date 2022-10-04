@@ -734,7 +734,7 @@ WebpackDevServer: {
 |raw-loader|以字符串的形式导入|||||
 |url-loader|以data url的形式导入|||||
 |file-loader|把文件复制到output directory|||||
-|css-loader||||||
+|source-map-loader||||||
 |css-loader||||||
 |css-loader||||||
 |css-loader||||||
@@ -753,7 +753,7 @@ WebpackDevServer: {
 |webpackmanifestplugin||||||
 |workbox-webpack-plugin|||||搞清它是如何工作的|
 |SplitChunksPlugin|代码分割|||||
-|pluginname||||||
+|SourceMapDevToolPlugin||||||
 |pluginname||||||
 |pluginname||||||
 |pluginname||||||
@@ -803,3 +803,9 @@ module.exports = {
 
 ## 浏览器兼容。
 wp支持ie8+及其他浏览器。内部使用`es5-compliant`实现兼容。  
+
+## 提高性能
+- threa-loader  
+- externals  
+- dll  
+

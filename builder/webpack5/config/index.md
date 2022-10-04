@@ -269,7 +269,6 @@ wp打包时使用的插件。
 |webSocketServer||||||
 
 ## cache
-
 |cache的选项|说明|type|default|||
 |-|-|-|-|-|-|
 |cache|是否缓存打包结果。可用于提高打包速度|boolean / object|false|||
@@ -295,8 +294,40 @@ wp打包时使用的插件。
 |cache.type|指定缓存形式|string|`'memory' | 'filesystem'`|||
 |cache.version|只能在`cache.type = 'filesystem'`时有效。指定缓存的版本。不同的版本不能重用缓存。|||||
 
-## title
-## title
+## devtool
+控制如何处理source map的选项。  
+
+|devtool的选项|说明|type|default|枚举值||
+|-|-|-|-|-|-|
+|devtool|提高dubugging速度。会影响打包速度|string / boolean|'eval'|||
+|||||(none)||
+|||||eval||
+|||||eval-cheap-source-map||
+|||||eval-cheap-module-source-map||
+|||||eval-source-map||
+|||||cheap-source-map||
+|||||cheap-module-source-map||
+|||||source-map||
+|||||inline-cheap-source-map||
+|||||inline-cheap-module-source-map||
+|||||inline-source-map||
+|||||eval-nosources-cheap-source-map||
+|||||eval-nosources-cheap-module-source-map||
+|||||eval-nosources-source-map||
+|||||inline-nosources-cheap-source-map||
+|||||inline-nosource-cheap-module-source-mpa||
+|||||inline-nosource-source-map||
+|||||nosource-cheap-source-map||
+|||||nosource-cheap-module-source-map||
+|||||nosource-source-map||
+|||||hidden-nosource-cheap-source-map||
+|||||hidden-nosource-cheap-module-source-map||
+|||||hidden-nosource-source-map||
+|||||hidden-cheap-source-map||
+|||||hidden-cheap-module-source-map||
+|||||hidden-source-map||
+
+
 ## title
 ## title
 ## title
