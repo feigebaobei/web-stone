@@ -244,8 +244,6 @@ c.on('ready', () => {
         }
         // let p = 'builder/webpack5/api'
         let p = [
-            // 'jsPackages/index.html',
-            // 'jsPackages/webpack-dev-server.html',
             'builder/webpack5/config/index.html',
             'builder/webpack5/api/index.html',
             'promote/searchWord/out/index.js',
