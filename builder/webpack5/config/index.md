@@ -407,12 +407,134 @@ externals: [
 |performance.maxAssetSize|资源最大值|number|250000|||
 |performance.maxEntrypointSize|入口文件的最大值|number|250000|||
 
+## node
+为内置的NodeStuffPlugin提供选项。  
 
+|node的选项|说明|type|default|枚举值||
+|-|-|-|-|-|-|
+|node||boolean / object|false|||
+|node.global||||||
+|node.__filename||||||
+|node.__dirname||||||
 
+## stats
+提供了精确控制提示信息的接口。  
+
+|stats的选项|说明|type|default|枚举值||
+|-|-|-|-|-|-|
+|stats||object / string||`'errors-only' / 'errors-warnings' / 'minimal' / 'none' / 'normal' / 'verbose' / 'detailed' / 'summary'`||
+|stats.xx|指定输出特定信息。|||||
+|stats.all|指定输出特定信息|||||
+|stats.assets|指定如何显示asset的信息|||||
+|stats.assetsSort||string|'id'|||
+|stats.buildAt|开始build的时间|boolean|true|||
+|stats.moduleAssets|是否添加module中资源的add 信息|boolean|true|||
+|stats.assetsSpace||number|15|||
+|stats.modulesSpace||number|15|||
+|stats.chunkModulesSpace||number|10|||
+|stats.nestedModules||number|10|||
+|stats.cached||||||
+|stats.cachedModules|缓存中modules中的信息|boolean|true|||
+|stats.runtimeModules||boolean|true|||
+|stats.dependentModules||boolean||||
+|stats.groupAssetsByChunk||boolean||||
+|stats.groupAssetsByEmitStatus||boolean||||
+|stats.groupAssetsByExtension||boolean||||
+|stats.groupAssetsByInfo||boolean||||
+|stats.groupAssetsByPath||boolean||||
+|stats.groupModulesByAttributes||boolean||||
+|stats.groupModulesByCacheStatus||boolean||||
+|stats.groupModulesByExtension||boolean||||
+|stats.groupModulesByLayer||boolean||||
+|stats.groupModulesByPath||boolean||||
+|stats.groupModulesByType||boolean||||
+|stats.groupModulesByOrigin||boolean||||
+|stats.cachedAssets||boolean|true|||
+|stats.child||boolean||||
+|stats.chunks||boolean||||
+|stats.chunkGroups||boolean||||
+|stats.chunkModules||boolean||||
+|stats.chunkOrigins||boolean||||
+|stats.chunksSort||string|'id'|||
+|stats.context||string||||
+|stats.colors||boolean / object||||
+|stats.depth||boolean||||
+|stats.entrypoints||boolean||||
+|stats.env||boolean||||
+|stats.orphanModules||boolean||||
+|stats.errors||boolean||||
+|stats.errorDetails||boolean||||
+|stats.errorStack||boolean||||
+|stats.excludeAssets||boolean||||
+|stats.excludeModules||boolean||||
+|stats.exclude||boolean||||
+|stats.hash||boolean||||
+|stats.logging||boolean||||
+|stats.chunkModulesSpace||string / boolean|'none'|'none' / 'error' / 'warn' / 'info' / 'log' / 'verbose'||
+|stats.logginDebug||array||||
+|stats.loggingTrace||boolean||||
+|stats.modules||boolean|true|||
+|stats.modulesSort||string|'id'|||
+|stats.moduleTrace||boolean|true|||
+|stats.optimizationBailout||boolean||||
+|stats.outputPath||boolean||||
+|stats.performance||boolean||||
+|stats.preset||boolean||||
+|stats.providedExports||boolean||||
+|stats.errorsCount|显示错误数量|boolean|true|||
+|stats.warningCount||||||
+|stats.publicPath||||||
+|stats.reasons||||||
+|stats.reasonsSpace||||||
+|stats.relatedAssets||||||
+|stats.source||||||
+|stats.timings||||||
+|stats.ids||||||
+|stats.usedExports||||||
+|stats.version||||||
+|stats.chunkGroupAuxiliary||||||
+|stats.chunkGroupChildren||||||
+|stats.chunkGroupMaxAssets||||||
+|stats.warnings||||||
+|stats.warningsFilter||||||
+|stats.chunkRelations||||||
+|stats.errorsCount||||||
+|stats.errorsCount||||||
+|stats.errorsCount||||||
+|stats.errorsCount||||||
+|stats.errorsCount||||||
+|stats.errorsCount||||||
+|stats.global||||||
+|stats.global||||||
+|stats.global||||||
+|stats.global||||||
+
+为什么wp把这么多相似的api用这么多boolean选项去控制，而不使用数组等方式。  
+
+排序字段
+|'id'|||
+|'name'|||
+|'size'|||
+|'chunks'|||
+|'errors'|||
+|'warnings'|||
+|'field'|||
+|'cacheable'|||
+|'built'|||
+|'prefetched'|||
+|'optional'|||
+|'identifier'|||
+|'index'|||
+|'index2'|||
+|'profile'|||
+|'issuer'|||
+|'issuerId'|||
+|'issuerName'|||
+|'issuerPath'|||
 
 ## title
-## title
-## title
+
+
 ## title
 ## title
 ## title
