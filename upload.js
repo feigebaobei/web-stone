@@ -248,6 +248,9 @@ c.on('ready', () => {
             'builder/webpack5/api/index.html',
             'promote/searchWord/out/index.js',
             'promote/searchWord/readme.md',
+            'language/javascript/index.html',
+            'language/javascript/blob.html',
+            'jsPackages/node-blob.html',
         ]
         // 检测指定目录是否存在
         // checkDir(p)
