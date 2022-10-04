@@ -396,7 +396,23 @@ externals: [
 ]
 ```
 
+## Performance
+设置wp如何控制资源和入口文件超出文件限制的通知消息。  
+
+|performance的选项|说明|type|default|枚举值||
+|-|-|-|-|-|-|
+|performance||||||
+|performance.assetFilter|控制哪些文件显示要性能提示|function(assetFilename) => boolean||||
+|performance.hints|是否抛出提示|string / boolean|'warning'|'error' / 'warning' ||
+|performance.maxAssetSize|资源最大值|number|250000|||
+|performance.maxEntrypointSize|入口文件的最大值|number|250000|||
 
 
+
+
+## title
+## title
+## title
+## title
 ## title
 ## title
