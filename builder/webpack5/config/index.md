@@ -532,9 +532,27 @@ externals: [
 |'issuerName'|||
 |'issuerPath'|||
 
+## experiments
+使用实验性的功能。  
+
+|experiments的选项|说明|type|default|枚举值||
+|-|-|-|-|-|-|
+|experiments||boolean|false|||
+|experiments.backCompat||||||
+|experiments.buildHttp||||||
+|experiments.buildHttp.allowedUris|允许的uri|||||
+|experiments.buildHttp.cacheLocation||||||
+|experiments.buildHttp.frozen||||||
+|experiments.buildHttp.lockfileLocation||||||
+|experiments.buildHttp.proxy||||||
+|experiments.buildHttp.upgrade||||||
+|experiments.css||||||
+|experiments.cacheUnaffected||||||
+|experiments.futureDefaults||||||
+|experiments.lazyCompilation||||||
+|experiments.outputModule||||||
+
 ## title
 
-
-## title
 ## title
 ## title
