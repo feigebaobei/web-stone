@@ -13,3 +13,7 @@
       1. 前端使用：react/react-router-dom/antd/esbuild
       2. 后端使用：express/json保存数据。
 5. 开发
+
+
+打包
+npm run b

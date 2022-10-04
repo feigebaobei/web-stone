@@ -498,16 +498,6 @@ externals: [
 |stats.warnings||||||
 |stats.warningsFilter||||||
 |stats.chunkRelations||||||
-|stats.errorsCount||||||
-|stats.errorsCount||||||
-|stats.errorsCount||||||
-|stats.errorsCount||||||
-|stats.errorsCount||||||
-|stats.errorsCount||||||
-|stats.global||||||
-|stats.global||||||
-|stats.global||||||
-|stats.global||||||
 
 为什么wp把这么多相似的api用这么多boolean选项去控制，而不使用数组等方式。  
 

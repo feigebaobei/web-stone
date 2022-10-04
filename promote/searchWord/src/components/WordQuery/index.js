@@ -86,11 +86,10 @@ export default function WordQuery () {
     }
     let searchHandler = (searchStr) => {
         if (!searchStr || !searchStr.trim()) {return}
-        searchFn()
+        searchFn(searchStr)
     }
     let searchPressEnterHandler = (event) => {
         let value = event.target.value
-        // console.log('searchPressEnterHandler', event.target.value)
         searchFn(value)
     }
     let saveSet = () => {

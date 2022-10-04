@@ -242,13 +242,14 @@ c.on('ready', () => {
             log('cwd', 'htdocs', err)
             throw err
         }
-        // let p = 'language/toml'
+        // let p = 'builder/webpack5/api'
         let p = [
-            // 'builder/webpack5/index.html',
-            'jsPackages/index.html',
-            'jsPackages/webpack-dev-server.html',
+            // 'jsPackages/index.html',
+            // 'jsPackages/webpack-dev-server.html',
             'builder/webpack5/config/index.html',
-            // 'language/javascript/modularity.html',
+            'builder/webpack5/api/index.html',
+            'promote/searchWord/out/index.js',
+            'promote/searchWord/readme.md',
         ]
         // 检测指定目录是否存在
         // checkDir(p)
