@@ -552,7 +552,30 @@ externals: [
 |experiments.lazyCompilation||||||
 |experiments.outputModule||||||
 
-## title
-
-## title
-## title
+## other options
+- amd
+- bail
+- dependencies
+- ignoreWarnings
+- infrastructureLogging
+  - appendOnly
+  - colors
+  - console
+  - debug
+  - level
+  - stream
+- loader
+  - answer
+- name
+- parallelism number 100
+- profile
+- recordsInputPath
+- recordsOutputPath
+- recordsPath
+- snapshot
+- buildDependencies
+- immutablePaths
+- managedPaths
+- module
+- resolve
+- resolveBuildDependencies
