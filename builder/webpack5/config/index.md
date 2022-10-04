@@ -358,6 +358,45 @@ wp打包时使用的插件。
 |watchOptions.followSymlinks|指定是否观察的link文件|boolean|-|||
 |watchOptions.stdin|当stdin stream停止时停止观察|boolean|-|||
 
-## title
+## Externals
+指定不打包的内容  
+|externals的选项|说明|type|default|枚举值||
+|-|-|-|-|-|-|
+|externals|指定不打包的内容|string / object / function / regexp / [string, object, function, regexp]||||
+|externals.byLayer||function / object||||
+|externalsType||string|'var'|||
+||设置排除项的type默认为'commonjs'|||'commonjs'||
+|||||'global'||
+|||||'module'||
+|||||'node-commonjs'||
+|||||'promise'||
+|||||'self'||
+|||||'script'||
+|||||'this'||
+|||||'var'||
+|||||'window'||
+|externalsPresets||||||
+
+```js
+externals: 'jquery'
+externals: /jquery/
+externals: {
+  jquery: 'jquery',
+  jquery: 'commonjs jquery', // ${externalsType} ${libraryName}
+  subract: ['commonjs ./math', 'subtract'] // 以commonjs规范引入./math中的subtract
+}
+externals: [
+  function({
+    context,      // 引入的内容
+    request,      // 引入的路径
+    contextInfo,  // 关于issuer的信息
+    getResolve,   // Get a resolve function with the current resolver options.
+  }, (err, result, type) => {}),
+  ({context, request, contextInfo, getResolve}) => Promise<>
+]
+```
+
+
+
 ## title
 ## title

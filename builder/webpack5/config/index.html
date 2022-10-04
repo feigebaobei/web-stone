@@ -63,7 +63,8 @@
 }
 
 </style>
-        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -2245,11 +2246,155 @@ Resolve定义解决nodemodule里的代码的方法。</p>
 </tr>
 </tbody>
 </table>
+<h2 id="externals">Externals</h2>
+<p>指定不打包的内容</p>
+<table>
+<thead>
+<tr>
+<th>externals的选项</th>
+<th>说明</th>
+<th>type</th>
+<th>default</th>
+<th>枚举值</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>externals</td>
+<td>指定不打包的内容</td>
+<td>string / object / function / regexp / [string, object, function, regexp]</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>externals.byLayer</td>
+<td></td>
+<td>function / object</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>externalsType</td>
+<td></td>
+<td>string</td>
+<td>'var'</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>设置排除项的type默认为'commonjs'</td>
+<td></td>
+<td></td>
+<td>'commonjs'</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>'global'</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>'module'</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>'node-commonjs'</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>'promise'</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>'self'</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>'script'</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>'this'</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>'var'</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>'window'</td>
+<td></td>
+</tr>
+<tr>
+<td>externalsPresets</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-js"><div>externals: <span class="hljs-string">&#x27;jquery&#x27;</span>
+<span class="hljs-attr">externals</span>: <span class="hljs-regexp">/jquery/</span>
+externals: {
+  <span class="hljs-attr">jquery</span>: <span class="hljs-string">&#x27;jquery&#x27;</span>,
+  <span class="hljs-attr">jquery</span>: <span class="hljs-string">&#x27;commonjs jquery&#x27;</span>, <span class="hljs-comment">// ${externalsType} ${libraryName}</span>
+  <span class="hljs-attr">subract</span>: [<span class="hljs-string">&#x27;commonjs ./math&#x27;</span>, <span class="hljs-string">&#x27;subtract&#x27;</span>] <span class="hljs-comment">// 以commonjs规范引入./math中的subtract</span>
+}
+<span class="hljs-attr">externals</span>: [
+  <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">{
+    context,      <span class="hljs-regexp">//</span> 引入的内容
+    request,      <span class="hljs-regexp">//</span> 引入的路径
+    contextInfo,  <span class="hljs-regexp">//</span> 关于issuer的信息
+    getResolve,   <span class="hljs-regexp">//</span> Get a resolve <span class="hljs-keyword">function</span> <span class="hljs-keyword">with</span> the current resolver options.
+  }, (err, result, type) =&gt; {}</span>),
+  (<span class="hljs-params">{context, request, contextInfo, getResolve}</span>) =&gt; <span class="hljs-title">Promise</span>&lt;&gt;
+]
+</span></div></code></pre>
 <h2 id="title">title</h2>
 <h2 id="title-1">title</h2>
-<h2 id="title-2">title</h2>
 
-        
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
     </body>
     </html>
