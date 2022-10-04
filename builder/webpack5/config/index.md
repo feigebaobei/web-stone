@@ -327,6 +327,31 @@ wp打包时使用的插件。
 |||||hidden-cheap-module-source-map||
 |||||hidden-source-map||
 
+## target
+指定打包结果的运行环境。  
+
+|target的选项|说明|type|default|枚举值||
+|-|-|-|-|-|-|
+|target||string / string[] / boolean|'browserslist' / 'web'|||
+|||||async-node[[x],y]||
+|||||electron[[x].y]-main||
+|||||electron[[x].y]-renderer||
+|||||electron[[x].y]-preload||
+|||||node[[x].y]||
+|||||node-webkit[[x].y]||
+|||||nwjs[[x].y]|同上|
+|||||web||
+|||||webworker||
+|||||esX||
+|||||browserslist||
+
+## Watch and WatchOption
+指定打包结果的运行环境。  
+
+|target的选项|说明|type|default|枚举值||
+|-|-|-|-|-|-|
+|target||||||
+
 
 ## title
 ## title
