@@ -346,12 +346,17 @@ wp打包时使用的插件。
 |||||browserslist||
 
 ## Watch and WatchOption
-指定打包结果的运行环境。  
+指定观察模式的选项。  
 
-|target的选项|说明|type|default|枚举值||
+|watch的选项|说明|type|default|枚举值||
 |-|-|-|-|-|-|
-|target||||||
-
+|watch|是否启用观察模式。|boolean|false|||
+|watchOptions|设置自定义观察选项|object||||
+|watchOptions.aggregateTimeout|合并多长时间(ms)内的变化|number|20|||
+|watchOptions.ignored|忽略|regexp / string / string[]||||
+|watchOptions.poll|多长时间检查一次文件变化|boolean / number||||
+|watchOptions.followSymlinks|指定是否观察的link文件|boolean|-|||
+|watchOptions.stdin|当stdin stream停止时停止观察|boolean|-|||
 
 ## title
 ## title
