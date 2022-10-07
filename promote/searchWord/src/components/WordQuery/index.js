@@ -7,7 +7,7 @@ import React, {
 } from "react";
 // import First from "./components/First";
 import {Button, Input, message, Drawer, Form, InputNumber} from 'antd'
-import {clog, getEnv, instance} from '../../util/index'
+import {clog, getEnv, instance, createThrottleFn} from '../../util/index'
 import { SettingOutlined } from '@ant-design/icons';
 import styles from './index.module.css'
 // import { useEffect } from "react/cjs/react.production.min";
@@ -49,12 +49,12 @@ export default function WordQuery () {
             window.removeEventListener('focus', fn)
         }
     }, [])
-    let searchClickHandler = () => {
+    // let searchClickHandler = () => {
 
-    }
-    let historeClickHandler = () => {
+    // }
+    // let historeClickHandler = () => {
 
-    }
+    // }
     let drawerCloseHandler = () => {
         setDrawerOpen(false)
         saveSet()
@@ -84,13 +84,14 @@ export default function WordQuery () {
             searchRef.current.blur()
         })
     }
+    let throttleSearchFn = createThrottleFn(searchFn)
     let searchHandler = (searchStr) => {
         if (!searchStr || !searchStr.trim()) {return}
-        searchFn(searchStr)
+        throttleSearchFn(searchStr)
     }
     let searchPressEnterHandler = (event) => {
         let value = event.target.value
-        searchFn(value)
+        throttleSearchFn(value)
     }
     let saveSet = () => {
         window.localStorage.setItem('setBox', JSON.stringify({num: state.num}))

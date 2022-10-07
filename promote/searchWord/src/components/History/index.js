@@ -16,8 +16,6 @@ export default function History () {
             url: '/searchWord/history',
         }).then(res => {
             if (res.code === 0) {
-                // setWordList(res.data)
-                // console.log('sdf')
                 setWordList(res.data[0].values.map(item => {
                     return {
                         entry: item[0],
@@ -25,7 +23,7 @@ export default function History () {
                         usphone: item[2],
                         explain: item[3],
                     }
-                }))
+                }).reverse())
             }
         })
     }, [])

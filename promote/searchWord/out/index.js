@@ -43504,6 +43504,18 @@
     return Promise.reject(error);
   });
 
+  // src/util/index.js
+  var createThrottleFn = (fn, t2 = 250) => {
+    let prev = new Date().getTime();
+    return (...rest) => {
+      let now2 = new Date().getTime();
+      if (now2 - prev > t2) {
+        fn(...rest);
+        prev = now2;
+      }
+    };
+  };
+
   // node_modules/@ant-design/icons/es/icons/SettingOutlined.js
   var React109 = __toESM(require_react());
 
@@ -43521,7 +43533,7 @@
   SettingOutlined2.displayName = "SettingOutlined";
   var SettingOutlined_default2 = /* @__PURE__ */ React109.forwardRef(SettingOutlined2);
 
-  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-72935-0gTC1iimhxiz/searchWord/src/components/WordQuery/index.module.css.js
+  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-73673-WmKWfl3XVd9K/searchWord/src/components/WordQuery/index.module.css.js
   var digest = "fda213b366d4eda15fa12097a34a8f1fe9b1f6d11b1f9d4e5b737c2b76d6f398";
   var css2 = `._appRp_1lyu3_1 {
     /* position: relative;
@@ -43589,10 +43601,6 @@
         window.removeEventListener("focus", fn);
       };
     }, []);
-    let searchClickHandler = () => {
-    };
-    let historeClickHandler = () => {
-    };
     let drawerCloseHandler = () => {
       setDrawerOpen(false);
       saveSet();
@@ -43622,15 +43630,16 @@
         searchRef.current.blur();
       });
     };
+    let throttleSearchFn = createThrottleFn(searchFn);
     let searchHandler = (searchStr) => {
       if (!searchStr || !searchStr.trim()) {
         return;
       }
-      searchFn(searchStr);
+      throttleSearchFn(searchStr);
     };
     let searchPressEnterHandler = (event) => {
       let value = event.target.value;
-      searchFn(value);
+      throttleSearchFn(value);
     };
     let saveSet = () => {
       window.localStorage.setItem("setBox", JSON.stringify({ num: state.num }));
@@ -43697,7 +43706,7 @@
   // src/components/History/index.js
   var import_react39 = __toESM(require_react());
 
-  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-72935-gOIbLISRhf1E/searchWord/src/components/History/index.module.css.js
+  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-73673-Uk2TAAxRJZ28/searchWord/src/components/History/index.module.css.js
   var digest2 = "3398dea2b331c5673c48d5bf73778921a9aa1dd8fc635df26029b6b173e08b2d";
   var css3 = `._wordItem_1rqxi_1 {
     display: flex;
@@ -43775,7 +43784,7 @@
               usphone: item[2],
               explain: item[3]
             };
-          }));
+          }).reverse());
         }
       });
     }, []);
@@ -43834,7 +43843,7 @@
     })));
   }
 
-  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-72935-ygB4wH2ZuAQe/searchWord/src/app.module.css.js
+  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-73673-z1jHzypyNwTv/searchWord/src/app.module.css.js
   var digest3 = "1b7c9674ef6f5e70d9ffb8c89c347b06acd8096cf16dc54fc9ded741e7cdaa87";
   var css4 = `._cont_jdn4c_1 {
     width: 75%;
