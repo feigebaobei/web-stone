@@ -242,9 +242,12 @@ c.on('ready', () => {
             log('cwd', 'htdocs', err)
             throw err
         }
-        // let p = 'promote/picbed/dist'
+        // let p = 'promote/picbed/prod'
         let p = [
-            'index.html'
+            'index.html',
+            'promote/picbed/prod/assets/index.65b70abd.js',
+            'promote/picbed/prod/assets/Search.8890b345.js',
+            'promote/picbed/prod/assets/Upload.e37c1d76.js',
             // 'builder/webpack5/config/index.html',
             // 'builder/webpack5/api/index.html',
             // 'promote/searchWord/out/index.js',
