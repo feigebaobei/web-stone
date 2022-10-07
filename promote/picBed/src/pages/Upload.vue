@@ -28,7 +28,7 @@
 <script lang="ts">
 // 工具方法
 import { defineComponent, onMounted, computed, ref, reactive, onUnmounted } from "vue";
-import {instance} from '../utils/axios.js'
+import {instance} from '../utils/axios'
 // 组件
 import {
   ElForm,
@@ -80,9 +80,9 @@ export default defineComponent({
     let elementRef = ref();
     const form = reactive({
       tags: [],
-      rawFile: null,
+      rawFile: {} as File,
       submitDisableTime: 0,
-      timeId: null,
+      timeId: 0,
     })
 
     // computed
@@ -121,9 +121,9 @@ export default defineComponent({
           tags: form.tags,
           photo: form.rawFile,
         }
-      }).then(res => {
+      }).then((res: any) => {
         console.log('then', res)
-      }).catch(error => {
+      }).catch((error: any) => {
         console.log('catch', error)
       }).finally(() => {
         form.submitDisableTime = 5
@@ -136,7 +136,7 @@ export default defineComponent({
       })
       // console.log('submitHandler', formData)
     }
-    const beforeUploadHander = function(file) {
+    const beforeUploadHander = function(file: File) {
       form.rawFile = file
       console.log('beforeUploadHander', file)
       // console.log('beforeUploadHander', file, this.k, this.toUploadFile)

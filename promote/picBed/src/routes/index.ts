@@ -1,4 +1,4 @@
-const routes = [
+const routes: any = [
     { path: '/', component: () => import('../pages/Upload.vue')},
     { path: '/search', component: () => import('../pages/Search.vue')},
 ]

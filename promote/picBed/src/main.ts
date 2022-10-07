@@ -5,7 +5,7 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import 'element-plus/dist/index.css'
 // import './style.css'
 import App from './App.vue'
-import routes from './routes/index.js'
+import routes from './routes/index'
 
 
 const router = VueRouter.createRouter({
