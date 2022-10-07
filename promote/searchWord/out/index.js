@@ -43521,8 +43521,8 @@
   SettingOutlined2.displayName = "SettingOutlined";
   var SettingOutlined_default2 = /* @__PURE__ */ React109.forwardRef(SettingOutlined2);
 
-  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-21947-tDoxni73MkcP/searchWord/src/components/WordQuery/index.module.css.js
-  var digest = "498d2d14a67e8177e1c20064a978134510717979d31b4b2dfb59853a005d8177";
+  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-72935-0gTC1iimhxiz/searchWord/src/components/WordQuery/index.module.css.js
+  var digest = "fda213b366d4eda15fa12097a34a8f1fe9b1f6d11b1f9d4e5b737c2b76d6f398";
   var css2 = `._appRp_1lyu3_1 {
     /* position: relative;
     width: 100vw;
@@ -43697,29 +43697,44 @@
   // src/components/History/index.js
   var import_react39 = __toESM(require_react());
 
-  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-21947-TxA6JO059vSz/searchWord/src/components/History/index.module.css.js
-  var digest2 = "82a9d380438afb831bc6ce470d5c3bb6ddb83d30644fc36cfb7b580a4c5d0b5d";
-  var css3 = `._wordItem_sa5vh_1 {
+  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-72935-gOIbLISRhf1E/searchWord/src/components/History/index.module.css.js
+  var digest2 = "3398dea2b331c5673c48d5bf73778921a9aa1dd8fc635df26029b6b173e08b2d";
+  var css3 = `._wordItem_1rqxi_1 {
     display: flex;
     cursor: pointer;
     font-size: 16px;
     margin: 8px 0;
 }
-._entry_sa5vh_7 {
+._left_1rqxi_7 {
+    flex-basis: 20%;
+    min-width: 80px;
+    flex-grow: 1;
+    flex-shrink: 0;
+    word-break: keep-all;
+}
+/* .entry {
     flex-basis: 20%;
     flex-grow: 1;
     flex-shrink: 1;
     padding: 0 8px;
     white-space: nowrap;
+} */
+._ukphone_1rqxi_21 {
+    color: grey;
+    font-size: 14px;
 }
-._explain_sa5vh_14 {
+._usphone_1rqxi_25 {
+    color: grey;
+    font-size: 14px;
+}
+._explain_1rqxi_29 {
     flex-basis: 70%;
     flex-grow: 1;
     flex-shrink: 1;
     padding: 0 8px;
     min-width: 50%;
 }
-._icon_sa5vh_21 {
+._icon_1rqxi_36 {
     flex-basis: 10%;
     flex-shrink: 0;
     flex-grow: 0;
@@ -43727,7 +43742,7 @@
     padding-top: 4px;
     color: #aba9a9;
 }
-._iconSelected_sa5vh_29 {
+._iconSelected_1rqxi_44 {
     color: #525252;
 }`;
   (function() {
@@ -43741,7 +43756,7 @@
       document.head.appendChild(el);
     }
   })();
-  var index_module_css_default2 = { "wordItem": "_wordItem_sa5vh_1", "entry": "_entry_sa5vh_7", "explain": "_explain_sa5vh_14", "icon": "_icon_sa5vh_21", "iconSelected": "_iconSelected_sa5vh_29" };
+  var index_module_css_default2 = { "wordItem": "_wordItem_1rqxi_1", "left": "_left_1rqxi_7", "ukphone": "_ukphone_1rqxi_21", "usphone": "_usphone_1rqxi_25", "explain": "_explain_1rqxi_29", "icon": "_icon_1rqxi_36", "iconSelected": "_iconSelected_1rqxi_44" };
 
   // src/components/History/index.js
   function History() {
@@ -43753,7 +43768,14 @@
         url: "/searchWord/history"
       }).then((res) => {
         if (res.code === 0) {
-          setWordList(res.data);
+          setWordList(res.data[0].values.map((item) => {
+            return {
+              entry: item[0],
+              ukphone: item[1],
+              usphone: item[2],
+              explain: item[3]
+            };
+          }));
         }
       });
     }, []);
@@ -43789,10 +43811,18 @@
         key: wordItem.entry
       }, /* @__PURE__ */ import_react39.default.createElement("section", {
         className: index_module_css_default2.wordItem
-      }, /* @__PURE__ */ import_react39.default.createElement("span", {
+      }, /* @__PURE__ */ import_react39.default.createElement("div", {
+        className: index_module_css_default2.left
+      }, /* @__PURE__ */ import_react39.default.createElement("div", {
         className: index_module_css_default2.entry,
         onClick: entryClickHandler
-      }, wordItem.entry), /* @__PURE__ */ import_react39.default.createElement("span", {
+      }, wordItem.entry), /* @__PURE__ */ import_react39.default.createElement("div", {
+        className: index_module_css_default2.ukphone,
+        onClick: entryClickHandler
+      }, wordItem.ukphone), /* @__PURE__ */ import_react39.default.createElement("div", {
+        className: index_module_css_default2.usphone,
+        onClick: entryClickHandler
+      }, wordItem.usphone)), /* @__PURE__ */ import_react39.default.createElement("div", {
         className: index_module_css_default2.explain,
         onClick: explainClickHandler
       }, wordItem.explain), /* @__PURE__ */ import_react39.default.createElement(CloseCircleOutlined_default2, {
@@ -43804,7 +43834,7 @@
     })));
   }
 
-  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-21947-E5HEpVlWV6u7/searchWord/src/app.module.css.js
+  // esbuild-css-modules-plugin-namespace:/var/folders/cz/p_bqs9990_d47cxf5l9rvwcm0000gn/T/tmp-72935-ygB4wH2ZuAQe/searchWord/src/app.module.css.js
   var digest3 = "1b7c9674ef6f5e70d9ffb8c89c347b06acd8096cf16dc54fc9ded741e7cdaa87";
   var css4 = `._cont_jdn4c_1 {
     width: 75%;

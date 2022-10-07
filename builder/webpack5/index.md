@@ -660,7 +660,7 @@ Commands:
   watch|w [entries...] [options]         Run webpack and watch for files changes.
 
 
-## api
+## [api](/builder/webpack5/api/index.html)
 `webpack.fn(param, first: string, second: boolean = true) => void`
 description
 

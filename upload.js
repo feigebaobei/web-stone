@@ -244,12 +244,10 @@ c.on('ready', () => {
         }
         // let p = 'promote/picbed/prod'
         let p = [
-            'index.html',
-            'pwa.js',
-            'builder/webpack5/api/index.html',
-            // '/picbed/prod/assets/index.65b70abd.js',
-            // 'promote/picbed/prod/assets/Search.8890b345.js',
-            // 'promote/picbed/prod/assets/Upload.e37c1d76.js',
+            // 'promote/searchWord/out/index.js',
+            // 'index.html',
+            // 'pwa.js',
+            'builder/webpack5/index.html',
         ]
         // 检测指定目录是否存在
         // checkDir(p)
