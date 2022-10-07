@@ -54,13 +54,13 @@ export default defineComponent({
     // let elementRef = ref();
     // let imgList = reactive([1,2,3])
     let temp = reactive({
-      imgList: []
+      imgList: [] as any
     })
     // computed
     // methods
     // provide
     // evnet fn
-    let liClickHandler = (v) => {
+    let liClickHandler = (v: any) => {
       var inp =document.createElement('input'); // create input标签
       document.body.appendChild(inp) // 添加到body中
       inp.value = v // that.textContent // 给input设置value属性为需要copy的内容
@@ -87,16 +87,14 @@ export default defineComponent({
         //   photo: form.rawFile,
         // }
       }).then((res: any) => {
-        console.log('then', res)
         if (res.code === 0) {
           // imgList = res.data.map(item => {
-          temp.imgList = res.data.map(item => {
+          temp.imgList = res.data.map((item: any) => {
             return {
               url: `http://wushusandavercel.com:5000/images/picBed/${item.filename}`,
               tags: item.tags
             }
           })
-          // console.log('imgList', imgList)
         } else {
           ElMessage({
             message: res.message,
@@ -104,7 +102,6 @@ export default defineComponent({
           })
         }
       }).catch((error: any) => {
-        // console.log('catch', error)
         ElMessage({
           message: '请求失败',
           type: 'error'

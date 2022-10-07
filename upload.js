@@ -242,15 +242,16 @@ c.on('ready', () => {
             log('cwd', 'htdocs', err)
             throw err
         }
-        // let p = 'builder/webpack5/api'
+        // let p = 'promote/picbed/dist'
         let p = [
-            'builder/webpack5/config/index.html',
-            'builder/webpack5/api/index.html',
-            'promote/searchWord/out/index.js',
-            'promote/searchWord/readme.md',
-            'language/javascript/index.html',
-            'language/javascript/blob.html',
-            'jsPackages/node-blob.html',
+            'index.html'
+            // 'builder/webpack5/config/index.html',
+            // 'builder/webpack5/api/index.html',
+            // 'promote/searchWord/out/index.js',
+            // 'promote/searchWord/readme.md',
+            // 'language/javascript/index.html',
+            // 'language/javascript/blob.html',
+            // 'jsPackages/node-blob.html',
         ]
         // 检测指定目录是否存在
         // checkDir(p)
