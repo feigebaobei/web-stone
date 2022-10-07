@@ -242,20 +242,14 @@ c.on('ready', () => {
             log('cwd', 'htdocs', err)
             throw err
         }
-        // let p = 'promote/picbed/prod'
-        let p = [
-            'index.html',
-            'promote/picbed/prod/assets/index.65b70abd.js',
-            'promote/picbed/prod/assets/Search.8890b345.js',
-            'promote/picbed/prod/assets/Upload.e37c1d76.js',
-            // 'builder/webpack5/config/index.html',
-            // 'builder/webpack5/api/index.html',
-            // 'promote/searchWord/out/index.js',
-            // 'promote/searchWord/readme.md',
-            // 'language/javascript/index.html',
-            // 'language/javascript/blob.html',
-            // 'jsPackages/node-blob.html',
-        ]
+        let p = 'promote/picbed/prod'
+        // let p = [
+            // 'index.html',
+            // 'pwa.js', // 待上传
+        //     '/picbed/prod/assets/index.65b70abd.js',
+        //     'promote/picbed/prod/assets/Search.8890b345.js',
+        //     'promote/picbed/prod/assets/Upload.e37c1d76.js',
+        // ]
         // 检测指定目录是否存在
         // checkDir(p)
         // 检测删除目录
@@ -265,23 +259,23 @@ c.on('ready', () => {
         // 测试上传单个文件
         // uploadFile(p)
         // 测试上传多个文件
-        uploadFiles(p).then(() => {
-            log('then', '全部完成')
-            c.end()
-        }).catch((err) => {
-            log('catch', err)
-            c.end()
-        })
-        // 测试创建目录
-        // makeDir(p)
-        // 测试上传一个目录
-        // uploadDir(p).then(res => {
-        //     log('全部上传完成', res)
+        // uploadFiles(p).then(() => {
+        //     log('then', '全部完成')
         //     c.end()
-        // }).catch(err => {
+        // }).catch((err) => {
         //     log('catch', err)
         //     c.end()
         // })
+        // 测试创建目录
+        // makeDir(p)
+        // 测试上传一个目录
+        uploadDir(p).then(res => {
+            log('全部上传完成', res)
+            c.end()
+        }).catch(err => {
+            log('catch', err)
+            c.end()
+        })
     })
 })
 c.on('greeting', (s) => {
