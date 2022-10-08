@@ -561,7 +561,7 @@ Vue.createApp({...})
 ||beforeUpdate|onBeforeUpdate|
 ||updated|onUpdated|
 ||beforeUnmount|onBeforeUnmount|
-||unmounted|unUnmouted|
+||unmounted|onUnmounted|
 ||errorCaptured|onErrorCaptured|
 ||renderTracked|onRenderTracked|
 ||renderTriggered|onRenderTriggered|

@@ -244,10 +244,8 @@ c.on('ready', () => {
         }
         // let p = 'promote/picbed/prod'
         let p = [
-            // 'promote/searchWord/out/index.js',
-            // 'index.html',
-            // 'pwa.js',
-            'builder/webpack5/index.html',
+            'framework/vue3/index.html',
+            // 'builder/webpack5/index.html',
         ]
         // 检测指定目录是否存在
         // checkDir(p)
