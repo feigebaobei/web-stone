@@ -174,7 +174,6 @@ webpack([
 |warnings||||||
 |waringsCount||||||
 
-
 |assets的属性||||||
 |-|-|-|-|-|-|
 |chunkNames|名字|||||
@@ -204,7 +203,6 @@ webpack([
 |parents|父chunk的id|||||
 |rendered|是否使用代码生成|||||
 |size|大小|||||
-
 
 |module的属性||||||
 |-|-|-|-|-|-|
@@ -262,14 +260,64 @@ webpack([
 |internalIp(family: 'v4' | 'v6')|||||
 |internalIpSync(family: 'v4' | 'v6')|||||
 
+## hmr(hot module replacement)
 
+## loading interface
+好像是教大家怎么写一个loader
 
-## title
-## title
-## title
-## title
-## title
-## title
+## logger interface
+自定义日志的方法
+
+## modules
+当wp打包时处理module的方法  
+支持如下规范。  
+
+### esm （推荐）
+wp支持动态解析，后引入。  
+
+### cjs
+require
+require.resolve
+require.cache
+require.ensure
+
+### amd
+
+### labeled modules
+### webpack
+
+## module variables
+使用wp打包时可以使用的变量。  
+
+- module.loaded (nodejs)  
+- module.hot (webpack-specific)
+- module.id (cjs)
+- module.exports (cjs)
+- exports (cjs)
+- global (nodejs)
+- __dirname (nodejs)
+- import.meta.url 引入文件的绝对url
+- import.meta.webpack wp的版本
+- import.meta.webpackHot module.hot的别名
+- import.meta.webpackContext  
+- __filename (nodejs)
+- __resourceQuery (webpack-specific)
+- __webpack_public_path__ (webpack-specific)
+- __webpack_require__ (webpack-specific)
+- __webpack_chunk_load__ (webpack-specific)
+- __webpack_module__ (webpack-specific)
+- __webpack_module__.id (webpack-specific)
+- __webpack_modules__ (webpack-specific)
+- __webpack_hash__ (webpack-specific)
+- __webpack_get_script_filename__ (webpack-specific)
+- __non_webpack_require__ (webpack-specific)
+- __webpack_exports_info__ (webpack-specific)
+- __webpack_is_included__ (webpack-specific)
+- __webpack_base_uri__ (webpack-specific)
+- __webpack_runtime_id__  
+
+## compilation object
+
 ## title
 ## title
 ## title
