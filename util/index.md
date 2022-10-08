@@ -165,6 +165,15 @@ let timeoutValue = (realPromiseFn, delay, defalutValue) => {
   return Promise.any([realPromiseFn(), setTimeoutPromise(() => defaultValue, delay)])
 }
 
+// 复制
+let copy = function (str){
+  var inp = document.createElement('input'); // create input标签
+  document.body.appendChild(inp) // 添加到body中
+  inp.value = str // that.textContent // 给input设置value属性为需要copy的内容
+  inp.select(); // 选中
+  document.execCommand('copy',false); // copy已经选中的内容
+  inp.remove(); // 删除掉这个dom
+}
 
 
 

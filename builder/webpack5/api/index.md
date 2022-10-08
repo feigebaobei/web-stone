@@ -79,11 +79,78 @@ demo: `npx webpack --env production`
 |1|wp出错||
 |2|配置项或选项出错||
 
-## title
+## node interface
+wp为node提供了api入口。  
+
+### usage
+```js
+const webpack = require('webpack')
+const compiler = webpack(config, (err, stats) => {
+    // err是与wp相关的错误。
+    // stats.hasError() 是编译时的错误
+    // if (err || stats.hasErrors()) {...}
+    const cErr = console.error
+    if (err) {
+        cErr(err.stack || err)
+        if (err.details) {
+            cErr(err.details)
+        }
+        return
+    }
+    const info = stats.toJson()
+    if (stats.hasErrors()) {
+        cErr(info.errors)
+    }
+    if (stats.hasWarnings()) {
+        console.warn(info.warnings)
+    }
+})
+```
+
+### compiler instance
+|||||
+|-|-|-|-|
+|方法||||
+||run(cb)|||
+||watch(watchOptions, handler)|||
+
+### watching
+```js
+const watching = compiler.watch({...}, (err, stats) => {...})
+watching.close((closeErr) => {...})
+watching.invalidate() // 设置当前compiling不合法
+```
+### stats
+|||||||
+|-|-|-|-|-|-|
+|hasErrors()||||||
+|hasWarnings()||||||
+|toJson(options)||||||
+|toString(options)||||||
+|hasErrors()||||||
+|hasErrors()||||||
+|hasErrors()||||||
+|hasErrors()||||||
+|hasErrors()||||||
+|hasErrors()||||||
+|hasErrors()||||||
+
+### multicompiler
+```js
+webpack([
+    {entry: './index1.js', output: {filename: 'bundle1.js'}},
+    {entry: './index2.js', output: {filename: 'bundle2.js'}},
+], (err, stats) => {
+    // stats [stats, stats]
+})
+```
+- 当使用多个配置对象时，回调方法的参数会是多个stats对象组成的数组。  
+- 当使用多个配置对象时，这些配置对象对应的打包逻辑会依次执行。  
+
+## Stats Data
 
 
 
-## title
 ## title
 ## title
 ## title

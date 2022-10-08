@@ -245,7 +245,9 @@ c.on('ready', () => {
         // let p = 'promote/picbed/prod'
         let p = [
             'framework/vue3/index.html',
-            // 'builder/webpack5/index.html',
+            'util/index.html',
+            'builder/index.html',
+            'builder/webpack5/api/index.html',
         ]
         // 检测指定目录是否存在
         // checkDir(p)

@@ -809,6 +809,7 @@ app.mount('#root')
 - vue
 
 ## todo
-> 自己写一个指令。 V-teleport 
-> v-if/v-for/v-show等常用指令是如何工作的。
-> 未来迭代计划。
+> 自己写一个指令。 V-teleport   
+> v-if/v-for/v-show等常用指令是如何工作的。  
+> 未来迭代计划。  
+> 不能够在setUp函数中使用data和methods.  

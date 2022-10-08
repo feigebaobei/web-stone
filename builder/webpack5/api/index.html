@@ -482,6 +482,183 @@
 </tr>
 </tbody>
 </table>
+<h2 id="node-interface">node interface</h2>
+<p>wp为node提供了api入口。</p>
+<h3 id="usage">usage</h3>
+<pre><code class="language-js"><div><span class="hljs-keyword">const</span> webpack = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;webpack&#x27;</span>)
+<span class="hljs-keyword">const</span> compiler = webpack(config, <span class="hljs-function">(<span class="hljs-params">err, stats</span>) =&gt;</span> {
+    <span class="hljs-comment">// err是与wp相关的错误。</span>
+    <span class="hljs-comment">// stats.hasError() 是编译时的错误</span>
+    <span class="hljs-comment">// if (err || stats.hasErrors()) {...}</span>
+    <span class="hljs-keyword">const</span> cErr = <span class="hljs-built_in">console</span>.error
+    <span class="hljs-keyword">if</span> (err) {
+        cErr(err.stack || err)
+        <span class="hljs-keyword">if</span> (err.details) {
+            cErr(err.details)
+        }
+        <span class="hljs-keyword">return</span>
+    }
+    <span class="hljs-keyword">const</span> info = stats.toJson()
+    <span class="hljs-keyword">if</span> (stats.hasErrors()) {
+        cErr(info.errors)
+    }
+    <span class="hljs-keyword">if</span> (stats.hasWarnings()) {
+        <span class="hljs-built_in">console</span>.warn(info.warnings)
+    }
+})
+</div></code></pre>
+<h3 id="compiler-instance">compiler instance</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>方法</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>run(cb)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>watch(watchOptions, handler)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="watching">watching</h3>
+<pre><code class="language-js"><div><span class="hljs-keyword">const</span> watching = compiler.watch({...}, <span class="hljs-function">(<span class="hljs-params">err, stats</span>) =&gt;</span> {...})
+watching.close(<span class="hljs-function">(<span class="hljs-params">closeErr</span>) =&gt;</span> {...})
+watching.invalidate() <span class="hljs-comment">// 设置当前compiling不合法</span>
+</div></code></pre>
+<h3 id="stats">stats</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>hasErrors()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hasWarnings()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>toJson(options)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>toString(options)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hasErrors()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hasErrors()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hasErrors()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hasErrors()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hasErrors()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hasErrors()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hasErrors()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="multicompiler">multicompiler</h3>
+<pre><code class="language-js"><div>webpack([
+    {<span class="hljs-attr">entry</span>: <span class="hljs-string">&#x27;./index1.js&#x27;</span>, <span class="hljs-attr">output</span>: {<span class="hljs-attr">filename</span>: <span class="hljs-string">&#x27;bundle1.js&#x27;</span>}},
+    {<span class="hljs-attr">entry</span>: <span class="hljs-string">&#x27;./index2.js&#x27;</span>, <span class="hljs-attr">output</span>: {<span class="hljs-attr">filename</span>: <span class="hljs-string">&#x27;bundle2.js&#x27;</span>}},
+], <span class="hljs-function">(<span class="hljs-params">err, stats</span>) =&gt;</span> {
+    <span class="hljs-comment">// stats [stats, stats]</span>
+})
+</div></code></pre>
+<ul>
+<li>当使用多个配置对象时，回调方法的参数会是多个stats对象组成的数组。</li>
+<li>当使用多个配置对象时，这些配置对象对应的打包逻辑会依次执行。</li>
+</ul>
+<h2 id="stats-data">Stats Data</h2>
 <h2 id="title">title</h2>
 <h2 id="title-1">title</h2>
 <h2 id="title-2">title</h2>
@@ -496,8 +673,6 @@
 <h2 id="title-11">title</h2>
 <h2 id="title-12">title</h2>
 <h2 id="title-13">title</h2>
-<h2 id="title-14">title</h2>
-<h2 id="title-15">title</h2>
 
         
         
