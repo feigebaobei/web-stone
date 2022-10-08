@@ -127,13 +127,6 @@ watching.invalidate() // 设置当前compiling不合法
 |hasWarnings()||||||
 |toJson(options)||||||
 |toString(options)||||||
-|hasErrors()||||||
-|hasErrors()||||||
-|hasErrors()||||||
-|hasErrors()||||||
-|hasErrors()||||||
-|hasErrors()||||||
-|hasErrors()||||||
 
 ### multicompiler
 ```js
@@ -147,11 +140,130 @@ webpack([
 - 当使用多个配置对象时，回调方法的参数会是多个stats对象组成的数组。  
 - 当使用多个配置对象时，这些配置对象对应的打包逻辑会依次执行。  
 
+### WatchOpitons
+|属性|||||||
+|-|-|-|-|-|-|-|
+|aggregateTimeout||number|20||||
+|ignored||regexp string string[]|||||
+|poll||boolean number|false||||
+|followSymlinks|是否观察软链接文件|boolean|||||
+|stdin|当输入stdin时是否停止观察||||||
+
 ## Stats Data
+关于module的静态信息。  
+可用于优化编译速度和分析应用依赖图。  
+它是顶级结构。  
+
+|stats的属性||||||
+|-|-|-|-|-|-|
+|version||||||
+|hash||||||
+|time|编译用时 ms|||||
+|publicPath||||||
+|outputPath|输出目录|||||
+|assetsByChunkName|每个资源的名字|||||
+||main|||||
+||named-chunk|||||
+||other-chunk|||||
+|assets||||||
+|chunks||||||
+|modules||||||
+|entryPoints||||||
+|errors||||||
+|errorsCount||||||
+|warnings||||||
+|waringsCount||||||
+
+
+|assets的属性||||||
+|-|-|-|-|-|-|
+|chunkNames|名字|||||
+|chunks|包含的资源id|||||
+|comparedForEmit|是否与相同名字的资源执行比对。|||||
+|emitted|是否打包到输出目录|||||
+|name|输出的文件名|||||
+|size||||||
+|info||||||
+||immutable|是否长时间缓存||||
+||size|||||
+||development|是否保在开发时使用||||
+||hotMudleReplacement|是否使用hmr||||
+||sourceFilename|||||
+||javascriptModule|资源是否是js且esm规范||||
+
+|chunk的属性||||||
+|-|-|-|-|-|-|
+|entry|是否是入口文件|||||
+|files|包含的文件名||[]|||
+|filterModules||||||
+|id|chunk的id|||||
+|initial|是否在init page中加载|||||
+|modules||||||
+|name|包含的chunk的名字|||||
+|origins||||||
+|parents|父chunk的id|||||
+|rendered|是否使用代码生成|||||
+|size|大小|||||
+
+
+|module的属性||||||
+|-|-|-|-|-|-|
+|assets|包含的资源|[]||||
+|build||||||
+|cacheable|是否从缓存中来|||||
+|chunks|本module包含的chunk的id|||||
+|errors|错误数量|||||
+|failed|是否编译失败|||||
+|id|module的id|||||
+|identifier||||||
+|name|真实的名字|||||
+|optional||||||
+|prefetched|是否预加载|||||
+|profile||||||
+||building|loading and parsing||||
+||dependencies|打包依赖数量||||
+||factory|||||
+|reasons||||||
+|size||||||
+|source||||||
+|warning||||||
+
+|空对象的属性||||||
+|-|-|-|-|-|-|
+|identifier||||||
+
+|error / warining的属性||||||
+|-|-|-|-|-|-|
+|moduleIdentifier||||||
+|moduleName||||||
+|loc||||||
+|message||||||
+|moduleId||||||
+|moduleTrace||[]||||
+||originIdentifier|||||
+||originName|||||
+||moduleIdentifier|||||
+||moduleName|||||
+||dependencies|||||
+||originId|||||
+||moduelId|||||
+|details||||||
+|stack||||||
+
+## webpack-dev-server api
+在node.js中使用此包。  
+
+||||||
+|-|-|-|-|-|
+|start()|||||
+|startCallback(cb)|||||
+|stop()|||||
+|stopCallback(cb)|||||
+|internalIp(family: 'v4' | 'v6')|||||
+|internalIpSync(family: 'v4' | 'v6')|||||
 
 
 
-## title
 ## title
 ## title
 ## title
