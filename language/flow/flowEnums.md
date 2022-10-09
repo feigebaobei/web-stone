@@ -1,47 +1,43 @@
-# {{packageName}}
+# Flow Enums
+在运行时存在。  
+别的类型在运行时不存在。  
 
-## overview
-> TODO: description
+## benefits
+- 减小重复  
+- 性能比联合类型好。  
+- 可以断言类型  
+- 更安全。
 
-### feature
-- feature0
-- feature1
-- feature2
-
-## install
-`npm i {{packageName}}`
-
-## usage
-同`./demo.md`
+```js
+enum S {
+    A,
+    B,
+    C
+}
+enum S {
+    A = 's',
+    B = 2,
+    C = true
+}
 ```
-const {{packageName}} = require('{{packageName}}');
-// or
-// import {{packageName}} from '{{packageName}}';
-// TODO: DEMONSTRATE API
-```
+没有从0开始递增的功能。  
+# Enabling enums in your project
+若要使用enums，则需要：
+- flow >= 0.159  
+- prettier >= 2.2  
+- babel >= 7.13.0  
+- jscodeshift >= 0.11.0
+- hermes-parser >= 0.4.8
+- hermes-parser >= 0.4.8
+- babel-eslint >= 10.1.0
 
-## configuration
-默认配置文件：`path/to/file.json`。
-|key|description|default|enum|demo|||
-|-|-|-|-|-|-|-|
-||||||||
-||||||||
-||||||||
-## api
-`{{packageName}}.fn(param, first: string, second: boolean = true) => void`
-description
 
-`{{packageName}}.fn(param, [options: {a: string, b?: number}])`
-description
 
-## principle
-此包的处理逻辑。
 
-### uml
-```
-```
 
-## todo
-> 未来迭代计划。
-> 未来迭代计划。
-> 未来迭代计划。
+
+
+# Defining enums
+# Using enums
+# Migrating from
+# Legacy pattterns

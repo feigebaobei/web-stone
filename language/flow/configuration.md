@@ -1,47 +1,27 @@
-# {{packageName}}
+# config
 
-## overview
-> TODO: description
-
-### feature
-- feature0
-- feature1
-- feature2
-
-## install
-`npm i {{packageName}}`
-
-## usage
-同`./demo.md`
+## 基本结构
 ```
-const {{packageName}} = require('{{packageName}}');
-// or
-// import {{packageName}} from '{{packageName}}';
-// TODO: DEMONSTRATE API
+[include]
+[ignore]
+[untyped]
+[libs]
+[lints]
+[options]
+[version]
+[declarations]
+[strict]
 ```
 
-## configuration
-默认配置文件：`path/to/file.json`。
-|key|description|default|enum|demo|||
-|-|-|-|-|-|-|-|
-||||||||
-||||||||
-||||||||
-## api
-`{{packageName}}.fn(param, first: string, second: boolean = true) => void`
-description
-
-`{{packageName}}.fn(param, [options: {a: string, b?: number}])`
-description
-
-## principle
-此包的处理逻辑。
-
-### uml
-```
-```
-
-## todo
-> 未来迭代计划。
-> 未来迭代计划。
-> 未来迭代计划。
+||说明||demo||
+|-|-|-|-|-|
+|`[include]`|包含的目录、文件。每行一个。|支持 * **|||
+|`[ignore]`|指定不处理的目录、文件。|`<PROJECT_ROOT>`在运行时会替换为项目的根目录。|||
+|`[untyped]`|指定不检测类型的目录、文件|不明白与ignore的不同|||
+|`[libs]`|不会||||
+|`[lints]`|处理flow编写格式是否规范的验证||`ruleA=securityA`||
+|`[options]`|看着像lint的规则||||
+|`[version]`|设置版本号||||
+|`[declarations]`|||||
+|`[strict]`|||||
+||||||
