@@ -6,7 +6,6 @@
 ### feature
 - 类型引用  
 - 实时回馈  
-- feature2
 
 ## install
 `npm i flow-bin -D`
@@ -63,11 +62,36 @@ npm run flow        // 非第一次运行
 - 使用`flow stop`停止flow的进程。  
 
 ## faq
-## type annotations
+## [type annotations](/language/flow/typeAnnotations.html)  
 ## flow enums
 ## type system
 ## cli commands
-## configuration
+```shell
+flow help
+flow
+flow status
+flow stop
+flow coverage
+flow batch-coverage <dir>
+```
+
+## [configuration](/language/flow/configuration.html)
+默认配置文件：`<root>/.flowconfig`。  
+
+||说明||demo||
+|-|-|-|-|-|
+|`[include]`|包含的目录、文件。每行一个。|支持 * **|||
+|`[ignore]`|指定不处理的目录、文件。|`<PROJECT_ROOT>`在运行时会替换为项目的根目录。|||
+|`[untyped]`|指定不检测类型的目录、文件|不明白与ignore的不同|||
+|`[libs]`|不会||||
+|`[lints]`|处理flow编写格式是否规范的验证||`ruleA=securityA`||
+|`[options]`|看着像lint的规则||||
+|`[version]`|设置版本号||||
+|`[declarations]`|||||
+|`[strict]`|||||
+||||||
+
+
 ## library definitions
 ## declaration files
 ## error suppressions
@@ -77,27 +101,7 @@ npm run flow        // 非第一次运行
 ## linting
 ## flow strict
 
-
-
-
-
-
-
-
-
-## configuration
-默认配置文件：`<root>/file.json`。
-|key|description|default|enum|demo|||
-|-|-|-|-|-|-|-|
-||||||||
-||||||||
-||||||||
 ## api
-`flow.fn(param, first: string, second: boolean = true) => void`
-description
-
-`flow.fn(param, [options: {a: string, b?: number}])`
-description
 
 ## principle
 此包的处理逻辑。
@@ -119,6 +123,4 @@ description
 ||方法内的方法中不能使用this|可以|
 |不知道的类型|mixed|unknown|
 |any|不检测||
-|类型别名||v|
-||||
-||||
+|类型别名|v|v|

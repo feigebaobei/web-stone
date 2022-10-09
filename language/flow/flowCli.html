@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>flow</title>
+        <title>Flow CLI</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -79,145 +79,33 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="flow">flow</h1>
-<h2 id="overview">overview</h2>
-<blockquote>
-<p>为js提供静态类型检测。</p>
-</blockquote>
-<h3 id="feature">feature</h3>
-<ul>
-<li>类型引用</li>
-<li>实时回馈</li>
-</ul>
-<h2 id="install">install</h2>
-<p><code>npm i flow-bin -D</code>
-注意包名。</p>
-<ol>
-<li>编写flow语言的代码</li>
-<li>使用@babel/preset-flow或flow-remove-types去掉类型代码。</li>
-<li>运行flow</li>
-</ol>
-<pre><code class="language-js"><div><span class="hljs-comment">// @flow</span>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">f</span> (<span class="hljs-params">n: number</span>): <span class="hljs-title">number</span> </span>{
-    <span class="hljs-keyword">return</span> n * n;
-}
-f(<span class="hljs-string">&#x27;2&#x27;</span>) <span class="hljs-comment">// error</span>
-</div></code></pre>
-<p><strong>使用@babel/preset-flow</strong></p>
-<pre><code><code><div>npm i -D @babel/core @babel/cli @babel/preset-flow  
-</div></code></code></pre>
-<pre><code><code><div>// .babelrc
-{
-    &quot;presets&quot;: [&quot;@babel/preset-flow&quot;]
-}
-</div></code></code></pre>
-<pre><code><code><div>// package.json
-&quot;script&quot;: {
-    &quot;build&quot;: &quot;babel src/ -d lib/&quot; // 去掉类型
-}
-</div></code></code></pre>
-<p><strong>使用flow-remove-types</strong></p>
-<pre><code><code><div>npm i -D flow-remove-types
-</div></code></code></pre>
-<pre><code><code><div>// package.json
-&quot;script&quot;: {
-    &quot;build&quot;: &quot;flow-remove-types src/ -d lib/&quot; // 去掉类型
-}
-</div></code></code></pre>
-<pre><code class="language-shell"><div>npm run flow init   // 第一次运行
-npm run flow        // 非第一次运行
-</div></code></pre>
-<h2 id="usage">usage</h2>
-<ul>
-<li>生产配置文件。 <code>flow init</code></li>
-<li>以<code>// @flow</code>或<code>/* flow */</code>开头，表示此文件是flow文件。</li>
-<li>编写flow代码。</li>
-<li>使用<code>flow</code>或<code>flow status</code>开始后台进程。检查错误</li>
-<li>使用<code>flow stop</code>停止flow的进程。</li>
-</ul>
-<h2 id="faq">faq</h2>
-<h2 id="type-annotations"><a href="/language/flow/typeAnnotations.html">type annotations</a></h2>
-<h2 id="flow-enums">flow enums</h2>
-<h2 id="type-system">type system</h2>
-<h2 id="cli-commands">cli commands</h2>
-<pre><code class="language-shell"><div>flow help
-flow
-flow status
-flow stop
-flow coverage
-flow batch-coverage &lt;dir&gt;
-</div></code></pre>
-<h2 id="configuration"><a href="/language/flow/configuration.html">configuration</a></h2>
-<p>默认配置文件：<code>&lt;root&gt;/.flowconfig</code>。</p>
+        <h1 id="flow-cli">Flow CLI</h1>
 <table>
 <thead>
 <tr>
 <th></th>
-<th>说明</th>
 <th></th>
-<th>demo</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
 <th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>[include]</code></td>
-<td>包含的目录、文件。每行一个。</td>
-<td>支持 * **</td>
+<td><code>--help</code></td>
 <td></td>
 <td></td>
-</tr>
-<tr>
-<td><code>[ignore]</code></td>
-<td>指定不处理的目录、文件。</td>
-<td><code>&lt;PROJECT_ROOT&gt;</code>在运行时会替换为项目的根目录。</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>[untyped]</code></td>
-<td>指定不检测类型的目录、文件</td>
-<td>不明白与ignore的不同</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>[libs]</code></td>
-<td>不会</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>[lints]</code></td>
-<td>处理flow编写格式是否规范的验证</td>
-<td></td>
-<td><code>ruleA=securityA</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>[options]</code></td>
-<td>看着像lint的规则</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>[version]</code></td>
-<td>设置版本号</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>[declarations]</code></td>
 <td></td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td><code>[strict]</code></td>
+<td><code>coverage</code></td>
+<td>flow覆盖率</td>
+<td></td>
 <td></td>
 <td></td>
 <td></td>
@@ -225,63 +113,30 @@ flow batch-coverage &lt;dir&gt;
 </tr>
 <tr>
 <td></td>
+<td><code>--color</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>--json</code></td>
+<td></td>
 <td></td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
-</tbody>
-</table>
-<h2 id="library-definitions">library definitions</h2>
-<h2 id="declaration-files">declaration files</h2>
-<h2 id="error-suppressions">error suppressions</h2>
-<h2 id="react">react</h2>
-<h2 id="tools">tools</h2>
-<h2 id="editors">editors</h2>
-<h2 id="linting">linting</h2>
-<h2 id="flow-strict">flow strict</h2>
-<h2 id="api">api</h2>
-<h2 id="principle">principle</h2>
-<p>此包的处理逻辑。</p>
-<h3 id="uml">uml</h3>
-<pre><code><code><div></div></code></code></pre>
-<h2 id="todo">todo</h2>
-<blockquote>
-<p>重新整理入口文件。
-基本类型
-fn/object/type/interface/class/generic/utility
-未来迭代计划。
-未来迭代计划。</p>
-</blockquote>
-<h2 id="flow--ts">flow &amp; ts</h2>
-<table>
-<thead>
 <tr>
-<th></th>
-<th>flow</th>
-<th>ts</th>
-</tr>
-</thead>
-<tbody>
-<tr>
+<td><code>--batch-coverage</code></td>
 <td></td>
-<td>方法内的方法中不能使用this</td>
-<td>可以</td>
-</tr>
-<tr>
-<td>不知道的类型</td>
-<td>mixed</td>
-<td>unknown</td>
-</tr>
-<tr>
-<td>any</td>
-<td>不检测</td>
 <td></td>
-</tr>
-<tr>
-<td>类型别名</td>
-<td>v</td>
-<td>v</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 </tbody>
 </table>
