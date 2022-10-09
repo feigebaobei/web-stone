@@ -2,17 +2,16 @@
 
 ## overview
 > 简称ts  
-> 作者认为`ts`是`js`的一个方言，地位与`coffeescript`一样。  
 > js是强类型语言  
-> ts比js更强大。已经有很多前端库使用此语言了。  
-> ts是静态类型检测器。  
+> ts比js更强大。已经有很多前端项目使用此语言了。  
+> ts是静态类型检测器。比flow更强大。  
 > 它就是强类型的js。它的所有功能都是为了类型服务的。  
 > ts把interface/type都叫做类型
 
 ### feature
-- 类型注解
-- 类型推断
-- 在开发过程中发现潜在问题。
+- 类型注解  
+- 类型推断  
+- 在开发过程中发现潜在问题（根据类型发现的）。  
 
 ## install
 `npm i -g typescript`  
@@ -97,7 +96,7 @@ tsc hello.ts
 |boolean||||||
 |array|`[type]` / `type[]` / `Array<type>`|||||
 |any||当ts不能推断出数据类型时，使用any类型。||||
-|function||||||
+|function||可能与下面的Function有关||||
 |object||||||
 |union||联合类型||||
 |type||类型别名||||
@@ -117,12 +116,11 @@ tsc hello.ts
 |tuple||明确数组中对应下标的数据的类型||||
 |`generic types`||泛型|``|||
 |symbol||||||
-|symbol||||||
 
 ### [type & interface 不同](/language//typescript/type&interface.html)
 
 ### 缩小类型范围
-- typeof 会返回8种结果`string / number / bigint / boolean / symbol / undefined / object / function`。其中于`null`，它被认为是`object`。与js的基本数据类型相比。多了`function`。
+- typeof 会返回8种结果`string / number / bigint / boolean / symbol / undefined / object / function`。其中`null`，它被认为是`object`。与js的基本数据类型相比。多了`function`。
 - 真值判断。ts把`0 / NaN / '' / 0n / null / undefined`认为是假值。  
 - 相等判断。使用`== / != / === / !==`
 - 使用`in`判断。如：`if (key in obj) {...}`  
@@ -386,10 +384,10 @@ let {a} = require('...')
 ```
 
 ## 操作类的工具方法
-都在大写开头。
+都是大写开头。
 ```ts
 // 通式
-fn<type>
+Util<type>
 ```
 
 |||||
@@ -475,7 +473,6 @@ ts是一种js的方言。以前使用js怎么写项目，现在使用ts就怎么
 
 ## todo
 ### interface & type
-ts官网中把interface / type 都叫做类型。  
 |interface|type|
 |-|-|
 |定义数据结构|定义数据结构|
@@ -488,18 +485,18 @@ ts官网中把interface / type 都叫做类型。
 |扩展类`interface A extends ClassName {...}`|-|
 
 ### `*.d.ts`文件如何工作？
-`*.d.ts`是声明文件。声明api/代码结构等。一般用于：在引用了外部js代码时需要和声明文件描述api等。一般代码生成，不是手动编写的。
-编写好`*.d.ts`后发布到`@types orgnizatio`
-使用`npm i -s @type/xxx`安装。
-在`*.js`的同级编写`*.d.ts`。
-使用`/// <reference types="..." />`引入其他声明。
-有此文件后可在编辑器中进行溯源。
-写`*.js / *.d.ts`还不如写`*.ts`.
+1. `*.d.ts`是声明文件。声明api/代码结构等。一般用于：在引用了外部js代码时需要用声明文件描述api等。一般由代码生成，不是手动编写的。  
+2. 编写好`*.d.ts`后发布到`@types orgnizatio`  
+3. 使用`npm i -s @type/xxx`安装。  
+4. 在`*.js`的同级编写`*.d.ts`。  
+5. 使用`/// <reference types="..." />`引入其他声明。  
+6. 有此文件后可在编辑器中进行溯源。  
+7. 写`*.js / *.d.ts`还不如写`*.ts`.
 
 ### ts & js
-ts就是为js增加了很多类。但是又不承认，非说ts是js的超集。  
+ts就是为js增加了很多类型。但是又不承认，非说ts是js的超集。  
 - 定义对象中的方法时使用`:`  
-- class可以不实现全interface.
+- class可以不实现全interface.  
 
 ### 如何写一个ts
 ts团队融入了很多强类型语言的东西。如注解(java)、装饰器(java/python)、类型文件（c）。  
@@ -507,7 +504,7 @@ ts团队融入了很多强类型语言的东西。如注解(java)、装饰器(ja
 
 为什么我写不出来：  
 - 不会这么多语言。  
-- 不会语法分析、词法分析。  
+- 不会语法分析、词法分析（ast）。  
 
 ### ts兼容js包
 ts出现以前js已经存在好多年了。行业中已经存在好多js包。ts团队为了让ts/vscode兼容已经存在的js包。创建了在配置文件中设置`*.d.ts`文件的选项。还创建了`@types/*`的私有包，号召大家一起维护。

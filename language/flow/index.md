@@ -123,4 +123,14 @@ flow batch-coverage <dir>
 ||方法内的方法中不能使用this|可以|
 |不知道的类型|mixed|unknown|
 |any|不检测||
-|类型别名|v|v|
+|类型别名|y|y|
+|private|x|y|
+|数据类型|boolean、string、number、null、undefined（在flow中叫void）、symbol |20+|
+|类型断言|`(value: type)`|`(value as type)`|
+|类型交叉|前者优先|若相同key对应的类型不同，则报错。|
+|接口扩展|x|`interface A extends B, C {...}`|
+|操作类型的方法|y|y,更多一些|
+|抽象类型|generic|genericType|
+||||
+||||
+||||

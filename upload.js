@@ -242,12 +242,17 @@ c.on('ready', () => {
             log('cwd', 'htdocs', err)
             throw err
         }
-        // let p = 'promote/picbed/prod'
+        // let p = 'language/flow' // todo
         let p = [
-            'framework/vue3/index.html',
-            'util/index.html',
-            'builder/index.html',
-            'builder/webpack5/api/index.html',
+            'index.html',
+            'language/flow/index.html',
+            'jsPackages/prettier.html',
+            'language/typescript/index.html',
+            // 'language/flow/declarationFiles.html',
+            // 'language/flow/flowCli.html',
+            // 'language/flow/linting.html',
+            // 'language/flow/react.html',
+            // 'language/flow/typeAnnotations.html',
         ]
         // 检测指定目录是否存在
         // checkDir(p)

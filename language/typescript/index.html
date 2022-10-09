@@ -84,10 +84,9 @@
 <h2 id="overview">overview</h2>
 <blockquote>
 <p>简称ts<br>
-作者认为<code>ts</code>是<code>js</code>的一个方言，地位与<code>coffeescript</code>一样。<br>
 js是强类型语言<br>
-ts比js更强大。已经有很多前端库使用此语言了。<br>
-ts是静态类型检测器。<br>
+ts比js更强大。已经有很多前端项目使用此语言了。<br>
+ts是静态类型检测器。比flow更强大。<br>
 它就是强类型的js。它的所有功能都是为了类型服务的。<br>
 ts把interface/type都叫做类型</p>
 </blockquote>
@@ -95,7 +94,7 @@ ts把interface/type都叫做类型</p>
 <ul>
 <li>类型注解</li>
 <li>类型推断</li>
-<li>在开发过程中发现潜在问题。</li>
+<li>在开发过程中发现潜在问题（根据类型发现的）。</li>
 </ul>
 <h2 id="install">install</h2>
 <p><code>npm i -g typescript</code><br>
@@ -259,7 +258,7 @@ Demo.getInstance() <span class="hljs-comment">// instance</span>
 <tr>
 <td>function</td>
 <td></td>
-<td></td>
+<td>可能与下面的Function有关</td>
 <td></td>
 <td></td>
 <td></td>
@@ -416,20 +415,12 @@ Demo.getInstance() <span class="hljs-comment">// instance</span>
 <td></td>
 <td></td>
 </tr>
-<tr>
-<td>symbol</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
 </tbody>
 </table>
 <h3 id="type--interface-不同"><a href="/language//typescript/type&amp;interface.html">type &amp; interface 不同</a></h3>
 <h3 id="缩小类型范围">缩小类型范围</h3>
 <ul>
-<li>typeof 会返回8种结果<code>string / number / bigint / boolean / symbol / undefined / object / function</code>。其中于<code>null</code>，它被认为是<code>object</code>。与js的基本数据类型相比。多了<code>function</code>。</li>
+<li>typeof 会返回8种结果<code>string / number / bigint / boolean / symbol / undefined / object / function</code>。其中<code>null</code>，它被认为是<code>object</code>。与js的基本数据类型相比。多了<code>function</code>。</li>
 <li>真值判断。ts把<code>0 / NaN / '' / 0n / null / undefined</code>认为是假值。</li>
 <li>相等判断。使用<code>== / != / === / !==</code></li>
 <li>使用<code>in</code>判断。如：<code>if (key in obj) {...}</code></li>
@@ -727,9 +718,9 @@ init后不能改变。<br>
 <span class="hljs-keyword">let</span> {a} = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;...&#x27;</span>)
 </div></code></pre>
 <h2 id="操作类的工具方法">操作类的工具方法</h2>
-<p>都在大写开头。</p>
+<p>都是大写开头。</p>
 <pre><code class="language-ts"><div><span class="hljs-comment">// 通式</span>
-fn&lt;<span class="hljs-keyword">type</span>&gt;
+Util&lt;<span class="hljs-keyword">type</span>&gt;
 </div></code></pre>
 <table>
 <thead>
@@ -910,7 +901,6 @@ fn&lt;<span class="hljs-keyword">type</span>&gt;
 <pre><code><code><div></div></code></code></pre>
 <h2 id="todo">todo</h2>
 <h3 id="interface--type">interface &amp; type</h3>
-<p>ts官网中把interface / type 都叫做类型。</p>
 <table>
 <thead>
 <tr>
@@ -954,15 +944,17 @@ fn&lt;<span class="hljs-keyword">type</span>&gt;
 </tbody>
 </table>
 <h3 id="dts文件如何工作"><code>*.d.ts</code>文件如何工作？</h3>
-<p><code>*.d.ts</code>是声明文件。声明api/代码结构等。一般用于：在引用了外部js代码时需要和声明文件描述api等。一般代码生成，不是手动编写的。
-编写好<code>*.d.ts</code>后发布到<code>@types orgnizatio</code>
-使用<code>npm i -s @type/xxx</code>安装。
-在<code>*.js</code>的同级编写<code>*.d.ts</code>。
-使用<code>/// &lt;reference types=&quot;...&quot; /&gt;</code>引入其他声明。
-有此文件后可在编辑器中进行溯源。
-写<code>*.js / *.d.ts</code>还不如写<code>*.ts</code>.</p>
+<ol>
+<li><code>*.d.ts</code>是声明文件。声明api/代码结构等。一般用于：在引用了外部js代码时需要用声明文件描述api等。一般由代码生成，不是手动编写的。</li>
+<li>编写好<code>*.d.ts</code>后发布到<code>@types orgnizatio</code></li>
+<li>使用<code>npm i -s @type/xxx</code>安装。</li>
+<li>在<code>*.js</code>的同级编写<code>*.d.ts</code>。</li>
+<li>使用<code>/// &lt;reference types=&quot;...&quot; /&gt;</code>引入其他声明。</li>
+<li>有此文件后可在编辑器中进行溯源。</li>
+<li>写<code>*.js / *.d.ts</code>还不如写<code>*.ts</code>.</li>
+</ol>
 <h3 id="ts--js">ts &amp; js</h3>
-<p>ts就是为js增加了很多类。但是又不承认，非说ts是js的超集。</p>
+<p>ts就是为js增加了很多类型。但是又不承认，非说ts是js的超集。</p>
 <ul>
 <li>定义对象中的方法时使用<code>:</code></li>
 <li>class可以不实现全interface.</li>
@@ -973,7 +965,7 @@ fn&lt;<span class="hljs-keyword">type</span>&gt;
 <p>为什么我写不出来：</p>
 <ul>
 <li>不会这么多语言。</li>
-<li>不会语法分析、词法分析。</li>
+<li>不会语法分析、词法分析（ast）。</li>
 </ul>
 <h3 id="ts兼容js包">ts兼容js包</h3>
 <p>ts出现以前js已经存在好多年了。行业中已经存在好多js包。ts团队为了让ts/vscode兼容已经存在的js包。创建了在配置文件中设置<code>*.d.ts</code>文件的选项。还创建了<code>@types/*</code>的私有包，号召大家一起维护。</p>
