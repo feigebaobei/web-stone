@@ -809,3 +809,7 @@ wp支持ie8+及其他浏览器。内部使用`es5-compliant`实现兼容。
 - externals  
 - dll  
 
+## 参考文档
+**[webpack打包原理 ? 看完这篇你就懂了 !](https://juejin.cn/post/6844904038543130637?utm_source=gold_browser_extension%3Futm_source%3Dgold_browser_extension#heading-16)**  
+讲解了入口、依赖图、代码到ast再到代码  
+感觉wp的强大不只这些。它还有loader/plugin  

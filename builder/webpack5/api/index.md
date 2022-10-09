@@ -317,6 +317,37 @@ require.ensure
 - __webpack_runtime_id__  
 
 ## compilation object
+编译时使用方法/属性、hook.
+
+|||||||
+|-|-|-|-|-|-|
+|getStats||||||
+|addModule||||||
+|getStats||||||
+|getStats||||||
+|getStats||||||
+|getStats||||||
+|getStats||||||
+|getStats||||||
+|getStats||||||
+|getStats||||||
+|getStats||||||
+|getStats||||||
+|getStats||||||
+|getStats||||||
+|getStats||||||
+|getStats||||||
+|getStats||||||
+|getStats||||||
+|getStats||||||
+|getStats||||||
+|getStats||||||
+|getStats||||||
+
+
+
+
+
 
 ## title
 ## title

@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>api</title>
+        <title>&#x7c7b;&#x578b;&#x6ce8;&#x89e3;</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -63,7 +63,8 @@
 }
 
 </style>
-        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -79,1592 +80,446 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="api">api</h1>
-<h2 id="cli">cli</h2>
-<p>wp支持cli/config，二种使用方式。<br>
-推荐使用config方式。</p>
-<h3 id="子命令">子命令</h3>
-<p>省略了简写和别名</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>build</td>
-<td>开始打包。默认执行。</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>configtest</td>
-<td>验证配置文件是否正确</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>help</td>
-<td>显示子命令的使用方法</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>info</td>
-<td>显示关于当前系统的信息</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>init</td>
-<td>初始化一个wp项目</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>loader</td>
-<td>使用脚手架创建一个loader</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>plugin</td>
-<td>使用脚手架创建一个plugin</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>serve</td>
-<td>运行webpack-dev-server</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>version</td>
-<td>显示webpack/webpack-cli/webpack-dev-server的版本号</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>watch</td>
-<td>当文件改变时运行wp</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h3 id="选项">选项</h3>
-<p>wp的选项都是使用<code>-</code>连接的。</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>--entry</td>
-<td>打包的入口</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>--config</td>
-<td>指定配置文件</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>--config-name</td>
-<td>使用配置文件中的指定名称的配置对象</td>
-<td>每个配置对象的name属性对应。</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>--name</td>
-<td>为配置对象命名</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>--color</td>
-<td>是否为console使用颜色</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>--merge</td>
-<td>合并多个配置文件</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>--env</td>
-<td>指定环境变量</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>--node-env</td>
-<td>为<code>process.env.NODE_ENV</code>设置值</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>--progress</td>
-<td>是否显示打包进度</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>--help</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>--output-path</td>
-<td>指定打包结束的目录</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>--target</td>
-<td>打包结果的运行环境</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>--watch</td>
-<td>是否观察文件的变化</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>--watch-options-stdin</td>
-<td>是否stdin输入时停止观察</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>--hot</td>
-<td>是否使用hmr</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>--devtool</td>
-<td>是否使用source map</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>--prefetch</td>
-<td>预加载此请求</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>--json</td>
-<td>打包结果的输出日志形式是否使用json形式</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>--mode</td>
-<td>指定mode</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>--version</td>
-<td>设置版本</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>--stats</td>
-<td>如何对待stat</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>--analyze</td>
-<td>是否启用webpack-bundle-analyzer</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>--no-color</td>
-<td>对console不使用颜色</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>--no-hot</td>
-<td>不使用hmr</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>--no-stats</td>
-<td>不使用编译stat</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>--no-watch</td>
-<td>不观察文件变化</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>--no-devtool</td>
-<td>不使用source map</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>--no-watch-options-stdin</td>
-<td>stdin输入是不停止</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h3 id="自定义环境变量">自定义环境变量</h3>
-<p>demo: <code>npx webpack --env production</code><br>
-<code>--node-env</code>的会同时作用于<code>process.env.NODE_ENV</code>和<code>mode</code></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>boolean</td>
-<td><code>npx webpack --env prod</code></td>
-<td>{prod: true}</td>
-<td></td>
-</tr>
-<tr>
-<td>多个boolean</td>
-<td><code>npx webpack --env prod --env min</code></td>
-<td>{prod: true, min: true}</td>
-<td></td>
-</tr>
-<tr>
-<td>value</td>
-<td><code>npx webpack --env platform=app --env production</code></td>
-<td>{platform: 'app', production: true}</td>
-<td></td>
-</tr>
-<tr>
-<td>string</td>
-<td><code>npx webpack --env foo=bar=app</code></td>
-<td>{foo: &quot;bar=app&quot;}</td>
-<td></td>
-</tr>
-<tr>
-<td>object</td>
-<td><code>npx webpack --env app.platform=&quot;staging&quot; --env app.name=&quot;test&quot;</code></td>
-<td>{app: {platform: &quot;staging&quot;, name: &quot;test&quot;}}</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h3 id="内置环境变量">内置环境变量</h3>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>WEBPACK_SERVE</td>
-<td>boolean</td>
-<td>当使用serve时为true</td>
-<td></td>
-</tr>
-<tr>
-<td>WEBPACK_BUILD</td>
-<td>boolean</td>
-<td>当使用build时为true</td>
-<td></td>
-</tr>
-<tr>
-<td>WEBPACK_WATCH</td>
-<td>boolean</td>
-<td>当使用watch时为true</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h3 id="exit-code">exit code</h3>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0</td>
-<td>成功</td>
-<td></td>
-</tr>
-<tr>
-<td>1</td>
-<td>wp出错</td>
-<td></td>
-</tr>
-<tr>
-<td>2</td>
-<td>配置项或选项出错</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="node-interface">node interface</h2>
-<p>wp为node提供了api入口。</p>
-<h3 id="usage">usage</h3>
-<pre><code class="language-js"><div><span class="hljs-keyword">const</span> webpack = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;webpack&#x27;</span>)
-<span class="hljs-keyword">const</span> compiler = webpack(config, <span class="hljs-function">(<span class="hljs-params">err, stats</span>) =&gt;</span> {
-    <span class="hljs-comment">// err是与wp相关的错误。</span>
-    <span class="hljs-comment">// stats.hasError() 是编译时的错误</span>
-    <span class="hljs-comment">// if (err || stats.hasErrors()) {...}</span>
-    <span class="hljs-keyword">const</span> cErr = <span class="hljs-built_in">console</span>.error
-    <span class="hljs-keyword">if</span> (err) {
-        cErr(err.stack || err)
-        <span class="hljs-keyword">if</span> (err.details) {
-            cErr(err.details)
-        }
-        <span class="hljs-keyword">return</span>
-    }
-    <span class="hljs-keyword">const</span> info = stats.toJson()
-    <span class="hljs-keyword">if</span> (stats.hasErrors()) {
-        cErr(info.errors)
-    }
-    <span class="hljs-keyword">if</span> (stats.hasWarnings()) {
-        <span class="hljs-built_in">console</span>.warn(info.warnings)
-    }
-})
-</div></code></pre>
-<h3 id="compiler-instance">compiler instance</h3>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>方法</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>run(cb)</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>watch(watchOptions, handler)</td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h3 id="watching">watching</h3>
-<pre><code class="language-js"><div><span class="hljs-keyword">const</span> watching = compiler.watch({...}, <span class="hljs-function">(<span class="hljs-params">err, stats</span>) =&gt;</span> {...})
-watching.close(<span class="hljs-function">(<span class="hljs-params">closeErr</span>) =&gt;</span> {...})
-watching.invalidate() <span class="hljs-comment">// 设置当前compiling不合法</span>
-</div></code></pre>
-<h3 id="stats">stats</h3>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>hasErrors()</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>hasWarnings()</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>toJson(options)</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>toString(options)</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h3 id="multicompiler">multicompiler</h3>
-<pre><code class="language-js"><div>webpack([
-    {<span class="hljs-attr">entry</span>: <span class="hljs-string">&#x27;./index1.js&#x27;</span>, <span class="hljs-attr">output</span>: {<span class="hljs-attr">filename</span>: <span class="hljs-string">&#x27;bundle1.js&#x27;</span>}},
-    {<span class="hljs-attr">entry</span>: <span class="hljs-string">&#x27;./index2.js&#x27;</span>, <span class="hljs-attr">output</span>: {<span class="hljs-attr">filename</span>: <span class="hljs-string">&#x27;bundle2.js&#x27;</span>}},
-], <span class="hljs-function">(<span class="hljs-params">err, stats</span>) =&gt;</span> {
-    <span class="hljs-comment">// stats [stats, stats]</span>
-})
-</div></code></pre>
-<ul>
-<li>当使用多个配置对象时，回调方法的参数会是多个stats对象组成的数组。</li>
-<li>当使用多个配置对象时，这些配置对象对应的打包逻辑会依次执行。</li>
-</ul>
-<h3 id="watchopitons">WatchOpitons</h3>
-<table>
-<thead>
-<tr>
-<th>属性</th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>aggregateTimeout</td>
-<td></td>
-<td>number</td>
-<td>20</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>ignored</td>
-<td></td>
-<td>regexp string string[]</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>poll</td>
-<td></td>
-<td>boolean number</td>
-<td>false</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>followSymlinks</td>
-<td>是否观察软链接文件</td>
-<td>boolean</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>stdin</td>
-<td>当输入stdin时是否停止观察</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="stats-data">Stats Data</h2>
-<p>关于module的静态信息。<br>
-可用于优化编译速度和分析应用依赖图。<br>
-它是顶级结构。</p>
-<table>
-<thead>
-<tr>
-<th>stats的属性</th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>version</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>hash</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>time</td>
-<td>编译用时 ms</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>publicPath</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>outputPath</td>
-<td>输出目录</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>assetsByChunkName</td>
-<td>每个资源的名字</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>main</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>named-chunk</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>other-chunk</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>assets</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>chunks</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>modules</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>entryPoints</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>errors</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>errorsCount</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>warnings</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>waringsCount</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr>
-<th>assets的属性</th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>chunkNames</td>
-<td>名字</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>chunks</td>
-<td>包含的资源id</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>comparedForEmit</td>
-<td>是否与相同名字的资源执行比对。</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>emitted</td>
-<td>是否打包到输出目录</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>name</td>
-<td>输出的文件名</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>size</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>info</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>immutable</td>
-<td>是否长时间缓存</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>size</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>development</td>
-<td>是否保在开发时使用</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>hotMudleReplacement</td>
-<td>是否使用hmr</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>sourceFilename</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>javascriptModule</td>
-<td>资源是否是js且esm规范</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr>
-<th>chunk的属性</th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>entry</td>
-<td>是否是入口文件</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>files</td>
-<td>包含的文件名</td>
-<td></td>
-<td>[]</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>filterModules</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>id</td>
-<td>chunk的id</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>initial</td>
-<td>是否在init page中加载</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>modules</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>name</td>
-<td>包含的chunk的名字</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>origins</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>parents</td>
-<td>父chunk的id</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>rendered</td>
-<td>是否使用代码生成</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>size</td>
-<td>大小</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr>
-<th>module的属性</th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>assets</td>
-<td>包含的资源</td>
-<td>[]</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>build</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>cacheable</td>
-<td>是否从缓存中来</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>chunks</td>
-<td>本module包含的chunk的id</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>errors</td>
-<td>错误数量</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>failed</td>
-<td>是否编译失败</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>id</td>
-<td>module的id</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>identifier</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>name</td>
-<td>真实的名字</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>optional</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>prefetched</td>
-<td>是否预加载</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>profile</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>building</td>
-<td>loading and parsing</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>dependencies</td>
-<td>打包依赖数量</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>factory</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>reasons</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>size</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>source</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>warning</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr>
-<th>空对象的属性</th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>identifier</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr>
-<th>error / warining的属性</th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>moduleIdentifier</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>moduleName</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>loc</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>message</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>moduleId</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>moduleTrace</td>
-<td></td>
-<td>[]</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>originIdentifier</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>originName</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>moduleIdentifier</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>moduleName</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>dependencies</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>originId</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>moduelId</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>details</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>stack</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="webpack-dev-server-api">webpack-dev-server api</h2>
-<p>在node.js中使用此包。</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>start()</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>startCallback(cb)</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>stop()</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>stopCallback(cb)</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>internalIp(family: 'v4'</td>
-<td>'v6')</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>internalIpSync(family: 'v4'</td>
-<td>'v6')</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="hmrhot-module-replacement">hmr(hot module replacement)</h2>
-<h2 id="loading-interface">loading interface</h2>
-<p>好像是教大家怎么写一个loader</p>
-<h2 id="logger-interface">logger interface</h2>
-<p>自定义日志的方法</p>
-<h2 id="modules">modules</h2>
-<p>当wp打包时处理module的方法<br>
-支持如下规范。</p>
-<h3 id="esm-推荐">esm （推荐）</h3>
-<p>wp支持动态解析，后引入。</p>
-<h3 id="cjs">cjs</h3>
-<p>require
-require.resolve
-require.cache
-require.ensure</p>
-<h3 id="amd">amd</h3>
-<h3 id="labeled-modules">labeled modules</h3>
-<h3 id="webpack">webpack</h3>
-<h2 id="module-variables">module variables</h2>
-<p>使用wp打包时可以使用的变量。</p>
-<ul>
-<li>module.loaded (nodejs)</li>
-<li>module.hot (webpack-specific)</li>
-<li><a href="http://module.id">module.id</a> (cjs)</li>
-<li>module.exports (cjs)</li>
-<li>exports (cjs)</li>
-<li>global (nodejs)</li>
-<li>__dirname (nodejs)</li>
-<li>import.meta.url 引入文件的绝对url</li>
-<li>import.meta.webpack wp的版本</li>
-<li>import.meta.webpackHot module.hot的别名</li>
-<li>import.meta.webpackContext</li>
-<li>__filename (nodejs)</li>
-<li>__resourceQuery (webpack-specific)</li>
-<li><strong>webpack_public_path</strong> (webpack-specific)</li>
-<li><strong>webpack_require</strong> (webpack-specific)</li>
-<li><strong>webpack_chunk_load</strong> (webpack-specific)</li>
-<li><strong>webpack_module</strong> (webpack-specific)</li>
-<li><strong>webpack_module</strong>.id (webpack-specific)</li>
-<li><strong>webpack_modules</strong> (webpack-specific)</li>
-<li><strong>webpack_hash</strong> (webpack-specific)</li>
-<li><strong>webpack_get_script_filename</strong> (webpack-specific)</li>
-<li><strong>non_webpack_require</strong> (webpack-specific)</li>
-<li><strong>webpack_exports_info</strong> (webpack-specific)</li>
-<li><strong>webpack_is_included</strong> (webpack-specific)</li>
-<li><strong>webpack_base_uri</strong> (webpack-specific)</li>
-<li><strong>webpack_runtime_id</strong></li>
-</ul>
-<h2 id="compilation-object">compilation object</h2>
-<p>编译时使用方法/属性、hook.</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>getStats</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>addModule</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>getStats</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>getStats</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>getStats</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>getStats</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>getStats</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>getStats</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>getStats</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>getStats</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>getStats</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>getStats</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>getStats</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>getStats</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>getStats</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>getStats</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>getStats</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>getStats</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>getStats</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>getStats</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>getStats</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>getStats</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="title">title</h2>
-<h2 id="title-1">title</h2>
-<h2 id="title-2">title</h2>
-<h2 id="title-3">title</h2>
-<h2 id="title-4">title</h2>
-<h2 id="title-5">title</h2>
-<h2 id="title-6">title</h2>
+        <h1 id="类型注解">类型注解</h1>
+<pre><code class="language-js"><div><span class="hljs-comment">// @flow</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">concat</span>(<span class="hljs-params">a: string, b: string</span>) </span>{
+  <span class="hljs-keyword">return</span> a + b;
+}
 
-        
+concat(<span class="hljs-string">&quot;A&quot;</span>, <span class="hljs-string">&quot;B&quot;</span>); <span class="hljs-comment">// Works!</span>
+concat(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>); <span class="hljs-comment">// Error!</span>
+</div></code></pre>
+<h1 id="主要类型">主要类型</h1>
+<ul>
+<li>boolean</li>
+<li>string</li>
+<li>number</li>
+<li>null</li>
+<li>undefined （在flow中叫void）</li>
+<li>symbol</li>
+</ul>
+<pre><code class="language-js"><div>?&lt;type&gt;     <span class="hljs-comment">// 可能的类型</span>
+{
+    p?: string      <span class="hljs-comment">// 可选属性</span>
+}
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">f</span> (<span class="hljs-params">a?: string</span>) </span>{}      <span class="hljs-comment">// 可选参数</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">f</span> (<span class="hljs-params">a: string = <span class="hljs-string">&#x27;str&#x27;</span></span>) </span>{}      <span class="hljs-comment">// 默认参数</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">f</span> (<span class="hljs-params">a: symbol</span>) </span>{}      <span class="hljs-comment">// symbol</span>
+</div></code></pre>
+<h1 id="可枚举的">可枚举的</h1>
+<pre><code class="language-js"><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getColor</span>(<span class="hljs-params">name: <span class="hljs-string">&quot;success&quot;</span> | <span class="hljs-string">&quot;warning&quot;</span> | <span class="hljs-string">&quot;danger&quot;</span></span>) </span>{
+  <span class="hljs-keyword">switch</span> (name) {
+    <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;success&quot;</span> : <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;green&quot;</span>;
+    <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;warning&quot;</span> : <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;yellow&quot;</span>;
+    <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;danger&quot;</span>  : <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;red&quot;</span>;
+  }
+}
+</div></code></pre>
+<h1 id="mixed-不知道的类型">mixed 不知道的类型</h1>
+<p>与any类型不同。</p>
+<h1 id="any-types-不会验证的类型">any types 不会验证的类型</h1>
+<h1 id="maybe-types">maybe types</h1>
+<p><code>?&lt;type&gt;</code></p>
+<h1 id="variable-types-可变的类型">variable types 可变的类型。</h1>
+<p>虽然使用var/let声明的变量可变，但是与初始时的变量类型不同时，会提示出错。</p>
+<h1 id="function-types">function types</h1>
+<pre><code class="language-js"><div>(str: string, bool?: boolean, ...nums: <span class="hljs-built_in">Array</span>&lt;number&gt;) =&gt; <span class="hljs-keyword">void</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">method</span>(<span class="hljs-params">optionalValue?: string</span>) </span>{
+}
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">method</span>(<span class="hljs-params">...args: <span class="hljs-built_in">Array</span>&lt;number&gt;</span>): <span class="hljs-title">number</span> </span>{
+}
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">method</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params"><span class="hljs-built_in">this</span>: { x: T }</span>) : <span class="hljs-title">T</span> </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.x;
+}
+<span class="hljs-comment">// 若是返回boolean的方法，需要使用 %checks 注解。</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">f</span>(<span class="hljs-params">a, b</span>): <span class="hljs-title">boolean</span> %<span class="hljs-title">checks</span> </span>{...}
+(...ars: <span class="hljs-built_in">Array</span>&lt;any&gt;) =&gt; any
+() =&gt; mixed
+</div></code></pre>
+<h1 id="object-types">Object types</h1>
+<pre><code class="language-js"><div><span class="hljs-comment">// 创建一个冻起来的对象。定义时有类型</span>
+<span class="hljs-keyword">var</span> obj1: { <span class="hljs-attr">foo</span>: boolean } = { <span class="hljs-attr">foo</span>: <span class="hljs-literal">true</span> };
+<span class="hljs-keyword">var</span> obj: { foo?: boolean } = {}; <span class="hljs-comment">// foo 可为 undefined 不可为 null</span>
+<span class="hljs-comment">// 对象内的方法中不能使用this</span>
+<span class="hljs-comment">// 创建一个非冻起来的对象。定义时无类型。</span>
+<span class="hljs-keyword">var</span> o = {}
+<span class="hljs-comment">// 多次赋值非冻起来的对象时，类型会认为是所有可以的类型。</span>
+<span class="hljs-comment">// 使用非冻起来的对象是不安全的。  </span>
+<span class="hljs-keyword">var</span> o: {[k]: string} = {}
+</div></code></pre>
+<h1 id="array-types">array types</h1>
+<pre><code class="language-js"><div><span class="hljs-built_in">Array</span>&lt;type&gt;
+type[]
+?type[] <span class="hljs-comment">// =&gt; ?(type[])</span>
+(?type)[]
+<span class="hljs-comment">// 使用下标直接访问、操作数组是不安全的。</span>
+$ReadOnlyArray&lt;T&gt; <span class="hljs-comment">// 只读数组</span>
+
+$ReadOnlyArray&lt;number&gt; 属于 $ReadOnlyArray&lt;number | string&gt;  
+<span class="hljs-built_in">Array</span>&lt;number&gt; 和 <span class="hljs-built_in">Array</span>&lt;number | string&gt; 是<span class="hljs-number">2</span>个类型  
+</div></code></pre>
+<h1 id="tuple-types">Tuple types</h1>
+<p>元组</p>
+<pre><code class="language-js"><div>[type0, type1, ...]
+</div></code></pre>
+<p>只能匹配相等长度。</p>
+<h1 id="class-types">Class types</h1>
+<pre><code class="language-js"><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyClass</span> </span>{ <span class="hljs-comment">// 可以不指定类型，下面以class为类型名，直接使用。</span>
+  <span class="hljs-comment">// 使用属性前必须声明注解</span>
+  <span class="hljs-attr">prop</span>: number;
+  <span class="hljs-function"><span class="hljs-title">method</span>(<span class="hljs-params"></span>)</span> {
+    <span class="hljs-built_in">this</span>.prop = <span class="hljs-number">3</span>;
+  }
+}
+<span class="hljs-keyword">let</span> a: MyClass = <span class="hljs-keyword">new</span> MyClass()
+<span class="hljs-comment">// 用generic定义</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyClass</span>&lt;<span class="hljs-title">A</span>, <span class="hljs-title">B</span>, <span class="hljs-title">C</span>&gt; </span>{
+  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">arg1: A, arg2: B, arg3: C</span>)</span> {
+    <span class="hljs-comment">// ...</span>
+  }
+}
+<span class="hljs-comment">// 使用generic定义的类</span>
+<span class="hljs-keyword">var</span> val: MyClass&lt;number, boolean, string&gt; = <span class="hljs-keyword">new</span> MyClass(<span class="hljs-number">1</span>, <span class="hljs-literal">true</span>, <span class="hljs-string">&#x27;three&#x27;</span>);
+</div></code></pre>
+<h1 id="type-aliases">Type Aliases</h1>
+<pre><code class="language-js"><div>type A = Type;
+type O = {
+  <span class="hljs-attr">p</span>: string,
+  m(k: string): number,
+}
+type M&lt;A, B, C&gt; = {
+  <span class="hljs-attr">foo</span>: A,
+  <span class="hljs-attr">bar</span>: B,
+  <span class="hljs-attr">baz</span>: C,
+}
+<span class="hljs-keyword">var</span> m: M&lt;number, boolean, string&gt; = {<span class="hljs-attr">foo</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">bar</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">baz</span>: <span class="hljs-string">&#x27;str&#x27;</span>}
+</div></code></pre>
+<h1 id="opaque-type">Opaque Type</h1>
+<p>类型的别名，且不能再延伸。</p>
+<pre><code class="language-js"><div>opaque type Alias = Type;
+opauqe type Alias: SuperType = Type; <span class="hljs-comment">// 设置Alias类型的父类型</span>
+</div></code></pre>
+<h1 id="interface-types">Interface Types</h1>
+<p>是为class定义类型的。</p>
+<pre><code class="language-js"><div>interface Serializable {
+  s(): string;
+}
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">F</span> </span>{
+  s(): string {<span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;s&#x27;</span>}
+}
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">B</span> </span>{
+  s(): string {<span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;s&#x27;</span>}
+}
+<span class="hljs-keyword">var</span> f: Serializable = <span class="hljs-keyword">new</span> F()
+<span class="hljs-keyword">var</span> b: Serializable = <span class="hljs-keyword">new</span> B()
+<span class="hljs-comment">// 使用匿名interface</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Foo</span> </span>{
+  <span class="hljs-attr">a</span>: number
+}
+(<span class="hljs-keyword">new</span> Foo(): interface {<span class="hljs-attr">a</span>: number})
+<span class="hljs-comment">// 为class指定interface</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">F</span> <span class="hljs-title">implements</span> <span class="hljs-title">Serializable</span> </span>{...}
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">B</span> <span class="hljs-title">implements</span> <span class="hljs-title">Serializable</span> </span>{...}
+<span class="hljs-comment">// class可以实现多个interface</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">F</span> <span class="hljs-title">implements</span> <span class="hljs-title">A</span>, <span class="hljs-title">B</span>, <span class="hljs-title">C</span> </span>{...}
+<span class="hljs-comment">// interface的语法</span>
+interface M {
+  <span class="hljs-attr">a</span>: string;
+  b?: number;
+  c(k: boolean): <span class="hljs-keyword">void</span>;
+  +d: number;           <span class="hljs-comment">// 只读</span>
+  -e: string;           <span class="hljs-comment">// 只写</span>
+  [k: string]: string;
+}
+<span class="hljs-comment">// interface中使用generic</span>
+interface M&lt;A, B, C&gt; {
+  <span class="hljs-attr">a</span>: A;
+  b: B;
+  c: C;
+}
+<span class="hljs-comment">// interface可用于变量、class</span>
+<span class="hljs-keyword">var</span> v: M&lt;number, boolean, string&gt; = {
+  ...
+}
+</div></code></pre>
+<h1 id="generic-types">Generic Types</h1>
+<p>抽象（多态）类型</p>
+<pre><code class="language-js"><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">f</span>&lt;<span class="hljs-title">T</span>&gt;&lt;<span class="hljs-title">v</span>: <span class="hljs-title">T</span>&gt;: <span class="hljs-title">T</span> </span>{...}
+<span class="hljs-function"><span class="hljs-keyword">function</span> &lt;<span class="hljs-title">T</span>&gt;&lt;<span class="hljs-title">v</span>: <span class="hljs-title">T</span>&gt;: <span class="hljs-title">T</span> </span>{...}
+type Fn =
+  &amp; (<span class="hljs-function">(<span class="hljs-params">x: <span class="hljs-string">&quot;string&quot;</span></span>) =&gt;</span> string)
+  &amp; (<span class="hljs-function">(<span class="hljs-params">x: <span class="hljs-string">&quot;number&quot;</span></span>) =&gt;</span> number)
+  &amp; (<span class="hljs-function">(<span class="hljs-params">x: string</span>) =&gt;</span> <span class="hljs-literal">null</span>);
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Item</span>&lt;<span class="hljs-title">T</span>, <span class="hljs-title">U</span>&gt; </span>{
+  <span class="hljs-attr">prop</span>: T;
+  k: U;
+  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">param: T, k: U</span>)</span> {
+    <span class="hljs-built_in">this</span>.prop = param;
+    <span class="hljs-built_in">this</span>.k = k;
+  }
+  method(): T {
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.prop;
+  }
+}
+<span class="hljs-keyword">let</span> i = <span class="hljs-keyword">new</span> Item&lt;number, _&gt;() <span class="hljs-comment">// 使用_会不安全</span>
+type Item&lt;T&gt; = {
+  <span class="hljs-attr">foo</span>: T,
+  <span class="hljs-attr">bar</span>: T,
+};
+interface Item&lt;T&gt; {
+  <span class="hljs-attr">foo</span>: T;
+  bar: T;
+}
+<span class="hljs-comment">// 为generic添加类型</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">logFoo</span>&lt;<span class="hljs-title">T</span>: </span>{ foo: string }&gt;(obj: T): T {}
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">identity</span>&lt;<span class="hljs-title">T</span>: <span class="hljs-title">number</span>&gt;(<span class="hljs-params">value: T</span>): <span class="hljs-title">T</span> </span>{}
+<span class="hljs-comment">// parameterized generics</span>
+type Item&lt;T&gt; = {
+  <span class="hljs-attr">p</span>: T,
+}
+<span class="hljs-keyword">let</span> item: Item&lt;string&gt; = {
+  <span class="hljs-attr">p</span>: <span class="hljs-string">&#x27;s&#x27;</span>
+}
+<span class="hljs-comment">// 为generic测试默认值</span>
+type Item&lt;T: number = <span class="hljs-number">1</span>&gt; = {
+  <span class="hljs-attr">p</span>: T,
+}
+<span class="hljs-keyword">let</span> foo: Item&lt;&gt; = {<span class="hljs-attr">p</span>: <span class="hljs-number">1</span>}
+<span class="hljs-keyword">let</span> foo: Item&lt;<span class="hljs-number">2</span>&gt; = {<span class="hljs-attr">p</span>: <span class="hljs-number">2</span>}
+type G&lt;+T&gt; = T
+type G&lt;-T&gt; = T
+</div></code></pre>
+<h1 id="union-types-联合类型">Union Types 联合类型</h1>
+<p>与枚举类型不同。</p>
+<pre><code class="language-js"><div><span class="hljs-comment">// 单行</span>
+Type1 | Type2 | ... | TypeN
+<span class="hljs-comment">// 多行</span>
+type Foo = 
+  | Type1
+  | Type2
+  | ... 
+  | TypeN
+<span class="hljs-comment">// 使用打散对象再联合</span>
+type Response =
+  | { <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;success&#x27;</span>, <span class="hljs-attr">value</span>: <span class="hljs-number">23</span> }
+  | { <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;error&#x27;</span>, <span class="hljs-attr">error</span>: string };
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleResponse</span>(<span class="hljs-params">response: Response</span>) </span>{
+  <span class="hljs-keyword">if</span> (response.type === <span class="hljs-string">&#x27;success&#x27;</span>) { <span class="hljs-comment">// 判断出response是哪个对象。下面直接使用此对象内的属性。</span>
+    <span class="hljs-keyword">const</span> value: number = response.value; <span class="hljs-comment">// Works!</span>
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">const</span> error: string = response.error; <span class="hljs-comment">// Works!</span>
+  }
+}
+<span class="hljs-comment">// 严格对象类型</span>
+type S = {| a: string, <span class="hljs-attr">b</span>: boolean |}
+</div></code></pre>
+<h1 id="intersection-types-类型交叉">Intersection Types 类型交叉</h1>
+<pre><code class="language-js"><div>Type1 &amp; Type2 &amp; ... &amp; TypeN
+type Foo =
+  &amp; Type1
+  &amp; Type2
+  &amp; ...
+  &amp; TypeN
+<span class="hljs-comment">// 定义类型交叉的方法</span>
+type Fn =
+  &amp; (<span class="hljs-function">(<span class="hljs-params">x: <span class="hljs-string">&quot;string&quot;</span></span>) =&gt;</span> string)
+  &amp; (<span class="hljs-function">(<span class="hljs-params">x: <span class="hljs-string">&quot;number&quot;</span></span>) =&gt;</span> number)
+  &amp; (<span class="hljs-function">(<span class="hljs-params">x: string</span>) =&gt;</span> <span class="hljs-literal">null</span>);
+<span class="hljs-comment">// 使用类型交叉的方法</span>
+declare <span class="hljs-keyword">var</span> fn: Fn;
+<span class="hljs-keyword">var</span> n: string = fn(<span class="hljs-string">&quot;string&quot;</span>); <span class="hljs-comment">// okay</span>
+<span class="hljs-keyword">var</span> n: number = fn(<span class="hljs-string">&quot;number&quot;</span>); <span class="hljs-comment">// okay</span>
+<span class="hljs-keyword">var</span> n: boolean = fn(<span class="hljs-string">&quot;boolean&quot;</span>); <span class="hljs-comment">// error: null is incompatible with number</span>
+<span class="hljs-comment">// 定义重载的方法</span>
+declare <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fn</span>(<span class="hljs-params">x: <span class="hljs-string">&quot;string&quot;</span></span>): <span class="hljs-title">string</span></span>;
+declare <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fn</span>(<span class="hljs-params">x: <span class="hljs-string">&quot;number&quot;</span></span>): <span class="hljs-title">number</span></span>;
+declare <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fn</span>(<span class="hljs-params">x: string</span>): <span class="hljs-title">null</span></span>;
+<span class="hljs-comment">// 对象类型交叉时前者优先</span>
+<span class="hljs-comment">// 不可能的类型</span>
+type A = number &amp; string;
+</div></code></pre>
+<h1 id="indexed-access-types">Indexed Access Types</h1>
+<pre><code class="language-js"><div>$Keys&lt;type&gt;
+type[$Keys&lt;type&gt;] <span class="hljs-comment">// 取出指定type的全部类型。结果为联合类型。</span>
+type[key] <span class="hljs-comment">// 取出指定type类型的指定key对应的类型。</span>
+</div></code></pre>
+<h1 id="typeof-types">Typeof Types</h1>
+<p><code>typeof var</code> 得到指定变量的类型。</p>
+<h1 id="type-casting-expressions">Type Casting Expressions</h1>
+<pre><code class="language-js"><div><span class="hljs-comment">// 类型断言</span>
+(value: type)
+</div></code></pre>
+<h1 id="utility-types">Utility Types</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>$Kyes&lt;T&gt;</code></td>
+<td>由对象类型T的所有key组成的联合类型</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$Values&lt;T&gt;</code></td>
+<td>由对象类型T的所有value的类型组成的联合类型</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$ReadOnly&lt;T&gt;</code></td>
+<td>设置对象类型T的所有key为只读并返回，不改变原类型。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$Exact&lt;T&gt;</code></td>
+<td>变为严格类型</td>
+<td>`{</td>
+<td>k: string</td>
+<td>}`</td>
+</tr>
+<tr>
+<td><code>$Diff&lt;A, B&gt;</code></td>
+<td>返回A、B的不同的类型组成的对象类型。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$Rest&lt;A, B&gt;</code></td>
+<td>返回包含于A,且不包含于B的对象类型</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$PropertyType&lt;T, K&gt;</code></td>
+<td>deprecated</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$ElementType&lt;T, K&gt;</code></td>
+<td>deprecated</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$NonMaybeType&lt;T&gt;</code></td>
+<td>返回去掉null/undefined的类型的类型。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$ObjMap&lt;T, F&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$ObjMapi&lt;T, F&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$ObjMapConst&lt;O, T&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$KeyMirror&lt;T, F&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$Call&lt;F, T...&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$Class&lt;T&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$Shape&lt;T&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$Exports&lt;T&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$Supppertype&lt;T&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$Subtype&lt;T&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$Existential Type (*)</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h1 id="module-types">Module Types</h1>
+<pre><code class="language-js"><div><span class="hljs-comment">// 导出</span>
+<span class="hljs-keyword">const</span> myNumber = <span class="hljs-number">42</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> myNumber;
+<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyClass</span> </span>{
+  <span class="hljs-comment">// ...</span>
+}
+<span class="hljs-comment">// 引入</span>
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">typeof</span> myNumber <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./exports&#x27;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">typeof</span> {MyClass} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./exports&#x27;</span>;
+<span class="hljs-keyword">import</span> type Foo, {MyObject, MyInterface} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./exports&#x27;</span>;
+<span class="hljs-comment">// 不知道应该使用type 还是 typeof</span>
+</div></code></pre>
+<h1 id="comment-types">Comment Types</h1>
+<p>不会</p>
+
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
     </body>
     </html>
