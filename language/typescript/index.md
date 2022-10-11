@@ -117,7 +117,7 @@ tsc hello.ts
 |`generic types`||泛型|``|||
 |symbol||||||
 
-### [type & interface 不同](/language//typescript/type&interface.html)
+### [type & interface 不同](/language/typescript/type&interface.html)
 
 ### 缩小类型范围
 - typeof 会返回8种结果`string / number / bigint / boolean / symbol / undefined / object / function`。其中`null`，它被认为是`object`。与js的基本数据类型相比。多了`function`。

@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <title>prettier</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -79,42 +79,255 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <ul>
-<li><a href="/jsPackages/ftp.html">ftp</a></li>
-<li><a href="/jsPackages/crtp-cli.html">crtp-cli</a></li>
-<li><a href="/jsPackages/co.html">co</a></li>
-<li><a href="/jsPackages/nrm.html">nrm</a></li>
-<li><a href="/jsPackages/siroc.html">siroc</a></li>
-<li><a href="/jsPackages/h3.html">h3</a></li>
-<li><a href="/jsPackages/whistle.html">whistle</a></li>
-<li><a href="/jsPackages/unsplash.html">unsplash</a></li>
-<li><a href="/jsPackages/eleventy.html">@11ty/eleventy</a></li>
-<li><a href="/jsPackages/history.html">history</a></li>
-<li><a href="/jsPackages/ftp.html">ftp</a></li>
-<li><a href="/jsPackages/pm2.html">pm2</a></li>
-<li><a href="/jsPackages/redux.html">redux</a></li>
-<li><a href="/jsPackages/@reduxjs-toolkit.html">@reduxjs/toolkit</a></li>
-<li><a href="/jsPackages/lerna/index.html">lerna</a></li>
-<li><a href="/jsPackages/axios.html">axios</a></li>
-<li><a href="/jsPackages/prop-types.html">prop-types</a></li>
-<li><a href="/jsPackages/ngrok.html">ngrok</a></li>
-<li><a href="/jsPackages/mkcert.html">mkcert</a></li>
-<li><a href="/jsPackages/md5.html">md5</a></li>
-<li><a href="/jsPackages/commander/index.html">commander</a></li>
-<li><a href="/jsPackages/sql.js.html">sql.js</a></li>
-<li><a href="/jsPackages/lath.html">lath</a></li>
-<li><a href="/jsPackages/html-server.html">html-server</a></li>
-<li><a href="/jsPackages/node-schedule.html">node-schedule</a></li>
-<li><a href="/jsPackages/webpack-dev-server.html">webpack-dev-server</a></li>
-<li><a href="/jsPackages/prettier/index.html">prettier</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
-<li><a href="/jsPackages/title.html">title</a></li>
+        <h1 id="prettier">prettier</h1>
+<h2 id="overview">overview</h2>
+<blockquote>
+<p>格式化代码的工具<br>
+使用ast.<br>
+根据设置项强制格式化代码。<br>
+它只是代码格式指南</p>
+</blockquote>
+<h3 id="feature">feature</h3>
+<ul>
+<li>支持很多语言</li>
+<li>支持很多ide</li>
+<li>一般与钩子函数结合使用。</li>
+<li>去掉原始的编写样式，使用指定的代码格式</li>
+<li>发现编写的bug</li>
 </ul>
+<h2 id="install">install</h2>
+<p><code>npm i --save-dev --save-exact prettier</code>
+为什么要用<code>--save-exact</code></p>
+<h2 id="usage">usage</h2>
+<p>本示例是基于<code>crtp-cli</code>做的。请先安装它</p>
+<pre><code class="language-shell"><div>mkdir first
+npm init
+crtp initFile .prettier.json
+vim src/index.js
+npm i -D -E prettier
+<span class="hljs-meta">#</span><span class="bash"> 代码如下</span>
+npm set-script p &quot;prettier --write .&quot;
+npm set-script pc &quot;prettier --check .&quot;
+npm run pc # 会报错
+npm run p  # 格式化
+npm run pc # 不会报错
+</div></code></pre>
+<pre><code class="language-js"><div><span class="hljs-comment">// &lt;root&gt;src/index.js</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fn</span>(<span class="hljs-params">a, b</span>) </span>{
+  <span class="hljs-keyword">return</span> a + b;}fn(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>);
+<span class="hljs-comment">// 显然这是编写不规范的</span>
+</div></code></pre>
+<h3 id="pritter--git">pritter &amp; git</h3>
+<h2 id="summary">summary</h2>
+<ul>
+<li>尽量使用确定版本的prettier。</li>
+<li><code>.prettier.json</code>使编辑器知道如何使用prettier</li>
+<li><code>.prettierignore</code>使编辑器知道哪些不使用prettier</li>
+<li>在 ci 中使用<code>pretter --check .</code></li>
+<li>eslint-config-prettier可以使用prettier和eslint一起使用</li>
+<li>在pre-commit钩子中使用</li>
+</ul>
+<h2 id="configuration">configuration</h2>
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="prettierignore">.prettierignore</h3>
+<p>指定忽略的文件。<br>
+使用gitignore语法</p>
+<p>在js文件中使用忽略备注</p>
+<pre><code class="language-js"><div><span class="hljs-comment">// prettier-ignore</span>
+...
+</div></code></pre>
+<h3 id="tittlt">tittlt</h3>
+<h3 id="tittlt-1">tittlt</h3>
+<h3 id="tittlt-2">tittlt</h3>
+<h3 id="tittlt-3">tittlt</h3>
+<h2 id="忽略"><a href="jsPackages/prettier/index">忽略</a></h2>
+<h2 id="api">api</h2>
+<p><code>prettier.fn(param, first: string, second: boolean = true) =&gt; void</code>
+description</p>
+<p><code>prettier.fn(param, [options: {a: string, b?: number}])</code>
+description</p>
+<h2 id="principle">principle</h2>
+<p>此包的处理逻辑。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>correctness</td>
+<td>当格式化失败时报错</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>strings</td>
+<td>单引号还是双引号</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>empty lines</td>
+<td>1. 把多个空行合并为一个空行。 2. 文件开头的空行会被删除</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>multi-line objects</td>
+<td>若一行放不下，则使用多行放置。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>decorators</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>semicolons</td>
+<td>noSemi 没有分号</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>print width</td>
+<td>每行的最大宽度</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>testing functions</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>jsx</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>comments</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>disclaimer about non-standard syntax</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>what prettier is not concerned about</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="uml">uml</h3>
+<pre><code><code><div></div></code></code></pre>
+<h2 id="todo">todo</h2>
+<blockquote>
+<p>未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote>
+<h2 id="prettier--linter">prettier &amp; linter</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>prettier</th>
+<th>linter</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Formatting rules</td>
+<td>减少不必要的配置规则。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Code-quality rules</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 
         
         
