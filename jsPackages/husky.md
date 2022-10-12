@@ -1,4 +1,4 @@
-# {{packageName}}
+# husky
 
 ## overview
 > TODO: description
@@ -9,14 +9,14 @@
 - feature2
 
 ## install
-`npm i {{packageName}}`
+`npm i husky`
 
 ## usage
 同`./demo.md`
 ```
-const {{packageName}} = require('{{packageName}}');
+const husky = require('husky');
 // or
-// import {{packageName}} from '{{packageName}}';
+// import husky from 'husky';
 // TODO: DEMONSTRATE API
 ```
 
@@ -28,10 +28,10 @@ const {{packageName}} = require('{{packageName}}');
 ||||||||
 ||||||||
 ## api
-`{{packageName}}.fn(param, first: string, second: boolean = true) => void`
+`husky.fn(param, first: string, second: boolean = true) => void`
 description
 
-`{{packageName}}.fn(param, [options: {a: string, b?: number}])`
+`husky.fn(param, [options: {a: string, b?: number}])`
 description
 
 ## principle

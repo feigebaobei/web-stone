@@ -22,7 +22,7 @@
 ```shell
 mkdir first
 npm init
-crtp initFile .prettier.json
+crtp initFile .prettierrc.json
 vim src/index.js
 npm i -D -E prettier
 # 代码如下
