@@ -244,15 +244,10 @@ c.on('ready', () => {
         }
         // let p = 'jsPackages/prettier' // todo
         let p = [
-            'index.html',
-            'language/flow/index.html',
-            // 'jsPackages/prettier.html',
-            'language/typescript/index.html',
-            // 'language/flow/declarationFiles.html',
-            // 'language/flow/flowCli.html',
-            // 'language/flow/linting.html',
-            // 'language/flow/react.html',
-            // 'language/flow/typeAnnotations.html',
+            // 'jsPackages/prettier/index.html',
+            // 'jsPackages/prettier/ignore.html',
+            'git/index.html',
+            'git/hooks.html',
         ]
         // 检测指定目录是否存在
         // checkDir(p)
