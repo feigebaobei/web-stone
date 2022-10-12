@@ -242,11 +242,11 @@ c.on('ready', () => {
             log('cwd', 'htdocs', err)
             throw err
         }
-        // let p = 'language/flow' // todo
+        // let p = 'jsPackages/prettier' // todo
         let p = [
             'index.html',
             'language/flow/index.html',
-            'jsPackages/prettier.html',
+            // 'jsPackages/prettier.html',
             'language/typescript/index.html',
             // 'language/flow/declarationFiles.html',
             // 'language/flow/flowCli.html',
