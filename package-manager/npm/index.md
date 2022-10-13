@@ -234,7 +234,8 @@ npm run // 查看所有脚本
 传参数:使用`--`标明。如：`npm run lint -- --reporter checkstyle > checkstyle.xml`  
 `&`：同时执行。`&&`：成功后向下执行。这2个符号是`bash`的功能。  
 默认的脚本：`"start": "node server.js"` / `"install": "node-gyp rebuild"`。不需要定义即可执行。  
-钩子:  
+
+**hooks 钩子**:  
 npm脚本支持`pre`/`post`2种钩子。每个脚本都可以如此处理。如：当执行`npm run build`时，会执行：`npm run prebuild && npm run build && npm run postbuild`.默认提供的金子：  
 - prepublish, postpublish  
 - preinstall, postinstall  

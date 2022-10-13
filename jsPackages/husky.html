@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>overview</title>
+        <title>husky</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -63,8 +63,7 @@
 }
 
 </style>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
-<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -80,809 +79,115 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="overview">overview</h1>
+        <h1 id="husky">husky</h1>
+<h2 id="overview">overview</h2>
 <blockquote>
-<p>高版本npm与yarn 1+无明显差异。用哪个都可以。</p>
+<p>让git hooks使用简单。<br>
+常用于格式化代码等。<br>
+有很多包在使用它开发。</p>
 </blockquote>
-<h1 id="install">install</h1>
-<p>不需要专门安装。npm已经内置于node。</p>
-<h1 id="use">use</h1>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>uninstall</td>
-<td>卸载模块</td>
-<td></td>
-</tr>
-<tr>
-<td>update</td>
-<td>更新模块</td>
-<td>按照package.js里标注的版本号进行更新</td>
-</tr>
-<tr>
-<td>outdated</td>
-<td>检查模块是否已经过时</td>
-<td></td>
-</tr>
-<tr>
-<td>ls</td>
-<td>查看安装的模块</td>
-<td></td>
-</tr>
-<tr>
-<td>help</td>
-<td>查看详细信息</td>
-<td></td>
-</tr>
-<tr>
-<td>root</td>
-<td>查看安装路径</td>
-<td></td>
-</tr>
-<tr>
-<td>config</td>
-<td>设置配置</td>
-<td>npm config set proxy=http://xxx.com:8080(设置代理)npm config set registry=&quot;<a href="http://r.cnpmjs.org">http://r.cnpmjs.org</a>&quot;(设置镜像)npm install -g cnpm --registry=https://registry.npm.taobao.org(设置淘宝镜像)</td>
-</tr>
-<tr>
-<td>cache</td>
-<td>管理模块的缓存</td>
-<td></td>
-</tr>
-<tr>
-<td>start</td>
-<td>启动模块</td>
-<td></td>
-</tr>
-<tr>
-<td>stop</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>restart</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>test</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>version</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>view</td>
-<td>查看模块的注册信息</td>
-<td></td>
-</tr>
-<tr>
-<td>adduer</td>
-<td>用户登录</td>
-<td></td>
-</tr>
-<tr>
-<td>publish</td>
-<td>发布模块</td>
-<td></td>
-</tr>
-<tr>
-<td>access</td>
-<td>在发布的包上设置访问级别</td>
-<td></td>
-</tr>
-<tr>
-<td>rebuild</td>
-<td>使用新版本的node时，重新编译所有c++插件。它会运行在与<code>npm build</code>相匹配的文件夹下。</td>
-<td></td>
-</tr>
-<tr>
-<td>init</td>
-<td>把初始化信息写入<code>package.json</code></td>
-<td><code>npm init -y</code>会使用默认值</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="全局安装和局部安装的区别">全局安装和局部安装的区别</h2>
-<h3 id="全局安装">全局安装</h3>
-<p>在任何地方都可以调用。<br>
-在安装后可以在“C:/user/(pc's name)/AppData/Roaming/npm”里面有<code>*.cmd</code></p>
-<h3 id="局部安装">局部安装</h3>
-<p>只在本项目中可以使用。<br>
-安装在<code>./node_modules</code><br>
-使用时需要引入</p>
-<pre><code>var webpack = require('webpack')
-</code></pre>
-<p>何时使用全局安装、局部安装？</p>
-<p>首先需要理解全局安装在c盘里的，局部安装在本项目的./node_modules里。<br>
-引用时需要使用相对链接的方式引用（../）。<br>
-各个项目使用各个依赖版本可能与别的项目的版本不一样。<br>
-使用的工具适合使用全局安装。<br>
-项目的依赖适合使用本地安装。</p>
-<h3 id="安装过程">安装过程</h3>
-<ol>
-<li>执行<code>npm install</code>命令。</li>
-<li>npm向registry查询模块压缩包。</li>
-<li>下载压缩包，存放在~/.npm目录</li>
-<li>解压压缩包到当前目录的node_modules目录。</li>
-</ol>
-<p>本地会有2份数据，分别在<code>~/.npm</code>，<code>node_modules</code>里。因此可以实现缓存机制。</p>
-<pre><code><code><div>npm cache clean
-npm cache clean --force
-</div></code></code></pre>
-<h2 id="子命令"><a href="/package-manager/npm/subCommand.html">子命令</a></h2>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>uninstall</td>
-<td>卸载模块</td>
-<td></td>
-</tr>
-<tr>
-<td>update</td>
-<td>更新模块</td>
-<td>按照package.js里标注的版本号进行更新</td>
-</tr>
-<tr>
-<td>outdated</td>
-<td>检查模块是否已经过时</td>
-<td></td>
-</tr>
-<tr>
-<td>ls</td>
-<td>查看安装的模块</td>
-<td></td>
-</tr>
-<tr>
-<td>help</td>
-<td>查看详细信息</td>
-<td></td>
-</tr>
-<tr>
-<td>root</td>
-<td>查看安装路径</td>
-<td></td>
-</tr>
-<tr>
-<td>config</td>
-<td>设置配置</td>
-<td>npm config set proxy=http://xxx.com:8080(设置代理)npm config set registry=&quot;<a href="http://r.cnpmjs.org">http://r.cnpmjs.org</a>&quot;(设置镜像)npm install -g cnpm --registry=https://registry.npm.taobao.org(设置淘宝镜像)</td>
-</tr>
-<tr>
-<td>cache</td>
-<td>管理模块的缓存</td>
-<td></td>
-</tr>
-<tr>
-<td>start</td>
-<td>启动模块</td>
-<td></td>
-</tr>
-<tr>
-<td>stop</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>restart</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>test</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>version</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>view</td>
-<td>查看模块的注册信息</td>
-<td></td>
-</tr>
-<tr>
-<td>adduer</td>
-<td>用户登录</td>
-<td></td>
-</tr>
-<tr>
-<td>publish</td>
-<td>发布模块</td>
-<td></td>
-</tr>
-<tr>
-<td>access</td>
-<td>在发布的包上设置访问级别</td>
-<td></td>
-</tr>
-<tr>
-<td>rebuild</td>
-<td>使用新版本的node时，重新编译所有c++插件。它会运行在与<code>npm build</code>相匹配的文件夹下。</td>
-<td></td>
-</tr>
-<tr>
-<td>init</td>
-<td>把初始化信息写入<code>package.json</code></td>
-<td><code>npm init -y</code>会使用默认值</td>
-</tr>
-<tr>
-<td>set-script</td>
-<td>设置脚本</td>
-<td><code>npm set-script build 'node ./index.js'</code></td>
-</tr>
-</tbody>
-</table>
-<h3 id="intall命令">intall命令</h3>
-<pre><code>npm install (with no args, in package dir)
-npm install [&lt;@scope&gt;/]&lt;name&gt;
-npm install [&lt;@scope&gt;/]&lt;name&gt;@&lt;tag&gt;
-npm install [&lt;@scope&gt;/]&lt;name&gt;@&lt;latest&gt;
-npm install [&lt;@scope&gt;/]&lt;name&gt;@&lt;version&gt;
-npm install [&lt;@scope&gt;/]&lt;name&gt;@&lt;version range&gt;
-npm install &lt;tarball file&gt;
-npm install &lt;tarball url&gt;
-npm install &lt;folder&gt;
-
-npm uninstall xxx
-npm uninstall -g xxx
-
-npm i
-</code></pre>
-<table>
-<thead>
-<tr>
-<th>缩写</th>
-<th>全写</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>-S</td>
-<td>--save</td>
-<td>安装包信息将加入dependencies(生产阶段的依赖)（默认）</td>
-</tr>
-<tr>
-<td>-D</td>
-<td>--save-dev</td>
-<td>安装包信息将加入到devdependencies(开发阶段的依赖)</td>
-</tr>
-<tr>
-<td>-O</td>
-<td>--save-optional</td>
-<td>optionalDependencies(可选阶段的依赖)</td>
-</tr>
-<tr>
-<td>-E</td>
-<td>--save-exact</td>
-<td>精确安装指定模块版本</td>
-</tr>
-<tr>
-<td></td>
-<td>--dry-run</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>local</td>
-<td>本地安装</td>
-</tr>
-<tr>
-<td>-g</td>
-<td>--global</td>
-<td>全局安装</td>
-</tr>
-</tbody>
-</table>
+<h3 id="feature">feature</h3>
 <ul>
-<li>他项目里没有引入你所需的依赖包，那么你插件所依赖的包会被安装</li>
-<li>他项目里引入了你所需的依赖包：
-<ul>
-<li>版本号一致，那么你所需的依赖包不会被安装，插件将共用项目里的依赖包</li>
-<li>版本号不一致，那么你所需的依赖包就会被安装，项目里就存在了两套不同版本的依赖</li>
+<li>feature0</li>
+<li>feature1</li>
+<li>feature2</li>
 </ul>
-</li>
-</ul>
-<h2 id="安装淘宝镜像">安装淘宝镜像</h2>
-<pre><code>npm i -g cnpm --regitstry=https://registry.npm.taobao.org
-</code></pre>
-<p>使用<a href="/jsPackages/nrm.html">nrm</a>更方便管理注册地址。</p>
-<h2 id="创建本地链接常用于开发调试">创建本地链接（常用于开发、调试）</h2>
-<pre><code><code><div>    cd &lt;pathOfPackage&gt;
-    npm link
-</div></code></code></pre>
-<h2 id="使用本地链接常用于开发调试">使用本地链接（常用于开发、调试）</h2>
-<pre><code><code><div>npm link &lt;packagename&gt;
-</div></code></code></pre>
-<p>require方法不能把全局安装的文件引入。若使用<code>npm link packagename</code>后就可以引入全局文件。<br>
-但是<code>npm link xxx</code>不支持windows.  <code>-_-</code></p>
-<pre><code class="language-shell"><div>npm link                  # 创建软链接
-npm unlink                # 取消创建软链接
-npm link &lt;package-name&gt;   # 链接依赖项
-npm unlink &lt;package-name&gt; # 取消链接依赖项
+<h2 id="install">install</h2>
+<p><code>npm i husky -D</code></p>
+<h3 id="推荐手动">推荐手动</h3>
+<p>我会手动。知道它做了什么。运行自动都不知道它做了什么。</p>
+<pre><code class="language-shell"><div>npm set-script test &quot;echo hi&quot; # 用于测试。
+npm set-script prepare &quot;husky install&quot;
+
+
+
+npm run prepare
+<span class="hljs-meta">#</span><span class="bash"> 会在根目录下生成 .husky/.gitignore .husky/husky.sh</span>
+npx husky add .husky/pre-commit &quot;npm run test&quot;
+
 </div></code></pre>
-<h2 id="packagejson说明">package.json说明</h2>
-<p>在运行时引入模块，引入的是package.json中&quot;main&quot;指向的文件。
-在webpack打包或者webpack-dev-server的时候，引入的是package.json中&quot;module&quot;指向的文件。</p>
-<h2 id="packagejson各字段说明">package.json各字段说明</h2>
-<p>有些项目中会在此文件中添加自定义字段。可以是该项目需要。</p>
+<h2 id="usage">usage</h2>
+<pre><code class="language-shell"><div>npm set-script prepare &quot;husky install&quot; # prepare在执行npm run install / npm publish / npm pack / 打包前执行。
+npm run prepare # 会在根目录下生成 .husky/_/.gitignore .husky/_/husky.sh
+npm set-script test &quot;echo hi&quot; # 用于测试。
+npx husky add .husky/pre-commit &quot;npm run test&quot; # 创建 .husky/pre-commit文件。在该文件中调用测试的脚本
+<span class="hljs-meta">#</span><span class="bash"> 然后就可以在pre-commit hook上执行命令了。</span>
+git add .husky/pre-commit # 这里是shell脚本
+git commit -m &#x27;string&#x27;
+<span class="hljs-meta">#</span><span class="bash"> 输出： hi</span>
+</div></code></pre>
+<h2 id="uninstall">uninstall</h2>
+<pre><code class="language-shell"><div>npm uninstall husky &amp;&amp; git config --unset core.hooksPath
+yarn remove husky &amp;&amp; git config --unset core.hooksPath
+</div></code></pre>
+<h2 id="action">action</h2>
+<h3 id="在momorepo一库多包中使用husky时需要在根目录上安装">在momorepo（一库多包）中使用husky时需要在根目录上安装。</h3>
+<p>子目录中无.git目录。<br>
+husky是与git hooks一起工作，当然要与.git在一起呀。<br>
+子目录都不是一个仓库。</p>
+<h3 id="自定义安装目录">自定义安装目录</h3>
+<pre><code class="language-shell"><div><span class="hljs-meta">#</span><span class="bash"> 脚本</span>
+&quot;prepare&quot;: &quot;husky install .config/husky&quot;
+</div></code></pre>
+<h3 id="bypass-hooks-路过hooks">bypass hooks 路过hooks</h3>
+<pre><code class="language-shell"><div>git commit -m &#x27;string&#x27; --no-verify
+<span class="hljs-meta">#</span><span class="bash"> or</span>
+HUSKY=0 git push
+</div></code></pre>
+<h3 id="with-npm">with npm</h3>
+<pre><code><code><div>npm ci --omit=dev --ignore-scripts
+
+#or
+npm set-secript prepare ''
+npm ci --omit=dev
+</div></code></code></pre>
+<h3 id="with-a-custom-script">with a custom script</h3>
+<pre><code><code><div>&quot;prepare&quot;: &quot;node ./file.js&quot;
+</div></code></code></pre>
+<pre><code class="language-js"><div><span class="hljs-comment">// ./file.js</span>
+<span class="hljs-keyword">const</span> isCi = process.env.CI !== <span class="hljs-literal">undefined</span>
+<span class="hljs-keyword">if</span> (!isCi) {
+  <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;husky&#x27;</span>).install()
+}
+</div></code></pre>
+<h3 id="只支持客户端git-hooks">只支持客户端git hooks</h3>
+<h2 id="configuration">configuration</h2>
+<p>默认配置文件：<code>path/to/file.json</code>。</p>
 <table>
 <thead>
 <tr>
 <th>key</th>
 <th>description</th>
-<th>optional</th>
-<th>type</th>
+<th>default</th>
+<th>enum</th>
 <th>demo</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>name</td>
-<td>包的名字。可以使用作用域前缀<code>@myorg/mypackage</code></td>
-<td>n</td>
-<td>string</td>
-<td></td>
-</tr>
-<tr>
-<td>version</td>
-<td>版本号</td>
-<td>n</td>
-<td>string</td>
-<td></td>
-</tr>
-<tr>
-<td>description</td>
-<td>展示必要的信息。方便<code>npm search</code></td>
-<td></td>
-<td>string</td>
-<td></td>
-</tr>
-<tr>
-<td>keywords</td>
-<td>该包的关键字</td>
-<td>string[]</td>
-<td>string</td>
-<td></td>
-</tr>
-<tr>
-<td>homepage</td>
-<td>项目的主页</td>
-<td></td>
-<td></td>
-<td>&quot;homepage&quot;: &quot;<a href="https://github.com/owner/project#readme">https://github.com/owner/project#readme</a>&quot;</td>
-</tr>
-<tr>
-<td>bugs</td>
-<td>当前包的issue的地址</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>license</td>
-<td>版权说明</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>author</td>
-<td>作者</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>contributors</td>
-<td>贡献者</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>funding</td>
-<td>最新的信息所在网址的字段。</td>
-<td></td>
-<td>Object / Array</td>
-<td></td>
-</tr>
-<tr>
-<td>files</td>
-<td>用于描述包作为依赖项安装时要包含的条目</td>
-<td>y</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>main</td>
-<td>主要入口。使用<code>require(packageName)</code>时就是从这个字段开始获取数据。</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>browser</td>
-<td>当该包使用在browser时，会代替main字段的功能。包中不能使用node.js modules</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>bin</td>
-<td>一个包会有若干个可执行文件。这些可执行文件需要安装到<code>PATH</code>。使用该字段定义命令与本包中可执行文件的映射关系。在安装后npm会链接到<code>prefix/bin</code>为全局使用或安装到<code>./node_modules/.bin</code>为本地使用。当有多可执行文件时需要写成<code>object</code>，当只有一个可执行文件时可写成<code>string</code>。可执行文件需要以<code>#!/usr/bin/env node</code>开头。</td>
-<td></td>
-<td></td>
-<td><code>{&quot;bin&quot;: {&quot;myapp&quot;: &quot;./cli.js&quot;}}</code></td>
-</tr>
-<tr>
-<td>man</td>
-<td>方便linux的man命令查找文件</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>directories</td>
-<td>本包的目录结构</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>description.lib</td>
-<td>指定lib目录</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>description.bin</td>
-<td>指定bin目录</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>description.man</td>
-<td>指定man目录</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>description.doc</td>
-<td>指定doc目录</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>description.example</td>
-<td>指定示例目录</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>description.test</td>
-<td>指定测试目录</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>repository</td>
-<td>该包的仓库</td>
-<td>Object</td>
-<td>{&quot;type&quot;:&quot;git&quot;,&quot;url&quot;:&quot;xxxx&quot;}</td>
-<td></td>
-</tr>
-<tr>
-<td>script</td>
-<td>可运行的脚本。包括一些生命周期脚本。</td>
-<td>Object</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>config</td>
-<td>使用该包时需要的配置项，将用于该包的脚本。</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>dependencies</td>
-<td>生产环境的依赖项。可以使用url/github url/本地路径/</td>
-<td>Object</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>devDependencies</td>
-<td>开发环境的依赖项。</td>
-<td>Object</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>peerDependencies</td>
-<td>本包依赖的其他依赖包。同等依赖，会同级安装。执行<code>install</code>时不安装。</td>
-<td>Object</td>
-<td>{'vue': '2.6.0'}</td>
-<td>一般用于常用包、babel等。</td>
-</tr>
-<tr>
-<td>peerDependenciesMeta</td>
-<td>若安装peerDependencies中的包时，报警告。则使用<code>peerDependenciesMeta</code>指明提示信息。</td>
-<td></td>
-<td><code>{peerDependenciesMeta: &quot;${packageName}&quot;: {&quot;optional&quot;: true}}</code></td>
-<td></td>
-</tr>
-<tr>
-<td>bundledDependencies</td>
-<td>一组包名，他们会在发布的时候被打包进去。</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>optionalDependencies</td>
-<td>如果一个依赖不可用，但你希望在它安装失败的时候npm也能继续初始化。npm会使用该字段对应的包。此时该字段的功能与<code>dependencies</code>的功能一样。使用<code>npm i --no-optional</code>时该字段无效。</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>engines</td>
-<td>需要什么样的引擎环境支持</td>
-<td></td>
-<td><code>{&quot;engines&quot;: {&quot;node&quot;: &quot;&gt;=10.0.0&quot;}}</code></td>
-<td></td>
-</tr>
-<tr>
-<td>os</td>
-<td>需要什么样的操作系统</td>
-<td></td>
-<td>string[]</td>
-<td></td>
-</tr>
-<tr>
-<td>cpu</td>
-<td>指定cpu</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>private</td>
-<td>若true，则不能<code>npm publish</code></td>
-<td></td>
-<td>Boolean</td>
-<td></td>
-</tr>
-<tr>
-<td>publishConfig</td>
-<td>发布时的配置</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>workspaces</td>
-<td>它描述了本地文件系统中的位置，安装时应该查找这些位置，以找到需要与顶级node_modules文件夹进行符号链接的每个工作区。就像工作区内有package.json一样。常用于一库多包。workspace中的每一项都是一个包，每个包都有一个package.json。</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>DEFAULT VALUES</td>
-<td>不支持的value</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>unpkg</td>
-<td>上所有的文件都开启 cdn 服务地址</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>engineStrict</td>
-<td>不会</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>preferGlobal</td>
-<td>不会</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>types</td>
-<td>指定类型文件的目录</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>type</td>
-<td>指定规范</td>
-<td>&quot;module&quot; / &quot;commonjs&quot;</td>
-<td>默认为&quot;commonjs&quot;</td>
-<td></td>
-</tr>
-<tr>
-<td>exports</td>
-<td>可以根据不同的引用方式或者模块化类型，来指定npm包引用不同的入口文件。</td>
-<td>如<code>&quot;exports&quot;: {&quot;import&quot;: &quot;./main-module.js&quot;,&quot;require&quot;: &quot;./main-require.cjs&quot;</code>}import为esm的导入方式，require为cjs的导入方式</td>
-<td>优先级高于brower/module/main.比file好用。</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h3 id="注册cli的逻辑">注册cli的逻辑</h3>
-<p>在package.json中定义<code>bin</code>字段。npm会根据该字段创建一个软链接。若使用全局安装，则安装在<code>/home/turbo/.nvm/versions/node/v14.16.1/bin/</code>。若使用局部安装，则安装在<code>./node_modules/.bin/</code></p>
-<h2 id="scope">scope</h2>
-<h3 id="说明">说明</h3>
-<p>所有包必须有一个名字。有些包名有作用域。就遵守以下规则：<code>@somescope/somepackagename</code>
-把相关的包放在一起。</p>
-<h3 id="安装作用域包">安装作用域包</h3>
-<h3 id="引用作用域包">引用作用域包</h3>
-<h3 id="发布作用域包">发布作用域包</h3>
-<h3 id="关联作用域包">关联作用域包</h3>
-<h2 id="npm-包使用范围">npm 包使用范围</h2>
-<ul>
-<li>
-<p>只允许在客户端使用的，</p>
-</li>
-<li>
-<p>只允许在服务端使用的，</p>
-</li>
-<li>
-<p>浏览器/服务端都可以使用。</p>
-</li>
-<li>
-<p>main：npm包的入口文件。兼容browser / node。</p>
-<ul>
-<li>main字段是npm包主要入口文件<code>require(xxx)</code>时就是从main字段取值的。</li>
-</ul>
-</li>
-<li>
-<p>module: npm包的esm规范的入口文件。兼容browser / node。module的优先级大于main.</p>
-</li>
-<li>
-<p>browser：npm包的browser环境下的入口文件。</p>
-</li>
-</ul>
-<p><code>*.mjs</code>文件是在 node 环境下原生执行 ESM 规范的脚本文件。当执行<code>require('index') / import('index')</code>时，优先加载<code>index.mjs</code>，即优先级：<code>*.mjs &gt; *.js</code></p>
-<h2 id="脚本">脚本</h2>
-<p><code>npm run xxx</code> // 执行脚本<br>
-<code>npm xxx</code> // 执行脚本<br>
-npm run // 查看所有脚本<br>
-脚本运行在<code>shell</code>中。<br>
-传参数:使用<code>--</code>标明。如：<code>npm run lint -- --reporter checkstyle &gt; checkstyle.xml</code><br>
-<code>&amp;</code>：同时执行。<code>&amp;&amp;</code>：成功后向下执行。这2个符号是<code>bash</code>的功能。<br>
-默认的脚本：<code>&quot;start&quot;: &quot;node server.js&quot;</code> / <code>&quot;install&quot;: &quot;node-gyp rebuild&quot;</code>。不需要定义即可执行。</p>
-<p><strong>hooks 钩子</strong>:<br>
-npm脚本支持<code>pre</code>/<code>post</code>2种钩子。每个脚本都可以如此处理。如：当执行<code>npm run build</code>时，会执行：<code>npm run prebuild &amp;&amp; npm run build &amp;&amp; npm run postbuild</code>.默认提供的金子：</p>
-<ul>
-<li>prepublish, postpublish</li>
-<li>preinstall, postinstall</li>
-<li>preuninstall, postuninstall</li>
-<li>preversion, postversion</li>
-<li>pretest, posttest</li>
-<li>prestop, poststop</li>
-<li>prestart, poststart</li>
-<li>prerestart, postrestart</li>
-<li>prepare
-<ul>
-<li>在执行 npm publish / npm pack 前执行</li>
-<li>打包前执行</li>
-<li>发布前执行</li>
-<li>当执行 npm install （无参数） 时执行</li>
-</ul>
-</li>
-</ul>
-<p><code>npm restart</code>是<code>npm stop &amp;&amp; npm restart &amp;&amp; npm stop</code>的简写。
-简写：<code>npm start</code>.忽略了<code>run</code></p>
-<h3 id="变量">变量</h3>
-<p>通过<code>npm_package_</code>前缀可得到<code>package.json</code>中的字段。 如：<code>process.env.npm_package_version</code> / <code>process.env.npm_package_script_install</code>
-通过<code>npm_config</code>前缀可得到<code>package.json</code>中<code>config</code>里的变量。如：<code>npm_config_tag</code>。<code>npm config get xxx</code></p>
-<h2 id="设置npm-registry">设置npm registry</h2>
-<h3 id="全局设置">全局设置</h3>
-<pre><code class="language-shell"><div>npm config set registry=https://registry.npmjs.org
-process.env.npm_config_registry # 读取
-</div></code></pre>
-<h3 id="npmrc">.npmrc</h3>
-<p>包管理工具（npm/pnpm/yarn）默认从项目的<code>.npmrc</code>文件中读取配置。</p>
-<pre><code><code><div>registy = https://registry.npmjs.org
-</div></code></code></pre>
-<h3 id="--regitry选项">--regitry选项</h3>
-<pre><code><code><div>npm install esbuild -- registry=https://registry.npmjs.org
-</div></code></code></pre>
-<h3 id="packagejson-publishconfig">package.json publishConfig</h3>
-<pre><code class="language-json"><div><span class="hljs-comment">// packags.json</span>
-{
-  ...
-  <span class="hljs-attr">&quot;publishConfig&quot;</span>: {
-    <span class="hljs-attr">&quot;registry&quot;</span>: <span class="hljs-string">&quot;https://registry.npmjs.org&quot;</span>
-  }
-}
-</div></code></pre>
-<h2 id="exports">exports</h2>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
 <th></th>
 <th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>default</td>
 <td></td>
 <td></td>
 <td></td>
-<td></td>
-</tr>
-<tr>
-<td>import</td>
 <td></td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td>require</td>
 <td></td>
 <td></td>
 <td></td>
-<td></td>
-</tr>
-<tr>
-<td>browser</td>
 <td></td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td>node</td>
+<td></td>
+<td></td>
+<td></td>
 <td></td>
 <td></td>
 <td></td>
@@ -890,55 +195,23 @@ process.env.npm_config_registry # 读取
 </tr>
 </tbody>
 </table>
-<pre><code class="language-json"><div>{
-  <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;pkg&quot;</span>,
-  <span class="hljs-attr">&quot;exports&quot;</span>: {
-    <span class="hljs-comment">// 使用明确的子路径引入</span>
-    <span class="hljs-attr">&quot;./foo&quot;</span>: {
-      <span class="hljs-comment">// 条件引入语法</span>
-      <span class="hljs-attr">&quot;import&quot;</span>: <span class="hljs-string">&quot;./imported.mjs&quot;</span>,   <span class="hljs-comment">// esm</span>
-      <span class="hljs-attr">&quot;require&quot;</span>: <span class="hljs-string">&quot;./required.cjs&quot;</span>,  <span class="hljs-comment">// cjs/amd</span>
-      <span class="hljs-attr">&quot;default&quot;</span>: <span class="hljs-string">&quot;./fallback.js&quot;</span>
-    },
-    <span class="hljs-comment">// 指定优先级</span>
-    <span class="hljs-attr">&quot;./bar&quot;</span>: [<span class="hljs-string">&quot;./bar0/&quot;</span>, <span class="hljs-string">&quot;./bar1&quot;</span>],
-    <span class="hljs-comment">// 条件语法</span>
-    <span class="hljs-attr">&quot;.&quot;</span>: {
-      <span class="hljs-attr">&quot;red&quot;</span>: <span class="hljs-string">&quot;./a.js&quot;</span>,    <span class="hljs-comment">// 有顺序</span>
-      <span class="hljs-attr">&quot;green&quot;</span>: <span class="hljs-string">&quot;./b.js&quot;</span>,
-      <span class="hljs-attr">&quot;default&quot;</span>: <span class="hljs-string">&quot;./c.js&quot;</span>, <span class="hljs-comment">// 最后一个总是default.总是被触发。</span>
-    },
-    <span class="hljs-comment">// 缩写</span>
-    <span class="hljs-attr">&quot;.&quot;</span>: <span class="hljs-string">&quot;./a.js&quot;</span>,
-  }
-}
+<h2 id="api">api</h2>
+<p><code>husky.fn(param, first: string, second: boolean = true) =&gt; void</code>
+description</p>
+<p><code>husky.fn(param, [options: {a: string, b?: number}])</code>
+description</p>
+<h2 id="principle">principle</h2>
+<p>此包的处理逻辑。</p>
+<h3 id="uml">uml</h3>
+<pre><code><code><div></div></code></code></pre>
+<h2 id="todo">todo</h2>
+<blockquote>
+<p>未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote>
 
-{
-  <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;my-awesome-lib&quot;</span>,
-  <span class="hljs-attr">&quot;exports&quot;</span>: {
-    <span class="hljs-attr">&quot;.&quot;</span>: { <span class="hljs-comment">// 支持所有引入</span>
-      <span class="hljs-attr">&quot;browser&quot;</span>: {
-        <span class="hljs-attr">&quot;default&quot;</span>: <span class="hljs-string">&quot;./lib/whole-lib.browser.js&quot;</span>
-      }
-    },
-    <span class="hljs-attr">&quot;module-a&quot;</span>: { <span class="hljs-comment">// 支持 &#x27;my-awesome-lib/module-a&#x27;</span>
-      <span class="hljs-attr">&quot;import&quot;</span>: <span class="hljs-string">&quot;./lib/public-module-a.mjs&quot;</span>,
-      <span class="hljs-attr">&quot;require&quot;</span>: <span class="hljs-string">&quot;./lib/public-module-a.cjs&quot;</span>
-    },
-    <span class="hljs-attr">&quot;module-b&quot;</span>: { <span class="hljs-comment">// 支持 &#x27;my-awesome-lib/module-b&#x27;</span>
-      <span class="hljs-attr">&quot;import&quot;</span>: <span class="hljs-string">&quot;./lib/public-module-b.mjs&quot;</span>,
-      <span class="hljs-attr">&quot;require&quot;</span>: <span class="hljs-string">&quot;./lib/public-module-b.cjs&quot;</span>
-    }
-  }
-}
-</div></code></pre>
-<h2 id="title">title</h2>
-<h2 id="title-1">title</h2>
-<h2 id="title-2">title</h2>
-<h2 id="title-3">title</h2>
-<h3 id="title-4">title</h3>
-
-        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
         
     </body>
     </html>
