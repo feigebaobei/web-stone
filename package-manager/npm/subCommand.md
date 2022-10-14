@@ -116,6 +116,10 @@ npm ci
 生成本地安装包`<name>-<version>.tgz`。  
 可以使用`npm i` / `npm update` / `npm dedupe` / `npm uninstall`
 
+- 多次打包会覆盖。  
+- 类似压缩。  
+- 可离线安装  
+
 ```shell
 npm pack [[<@scope>/]<pkg>...] [--dry-run] [--json]
 ```
