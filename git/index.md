@@ -296,14 +296,14 @@ merge前保证当前工作区干净
 所有钩子可分为4类：
 - 提交工作流钩子
     + pre-commit    // 提交前执行。使用git commit --no-verify可路过此钩子。
-    + prepare-commit-msg
-    + commit-msg
-    + post-commit
+    + prepare-commit-msg // 准备提交信息钩子
+    + commit-msg // 提交信息钩子
+    + post-commit // 提交后钩子
 - 电子邮件钩子
     + post-applypatch
 - 其他客户端钩子
-    + pre-rebase
-    + post-rewrite
+    + pre-rebase // 预衍合钩子
+    + post-rewrite // 
     + pre-push
 - 服务端钩子
     + pre-receive
