@@ -121,7 +121,16 @@
   }
 }
 <span class="hljs-comment">// 获取数据类型</span>
-<span class="hljs-keyword">let</span> getType = <span class="hljs-function">(<span class="hljs-params">o</span>) =&gt;</span> <span class="hljs-built_in">Object</span>.prototype.toString.call(o).slice(<span class="hljs-number">8</span>, -<span class="hljs-number">1</span>)
+<span class="hljs-keyword">let</span> getType = <span class="hljs-function">(<span class="hljs-params">o</span>) =&gt;</span> <span class="hljs-built_in">Object</span>.prototype.toString.call(o).slice(<span class="hljs-number">8</span>, -<span class="hljs-number">1</span>) <span class="hljs-comment">// 返回构造函数的名字 大写开头</span>
+<span class="hljs-comment">// 输出</span>
+<span class="hljs-keyword">let</span> clog = <span class="hljs-built_in">console</span>.log
+<span class="hljs-keyword">let</span> clogs = <span class="hljs-function">(<span class="hljs-params">jsonObj: object | string</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (typof jsonObj === <span class="hljs-string">&#x27;object&#x27;</span>) {
+        clog(<span class="hljs-built_in">JSON</span>.stringify(jsonObj))
+    } <span class="hljs-keyword">else</span> {
+        clog(jsonObj)
+    }
+}
 <span class="hljs-comment">// 深复制对象</span>
 <span class="hljs-keyword">let</span> cloneDeep = <span class="hljs-function">(<span class="hljs-params">p, c = {}</span>) =&gt;</span> {
   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> k <span class="hljs-keyword">in</span> p) {
@@ -253,6 +262,10 @@
   inp.select(); <span class="hljs-comment">// 选中</span>
   <span class="hljs-built_in">document</span>.execCommand(<span class="hljs-string">&#x27;copy&#x27;</span>,<span class="hljs-literal">false</span>); <span class="hljs-comment">// copy已经选中的内容</span>
   inp.remove(); <span class="hljs-comment">// 删除掉这个dom</span>
+}
+<span class="hljs-comment">// 创建方法</span>
+<span class="hljs-keyword">let</span> createFunction = <span class="hljs-function">(<span class="hljs-params">...args, body</span>) =&gt;</span> {
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Function</span>(...args, body)
 }
 
 

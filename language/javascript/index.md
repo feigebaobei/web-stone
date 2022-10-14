@@ -781,7 +781,7 @@ dom.classList.toggle(s) // 若存在则删除，否不存在则添加。
   + [Date](/language/javascript/date.html)
   + [Number](/language/javascript/number.html)
   + [RegExp](/regexp/index.html)
-  + Function
+  + [Function](/language/javascript/function.html)
   + Boolean
   + Error
   + [symbol](/language/javascript/symbol.html)

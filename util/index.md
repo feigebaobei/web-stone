@@ -41,7 +41,16 @@ let parseUrlQS = (url = window.location.href, useCode = true) => {
   }
 }
 // 获取数据类型
-let getType = (o) => Object.prototype.toString.call(o).slice(8, -1)
+let getType = (o) => Object.prototype.toString.call(o).slice(8, -1) // 返回构造函数的名字 大写开头
+// 输出
+let clog = console.log
+let clogs = (jsonObj: object | string) => {
+    if (typof jsonObj === 'object') {
+        clog(JSON.stringify(jsonObj))
+    } else {
+        clog(jsonObj)
+    }
+}
 // 深复制对象
 let cloneDeep = (p, c = {}) => {
   for (let k in p) {
@@ -173,6 +182,10 @@ let copy = function (str){
   inp.select(); // 选中
   document.execCommand('copy',false); // copy已经选中的内容
   inp.remove(); // 删除掉这个dom
+}
+// 创建方法
+let createFunction = (...args, body) => {
+  return new Function(...args, body)
 }
 
 
