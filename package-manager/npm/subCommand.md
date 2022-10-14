@@ -112,7 +112,22 @@ npm ci
 |include-workspace-root||||
 |install-links||false||
 
-# title
+# pack
+生成本地安装包`<name>-<version>.tgz`。  
+可以使用`npm i` / `npm update` / `npm dedupe` / `npm uninstall`
+
+```shell
+npm pack [[<@scope>/]<pkg>...] [--dry-run] [--json]
+```
+
+|||||
+|-|-|-|-|
+|`--dry-run`|不会|||
+|`--json`|是否使用json格式输出|boolean|false|
+|`--pack-detination`|打包的目录|string|`.`|
+|`--workspace`|工作空间。不会。可选值：- 工作空间的名字。- 工作空间的目录。- 父工作空间的路径|string|-|
+|`--workspaces`||boolean|false|
+
 # title
 # title
 # title
