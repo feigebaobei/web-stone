@@ -1201,7 +1201,7 @@
         commit message 的 lint 工具<br />
         会用到<code>@commmitlint/cli</code> /
         <code>@commmitlint/config-conventional</code><br />
-        与husky一起使用
+        与 husky 一起使用
       </p>
     </blockquote>
     <h3 id="feature">feature</h3>
@@ -1266,7 +1266,7 @@ git commit -m &#x27;type(scope?): subject body? footer?&#x27;
           <td></td>
         </tr>
         <tr>
-          <td>package.json中的commitlint对象</td>
+          <td>package.json 中的 commitlint 对象</td>
           <td></td>
           <td></td>
           <td></td>
@@ -1318,24 +1318,33 @@ git commit -m &#x27;type(scope?): subject body? footer?&#x27;
     </table>
     <h3 id="基本结构">基本结构</h3>
     <pre><code class="language-js"><div><span class="hljs-built_in">module</span>.exports = {
-    <span class="hljs-attr">extends</span>: [
-        <span class="hljs-string">&quot;@commitlint/config-conventional&quot;</span>
+  <span class="hljs-attr">extends</span>: [<span class="hljs-string">&#x27;@commitlint/config-conventional&#x27;</span>],
+  <span class="hljs-attr">rules</span>: {
+    <span class="hljs-string">&#x27;type-enum&#x27;</span>: [
+      <span class="hljs-number">2</span>,
+      <span class="hljs-string">&#x27;always&#x27;</span>,
+      [
+        <span class="hljs-string">&#x27;feat&#x27;</span>,
+        <span class="hljs-string">&#x27;to&#x27;</span>,
+        <span class="hljs-string">&#x27;fix&#x27;</span>,
+        <span class="hljs-string">&#x27;docs&#x27;</span>,
+        <span class="hljs-string">&#x27;style&#x27;</span>,
+        <span class="hljs-string">&#x27;refactore&#x27;</span>,
+        <span class="hljs-string">&#x27;perf&#x27;</span>,
+        <span class="hljs-string">&#x27;test&#x27;</span>,
+        <span class="hljs-string">&#x27;chore&#x27;</span>,
+        <span class="hljs-string">&#x27;revert&#x27;</span>,
+        <span class="hljs-string">&#x27;demo&#x27;</span>,
+      ],
     ],
-    <span class="hljs-attr">rules</span>:{
-        <span class="hljs-string">&quot;type-enum&quot;</span>: [<span class="hljs-number">2</span>, <span class="hljs-string">&#x27;always&#x27;</span>, [<span class="hljs-string">&#x27;upd&#x27;</span>, <span class="hljs-string">&#x27;feat&#x27;</span>, <span class="hljs-string">&#x27;fix&#x27;</span>, <span class="hljs-string">&#x27;refactor&#x27;</span>, <span class="hljs-string">&#x27;docs&#x27;</span>, <span class="hljs-string">&#x27;chore&#x27;</span>, <span class="hljs-string">&#x27;style&#x27;</span>, <span class="hljs-string">&#x27;revert&#x27;</span>]],
-        <span class="hljs-string">&#x27;type-case&#x27;</span>: [<span class="hljs-number">0</span>],
-        <span class="hljs-string">&#x27;type-empty&#x27;</span>: [<span class="hljs-number">0</span>],
-        <span class="hljs-string">&#x27;scope-empty&#x27;</span>: [<span class="hljs-number">0</span>],
-        <span class="hljs-string">&#x27;scope-case&#x27;</span>: [<span class="hljs-number">0</span>],
-        <span class="hljs-string">&#x27;subject-full-stop&#x27;</span>: [<span class="hljs-number">0</span>, <span class="hljs-string">&#x27;never&#x27;</span>],
-        <span class="hljs-string">&#x27;header-max-length&#x27;</span>: [<span class="hljs-number">0</span>, <span class="hljs-string">&#x27;always&#x27;</span>, <span class="hljs-number">72</span>],
-    }
+  },
 }
+
 </div></code></pre>
-    <h3 id="rule配置说明">rule配置说明</h3>
+    <h3 id="rule-配置说明">rule 配置说明</h3>
     <p>
-      rule由name和配置数组组成，如'name: [0, 'always', 72]'. 第一位是level。可选
-      0:disable，1:warning，2:error<br />
+      rule 由 name 和配置数组组成，如'name: [0, 'always', 72]'. 第一位是
+      level。可选 0:disable，1:warning，2:error<br />
       第二位是如何使用。可选 always,never<br />
       第三位是值
     </p>
@@ -1352,13 +1361,13 @@ git commit -m &#x27;type(scope?): subject body? footer?&#x27;
       <tbody>
         <tr>
           <td>type</td>
-          <td>commit的类型</td>
+          <td>commit 的类型</td>
           <td></td>
           <td></td>
         </tr>
         <tr>
           <td>scope</td>
-          <td>commit的范围，本次变动影响的范围。</td>
+          <td>commit 的范围，本次变动影响的范围。</td>
           <td></td>
           <td></td>
         </tr>
@@ -1376,13 +1385,13 @@ git commit -m &#x27;type(scope?): subject body? footer?&#x27;
         </tr>
         <tr>
           <td>footer</td>
-          <td>描述的footer信息</td>
+          <td>描述的 footer 信息</td>
           <td></td>
           <td></td>
         </tr>
       </tbody>
     </table>
-    <h3 id="commit的类型">commit的类型</h3>
+    <h3 id="commit-的类型">commit 的类型</h3>
     <table>
       <thead>
         <tr>
@@ -1401,7 +1410,7 @@ git commit -m &#x27;type(scope?): subject body? footer?&#x27;
         </tr>
         <tr>
           <td>ci</td>
-          <td>修改ci</td>
+          <td>修改 ci</td>
           <td></td>
           <td></td>
         </tr>
@@ -1425,7 +1434,7 @@ git commit -m &#x27;type(scope?): subject body? footer?&#x27;
         </tr>
         <tr>
           <td>fix</td>
-          <td>解决bug</td>
+          <td>解决 bug</td>
           <td></td>
           <td></td>
         </tr>
@@ -1483,7 +1492,7 @@ git commit -m &#x27;type(scope?): subject body? footer?&#x27;
       <tbody>
         <tr>
           <td>body-full-stop</td>
-          <td>body停止的地方</td>
+          <td>body 停止的地方</td>
           <td>never</td>
           <td>.</td>
           <td></td>
@@ -1491,7 +1500,7 @@ git commit -m &#x27;type(scope?): subject body? footer?&#x27;
         </tr>
         <tr>
           <td>body-leading-blank</td>
-          <td>body开始的地方</td>
+          <td>body 开始的地方</td>
           <td>always</td>
           <td></td>
           <td></td>
@@ -1770,7 +1779,8 @@ git commit -m &#x27;type(scope?): subject body? footer?&#x27;
     <h2 id="principle">principle</h2>
     <p>此包的处理逻辑。</p>
     <h3 id="uml">uml</h3>
-    <pre><code><code><div></div></code></code></pre>
+    <pre><code><code><div>
+</div></code></code></pre>
     <h2 id="todo">todo</h2>
     <blockquote>
       <p>
