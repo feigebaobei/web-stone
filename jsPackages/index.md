@@ -26,7 +26,7 @@
 - [webpack-dev-server](/jsPackages/webpack-dev-server.html)
 - [prettier](/jsPackages/prettier/index.html)
 - [lint-staged](/jsPackages/lint-staged.html)
-- [title](/jsPackages/title.html)
+- [commitlint](/jsPackages/commitlint.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
