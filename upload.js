@@ -272,6 +272,13 @@ c.on('ready', () => {
     //   })
     // 测试创建目录
     makeDir(p)
+      .then(() => {
+        c.end()
+      })
+      .catch((err) => {
+        log('catch', err)
+        c.end()
+      })
     // 测试上传一个目录
     // uploadDir(p).then(res => {
     //     log('全部上传完成', res)
