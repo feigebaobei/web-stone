@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title></title>
+    <title>lint-staged</title>
     <style>
       /* From extension vscode.github */
       /*---------------------------------------------------------------------------------------------
@@ -1194,43 +1194,159 @@
     </style>
   </head>
   <body class="vscode-body vscode-light">
+    <h1 id="lint-staged">lint-staged</h1>
+    <h2 id="overview">overview</h2>
+    <blockquote>
+      <p>
+        少有的全js的库<br />
+        操作舞台区的文件的执行命令的工具<br />
+        通常与husky、linter(eg: eslint/prettier)一起使用
+      </p>
+    </blockquote>
+    <h3 id="feature">feature</h3>
     <ul>
-      <li><a href="/jsPackages/ftp.html">ftp</a></li>
-      <li><a href="/jsPackages/crtp-cli.html">crtp-cli</a></li>
-      <li><a href="/jsPackages/co.html">co</a></li>
-      <li><a href="/jsPackages/nrm.html">nrm</a></li>
-      <li><a href="/jsPackages/siroc.html">siroc</a></li>
-      <li><a href="/jsPackages/h3.html">h3</a></li>
-      <li><a href="/jsPackages/whistle.html">whistle</a></li>
-      <li><a href="/jsPackages/unsplash.html">unsplash</a></li>
-      <li><a href="/jsPackages/eleventy.html">@11ty/eleventy</a></li>
-      <li><a href="/jsPackages/history.html">history</a></li>
-      <li><a href="/jsPackages/ftp.html">ftp</a></li>
-      <li><a href="/jsPackages/pm2.html">pm2</a></li>
-      <li><a href="/jsPackages/redux.html">redux</a></li>
-      <li><a href="/jsPackages/@reduxjs-toolkit.html">@reduxjs/toolkit</a></li>
-      <li><a href="/jsPackages/lerna/index.html">lerna</a></li>
-      <li><a href="/jsPackages/axios.html">axios</a></li>
-      <li><a href="/jsPackages/prop-types.html">prop-types</a></li>
-      <li><a href="/jsPackages/ngrok.html">ngrok</a></li>
-      <li><a href="/jsPackages/mkcert.html">mkcert</a></li>
-      <li><a href="/jsPackages/md5.html">md5</a></li>
-      <li><a href="/jsPackages/commander/index.html">commander</a></li>
-      <li><a href="/jsPackages/sql.js.html">sql.js</a></li>
-      <li><a href="/jsPackages/lath.html">lath</a></li>
-      <li><a href="/jsPackages/html-server.html">html-server</a></li>
-      <li><a href="/jsPackages/node-schedule.html">node-schedule</a></li>
-      <li>
-        <a href="/jsPackages/webpack-dev-server.html">webpack-dev-server</a>
-      </li>
-      <li><a href="/jsPackages/prettier/index.html">prettier</a></li>
-      <li><a href="/jsPackages/lint-staged.html">lint-staged</a></li>
-      <li><a href="/jsPackages/title.html">title</a></li>
-      <li><a href="/jsPackages/title.html">title</a></li>
-      <li><a href="/jsPackages/title.html">title</a></li>
-      <li><a href="/jsPackages/title.html">title</a></li>
-      <li><a href="/jsPackages/title.html">title</a></li>
-      <li><a href="/jsPackages/title.html">title</a></li>
+      <li>操作舞台区的文件的执行命令的工具</li>
+      <li>feature1</li>
+      <li>feature2</li>
     </ul>
+    <h2 id="install">install</h2>
+    <p><code>npm i -D lint-staged</code></p>
+    <h2 id="usage">usage</h2>
+    <ul>
+      <li>package.json</li>
+      <li>配置文件</li>
+    </ul>
+    <h2 id="configuration">configuration</h2>
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>package.json中的<code>lint-staged</code>对象</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><code>.lintstagedrc</code></td>
+          <td>
+            可以是<code>.lintstagedrc.json</code>/<code>.lintstagedrc.yaml</code>/<code
+              >.lintstagedrc.yml</code
+            >
+          </td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>
+            <code>.lintstagedrc.mjs</code> / <code>lint-staged.config.mjs</code>
+          </td>
+          <td>esm规范</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>
+            <code>.lintstagerc.cjs</code> / <code>lint-staged.config.cjs</code>
+          </td>
+          <td>cjs规范</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>
+            <code>lint-staged.config.js</code> / <code>.lintstagedrc.js</code>
+          </td>
+          <td>esm/cjs</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+    <h3 id="基本结构">基本结构</h3>
+    <pre><code class="language-json"><div><span class="hljs-comment">// .lintstagedrc</span>
+{
+    <span class="hljs-attr">&quot;*&quot;</span>: <span class="hljs-string">&quot;cmd&quot;</span>
+    <span class="hljs-comment">// &quot;*.js&quot;: [&quot;eslint&quot;, &quot;prettier --write&quot;]</span>
+}
+</div></code></pre>
+    <table>
+      <thead>
+        <tr>
+          <th>key</th>
+          <th>description</th>
+          <th>default</th>
+          <th>enum</th>
+          <th>demo</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+    <h2 id="api">api</h2>
+    <h2 id="cli">cli</h2>
+    <pre><code><code><div>❯ npx lint-staged --help
+用法: lint-staged [options]
+
+Options:
+  -V, --version                      输出版本号
+  --allow-empty                      当任务撤消所有分阶段的更改时允许空提交（默认值：false）
+  -c, --config [path]                配置文件的路径
+  -d, --debug                        打印其他调试信息（默认值：false）
+  -p, --concurrent &lt;parallel tasks&gt;  要同时运行的任务数，或者为false则要连续运行任务（默认值：true）
+  -q, --quiet                        自己的控制台输出（默认值：false）
+  -r, --relative                     将相对文件路径传递给任务（默认值：false）
+  -x, --shell                        跳过任务解析以更好地支持shell（默认值：false）
+  -h, --help                         输出用法信息
+</div></code></code></pre>
+    <h2 id="principle">principle</h2>
+    <p>此包的处理逻辑。</p>
+    <h3 id="uml">uml</h3>
+    <pre><code><code><div></div></code></code></pre>
+    <h2 id="todo">todo</h2>
+    <blockquote>
+      <p>未来迭代计划。 未来迭代计划。 未来迭代计划。</p>
+    </blockquote>
   </body>
 </html>

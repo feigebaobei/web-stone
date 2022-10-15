@@ -25,7 +25,7 @@
 - [node-schedule](/jsPackages/node-schedule.html)
 - [webpack-dev-server](/jsPackages/webpack-dev-server.html)
 - [prettier](/jsPackages/prettier/index.html)
-- [husky](/jsPackages/husky.html)
+- [lint-staged](/jsPackages/lint-staged.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
