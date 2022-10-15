@@ -1,15 +1,19 @@
 # `pm2`
 
 ## overview
+
 > 线程管理器
 
 ### feature
+
 - xxx
 
 ## install
+
 `npm i -g pm2`
 
 ## usage
+
 ```shell
 pm2 start api.js
 pm2 start "npm run start" # script
@@ -37,41 +41,51 @@ pm2 reset all # 重置重启次数
 ```
 
 ## configuration
+
 同时管理多个应用。可以使用明确的设置参数。
 如：`ecosystom.config.js`
+
 ```js
 module.exports = {
-  apps : [{
-    name   : "limit worker",
-    script : "./worker.js",
-    args   : "limit"
-  },{
-    name   : "rotate worker",
-    script : "./worker.js",
-    args   : "rotate"
-  }]
+  apps: [
+    {
+      name: 'limit worker',
+      script: './worker.js',
+      args: 'limit',
+    },
+    {
+      name: 'rotate worker',
+      script: './worker.js',
+      args: 'rotate',
+    },
+  ],
 }
 ```
+
 使用配置文件
+
 ```shell
 pm2 start ecosystom.config.js
 ```
 
-|key|description|default|enum|demo|||
-|-|-|-|-|-|-|-|
-||||||||
-||||||||
-||||||||
+| key | description | default | enum | demo |     |     |
+| --- | ----------- | ------- | ---- | ---- | --- | --- |
+|     |             |         |      |      |     |     |
+|     |             |         |      |      |     |     |
+|     |             |         |      |      |     |     |
 
 ## api
 
 ## principle
 
 ### uml
+
 ```
+
 ```
 
 ## todo
+
 > 未来迭代计划。
 > 未来迭代计划。
 > 未来迭代计划。

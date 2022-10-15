@@ -1,52 +1,55 @@
 # `redux`
 
 ## overview
-> 不依赖框架的状态管理工具  
 
-|||||
-|-|-|-|-|
-|state|应用的状态|||
-|store|state的管理者|||
-|action|描述运行的对象|type属性是必填属性。|`{type: string, [payload]: any}`|
-|actionCreator|创建action的方法。工厂模式。|||
-|reducer|当store.dispatch(action)时触发，根据acttion.type分别更新并返回state。|必须是同步的纯函数||
-|||||
+> 不依赖框架的状态管理工具
 
-store是Redux.createStore(reducer, [initState])的实例。  
-store.dispatch(action)是修改状态state的惟一方法。  
-store.getState()是获取state的惟一方法。（state是单例的）  
+|               |                                                                           |                       |                                  |
+| ------------- | ------------------------------------------------------------------------- | --------------------- | -------------------------------- |
+| state         | 应用的状态                                                                |                       |                                  |
+| store         | state 的管理者                                                            |                       |                                  |
+| action        | 描述运行的对象                                                            | type 属性是必填属性。 | `{type: string, [payload]: any}` |
+| actionCreator | 创建 action 的方法。工厂模式。                                            |                       |                                  |
+| reducer       | 当 store.dispatch(action)时触发，根据 acttion.type 分别更新并返回 state。 | 必须是同步的纯函数    |                                  |
+|               |                                                                           |                       |                                  |
+
+store 是 Redux.createStore(reducer, [initState])的实例。  
+store.dispatch(action)是修改状态 state 的惟一方法。  
+store.getState()是获取 state 的惟一方法。（state 是单例的）
 
 ## install
+
 `npm i redux`
 
 ## usage
+
 ```js
 // 定义store
-import {createStore} from 'redux'
+import { createStore } from 'redux'
 let initState = {
-    counter: 0,
-    todos: []
+  counter: 0,
+  todos: [],
 }
 let reducer = function (state, action) {
-    switch (action.type) {
-        case 'ADD_TODO':
-            state.todos.push(action.payload)
-            state.counter++
-            return state
-        default:
-            return state
-    }
+  switch (action.type) {
+    case 'ADD_TODO':
+      state.todos.push(action.payload)
+      state.counter++
+      return state
+    default:
+      return state
+  }
 }
 let store = createStore(reducer, initState)
 
 // 改变store
 let action = {
-    type: 'ADD_TODO',
-    payload: {
-        id: 1,
-        content: 'content',
-        completed: false
-    }
+  type: 'ADD_TODO',
+  payload: {
+    id: 1,
+    content: 'content',
+    completed: false,
+  },
 }
 store.dispatch(action)
 
@@ -55,12 +58,13 @@ store.getState()
 ```
 
 ## principle
+
 ```
 Redux: {
     creatStore(reducer, [initState]) -> store,      // 返回store对象
     combineReducers(reducers: {[key]: reducer})     // 把reducers捆成一个reducer
-    applyMiddleware(...middlewares),                // 
-    bindActionCreators(actionCreators, dispatch),   // 
+    applyMiddleware(...middlewares),                //
+    bindActionCreators(actionCreators, dispatch),   //
     compose(...functions)                           // 从右向左，依次执行函数。上一个函数的结果是下一个函数的参数
 }
 store: {
@@ -73,6 +77,7 @@ store: {
 ```
 
 ### uml
+
 ```
                                  counterReducer(counter, action) -------------------- counter
                               ↗                                                              ↘

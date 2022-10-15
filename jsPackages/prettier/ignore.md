@@ -1,8 +1,10 @@
 # 忽略
+
 常使用`.prettierignore`指定忽略的内容  
-该文件使用gitignore语法。  
+该文件使用 gitignore 语法。
 
 ## 基本结构
+
 ```
 # Ignore artifacts:
 build
@@ -13,6 +15,7 @@ coverage
 ```
 
 ## 在各文件中使用忽略备注
+
 ```
 js
 // prettier-ignore
@@ -44,8 +47,3 @@ graphql
 handlebars
 {{! prettier-ignore }}
 ```
-
-
-
-
-

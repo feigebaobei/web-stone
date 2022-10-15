@@ -1,18 +1,23 @@
 # lath
 
 ## overview
-> 页面之间无缝连接的框架。  
+
+> 页面之间无缝连接的框架。
 
 ### feature
+
 - feature0
 - feature1
 - feature2
 
 ## install
+
 `npm i lath`
 
 ## usage
+
 同`./demo.md`
+
 ```
 const lath = require('lath');
 // or
@@ -21,13 +26,16 @@ const lath = require('lath');
 ```
 
 ## configuration
+
 默认配置文件：`path/to/file.json`。
 |key|description|default|enum|demo|||
 |-|-|-|-|-|-|-|
 ||||||||
 ||||||||
 ||||||||
+
 ## api
+
 `lath.fn(param, first: string, second: boolean = true) => void`
 description
 
@@ -35,13 +43,17 @@ description
 description
 
 ## principle
+
 此包的处理逻辑。
 
 ### uml
+
 ```
+
 ```
 
 ## todo
+
 > 未来迭代计划。
 > 未来迭代计划。
 > 未来迭代计划。

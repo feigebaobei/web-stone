@@ -1,30 +1,34 @@
 # eleventy
 
 ## overview
-> 静态网站生成器。  
+
+> 静态网站生成器。
 
 ### feature
+
 - 支持的模板语言
-  - html *.html
-  - markdown *.md
-  - javascript *.js
-  - liquid *.liquid
-  - nunjucks *.njk
-  - handlebars *.hbs
-  - mustache *.mustache
-  - ejs *.ejs
-  - haml *.haml
-  - pug *.pug
-  - custom *.*
+  - html \*.html
+  - markdown \*.md
+  - javascript \*.js
+  - liquid \*.liquid
+  - nunjucks \*.njk
+  - handlebars \*.hbs
+  - mustache \*.mustache
+  - ejs \*.ejs
+  - haml \*.haml
+  - pug \*.pug
+  - custom _._
 - feature2
 
 ## install
+
 ```shell
 npm i -D @11ty/eleventy
 eleventy --version # 若返回版本号则安装成功
 ```
 
 ## usage
+
 ```shell
 mkdir demo-eleventy-0
 cd demo-eleventy-0
@@ -38,9 +42,11 @@ npx @11ty/eleventy --serve # 启动本地热更新服务
 ```
 
 ## configuration
+
 默认配置文件：`<root>/eleventy.json`。
 
 ## cli
+
 ```shell
 Usage: eleventy
        eleventy --input=. --output=./_site
@@ -88,18 +94,23 @@ Arguments:
 ```
 
 ## layout
+
 ## api
 
 ## principle
+
 此包的处理逻辑。
 
 ### uml
+
 ```
+
 ```
 
 ## 竞品
+
 > jekyll (ruby)  
 > hugo (go)  
 > hexo (js)  
 > gatsby (react)  
-> nuxt (vue)  
+> nuxt (vue)

@@ -1,6 +1,7 @@
 # `axios`
 
 ## overview
+
 前端一种异步请求的方式。
 |||||
 |-|-|-|-|
@@ -9,17 +10,20 @@
 |axios(promise)||||
 
 ### feature
-- 从浏览器中发出xhr  
-- 在node.js中发现http请求  
-- 支持promise
+
+- 从浏览器中发出 xhr
+- 在 node.js 中发现 http 请求
+- 支持 promise
 - 支持打断请求和回馈
-- 可转换request和response data
-- 可取消请求。（fetch不可取消）
+- 可转换 request 和 response data
+- 可取消请求。（fetch 不可取消）
 
 ## install
+
 `npm i axios`
 
 ## usage
+
 ```js
 const axios = require('axios').default
 axios.get(url,
@@ -56,8 +60,11 @@ axios#getUri([config])
 ```
 
 ## configuration
+
 <!-- 默认配置文件：`path/to/file.json`。 -->
+
 没有配置文件。有配置项
+
 ```js
 config: {
     url: '/user',
@@ -114,12 +121,14 @@ config: {
 ```
 
 ### 配置默认值
+
 ```
 axios.default.baseURL = 'xxx'
 axios.default.headers.common['Authorization'] = axios.default.baseURL = AUTH_TOKEN
 ```
 
 ### 自定义实例的默认值
+
 ```
 const instance = axios.create({
   baseURL: 'https://api.example.com'
@@ -129,6 +138,7 @@ instance.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 ```
 
 ## api
+
 ```
 axios({
     method: 'post', // 小写
@@ -150,6 +160,7 @@ axios.patch(url[, config])
 ```
 
 ## response schema
+
 ```
 {
     data: {}
@@ -162,6 +173,7 @@ axios.patch(url[, config])
 ```
 
 ## interceptors
+
 ```js
 axios.interceptors.request.use((config) => {
     ...
@@ -181,23 +193,29 @@ axios.interceptors.request.eject(myInterceptor)
 // 删除实例的打断也类似
 ```
 
-- 每个interceptor都会执行
+- 每个 interceptor 都会执行
 - 按定义顺序执行
-- 只返回最后一个interceptor的结果
-- 每个interceptor接收前一个的结果
+- 只返回最后一个 interceptor 的结果
+- 每个 interceptor 接收前一个的结果
 
 ## cancellation
+
 推荐`AbortController`.在 axios v0.22.0+ 支持。
-``` js
+
+```js
 let controller = new AbortController()
 axios.get(...).then(...)
 controller() // 取消请求
 ```
 
 ## 使用 application/x-www-form-urlencoded 格式
+
 有下面多种方法
+
 ### form data
-在v0.27.0后支持设置了`header.Content-Type: multipart/form-data`会，自动序列化为FormData对象。
+
+在 v0.27.0 后支持设置了`header.Content-Type: multipart/form-data`会，自动序列化为 FormData 对象。
+
 ```
 import axios from 'axios';
 axios.post('https://httpbin.org/post', {x: 1}, {
@@ -208,6 +226,7 @@ axios.post('https://httpbin.org/post', {x: 1}, {
 ```
 
 ### browser
+
 ```js
 // no.1
 const params = new URLSearchParams()
@@ -215,40 +234,44 @@ params.append('key', 'value')
 axios.post(url, params)
 
 // no.2
-const qs = require('qs');
-axios.post('/foo', qs.stringify({ 'bar': 123 }));
+const qs = require('qs')
+axios.post('/foo', qs.stringify({ bar: 123 }))
 
 // no.3
-import qs from 'qs';
-const data = { 'bar': 123 };
+import qs from 'qs'
+const data = { bar: 123 }
 const options = {
   method: 'POST',
   headers: { 'content-type': 'application/x-www-form-urlencoded' },
   data: qs.stringify(data),
   url,
-};
-axios(options);
+}
+axios(options)
 ```
 
 ### node.js
+
 ```js
 // no.1
-const querystring = require('querystring');
-axios.post('http://something.com/', querystring.stringify({ foo: 'bar' }));
+const querystring = require('querystring')
+axios.post('http://something.com/', querystring.stringify({ foo: 'bar' }))
 
 // no.2
-const url = require('url');
-const params = new url.URLSearchParams({ foo: 'bar' });
-axios.post('http://something.com/', params.toString());
+const url = require('url')
+const params = new url.URLSearchParams({ foo: 'bar' })
+axios.post('http://something.com/', params.toString())
 ```
 
 ## principle
 
 ### uml
+
 ```
+
 ```
 
 ## demo
+
 ```js
 import axios from 'axios'
 import md5 from 'md5'
@@ -257,66 +280,77 @@ import createSimpleStore from './simpleStore'
 let simpleStore = createSimpleStore()
 
 let instance = axios.create({
-    // baseURL: 'http:www.xxx.com',
-    // 用于各种后端接口，所以不适合设置baseURL
-    timeout: 5000,
-    headers: {
-        // 'key': 'value'
-    }
+  // baseURL: 'http:www.xxx.com',
+  // 用于各种后端接口，所以不适合设置baseURL
+  timeout: 5000,
+  headers: {
+    // 'key': 'value'
+  },
 })
-let myInterceptor = instance.interceptors.request.use((config) => {
+let myInterceptor = instance.interceptors.request.use(
+  (config) => {
     // 取消重复请求
     let hashStr = md5({
-        url: config.url,
-        method: config.method,
-        params: config.params,
-        data: config.data,
+      url: config.url,
+      method: config.method,
+      params: config.params,
+      data: config.data,
     })
     if (simpleStore.isExist(hashStr)) {
-        return null
+      return null
     } else {
-        return config
+      return config
     }
-}, function (error) {
+  },
+  function (error) {
     return Promise.reject(error)
-})
-instance.interceptors.response.use((res) => {
-    let hashStr = md5({url: res.config.url, method: res.config.method, params: res.config.params, data: res.config.data})
+  }
+)
+instance.interceptors.response.use(
+  (res) => {
+    let hashStr = md5({
+      url: res.config.url,
+      method: res.config.method,
+      params: res.config.params,
+      data: res.config.data,
+    })
     simpleStore.remove(hashStr)
     if (res.status === 200) {
-        return res.data
+      return res.data
     } else {
-        return Promise.reject(new Error('请求出错'))
+      return Promise.reject(new Error('请求出错'))
     }
-}, function (error) {
+  },
+  function (error) {
     return Promise.reject(error)
-})
+  }
+)
 // let cancelRequest = () => {
 //     axios.interceptors.request.eject(myInterceptor)
 // }
 
 export {
-    instance,
-    // 强制取消请求
-    // cancelRequest
+  instance,
+  // 强制取消请求
+  // cancelRequest
 }
 ```
 
 ```js
 let createSimpleStore = () => {
-    let simpleStore = {
-        value: new Set(),
-        isExist: function (v) {
-            return simpleStore.value.has(v)
-        },
-        add: function(v) {
-            simpleStore.value.add(v)
-        },
-        remove: function (v) {
-            simpleStore.value.delete(v)
-        }
-    }
-    return simpleStore
+  let simpleStore = {
+    value: new Set(),
+    isExist: function (v) {
+      return simpleStore.value.has(v)
+    },
+    add: function (v) {
+      simpleStore.value.add(v)
+    },
+    remove: function (v) {
+      simpleStore.value.delete(v)
+    },
+  }
+  return simpleStore
 }
 export default createSimpleStore
 ```

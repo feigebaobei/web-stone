@@ -1,5 +1,5 @@
 // import logo from './logo.svg';
-import './App.css';
+import './App.css'
 import CounterView from './CounterView'
 import CounterOp from './CounterOp'
 
@@ -8,9 +8,8 @@ function App() {
     <div className="App">
       <CounterView></CounterView>
       <CounterOp></CounterOp>
-    
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

@@ -1,12 +1,15 @@
 # `history`
 
 ## overview
-> 提供多平台操作history的功能。
+
+> 提供多平台操作 history 的功能。
 
 ## install
+
 `npm i history`
 
 ## usage
+
 ```
 const history = require('history');
 // or
@@ -15,6 +18,7 @@ const history = require('history');
 ```
 
 ## api
+
 ```js
 parsedPath(path?) => {
     hash?: hash值
@@ -57,7 +61,7 @@ interface History {
   readonly action: Action;
   readonly location: Location;
   createHref(to: To): string; // 返回path
-  push(to: To, state?: any): void; // 
+  push(to: To, state?: any): void; //
   replace(to: To, state?: any): void;
   go(delta: number): void;
   back(): void;
@@ -77,9 +81,11 @@ interface BrowserHistory extends History {}
 ```
 
 ## principle
-使用原生提供的操作history的方法。做成一个adaptor。
+
+使用原生提供的操作 history 的方法。做成一个 adaptor。
 
 ## todo
+
 > 未来迭代计划。
 > 未来迭代计划。
 > 未来迭代计划。

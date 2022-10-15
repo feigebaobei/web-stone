@@ -1,17 +1,22 @@
 # `crtp-cli`
 
 ## overview
-> 使用模板初始化文件  
+
+> 使用模板初始化文件
 
 ### feature
-- 使用模板板初始化文件  
-- 管理模板  
+
+- 使用模板板初始化文件
+- 管理模板
 
 ## install
+
 `npm i -g crtp-cli`
 
 ## usage
+
 <!-- 同`./demo.md` -->
+
 ```
 crtp init <fileType> --file [file...] --packageName [packageName] // v0.0.2时删除该api
 crtp initFile <fileType> --file [file...] --packageName [packageName] // 是 crtp init的别名
@@ -24,9 +29,11 @@ crtp initProj <projName> --packageName [packageName] --packageVersion [packageVe
 ```
 
 ## configuration
+
 默认配置文件：`path/to/file.json`。
 
 ## api
+
 `crtp-cli.fn(param, first: string, second: boolean = true) => void`
 description
 
@@ -34,14 +41,18 @@ description
 description
 
 ## principle
+
 主要使用基于`commander`/`chalk`/`child_process`开发此包。  
-在子进程中运行命令行的逻辑。  
+在子进程中运行命令行的逻辑。
 
 ### uml
+
 ```
+
 ```
 
 ## todo
+
 > 未来迭代计划。
 > 未来迭代计划。
 > 未来迭代计划。

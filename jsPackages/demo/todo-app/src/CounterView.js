@@ -1,5 +1,5 @@
-import { useState } from "react";
-import store from "./store";
+import { useState } from 'react'
+import store from './store'
 
 function CounterView() {
   let [counter, setCounter] = useState(store.getState().counter)
@@ -7,11 +7,7 @@ function CounterView() {
   store.subscribe(() => {
     setCounter(store.getState().counter)
   })
-  return (
-    <div className="CounterView">
-        {counter}
-    </div>
-  );
+  return <div className="CounterView">{counter}</div>
 }
 
-export default CounterView;
+export default CounterView

@@ -1,7 +1,9 @@
 # overview
+
 本示例可以创建一个目录、二个文件。
 
 # init project
+
 ```
 mkdir projectCommand
 cd projectCommand
@@ -9,8 +11,11 @@ lerna init
 lerna create testCommand
 lerna add commander
 ```
+
 # defined
+
 修改`./projectCommand/packages/testCommand/package.json`
+
 ```
 {
 	...
@@ -21,8 +26,11 @@ lerna add commander
 	}
 }
 ```
+
 # init cli
+
 在中创建`./projectCommand/packages/testCommand/bin/initProject.js`。编辑内容如下：
+
 ```js
 #!/usr/bin/env node
 
@@ -69,11 +77,13 @@ program
 program.parse(process.argv)
 ```
 
-
 # usage
+
 ## 在本包中使用命令
+
 在`./projectCommand/packages/testCommand`下执行`npm link`
 再执行`initProject create li -f main.js -m`，则输出:
+
 ```
 begin
 projectName li
@@ -82,16 +92,20 @@ options { file: 'main.js', minor: true }
 创建主文件成功
 创建主文件成功
 ```
+
 若执行`initProject create li1 -f main.js`，也会执行相应输出。
 
 # 后记
 
-## commander做的工作
+## commander 做的工作
+
 把终端中命令、标记、参数等。传入已经定义好的方法中。
 
 ## 写一个命令行需要什么
-1. 会用commander就行。主要是`program.command(..).option(..)`。这个太简单了。
-2. 有一定node.js的基础。这点需要一些知识储备。这个比较难。
+
+1. 会用 commander 就行。主要是`program.command(..).option(..)`。这个太简单了。
+2. 有一定 node.js 的基础。这点需要一些知识储备。这个比较难。
 
 ## 恢复工作
+
 在`./projectCommand/packages/testCommand`下执行`npm unlink`
