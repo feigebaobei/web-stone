@@ -2,7 +2,9 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>&#x5f00;&#x53d1;&#x4e00;&#x4e2a;&#x7cfb;&#x7edf;</title>
+    <title>
+      &#x5728;&#x9879;&#x76ee;&#x4e2d;&#x8bbe;&#x7f6e;&#x683c;&#x5f0f;&#x5316;&#x529f;&#x80fd;
+    </title>
     <style>
       /* From extension vscode.github */
       /*---------------------------------------------------------------------------------------------
@@ -1194,34 +1196,55 @@
     </style>
   </head>
   <body class="vscode-body vscode-light">
-    <h1 id="开发一个系统">开发一个系统</h1>
-    <ul>
-      <li>
-        功能
-        <ul>
-          <li>可插件</li>
-        </ul>
-      </li>
-      <li>性能</li>
-      <li>安全</li>
-      <li>维护</li>
-      <li>
-        生态
-        <ul>
-          <li>周边</li>
-        </ul>
-      </li>
-    </ul>
-    <h2 id="从数据结构数据流开始">从数据结构、数据流开始</h2>
-    <h2 id="工程化">工程化</h2>
-    <p>
-      工程经验涉及到技术选型、架构设计、性能优化，CI/CD，日志监控、系统测试等，这些是跟工程相关的方法论。
-    </p>
-    <h2 id="规范化">规范化</h2>
-    <ul>
-      <li>
-        <a href="/development/format/demo0.html">在项目中设置格式化功能</a>
-      </li>
-    </ul>
+    <h1 id="在项目中设置格式化功能">在项目中设置格式化功能</h1>
+    <h2 id="install">install</h2>
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>prettier</td>
+          <td>格式化代码的工具</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>lint-staged</td>
+          <td>对舞台区文件执行命令的工具</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>husky</td>
+          <td>与git hooks结合使用的工具</td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+    <pre><code class="language-shell"><div>npm i -D husky lint-staged
+npm i -D -E prettier
+</div></code></pre>
+    <h2 id="示例">示例</h2>
+    <pre><code class="language-shell"><div>git init
+npm pkg set scripts.prepare=&quot;husky install&quot;
+npm pkg set scripts.p=&quot;prettier --write&quot;
+npm pkg set scripts.l=&quot;lint-staged&quot;
+npm run prepare         # 会生成 .husky 目录
+npx husky add .husky/pre-commit &quot;npm run l&quot;
+crtp initFile .prettierrc.json
+crtp initFile .prettierignore
+</div></code></pre>
+    <p>创建<code>.lintstagedrc</code>文件</p>
+    <pre><code class="language-json"><div>{
+    <span class="hljs-attr">&quot;./*.js&quot;</span>: <span class="hljs-string">&quot;npm run p&quot;</span>
+}
+</div></code></pre>
   </body>
 </html>
