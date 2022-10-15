@@ -16,4 +16,5 @@
 
 ## 规范化
 
-- [在项目中设置格式化功能](/development/format/demo0.html)
+- [在项目中设置格式化规范 husky+lint-staged+prettier](/development/format/demo0.html)
+- [在项目中设置提交规范 husky+commitlint]()
