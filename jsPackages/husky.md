@@ -100,6 +100,20 @@ if (!isCi) {
 
 ### 只支持客户端 git hooks
 
+## 环境变量
+
+HUSKY_SKIP_HOOKS is replaced by HUSKY.
+HUSKY_SKIP_INSTALL is replaced by HUSKY.
+HUSKY_GIT_PARAMS is removed. Instead Git parameters should be used directly in scripts (e.g. $1).
+PATH for locally installed tools is not automatically set anymore. You'll need to use your package manager to run
+
+|                    |                                |     |     |
+| ------------------ | ------------------------------ | --- | --- |
+| HUSKY_SKIP_HOOKS   | 已经被代替为 HUSKY             |     |     |
+| HUSKY_SKIP_INSTALL | 已经被代替为 HUSKY             |     |     |
+| HUSKY_GIT_PARAMS   | 已经被移除。请使用脚本。eg: $1 |     |     |
+| PATH               | 需要使用 npm 去运行            |     |     |
+
 ## configuration
 
 默认配置文件：`path/to/file.json`。

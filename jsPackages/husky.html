@@ -1166,7 +1166,17 @@
         color: var(--theme-error-foreground);
       }
     </style>
-
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css"
+      integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css"
@@ -1198,7 +1208,7 @@
     <h2 id="overview">overview</h2>
     <blockquote>
       <p>
-        让git hooks使用简单。<br />
+        让 git hooks 使用简单。<br />
         常用于格式化代码等。<br />
         有很多包在使用它开发。
       </p>
@@ -1214,14 +1224,11 @@
     <h3 id="推荐手动">推荐手动</h3>
     <p>我会手动。知道它做了什么。运行自动都不知道它做了什么。</p>
     <pre><code class="language-shell"><div>npm set-script test &quot;echo hi&quot; # 用于测试。
-npm set-script prepare &quot;husky install&quot;
-
-
-
+<span class="hljs-meta">#</span><span class="bash"> npm set-script prepare <span class="hljs-string">&quot;husky install&quot;</span>  <span class="hljs-comment"># 旧写法</span></span>
+npm pkg set scripts.prepare=&quot;husky install&quot;     # 新写法
 npm run prepare
 <span class="hljs-meta">#</span><span class="bash"> 会在根目录下生成 .husky/.gitignore .husky/husky.sh</span>
 npx husky add .husky/pre-commit &quot;npm run test&quot;
-
 </div></code></pre>
     <h2 id="usage">usage</h2>
     <pre><code class="language-shell"><div>npm set-script prepare &quot;husky install&quot; # prepare在执行npm run install / npm publish / npm pack / 打包前执行。
@@ -1240,19 +1247,19 @@ git commit -m &#x27;string&#x27;
 yarn remove husky &amp;&amp; git config --unset core.hooksPath
 </div></code></pre>
     <h2 id="action">action</h2>
-    <h3 id="在momorepo一库多包中使用husky时需要在根目录上安装">
-      在momorepo（一库多包）中使用husky时需要在根目录上安装。
+    <h3 id="在-momorepo一库多包中使用-husky-时需要在根目录上安装">
+      在 momorepo（一库多包）中使用 husky 时需要在根目录上安装。
     </h3>
     <p>
-      子目录中无.git目录。<br />
-      husky是与git hooks一起工作，当然要与.git在一起呀。<br />
+      子目录中无.git 目录。<br />
+      husky 是与 git hooks 一起工作，当然要与.git 在一起呀。<br />
       子目录都不是一个仓库。
     </p>
     <h3 id="自定义安装目录">自定义安装目录</h3>
     <pre><code class="language-shell"><div><span class="hljs-meta">#</span><span class="bash"> 脚本</span>
 &quot;prepare&quot;: &quot;husky install .config/husky&quot;
 </div></code></pre>
-    <h3 id="bypass-hooks-路过hooks">bypass hooks 路过hooks</h3>
+    <h3 id="bypass-hooks-路过-hooks">bypass hooks 路过 hooks</h3>
     <pre><code class="language-shell"><div>git commit -m &#x27;string&#x27; --no-verify
 <span class="hljs-meta">#</span><span class="bash"> or</span>
 HUSKY=0 git push
@@ -1273,7 +1280,50 @@ npm ci --omit=dev
   <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;husky&#x27;</span>).install()
 }
 </div></code></pre>
-    <h3 id="只支持客户端git-hooks">只支持客户端git hooks</h3>
+    <h3 id="只支持客户端-git-hooks">只支持客户端 git hooks</h3>
+    <h2 id="环境变量">环境变量</h2>
+    <p>
+      HUSKY_SKIP_HOOKS is replaced by HUSKY. HUSKY_SKIP_INSTALL is replaced by
+      HUSKY. HUSKY_GIT_PARAMS is removed. Instead Git parameters should be used
+      directly in scripts (e.g. $1). PATH for locally installed tools is not
+      automatically set anymore. You'll need to use your package manager to run
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>HUSKY_SKIP_HOOKS</td>
+          <td>已经被代替为HUSKY</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>HUSKY_SKIP_INSTALL</td>
+          <td>已经被代替为HUSKY</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>HUSKY_GIT_PARAMS</td>
+          <td>已经被移除。请使用脚本。eg: $1</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>PATH</td>
+          <td>需要使用npm去运行</td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
     <h2 id="configuration">configuration</h2>
     <p>默认配置文件：<code>path/to/file.json</code>。</p>
     <table>
@@ -1332,10 +1382,16 @@ npm ci --omit=dev
     <h2 id="principle">principle</h2>
     <p>此包的处理逻辑。</p>
     <h3 id="uml">uml</h3>
-    <pre><code><code><div></div></code></code></pre>
+    <pre><code><code><div>
+</div></code></code></pre>
     <h2 id="todo">todo</h2>
     <blockquote>
       <p>未来迭代计划。 未来迭代计划。 未来迭代计划。</p>
     </blockquote>
+
+    <script
+      async
+      src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"
+    ></script>
   </body>
 </html>

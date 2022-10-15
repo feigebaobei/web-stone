@@ -252,8 +252,8 @@ c.on('ready', () => {
     // let p = 'development/format'
     let p = [
       // 'development/format/demo0.html',
-      'jsPackages/lint-staged.html',
-      'jsPackages/index.html',
+      // 'jsPackages/lint-staged.html',
+      // 'jsPackages/index.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
