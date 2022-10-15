@@ -6,6 +6,7 @@ let { log } = console
 
 // 创建指定目录
 // 测试完成
+
 let makeDir = (path, recursive = true) => {
   return new Promise((s, j) => {
     c.mkdir(path, recursive, (err) => {
@@ -249,12 +250,7 @@ c.on('ready', () => {
       throw err
     }
     // let p = 'development/format'
-    let p = [
-      // 'package-manager/npm/sumCommand.html',
-
-      'development/format/demo0.html',
-      'development/index.html',
-    ]
+    let p = ['development/format/demo0.html', 'development/index.html']
     // 检测指定目录是否存在
     // checkDir(p)
     // 检测删除目录
