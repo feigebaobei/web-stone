@@ -250,14 +250,7 @@ c.on('ready', () => {
     }
     // let p = 'jsPackages/prettier' // todo
     let p = [
-      // 'language/javascript/index.html',
-      // 'language/javascript/function.html',
-      // 'jsPackages/husky.html',
-      // 'util/index.html',
-      'package-manager/npm/sumCommand.html',
-      // 'jsPackages/prettier/ignore.html',
-      // 'git/index.html',
-      // 'git/hooks.html',
+      // 'package-manager/npm/sumCommand.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
