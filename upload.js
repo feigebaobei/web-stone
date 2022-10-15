@@ -251,6 +251,9 @@ c.on('ready', () => {
     // let p = 'development/format'
     let p = [
       // 'package-manager/npm/sumCommand.html',
+
+      'development/format/demo0.html',
+      'development/index.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
