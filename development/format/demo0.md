@@ -27,9 +27,11 @@ crtp initFile .prettierignore
 ```
 
 创建`.lintstagedrc`文件
+建议在这个文件中直接使用`prettier`命令。不要使用在`package.json`中定义的脚本。
+若有格式化的脚本应该是在 cli 中直接调用的。
 
 ```json
 {
-  "./*.js": "npm run p"
+  "./*.js": "prettier --write"
 }
 ```

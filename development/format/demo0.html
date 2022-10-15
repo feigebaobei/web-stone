@@ -1222,7 +1222,7 @@
         </tr>
         <tr>
           <td>husky</td>
-          <td>与git hooks结合使用的工具</td>
+          <td>与 git hooks 结合使用的工具</td>
           <td></td>
           <td></td>
         </tr>
@@ -1241,9 +1241,13 @@ npx husky add .husky/pre-commit &quot;npm run l&quot;
 crtp initFile .prettierrc.json
 crtp initFile .prettierignore
 </div></code></pre>
-    <p>创建<code>.lintstagedrc</code>文件</p>
+    <p>
+      创建<code>.lintstagedrc</code>文件
+      建议在这个文件中直接使用<code>prettier</code>命令。不要使用在<code>package.json</code>中定义的脚本。
+      若有格式化的脚本应该是在cli中直接调用的。
+    </p>
     <pre><code class="language-json"><div>{
-    <span class="hljs-attr">&quot;./*.js&quot;</span>: <span class="hljs-string">&quot;npm run p&quot;</span>
+  <span class="hljs-attr">&quot;./*.js&quot;</span>: <span class="hljs-string">&quot;prettier --write&quot;</span>
 }
 </div></code></pre>
   </body>
