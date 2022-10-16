@@ -249,22 +249,27 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = 'development/format'
+    // let p = 'dsa'
     let p = [
-      'development/index.html',
-      // 'jsPackages/lint-staged.html',
-      // 'jsPackages/index.html',
-      // 'jsPackages/commitlint.html',
+      // 'development/index.html',
+      'coursera/dsa/temp.html',
+      'dsa/index.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
     // 检测删除目录
     // removeDir(p).then(() => {c.end()})
     // 测试删除文件
-    // removeFile(p)
+    // removeFile(p).then(() => {
+    //   // log('then')
+    //   c.end()
+    // }).catch(err => {
+    //       log('catch', err)
+    //       c.end()
+    // })
     // 测试上传单个文件
     // uploadFile(p)
-    // 测试上传多个文件
+    // 上传多个文件
     uploadFiles(p)
       .then(() => {
         log('then', '全部完成')
@@ -274,7 +279,7 @@ c.on('ready', () => {
         log('catch', err)
         c.end()
       })
-    // 测试创建目录
+    // 创建目录
     // makeDir(p)
     //   .then(() => {
     //     c.end()

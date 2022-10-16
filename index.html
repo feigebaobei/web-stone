@@ -1,164 +1,348 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>web of stone</title>
-	<meta name="description" content="前端知识 知识储备 笔记">
-	<link rel="manifest" href="/manifest.json" />
-	<link rel="apple-touch-icon" href="/web/icon-192.png">
-	<meta name="theme-color" content="#fff"/>
-	<style>
-		body {
-			display: flex;
-			height: 100vh;
-			margin: 0;
-			width: 100%;
-		}
-		.basis,
-		.promote,
-		.development {
-			/*display: flex;*/
-			flex-basis: 30%;
-			flex-grow: 1;
-      		background-color: #8dbaff;
-      		padding: 20px 12px;
-      		box-sizing: border-box;
-		}
-		.promote {
-		    background-color: #81f3cd;
-		}
-		.development {
-		    background-color: #f3f087;
-		}
-		.title {
-			text-align: center;
-		}
-		.nav-item-box {
-			display: flex;
-			flex-wrap: wrap;
-		}
-		.nav-item {
-			margin: 6px 10px;
-			color: #000;
-			background-color: #ffb9f0;
-			border-radius: 4px;
-			font-size: 18px;
-			padding: 4px;
-			cursor: pointer;
-			display: inline-block;
-		}
-		.nav-item.is-disabled {
-			color: grey;
-			background-color: #dad5d4;
-		}
-	</style>
-</head>
-<body>
-	<section class="basis">
-		<h1 class="title">primary</h1>
-		<nav class="nav-item-box">
-			<div>
-				<span class="nav-item" onclick="gotoPage('./language/html/index.html')">html</span>
-				<span class="nav-item" onclick="gotoPage('./xml/index.html')">xml</span>
-				<span class="nav-item" onclick="gotoPage('./language/css/index.html')">css</span>
-				<span class="nav-item" onclick="gotoPage('./language/javascript/index.html')">javascript</span>
-				<span class="nav-item" onclick="gotoPage('./language/typescript/index.html')">typescript</span>
-				<span class="nav-item" onclick="gotoPage('./language/flow/index.html')">flow</span>
-				<span class="nav-item is-disabled">java</span>
-				<span class="nav-item is-disabled">go</span>
-				<span class="nav-item" onclick="gotoPage('./language/python/index.html')">python</span>
-				<span class="nav-item" onclick="gotoPage('./language/yaml/index.html')">yaml</span>
-				<span class="nav-item is-disabled" onclick="gotoPage('./language/toml/index.html')">toml</span>
-				<span class="nav-item" onclick="gotoPage('./language/bun/index.html')">bun</span>
-				<span class="nav-item is-disabled" onclick="gotoPage('./language/elm/index.html')">elm</span>
-				<span class="nav-item is-disabled" onclick="gotoPage('./language/emscripten/index.html')">emscripten</span>
-				<span class="nav-item is-disabled" onclick="gotoPage('./language/webassembly/index.html')">WebAssembly</span>
-			</div>
-			<div>
-				<span class="nav-item" onclick="gotoPage('./framework/vue3/index.html')">vue3</span>
-				<span class="nav-item" onclick="gotoPage('./framework/react/index.html')">react</span>
-				<span class="nav-item is-disabled">angular</span>
-				<span class="nav-item" onclick="gotoPage('./framework/svelte/index.html')">svelte</span>
-				<span class="nav-item is-disabled" onclick="gotoPage('./preact/index.html')">preact</span>
-				<span class="nav-item" onclick="gotoPage('./framework/redom/index.html')">redom</span>
-				<span class="nav-item" onclick="gotoPage('./framework/index.html')">常用框架的不同</span>
-				<span class="nav-item is-disabled" onclick="gotoPage('./language/elm/index.html')">web component</span>
-				<span class="nav-item" onclick="gotoPage('./framework/flutter/index.html')">flutter</span>
-				<span class="nav-item" onclick="gotoPage('./framework/nuxt3/index.html')">nuxt</span>
-				<span class="nav-item" onclick="gotoPage('./react/next/index.html')">next</span>
-				<span class="nav-item is-disabled">前端微服务</span>
-				<span class="nav-item" onclick="gotoPage('./nx/index.html')">nx</span>
-				<span class="nav-item" onclick="gotoPage('./test/index.html')">测试</span>
-			</div>
-			<div>
-				<span class="nav-item" onclick="gotoPage('./regexp/index.html')">regexp</span>
-				<span class="nav-item" onclick="gotoPage('./node/index.html')">node</span>
-				<span class="nav-item" onclick="gotoPage('./data-structure/index.html')">数据结构</span>
-				<span class="nav-item" onclick="gotoPage('./engineered/design-pattern.html')">设计模式</span>
-				<span class="nav-item" onclick="gotoPage('./uml/index.html')">uml</span>
-				<span class="nav-item" onclick="gotoPage('./webRTC/index.html')">webRTC</span>
-				<span class="nav-item" onclick="gotoPage('./pwa/index.html')">pwa</span>
-				<span class="nav-item" onclick="gotoPage('./language/javascript/functionalProgramming.html')">函数式编程</span>
-			</div>
-			<div>
-				<span class="nav-item" onclick="gotoPage('./builder/index.html')">builder</span>
-				<span class="nav-item" onclick="gotoPage('./package-manager/index.html')">package-manager</span>
-				<span class="nav-item" onclick="gotoPage('./sourceMap/index.html')">sourceMap</span>
-			</div>
-			<div>
-				<span class="nav-item" onclick="gotoPage('./git/index.html')">git</span>
-				<span class="nav-item" onclick="gotoPage('./other/index.html')">other</span>
-				<span class="nav-item" onclick="gotoPage('./jsPackages/index.html')">jsPackages</span>
-				<span class="nav-item" onclick="gotoPage('./confuse/index.html')">confuse</span>
-				<span class="nav-item" onclick="gotoPage('./browser/index.html')">浏览器</span>
-				<span class="nav-item" onclick="gotoPage('./linux/index.html')">linux</span>
-				<span class="nav-item" onclick="gotoPage('./nginx/index.html')">nginx</span>
-				<span class="nav-item" onclick="gotoPage('./cli/index.html')">cli</span>
-				<span class="nav-item" onclick="gotoPage('./code/index.html')">code(编码)</span>
-				<span class="nav-item" onclick="gotoPage('./vim/index.html')">vim</span>
-				<span class="nav-item" onclick="gotoPage('./db/index.html')">database</span>
-			</div>
-			<div>
-				<span class="nav-item" onclick="gotoPage('./communication-protocol/index.html')">通信协议</span>
-				<span class="nav-item" onclick="gotoPage('./safety&hacker/index.html')">安全&黑客</span>
-				<span class="nav-item is-disabled" onclick="gotoPage('./cloudNative/index.html')">云原生</span>
-				<span class="nav-item" onclick="gotoPage('./util/index.html')">工具库</span>
-				<span class="nav-item" onclick="gotoPage('./ui/index.html')">ui</span>
-				<span class="nav-item" onclick="gotoPage('./ue/index.html')">ue</span>
-			</div>
-		</nav>
-	</section>
-	<section class="promote">
-		<h1 class="title">senior</h1>
-		<nav class="nav-item-box">
-			<span class="nav-item" onclick="gotoPage('./tank90/index.html')">90 tank</span>
-			<span class="nav-item" onclick="gotoPage('./promote/deploy/index.html')">部署在阿里云的服务</span>
-			<!-- <span class="nav-item is-disabled">工程化</span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>web of stone</title>
+    <meta name="description" content="前端知识 知识储备 笔记" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" href="/web/icon-192.png" />
+    <meta name="theme-color" content="#fff" />
+    <style>
+      body {
+        display: flex;
+        height: 100vh;
+        margin: 0;
+        width: 100%;
+      }
+      .basis,
+      .promote,
+      .development {
+        /*display: flex;*/
+        flex-basis: 30%;
+        flex-grow: 1;
+        background-color: #8dbaff;
+        padding: 20px 12px;
+        box-sizing: border-box;
+      }
+      .promote {
+        background-color: #81f3cd;
+      }
+      .development {
+        background-color: #f3f087;
+      }
+      .title {
+        text-align: center;
+      }
+      .nav-item-box {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .nav-item {
+        margin: 6px 10px;
+        color: #000;
+        background-color: #ffb9f0;
+        border-radius: 4px;
+        font-size: 18px;
+        padding: 4px;
+        cursor: pointer;
+        display: inline-block;
+      }
+      .nav-item.is-disabled {
+        color: grey;
+        background-color: #dad5d4;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="basis">
+      <h1 class="title">primary</h1>
+      <nav class="nav-item-box">
+        <div>
+          <span
+            class="nav-item"
+            onclick="gotoPage('./language/html/index.html')"
+            >html</span
+          >
+          <span class="nav-item" onclick="gotoPage('./xml/index.html')"
+            >xml</span
+          >
+          <span class="nav-item" onclick="gotoPage('./language/css/index.html')"
+            >css</span
+          >
+          <span
+            class="nav-item"
+            onclick="gotoPage('./language/javascript/index.html')"
+            >javascript</span
+          >
+          <span
+            class="nav-item"
+            onclick="gotoPage('./language/typescript/index.html')"
+            >typescript</span
+          >
+          <span
+            class="nav-item"
+            onclick="gotoPage('./language/flow/index.html')"
+            >flow</span
+          >
+          <span class="nav-item is-disabled">java</span>
+          <span class="nav-item is-disabled">go</span>
+          <span
+            class="nav-item"
+            onclick="gotoPage('./language/python/index.html')"
+            >python</span
+          >
+          <span
+            class="nav-item"
+            onclick="gotoPage('./language/yaml/index.html')"
+            >yaml</span
+          >
+          <span
+            class="nav-item is-disabled"
+            onclick="gotoPage('./language/toml/index.html')"
+            >toml</span
+          >
+          <span class="nav-item" onclick="gotoPage('./language/bun/index.html')"
+            >bun</span
+          >
+          <span
+            class="nav-item is-disabled"
+            onclick="gotoPage('./language/elm/index.html')"
+            >elm</span
+          >
+          <span
+            class="nav-item is-disabled"
+            onclick="gotoPage('./language/emscripten/index.html')"
+            >emscripten</span
+          >
+          <span
+            class="nav-item is-disabled"
+            onclick="gotoPage('./language/webassembly/index.html')"
+            >WebAssembly</span
+          >
+        </div>
+        <div>
+          <span
+            class="nav-item"
+            onclick="gotoPage('./framework/vue3/index.html')"
+            >vue3</span
+          >
+          <span
+            class="nav-item"
+            onclick="gotoPage('./framework/react/index.html')"
+            >react</span
+          >
+          <span class="nav-item is-disabled">angular</span>
+          <span
+            class="nav-item"
+            onclick="gotoPage('./framework/svelte/index.html')"
+            >svelte</span
+          >
+          <span
+            class="nav-item is-disabled"
+            onclick="gotoPage('./preact/index.html')"
+            >preact</span
+          >
+          <span
+            class="nav-item"
+            onclick="gotoPage('./framework/redom/index.html')"
+            >redom</span
+          >
+          <span class="nav-item" onclick="gotoPage('./framework/index.html')"
+            >常用框架的不同</span
+          >
+          <span
+            class="nav-item is-disabled"
+            onclick="gotoPage('./language/elm/index.html')"
+            >web component</span
+          >
+          <span
+            class="nav-item"
+            onclick="gotoPage('./framework/flutter/index.html')"
+            >flutter</span
+          >
+          <span
+            class="nav-item"
+            onclick="gotoPage('./framework/nuxt3/index.html')"
+            >nuxt</span
+          >
+          <span class="nav-item" onclick="gotoPage('./react/next/index.html')"
+            >next</span
+          >
+          <span class="nav-item is-disabled">前端微服务</span>
+          <span class="nav-item" onclick="gotoPage('./nx/index.html')">nx</span>
+          <span class="nav-item" onclick="gotoPage('./test/index.html')"
+            >测试</span
+          >
+        </div>
+        <div>
+          <span class="nav-item" onclick="gotoPage('./regexp/index.html')"
+            >regexp</span
+          >
+          <span class="nav-item" onclick="gotoPage('./node/index.html')"
+            >node</span
+          >
+          <span class="nav-item" onclick="gotoPage('./dsa/index.html')"
+            >数据结构和算法</span
+          >
+          <span
+            class="nav-item"
+            onclick="gotoPage('./engineered/design-pattern.html')"
+            >设计模式</span
+          >
+          <span class="nav-item" onclick="gotoPage('./uml/index.html')"
+            >uml</span
+          >
+          <span class="nav-item" onclick="gotoPage('./webRTC/index.html')"
+            >webRTC</span
+          >
+          <span class="nav-item" onclick="gotoPage('./pwa/index.html')"
+            >pwa</span
+          >
+          <span
+            class="nav-item"
+            onclick="gotoPage('./language/javascript/functionalProgramming.html')"
+            >函数式编程</span
+          >
+        </div>
+        <div>
+          <span class="nav-item" onclick="gotoPage('./builder/index.html')"
+            >builder</span
+          >
+          <span
+            class="nav-item"
+            onclick="gotoPage('./package-manager/index.html')"
+            >package-manager</span
+          >
+          <span class="nav-item" onclick="gotoPage('./sourceMap/index.html')"
+            >sourceMap</span
+          >
+        </div>
+        <div>
+          <span class="nav-item" onclick="gotoPage('./git/index.html')"
+            >git</span
+          >
+          <span class="nav-item" onclick="gotoPage('./other/index.html')"
+            >other</span
+          >
+          <span class="nav-item" onclick="gotoPage('./jsPackages/index.html')"
+            >jsPackages</span
+          >
+          <span class="nav-item" onclick="gotoPage('./confuse/index.html')"
+            >confuse</span
+          >
+          <span class="nav-item" onclick="gotoPage('./browser/index.html')"
+            >浏览器</span
+          >
+          <span class="nav-item" onclick="gotoPage('./linux/index.html')"
+            >linux</span
+          >
+          <span class="nav-item" onclick="gotoPage('./nginx/index.html')"
+            >nginx</span
+          >
+          <span class="nav-item" onclick="gotoPage('./cli/index.html')"
+            >cli</span
+          >
+          <span class="nav-item" onclick="gotoPage('./code/index.html')"
+            >code(编码)</span
+          >
+          <span class="nav-item" onclick="gotoPage('./vim/index.html')"
+            >vim</span
+          >
+          <span class="nav-item" onclick="gotoPage('./db/index.html')"
+            >database</span
+          >
+        </div>
+        <div>
+          <span
+            class="nav-item"
+            onclick="gotoPage('./communication-protocol/index.html')"
+            >通信协议</span
+          >
+          <span
+            class="nav-item"
+            onclick="gotoPage('./safety&hacker/index.html')"
+            >安全&黑客</span
+          >
+          <span
+            class="nav-item is-disabled"
+            onclick="gotoPage('./cloudNative/index.html')"
+            >云原生</span
+          >
+          <span class="nav-item" onclick="gotoPage('./util/index.html')"
+            >工具库</span
+          >
+          <span class="nav-item" onclick="gotoPage('./ui/index.html')">ui</span>
+          <span class="nav-item" onclick="gotoPage('./ue/index.html')">ue</span>
+        </div>
+      </nav>
+    </section>
+    <section class="promote">
+      <h1 class="title">senior</h1>
+      <nav class="nav-item-box">
+        <span class="nav-item" onclick="gotoPage('./tank90/index.html')"
+          >90 tank</span
+        >
+        <span class="nav-item" onclick="gotoPage('./promote/deploy/index.html')"
+          >部署在阿里云的服务</span
+        >
+        <!-- <span class="nav-item is-disabled">工程化</span>
 			<span class="nav-item is-disabled">阻爬虫阻截图实现方案</span> -->
-			<span class="nav-item" onclick="gotoPage('./dataVisual/index.html')">数据可视化</span>
-			<span class="nav-item" onclick="gotoPage('./promote/customInterface.html')">自定义接口</span>
-			<span class="nav-item" onclick="gotoPage('./open/index.html')">可公共维护（可插件、可扩张）的项目</span>
-			<span class="nav-item" onclick="gotoPage('./framework/index.html')">常用框架</span>
-			<span class="nav-item" onclick="gotoPage('./optimizing/index.html')">前端性能优化</span>
-			<span class="nav-item" onclick="gotoPage('https://www.npmjs.com/package/crtp-cli')">创建模板文件的工具</span>
-			<span class="nav-item" onclick="gotoPage('./frontStore/index.html')">前端缓存</span>
-			<span class="nav-item" onclick="gotoPage('./promote/searchWord/index.html')">查单词</span>
-			<span class="nav-item" onclick="gotoPage('./promote/learnConstruct.html')">学习框架</span>
-			<span class="nav-item is-disabled" onclick="gotoPage('./promote/picbed/prod/index.html')">图片床</span>
-		</nav>
-	</section>
-	<section class="development">
-		<h1 class="title">development</h1>
-		<nav class="nav-item-box">
-			<span class="nav-item" onclick="gotoPage('./development/index.html')">开发一个系统</span>
-		</nav>
-	</section>
-	<script type="text/javascript">
-		function gotoPage(page) {
-			window.location.href = page
-		}
-	</script>
-	<script src="/pwa.js"></script>
-</body>
+        <span class="nav-item" onclick="gotoPage('./dataVisual/index.html')"
+          >数据可视化</span
+        >
+        <span
+          class="nav-item"
+          onclick="gotoPage('./promote/customInterface.html')"
+          >自定义接口</span
+        >
+        <span class="nav-item" onclick="gotoPage('./open/index.html')"
+          >可公共维护（可插件、可扩张）的项目</span
+        >
+        <span class="nav-item" onclick="gotoPage('./framework/index.html')"
+          >常用框架</span
+        >
+        <span class="nav-item" onclick="gotoPage('./optimizing/index.html')"
+          >前端性能优化</span
+        >
+        <span
+          class="nav-item"
+          onclick="gotoPage('https://www.npmjs.com/package/crtp-cli')"
+          >创建模板文件的工具</span
+        >
+        <span class="nav-item" onclick="gotoPage('./frontStore/index.html')"
+          >前端缓存</span
+        >
+        <span
+          class="nav-item"
+          onclick="gotoPage('./promote/searchWord/index.html')"
+          >查单词</span
+        >
+        <span
+          class="nav-item"
+          onclick="gotoPage('./promote/learnConstruct.html')"
+          >学习框架</span
+        >
+        <span
+          class="nav-item is-disabled"
+          onclick="gotoPage('./promote/picbed/prod/index.html')"
+          >图片床</span
+        >
+      </nav>
+    </section>
+    <section class="development">
+      <h1 class="title">development</h1>
+      <nav class="nav-item-box">
+        <span class="nav-item" onclick="gotoPage('./development/index.html')"
+          >开发一个系统</span
+        >
+      </nav>
+    </section>
+    <script type="text/javascript">
+      function gotoPage(page) {
+        window.location.href = page
+      }
+    </script>
+    <script src="/pwa.js"></script>
+  </body>
 </html>
