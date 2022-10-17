@@ -249,12 +249,13 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    let p = 'coursera/dsa/1'
-    // let p = [
-    //   // 'development/index.html',
-    //   'coursera/dsa/temp.html',
-    //   'dsa/index.html',
-    // ]
+    // let p = 'coursera/dsa/1'
+    let p = [
+      // 'development/index.html',
+      // 'coursera/dsa/temp.html',
+      // 'dsa/index.html',
+      'language/flow/index.html',
+    ]
     // 检测指定目录是否存在
     // checkDir(p)
     // 检测删除目录
@@ -270,24 +271,24 @@ c.on('ready', () => {
     // 测试上传单个文件
     // uploadFile(p)
     // 上传多个文件
-    // uploadFiles(p)
-    //   .then(() => {
-    //     log('then', '全部完成')
-    //     c.end()
-    //   })
-    //   .catch((err) => {
-    //     log('catch', err)
-    //     c.end()
-    //   })
-    // 创建目录
-    makeDir(p)
+    uploadFiles(p)
       .then(() => {
+        log('then', '全部完成')
         c.end()
       })
       .catch((err) => {
         log('catch', err)
         c.end()
       })
+    // 创建目录
+    // makeDir(p)
+    //   .then(() => {
+    //     c.end()
+    //   })
+    //   .catch((err) => {
+    //     log('catch', err)
+    //     c.end()
+    //   })
     // 测试上传一个目录
     // uploadDir(p).then(res => {
     //     log('全部上传完成', res)

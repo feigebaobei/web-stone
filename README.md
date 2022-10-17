@@ -2,6 +2,10 @@
 
 个人知识点整理成网。
 
+- lixiaodan.org
+- https://lixiaodan.vercel.app
+- https://lixiaodan.netlify.app
+
 # todo
 
 脚本生成首页
