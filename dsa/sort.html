@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title></title>
+    <title>unOrder</title>
     <style>
       /* From extension vscode.github */
       /*---------------------------------------------------------------------------------------------
@@ -1194,22 +1194,111 @@
     </style>
   </head>
   <body class="vscode-body vscode-light">
-    <ul>
-      <li>
-        <a href="https://www.npmjs.com/package/data-footstone"
-          >data-footstone</a
-        >
-      </li>
-      <li><a href="/coursera/dsa/temp.html">temp</a></li>
-      <li><a href="/coursera/dsa/sort.html">sort</a></li>
-      <li><a href="/coursera/dsa/temp.html">temp</a></li>
-      <li><a href="/coursera/dsa/temp.html">temp</a></li>
-      <li><a href="/coursera/dsa/temp.html">temp</a></li>
-      <li><a href="/coursera/dsa/temp.html">temp</a></li>
-      <li>title</li>
-      <li>title</li>
-      <li>title</li>
-      <li>title</li>
-    </ul>
+    <p>#order</p>
+    <p>##冒泡排序</p>
+    <pre><code>const bobbleSort = (arr) =&gt; {
+    let length = arr.length
+    for (let i = 0; i &lt; length; i++) {
+        for (let j = 0; j &lt; length - 1 - i; j++) {
+            if (arr[j] &gt; arr[j+1]) {
+                [arr[j], arr[j+1]] = [arr[j+1], arr[j]]
+            }
+        }
+    }
+}
+</code></pre>
+    <p>##快速排序</p>
+    <pre><code>let quickOrder = (arr) =&gt; {
+    if (arr.length &lt;= 1) {
+        return arr
+    }
+    let pivotIndex = Math.floor(arr.length / 2),
+        pivot = arr.splice(pivotIndex, 1)[0],
+        left = [],
+        right = []
+    for (let i = 0, iLen = arr.length; i &lt; iLen; i++) {
+        if (arr[i] &lt; pivot) {
+            left.push(arr[i])
+        } else {
+            right.push(arr[i])
+        }
+    }
+    return quickOrder(left).concat([pivot], quickOrder(right))
+}
+
+let quickOrder = function (arr, left, right) {
+    let index = null
+    let position = (arr, left, right) =&gt; {
+        let pivot = arr[Math.floor((left + right) / 2)],
+            i = left,
+            j = right
+        while (i &lt;= j) {
+            while (arr[i] &lt; pivot) {
+                i++
+            }
+            while (arr[j] &gt; pivot) {
+                j--
+            }
+            if (i &lt;= j) {
+                [arr[i], arr[j]] = [arr[j], arr[i]]
+                i++
+                j--
+            }
+        }
+        return i
+    }
+    if (arr.length &gt; 1) {
+        index = position(arr, left, right)
+        if (left &lt; index - 1) {
+            quickOrder(arr, left, index - 1)
+        }
+        if (index &lt; right) {
+            quickOrder(arr, index, right)
+        }
+    }
+}
+</code></pre>
+    <p>##快速排序 ##快速排序 ##快速排序 ##快速排序</p>
+    <pre><code>function quickSort(array) {
+    function sort(prev, numsize) {
+        var nonius = prev;
+        var j = numsize - 1;
+        var flag = array[prev];
+        if ((numsize - prev) &gt; 1) {
+            while (nonius &lt; j) {
+                for (; nonius &lt; j; j--) {
+                    if (array[j] &lt; flag) {
+                        array[nonius++] = array[j];　 //a[i] = a[j]; i += 1;
+                        break;
+                    };
+                }
+                for (; nonius &lt; j; nonius++) {
+                    if (array[nonius] &gt; flag) {
+                        array[j--] = array[nonius];
+                        break;
+                    }
+                }
+            }
+            array[nonius] = flag;
+            sort(0, nonius);
+            sort(nonius + 1, numsize);
+        }
+    }
+    sort(0, array.length);
+    return array;
+}
+</code></pre>
+    <h1 id="unorder">unOrder</h1>
+    <pre><code>let unOrder = (arr) =&gt; {
+    let temp = [],
+        arrShadow = JSON.parse(JSON.stringify(arr)),
+        index = null
+    while (arrShadow.length) {
+        index = Math.floor(Math.random() * arrShadow.length)
+        temp.push(arrShadow.splice(index, 1)[0])
+    }
+    return temp
+}
+</code></pre>
   </body>
 </html>
