@@ -9,23 +9,49 @@
   <body>
     <script>
       let clog = console.log
-      let hailstone = (n) => {
-        let length = 1
-        while (1 < n) {
-          if (n % 2) {
-            // 奇
-            n = n * 3 + 1
-          } else {
-            // 偶
-            n = n / 2
-          }
-          length++
+      class Observable {
+        constructor(o) {
+          this.proxyObj = new Proxy(o, {
+            get: (target, key, receiver) => {
+              return target[key]
+            },
+            set: (target, key, value, receiver) => {
+              target[key] = value
+              this.observerList.forEach((v, k) => {
+                console.log(v, k)
+                k(target)
+              })
+              return true
+            },
+          })
+          this.observerList = new Map()
         }
-        return length
+        addObserver(fn) {
+          this.observerList.set(fn, Symbol())
+        }
+        removeObserver(fn) {
+          this.observerList.delete(fn)
+        }
+        set(k, v) {
+          this.proxyObj[k] = v
+        }
+        get(k) {
+          return this.proxyObj[k]
+        }
       }
-      clog(hailstone(42))
-      clog(hailstone(7))
-      clog(hailstone(27))
+      let origin = {}
+      let o = new Observable(origin)
+      let a = (p) => {
+        clog('a fn', p)
+      }
+      let b = (p) => {
+        clog('b fn', p)
+      }
+      o.addObserver(a)
+      o.addObserver(b)
+      o.set('k', 'v')
+      o.set('k1', 'v1')
+      clog(o.get('k'))
     </script>
   </body>
 </html>
