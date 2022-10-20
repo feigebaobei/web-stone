@@ -249,12 +249,18 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = 'coursera/dsa/1'
+    // let p = 'resolve' // todo
     let p = [
-      // 'development/index.html',
-      // 'coursera/dsa/temp.html',
-      // 'dsa/index.html',
+      'coursera/dsa/1/index.html',
+      'coursera/dsa/1/v.png',
       'language/flow/index.html',
+      'language/javascript/inherit.html',
+      'language/javascript/number.html',
+      'language/javascript/index.html',
+      'dsa/index.html',
+      'dsa/sort.html',
+      'test.html',
+      // 'resolve/index.html' // todo
     ]
     // 检测指定目录是否存在
     // checkDir(p)

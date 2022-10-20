@@ -280,7 +280,7 @@ class Observable {
       set: (target, key, value, receiver) => {
         target[key] = value
         this.observerList.forEach((v, k) => {
-          k.fn(target)
+          k(target)
         })
         return true
       },
@@ -302,15 +302,11 @@ class Observable {
 }
 let origin = {}
 let o = new Observable(origin)
-let a = {
-  fn: (p) => {
-    clog('a fn', p)
-  },
+let a = (p) => {
+  clog('a fn', p)
 }
-let b = {
-  fn: (p) => {
-    clog('b fn', p)
-  },
+let b = (p) => {
+  clog('b fn', p)
 }
 o.addObserver(a)
 o.addObserver(b)
