@@ -61,8 +61,6 @@ axios#getUri([config])
 
 ## configuration
 
-<!-- 默认配置文件：`path/to/file.json`。 -->
-
 没有配置文件。有配置项
 
 ```js
@@ -104,7 +102,7 @@ config: {
     },
     cancelToken: new CancelToken(function (cancel) {
     }), // 专用于取消请求的token
-    signal: new AbortController().signal, // 不会
+    signal: new AbortController().signal,
     decompress: true, // default
     insecureTHHPParser: undefined, // default 不会
     transitional: { // 不会
@@ -139,7 +137,7 @@ instance.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 
 ## api
 
-```
+```js
 axios({
     method: 'post', // 小写
     url: '/user/1234',
@@ -161,14 +159,18 @@ axios.patch(url[, config])
 
 ## response schema
 
-```
+```js
 {
-    data: {}
-    status: 200
-    statusText: 'OK'
-    headers: {}
-    config: {}
-    request: {}
+  data: {
+  }
+  status: 200
+  statusText: 'OK'
+  headers: {
+  }
+  config: {
+  }
+  request: {
+  }
 }
 ```
 

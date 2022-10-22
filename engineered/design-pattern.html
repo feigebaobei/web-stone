@@ -1290,7 +1290,7 @@ friend.forEach(item =&gt; {
 </div></code></code></pre>
     <h2 id="装饰器模式">装饰器模式</h2>
     <pre><code><code><div>let dfn = () =&gt; {
-  // 
+  //
 }
 class MyClass {
 }
@@ -1427,7 +1427,8 @@ circle.draw()
 </div></code></code></pre>
     <h2 id="策略模式">策略模式</h2>
     <p>
-      策略模式可看作为if/else判断的另一种表现形式，在达到相同目的的同时，减少了代码量以及代码维护成本。<br />
+      策略模式可看作为 if/else
+      判断的另一种表现形式，在达到相同目的的同时，减少了代码量以及代码维护成本。<br />
       分离算法的使用、算法的实现。
     </p>
     <pre><code class="language-js"><div><span class="hljs-comment">// demo0</span>
@@ -1477,49 +1478,11 @@ Validator.prototype.test = <span class="hljs-function">(<span class="hljs-params
         <span class="hljs-keyword">break</span>
       }
     }
-    <span class="hljs-keyword">if</span> (valid) {
-      <span class="hljs-keyword">break</span>
-    }
+    valid &amp;&amp; <span class="hljs-keyword">break</span>
   }
   <span class="hljs-keyword">return</span> valid
 }
 
-<span class="hljs-comment">// 重写demo1</span>
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Validator</span> </span>{
-  <span class="hljs-title">constructor</span> (<span class="hljs-params"></span>) {
-    <span class="hljs-built_in">this</span>.rulesMap = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Map</span>()
-    <span class="hljs-built_in">this</span>.rulesMap.set(<span class="hljs-string">&#x27;required&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">value, options</span>) </span>{
-      <span class="hljs-keyword">let</span> reg = <span class="hljs-regexp">/^\s*|\s*$/g</span>
-      <span class="hljs-keyword">let</span> res = <span class="hljs-literal">null</span>
-      <span class="hljs-keyword">if</span> (value.replace(reg, <span class="hljs-string">&#x27;&#x27;</span>)) {
-        <span class="hljs-keyword">return</span> res
-      } <span class="hljs-keyword">else</span> {
-        <span class="hljs-keyword">return</span> {
-          <span class="hljs-attr">rule</span>: <span class="hljs-string">&#x27;inquired&#x27;</span>,
-          <span class="hljs-attr">message</span>: options.message
-        }
-      }
-    })
-  }
-  <span class="hljs-function"><span class="hljs-title">addRule</span>(<span class="hljs-params">ruleKey, fn</span>)</span> {
-    <span class="hljs-built_in">this</span>.rulesMap.set(ruleKey, fn)
-  }
-  <span class="hljs-function"><span class="hljs-title">validate</span>(<span class="hljs-params">value, useRules = []</span>)</span> {
-    <span class="hljs-keyword">let</span> vRes = <span class="hljs-literal">null</span>
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; useRules.length; i++) {
-      <span class="hljs-keyword">let</span> curRule = useRules[i] <span class="hljs-comment">// {rule, message}</span>
-      <span class="hljs-keyword">let</span> vF = <span class="hljs-built_in">this</span>.rulesMap(curRule.rule)
-      <span class="hljs-keyword">if</span> (vF) {
-        vRes = vF(value, curRule)
-      }
-      <span class="hljs-keyword">break</span>
-    }
-    <span class="hljs-keyword">return</span> vRes
-  }
-}
-<span class="hljs-comment">// 使用</span>
-<span class="hljs-keyword">let</span> validator = <span class="hljs-keyword">new</span> Validator()
-validator(value, useRules) <span class="hljs-comment">// result</span>
 </div></code></pre>
     <h2 id="模板方法模式">模板方法模式</h2>
     <p>
@@ -1613,12 +1576,12 @@ sub.notify()
       实现统一遍历接口。<br />
       内部迭代器
     </p>
-    <pre><code class="language-js"><div>$.each([<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-string">&#x27;c&#x27;</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">index,value</span>) </span>{
+    <pre><code class="language-js"><div>$.each([<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-string">&#x27;c&#x27;</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">index, value</span>) </span>{
   <span class="hljs-built_in">console</span>.log(index, value)
 })
 </div></code></pre>
     <p>外部迭代器</p>
-    <pre><code class="language-js"><div><span class="hljs-function"><span class="hljs-keyword">function</span> * <span class="hljs-title">gen</span> (<span class="hljs-params">arr</span>) </span>{
+    <pre><code class="language-js"><div><span class="hljs-function"><span class="hljs-keyword">function</span>* <span class="hljs-title">gen</span>(<span class="hljs-params">arr</span>) </span>{
   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> [index, value] <span class="hljs-keyword">of</span> arr.entries()) {
     <span class="hljs-keyword">yield</span> <span class="hljs-built_in">console</span>.log([index, value])
   }
@@ -1629,7 +1592,7 @@ ite.next()
 ite.next()
 </div></code></pre>
     <p>
-      es6中Iterator接口部署在Symbol.iterator属性上。<br />
+      es6 中 Iterator 接口部署在 Symbol.iterator 属性上。<br />
       当执行<code>[Symbol.iterator]()</code>会返回一个遍历器对象。
     </p>
     <pre><code class="language-js"><div><span class="hljs-keyword">var</span> a = [<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-string">&#x27;c&#x27;</span>]
@@ -1650,65 +1613,68 @@ ite.next() <span class="hljs-comment">// {value: undefined, done: true}</span>
       <li>如果没有任何接收者处理请求，那么请求会从链中离开。</li>
       <li>过程很像链表。</li>
     </ol>
-    <pre><code class="language-js"><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">order500</span>(<span class="hljs-params">orderType,isPay,count</span>)</span>{
-    <span class="hljs-keyword">if</span>(orderType == <span class="hljs-number">1</span> &amp;&amp; isPay == <span class="hljs-literal">true</span>)    {
-        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;亲爱的用户，您中奖了100元红包了&quot;</span>);
-    }<span class="hljs-keyword">else</span> {
-        <span class="hljs-comment">//我不知道下一个节点是谁,反正把请求往后面传递</span>
-        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;nextSuccessor&quot;</span>;
-    }
-};
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">order200</span>(<span class="hljs-params">orderType,isPay,count</span>) </span>{
-    <span class="hljs-keyword">if</span>(orderType == <span class="hljs-number">2</span> &amp;&amp; isPay == <span class="hljs-literal">true</span>) {
-        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;亲爱的用户，您中奖了20元红包了&quot;</span>);
-    }<span class="hljs-keyword">else</span> {
-        <span class="hljs-comment">//我不知道下一个节点是谁,反正把请求往后面传递</span>
-        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;nextSuccessor&quot;</span>;
-    }
-};
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">orderNormal</span>(<span class="hljs-params">orderType,isPay,count</span>)</span>{
-    <span class="hljs-comment">// 普通用户来处理中奖信息</span>
-    <span class="hljs-keyword">if</span>(count &gt; <span class="hljs-number">0</span>) {
-        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;亲爱的用户，您已抽到10元优惠卷&quot;</span>);
-    }<span class="hljs-keyword">else</span> {
-        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;亲爱的用户，请再接再厉哦&quot;</span>);
-    }
+    <pre><code class="language-js"><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">order500</span>(<span class="hljs-params">orderType, isPay, count</span>) </span>{
+  <span class="hljs-keyword">if</span> (orderType == <span class="hljs-number">1</span> &amp;&amp; isPay == <span class="hljs-literal">true</span>) {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;亲爱的用户，您中奖了100元红包了&#x27;</span>)
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-comment">//我不知道下一个节点是谁,反正把请求往后面传递</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;nextSuccessor&#x27;</span>
+  }
+}
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">order200</span>(<span class="hljs-params">orderType, isPay, count</span>) </span>{
+  <span class="hljs-keyword">if</span> (orderType == <span class="hljs-number">2</span> &amp;&amp; isPay == <span class="hljs-literal">true</span>) {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;亲爱的用户，您中奖了20元红包了&#x27;</span>)
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-comment">//我不知道下一个节点是谁,反正把请求往后面传递</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;nextSuccessor&#x27;</span>
+  }
+}
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">orderNormal</span>(<span class="hljs-params">orderType, isPay, count</span>) </span>{
+  <span class="hljs-comment">// 普通用户来处理中奖信息</span>
+  <span class="hljs-keyword">if</span> (count &gt; <span class="hljs-number">0</span>) {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;亲爱的用户，您已抽到10元优惠卷&#x27;</span>)
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;亲爱的用户，请再接再厉哦&#x27;</span>)
+  }
 }
 <span class="hljs-comment">// 下面需要编写职责链模式的封装构造函数方法</span>
-<span class="hljs-keyword">var</span> Chain = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">fn</span>)</span>{
-    <span class="hljs-built_in">this</span>.fn = fn;
-    <span class="hljs-built_in">this</span>.successor = <span class="hljs-literal">null</span>;
-};
-Chain.prototype.setNextSuccessor = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">successor</span>)</span>{
-    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.successor = successor;
+<span class="hljs-keyword">var</span> Chain = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">fn</span>) </span>{
+  <span class="hljs-built_in">this</span>.fn = fn
+  <span class="hljs-built_in">this</span>.successor = <span class="hljs-literal">null</span>
+}
+Chain.prototype.setNextSuccessor = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">successor</span>) </span>{
+  <span class="hljs-keyword">return</span> (<span class="hljs-built_in">this</span>.successor = successor)
 }
 <span class="hljs-comment">// 把请求往下传递</span>
-Chain.prototype.passRequest = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
-    <span class="hljs-keyword">var</span> ret = <span class="hljs-built_in">this</span>.fn.apply(<span class="hljs-built_in">this</span>, <span class="hljs-built_in">arguments</span>);
-    <span class="hljs-keyword">if</span>(ret === <span class="hljs-string">&#x27;nextSuccessor&#x27;</span>) {
-        <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.successor &amp;&amp; <span class="hljs-built_in">this</span>.successor.passRequest.apply(<span class="hljs-built_in">this</span>.successor, <span class="hljs-built_in">arguments</span>);
-    }
-    <span class="hljs-keyword">return</span> ret;
+Chain.prototype.passRequest = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">var</span> ret = <span class="hljs-built_in">this</span>.fn.apply(<span class="hljs-built_in">this</span>, <span class="hljs-built_in">arguments</span>)
+  <span class="hljs-keyword">if</span> (ret === <span class="hljs-string">&#x27;nextSuccessor&#x27;</span>) {
+    <span class="hljs-keyword">return</span> (
+      <span class="hljs-built_in">this</span>.successor &amp;&amp;
+      <span class="hljs-built_in">this</span>.successor.passRequest.apply(<span class="hljs-built_in">this</span>.successor, <span class="hljs-built_in">arguments</span>)
+    )
+  }
+  <span class="hljs-keyword">return</span> ret
 }
 <span class="hljs-comment">//现在我们把3个函数分别包装成职责链节点：</span>
-<span class="hljs-keyword">var</span> chainOrder500 = <span class="hljs-keyword">new</span> Chain(order500);
-<span class="hljs-keyword">var</span> chainOrder200 = <span class="hljs-keyword">new</span> Chain(order200);
-<span class="hljs-keyword">var</span> chainOrderNormal = <span class="hljs-keyword">new</span> Chain(orderNormal);
- 
+<span class="hljs-keyword">var</span> chainOrder500 = <span class="hljs-keyword">new</span> Chain(order500)
+<span class="hljs-keyword">var</span> chainOrder200 = <span class="hljs-keyword">new</span> Chain(order200)
+<span class="hljs-keyword">var</span> chainOrderNormal = <span class="hljs-keyword">new</span> Chain(orderNormal)
+
 <span class="hljs-comment">// 然后指定节点在职责链中的顺序</span>
-chainOrder500.setNextSuccessor(chainOrder200);
-chainOrder200.setNextSuccessor(chainOrderNormal);
- 
+chainOrder500.setNextSuccessor(chainOrder200)
+chainOrder200.setNextSuccessor(chainOrderNormal)
+
 <span class="hljs-comment">//最后把请求传递给第一个节点：</span>
-chainOrder500.passRequest(<span class="hljs-number">1</span>,<span class="hljs-literal">true</span>,<span class="hljs-number">500</span>);  <span class="hljs-comment">// 亲爱的用户，您中奖了100元红包了</span>
-chainOrder500.passRequest(<span class="hljs-number">2</span>,<span class="hljs-literal">true</span>,<span class="hljs-number">500</span>);  <span class="hljs-comment">// 亲爱的用户，您中奖了20元红包了</span>
-chainOrder500.passRequest(<span class="hljs-number">3</span>,<span class="hljs-literal">true</span>,<span class="hljs-number">500</span>);  <span class="hljs-comment">// 亲爱的用户，您已抽到10元优惠卷 </span>
-chainOrder500.passRequest(<span class="hljs-number">1</span>,<span class="hljs-literal">false</span>,<span class="hljs-number">0</span>);   <span class="hljs-comment">// 亲爱的用户，请再接再厉哦</span>
+chainOrder500.passRequest(<span class="hljs-number">1</span>, <span class="hljs-literal">true</span>, <span class="hljs-number">500</span>) <span class="hljs-comment">// 亲爱的用户，您中奖了100元红包了</span>
+chainOrder500.passRequest(<span class="hljs-number">2</span>, <span class="hljs-literal">true</span>, <span class="hljs-number">500</span>) <span class="hljs-comment">// 亲爱的用户，您中奖了20元红包了</span>
+chainOrder500.passRequest(<span class="hljs-number">3</span>, <span class="hljs-literal">true</span>, <span class="hljs-number">500</span>) <span class="hljs-comment">// 亲爱的用户，您已抽到10元优惠卷</span>
+chainOrder500.passRequest(<span class="hljs-number">1</span>, <span class="hljs-literal">false</span>, <span class="hljs-number">0</span>) <span class="hljs-comment">// 亲爱的用户，请再接再厉哦</span>
 
 <span class="hljs-comment">// 我优化过的</span>
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Chain</span> </span>{
-  <span class="hljs-title">constructor</span> (<span class="hljs-params">...fnList</span>) {
-    <span class="hljs-built_in">this</span>._fnMap = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Map</span>(fnList.map(<span class="hljs-function">(<span class="hljs-params">item</span>) =&gt;</span> ([item, <span class="hljs-built_in">Symbol</span>()])))
+  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">...fnList</span>)</span> {
+    <span class="hljs-built_in">this</span>._fnMap = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Map</span>(fnList.map(<span class="hljs-function">(<span class="hljs-params">item</span>) =&gt;</span> [item, <span class="hljs-built_in">Symbol</span>()]))
   }
   <span class="hljs-function"><span class="hljs-title">add</span>(<span class="hljs-params">fn</span>)</span> {
     <span class="hljs-built_in">this</span>._fnMap.set(fn, <span class="hljs-built_in">Symbol</span>())
@@ -1736,12 +1702,16 @@ chainOrder500.passRequest(<span class="hljs-number">1</span>,<span class="hljs-l
   clog(<span class="hljs-string">&#x27;fn0&#x27;</span>, a)
   <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&#x27;</span>
 }
-<span class="hljs-keyword">let</span> fn1 = <span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> {clog(<span class="hljs-string">&#x27;fn1&#x27;</span>, a, b)}
-<span class="hljs-keyword">let</span> fn2 = <span class="hljs-function">(<span class="hljs-params">a, b, c</span>) =&gt;</span> {clog(<span class="hljs-string">&#x27;fn2&#x27;</span>, a, b, c)}
+<span class="hljs-keyword">let</span> fn1 = <span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> {
+  clog(<span class="hljs-string">&#x27;fn1&#x27;</span>, a, b)
+}
+<span class="hljs-keyword">let</span> fn2 = <span class="hljs-function">(<span class="hljs-params">a, b, c</span>) =&gt;</span> {
+  clog(<span class="hljs-string">&#x27;fn2&#x27;</span>, a, b, c)
+}
 <span class="hljs-keyword">let</span> c = <span class="hljs-keyword">new</span> Chain(fn0, fn1, fn2)
 <span class="hljs-comment">// c.add((a, b) =&gt; {clog(&#x27;fn3&#x27;, a, b)})</span>
 <span class="hljs-comment">// c.remove(fn2)</span>
-c.passRequest(<span class="hljs-string">&#x27;q&#x27;</span>, <span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>)
+c.passRequest(<span class="hljs-string">&#x27;q&#x27;</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>)
 
 <span class="hljs-keyword">let</span> chain = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">threshold, ...fnList</span>) </span>{
   <span class="hljs-built_in">this</span>.fnList = fnList
@@ -1771,7 +1741,6 @@ c.passRequest(<span class="hljs-string">&#x27;q&#x27;</span>, <span class="hljs-
 }
 <span class="hljs-keyword">let</span> cf = chain(<span class="hljs-built_in">Symbol</span>.for(<span class="hljs-string">&#x27;chain&#x27;</span>), fn0, fn1, fn2)
 cf(<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-string">&#x27;c&#x27;</span>) <span class="hljs-comment">// 输出到fn2</span>
-
 </div></code></pre>
     <pre><code><code><div>function Fn1() {
     console.log(1);
@@ -1810,18 +1779,18 @@ Chain.prototype.next = function(){
 var chainFn1 = new Chain(Fn1);
 var chainFn2 = new Chain(Fn2);
 var chainFn3 = new Chain(Fn3);
- 
+
 // 然后指定节点在职责链中的顺序
 chainFn1.setNextSuccessor(chainFn2);
 chainFn2.setNextSuccessor(chainFn3);
- 
+
 chainFn1.passRequest();  // 打印出1，2 过1秒后 会打印出3
 </div></code></code></pre>
     <h2 id="模块模式">模块模式</h2>
     <p>把方法、属性分为分开的与私有的。</p>
     <pre><code class="language-js"><div><span class="hljs-comment">// 闭包</span>
 <span class="hljs-keyword">var</span> ModuleFn = (<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">var</span> privateVar  = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> privateVar = <span class="hljs-number">0</span>
   <span class="hljs-keyword">var</span> privateFn = <span class="hljs-function">() =&gt;</span> {
     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;privateFn&#x27;</span>)
   }
@@ -1833,7 +1802,7 @@ chainFn1.passRequest();  // 打印出1，2 过1秒后 会打印出3
     <span class="hljs-attr">publicFn1</span>: <span class="hljs-function">() =&gt;</span> {
       <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;publicFn1&#x27;</span>)
       privateFn()
-    }
+    },
   }
 })()
 ModuleFn.publicFn0()
@@ -1864,7 +1833,7 @@ var bindEnv = function(button,func) {
 var Todo1 = {
     test1: function(){
         alert(&quot;我是来做第一个测试的&quot;);
-    }    
+    }
 };
 // 实现业务中的增删改操作
 var Menu = {
@@ -1891,7 +1860,7 @@ bindEnv(b4,Menu.update);
     execute: function(){
         console.log(1);
     }
-}; 
+};
 var command2 = {
     execute: function(){
         console.log(2);
@@ -1929,37 +1898,37 @@ c.add(command3);
       也叫缓存模式。在一个栈中保存多个状态。当需要返回前一个状态时，从栈中弹出一状态。直到栈为空。
     </p>
     <pre><code class="language-js"><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Memo</span> </span>{
-  <span class="hljs-title">constructor</span> (<span class="hljs-params"></span>) {
+  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params"></span>)</span> {
     <span class="hljs-built_in">this</span>.state = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Map</span>()
     <span class="hljs-built_in">this</span>.stateKeyList = []
   }
   <span class="hljs-comment">// 保存状态</span>
-  push (key, state) {
+  <span class="hljs-function"><span class="hljs-title">push</span>(<span class="hljs-params">key, state</span>)</span> {
     <span class="hljs-built_in">this</span>.stateKeyList.push(key)
     <span class="hljs-keyword">let</span> KEY = <span class="hljs-built_in">Symbol</span>.for(key)
     <span class="hljs-built_in">this</span>.state.set(KEY, state)
   }
   <span class="hljs-comment">// 查看指定状态</span>
-  peek (key) {
+  <span class="hljs-function"><span class="hljs-title">peek</span>(<span class="hljs-params">key</span>)</span> {
     <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.state.get(<span class="hljs-built_in">Symbol</span>.for(key))
   }
   <span class="hljs-comment">// 弹出最后一个状态</span>
-  pop () {
+  <span class="hljs-function"><span class="hljs-title">pop</span>(<span class="hljs-params"></span>)</span> {
     <span class="hljs-keyword">let</span> lastKey = <span class="hljs-built_in">this</span>.stateKeyList.pop()
     <span class="hljs-keyword">let</span> state = <span class="hljs-built_in">this</span>.peek(lastKey)
     <span class="hljs-built_in">this</span>.delState(lastKey)
     <span class="hljs-keyword">return</span> state
   }
   <span class="hljs-comment">// 删除指定的状态</span>
-  delState (key) {
-    <span class="hljs-keyword">let</span> index = <span class="hljs-built_in">this</span>.stateKeyList.findIndex(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> item === key)
+  <span class="hljs-function"><span class="hljs-title">delState</span>(<span class="hljs-params">key</span>)</span> {
+    <span class="hljs-keyword">let</span> index = <span class="hljs-built_in">this</span>.stateKeyList.findIndex(<span class="hljs-function">(<span class="hljs-params">item</span>) =&gt;</span> item === key)
     <span class="hljs-keyword">if</span> (index &gt; -<span class="hljs-number">1</span>) {
       <span class="hljs-built_in">this</span>.stateKeyList.splice(index, <span class="hljs-number">1</span>)
       <span class="hljs-built_in">this</span>.state.delete(<span class="hljs-built_in">Symbol</span>.for(key))
     }
   }
   <span class="hljs-comment">// 查看所有状态</span>
-  allState () {
+  <span class="hljs-function"><span class="hljs-title">allState</span>(<span class="hljs-params"></span>)</span> {
     <span class="hljs-comment">// [[k, v], [k0, v0], ...]</span>
     <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.stateKeyList.reduce(<span class="hljs-function">(<span class="hljs-params">r, c</span>) =&gt;</span> {
       r.push([c, <span class="hljs-built_in">this</span>.state.get(<span class="hljs-built_in">Symbol</span>.for(c))])
@@ -1993,7 +1962,8 @@ c.add(command3);
 </div></code></code></pre>
     <h2 id="访问者模式">访问者模式</h2>
     <p>
-      在js这种弱类型语言里，很多方法里都不做对象的类型检测，而是只关心这些对象能做什么。<br />
+      在 js
+      这种弱类型语言里，很多方法里都不做对象的类型检测，而是只关心这些对象能做什么。<br />
       根据不同的访问者调用不同的方法。<br />
       把数据与操作数据的方法分开。<br />
       常用到<code>abc</code>方法。
@@ -2137,14 +2107,14 @@ game.operate(p0, p1, 'xxx')
       有点像环形链表。
     </p>
     <pre><code class="language-js"><div><span class="hljs-keyword">let</span> o = {
-  <span class="hljs-attr">k</span>: <span class="hljs-string">&#x27;v&#x27;</span>
+  <span class="hljs-attr">k</span>: <span class="hljs-string">&#x27;v&#x27;</span>,
 }
 o.origin = o
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> o
 </div></code></pre>
     <h2 id="回调模式">回调模式</h2>
     <p>
-      把一个方法a传入另一个方法b。在某时刻是调用方法a.<br />
+      把一个方法 a 传入另一个方法 b。在某时刻是调用方法 a.<br />
       在子组件改变父组件的数据时常用这种方法。
     </p>
     <pre><code class="language-js"><div><span class="hljs-keyword">let</span> fn = <span class="hljs-function">(<span class="hljs-params">cb</span>) =&gt;</span> {
@@ -2169,7 +2139,7 @@ fa()
 </div></code></pre>
     <h2 id="沙箱模式">沙箱模式</h2>
     <p>
-      该模式提供了一个可用于模块运行的环境。yui中就使用了此模式。<br />
+      该模式提供了一个可用于模块运行的环境。yui 中就使用了此模式。<br />
       从全量模块中取出指定的模块。<br />
       书上写的太繁琐了，下面我整理的简单的。
     </p>

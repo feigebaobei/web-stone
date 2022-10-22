@@ -251,26 +251,7 @@ c.on('ready', () => {
     }
     // let p = 'resolve' // todo
     let p = [
-      'coursera/dsa/1/index.html',
-      'coursera/dsa/1/v.png',
-      'language/flow/index.html',
-      'language/javascript/inherit.html',
-      'language/javascript/number.html',
-      'language/javascript/index.html',
-      'language/javascript/fetch.html',
-      'language/javascript/json.html',
-      'language/javascript/math.html',
-      'language/javascript/response.html',
-      'language/javascript/set.html',
-      'language/javascript/symbol.html',
-      'language/javascript/xhr.html',
-      'dsa/index.html',
-      'dsa/sort.html',
-      'dsa/circulation.html',
-      'dsa/recursion.html',
-      'test.html',
-      'index.html',
-      // 'resolve/index.html' // todo
+      // 'resolve/index.html'
     ]
     // 检测指定目录是否存在
     // checkDir(p)

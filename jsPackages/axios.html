@@ -1229,12 +1229,12 @@
     </table>
     <h3 id="feature">feature</h3>
     <ul>
-      <li>从浏览器中发出xhr</li>
-      <li>在node.js中发现http请求</li>
-      <li>支持promise</li>
+      <li>从浏览器中发出 xhr</li>
+      <li>在 node.js 中发现 http 请求</li>
+      <li>支持 promise</li>
       <li>支持打断请求和回馈</li>
-      <li>可转换request和response data</li>
-      <li>可取消请求。（fetch不可取消）</li>
+      <li>可转换 request 和 response data</li>
+      <li>可取消请求。（fetch 不可取消）</li>
     </ul>
     <h2 id="install">install</h2>
     <p><code>npm i axios</code></p>
@@ -1273,7 +1273,6 @@ axios#patch(url[, data[, config]])
 axios#getUri([config])
 </div></code></pre>
     <h2 id="configuration">configuration</h2>
-    <!-- 默认配置文件：`path/to/file.json`。 -->
     <p>没有配置文件。有配置项</p>
     <pre><code class="language-js"><div>config: {
     <span class="hljs-attr">url</span>: <span class="hljs-string">&#x27;/user&#x27;</span>,
@@ -1313,7 +1312,7 @@ axios#getUri([config])
     },
     <span class="hljs-attr">cancelToken</span>: <span class="hljs-keyword">new</span> CancelToken(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">cancel</span>) </span>{
     }), <span class="hljs-comment">// 专用于取消请求的token</span>
-    <span class="hljs-attr">signal</span>: <span class="hljs-keyword">new</span> AbortController().signal, <span class="hljs-comment">// 不会</span>
+    <span class="hljs-attr">signal</span>: <span class="hljs-keyword">new</span> AbortController().signal,
     <span class="hljs-attr">decompress</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// default</span>
     <span class="hljs-attr">insecureTHHPParser</span>: <span class="hljs-literal">undefined</span>, <span class="hljs-comment">// default 不会</span>
     <span class="hljs-attr">transitional</span>: { <span class="hljs-comment">// 不会</span>
@@ -1340,12 +1339,12 @@ axios.default.headers.common['Authorization'] = axios.default.baseURL = AUTH_TOK
 instance.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 </div></code></code></pre>
     <h2 id="api">api</h2>
-    <pre><code><code><div>axios({
-    method: 'post', // 小写
-    url: '/user/1234',
-    data: {
-        k0: 'v0',
-        k1: 'v1',
+    <pre><code class="language-js"><div>axios({
+    <span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;post&#x27;</span>, <span class="hljs-comment">// 小写</span>
+    <span class="hljs-attr">url</span>: <span class="hljs-string">&#x27;/user/1234&#x27;</span>,
+    <span class="hljs-attr">data</span>: {
+        <span class="hljs-attr">k0</span>: <span class="hljs-string">&#x27;v0&#x27;</span>,
+        <span class="hljs-attr">k1</span>: <span class="hljs-string">&#x27;v1&#x27;</span>,
     }
 })
 axios(url[, config])
@@ -1357,17 +1356,17 @@ axios.delete(url[, config])
 axios.head(url[, config])
 axios.options(url[, config])
 axios.patch(url[, config])
-</div></code></code></pre>
+</div></code></pre>
     <h2 id="response-schema">response schema</h2>
-    <pre><code><code><div>{
-    data: {}
-    status: 200
-    statusText: 'OK'
-    headers: {}
-    config: {}
-    request: {}
+    <pre><code class="language-js"><div>{
+    <span class="hljs-attr">data</span>: {}
+    <span class="hljs-attr">status</span>: <span class="hljs-number">200</span>
+    <span class="hljs-attr">statusText</span>: <span class="hljs-string">&#x27;OK&#x27;</span>
+    <span class="hljs-attr">headers</span>: {}
+    <span class="hljs-attr">config</span>: {}
+    <span class="hljs-attr">request</span>: {}
 }
-</div></code></code></pre>
+</div></code></pre>
     <h2 id="interceptors">interceptors</h2>
     <pre><code class="language-js"><div>axios.interceptors.request.use(<span class="hljs-function">(<span class="hljs-params">config</span>) =&gt;</span> {
     ...
@@ -1387,10 +1386,10 @@ axios.interceptors.request.eject(myInterceptor)
 <span class="hljs-comment">// 删除实例的打断也类似</span>
 </div></code></pre>
     <ul>
-      <li>每个interceptor都会执行</li>
+      <li>每个 interceptor 都会执行</li>
       <li>按定义顺序执行</li>
-      <li>只返回最后一个interceptor的结果</li>
-      <li>每个interceptor接收前一个的结果</li>
+      <li>只返回最后一个 interceptor 的结果</li>
+      <li>每个 interceptor 接收前一个的结果</li>
     </ul>
     <h2 id="cancellation">cancellation</h2>
     <p>推荐<code>AbortController</code>.在 axios v0.22.0+ 支持。</p>
@@ -1404,8 +1403,9 @@ controller() <span class="hljs-comment">// 取消请求</span>
     <p>有下面多种方法</p>
     <h3 id="form-data">form data</h3>
     <p>
-      在v0.27.0后支持设置了<code>header.Content-Type: multipart/form-data</code
-      >会，自动序列化为FormData对象。
+      在 v0.27.0 后支持设置了<code
+        >header.Content-Type: multipart/form-data</code
+      >会，自动序列化为 FormData 对象。
     </p>
     <pre><code><code><div>import axios from 'axios';
 axios.post('https://httpbin.org/post', {x: 1}, {
@@ -1421,33 +1421,34 @@ params.append(<span class="hljs-string">&#x27;key&#x27;</span>, <span class="hlj
 axios.post(url, params)
 
 <span class="hljs-comment">// no.2</span>
-<span class="hljs-keyword">const</span> qs = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;qs&#x27;</span>);
-axios.post(<span class="hljs-string">&#x27;/foo&#x27;</span>, qs.stringify({ <span class="hljs-string">&#x27;bar&#x27;</span>: <span class="hljs-number">123</span> }));
+<span class="hljs-keyword">const</span> qs = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;qs&#x27;</span>)
+axios.post(<span class="hljs-string">&#x27;/foo&#x27;</span>, qs.stringify({ <span class="hljs-attr">bar</span>: <span class="hljs-number">123</span> }))
 
 <span class="hljs-comment">// no.3</span>
-<span class="hljs-keyword">import</span> qs <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;qs&#x27;</span>;
-<span class="hljs-keyword">const</span> data = { <span class="hljs-string">&#x27;bar&#x27;</span>: <span class="hljs-number">123</span> };
+<span class="hljs-keyword">import</span> qs <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;qs&#x27;</span>
+<span class="hljs-keyword">const</span> data = { <span class="hljs-attr">bar</span>: <span class="hljs-number">123</span> }
 <span class="hljs-keyword">const</span> options = {
   <span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;POST&#x27;</span>,
   <span class="hljs-attr">headers</span>: { <span class="hljs-string">&#x27;content-type&#x27;</span>: <span class="hljs-string">&#x27;application/x-www-form-urlencoded&#x27;</span> },
   <span class="hljs-attr">data</span>: qs.stringify(data),
   url,
-};
-axios(options);
+}
+axios(options)
 </div></code></pre>
     <h3 id="nodejs">node.js</h3>
     <pre><code class="language-js"><div><span class="hljs-comment">// no.1</span>
-<span class="hljs-keyword">const</span> querystring = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;querystring&#x27;</span>);
-axios.post(<span class="hljs-string">&#x27;http://something.com/&#x27;</span>, querystring.stringify({ <span class="hljs-attr">foo</span>: <span class="hljs-string">&#x27;bar&#x27;</span> }));
+<span class="hljs-keyword">const</span> querystring = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;querystring&#x27;</span>)
+axios.post(<span class="hljs-string">&#x27;http://something.com/&#x27;</span>, querystring.stringify({ <span class="hljs-attr">foo</span>: <span class="hljs-string">&#x27;bar&#x27;</span> }))
 
 <span class="hljs-comment">// no.2</span>
-<span class="hljs-keyword">const</span> url = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;url&#x27;</span>);
-<span class="hljs-keyword">const</span> params = <span class="hljs-keyword">new</span> url.URLSearchParams({ <span class="hljs-attr">foo</span>: <span class="hljs-string">&#x27;bar&#x27;</span> });
-axios.post(<span class="hljs-string">&#x27;http://something.com/&#x27;</span>, params.toString());
+<span class="hljs-keyword">const</span> url = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;url&#x27;</span>)
+<span class="hljs-keyword">const</span> params = <span class="hljs-keyword">new</span> url.URLSearchParams({ <span class="hljs-attr">foo</span>: <span class="hljs-string">&#x27;bar&#x27;</span> })
+axios.post(<span class="hljs-string">&#x27;http://something.com/&#x27;</span>, params.toString())
 </div></code></pre>
     <h2 id="principle">principle</h2>
     <h3 id="uml">uml</h3>
-    <pre><code><code><div></div></code></code></pre>
+    <pre><code><code><div>
+</div></code></code></pre>
     <h2 id="demo">demo</h2>
     <pre><code class="language-js"><div><span class="hljs-keyword">import</span> axios <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;axios&#x27;</span>
 <span class="hljs-keyword">import</span> md5 <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;md5&#x27;</span>
@@ -1456,64 +1457,75 @@ axios.post(<span class="hljs-string">&#x27;http://something.com/&#x27;</span>, p
 <span class="hljs-keyword">let</span> simpleStore = createSimpleStore()
 
 <span class="hljs-keyword">let</span> instance = axios.create({
-    <span class="hljs-comment">// baseURL: &#x27;http:www.xxx.com&#x27;,</span>
-    <span class="hljs-comment">// 用于各种后端接口，所以不适合设置baseURL</span>
-    <span class="hljs-attr">timeout</span>: <span class="hljs-number">5000</span>,
-    <span class="hljs-attr">headers</span>: {
-        <span class="hljs-comment">// &#x27;key&#x27;: &#x27;value&#x27;</span>
-    }
+  <span class="hljs-comment">// baseURL: &#x27;http:www.xxx.com&#x27;,</span>
+  <span class="hljs-comment">// 用于各种后端接口，所以不适合设置baseURL</span>
+  <span class="hljs-attr">timeout</span>: <span class="hljs-number">5000</span>,
+  <span class="hljs-attr">headers</span>: {
+    <span class="hljs-comment">// &#x27;key&#x27;: &#x27;value&#x27;</span>
+  },
 })
-<span class="hljs-keyword">let</span> myInterceptor = instance.interceptors.request.use(<span class="hljs-function">(<span class="hljs-params">config</span>) =&gt;</span> {
+<span class="hljs-keyword">let</span> myInterceptor = instance.interceptors.request.use(
+  <span class="hljs-function">(<span class="hljs-params">config</span>) =&gt;</span> {
     <span class="hljs-comment">// 取消重复请求</span>
     <span class="hljs-keyword">let</span> hashStr = md5({
-        <span class="hljs-attr">url</span>: config.url,
-        <span class="hljs-attr">method</span>: config.method,
-        <span class="hljs-attr">params</span>: config.params,
-        <span class="hljs-attr">data</span>: config.data,
+      <span class="hljs-attr">url</span>: config.url,
+      <span class="hljs-attr">method</span>: config.method,
+      <span class="hljs-attr">params</span>: config.params,
+      <span class="hljs-attr">data</span>: config.data,
     })
     <span class="hljs-keyword">if</span> (simpleStore.isExist(hashStr)) {
-        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>
     } <span class="hljs-keyword">else</span> {
-        <span class="hljs-keyword">return</span> config
+      <span class="hljs-keyword">return</span> config
     }
-}, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">error</span>) </span>{
+  },
+  <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">error</span>) </span>{
     <span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>.reject(error)
-})
-instance.interceptors.response.use(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
-    <span class="hljs-keyword">let</span> hashStr = md5({<span class="hljs-attr">url</span>: res.config.url, <span class="hljs-attr">method</span>: res.config.method, <span class="hljs-attr">params</span>: res.config.params, <span class="hljs-attr">data</span>: res.config.data})
+  }
+)
+instance.interceptors.response.use(
+  <span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+    <span class="hljs-keyword">let</span> hashStr = md5({
+      <span class="hljs-attr">url</span>: res.config.url,
+      <span class="hljs-attr">method</span>: res.config.method,
+      <span class="hljs-attr">params</span>: res.config.params,
+      <span class="hljs-attr">data</span>: res.config.data,
+    })
     simpleStore.remove(hashStr)
     <span class="hljs-keyword">if</span> (res.status === <span class="hljs-number">200</span>) {
-        <span class="hljs-keyword">return</span> res.data
+      <span class="hljs-keyword">return</span> res.data
     } <span class="hljs-keyword">else</span> {
-        <span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>.reject(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">&#x27;请求出错&#x27;</span>))
+      <span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>.reject(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">&#x27;请求出错&#x27;</span>))
     }
-}, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">error</span>) </span>{
+  },
+  <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">error</span>) </span>{
     <span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>.reject(error)
-})
+  }
+)
 <span class="hljs-comment">// let cancelRequest = () =&gt; {</span>
 <span class="hljs-comment">//     axios.interceptors.request.eject(myInterceptor)</span>
 <span class="hljs-comment">// }</span>
 
 <span class="hljs-keyword">export</span> {
-    instance,
-    <span class="hljs-comment">// 强制取消请求</span>
-    <span class="hljs-comment">// cancelRequest</span>
+  instance,
+  <span class="hljs-comment">// 强制取消请求</span>
+  <span class="hljs-comment">// cancelRequest</span>
 }
 </div></code></pre>
     <pre><code class="language-js"><div><span class="hljs-keyword">let</span> createSimpleStore = <span class="hljs-function">() =&gt;</span> {
-    <span class="hljs-keyword">let</span> simpleStore = {
-        <span class="hljs-attr">value</span>: <span class="hljs-keyword">new</span> <span class="hljs-built_in">Set</span>(),
-        <span class="hljs-attr">isExist</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">v</span>) </span>{
-            <span class="hljs-keyword">return</span> simpleStore.value.has(v)
-        },
-        <span class="hljs-attr">add</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">v</span>) </span>{
-            simpleStore.value.add(v)
-        },
-        <span class="hljs-attr">remove</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">v</span>) </span>{
-            simpleStore.value.delete(v)
-        }
-    }
-    <span class="hljs-keyword">return</span> simpleStore
+  <span class="hljs-keyword">let</span> simpleStore = {
+    <span class="hljs-attr">value</span>: <span class="hljs-keyword">new</span> <span class="hljs-built_in">Set</span>(),
+    <span class="hljs-attr">isExist</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">v</span>) </span>{
+      <span class="hljs-keyword">return</span> simpleStore.value.has(v)
+    },
+    <span class="hljs-attr">add</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">v</span>) </span>{
+      simpleStore.value.add(v)
+    },
+    <span class="hljs-attr">remove</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">v</span>) </span>{
+      simpleStore.value.delete(v)
+    },
+  }
+  <span class="hljs-keyword">return</span> simpleStore
 }
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> createSimpleStore
 </div></code></pre>

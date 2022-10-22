@@ -321,49 +321,11 @@ Validator.prototype.test = (rules) => {
         break
       }
     }
-    if (valid) {
-      break
-    }
+    valid && break
   }
   return valid
 }
 
-// 重写demo1
-class Validator {
-  constructor () {
-    this.rulesMap = new Map()
-    this.rulesMap.set('required', function (value, options) {
-      let reg = /^\s*|\s*$/g
-      let res = null
-      if (value.replace(reg, '')) {
-        return res
-      } else {
-        return {
-          rule: 'inquired',
-          message: options.message
-        }
-      }
-    })
-  }
-  addRule(ruleKey, fn) {
-    this.rulesMap.set(ruleKey, fn)
-  }
-  validate(value, useRules = []) {
-    let vRes = null
-    for (let i = 0; i < useRules.length; i++) {
-      let curRule = useRules[i] // {rule, message}
-      let vF = this.rulesMap(curRule.rule)
-      if (vF) {
-        vRes = vF(value, curRule)
-      }
-      break
-    }
-    return vRes
-  }
-}
-// 使用
-let validator = new Validator()
-validator(value, useRules) // result
 ```
 
 ## 模板方法模式
