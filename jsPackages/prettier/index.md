@@ -19,7 +19,8 @@
 ## install
 
 `npm i --save-dev --save-exact prettier`
-为什么要用`--save-exact`
+为什么要用`--save-exact`  
+每个版本的 prettier 的规则可能不一样。
 
 ## usage
 
@@ -53,7 +54,7 @@ fn(1, 2)
 ## summary
 
 - 尽量使用确定版本的 prettier。
-- `.prettier.json`使编辑器知道如何使用 prettier
+- `.prettierrc.json`使编辑器知道如何使用 prettier
 - `.prettierignore`使编辑器知道哪些不使用 prettier
 - 在 ci 中使用`pretter --check .`
 - eslint-config-prettier 可以使用 prettier 和 eslint 一起使用
