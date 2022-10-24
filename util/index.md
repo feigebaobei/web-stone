@@ -187,14 +187,12 @@ let copy = function (str){
 let createFunction = (...args, body) => {
   return new Function(...args, body)
 }
-
+// 职责链 见“设计模式”
 
 
 
 
 ```
-
-
 
 - [rxjs](/util/rxjs.html)
 - [title](/util/title.html)
@@ -206,4 +204,3 @@ let createFunction = (...args, body) => {
 - [title](/util/title.html)
 - [title](/util/title.html)
 - [title](/util/title.html)
-

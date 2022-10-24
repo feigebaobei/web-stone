@@ -1436,10 +1436,13 @@ var p = new Proxy(o, {
 console.log(p.a)
 console.log(p._b)
 </div></code></code></pre>
-    <p>
-      let {proxy, revoke} = Proxy.revocable(target, handler) this 指向
-      handler。因为 this 指向运行时上下文环境。
-    </p>
+    <p>this 指向 handler。因为 this 指向运行时上下文环境。</p>
+    <pre><code class="language-js"><div><span class="hljs-keyword">let</span> {proxy, revoke} = <span class="hljs-built_in">Proxy</span>.revocable(target, handler)
+proxy.key = <span class="hljs-string">&#x27;str&#x27;</span>
+proxy.key <span class="hljs-comment">// &#x27;str&#x27;</span>
+revoke() <span class="hljs-comment">// 取消代理</span>
+proxy.key <span class="hljs-comment">// 报错</span>
+</div></code></pre>
     <pre><code><code><div>var proxy = new Proxy(target, handler)
 target: Object,
 handler: 控制对象。

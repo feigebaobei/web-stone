@@ -1166,7 +1166,17 @@
         color: var(--theme-error-foreground);
       }
     </style>
-
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css"
+      integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css"
@@ -1257,34 +1267,34 @@
         </tr>
       </tbody>
     </table>
-    <p>求直线l上过点A的垂线。</p>
+    <p>求直线 l 上过点 A 的垂线。</p>
     <ul>
       <li>勾股法 3、4、5</li>
     </ul>
-    <p>三等分AB线段。</p>
+    <p>三等分 AB 线段。</p>
     <ul>
       <li>相似三角形</li>
     </ul>
     <h2 id="有穷性">有穷性</h2>
     <p>hailStone</p>
     <pre><code class="language-js"><div><span class="hljs-keyword">let</span> clog = <span class="hljs-built_in">console</span>.log
-      <span class="hljs-keyword">let</span> hailstone = <span class="hljs-function">(<span class="hljs-params">n</span>) =&gt;</span> {
-        <span class="hljs-keyword">let</span> length = <span class="hljs-number">1</span>
-        <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span> &lt; n) {
-          <span class="hljs-keyword">if</span> (n % <span class="hljs-number">2</span>) {
-            <span class="hljs-comment">// 奇</span>
-            n = n * <span class="hljs-number">3</span> + <span class="hljs-number">1</span>
-          } <span class="hljs-keyword">else</span> {
-            <span class="hljs-comment">// 偶</span>
-            n = n / <span class="hljs-number">2</span>
-          }
-          length++
-        }
-        <span class="hljs-keyword">return</span> length
-      }
-      clog(hailstone(<span class="hljs-number">42</span>)) <span class="hljs-comment">// 9</span>
-      clog(hailstone(<span class="hljs-number">7</span>)) <span class="hljs-comment">// 17</span>
-      clog(hailstone(<span class="hljs-number">27</span>)) <span class="hljs-comment">// 112</span>
+<span class="hljs-keyword">let</span> hailstone = <span class="hljs-function">(<span class="hljs-params">n</span>) =&gt;</span> {
+  <span class="hljs-keyword">let</span> length = <span class="hljs-number">1</span>
+  <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span> &lt; n) {
+    <span class="hljs-keyword">if</span> (n % <span class="hljs-number">2</span>) {
+      <span class="hljs-comment">// 奇</span>
+      n = n * <span class="hljs-number">3</span> + <span class="hljs-number">1</span>
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-comment">// 偶</span>
+      n = n / <span class="hljs-number">2</span>
+    }
+    length++
+  }
+  <span class="hljs-keyword">return</span> length
+}
+clog(hailstone(<span class="hljs-number">42</span>)) <span class="hljs-comment">// 9</span>
+clog(hailstone(<span class="hljs-number">7</span>)) <span class="hljs-comment">// 17</span>
+clog(hailstone(<span class="hljs-number">27</span>)) <span class="hljs-comment">// 112</span>
 </div></code></pre>
     <p>无法证明是否有穷。</p>
     <h2 id="好算法">好算法</h2>
@@ -1328,14 +1338,14 @@
     <p>T(n) 程序运行次数 时间复杂度。 为稳妥起见，取最环情况。</p>
     <h3 id="划分等价类">划分等价类</h3>
     <h3 id="图灵机">图灵机</h3>
-    <h3 id="ram模型">ram模型</h3>
-    <h2 id="大o记号">大O记号</h2>
+    <h3 id="ram-模型">ram 模型</h3>
+    <h2 id="大-o-记号">大 O 记号</h2>
     <p>
-      当n&gt;&gt;2时。存在c&gt;0，有<code>T(n)&lt;cf(n)</code>
+      当 n&gt;&gt;2 时。存在 c&gt;0，有<code>T(n)&lt;cf(n)</code>
       在数学上一个好的标记超过一个新理论。 ———— 图灵
     </p>
     <ul>
-      <li>长远 考虑dsa处理更大问题上的潜力。</li>
+      <li>长远 考虑 dsa 处理更大问题上的潜力。</li>
       <li>主流 考虑主要方面，不考虑次要方面。</li>
     </ul>
     <p>
@@ -1350,10 +1360,12 @@
       <li>低次项可忽略。</li>
     </ul>
     <h2 id="大欧密喀-下界">大欧密喀 下界</h2>
-    <p>当n&gt;&gt;2时。存在c&gt;0，有<code>T(n)&gt;cf(n)</code></p>
+    <p>当 n&gt;&gt;2 时。存在 c&gt;0，有<code>T(n)&gt;cf(n)</code></p>
     <h2 id="西它">西它</h2>
     <p>
-      当n&gt;&gt;2时。存在c1&gt;c2&gt;0，有<code>c1f(n)&gt;T(n)&gt;c2f(n)</code>
+      当 n&gt;&gt;2 时。存在 c1&gt;c2&gt;0，有<code
+        >c1f(n)&gt;T(n)&gt;c2f(n)</code
+      >
     </p>
     <h2 id="复杂度">复杂度</h2>
     <ul>
@@ -1375,8 +1387,8 @@
             </ul>
           </li>
           <li>多项式</li>
-          <li>线性： 所有O(n)类函数</li>
-          <li>从O(n)到O(n^2)</li>
+          <li>线性： 所有 O(n)类函数</li>
+          <li>从 O(n)到 O(n^2)</li>
           <li>幂</li>
         </ul>
       </li>
@@ -1391,9 +1403,227 @@
     <h2 id="增长速度">增长速度</h2>
     <p><img src="file:////coursera/dsa/1/v.png" alt="增长速度" /></p>
     <h1 id="no3-week">no.3 week</h1>
+    <h2 id="算法分析-1">算法分析</h2>
+    <p>主要任务：</p>
+    <ul>
+      <li>正确性（不变性*单调性）</li>
+      <li>复杂度</li>
+    </ul>
+    <p>复杂度分析的主要方法：</p>
+    <ul>
+      <li>迭代：级数求和</li>
+      <li>递归：递归跟踪+递推方程</li>
+      <li>猜测+验证</li>
+    </ul>
+    <h2 id="级数-或-级数求和">级数 或 级数求和</h2>
+    <ul>
+      <li>算数级数：与末项平方同阶</li>
+      <li>
+        幂方级数：比幂次高出一阶
+        <ul>
+          <li>T(n) = 1^2 + 2^2 + ... + n^2 = O(n^3)</li>
+          <li>T(n) = 1^3 + 2^3 + ... + n^3 = O(n^4)</li>
+        </ul>
+      </li>
+      <li>
+        几何级数（a &gt; 1）：与末项同阶
+        <ul>
+          <li>等比数列 O(a^n)</li>
+        </ul>
+      </li>
+      <li>
+        收敛级数
+        <ul>
+          <li>随着数量增加，趋于O(1)</li>
+        </ul>
+      </li>
+      <li>
+        可能未必收敛，然而长度有限
+        <ul>
+          <li>h(n) = 1 + 1/2 + 1/3 + ... + 1/n = O(logn) 调和级数</li>
+          <li>log1 + log2 + log3 + ... + logn = log(n!) = O(nlogn) 对数级数</li>
+        </ul>
+      </li>
+    </ul>
+    <h2 id="循环">循环</h2>
+    <pre><code><code><div>for (let i = 0; i &lt; n; i++)
+for (let j = 0; j &lt; n; j++)
+for (let j = 0; j &lt; i; j++)
+for (let j = 0; j &lt; i; j+= 2)
+三个都是O(n^2)
+计算次数递减
+</div></code></code></pre>
+    <h2 id="迭代与递归">迭代与递归</h2>
+    <p>
+      迭代乃人工，递归方神通。<br />
+      迭代的效率&gt;递归。<br />
+      <strong>凡治众如治寡，分数是也</strong>
+      求n个数之和
+    </p>
+    <pre><code class="language-js"><div><span class="hljs-keyword">let</span> f = <span class="hljs-function">(<span class="hljs-params">arr, n</span>) =&gt;</span> {
+  <span class="hljs-keyword">let</span> sum = <span class="hljs-number">0</span>
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) {
+    sum += arr[i]
+  }
+  <span class="hljs-keyword">return</span> sum
+}
+<span class="hljs-comment">// 时间复杂度 O(n)</span>
+<span class="hljs-comment">// 空间复杂度 O(2) ： sum / i</span>
+</div></code></pre>
+    <pre><code class="language-js"><div><span class="hljs-keyword">let</span> f = <span class="hljs-function">(<span class="hljs-params">arr, sum = <span class="hljs-number">0</span></span>) =&gt;</span> {
+  <span class="hljs-keyword">if</span> (arr.length) {
+    <span class="hljs-keyword">return</span> f(arr.slice(<span class="hljs-number">1</span>), sum += arr[<span class="hljs-number">0</span>])
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">return</span> sum
+  }
+}
+</div></code></pre>
+    <p>
+      递归分析<br />
+      （概括其中的规律。像递推。）
+      检查每个递归实例，累计所需时间，其总和即算法执行时间。
+    </p>
+    <ul>
+      <li>
+        <p>分而治之</p>
+      </li>
+      <li>
+        <p>减而治之</p>
+      </li>
+      <li>
+        <p>最好情况</p>
+      </li>
+      <li>
+        <p>最坏情况</p>
+      </li>
+    </ul>
+    <h2 id="动态规划">动态规划</h2>
+    <ul>
+      <li>mark it work</li>
+      <li>mark it right</li>
+      <li>mark it fast</li>
+    </ul>
+    <p>Φ^36 = 2^25 Φ^5 = 10</p>
+    <h3 id="fib">fib</h3>
+    <pre><code class="language-js"><div><span class="hljs-comment">// generator方法</span>
+<span class="hljs-keyword">let</span> getFibArr = <span class="hljs-function">(<span class="hljs-params">n</span>) =&gt;</span> {
+  <span class="hljs-keyword">let</span> genF = <span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params">n</span>) </span>{
+    <span class="hljs-keyword">let</span> [pre, cur] = [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>]
+    <span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">while</span>(i &lt; n) {
+      <span class="hljs-keyword">yield</span> cur
+      <span class="hljs-comment">// [pre, cur] = [cur, pre + cur]</span>
+      <span class="hljs-keyword">let</span> t = cur
+      cur = t + pre
+      pre = t
+      i++
+    }
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-built_in">Array</span>.from(genF(n))
+}
+
+<span class="hljs-comment">// 根据最后2项和为新添加的元素</span>
+<span class="hljs-keyword">let</span> f = <span class="hljs-function">(<span class="hljs-params">n</span>) =&gt;</span> {
+  <span class="hljs-keyword">if</span> (n &lt;= <span class="hljs-number">0</span> || !<span class="hljs-built_in">Number</span>.isInteger(n)) {
+    <span class="hljs-keyword">return</span> []
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (n === <span class="hljs-number">1</span>) {
+    <span class="hljs-keyword">return</span> [<span class="hljs-number">1</span>]
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (n === <span class="hljs-number">2</span>) {
+    <span class="hljs-keyword">return</span> [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>]
+  } <span class="hljs-keyword">else</span> {
+    res = [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>]
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">2</span>; i &lt; n; i++) {
+      <span class="hljs-keyword">let</span> t = res[res.length - <span class="hljs-number">1</span>] + res[res.length - <span class="hljs-number">2</span>]
+      res.push(t)
+    }
+    <span class="hljs-keyword">return</span> res
+  }
+}
+
+<span class="hljs-comment">// 得到fib中no.n个数</span>
+<span class="hljs-keyword">let</span> f = <span class="hljs-function">(<span class="hljs-params">n</span>) =&gt;</span> {
+  <span class="hljs-comment">// 定义字典</span>
+  <span class="hljs-comment">// 为字典赋值</span>
+  <span class="hljs-comment">// 从字典中取值并赋值</span>
+  <span class="hljs-keyword">let</span> map = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Map</span>([[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>], [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>]])
+  <span class="hljs-keyword">if</span> (map.get(n)) {
+    <span class="hljs-keyword">return</span> map.get(n)
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">let</span> t = f(n - <span class="hljs-number">1</span>) + f(n - <span class="hljs-number">2</span>)
+    map.set(n, t)
+    <span class="hljs-keyword">return</span> t
+  }
+}
+<span class="hljs-comment">// 还可做成类</span>
+<span class="hljs-comment">// 待测试</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Fib</span> </span>{
+  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params"></span>)</span> {
+    <span class="hljs-built_in">this</span>._map = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Map</span>([[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>], [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>]])
+  }
+  sum (<span class="hljs-keyword">from</span> = <span class="hljs-number">0</span>, to = <span class="hljs-built_in">this</span>._map.size) {
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.toArray(<span class="hljs-keyword">from</span>, to).reduce(<span class="hljs-function">(<span class="hljs-params">r, c</span>) =&gt;</span> {
+      <span class="hljs-keyword">return</span> r += c
+    }, <span class="hljs-number">0</span>)
+  }
+  toArray (<span class="hljs-keyword">from</span> = <span class="hljs-number">0</span>, to = <span class="hljs-built_in">this</span>._map.size) {
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Array</span>.from(<span class="hljs-built_in">this</span>._map.values()).slice(<span class="hljs-keyword">from</span>, to)
+  }
+  <span class="hljs-function"><span class="hljs-title">getValueByIndex</span>(<span class="hljs-params">n</span>)</span> {
+    <span class="hljs-keyword">if</span> (n &lt;= <span class="hljs-number">0</span>) {
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">undefined</span>
+    }
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">this</span>._map.get(n)) {
+      <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>._map.get(n)
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">let</span> t = <span class="hljs-built_in">this</span>.getValueByIndex(n - <span class="hljs-number">1</span>) + <span class="hljs-built_in">this</span>.getValueByIndex(n - <span class="hljs-number">2</span>)
+      <span class="hljs-built_in">this</span>._map.set(n, t)
+      <span class="hljs-keyword">return</span> t
+    }
+  }
+  clear () {
+    <span class="hljs-built_in">this</span>._map.clear()
+  }
+}
+</div></code></pre>
+    <h3 id="最长公共子序列-lcs">最长公共子序列 lcs</h3>
+    <pre><code class="language-js"><div><span class="hljs-comment">// 行列方式</span>
+<span class="hljs-keyword">var</span> a = <span class="hljs-string">&#x27;didactical&#x27;</span> <span class="hljs-comment">// &#x27;ab&#x27;</span>
+<span class="hljs-keyword">var</span> b = <span class="hljs-string">&#x27;advantage&#x27;</span>  <span class="hljs-comment">// &#x27;abc&#x27;</span>
+<span class="hljs-comment">// 返回lcs的长度</span>
+<span class="hljs-keyword">let</span> f = <span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> {
+  <span class="hljs-comment">// 使用map</span>
+  <span class="hljs-keyword">let</span> map = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Map</span>()
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = -<span class="hljs-number">1</span>; i &lt; a.length; i++) {
+    map.set(<span class="hljs-string">`<span class="hljs-subst">${i}</span>,-1`</span>, <span class="hljs-number">0</span>)
+  }
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> j = -<span class="hljs-number">1</span>; j &lt; b.length; j++) {
+    map.set(<span class="hljs-string">`-1,<span class="hljs-subst">${j}</span>`</span>, <span class="hljs-number">0</span>)
+  }
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> j = <span class="hljs-number">0</span>; j &lt; b.length; j++) {
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; a.length; i++) {
+      <span class="hljs-keyword">if</span> (a.charAt(i) === b.charAt(j)) {
+        map.set(<span class="hljs-string">`<span class="hljs-subst">${i}</span>,<span class="hljs-subst">${j}</span>`</span>, map.get(<span class="hljs-string">`<span class="hljs-subst">${i-<span class="hljs-number">1</span>}</span>,<span class="hljs-subst">${j-<span class="hljs-number">1</span>}</span>`</span>) + <span class="hljs-number">1</span>)
+      } <span class="hljs-keyword">else</span> {
+        map.set(<span class="hljs-string">`<span class="hljs-subst">${i}</span>,<span class="hljs-subst">${j}</span>`</span>, <span class="hljs-built_in">Math</span>.max(map.get(<span class="hljs-string">`<span class="hljs-subst">${i-<span class="hljs-number">1</span>}</span>,<span class="hljs-subst">${j}</span>`</span>), map.get(<span class="hljs-string">`<span class="hljs-subst">${i}</span>,<span class="hljs-subst">${j-<span class="hljs-number">1</span>}</span>`</span>)))
+      }
+    }
+  }
+  <span class="hljs-keyword">return</span> (map.get(<span class="hljs-string">`<span class="hljs-subst">${a.length - <span class="hljs-number">1</span>}</span>,<span class="hljs-subst">${b.length - <span class="hljs-number">1</span>}</span>`</span>))
+}
+</div></code></pre>
+    <ul>
+      <li>单调性</li>
+      <li>最好情况 O(n+m)</li>
+      <li>若出现2个子问题，则可能出现雷同</li>
+    </ul>
     <h1 id="no4-week">no.4 week</h1>
     <h1 id="no5-week">no.5 week</h1>
     <h1 id="no6-week">no.6 week</h1>
     <h1 id="no7-week">no.7 week</h1>
+
+    <script
+      async
+      src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"
+    ></script>
   </body>
 </html>

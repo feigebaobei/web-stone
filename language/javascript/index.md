@@ -200,8 +200,15 @@ console.log(p.a)
 console.log(p._b)
 ```
 
-let {proxy, revoke} = Proxy.revocable(target, handler)
 this 指向 handler。因为 this 指向运行时上下文环境。
+
+```js
+let { proxy, revoke } = Proxy.revocable(target, handler)
+proxy.key = 'str'
+proxy.key // 'str'
+revoke() // 取消代理
+proxy.key // 报错
+```
 
 ```
 var proxy = new Proxy(target, handler)

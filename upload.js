@@ -251,7 +251,11 @@ c.on('ready', () => {
     }
     // let p = 'resolve' // todo
     let p = [
-      // 'resolve/index.html'
+      'index.html',
+      'jsPackages/prettier/index.html',
+      'promote/development.html',
+      'coursera/dsa/index.html',
+      'coursera/dsa/1/index.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)

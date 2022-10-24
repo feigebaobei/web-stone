@@ -20,14 +20,14 @@
 计算模型 = 计算机 = 信息处理工具
 
 算法：
-||||
-|-|-|-|
-|输入|待处理的信息（问题）||
-|输出|经处理的信息（答案）||
-|正确性|可以解决指定的问题||
-|确定性|任一算法都可以描述为一个由基本操作组成的序列||
-|可行性|每一基本操作都可实现，且在常数时间内完成||
-|有穷性|对于任何输入，经过有穷次基本操作，都可以得到输出||
+| | | |
+| ------ | ------------------------------------------------ | --- |
+| 输入 | 待处理的信息（问题） | |
+| 输出 | 经处理的信息（答案） | |
+| 正确性 | 可以解决指定的问题 | |
+| 确定性 | 任一算法都可以描述为一个由基本操作组成的序列 | |
+| 可行性 | 每一基本操作都可实现，且在常数时间内完成 | |
+| 有穷性 | 对于任何输入，经过有穷次基本操作，都可以得到输出 | |
 
 求直线 l 上过点 A 的垂线。
 
@@ -148,6 +148,218 @@ O(fn) = T(n)
 ![增长速度](/coursera/dsa/1/v.png)
 
 # no.3 week
+
+## 算法分析
+
+主要任务：
+
+- 正确性（不变性\*单调性）
+- 复杂度
+
+复杂度分析的主要方法：
+
+- 迭代：级数求和
+- 递归：递归跟踪+递推方程
+- 猜测+验证
+
+## 级数 或 级数求和
+
+- 算数级数：与末项平方同阶
+- 幂方级数：比幂次高出一阶
+  - T(n) = 1^2 + 2^2 + ... + n^2 = O(n^3)
+  - T(n) = 1^3 + 2^3 + ... + n^3 = O(n^4)
+- 几何级数（a > 1）：与末项同阶
+  - 等比数列 O(a^n)
+- 收敛级数
+  - 随着数量增加，趋于 O(1)
+- 可能未必收敛，然而长度有限
+  - h(n) = 1 + 1/2 + 1/3 + ... + 1/n = O(logn) 调和级数
+  - log1 + log2 + log3 + ... + logn = log(n!) = O(nlogn) 对数级数
+
+## 循环
+
+```
+for (let i = 0; i < n; i++)
+for (let j = 0; j < n; j++)
+for (let j = 0; j < i; j++)
+for (let j = 0; j < i; j+= 2)
+三个都是O(n^2)
+计算次数递减
+```
+
+## 迭代与递归
+
+迭代乃人工，递归方神通。  
+迭代的效率>递归。  
+**凡治众如治寡，分数是也**
+求 n 个数之和
+
+```js
+let f = (arr, n) => {
+  let sum = 0
+  for (let i = 0; i < n; i++) {
+    sum += arr[i]
+  }
+  return sum
+}
+// 时间复杂度 O(n)
+// 空间复杂度 O(2) ： sum / i
+```
+
+```js
+let f = (arr, sum = 0) => {
+  if (arr.length) {
+    return f(arr.slice(1), (sum += arr[0]))
+  } else {
+    return sum
+  }
+}
+```
+
+递归分析  
+（概括其中的规律。像递推。）
+检查每个递归实例，累计所需时间，其总和即算法执行时间。
+
+- 分而治之
+- 减而治之
+
+- 最好情况
+- 最坏情况
+
+## 动态规划
+
+- mark it work
+- mark it right
+- mark it fast
+
+Φ^36 = 2^25
+Φ^5 = 10
+
+### fib
+
+```js
+// generator方法
+let getFibArr = (n) => {
+  let genF = function* (n) {
+    let [pre, cur] = [0, 1]
+    let i = 0
+    while (i < n) {
+      yield cur
+      // [pre, cur] = [cur, pre + cur]
+      let t = cur
+      cur = t + pre
+      pre = t
+      i++
+    }
+  }
+  return Array.from(genF(n))
+}
+
+// 根据最后2项和为新添加的元素
+let f = (n) => {
+  if (n <= 0 || !Number.isInteger(n)) {
+    return []
+  } else if (n === 1) {
+    return [1]
+  } else if (n === 2) {
+    return [1, 1]
+  } else {
+    res = [1, 1]
+    for (let i = 2; i < n; i++) {
+      let t = res[res.length - 1] + res[res.length - 2]
+      res.push(t)
+    }
+    return res
+  }
+}
+
+// 得到fib中no.n个数
+let f = (n) => {
+  // 定义字典
+  // 为字典赋值
+  // 从字典中取值并赋值
+  let map = new Map([
+    [0, 1],
+    [1, 1],
+  ])
+  if (map.get(n)) {
+    return map.get(n)
+  } else {
+    let t = f(n - 1) + f(n - 2)
+    map.set(n, t)
+    return t
+  }
+}
+// 还可做成类
+// 待测试
+class Fib {
+  constructor() {
+    this._map = new Map([
+      [0, 1],
+      [1, 1],
+    ])
+  }
+  sum(from = 0, to = this._map.size) {
+    return this.toArray(from, to).reduce((r, c) => {
+      return (r += c)
+    }, 0)
+  }
+  toArray(from = 0, to = this._map.size) {
+    return Array.from(this._map.values()).slice(from, to)
+  }
+  getValueByIndex(n) {
+    if (n <= 0) {
+      return undefined
+    }
+    if (this._map.get(n)) {
+      return this._map.get(n)
+    } else {
+      let t = this.getValueByIndex(n - 1) + this.getValueByIndex(n - 2)
+      this._map.set(n, t)
+      return t
+    }
+  }
+  clear() {
+    this._map.clear()
+  }
+}
+```
+
+### 最长公共子序列 lcs
+
+```js
+// 行列方式
+var a = 'didactical' // 'ab'
+var b = 'advantage' // 'abc'
+// 返回lcs的长度
+let f = (a, b) => {
+  // 使用map
+  let map = new Map()
+  for (let i = -1; i < a.length; i++) {
+    map.set(`${i},-1`, 0)
+  }
+  for (let j = -1; j < b.length; j++) {
+    map.set(`-1,${j}`, 0)
+  }
+  for (let j = 0; j < b.length; j++) {
+    for (let i = 0; i < a.length; i++) {
+      if (a.charAt(i) === b.charAt(j)) {
+        map.set(`${i},${j}`, map.get(`${i - 1},${j - 1}`) + 1)
+      } else {
+        map.set(
+          `${i},${j}`,
+          Math.max(map.get(`${i - 1},${j}`), map.get(`${i},${j - 1}`))
+        )
+      }
+    }
+  }
+  return map.get(`${a.length - 1},${b.length - 1}`)
+}
+```
+
+- 单调性
+- 最好情况 O(n+m)
+- 若出现 2 个子问题，则可能出现雷同
 
 # no.4 week
 
