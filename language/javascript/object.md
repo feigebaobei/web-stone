@@ -1,4 +1,5 @@
 # Object
+
 - 基础类型之一。
 
 ```
@@ -9,22 +10,23 @@ new Object(any)
 `Object.length`  
 `Object.prototype`  
 `Object.assign(target, ...source)`  
-把source上的属性合并到target上，并返回target.
+把 source 上的属性合并到 target 上，并返回 target.
 
 `Object.create(proto, [propertiesObject])`  
-按指定的原型对象proto、对标对象的属性返回一个新对象。
+按指定的原型对象 proto、对标对象的属性返回一个新对象。
 会被新对象的`__proto__`属性接收原型对象。
 
 `Object.defineProperty(obj, prop, descriptor)`  
 obj 目标对象
 prop 目标对象的属性
 descriptor { // 数据描述符
-    value: 
-    writable:
-    enumerable:
-    configurable:
+value:
+writable:
+enumerable:
+configurable:
 }
-修改或定义obj的prop属性。返回该对象。
+修改或定义 obj 的 prop 属性。返回该对象。
+
 ```
 // demo
 let o = {}
@@ -49,14 +51,15 @@ Object.defineProperty(o, 'b', {
 `Object.defineProperties(object, props)`  
 object 目标对象
 props: {
-    configurable
-    enumerable
-    writable
-    value
-    get: function() {}
-    set: function(v) {}
+configurable
+enumerable
+writable
+value
+get: function() {}
+set: function(v) {}
 }
 在一个对象上定义新的属性或修改现有属性，并返回该对象。
+
 ```
 var obj = {};
 Object.defineProperties(obj, {
@@ -80,6 +83,7 @@ obj
 obj,
 prop
 返回指定对象的指定属性的属性描述符对象
+
 ```
 {
     value,
@@ -106,13 +110,25 @@ obj
 
 `Object.is(v0, v1)`  
 返回是否是同一个值。  
-`+0`和`-0`不是同一个值。  
+`+0`和`-0`不是同一个值。
+
+- 两个值都是 undefined
+- 两个值都是 null
+- 两个值都是 true 或者都是 false
+- 两个值是由相同个数的字符按照相同的顺序组成的字符串
+- 两个值指向同一个对象
+- 两个值都是数字并且
+  - 都是正零 +0
+  - 都是负零 -0
+  - 都是 NaN
+  - 都是除零和 NaN 外的其它同一个数字
 
 `Object.freeze(obj)`  
 obj 目标对象
 不可修改（value/writable/enumerable/configuration）、不能删除已有属性、不能修改该对象的原型
 返回被冻结的对象
 属性描述符会改变为：
+
 ```
 {
     configurable: false
@@ -121,8 +137,10 @@ obj 目标对象
     writable: false
 }
 ```
+
 数组的原型链中有`Object`，所以数组可以被冻结。
-freeze是浅冻结。
+freeze 是浅冻结。
+
 ```
 // 深冻结
 function deepFreeze(obj) {
@@ -143,7 +161,7 @@ function deepFreeze(obj) {
 
 `Object.preventExtensions(obj)`  
 返回不可扩展的对象
-obj对象上的属性描述符不会改变。
+obj 对象上的属性描述符不会改变。
 
 `Object.isExtensible(obj)`  
 返回是否可扩展（即：是否可添加新属性）
@@ -176,22 +194,23 @@ obj对象上的属性描述符不会改变。
 
 `Object#isPrototypeOf(obj)`  
 `a.isPrototypeOf(b)`  
-返回a是否在b对象的原型链中
+返回 a 是否在 b 对象的原型链中
 
 `Object#propertyIsNumberable(prop)`  
 返回指定属性是否可枚举
 
 ## 描述符
-||configurable|enumerable|value|writable|get|set|
-|-|-|-|-|-|-|-|
-|数据描述符|v|v|v|v|x|x|
-|存取描述符|v|v|x|x|v|v|
 
-|-  |-|默认值|用于|
-|-  |-|-|-|
-|configurable  |是否可以删除。除value/wriable外的属性是否可以被修改|false|用于|
-|enumerable    |是否可枚举|false|`for...in`/`Object.keys()`  |
-|value  |当前值|undefined|
-|writable   |是否可修改|false|
-|get   |属性的getter方法|undefined|
-|set   |属性的setter方法|undefined|
+|            | configurable | enumerable | value | writable | get | set |
+| ---------- | ------------ | ---------- | ----- | -------- | --- | --- |
+| 数据描述符 | v            | v          | v     | v        | x   | x   |
+| 存取描述符 | v            | v          | x     | x        | v   | v   |
+
+| -            | -                                                     | 默认值    | 用于                       |
+| ------------ | ----------------------------------------------------- | --------- | -------------------------- |
+| configurable | 是否可以删除。除 value/wriable 外的属性是否可以被修改 | false     | 用于                       |
+| enumerable   | 是否可枚举                                            | false     | `for...in`/`Object.keys()` |
+| value        | 当前值                                                | undefined |
+| writable     | 是否可修改                                            | false     |
+| get          | 属性的 getter 方法                                    | undefined |
+| set          | 属性的 setter 方法                                    | undefined |

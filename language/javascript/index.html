@@ -1330,17 +1330,21 @@ var n = 0 // 定义
       不能变量提升，遵守是块级作用域规则。 class
       可以使用<code>decorator</code>，构造函数不能使用<code>decorator</code>。
     </p>
-    <pre><code><code><div>class ClassName {
-    constructor (...params) { // 可省略
-        // ...
-        this.a = params[0] // 会在实例对象上设置属性a
+    <pre><code class="language-js"><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ClassName</span> </span>{
+    <span class="hljs-title">constructor</span> (<span class="hljs-params">...params</span>) { <span class="hljs-comment">// 可省略</span>
+        <span class="hljs-comment">// super()</span>
+        <span class="hljs-comment">// ...</span>
+        <span class="hljs-built_in">this</span>.a = params[<span class="hljs-number">0</span>] <span class="hljs-comment">// 会在实例对象上设置属性a</span>
     }
-    t () {                 // 会在实例对象的原型链上的上游对象class ClassName上创建t属性。t属性的值是一个方法。方法中的this遵守作用域规则。执行`instance.t()`时this指向instance对象。
-        // ...
-        return this.a
+    t () {                 <span class="hljs-comment">// 会在实例对象的原型链上的上游对象class ClassName上创建t属性。t属性的值是一个方法。方法中的this遵守作用域规则。执行`instance.t()`时this指向instance对象。</span>
+        <span class="hljs-comment">// ...</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.a
     }
+    <span class="hljs-comment">// 设置存取描述符会使此属性放在实例对象上。</span>
+    get k () {...}
+    set k (s) {...}
 }
-</div></code></code></pre>
+</div></code></pre>
     <p>上述代码可(大致)转换为构造函数代码：</p>
     <pre><code><code><div>function ClassName (...params) {
     this.a = params[0]
@@ -1437,7 +1441,7 @@ console.log(p.a)
 console.log(p._b)
 </div></code></code></pre>
     <p>this 指向 handler。因为 this 指向运行时上下文环境。</p>
-    <pre><code class="language-js"><div><span class="hljs-keyword">let</span> {proxy, revoke} = <span class="hljs-built_in">Proxy</span>.revocable(target, handler)
+    <pre><code class="language-js"><div><span class="hljs-keyword">let</span> { proxy, revoke } = <span class="hljs-built_in">Proxy</span>.revocable(target, handler)
 proxy.key = <span class="hljs-string">&#x27;str&#x27;</span>
 proxy.key <span class="hljs-comment">// &#x27;str&#x27;</span>
 revoke() <span class="hljs-comment">// 取消代理</span>

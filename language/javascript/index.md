@@ -111,9 +111,10 @@ es5 前的产物。es6 以后一般不用。
 不能变量提升，遵守是块级作用域规则。
 class 可以使用`decorator`，构造函数不能使用`decorator`。
 
-```
+```js
 class ClassName {
     constructor (...params) { // 可省略
+        // super()
         // ...
         this.a = params[0] // 会在实例对象上设置属性a
     }
@@ -121,6 +122,9 @@ class ClassName {
         // ...
         return this.a
     }
+    // 设置存取描述符会使此属性放在实例对象上。
+    get k () {...}
+    set k (s) {...}
 }
 ```
 

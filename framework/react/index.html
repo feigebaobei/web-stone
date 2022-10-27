@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>&DiacriticalGrave;react&DiacriticalGrave;</title>
+    <title>react</title>
     <style>
       /* From extension vscode.github */
       /*---------------------------------------------------------------------------------------------
@@ -1194,24 +1194,24 @@
     </style>
   </head>
   <body class="vscode-body vscode-light">
-    <h1 id="react"><code>react</code></h1>
+    <h1 id="react">react</h1>
     <h2 id="overview">overview</h2>
     <blockquote>
       <p>
         声明式<br />
         基于组件的<br />
         一次学习，多次使用<br />
-        jsx语法。（类似xml，由babel解释。）<br />
+        jsx 语法。（类似 xml，由 babel 解释。）<br />
         React
         团队希望，组件不要变成复杂的容器，最好只是数据流的管道。开发者根据需要，组合管道即可。
-        组件的最佳写法应该是函数，而不是类。 react居然使用同步更新dom.<br />
-        reacr是重运行时的。（vue/svelte是重编译时的）
+        组件的最佳写法应该是函数，而不是类。 react 居然使用同步更新 dom.<br />
+        reacr 是重运行时的。（vue/svelte 是重编译时的）
       </p>
     </blockquote>
     <h3 id="feature">feature</h3>
     <ul>
-      <li>react家族的成员太多了。</li>
-      <li>更接近js语言</li>
+      <li>react 家族的成员太多了。</li>
+      <li>更接近 js 语言</li>
       <li>feature2</li>
     </ul>
     <h2 id="usage">usage</h2>
@@ -1221,7 +1221,7 @@
     <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>string<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
 </div></code></pre>
-    <h3 id="使用npm创建react项目">使用npm创建react项目</h3>
+    <h3 id="使用-npm-创建-react-项目">使用 npm 创建 react 项目</h3>
     <pre><code class="language-shell"><div>npx create-react-app proj-name
 npx create-react-app proj-name --template cra-template-pwa # 创建pwa应用
 <span class="hljs-meta">#</span><span class="bash"> or</span>
@@ -1229,27 +1229,35 @@ npx create-react-app proj-name --template cra-template-pwa # 创建pwa应用
 cd proj-name
 npm run start
 </div></code></pre>
-    <h3 id="使用script标签引入react脚本">使用script标签引入react脚本</h3>
-    <p>v17以前的用法：</p>
+    <h3 id="使用-script-标签引入-react-脚本">
+      使用 script 标签引入 react 脚本
+    </h3>
+    <p>v17 以前的用法：</p>
     <ol>
-      <li>引入react脚本。</li>
+      <li>引入 react 脚本。</li>
       <li>使用<code>React.createElement</code>创建元素。</li>
       <li>使用<code>ReactDOM.render</code>渲染元素。</li>
     </ol>
-    <p>v18以后的用法：</p>
+    <p>v18 以后的用法：</p>
     <ol>
-      <li>引入reacte脚本</li>
+      <li>引入 reacte 脚本</li>
       <li>使用<code>React.createRoot</code>创建根元素<code>root</code>。</li>
       <li>使用<code>root.render(reactElement对象)</code>渲染元素</li>
     </ol>
     <pre><code class="language-html"><div><span class="hljs-comment">&lt;!-- ... 其它html代码 --&gt;</span>
 <span class="hljs-comment">&lt;!-- 引入基本的react包 --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://unpkg.com/react@18/umd/react.production.min.js&quot;</span> <span class="hljs-attr">crossorigin</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://unpkg.com/react-dom@18/umd/react-dom.production.min.js&quot;</span> <span class="hljs-attr">crossorigin</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>
+  <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://unpkg.com/react@18/umd/react.production.min.js&quot;</span>
+  <span class="hljs-attr">crossorigin</span>
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>
+  <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://unpkg.com/react-dom@18/umd/react-dom.production.min.js&quot;</span>
+  <span class="hljs-attr">crossorigin</span>
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 <span class="hljs-comment">&lt;!-- 引入babel包可以使用jsx。它会使你的网站变慢，并且不适用于生产环境。 --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://unpkg.com/babel-standalone@6/babel.min.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/babel&quot;</span>&gt;</span><span class="javascript">
-  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">MyApp</span> (<span class="hljs-params"></span>) </span>{
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">MyApp</span>(<span class="hljs-params"></span>) </span>{
     <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>string<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span>
   }
   ReactDOM.createRoot(<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;root&#x27;</span>)).render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">MyApp</span> /&gt;</span></span>)
@@ -1259,7 +1267,8 @@ npm run start
     <h2 id="demo">demo</h2>
     <ul>
       <li>
-        <a href="/react/demo0/first.html">demo0-first</a>使用script标签引入react
+        <a href="/react/demo0/first.html">demo0-first</a>使用 script 标签引入
+        react
       </li>
       <li><a href="/react/demo0/second.html">demo0-second</a></li>
       <li><a href="">demo1</a></li>
@@ -1283,7 +1292,7 @@ npm run start
         </tr>
         <tr>
           <td><a href="">next.js</a></td>
-          <td>静态化和ssr</td>
+          <td>静态化和 ssr</td>
           <td></td>
         </tr>
         <tr>
@@ -1294,12 +1303,12 @@ npm run start
       </tbody>
     </table>
     <h2 id="api">api</h2>
-    <p>请在各包中查看相应api.</p>
-    <h2 id="react家族成员">react家族成员</h2>
+    <p>请在各包中查看相应 api.</p>
+    <h2 id="react-家族成员">react 家族成员</h2>
     <ul>
       <li>
-        <a href="/framework/react/react-17/index.html">react-17包</a>
-        <a href="/framework/react/react-18/index.html">react-18包</a>
+        <a href="/framework/react/react-17/index.html">react-17 包</a>
+        <a href="/framework/react/react-18/index.html">react-18 包</a>
       </li>
       <li>
         <a href="/framework/react/react-dom-17/index.html">react-dom-17</a>
@@ -1342,7 +1351,7 @@ npm run start
       <li><a href="/framework/react/title.html">title</a></li>
     </ul>
     <h2 id="todo">todo</h2>
-    <p>react / react-dom都用到了react-reconciler，该包就是fiber.</p>
+    <p>react / react-dom 都用到了 react-reconciler，该包就是 fiber.</p>
     <h3 id="为什么要最常用的reactreact-dom分开怎么分清它们">
       为什么要最常用的<code>react</code>/<code>react-dom</code>分开？怎么分清它们？
     </h3>
