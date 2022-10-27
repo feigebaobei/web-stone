@@ -1434,7 +1434,7 @@ clog(hailstone(<span class="hljs-number">27</span>)) <span class="hljs-comment">
       <li>
         收敛级数
         <ul>
-          <li>随着数量增加，趋于O(1)</li>
+          <li>随着数量增加，趋于 O(1)</li>
         </ul>
       </li>
       <li>
@@ -1458,7 +1458,7 @@ for (let j = 0; j &lt; i; j+= 2)
       迭代乃人工，递归方神通。<br />
       迭代的效率&gt;递归。<br />
       <strong>凡治众如治寡，分数是也</strong>
-      求n个数之和
+      求 n 个数之和
     </p>
     <pre><code class="language-js"><div><span class="hljs-keyword">let</span> f = <span class="hljs-function">(<span class="hljs-params">arr, n</span>) =&gt;</span> {
   <span class="hljs-keyword">let</span> sum = <span class="hljs-number">0</span>
@@ -1472,7 +1472,7 @@ for (let j = 0; j &lt; i; j+= 2)
 </div></code></pre>
     <pre><code class="language-js"><div><span class="hljs-keyword">let</span> f = <span class="hljs-function">(<span class="hljs-params">arr, sum = <span class="hljs-number">0</span></span>) =&gt;</span> {
   <span class="hljs-keyword">if</span> (arr.length) {
-    <span class="hljs-keyword">return</span> f(arr.slice(<span class="hljs-number">1</span>), sum += arr[<span class="hljs-number">0</span>])
+    <span class="hljs-keyword">return</span> f(arr.slice(<span class="hljs-number">1</span>), (sum += arr[<span class="hljs-number">0</span>]))
   } <span class="hljs-keyword">else</span> {
     <span class="hljs-keyword">return</span> sum
   }
@@ -1507,10 +1507,10 @@ for (let j = 0; j &lt; i; j+= 2)
     <h3 id="fib">fib</h3>
     <pre><code class="language-js"><div><span class="hljs-comment">// generator方法</span>
 <span class="hljs-keyword">let</span> getFibArr = <span class="hljs-function">(<span class="hljs-params">n</span>) =&gt;</span> {
-  <span class="hljs-keyword">let</span> genF = <span class="hljs-function"><span class="hljs-keyword">function</span> * (<span class="hljs-params">n</span>) </span>{
+  <span class="hljs-keyword">let</span> genF = <span class="hljs-function"><span class="hljs-keyword">function</span>* (<span class="hljs-params">n</span>) </span>{
     <span class="hljs-keyword">let</span> [pre, cur] = [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>]
     <span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>
-    <span class="hljs-keyword">while</span>(i &lt; n) {
+    <span class="hljs-keyword">while</span> (i &lt; n) {
       <span class="hljs-keyword">yield</span> cur
       <span class="hljs-comment">// [pre, cur] = [cur, pre + cur]</span>
       <span class="hljs-keyword">let</span> t = cur
@@ -1545,7 +1545,10 @@ for (let j = 0; j &lt; i; j+= 2)
   <span class="hljs-comment">// 定义字典</span>
   <span class="hljs-comment">// 为字典赋值</span>
   <span class="hljs-comment">// 从字典中取值并赋值</span>
-  <span class="hljs-keyword">let</span> map = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Map</span>([[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>], [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>]])
+  <span class="hljs-keyword">let</span> map = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Map</span>([
+    [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>],
+    [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>],
+  ])
   <span class="hljs-keyword">if</span> (map.get(n)) {
     <span class="hljs-keyword">return</span> map.get(n)
   } <span class="hljs-keyword">else</span> {
@@ -1558,14 +1561,17 @@ for (let j = 0; j &lt; i; j+= 2)
 <span class="hljs-comment">// 待测试</span>
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Fib</span> </span>{
   <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params"></span>)</span> {
-    <span class="hljs-built_in">this</span>._map = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Map</span>([[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>], [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>]])
+    <span class="hljs-built_in">this</span>._map = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Map</span>([
+      [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>],
+      [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>],
+    ])
   }
-  sum (<span class="hljs-keyword">from</span> = <span class="hljs-number">0</span>, to = <span class="hljs-built_in">this</span>._map.size) {
+  <span class="hljs-function"><span class="hljs-title">sum</span>(<span class="hljs-params"><span class="hljs-keyword">from</span> = <span class="hljs-number">0</span>, to = <span class="hljs-built_in">this</span>._map.size</span>)</span> {
     <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.toArray(<span class="hljs-keyword">from</span>, to).reduce(<span class="hljs-function">(<span class="hljs-params">r, c</span>) =&gt;</span> {
-      <span class="hljs-keyword">return</span> r += c
+      <span class="hljs-keyword">return</span> (r += c)
     }, <span class="hljs-number">0</span>)
   }
-  toArray (<span class="hljs-keyword">from</span> = <span class="hljs-number">0</span>, to = <span class="hljs-built_in">this</span>._map.size) {
+  <span class="hljs-function"><span class="hljs-title">toArray</span>(<span class="hljs-params"><span class="hljs-keyword">from</span> = <span class="hljs-number">0</span>, to = <span class="hljs-built_in">this</span>._map.size</span>)</span> {
     <span class="hljs-keyword">return</span> <span class="hljs-built_in">Array</span>.from(<span class="hljs-built_in">this</span>._map.values()).slice(<span class="hljs-keyword">from</span>, to)
   }
   <span class="hljs-function"><span class="hljs-title">getValueByIndex</span>(<span class="hljs-params">n</span>)</span> {
@@ -1580,7 +1586,7 @@ for (let j = 0; j &lt; i; j+= 2)
       <span class="hljs-keyword">return</span> t
     }
   }
-  clear () {
+  <span class="hljs-function"><span class="hljs-title">clear</span>(<span class="hljs-params"></span>)</span> {
     <span class="hljs-built_in">this</span>._map.clear()
   }
 }
@@ -1588,7 +1594,7 @@ for (let j = 0; j &lt; i; j+= 2)
     <h3 id="最长公共子序列-lcs">最长公共子序列 lcs</h3>
     <pre><code class="language-js"><div><span class="hljs-comment">// 行列方式</span>
 <span class="hljs-keyword">var</span> a = <span class="hljs-string">&#x27;didactical&#x27;</span> <span class="hljs-comment">// &#x27;ab&#x27;</span>
-<span class="hljs-keyword">var</span> b = <span class="hljs-string">&#x27;advantage&#x27;</span>  <span class="hljs-comment">// &#x27;abc&#x27;</span>
+<span class="hljs-keyword">var</span> b = <span class="hljs-string">&#x27;advantage&#x27;</span> <span class="hljs-comment">// &#x27;abc&#x27;</span>
 <span class="hljs-comment">// 返回lcs的长度</span>
 <span class="hljs-keyword">let</span> f = <span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> {
   <span class="hljs-comment">// 使用map</span>
@@ -1602,21 +1608,143 @@ for (let j = 0; j &lt; i; j+= 2)
   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> j = <span class="hljs-number">0</span>; j &lt; b.length; j++) {
     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; a.length; i++) {
       <span class="hljs-keyword">if</span> (a.charAt(i) === b.charAt(j)) {
-        map.set(<span class="hljs-string">`<span class="hljs-subst">${i}</span>,<span class="hljs-subst">${j}</span>`</span>, map.get(<span class="hljs-string">`<span class="hljs-subst">${i-<span class="hljs-number">1</span>}</span>,<span class="hljs-subst">${j-<span class="hljs-number">1</span>}</span>`</span>) + <span class="hljs-number">1</span>)
+        map.set(<span class="hljs-string">`<span class="hljs-subst">${i}</span>,<span class="hljs-subst">${j}</span>`</span>, map.get(<span class="hljs-string">`<span class="hljs-subst">${i - <span class="hljs-number">1</span>}</span>,<span class="hljs-subst">${j - <span class="hljs-number">1</span>}</span>`</span>) + <span class="hljs-number">1</span>)
       } <span class="hljs-keyword">else</span> {
-        map.set(<span class="hljs-string">`<span class="hljs-subst">${i}</span>,<span class="hljs-subst">${j}</span>`</span>, <span class="hljs-built_in">Math</span>.max(map.get(<span class="hljs-string">`<span class="hljs-subst">${i-<span class="hljs-number">1</span>}</span>,<span class="hljs-subst">${j}</span>`</span>), map.get(<span class="hljs-string">`<span class="hljs-subst">${i}</span>,<span class="hljs-subst">${j-<span class="hljs-number">1</span>}</span>`</span>)))
+        map.set(
+          <span class="hljs-string">`<span class="hljs-subst">${i}</span>,<span class="hljs-subst">${j}</span>`</span>,
+          <span class="hljs-built_in">Math</span>.max(map.get(<span class="hljs-string">`<span class="hljs-subst">${i - <span class="hljs-number">1</span>}</span>,<span class="hljs-subst">${j}</span>`</span>), map.get(<span class="hljs-string">`<span class="hljs-subst">${i}</span>,<span class="hljs-subst">${j - <span class="hljs-number">1</span>}</span>`</span>))
+        )
       }
     }
   }
-  <span class="hljs-keyword">return</span> (map.get(<span class="hljs-string">`<span class="hljs-subst">${a.length - <span class="hljs-number">1</span>}</span>,<span class="hljs-subst">${b.length - <span class="hljs-number">1</span>}</span>`</span>))
+  <span class="hljs-keyword">return</span> map.get(<span class="hljs-string">`<span class="hljs-subst">${a.length - <span class="hljs-number">1</span>}</span>,<span class="hljs-subst">${b.length - <span class="hljs-number">1</span>}</span>`</span>)
 }
 </div></code></pre>
     <ul>
       <li>单调性</li>
       <li>最好情况 O(n+m)</li>
-      <li>若出现2个子问题，则可能出现雷同</li>
+      <li>若出现 2 个子问题，则可能出现雷同</li>
     </ul>
     <h1 id="no4-week">no.4 week</h1>
+    <ul>
+      <li>
+        线性结构
+        <ul>
+          <li>向量（我学到的是面向对象的思想）</li>
+          <li>链表</li>
+        </ul>
+      </li>
+    </ul>
+    <p>
+      秩：xxxx 构造函数：类在实例化时执行
+      析构函数：类的实例被删除时执行。js中好像没有析构函数
+    </p>
+    <h2 id="接口与实现">接口与实现</h2>
+    <ul>
+      <li>
+        抽象数据类型 abstract data type
+        <ul>
+          <li>数据模型 + 定义在该模型上的一组操作</li>
+        </ul>
+      </li>
+      <li>
+        数据结构
+        <ul>
+          <li>基于某种特定语言，实现adt的一整套算法</li>
+        </ul>
+      </li>
+    </ul>
+    <pre><code class="language-js"><div><span class="hljs-comment">// 逆序对的数量</span>
+<span class="hljs-comment">// 若为0，则有序递增。</span>
+<span class="hljs-keyword">let</span> f = <span class="hljs-function">(<span class="hljs-params">a</span>) =&gt;</span> {
+  <span class="hljs-keyword">let</span> res = <span class="hljs-number">0</span>
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; a.length - <span class="hljs-number">2</span>; i++) {
+    clog(a[i], a[i+<span class="hljs-number">1</span>])
+    <span class="hljs-keyword">if</span> (a[i] &gt; a[i+<span class="hljs-number">1</span>]) {
+      res++
+    }
+  }
+  <span class="hljs-keyword">return</span> res
+}
+</div></code></pre>
+    <h3 id="静态空间管理">静态空间管理</h3>
+    <ul>
+      <li>开辟内部数组</li>
+      <li>上溢、下溢</li>
+      <li>难以准确预测空间的需求量</li>
+      <li>是否可动态调整容量？</li>
+    </ul>
+    <h3 id="动态空间管理">动态空间管理</h3>
+    <ul>
+      <li>
+        当即将发生上溢时，适当地扩大内部数组的容量。
+        <ul>
+          <li>
+            增加容量
+            <ul>
+              <li>递增式扩容 分摊成本 O(n) 装填因子 约100%</li>
+              <li>加倍式扩容 O(1) &gt;50%</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <h3 id="平均分析--分摊分析">平均分析 &amp; 分摊分析</h3>
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th>平均分析</th>
+          <th>分摊分析</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td></td>
+          <td>根据数据结构各种操作出现概率的分布，将对应的成本加权平均</td>
+          <td>
+            对数据结构连续地实施足够多次操作，所需总体成本分摊到单次操作。
+          </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>各种操作作为独立事件分别考查</td>
+          <td>对一系列操作做整体的考量</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>割裂了操作之间的相关性和连贯性</td>
+          <td>刻画了可能出现的操作序列</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>往往不能准确地评判数据结构和算法的真实性能</td>
+          <td>精准的评判数据结构和算法的真实性能</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+    <h3 id="二分查找">二分查找</h3>
+    <pre><code class="language-js"><div><span class="hljs-keyword">let</span> binSearch = <span class="hljs-function">(<span class="hljs-params">arr, e</span>) =&gt;</span> {
+  <span class="hljs-keyword">let</span> lo = <span class="hljs-number">0</span>, hi = arr.length
+  <span class="hljs-keyword">let</span> m
+  <span class="hljs-keyword">while</span> (lo &lt; hi) {
+    m = (lo + hi) &gt;&gt; <span class="hljs-number">1</span> <span class="hljs-comment">// =&gt; Math.floor((lo + hi) / 2)</span>
+    <span class="hljs-keyword">if</span> (arr[m] &gt; e) {
+      hi = m
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (arr[m] &lt; e) {
+      lo = m + <span class="hljs-number">1</span>
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">return</span> m
+    }
+  }
+  <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>
+}
+</div></code></pre>
     <h1 id="no5-week">no.5 week</h1>
     <h1 id="no6-week">no.6 week</h1>
     <h1 id="no7-week">no.7 week</h1>
