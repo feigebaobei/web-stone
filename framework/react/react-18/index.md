@@ -116,6 +116,7 @@ ComponentName.propTypes = { // 检查参数数据类型
 ComponentName.defaultProps = { // 类组件可以设置默认props值。方法组件不可以。
     k: 'v'
 }
+ComponentName.contextType = MyContext // 组件内使用this.context访问
 ```
 
 ### state & props & this.xxx
@@ -403,10 +404,29 @@ function A(props) {
 }
 ```
 
-## context
+## [context](framework/react/react-18/context.html)
+
+- 主要用于不同层级的组件使用同一份数据。
+
+```js
+// context.js
+let context = React.createContext({ key: 'str' })
+export default context
+
+// A.js
+import Context from './context.js'
+function A() {
+  // let cxt = React.useContext(context)
+  return (
+    <Context.Provider>
+      <B />
+    </Context.Provider>
+  )
+}
+```
 
 <details>
-  <summary>context</summary>
+  <summary>context 待删除</summary>
 <artical>
 <pre>
 <code>
@@ -429,6 +449,7 @@ export function C () {
 let data = useContext(DataContext)
 return (<div>
 {JSON.stringify(data)}
+
 </div>)
 }
 </code>
@@ -466,7 +487,9 @@ exports.Suspense
     这是一个内置组件。指定懒加载组件不具备渲染条件时（使用fallback属性指定）显示的内容。
 exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED= ReactSharedInternals;
 exports.cloneElement
-exports.createContext
+exports.createContext(defaultValue)
+    创建一个Context对象。
+    只有当组件所处的树中没有匹配到 Provider 时，其 defaultValue 参数才会生效。
 exports.createElement
 exports.createFactory
 exports.createRef
@@ -544,7 +567,6 @@ let OtherComponent = React.lazy(() => import(...)) // 只能导出default
 - React.memo(Comp)
 - React.PureComponent
 - shouldComponentUpdate
-- 使 context 更接近叶子节点
 - 代码分割： React.lazy() / router
 
 ## PureComponent
@@ -768,6 +790,16 @@ if (__DEV__) {...}
 - 父组件重新渲染时
 
 ### 严格模式为什么会渲染 2 次
+
+strict mode 的通过两次调用 constructor 和 render 函数来更好的检测不符合预期的 side effects  
+下列函数会执行两次
+
+- 类组件的 constructor,render 和 shouldComponentUpdate 方法
+- 类组建的静态方法 getDerivedStateFromProps
+- 函数组件方法体
+- 状态更新函数(setState 的第一个参数)
+- 传入 useState,useMemo 或 useReducer 的函数  
+  在 production 环境下不会这样,所以不用担心
 
 ### 未来迭代计划。
 

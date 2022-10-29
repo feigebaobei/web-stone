@@ -616,18 +616,26 @@ export function useFilter() {
     }
     return { getFilter, setFilter }
 }
-// 待测试
+// js
+import {useState} from 'react'
 function useFilter () {
-    // useEffect(() => {}, [])
-    let [_filter, _setFilter] = useState(new Map()) // map
+    let [_filter, _setFilter] = useState({key: {}})
     let getFilter = (k) => {
-        return _filter.get(k)
+        return _filter.key[k]
     }
     let setFilter = (k, v) => {
-        _setFilter(_filter.set(k, v))
+        let d = _filter.key
+        d[`${k}`] = v
+        _setFilter({'key': d})
     }
     return {getFilter, setFilter}
 }
+export default useFilter
+// 作者常把它用于与context结合使用。
+// let context = React.createContext()
+// context.Provider value={{...}}
+// 再在子组件中使用 this.context.xxx
+// 会触发组件渲染
 ```
 
 useParams
