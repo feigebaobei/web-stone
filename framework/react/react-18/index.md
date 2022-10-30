@@ -408,6 +408,13 @@ function A(props) {
 
 - 主要用于不同层级的组件使用同一份数据。
 
+## fragment
+
+- 短语法 `<>...</>`
+- 长语法 `<fragment>...</fragment>`
+- 惟一可接收的 props： `key`
+- 用于返回若干同级元素。
+
 ## 数据
 
 从根组件向叶子组件流动。
@@ -534,7 +541,35 @@ https://zh-hans.reactjs.org/docs/error-boundaries.html
 自定义错误边界的粒度。  
 若不捕获错误，则会导致整个 react 树被卸载。请根据页面区域划分捕获错误。阻止全页面空白。
 
+## forwardRef
+
+为常规函数组件提供接收 ref 的功能。
+
+```js
+// 父组件
+let ref = React.createRef()
+<FancyButton ref={ref} />
+// 子组件
+const FancyButton = React.forwardRef(props, ref) {
+    return <button ref={ref}>str</button>
+}
+export default FancyButton
+```
+
+第二个参数 ref 只在使用 React.forwardRef 定义组件时存在。常规函数和 class 组件不接收 ref 参数，**且 props 中也不存在 ref**。  
+Ref 转发不仅限于 DOM 组件，你也可以转发 refs 到 class 组件实例中。
+
 ## HOC 高阶组件
+
+- 组件：把 props => ui
+- hoc：把组件 => 另一个组件
+- 将组件包装在容器内，组成新组件。
+- 是纯函数，无副作用。
+- 不应用修改传入的组件，而是修改组合方式。
+- 与容器组件相似
+- 在组件树中横截面操作
+  - 属性代理 (修改 props。如：增删改)
+- 不要在 render 中使用 hoc
 
 ```js
 // 定义

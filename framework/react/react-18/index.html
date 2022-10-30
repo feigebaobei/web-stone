@@ -584,6 +584,13 @@ xx ? <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">A</spa
 <ul>
 <li>主要用于不同层级的组件使用同一份数据。</li>
 </ul>
+<h2 id="fragment">fragment</h2>
+<ul>
+<li>短语法 <code>&lt;&gt;...&lt;/&gt;</code></li>
+<li>长语法 <code>&lt;fragment&gt;...&lt;/fragment&gt;</code></li>
+<li>惟一可接收的props： <code>key</code></li>
+<li>用于返回若干同级元素。</li>
+</ul>
 <h2 id="数据">数据</h2>
 <p>从根组件向叶子组件流动。</p>
 <h2 id="memoized">memoized</h2>
@@ -680,11 +687,38 @@ xx ? <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">A</spa
 React.PureComponent 内实现了<code>shouldComponentUpdate()</code>(React.Component 中未实现)。该方法会简单判断是否需要更新。该方法会跳过所有子组件的 props 更新。</p>
 <h2 id="异常捕获边界">异常捕获边界</h2>
 <p><a href="https://zh-hans.reactjs.org/docs/error-boundaries.html">https://zh-hans.reactjs.org/docs/error-boundaries.html</a></p>
-<p><code>static getDerivedStateFromError(error)</code>     // 有错误时触发，用于渲染降级ui<br>
-<code>componentDidCatch(error, errorInfor)</code>  // 捕获错误<br>
+<p><code>static getDerivedStateFromError(error)</code> // 有错误时触发，用于渲染降级 ui<br>
+<code>componentDidCatch(error, errorInfor)</code> // 捕获错误<br>
 自定义错误边界的粒度。<br>
-若不捕获错误，则会导致整个react树被卸载。请根据页面区域划分捕获错误。阻止全页面空白。</p>
+若不捕获错误，则会导致整个 react 树被卸载。请根据页面区域划分捕获错误。阻止全页面空白。</p>
+<h2 id="forwardref">forwardRef</h2>
+<p>为常规函数组件提供接收ref的功能。</p>
+<pre><code class="language-js"><div><span class="hljs-comment">// 父组件</span>
+<span class="hljs-keyword">let</span> ref = React.createRef()
+&lt;FancyButton ref={ref} /&gt;
+<span class="hljs-comment">// 子组件</span>
+<span class="hljs-keyword">const</span> FancyButton = React.forwardRef(props, ref) {
+    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">{ref}</span>&gt;</span>str<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span>
+}
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> FancyButton
+</div></code></pre>
+<p>第二个参数 ref 只在使用 React.forwardRef 定义组件时存在。常规函数和 class 组件不接收 ref 参数，<strong>且 props 中也不存在 ref</strong>。<br>
+Ref 转发不仅限于 DOM 组件，你也可以转发 refs 到 class 组件实例中。</p>
 <h2 id="hoc-高阶组件">HOC 高阶组件</h2>
+<ul>
+<li>组件：把props =&gt; ui</li>
+<li>hoc：把组件 =&gt; 另一个组件</li>
+<li>将组件包装在容器内，组成新组件。</li>
+<li>是纯函数，无副作用。</li>
+<li>不应用修改传入的组件，而是修改组合方式。</li>
+<li>与容器组件相似</li>
+<li>在组件树中横截面操作
+<ul>
+<li>属性代理 (修改props。如：增删改)</li>
+</ul>
+</li>
+<li>不要在render中使用hoc</li>
+</ul>
 <pre><code class="language-js"><div><span class="hljs-comment">// 定义</span>
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">HOC</span>(<span class="hljs-params">WC, sf</span>) </span>{
     <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">props</span>) </span>{
