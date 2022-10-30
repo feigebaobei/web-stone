@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>lerna init</title>
+        <title>hoc &#x9ad8;&#x9636;&#x7ec4;&#x4ef6;</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -79,292 +79,38 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="lerna-init">lerna init</h1>
-<p>在一个已经存在的项目上创建 lerna 需要的环境（主要是目录结构）。
-或在创建一个 lerna 环境的项目。</p>
-<h2 id="options">options</h2>
-<p><code>--independent</code>
-使用分离模式。</p>
-<p><code>--exact</code>
-不会。好像是控制是否安装 lerna 在 devDependence 里。</p>
-<h2 id="效果">效果</h2>
-<p>只创建了项目结构：</p>
-<pre><code><code><div>&lt;root&gt;
-|-- packages/
-|-- lerna.json
-|-- package.json
-</div></code></code></pre>
-<h2 id="principle">principle</h2>
-<ol>
-<li>在 devDependence 中添加 lerna.</li>
-<li>创建 lerna.json，并保存 version 字段。若是 fix 模式，则此字段是数字。若是分离模式，则此字段是'independent'</li>
-</ol>
-<h1 id="lerna-add">lerna add</h1>
-<p>添加匹配的依赖。</p>
-<h2 id="usage">usage</h2>
-<p><code>lerna add &lt;package&gt;[@version] [--dev] [--exact] [--peer]</code>
-在本 lerna 项目中安装一个本地、远端的包。一次只能安装一个包。</p>
-<h2 id="options-1">options</h2>
-<p><code>所有filter flags</code>
-<code>--dev</code>
-安装在<code>devDependencies</code></p>
-<p><code>--exact</code>
-使用严格版本号的包。</p>
-<p><code>--peer</code>
-安装在<code>peerDependencies</code></p>
-<p><code>--registry &lt;url&gt;</code>
-使用指定的 registry 安装包。</p>
-<p><code>--no-boostrap</code>
-跳过<code>lerna bootstrap</code>
-原来<code>lerna add</code>会默认执行<code>lerna bootstrap</code>.</p>
-<h2 id="principle-1">principle</h2>
-<p>使用<code>npm install</code> / <code>yarn add</code></p>
-<h1 id="lerna-create">lerna create</h1>
-<p>创建一个被 lerna 管理的包。
-此子命令有好多与<code>package.json</code>字段相关的选项。</p>
-<h2 id="usage-1">usage</h2>
-<p><code>lerna create &lt;packageName&gt; [loc]</code>
-loc 指定 packageName 的所在位置。默认是<code>lerna.json</code>中<code>packages</code>字段的第一个值。</p>
-<h2 id="options-2">options</h2>
-<p><code>--access</code>
-设置<code>publishConfig.access</code>的值：'public' / 'restricted'。默认是&quot;public&quot;</p>
-<p><code>--bin</code>
-包是否有可执行文件。默认：<code>&lt;packageName&gt;</code></p>
-<p><code>--description</code>
-package.json 的 description 字段。</p>
-<p><code>--dependencies</code>
-xxx</p>
-<p><code>--es-module</code>
-初始化一个已经编译的 esm 模块。</p>
-<p><code>--homepage</code>
-xxx</p>
-<p><code>--keywords</code>
-xxx</p>
-<p><code>--license</code>
-xxx</p>
-<p><code>--private</code>
-xxx</p>
-<p><code>--registry</code>
-xxx</p>
-<p><code>--tag</code>
-xxx</p>
-<p><code>--yes</code>
-跳过所有询问。全部使用默认值。</p>
-<h2 id="principle-2">principle</h2>
-<h1 id="lerna-bootstrap">lerna bootstrap</h1>
-<p>引导本地的包建立互相依赖关系或安装远端的包作为依赖。
-默认执行<code>npm ci</code></p>
-<h2 id="usage-2">usage</h2>
-<p><code>lerna bootstrap</code>
-// 在<code>--</code>后面写其他选项。也可在<code>lerna.json</code>中设置。
-<code>lerna bootstrap -- --production --no-option</code></p>
-<pre><code><code><div>{
-    ...
-    &quot;npmClientArgs&quot;: [&quot;--production&quot;, &quot;--no-optional&quot;]
+        <h1 id="hoc-高阶组件">hoc 高阶组件</h1>
+<h2 id="hoc--ref">hoc &amp; ref</h2>
+<pre><code class="language-js"><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">wrap</span> (<span class="hljs-params">Comp</span>) </span>{
+    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Inner</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+        render () {
+            <span class="hljs-keyword">let</span> {forwardRef, ...rest} = <span class="hljs-built_in">this</span>.props
+            <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Comp</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">{this.props.forwardRef}</span> {<span class="hljs-attr">...rest</span>}&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">Comp</span>&gt;</span></span>
+        }
+    }
+    <span class="hljs-keyword">return</span> React.forwardRef(<span class="hljs-function">(<span class="hljs-params">props, ref</span>) =&gt;</span> {
+        <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Inner</span> {<span class="hljs-attr">...props</span>} <span class="hljs-attr">forwardRef</span>=<span class="hljs-string">{ref}</span> /&gt;</span></span>
+    })
 }
-</div></code></code></pre>
-<h2 id="options-3">options</h2>
-<p><code>--hoist [glob]</code><br>
-把依赖项提升到根项目里。<br>
-<code>--strict</code><br>
-不会<br>
-<code>--nohoist [glob]</code><br>
-不会<br>
-<code>--ignore</code><br>
-设置执行<code>lerna bootstrap</code>时忽略的内容。<br>
-<code>--ingore-prepublish</code><br>
-跳过<code>prepublish</code>生命周期钩子。<br>
-<code>--ignore-scripts</code><br>
-跳过所有的生命周期钩子。<br>
-<code>--resgistry &lt;url&gt;</code><br>
-xxx<br>
-<code>--npm-client</code><br>
-xxx<br>
-<code>--use-workspaces</code><br>
-xxx</p>
-<p><code>--no-ci</code>
-跳过<code>npm ci</code>
-若要强制执行<code>npm ci</code>，则使用<code>lerna bootstrap --ci</code>
-<code>--force-local</code>
-强制使用本地包。不管理版本等因素。</p>
-<p><code>--publishConfig.directory</code>
-指定被发布时使用子目录。没有固定的值。</p>
-<h2 id="principle-3">principle</h2>
-<ol>
-<li><code>npm install</code></li>
-<li>若要依赖关系则建立软链接。</li>
-<li>在所有包中执行<code>npm run prepublish</code>，除非使用<code>--ignore-prepublish</code></li>
-<li>在所有包中执行<code>npm run prepare</code>。</li>
-</ol>
-<h1 id="lerna-publish">lerna publish</h1>
-<p>发布本 lerna 项目中的包。</p>
-<ul>
-<li>发布从最近一次发布后变动的包。</li>
-<li>发布指定 git 标签的包。</li>
-<li>发布最后一次 commit 的包。</li>
-<li>发布前一次提交中有更新的包。</li>
-<li>若测试 private 为 true 则不发布该包。</li>
-</ul>
-<h2 id="usage-3">usage</h2>
-<pre><code><code><div>lerna publish
-lerna publish from-git
-lerna publish from-package
-</div></code></code></pre>
-<h2 id="options-4">options</h2>
-<p><code>--canary</code>
-当使用这个标志运行时，lerna publish 会以更细粒度的方式(每次提交)发布包。在发布到 npm 之前，它通过获取当前版本，将其转移到下一个小版本，添加所提供的元后缀(默认为 alpha)并附加当前的 git sha(例如:1.0.0 变成 1.1.0-alpha.0+81e3b443)来创建新版本标签。
-<code>--contents &lt;dir&gt;</code>
-<code>--dist-tag &lt;tag&gt;</code>
-<code>--dit-head &lt;sha&gt;</code>
-<code>--graph-type &lt;all|dependencies&gt;</code>
-<code>--ignore-scripts</code>
-<code>--ignore-prepublish</code>
-<code>--legacy-auth</code>
-<code>--no-git-reset</code>
-<code>--no-granular-pathspec</code>
-<code>--no-verify-access</code>
-<code>--otp</code>
-<code>--preid</code>
-<code>--pre-dist-tag &lt;tag&gt;</code>
-<code>--registry &lt;url&gt;</code>
-<code>--tag-version-prefix</code>
-<code>--tag-tag</code>
-<code>--yes</code></p>
-<h2 id="principle-4">principle</h2>
-<h1 id="lerna-version">lerna version</h1>
-<h2 id="usage-4">usage</h2>
-<h2 id="options-5">options</h2>
-<h2 id="principle-5">principle</h2>
-<h1 id="lerna-list">lerna list</h1>
-<p>列出本地包</p>
-<h2 id="usage-5">usage</h2>
-<p><code>lerna ls</code></p>
-<h2 id="options-6">options</h2>
-<p><code>--json</code>
-显示 json 格式。多行。
-<code>--ndjson</code>
-显示 json 格式。单行。
-<code>-a, -all</code>
-显示所有包，包括私包。
-<code>-l, --long</code>
-显示扩展信息。
-<code>-p, --parseable</code>
-显示本包的路径。
-<code>--toposort</code>
-显示包的拓扑信息。
-<code>--graph</code>
-xxx</p>
-<h2 id="principle-6">principle</h2>
-<h1 id="lerna-changed">lerna changed</h1>
-<p>xxx</p>
-<h2 id="usage-6">usage</h2>
-<p><code>lerna changed</code></p>
-<h2 id="options-7">options</h2>
-<p><code>--json</code>
-<code>--ndjson</code>
-<code>-a, --all</code>
-<code>-l, --long</code>
-<code>-p, --parseable</code>
-<code>--toposort</code>
-<code>--graph</code>
-<code>--conventional-graduate</code>
-<code>--force-publish</code>
-<code>--ignore-change</code>
-<code>--include-merged-tags</code></p>
-<h2 id="principle-7">principle</h2>
-<h1 id="lerna-diff">lerna diff</h1>
-<p>显示所有从上一次发布后的不同的包或单文件。</p>
-<h2 id="usage-7">usage</h2>
-<p><code>lerna diff [package]</code></p>
-<h2 id="options-8">options</h2>
-<h2 id="principle-8">principle</h2>
-<h1 id="lerna-exec">lerna exec</h1>
-<p>在每个包中执行可执行二进制命令</p>
-<h2 id="usage-8">usage</h2>
-<p><code>lerna exec -- &lt;command [args...]&gt;</code>
-<code>lerna exec -- rm -rf ./node_modules</code>
-<code>lerna exec -- protractor conf.js</code></p>
-<h2 id="options-9">options</h2>
-<p><code>所有filter flags</code>
-<code>--stream</code>
-流式输出每个子进程。
-<code>--parallel</code>
-<code>--no-bail</code>
-没有输出
-<code>--no-prefix</code>
-<code>--profile</code>
-<code>--profile-location &lt;location&gt;</code></p>
-<h2 id="principle-9">principle</h2>
-<h1 id="lerna-run">lerna run</h1>
-<p>若此包中包括指定的脚本，则执行该脚本。</p>
-<h2 id="usage-9">usage</h2>
-<pre><code><code><div>lerna run &lt;script&gt; -- [args...]
-lerna run test
-lerna run build
-lerna run --parallel watch
-</div></code></code></pre>
-<h2 id="options-10">options</h2>
-<p><code>所有filter flags</code>
-<code>--npm-client &lt;client&gt;</code>
-<code>--stream</code>
-<code>--parallel</code>
-<code>--no-bail</code>
-<code>--no-prefix</code>
-<code>--profile</code>
-<code>--profile-location &lt;location&gt;</code></p>
-<h2 id="principle-10">principle</h2>
-<h1 id="lerna-clean">lerna clean</h1>
-<p>清除所有子包的<code>node_modules</code></p>
-<h2 id="usage-10">usage</h2>
-<p><code>lerna clean</code></p>
-<h2 id="options-11">options</h2>
-<p><code>所有filter flags</code>
-<code>--yes</code></p>
-<h2 id="principle-11">principle</h2>
-<h1 id="lerna-import">lerna import</h1>
-<p>使用<code>commit history</code>引入本地包。</p>
-<h2 id="usage-11">usage</h2>
-<pre><code><code><div>lerna import &lt;path-to-external-repository&gt;
-</div></code></code></pre>
-<h2 id="options-12">options</h2>
-<p><code>--flatten</code>
-<code>--dest</code>
-<code>--preserve-commit</code></p>
-<h2 id="principle-12">principle</h2>
-<p>使用 git commit history 再运行出一个包。
-lerna create 新建
-lerna import 生成</p>
-<h1 id="lerna-link">lerna link</h1>
-<p>链接有依赖的包。</p>
-<h2 id="usage-12">usage</h2>
-<p><code>lerna link</code></p>
-<h2 id="options-13">options</h2>
-<p><code>--force-local</code>
-<code>--publishConfig.directory</code></p>
-<h2 id="principle-13">principle</h2>
-<h1 id="lerna-info">lerna info</h1>
-<p>列出本地环境信息。</p>
-<h2 id="usage-13">usage</h2>
-<h2 id="options-14">options</h2>
-<h2 id="principle-14">principle</h2>
-<h1 id="lernafilter-options">@lerna/filter-options</h1>
-<p><code>--scope &lt;glob&gt;</code>
-设置作用范围。
-<code>--ignore &lt;glob&gt;</code>
-设置排队的作用范围。
-<code>--no-private</code>
-不作用于私包。
-<code>--since [ref]</code>
-设置只包括从<code>ref</code>后有变动的包。若没有<code>ref</code>，则 ref 的默认值为最后的 tag.
-<code>--exclude-dependents</code>
-与<code>--since</code>一起使用。不包括所有 dependents.
-<code>--include-dependents</code>
-包含所有 dependents.
-<code>--include-dependencies</code>
-包含所有 dependents.不管--scope/--ignore/--since。
-（我不喜欢这样的 api。各 api 间是同级的，为什么要出现优先级更高 api 呢？）
-<code>--include-merged-tags</code>
-包含从合并来的分支上的--since 之后的包。</p>
+</div></code></pre>
+<h2 id="反向继承">反向继承</h2>
+<pre><code class="language-js"><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">wrap</span> (<span class="hljs-params">Comp</span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Comp</span> </span>{
+        <span class="hljs-comment">// 还可以调用生命周期方法</span>
+        <span class="hljs-comment">// componentDidMount() {</span>
+        <span class="hljs-comment">//     super.componentDidMount()</span>
+        <span class="hljs-comment">// }</span>
+        <span class="hljs-function"><span class="hljs-title">render</span>(<span class="hljs-params"></span>)</span> {
+            <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;&gt;</span>
+                {super.render()}
+                <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{supper.buttonClickHandler.bind(this)}</span>&gt;</span>button<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+            <span class="hljs-tag">&lt;/&gt;</span></span>
+        }
+    }
+}
+</div></code></pre>
+<h2 id="hoc--funtion">hoc &amp; funtion</h2>
+<pre><code class="language-js"><div></div></code></pre>
 
         
         

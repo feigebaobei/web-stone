@@ -69,7 +69,8 @@ export default function Second() {
 ```js
 import MyContext from './context'
 class Third extends React.Component {
-  // static contextType = context // 此处写法与 Third.contextType等效
+  // static contextType = MyContext // 此处写法与 Third.contextType等效
+  // 把context属性设置在原型对象上，不是设置在实例对象上。
   render() {
     const ctx = this.context
     return <>{JSON.stringify(ctx.store)}</>

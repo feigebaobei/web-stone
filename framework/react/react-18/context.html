@@ -85,70 +85,71 @@
 </ul>
 <h2 id="usage常用的三种方法">usage(常用的三种方法)</h2>
 <ul>
-<li>React.createContext提供的Provider、Consumer</li>
-<li>函数组件 React.createContext提供的Provider、useContext钩子。</li>
-<li>class组件 React.createContext提供的Provider、class的contextType属性</li>
+<li>React.createContext 提供的 Provider、Consumer</li>
+<li>函数组件 React.createContext 提供的 Provider、useContext 钩子。</li>
+<li>class 组件 React.createContext 提供的 Provider、class 的 contextType 属性</li>
 </ul>
 <h2 id="demo">demo</h2>
 <pre><code class="language-js"><div><span class="hljs-comment">// context.js</span>
-<span class="hljs-keyword">import</span> {createContext} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span>
+<span class="hljs-keyword">import</span> { createContext } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> createContext()
 </div></code></pre>
 <pre><code class="language-js"><div><span class="hljs-comment">// App.js</span>
 <span class="hljs-keyword">import</span> MyContext <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./context&#x27;</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">App</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-keyword">let</span> [store, setStore] = useState({<span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;init&#x27;</span>})
-    <span class="hljs-keyword">let</span> buttonClickHander = <span class="hljs-function">() =&gt;</span> {
-        setStore({<span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;from app&#x27;</span>})
-    }
-    <span class="hljs-keyword">return</span> (
-        <span class="hljs-comment">// 使用context.Provider组件提供其子组件共享的数据</span>
-        <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">MyContext.Provider</span> <span class="hljs-attr">value</span>=<span class="hljs-string">{{store,</span> <span class="hljs-attr">setStore</span>}}&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">First</span>/&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">Second</span>/&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">Third</span>/&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{buttonClickHander}</span>&gt;</span>button<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name">MyContext.Provider</span>&gt;</span></span>
-    )
+  <span class="hljs-keyword">let</span> [store, setStore] = useState({ <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;init&#x27;</span> })
+  <span class="hljs-keyword">let</span> buttonClickHander = <span class="hljs-function">() =&gt;</span> {
+    setStore({ <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;from app&#x27;</span> })
+  }
+  <span class="hljs-keyword">return</span> (
+    <span class="hljs-comment">// 使用context.Provider组件提供其子组件共享的数据</span>
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">MyContext.Provider</span> <span class="hljs-attr">value</span>=<span class="hljs-string">{{</span> <span class="hljs-attr">store</span>, <span class="hljs-attr">setStore</span> }}&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">First</span> /&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Second</span> /&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Third</span> /&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{buttonClickHander}</span>&gt;</span>button<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">MyContext.Provider</span>&gt;</span></span>
+  )
 }
 </div></code></pre>
 <pre><code class="language-js"><div><span class="hljs-comment">// First.js</span>
 <span class="hljs-keyword">import</span> MyContext <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./context&#x27;</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">First</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-keyword">return</span> (
-        <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">MyContext.Consumer</span>&gt;</span>
-            {(value) =&gt; {
-                return <span class="hljs-tag">&lt;&gt;</span>{JSON.stringify(value.store)}<span class="hljs-tag">&lt;/&gt;</span></span> <span class="hljs-comment">// {&quot;name&quot;: &quot;init&quot;}</span>
-            }}
-        &lt;/MyContext.Consumer&gt;
-    )
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">MyContext.Consumer</span>&gt;</span>
+      {(value) =&gt; {
+        return <span class="hljs-tag">&lt;&gt;</span>{JSON.stringify(value.store)}<span class="hljs-tag">&lt;/&gt;</span></span> <span class="hljs-comment">// {&quot;name&quot;: &quot;init&quot;}</span>
+      }}
+    &lt;/MyContext.Consumer&gt;
+  )
 }
 </div></code></pre>
 <pre><code class="language-js"><div><span class="hljs-keyword">import</span> MyContext <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./context&#x27;</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Second</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-keyword">let</span> ctx = useContext(MyContext)
-    <span class="hljs-keyword">let</span> buttonClickHander = <span class="hljs-function">() =&gt;</span> {
-        ctx.setStore({<span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;other string&#x27;</span>})
-    }
-    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
-        {JSON.stringify(ctx.store)}
-        <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{buttonClickHander}</span>&gt;</span>button<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span> <span class="hljs-comment">// {&quot;name&quot;: &quot;init&quot;}</span>
+  <span class="hljs-keyword">let</span> ctx = useContext(MyContext)
+  <span class="hljs-keyword">let</span> buttonClickHander = <span class="hljs-function">() =&gt;</span> {
+    ctx.setStore({ <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;other string&#x27;</span> })
+  }
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+      {JSON.stringify(ctx.store)}
+      <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{buttonClickHander}</span>&gt;</span>button<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  ) <span class="hljs-comment">// {&quot;name&quot;: &quot;init&quot;}</span>
 }
 </div></code></pre>
 <pre><code class="language-js"><div><span class="hljs-keyword">import</span> MyContext <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./context&#x27;</span>
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Third</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
-    <span class="hljs-comment">// static contextType = context // 此处写法与 Third.contextType等效</span>
-    <span class="hljs-function"><span class="hljs-title">render</span>(<span class="hljs-params"></span>)</span> {
-        <span class="hljs-keyword">const</span> ctx = <span class="hljs-built_in">this</span>.context
-        <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;&gt;</span>
-            {JSON.stringify(ctx.store)}
-        <span class="hljs-tag">&lt;/&gt;</span></span>
-    }
+  <span class="hljs-comment">// static contextType = MyContext // 此处写法与 Third.contextType等效</span>
+  <span class="hljs-comment">// 把context属性设置在原型对象上，不是设置在实例对象上。</span>
+  <span class="hljs-function"><span class="hljs-title">render</span>(<span class="hljs-params"></span>)</span> {
+    <span class="hljs-keyword">const</span> ctx = <span class="hljs-built_in">this</span>.context
+    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;&gt;</span>{JSON.stringify(ctx.store)}<span class="hljs-tag">&lt;/&gt;</span></span>
+  }
 }
 Third.contextType = MyContext
 </div></code></pre>
-<h2 id="封装一个context生成器">封装一个context生成器</h2>
+<h2 id="封装一个-context-生成器">封装一个 context 生成器</h2>
 <pre><code class="language-js"><div><span class="hljs-comment">// 待测试</span>
 <span class="hljs-comment">// ctx.js</span>
 <span class="hljs-keyword">let</span> context = React.createContext()
@@ -169,14 +170,14 @@ Third.contextType = MyContext
 &lt;/ContextProvider&gt;
 </div></code></pre>
 <h2 id="context--usehooks">Context + UseHooks</h2>
-<p>本例展示Context与hook结合使用。<br>
+<p>本例展示 Context 与 hook 结合使用。<br>
 以<code>useFilter</code>为例。</p>
 <ol>
-<li>定义useFilter</li>
-<li>整体输出各hook</li>
-<li>封装context。包括：1.在context中提供hook。2.输出context</li>
-<li>在App.js中使用封装好的context</li>
-<li>在后代组件中使用context</li>
+<li>定义 useFilter</li>
+<li>整体输出各 hook</li>
+<li>封装 context。包括：1.在 context 中提供 hook。2.输出 context</li>
+<li>在 App.js 中使用封装好的 context</li>
+<li>在后代组件中使用 context</li>
 </ol>
 <pre><code class="language-js"><div><span class="hljs-comment">// useFilter</span>
 <span class="hljs-comment">// 见 /framework/react/hooks.html</span>
@@ -184,28 +185,28 @@ Third.contextType = MyContext
 <pre><code class="language-js"><div><span class="hljs-comment">// useHooks</span>
 <span class="hljs-comment">// 整体输出hooks</span>
 <span class="hljs-keyword">import</span> useFilter <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./useFilter&#x27;</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">useHooks</span> (<span class="hljs-params"></span>) </span>{
-    <span class="hljs-keyword">let</span> filter = useFilter()
-    <span class="hljs-keyword">return</span> {
-        ...filter
-    }
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">useHooks</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">let</span> filter = useFilter()
+  <span class="hljs-keyword">return</span> {
+    ...filter,
+  }
 }
 </div></code></pre>
 <pre><code class="language-js"><div><span class="hljs-comment">// pages.js</span>
 <span class="hljs-keyword">import</span> useHooks <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./useHooks&#x27;</span>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createContainer</span> (<span class="hljs-params">useHooks</span>) </span>{
-    <span class="hljs-keyword">let</span> context = React.createContext()
-    <span class="hljs-keyword">let</span> Provider = <span class="hljs-function">() =&gt;</span> {
-        <span class="hljs-keyword">let</span> value = useHooks()
-        <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">context.Provider</span> <span class="hljs-attr">value</span>=<span class="hljs-string">{value}</span>&gt;</span>{props.children}<span class="hljs-tag">&lt;/<span class="hljs-name">context.Provider</span>&gt;</span></span>
-    }
-    <span class="hljs-keyword">let</span> useContainer = <span class="hljs-function">() =&gt;</span> {
-        <span class="hljs-keyword">return</span> React.useContext(context)
-    }
-    <span class="hljs-keyword">return</span> {
-        Provider,
-        useContainer
-    }
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createContainer</span>(<span class="hljs-params">useHooks</span>) </span>{
+  <span class="hljs-keyword">let</span> context = React.createContext()
+  <span class="hljs-keyword">let</span> Provider = <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-keyword">let</span> value = useHooks()
+    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">context.Provider</span> <span class="hljs-attr">value</span>=<span class="hljs-string">{value}</span>&gt;</span>{props.children}<span class="hljs-tag">&lt;/<span class="hljs-name">context.Provider</span>&gt;</span></span>
+  }
+  <span class="hljs-keyword">let</span> useContainer = <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-keyword">return</span> React.useContext(context)
+  }
+  <span class="hljs-keyword">return</span> {
+    Provider,
+    useContainer,
+  }
 }
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> createContainer(useHooks)
 </div></code></pre>
@@ -213,24 +214,24 @@ Third.contextType = MyContext
 <span class="hljs-keyword">import</span> createContainer <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./pages.js&#x27;</span>
 <span class="hljs-keyword">import</span> First <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./First&#x27;</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-    <span class="hljs-keyword">let</span> {Provider} = createContainer
-    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Provider</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">First</span>/&gt;</span>
+  <span class="hljs-keyword">let</span> { Provider } = createContainer
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Provider</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">First</span> /&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">Provider</span>&gt;</span></span>
+  )
 }
 </div></code></pre>
 <pre><code class="language-js"><div><span class="hljs-comment">// First.js</span>
 <span class="hljs-keyword">import</span> createContainer <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./pages&#x27;</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-    <span class="hljs-keyword">let</span> ctx = createContainer.useContainer()
-    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;&gt;</span>
-        {JSON.stringify(ctx)}
-    <span class="hljs-tag">&lt;/&gt;</span></span>
+  <span class="hljs-keyword">let</span> ctx = createContainer.useContainer()
+  <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;&gt;</span>{JSON.stringify(ctx)}<span class="hljs-tag">&lt;/&gt;</span></span>
 }
 </div></code></pre>
 <h2 id="解决多次渲染的问题">解决多次渲染的问题</h2>
 <ul>
-<li>使用class组件时。使用this.state中的值。</li>
+<li>使用 class 组件时。使用 this.state 中的值。</li>
 <li>useMemo</li>
 </ul>
 
