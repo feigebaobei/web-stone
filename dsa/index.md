@@ -1,6 +1,6 @@
 - [data-footstone](https://www.npmjs.com/package/data-footstone)
 - [temp](/coursera/dsa/temp.html)
-- [sort](/coursera/dsa/sort.html)
+- [sort](/dsa/sort.html)
 - [循环](/dsa/circulation.html)
 - [递归](/dsa/recursion.html)
 - [temp](/dsa/temp.html)

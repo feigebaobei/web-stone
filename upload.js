@@ -251,17 +251,10 @@ c.on('ready', () => {
     }
     // let p = 'resolve' // todo
     let p = [
-      // 'index.html',
-      // 'jsPackages/prettier/index.html',
-      // 'promote/development.html',
-      // 'coursera/dsa/index.html',
-      // 'coursera/dsa/1/index.html',
-      // 'language/javascript/index.html',
-      // 'regexp/index.html',
-      // 'util/index.html',
-      'framework/react/hooks.html',
-      'framework/react/react-18/context.html',
-      'framework/react/react-18/index.html',
+      // 'framework/react/react-18/index.html',
+      // 'framework/react/react-18/context.html',
+      // 'framework/react/react-18/hoc.html',
+      // 'jsPackages/lerna/commands.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
