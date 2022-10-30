@@ -104,8 +104,12 @@ React 只更新它需要更新的部分<br>
 <ul>
 <li>它是像 xml 的 js 代码。（当然也像 html）。</li>
 <li>它是 js 代码的语法糖，会被 babel 转换为 js 代码。如:</li>
-<li>组件名以大写字母开头。小写会被认为是html标签。</li>
-<li></li>
+<li>组件名以大写字母开头。小写会被认为是 html 标签。</li>
+<li>使用<code>{}</code>包裹js表达式</li>
+<li><code>&quot;str&quot;</code> &lt;=&gt; <code>{'str'}</code></li>
+<li>props默认为true</li>
+<li>会移除行首尾的空格以及空行。与标签相邻的空行均会被删除，文本字符串之间的新行会被压缩为一个空格。</li>
+<li>false, null, undefined, and true 是合法的子元素。但它们并不会被渲染</li>
 </ul>
 <pre><code class="language-js"><div><span class="hljs-keyword">let</span> str = <span class="hljs-string">&#x27;string&#x27;</span>
 &lt;span&gt;{str}&lt;/span&gt;

@@ -90,6 +90,37 @@
 |esm|es6 module|在js语言层面上实现了模块化。|||||
 |iife|immediately invoked function expression|jquery||||
 |system||jquery||||</p>
+<h2 id="moduleexports--exports--export--export-defaut">module.exports &amp; exports &amp; export &amp; export defaut</h2>
+<table>
+<thead>
+<tr>
+<th>module.exports</th>
+<th>exports</th>
+<th>export</th>
+<th>export default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>node.js中的语法。用来导出对象用法。</td>
+<td>node.js中的语法。用来导出对象用法。</td>
+<td>es6的语法</td>
+<td>es6的语法</td>
+</tr>
+<tr>
+<td>module.exports = {}</td>
+<td>exports={}</td>
+<td>export {var0, var1}</td>
+<td>export default any</td>
+</tr>
+<tr>
+<td>let t = require 'xxx'</td>
+<td>let t = require 'xxx'</td>
+<td>import {a, b as c} from 'map'</td>
+<td>import a from 'map'</td>
+</tr>
+</tbody>
+</table>
 <h2 id="amd">amd</h2>
 <p>异步加载，不阻塞页面的加载，能并行加载多个模块，但不能按需加载，必须提前加载所需依赖。<br>
 define(id?, []?, callback)<br>
@@ -203,6 +234,14 @@ import v from '...'
 })(global)
 </div></code></code></pre>
 <p>ts的<code>enum</code>类型就是使用iife.</p>
+<pre><code class="language-js"><div><span class="hljs-comment">// 写法</span>
+(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{}())
+(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{})()
+<span class="hljs-comment">// 块级作用域写法  </span>
+{
+    <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{}
+}
+</div></code></pre>
 <h2 id="system">system</h2>
 <p>在<code>*.html</code>文件中以<code>&lt;script&gt;</code>的方式引入。</p>
 <pre><code><code><div>&lt;script src=&quot;./first.js&quot;&gt;&lt;/script&gt;

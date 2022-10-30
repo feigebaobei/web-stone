@@ -6,6 +6,9 @@
 - 返回 promise 对象
 - 每调用一次就是一个请求。
 
+从 fetch() 返回的 Promise 不会被标记为 reject， 即使响应的 HTTP 状态码是 404 或 500。
+使用 Response.ok 是不是为 true 判断是否成功。
+
 ## usage
 
 ```js
