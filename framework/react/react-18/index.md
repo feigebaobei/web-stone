@@ -27,6 +27,8 @@ React 只更新它需要更新的部分
 
 - 它是像 xml 的 js 代码。（当然也像 html）。
 - 它是 js 代码的语法糖，会被 babel 转换为 js 代码。如:
+- 组件名以大写字母开头。小写会被认为是 html 标签。
+-
 
 ```js
 let str = 'string'

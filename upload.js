@@ -249,9 +249,12 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = 'resolve' // todo
+    // let p = 'resolve' //
     let p = [
-      // 'framework/react/react-18/index.html',
+      // 'resolve/index.html',
+      // 'dsa/index.html',
+      // 'dsa/sort.html',
+      'framework/react/react-18/index.html',
       // 'framework/react/react-18/context.html',
       // 'framework/react/react-18/hoc.html',
       // 'jsPackages/lerna/commands.html',

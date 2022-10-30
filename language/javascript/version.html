@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>hoc &#x9ad8;&#x9636;&#x7ec4;&#x4ef6;</title>
+        <title>es4</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -79,42 +79,181 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="hoc-高阶组件">hoc 高阶组件</h1>
-<h2 id="hoc--ref">hoc &amp; ref</h2>
-<pre><code class="language-js"><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">wrap</span>(<span class="hljs-params">Comp</span>) </span>{
-  <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Inner</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
-    <span class="hljs-function"><span class="hljs-title">render</span>(<span class="hljs-params"></span>)</span> {
-      <span class="hljs-keyword">let</span> { forwardRef, ...rest } = <span class="hljs-built_in">this</span>.props
-      <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Comp</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">{this.props.forwardRef}</span> {<span class="hljs-attr">...rest</span>}&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">Comp</span>&gt;</span></span>
-    }
-  }
-  <span class="hljs-keyword">return</span> React.forwardRef(<span class="hljs-function">(<span class="hljs-params">props, ref</span>) =&gt;</span> {
-    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Inner</span> {<span class="hljs-attr">...props</span>} <span class="hljs-attr">forwardRef</span>=<span class="hljs-string">{ref}</span> /&gt;</span></span>
-  })
+        <h1 id="es4">es4</h1>
+<h1 id="es5">es5</h1>
+<h1 id="es6">es6</h1>
+<p>let命令</p>
+<ol>
+<li>所在代码块内有效。</li>
+<li>无变量提升。</li>
+<li>暂时性死区。</li>
+<li>不允许重复声明。</li>
+</ol>
+<p>块级作用域</p>
+<h2 id="6种变量声明方法的对比"><strong>6种变量声明方法的对比</strong></h2>
+<table>
+<thead>
+<tr>
+<th>关键字</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>var</td>
+<td></td>
+</tr>
+<tr>
+<td>function</td>
+<td></td>
+</tr>
+<tr>
+<td>let</td>
+<td>1. 所在代码块内有效。 2.无变量提升。 3. 存在暂时性死区。 4. 不允许重复声明。</td>
+</tr>
+<tr>
+<td>const</td>
+<td>1. 用来声明只读常量。 2. 声明时必须初始化。 3. 无变量提升。 4. 存在暂时性死区。 5. 不可重复声明。 6。本质：变量指向的内存地址不变。</td>
+</tr>
+<tr>
+<td>import</td>
+<td></td>
+</tr>
+<tr>
+<td>class</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="解构赋值">解构赋值</h2>
+<ol>
+<li>数组解构赋值时rest要放在最后。</li>
+<li>解构值严格等于undefined时使用默认值。</li>
+<li>解构对象时按照模式相同的赋值。</li>
+<li>函数参数使用解构赋值并给参数设置默认值。一定要为参数设置默认值。不是为参数的属性设置默认值。</li>
+</ol>
+<p><strong>默认值，</strong> 只有undefined可以触发默认值。</p>
+<h2 id="字符串的扩展">字符串的扩展</h2>
+<p><strong>模板字符串</strong></p>
+<h2 id="正则表达式">正则表达式</h2>
+<h2 id="数值的扩展">数值的扩展</h2>
+<h2 id="函数的扩展">函数的扩展</h2>
+<pre><code>function m1 ({x = 0, y = 0} = {}) {}
+// m1函数的默认参数时{}。
+// m1({})时 m1({x = 0, y = 0 } = {})
+// x = 0
+// y = 0
+
+function m2 ({x, y} = { x: 0, y: 0 }) {}
+// m2函数的默认值是{ x: 0, y: 0 }
+// m2({})时 m2({x, y} = {})
+// x undefined
+// y undefined
+
+// 为函数设置必填参数
+function throwIfMissing() {
+    throw new Error('Missing parameter')
 }
-</div></code></pre>
-<h2 id="反向继承">反向继承</h2>
-<p>这种写法有点像装饰器。</p>
-<pre><code class="language-js"><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">wrap</span>(<span class="hljs-params">Comp</span>) </span>{
-  <span class="hljs-keyword">return</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Comp</span> </span>{
-    <span class="hljs-comment">// 还可以调用生命周期方法</span>
-    <span class="hljs-comment">// componentDidMount() {</span>
-    <span class="hljs-comment">//     super.componentDidMount()</span>
-    <span class="hljs-comment">// }</span>
-    <span class="hljs-function"><span class="hljs-title">render</span>(<span class="hljs-params"></span>)</span> {
-      <span class="hljs-keyword">return</span> (
-        <span class="xml"><span class="hljs-tag">&lt;&gt;</span>
-          {super.render()}
-          <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{supper.buttonClickHandler.bind(this)}</span>&gt;</span>button<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
-        <span class="hljs-tag">&lt;/&gt;</span></span>
-      )
-    }
-  }
+function foo (mustBePorvided = throwIfMissing()) {
+    // code
 }
-</div></code></pre>
-<h2 id="hoc--funtion">hoc &amp; funtion</h2>
-<pre><code class="language-js"><div>
-</div></code></pre>
+</code></pre>
+<ol>
+<li>rest参数后不能再有别的参数。</li>
+<li>函数的length属性不包括rest参数。</li>
+</ol>
+<h3 id="严格模式">严格模式</h3>
+<pre><code>'use strict'
+</code></pre>
+<p>es6中规定：只要函数参数使用了默认值、解构赋值、扩展运算符(...rest)，那么函数内部就不能显式设定为严格模式。否则就会报错。</p>
+<ol>
+<li>设定全局性的严格模式。</li>
+<li>把函数包在一个无参数的立即执行函数里。</li>
+</ol>
+<p><strong>注意：</strong><br>
+箭头函数：</p>
+<ol>
+<li>函数体内的this对象是定义时所在的对象。</li>
+<li>不能用作构造函数。</li>
+<li>不能使用arguments对象。使用rest参数可以启相同作用。</li>
+<li>不能使用yield命令。</li>
+<li>不存在this/arguments/super/new.target</li>
+</ol>
+<p><strong>绑定this</strong></p>
+<p>###尾调用优化</p>
+<p>最后一步操作。</p>
+<pre><code>(x) =&gt; {
+    if (x &gt; 0) {
+        return m(x)
+    } else {
+        return n(x)
+    }
+}
+</code></pre>
+<ol>
+<li>不保存函数内部变量。</li>
+<li>不保存函数的调用位置等信息。</li>
+</ol>
+<h3 id="尾递归">尾递归</h3>
+<pre><code>let tailFactorial = (n, total) =&gt; {
+    if (n === 1) {
+        return total
+    }
+    return (n-1, total * n)
+}
+let factorial = (n) =&gt; {
+    return taiFactorial(n, 1)
+}
+</code></pre>
+<p><strong>使用尾调用、尾递归不会发生栈溢出，相对节省内存。</strong></p>
+<p><strong>柯里化</strong></p>
+<p>将多参数的函数转换成单参数的形式。</p>
+<ol>
+<li>柯里化有什么特点。</li>
+<li>柯里化能做什么。</li>
+<li>柯里化能用在什么地方。</li>
+<li>柯里化怎么使用。</li>
+<li>柯里化的优缺点。</li>
+</ol>
+<pre><code><code><div>    let currying = (fn, n) =&gt; {
+        return (m) =&gt; {
+            return fn.call(fn, m, n)
+        }
+    }
+    let tailFactorial = (n, total) =&gt; {
+        if (n === 1) {
+            return total
+        }
+        return tailFactorial(n - 1, n * total)
+    }
+    const factorial = currying(tailFactorial, 1)
+</div></code></code></pre>
+<p><strong>循环可以使用递归代替，一旦使用递归，最好使用尾递归。</strong></p>
+<p><strong>尾调用优化只在严格模式下启作用，在正常模式下无效。</strong></p>
+<h2 id="对象的扩展">对象的扩展</h2>
+<p><strong>对象中只写属性名时，表示。属性值等于属性名所代表的变量。</strong></p>
+<p>object.assign(target, source1[, source2, source3]) // 将多个源对象的可枚举属性添加到目标对象。</p>
+<p><strong>对象的遍历方法</strong></p>
+<pre><code>for (let key in obj) {} // 遍历对象的key
+Object.keys(obj) // 以数组形式返回对象自身的所有可枚举属性（不包含symbol属性）
+Object.getOwnPropertyNames(obj) // 以数组的形式返回对象自身的所有属性（不含symbol属性）
+Object.getOwnPropertySymbols(obj) // 以数组形式返回对象自身的所有Symbol属性
+Object.ownKeys(obj) // 以数组形式返回对象自身的所有属性
+</code></pre>
+<h2 id="callapplybind">call/apply/bind</h2>
+<p>bind 是固定某个函数的参数和this，返回另外一个函数。
+call 和 apply是指定this和参数调用这个函数，立即执行这个函数。
+call apply 的区别是他们指定参数的方式不同。
+都是重新定义this</p>
+<h3 id="call">call</h3>
+<p>obj.fn.call(newThis, p0, p1, p2, ...)</p>
+<h3 id="apply">apply</h3>
+<p>obj.fn.apply(newThis, [p0, p1, p2, ...])</p>
+<h3 id="bind">bind</h3>
+<p>obj.fn.bind(newThis, p0, p1, p2, ...)</p>
+<h1 id="es7">es7</h1>
+<h1 id="es8">es8</h1>
+<h1 id="es9">es9</h1>
 
         
         

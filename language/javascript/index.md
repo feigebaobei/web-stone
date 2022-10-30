@@ -913,3 +913,13 @@ dom.classList.toggle(s) // 若存在则删除，否不存在则添加。
 |                                             |                                                                                                       |     |     |     |     |
 |                                             |                                                                                                       |     |     |     |     |
 |                                             |                                                                                                       |     |     |     |     |
+
+## [es 版本](/language/javascript/version.md)
+
+- es4
+- es5
+- es6
+- es7
+- es8
+- es8
+- es8

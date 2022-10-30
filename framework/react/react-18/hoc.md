@@ -18,6 +18,8 @@ function wrap(Comp) {
 
 ## 反向继承
 
+这种写法有点像装饰器。
+
 ```js
 function wrap(Comp) {
   return class extends Comp {
