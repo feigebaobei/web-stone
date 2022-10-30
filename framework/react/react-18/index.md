@@ -408,56 +408,6 @@ function A(props) {
 
 - 主要用于不同层级的组件使用同一份数据。
 
-```js
-// context.js
-let context = React.createContext({ key: 'str' })
-export default context
-
-// A.js
-import Context from './context.js'
-function A() {
-  // let cxt = React.useContext(context)
-  return (
-    <Context.Provider>
-      <B />
-    </Context.Provider>
-  )
-}
-```
-
-<details>
-  <summary>context 待删除</summary>
-<artical>
-<pre>
-<code>
-import { createContext } from 'react'
-export let DataContext = createContext() // 在组件外生成context对象
-
-import { useState } from "react";
-import { C } from '../C/index'
-import { DataContext } from "../../context";
-export function First () {
-let [data] = useState({k: 'v'})
-return (<DataContext.Provider value={data}> // 让 context 提供指定的数据
-<C></C>
-</DataContext.Provider>)
-}
-
-import { useContext } from "react";
-import { DataContext } from "../../context";
-export function C () {
-let data = useContext(DataContext)
-return (<div>
-{JSON.stringify(data)}
-
-</div>)
-}
-</code>
-
-</pre>
-</artical>
-</details>
-
 ## 数据
 
 从根组件向叶子组件流动。
@@ -578,6 +528,11 @@ React.PureComponent 内实现了`shouldComponentUpdate()`(React.Component 中未
 ## 异常捕获边界
 
 https://zh-hans.reactjs.org/docs/error-boundaries.html
+
+`static getDerivedStateFromError(error)` // 有错误时触发，用于渲染降级 ui  
+`componentDidCatch(error, errorInfor)` // 捕获错误  
+自定义错误边界的粒度。  
+若不捕获错误，则会导致整个 react 树被卸载。请根据页面区域划分捕获错误。阻止全页面空白。
 
 ## HOC 高阶组件
 
@@ -759,7 +714,7 @@ react 和 web components 一起使用时与 react 和 html 一起使用时一样
 
 ### 有很多以`$$`开头的变量。
 
-### 有好多指对 dev 环境的检查错误。
+### 有好多针对 dev 环境的检查错误。
 
 ```js
 if (__DEV__) {...}

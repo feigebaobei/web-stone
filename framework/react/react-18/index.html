@@ -584,48 +584,6 @@ xx ? <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">A</spa
 <ul>
 <li>主要用于不同层级的组件使用同一份数据。</li>
 </ul>
-<pre><code class="language-js"><div><span class="hljs-comment">// context.js</span>
-<span class="hljs-keyword">let</span> context = React.createContext({<span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;str&#x27;</span>})
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> context
-
-<span class="hljs-comment">// A.js</span>
-<span class="hljs-keyword">import</span> Context <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./context.js&#x27;</span>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">A</span> (<span class="hljs-params"></span>) </span>{
-    <span class="hljs-comment">// let cxt = React.useContext(context)</span>
-    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Context.Provider</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">B</span>/&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">Context.Provider</span>&gt;</span></span>
-}
-
-</div></code></pre>
-<details>
-  <summary>context 待删除</summary>
-<artical>
-<pre>
-<code>
-import { createContext } from 'react'
-export let DataContext = createContext() // 在组件外生成context对象
-<p>import { useState } from &quot;react&quot;;
-import { C } from '../C/index'
-import { DataContext } from &quot;../../context&quot;;
-export function First () {
-let [data] = useState({k: 'v'})
-return (&lt;DataContext.Provider value={data}&gt; // 让 context 提供指定的数据
-<C></C>
-&lt;/DataContext.Provider&gt;)
-}</p>
-<p>import { useContext } from &quot;react&quot;;
-import { DataContext } from &quot;../../context&quot;;
-export function C () {
-let data = useContext(DataContext)
-return (<div>
-{JSON.stringify(data)}</p>
-</div>)
-}
-</code>
-</pre>
-</artical>
-</details>
 <h2 id="数据">数据</h2>
 <p>从根组件向叶子组件流动。</p>
 <h2 id="memoized">memoized</h2>
@@ -722,6 +680,10 @@ return (<div>
 React.PureComponent 内实现了<code>shouldComponentUpdate()</code>(React.Component 中未实现)。该方法会简单判断是否需要更新。该方法会跳过所有子组件的 props 更新。</p>
 <h2 id="异常捕获边界">异常捕获边界</h2>
 <p><a href="https://zh-hans.reactjs.org/docs/error-boundaries.html">https://zh-hans.reactjs.org/docs/error-boundaries.html</a></p>
+<p><code>static getDerivedStateFromError(error)</code>     // 有错误时触发，用于渲染降级ui<br>
+<code>componentDidCatch(error, errorInfor)</code>  // 捕获错误<br>
+自定义错误边界的粒度。<br>
+若不捕获错误，则会导致整个react树被卸载。请根据页面区域划分捕获错误。阻止全页面空白。</p>
 <h2 id="hoc-高阶组件">HOC 高阶组件</h2>
 <pre><code class="language-js"><div><span class="hljs-comment">// 定义</span>
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">HOC</span>(<span class="hljs-params">WC, sf</span>) </span>{
@@ -893,7 +855,7 @@ react 当组件链上的 ReactElement 改变时执行 rerender.</p>
 <p>react 和 web components 一起使用时与 react 和 html 一起使用时一样、无差别。</p>
 <h2 id="todo">todo</h2>
 <h3 id="有很多以开头的变量">有很多以<code>$$</code>开头的变量。</h3>
-<h3 id="有好多指对-dev-环境的检查错误">有好多指对 dev 环境的检查错误。</h3>
+<h3 id="有好多针对-dev-环境的检查错误">有好多针对 dev 环境的检查错误。</h3>
 <pre><code class="language-js"><div><span class="hljs-keyword">if</span> (__DEV__) {...}
 </div></code></pre>
 <h3 id="多以构造函数prototypeobjectdefineproperty-的方式写代码">多以构造函数+prototype+Object.defineProperty 的方式写代码。</h3>
@@ -912,15 +874,15 @@ react 当组件链上的 ReactElement 改变时执行 rerender.</p>
 <li>父组件重新渲染时</li>
 </ul>
 <h3 id="严格模式为什么会渲染-2-次">严格模式为什么会渲染 2 次</h3>
-<p>strict mode的通过两次调用constructor和render函数来更好的检测不符合预期的side effects<br>
+<p>strict mode 的通过两次调用 constructor 和 render 函数来更好的检测不符合预期的 side effects<br>
 下列函数会执行两次</p>
 <ul>
-<li>类组件的constructor,render和shouldComponentUpdate方法</li>
-<li>类组建的静态方法getDerivedStateFromProps</li>
+<li>类组件的 constructor,render 和 shouldComponentUpdate 方法</li>
+<li>类组建的静态方法 getDerivedStateFromProps</li>
 <li>函数组件方法体</li>
-<li>状态更新函数(setState的第一个参数)</li>
-<li>传入useState,useMemo或useReducer的函数<br>
-在production环境下不会这样,所以不用担心</li>
+<li>状态更新函数(setState 的第一个参数)</li>
+<li>传入 useState,useMemo 或 useReducer 的函数<br>
+在 production 环境下不会这样,所以不用担心</li>
 </ul>
 <h3 id="未来迭代计划">未来迭代计划。</h3>
 <p>都已经推荐使用 function 组件了，在官方文档中还是大多数是 class 组件。</p>
