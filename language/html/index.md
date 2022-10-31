@@ -26,6 +26,8 @@ html 为 js 支持很多前提条件。如：
 
 # 浏览器处理 html 文件的过程
 
+# [Element](/language/html/Element.html)
+
 # [webComponent](/language/html/webComponents.html)
 
 # [HTMLElement](/language/html/HTMLElement.html)
