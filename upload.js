@@ -251,13 +251,12 @@ c.on('ready', () => {
     }
     // let p = 'resolve' //
     let p = [
-      // 'resolve/index.html',
-      // 'dsa/index.html',
-      // 'dsa/sort.html',
-      'framework/react/react-18/index.html',
-      // 'framework/react/react-18/context.html',
       // 'framework/react/react-18/hoc.html',
-      // 'jsPackages/lerna/commands.html',
+      // 'framework/react/react-18/index.html',
+      // 'language/javascript/index.html',
+      // 'language/javascript/fetch.html',
+      // 'language/javascript/modularity.html',
+      // 'language/javascript/version.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
