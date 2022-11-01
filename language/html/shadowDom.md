@@ -44,3 +44,11 @@
 |      | elementsFromPoint()      |                                             |      |     |
 |      | caretPositionFromPoint() |                                             |      |     |
 |      |                          |                                             |      |     |
+
+```
+                shadowRoot
+    element ------------------> shadow dom
+        ^                            |
+        |----------------------------|
+                host
+```

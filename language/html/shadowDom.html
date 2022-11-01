@@ -82,29 +82,29 @@
         <h1 id="shadow-dom">shadow DOM</h1>
 <ul>
 <li>只能挂载到允许的元素上。不能单独存在。</li>
-<li>使用它与使用html元素相同。</li>
-<li>需要熟练js操作dom的api.</li>
+<li>使用它与使用 html 元素相同。</li>
+<li>需要熟练 js 操作 dom 的 api.</li>
 <li></li>
 </ul>
 <h2 id="demo">demo</h2>
 <pre><code class="language-html"><div><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
-    <span class="hljs-comment">&lt;!-- 自定义标签与script标签的前后顺序无关 --&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">popup-info</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">popup-info</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
-        <span class="hljs-keyword">let</span> clog = <span class="hljs-built_in">console</span>.log
-        <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CustomeTag</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">HTMLElement</span> </span>{
-        <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params"></span>)</span> {
-            <span class="hljs-built_in">super</span>()
-            <span class="hljs-keyword">var</span> shadow = <span class="hljs-built_in">this</span>.attachShadow({<span class="hljs-attr">mode</span>: <span class="hljs-string">&#x27;open&#x27;</span>}); <span class="hljs-comment">// 创建shadow dom元素</span>
-            <span class="hljs-comment">// 为什么非要使用这个方法</span>
-            <span class="hljs-keyword">var</span> wrapper = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">&#x27;span&#x27;</span>);
-            wrapper.setAttribute(<span class="hljs-string">&#x27;class&#x27;</span>,<span class="hljs-string">&#x27;wrapper&#x27;</span>);
-            wrapper.textContent = <span class="hljs-string">&#x27;text str&#x27;</span>;
-            shadow.appendChild(wrapper);
-        }
-        }
-        customElements.define(<span class="hljs-string">&#x27;popup-info&#x27;</span>, CustomeTag);
-    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-comment">&lt;!-- 自定义标签与script标签的前后顺序无关 --&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">popup-info</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">popup-info</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+    <span class="hljs-keyword">let</span> clog = <span class="hljs-built_in">console</span>.log
+    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CustomeTag</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">HTMLElement</span> </span>{
+      <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params"></span>)</span> {
+        <span class="hljs-built_in">super</span>()
+        <span class="hljs-keyword">var</span> shadow = <span class="hljs-built_in">this</span>.attachShadow({ <span class="hljs-attr">mode</span>: <span class="hljs-string">&#x27;open&#x27;</span> }) <span class="hljs-comment">// 创建shadow dom元素</span>
+        <span class="hljs-comment">// 为什么非要使用这个方法</span>
+        <span class="hljs-keyword">var</span> wrapper = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">&#x27;span&#x27;</span>)
+        wrapper.setAttribute(<span class="hljs-string">&#x27;class&#x27;</span>, <span class="hljs-string">&#x27;wrapper&#x27;</span>)
+        wrapper.textContent = <span class="hljs-string">&#x27;text str&#x27;</span>
+        shadow.appendChild(wrapper)
+      }
+    }
+    customElements.define(<span class="hljs-string">&#x27;popup-info&#x27;</span>, CustomeTag)
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
 </div></code></pre>
 <h2 id="shadowroot">ShadowRoot</h2>
@@ -129,28 +129,28 @@
 <tr>
 <td></td>
 <td>delegatesFocus</td>
-<td>返回创建shadowDom时的delegatesFocus属性</td>
+<td>返回创建 shadowDom 时的 delegatesFocus 属性</td>
 <td>只读</td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td>host</td>
-<td>返回shadomDom挂载的元素</td>
+<td>返回 shadomDom 挂载的元素</td>
 <td>只读</td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td>innerHTML</td>
-<td>返回shadomDom内的dom树</td>
+<td>返回 shadomDom 内的 dom 树</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td>mode</td>
-<td>返回创建shadowDom时的mode属性</td>
+<td>返回创建 shadowDom 时的 mode 属性</td>
 <td>只读</td>
 <td></td>
 </tr>
@@ -198,6 +198,12 @@
 </tr>
 </tbody>
 </table>
+<pre><code><code><div>                shadowRoot
+    element ------------------&gt; shadow dom
+        ^                            |
+        |----------------------------|
+                host
+</div></code></code></pre>
 
         
         

@@ -40,7 +40,7 @@ Element 是一个通用性非常强的基类，所有 Document 对象下的对�
 |                  | **attachShadow(shadowRootInit)** | 创建一个 shadow dom 到指定的元素中，并返回该 shadow dom 的引用。 |     |     |     |
 |                  | animate()                        |                                                                  |     |     |     |
 |                  | closest()                        |                                                                  |     |     |     |
-|                  | createShadwoRoot()               |                                                                  |     |     |     |
+|                  | createShadowRoot()               |                                                                  |     |     |     |
 |                  | computedStyleMap()               |                                                                  |     |     |     |
 |                  | dispatchEevent()                 |                                                                  |     |     |     |
 |                  | getAnimations()                  |                                                                  |     |     |     |
