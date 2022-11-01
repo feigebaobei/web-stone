@@ -25,6 +25,7 @@ React 只更新它需要更新的部分
 
 ## jsx
 
+- React.createElement(component, props, ...children)
 - 它是像 xml 的 js 代码。（当然也像 html）。
 - 它是 js 代码的语法糖，会被 babel 转换为 js 代码。如:
 - 组件名以大写字母开头。小写会被认为是 html 标签。
@@ -95,6 +96,9 @@ funtion Clock(props) { // (props) => ReactElement
 Clock.propTypes = { // 为props设置类型检测
     k: PropTypes.string
 }
+Clock.defaultProps = {
+    k: 'str'
+}
 // props是只读的。
 // state 是私有的，并且完全受控于当前组件。
 ```
@@ -108,10 +112,12 @@ class ComponentName extends React.Component {
     constructor(props) {
         super(props);
         this.state = {...}
+        this.domClickHandler = this.domClickHandler.bind(this) // class组件不会自己绑定this。需要在constructor中使用bind(this)绑定方法
     }
     // 生命周期函数
     componentDidMount() {...}
     componentWillUnmount() {...}
+    domClickHandler() {...}
     render() {
         return ... // ReactElement
     }
@@ -191,35 +197,6 @@ function Hello(props) {
 ```
 
 ## [事件](/framework/react/event.html)
-
-命名采用小驼峰式
-事件对应的方法的参数 e 是一个合成对象`SyntheticEvent`，与原生事件对象不完全相同。
-
-- 源码中使用`addEventListener()`添加事件。
-- 使用`e.preventDefault()`防止默认行为
-- 使用`e.stopPropagation()`防止冒泡行为
-- 绑定事件示例 `<button onClick={() => this.handleClick()}>` `<button onClick={this.handleClick}>`
-- 传参示例 `<button onClick={(e) => this.deleteRow(id, e)}>Delete Row</button>` `<button onClick={this.deleteRow.bind(this, id)}>Delete Row</button>`
-
-|            |     |     |
-| ---------- | --- | --- |
-| 剪贴板事件 |     |     |
-| 复合事件   |     |     |
-| 键盘事件   |     |     |
-| 焦点事件   |     |     |
-| 表单事件   |     |     |
-| 通用事件   |     |     |
-| 鼠标事件   |     |     |
-| 指针事件   |     |     |
-| 选择事件   |     |     |
-| 触摸事件   |     |     |
-| ui 事件    |     |     |
-| 滚轮事件   |     |     |
-| 媒体事件   |     |     |
-| 图像事件   |     |     |
-| 动画事件   |     |     |
-| 过滤事件   |     |     |
-| 其他事件   |     |     |
 
 ## [hooks](/framework/react/hooks.md)
 
@@ -439,35 +416,53 @@ function A(props) {
 
 ```js
 exports.Children
+    可以用于处理this.props.children
+    x.map()
+    x.forEach()
+    x.count()     // 子元素的数量
+    x.only()      // 是否只有一个子元素
+    x.toArray()   //
 exports.Component
+    常用于创建class组件
 exports.Fragment
     这是一个内置组件。用于把多个子组件放在一起。
+    简写 <></>
 exports.Profiler
 
 exports.PureComponent
+    常用于创建class组件。较于Component多了shouldComponentUpdate()
 exports.StrictMode
 exports.Suspense
     这是一个内置组件。指定懒加载组件不具备渲染条件时（使用fallback属性指定）显示的内容。
 exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED= ReactSharedInternals;
-exports.cloneElement
+exports.cloneElement(element, config?, children?)
+    用于复制ReactElement
 exports.createContext(defaultValue)
     创建一个Context对象。
     只有当组件所处的树中没有匹配到 Provider 时，其 defaultValue 参数才会生效。
-exports.createElement
-exports.createFactory
+exports.createElement(type, props?, children?)
+    返回ReactElement元素
+    约等于 <element.type {...element.props} {...props}>{children}</element.type>
+exports.createFactory 已废弃
 exports.createRef
-    类组件中使用ref
+    返回一个ref
 exports.forwardRef((props, ref) => {
     <dom ref={ref}>...</dom>
 })
     让方法式组件也支持ref属性。把ref透传下去
 exports.isValidElement(obj)
-    验证对象是否为react对象
+    验证对象是否为ReactElement对象
 exports.lazy(() => {return Promise})
     参数是一个方法，该方法返回一个Promise，该promise返回一个组件。
     用于动态加载组件。可缩减bundle的体积。
-exports.memo(Comp)
+    需要与React.Suspense结合使用
+exports.memo(Comp, manualEqual)
+    是高阶组件
     当props、useState/useReducer/useContext改变时重新渲染组件
+    comp 是组件
+    manualEqual(prevPreps, nextProps) 用于比较二者。若返回true则不渲染。
+    用性能优化，不能用于阻止渲染。
+    shouldComponentUpdate 用于阻止渲染
 exports.startTransition(fn)
     明确指定降低ui更新优先级的更新。
 exports.unstable_act
@@ -488,6 +483,19 @@ exports.useState
 exports.useSyncExternalStoreuseSyncExternalStore;
 exports.useTransition
 exports.version
+```
+
+## Suspense
+
+```js
+let OtherComp = React.lazy(() => import('./OtherComp'))
+function f() {
+  return (
+    <React.Suspense fallback={<Spinner />}>
+      <OtherComp />
+    </React.Suspense>
+  )
+}
 ```
 
 ## [principle](/framework/react/react-18/principle.md)
@@ -538,14 +546,7 @@ let OtherComponent = React.lazy(() => import(...)) // 只能导出default
 纯组件可与不可变对象结合使用。（array/object 都是可变对象）  
 React.PureComponent 内实现了`shouldComponentUpdate()`(React.Component 中未实现)。该方法会简单判断是否需要更新。该方法会跳过所有子组件的 props 更新。
 
-## 异常捕获边界
-
-https://zh-hans.reactjs.org/docs/error-boundaries.html
-
-`static getDerivedStateFromError(error)` // 有错误时触发，用于渲染降级 ui  
-`componentDidCatch(error, errorInfor)` // 捕获错误  
-自定义错误边界的粒度。  
-若不捕获错误，则会导致整个 react 树被卸载。请根据页面区域划分捕获错误。阻止全页面空白。
+## [异常捕获边界](/framework/react/react-18/errorBinary.html)
 
 ## forwardRef
 
@@ -565,38 +566,11 @@ export default FancyButton
 第二个参数 ref 只在使用 React.forwardRef 定义组件时存在。常规函数和 class 组件不接收 ref 参数，**且 props 中也不存在 ref**。  
 Ref 转发不仅限于 DOM 组件，你也可以转发 refs 到 class 组件实例中。
 
-## HOC 高阶组件
-
-- 组件：把 props => ui
-- hoc：把组件 => 另一个组件
-- 将组件包装在容器内，组成新组件。
-- 是纯函数，无副作用。
-- 不应用修改传入的组件，而是修改组合方式。
-- 与容器组件相似
-- 在组件树中横截面操作
-  - 属性代理 (修改 props。如：增删改)
-- 不要在 render 中使用 hoc
-
-```js
-// 定义
-function HOC(WC, sf) {
-    return function (props) {
-        let [d, setD] = setState(sf(props))
-        let f = (o) => {
-            setD(sf({...props, ...o}))
-        }
-        return <WC d={d} onEvent={f} />
-    }
-}
-// 使用
-let C = function (props) {...}
-let A = HOC(C, () => {...})
-let B = HOC(C, () => {...})
-<A />
-<B />
-```
+## [HOC 高阶组件](/framework/react/react-18/hoc.html)
 
 ## 提高性能
+
+若无法测量，则无法优化。
 
 - 使用生产版本。
 - 访问打包后的文件。
@@ -607,7 +581,32 @@ let B = HOC(C, () => {...})
 - useCallback
 - useDeferredValue
 - useTransition
--
+- 使用`React.Profiler`测试渲染性能
+
+### Profiler
+
+- 测量应用多久渲染一次。
+- 渲染用性能。
+- props: {id: string, onRender: () => any}
+  - onRender // 渲染时触发
+
+```js
+let cb = (
+  id,
+  phase, // 'mount' / 'update'
+  actualDuration, // 本次渲染花费的时间
+  baseDuration, //
+  startTime, //
+  commitTime, //
+  interactions //
+) => {}
+;<App>
+  <Profiler id="nav" onRender={cb}>
+    <Nav />
+  </Profiler>
+  // 也可测量多个组件
+</App>
+```
 
 ## Profiler API
 
@@ -640,7 +639,7 @@ function C (props) {
 function P () {
     return <C render={(...args) => {...}} />
 }
-// 若与PureComponent一起使用可以
+// 若与PureComponent一起使用会抵消纯组件带来的优势。
 ```
 
 ## 静态类型检查
@@ -716,11 +715,11 @@ react 也有自己的严格模式。
 ## 受控组件 & 非受控组件
 
 专用于 form 元素的分类。
-|受控组件|非受控组件||
-|-|-|-|
-|本组件内使用 state+根据用户输入更新表单数据|使用`ref`得 dom 后取表单数据||
-|用于设置|用于得到||
-||||
+||受控组件|非受控组件||
+|-|-|-|-|
+||本组件内使用 state+根据用户输入更新表单数据|使用`ref`得 dom 后取表单数据||
+|用途|用于设置|用于得到||
+|||||
 
 ```js
 // 受控组件
@@ -739,6 +738,17 @@ fn() {
 <form onSubmit={fn}>
     <input type="file" ref={this.fileInput}>
 </form>
+```
+
+## portals
+
+`react.createPortal(child: ReactElement, container: dom)`  
+把 child 渲染到 dom 中
+
+```js
+export default function (props) {
+  return React.createPortal(props.children, document.querySelector('body'))
+}
 ```
 
 ## diff
@@ -784,6 +794,7 @@ if (__DEV__) {...}
 
 - props/state 改变时。
 - 父组件重新渲染时
+- useContext 改变时
 
 ### 严格模式为什么会渲染 2 次
 
