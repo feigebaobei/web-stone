@@ -34,6 +34,10 @@ html 为 js 支持很多前提条件。如：
 
 # [shadow dom](/language/html/shadowDom.html)
 
+# [template](/language/html/template.html)
+
+# [slot](/language/html/slot.html)
+
 # 属性
 
 - 使用`key="value"`形式书写在开始标签内。
