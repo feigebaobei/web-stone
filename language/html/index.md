@@ -32,6 +32,8 @@ html 为 js 支持很多前提条件。如：
 
 # [HTMLElement](/language/html/HTMLElement.html)
 
+# [shadow dom](/language/html/shadowDom.html)
+
 # 属性
 
 - 使用`key="value"`形式书写在开始标签内。
