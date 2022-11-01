@@ -44,6 +44,7 @@ listener指定当哪个变量变化（使用浅复制比较）时触发fn.
 fn应该是纯函数。
 类似vue的watchEffect
 // 最好不要执行fn内定义的方法。？
+fn只在指定时刻执行，如dep改变时。在useEffect外、组件内的代码会在每次渲染时执行。
 
 let value = useContext(myContext)
 接收一个 context 对象（React.createContext 的返回值）并返回该 context 的当前值。当前的 context 值由上层组件中距离当前组件最近的 <MyContext.Provider> 的 value prop 提供。
@@ -673,6 +674,33 @@ function useParams () {
     }
     return {getParams, setParams}
 }
+```
+
+useOnce
+
+```js
+// cf 判断条件的方法。 参数是 dep
+// fn 若条件满足则执行的方法  参数是args
+// args   fn方法的参数
+// dep    依赖
+export default function useOnce(cf, fn, args, dep) {
+  let [hasRun, setHasRun] = useState(false)
+  useEffect(() => {
+    if (cf(dep) && !hasRun) {
+      fn(args)
+      setHasRun(true)
+    }
+  }, [dep, args, cf, fn, hasRun])
+}
+// use
+let cf = (v) => {
+  return v.length % 3 === 2
+}
+let fn = (v) => {
+  console.log('fn', v)
+}
+let [v, setV] = useState('')
+useOnce(cf, fn, 'str', v)
 ```
 
 ## 自定义 hooks 的包

@@ -124,6 +124,7 @@ listener指定当哪个变量变化（使用浅复制比较）时触发fn.
 fn应该是纯函数。
 类似vue的watchEffect
 <span class="hljs-comment">// 最好不要执行fn内定义的方法。？</span>
+fn只在指定时刻执行，如dep改变时。在useEffect外、组件内的代码会在每次渲染时执行。
 
 <span class="hljs-keyword">let</span> value = useContext(myContext)
 接收一个 context 对象（React.createContext 的返回值）并返回该 context 的当前值。当前的 context 值由上层组件中距离当前组件最近的 &lt;MyContext.Provider&gt; 的 value prop 提供。
@@ -714,6 +715,30 @@ isShow &amp;&amp; &lt;Modal&gt;
     }
     <span class="hljs-keyword">return</span> {getParams, setParams}
 }
+</div></code></pre>
+<p>useOnce</p>
+<pre><code class="language-js"><div><span class="hljs-comment">// cf 判断条件的方法。 参数是 dep</span>
+<span class="hljs-comment">// fn 若条件满足则执行的方法  参数是args</span>
+<span class="hljs-comment">// args   fn方法的参数</span>
+<span class="hljs-comment">// dep    依赖</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">useOnce</span> (<span class="hljs-params">cf, fn, args, dep</span>) </span>{
+    <span class="hljs-keyword">let</span> [hasRun, setHasRun] = useState(<span class="hljs-literal">false</span>)
+    useEffect(<span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-keyword">if</span> (cf(dep) &amp;&amp; !hasRun) {
+            fn(args)
+            setHasRun(<span class="hljs-literal">true</span>)
+        }
+    }, [dep, args, cf, fn, hasRun])
+}
+<span class="hljs-comment">// use</span>
+<span class="hljs-keyword">let</span> cf = <span class="hljs-function">(<span class="hljs-params">v</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> v.length % <span class="hljs-number">3</span> === <span class="hljs-number">2</span>
+}
+<span class="hljs-keyword">let</span> fn = <span class="hljs-function">(<span class="hljs-params">v</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;fn&#x27;</span>, v)
+}
+<span class="hljs-keyword">let</span> [v, setV] = useState(<span class="hljs-string">&#x27;&#x27;</span>)
+useOnce(cf, fn, <span class="hljs-string">&#x27;str&#x27;</span>, v)
 </div></code></pre>
 <h2 id="自定义-hooks-的包">自定义 hooks 的包</h2>
 <ul>

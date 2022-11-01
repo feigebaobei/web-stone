@@ -80,6 +80,21 @@
     </head>
     <body class="vscode-body vscode-light">
         <h1 id="hoc-高阶组件">hoc 高阶组件</h1>
+<ul>
+<li>组件：把 props =&gt; ui</li>
+<li>hoc：把组件 =&gt; 另一个组件</li>
+<li>将组件包装在容器内，组成新组件。</li>
+<li>是纯函数，无副作用。</li>
+<li>不应用修改传入的组件，而是修改组合方式。</li>
+<li>与容器组件相似</li>
+<li>在组件树中横截面操作
+<ul>
+<li>属性代理 (修改 props。如：增删改hoc</li>
+</ul>
+</li>
+<li>不要在 render 中使用 hoc</li>
+<li>解决“横切关注点”问题</li>
+</ul>
 <h2 id="hoc--ref">hoc &amp; ref</h2>
 <pre><code class="language-js"><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">wrap</span>(<span class="hljs-params">Comp</span>) </span>{
   <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Inner</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
@@ -114,6 +129,43 @@
 </div></code></pre>
 <h2 id="hoc--funtion">hoc &amp; funtion</h2>
 <pre><code class="language-js"><div>
+</div></code></pre>
+<h2 id="hoc--错误边界">hoc &amp; 错误边界</h2>
+<pre><code class="language-js"><div><span class="hljs-comment">// 待测试</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">Comp</span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+        <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params"></span>)</span> {
+            <span class="hljs-built_in">super</span>()
+        }
+        <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-title">getDerivedStateFromError</span>(<span class="hljs-params">error</span>)</span> {
+            <span class="hljs-comment">// </span>
+        }
+        <span class="hljs-function"><span class="hljs-title">componentDidCatch</span>(<span class="hljs-params">error, errorInfo</span>)</span> {
+            <span class="hljs-comment">// </span>
+        }
+        <span class="hljs-function"><span class="hljs-title">render</span>(<span class="hljs-params"></span>)</span> {
+            <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Comp</span> {<span class="hljs-attr">...this.props</span>}&gt;</span>{this.props.children}<span class="hljs-tag">&lt;/<span class="hljs-name">Comp</span>&gt;</span></span>
+        }
+    }
+}
+</div></code></pre>
+<h2 id="hoc--操作数据的方法">hoc &amp; 操作数据的方法</h2>
+<pre><code class="language-js"><div><span class="hljs-comment">// 定义</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">HOC</span>(<span class="hljs-params">WC, sf</span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">props</span>) </span>{
+        <span class="hljs-keyword">let</span> [d, setD] = setState(sf(props))
+        <span class="hljs-keyword">let</span> f = <span class="hljs-function">(<span class="hljs-params">o</span>) =&gt;</span> {
+            setD(sf({...props, ...o}))
+        }
+        <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">WC</span> <span class="hljs-attr">d</span>=<span class="hljs-string">{d}</span> <span class="hljs-attr">onEvent</span>=<span class="hljs-string">{f}</span> /&gt;</span></span>
+    }
+}
+<span class="hljs-comment">// 使用</span>
+<span class="hljs-keyword">let</span> C = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">props</span>) </span>{...}
+<span class="hljs-keyword">let</span> A = HOC(C, <span class="hljs-function">() =&gt;</span> {...})
+<span class="hljs-keyword">let</span> B = HOC(C, <span class="hljs-function">() =&gt;</span> {...})
+&lt;A /&gt;
+<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">B</span> /&gt;</span></span>
 </div></code></pre>
 
         
