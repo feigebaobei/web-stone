@@ -344,8 +344,8 @@
 </tr>
 <tr>
 <td></td>
-<td>attachShadow()</td>
-<td>创建一个shadow dom到指定的元素中，并返回该shadow dom的引用。</td>
+<td><strong>attachShadow(shadowRootInit)</strong></td>
+<td>创建一个 shadow dom 到指定的元素中，并返回该 shadow dom 的引用。</td>
 <td></td>
 <td></td>
 <td></td>
@@ -791,7 +791,7 @@
 <td></td>
 </tr>
 <tr>
-<td>composition事件</td>
+<td>composition 事件</td>
 <td>compositionend</td>
 <td></td>
 <td></td>
@@ -823,7 +823,7 @@
 <td></td>
 </tr>
 <tr>
-<td>focus事件</td>
+<td>focus 事件</td>
 <td>focus</td>
 <td></td>
 <td></td>
@@ -1015,7 +1015,7 @@
 <td></td>
 </tr>
 <tr>
-<td>touch事件</td>
+<td>touch 事件</td>
 <td>toucecancel</td>
 <td></td>
 <td></td>
@@ -1048,6 +1048,53 @@
 </tr>
 </tbody>
 </table>
+<h2 id="elementattachshadowshadowrootinit">Element.attachShadow(shadowRootInit)</h2>
+<pre><code><code><div>shadowRootInit: {
+    mode: 'open' | 'closed', // 是否从js外部访问根节点
+    delegatesFocus boolean   // 是否焦点委托
+}
+</div></code></code></pre>
+<p>返回<a href="/language/html/shadowDom.html">shadowRoot</a>的引用或null</p>
+<h3 id="异常">异常</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>InvalidStateError</td>
+<td>无效状态错误</td>
+<td>您添加的元素已经是一个 shadow host（影子主机）.</td>
+</tr>
+<tr>
+<td>NotSupportedError</td>
+<td>不被支持错误</td>
+<td>您应该添加 HTML 元素的命名空间之外的 shadow root，或者这个元素不能有其他 shadow 挂载到它上面 (见上).</td>
+</tr>
+</tbody>
+</table>
+<p>看来element下最多只能有一个shadow dom.</p>
+<h3 id="可使用该方法的元素">可使用该方法的元素</h3>
+<p>不是对所有Element都能使用attachShadow方法。下面是可以使用该方法的元素：</p>
+<ul>
+<li>article</li>
+<li>aside</li>
+<li>blockquote</li>
+<li>body</li>
+<li>div</li>
+<li>footer</li>
+<li>h1 - h6</li>
+<li>header</li>
+<li>main</li>
+<li>nav</li>
+<li>p</li>
+<li>section</li>
+<li>span</li>
+</ul>
 
         
         
