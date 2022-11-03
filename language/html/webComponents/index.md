@@ -62,43 +62,6 @@ window.customElements => CustomElementRegistry
 
 ## [THMLElement](/language/html/HTMLElement.html)
 
-在这里写完后整理到 html 目录中  
-所有 html 元素都是继承自 HTMLElement 对象。
-
-|      |                               |                            |     |     |
-| ---- | ----------------------------- | -------------------------- | --- | --- |
-| 属性 |                               |                            |     |     |
-|      | accessKey                     | 设置、获取元素访问的快捷键 |     |     |
-|      | accessKeyLabel                |                            |     |     |
-|      | contentEditable               |                            |     |     |
-|      | isContentEditable             |                            |     |     |
-|      | HTMLOrForeignElement.dataset  |                            |     |     |
-|      | dir                           |                            |     |     |
-|      | draggable                     |                            |     |     |
-|      | enterkeyhint                  |                            |     |     |
-|      | hidden                        |                            |     |     |
-|      | inert                         |                            |     |     |
-|      | innerText                     |                            |     |     |
-|      | lang                          |                            |     |     |
-|      | noModule                      |                            |     |     |
-|      | HTMLOrForeignElement.nonce    |                            |     |     |
-|      | offsetHeight                  |                            |     |     |
-|      | offsetParent                  |                            |     |     |
-|      | offsetTop                     |                            |     |     |
-|      | offsetWidth                   |                            |     |     |
-|      | spellcheck                    |                            |     |     |
-|      | style                         |                            |     |     |
-|      | HTMLOrForeignElement.tabIndex |                            |     |     |
-|      | title                         |                            |     |     |
-|      | translate                     |                            |     |     |
-| 方法 |                               |                            |     |     |
-|      | attachInternals()             |                            |     |     |
-|      | HTMLOrForeignElement.blur()   |                            |     |     |
-|      | click()                       |                            |     |     |
-|      | HTMLOrForeignElement.focus()  |                            |     |     |
-|      | forceSpellCheck()             |                            |     |     |
-|      | attachInternals()             |                            |     |     |
-
 ## use custom elements
 
 ```js
