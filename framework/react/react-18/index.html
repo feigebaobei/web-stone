@@ -157,9 +157,10 @@ React.createElement(<span class="hljs-string">&#x27;span&#x27;</span>, {}, str)
 <h2 id="组件">组件</h2>
 <p>没有继承，只有组合。(好像 js 语言中的对象委托呀！原型链就是对象委托的表现。)</p>
 <h3 id="函数组件">函数组件</h3>
-<p>其上不能 ref 属性。因为函数组件没有实例。class 组件有实例。
+<p>其上不能直接使用 ref 属性。因为函数组件没有实例。class 组件有实例。<br>
 就是在原来的无状态组件上添加了 hooks.<br>
-组件名称必须以大写字母开头。</p>
+组件名称必须以大写字母开头。<br>
+只有在你刻意忽略 prop 更新的情况下使用。此时，应将 prop 重命名为 initialColor 或 defaultColor。</p>
 <pre><code class="language-js"><div><span class="hljs-comment">// 函数组件模板</span>
 <span class="hljs-keyword">import</span> {useReducer} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span>
 <span class="hljs-keyword">import</span> PropTypes <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;prop-types&#x27;</span>
@@ -268,7 +269,7 @@ ComponentName.contextType = MyContext <span class="hljs-comment">// 组件内使
 <td>出现的组件形式</td>
 <td>class</td>
 <td>function/class</td>
-<td>class</td>
+<td>function/class</td>
 <td></td>
 </tr>
 <tr>
@@ -324,76 +325,6 @@ setState(<span class="hljs-function">(<span class="hljs-params">state, props, an
 </div></code></pre>
 <h2 id="事件"><a href="/framework/react/event.html">事件</a></h2>
 <h2 id="hooks"><a href="/framework/react/hooks.html">hooks</a></h2>
-<details>
-  <summary>hooks</summary>
-  <artical>
-    <ul>
-        <li>从react v16.8开始支持hooks。</li>
-        <li>内置于react中</li>
-        <li>100%向后兼容</li>
-        <li>不影响使用class组件</li>
-        <li>不计划代替class组件</li>
-        <li>可以不迁移class组件</li>
-        <li>ellint-plugin-react-hooks已经内置与create-react-app中</li>
-    </ul>
-<pre>
-<code>
-let [value, setValue] = useState([initValue])
-用于处理组件内的状态
-setValue(newValue)
-<p>useEffect(fn, ...listener = [])
-用于处理副作用
-在 componentDidMount/componentDidUpdate/componentWillUnmount 时触发。
-尽量把不相关的监听写在不同的 useEffect 里。</p>
-<p>let value = useContext(myContext)
-接收一个 context 对象（React.createContext 的返回值）并返回该 context 的当前值。当前的 context 值由上层组件中距离当前组件最近的 &lt;MyContext.Provider&gt; 的 value prop 决定。</p>
-<p>let [state, dispatch] = useReducer(reducer, initialArg, [init])
-init 是一个方法。参数是 initialArg
-与 useState 功能相似。它接收一个形如 (state, action) =&gt; newState 的 reducer，并返回当前的 state 以及与其配套的 dispatch 方法。（如果你熟悉 Redux 的话，就已经知道它如何工作了。）
-dispatch({type: 'typename', key: value}) // dispatch 的参数是 action. action.type, action.key</p>
-<p>let memoizedCallback = useCallback(fn, ...dependencies)
-只有 dependencies 改变时执行 fn
-返回一个 memoized 回调函数。
-只在更新组件时执行。
-阻止不必要的重新渲染。</p>
-<p>let memoizedValue = useMemo(fn: () =&gt; any, ...dependencies)
-返回一个 memoized 值。
-与 useCallback 类似。</p>
-<p>let refContainer = useRef(initialValue)
-useRef 返回一个可变的 ref 对象，其 .current 属性被初始化为传入的参数（initialValue）。返回的 ref 对象在组件的整个生命周期内持续存在。
-组件重新渲染期间其值一直存在。
-改变其值时不会重新渲染组件。
-可以使用它：得到 dom 元素，跟踪状态变化（保存变化前的状态），</p>
-<p>useImperativeHandle(ref, createHandle, [deps])
-useImperativeHandle 可以让你在使用 ref 时自定义暴露给父组件的实例值。在大多数情况下，应当避免使用 ref 这样的命令式代码。useImperativeHandle 应当与 forwardRef 一起使用：</p>
-<p>useLayoutEffect
-其函数签名与 useEffect 相同，但它会在所有的 DOM 变更之后同步调用 effect。可以使用它来读取 DOM 布局并同步触发重渲染。在浏览器执行绘制之前，
-执行顺序：更新变量值 -》 组件重新渲染 -》 执行 useLayoutEffect -&gt; 显示渲染结果 -》 执行 useEffect
-尽可能使用标准的 useEffect 以避免阻塞视觉更新。</p>
-<p>useDebugValue(value, [fn])
-可用于在 React 开发者工具中显示自定义 hook 的标签。</p>
-<p>let deferredValue = useDeferredValue(value)
-会根据 value 返回一个复制的 deferredValue（延迟数据）。当有急切的更新时要，react 会返回原来的值，当更新结束后再使用新值更新组件。</p>
-<p>let [isPending, startTransition] = useTransition()
-用于降低渲染优先级.</p>
-<p>let id = useId() // 如 :r1:
-返回一个惟一的 id.可用于跨平台。string 类型。包括:</p>
-<p>let state = useSyncExternalStore(subscribe, getSnapshot[, getServerSnapshort])
-对任务进行优先级排序并同时执行多个任务。
-可以把外部存储的数据读来和订阅。</p>
-<p>useInsertionEffect(didUpdate)
-它与 useEffect 的用法一样。
-它会在所有 dom 更新前执行。常用于学页面布局。
-</code></p>
-</pre>
-<p>自定义hooks</p>
-<p>hooks的规则</p>
-<ul>
-    <li>只能在function组件内的顶级中使用</li>
-    <li>不能被使用条件判断</li>
-</ul>
-</artical>
-</details>
 <h2 id="生命周期方法">生命周期方法</h2>
 <details>
   <summary>生命周期方法</summary>
@@ -508,82 +439,15 @@ xx ? <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">A</spa
 </pre>
 </artical>
 </details>
-<h2 id="api">api</h2>
-<pre><code class="language-js"><div><span class="hljs-built_in">exports</span>.Children
-    可以用于处理<span class="hljs-built_in">this</span>.props.children
-    x.map()
-    x.forEach()
-    x.count()     <span class="hljs-comment">// 子元素的数量</span>
-    x.only()      <span class="hljs-comment">// 是否只有一个子元素</span>
-    x.toArray()   <span class="hljs-comment">// </span>
-<span class="hljs-built_in">exports</span>.Component
-    常用于创建<span class="hljs-class"><span class="hljs-keyword">class</span>组件
-<span class="hljs-title">exports</span>.<span class="hljs-title">Fragment</span>
-    这是一个内置组件。用于把多个子组件放在一起。
-    简写 &lt;&gt;&lt;/&gt;
-<span class="hljs-title">exports</span>.<span class="hljs-title">Profiler</span>
-
-<span class="hljs-title">exports</span>.<span class="hljs-title">PureComponent</span>
-    常用于创建<span class="hljs-title">class</span>组件。较于<span class="hljs-title">Component</span>多了<span class="hljs-title">shouldComponentUpdate</span>()
-<span class="hljs-title">exports</span>.<span class="hljs-title">StrictMode</span>
-<span class="hljs-title">exports</span>.<span class="hljs-title">Suspense</span>
-    这是一个内置组件。指定懒加载组件不具备渲染条件时（使用<span class="hljs-title">fallback</span>属性指定）显示的内容。
-<span class="hljs-title">exports</span>.<span class="hljs-title">__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED</span></span>= ReactSharedInternals;
-<span class="hljs-built_in">exports</span>.cloneElement(element, config?, children?)
-    用于复制ReactElement
-<span class="hljs-built_in">exports</span>.createContext(defaultValue)
-    创建一个Context对象。
-    只有当组件所处的树中没有匹配到 Provider 时，其 defaultValue 参数才会生效。
-<span class="hljs-built_in">exports</span>.createElement(type, props?, children?)
-    返回ReactElement元素
-    约等于 &lt;element.type {...element.props} {...props}&gt;{children}&lt;/element.type&gt;
-<span class="hljs-built_in">exports</span>.createFactory 已废弃
-<span class="hljs-built_in">exports</span>.createRef
-    返回一个ref
-<span class="hljs-built_in">exports</span>.forwardRef(<span class="hljs-function">(<span class="hljs-params">props, ref</span>) =&gt;</span> {
-    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">dom</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">{ref}</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">dom</span>&gt;</span></span>
-})
-    让方法式组件也支持ref属性。把ref透传下去
-<span class="hljs-built_in">exports</span>.isValidElement(obj)
-    验证对象是否为ReactElement对象
-<span class="hljs-built_in">exports</span>.lazy(<span class="hljs-function">() =&gt;</span> {<span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>})
-    参数是一个方法，该方法返回一个<span class="hljs-built_in">Promise</span>，该promise返回一个组件。
-    用于动态加载组件。可缩减bundle的体积。
-    需要与React.Suspense结合使用
-<span class="hljs-built_in">exports</span>.memo(Comp, manualEqual)
-    是高阶组件
-    当props、useState/useReducer/useContext改变时重新渲染组件
-    comp 是组件
-    manualEqual(prevPreps, nextProps) 用于比较二者。若返回<span class="hljs-literal">true</span>则不渲染。
-    用性能优化，不能用于阻止渲染。
-    shouldComponentUpdate 用于阻止渲染
-<span class="hljs-built_in">exports</span>.startTransition(fn)
-    明确指定降低ui更新优先级的更新。
-<span class="hljs-built_in">exports</span>.unstable_act
-<span class="hljs-built_in">exports</span>.useCallback
-<span class="hljs-built_in">exports</span>.useContext
-<span class="hljs-built_in">exports</span>.useDebugValue
-<span class="hljs-built_in">exports</span>.useDeferredValue
-<span class="hljs-built_in">exports</span>.useEffect
-<span class="hljs-built_in">exports</span>.useId
-<span class="hljs-built_in">exports</span>.useImperativeHandle
-<span class="hljs-built_in">exports</span>.useInsertionEffect
-<span class="hljs-built_in">exports</span>.useLayoutEffect
-<span class="hljs-built_in">exports</span>.useMemo
-<span class="hljs-built_in">exports</span>.useReducer
-<span class="hljs-built_in">exports</span>.useRef
-    （方法组件上不能使用ref属性）
-<span class="hljs-built_in">exports</span>.useState
-<span class="hljs-built_in">exports</span>.useSyncExternalStoreuseSyncExternalStore;
-<span class="hljs-built_in">exports</span>.useTransition
-<span class="hljs-built_in">exports</span>.version
-</div></code></pre>
+<h2 id="api"><a href="/framework/react/react-18/api.html">api</a></h2>
 <h2 id="suspense">Suspense</h2>
 <pre><code class="language-js"><div><span class="hljs-keyword">let</span> OtherComp = React.lazy(<span class="hljs-function">() =&gt;</span> <span class="hljs-keyword">import</span>(<span class="hljs-string">&#x27;./OtherComp&#x27;</span>))
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">f</span> (<span class="hljs-params"></span>) </span>{
-    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">React.Suspense</span> <span class="hljs-attr">fallback</span>=<span class="hljs-string">{</span>&lt;<span class="hljs-attr">Spinner</span> /&gt;</span>}&gt;
-        <span class="hljs-tag">&lt;<span class="hljs-name">OtherComp</span> /&gt;</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">f</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">React.Suspense</span> <span class="hljs-attr">fallback</span>=<span class="hljs-string">{</span>&lt;<span class="hljs-attr">Spinner</span> /&gt;</span>}&gt;
+      <span class="hljs-tag">&lt;<span class="hljs-name">OtherComp</span> /&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">React.Suspense</span>&gt;</span></span>
+  )
 }
 </div></code></pre>
 <h2 id="principle"><a href="/framework/react/react-18/principle.html">principle</a></h2>
@@ -658,20 +522,20 @@ Ref 转发不仅限于 DOM 组件，你也可以转发 refs 到 class 组件实�
 </li>
 </ul>
 <pre><code class="language-js"><div><span class="hljs-keyword">let</span> cb = <span class="hljs-function">(<span class="hljs-params">
-    id,
-    phase,              <span class="hljs-comment">// &#x27;mount&#x27; / &#x27;update&#x27;</span>
-    actualDuration,     <span class="hljs-comment">// 本次渲染花费的时间</span>
-    baseDuration,       <span class="hljs-comment">// </span>
-    startTime,          <span class="hljs-comment">// </span>
-    commitTime,         <span class="hljs-comment">// </span>
-    interactions,       <span class="hljs-comment">// </span>
+  id,
+  phase, <span class="hljs-comment">// &#x27;mount&#x27; / &#x27;update&#x27;</span>
+  actualDuration, <span class="hljs-comment">// 本次渲染花费的时间</span>
+  baseDuration, <span class="hljs-comment">//</span>
+  startTime, <span class="hljs-comment">//</span>
+  commitTime, <span class="hljs-comment">//</span>
+  interactions <span class="hljs-comment">//</span>
 </span>) =&gt;</span> {}
-&lt;App&gt;
-    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Profiler</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;nav&quot;</span> <span class="hljs-attr">onRender</span>=<span class="hljs-string">{cb}</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">Nav</span> /&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">Profiler</span>&gt;</span></span>
-    <span class="hljs-comment">// 也可测量多个组件</span>
-&lt;/App&gt;
+;<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">App</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">Profiler</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;nav&quot;</span> <span class="hljs-attr">onRender</span>=<span class="hljs-string">{cb}</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">Nav</span> /&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">Profiler</span>&gt;</span>
+  // 也可测量多个组件
+<span class="hljs-tag">&lt;/<span class="hljs-name">App</span>&gt;</span></span>
 </div></code></pre>
 <h2 id="profiler-api">Profiler API</h2>
 <p>用于测量渲染速度。</p>
@@ -697,7 +561,7 @@ Ref 转发不仅限于 DOM 组件，你也可以转发 refs 到 class 组件实�
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">P</span> (<span class="hljs-params"></span>) </span>{
     <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">C</span> <span class="hljs-attr">render</span>=<span class="hljs-string">{(...args)</span> =&gt;</span> {...}} /&gt;</span>
 }
-<span class="hljs-comment">// 若与PureComponent一起使用会抵消纯组件带来的优势。  </span>
+<span class="hljs-comment">// 若与PureComponent一起使用会抵消纯组件带来的优势。</span>
 </div></code></pre>
 <h2 id="静态类型检查">静态类型检查</h2>
 <ul>
@@ -707,43 +571,9 @@ Ref 转发不仅限于 DOM 组件，你也可以转发 refs 到 class 组件实�
 <li>Kotlin 不会</li>
 <li>PropTypes</li>
 </ul>
-<h3 id="proptypes">PropTypes</h3>
+<h3 id="proptypes"><a href="/jsPackages/prop-types.html">PropTypes</a></h3>
 <p>propTypes 仅在开发模式下进行检查。
 从 react v15.5 后分离出<code>prop-types</code>包。</p>
-<pre><code class="language-js"><div><span class="hljs-keyword">import</span> PropTypes form <span class="hljs-string">&#x27;prop-types&#x27;</span>
-<span class="hljs-comment">// 定义Comp ...</span>
-Comp.propTypes = {
-    <span class="hljs-attr">optionalArray</span>: PropTypes.array,
-    <span class="hljs-attr">optionalBool</span>: PropTypes.bool,
-    <span class="hljs-attr">optionalFunc</span>: PropTypes.func,
-    <span class="hljs-attr">optionalNumber</span>: PropTypes.number,
-    <span class="hljs-attr">optionalObject</span>: PropTypes.object,
-    <span class="hljs-attr">optionalString</span>: PropTypes.string,
-    <span class="hljs-attr">optionalSymbol</span>: PropTypes.symbol,
-    <span class="hljs-attr">optionalNode</span>: PropTypes.node,
-    <span class="hljs-attr">optionalElement</span>: PropTypes.element,
-    <span class="hljs-attr">optionalElementType</span>: PropTypes.elementType,
-    <span class="hljs-attr">optionalMessage</span>: PropTypes.instanceOf(Message),
-    <span class="hljs-attr">optionalEnum</span>: PropTypes.oneOf([<span class="hljs-string">&#x27;News&#x27;</span>, <span class="hljs-string">&#x27;Photos&#x27;</span>]),
-    <span class="hljs-attr">optionalUnion</span>: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number,
-        PropTypes.instanceOf(Message)
-    ]),
-    <span class="hljs-attr">optionalArrayOf</span>: PropTypes.arrayOf(PropTypes.number),
-    <span class="hljs-attr">optionalObjectOf</span>: PropTypes.objectOf(PropTypes.number),
-    <span class="hljs-attr">optionalObjectWithShape</span>: PropTypes.shape({
-        <span class="hljs-attr">color</span>: PropTypes.string,
-        <span class="hljs-attr">fontSize</span>: PropTypes.number
-    }),
-    <span class="hljs-attr">optionalObjectWithStrictShape</span>: PropTypes.exact({
-        <span class="hljs-attr">name</span>: PropTypes.string,
-        <span class="hljs-attr">quantity</span>: PropTypes.number
-    }),
-    <span class="hljs-attr">requiredFunc</span>: PropTypes.func.isRequired,
-    <span class="hljs-attr">requiredAny</span>: PropTypes.any.isRequired,
-}
-</div></code></pre>
 <h2 id="严格模式">严格模式</h2>
 <p>react 也有自己的严格模式。</p>
 <pre><code class="language-js"><div>&lt;React.StrictMode&gt;
@@ -811,9 +641,9 @@ Comp.propTypes = {
 </div></code></pre>
 <h2 id="portals">portals</h2>
 <p><code>react.createPortal(child: ReactElement, container: dom)</code><br>
-把child渲染到dom中</p>
+把 child 渲染到 dom 中</p>
 <pre><code class="language-js"><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">props</span>) </span>{
-    <span class="hljs-keyword">return</span> React.createPortal(props.children, <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">&#x27;body&#x27;</span>))
+  <span class="hljs-keyword">return</span> React.createPortal(props.children, <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">&#x27;body&#x27;</span>))
 }
 </div></code></pre>
 <h2 id="diff">diff</h2>
@@ -841,7 +671,7 @@ react 当组件链上的 ReactElement 改变时执行 rerender.</p>
 <ul>
 <li>props/state 改变时。</li>
 <li>父组件重新渲染时</li>
-<li>useContext改变时</li>
+<li>useContext 改变时</li>
 </ul>
 <h3 id="严格模式为什么会渲染-2-次">严格模式为什么会渲染 2 次</h3>
 <p>strict mode 的通过两次调用 constructor 和 render 函数来更好的检测不符合预期的 side effects<br>

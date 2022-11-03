@@ -65,9 +65,10 @@ React.createElement('span', {}, str)
 
 ### 函数组件
 
-其上不能 ref 属性。因为函数组件没有实例。class 组件有实例。
+其上不能直接使用 ref 属性。因为函数组件没有实例。class 组件有实例。  
 就是在原来的无状态组件上添加了 hooks.  
-组件名称必须以大写字母开头。
+组件名称必须以大写字母开头。  
+只有在你刻意忽略 prop 更新的情况下使用。此时，应将 prop 重命名为 initialColor 或 defaultColor。
 
 ```js
 // 函数组件模板
@@ -133,15 +134,15 @@ ComponentName.contextType = MyContext // 组件内使用this.context访问
 
 ### state & props & this.xxx
 
-|                    | state                | props                          | this.xxx |     |
-| ------------------ | -------------------- | ------------------------------ | -------- | --- |
-| 改变时             | 会触发本组件重新渲染 | 会触发本组件重新渲染           | 不会     |     |
-| 来源               | 本组件               | 本组件的父元素（一般为父组件） | 本组件   |     |
-| 作用范围           | 本组件               | 本组件                         | 本组件   |     |
-| 是否在本组件可改变 | 可`this.setState()`  | 不可                           | 可       |     |
-| 改变时是否为异步   | 是                   | -                              | 否       |     |
-| 出现的组件形式     | class                | function/class                 | class    |     |
-|                    |                      |                                |          |     |
+|                    | state                | props                          | this.xxx       |     |
+| ------------------ | -------------------- | ------------------------------ | -------------- | --- |
+| 改变时             | 会触发本组件重新渲染 | 会触发本组件重新渲染           | 不会           |     |
+| 来源               | 本组件               | 本组件的父元素（一般为父组件） | 本组件         |     |
+| 作用范围           | 本组件               | 本组件                         | 本组件         |     |
+| 是否在本组件可改变 | 可`this.setState()`  | 不可                           | 可             |     |
+| 改变时是否为异步   | 是                   | -                              | 否             |     |
+| 出现的组件形式     | class                | function/class                 | function/class |     |
+|                    |                      |                                |                |     |
 
 - 使用`this.setState()`改变 state
 - setState 是异步的。把多个 setState 合并为一个。
@@ -199,93 +200,6 @@ function Hello(props) {
 ## [事件](/framework/react/event.html)
 
 ## [hooks](/framework/react/hooks.md)
-
-<details>
-  <summary>hooks</summary>
-  <artical>
-    <ul>
-        <li>从react v16.8开始支持hooks。</li>
-        <li>内置于react中</li>
-        <li>100%向后兼容</li>
-        <li>不影响使用class组件</li>
-        <li>不计划代替class组件</li>
-        <li>可以不迁移class组件</li>
-        <li>ellint-plugin-react-hooks已经内置与create-react-app中</li>
-    </ul>
-<pre>
-<code>
-let [value, setValue] = useState([initValue])
-用于处理组件内的状态
-setValue(newValue)
-
-useEffect(fn, ...listener = [])
-用于处理副作用
-在 componentDidMount/componentDidUpdate/componentWillUnmount 时触发。
-尽量把不相关的监听写在不同的 useEffect 里。
-
-let value = useContext(myContext)
-接收一个 context 对象（React.createContext 的返回值）并返回该 context 的当前值。当前的 context 值由上层组件中距离当前组件最近的 <MyContext.Provider> 的 value prop 决定。
-
-let [state, dispatch] = useReducer(reducer, initialArg, [init])
-init 是一个方法。参数是 initialArg
-与 useState 功能相似。它接收一个形如 (state, action) => newState 的 reducer，并返回当前的 state 以及与其配套的 dispatch 方法。（如果你熟悉 Redux 的话，就已经知道它如何工作了。）
-dispatch({type: 'typename', key: value}) // dispatch 的参数是 action. action.type, action.key
-
-let memoizedCallback = useCallback(fn, ...dependencies)
-只有 dependencies 改变时执行 fn
-返回一个 memoized 回调函数。
-只在更新组件时执行。
-阻止不必要的重新渲染。
-
-let memoizedValue = useMemo(fn: () => any, ...dependencies)
-返回一个 memoized 值。
-与 useCallback 类似。
-
-let refContainer = useRef(initialValue)
-useRef 返回一个可变的 ref 对象，其 .current 属性被初始化为传入的参数（initialValue）。返回的 ref 对象在组件的整个生命周期内持续存在。
-组件重新渲染期间其值一直存在。
-改变其值时不会重新渲染组件。
-可以使用它：得到 dom 元素，跟踪状态变化（保存变化前的状态），
-
-useImperativeHandle(ref, createHandle, [deps])
-useImperativeHandle 可以让你在使用 ref 时自定义暴露给父组件的实例值。在大多数情况下，应当避免使用 ref 这样的命令式代码。useImperativeHandle 应当与 forwardRef 一起使用：
-
-useLayoutEffect
-其函数签名与 useEffect 相同，但它会在所有的 DOM 变更之后同步调用 effect。可以使用它来读取 DOM 布局并同步触发重渲染。在浏览器执行绘制之前，
-执行顺序：更新变量值 -》 组件重新渲染 -》 执行 useLayoutEffect -> 显示渲染结果 -》 执行 useEffect
-尽可能使用标准的 useEffect 以避免阻塞视觉更新。
-
-useDebugValue(value, [fn])
-可用于在 React 开发者工具中显示自定义 hook 的标签。
-
-let deferredValue = useDeferredValue(value)
-会根据 value 返回一个复制的 deferredValue（延迟数据）。当有急切的更新时要，react 会返回原来的值，当更新结束后再使用新值更新组件。
-
-let [isPending, startTransition] = useTransition()
-用于降低渲染优先级.
-
-let id = useId() // 如 :r1:
-返回一个惟一的 id.可用于跨平台。string 类型。包括:
-
-let state = useSyncExternalStore(subscribe, getSnapshot[, getServerSnapshort])
-对任务进行优先级排序并同时执行多个任务。
-可以把外部存储的数据读来和订阅。
-
-useInsertionEffect(didUpdate)
-它与 useEffect 的用法一样。
-它会在所有 dom 更新前执行。常用于学页面布局。
-</code>
-
-</pre>
-
-<p>自定义hooks</p>
-<p>hooks的规则</p>
-<ul>
-    <li>只能在function组件内的顶级中使用</li>
-    <li>不能被使用条件判断</li>
-</ul>
-</artical>
-</details>
 
 ## 生命周期方法
 
@@ -412,78 +326,7 @@ function A(props) {
 </artical>
 </details>
 
-## api
-
-```js
-exports.Children
-    可以用于处理this.props.children
-    x.map()
-    x.forEach()
-    x.count()     // 子元素的数量
-    x.only()      // 是否只有一个子元素
-    x.toArray()   //
-exports.Component
-    常用于创建class组件
-exports.Fragment
-    这是一个内置组件。用于把多个子组件放在一起。
-    简写 <></>
-exports.Profiler
-
-exports.PureComponent
-    常用于创建class组件。较于Component多了shouldComponentUpdate()
-exports.StrictMode
-exports.Suspense
-    这是一个内置组件。指定懒加载组件不具备渲染条件时（使用fallback属性指定）显示的内容。
-exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED= ReactSharedInternals;
-exports.cloneElement(element, config?, children?)
-    用于复制ReactElement
-exports.createContext(defaultValue)
-    创建一个Context对象。
-    只有当组件所处的树中没有匹配到 Provider 时，其 defaultValue 参数才会生效。
-exports.createElement(type, props?, children?)
-    返回ReactElement元素
-    约等于 <element.type {...element.props} {...props}>{children}</element.type>
-exports.createFactory 已废弃
-exports.createRef
-    返回一个ref
-exports.forwardRef((props, ref) => {
-    <dom ref={ref}>...</dom>
-})
-    让方法式组件也支持ref属性。把ref透传下去
-exports.isValidElement(obj)
-    验证对象是否为ReactElement对象
-exports.lazy(() => {return Promise})
-    参数是一个方法，该方法返回一个Promise，该promise返回一个组件。
-    用于动态加载组件。可缩减bundle的体积。
-    需要与React.Suspense结合使用
-exports.memo(Comp, manualEqual)
-    是高阶组件
-    当props、useState/useReducer/useContext改变时重新渲染组件
-    comp 是组件
-    manualEqual(prevPreps, nextProps) 用于比较二者。若返回true则不渲染。
-    用性能优化，不能用于阻止渲染。
-    shouldComponentUpdate 用于阻止渲染
-exports.startTransition(fn)
-    明确指定降低ui更新优先级的更新。
-exports.unstable_act
-exports.useCallback
-exports.useContext
-exports.useDebugValue
-exports.useDeferredValue
-exports.useEffect
-exports.useId
-exports.useImperativeHandle
-exports.useInsertionEffect
-exports.useLayoutEffect
-exports.useMemo
-exports.useReducer
-exports.useRef
-    （方法组件上不能使用ref属性）
-exports.useState
-exports.useSyncExternalStoreuseSyncExternalStore;
-exports.useTransition
-exports.version
-```
+## [api](/framework/react/react-18/api.html)
 
 ## Suspense
 
@@ -650,46 +493,10 @@ function P () {
 - Kotlin 不会
 - PropTypes
 
-### PropTypes
+### [PropTypes](/jsPackages/prop-types.html)
 
 propTypes 仅在开发模式下进行检查。
 从 react v15.5 后分离出`prop-types`包。
-
-```js
-import PropTypes form 'prop-types'
-// 定义Comp ...
-Comp.propTypes = {
-    optionalArray: PropTypes.array,
-    optionalBool: PropTypes.bool,
-    optionalFunc: PropTypes.func,
-    optionalNumber: PropTypes.number,
-    optionalObject: PropTypes.object,
-    optionalString: PropTypes.string,
-    optionalSymbol: PropTypes.symbol,
-    optionalNode: PropTypes.node,
-    optionalElement: PropTypes.element,
-    optionalElementType: PropTypes.elementType,
-    optionalMessage: PropTypes.instanceOf(Message),
-    optionalEnum: PropTypes.oneOf(['News', 'Photos']),
-    optionalUnion: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number,
-        PropTypes.instanceOf(Message)
-    ]),
-    optionalArrayOf: PropTypes.arrayOf(PropTypes.number),
-    optionalObjectOf: PropTypes.objectOf(PropTypes.number),
-    optionalObjectWithShape: PropTypes.shape({
-        color: PropTypes.string,
-        fontSize: PropTypes.number
-    }),
-    optionalObjectWithStrictShape: PropTypes.exact({
-        name: PropTypes.string,
-        quantity: PropTypes.number
-    }),
-    requiredFunc: PropTypes.func.isRequired,
-    requiredAny: PropTypes.any.isRequired,
-}
-```
 
 ## 严格模式
 
