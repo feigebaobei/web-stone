@@ -84,7 +84,17 @@
 <blockquote>
 <p>只能在方法组件的最顶层使用。<br>
 以'use'开头。意为只是使用，不是创建。<br>
-它是一个特定方法，可以“hook into”react 功能</p>
+Hook可以存在方法组件的顶层和另一个hook中。<br>
+在 React 的函数组件中调用 Hook<br>
+在自定义 Hook 中调用其他 Hook<br>
+它是一个特定方法，可以“hook into”react 功能
+从react v16.8开始支持hooks。<br>
+内置于react中<br>
+100%向后兼容<br>
+不影响使用class组件<br>
+不计划代替class组件<br>
+可以不迁移class组件<br>
+ellint-plugin-react-hooks已经内置与create-react-app中</p>
 </blockquote>
 <h2 id="feature">feature</h2>
 <ul>
@@ -721,21 +731,21 @@ isShow &amp;&amp; &lt;Modal&gt;
 <span class="hljs-comment">// fn 若条件满足则执行的方法  参数是args</span>
 <span class="hljs-comment">// args   fn方法的参数</span>
 <span class="hljs-comment">// dep    依赖</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">useOnce</span> (<span class="hljs-params">cf, fn, args, dep</span>) </span>{
-    <span class="hljs-keyword">let</span> [hasRun, setHasRun] = useState(<span class="hljs-literal">false</span>)
-    useEffect(<span class="hljs-function">() =&gt;</span> {
-        <span class="hljs-keyword">if</span> (cf(dep) &amp;&amp; !hasRun) {
-            fn(args)
-            setHasRun(<span class="hljs-literal">true</span>)
-        }
-    }, [dep, args, cf, fn, hasRun])
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">useOnce</span>(<span class="hljs-params">cf, fn, args, dep</span>) </span>{
+  <span class="hljs-keyword">let</span> [hasRun, setHasRun] = useState(<span class="hljs-literal">false</span>)
+  useEffect(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-keyword">if</span> (cf(dep) &amp;&amp; !hasRun) {
+      fn(args)
+      setHasRun(<span class="hljs-literal">true</span>)
+    }
+  }, [dep, args, cf, fn, hasRun])
 }
 <span class="hljs-comment">// use</span>
 <span class="hljs-keyword">let</span> cf = <span class="hljs-function">(<span class="hljs-params">v</span>) =&gt;</span> {
-    <span class="hljs-keyword">return</span> v.length % <span class="hljs-number">3</span> === <span class="hljs-number">2</span>
+  <span class="hljs-keyword">return</span> v.length % <span class="hljs-number">3</span> === <span class="hljs-number">2</span>
 }
 <span class="hljs-keyword">let</span> fn = <span class="hljs-function">(<span class="hljs-params">v</span>) =&gt;</span> {
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;fn&#x27;</span>, v)
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;fn&#x27;</span>, v)
 }
 <span class="hljs-keyword">let</span> [v, setV] = useState(<span class="hljs-string">&#x27;&#x27;</span>)
 useOnce(cf, fn, <span class="hljs-string">&#x27;str&#x27;</span>, v)
@@ -862,7 +872,8 @@ useOnce(cf, fn, <span class="hljs-string">&#x27;str&#x27;</span>, v)
 </div></code></pre>
 <h3 id="title-1">title</h3>
 <h3 id="title-2">title</h3>
-<h3 id="title-3">title</h3>
+<h2 id="todo-1">todo</h2>
+<h3 id="hook为什么要在顶层">Hook为什么要在顶层</h3>
 
         <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         

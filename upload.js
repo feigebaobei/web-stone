@@ -249,14 +249,11 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = 'resolve' //
+    // let p = 'language/html/webComponents'
     let p = [
-      // 'framework/react/react-18/hoc.html',
+      // 'language/html/webComponents/index.html',
+      // 'language/html/HTMLElement.html',
       // 'framework/react/react-18/index.html',
-      // 'language/javascript/index.html',
-      // 'language/javascript/fetch.html',
-      // 'language/javascript/modularity.html',
-      // 'language/javascript/version.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)

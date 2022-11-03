@@ -2,7 +2,17 @@
 
 > 只能在方法组件的最顶层使用。  
 > 以'use'开头。意为只是使用，不是创建。  
+> Hook 可以存在方法组件的顶层和另一个 hook 中。  
+> 在 React 的函数组件中调用 Hook  
+> 在自定义 Hook 中调用其他 Hook  
 > 它是一个特定方法，可以“hook into”react 功能
+> 从 react v16.8 开始支持 hooks。  
+> 内置于 react 中  
+> 100%向后兼容  
+> 不影响使用 class 组件  
+> 不计划代替 class 组件  
+> 可以不迁移 class 组件  
+> ellint-plugin-react-hooks 已经内置与 create-react-app 中
 
 ## feature
 
@@ -771,4 +781,6 @@ export default useOnline
 
 ### title
 
-### title
+## todo
+
+### Hook 为什么要在顶层
