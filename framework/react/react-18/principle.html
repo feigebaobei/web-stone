@@ -254,6 +254,282 @@ Component.prototype.forceUpdate = <span class="hljs-function"><span class="hljs-
 <span class="hljs-keyword">const</span> forceUpdate = React.useCallback(<span class="hljs-function">() =&gt;</span> updateState({}), []);
 </div></code></pre>
 <h2 id="title">title</h2>
+<p>在react/share中定义共享的变量、工具方法。<br>
+即使是生产包中也包含了dev环境的判断</p>
+<pre><code class="language-js"><div>share: {
+  isValidElementType() 判断组件的type是否合法
+}
+ReactSymbols
+  使用<span class="hljs-built_in">Symbol</span>.for(<span class="hljs-string">&#x27;str&#x27;</span>)定义用于全局范围的变量
+ReactElement
+  isValidElement 是否是合法ReactElement对象
+  createElement  
+  ReactElement   本包中的核心方法。很多方法使用它。
+    返回 {
+      <span class="hljs-attr">$$typeof</span>: REACT_ELEMENT_TYPE,
+      <span class="hljs-attr">type</span>: type,
+      <span class="hljs-attr">key</span>: key,
+      <span class="hljs-attr">ref</span>: ref,
+      <span class="hljs-attr">props</span>: props,
+      <span class="hljs-attr">_owner</span>: owner, <span class="hljs-comment">// fiber | null</span>
+      <span class="hljs-attr">_store</span>: {
+        validated
+      }
+      _self
+      _source
+    }
+  hasValidRef  ref是否合法
+recenciler
+  <span class="hljs-keyword">export</span> type Fiber = {
+    <span class="hljs-comment">// These first fields are conceptually members of an Instance. This used to</span>
+    <span class="hljs-comment">// be split into a separate type and intersected with the other Fiber fields,</span>
+    <span class="hljs-comment">// but until Flow fixes its intersection bugs, we&#x27;ve merged them into a</span>
+    <span class="hljs-comment">// single type.</span>
+
+    <span class="hljs-comment">// An Instance is shared between all versions of a component. We can easily</span>
+    <span class="hljs-comment">// break this out into a separate object to avoid copying so much to the</span>
+    <span class="hljs-comment">// alternate versions of the tree. We put this on a single object for now to</span>
+    <span class="hljs-comment">// minimize the number of objects created during the initial render.</span>
+
+    <span class="hljs-comment">// Tag identifying the type of fiber.</span>
+    <span class="hljs-attr">tag</span>: WorkTag,
+
+    <span class="hljs-comment">// Unique identifier of this child.</span>
+    <span class="hljs-attr">key</span>: <span class="hljs-literal">null</span> | string,
+
+    <span class="hljs-comment">// The value of element.type which is used to preserve the identity during</span>
+    <span class="hljs-comment">// reconciliation of this child.</span>
+    <span class="hljs-attr">elementType</span>: any,
+
+    <span class="hljs-comment">// The resolved function/class/ associated with this fiber.</span>
+    <span class="hljs-attr">type</span>: any,
+
+    <span class="hljs-comment">// The local state associated with this fiber.</span>
+    <span class="hljs-attr">stateNode</span>: any,
+
+    <span class="hljs-comment">// Conceptual aliases</span>
+    <span class="hljs-comment">// parent : Instance -&gt; return The parent happens to be the same as the</span>
+    <span class="hljs-comment">// return fiber since we&#x27;ve merged the fiber and instance.</span>
+
+    <span class="hljs-comment">// Remaining fields belong to Fiber</span>
+
+    <span class="hljs-comment">// The Fiber to return to after finishing processing this one.</span>
+    <span class="hljs-comment">// This is effectively the parent, but there can be multiple parents (two)</span>
+    <span class="hljs-comment">// so this is only the parent of the thing we&#x27;re currently processing.</span>
+    <span class="hljs-comment">// It is conceptually the same as the return address of a stack frame.</span>
+    <span class="hljs-attr">return</span>: Fiber | <span class="hljs-literal">null</span>,
+
+    <span class="hljs-comment">// Singly Linked List Tree Structure.</span>
+    <span class="hljs-attr">child</span>: Fiber | <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">sibling</span>: Fiber | <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">index</span>: number,
+
+    <span class="hljs-comment">// The ref last used to attach this node.</span>
+    <span class="hljs-comment">// I&#x27;ll avoid adding an owner field for prod and model that as functions.</span>
+    <span class="hljs-attr">ref</span>:
+      | <span class="hljs-literal">null</span>
+      | ((<span class="hljs-function">(<span class="hljs-params">handle: mixed</span>) =&gt;</span> <span class="hljs-keyword">void</span>) &amp; {<span class="hljs-attr">_stringRef</span>: ?string, ...})
+      | RefObject,
+
+    <span class="hljs-comment">// Input is the data coming into process this fiber. Arguments. Props.</span>
+    <span class="hljs-attr">pendingProps</span>: any, <span class="hljs-comment">// This type will be more specific once we overload the tag.</span>
+    <span class="hljs-attr">memoizedProps</span>: any, <span class="hljs-comment">// The props used to create the output.</span>
+
+    <span class="hljs-comment">// A queue of state updates and callbacks.</span>
+    <span class="hljs-attr">updateQueue</span>: mixed,
+
+    <span class="hljs-comment">// The state used to create the output</span>
+    <span class="hljs-attr">memoizedState</span>: any,
+
+    <span class="hljs-comment">// Dependencies (contexts, events) for this fiber, if it has any</span>
+    <span class="hljs-attr">dependencies</span>: Dependencies | <span class="hljs-literal">null</span>,
+
+    <span class="hljs-comment">// Bitfield that describes properties about the fiber and its subtree. E.g.</span>
+    <span class="hljs-comment">// the ConcurrentMode flag indicates whether the subtree should be async-by-</span>
+    <span class="hljs-comment">// default. When a fiber is created, it inherits the mode of its</span>
+    <span class="hljs-comment">// parent. Additional flags can be set at creation time, but after that the</span>
+    <span class="hljs-comment">// value should remain unchanged throughout the fiber&#x27;s lifetime, particularly</span>
+    <span class="hljs-comment">// before its child fibers are created.</span>
+    <span class="hljs-attr">mode</span>: TypeOfMode,
+
+    <span class="hljs-comment">// Effect</span>
+    <span class="hljs-attr">flags</span>: Flags,
+    <span class="hljs-attr">subtreeFlags</span>: Flags,
+    <span class="hljs-attr">deletions</span>: <span class="hljs-built_in">Array</span>&lt;Fiber&gt; | <span class="hljs-literal">null</span>,
+
+    <span class="hljs-comment">// Singly linked list fast path to the next fiber with side-effects.</span>
+    <span class="hljs-attr">nextEffect</span>: Fiber | <span class="hljs-literal">null</span>,
+
+    <span class="hljs-comment">// The first and last fiber with side-effect within this subtree. This allows</span>
+    <span class="hljs-comment">// us to reuse a slice of the linked list when we reuse the work done within</span>
+    <span class="hljs-comment">// this fiber.</span>
+    <span class="hljs-attr">firstEffect</span>: Fiber | <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">lastEffect</span>: Fiber | <span class="hljs-literal">null</span>,
+
+    <span class="hljs-attr">lanes</span>: Lanes,
+    <span class="hljs-attr">childLanes</span>: Lanes,
+
+    <span class="hljs-comment">// This is a pooled version of a Fiber. Every fiber that gets updated will</span>
+    <span class="hljs-comment">// eventually have a pair. There are cases when we can clean up pairs to save</span>
+    <span class="hljs-comment">// memory if we need to.</span>
+    <span class="hljs-attr">alternate</span>: Fiber | <span class="hljs-literal">null</span>,
+
+    <span class="hljs-comment">// Time spent rendering this Fiber and its descendants for the current update.</span>
+    <span class="hljs-comment">// This tells us how well the tree makes use of sCU for memoization.</span>
+    <span class="hljs-comment">// It is reset to 0 each time we render and only updated when we don&#x27;t bailout.</span>
+    <span class="hljs-comment">// This field is only set when the enableProfilerTimer flag is enabled.</span>
+    actualDuration?: number,
+
+    <span class="hljs-comment">// If the Fiber is currently active in the &quot;render&quot; phase,</span>
+    <span class="hljs-comment">// This marks the time at which the work began.</span>
+    <span class="hljs-comment">// This field is only set when the enableProfilerTimer flag is enabled.</span>
+    actualStartTime?: number,
+
+    <span class="hljs-comment">// Duration of the most recent render time for this Fiber.</span>
+    <span class="hljs-comment">// This value is not updated when we bailout for memoization purposes.</span>
+    <span class="hljs-comment">// This field is only set when the enableProfilerTimer flag is enabled.</span>
+    selfBaseDuration?: number,
+
+    <span class="hljs-comment">// Sum of base times for all descendants of this Fiber.</span>
+    <span class="hljs-comment">// This value bubbles up during the &quot;complete&quot; phase.</span>
+    <span class="hljs-comment">// This field is only set when the enableProfilerTimer flag is enabled.</span>
+    treeBaseDuration?: number,
+
+    <span class="hljs-comment">// Conceptual aliases</span>
+    <span class="hljs-comment">// workInProgress : Fiber -&gt;  alternate The alternate used for reuse happens</span>
+    <span class="hljs-comment">// to be the same as work in progress.</span>
+    <span class="hljs-comment">// __DEV__ only</span>
+
+    _debugSource?: Source | <span class="hljs-literal">null</span>,
+    _debugOwner?: Fiber | <span class="hljs-literal">null</span>,
+    _debugIsCurrentlyTiming?: boolean,
+    _debugNeedsRemount?: boolean,
+
+    <span class="hljs-comment">// Used to verify that the order of hooks does not change between renders.</span>
+    _debugHookTypes?: <span class="hljs-built_in">Array</span>&lt;HookType&gt; | <span class="hljs-literal">null</span>,
+  };
+使用isReactWarning标记是否是react认为警告。
+
+FiberRootNode 返回一个FiberRoot对象
+<span class="hljs-attr">FiberRoot</span>: {
+  tag = tag;
+  containerInfo = containerInfo;
+  pendingChildren = <span class="hljs-literal">null</span>;
+  current = <span class="hljs-literal">null</span>; <span class="hljs-comment">// 未来会被赋值 Fiber 对象</span>
+  pingCache = <span class="hljs-literal">null</span>;
+  finishedWork = <span class="hljs-literal">null</span>;
+  timeoutHandle = noTimeout;
+  context = <span class="hljs-literal">null</span>;
+  pendingContext = <span class="hljs-literal">null</span>;
+  callbackNode = <span class="hljs-literal">null</span>;
+  callbackPriority = NoLane;
+  eventTimes = createLaneMap(NoLanes);
+  expirationTimes = createLaneMap(NoTimestamp);
+  pendingLanes = NoLanes;
+  suspendedLanes = NoLanes;
+  pingedLanes = NoLanes;
+  expiredLanes = NoLanes;
+  mutableReadLanes = NoLanes;
+  finishedLanes = NoLanes;
+  errorRecoveryDisabledLanes = NoLanes;
+  entangledLanes = NoLanes;
+  entanglements = createLaneMap(NoLanes);
+  hiddenUpdates = createLaneMap(<span class="hljs-literal">null</span>);
+  identifierPrefix = identifierPrefix;
+  onRecoverableError = onRecoverableError;
+  ...
+}
+createFiber 调用FiberNode方法并返回Fiber对象
+<span class="hljs-attr">Fiber</span>: {
+  <span class="hljs-comment">// Instance</span>
+  tag = tag;
+  key = key;
+  elementType = <span class="hljs-literal">null</span>;
+  type = <span class="hljs-literal">null</span>;
+  stateNode = <span class="hljs-literal">null</span>;
+  <span class="hljs-comment">// Fiber</span>
+  <span class="hljs-keyword">return</span> = <span class="hljs-literal">null</span>;
+  child = <span class="hljs-literal">null</span>;
+  sibling = <span class="hljs-literal">null</span>;
+  index = <span class="hljs-number">0</span>;
+  ref = <span class="hljs-literal">null</span>;
+  pendingProps = pendingProps;
+  memoizedProps = <span class="hljs-literal">null</span>;
+  updateQueue = <span class="hljs-literal">null</span>;  <span class="hljs-comment">// 更新队列</span>
+  memoizedState = <span class="hljs-literal">null</span>;
+  dependencies = <span class="hljs-literal">null</span>;
+  mode = mode;
+  <span class="hljs-comment">// Effects</span>
+  flags = NoFlags;
+  subtreeFlags = NoFlags;
+  deletions = <span class="hljs-literal">null</span>;
+  lanes = NoLanes;
+  childLanes = NoLanes;
+  alternate = <span class="hljs-literal">null</span>;
+  ...
+}
+<span class="hljs-function"><span class="hljs-title">createRoot</span>(<span class="hljs-params">container, options?</span>)</span> {
+  <span class="hljs-keyword">return</span> createRootImpl(container, options);
+            <span class="hljs-keyword">if</span> (!isValidContainer(container)) {
+              &lt;!-- error --&gt;
+            }
+            warnIfReactDOMContainerInDEV(container);
+            <span class="hljs-keyword">const</span> root = createContainer(
+              container,
+              ConcurrentRoot,
+              <span class="hljs-literal">null</span>,
+              isStrictMode,
+              concurrentUpdatesByDefaultOverride,
+              identifierPrefix,
+              onRecoverableError,
+              transitionCallbacks,
+            );
+                          <span class="hljs-keyword">return</span> createFiberRoot(
+                            containerInfo,
+                            tag,
+                            hydrate,
+                            initialChildren,
+                            hydrationCallbacks,
+                            isStrictMode,
+                            concurrentUpdatesByDefaultOverride,
+                            identifierPrefix,
+                            onRecoverableError,
+                            transitionCallbacks,
+                          );
+                                    <span class="hljs-keyword">const</span> root: FiberRoot = (<span class="hljs-keyword">new</span> FiberRootNode(
+                                      containerInfo,
+                                      tag,
+                                      hydrate,
+                                      identifierPrefix,
+                                      onRecoverableError,
+                                    ): any);
+                                    <span class="hljs-keyword">const</span> uninitializedFiber = createHostRootFiber(
+                                      tag,
+                                      isStrictMode,
+                                      concurrentUpdatesByDefaultOverride,
+                                    );
+                                    root.current = uninitializedFiber;
+                                    uninitializedFiber.stateNode = root;
+                                    initializeUpdateQueue(uninitializedFiber); <span class="hljs-comment">// init 更新队列</span>
+                                    <span class="hljs-keyword">return</span> root;
+
+  
+            listenToAllSupportedEvents(rootContainerElement); <span class="hljs-comment">// 监听事件</span>
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ReactDOMRoot(root);
+                          ReactDOMRoot.prototype.render(children)
+                            updateContainer(children, root, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>);
+                          ReactDOMRoot.prototype.unmount()
+                            flushSync(<span class="hljs-function">() =&gt;</span> {
+                              updateContainer(<span class="hljs-literal">null</span>, root, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>);
+                            });
+                            unmarkContainerAsRoot(container);
+}
+
+
+
+
+
+</div></code></pre>
 
         <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
