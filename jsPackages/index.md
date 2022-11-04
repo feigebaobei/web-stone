@@ -27,7 +27,7 @@
 - [prettier](/jsPackages/prettier/index.html)
 - [lint-staged](/jsPackages/lint-staged.html)
 - [commitlint](/jsPackages/commitlint.html)
-- [title](/jsPackages/title.html)
+- [husky](/jsPackages/husky.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
