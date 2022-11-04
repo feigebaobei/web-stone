@@ -254,6 +254,11 @@ c.on('ready', () => {
       'framework/react/react-18/api.html',
       'browser/index.html',
       'browser/cache.html',
+      'jsPackages/husky.html',
+      'jsPackages/index.html',
+      'jsPackages/prettier/index.html',
+      'jsPackages/lerna/index.html',
+      'language/html/index.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
