@@ -379,17 +379,18 @@ frameborder 属性规定是否显示 iframe 周围的边框。
 
 ### 属性
 
-|               | value                                                         | description                                                                    | default |                                                                                                                                                             |
-| ------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------ | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| async         |                                                               | 浏览器默认同步加载、解析脚本代码。若设置此属性则浏览器异步加载、解析脚本代码。 |         |                                                                                                                                                             |
-| crossorigin   | 解决脚本的 cors 问题                                          |                                                                                |         |                                                                                                                                                             |
-| defer         | 通知浏览器在文档解析完成后执行、DOMContentLoaded 事件前执行。 |                                                                                |         |                                                                                                                                                             |
-| integrity     |                                                               | 是否启用子资源完整性功能。`integrity="${散列算法}-${散列值}"`                  |         |                                                                                                                                                             |
-| nomodule      | boolean                                                       | 脚本是否在支持 es2015 modules 的浏览器中执行                                   |         |                                                                                                                                                             |
-| nonce         |                                                               |                                                                                |         |                                                                                                                                                             |
-| referrerpolic |                                                               | 获取脚本时是否使用 referrer 字段。                                             |         | `no-referrer`/`no-referrer-when-downgrade`/`origin`/`origin-when-cross-origin`/`same-origin`/`strict-origin`/`strict-origin-when-cross-origin`/`unsafe-url` |
-| preload       | 解决脚本的 cors 问题                                          |                                                                                |         |                                                                                                                                                             |
-| type          | module / text/babel                                           |                                                                                |         |                                                                                                                                                             |
+好像不对
+
+|               | value               | description                                                                    | default |                                                                                                                                                             |
+| ------------- | ------------------- | ------------------------------------------------------------------------------ | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| async         |                     | 浏览器默认同步加载、解析脚本代码。若设置此属性则浏览器异步加载、解析脚本代码。 |         |                                                                                                                                                             |
+| crossorigin   |                     | 解决脚本的 cors 问题                                                           |         |                                                                                                                                                             |
+| defer         |                     | 通知浏览器在文档解析完成后执行、DOMContentLoaded 事件前执行。                  |         |                                                                                                                                                             |
+| integrity     |                     | 是否启用子资源完整性功能。`integrity="${散列算法}-${散列值}"`                  |         |                                                                                                                                                             |
+| nomodule      | boolean             | 脚本是否在支持 es2015 modules 的浏览器中执行                                   |         |                                                                                                                                                             |
+| nonce         |                     |                                                                                |         |                                                                                                                                                             |
+| referrerpolic |                     | 获取脚本时是否使用 referrer 字段。                                             |         | `no-referrer`/`no-referrer-when-downgrade`/`origin`/`origin-when-cross-origin`/`same-origin`/`strict-origin`/`strict-origin-when-cross-origin`/`unsafe-url` |
+| type          | module / text/babel |                                                                                |         |                                                                                                                                                             |
 
 ```js
 let script = document.createElement('script')
@@ -403,6 +404,8 @@ document.querySelect('body').appendChild(script)
 放在`<header>`内。
 
 ### 属性
+
+script 标签上无 preload / prefetch 属性
 
 |            | value                                                                      | description                                 | default |     |
 | ---------- | -------------------------------------------------------------------------- | ------------------------------------------- | ------- | --- |
@@ -458,6 +461,50 @@ iframe/svg 中都有自己视口。
    padding: constant(safe-area-inset-top) constant(safe-area-inset-right) constant(safe-area-inset-bottom) constant(safe-area-inset-left);
 }
 ```
+
+## link
+
+它是加载资源的标签。
+
+|          | preload                    | prefetch                           |     |
+| -------- | -------------------------- | ---------------------------------- | --- |
+|          |                            | 告诉浏览器在空闲时才开始加载资源； |     |
+| 页面     | 一般用于加载当前页面需要的 | 一般用于加载其它页面需要的         |     |
+| 资源种类 | 脚本、字体、主要图片       | 未来可能会去的页面的资源           |     |
+|          | 只加载不执行               | 只加载不执行                       |     |
+|          | 均能设置、命中缓存；       | 均能设置、命中缓存；               |     |
+|          | 不会导致重复请求；         | 不会导致重复请求；                 |     |
+|          | 平均提高 12%速度           |                                    |     |
+| 顺序     | 在众资源中最先加载         | 最后加载                           |     |
+|          |                            |                                    |     |
+
+|                | value                                                                                                                | description                                 |                                |                     |
+| -------------- | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- | ------------------------------ | ------------------- |
+| href           | url                                                                                                                  |                                             |                                |                     |
+| hreflang       |                                                                                                                      |                                             |                                |                     |
+| media          | media_query                                                                                                          | 规定被链接文档将被显示在什么设备上。        |                                |                     |
+| referrerpolicy | no-referrer / no-referrer-when-downgrade / origin / origin-when-cross-origin / unsafe-url                            | 规定在获取资源时要使用的引荐来源信息。      | 测试一下                       |                     |
+| rel            | alternate / author / help / icon / license / next / pingback / prefetch / prev / search / sidebar / stylesheet / tag | 规定当前文档与被链接文档之间的关系。        | 这里没有 script。 需要验证一下 | relationship 的缩写 |
+| sizes          | heightxwidth / any                                                                                                   | 规定被链接资源的尺寸。仅适用于 rel="icon"。 |                                |                     |
+| type           | MIME_type                                                                                                            | 规定被链接文档的 MIME 类型。                |                                |                     |
+| as             |                                                                                                                      |                                             | 好像是未成规范的属性           |                     |
+
+### 加载顺序
+
+- 先加载 preload 的资源，再加载无 preload 的资源。
+- 有空间时间时加载 prefetch 的资源
+
+### 预加载
+
+一般用于什么资源
+
+```html
+<link rel="preload" href="..." as="..." />
+<link rel="modulepreload" href="..." />
+<link rel="prefetch" href="..." />
+```
+
+注意 preload 需要写上正确的 as 属性，才能正常工作喔(prefetch 不需要)。
 
 # 布局
 

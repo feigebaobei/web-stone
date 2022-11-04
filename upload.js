@@ -251,9 +251,9 @@ c.on('ready', () => {
     }
     // let p = 'language/html/webComponents'
     let p = [
-      // 'language/html/webComponents/index.html',
-      // 'language/html/HTMLElement.html',
-      // 'framework/react/react-18/index.html',
+      'framework/react/react-18/api.html',
+      'browser/index.html',
+      'browser/cache.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
