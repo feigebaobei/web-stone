@@ -188,6 +188,18 @@ let createFunction = (...args, body) => {
   return new Function(...args, body)
 }
 // 职责链 见“设计模式”
+// xx
+function walk (instance) {
+  doWork(instance)
+  let children = instance.render()
+  children.forEach(walk)
+}
+function doWork () {
+  ...
+}
+// walk(obj)
+
+
 
 
 

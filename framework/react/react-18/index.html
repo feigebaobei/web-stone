@@ -308,6 +308,7 @@ setState(<span class="hljs-function">(<span class="hljs-params">state, props, an
 ||constructor|无||
 ||需要在生命周期方法中写好多与逻辑无关的代码。如请求数据。|监听当特定数据改变时执行指定方法。||
 |||可使用 react 更多新功能||
+||只实例化一次。后续执行只执行render方法。|每次都执行一次方法体||
 |||||</p>
 <h3 id="无状态组件已经过时了">无状态组件（已经过时了）</h3>
 <p>了解它可以帮助读者了解方法式组件</p>
@@ -477,6 +478,11 @@ xx ? <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">A</spa
 <li>React.PureComponent</li>
 <li>shouldComponentUpdate</li>
 <li>代码分割： React.lazy() / router</li>
+<li>useCallback / useMemo
+<ul>
+<li>常用于props中的方法、关键数据。</li>
+</ul>
+</li>
 </ul>
 <h2 id="purecomponent">PureComponent</h2>
 <p>纯组件只进行简单比较 props。<br>

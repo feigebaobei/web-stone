@@ -478,16 +478,17 @@ iframe/svg 中都有自己视口。
 | 顺序     | 在众资源中最先加载         | 最后加载                           |     |
 |          |                            |                                    |     |
 
-|                | value                                                                                                                | description                                 |                                |                     |
-| -------------- | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- | ------------------------------ | ------------------- |
-| href           | url                                                                                                                  |                                             |                                |                     |
-| hreflang       |                                                                                                                      |                                             |                                |                     |
-| media          | media_query                                                                                                          | 规定被链接文档将被显示在什么设备上。        |                                |                     |
-| referrerpolicy | no-referrer / no-referrer-when-downgrade / origin / origin-when-cross-origin / unsafe-url                            | 规定在获取资源时要使用的引荐来源信息。      | 测试一下                       |                     |
-| rel            | alternate / author / help / icon / license / next / pingback / prefetch / prev / search / sidebar / stylesheet / tag | 规定当前文档与被链接文档之间的关系。        | 这里没有 script。 需要验证一下 | relationship 的缩写 |
-| sizes          | heightxwidth / any                                                                                                   | 规定被链接资源的尺寸。仅适用于 rel="icon"。 |                                |                     |
-| type           | MIME_type                                                                                                            | 规定被链接文档的 MIME 类型。                |                                |                     |
-| as             |                                                                                                                      |                                             | 好像是未成规范的属性           |                     |
+| key         | description                              | enum                        | demo |
+| ----------- | ---------------------------------------- | --------------------------- | ---- |
+| href        | 外部资源的路径                           |                             |      |
+| rel         | 链接的资源与当前文档的关系。可用于预加载 |                             |      |
+| type        | 链接资源的 MIME 类型                     |                             |      |
+| sizes       | 大小                                     | any                         |      |
+| media       | 媒体查询。符合媒体要求的才被加载进来。   |                             |      |
+| as          | 获取特定的内容类                         |                             |      |
+| crossorigin | 是否应该使用 cors 请求                   | anonymous / use-credentials |      |
+| disabled    | 是否应该加载所描述的资源                 |                             |      |
+| title       |                                          |                             |      |
 
 ### 加载顺序
 
@@ -496,15 +497,41 @@ iframe/svg 中都有自己视口。
 
 ### 预加载
 
-一般用于什么资源
+使用大文件更快展示。  
+常写在`<head>`内。  
+若浏览器不支持该类型资源预加载，则忽略。  
+预加载有三种方式：`<link rel="preload">` / `<link rel="prefetch">` / `<link rel="subresource">`，优先级依次递减。
+它与`defer` / `async`
+defer/async 只能用于`<script>`。详见：`./defer&async.md`
+preload/prefetch 只能用于`<link>`.
 
 ```html
 <link rel="preload" href="..." as="..." />
 <link rel="modulepreload" href="..." />
 <link rel="prefetch" href="..." />
+
+<link rel="stylesheet" href="styles/main.css" />
+<link rel="preload" href="styles/main.js" as="script" />
 ```
 
 注意 preload 需要写上正确的 as 属性，才能正常工作喔(prefetch 不需要)。
+
+预加载是告诉浏览器哪些资源需要预加载，不是真正的加载。真正的加载需要在应该在的位置写上应该加载的内容。
+
+#### 可预加载的资源
+
+- audio
+- document
+- embed
+- fetch
+- font
+- image
+- object
+- script
+- style
+- track 为媒体元素规定外部文本轨道。
+- worker
+- video
 
 # 布局
 

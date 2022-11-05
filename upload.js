@@ -251,14 +251,16 @@ c.on('ready', () => {
     }
     // let p = 'language/html/webComponents'
     let p = [
-      'framework/react/react-18/api.html',
-      'browser/index.html',
-      'browser/cache.html',
-      'jsPackages/husky.html',
-      'jsPackages/index.html',
-      'jsPackages/prettier/index.html',
-      'jsPackages/lerna/index.html',
-      'language/html/index.html',
+      // 'framework/react/react-18/api.html',
+      // 'browser/index.html',
+      // 'browser/cache.html',
+      // 'jsPackages/husky.html',
+      // 'jsPackages/index.html',
+      // 'jsPackages/prettier/index.html',
+      // 'jsPackages/lerna/index.html',
+      // 'language/html/index.html',
+      // 'index.html',
+      // 'util/index.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)

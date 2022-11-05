@@ -178,6 +178,7 @@ name 等属性会在 props 中。
 ||constructor|无||
 ||需要在生命周期方法中写好多与逻辑无关的代码。如请求数据。|监听当特定数据改变时执行指定方法。||
 |||可使用 react 更多新功能||
+||只实例化一次。后续执行只执行 render 方法。|每次都执行一次方法体||
 |||||
 
 ### 无状态组件（已经过时了）
@@ -382,6 +383,8 @@ let OtherComponent = React.lazy(() => import(...)) // 只能导出default
 - React.PureComponent
 - shouldComponentUpdate
 - 代码分割： React.lazy() / router
+- useCallback / useMemo
+  - 常用于 props 中的方法、关键数据。
 
 ## PureComponent
 
