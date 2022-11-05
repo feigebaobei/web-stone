@@ -80,8 +80,8 @@
     </head>
     <body class="vscode-body vscode-light">
         <h1 id="原理">原理</h1>
-<p>把react / react-dom的原理合并到这个文档中。</p>
-<h2 id="react到底做了什么">react到底做了什么</h2>
+<p>把 react / react-dom 的原理合并到这个文档中。</p>
+<h2 id="react-到底做了什么">react 到底做了什么</h2>
 <h3 id="核心概念">核心概念</h3>
 <ul>
 <li>recenciliation</li>
@@ -103,29 +103,29 @@
 <tbody>
 <tr>
 <td></td>
-<td>组件。方法或class</td>
+<td>组件。方法或 class</td>
 <td>一个基本核心对象</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td></td>
-<td>返回jsx/ReactElement</td>
+<td>返回 jsx/ReactElement</td>
 <td></td>
-<td>class组件的实例。它是一个对象。</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>方法组件，直接调用。class组件，创建一个实例后调用render方法。</td>
-<td>可描述一个dom.也可以描述一个component instance</td>
-<td>有生命周期方法和初始化state</td>
+<td>class 组件的实例。它是一个对象。</td>
 <td></td>
 </tr>
 <tr>
 <td></td>
+<td>方法组件，直接调用。class 组件，创建一个实例后调用 render 方法。</td>
+<td>可描述一个 dom.也可以描述一个 component instance</td>
+<td>有生命周期方法和初始化 state</td>
 <td></td>
-<td>在class组件时期用处大</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>在 class 组件时期用处大</td>
 <td></td>
 <td></td>
 </tr>
@@ -154,27 +154,245 @@
 </table>
 <h3 id="渲染过程">渲染过程</h3>
 <ol>
-<li>执行class组件的render方法或执行方法式组件，生成Virtual DOM，它保存在内存中。</li>
-<li>同步vdom到real dom。初始化时全部插入。</li>
-<li>当组件改变时生成新vdom</li>
-<li>比对2个vdom的不同。再更新dom
+<li>执行 class 组件的 render 方法或执行方法式组件，生成 Virtual DOM，它保存在内存中。</li>
+<li>同步 vdom 到 real dom。初始化时全部插入。</li>
+<li>当组件改变时生成新 vdom</li>
+<li>比对 2 个 vdom 的不同。再更新 dom
 <ol>
-<li>使用diff算法比对。也叫recencilication</li>
+<li>使用 diff 算法比对。也叫 recencilication</li>
 </ol>
 </li>
 <li></li>
 </ol>
 <h3 id="recenciliation">recenciliation</h3>
 <ul>
-<li>若ReactElement的type不同，则使用新组件及其后代元素。
+<li>若 ReactElement 的 type 不同，则使用新组件及其后代元素。
 <ul>
-<li>会触发unmount生命周期方法</li>
+<li>会触发 unmount 生命周期方法</li>
 </ul>
 </li>
 <li>属性不同时。更新属性，实例不变，状态不变。</li>
-<li>使用key props比对。</li>
+<li>使用 key props 比对。</li>
 </ul>
-<h3 id="diff算法">diff算法</h3>
+<h3 id="diff-算法">diff 算法</h3>
+<h2 id="what-is-react-fiber">what is react fiber</h2>
+<ul>
+<li>它是一个对象</li>
+<li>react reconciler基于它工作。（它是异步的）它是工作单元</li>
+<li>一共有2个阶段</li>
+<li>多个fiber对象组成树</li>
+</ul>
+<h3 id="目的">目的</h3>
+<ul>
+<li>动画</li>
+<li>回应速度</li>
+</ul>
+<h3 id="功能">功能</h3>
+<ul>
+<li>可把工作分块，设置任务优先级。</li>
+<li>停止或再继续工作。</li>
+<li>重新工作或打断工作。</li>
+</ul>
+<h3 id="old-reconciler-fiber出现前">old reconciler (fiber出现前)</h3>
+<ul>
+<li>任务是同步的。</li>
+<li>工作就像栈。</li>
+<li>栈空了才能停止工作。</li>
+</ul>
+<h3 id="new-reconciler-fiber出现后">new reconciler (fiber出现后)</h3>
+<ul>
+<li>它是一个工作单元</li>
+<li>当工作完成时react process把工作结果提交。生成新dom</li>
+</ul>
+<h3 id="二个阶段">二个阶段</h3>
+<ul>
+<li>render phase (processing)
+<ul>
+<li>异步</li>
+<li>定义任务的优先级，工作可能停止、丢弃。</li>
+<li>开始的方法，如：beginWork() / copmleteWork()</li>
+</ul>
+</li>
+<li>commit phase (committing)
+<ul>
+<li>从commitWork()开始</li>
+<li>同步</li>
+</ul>
+</li>
+</ul>
+<h3 id="fiber的属性">fiber的属性</h3>
+<ul>
+<li>总是 1-1 的关系
+<ul>
+<li>1个fiber对应一个组件/dom/...</li>
+</ul>
+</li>
+<li>type属性表示tag
+<ul>
+<li>一共有0-24。 有几个重要的。如下</li>
+<li>FunctionComponent   0</li>
+<li>ClassComponent      1</li>
+<li>HostComponent       5   div/p/...</li>
+<li>Fragment            7</li>
+<li>ContextConsumer     9</li>
+<li>ContextProvider     10</li>
+</ul>
+</li>
+<li>stateNode 引用</li>
+<li>child     第一个子元素</li>
+<li>sibling   下一个同级元素</li>
+<li>return    父元素</li>
+</ul>
+<h3 id="fiber--reactelement">Fiber &amp; ReactElement</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>fiber</th>
+<th>ReactElement</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>通常从ReactElement中生成</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>共享 type / key 属性</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>当ReactElement重新渲染时，Fiber通常会复用</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>通常在初次挂载时创建</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-js"><div><span class="hljs-comment">// 常见的创建fiber的方法</span>
+createFiberFromElement()
+createFiberFromFragment()
+createFiberFromText()
+</div></code></pre>
+<h3 id="fiber如何工作">fiber如何工作</h3>
+<ul>
+<li>state change</li>
+<li>触发生命周期方法</li>
+<li>dom改变</li>
+<li>生成时间表</li>
+<li>可分割工作为多块</li>
+<li>分高优、低优处理
+<ul>
+<li>高优    requestAnimationFrame()</li>
+<li>低优    requestIdleCallback()</li>
+</ul>
+</li>
+</ul>
+<pre><code><code><div>    a1
+    |
+    b1 -- b2 -- b3
+          |
+          c1
+          |
+          c2
+</div></code></code></pre>
+<ol>
+<li>从 beginWork() 开始</li>
+<li>一直处于此步骤</li>
+<li>到 comleteWork() 结束</li>
+</ol>
+<h3 id="fiber-tree">fiber tree</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>current</th>
+<th>workInProgress</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>第一次生成的fiber tree</td>
+<td>第二次生成的</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>与真实显示相同</td>
+<td>可不同</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>工作在commit阶段进行<br>
+深度优先</p>
+<h2 id="title">title</h2>
+<h2 id="title-1">title</h2>
+<h2 id="title-2">title</h2>
+<h2 id="title-3">title</h2>
+<h2 id="title-4">title</h2>
+<h2 id="title-5">title</h2>
 <h2 id="常用对象">常用对象</h2>
 <pre><code class="language-js"><div>ReactElement
 FiberNode 也叫 Fiber
@@ -183,17 +401,17 @@ ReactElement
 ReactElement
 ReactElement
 </div></code></pre>
-<h2 id="title">title</h2>
-<h2 id="title-1">title</h2>
-<h2 id="title-2">title</h2>
-<h2 id="title-3">title</h2>
-<h2 id="title-4">title</h2>
-<h2 id="title-5">title</h2>
 <h2 id="title-6">title</h2>
 <h2 id="title-7">title</h2>
 <h2 id="title-8">title</h2>
 <h2 id="title-9">title</h2>
 <h2 id="title-10">title</h2>
+<h2 id="title-11">title</h2>
+<h2 id="title-12">title</h2>
+<h2 id="title-13">title</h2>
+<h2 id="title-14">title</h2>
+<h2 id="title-15">title</h2>
+<h2 id="title-16">title</h2>
 <h1 id="参考文档">参考文档</h1>
 <ul>
 <li><a href="https://www.youtube.com/watch?v=7YhdqIR2Yzo&amp;t=422s">youtobe philip fabinek react</a></li>

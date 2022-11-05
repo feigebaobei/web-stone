@@ -84,17 +84,17 @@
 <blockquote>
 <p>只能在方法组件的最顶层使用。<br>
 以'use'开头。意为只是使用，不是创建。<br>
-Hook可以存在方法组件的顶层和另一个hook中。<br>
+Hook 可以存在方法组件的顶层和另一个 hook 中。<br>
 在 React 的函数组件中调用 Hook<br>
 在自定义 Hook 中调用其他 Hook<br>
 它是一个特定方法，可以“hook into”react 功能
-从react v16.8开始支持hooks。<br>
-内置于react中<br>
+从 react v16.8 开始支持 hooks。<br>
+内置于 react 中<br>
 100%向后兼容<br>
-不影响使用class组件<br>
-不计划代替class组件<br>
-可以不迁移class组件<br>
-ellint-plugin-react-hooks已经内置与create-react-app中</p>
+不影响使用 class 组件<br>
+不计划代替 class 组件<br>
+可以不迁移 class 组件<br>
+ellint-plugin-react-hooks 已经内置与 create-react-app 中</p>
 </blockquote>
 <h2 id="feature">feature</h2>
 <ul>
@@ -179,6 +179,7 @@ useRef 返回一个可变的 ref 对象，其 .current 属性被初始化为传�
 组件重新渲染期间其值一直存在。
 改变其值时不会重新渲染组件。
 可以使用它：得到dom元素，跟踪状态变化（保存变化前的状态），
+遇事不绝，useRef. 责任大，困难多。
 <span class="hljs-keyword">let</span> inputEl = React.useRef(<span class="hljs-literal">null</span>)
 &lt;input ref={inputEl} /&gt;
 <span class="hljs-keyword">let</span> btClickHandler = <span class="hljs-function">() =&gt;</span> {
@@ -750,6 +751,17 @@ isShow &amp;&amp; &lt;Modal&gt;
 <span class="hljs-keyword">let</span> [v, setV] = useState(<span class="hljs-string">&#x27;&#x27;</span>)
 useOnce(cf, fn, <span class="hljs-string">&#x27;str&#x27;</span>, v)
 </div></code></pre>
+<p>useConstrctor
+只运行一次</p>
+<pre><code class="language-js"><div><span class="hljs-comment">// 待测试</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">useConstructor</span> (<span class="hljs-params">cb</span>) </span>{
+  <span class="hljs-keyword">let</span> init = useRef(<span class="hljs-literal">true</span>)
+  <span class="hljs-keyword">if</span> (init.current) {
+    cb()
+    init.current = <span class="hljs-literal">false</span>
+  }
+}
+</div></code></pre>
 <h2 id="自定义-hooks-的包">自定义 hooks 的包</h2>
 <ul>
 <li><a href="">title</a></li>
@@ -873,7 +885,7 @@ useOnce(cf, fn, <span class="hljs-string">&#x27;str&#x27;</span>, v)
 <h3 id="title-1">title</h3>
 <h3 id="title-2">title</h3>
 <h2 id="todo-1">todo</h2>
-<h3 id="hook为什么要在顶层">Hook为什么要在顶层</h3>
+<h3 id="hook-为什么要在顶层">Hook 为什么要在顶层</h3>
 
         <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         

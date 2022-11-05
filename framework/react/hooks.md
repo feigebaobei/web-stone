@@ -99,6 +99,7 @@ useRef 返回一个可变的 ref 对象，其 .current 属性被初始化为传�
 组件重新渲染期间其值一直存在。
 改变其值时不会重新渲染组件。
 可以使用它：得到dom元素，跟踪状态变化（保存变化前的状态），
+遇事不绝，useRef. 责任大，困难多。
 let inputEl = React.useRef(null)
 <input ref={inputEl} />
 let btClickHandler = () => {
@@ -711,6 +712,20 @@ let fn = (v) => {
 }
 let [v, setV] = useState('')
 useOnce(cf, fn, 'str', v)
+```
+
+useConstrctor
+只运行一次
+
+```js
+// 待测试
+function useConstructor(cb) {
+  let init = useRef(true)
+  if (init.current) {
+    cb()
+    init.current = false
+  }
+}
 ```
 
 ## 自定义 hooks 的包

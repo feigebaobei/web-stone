@@ -1,7 +1,11 @@
 # 介绍各方法的运行逻辑
+
 ## createPortal
+
 ## createRoot
-v18新增的方法，用于创建根节点。`FiberRootNode`类型。
+
+v18 新增的方法，用于创建根节点。`FiberRootNode`类型。
+
 ```js
 exports.createRoot = createRoot$1;
 function createRoot$1(container, options) {
@@ -20,7 +24,7 @@ function createRoot$1(container, options) {
                     //     current: { // FiberNode
                     //         stateNode // 该FiberRootNode
                     //         memoizedState: {...} //
-                    //         updateQueue: {...} // 
+                    //         updateQueue: {...} //
                     //     }
                     // }
                     var root = new FiberRootNode(containerInfo, tag, hydrate, identifierPrefix, onRecoverableError);
@@ -146,7 +150,7 @@ function createRoot$1(container, options) {
                         var lane = requestUpdateLane(current$1); // 返回一个优先级值
                         var context = getContextForSubtree(parentComponent);
                             function getContextForSubtree(parentComponent) {
-                                var fiber = get(parentComponent); // 
+                                var fiber = get(parentComponent); //
                                 var parentContext = findCurrentUnmaskedContext(fiber); // 好像是返回了context
                                 ...
                                 return parentContext;
@@ -193,11 +197,11 @@ function createRoot$1(container, options) {
                                     function markUpdateLaneFromFiberToRoot(sourceFiber, lane) {
                                     }
                             }
-                        
 
 
 
-                        
+
+
                     }
             }
             ReactDOMHydrationRoot.prototype.unmount = ReactDOMRoot.prototype.unmount = function () {
@@ -211,31 +215,45 @@ function createRoot$1(container, options) {
 
 }
 ```
+
 ## findDOMNode
-返回dom
+
+返回 dom
+
 ```js
 function findDOMNode(componentOrElement) {
-    if (componentOrElement == null) {
-        return null;
-    }
-    if (componentOrElement.nodeType === ELEMENT_NODE) {
-        return componentOrElement;
-    }
-    return findHostInstanceWithWarning(componentOrElement, 'findDOMNode');
+  if (componentOrElement == null) {
+    return null
+  }
+  if (componentOrElement.nodeType === ELEMENT_NODE) {
+    return componentOrElement
+  }
+  return findHostInstanceWithWarning(componentOrElement, 'findDOMNode')
 }
 ```
+
 ## flushSync
+
 ## hydrate
+
 ## hydrateRoot
-## render 
-已经在v18中不支持了。
+
+## render
+
+已经在 v18 中不支持了。
+
 ## unmountComponentAtNode
+
 ## unstable_batchedUpdates
+
 ## unstable_renderSubtreeIntoContainer
 
 # 各对象
+
 ## ReactElement
-这是react包中生成的对象。  
+
+这是 react 包中生成的对象。
+
 ```js
 {
   "type": "h1", // html标签
@@ -250,6 +268,7 @@ function findDOMNode(componentOrElement) {
 ```
 
 ## FiberNode
+
 ```js
 {
   "tag": 5,
@@ -261,7 +280,7 @@ function findDOMNode(componentOrElement) {
   "child": null,        // 第一个子元素
   "sibling": null,      // 后面的第一个兄弟元素
   "index": 0,           // 兄弟间下标
-  "ref": null,          // ref 
+  "ref": null,          // ref
   "pendingProps": {
     "children": {
       "type": "h1",
@@ -285,7 +304,7 @@ function findDOMNode(componentOrElement) {
   "lanes": 0,
   "childLanes": 0,
   "alternate": null,
-  "actualDuration": 0,      // 
+  "actualDuration": 0,      //
   "actualStartTime": -1,    // 好像是开始更新的时刻，相对于根组件被创建的时间。
   "selfBaseDuration": 0,
   "treeBaseDuration": 0,
@@ -297,8 +316,10 @@ function findDOMNode(componentOrElement) {
 ```
 
 ## FiberRootNode
+
 `FiberRootNode`不是基于`FiberNode`的。  
-FiberRootNode和FiberNode是二个独立的构造方法。  
+FiberRootNode 和 FiberNode 是二个独立的构造方法。
+
 ```js
 {
   "tag": 1,
@@ -333,6 +354,7 @@ FiberRootNode和FiberNode是二个独立的构造方法。
 ```
 
 # uml
+
 ```
 { // ReactDOMRoot
     _internalRoot: { // FiberRootNode
@@ -355,9 +377,178 @@ FiberRootNode和FiberNode是二个独立的构造方法。
 }
 ```
 
-## fiber对象链
+## fiber 对象链
 
 ## title
+
 ## title
+
 ## title
+
 ## title
+
+```js
+createRoot(container, options?) {
+  return createRootImpl(container, options);
+            if (!isValidContainer(container)) {
+              <!-- error -->
+            }
+            warnIfReactDOMContainerInDEV(container);
+            const root = createContainer(
+              container,
+              ConcurrentRoot,
+              null,
+              isStrictMode,
+              concurrentUpdatesByDefaultOverride,
+              identifierPrefix,
+              onRecoverableError,
+              transitionCallbacks,
+            );
+                          return createFiberRoot(
+                            containerInfo,
+                            tag,
+                            hydrate,
+                            initialChildren,
+                            hydrationCallbacks,
+                            isStrictMode,
+                            concurrentUpdatesByDefaultOverride,
+                            identifierPrefix,
+                            onRecoverableError,
+                            transitionCallbacks,
+                          );
+                                    const root: FiberRoot = (new FiberRootNode(
+                                      containerInfo,
+                                      tag,
+                                      hydrate,
+                                      identifierPrefix,
+                                      onRecoverableError,
+                                    ): any); // 返回一个FiberRoot对象
+                                    const uninitializedFiber = createHostRootFiber(
+                                      tag,
+                                      isStrictMode,
+                                      concurrentUpdatesByDefaultOverride,
+                                    );
+                                                                  // 判断出mode
+                                                                  return createFiber(HostRoot, null, null, mode);
+                                                                            return new FiberNode(tag, pendingProps, key, mode); // 返回一个Fiber对象
+                                    root.current = uninitializedFiber; // 搞了一个循环
+                                    uninitializedFiber.stateNode = root;
+                                    initializeUpdateQueue(uninitializedFiber); // init 更新队列
+                                    return root;
+
+
+            listenToAllSupportedEvents(rootContainerElement); // 监听事件
+            return new ReactDOMRoot(root);
+                          ReactDOMRoot.prototype.render(children)
+                            updateContainer(children, root, null, null);
+                          ReactDOMRoot.prototype.unmount()
+                            flushSync(() => {
+                              updateContainer(null, root, null, null);
+                            });
+                            unmarkContainerAsRoot(container);
+}
+render(element, container, callback)
+    if (!isValidContainerLegacy(container)) { // 检查是否合法
+        throw new Error('Target container is not a DOM element.');
+    }
+    return legacyRenderSubtreeIntoContainer(
+        null,
+        element,
+        container,
+        false,          // forceHydrate
+        callback,
+    );
+                const maybeRoot = container._reactRootContainer;
+                let root: FiberRoot;
+                if (!maybeRoot) {
+                    // Initial mount
+                    root = legacyCreateRootFromDOMContainer(
+                    container,
+                    children,
+                    parentComponent,
+                    callback,
+                    forceHydrate,
+                    );
+                                let rootSibling;
+                                // 删除所有已经存在的元素
+                                while ((rootSibling = container.lastChild)) {
+                                container.removeChild(rootSibling);
+                                }
+                                const root = createContainer( // 上面提到了这个方法
+                                    container,
+                                    LegacyRoot,
+                                    null, // hydrationCallbacks
+                                    false, // isStrictMode
+                                    false, // concurrentUpdatesByDefaultOverride,
+                                    '', // identifierPrefix
+                                    noopOnRecoverableError, // onRecoverableError
+                                    null, // transitionCallbacks
+                                );
+                                container._reactRootContainer = root;
+                                markContainerAsRoot(root.current, container); // 设置标记。在检查root时会用到。
+                                listenToAllSupportedEvents(rootContainerElement);
+                                flushSync(() => {
+                                    updateContainer(initialChildren, root, parentComponent, callback);
+                                });
+                                return root;
+
+                } else {
+                    root = maybeRoot;
+                    if (typeof callback === 'function') {
+                    const originalCallback = callback;
+                    callback = function() {
+                        const instance = getPublicRootInstance(root);
+                        originalCallback.call(instance);
+                    };
+                    }
+                    // Update
+                    updateContainer(children, root, parentComponent, callback);
+                }
+                // 上面处理了一遍root, 现在返回root
+                return getPublicRootInstance(root);
+                            const containerFiber = container.current; // FiberRoot
+                            if (!containerFiber.child) {
+                                return null;
+                            }
+                            switch (containerFiber.child.tag) {
+                                case HostSingleton:
+                                case HostComponent:
+                                    return getPublicInstance(containerFiber.child.stateNode); // 这里引入的文件中无此方法。我在ReactARTHostConfig.js中找到了同名方法。此方法直接返回参数。
+                                default:
+                                    return containerFiber.child.stateNode;
+                            }
+
+
+
+```
+
+```js
+FiberRoot: {
+  tag = tag;
+  containerInfo = containerInfo;
+  pendingChildren = null;
+  current = null; // 未来会被赋值 Fiber 对象
+  pingCache = null;
+  finishedWork = null;
+  timeoutHandle = noTimeout;
+  context = null;
+  pendingContext = null;
+  callbackNode = null;
+  callbackPriority = NoLane;
+  eventTimes = createLaneMap(NoLanes);
+  expirationTimes = createLaneMap(NoTimestamp);
+  pendingLanes = NoLanes;
+  suspendedLanes = NoLanes;
+  pingedLanes = NoLanes;
+  expiredLanes = NoLanes;
+  mutableReadLanes = NoLanes;
+  finishedLanes = NoLanes;
+  errorRecoveryDisabledLanes = NoLanes;
+  entangledLanes = NoLanes;
+  entanglements = createLaneMap(NoLanes);
+  hiddenUpdates = createLaneMap(null);
+  identifierPrefix = identifierPrefix;
+  onRecoverableError = onRecoverableError;
+  ...
+}
+```
