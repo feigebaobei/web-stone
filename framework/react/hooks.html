@@ -109,7 +109,7 @@ setValus（与useState）都会自动合并更新对象。
 内部使用object.is判断新旧状态是否相同。若相同，则不触发更新。
 setValue是异步的。react会打包一批更新为一次更新。
 setValue(newValue)
-setValue(<span class="hljs-function">(<span class="hljs-params">any</span>) =&gt;</span> {...; reture obj})
+setValue(<span class="hljs-function">(<span class="hljs-params">preValue</span>) =&gt;</span> {...; reture obj}) <span class="hljs-comment">// preValue是当前value的值</span>
 useState(<span class="hljs-function">() =&gt;</span> {reture obj})
 可使用flushSync()强制立即更新。非必要不使用。
 flushSync(<span class="hljs-function">() =&gt;</span> {
@@ -754,7 +754,7 @@ useOnce(cf, fn, <span class="hljs-string">&#x27;str&#x27;</span>, v)
 <p>useConstrctor
 只运行一次</p>
 <pre><code class="language-js"><div><span class="hljs-comment">// 待测试</span>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">useConstructor</span> (<span class="hljs-params">cb</span>) </span>{
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">useConstructor</span>(<span class="hljs-params">cb</span>) </span>{
   <span class="hljs-keyword">let</span> init = useRef(<span class="hljs-literal">true</span>)
   <span class="hljs-keyword">if</span> (init.current) {
     cb()

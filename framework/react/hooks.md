@@ -29,7 +29,7 @@ setValus（与useState）都会自动合并更新对象。
 内部使用object.is判断新旧状态是否相同。若相同，则不触发更新。
 setValue是异步的。react会打包一批更新为一次更新。
 setValue(newValue)
-setValue((any) => {...; reture obj})
+setValue((preValue) => {...; reture obj}) // preValue是当前value的值
 useState(() => {reture obj})
 可使用flushSync()强制立即更新。非必要不使用。
 flushSync(() => {
