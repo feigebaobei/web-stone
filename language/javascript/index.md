@@ -415,6 +415,28 @@ let cbToP = (fn, ...params) =>
 let callbackToPromise = cbToP
 ```
 
+### 全局的事件
+
+```js
+window.addEventListener(
+  'rejectionhandled',
+  (event) => {
+    console.log('Promise rejected; reason: ' + event.reason)
+  },
+  false
+)
+window.onunhandledrejection = (event) => {
+  console.warn(`UNHANDLED PROMISE REJECTION: ${event.reason}`)
+}
+```
+
+|      | rejectionhandled                                        | unhandledrejection                                      |
+| ---- | ------------------------------------------------------- | ------------------------------------------------------- |
+| 环境 | window/worker                                           | window/worker                                           |
+|      | 当 Promise 被 reject 且执行 reject 处理器的时候，会触发 | 当 Promise 被 reject 且没有 reject 处理器的时候，会触发 |
+|      |                                                         |                                                         |
+|      |                                                         |                                                         |
+
 ## eventLoop (异步 & 同步)
 
 所有 js 代码按执行时序可分为三部分：同步代码/宏任务/微任务。

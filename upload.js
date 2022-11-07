@@ -251,13 +251,15 @@ c.on('ready', () => {
     }
     // let p = 'language/html/webComponents'
     let p = [
-      'framework/react/react-dom-18/principle.html',
-      'framework/react/react-18/principle.html',
-      'framework/react/principle.html',
-      'framework/react/hooks.html',
-      'index.html',
-      'language/java/index.html',
-      'language/java/install.html',
+      // 'framework/react/react-dom-18/principle.html',
+      // 'framework/react/react-18/principle.html',
+      // 'framework/react/principle.html',
+      // 'framework/react/hooks.html',
+      // 'framework/react/useLocalReact.html',
+      // 'index.html',
+      'language/javascript/index.html',
+      // 'language/java/index.html',
+      // 'language/java/install.html',
 
       // 'framework/react/react-18/api.html',
       // 'browser/index.html',
