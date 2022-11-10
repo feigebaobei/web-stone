@@ -76,6 +76,8 @@ lerna init     // 生成基本的lerna库目录结构。
 }
 ```
 
+所有命令都可以设置默认配置项
+
 ## log
 
 默认日志文件：`<root>/lerna-debug.log`。在 lerna 运行出错时记录的日志。

@@ -17,23 +17,182 @@
     <!-- <link rel="prefetch" href="./sw.js" as="script"> -->
   </head>
   <body>
-    <popup-info></popup-info>
-    <template id="myTemp">
-      <style>
-          /* css code */
-          /* 只对当前template有效 */
-      </style>
-      <div>
-          <p>fixed content</p>
-          <slot name="a"><span>default content</span></slot>
-      </div>
-    </template>
-    
-    <custom-tag>
-      <span slot="a">from dom</span>
-    </custom-tag>
-
     <script>
+      const clog = console.log
+      const j = (o) => {
+        clog(JSON.parse(JSON.stringify(o)))
+      }
+
+      
+
+      // let p2 = new Promise().then(r => {
+      //   clog('then p2', r)
+      // }).catch(e => {
+      //   clog('catch p2', e)
+      // })
+      // p2.then(r => {
+      //   clog('then', r)
+      // }).catch(e => {
+      //   clog('catch', e)
+      // })
+      // setTimeout(() => {p2.resolve(1)}, 1000)
+      let waitF = null
+      let isRunning = false
+      let cancelCurrentStack = () => {}
+      const EMPTYVALUE = Symbol.for('empty')
+      class Queue {
+        constructor() {
+          this._box = []
+          // this.head = null÷
+        }
+        getHead() {
+          return this._box[0]
+        }
+      }
+      class PriorityQueue extends Queue {
+        constructor () {
+          super()
+          this.priorityList = new Map() // {priority: lastIndex}
+        }
+      }
+      class StackPriorityQueue extends PriorityQueue {
+        constructor () {
+          super()
+          // this.priorityList = []
+        }
+        // 放入队列并返回下标
+        entryQueue(stack) {
+          if (!this._box.length) {
+            this._box.push(stack)
+          } else if (this._box[0].priority < stack.priority) {
+            this._box.unshift(stack)
+          } else if (this._box[this._box.length - 1].priority >= stack.priority ) {
+            this._box.push(stack)
+          } else {
+            // 二分查找
+            // let index = this._box.length >> 1
+            // while (this._box[index] =)
+            let index = 0
+            while (index < this._box.length - 1) {
+              // clog('index', index)
+              if (this._box[index].priority >= stack.priority && stack.priority > this._box[index + 1].priority) {
+                this._box.splice(index + 1, 0, stack)
+                break
+              } else {
+                index++
+              }
+            }
+          }
+        }
+        // 出队列
+        outQueue() {
+          // return 
+          this._box.shift()
+          // clog(this._box)
+        }
+        // 运行队列中的任务
+        runQueue() {
+          // clog(j(stackList))
+          clog('runQueue', isRunning)
+          if (!isRunning) {
+            runStackList()
+          }
+          // let stack = this.getHead() // 取出最高优任务
+          // if (stack) {
+          //   // 是否在处理任务
+          //   if (!isRunning) {
+          //     runStackList()
+          //   //   cancelCurrentStack()
+          //   // } else {
+          //   }
+          // }
+        }
+      }
+      let stackList = new StackPriorityQueue()
+      let runStackList = () => {
+        let stack = stackList.getHead()
+        clog('stack', stack)
+        if (stack) {
+          isRunning = true // 开始执行任务
+          let {promiseRace, cancelCurrentStack: cp} = runStack(stack)
+          cancelCurrentStack = createCancel(cp)
+          promiseRace.then((v) => {
+            console.log('v', v)
+            if (v !== EMPTYVALUE) {
+              stackList.outQueue()
+              runStackList()
+            }
+          })
+        } else {
+          isRunning = false
+        }
+      }
+      let createCancel = (cp) => {
+        return () => {
+          isRunning = false
+          cp()
+        }
+      }
+      let runStack = (stack) => {
+        let p1 = new Promise((s, j) => {
+          let r = f(stack)
+          s(r)
+        })
+        let waitF = () => {}
+        let cancelCurrentStack = () => {
+          waitF(EMPTYVALUE)
+        }
+        let p2 = new Promise((s) => {
+          waitF = s
+        })
+        let promiseRace = Promise.race([p1, p2])
+        return {promiseRace, cancelCurrentStack}
+      }
+      let f = (stack) => {
+        // stack: {
+        //   value: number,
+        //   priority: number
+        // }
+        // let r = fib(stack.value)
+        let r = new Promise((s, j) => {
+          setTimeout(() => {s(stack.value)}, 1000)
+        })
+        // clog(`第${stack.value}个的值：${r}`)
+        return r
+      }
+      let fib = (n) => {
+        if (n < 2) { // 0, 1
+          return 1
+        } else {
+          return fib(n - 1) + fib(n - 2)
+        }
+      }
+      let createStack = (value, priority) => {
+        return {
+          value, priority
+        }
+      }
+      stackList.entryQueue(createStack(3, 2))
+      stackList.entryQueue(createStack(4, 2))
+      stackList.entryQueue(createStack(6, 1))
+      stackList.entryQueue(createStack(7, 3))
+      stackList.entryQueue(createStack(5, 2))
+      // clog(stackList)
+      stackList.runQueue()
+      setTimeout(() => {
+        // clog('取消')
+        // cancelCurrentStack()
+        // isRunning = false
+        stackList.entryQueue(createStack(8, 1))
+        stackList.entryQueue(createStack(9, 1))
+        // stackList.runQueue()
+        // clog(j(stackList))
+      }, 2500)
+
+
+
+
+
       
     </script>
   </body>

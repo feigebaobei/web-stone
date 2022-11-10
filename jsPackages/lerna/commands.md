@@ -186,22 +186,22 @@ lerna publish from-package
 
 `--canary`
 当使用这个标志运行时，lerna publish 会以更细粒度的方式(每次提交)发布包。在发布到 npm 之前，它通过获取当前版本，将其转移到下一个小版本，添加所提供的元后缀(默认为 alpha)并附加当前的 git sha(例如:1.0.0 变成 1.1.0-alpha.0+81e3b443)来创建新版本标签。
-`--contents <dir>`
-`--dist-tag <tag>`
-`--dit-head <sha>`
-`--graph-type <all|dependencies>`
-`--ignore-scripts`
-`--ignore-prepublish`
-`--legacy-auth`
-`--no-git-reset`
-`--no-granular-pathspec`
-`--no-verify-access`
-`--otp`
-`--preid`
-`--pre-dist-tag <tag>`
-`--registry <url>`
-`--tag-version-prefix`
-`--tag-tag`
+`--contents <dir>`  
+`--dist-tag <tag>`  
+`--dit-head <sha>`  
+`--graph-type <all|dependencies>`  
+`--ignore-scripts`  
+`--ignore-prepublish`  
+`--legacy-auth`  
+`--no-git-reset`  
+`--no-granular-pathspec`  
+`--no-verify-access`  
+`--otp`  
+`--preid`  
+`--pre-dist-tag <tag>`  
+`--registry <url>`  
+`--tag-version-prefix`  
+`--tag-tag`  
 `--yes`
 
 ## principle

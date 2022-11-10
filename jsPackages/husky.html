@@ -106,11 +106,15 @@ npx husky add .husky/pre-commit &quot;npm run test&quot;
 </div></code></pre>
 <h2 id="usage">usage</h2>
 <pre><code class="language-shell"><div>npm set-script prepare &quot;husky install&quot; # prepare在执行npm run install / npm publish / npm pack / 打包前执行。
+<span class="hljs-meta">#</span><span class="bash"> 该命令会创建.husky/目录并指定该目录为git hooks所在的目录。</span>
+<span class="hljs-meta">#</span><span class="bash"> 这样可在每次安装后自动启用hooks，可以执行：</span>
+<span class="hljs-meta">#</span><span class="bash"> 钩子如下 preinstall -&gt; install -&gt; postinstall -&gt; prepublish -&gt; preprepare -&gt; prepare -&gt; postprepare</span>
 <span class="hljs-meta">#</span><span class="bash"> prepare是npm的钩子。</span>
 npm run prepare # 会在根目录下生成 .husky/_/.gitignore .husky/_/husky.sh
 npm set-script test &quot;echo hi&quot; # 用于测试。
-npx husky add .husky/pre-commit &quot;npm run test&quot; # 创建 .husky/pre-commit文件。在该文件中调用测试的脚本
-npx husky add .husky/pre-push &quot;npm run test&quot; # 创建 .husky/pre-push文件。在该文件中调用测试的脚本
+npx husky add .husky/pre-commit &quot;npm run test&quot; # 创建 .husky/pre-commit文件。在该文件中调用测试脚本
+npx husky add .husky/commit-msg &quot;npx --no-install commitlint --edit &quot;$1&quot;&quot; # 创建 .husky/commit-msg文件。在该文件中调用测试脚本
+npx husky add .husky/pre-push &quot;npm run test&quot; # 创建 .husky/pre-push文件。在该文件中调用测试脚本
 <span class="hljs-meta">#</span><span class="bash"> 然后就可以在pre-commit hook上执行命令了。</span>
 git add .husky/pre-commit # 这里是shell脚本
 git commit -m &#x27;string&#x27;

@@ -55,6 +55,14 @@ fn应该是纯函数。
 类似vue的watchEffect
 // 最好不要执行fn内定义的方法。？
 fn只在指定时刻执行，如dep改变时。在useEffect外、组件内的代码会在每次渲染时执行。
+useEffect(() => {
+  let controller = new AbortController()
+  let signal = controller.signal
+  fetch(url, {signal}).then(...).catch(...)
+  return () => {
+    controller.abort()
+  }
+}, [id])
 
 let value = useContext(myContext)
 接收一个 context 对象（React.createContext 的返回值）并返回该 context 的当前值。当前的 context 值由上层组件中距离当前组件最近的 <MyContext.Provider> 的 value prop 提供。

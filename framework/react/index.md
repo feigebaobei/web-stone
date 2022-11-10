@@ -108,18 +108,19 @@ v18 以后的用法：
 - [react native](/framework/react/reactNative.html)
 - [react-router react-router-dom react-router-native](/framework/react/router.html)
 - [propType](/framework/react/propType.html)
-- [react](/framework/react/react.html)
-- [react-dom](/framework/react/react-dom.html)
 - [react-script](/framework/react/react-script.html)
 - [next](/framework/react/next/index.html)
 - [GatsBy](/framework/react/gateby/index.html)
 - [create react app](/framework/react/createReactApp.html)
 - [react-snapshot](/framework/react/reactSnapshot.html)
 - [react-snap](/framework/react/reactSnap.html)
+- [react-addons-pref](/framework/react/react-addons-pref.html)
 - [title](/framework/react/title.html)
 - [title](/framework/react/title.html)
 - [title](/framework/react/title.html)
 - [title](/framework/react/title.html)
+
+## [pirnciple](/framework/react/principle.html)
 
 ## todo
 
@@ -139,14 +140,3 @@ React DOM 会负责更新 DOM 来与 React 元素保持一致。
 ### title
 
 ### title
-
-```js
-useEffect(() => {
-  let controller = new AbortController()
-  let signal = controller.signal
-  fetch(url, {signal}).then(...).catch(...)
-  return () => {
-    controller.abort()
-  }
-}, [id])
-```

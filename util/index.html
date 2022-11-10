@@ -187,9 +187,9 @@
     }
 }
 <span class="hljs-comment">// 阻止事件</span>
-<span class="hljs-keyword">let</span> preventEvent = <span class="hljs-function">(<span class="hljs-params">e, isStop = <span class="hljs-literal">true</span>, isPrevent = <span class="hljs-literal">true</span></span>) =&gt;</span> {
-  isStop &amp;&amp; e.stopPropagation() <span class="hljs-comment">// 阻止冒泡</span>
-  isPrevent &amp;&amp; e.preventDefault() <span class="hljs-comment">// 阻止默认事件</span>
+<span class="hljs-keyword">let</span> preventEvent = <span class="hljs-function">(<span class="hljs-params">e, option = {isStop: <span class="hljs-literal">true</span>, isPrevent: <span class="hljs-literal">true</span>}</span>) =&gt;</span> {
+  option.isStop &amp;&amp; e.stopPropagation() <span class="hljs-comment">// 阻止冒泡</span>
+  option.isPrevent &amp;&amp; e.preventDefault() <span class="hljs-comment">// 阻止默认事件</span>
 }
 <span class="hljs-comment">// 转义HTML标签的方法</span>
 <span class="hljs-keyword">let</span> funEncodeHTML = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">str</span>) </span>{
@@ -278,7 +278,9 @@
   ...
 }
 <span class="hljs-comment">// walk(obj)</span>
-
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">j</span> (<span class="hljs-params">obj</span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-built_in">JSON</span>.parse(<span class="hljs-built_in">JSON</span>.stringify(obj))
+}
 
 
 

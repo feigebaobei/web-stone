@@ -107,9 +107,9 @@ function * getFibonacci(num = 10) {
     }
 }
 // 阻止事件
-let preventEvent = (e, isStop = true, isPrevent = true) => {
-  isStop && e.stopPropagation() // 阻止冒泡
-  isPrevent && e.preventDefault() // 阻止默认事件
+let preventEvent = (e, option = {isStop: true, isPrevent: true}) => {
+  option.isStop && e.stopPropagation() // 阻止冒泡
+  option.isPrevent && e.preventDefault() // 阻止默认事件
 }
 // 转义HTML标签的方法
 let funEncodeHTML = function (str) {
@@ -198,7 +198,9 @@ function doWork () {
   ...
 }
 // walk(obj)
-
+function j (obj) {
+  return JSON.parse(JSON.stringify(obj))
+}
 
 
 
