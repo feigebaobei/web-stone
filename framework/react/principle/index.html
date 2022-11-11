@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>react</title>
+        <title>&#x539f;&#x7406;</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -63,7 +63,8 @@
 }
 
 </style>
-        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -79,81 +80,14 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="react">react</h1>
-<h2 id="overview">overview</h2>
-<blockquote>
-<p>声明式<br>
-基于组件的<br>
-一次学习，多次使用<br>
-jsx 语法。（类似 xml，由 babel 解释。）<br>
-React 团队希望，组件不要变成复杂的容器，最好只是数据流的管道。开发者根据需要，组合管道即可。 组件的最佳写法应该是函数，而不是类。
-react 居然使用同步更新 dom.<br>
-reacr 是重运行时的。（vue/svelte 是重编译时的）</p>
-</blockquote>
-<h3 id="feature">feature</h3>
-<ul>
-<li>react 家族的成员太多了。</li>
-<li>更接近 js 语言</li>
-<li>feature2</li>
-</ul>
-<h2 id="usage">usage</h2>
-<pre><code class="language-js"><div>ReactDOM.render(React.createElement(<span class="hljs-string">&#x27;span&#x27;</span>, {}, <span class="hljs-string">&#x27;string&#x27;</span>), <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">&#x27;#id&#x27;</span>))
-=&gt;
-<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;id&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>string<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
-</div></code></pre>
-<h3 id="使用-npm-创建-react-项目">使用 npm 创建 react 项目</h3>
-<pre><code class="language-shell"><div>npx create-react-app proj-name
-npx create-react-app proj-name --template cra-template-pwa # 创建pwa应用
-<span class="hljs-meta">#</span><span class="bash"> or</span>
-<span class="hljs-meta">#</span><span class="bash"> yarn create react-app todo-app</span>
-cd proj-name
-npm run start
-</div></code></pre>
-<h3 id="使用-script-标签引入-react-脚本">使用 script 标签引入 react 脚本</h3>
-<p>v17 以前的用法：</p>
-<ol>
-<li>引入 react 脚本。</li>
-<li>使用<code>React.createElement</code>创建元素。</li>
-<li>使用<code>ReactDOM.render</code>渲染元素。</li>
-</ol>
-<p>v18 以后的用法：</p>
-<ol>
-<li>引入 reacte 脚本</li>
-<li>使用<code>React.createRoot</code>创建根元素<code>root</code>。</li>
-<li>使用<code>root.render(reactElement对象)</code>渲染元素</li>
-</ol>
-<pre><code class="language-html"><div><span class="hljs-comment">&lt;!-- ... 其它html代码 --&gt;</span>
-<span class="hljs-comment">&lt;!-- 引入基本的react包 --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span>
-  <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://unpkg.com/react@18/umd/react.production.min.js&quot;</span>
-  <span class="hljs-attr">crossorigin</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span>
-  <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://unpkg.com/react-dom@18/umd/react-dom.production.min.js&quot;</span>
-  <span class="hljs-attr">crossorigin</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-<span class="hljs-comment">&lt;!-- 引入babel包可以使用jsx。它会使你的网站变慢，并且不适用于生产环境。 --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://unpkg.com/babel-standalone@6/babel.min.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/babel&quot;</span>&gt;</span><span class="javascript">
-  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">MyApp</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>string<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span>
-  }
-  ReactDOM.createRoot(<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;root&#x27;</span>)).render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">MyApp</span> /&gt;</span></span>)
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;root&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-</div></code></pre>
-<h2 id="demo">demo</h2>
-<ul>
-<li><a href="/react/demo0/first.html">demo0-first</a>使用 script 标签引入 react</li>
-<li><a href="/react/demo0/second.html">demo0-second</a></li>
-<li><a href="">demo1</a></li>
-</ul>
-<h2 id="创建应用">创建应用</h2>
+        <h1 id="原理">原理</h1>
+<p>把 react / react-dom 的原理合并到这个文档中。</p>
+<h2 id="react-到底做了什么">react 到底做了什么</h2>
+<h3 id="核心概念">核心概念</h3>
 <table>
 <thead>
 <tr>
+<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -161,69 +95,582 @@ npm run start
 </thead>
 <tbody>
 <tr>
-<td><a href="/framework/react/createReactApp.html">create-react-app</a></td>
-<td>spa</td>
+<td></td>
+<td>recenciliation</td>
+<td>调度器，用于处理diff、更新视图</td>
 <td></td>
 </tr>
 <tr>
-<td><a href="">next.js</a></td>
-<td>静态化和 ssr</td>
+<td></td>
+<td>root.render(...)</td>
+<td>开始渲染视图</td>
 <td></td>
 </tr>
 <tr>
-<td><a href="">gatsby</a></td>
-<td>react/静态网站</td>
+<td></td>
+<td>virtual dom</td>
+<td>虚拟dom</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>diffing algorithm</td>
+<td>diff算法。通过比较current/workInProgress,得到最小变动.</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>mvc框架</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>双缓存</td>
+<td>current表示当前展示的vdom树。workInProgress表示本次更新后的vdom树。</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>fiber</td>
+<td>工作单元。根据ReactElement元素生成。</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>ReactElement</td>
+<td>使用React.createElement方法生成</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
 <td></td>
 </tr>
 </tbody>
 </table>
-<h2 id="api">api</h2>
-<p>请在各包中查看相应 api.</p>
-<h2 id="react-家族成员">react 家族成员</h2>
+<h3 id="react-component--react-element--component-instance">React Component &amp; React Element &amp; Component instance</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>React Component</th>
+<th>React Element</th>
+<th>Component instance</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>组件。方法或 class</td>
+<td>一个基本核心对象</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>返回 jsx/ReactElement</td>
+<td></td>
+<td>class 组件的实例。它是一个对象。</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>方法组件，直接调用。class 组件，创建一个实例后调用 render 方法。</td>
+<td>可描述一个 dom.也可以描述一个 component instance</td>
+<td>有生命周期方法和初始化 state</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>在 class 组件时期用处大</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="渲染过程">渲染过程</h3>
+<ol>
+<li>执行 class 组件的 render 方法或执行方法式组件，生成 Virtual DOM，它保存在内存中。</li>
+<li>同步 vdom 到 real dom。初始化时全部插入。</li>
+<li>当组件改变时生成新 vdom</li>
+<li>比对 2 个 vdom 的不同。再更新 dom
+<ol>
+<li>使用 diff 算法比对。也叫 recencilication</li>
+</ol>
+</li>
+<li></li>
+</ol>
+<h3 id="recenciliation">recenciliation</h3>
 <ul>
-<li><a href="/framework/react/react-17/index.html">react-17 包</a> <a href="/framework/react/react-18/index.html">react-18 包</a></li>
-<li><a href="/framework/react/react-dom-17/index.html">react-dom-17</a> <a href="/framework/react/react-dom-18/index.html">react-dom-18</a></li>
-<li>状态管理
+<li>若 ReactElement 的 type 不同，则使用新组件及其后代元素。
 <ul>
-<li>React Context</li>
-<li>mobx</li>
-<li>react-tracked</li>
-<li>redux</li>
-<li>zustand</li>
-<li>jotai</li>
-<li>recoil</li>
-<li>xstate</li>
+<li>会触发 unmount 生命周期方法</li>
 </ul>
 </li>
-<li><a href="/framework/react/redux/index.html">redux react-redux</a></li>
-<li><a href="/framework/react/reactNative.html">react native</a></li>
-<li><a href="/framework/react/router.html">react-router react-router-dom react-router-native</a></li>
-<li><a href="/framework/react/propType.html">propType</a></li>
-<li><a href="/framework/react/react-script.html">react-script</a></li>
-<li><a href="/framework/react/next/index.html">next</a></li>
-<li><a href="/framework/react/gateby/index.html">GatsBy</a></li>
-<li><a href="/framework/react/createReactApp.html">create react app</a></li>
-<li><a href="/framework/react/reactSnapshot.html">react-snapshot</a></li>
-<li><a href="/framework/react/reactSnap.html">react-snap</a></li>
-<li><a href="/framework/react/react-addons-pref.html">react-addons-pref</a></li>
-<li><a href="/framework/react/title.html">title</a></li>
-<li><a href="/framework/react/title.html">title</a></li>
-<li><a href="/framework/react/title.html">title</a></li>
-<li><a href="/framework/react/title.html">title</a></li>
+<li>属性不同时。更新属性，实例不变，状态不变。</li>
+<li>使用 key props 比对。</li>
 </ul>
-<h2 id="pirnciple"><a href="/framework/react/principle/index.html">pirnciple</a></h2>
-<h2 id="todo">todo</h2>
-<p>react / react-dom 都用到了 react-reconciler，该包就是 fiber.</p>
-<h3 id="为什么要最常用的reactreact-dom分开怎么分清它们">为什么要最常用的<code>react</code>/<code>react-dom</code>分开？怎么分清它们？</h3>
-<p>React 创建开销极小的普通对象。<br>
-React DOM 会负责更新 DOM 来与 React 元素保持一致。</p>
-<h3 id="项目结构">项目结构</h3>
-<h3 id="性能优化"><a href="/optimizing/index.html">性能优化</a></h3>
-<h3 id="性能"><a href="">性能</a></h3>
-<h3 id="title">title</h3>
-<h3 id="title-1">title</h3>
+<h3 id="diff-算法">diff 算法</h3>
+<p>基于2个前提工作：</p>
+<ul>
+<li>type不同表示不同的元素。</li>
+<li>名</li>
+</ul>
+<ol>
+<li>type 不同时更新他与他的后代元素。</li>
+<li>当type相同、属性不同时，更新当前元素，保留其他后代元素。</li>
+</ol>
+<h4 id="2个阶段">2个阶段</h4>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>render</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>commit</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="what-is-react-fiber">what is react fiber</h2>
+<ul>
+<li>它是一个对象</li>
+<li>react reconciler 基于它工作。（它是异步的）它是工作单元</li>
+<li>一共有 2 个阶段</li>
+<li>多个 fiber 对象组成树</li>
+</ul>
+<h3 id="目的">目的</h3>
+<ul>
+<li>动画</li>
+<li>回应速度</li>
+</ul>
+<h3 id="功能">功能</h3>
+<ul>
+<li>可把工作分块，设置任务优先级。</li>
+<li>停止或再继续工作。</li>
+<li>重新工作或打断工作。</li>
+</ul>
+<h3 id="old-reconciler-fiber-出现前">old reconciler (fiber 出现前)</h3>
+<ul>
+<li>任务是同步的。</li>
+<li>工作就像栈。</li>
+<li>栈空了才能停止工作。</li>
+</ul>
+<h3 id="new-reconciler-fiber-出现后">new reconciler (fiber 出现后)</h3>
+<ul>
+<li>它是一个工作单元</li>
+<li>当工作完成时 react process 把工作结果提交。生成新 dom</li>
+</ul>
+<h3 id="二个阶段">二个阶段</h3>
+<ul>
+<li>render phase (processing)
+<ul>
+<li>异步</li>
+<li>定义任务的优先级，工作可能停止、丢弃。</li>
+<li>开始的方法，如：beginWork() / copmleteWork()</li>
+</ul>
+</li>
+<li>commit phase (committing)
+<ul>
+<li>从 commitWork()开始</li>
+<li>同步</li>
+</ul>
+</li>
+</ul>
+<h3 id="fiber-的属性">fiber 的属性</h3>
+<ul>
+<li>总是 1-1 的关系
+<ul>
+<li>1 个 fiber 对应一个组件/dom/...</li>
+</ul>
+</li>
+<li>type 属性表示 tag
+<ul>
+<li>一共有 0-24。 有几个重要的。如下</li>
+<li>FunctionComponent 0</li>
+<li>ClassComponent 1</li>
+<li>HostComponent 5 div/p/...</li>
+<li>Fragment 7</li>
+<li>ContextConsumer 9</li>
+<li>ContextProvider 10</li>
+</ul>
+</li>
+<li>stateNode 引用</li>
+<li>child 第一个子元素</li>
+<li>sibling 下一个同级元素</li>
+<li>return 父元素</li>
+</ul>
+<h3 id="fiber--reactelement">Fiber &amp; ReactElement</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>fiber</th>
+<th>ReactElement</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>通常从 ReactElement 中生成</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>共享 type / key 属性</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>当 ReactElement 重新渲染时，Fiber 通常会复用</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>通常在初次挂载时创建</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-js"><div><span class="hljs-comment">// 常见的创建fiber的方法</span>
+createFiberFromElement()
+createFiberFromFragment()
+createFiberFromText()
+</div></code></pre>
+<h3 id="fiber-如何工作">fiber 如何工作</h3>
+<ul>
+<li>state change</li>
+<li>触发生命周期方法</li>
+<li>dom 改变</li>
+<li>生成时间表</li>
+<li>可分割工作为多块</li>
+<li>分高优、低优处理
+<ul>
+<li>高优 requestAnimationFrame()</li>
+<li>低优 requestIdleCallback()</li>
+</ul>
+</li>
+</ul>
+<pre><code><code><div>    a1
+    |
+    b1 -- b2 -- b3
+          |
+          c1
+          |
+          c2
+</div></code></code></pre>
+<ol>
+<li>从 beginWork() 开始</li>
+<li>一直处于此步骤</li>
+<li>到 comleteWork() 结束</li>
+</ol>
+<h3 id="fiber-tree">fiber tree</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>current</th>
+<th>workInProgress</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>第一次生成的 fiber tree</td>
+<td>第二次生成的</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>与真实显示相同</td>
+<td>可不同</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>工作在 commit 阶段进行<br>
+深度优先</p>
+<h2 id="title">title</h2>
+<h2 id="title-1">title</h2>
+<h2 id="title-2">title</h2>
+<h2 id="title-3">title</h2>
+<h2 id="title-4">title</h2>
+<h2 id="title-5">title</h2>
+<h2 id="常用对象">常用对象</h2>
+<pre><code class="language-js"><div>ReactElement
+{
+  <span class="hljs-string">&quot;$$typeof&quot;</span>: <span class="hljs-built_in">Symbol</span>(react.element)
+  <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;h1&quot;</span>, <span class="hljs-comment">// html标签 | 构造函数</span>
+  <span class="hljs-string">&quot;key&quot;</span>: <span class="hljs-literal">null</span>,  <span class="hljs-comment">// 惟一键</span>
+  <span class="hljs-string">&quot;ref&quot;</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-string">&quot;props&quot;</span>: {
+    <span class="hljs-string">&quot;children&quot;</span>: <span class="hljs-string">&quot;title&quot;</span>
+  },
+  <span class="hljs-string">&quot;_owner&quot;</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-string">&quot;_store&quot;</span>: {},
+  <span class="hljs-string">&quot;_self&quot;</span>: <span class="hljs-literal">null</span>
+  <span class="hljs-string">&quot;_source&quot;</span>: <span class="hljs-literal">null</span>
+}
 
-        
+FiberNode 也有人叫 Fiber
+{
+  <span class="hljs-string">&quot;tag&quot;</span>: <span class="hljs-number">5</span>,
+  <span class="hljs-string">&quot;key&quot;</span>: <span class="hljs-literal">null</span>,          <span class="hljs-comment">// key 兄弟间惟一</span>
+  <span class="hljs-string">&quot;elementType&quot;</span>: <span class="hljs-literal">null</span>,  <span class="hljs-comment">// 构造函数 | html标签</span>
+  <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-literal">null</span>,         <span class="hljs-comment">// 与elementType相同值</span>
+  <span class="hljs-string">&quot;stateNode&quot;</span>: <span class="hljs-literal">null</span>,    <span class="hljs-comment">// dom | FiberRootNode</span>
+  <span class="hljs-string">&quot;return&quot;</span>: <span class="hljs-literal">null</span>,       <span class="hljs-comment">// 父 FiberNode</span>
+  <span class="hljs-string">&quot;child&quot;</span>: <span class="hljs-literal">null</span>,        <span class="hljs-comment">// 第一个子元素</span>
+  <span class="hljs-string">&quot;sibling&quot;</span>: <span class="hljs-literal">null</span>,      <span class="hljs-comment">// 后面的第一个兄弟元素</span>
+  <span class="hljs-string">&quot;index&quot;</span>: <span class="hljs-number">0</span>,           <span class="hljs-comment">// 兄弟间下标</span>
+  <span class="hljs-string">&quot;ref&quot;</span>: <span class="hljs-literal">null</span>,          <span class="hljs-comment">// ref</span>
+  <span class="hljs-string">&quot;pendingProps&quot;</span>: {     <span class="hljs-comment">// 哪些props被修改后应该传子组件或dom</span>
+    <span class="hljs-string">&quot;children&quot;</span>: {
+      <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;h1&quot;</span>,
+      <span class="hljs-string">&quot;key&quot;</span>: <span class="hljs-literal">null</span>,
+      <span class="hljs-string">&quot;ref&quot;</span>: <span class="hljs-literal">null</span>,
+      <span class="hljs-string">&quot;props&quot;</span>: {
+        <span class="hljs-string">&quot;children&quot;</span>: <span class="hljs-string">&quot;title&quot;</span>
+      },
+      <span class="hljs-string">&quot;_owner&quot;</span>: <span class="hljs-literal">null</span>,
+      <span class="hljs-string">&quot;_store&quot;</span>: {}
+    }
+  },
+  <span class="hljs-string">&quot;memoizedProps&quot;</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-string">&quot;updateQueue&quot;</span>: <span class="hljs-literal">null</span>,      <span class="hljs-comment">// 更新队列</span>
+  <span class="hljs-string">&quot;memoizedState&quot;</span>: <span class="hljs-literal">null</span>,    <span class="hljs-comment">// 当前状态。初始化FiberNode节点时会赋初始值。好像与双缓存有关</span>
+  <span class="hljs-string">&quot;dependencies&quot;</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-string">&quot;mode&quot;</span>: <span class="hljs-number">3</span>,
+  <span class="hljs-string">&quot;flags&quot;</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-string">&quot;subtreeFlags&quot;</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-string">&quot;deletions&quot;</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-string">&quot;lanes&quot;</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-string">&quot;childLanes&quot;</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-string">&quot;alternate&quot;</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-string">&quot;actualDuration&quot;</span>: <span class="hljs-number">0</span>,      <span class="hljs-comment">//</span>
+  <span class="hljs-string">&quot;actualStartTime&quot;</span>: -<span class="hljs-number">1</span>,    <span class="hljs-comment">// 好像是开始更新的时刻，相对于根组件被创建的时间。</span>
+  <span class="hljs-string">&quot;selfBaseDuration&quot;</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-string">&quot;treeBaseDuration&quot;</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-string">&quot;_debugSource&quot;</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-string">&quot;_debugOwner&quot;</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-string">&quot;_debugNeedsRemount&quot;</span>: <span class="hljs-literal">false</span>,
+  <span class="hljs-string">&quot;_debugHookTypes&quot;</span>: <span class="hljs-literal">null</span>
+}
+
+FiberRootNode
+{
+  <span class="hljs-string">&quot;tag&quot;</span>: <span class="hljs-number">1</span>,
+  <span class="hljs-string">&quot;containerInfo&quot;</span>: {},      <span class="hljs-comment">// 就是createRoot的第一个参数。dom类型。</span>
+  <span class="hljs-string">&quot;pendingChildren&quot;</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-string">&quot;current&quot;</span>: <span class="hljs-literal">null</span>,          <span class="hljs-comment">// FiberNode。它是在createRoot方法中被设置的。</span>
+  <span class="hljs-string">&quot;pingCache&quot;</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-string">&quot;finishedWork&quot;</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-string">&quot;timeoutHandle&quot;</span>: -<span class="hljs-number">1</span>,
+  <span class="hljs-string">&quot;context&quot;</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-string">&quot;pendingContext&quot;</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-string">&quot;callbackNode&quot;</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-string">&quot;callbackPriority&quot;</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-string">&quot;eventTimes&quot;</span>: [ <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span> ],
+  <span class="hljs-string">&quot;expirationTimes&quot;</span>: [ -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span> ],
+  <span class="hljs-string">&quot;pendingLanes&quot;</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-string">&quot;suspendedLanes&quot;</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-string">&quot;pingedLanes&quot;</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-string">&quot;expiredLanes&quot;</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-string">&quot;mutableReadLanes&quot;</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-string">&quot;finishedLanes&quot;</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-string">&quot;entangledLanes&quot;</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-string">&quot;entanglements&quot;</span>: [ <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span> ],
+  <span class="hljs-string">&quot;identifierPrefix&quot;</span>: <span class="hljs-string">&quot;&quot;</span>,
+  <span class="hljs-string">&quot;mutableSourceEagerHydrationData&quot;</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-string">&quot;effectDuration&quot;</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-string">&quot;passiveEffectDuration&quot;</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-string">&quot;memoizedUpdaters&quot;</span>: {},
+  <span class="hljs-string">&quot;pendingUpdatersLaneMap&quot;</span>: [ {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {} ],
+  <span class="hljs-string">&quot;_debugRootType&quot;</span>: <span class="hljs-string">&quot;createRoot()&quot;</span>
+}
+
+update = {
+  <span class="hljs-attr">eventTime</span>: eventTime,
+  <span class="hljs-attr">lane</span>: lane,
+  <span class="hljs-attr">tag</span>: UpdateState,
+  <span class="hljs-attr">payload</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-attr">callback</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-attr">next</span>: <span class="hljs-literal">null</span>
+};
+
+current 指向 FiberRootNode
+
+<span class="hljs-attr">ReactWorkTags</span>:
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> FunctionComponent = <span class="hljs-number">0</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ClassComponent = <span class="hljs-number">1</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> IndeterminateComponent = <span class="hljs-number">2</span>; <span class="hljs-comment">// Before we know whether it is function or class</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> HostRoot = <span class="hljs-number">3</span>; <span class="hljs-comment">// Root of a host tree. Could be nested inside another node.</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> HostPortal = <span class="hljs-number">4</span>; <span class="hljs-comment">// A subtree. Could be an entry point to a different renderer.</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> HostComponent = <span class="hljs-number">5</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> HostText = <span class="hljs-number">6</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Fragment = <span class="hljs-number">7</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Mode = <span class="hljs-number">8</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ContextConsumer = <span class="hljs-number">9</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ContextProvider = <span class="hljs-number">10</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ForwardRef = <span class="hljs-number">11</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Profiler = <span class="hljs-number">12</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> SuspenseComponent = <span class="hljs-number">13</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> MemoComponent = <span class="hljs-number">14</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> SimpleMemoComponent = <span class="hljs-number">15</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> LazyComponent = <span class="hljs-number">16</span>;
+<span class="hljs-comment">// 还17 、 18 不在这里</span>
+
+ReactElement
+ReactElement
+</div></code></pre>
+<h2 id="title-6">title</h2>
+<h2 id="title-7">title</h2>
+<h2 id="title-8">title</h2>
+<h2 id="title-9">title</h2>
+<h2 id="title-10">title</h2>
+<h2 id="title-11">title</h2>
+<h2 id="title-12">title</h2>
+<h2 id="title-13">title</h2>
+<h2 id="title-14">title</h2>
+<h2 id="title-15">title</h2>
+<h2 id="使用本地reactreact-dom"><a href="/framework/react/useLocalReact.html">使用本地react/react-dom</a></h2>
+<h1 id="参考文档">参考文档</h1>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=7YhdqIR2Yzo&amp;t=422s">youtobe philip fabinek react</a></li>
+<li><a href=""></a></li>
+<li><a href=""></a></li>
+<li><a href=""></a></li>
+<li><a href=""></a></li>
+<li><a href=""></a></li>
+<li><a href=""></a></li>
+</ul>
+
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
     </body>
     </html>

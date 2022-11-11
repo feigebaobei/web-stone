@@ -120,7 +120,7 @@ v18 以后的用法：
 - [title](/framework/react/title.html)
 - [title](/framework/react/title.html)
 
-## [pirnciple](/framework/react/principle.html)
+## [pirnciple](/framework/react/principle/index.html)
 
 ## todo
 

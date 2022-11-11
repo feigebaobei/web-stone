@@ -254,7 +254,8 @@ c.on('ready', () => {
       // 'framework/react/react-dom-18/principle.html',
       // 'framework/react/react-18/principle.html',
       // 'framework/react/principle.html',
-      // 'framework/react/hooks.html',
+      'framework/react/hooks.html',
+      'framework/react/index.html',
       // 'framework/react/useLocalReact.html',
       // 'index.html',
       'language/javascript/index.html',
@@ -264,11 +265,13 @@ c.on('ready', () => {
       // 'framework/react/react-18/api.html',
       // 'browser/index.html',
       // 'browser/cache.html',
-      // 'jsPackages/husky.html',
+      'jsPackages/husky.html',
       // 'jsPackages/index.html',
       // 'jsPackages/prettier/index.html',
-      // 'jsPackages/lerna/index.html',
-      // 'util/index.html',
+      'jsPackages/lerna/commands.html',
+      'jsPackages/lerna/index.html',
+      'package-manager/npm/subCommand.html',
+      'util/index.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)

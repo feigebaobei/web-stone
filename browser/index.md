@@ -25,3 +25,5 @@
 - [title](/browser/title.html)
 - [title](/browser/title.html)
 - [title](/browser/title.html)
+
+在开始者工作打开 render print 可看到更新区域。

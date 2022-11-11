@@ -5,7 +5,7 @@
 - [递归](/dsa/recursion.html)
 - [动态规划](/dsa/temp.html)
 - [贪心算法](/dsa/temp.html)
-- [temp](/dsa/temp.html)
+- [基本算法](/dsa/basic.html)
 - [temp](/dsa/temp.html)
 - [temp](/dsa/temp.html)
 - [temp](/dsa/temp.html)
