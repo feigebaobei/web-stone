@@ -97,7 +97,7 @@
 <tr>
 <td></td>
 <td>recenciliation</td>
-<td>调度器，用于处理diff、更新视图</td>
+<td>调度器，用于处理 diff、更新视图</td>
 <td></td>
 </tr>
 <tr>
@@ -109,37 +109,37 @@
 <tr>
 <td></td>
 <td>virtual dom</td>
-<td>虚拟dom</td>
+<td>虚拟 dom</td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td>diffing algorithm</td>
-<td>diff算法。通过比较current/workInProgress,得到最小变动.</td>
+<td>diff 算法。通过比较 current/workInProgress,得到最小变动.</td>
 <td></td>
 </tr>
 <tr>
 <td></td>
-<td>mvc框架</td>
+<td>mvc 框架</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td>双缓存</td>
-<td>current表示当前展示的vdom树。workInProgress表示本次更新后的vdom树。</td>
+<td>current 表示当前展示的 vdom 树。workInProgress 表示本次更新后的 vdom 树。</td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td>fiber</td>
-<td>工作单元。根据ReactElement元素生成。</td>
+<td>工作单元。根据 ReactElement 元素生成。</td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td>ReactElement</td>
-<td>使用React.createElement方法生成</td>
+<td>使用 React.createElement 方法生成</td>
 <td></td>
 </tr>
 <tr>
@@ -242,16 +242,16 @@
 <li>使用 key props 比对。</li>
 </ul>
 <h3 id="diff-算法">diff 算法</h3>
-<p>基于2个前提工作：</p>
+<p>基于 2 个前提工作：</p>
 <ul>
-<li>type不同表示不同的元素。</li>
+<li>type 不同表示不同的元素。</li>
 <li>名</li>
 </ul>
 <ol>
 <li>type 不同时更新他与他的后代元素。</li>
-<li>当type相同、属性不同时，更新当前元素，保留其他后代元素。</li>
+<li>当 type 相同、属性不同时，更新当前元素，保留其他后代元素。</li>
 </ol>
-<h4 id="2个阶段">2个阶段</h4>
+<h4 id="2-个阶段">2 个阶段</h4>
 <table>
 <thead>
 <tr>
@@ -524,7 +524,7 @@ createFiberFromText()
 <h2 id="常用对象">常用对象</h2>
 <pre><code class="language-js"><div>ReactElement
 {
-  <span class="hljs-string">&quot;$$typeof&quot;</span>: <span class="hljs-built_in">Symbol</span>(react.element)
+  <span class="hljs-string">&quot;$$typeof&quot;</span>: <span class="hljs-built_in">Symbol</span>(react.element) <span class="hljs-comment">// 惟一标记</span>
   <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;h1&quot;</span>, <span class="hljs-comment">// html标签 | 构造函数</span>
   <span class="hljs-string">&quot;key&quot;</span>: <span class="hljs-literal">null</span>,  <span class="hljs-comment">// 惟一键</span>
   <span class="hljs-string">&quot;ref&quot;</span>: <span class="hljs-literal">null</span>,
@@ -542,7 +542,7 @@ FiberNode 也有人叫 Fiber
   <span class="hljs-string">&quot;tag&quot;</span>: <span class="hljs-number">5</span>,
   <span class="hljs-string">&quot;key&quot;</span>: <span class="hljs-literal">null</span>,          <span class="hljs-comment">// key 兄弟间惟一</span>
   <span class="hljs-string">&quot;elementType&quot;</span>: <span class="hljs-literal">null</span>,  <span class="hljs-comment">// 构造函数 | html标签</span>
-  <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-literal">null</span>,         <span class="hljs-comment">// 与elementType相同值</span>
+  <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-literal">null</span>,         <span class="hljs-comment">// 组件的类型。与elementType相同值。createFiberFromTypeAndProps</span>
   <span class="hljs-string">&quot;stateNode&quot;</span>: <span class="hljs-literal">null</span>,    <span class="hljs-comment">// dom | FiberRootNode</span>
   <span class="hljs-string">&quot;return&quot;</span>: <span class="hljs-literal">null</span>,       <span class="hljs-comment">// 父 FiberNode</span>
   <span class="hljs-string">&quot;child&quot;</span>: <span class="hljs-literal">null</span>,        <span class="hljs-comment">// 第一个子元素</span>
@@ -571,7 +571,7 @@ FiberNode 也有人叫 Fiber
   <span class="hljs-string">&quot;deletions&quot;</span>: <span class="hljs-literal">null</span>,
   <span class="hljs-string">&quot;lanes&quot;</span>: <span class="hljs-number">0</span>,
   <span class="hljs-string">&quot;childLanes&quot;</span>: <span class="hljs-number">0</span>,
-  <span class="hljs-string">&quot;alternate&quot;</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-string">&quot;alternate&quot;</span>: <span class="hljs-literal">null</span>,        <span class="hljs-comment">// 指向在current树上对应的节点</span>
   <span class="hljs-string">&quot;actualDuration&quot;</span>: <span class="hljs-number">0</span>,      <span class="hljs-comment">//</span>
   <span class="hljs-string">&quot;actualStartTime&quot;</span>: -<span class="hljs-number">1</span>,    <span class="hljs-comment">// 好像是开始更新的时刻，相对于根组件被创建的时间。</span>
   <span class="hljs-string">&quot;selfBaseDuration&quot;</span>: <span class="hljs-number">0</span>,
@@ -579,7 +579,8 @@ FiberNode 也有人叫 Fiber
   <span class="hljs-string">&quot;_debugSource&quot;</span>: <span class="hljs-literal">null</span>,
   <span class="hljs-string">&quot;_debugOwner&quot;</span>: <span class="hljs-literal">null</span>,
   <span class="hljs-string">&quot;_debugNeedsRemount&quot;</span>: <span class="hljs-literal">false</span>,
-  <span class="hljs-string">&quot;_debugHookTypes&quot;</span>: <span class="hljs-literal">null</span>
+  <span class="hljs-string">&quot;_debugHookTypes&quot;</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-attr">effectTag</span>: xxxxx              <span class="hljs-comment">// 该节点的side-effect</span>
 }
 
 FiberRootNode
@@ -658,12 +659,290 @@ ReactElement
 <h2 id="title-13">title</h2>
 <h2 id="title-14">title</h2>
 <h2 id="title-15">title</h2>
-<h2 id="使用本地reactreact-dom"><a href="/framework/react/useLocalReact.html">使用本地react/react-dom</a></h2>
+<h2 id="使用本地-reactreact-dom"><a href="/framework/react/useLocalReact.html">使用本地 react/react-dom</a></h2>
+<h1 id="本地笔记">本地笔记</h1>
+<h2 id="inside-fiber-in-depth-overview-of-the-new-reconciliation-algorithm-in-react">Inside Fiber: in-depth overview of the new reconciliation algorithm in React</h2>
+<p>jsx 代码 =》 ReactElement =&gt; FiberRootNode/FiberNode</p>
+<h3 id="fibernode">FiberNode</h3>
+<ul>
+<li>每一个 ReactElement 都有一个对应的 FiberNode</li>
+<li>它是可变对象，在渲染时不会重新创建。</li>
+<li>包含组件的状态、dom</li>
+<li>代表工作单元</li>
+<li>提供工作路径、时间表、暂停、打断</li>
+<li>使用 createFiberFromTypeAndProps 创建 FiberNode</li>
+<li>三向链表结构。child/sibling/return</li>
+</ul>
+<h3 id="current--workinprogress">current &amp; workInProgress</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>current</th>
+<th>workInProgress</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>当前 dom 的 vdom 树</td>
+<td>改变的状态需要更新的节点树。 <strong>是否只需要更新的节点？</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>它是工作的终点</td>
+<td>从此树开始执行</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>每个节点使用 render 方法创建</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>不为用户提供服务。是 react 内置的用于缓存的对象。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>当完成所有 workInProgress 树的工作后</li>
+<li>开始同步更新 dom.</li>
+<li>此树成为 current 树。</li>
+</ol>
+<p>react 只更新 dom</p>
+<h3 id="side-effects">side-effects</h3>
+<ul>
+<li>操作 dom 的方法</li>
+<li>生命周期方法</li>
+<li>……</li>
+</ul>
+<h3 id="effect-list">effect list</h3>
+<p>根据 FiberNode 链表结构依次处理<br>
+处理链表比处理树快。<br>
+firstEffect 指向第一个节点。nextEffect 指向下一个节点。</p>
+<h3 id="root-of-the-fiber-tree">root of the fiber tree</h3>
+<p>使用变量 container 指定根节点的容器。它是 dom 元素。<br>
+current 指向 FiberRootNode</p>
+<h3 id="general-algorithm">general algorithm</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>render phase</td>
+<td>异步</td>
+<td>操作 workInProgress/current</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>getDerivedStateFromProps</td>
+<td>被反对的生命周期方法不列出来</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>shouldComponentUpdate</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>render</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>commit phase</td>
+<td>同步</td>
+<td>操作 dom</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>getSnapshotBeforeUpdate</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>componentDidMount</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>componentDidUdate</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>componentWillUnmount</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>调用 setState/React.render 会被指定为需要更新的元素。</p>
+<h4 id="render-phase">render phase</h4>
+<p>跳过不需要更新的 FiberNode。找到需要更新的 FiberNode</p>
+<ul>
+<li>nextUnitOfWork</li>
+<li>performUnitOfWork 参数是 workInProgress</li>
+<li>beginWork</li>
+<li>completeUnitOfWork</li>
+<li>completeWork</li>
+</ul>
+<p>按照 FiberNode 形成的链表，深度优先。</p>
+<h4 id="commit-phase">commit phase</h4>
+<p>从 completeWork 开始。<br>
+主要在 commitRoot 方法中</p>
+<ul>
+<li>标记了 Snapshot 的 node 会执行 getSnapshotBeforeUpdate 方法</li>
+<li>标记了 Deletion 的 node 会执行 componentWillUnmount 方法</li>
+<li>执行所有节点的插入、更新、删除操作 commitAllHostEffects</li>
+<li>设置新的 current</li>
+<li>标记了 Placement 的 node 会执行 componentDidMount 方法</li>
+<li>标记了 Update 的 node 会执行 componentDidUpdate 方法</li>
+</ul>
+<h2 id="httpsindepthdevposts1009in-depth-explanation-of-state-and-props-update-in-react"><a href="https://indepth.dev/posts/1009/in-depth-explanation-of-state-and-props-update-in-react">https://indepth.dev/posts/1009/in-depth-explanation-of-state-and-props-update-in-react</a></h2>
+<h3 id="scheduling-updates">scheduling updates</h3>
+<pre><code class="language-js"><div>当组件需要更新时
+{
+    <span class="hljs-attr">effectTag</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">elementType</span>: <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ClickCounter</span>,
+    <span class="hljs-title">firstEffect</span>: <span class="hljs-title">null</span>,
+    <span class="hljs-title">memoizedState</span>: </span>{count: <span class="hljs-number">0</span>},
+    <span class="hljs-attr">type</span>: <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ClickCounter</span>,
+    <span class="hljs-title">stateNode</span>: </span>{
+        <span class="hljs-attr">state</span>: {<span class="hljs-attr">count</span>: <span class="hljs-number">0</span>}
+    },
+    <span class="hljs-attr">updateQueue</span>: {
+        <span class="hljs-attr">baseState</span>: {<span class="hljs-attr">count</span>: <span class="hljs-number">0</span>},
+        <span class="hljs-attr">firstUpdate</span>: {
+            <span class="hljs-attr">next</span>: {
+                <span class="hljs-attr">payload</span>: <span class="hljs-function">(<span class="hljs-params">state, props</span>) =&gt;</span> {…}
+            }
+        },
+        ...
+    }
+}
+更新后
+{
+    <span class="hljs-attr">effectTag</span>: <span class="hljs-number">4</span>, <span class="hljs-comment">// 源码中使用二进制表示   100</span>
+    <span class="hljs-comment">// 因这里标记为 Update 所以会执行此节点的componentDidUpdate生命周期方法</span>
+    <span class="hljs-attr">elementType</span>: <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ClickCounter</span>,
+    <span class="hljs-title">firstEffect</span>: <span class="hljs-title">null</span>,
+    <span class="hljs-title">memoizedState</span>: </span>{count: <span class="hljs-number">1</span>},
+    <span class="hljs-attr">type</span>: <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ClickCounter</span>,
+    <span class="hljs-title">stateNode</span>: </span>{
+        <span class="hljs-attr">state</span>: {<span class="hljs-attr">count</span>: <span class="hljs-number">1</span>}
+    },
+    <span class="hljs-attr">updateQueue</span>: {
+        <span class="hljs-attr">baseState</span>: {<span class="hljs-attr">count</span>: <span class="hljs-number">1</span>},
+        <span class="hljs-attr">firstUpdate</span>: <span class="hljs-literal">null</span>,
+        ...
+    }
+}
+
+
+更新前
+{
+    <span class="hljs-attr">stateNode</span>: <span class="hljs-keyword">new</span> HTMLSpanElement,
+    <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;span&quot;</span>,
+    <span class="hljs-attr">effectTag</span>: <span class="hljs-number">0</span>
+    <span class="hljs-attr">updateQueue</span>: <span class="hljs-literal">null</span>
+    ...
+}
+更新后
+{
+    <span class="hljs-attr">stateNode</span>: <span class="hljs-keyword">new</span> HTMLSpanElement,
+    <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;span&quot;</span>,
+    <span class="hljs-attr">effectTag</span>: <span class="hljs-number">4</span>,
+    <span class="hljs-attr">updateQueue</span>: [<span class="hljs-string">&quot;children&quot;</span>, <span class="hljs-string">&quot;1&quot;</span>],
+    ...
+}
+</div></code></pre>
+<h3 id="处理fibernode的更新">处理FiberNode的更新</h3>
+<p>全局变量保留了workInProgress中需要工作的FiberNode。用它表明是否完成工作。<br>
+使用<code>renderRoot()</code>从<code>HostRoot</code>FiberNode开始工作（这是render阶段）。<br>
+使用<code>createWorkInProgress()</code>创建一个该FiberNode的替补节点。更新操作都在这个替补节点上工作。</p>
+<h2 id="title-16">title</h2>
+<h2 id="title-17">title</h2>
+<h2 id="title-18">title</h2>
 <h1 id="参考文档">参考文档</h1>
 <ul>
 <li><a href="https://www.youtube.com/watch?v=7YhdqIR2Yzo&amp;t=422s">youtobe philip fabinek react</a></li>
-<li><a href=""></a></li>
-<li><a href=""></a></li>
+<li><a href="https://medium.com/react-in-depth/inside-fiber-in-depth-overview-of-the-new-reconciliation-algorithm-in-react-e1c04700ef6e">https://medium.com/react-in-depth/inside-fiber-in-depth-overview-of-the-new-reconciliation-algorithm-in-react-e1c04700ef6e</a></li>
+<li><a href="https://indepth.dev/posts/1009/in-depth-explanation-of-state-and-props-update-in-react">https://indepth.dev/posts/1009/in-depth-explanation-of-state-and-props-update-in-react</a></li>
 <li><a href=""></a></li>
 <li><a href=""></a></li>
 <li><a href=""></a></li>

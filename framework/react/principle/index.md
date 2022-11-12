@@ -438,7 +438,73 @@ current 指向 FiberRootNode
 - 标记了 Placement 的 node 会执行 componentDidMount 方法
 - 标记了 Update 的 node 会执行 componentDidUpdate 方法
 
-## title
+## https://indepth.dev/posts/1009/in-depth-explanation-of-state-and-props-update-in-react
+
+### scheduling updates
+
+```js
+当组件需要更新时
+{
+    effectTag: 0,
+    elementType: class ClickCounter,
+    firstEffect: null,
+    memoizedState: {count: 0},
+    type: class ClickCounter,
+    stateNode: {
+        state: {count: 0}
+    },
+    updateQueue: {
+        baseState: {count: 0},
+        firstUpdate: {
+            next: {
+                payload: (state, props) => {…}
+            }
+        },
+        ...
+    }
+}
+更新后
+{
+    effectTag: 4, // 源码中使用二进制表示   100
+    // 因这里标记为 Update 所以会执行此节点的componentDidUpdate生命周期方法
+    elementType: class ClickCounter,
+    firstEffect: null,
+    memoizedState: {count: 1},
+    type: class ClickCounter,
+    stateNode: {
+        state: {count: 1}
+    },
+    updateQueue: {
+        baseState: {count: 1},
+        firstUpdate: null,
+        ...
+    }
+}
+
+
+更新前
+{
+    stateNode: new HTMLSpanElement,
+    type: "span",
+    effectTag: 0
+    updateQueue: null
+    ...
+}
+更新后
+{
+    stateNode: new HTMLSpanElement,
+    type: "span",
+    effectTag: 4,
+    updateQueue: ["children", "1"],
+    ...
+}
+```
+
+### 处理 FiberNode 的更新
+
+全局变量保留了 workInProgress 中需要工作的 FiberNode。用它表明是否完成工作。  
+使用`renderRoot()`从`HostRoot`FiberNode 开始工作（这是 render 阶段）。  
+使用`createWorkInProgress()`创建一个该 FiberNode 的替补节点。更新操作都在这个替补节点上工作。
 
 ## title
 
@@ -450,7 +516,7 @@ current 指向 FiberRootNode
 
 - [youtobe philip fabinek react](https://www.youtube.com/watch?v=7YhdqIR2Yzo&t=422s)
 - [https://medium.com/react-in-depth/inside-fiber-in-depth-overview-of-the-new-reconciliation-algorithm-in-react-e1c04700ef6e](https://medium.com/react-in-depth/inside-fiber-in-depth-overview-of-the-new-reconciliation-algorithm-in-react-e1c04700ef6e)
-- []()
+- [https://indepth.dev/posts/1009/in-depth-explanation-of-state-and-props-update-in-react](https://indepth.dev/posts/1009/in-depth-explanation-of-state-and-props-update-in-react)
 - []()
 - []()
 - []()

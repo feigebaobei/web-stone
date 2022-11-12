@@ -249,29 +249,33 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = 'language/html/webComponents'
+    // let p = 'framework/react/principle'
     let p = [
-      // 'framework/react/react-dom-18/principle.html',
-      // 'framework/react/react-18/principle.html',
+      // // 'framework/react/react-dom-18/principle.html',
+      // // 'framework/react/react-18/principle.html',
       // 'framework/react/principle.html',
-      'framework/react/hooks.html',
+      'framework/react/principle/index.html',
       'framework/react/index.html',
-      // 'framework/react/useLocalReact.html',
-      // 'index.html',
-      'language/javascript/index.html',
-      // 'language/java/index.html',
-      // 'language/java/install.html',
+      'browser/index.html',
+      'dsa/index.html',
+      // 'framework/react/hooks.html',
+      // 'framework/react/index.html',
+      // // 'framework/react/useLocalReact.html',
+      // // 'index.html',
+      // 'language/javascript/index.html',
+      // // 'language/java/index.html',
+      // // 'language/java/install.html',
 
-      // 'framework/react/react-18/api.html',
-      // 'browser/index.html',
-      // 'browser/cache.html',
-      'jsPackages/husky.html',
-      // 'jsPackages/index.html',
-      // 'jsPackages/prettier/index.html',
-      'jsPackages/lerna/commands.html',
-      'jsPackages/lerna/index.html',
-      'package-manager/npm/subCommand.html',
-      'util/index.html',
+      // // 'framework/react/react-18/api.html',
+      // // 'browser/index.html',
+      // // 'browser/cache.html',
+      // 'jsPackages/husky.html',
+      // // 'jsPackages/index.html',
+      // // 'jsPackages/prettier/index.html',
+      // 'jsPackages/lerna/commands.html',
+      // 'jsPackages/lerna/index.html',
+      // 'package-manager/npm/subCommand.html',
+      // 'util/index.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
