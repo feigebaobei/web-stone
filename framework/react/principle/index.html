@@ -81,7 +81,8 @@
     </head>
     <body class="vscode-body vscode-light">
         <h1 id="原理">原理</h1>
-<p>把 react / react-dom 的原理合并到这个文档中。</p>
+<p>把 react / react-dom 的原理合并到这个文档中。<br>
+<strong>不必学习react的每一个细节。我们需要知道它的关键部分。</strong></p>
 <h2 id="react-到底做了什么">react 到底做了什么</h2>
 <h3 id="核心概念">核心概念</h3>
 <table>
@@ -245,11 +246,12 @@
 <p>基于 2 个前提工作：</p>
 <ul>
 <li>type 不同表示不同的元素。</li>
-<li>名</li>
+<li>各子元素的key惟一。</li>
 </ul>
 <ol>
 <li>type 不同时更新他与他的后代元素。</li>
 <li>当 type 相同、属性不同时，更新当前元素，保留其他后代元素。</li>
+<li>子元素使用key做对应关系</li>
 </ol>
 <h4 id="2-个阶段">2 个阶段</h4>
 <table>
@@ -337,7 +339,7 @@
 <li>render phase (processing)
 <ul>
 <li>异步</li>
-<li>定义任务的优先级，工作可能停止、丢弃。</li>
+<li>定义任务的优先级，工作可能停止（可以被打断）、丢弃。</li>
 <li>开始的方法，如：beginWork() / copmleteWork()</li>
 </ul>
 </li>
@@ -376,33 +378,51 @@
 <thead>
 <tr>
 <th></th>
-<th>fiber</th>
 <th>ReactElement</th>
+<th>FiberNode</th>
 <th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td></td>
-<td>通常从 ReactElement 中生成</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>共享 type / key 属性</td>
-<td></td>
+<td>由jsx代码生成</td>
+<td>由ReactElement对象生成</td>
 <td></td>
 </tr>
 <tr>
 <td></td>
-<td>当 ReactElement 重新渲染时，Fiber 通常会复用</td>
-<td></td>
+<td>从jsx代码中得到type/key</td>
+<td>从ReactElement中取type/key</td>
 <td></td>
 </tr>
 <tr>
 <td></td>
-<td>通常在初次挂载时创建</td>
+<td>由jsx代码生成</td>
+<td>createFiberFromElement / createFiberFromTypeAndProps / createFiber 等</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>这是vdom,代表一个dom</td>
+<td>工作的单元</td>
+<td></td>
+</tr>
+<tr>
+<td>功能</td>
+<td></td>
+<td>1. 寻迹。 2. 暂停。 3. 制定时间表</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>一直使用。若有变动，则修改属性。不销毁。通常在初次挂载时创建</td>
+<td>修改是在FiberNode的替补节点上完成的。</td>
+</tr>
+<tr>
+<td>如何ReactElement =&gt; FiberNode</td>
+<td></td>
 <td></td>
 <td></td>
 </tr>
@@ -431,6 +451,95 @@ createFiberFromElement()
 createFiberFromFragment()
 createFiberFromText()
 </div></code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>current</th>
+<th>workInProgress</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>第一次生成的FiberNode组成的树和每次更新后生成的树</td>
+<td>Fiber在工作中生成的树</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>可以影响未来的状态和刷新屏幕</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>fiber的所有工作都是从此树开始</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>由class组件的render方法返回的或方法组件返回的ReactElement创建</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>完成工作后此树被赋于current</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>处理所有组件的进程、刷新屏幕。</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>每个节点的alternate指向current树上对应的节点</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>副作用（side-effects）： 每次活动（如：改变dom）和调用生命周期方法
+Fiber的Effecttag属性是副作用函数
+副作用tag
+Current 就是fiberroot</p>
+<p>FiberRootNode下的第一个FiberNode是使用FiberRootNode()创建的。</p>
 <h3 id="fiber-如何工作">fiber 如何工作</h3>
 <ul>
 <li>state change</li>
@@ -515,12 +624,55 @@ createFiberFromText()
 </table>
 <p>工作在 commit 阶段进行<br>
 深度优先</p>
-<h2 id="title">title</h2>
-<h2 id="title-1">title</h2>
-<h2 id="title-2">title</h2>
-<h2 id="title-3">title</h2>
-<h2 id="title-4">title</h2>
-<h2 id="title-5">title</h2>
+<h2 id="自己理出的过程">自己理出的过程</h2>
+<p>创建组件时</p>
+<pre><code class="language-js"><div><span class="hljs-function"><span class="hljs-title">createRoot</span>(<span class="hljs-params"></span>)</span> {
+    <span class="hljs-comment">// 经过若干验证参数</span>
+    <span class="hljs-keyword">var</span> root = createContainer(container, ConcurrentRoot, <span class="hljs-literal">null</span>, isStrictMode, concurrentUpdatesByDefaultOverride, identifierPrefix, onRecoverableError);
+                    <span class="hljs-keyword">return</span> createFiberRoot(containerInfo, tag, hydrate, initialChildren, hydrationCallbacks, isStrictMode, concurrentUpdatesByDefaultOverride, identifierPrefix, onRecoverableError);
+                            <span class="hljs-keyword">let</span> root = FiberRootNode(...)
+                            <span class="hljs-keyword">var</span> uninitializedFiber = createHostRootFiber(tag, isStrictMode); <span class="hljs-comment">// 返回FiberNode对象</span>
+                                                        <span class="hljs-keyword">return</span> createFiber(...)
+                                                            <span class="hljs-keyword">return</span> FiberNode(...)
+                            root.current = uninitializedFiber;
+                            uninitializedFiber.stateNode = root;
+                            initializeUpdateQueue(uninitializedFiber)
+                                fiber.updateQueue = {
+                                    <span class="hljs-attr">baseState</span>: fiber.memoizedState,
+                                    <span class="hljs-attr">firstBaseUpdate</span>: <span class="hljs-literal">null</span>,
+                                    <span class="hljs-attr">lastBaseUpdate</span>: <span class="hljs-literal">null</span>,
+                                    <span class="hljs-attr">shared</span>: {
+                                    <span class="hljs-attr">pending</span>: <span class="hljs-literal">null</span>,
+                                    <span class="hljs-attr">lanes</span>: NoLanes,
+                                    <span class="hljs-attr">hiddenCallbacks</span>: <span class="hljs-literal">null</span>
+                                    },
+                                    <span class="hljs-attr">callbacks</span>: <span class="hljs-literal">null</span>
+                                };
+                            <span class="hljs-keyword">return</span> 
+                            root;
+    markContainerAsRoot(root.current, container); <span class="hljs-comment">// 为了验证参数，在这里做标记</span>
+    <span class="hljs-keyword">var</span> rootContainerElement = container.nodeType === COMMENT_NODE ? container.parentNode : container; <span class="hljs-comment">// COMMENT_NODE 是注释节点的码值 8</span>
+    <span class="hljs-comment">// rootContainerElement      dom</span>
+    listenToAllSupportedEvents(rootContainerElement);
+        <span class="hljs-comment">// 它里面调用的方法太多了。</span>
+        <span class="hljs-comment">// listenToNativeEvent</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ReactDOMRoot(root);
+                <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ReactDOMRoot</span>(<span class="hljs-params">internalRoot</span>) </span>{
+                    <span class="hljs-built_in">this</span>._internalRoot = internalRoot;
+                }
+                ReactDOMRoot.prototype.render = <span class="hljs-function">() =&gt;</span> {
+                    <span class="hljs-keyword">var</span> root = <span class="hljs-built_in">this</span>._internalRoot;
+                    updateContainer(children, root, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>);
+                }
+                ReactDOMRoot.prototype.unmount = <span class="hljs-function">() =&gt;</span> {
+                    <span class="hljs-keyword">var</span> root = <span class="hljs-built_in">this</span>._internalRoot;
+                }
+
+}
+</div></code></pre>
+<p>更新组件时</p>
+<pre><code><code><div>ReactDOMRoot
+</div></code></code></pre>
 <h2 id="常用对象">常用对象</h2>
 <pre><code class="language-js"><div>ReactElement
 {
@@ -645,20 +797,7 @@ current 指向 FiberRootNode
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> SimpleMemoComponent = <span class="hljs-number">15</span>;
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> LazyComponent = <span class="hljs-number">16</span>;
 <span class="hljs-comment">// 还17 、 18 不在这里</span>
-
-ReactElement
-ReactElement
 </div></code></pre>
-<h2 id="title-6">title</h2>
-<h2 id="title-7">title</h2>
-<h2 id="title-8">title</h2>
-<h2 id="title-9">title</h2>
-<h2 id="title-10">title</h2>
-<h2 id="title-11">title</h2>
-<h2 id="title-12">title</h2>
-<h2 id="title-13">title</h2>
-<h2 id="title-14">title</h2>
-<h2 id="title-15">title</h2>
 <h2 id="使用本地-reactreact-dom"><a href="/framework/react/useLocalReact.html">使用本地 react/react-dom</a></h2>
 <h1 id="本地笔记">本地笔记</h1>
 <h2 id="inside-fiber-in-depth-overview-of-the-new-reconciliation-algorithm-in-react">Inside Fiber: in-depth overview of the new reconciliation algorithm in React</h2>
@@ -931,13 +1070,10 @@ current 指向 FiberRootNode</p>
     ...
 }
 </div></code></pre>
-<h3 id="处理fibernode的更新">处理FiberNode的更新</h3>
-<p>全局变量保留了workInProgress中需要工作的FiberNode。用它表明是否完成工作。<br>
-使用<code>renderRoot()</code>从<code>HostRoot</code>FiberNode开始工作（这是render阶段）。<br>
-使用<code>createWorkInProgress()</code>创建一个该FiberNode的替补节点。更新操作都在这个替补节点上工作。</p>
-<h2 id="title-16">title</h2>
-<h2 id="title-17">title</h2>
-<h2 id="title-18">title</h2>
+<h3 id="处理-fibernode-的更新">处理 FiberNode 的更新</h3>
+<p>全局变量保留了 workInProgress 中需要工作的 FiberNode。用它表明是否完成工作。<br>
+使用<code>renderRoot()</code>从<code>HostRoot</code>FiberNode 开始工作（这是 render 阶段）。<br>
+使用<code>createWorkInProgress()</code>创建一个该 FiberNode 的替补节点。更新操作都在这个替补节点上工作。</p>
 <h1 id="参考文档">参考文档</h1>
 <ul>
 <li><a href="https://www.youtube.com/watch?v=7YhdqIR2Yzo&amp;t=422s">youtobe philip fabinek react</a></li>
@@ -948,6 +1084,17 @@ current 指向 FiberRootNode</p>
 <li><a href=""></a></li>
 <li><a href=""></a></li>
 </ul>
+<h1 id="开拓">开拓</h1>
+<h2 id="babel开创了前端中把一种功能由一种写法的思想如">babel开创了前端中把一种功能由一种写法的思想。如:</h2>
+<pre><code><code><div>&lt;span id=&quot;#id&quot;&gt;string&lt;/span&gt;
+=&gt;
+React.createElement('span', {id: '#id'}, string)
+</div></code></code></pre>
+<h2 id="使用配置文件控制是否使用新代码同时保持了新代码与老代码在项目中优点是迭代平滑">使用配置文件控制是否使用新代码。同时保持了新代码与老代码在项目中。优点是迭代平滑。</h2>
+<h2 id="title">title</h2>
+<h2 id="title-1">title</h2>
+<h2 id="title-2">title</h2>
+<h2 id="title-3">title</h2>
 
         <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         

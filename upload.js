@@ -252,12 +252,12 @@ c.on('ready', () => {
     // let p = 'framework/react/principle'
     let p = [
       // // 'framework/react/react-dom-18/principle.html',
-      // // 'framework/react/react-18/principle.html',
+      // 'framework/react/react-18/principle.html',
       // 'framework/react/principle.html',
       'framework/react/principle/index.html',
-      'framework/react/index.html',
-      'browser/index.html',
-      'dsa/index.html',
+      // 'framework/react/index.html',
+      // 'browser/index.html',
+      // 'dsa/index.html',
       // 'framework/react/hooks.html',
       // 'framework/react/index.html',
       // // 'framework/react/useLocalReact.html',

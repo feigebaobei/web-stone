@@ -1,6 +1,7 @@
 # 原理
 
-把 react / react-dom 的原理合并到这个文档中。
+把 react / react-dom 的原理合并到这个文档中。  
+**不必学习 react 的每一个细节。我们需要知道它的关键部分。**
 
 ## react 到底做了什么
 
@@ -52,10 +53,11 @@
 基于 2 个前提工作：
 
 - type 不同表示不同的元素。
-- 名
+- 各子元素的 key 惟一。
 
 1. type 不同时更新他与他的后代元素。
 2. 当 type 相同、属性不同时，更新当前元素，保留其他后代元素。
+3. 子元素使用 key 做对应关系
 
 #### 2 个阶段
 
@@ -99,7 +101,7 @@
 
 - render phase (processing)
   - 异步
-  - 定义任务的优先级，工作可能停止、丢弃。
+  - 定义任务的优先级，工作可能停止（可以被打断）、丢弃。
   - 开始的方法，如：beginWork() / copmleteWork()
 - commit phase (committing)
   - 从 commitWork()开始
@@ -124,15 +126,18 @@
 
 ### Fiber & ReactElement
 
-|     | fiber                                        | ReactElement |     |
-| --- | -------------------------------------------- | ------------ | --- |
-|     | 通常从 ReactElement 中生成                   |              |     |
-|     | 共享 type / key 属性                         |              |     |
-|     | 当 ReactElement 重新渲染时，Fiber 通常会复用 |              |     |
-|     | 通常在初次挂载时创建                         |              |     |
-|     |                                              |              |     |
-|     |                                              |              |     |
-|     |                                              |              |     |
+|                                | ReactElement               | FiberNode                                                             |                                         |
+| ------------------------------ | -------------------------- | --------------------------------------------------------------------- | --------------------------------------- |
+|                                | 由 jsx 代码生成            | 由 ReactElement 对象生成                                              |                                         |
+|                                | 从 jsx 代码中得到 type/key | 从 ReactElement 中取 type/key                                         |                                         |
+|                                | 由 jsx 代码生成            | createFiberFromElement / createFiberFromTypeAndProps / createFiber 等 |                                         |
+|                                | 这是 vdom,代表一个 dom     | 工作的单元                                                            |                                         |
+| 功能                           |                            | 1. 寻迹。 2. 暂停。 3. 制定时间表                                     |                                         |
+|                                |                            | 一直使用。若有变动，则修改属性。不销毁。通常在初次挂载时创建          | 修改是在 FiberNode 的替补节点上完成的。 |
+| 如何 ReactElement => FiberNode |                            |                                                                       |                                         |
+|                                |                            |                                                                       |                                         |
+|                                |                            |                                                                       |                                         |
+|                                |                            |                                                                       |                                         |
 
 ```js
 // 常见的创建fiber的方法
@@ -140,6 +145,28 @@ createFiberFromElement()
 createFiberFromFragment()
 createFiberFromText()
 ```
+
+|     | current                                             | workInProgress                                                      |     |
+| --- | --------------------------------------------------- | ------------------------------------------------------------------- | --- |
+|     | 第一次生成的 FiberNode 组成的树和每次更新后生成的树 | Fiber 在工作中生成的树                                              |     |
+|     |                                                     | 可以影响未来的状态和刷新屏幕                                        |     |
+|     |                                                     | fiber 的所有工作都是从此树开始                                      |     |
+|     |                                                     | 由 class 组件的 render 方法返回的或方法组件返回的 ReactElement 创建 |     |
+|     |                                                     | 完成工作后此树被赋于 current                                        |     |
+|     |                                                     | 处理所有组件的进程、刷新屏幕。                                      |     |
+|     |                                                     | 每个节点的 alternate 指向 current 树上对应的节点                    |     |
+|     |                                                     |                                                                     |     |
+|     |                                                     |                                                                     |     |
+|     |                                                     |                                                                     |     |
+|     |                                                     |                                                                     |     |
+|     |                                                     |                                                                     |     |
+
+副作用（side-effects）： 每次活动（如：改变 dom）和调用生命周期方法
+Fiber 的 Effecttag 属性是副作用函数
+副作用 tag
+Current 就是 fiberroot
+
+FiberRootNode 下的第一个 FiberNode 是使用 FiberRootNode()创建的。
 
 ### fiber 如何工作
 
@@ -181,17 +208,61 @@ createFiberFromText()
 工作在 commit 阶段进行  
 深度优先
 
-## title
+## 自己理出的过程
 
-## title
+创建组件时
 
-## title
+```js
+createRoot() {
+    // 经过若干验证参数
+    var root = createContainer(container, ConcurrentRoot, null, isStrictMode, concurrentUpdatesByDefaultOverride, identifierPrefix, onRecoverableError);
+                    return createFiberRoot(containerInfo, tag, hydrate, initialChildren, hydrationCallbacks, isStrictMode, concurrentUpdatesByDefaultOverride, identifierPrefix, onRecoverableError);
+                            let root = FiberRootNode(...)
+                            var uninitializedFiber = createHostRootFiber(tag, isStrictMode); // 返回FiberNode对象
+                                                        return createFiber(...)
+                                                            return FiberNode(...)
+                            root.current = uninitializedFiber;
+                            uninitializedFiber.stateNode = root;
+                            initializeUpdateQueue(uninitializedFiber)
+                                fiber.updateQueue = {
+                                    baseState: fiber.memoizedState,
+                                    firstBaseUpdate: null,
+                                    lastBaseUpdate: null,
+                                    shared: {
+                                    pending: null,
+                                    lanes: NoLanes,
+                                    hiddenCallbacks: null
+                                    },
+                                    callbacks: null
+                                };
+                            return
+                            root;
+    markContainerAsRoot(root.current, container); // 为了验证参数，在这里做标记
+    var rootContainerElement = container.nodeType === COMMENT_NODE ? container.parentNode : container; // COMMENT_NODE 是注释节点的码值 8
+    // rootContainerElement      dom
+    listenToAllSupportedEvents(rootContainerElement);
+        // 它里面调用的方法太多了。
+        // listenToNativeEvent
+    return new ReactDOMRoot(root);
+                function ReactDOMRoot(internalRoot) {
+                    this._internalRoot = internalRoot;
+                }
+                ReactDOMRoot.prototype.render = () => {
+                    var root = this._internalRoot;
+                    updateContainer(children, root, null, null);
+                }
+                ReactDOMRoot.prototype.unmount = () => {
+                    var root = this._internalRoot;
+                }
 
-## title
+}
+```
 
-## title
+更新组件时
 
-## title
+```
+ReactDOMRoot
+```
 
 ## 常用对象
 
@@ -319,30 +390,7 @@ export const MemoComponent = 14;
 export const SimpleMemoComponent = 15;
 export const LazyComponent = 16;
 // 还17 、 18 不在这里
-
-ReactElement
-ReactElement
 ```
-
-## title
-
-## title
-
-## title
-
-## title
-
-## title
-
-## title
-
-## title
-
-## title
-
-## title
-
-## title
 
 ## [使用本地 react/react-dom](/framework/react/useLocalReact.html)
 
@@ -506,12 +554,6 @@ current 指向 FiberRootNode
 使用`renderRoot()`从`HostRoot`FiberNode 开始工作（这是 render 阶段）。  
 使用`createWorkInProgress()`创建一个该 FiberNode 的替补节点。更新操作都在这个替补节点上工作。
 
-## title
-
-## title
-
-## title
-
 # 参考文档
 
 - [youtobe philip fabinek react](https://www.youtube.com/watch?v=7YhdqIR2Yzo&t=422s)
@@ -521,3 +563,23 @@ current 指向 FiberRootNode
 - []()
 - []()
 - []()
+
+# 开拓
+
+## babel 开创了前端中把一种功能由一种写法的思想。如:
+
+```
+<span id="#id">string</span>
+=>
+React.createElement('span', {id: '#id'}, string)
+```
+
+## 使用配置文件控制是否使用新代码。同时保持了新代码与老代码在项目中。优点是迭代平滑。
+
+## title
+
+## title
+
+## title
+
+## title
