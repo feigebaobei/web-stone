@@ -6,6 +6,7 @@
 > 在 React 的函数组件中调用 Hook  
 > 在自定义 Hook 中调用其他 Hook  
 > 它是一个特定方法，可以“hook into”react 功能
+> 为方法组件提供生命周期方法功能  
 > 从 react v16.8 开始支持 hooks。  
 > 内置于 react 中  
 > 100%向后兼容  

@@ -33,8 +33,12 @@ crtp initFile .prettierrc.json
 vim src/index.js
 npm i -D -E prettier
 # 代码如下
-npm set-script p "prettier --write ."
-npm set-script pc "prettier --check ."
+# 旧写法
+# npm set-script p "prettier --write ."
+# npm set-script pc "prettier --check ."
+# 新写法
+npm pkg set scripts.p="prettier --write ."
+npm pkg set scripts.pc="prettier --check ."
 npm run pc # 会报错
 npm run p  # 格式化
 npm run pc # 不会报错

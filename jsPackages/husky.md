@@ -145,6 +145,35 @@ description
 
 ```
 
+## husky 与 prettier/commitlint/lint-staged 结合使用
+
+```
+这是伪代码
+prettier
+  npm i -D -E prettier
+  crtp initFile .prettierrc.json
+
+lint-staged
+  npm i -D lint-staged
+  crtp initFile .lintstagedrc
+
+commitlint
+  npm install -D @commitlint/config-conventional @commitlint/cli
+  crtp initFile commitlint.config.js
+
+husky
+  npm i husky -D
+  # npm set-script test "echo hi" # 用于测试。
+  # npm set-script prepare "husky install"  # 旧写法
+  npm pkg set scripts.prepare="husky install"     # 新写法
+  npm run prepare
+  # 会在根目录下生成 .husky/.gitignore .husky/husky.sh
+  npx husky add .husky/pre-commit "npm run test"
+  npx husky add .husky/commit-msg "npx --no-install commitlint --edit \"$1\""
+  npx husky add .husky/pre-push "npm run test"
+  # npx husky add .husky/pre-commit "npm run test"
+```
+
 ## todo
 
 > 未来迭代计划。
