@@ -19,7 +19,7 @@
 - [pwa limitation](/pwa/index.html)
 - [navigator](/browser/navigator.html)
 - [缓存](/browser/cache.html)
-- [title](/browser/title.html)
+- [issue](/browser/issue/index.html)
 - [title](/browser/title.html)
 - [title](/browser/title.html)
 - [title](/browser/title.html)

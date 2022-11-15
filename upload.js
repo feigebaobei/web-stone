@@ -249,33 +249,14 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = 'framework/react/principle'
+    // let p = 'jsPackages/serve'
     let p = [
-      // // 'framework/react/react-dom-18/principle.html',
-      // 'framework/react/react-18/principle.html',
-      // 'framework/react/principle.html',
-      'framework/react/principle/index.html',
-      // 'framework/react/index.html',
-      // 'browser/index.html',
-      // 'dsa/index.html',
-      // 'framework/react/hooks.html',
-      // 'framework/react/index.html',
-      // // 'framework/react/useLocalReact.html',
-      // // 'index.html',
-      // 'language/javascript/index.html',
-      // // 'language/java/index.html',
-      // // 'language/java/install.html',
-
-      // // 'framework/react/react-18/api.html',
-      // // 'browser/index.html',
-      // // 'browser/cache.html',
-      // 'jsPackages/husky.html',
-      // // 'jsPackages/index.html',
-      // // 'jsPackages/prettier/index.html',
-      // 'jsPackages/lerna/commands.html',
-      // 'jsPackages/lerna/index.html',
-      // 'package-manager/npm/subCommand.html',
-      // 'util/index.html',
+      //   'promote/softDesigner.html',
+      'index.html',
+      'browser/index.html',
+      'browser/issue/index.html',
+      'browser/issue/crash.html',
+      //   'promote/systemArchitect.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
