@@ -251,7 +251,6 @@ c.on('ready', () => {
     }
     // let p = 'jsPackages/serve'
     let p = [
-      //   'promote/softDesigner.html',
       'index.html',
       'browser/index.html',
       'browser/issue/index.html',

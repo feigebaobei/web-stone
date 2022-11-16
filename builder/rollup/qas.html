@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>&#x6a21;&#x5757;&#x5316;</title>
+        <title>frequently asked questions</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -63,8 +63,7 @@
 }
 
 </style>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
-<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -80,379 +79,48 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="模块化">模块化</h1>
-<table>
-<thead>
-<tr>
-<th>-</th>
-<th>全称</th>
-<th>代表</th>
-<th>加载方式</th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>amd</td>
-<td>asynchronous module definition</td>
-<td>require.js</td>
-<td>异步加载</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>cmd</td>
-<td>common module definition</td>
-<td>sea.js</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>umd</td>
-<td>universion module definition</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>commonjs (cjs)</td>
-<td></td>
-<td>nodejs</td>
-<td>同步加载</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>esm</td>
-<td>es6 module</td>
-<td>在 js 语言层面上实现了模块化。</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>iife</td>
-<td>immediately invoked function expression</td>
-<td>jquery</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>system</td>
-<td></td>
-<td>jquery</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="moduleexports--exports--export--export-defaut">module.exports &amp; exports &amp; export &amp; export defaut</h2>
-<table>
-<thead>
-<tr>
-<th>module.exports</th>
-<th>exports</th>
-<th>export</th>
-<th>export default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>node.js 中的语法。用来导出对象用法。</td>
-<td>node.js 中的语法。用来导出对象用法。</td>
-<td>es6 的语法</td>
-<td>es6 的语法</td>
-</tr>
-<tr>
-<td>module.exports = {}</td>
-<td>exports={}</td>
-<td>export {var0, var1}</td>
-<td>export default any</td>
-</tr>
-<tr>
-<td>let t = require 'xxx'</td>
-<td>let t = require 'xxx'</td>
-<td>import {a, b as c} from 'map'</td>
-<td>import a from 'map'</td>
-</tr>
-</tbody>
-</table>
-<h2 id="amd">amd</h2>
-<p>异步加载，不阻塞页面的加载，能并行加载多个模块，但不能按需加载，必须提前加载所需依赖。<br>
-define(id?, []?, callback)<br>
-模块 id\依赖其它模块\回调函数<br>
-require([module], callback)<br>
-需要引入的模块\回调函数<br>
-回调函数会在前面的模块都加载成功后再执行。</p>
-<pre><code><code><div>require(['module'], function (module) {
-    module.fn(p)
-})
-</div></code></code></pre>
-<h2 id="cmd">cmd</h2>
-<p>amd：定义时加载。cmd:执行时加载。<br>
-在定义之初声明所有依赖。可以在任意时机动态引入模块。<br>
-可以按需加载。<br>
-由阿里的玉伯提出。</p>
-<pre><code><code><div>define(function(require, exports, module) {...})
-</div></code></code></pre>
-<h2 id="umd">umd</h2>
-<p>通用模块定义规范
-使同一个代码块在 commonjs/cmd/amd 中都可运行。可以统一浏览器端、服务端、app 端。</p>
-<pre><code><code><div>((root, factory) =&gt; {
-    if (typeof define === 'function' &amp;&amp; define.amd) {
-        // amd
-        define(['jquery'], factory)
-    } else if (typeof exports === 'objects') {
-        // commonjs
-        var $ = require('jquery')
-        module.exports = factory($)
-    } else {
-        root.testModule = factory(root.jQuery)
-    }
-})(this, ($) =&gt; {
-    // todo
-})
-</div></code></code></pre>
-<p>它在定义模块的时候回检测当前使用环境和模块的定义方式，将各种模块化定义方式转化为同样一种写法。
-它会把若干种 js 规范统一为一种（当前环境支持的）。</p>
-<h2 id="commonjs">commonjs</h2>
-<p>每一个模块都有一个<code>module</code>对象。该对象有个属性是：<code>exports</code>/<code>require</code><br>
-使用这种规范的代表： node。node 把每一个文件都做为一个模块。加载模块使用 require，该方法<strong>读取一个文件并执行</strong>，最后返回这个模块内部的 exports 对象。返回的是值，不是值的地址。<br>
-使用 <code>module.exports/exports</code> 和 <code>require</code> 抛出和引入。<br>
-<code>module.exports</code>使用方法：<code>module.exports = {k: (p) =&gt; {...}, var, var2}</code><br>
-<code>exports</code>的使用方法：<code>exports = {v1, v2, v3}</code>
-<code>module.exports</code>是对象。<code>exports</code> 指向 <code>module.exports</code>。所以<code>module.exports</code>可以抛出变量、对象。<code>exports</code>只能抛出对象。<br>
-commonjs 是同步加载的。</p>
-<h2 id="esm">esm</h2>
-<p>es6 及以后的 module 规范<br>
-输出 export / export default<br>
-引入 import</p>
-<table>
-<thead>
-<tr>
-<th>export</th>
-<th>export default</th>
-<th>import</th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>只能输出对象</td>
-<td>输出任意</td>
-<td>引入</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>输出</td>
-<td>输出默认对象</td>
-<td>引入</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>可执行多次</td>
-<td>只能执行一次</td>
-<td>-</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>export a; export b;</code></td>
-<td><code>export default {...}</code></td>
-<td><code>import {...} from ...</code> 或 <code>import default from ...</code></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>现代浏览器已经支持<code>esm</code></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<pre><code><code><div>&lt;script type=&quot;module&quot;&gt;
-import v from '...'
-// ...
-&lt;/script&gt;
-</div></code></code></pre>
-<h2 id="iife">iife</h2>
-<p>立即执行函数<br>
-定义后立即执行的函数。</p>
-<pre><code><code><div>vat global = {};
-(function(global) {
-    global.a = 'string'
-    global.b = 0
-})(global)
-</div></code></code></pre>
-<p>ts 的<code>enum</code>类型就是使用 iife.</p>
-<pre><code class="language-js"><div><span class="hljs-comment">// 写法</span>
-(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{}())
-(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{})()
-<span class="hljs-comment">// 块级作用域写法</span>
-{
-    <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{}
-}
-</div></code></pre>
-<h2 id="system">system</h2>
-<p>在<code>*.html</code>文件中以<code>&lt;script&gt;</code>的方式引入。</p>
-<pre><code><code><div>&lt;script src=&quot;./first.js&quot;&gt;&lt;/script&gt;
-</div></code></code></pre>
-<h2 id="es-module-和-commonjs">ES module 和 commonJS</h2>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>ES module</th>
-<th>commonJS</th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td><code>*.mjs</code></td>
-<td><code>*.cjs</code></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>客户端运行</td>
-<td>服务端运行</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td><code>import / export</code></td>
-<td><code>require / module.exports</code></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>若在 package.json 中设置 type：module，则为 esm 规范。</td>
-<td>否则为 cjs 规范。</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>互相引用</td>
-<td><code>import all form 'name'</code></td>
-<td><code>(async () =&gt; {await import('./file.mjs')})()</code></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>只能整体引入后再解构使用。</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>同时支持 2 种规范</td>
-<td><code>exports: {require: &quot;./index.js&quot;, import: &quot;./esm/index.js&quot;}</code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h3 id="es-module-和-commonjs-循环引用问题">ES module 和 commonJS 循环引用问题</h3>
-<p>因 esm、commonjs 对待文件(模式)的方式不同。</p>
+        <h1 id="frequently-asked-questions">frequently asked questions</h1>
+<h2 id="为什么使用esm代码cjs">为什么使用esm代码cjs</h2>
 <table>
 <thead>
 <tr>
 <th>esm</th>
-<th>commonjs</th>
-<th></th>
+<th>cjs</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>在内存中缓存该文件，再使用到该的地方指向文件。</td>
-<td>执行该模块后返回一个对象。</td>
-<td></td>
-</tr>
-<tr>
-<td>进入文件后把文件在 Module Map 中标记为 fetching。解析完成为获取该文件的 Module Record.</td>
-<td>执行了多少返回多少</td>
-<td></td>
-</tr>
-<tr>
-<td>循环引用不出问题</td>
-<td>循环引用可能出问题</td>
-<td></td>
-</tr>
-<tr>
-<td>动态只读</td>
-<td>复制后返回</td>
-<td></td>
+<td>官方标准</td>
+<td>怪癖的遗留格式</td>
 </tr>
 </tbody>
 </table>
-<h3 id="解决-commonjs-的循环引用问题">解决 commonjs 的循环引用问题</h3>
-<ol>
-<li>利用变量提升+commonjs 的执行顺序。在模块的最后使用<code>var</code>定义引入的模块。</li>
-<li>利用 js 的异步机制。在 setTimeout 中使用引入模块。</li>
-</ol>
-<h2 id="demo-for-import--export">demo for import &amp; export</h2>
-<pre><code class="language-js"><div><span class="hljs-keyword">import</span> { key } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./file.js&#x27;</span>
-<span class="hljs-keyword">import</span> def <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./file.js&#x27;</span>
-<span class="hljs-keyword">import</span> { key <span class="hljs-keyword">as</span> alias } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./file.js&#x27;</span>
-<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> <span class="hljs-built_in">module</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./file.js&#x27;</span>
-<span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;./file.js&#x27;</span> <span class="hljs-comment">// 整个模块仅为副作用（中性词，无贬义含义）而导入，而不导入模块中的任何内容（接口）。 这将运行模块中的全局代码，但实际上不导入任何值。</span>
-<span class="hljs-keyword">import</span>(<span class="hljs-string">&#x27;./file.js&#x27;</span>).then(<span class="hljs-function">(<span class="hljs-params">{<span class="hljs-keyword">default</span>: def, key}</span>) =&gt;</span> {...})
+<h2 id="tree-shaking是什么">tree-shaking是什么</h2>
+<p>&quot;live code inclusion&quot;包含活跃代码。<br>
+使用ast(abstract syntax tree)实现。</p>
+<h2 id="如何使用rollup处理nodejscjs">如何使用rollup处理node.js、cjs</h2>
+<p>rollup是为esm服务的。若要处理cjs，请使用<code>node-resolve / commonjs</code>插件。处理json，请使用<code>json</code>插件。</p>
+<h2 id="为什么不内置node-resolve这种品质太宝贵了">为什么不内置<code>node-resolve</code>。这种品质太宝贵了。</h2>
+<ul>
+<li>rollup是node和browsers的适配器。解决<code>import</code>不能在浏览器中工作的问题。</li>
+<li>使用插件对于软件工程师来说非常简单。</li>
+<li>使核心包变小。</li>
+</ul>
+<h2 id="为什么在代码拆分时在入口块中出现额外的导入">为什么在代码拆分时在入口块中出现额外的导入?</h2>
+<p>默认情况下，当创建多个块时，条目块依赖项的导入将作为空导入添加到条目块本身。
+加快加载和解析代码的速度。
+可以使用<code>output.hoistTransitiveImports</code>打开、关闭此优化。
+在使用<code>preserveModules</code>时不可使用此优化。</p>
+<h2 id="如何在打包结果中使用polyfills">如何在打包结果中使用polyfills</h2>
+<p>以下情况不使用：</p>
+<ul>
+<li>代码分割</li>
+<li>外部依赖</li>
+</ul>
+<h2 id="rollup是为了打包libraries--applications-吗">rollup是为了打包libraries / applications 吗？</h2>
+<p>是的。</p>
 
-<span class="hljs-keyword">export</span> {key}
-<span class="hljs-keyword">export</span> {key <span class="hljs-keyword">as</span> alias}
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">let</span> key = <span class="hljs-string">&#x27;str&#x27;</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> key
-
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> CONSTANT = <span class="hljs-number">42</span>;
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">let</span> variable = <span class="hljs-number">42</span>;
-<span class="hljs-comment">// only reading is exposed</span>
-<span class="hljs-comment">// it&#x27;s not possible to modify the variable from outside</span>
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fun</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;fun&#x27;</span>);
-}
-<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">C</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Super</span> </span>{
-  <span class="hljs-function"><span class="hljs-title">method</span>(<span class="hljs-params"></span>)</span> {
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;method&#x27;</span>);
-  }
-}
-<span class="hljs-keyword">let</span> a, b, other;
-<span class="hljs-keyword">export</span> { a, b, other <span class="hljs-keyword">as</span> c };
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-number">1</span> + <span class="hljs-number">2</span> + <span class="hljs-number">3</span> + more();
-<span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> xxx                   <span class="hljs-comment">// 把xxx中的非default全部导出</span>
-<span class="hljs-keyword">export</span> {<span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> alias} <span class="hljs-keyword">from</span> xxx  <span class="hljs-comment">// 把xxx中的default以alias导出</span>
-</div></code></pre>
-<h2 id="指明包规范">指明包规范</h2>
-<pre><code class="language-json"><div><span class="hljs-comment">// package.json</span>
-<span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;module&quot;</span>
-</div></code></pre>
-
-        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
         
     </body>
     </html>
