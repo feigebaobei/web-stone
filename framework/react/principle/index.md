@@ -314,7 +314,7 @@ FiberNode 也有人叫 Fiber
                             // 输出更新后节点需要使用的state
   "dependencies": null,
   "mode": 3,
-  "flags": 0,
+  "flags": 0,               // 该节点的side-effect。功能同原来的effectTag
   "subtreeFlags": 0,
   "deletions": null,
   "lanes": 0,
@@ -328,7 +328,7 @@ FiberNode 也有人叫 Fiber
   "_debugOwner": null,
   "_debugNeedsRemount": false,
   "_debugHookTypes": null,
-  effectTag: xxxxx              // 该节点的side-effect
+  // effectTag: xxxxx              // 该节点的side-effect
 }
 
 FiberRootNode
@@ -393,6 +393,47 @@ export const MemoComponent = 14;
 export const SimpleMemoComponent = 15;
 export const LazyComponent = 16;
 // 还17 、 18 不在这里
+
+flags 表示effect的编码
+export const NoFlags = /*                      */ 0b00000000000000000000000000;
+export const PerformedWork = /*                */ 0b00000000000000000000000001;
+// You can change the rest (and add more).
+export const Placement = /*                    */ 0b00000000000000000000000010;
+export const Update = /*                       */ 0b00000000000000000000000100;
+export const ChildDeletion = /*                */ 0b00000000000000000000001000;
+export const ContentReset = /*                 */ 0b00000000000000000000010000;
+export const Callback = /*                     */ 0b00000000000000000000100000;
+export const DidCapture = /*                   */ 0b00000000000000000001000000;
+export const ForceClientRender = /*            */ 0b00000000000000000010000000;
+export const Ref = /*                          */ 0b00000000000000000100000000;
+export const Snapshot = /*                     */ 0b00000000000000001000000000;
+export const Passive = /*                      */ 0b00000000000000010000000000;
+export const Hydrating = /*                    */ 0b00000000000000100000000000;
+export const Visibility = /*                   */ 0b00000000000001000000000000;
+export const StoreConsistency = /*             */ 0b00000000000010000000000000;
+export const LifecycleEffectMask =
+  Passive | Update | Callback | Ref | Snapshot | StoreConsistency;
+// Union of all commit flags (flags with the lifetime of a particular commit)
+export const HostEffectMask = /*               */ 0b00000000000011111111111111;
+// These are not really side effects, but we still reuse this field.
+export const Incomplete = /*                   */ 0b00000000000100000000000000;
+export const ShouldCapture = /*                */ 0b00000000001000000000000000;
+export const ForceUpdateForLegacySuspense = /* */ 0b00000000010000000000000000;
+export const DidPropagateContext = /*          */ 0b00000000100000000000000000;
+export const NeedsPropagation = /*             */ 0b00000001000000000000000000;
+export const Forked = /*                       */ 0b00000010000000000000000000;
+// Static tags describe aspects of a fiber that are not specific to a render,
+// e.g. a fiber uses a passive effect (even if there are no updates on this particular render).
+// This enables us to defer more work in the unmount case,
+// since we can defer traversing the tree during layout to look for Passive effects,
+// and instead rely on the static flag as a signal that there may be cleanup work.
+export const RefStatic = /*                    */ 0b00000100000000000000000000;
+export const LayoutStatic = /*                 */ 0b00001000000000000000000000;
+export const PassiveStatic = /*                */ 0b00010000000000000000000000;
+// Flag used to identify newly inserted fibers. It isn't reset after commit unlike `Placement`.
+export const PlacementDEV = /*                 */ 0b00100000000000000000000000;
+export const MountLayoutDev = /*               */ 0b01000000000000000000000000;
+export const MountPassiveDev = /*              */ 0b10000000000000000000000000;
 ```
 
 ## [使用本地 react/react-dom](/framework/react/useLocalReact.html)
@@ -565,18 +606,57 @@ FiberRootNode.stateNode 指向 HostRoot
 }
 ```
 
+全局变量 nextUnitOfWork 表示在 workInProgress 树上下一个需要工作的
+FiberNode。  
+若此变量为空，则完成所有工作。
+
+1. 当执行 setState 时，会在该组件对应的 FiberNode 的 uqdateQueue 中添加工作。
+2. 进入 render 阶段。
+3. 调用 renderRoot 方法。从 HostRoot(它一个 FiberNode)开始，会跳过完成工作的 FiberNode，直到未完成工作的 FiberNode.
+4. 调用 createWorkInProgress 方法，根据
+   ReactElement 创建 workInProgress.
+5. 调用 beginWork 方法。根据 type 分别调用相应的方法。如`updateClassComponent() 、 updateFunctionComponent()`。会创建并挂载组件的实例或更新实例。
+6. 调用 updateClassInstance 方法，去更新组件。然后依次调用：
+   1. UNSAFE_componentWillReceiveProps() deprecated
+   2. 执行 updateQueue 里的方法。会得到新的 e
+   3. 使用新 state 调用 getDerivedStateFromProps 方法。
+   4. 执行 shouldComponentUpdate 方法。若返回 false，则跳过整个渲染处理（包括该组件的 render 方法及其子组件的 render 方法）。否则执行更新。
+   5. 调用 UNSAFE_componentWillUpdate（） deprecated
+   6. 添加一个触发 componentDidUpdate()的 effect 在 render 阶段中是添加。实际执行在 commit 阶段。
+7. 更新实例的 state/props。 为执行 render 方法做准备。
+8. 执行 finishClassComponent 方法。react 会调用 render 方法，得到新组件实例，再执行 diffing 运算。
+   1. 执行 createWorkInProgress 方法，根据新的 ReactElement 对象得到替补节点（它是 FiberNode）
+   2. 在 FiberNode.pendingProps 的数据会作用于子组件。
+   3. 子组件中使用 memoizedProps
+   4. 为 nextUnitOfWork 赋值。 其中的处理逻辑同上。
+9. 调用 updateHostComponent 方法，结束。
+
+### commit phase
+
+1. 从调用 completeRoot 方法开始。
+2. 设置 FiberRootNode.finishedWork 为 null
+3. 调用 commitBeforeMutationLifeCycles 方法。若标记 snapshot 则执行 getSnapshotBeforeUpdate()
+4. 调用 commitAllHostEffects 方法。
+5. 调用 updateDOMProperties 方法
+   1. 把 uqdateQueue 中的 payload 传入 render 方法并执行。
+6. 调用 finishedWork 方法。把 workInProgress 赋值给 current
+7. 调用 commitAllLifecycles 方法。调用所有的生命周期方法。
+   1. 调用 commitLifeCycles 方法。会更新 refs 引入。 componentDidMount 会只执行一次。
+
 ### 处理 FiberNode 的更新
 
 全局变量保留了 workInProgress 中需要工作的 FiberNode。用它表明是否完成工作。  
 使用`renderRoot()`从`HostRoot`FiberNode 开始工作（这是 render 阶段）。  
 使用`createWorkInProgress()`创建一个该 FiberNode 的替补节点。更新操作都在这个替补节点上工作。
 
+### [The how and why on React’s usage of linked list in Fiber to walk the component’s tree](https://medium.com/react-in-depth/the-how-and-why-on-reacts-usage-of-linked-list-in-fiber-67f1014d0eb7)
+
 # 参考文档
 
 - [youtobe philip fabinek react](https://www.youtube.com/watch?v=7YhdqIR2Yzo&t=422s)
 - [https://medium.com/react-in-depth/inside-fiber-in-depth-overview-of-the-new-reconciliation-algorithm-in-react-e1c04700ef6e](https://medium.com/react-in-depth/inside-fiber-in-depth-overview-of-the-new-reconciliation-algorithm-in-react-e1c04700ef6e)
 - [https://indepth.dev/posts/1009/in-depth-explanation-of-state-and-props-update-in-react](https://indepth.dev/posts/1009/in-depth-explanation-of-state-and-props-update-in-react)
-- []()
+- [https://medium.com/react-in-depth/the-how-and-why-on-reacts-usage-of-linked-list-in-fiber-67f1014d0eb7](https://medium.com/react-in-depth/the-how-and-why-on-reacts-usage-of-linked-list-in-fiber-67f1014d0eb7)
 - []()
 - []()
 - []()

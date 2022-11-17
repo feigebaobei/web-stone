@@ -720,7 +720,7 @@ FiberNode 也有人叫 Fiber
                             <span class="hljs-comment">// 输出更新后节点需要使用的state</span>
   <span class="hljs-string">&quot;dependencies&quot;</span>: <span class="hljs-literal">null</span>,
   <span class="hljs-string">&quot;mode&quot;</span>: <span class="hljs-number">3</span>,
-  <span class="hljs-string">&quot;flags&quot;</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-string">&quot;flags&quot;</span>: <span class="hljs-number">0</span>,               <span class="hljs-comment">// 该节点的side-effect。功能同原来的effectTag</span>
   <span class="hljs-string">&quot;subtreeFlags&quot;</span>: <span class="hljs-number">0</span>,
   <span class="hljs-string">&quot;deletions&quot;</span>: <span class="hljs-literal">null</span>,
   <span class="hljs-string">&quot;lanes&quot;</span>: <span class="hljs-number">0</span>,
@@ -734,7 +734,7 @@ FiberNode 也有人叫 Fiber
   <span class="hljs-string">&quot;_debugOwner&quot;</span>: <span class="hljs-literal">null</span>,
   <span class="hljs-string">&quot;_debugNeedsRemount&quot;</span>: <span class="hljs-literal">false</span>,
   <span class="hljs-string">&quot;_debugHookTypes&quot;</span>: <span class="hljs-literal">null</span>,
-  <span class="hljs-attr">effectTag</span>: xxxxx              <span class="hljs-comment">// 该节点的side-effect</span>
+  <span class="hljs-comment">// effectTag: xxxxx              // 该节点的side-effect</span>
 }
 
 FiberRootNode
@@ -799,6 +799,47 @@ current 指向 FiberRootNode
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> SimpleMemoComponent = <span class="hljs-number">15</span>;
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> LazyComponent = <span class="hljs-number">16</span>;
 <span class="hljs-comment">// 还17 、 18 不在这里</span>
+
+flags 表示effect的编码
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> NoFlags = <span class="hljs-comment">/*                      */</span> <span class="hljs-number">0b00000000000000000000000000</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> PerformedWork = <span class="hljs-comment">/*                */</span> <span class="hljs-number">0b00000000000000000000000001</span>;
+<span class="hljs-comment">// You can change the rest (and add more).</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Placement = <span class="hljs-comment">/*                    */</span> <span class="hljs-number">0b00000000000000000000000010</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Update = <span class="hljs-comment">/*                       */</span> <span class="hljs-number">0b00000000000000000000000100</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ChildDeletion = <span class="hljs-comment">/*                */</span> <span class="hljs-number">0b00000000000000000000001000</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ContentReset = <span class="hljs-comment">/*                 */</span> <span class="hljs-number">0b00000000000000000000010000</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Callback = <span class="hljs-comment">/*                     */</span> <span class="hljs-number">0b00000000000000000000100000</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> DidCapture = <span class="hljs-comment">/*                   */</span> <span class="hljs-number">0b00000000000000000001000000</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ForceClientRender = <span class="hljs-comment">/*            */</span> <span class="hljs-number">0b00000000000000000010000000</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Ref = <span class="hljs-comment">/*                          */</span> <span class="hljs-number">0b00000000000000000100000000</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Snapshot = <span class="hljs-comment">/*                     */</span> <span class="hljs-number">0b00000000000000001000000000</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Passive = <span class="hljs-comment">/*                      */</span> <span class="hljs-number">0b00000000000000010000000000</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Hydrating = <span class="hljs-comment">/*                    */</span> <span class="hljs-number">0b00000000000000100000000000</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Visibility = <span class="hljs-comment">/*                   */</span> <span class="hljs-number">0b00000000000001000000000000</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> StoreConsistency = <span class="hljs-comment">/*             */</span> <span class="hljs-number">0b00000000000010000000000000</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> LifecycleEffectMask =
+  Passive | Update | Callback | Ref | Snapshot | StoreConsistency;
+<span class="hljs-comment">// Union of all commit flags (flags with the lifetime of a particular commit)</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> HostEffectMask = <span class="hljs-comment">/*               */</span> <span class="hljs-number">0b00000000000011111111111111</span>;
+<span class="hljs-comment">// These are not really side effects, but we still reuse this field.</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Incomplete = <span class="hljs-comment">/*                   */</span> <span class="hljs-number">0b00000000000100000000000000</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ShouldCapture = <span class="hljs-comment">/*                */</span> <span class="hljs-number">0b00000000001000000000000000</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ForceUpdateForLegacySuspense = <span class="hljs-comment">/* */</span> <span class="hljs-number">0b00000000010000000000000000</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> DidPropagateContext = <span class="hljs-comment">/*          */</span> <span class="hljs-number">0b00000000100000000000000000</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> NeedsPropagation = <span class="hljs-comment">/*             */</span> <span class="hljs-number">0b00000001000000000000000000</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Forked = <span class="hljs-comment">/*                       */</span> <span class="hljs-number">0b00000010000000000000000000</span>;
+<span class="hljs-comment">// Static tags describe aspects of a fiber that are not specific to a render,</span>
+<span class="hljs-comment">// e.g. a fiber uses a passive effect (even if there are no updates on this particular render).</span>
+<span class="hljs-comment">// This enables us to defer more work in the unmount case,</span>
+<span class="hljs-comment">// since we can defer traversing the tree during layout to look for Passive effects,</span>
+<span class="hljs-comment">// and instead rely on the static flag as a signal that there may be cleanup work.</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> RefStatic = <span class="hljs-comment">/*                    */</span> <span class="hljs-number">0b00000100000000000000000000</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> LayoutStatic = <span class="hljs-comment">/*                 */</span> <span class="hljs-number">0b00001000000000000000000000</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> PassiveStatic = <span class="hljs-comment">/*                */</span> <span class="hljs-number">0b00010000000000000000000000</span>;
+<span class="hljs-comment">// Flag used to identify newly inserted fibers. It isn&#x27;t reset after commit unlike `Placement`.</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> PlacementDEV = <span class="hljs-comment">/*                 */</span> <span class="hljs-number">0b00100000000000000000000000</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> MountLayoutDev = <span class="hljs-comment">/*               */</span> <span class="hljs-number">0b01000000000000000000000000</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> MountPassiveDev = <span class="hljs-comment">/*              */</span> <span class="hljs-number">0b10000000000000000000000000</span>;
 </div></code></pre>
 <h2 id="使用本地-reactreact-dom"><a href="/framework/react/useLocalReact.html">使用本地 react/react-dom</a></h2>
 <h2 id="hooks-的工作原理">hooks 的工作原理</h2>
@@ -847,7 +888,7 @@ current 指向 FiberRootNode
 <tr>
 <td></td>
 <td></td>
-<td>由current的每个节点复制后组成workinprogress。每个节点使用 render 方法创建</td>
+<td>由 current 的每个节点复制后组成 workinprogress。每个节点使用 render 方法创建</td>
 <td></td>
 <td></td>
 </tr>
@@ -893,8 +934,8 @@ firstEffect 指向第一个节点。nextEffect 指向下一个节点。单向链
 <h3 id="root-of-the-fiber-tree">root of the fiber tree</h3>
 <p>使用变量 container 指定根节点的容器。它是 dom 元素。<br>
 current 指向 FiberRootNode<br>
-根节点是HostRoot<br>
-FiberRootNode.stateNode指向HostRoot</p>
+根节点是 HostRoot<br>
+FiberRootNode.stateNode 指向 HostRoot</p>
 <h3 id="general-algorithm">general algorithm</h3>
 <table>
 <thead>
@@ -1000,14 +1041,14 @@ FiberRootNode.stateNode指向HostRoot</p>
 </table>
 <p>调用 setState/React.render 会被指定为需要更新的元素。</p>
 <h4 id="render-phase">render phase</h4>
-<p>使用effectTag标记该节点应该如何更新。更新工作会在commit阶段做。<br>
-此阶段不能执行side-effect
-从根节点开始，然后深度优先，跳过不需要更新的节点FiberNode，标记出需要更新的节点FiberNode。</p>
+<p>使用 effectTag 标记该节点应该如何更新。更新工作会在 commit 阶段做。<br>
+此阶段不能执行 side-effect
+从根节点开始，然后深度优先，跳过不需要更新的节点 FiberNode，标记出需要更新的节点 FiberNode。</p>
 <ul>
 <li>nextUnitOfWork</li>
 <li>performUnitOfWork 参数是 workInProgress</li>
-<li>beginWork             // 返回下一个子节点或null</li>
-<li>completeUnitOfWork    //</li>
+<li>beginWork // 返回下一个子节点或 null</li>
+<li>completeUnitOfWork //</li>
 <li>completeWork</li>
 </ul>
 <p>按照 FiberNode 形成的链表，深度优先。</p>
@@ -1082,16 +1123,66 @@ FiberRootNode.stateNode指向HostRoot</p>
     ...
 }
 </div></code></pre>
+<p>全局变量nextUnitOfWork表示在workInProgress树上下一个需要工作的
+FiberNode。<br>
+若此变量为空，则完成所有工作。</p>
+<ol>
+<li>当执行setState时，会在该组件对应的FiberNode的uqdateQueue中添加工作。</li>
+<li>进入render阶段。</li>
+<li>调用renderRoot方法。从HostRoot(它一个FiberNode)开始，会跳过完成工作的FiberNode，直到未完成工作的FiberNode.</li>
+<li>调用createWorkInProgress方法，根据
+ReactElement创建workInProgress.</li>
+<li>调用beginWork方法。根据type分别调用相应的方法。如<code>updateClassComponent() 、 updateFunctionComponent()</code>。会创建并挂载组件的实例或更新实例。</li>
+<li>调用updateClassInstance方法，去更新组件。然后依次调用：
+<ol>
+<li>UNSAFE_componentWillReceiveProps()      deprecated</li>
+<li>执行updateQueue里的方法。会得到新的e</li>
+<li>使用新state调用getDerivedStateFromProps方法。</li>
+<li>执行shouldComponentUpdate方法。若返回false，则跳过整个渲染处理（包括该组件的render方法及其子组件的render方法）。否则执行更新。</li>
+<li>调用 UNSAFE_componentWillUpdate（）     deprecated</li>
+<li>添加一个触发componentDidUpdate()的effect       在render阶段中是添加。实际执行在commit阶段。</li>
+</ol>
+</li>
+<li>更新实例的state/props。     为执行render方法做准备。</li>
+<li>执行finishClassComponent方法。react会调用render方法，得到新组件实例，再执行diffing运算。
+<ol>
+<li>执行createWorkInProgress方法，根据新的ReactElement对象得到替补节点（它是FiberNode）</li>
+<li>在FiberNode.pendingProps的数据会作用于子组件。</li>
+<li>子组件中使用memoizedProps</li>
+<li>为nextUnitOfWork赋值。     其中的处理逻辑同上。</li>
+</ol>
+</li>
+<li>调用updateHostComponent方法，结束。</li>
+</ol>
+<h3 id="commit-phase-1">commit phase</h3>
+<ol>
+<li>从调用completeRoot方法开始。</li>
+<li>设置FiberRootNode.finishedWork为null</li>
+<li>调用commitBeforeMutationLifeCycles方法。若标记snapshot则执行getSnapshotBeforeUpdate()</li>
+<li>调用commitAllHostEffects方法。</li>
+<li>调用updateDOMProperties方法
+<ol>
+<li>把uqdateQueue中的payload传入render方法并执行。</li>
+</ol>
+</li>
+<li>调用finishedWork方法。把workInProgress赋值给current</li>
+<li>调用commitAllLifecycles方法。调用所有的生命周期方法。
+<ol>
+<li>调用commitLifeCycles方法。会更新refs引入。      componentDidMount会只执行一次。</li>
+</ol>
+</li>
+</ol>
 <h3 id="处理-fibernode-的更新">处理 FiberNode 的更新</h3>
 <p>全局变量保留了 workInProgress 中需要工作的 FiberNode。用它表明是否完成工作。<br>
 使用<code>renderRoot()</code>从<code>HostRoot</code>FiberNode 开始工作（这是 render 阶段）。<br>
 使用<code>createWorkInProgress()</code>创建一个该 FiberNode 的替补节点。更新操作都在这个替补节点上工作。</p>
+<h3 id="the-how-and-why-on-reacts-usage-of-linked-list-in-fiber-to-walk-the-components-tree"><a href="https://medium.com/react-in-depth/the-how-and-why-on-reacts-usage-of-linked-list-in-fiber-67f1014d0eb7">The how and why on React’s usage of linked list in Fiber to walk the component’s tree</a></h3>
 <h1 id="参考文档">参考文档</h1>
 <ul>
 <li><a href="https://www.youtube.com/watch?v=7YhdqIR2Yzo&amp;t=422s">youtobe philip fabinek react</a></li>
 <li><a href="https://medium.com/react-in-depth/inside-fiber-in-depth-overview-of-the-new-reconciliation-algorithm-in-react-e1c04700ef6e">https://medium.com/react-in-depth/inside-fiber-in-depth-overview-of-the-new-reconciliation-algorithm-in-react-e1c04700ef6e</a></li>
 <li><a href="https://indepth.dev/posts/1009/in-depth-explanation-of-state-and-props-update-in-react">https://indepth.dev/posts/1009/in-depth-explanation-of-state-and-props-update-in-react</a></li>
-<li><a href=""></a></li>
+<li><a href="https://medium.com/react-in-depth/the-how-and-why-on-reacts-usage-of-linked-list-in-fiber-67f1014d0eb7">https://medium.com/react-in-depth/the-how-and-why-on-reacts-usage-of-linked-list-in-fiber-67f1014d0eb7</a></li>
 <li><a href=""></a></li>
 <li><a href=""></a></li>
 <li><a href=""></a></li>
