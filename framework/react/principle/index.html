@@ -309,7 +309,6 @@
 <ul>
 <li>它是一个对象</li>
 <li>react reconciler 基于它工作。（它是异步的）它是工作单元</li>
-<li>一共有 2 个阶段</li>
 <li>多个 fiber 对象组成树</li>
 </ul>
 <h3 id="目的">目的</h3>
@@ -725,7 +724,7 @@ FiberNode 也有人叫 Fiber
   <span class="hljs-string">&quot;deletions&quot;</span>: <span class="hljs-literal">null</span>,
   <span class="hljs-string">&quot;lanes&quot;</span>: <span class="hljs-number">0</span>,
   <span class="hljs-string">&quot;childLanes&quot;</span>: <span class="hljs-number">0</span>,
-  <span class="hljs-string">&quot;alternate&quot;</span>: <span class="hljs-literal">null</span>,        <span class="hljs-comment">// 指向在current树上对应的节点</span>
+  <span class="hljs-string">&quot;alternate&quot;</span>: <span class="hljs-literal">null</span>,        <span class="hljs-comment">// 指向在另一棵树上对应的节点</span>
   <span class="hljs-string">&quot;actualDuration&quot;</span>: <span class="hljs-number">0</span>,      <span class="hljs-comment">//</span>
   <span class="hljs-string">&quot;actualStartTime&quot;</span>: -<span class="hljs-number">1</span>,    <span class="hljs-comment">// 好像是开始更新的时刻，相对于根组件被创建的时间。</span>
   <span class="hljs-string">&quot;selfBaseDuration&quot;</span>: <span class="hljs-number">0</span>,
@@ -874,7 +873,7 @@ flags 表示effect的编码
 <tr>
 <td></td>
 <td>当前 dom 的 vdom 树</td>
-<td>改变的状态需要更新的节点树。 <strong>是否只需要更新的节点？</strong></td>
+<td>改变的状态需要更新的节点树。</td>
 <td></td>
 <td></td>
 </tr>
@@ -888,7 +887,7 @@ flags 表示effect的编码
 <tr>
 <td></td>
 <td></td>
-<td>由 current 的每个节点复制后组成 workinprogress。每个节点使用 render 方法创建</td>
+<td>每个节点使用 render 方法创建新的ReactElement。再由新的ReactElement生成workInProgress</td>
 <td></td>
 <td></td>
 </tr>
@@ -1039,7 +1038,7 @@ FiberRootNode.stateNode 指向 HostRoot</p>
 </tr>
 </tbody>
 </table>
-<p>调用 setState/React.render 会被指定为需要更新的元素。</p>
+<p>调用 setState/React.render 会把对应的FiberNode指定为需要更新的元素。</p>
 <h4 id="render-phase">render phase</h4>
 <p>使用 effectTag 标记该节点应该如何更新。更新工作会在 commit 阶段做。<br>
 此阶段不能执行 side-effect
@@ -1065,7 +1064,7 @@ FiberRootNode.stateNode 指向 HostRoot</p>
 <li>标记了 Placement 的 node 会执行 componentDidMount 方法</li>
 <li>标记了 Update 的 node 会执行 componentDidUpdate 方法</li>
 </ul>
-<h2 id="httpsindepthdevposts1009in-depth-explanation-of-state-and-props-update-in-react"><a href="https://indepth.dev/posts/1009/in-depth-explanation-of-state-and-props-update-in-react">https://indepth.dev/posts/1009/in-depth-explanation-of-state-and-props-update-in-react</a></h2>
+<h2 id="in-depth-explanation-of-state-and-props-update-in-react"><a href="https://indepth.dev/posts/1009/in-depth-explanation-of-state-and-props-update-in-react">In-depth explanation of state and props update in React</a></h2>
 <h3 id="scheduling-updates">scheduling updates</h3>
 <pre><code class="language-js"><div>当组件需要更新时
 {
@@ -1123,52 +1122,52 @@ FiberRootNode.stateNode 指向 HostRoot</p>
     ...
 }
 </div></code></pre>
-<p>全局变量nextUnitOfWork表示在workInProgress树上下一个需要工作的
+<p>全局变量 nextUnitOfWork 表示在 workInProgress 树上下一个需要工作的
 FiberNode。<br>
 若此变量为空，则完成所有工作。</p>
 <ol>
-<li>当执行setState时，会在该组件对应的FiberNode的uqdateQueue中添加工作。</li>
-<li>进入render阶段。</li>
-<li>调用renderRoot方法。从HostRoot(它一个FiberNode)开始，会跳过完成工作的FiberNode，直到未完成工作的FiberNode.</li>
-<li>调用createWorkInProgress方法，根据
-ReactElement创建workInProgress.</li>
-<li>调用beginWork方法。根据type分别调用相应的方法。如<code>updateClassComponent() 、 updateFunctionComponent()</code>。会创建并挂载组件的实例或更新实例。</li>
-<li>调用updateClassInstance方法，去更新组件。然后依次调用：
+<li>当执行 setState 时，会在该组件对应的 FiberNode 的 uqdateQueue 中添加工作。</li>
+<li>进入 render 阶段。</li>
+<li>调用 renderRoot 方法。从 HostRoot(它一个 FiberNode)开始，会跳过完成工作的 FiberNode，直到未完成工作的 FiberNode.</li>
+<li>调用 createWorkInProgress 方法，根据
+ReactElement 创建 workInProgress.</li>
+<li>调用 beginWork 方法。根据 type 分别调用相应的方法。如<code>updateClassComponent() 、 updateFunctionComponent()</code>。会创建并挂载组件的实例或更新实例。</li>
+<li>调用 updateClassInstance 方法，去更新组件。然后依次调用：
 <ol>
-<li>UNSAFE_componentWillReceiveProps()      deprecated</li>
-<li>执行updateQueue里的方法。会得到新的e</li>
-<li>使用新state调用getDerivedStateFromProps方法。</li>
-<li>执行shouldComponentUpdate方法。若返回false，则跳过整个渲染处理（包括该组件的render方法及其子组件的render方法）。否则执行更新。</li>
-<li>调用 UNSAFE_componentWillUpdate（）     deprecated</li>
-<li>添加一个触发componentDidUpdate()的effect       在render阶段中是添加。实际执行在commit阶段。</li>
+<li>UNSAFE_componentWillReceiveProps() deprecated</li>
+<li>执行 updateQueue 里的方法。会得到新的 state</li>
+<li>使用新 state 调用 getDerivedStateFromProps 方法。</li>
+<li>执行 shouldComponentUpdate 方法。若返回 false，则跳过整个渲染处理（包括该组件的 render 方法及其子组件的 render 方法）。否则执行更新。</li>
+<li>调用 UNSAFE_componentWillUpdate（） deprecated</li>
+<li>添加一个触发 componentDidUpdate()的 effect 在 render 阶段中是添加。实际执行在 commit 阶段。</li>
 </ol>
 </li>
-<li>更新实例的state/props。     为执行render方法做准备。</li>
-<li>执行finishClassComponent方法。react会调用render方法，得到新组件实例，再执行diffing运算。
+<li>更新实例的 state/props。 为执行 render 方法做准备。</li>
+<li>执行 finishClassComponent 方法。react 会调用 render 方法，得到新组件实例，再执行 diffing 运算。
 <ol>
-<li>执行createWorkInProgress方法，根据新的ReactElement对象得到替补节点（它是FiberNode）</li>
-<li>在FiberNode.pendingProps的数据会作用于子组件。</li>
-<li>子组件中使用memoizedProps</li>
-<li>为nextUnitOfWork赋值。     其中的处理逻辑同上。</li>
+<li>执行 createWorkInProgress 方法，根据新的 ReactElement 对象得到替补节点（它是 FiberNode）</li>
+<li>在 FiberNode.pendingProps 的数据会作用于子组件。</li>
+<li>子组件中使用 memoizedProps</li>
+<li>为 nextUnitOfWork 赋值。 其中的处理逻辑同上。</li>
 </ol>
 </li>
-<li>调用updateHostComponent方法，结束。</li>
+<li>调用 updateHostComponent 方法，结束。</li>
 </ol>
 <h3 id="commit-phase-1">commit phase</h3>
 <ol>
-<li>从调用completeRoot方法开始。</li>
-<li>设置FiberRootNode.finishedWork为null</li>
-<li>调用commitBeforeMutationLifeCycles方法。若标记snapshot则执行getSnapshotBeforeUpdate()</li>
-<li>调用commitAllHostEffects方法。</li>
-<li>调用updateDOMProperties方法
+<li>从调用 completeRoot 方法开始。</li>
+<li>设置 FiberRootNode.finishedWork 为 null</li>
+<li>调用 commitBeforeMutationLifeCycles 方法。若标记 snapshot 则执行 getSnapshotBeforeUpdate()</li>
+<li>调用 commitAllHostEffects 方法。</li>
+<li>调用 updateDOMProperties 方法
 <ol>
-<li>把uqdateQueue中的payload传入render方法并执行。</li>
+<li>把 uqdateQueue 中的 payload 传入 render 方法并执行。</li>
 </ol>
 </li>
-<li>调用finishedWork方法。把workInProgress赋值给current</li>
-<li>调用commitAllLifecycles方法。调用所有的生命周期方法。
+<li>调用 finishedWork 方法。把 workInProgress 赋值给 current</li>
+<li>调用 commitAllLifecycles 方法。调用所有的生命周期方法。
 <ol>
-<li>调用commitLifeCycles方法。会更新refs引入。      componentDidMount会只执行一次。</li>
+<li>调用 commitLifeCycles 方法。会更新 refs 引入。 componentDidMount 会只执行一次。</li>
 </ol>
 </li>
 </ol>

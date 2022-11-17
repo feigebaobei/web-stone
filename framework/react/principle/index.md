@@ -72,7 +72,6 @@
 
 - 它是一个对象
 - react reconciler 基于它工作。（它是异步的）它是工作单元
-- 一共有 2 个阶段
 - 多个 fiber 对象组成树
 
 ### 目的
@@ -319,7 +318,7 @@ FiberNode 也有人叫 Fiber
   "deletions": null,
   "lanes": 0,
   "childLanes": 0,
-  "alternate": null,        // 指向在current树上对应的节点
+  "alternate": null,        // 指向在另一棵树上对应的节点
   "actualDuration": 0,      //
   "actualStartTime": -1,    // 好像是开始更新的时刻，相对于根组件被创建的时间。
   "selfBaseDuration": 0,
@@ -464,14 +463,14 @@ jsx 代码 =》 ReactElement => FiberRootNode/FiberNode
 
 ### current & workInProgress
 
-|     | current             | workInProgress                                                               |     |     |
-| --- | ------------------- | ---------------------------------------------------------------------------- | --- | --- |
-|     | 当前 dom 的 vdom 树 | 改变的状态需要更新的节点树。 **是否只需要更新的节点？**                      |     |     |
-|     | 它是工作的终点      | 从此树开始执行                                                               |     |     |
-|     |                     | 由 current 的每个节点复制后组成 workinprogress。每个节点使用 render 方法创建 |     |     |
-|     |                     | 不为用户提供服务。是 react 内置的用于缓存的对象。                            |     |     |
-|     |                     |                                                                              |     |     |
-|     |                     |                                                                              |     |     |
+|     | current             | workInProgress                                                                           |     |     |
+| --- | ------------------- | ---------------------------------------------------------------------------------------- | --- | --- |
+|     | 当前 dom 的 vdom 树 | 改变的状态需要更新的节点树。                                                             |     |     |
+|     | 它是工作的终点      | 从此树开始执行                                                                           |     |     |
+|     |                     | 每个节点使用 render 方法创建新的 ReactElement。再由新的 ReactElement 生成 workInProgress |     |     |
+|     |                     | 不为用户提供服务。是 react 内置的用于缓存的对象。                                        |     |     |
+|     |                     |                                                                                          |     |     |
+|     |                     |                                                                                          |     |     |
 
 1. 当完成所有 workInProgress 树的工作后
 2. 开始同步更新 dom.
@@ -514,7 +513,7 @@ FiberRootNode.stateNode 指向 HostRoot
 |     |              | componentWillUnmount     |                              |     |     |
 |     |              |                          |                              |     |     |
 
-调用 setState/React.render 会被指定为需要更新的元素。
+调用 setState/React.render 会把对应的 FiberNode 指定为需要更新的元素。
 
 #### render phase
 
@@ -544,7 +543,7 @@ FiberRootNode.stateNode 指向 HostRoot
 - 标记了 Placement 的 node 会执行 componentDidMount 方法
 - 标记了 Update 的 node 会执行 componentDidUpdate 方法
 
-## https://indepth.dev/posts/1009/in-depth-explanation-of-state-and-props-update-in-react
+## [In-depth explanation of state and props update in React](https://indepth.dev/posts/1009/in-depth-explanation-of-state-and-props-update-in-react)
 
 ### scheduling updates
 
@@ -618,7 +617,7 @@ FiberNode。
 5. 调用 beginWork 方法。根据 type 分别调用相应的方法。如`updateClassComponent() 、 updateFunctionComponent()`。会创建并挂载组件的实例或更新实例。
 6. 调用 updateClassInstance 方法，去更新组件。然后依次调用：
    1. UNSAFE_componentWillReceiveProps() deprecated
-   2. 执行 updateQueue 里的方法。会得到新的 e
+   2. 执行 updateQueue 里的方法。会得到新的 state
    3. 使用新 state 调用 getDerivedStateFromProps 方法。
    4. 执行 shouldComponentUpdate 方法。若返回 false，则跳过整个渲染处理（包括该组件的 render 方法及其子组件的 render 方法）。否则执行更新。
    5. 调用 UNSAFE_componentWillUpdate（） deprecated
