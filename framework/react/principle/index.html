@@ -82,7 +82,7 @@
     <body class="vscode-body vscode-light">
         <h1 id="原理">原理</h1>
 <p>把 react / react-dom 的原理合并到这个文档中。<br>
-<strong>不必学习react的每一个细节。我们需要知道它的关键部分。</strong></p>
+<strong>不必学习 react 的每一个细节。我们需要知道它的关键部分。</strong></p>
 <h2 id="react-到底做了什么">react 到底做了什么</h2>
 <h3 id="核心概念">核心概念</h3>
 <table>
@@ -246,12 +246,12 @@
 <p>基于 2 个前提工作：</p>
 <ul>
 <li>type 不同表示不同的元素。</li>
-<li>各子元素的key惟一。</li>
+<li>各子元素的 key 惟一。</li>
 </ul>
 <ol>
 <li>type 不同时更新他与他的后代元素。</li>
 <li>当 type 相同、属性不同时，更新当前元素，保留其他后代元素。</li>
-<li>子元素使用key做对应关系</li>
+<li>子元素使用 key 做对应关系</li>
 </ol>
 <h4 id="2-个阶段">2 个阶段</h4>
 <table>
@@ -386,25 +386,25 @@
 <tbody>
 <tr>
 <td></td>
-<td>由jsx代码生成</td>
-<td>由ReactElement对象生成</td>
+<td>由 jsx 代码生成</td>
+<td>由 ReactElement 对象生成</td>
 <td></td>
 </tr>
 <tr>
 <td></td>
-<td>从jsx代码中得到type/key</td>
-<td>从ReactElement中取type/key</td>
+<td>从 jsx 代码中得到 type/key</td>
+<td>从 ReactElement 中取 type/key</td>
 <td></td>
 </tr>
 <tr>
 <td></td>
-<td>由jsx代码生成</td>
+<td>由 jsx 代码生成</td>
 <td>createFiberFromElement / createFiberFromTypeAndProps / createFiber 等</td>
 <td></td>
 </tr>
 <tr>
 <td></td>
-<td>这是vdom,代表一个dom</td>
+<td>这是 vdom,代表一个 dom</td>
 <td>工作的单元</td>
 <td></td>
 </tr>
@@ -418,10 +418,10 @@
 <td></td>
 <td></td>
 <td>一直使用。若有变动，则修改属性。不销毁。通常在初次挂载时创建</td>
-<td>修改是在FiberNode的替补节点上完成的。</td>
+<td>修改是在 FiberNode 的替补节点上完成的。</td>
 </tr>
 <tr>
-<td>如何ReactElement =&gt; FiberNode</td>
+<td>如何 ReactElement =&gt; FiberNode</td>
 <td></td>
 <td></td>
 <td></td>
@@ -463,8 +463,8 @@ createFiberFromText()
 <tbody>
 <tr>
 <td></td>
-<td>第一次生成的FiberNode组成的树和每次更新后生成的树</td>
-<td>Fiber在工作中生成的树</td>
+<td>第一次生成的 FiberNode 组成的树和每次更新后生成的树</td>
+<td>Fiber 在工作中生成的树</td>
 <td></td>
 </tr>
 <tr>
@@ -476,19 +476,19 @@ createFiberFromText()
 <tr>
 <td></td>
 <td></td>
-<td>fiber的所有工作都是从此树开始</td>
+<td>fiber 的所有工作都是从此树开始</td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td></td>
-<td>由class组件的render方法返回的或方法组件返回的ReactElement创建</td>
+<td>由 class 组件的 render 方法返回的或方法组件返回的 ReactElement 创建</td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td></td>
-<td>完成工作后此树被赋于current</td>
+<td>完成工作后此树被赋于 current</td>
 <td></td>
 </tr>
 <tr>
@@ -500,7 +500,7 @@ createFiberFromText()
 <tr>
 <td></td>
 <td></td>
-<td>每个节点的alternate指向current树上对应的节点</td>
+<td>每个节点的 alternate 指向另一棵树（current/workInProgress）上对应的节点</td>
 <td></td>
 </tr>
 <tr>
@@ -535,11 +535,11 @@ createFiberFromText()
 </tr>
 </tbody>
 </table>
-<p>副作用（side-effects）： 每次活动（如：改变dom）和调用生命周期方法
-Fiber的Effecttag属性是副作用函数
-副作用tag
-Current 就是fiberroot</p>
-<p>FiberRootNode下的第一个FiberNode是使用FiberRootNode()创建的。</p>
+<p>副作用（side-effects）： 每次活动（如：改变 dom）和调用生命周期方法
+Fiber 的 Effecttag 属性是副作用函数
+副作用 tag
+Current 就是 fiberroot</p>
+<p>FiberRootNode 下的第一个 FiberNode 是使用 FiberRootNode()创建的。</p>
 <h3 id="fiber-如何工作">fiber 如何工作</h3>
 <ul>
 <li>state change</li>
@@ -562,6 +562,7 @@ Current 就是fiberroot</p>
           |
           c2
 </div></code></code></pre>
+<p><a href="https://vimeo.com/302222454">https://vimeo.com/302222454</a></p>
 <ol>
 <li>从 beginWork() 开始</li>
 <li>一直处于此步骤</li>
@@ -648,7 +649,7 @@ Current 就是fiberroot</p>
                                     },
                                     <span class="hljs-attr">callbacks</span>: <span class="hljs-literal">null</span>
                                 };
-                            <span class="hljs-keyword">return</span> 
+                            <span class="hljs-keyword">return</span>
                             root;
     markContainerAsRoot(root.current, container); <span class="hljs-comment">// 为了验证参数，在这里做标记</span>
     <span class="hljs-keyword">var</span> rootContainerElement = container.nodeType === COMMENT_NODE ? container.parentNode : container; <span class="hljs-comment">// COMMENT_NODE 是注释节点的码值 8</span>
@@ -701,7 +702,7 @@ FiberNode 也有人叫 Fiber
   <span class="hljs-string">&quot;sibling&quot;</span>: <span class="hljs-literal">null</span>,      <span class="hljs-comment">// 后面的第一个兄弟元素</span>
   <span class="hljs-string">&quot;index&quot;</span>: <span class="hljs-number">0</span>,           <span class="hljs-comment">// 兄弟间下标</span>
   <span class="hljs-string">&quot;ref&quot;</span>: <span class="hljs-literal">null</span>,          <span class="hljs-comment">// ref</span>
-  <span class="hljs-string">&quot;pendingProps&quot;</span>: {     <span class="hljs-comment">// 哪些props被修改后应该传子组件或dom</span>
+  <span class="hljs-string">&quot;pendingProps&quot;</span>: {     <span class="hljs-comment">// 这些props被修改后应该传入子组件或dom</span>
     <span class="hljs-string">&quot;children&quot;</span>: {
       <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;h1&quot;</span>,
       <span class="hljs-string">&quot;key&quot;</span>: <span class="hljs-literal">null</span>,
@@ -713,9 +714,10 @@ FiberNode 也有人叫 Fiber
       <span class="hljs-string">&quot;_store&quot;</span>: {}
     }
   },
-  <span class="hljs-string">&quot;memoizedProps&quot;</span>: <span class="hljs-literal">null</span>,
-  <span class="hljs-string">&quot;updateQueue&quot;</span>: <span class="hljs-literal">null</span>,      <span class="hljs-comment">// 更新队列</span>
+  <span class="hljs-string">&quot;memoizedProps&quot;</span>: <span class="hljs-literal">null</span>,    <span class="hljs-comment">// 输出更新后节点需要使用的props</span>
+  <span class="hljs-string">&quot;updateQueue&quot;</span>: <span class="hljs-literal">null</span>,      <span class="hljs-comment">// 更新队列。详见下文。</span>
   <span class="hljs-string">&quot;memoizedState&quot;</span>: <span class="hljs-literal">null</span>,    <span class="hljs-comment">// 当前状态。初始化FiberNode节点时会赋初始值。好像与双缓存有关</span>
+                            <span class="hljs-comment">// 输出更新后节点需要使用的state</span>
   <span class="hljs-string">&quot;dependencies&quot;</span>: <span class="hljs-literal">null</span>,
   <span class="hljs-string">&quot;mode&quot;</span>: <span class="hljs-number">3</span>,
   <span class="hljs-string">&quot;flags&quot;</span>: <span class="hljs-number">0</span>,
@@ -799,6 +801,10 @@ current 指向 FiberRootNode
 <span class="hljs-comment">// 还17 、 18 不在这里</span>
 </div></code></pre>
 <h2 id="使用本地-reactreact-dom"><a href="/framework/react/useLocalReact.html">使用本地 react/react-dom</a></h2>
+<h2 id="hooks-的工作原理">hooks 的工作原理</h2>
+<h2 id="tittle">tittle</h2>
+<h2 id="tittle-1">tittle</h2>
+<h2 id="tittle-2">tittle</h2>
 <h1 id="本地笔记">本地笔记</h1>
 <h2 id="inside-fiber-in-depth-overview-of-the-new-reconciliation-algorithm-in-react">Inside Fiber: in-depth overview of the new reconciliation algorithm in React</h2>
 <p>jsx 代码 =》 ReactElement =&gt; FiberRootNode/FiberNode</p>
@@ -841,7 +847,7 @@ current 指向 FiberRootNode
 <tr>
 <td></td>
 <td></td>
-<td>每个节点使用 render 方法创建</td>
+<td>由current的每个节点复制后组成workinprogress。每个节点使用 render 方法创建</td>
 <td></td>
 <td></td>
 </tr>
@@ -876,17 +882,19 @@ current 指向 FiberRootNode
 <p>react 只更新 dom</p>
 <h3 id="side-effects">side-effects</h3>
 <ul>
-<li>操作 dom 的方法</li>
-<li>生命周期方法</li>
+<li><strong>操作 dom 的方法</strong></li>
+<li><strong>生命周期方法</strong></li>
 <li>……</li>
 </ul>
 <h3 id="effect-list">effect list</h3>
 <p>根据 FiberNode 链表结构依次处理<br>
 处理链表比处理树快。<br>
-firstEffect 指向第一个节点。nextEffect 指向下一个节点。</p>
+firstEffect 指向第一个节点。nextEffect 指向下一个节点。单向链表。</p>
 <h3 id="root-of-the-fiber-tree">root of the fiber tree</h3>
 <p>使用变量 container 指定根节点的容器。它是 dom 元素。<br>
-current 指向 FiberRootNode</p>
+current 指向 FiberRootNode<br>
+根节点是HostRoot<br>
+FiberRootNode.stateNode指向HostRoot</p>
 <h3 id="general-algorithm">general algorithm</h3>
 <table>
 <thead>
@@ -992,18 +1000,22 @@ current 指向 FiberRootNode</p>
 </table>
 <p>调用 setState/React.render 会被指定为需要更新的元素。</p>
 <h4 id="render-phase">render phase</h4>
-<p>跳过不需要更新的 FiberNode。找到需要更新的 FiberNode</p>
+<p>使用effectTag标记该节点应该如何更新。更新工作会在commit阶段做。<br>
+此阶段不能执行side-effect
+从根节点开始，然后深度优先，跳过不需要更新的节点FiberNode，标记出需要更新的节点FiberNode。</p>
 <ul>
 <li>nextUnitOfWork</li>
 <li>performUnitOfWork 参数是 workInProgress</li>
-<li>beginWork</li>
-<li>completeUnitOfWork</li>
+<li>beginWork             // 返回下一个子节点或null</li>
+<li>completeUnitOfWork    //</li>
 <li>completeWork</li>
 </ul>
 <p>按照 FiberNode 形成的链表，深度优先。</p>
 <h4 id="commit-phase">commit phase</h4>
 <p>从 completeWork 开始。<br>
-主要在 commitRoot 方法中</p>
+主要在 commitRoot 方法中<br>
+因为要改变视图，所以必须是同步。<br>
+当调用<code>finishedWork</code>时更新视图。</p>
 <ul>
 <li>标记了 Snapshot 的 node 会执行 getSnapshotBeforeUpdate 方法</li>
 <li>标记了 Deletion 的 node 会执行 componentWillUnmount 方法</li>
@@ -1085,7 +1097,7 @@ current 指向 FiberRootNode</p>
 <li><a href=""></a></li>
 </ul>
 <h1 id="开拓">开拓</h1>
-<h2 id="babel开创了前端中把一种功能由一种写法的思想如">babel开创了前端中把一种功能由一种写法的思想。如:</h2>
+<h2 id="babel-开创了前端中把一种功能由一种写法的思想如">babel 开创了前端中把一种功能由一种写法的思想。如:</h2>
 <pre><code><code><div>&lt;span id=&quot;#id&quot;&gt;string&lt;/span&gt;
 =&gt;
 React.createElement('span', {id: '#id'}, string)

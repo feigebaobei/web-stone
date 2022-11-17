@@ -83,17 +83,17 @@
         <h1 id="introduction">introduction</h1>
 <h2 id="overview">overview</h2>
 <blockquote>
-<p>把若干小片js代码打包成为一个指定规范的大段js文件。<br>
+<p>把若干小片 js 代码打包成为一个指定规范的大段 js 文件。<br>
 可打包为多种规范。<br>
-支持stdin输入（esbuild也支持）<br>
+支持 stdin 输入（esbuild 也支持）<br>
 选项级 cli &gt; rollup.config.js<br>
-推荐使用esm规范的rollup.config.js<br>
-该团队未做随便扩张rollup的功能。让rollup只做rollup的事。插件做插件的事。在产品级做到了单一原则。难得呀！<br>
-它的loader是使用plugin实现的。<br>
-plugin          用于加载文件<br>
-output.plugin   用于输出是的插件<br>
-没有loader<br>
-支持cli、js、配置文件</p>
+推荐使用 esm 规范的 rollup.config.js<br>
+该团队未做随便扩张 rollup 的功能。让 rollup 只做 rollup 的事。插件做插件的事。在产品级做到了单一原则。难得呀！<br>
+它的 loader 是使用 plugin 实现的。<br>
+plugin 用于加载文件<br>
+output.plugin 用于输出是的插件<br>
+没有 loader<br>
+支持 cli、js、配置文件</p>
 </blockquote>
 <h2 id="feature">feature</h2>
 <ul>
@@ -116,17 +116,17 @@ rollup main.js -o bundle.js -f umd --name &quot;myBundle&quot;
 </div></code></pre>
 <p><code>-o</code>表示输出的文件。
 <code>-f</code>表示输出的格式。</p>
-<h2 id="为什么使用rollup">为什么使用rollup</h2>
-<p>在es6前。每段js代码都是独立的，无法与其它js代码联系起来。在es6之后，可以使用<code>import / export</code>输入/输出。可它仍有缺点：只能运行在现代浏览器中。<strong>rollup可以把小段代码打包成指定格式的大段代码</strong>。支持的格式：esm/commonjs/amd/umd/iife-style/system.</p>
+<h2 id="为什么使用-rollup">为什么使用 rollup</h2>
+<p>在 es6 前。每段 js 代码都是独立的，无法与其它 js 代码联系起来。在 es6 之后，可以使用<code>import / export</code>输入/输出。可它仍有缺点：只能运行在现代浏览器中。<strong>rollup 可以把小段代码打包成指定格式的大段代码</strong>。支持的格式：esm/commonjs/amd/umd/iife-style/system.</p>
 <h2 id="tree-shaking">tree-shaking</h2>
 <ul>
 <li>按需引入。</li>
-<li>只能用于打包esm规范的代码（即使用import）</li>
+<li>只能用于打包 esm 规范的代码（即使用 import）</li>
 <li>eg: <code>import {one} from 'pack'</code></li>
-<li>rollup支持静态分析引入的代码，</li>
+<li>rollup 支持静态分析引入的代码，</li>
 <li>排除不使用的。判断出哪些方法/变量等被使用过，哪些未被使用。在打包后的代码中使用包含被使用到的。</li>
 </ul>
-<h2 id="rollup的使用方式">rollup的使用方式</h2>
+<h2 id="rollup-的使用方式">rollup 的使用方式</h2>
 <ul>
 <li>cli</li>
 <li>rollup.config.js</li>
@@ -137,9 +137,9 @@ rollup main.js -o bundle.js -f umd --name &quot;myBundle&quot;
 <li>使用插件<code>@rollup/plugin-commonjs</code>引入<code>cjs</code>规范的代码。</li>
 </ul>
 <h1 id="command-link-interface命令行的用法">command link interface（命令行的用法）</h1>
-<p>rollup可以使用命令行功能。</p>
+<p>rollup 可以使用命令行功能。</p>
 <h2 id="configuration-files">configuration files</h2>
-<p>rollup的配置文件是可选的。若使用配置文件会更方便，所以推荐使用配置文件。<br>
+<p>rollup 的配置文件是可选的。若使用配置文件会更方便，所以推荐使用配置文件。<br>
 <strong>配置文件的全量字段</strong>
 各字段说明，见下文。</p>
 <pre><code class="language-js"><div><span class="hljs-comment">// rollup.config.js</span>
@@ -149,12 +149,12 @@ rollup main.js -o bundle.js -f umd --name &quot;myBundle&quot;
   <span class="hljs-comment">// core input options</span>
   external,       <span class="hljs-comment">// 排除的文件</span>
   input, <span class="hljs-comment">// conditionally required    入口文件</span>
-  plugins,        <span class="hljs-comment">// </span>
+  plugins,        <span class="hljs-comment">//</span>
 
   <span class="hljs-comment">// advanced input options</span>
   cache,                      <span class="hljs-comment">// 是否缓存已经打好包的文件</span>
   onwarn,                     <span class="hljs-comment">// 处理warnning的方法</span>
-  preserveEntrySignatures,    <span class="hljs-comment">// </span>
+  preserveEntrySignatures,    <span class="hljs-comment">//</span>
   strictDeprecations,
 
   <span class="hljs-comment">// danger zone</span>
@@ -183,12 +183,12 @@ rollup main.js -o bundle.js -f umd --name &quot;myBundle&quot;
 
     <span class="hljs-comment">// advanced output options</span>
     assetFileNames,   <span class="hljs-comment">// 定义资源的文件名。</span>
-    banner,           <span class="hljs-comment">// </span>
+    banner,           <span class="hljs-comment">//</span>
     chunkFileNames,   <span class="hljs-comment">// 定义chunk的文件名。在代码分割时会用到</span>
     compact,          <span class="hljs-comment">// 是否压缩</span>
     entryFileNames,   <span class="hljs-comment">// 指定入口文件名</span>
     extend,           <span class="hljs-comment">// 是否扩展全局变量。</span>
-    footer,           <span class="hljs-comment">// </span>
+    footer,           <span class="hljs-comment">//</span>
     hoistTransitiveImports,   <span class="hljs-comment">// 当打包多个chunk时，是否把引入文件提升到入口chunk中引入。</span>
     inlineDynamicImports,     <span class="hljs-comment">// 当遇到动态引入时是否打包为chunk</span>
     interop,
@@ -237,7 +237,7 @@ rollup main.js -o bundle.js -f umd --name &quot;myBundle&quot;
     skipWrite,
     exclude,
     include
-  }, 
+  },
 
   makeAbsoluteExternalsRelative,     <span class="hljs-comment">// 是否把绝对路径转换为相对路径。</span>
 };
@@ -245,11 +245,11 @@ rollup main.js -o bundle.js -f umd --name &quot;myBundle&quot;
 <h3 id="demo-最基本的配置">demo 最基本的配置</h3>
 <pre><code class="language-js"><div><span class="hljs-comment">// rollup.config.js</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
-	<span class="hljs-attr">input</span>: <span class="hljs-string">&#x27;src/main.js&#x27;</span>,
-	<span class="hljs-attr">output</span>: {
-		<span class="hljs-attr">file</span>: <span class="hljs-string">&#x27;bundle.js&#x27;</span>,
-		<span class="hljs-attr">format</span>: <span class="hljs-string">&#x27;cjs&#x27;</span>
-	}
+  <span class="hljs-attr">input</span>: <span class="hljs-string">&#x27;src/main.js&#x27;</span>,
+  <span class="hljs-attr">output</span>: {
+    <span class="hljs-attr">file</span>: <span class="hljs-string">&#x27;bundle.js&#x27;</span>,
+    <span class="hljs-attr">format</span>: <span class="hljs-string">&#x27;cjs&#x27;</span>,
+  },
 }
 
 <span class="hljs-comment">// 在配置文件中有几个必填项</span>
@@ -268,51 +268,51 @@ rollup main.js -o bundle.js -f umd --name &quot;myBundle&quot;
     <span class="hljs-attr">input</span>: <span class="hljs-string">&#x27;main-a.js&#x27;</span>,
     <span class="hljs-attr">output</span>: {
       <span class="hljs-attr">file</span>: <span class="hljs-string">&#x27;dist/bundle-a.js&#x27;</span>,
-      <span class="hljs-attr">format</span>: <span class="hljs-string">&#x27;cjs&#x27;</span>
-    }
+      <span class="hljs-attr">format</span>: <span class="hljs-string">&#x27;cjs&#x27;</span>,
+    },
   },
   {
     <span class="hljs-attr">input</span>: <span class="hljs-string">&#x27;main-b.js&#x27;</span>,
     <span class="hljs-attr">output</span>: [
       {
         <span class="hljs-attr">file</span>: <span class="hljs-string">&#x27;dist/bundle-b1.js&#x27;</span>,
-        <span class="hljs-attr">format</span>: <span class="hljs-string">&#x27;cjs&#x27;</span>
+        <span class="hljs-attr">format</span>: <span class="hljs-string">&#x27;cjs&#x27;</span>,
       },
       {
         <span class="hljs-attr">file</span>: <span class="hljs-string">&#x27;dist/bundle-b2.js&#x27;</span>,
-        <span class="hljs-attr">format</span>: <span class="hljs-string">&#x27;es&#x27;</span>
-      }
-    ]
-  }
-];
+        <span class="hljs-attr">format</span>: <span class="hljs-string">&#x27;es&#x27;</span>,
+      },
+    ],
+  },
+]
 </div></code></pre>
 <h3 id="demo-异步输出配置文件">demo 异步输出配置文件</h3>
 <pre><code class="language-js"><div><span class="hljs-comment">// rollup.config.js</span>
-<span class="hljs-keyword">import</span> fetch <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;node-fetch&#x27;</span>;
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> fetch(<span class="hljs-string">&#x27;/some-remote-service-or-file-which-returns-actual-config&#x27;</span>);
-<span class="hljs-comment">// or </span>
+<span class="hljs-keyword">import</span> fetch <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;node-fetch&#x27;</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> fetch(<span class="hljs-string">&#x27;/some-remote-service-or-file-which-returns-actual-config&#x27;</span>)
+<span class="hljs-comment">// or</span>
 <span class="hljs-comment">// export default Promise.all([fetch(&#x27;get-config-1&#x27;), fetch(&#x27;get-config-2&#x27;)]);</span>
 </div></code></pre>
 <h3 id="demo-动态配置">demo 动态配置</h3>
 <pre><code class="language-shell"><div>rollup main.js --config --configDebug
 </div></code></pre>
 <pre><code class="language-js"><div><span class="hljs-comment">// rollup.config.js</span>
-<span class="hljs-keyword">import</span> defaultConfig <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./rollup.default.config.js&#x27;</span>;
-<span class="hljs-keyword">import</span> debugConfig <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./rollup.debug.config.js&#x27;</span>;
+<span class="hljs-keyword">import</span> defaultConfig <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./rollup.default.config.js&#x27;</span>
+<span class="hljs-keyword">import</span> debugConfig <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./rollup.debug.config.js&#x27;</span>
 <span class="hljs-comment">// commandLineArgs可得到命令行中的数据</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> commandLineArgs =&gt; {
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> (commandLineArgs) =&gt; {
   <span class="hljs-keyword">if</span> (commandLineArgs.configDebug === <span class="hljs-literal">true</span>) {
-    <span class="hljs-keyword">return</span> debugConfig;
+    <span class="hljs-keyword">return</span> debugConfig
   }
-  <span class="hljs-keyword">return</span> defaultConfig;
-};
+  <span class="hljs-keyword">return</span> defaultConfig
+}
 </div></code></pre>
 <ul>
-<li>推荐使用esm规范编写配置文件。</li>
+<li>推荐使用 esm 规范编写配置文件。</li>
 <li>一般命名为<code>rollup.config.js</code></li>
 <li>当<code>output</code>是数组时，可打包出多个相应输出配置的包。</li>
-<li>当使用异步配置项时，rollup会生成一个<code>Promise&lt;object|array&gt;</code>。也可以使用<code>Promise.all([...])</code>处理成为异步的配置文件。</li>
-<li>rollup使用<code>-c</code>/<code>--config</code>指定配置文件。</li>
+<li>当使用异步配置项时，rollup 会生成一个<code>Promise&lt;object|array&gt;</code>。也可以使用<code>Promise.all([...])</code>处理成为异步的配置文件。</li>
+<li>rollup 使用<code>-c</code>/<code>--config</code>指定配置文件。</li>
 <li>若返回一个方法。参数是命令行中的参数组成的对象，返回值是配置文件格式的对象。</li>
 </ul>
 <p>配置文件的编写规范：</p>
@@ -352,18 +352,18 @@ rollup main.js -o bundle.js -f umd --name &quot;myBundle&quot;
 </tr>
 <tr>
 <td></td>
-<td>方便esm文件共享</td>
+<td>方便 esm 文件共享</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td></td>
-<td>node v13+ 且 <code>*.mjs</code>，则不转换。但是入口文件必须是esm规范</td>
+<td>node v13+ 且 <code>*.mjs</code>，则不转换。但是入口文件必须是 esm 规范</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td>Esm比cjs好用这么多。请推荐使用esm。</td>
+<td>Esm 比 cjs 好用这么多。请推荐使用 esm。</td>
 <td></td>
 <td></td>
 <td></td>
@@ -393,7 +393,7 @@ rollup main.js -o bundle.js -f umd --name &quot;myBundle&quot;
         <span class="hljs-attr">sourcemap</span>: <span class="hljs-literal">true</span>,
         <span class="hljs-attr">compact</span>: <span class="hljs-literal">false</span>,
         <span class="hljs-attr">plugins</span>: [terser()],
-        <span class="hljs-attr">preserveModules</span>: <span class="hljs-literal">true</span> <span class="hljs-comment">// 保留目录结构</span>
+        <span class="hljs-attr">preserveModules</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// 保留目录结构</span>
         <span class="hljs-attr">preserveModulesRoot</span>: <span class="hljs-string">&#x27;src&#x27;</span> <span class="hljs-comment">// 将保留的模块目录结构放在根目录下该路径下</span>
       },
       <span class="hljs-comment">// {</span>
@@ -410,7 +410,7 @@ rollup main.js -o bundle.js -f umd --name &quot;myBundle&quot;
       postcss({
         <span class="hljs-comment">// v3版本的postcss插件</span>
         <span class="hljs-attr">plugins</span>: [
-          autoprefixer(), 
+          autoprefixer(),
           <span class="hljs-comment">// cssnano() // 压缩css文件</span>
         ],
         <span class="hljs-comment">// extract: &#x27;css/index.css&#x27; // 抽离为单独的css文件</span>
@@ -423,8 +423,8 @@ rollup main.js -o bundle.js -f umd --name &quot;myBundle&quot;
 </div></code></pre>
 <h3 id="differences-to-the-javascript-api">differences to the javascript api</h3>
 <p>这里没说清楚<br>
-与js api的不同。
-配置文件不能被其他打包工具去结合使用。现在可以在脚本中以编程方式调用rollup.</p>
+与 js api 的不同。
+配置文件不能被其他打包工具去结合使用。现在可以在脚本中以编程方式调用 rollup.</p>
 <table>
 <thead>
 <tr>
@@ -452,12 +452,12 @@ rollup main.js -o bundle.js -f umd --name &quot;myBundle&quot;
 </tbody>
 </table>
 <h3 id="loading-a-configuration-from-a-node-package">loading a configuration from a Node package</h3>
-<p>rollup支持从<code>node_modules</code>中加载配置项文件。</p>
+<p>rollup 支持从<code>node_modules</code>中加载配置项文件。</p>
 <pre><code><code><div>rollup --config node:my-special-config
 # 先尝试加载`rollup-config-my-special-config`，若失败则加载`my-special-config`
 </div></code></code></pre>
 <h3 id="使用不需要转换的配置文件">使用不需要转换的配置文件</h3>
-<p>默认rollup希望得到<code>esm</code>规范的配置文件。然后在需要它时把它转换为<code>commonjs</code>规范的文件。转换过程很快。也可以基于esm规范很容易分享代码。若希望使用commonjs规范的配置文件，请设置扩展名为<code>*.cjs</code>。</p>
+<p>默认 rollup 希望得到<code>esm</code>规范的配置文件。然后在需要它时把它转换为<code>commonjs</code>规范的文件。转换过程很快。也可以基于 esm 规范很容易分享代码。若希望使用 commonjs 规范的配置文件，请设置扩展名为<code>*.cjs</code>。</p>
 <pre><code><code><div>// rollup.config.csj
 module.exports = {
 	input:..
@@ -580,7 +580,7 @@ rollup -i input.js -f es -p &#x27;terser={output: {beautify: true, indent_level:
 }
 </div></code></pre>
 <h1 id="js-api">js api</h1>
-<p>为node.js使用rollup</p>
+<p>为 node.js 使用 rollup</p>
 <pre><code class="language-ts"><div>rollup.rollup(inputOptions) =&gt; <span class="hljs-built_in">Promise</span>&lt;bundle&gt;
 rollup.watch(watchOptions) =&gt; watcher
 watcher.on(<span class="hljs-string">&#x27;event&#x27;</span>, <span class="hljs-function"><span class="hljs-params">event</span> =&gt;</span> {...})
@@ -659,10 +659,10 @@ watcher.on(<span class="hljs-string">&#x27;event&#x27;</span>, <span class="hljs
 }
 </div></code></pre>
 <h2 id="usage">usage</h2>
-<pre><code class="language-js"><div><span class="hljs-keyword">import</span> {rollup} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;rollup&#x27;</span>
-rollup(inputOptions).then(<span class="hljs-function"><span class="hljs-params">bundle</span> =&gt;</span> {
-	bundle.generate(outputOptions) <span class="hljs-comment">// 在内存中生成打包结果</span>
-	bundle.write() <span class="hljs-comment">// 把打包结果写入硬盘</span>
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span> { rollup } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;rollup&#x27;</span>
+rollup(inputOptions).then(<span class="hljs-function">(<span class="hljs-params">bundle</span>) =&gt;</span> {
+  bundle.generate(outputOptions) <span class="hljs-comment">// 在内存中生成打包结果</span>
+  bundle.write() <span class="hljs-comment">// 把打包结果写入硬盘</span>
 })
 </div></code></pre>
 <h2 id="type-类型">type 类型</h2>
@@ -779,20 +779,20 @@ watcher.close() <span class="hljs-comment">// 停止监听</span>
 <h2 id="using-plugins">using plugins</h2>
 <pre><code class="language-shell"><div>npm i -D @rollup/plugin-json
 </div></code></pre>
-<pre><code class="language-js"><div><span class="hljs-keyword">import</span> {version} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../package.json&#x27;</span>
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span> { version } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../package.json&#x27;</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-	<span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;version&#x27;</span>, version)
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;version&#x27;</span>, version)
 }
 </div></code></pre>
 <pre><code class="language-js"><div><span class="hljs-comment">// rollup.config.js</span>
 <span class="hljs-keyword">import</span> json <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@rollup/plugin-json&#x27;</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
-	<span class="hljs-attr">input</span>: <span class="hljs-string">&#x27;src/main.js&#x27;</span>,
-	<span class="hljs-attr">output</span>: {
-		<span class="hljs-attr">file</span>: <span class="hljs-string">&#x27;bundle.js&#x27;</span>,
-		<span class="hljs-attr">format</span>: <span class="hljs-string">&#x27;cjs&#x27;</span>
-	},
-	<span class="hljs-attr">plugins</span>: [json()]
+  <span class="hljs-attr">input</span>: <span class="hljs-string">&#x27;src/main.js&#x27;</span>,
+  <span class="hljs-attr">output</span>: {
+    <span class="hljs-attr">file</span>: <span class="hljs-string">&#x27;bundle.js&#x27;</span>,
+    <span class="hljs-attr">format</span>: <span class="hljs-string">&#x27;cjs&#x27;</span>,
+  },
+  <span class="hljs-attr">plugins</span>: [json()],
 }
 </div></code></pre>
 <pre><code class="language-shell"><div>npm run build
@@ -800,24 +800,24 @@ watcher.close() <span class="hljs-comment">// 停止监听</span>
 </div></code></pre>
 <h3 id="常用插件列表">常用插件列表</h3>
 <ul>
-<li><a href="https://github.com/rollup/awesome">awesome</a>  功能功能功能功能</li>
-<li><a href="">@rollup/plugin-node-resolve</a>               找到外部依赖（在node_modules中找）</li>
-<li><a href="">@rollup/plugin-commonjs</a>                   把cjs转换为esm。使rollup可以打包cjs规范的代码</li>
-<li><a href="">@rollup/plugin-babel</a>                      转换js代码的版本</li>
-<li><a href="">@rollup/plugin-json</a>                       把json转换为esm</li>
-<li><a href="">@rollup/plugin-data-uri</a>                   以 data uri 的形式引入资源</li>
-<li><a href="">@rollup/plugin-html</a>                       创建一个html文件为rollup打包服务</li>
-<li><a href="">@rollup/plugin-typescript</a>                 使rollup可以打包ts文件。</li>
-<li><a href="">@rollup/plugin-yaml</a>                       yarm =&gt; esm</li>
-<li><a href="">@rollup/plugin-strip</a>                      用于从代码中删除 debugger 语句和函数。包括 assert.equal、console.log 等等。</li>
-<li><a href="">rollup-plugin-postcss</a>               默认支持scss、less、stylus</li>
-<li><a href="">autoprefixer</a>               添加样式的前缀</li>
-<li><a href="">cssnano</a>               css压缩。有压缩功能的包太多了，不一定非要用它。</li>
-<li><a href="">@rollup/plugin-strip</a>               删除debugger/console.log/assert.equal等</li>
-<li><a href="">rollup-plugin-node-externals</a>               好像是排出打包项的插件</li>
-<li><a href="">@rollup/plugin-node-resolve</a>               功能功能功能功能</li>
-<li><a href="">@rollup/plugin-node-resolve</a>               功能功能功能功能</li>
-<li><a href="">@rollup/plugin-node-resolve</a>               功能功能功能功能</li>
+<li><a href="https://github.com/rollup/awesome">awesome</a> 功能功能功能功能</li>
+<li><a href="">@rollup/plugin-node-resolve</a> 找到外部依赖（在 node_modules 中找）</li>
+<li><a href="">@rollup/plugin-commonjs</a> 把 cjs 转换为 esm。使 rollup 可以打包 cjs 规范的代码</li>
+<li><a href="">@rollup/plugin-babel</a> 转换 js 代码的版本</li>
+<li><a href="">@rollup/plugin-json</a> 把 json 转换为 esm</li>
+<li><a href="">@rollup/plugin-data-uri</a> 以 data uri 的形式引入资源</li>
+<li><a href="">@rollup/plugin-html</a> 创建一个 html 文件为 rollup 打包服务</li>
+<li><a href="">@rollup/plugin-typescript</a> 使 rollup 可以打包 ts 文件。</li>
+<li><a href="">@rollup/plugin-yaml</a> yarm =&gt; esm</li>
+<li><a href="">@rollup/plugin-strip</a> 用于从代码中删除 debugger 语句和函数。包括 assert.equal、console.log 等等。</li>
+<li><a href="">rollup-plugin-postcss</a> 默认支持 scss、less、stylus</li>
+<li><a href="">autoprefixer</a> 添加样式的前缀</li>
+<li><a href="">cssnano</a> css 压缩。有压缩功能的包太多了，不一定非要用它。</li>
+<li><a href="">@rollup/plugin-strip</a> 删除 debugger/console.log/assert.equal 等</li>
+<li><a href="">rollup-plugin-node-externals</a> 好像是排出打包项的插件</li>
+<li><a href="">@rollup/plugin-node-resolve</a> 功能功能功能功能</li>
+<li><a href="">@rollup/plugin-node-resolve</a> 功能功能功能功能</li>
+<li><a href="">@rollup/plugin-node-resolve</a> 功能功能功能功能</li>
 </ul>
 <h2 id="代码分割">代码分割</h2>
 <p>动态引入、多入口会触发代码分割。</p>
@@ -829,18 +829,18 @@ watcher.close() <span class="hljs-comment">// 停止监听</span>
 <li>动态加载时分使用代码分割</li>
 </ul>
 <pre><code class="language-js"><div><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-	<span class="hljs-keyword">import</span>(<span class="hljs-string">&#x27;./file.js&#x27;</span>).then(<span class="hljs-function">(<span class="hljs-params">{<span class="hljs-keyword">default</span>: file}</span>) =&gt;</span> {
-		<span class="hljs-built_in">console</span>.log(file)
-	})
+  <span class="hljs-keyword">import</span>(<span class="hljs-string">&#x27;./file.js&#x27;</span>).then(<span class="hljs-function">(<span class="hljs-params">{ <span class="hljs-keyword">default</span>: file }</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(file)
+  })
 }
 </div></code></pre>
 <h1 id="插件"><a href="/builder/rollup/plugin/index.html">插件</a></h1>
-<p>插件部分的文档写的一团糟。还得让我去看rollup的源码、插件的源码。</p>
+<p>插件部分的文档写的一团糟。还得让我去看 rollup 的源码、插件的源码。</p>
 <ul>
-<li>Rollup的运行逻辑是什么，如何与插件合作？</li>
-<li>插件demo的功能是什么？定出具体代码。</li>
+<li>Rollup 的运行逻辑是什么，如何与插件合作？</li>
+<li>插件 demo 的功能是什么？定出具体代码。</li>
 <li>各钩子的运行顺序。</li>
-<li>各钩子的api（包括：参数、返回值）</li>
+<li>各钩子的 api（包括：参数、返回值）</li>
 </ul>
 <h1 id="plugin-development">plugin development</h1>
 <h1 id="frequently-asked-questions"><a href="/builder/rollup/qas.html">frequently asked questions</a></h1>
@@ -864,24 +864,24 @@ watcher.close() <span class="hljs-comment">// 停止监听</span>
 <p>指定入口文件。若为多入口，则多出口。</p>
 <h3 id="outputdir">output.dir</h3>
 <pre><code class="language-ts"><div>Type: <span class="hljs-built_in">string</span>
-<span class="hljs-attr">CLI</span>: -d/--dir &lt;dirname&gt;
+<span class="hljs-attr">CLI</span>: -d / --dir&lt;dirname&gt;
 </div></code></pre>
 <p>出口的目录</p>
 <h3 id="outputfile">output.file</h3>
 <pre><code class="language-ts"><div>Type: <span class="hljs-built_in">string</span>
-<span class="hljs-attr">CLI</span>: -o/--file &lt;filename&gt;
+<span class="hljs-attr">CLI</span>: -o / --file&lt;filename&gt;
 </div></code></pre>
 <p>出口的文件</p>
 <h3 id="outputformat">output.format</h3>
 <pre><code class="language-ts"><div>Type: <span class="hljs-built_in">string</span>
 <span class="hljs-attr">CLI</span>: -f/--format &lt;formatspecifier&gt;
 Default: <span class="hljs-string">&quot;es&quot;</span>
-<span class="hljs-attr">enum</span>: amd     
-      cjs     
+<span class="hljs-attr">enum</span>: amd
+      cjs
       es      适用于bundler / <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="javascript">
         别名为 esm / <span class="hljs-built_in">module</span>
       iife      自执行函数
-      umd       
+      umd
       system    原生格式 Native format <span class="hljs-keyword">of</span> the SystemJS loader (alias: systemjs)
         别名为 systemjs
 </span></span></div></code></pre>
@@ -890,7 +890,7 @@ Default: <span class="hljs-string">&quot;es&quot;</span>
 <pre><code class="language-ts"><div>Type: { [id: <span class="hljs-built_in">string</span>]: <span class="hljs-built_in">string</span> } | (<span class="hljs-function">(<span class="hljs-params">id: <span class="hljs-built_in">string</span></span>) =&gt;</span> <span class="hljs-built_in">string</span>)
 <span class="hljs-attr">CLI</span>: -g/--globals &lt;external-id:variableName,another-external-id:anotherVariableName,...&gt;
 </div></code></pre>
-<p>指定包的全局变量名。用于umd/iife规范。</p>
+<p>指定包的全局变量名。用于 umd/iife 规范。</p>
 <pre><code class="language-js"><div><span class="hljs-comment">// 告诉rollup全局变量是jquery，并且与全局变量$相等。</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
   ...
@@ -906,10 +906,10 @@ Default: <span class="hljs-string">&quot;es&quot;</span>
 </div></code></pre>
 <h3 id="outputname"><a href="http://output.name">output.name</a></h3>
 <pre><code class="language-ts"><div>Type: <span class="hljs-built_in">string</span>
-<span class="hljs-attr">CLI</span>: -n/--name &lt;variableName&gt;
+<span class="hljs-attr">CLI</span>: -n / --name&lt;variableName&gt;
 </div></code></pre>
 <p>指定全局变量名。
-iife/umd的必填项。</p>
+iife/umd 的必填项。</p>
 <h3 id="outputplugins">output.plugins</h3>
 <pre><code class="language-ts"><div>Type: OutputPlugin | (OutputPlugin | <span class="hljs-built_in">void</span>)[]
 </div></code></pre>
@@ -924,8 +924,8 @@ iife/umd的必填项。</p>
 </div></code></pre>
 <p>在观察模式时会默认使用缓存。</p>
 <h3 id="makeabsoluteexternalsrelative">makeAbsoluteExternalsRelative</h3>
-<pre><code class="language-js"><div>Type: boolean | <span class="hljs-string">&quot;ifRelativeSource&quot;</span>
-<span class="hljs-attr">CLI</span>: --makeAbsoluteExternalsRelative/--no-makeAbsoluteExternalsRelative
+<pre><code class="language-js"><div>Type: boolean | <span class="hljs-string">&#x27;ifRelativeSource&#x27;</span>
+<span class="hljs-attr">CLI</span>: --makeAbsoluteExternalsRelative / --no - makeAbsoluteExternalsRelative
 <span class="hljs-attr">Default</span>: <span class="hljs-string">&#x27;ifRelativeSource&#x27;</span>
 </div></code></pre>
 <p>是否把绝对路径转换为相对路径。
@@ -948,9 +948,9 @@ Default: <span class="hljs-string">&quot;assets/[name]-[hash][extname]&quot;</sp
 <p>设置资源的文件名</p>
 <ul>
 <li>[extname] 有点开头的扩展名</li>
-<li>[ext]     无点开头的扩展名</li>
-<li>[hash]    基于文件名与内容的散列值</li>
-<li>[name]    不包含扩展名的文件名</li>
+<li>[ext] 无点开头的扩展名</li>
+<li>[hash] 基于文件名与内容的散列值</li>
+<li>[name] 不包含扩展名的文件名</li>
 </ul>
 <h3 id="outputbanneroutputfooter">output.banner/output.footer</h3>
 <pre><code class="language-js"><div>Type: string | (<span class="hljs-function">() =&gt;</span> string | <span class="hljs-built_in">Promise</span>&lt;string&gt;)
@@ -964,23 +964,23 @@ Default: <span class="hljs-string">&quot;[name]-[hash].js&quot;</span>
 </div></code></pre>
 <p>指定使用代码分割时文件的模板。</p>
 <ul>
-<li>[format]  在output指定渲染格式</li>
-<li>[hash]    基于内容和内容的依赖的散列值</li>
-<li>[name]    chuck的名字</li>
+<li>[format] 在 output 指定渲染格式</li>
+<li>[hash] 基于内容和内容的依赖的散列值</li>
+<li>[name] chuck 的名字</li>
 </ul>
 <h3 id="outputcompact">output.compact</h3>
 <pre><code class="language-js"><div>Type: boolean
-<span class="hljs-attr">CLI</span>: --compact/--no-compact
+<span class="hljs-attr">CLI</span>: --compact / --no - compact
 <span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
 </div></code></pre>
 <p>是否压缩</p>
 <h3 id="outputdynamicimportincjs">output.dynamicImportInCjs</h3>
 <pre><code class="language-js"><div>Type: boolean
-<span class="hljs-attr">CLI</span>: --dynamicImportInCjs/--no-dynamicImportInCjs
+<span class="hljs-attr">CLI</span>: --dynamicImportInCjs / --no - dynamicImportInCjs
 <span class="hljs-attr">Default</span>: <span class="hljs-literal">true</span>
 </div></code></pre>
-<p>现在的node版本已经支持import引入方式了。<br>
-是否在指定输出规范为cjs时把import的引入方式改为require</p>
+<p>现在的 node 版本已经支持 import 引入方式了。<br>
+是否在指定输出规范为 cjs 时把 import 的引入方式改为 require</p>
 <h3 id="outputentryfilenames">output.entryFileNames</h3>
 <pre><code class="language-js"><div>Type: string | (<span class="hljs-function">(<span class="hljs-params">chunkInfo: ChunkInfo</span>) =&gt;</span> string)
 <span class="hljs-attr">CLI</span>: --entryFileNames &lt;pattern&gt;
@@ -994,7 +994,7 @@ Default: <span class="hljs-string">&quot;[name].js&quot;</span>
 </ul>
 <h3 id="outputextend">output.extend</h3>
 <pre><code class="language-js"><div>Type: boolean
-<span class="hljs-attr">CLI</span>: --extend/--no-extend
+<span class="hljs-attr">CLI</span>: --extend / --no - extend
 <span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
 </div></code></pre>
 <p>是否扩展全局变量。</p>
@@ -1005,10 +1005,10 @@ Default: <span class="hljs-string">&quot;[name].js&quot;</span>
 </div></code></pre>
 <h3 id="outputexternalimportassertions">output.externalImportAssertions</h3>
 <pre><code class="language-js"><div>Type: boolean
-<span class="hljs-attr">CLI</span>: --externalImportAssertions/--no-externalImportAssertions
+<span class="hljs-attr">CLI</span>: --externalImportAssertions / --no - externalImportAssertions
 <span class="hljs-attr">Default</span>: <span class="hljs-literal">true</span>
 </div></code></pre>
-<p>当输出格式为esm时，是否添加引入断言。</p>
+<p>当输出格式为 esm 时，是否添加引入断言。</p>
 <h3 id="outputgeneratedcode">output.generatedCode</h3>
 <pre><code class="language-js"><div>Type: <span class="hljs-string">&quot;es5&quot;</span> | <span class="hljs-string">&quot;es2015&quot;</span> | { arrowFunctions?: boolean, constBindings?: boolean, objectShorthand?: boolean, preset?: <span class="hljs-string">&quot;es5&quot;</span> | <span class="hljs-string">&quot;es2015&quot;</span>, reservedNamesAsProps?: boolean, symbols?: boolean }
 <span class="hljs-attr">CLI</span>: --generatedCode &lt;preset&gt;
@@ -1016,22 +1016,22 @@ Default: <span class="hljs-string">&quot;es5&quot;</span>
 </div></code></pre>
 <p>设置生成代码的版本</p>
 <ul>
-<li>es5       不使用es2015+的功能。如箭头函数。</li>
-<li>es2015    使用es2015版本</li>
+<li>es5 不使用 es2015+的功能。如箭头函数。</li>
+<li>es2015 使用 es2015 版本</li>
 </ul>
 <h3 id="outputgeneratedcodearrowfunctions">output.generatedCode.arrowFunctions</h3>
 <pre><code class="language-js"><div>Type: boolean
-<span class="hljs-attr">CLI</span>: --generatedCode.arrowFunctions/--no-generatedCode.arrowFunctions
+<span class="hljs-attr">CLI</span>: --generatedCode.arrowFunctions / --no - generatedCode.arrowFunctions
 <span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
 </div></code></pre>
 <h3 id="outputgeneratedcodeconstbindings">output.generatedCode.constBindings</h3>
 <pre><code class="language-js"><div>Type: boolean
-<span class="hljs-attr">CLI</span>: --generatedCode.constBindings/--no-generatedCode.constBindings
+<span class="hljs-attr">CLI</span>: --generatedCode.constBindings / --no - generatedCode.constBindings
 <span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
 </div></code></pre>
 <h3 id="outputgeneratedcodeobjectshorthand">output.generatedCode.objectShorthand</h3>
 <pre><code class="language-js"><div>Type: boolean
-<span class="hljs-attr">CLI</span>: --generatedCode.objectShorthand/--no-generatedCode.objectShorthand
+<span class="hljs-attr">CLI</span>: --generatedCode.objectShorthand / --no - generatedCode.objectShorthand
 <span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
 </div></code></pre>
 <p>是否使用对象短赋值。</p>
@@ -1041,26 +1041,27 @@ Default: <span class="hljs-string">&quot;es5&quot;</span>
 </div></code></pre>
 <h3 id="outputgeneratedcodereservednamesasprops">output.generatedCode.reservedNamesAsProps</h3>
 <pre><code class="language-js"><div>Type: boolean
-<span class="hljs-attr">CLI</span>: --generatedCode.reservedNamesAsProps/--no-generatedCode.reservedNamesAsProps
+<span class="hljs-attr">CLI</span>: --generatedCode.reservedNamesAsProps / --no -
+  generatedCode.reservedNamesAsProps
 <span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
 </div></code></pre>
 <h3 id="outputgeneratedcodesymbols">output.generatedCode.symbols</h3>
 <pre><code class="language-js"><div>Type: boolean
-<span class="hljs-attr">CLI</span>: --generatedCode.symbols/--no-generatedCode.symbols
+<span class="hljs-attr">CLI</span>: --generatedCode.symbols / --no - generatedCode.symbols
 <span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
 </div></code></pre>
-<p>是否可以使用symbol</p>
+<p>是否可以使用 symbol</p>
 <h3 id="outputhoisttransitiveimports">output.hoistTransitiveImports</h3>
 <pre><code class="language-js"><div>Type: boolean
-<span class="hljs-attr">CLI</span>: --hoistTransitiveImports/--no-hoistTransitiveImports
+<span class="hljs-attr">CLI</span>: --hoistTransitiveImports / --no - hoistTransitiveImports
 <span class="hljs-attr">Default</span>: <span class="hljs-literal">true</span>
 </div></code></pre>
-<p>当打包多个chunk时，是否把引入文件提升到入口chunk中引入。</p>
+<p>当打包多个 chunk 时，是否把引入文件提升到入口 chunk 中引入。</p>
 <h3 id="outputinlinedynamicimports">output.inlineDynamicImports</h3>
 <pre><code class="language-js"><div>Type: boolean
 <span class="hljs-attr">CLI</span>: --inlineDynamicImports/--no-inlineDynamicImports Default: <span class="hljs-literal">false</span>
 </div></code></pre>
-<p>当遇到动态引入时是否打包为chunk</p>
+<p>当遇到动态引入时是否打包为 chunk</p>
 <h3 id="outputinterop">output.interop</h3>
 <pre><code class="language-js"><div>Type: <span class="hljs-string">&quot;auto&quot;</span> | <span class="hljs-string">&quot;esModule&quot;</span> | <span class="hljs-string">&quot;default&quot;</span> | <span class="hljs-string">&quot;defaultOnly&quot;</span> | boolean | (<span class="hljs-function">(<span class="hljs-params">id: string</span>) =&gt;</span> <span class="hljs-string">&quot;auto&quot;</span> | <span class="hljs-string">&quot;esModule&quot;</span> | <span class="hljs-string">&quot;default&quot;</span> | <span class="hljs-string">&quot;defaultOnly&quot;</span> | boolean)
 <span class="hljs-attr">CLI</span>: --interop &lt;value&gt;
@@ -1085,7 +1086,7 @@ Default: <span class="hljs-literal">true</span>
 <h3 id="outputpaths">output.paths</h3>
 <pre><code class="language-js"><div>Type: { [id: string]: string } | (<span class="hljs-function">(<span class="hljs-params">id: string</span>) =&gt;</span> string)
 </div></code></pre>
-<p>映射external的moduleId到url上。</p>
+<p>映射 external 的 moduleId 到 url 上。</p>
 <pre><code class="language-js"><div>external: [<span class="hljs-string">&#x27;d3&#x27;</span>],
 <span class="hljs-attr">output</span>: {
   ...
@@ -1096,10 +1097,10 @@ Default: <span class="hljs-literal">true</span>
 </div></code></pre>
 <h3 id="outputpreservemodules">output.preserveModules</h3>
 <pre><code class="language-js"><div>Type: boolean
-<span class="hljs-attr">CLI</span>: --preserveModules/--no-preserveModules
+<span class="hljs-attr">CLI</span>: --preserveModules / --no - preserveModules
 <span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
 </div></code></pre>
-<p>尽量使用原本文件名。保持原来的目录结构。（rollup默认会创建较小数量的chunck）</p>
+<p>尽量使用原本文件名。保持原来的目录结构。（rollup 默认会创建较小数量的 chunck）</p>
 <h3 id="outputpreservemodulesroot">output.preserveModulesRoot</h3>
 <pre><code class="language-js"><div>Type: string
 <span class="hljs-attr">CLI</span>: --preserveModulesRoot &lt;directory-name&gt;
@@ -1107,17 +1108,17 @@ Default: <span class="hljs-literal">true</span>
 <p>保留目录结构的所有模块在的目录。</p>
 <h3 id="outputsourcemap">output.sourcemap</h3>
 <pre><code class="language-js"><div>Type: boolean | <span class="hljs-string">&#x27;inline&#x27;</span> | <span class="hljs-string">&#x27;hidden&#x27;</span>
-<span class="hljs-attr">CLI</span>: -m/--sourcemap/--no-sourcemap
+<span class="hljs-attr">CLI</span>: -m / --sourcemap / --no - sourcemap
 <span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
 </div></code></pre>
 <h3 id="outputsourcemapbaseurl">output.sourcemapBaseUrl</h3>
 <pre><code class="language-js"><div>Type: string
 <span class="hljs-attr">CLI</span>: --sourcemapBaseUrl &lt;url&gt;
 </div></code></pre>
-<p>默认生成sourcemap的相对url.</p>
+<p>默认生成 sourcemap 的相对 url.</p>
 <h3 id="outputsourcemapexcludesources">output.sourcemapExcludeSources</h3>
 <pre><code class="language-js"><div>Type: boolean
-<span class="hljs-attr">CLI</span>: --sourcemapExcludeSources/--no-sourcemapExcludeSources
+<span class="hljs-attr">CLI</span>: --sourcemapExcludeSources / --no - sourcemapExcludeSources
 <span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
 </div></code></pre>
 <h3 id="outputsourcemapfile">output.sourcemapFile</h3>
@@ -1129,7 +1130,7 @@ Default: <span class="hljs-literal">true</span>
 </div></code></pre>
 <h3 id="outputvalidate">output.validate</h3>
 <pre><code class="language-js"><div>Type: boolean
-<span class="hljs-attr">CLI</span>: --validate/--no-validate
+<span class="hljs-attr">CLI</span>: --validate / --no - validate
 <span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
 </div></code></pre>
 <h3 id="preserveentrysignatures">preserveEntrySignatures</h3>
@@ -1139,7 +1140,7 @@ Default: <span class="hljs-literal">true</span>
 </div></code></pre>
 <h3 id="strictdeprecations">strictDeprecations</h3>
 <pre><code class="language-js"><div>Type: boolean
-<span class="hljs-attr">CLI</span>: --strictDeprecations/--no-strictDeprecations
+<span class="hljs-attr">CLI</span>: --strictDeprecations / --no - strictDeprecations
 <span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
 </div></code></pre>
 <h2 id="danger-zone">danger zone</h2>
@@ -1178,7 +1179,7 @@ Default: <span class="hljs-literal">undefined</span>
 </div></code></pre>
 <h3 id="outputesmodule">output.esModule</h3>
 <pre><code class="language-js"><div>Type: boolean
-<span class="hljs-attr">CLI</span>: --esModule/--no-esModule
+<span class="hljs-attr">CLI</span>: --esModule / --no - esModule
 <span class="hljs-attr">Default</span>: <span class="hljs-literal">true</span>
 </div></code></pre>
 <h3 id="outputexports">output.exports</h3>
@@ -1188,27 +1189,27 @@ Default: <span class="hljs-string">&#x27;auto&#x27;</span>
 </div></code></pre>
 <h3 id="outputexternallivebindings">output.externalLiveBindings</h3>
 <pre><code class="language-js"><div>Type: boolean
-<span class="hljs-attr">CLI</span>: --externalLiveBindings/--no-externalLiveBindings
+<span class="hljs-attr">CLI</span>: --externalLiveBindings / --no - externalLiveBindings
 <span class="hljs-attr">Default</span>: <span class="hljs-literal">true</span>
 </div></code></pre>
 <h3 id="outputfreeze">output.freeze</h3>
 <pre><code class="language-js"><div>Type: boolean
-<span class="hljs-attr">CLI</span>: --freeze/--no-freeze
+<span class="hljs-attr">CLI</span>: --freeze / --no - freeze
 <span class="hljs-attr">Default</span>: <span class="hljs-literal">true</span>
 </div></code></pre>
 <h3 id="outputindent">output.indent</h3>
 <pre><code class="language-js"><div>Type: boolean | string
-<span class="hljs-attr">CLI</span>: --indent/--no-indent
+<span class="hljs-attr">CLI</span>: --indent / --no - indent
 <span class="hljs-attr">Default</span>: <span class="hljs-literal">true</span>
 </div></code></pre>
 <h3 id="outputnoconflict">output.noConflict</h3>
 <pre><code class="language-js"><div>Type: boolean
-<span class="hljs-attr">CLI</span>: --noConflict/--no-noConflict
+<span class="hljs-attr">CLI</span>: --noConflict / --no - noConflict
 <span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
 </div></code></pre>
 <h3 id="outputpreferconst">output.preferConst</h3>
 <pre><code class="language-js"><div>Type: boolean
-<span class="hljs-attr">CLI</span>: --preferConst/--no-preferConst
+<span class="hljs-attr">CLI</span>: --preferConst / --no - preferConst
 <span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
 </div></code></pre>
 <h3 id="outputsanitizefilename">output.sanitizeFileName</h3>
@@ -1217,12 +1218,12 @@ Default: <span class="hljs-string">&#x27;auto&#x27;</span>
 </div></code></pre>
 <h3 id="outputstrict">output.strict</h3>
 <pre><code class="language-js"><div>Type: boolean
-<span class="hljs-attr">CLI</span>: --strict/--no-strict
+<span class="hljs-attr">CLI</span>: --strict / --no - strict
 <span class="hljs-attr">Default</span>: <span class="hljs-literal">true</span>
 </div></code></pre>
 <h3 id="outputsystemnullsetters">output.systemNullSetters</h3>
 <pre><code class="language-js"><div>Type: boolean
-<span class="hljs-attr">CLI</span>: --systemNullSetters/--no-systemNullSetters
+<span class="hljs-attr">CLI</span>: --systemNullSetters / --no - systemNullSetters
 <span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
 </div></code></pre>
 <h3 id="preservesymlinks">preserveSymlinks</h3>
@@ -1232,7 +1233,7 @@ Default: <span class="hljs-string">&#x27;auto&#x27;</span>
 </div></code></pre>
 <h3 id="shimmissingexports">shimMissingExports</h3>
 <pre><code class="language-js"><div>Type: boolean
-<span class="hljs-attr">CLI</span>: --shimMissingExports/--no-shimMissingExports
+<span class="hljs-attr">CLI</span>: --shimMissingExports / --no - shimMissingExports
 <span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
 </div></code></pre>
 <h3 id="treeshake">treeshake</h3>
@@ -1242,12 +1243,13 @@ Default: <span class="hljs-string">&#x27;auto&#x27;</span>
 </div></code></pre>
 <h3 id="treeshakeannotations">treeshake.annotations</h3>
 <pre><code class="language-js"><div>Type: boolean
-<span class="hljs-attr">CLI</span>: --treeshake.annotations/--no-treeshake.annotations
+<span class="hljs-attr">CLI</span>: --treeshake.annotations / --no - treeshake.annotations
 <span class="hljs-attr">Default</span>: <span class="hljs-literal">true</span>
 </div></code></pre>
 <h3 id="treeshakecorrectvarvaluebeforedeclaration">treeshake.correctVarValueBeforeDeclaration</h3>
 <pre><code class="language-js"><div>Type: boolean
-<span class="hljs-attr">CLI</span>: --treeshake.correctVarValueBeforeDeclaration/--no-treeshake.correctVarValueBeforeDeclaration
+<span class="hljs-attr">CLI</span>: --treeshake.correctVarValueBeforeDeclaration / --no -
+  treeshake.correctVarValueBeforeDeclaration
 <span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
 </div></code></pre>
 <h3 id="treeshakemodulesideeffects">treeshake.moduleSideEffects</h3>
@@ -1261,17 +1263,20 @@ Default: <span class="hljs-string">&#x27;auto&#x27;</span>
 </div></code></pre>
 <h3 id="treeshakepropertyreadsideeffects">treeshake.propertyReadSideEffects</h3>
 <pre><code class="language-js"><div>Type: boolean | <span class="hljs-string">&#x27;always&#x27;</span>
-<span class="hljs-attr">CLI</span>: --treeshake.propertyReadSideEffects/--no-treeshake.propertyReadSideEffects
+<span class="hljs-attr">CLI</span>: --treeshake.propertyReadSideEffects / --no -
+  treeshake.propertyReadSideEffects
 <span class="hljs-attr">Default</span>: <span class="hljs-literal">true</span>
 </div></code></pre>
 <h3 id="treeshaketrycatchdeoptimization">treeshake.tryCatchDeoptimization</h3>
 <pre><code class="language-js"><div>Type: boolean
-<span class="hljs-attr">CLI</span>: --treeshake.tryCatchDeoptimization/--no-treeshake.tryCatchDeoptimization
+<span class="hljs-attr">CLI</span>: --treeshake.tryCatchDeoptimization / --no -
+  treeshake.tryCatchDeoptimization
 <span class="hljs-attr">Default</span>: <span class="hljs-literal">true</span>
 </div></code></pre>
 <h3 id="treeshakeunknownglobalsideeffects">treeshake.unknownGlobalSideEffects</h3>
 <pre><code class="language-js"><div>Type: boolean
-<span class="hljs-attr">CLI</span>: --treeshake.unknownGlobalSideEffects/--no-treeshake.unknownGlobalSideEffects
+<span class="hljs-attr">CLI</span>: --treeshake.unknownGlobalSideEffects / --no -
+  treeshake.unknownGlobalSideEffects
 <span class="hljs-attr">Default</span>: <span class="hljs-literal">true</span>
 </div></code></pre>
 <h2 id="experimental-options">experimental options</h2>
@@ -1282,7 +1287,7 @@ Default: <span class="hljs-number">10</span>
 </div></code></pre>
 <h3 id="perf">perf</h3>
 <pre><code class="language-js"><div>Type: boolean
-<span class="hljs-attr">CLI</span>: --perf/--no-perf
+<span class="hljs-attr">CLI</span>: --perf / --no - perf
 <span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
 </div></code></pre>
 <h2 id="watch-options">Watch options</h2>
@@ -1299,7 +1304,7 @@ Default: <span class="hljs-number">0</span>
 </div></code></pre>
 <h3 id="watchclearscreen">watch.clearScreen</h3>
 <pre><code class="language-js"><div>Type: boolean
-<span class="hljs-attr">CLI</span>: --watch.clearScreen/--no-watch.clearScreen
+<span class="hljs-attr">CLI</span>: --watch.clearScreen / --no - watch.clearScreen
 <span class="hljs-attr">Default</span>: <span class="hljs-literal">true</span>
 </div></code></pre>
 <h3 id="watchexclude">watch.exclude</h3>
@@ -1312,7 +1317,7 @@ Default: <span class="hljs-number">0</span>
 </div></code></pre>
 <h3 id="watchskipwrite">watch.skipWrite</h3>
 <pre><code class="language-js"><div>Type: boolean
-<span class="hljs-attr">CLI</span>: --watch.skipWrite/--no-watch.skipWrite
+<span class="hljs-attr">CLI</span>: --watch.skipWrite / --no - watch.skipWrite
 <span class="hljs-attr">Default</span>: <span class="hljs-literal">false</span>
 </div></code></pre>
 

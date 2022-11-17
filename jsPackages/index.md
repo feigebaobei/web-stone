@@ -31,7 +31,7 @@
 - [crtp-cli](https://www.npmjs.com/package/crtp-cli)
 - [dogleg](https://www.npmjs.com/package/dogleg)
 - [serve](/jsPackages/serve.html)
-- [title](/jsPackages/title.html)
+- [plugincomb](https://www.npmjs.com/package/plugincomb)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)

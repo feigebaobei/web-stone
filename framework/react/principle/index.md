@@ -146,20 +146,20 @@ createFiberFromFragment()
 createFiberFromText()
 ```
 
-|     | current                                             | workInProgress                                                      |     |
-| --- | --------------------------------------------------- | ------------------------------------------------------------------- | --- |
-|     | 第一次生成的 FiberNode 组成的树和每次更新后生成的树 | Fiber 在工作中生成的树                                              |     |
-|     |                                                     | 可以影响未来的状态和刷新屏幕                                        |     |
-|     |                                                     | fiber 的所有工作都是从此树开始                                      |     |
-|     |                                                     | 由 class 组件的 render 方法返回的或方法组件返回的 ReactElement 创建 |     |
-|     |                                                     | 完成工作后此树被赋于 current                                        |     |
-|     |                                                     | 处理所有组件的进程、刷新屏幕。                                      |     |
-|     |                                                     | 每个节点的 alternate 指向 current 树上对应的节点                    |     |
-|     |                                                     |                                                                     |     |
-|     |                                                     |                                                                     |     |
-|     |                                                     |                                                                     |     |
-|     |                                                     |                                                                     |     |
-|     |                                                     |                                                                     |     |
+|     | current                                             | workInProgress                                                          |     |
+| --- | --------------------------------------------------- | ----------------------------------------------------------------------- | --- |
+|     | 第一次生成的 FiberNode 组成的树和每次更新后生成的树 | Fiber 在工作中生成的树                                                  |     |
+|     |                                                     | 可以影响未来的状态和刷新屏幕                                            |     |
+|     |                                                     | fiber 的所有工作都是从此树开始                                          |     |
+|     |                                                     | 由 class 组件的 render 方法返回的或方法组件返回的 ReactElement 创建     |     |
+|     |                                                     | 完成工作后此树被赋于 current                                            |     |
+|     |                                                     | 处理所有组件的进程、刷新屏幕。                                          |     |
+|     |                                                     | 每个节点的 alternate 指向另一棵树（current/workInProgress）上对应的节点 |     |
+|     |                                                     |                                                                         |     |
+|     |                                                     |                                                                         |     |
+|     |                                                     |                                                                         |     |
+|     |                                                     |                                                                         |     |
+|     |                                                     |                                                                         |     |
 
 副作用（side-effects）： 每次活动（如：改变 dom）和调用生命周期方法
 Fiber 的 Effecttag 属性是副作用函数
@@ -188,6 +188,8 @@ FiberRootNode 下的第一个 FiberNode 是使用 FiberRootNode()创建的。
           |
           c2
 ```
+
+[https://vimeo.com/302222454](https://vimeo.com/302222454)
 
 1. 从 beginWork() 开始
 2. 一直处于此步骤
@@ -294,7 +296,7 @@ FiberNode 也有人叫 Fiber
   "sibling": null,      // 后面的第一个兄弟元素
   "index": 0,           // 兄弟间下标
   "ref": null,          // ref
-  "pendingProps": {     // 哪些props被修改后应该传子组件或dom
+  "pendingProps": {     // 这些props被修改后应该传入子组件或dom
     "children": {
       "type": "h1",
       "key": null,
@@ -306,9 +308,10 @@ FiberNode 也有人叫 Fiber
       "_store": {}
     }
   },
-  "memoizedProps": null,
-  "updateQueue": null,      // 更新队列
+  "memoizedProps": null,    // 输出更新后节点需要使用的props
+  "updateQueue": null,      // 更新队列。详见下文。
   "memoizedState": null,    // 当前状态。初始化FiberNode节点时会赋初始值。好像与双缓存有关
+                            // 输出更新后节点需要使用的state
   "dependencies": null,
   "mode": 3,
   "flags": 0,
@@ -420,37 +423,39 @@ jsx 代码 =》 ReactElement => FiberRootNode/FiberNode
 
 ### current & workInProgress
 
-|     | current             | workInProgress                                          |     |     |
-| --- | ------------------- | ------------------------------------------------------- | --- | --- |
-|     | 当前 dom 的 vdom 树 | 改变的状态需要更新的节点树。 **是否只需要更新的节点？** |     |     |
-|     | 它是工作的终点      | 从此树开始执行                                          |     |     |
-|     |                     | 每个节点使用 render 方法创建                            |     |     |
-|     |                     | 不为用户提供服务。是 react 内置的用于缓存的对象。       |     |     |
-|     |                     |                                                         |     |     |
-|     |                     |                                                         |     |     |
+|     | current             | workInProgress                                                               |     |     |
+| --- | ------------------- | ---------------------------------------------------------------------------- | --- | --- |
+|     | 当前 dom 的 vdom 树 | 改变的状态需要更新的节点树。 **是否只需要更新的节点？**                      |     |     |
+|     | 它是工作的终点      | 从此树开始执行                                                               |     |     |
+|     |                     | 由 current 的每个节点复制后组成 workinprogress。每个节点使用 render 方法创建 |     |     |
+|     |                     | 不为用户提供服务。是 react 内置的用于缓存的对象。                            |     |     |
+|     |                     |                                                                              |     |     |
+|     |                     |                                                                              |     |     |
 
 1. 当完成所有 workInProgress 树的工作后
-1. 开始同步更新 dom.
-1. 此树成为 current 树。
+2. 开始同步更新 dom.
+3. 此树成为 current 树。
 
 react 只更新 dom
 
 ### side-effects
 
-- 操作 dom 的方法
-- 生命周期方法
+- **操作 dom 的方法**
+- **生命周期方法**
 - ……
 
 ### effect list
 
 根据 FiberNode 链表结构依次处理  
 处理链表比处理树快。  
-firstEffect 指向第一个节点。nextEffect 指向下一个节点。
+firstEffect 指向第一个节点。nextEffect 指向下一个节点。单向链表。
 
 ### root of the fiber tree
 
 使用变量 container 指定根节点的容器。它是 dom 元素。  
-current 指向 FiberRootNode
+current 指向 FiberRootNode  
+根节点是 HostRoot  
+FiberRootNode.stateNode 指向 HostRoot
 
 ### general algorithm
 
@@ -472,12 +477,14 @@ current 指向 FiberRootNode
 
 #### render phase
 
-跳过不需要更新的 FiberNode。找到需要更新的 FiberNode
+使用 effectTag 标记该节点应该如何更新。更新工作会在 commit 阶段做。  
+此阶段不能执行 side-effect
+从根节点开始，然后深度优先，跳过不需要更新的节点 FiberNode，标记出需要更新的节点 FiberNode。
 
 - nextUnitOfWork
 - performUnitOfWork 参数是 workInProgress
-- beginWork
-- completeUnitOfWork
+- beginWork // 返回下一个子节点或 null
+- completeUnitOfWork //
 - completeWork
 
 按照 FiberNode 形成的链表，深度优先。
@@ -485,7 +492,9 @@ current 指向 FiberRootNode
 #### commit phase
 
 从 completeWork 开始。  
-主要在 commitRoot 方法中
+主要在 commitRoot 方法中  
+因为要改变视图，所以必须是同步。  
+当调用`finishedWork`时更新视图。
 
 - 标记了 Snapshot 的 node 会执行 getSnapshotBeforeUpdate 方法
 - 标记了 Deletion 的 node 会执行 componentWillUnmount 方法

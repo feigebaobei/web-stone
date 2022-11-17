@@ -251,11 +251,10 @@ c.on('ready', () => {
     }
     // let p = 'jsPackages/serve'
     let p = [
-      'index.html',
-      'browser/index.html',
-      'browser/issue/index.html',
-      'browser/issue/crash.html',
-      //   'promote/systemArchitect.html',
+      'builder/rollup/index.html',
+      'framework/react/principle/index.html',
+      'jsPackages/index.html',
+      'open/index.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
