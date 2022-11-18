@@ -1,0 +1,1859 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>&#x5ba3;&#x4f20;&#x7247;</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension vscode.markdown-math */
+@font-face{font-family:KaTeX_AMS;font-style:normal;font-weight:400;src:url(fonts/KaTeX_AMS-Regular.woff2) format("woff2"),url(fonts/KaTeX_AMS-Regular.woff) format("woff"),url(fonts/KaTeX_AMS-Regular.ttf) format("truetype")}@font-face{font-family:KaTeX_Caligraphic;font-style:normal;font-weight:700;src:url(fonts/KaTeX_Caligraphic-Bold.woff2) format("woff2"),url(fonts/KaTeX_Caligraphic-Bold.woff) format("woff"),url(fonts/KaTeX_Caligraphic-Bold.ttf) format("truetype")}@font-face{font-family:KaTeX_Caligraphic;font-style:normal;font-weight:400;src:url(fonts/KaTeX_Caligraphic-Regular.woff2) format("woff2"),url(fonts/KaTeX_Caligraphic-Regular.woff) format("woff"),url(fonts/KaTeX_Caligraphic-Regular.ttf) format("truetype")}@font-face{font-family:KaTeX_Fraktur;font-style:normal;font-weight:700;src:url(fonts/KaTeX_Fraktur-Bold.woff2) format("woff2"),url(fonts/KaTeX_Fraktur-Bold.woff) format("woff"),url(fonts/KaTeX_Fraktur-Bold.ttf) format("truetype")}@font-face{font-family:KaTeX_Fraktur;font-style:normal;font-weight:400;src:url(fonts/KaTeX_Fraktur-Regular.woff2) format("woff2"),url(fonts/KaTeX_Fraktur-Regular.woff) format("woff"),url(fonts/KaTeX_Fraktur-Regular.ttf) format("truetype")}@font-face{font-family:KaTeX_Main;font-style:normal;font-weight:700;src:url(fonts/KaTeX_Main-Bold.woff2) format("woff2"),url(fonts/KaTeX_Main-Bold.woff) format("woff"),url(fonts/KaTeX_Main-Bold.ttf) format("truetype")}@font-face{font-family:KaTeX_Main;font-style:italic;font-weight:700;src:url(fonts/KaTeX_Main-BoldItalic.woff2) format("woff2"),url(fonts/KaTeX_Main-BoldItalic.woff) format("woff"),url(fonts/KaTeX_Main-BoldItalic.ttf) format("truetype")}@font-face{font-family:KaTeX_Main;font-style:italic;font-weight:400;src:url(fonts/KaTeX_Main-Italic.woff2) format("woff2"),url(fonts/KaTeX_Main-Italic.woff) format("woff"),url(fonts/KaTeX_Main-Italic.ttf) format("truetype")}@font-face{font-family:KaTeX_Main;font-style:normal;font-weight:400;src:url(fonts/KaTeX_Main-Regular.woff2) format("woff2"),url(fonts/KaTeX_Main-Regular.woff) format("woff"),url(fonts/KaTeX_Main-Regular.ttf) format("truetype")}@font-face{font-family:KaTeX_Math;font-style:italic;font-weight:700;src:url(fonts/KaTeX_Math-BoldItalic.woff2) format("woff2"),url(fonts/KaTeX_Math-BoldItalic.woff) format("woff"),url(fonts/KaTeX_Math-BoldItalic.ttf) format("truetype")}@font-face{font-family:KaTeX_Math;font-style:italic;font-weight:400;src:url(fonts/KaTeX_Math-Italic.woff2) format("woff2"),url(fonts/KaTeX_Math-Italic.woff) format("woff"),url(fonts/KaTeX_Math-Italic.ttf) format("truetype")}@font-face{font-family:"KaTeX_SansSerif";font-style:normal;font-weight:700;src:url(fonts/KaTeX_SansSerif-Bold.woff2) format("woff2"),url(fonts/KaTeX_SansSerif-Bold.woff) format("woff"),url(fonts/KaTeX_SansSerif-Bold.ttf) format("truetype")}@font-face{font-family:"KaTeX_SansSerif";font-style:italic;font-weight:400;src:url(fonts/KaTeX_SansSerif-Italic.woff2) format("woff2"),url(fonts/KaTeX_SansSerif-Italic.woff) format("woff"),url(fonts/KaTeX_SansSerif-Italic.ttf) format("truetype")}@font-face{font-family:"KaTeX_SansSerif";font-style:normal;font-weight:400;src:url(fonts/KaTeX_SansSerif-Regular.woff2) format("woff2"),url(fonts/KaTeX_SansSerif-Regular.woff) format("woff"),url(fonts/KaTeX_SansSerif-Regular.ttf) format("truetype")}@font-face{font-family:KaTeX_Script;font-style:normal;font-weight:400;src:url(fonts/KaTeX_Script-Regular.woff2) format("woff2"),url(fonts/KaTeX_Script-Regular.woff) format("woff"),url(fonts/KaTeX_Script-Regular.ttf) format("truetype")}@font-face{font-family:KaTeX_Size1;font-style:normal;font-weight:400;src:url(fonts/KaTeX_Size1-Regular.woff2) format("woff2"),url(fonts/KaTeX_Size1-Regular.woff) format("woff"),url(fonts/KaTeX_Size1-Regular.ttf) format("truetype")}@font-face{font-family:KaTeX_Size2;font-style:normal;font-weight:400;src:url(fonts/KaTeX_Size2-Regular.woff2) format("woff2"),url(fonts/KaTeX_Size2-Regular.woff) format("woff"),url(fonts/KaTeX_Size2-Regular.ttf) format("truetype")}@font-face{font-family:KaTeX_Size3;font-style:normal;font-weight:400;src:url(fonts/KaTeX_Size3-Regular.woff2) format("woff2"),url(fonts/KaTeX_Size3-Regular.woff) format("woff"),url(fonts/KaTeX_Size3-Regular.ttf) format("truetype")}@font-face{font-family:KaTeX_Size4;font-style:normal;font-weight:400;src:url(fonts/KaTeX_Size4-Regular.woff2) format("woff2"),url(fonts/KaTeX_Size4-Regular.woff) format("woff"),url(fonts/KaTeX_Size4-Regular.ttf) format("truetype")}@font-face{font-family:KaTeX_Typewriter;font-style:normal;font-weight:400;src:url(fonts/KaTeX_Typewriter-Regular.woff2) format("woff2"),url(fonts/KaTeX_Typewriter-Regular.woff) format("woff"),url(fonts/KaTeX_Typewriter-Regular.ttf) format("truetype")}.katex{text-rendering:auto;font:normal 1.21em KaTeX_Main,Times New Roman,serif;line-height:1.2;text-indent:0}.katex *{-ms-high-contrast-adjust:none!important;border-color:currentColor}.katex .katex-version:after{content:"0.16.2"}.katex .katex-mathml{clip:rect(1px,1px,1px,1px);border:0;height:1px;overflow:hidden;padding:0;position:absolute;width:1px}.katex .katex-html>.newline{display:block}.katex .base{position:relative;white-space:nowrap;width:-webkit-min-content;width:-moz-min-content;width:min-content}.katex .base,.katex .strut{display:inline-block}.katex .textbf{font-weight:700}.katex .textit{font-style:italic}.katex .textrm{font-family:KaTeX_Main}.katex .textsf{font-family:KaTeX_SansSerif}.katex .texttt{font-family:KaTeX_Typewriter}.katex .mathnormal{font-family:KaTeX_Math;font-style:italic}.katex .mathit{font-family:KaTeX_Main;font-style:italic}.katex .mathrm{font-style:normal}.katex .mathbf{font-family:KaTeX_Main;font-weight:700}.katex .boldsymbol{font-family:KaTeX_Math;font-style:italic;font-weight:700}.katex .amsrm,.katex .mathbb,.katex .textbb{font-family:KaTeX_AMS}.katex .mathcal{font-family:KaTeX_Caligraphic}.katex .mathfrak,.katex .textfrak{font-family:KaTeX_Fraktur}.katex .mathtt{font-family:KaTeX_Typewriter}.katex .mathscr,.katex .textscr{font-family:KaTeX_Script}.katex .mathsf,.katex .textsf{font-family:KaTeX_SansSerif}.katex .mathboldsf,.katex .textboldsf{font-family:KaTeX_SansSerif;font-weight:700}.katex .mathitsf,.katex .textitsf{font-family:KaTeX_SansSerif;font-style:italic}.katex .mainrm{font-family:KaTeX_Main;font-style:normal}.katex .vlist-t{border-collapse:collapse;display:inline-table;table-layout:fixed}.katex .vlist-r{display:table-row}.katex .vlist{display:table-cell;position:relative;vertical-align:bottom}.katex .vlist>span{display:block;height:0;position:relative}.katex .vlist>span>span{display:inline-block}.katex .vlist>span>.pstrut{overflow:hidden;width:0}.katex .vlist-t2{margin-right:-2px}.katex .vlist-s{display:table-cell;font-size:1px;min-width:2px;vertical-align:bottom;width:2px}.katex .vbox{align-items:baseline;display:inline-flex;flex-direction:column}.katex .hbox{width:100%}.katex .hbox,.katex .thinbox{display:inline-flex;flex-direction:row}.katex .thinbox{max-width:0;width:0}.katex .msupsub{text-align:left}.katex .mfrac>span>span{text-align:center}.katex .mfrac .frac-line{border-bottom-style:solid;display:inline-block;width:100%}.katex .hdashline,.katex .hline,.katex .mfrac .frac-line,.katex .overline .overline-line,.katex .rule,.katex .underline .underline-line{min-height:1px}.katex .mspace{display:inline-block}.katex .clap,.katex .llap,.katex .rlap{position:relative;width:0}.katex .clap>.inner,.katex .llap>.inner,.katex .rlap>.inner{position:absolute}.katex .clap>.fix,.katex .llap>.fix,.katex .rlap>.fix{display:inline-block}.katex .llap>.inner{right:0}.katex .clap>.inner,.katex .rlap>.inner{left:0}.katex .clap>.inner>span{margin-left:-50%;margin-right:50%}.katex .rule{border:0 solid;display:inline-block;position:relative}.katex .hline,.katex .overline .overline-line,.katex .underline .underline-line{border-bottom-style:solid;display:inline-block;width:100%}.katex .hdashline{border-bottom-style:dashed;display:inline-block;width:100%}.katex .sqrt>.root{margin-left:.27777778em;margin-right:-.55555556em}.katex .fontsize-ensurer.reset-size1.size1,.katex .sizing.reset-size1.size1{font-size:1em}.katex .fontsize-ensurer.reset-size1.size2,.katex .sizing.reset-size1.size2{font-size:1.2em}.katex .fontsize-ensurer.reset-size1.size3,.katex .sizing.reset-size1.size3{font-size:1.4em}.katex .fontsize-ensurer.reset-size1.size4,.katex .sizing.reset-size1.size4{font-size:1.6em}.katex .fontsize-ensurer.reset-size1.size5,.katex .sizing.reset-size1.size5{font-size:1.8em}.katex .fontsize-ensurer.reset-size1.size6,.katex .sizing.reset-size1.size6{font-size:2em}.katex .fontsize-ensurer.reset-size1.size7,.katex .sizing.reset-size1.size7{font-size:2.4em}.katex .fontsize-ensurer.reset-size1.size8,.katex .sizing.reset-size1.size8{font-size:2.88em}.katex .fontsize-ensurer.reset-size1.size9,.katex .sizing.reset-size1.size9{font-size:3.456em}.katex .fontsize-ensurer.reset-size1.size10,.katex .sizing.reset-size1.size10{font-size:4.148em}.katex .fontsize-ensurer.reset-size1.size11,.katex .sizing.reset-size1.size11{font-size:4.976em}.katex .fontsize-ensurer.reset-size2.size1,.katex .sizing.reset-size2.size1{font-size:.83333333em}.katex .fontsize-ensurer.reset-size2.size2,.katex .sizing.reset-size2.size2{font-size:1em}.katex .fontsize-ensurer.reset-size2.size3,.katex .sizing.reset-size2.size3{font-size:1.16666667em}.katex .fontsize-ensurer.reset-size2.size4,.katex .sizing.reset-size2.size4{font-size:1.33333333em}.katex .fontsize-ensurer.reset-size2.size5,.katex .sizing.reset-size2.size5{font-size:1.5em}.katex .fontsize-ensurer.reset-size2.size6,.katex .sizing.reset-size2.size6{font-size:1.66666667em}.katex .fontsize-ensurer.reset-size2.size7,.katex .sizing.reset-size2.size7{font-size:2em}.katex .fontsize-ensurer.reset-size2.size8,.katex .sizing.reset-size2.size8{font-size:2.4em}.katex .fontsize-ensurer.reset-size2.size9,.katex .sizing.reset-size2.size9{font-size:2.88em}.katex .fontsize-ensurer.reset-size2.size10,.katex .sizing.reset-size2.size10{font-size:3.45666667em}.katex .fontsize-ensurer.reset-size2.size11,.katex .sizing.reset-size2.size11{font-size:4.14666667em}.katex .fontsize-ensurer.reset-size3.size1,.katex .sizing.reset-size3.size1{font-size:.71428571em}.katex .fontsize-ensurer.reset-size3.size2,.katex .sizing.reset-size3.size2{font-size:.85714286em}.katex .fontsize-ensurer.reset-size3.size3,.katex .sizing.reset-size3.size3{font-size:1em}.katex .fontsize-ensurer.reset-size3.size4,.katex .sizing.reset-size3.size4{font-size:1.14285714em}.katex .fontsize-ensurer.reset-size3.size5,.katex .sizing.reset-size3.size5{font-size:1.28571429em}.katex .fontsize-ensurer.reset-size3.size6,.katex .sizing.reset-size3.size6{font-size:1.42857143em}.katex .fontsize-ensurer.reset-size3.size7,.katex .sizing.reset-size3.size7{font-size:1.71428571em}.katex .fontsize-ensurer.reset-size3.size8,.katex .sizing.reset-size3.size8{font-size:2.05714286em}.katex .fontsize-ensurer.reset-size3.size9,.katex .sizing.reset-size3.size9{font-size:2.46857143em}.katex .fontsize-ensurer.reset-size3.size10,.katex .sizing.reset-size3.size10{font-size:2.96285714em}.katex .fontsize-ensurer.reset-size3.size11,.katex .sizing.reset-size3.size11{font-size:3.55428571em}.katex .fontsize-ensurer.reset-size4.size1,.katex .sizing.reset-size4.size1{font-size:.625em}.katex .fontsize-ensurer.reset-size4.size2,.katex .sizing.reset-size4.size2{font-size:.75em}.katex .fontsize-ensurer.reset-size4.size3,.katex .sizing.reset-size4.size3{font-size:.875em}.katex .fontsize-ensurer.reset-size4.size4,.katex .sizing.reset-size4.size4{font-size:1em}.katex .fontsize-ensurer.reset-size4.size5,.katex .sizing.reset-size4.size5{font-size:1.125em}.katex .fontsize-ensurer.reset-size4.size6,.katex .sizing.reset-size4.size6{font-size:1.25em}.katex .fontsize-ensurer.reset-size4.size7,.katex .sizing.reset-size4.size7{font-size:1.5em}.katex .fontsize-ensurer.reset-size4.size8,.katex .sizing.reset-size4.size8{font-size:1.8em}.katex .fontsize-ensurer.reset-size4.size9,.katex .sizing.reset-size4.size9{font-size:2.16em}.katex .fontsize-ensurer.reset-size4.size10,.katex .sizing.reset-size4.size10{font-size:2.5925em}.katex .fontsize-ensurer.reset-size4.size11,.katex .sizing.reset-size4.size11{font-size:3.11em}.katex .fontsize-ensurer.reset-size5.size1,.katex .sizing.reset-size5.size1{font-size:.55555556em}.katex .fontsize-ensurer.reset-size5.size2,.katex .sizing.reset-size5.size2{font-size:.66666667em}.katex .fontsize-ensurer.reset-size5.size3,.katex .sizing.reset-size5.size3{font-size:.77777778em}.katex .fontsize-ensurer.reset-size5.size4,.katex .sizing.reset-size5.size4{font-size:.88888889em}.katex .fontsize-ensurer.reset-size5.size5,.katex .sizing.reset-size5.size5{font-size:1em}.katex .fontsize-ensurer.reset-size5.size6,.katex .sizing.reset-size5.size6{font-size:1.11111111em}.katex .fontsize-ensurer.reset-size5.size7,.katex .sizing.reset-size5.size7{font-size:1.33333333em}.katex .fontsize-ensurer.reset-size5.size8,.katex .sizing.reset-size5.size8{font-size:1.6em}.katex .fontsize-ensurer.reset-size5.size9,.katex .sizing.reset-size5.size9{font-size:1.92em}.katex .fontsize-ensurer.reset-size5.size10,.katex .sizing.reset-size5.size10{font-size:2.30444444em}.katex .fontsize-ensurer.reset-size5.size11,.katex .sizing.reset-size5.size11{font-size:2.76444444em}.katex .fontsize-ensurer.reset-size6.size1,.katex .sizing.reset-size6.size1{font-size:.5em}.katex .fontsize-ensurer.reset-size6.size2,.katex .sizing.reset-size6.size2{font-size:.6em}.katex .fontsize-ensurer.reset-size6.size3,.katex .sizing.reset-size6.size3{font-size:.7em}.katex .fontsize-ensurer.reset-size6.size4,.katex .sizing.reset-size6.size4{font-size:.8em}.katex .fontsize-ensurer.reset-size6.size5,.katex .sizing.reset-size6.size5{font-size:.9em}.katex .fontsize-ensurer.reset-size6.size6,.katex .sizing.reset-size6.size6{font-size:1em}.katex .fontsize-ensurer.reset-size6.size7,.katex .sizing.reset-size6.size7{font-size:1.2em}.katex .fontsize-ensurer.reset-size6.size8,.katex .sizing.reset-size6.size8{font-size:1.44em}.katex .fontsize-ensurer.reset-size6.size9,.katex .sizing.reset-size6.size9{font-size:1.728em}.katex .fontsize-ensurer.reset-size6.size10,.katex .sizing.reset-size6.size10{font-size:2.074em}.katex .fontsize-ensurer.reset-size6.size11,.katex .sizing.reset-size6.size11{font-size:2.488em}.katex .fontsize-ensurer.reset-size7.size1,.katex .sizing.reset-size7.size1{font-size:.41666667em}.katex .fontsize-ensurer.reset-size7.size2,.katex .sizing.reset-size7.size2{font-size:.5em}.katex .fontsize-ensurer.reset-size7.size3,.katex .sizing.reset-size7.size3{font-size:.58333333em}.katex .fontsize-ensurer.reset-size7.size4,.katex .sizing.reset-size7.size4{font-size:.66666667em}.katex .fontsize-ensurer.reset-size7.size5,.katex .sizing.reset-size7.size5{font-size:.75em}.katex .fontsize-ensurer.reset-size7.size6,.katex .sizing.reset-size7.size6{font-size:.83333333em}.katex .fontsize-ensurer.reset-size7.size7,.katex .sizing.reset-size7.size7{font-size:1em}.katex .fontsize-ensurer.reset-size7.size8,.katex .sizing.reset-size7.size8{font-size:1.2em}.katex .fontsize-ensurer.reset-size7.size9,.katex .sizing.reset-size7.size9{font-size:1.44em}.katex .fontsize-ensurer.reset-size7.size10,.katex .sizing.reset-size7.size10{font-size:1.72833333em}.katex .fontsize-ensurer.reset-size7.size11,.katex .sizing.reset-size7.size11{font-size:2.07333333em}.katex .fontsize-ensurer.reset-size8.size1,.katex .sizing.reset-size8.size1{font-size:.34722222em}.katex .fontsize-ensurer.reset-size8.size2,.katex .sizing.reset-size8.size2{font-size:.41666667em}.katex .fontsize-ensurer.reset-size8.size3,.katex .sizing.reset-size8.size3{font-size:.48611111em}.katex .fontsize-ensurer.reset-size8.size4,.katex .sizing.reset-size8.size4{font-size:.55555556em}.katex .fontsize-ensurer.reset-size8.size5,.katex .sizing.reset-size8.size5{font-size:.625em}.katex .fontsize-ensurer.reset-size8.size6,.katex .sizing.reset-size8.size6{font-size:.69444444em}.katex .fontsize-ensurer.reset-size8.size7,.katex .sizing.reset-size8.size7{font-size:.83333333em}.katex .fontsize-ensurer.reset-size8.size8,.katex .sizing.reset-size8.size8{font-size:1em}.katex .fontsize-ensurer.reset-size8.size9,.katex .sizing.reset-size8.size9{font-size:1.2em}.katex .fontsize-ensurer.reset-size8.size10,.katex .sizing.reset-size8.size10{font-size:1.44027778em}.katex .fontsize-ensurer.reset-size8.size11,.katex .sizing.reset-size8.size11{font-size:1.72777778em}.katex .fontsize-ensurer.reset-size9.size1,.katex .sizing.reset-size9.size1{font-size:.28935185em}.katex .fontsize-ensurer.reset-size9.size2,.katex .sizing.reset-size9.size2{font-size:.34722222em}.katex .fontsize-ensurer.reset-size9.size3,.katex .sizing.reset-size9.size3{font-size:.40509259em}.katex .fontsize-ensurer.reset-size9.size4,.katex .sizing.reset-size9.size4{font-size:.46296296em}.katex .fontsize-ensurer.reset-size9.size5,.katex .sizing.reset-size9.size5{font-size:.52083333em}.katex .fontsize-ensurer.reset-size9.size6,.katex .sizing.reset-size9.size6{font-size:.5787037em}.katex .fontsize-ensurer.reset-size9.size7,.katex .sizing.reset-size9.size7{font-size:.69444444em}.katex .fontsize-ensurer.reset-size9.size8,.katex .sizing.reset-size9.size8{font-size:.83333333em}.katex .fontsize-ensurer.reset-size9.size9,.katex .sizing.reset-size9.size9{font-size:1em}.katex .fontsize-ensurer.reset-size9.size10,.katex .sizing.reset-size9.size10{font-size:1.20023148em}.katex .fontsize-ensurer.reset-size9.size11,.katex .sizing.reset-size9.size11{font-size:1.43981481em}.katex .fontsize-ensurer.reset-size10.size1,.katex .sizing.reset-size10.size1{font-size:.24108004em}.katex .fontsize-ensurer.reset-size10.size2,.katex .sizing.reset-size10.size2{font-size:.28929605em}.katex .fontsize-ensurer.reset-size10.size3,.katex .sizing.reset-size10.size3{font-size:.33751205em}.katex .fontsize-ensurer.reset-size10.size4,.katex .sizing.reset-size10.size4{font-size:.38572806em}.katex .fontsize-ensurer.reset-size10.size5,.katex .sizing.reset-size10.size5{font-size:.43394407em}.katex .fontsize-ensurer.reset-size10.size6,.katex .sizing.reset-size10.size6{font-size:.48216008em}.katex .fontsize-ensurer.reset-size10.size7,.katex .sizing.reset-size10.size7{font-size:.57859209em}.katex .fontsize-ensurer.reset-size10.size8,.katex .sizing.reset-size10.size8{font-size:.69431051em}.katex .fontsize-ensurer.reset-size10.size9,.katex .sizing.reset-size10.size9{font-size:.83317261em}.katex .fontsize-ensurer.reset-size10.size10,.katex .sizing.reset-size10.size10{font-size:1em}.katex .fontsize-ensurer.reset-size10.size11,.katex .sizing.reset-size10.size11{font-size:1.19961427em}.katex .fontsize-ensurer.reset-size11.size1,.katex .sizing.reset-size11.size1{font-size:.20096463em}.katex .fontsize-ensurer.reset-size11.size2,.katex .sizing.reset-size11.size2{font-size:.24115756em}.katex .fontsize-ensurer.reset-size11.size3,.katex .sizing.reset-size11.size3{font-size:.28135048em}.katex .fontsize-ensurer.reset-size11.size4,.katex .sizing.reset-size11.size4{font-size:.32154341em}.katex .fontsize-ensurer.reset-size11.size5,.katex .sizing.reset-size11.size5{font-size:.36173633em}.katex .fontsize-ensurer.reset-size11.size6,.katex .sizing.reset-size11.size6{font-size:.40192926em}.katex .fontsize-ensurer.reset-size11.size7,.katex .sizing.reset-size11.size7{font-size:.48231511em}.katex .fontsize-ensurer.reset-size11.size8,.katex .sizing.reset-size11.size8{font-size:.57877814em}.katex .fontsize-ensurer.reset-size11.size9,.katex .sizing.reset-size11.size9{font-size:.69453376em}.katex .fontsize-ensurer.reset-size11.size10,.katex .sizing.reset-size11.size10{font-size:.83360129em}.katex .fontsize-ensurer.reset-size11.size11,.katex .sizing.reset-size11.size11{font-size:1em}.katex .delimsizing.size1{font-family:KaTeX_Size1}.katex .delimsizing.size2{font-family:KaTeX_Size2}.katex .delimsizing.size3{font-family:KaTeX_Size3}.katex .delimsizing.size4{font-family:KaTeX_Size4}.katex .delimsizing.mult .delim-size1>span{font-family:KaTeX_Size1}.katex .delimsizing.mult .delim-size4>span{font-family:KaTeX_Size4}.katex .nulldelimiter{display:inline-block;width:.12em}.katex .delimcenter,.katex .op-symbol{position:relative}.katex .op-symbol.small-op{font-family:KaTeX_Size1}.katex .op-symbol.large-op{font-family:KaTeX_Size2}.katex .accent>.vlist-t,.katex .op-limits>.vlist-t{text-align:center}.katex .accent .accent-body{position:relative}.katex .accent .accent-body:not(.accent-full){width:0}.katex .overlay{display:block}.katex .mtable .vertical-separator{display:inline-block;min-width:1px}.katex .mtable .arraycolsep{display:inline-block}.katex .mtable .col-align-c>.vlist-t{text-align:center}.katex .mtable .col-align-l>.vlist-t{text-align:left}.katex .mtable .col-align-r>.vlist-t{text-align:right}.katex .svg-align{text-align:left}.katex svg{fill:currentColor;stroke:currentColor;fill-rule:nonzero;fill-opacity:1;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;display:block;height:inherit;position:absolute;width:100%}.katex svg path{stroke:none}.katex img{border-style:none;max-height:none;max-width:none;min-height:0;min-width:0}.katex .stretchy{display:block;overflow:hidden;position:relative;width:100%}.katex .stretchy:after,.katex .stretchy:before{content:""}.katex .hide-tail{overflow:hidden;position:relative;width:100%}.katex .halfarrow-left{left:0;overflow:hidden;position:absolute;width:50.2%}.katex .halfarrow-right{overflow:hidden;position:absolute;right:0;width:50.2%}.katex .brace-left{left:0;overflow:hidden;position:absolute;width:25.1%}.katex .brace-center{left:25%;overflow:hidden;position:absolute;width:50%}.katex .brace-right{overflow:hidden;position:absolute;right:0;width:25.1%}.katex .x-arrow-pad{padding:0 .5em}.katex .cd-arrow-pad{padding:0 .55556em 0 .27778em}.katex .mover,.katex .munder,.katex .x-arrow{text-align:center}.katex .boxpad{padding:0 .3em}.katex .fbox,.katex .fcolorbox{border:.04em solid;box-sizing:border-box}.katex .cancel-pad{padding:0 .2em}.katex .cancel-lap{margin-left:-.2em;margin-right:-.2em}.katex .sout{border-bottom-style:solid;border-bottom-width:.08em}.katex .angl{border-right:.049em solid;border-top:.049em solid;box-sizing:border-box;margin-right:.03889em}.katex .anglpad{padding:0 .03889em}.katex .eqn-num:before{content:"(" counter(katexEqnNo) ")";counter-increment:katexEqnNo}.katex .mml-eqn-num:before{content:"(" counter(mmlEqnNo) ")";counter-increment:mmlEqnNo}.katex .mtr-glue{width:50%}.katex .cd-vert-arrow{display:inline-block;position:relative}.katex .cd-label-left{display:inline-block;position:absolute;right:calc(50% + .3em);text-align:left}.katex .cd-label-right{display:inline-block;left:calc(50% + .3em);position:absolute;text-align:right}.katex-display{display:block;margin:1em 0;text-align:center}.katex-display>.katex{display:block;text-align:center;white-space:nowrap}.katex-display>.katex>.katex-html{display:block;position:relative}.katex-display>.katex>.katex-html>.tag{position:absolute;right:0}.katex-display.leqno>.katex>.katex-html>.tag{left:0;right:auto}.katex-display.fleqn>.katex{padding-left:2em;text-align:left}body{counter-reset:katexEqnNo mmlEqnNo}
+
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.katex-error {
+	color: var(--vscode-editorError-foreground);
+}
+
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <p>week no.1</p>
+<h1 id="宣传片">宣传片</h1>
+<p>软件工程是将系统化的、 规范的、 可量化的方法 应用到软件的开发、 运行及维护中，即将工程化方法 应用于软件开发，以达到提高软件质量，降低开发成本的目的。</p>
+<p>课程目的：</p>
+<ul>
+<li>掌握软件开发和维护的方法学，了解软件开发过程和软件项目管理基础知识。</li>
+<li>通过案例教学和课程实践培养软件开发和维护的能力。</li>
+<li>培养软件项目管理的意识，即对一个软件项目的工作量、成本、进度和人员的计划和管理。</li>
+</ul>
+<p>《software engineering》 Roger S. Pressman
+《software engineering》(9th edition) Ian Sommerville
+《面向对象的分析与设计》 邵维忠，杨芙清
+《IT项目管理》 施瓦尔贝著 杨坤译
+《软件测试》 Patton著 张小松译</p>
+<h1 id="软件的定义与特点">软件的定义与特点</h1>
+<p>定义</p>
+<pre><code><code><div>                  程序         +          文档
+    处理对象和处理规则，用来完成计算任务     用于了解程序
+</div></code></code></pre>
+<p>特点</p>
+<ul>
+<li>无形的，不可见的逻辑。</li>
+<li>设计开发的，不是生产制造的。</li>
+<li>没有磨损，老化的问题。</li>
+<li>定制开发的。</li>
+<li>复杂的。</li>
+<li>开发成本高。</li>
+<li>易于复制。</li>
+<li>高质量要求</li>
+</ul>
+<p>开发    6%
+计划    12%
+单元测试 9%
+系统测试 8%
+系统维护 65%</p>
+<p>种类</p>
+<p>系统软件</p>
+<ul>
+<li>最接近硬件。</li>
+<li>编译程序、操作系统。</li>
+<li>操作系统负责管理系统的各种资源、控制程序的执行。</li>
+<li>编译程序把程序人员用高级语言补习班的程序翻译成与之等价、可执行的低级语言程序。
+支撑软件</li>
+<li>支撑软件的开发、维护、运行的软件。</li>
+<li>中间件</li>
+<li>软件开发环境（环境数据库、接口软件、工具组）
+应用软件</li>
+<li>特定应用领域专用的软件。</li>
+</ul>
+<h1 id="软件的起源">软件的起源</h1>
+<p>微电子是基础，计算机和网络是载体，软件是核心。</p>
+<p>软件开发的三个时期
+个人程序时期（1947-1950）
+软件作坊时期（1960初-末）</p>
+<ul>
+<li>需要多人分工合作，</li>
+<li>出现高级程序语言 fortran/cobol</li>
+<li>ibm system/360</li>
+<li>dec发布pep-8系列机
+软件工程时期（1970-now）</li>
+<li>软件质量差。</li>
+<li>成本难以控制。</li>
+<li>周期拖长。</li>
+<li>可维护差。
+1968年 nato在联邦德国提出软件工程。
+软件工程的概念的提出是为了倡导以工程为原理、原则的方法进行软件开发，以解决软件危机。
+需要系统化的、可量化的方法运用到软件的设计、开发的过程中。</li>
+</ul>
+<h1 id="软件开发的本质">软件开发的本质</h1>
+<p>软件是问题域中的概念和处理逻辑，到运行平台上的概念和处理逻辑的映射。</p>
+<pre><code><code><div>           问题域                  |
+     应用框架        设计模式        |软件开发
+      ______________________________ 本质：问题域到不同抽象层之间概念和计算的映射。
+         中间件技术与产品           | 运行（计算）平台
+        vb/vc 程序设计环境          |
+____________________________________________________
+         硬件系统、网络与操作系统 - 异构性
+</div></code></code></pre>
+<pre><code><code><div>问题域
+  |(映射)
+ -------需求
+  |
+ -------设计
+  |
+ -------实现
+  |
+ -------部署
+  |
+解域
+</div></code></code></pre>
+<h1 id="软件开发的基本手段">软件开发的基本手段</h1>
+<p>建模：是解决问题的一般算法途径。</p>
+<h1 id="软件工程框架">软件工程框架</h1>
+<p>软件工程定义为三元组《目标，原则，活动》
+它们是工程要素。
+各要素间关系。
+主要研究
+- 软件开发模型。
+- 软件开发方法。
+- 软件过程。
+- 软件工具。
+- 软件开发环境。
+- 计算机辅助软件工程（case）
+- 软件经济学</p>
+<p>目标</p>
+<ul>
+<li>生产具有正确性、可用性、及开销合宜的产品。
+正确性：软件达到预期功能的程序。
+可用性：软件基本结构、实现及文档为用户可用的程序。
+开销合宜：软件开发、运行的整个开销满足用户要求的程序。</li>
+</ul>
+<p>原则</p>
+<ul>
+<li>选择适宜的开发模型
+<ul>
+<li>需求易变</li>
+<li>选择合适的设计方法</li>
+</ul>
+</li>
+<li>提供高质量的工程支持
+<ul>
+<li>选择软件工具、开发环境</li>
+<li>软件工程提供的支撑质量、开销取决于对软件工程提供的支撑质量、效用。</li>
+</ul>
+</li>
+<li>重视开发过程的管理
+<ul>
+<li>影响可用资源的有效利用。</li>
+<li>是否满足目标的软件产品。</li>
+<li>提高软件组织的生产能力。</li>
+</ul>
+</li>
+</ul>
+<p>活动
+需求</p>
+<ul>
+<li>需求获取</li>
+<li>需求定义</li>
+<li>需求规约（系统模型、系统功能）</li>
+<li>需求验证（验证需求陈述和需求规约之间的一致性、完整性和可跟踪性。）
+设计</li>
+<li>在需求分析的基础上，给出系统的软件设计方案。</li>
+<li>设计包括总体设计和详细设计。
+<ul>
+<li>总体设计包括子系统、模块、相关层次的说明、每个模块（或构件）的接口定义。</li>
+<li>体系结构类型分为：层次模块体系结构、c/s体系结构、以数据库为中心的体系结构、管道结构、面向对象的结构。</li>
+<li>详细设计，基于总体设计，给出体系结构中每个模块或构件和详细描述。（即：给出数据结构说明和实现算法）
+实现</li>
+</ul>
+</li>
+<li>把设计结果转换为可执行代码</li>
+<li>
+<ol>
+<li>选择可用的模块、构件。</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>以一种选定的语言，对每个模块或构件进行编码。
+确认</li>
+</ol>
+</li>
+<li>贯穿整个开发过程。</li>
+<li>实现完成后的确认，保证最终产品满足用户的需求。</li>
+<li>确认活动主要包括
+<ul>
+<li>需求复审</li>
+<li>设计复审</li>
+<li>程序测试</li>
+<li>软件测试
+支持</li>
+</ul>
+</li>
+<li>包括修改和完善。</li>
+<li>提供完善性维护、纠错性维护、适应性维护。</li>
+</ul>
+<p>框架的作用</p>
+<h1 id="软件过程">软件过程</h1>
+<pre><code><code><div>软件生存周期
+
+形成概念
+   |
+历经开发
+   |
+交付使用
+   |
+不断修订、演化
+   |
+形成概念
+   |
+形成概念
+   |
+</div></code></code></pre>
+<p>基本概念</p>
+<ul>
+<li>软件生存周期</li>
+<li>软件生成周期过程
+<ul>
+<li>过程是活动的集合，活动是任务的集合，任务是把输入换成输出的操作。</li>
+</ul>
+</li>
+</ul>
+<pre><code><code><div>|---------------------------------------| 过程
+|                                       |
+|      |------------------------| 活动   |
+|      |                        |       |
+|      |    |-----------| 任务   |       |
+|      |    |           |       |       |
+|      |    |   input   |       |       |
+|      |    |     |     |       |       |
+|      |    |     |     |       |       |
+|      |    |     v     |       |       |
+|      |    |   output  |       |       |
+|      |    |           |       |       |
+|      |    |-----------|       |       |
+|      |                        |       |
+|      |------------------------|       |
+|                                       |
+|---------------------------------------|
+</div></code></code></pre>
+<h1 id="软件生存周期过程的分类">软件生存周期过程的分类</h1>
+<ul>
+<li>ISO IEC 12207
+承担软件开发工作的主体
+<ul>
+<li>基本过程(生产相关）。按过程中活动的不同主体，可分为5个过程。
+<ul>
+<li>获取过程</li>
+<li>供应过程</li>
+<li>开发过程
+<ul>
+<li>过程的实施准备</li>
+<li>系统需求分析</li>
+<li>系统结构设计</li>
+<li>软件需求分析</li>
+<li>软件体系结构设计</li>
+<li>软件详细设计</li>
+<li>软件编码和测试</li>
+<li>软件集成</li>
+<li>软件合格测试</li>
+<li>系统集成</li>
+<li>系统合格测试</li>
+<li>软件安装</li>
+<li>软件验收支持</li>
+</ul>
+</li>
+<li>运行过程(系统的操作者的使用过程)</li>
+<li>维护过程</li>
+</ul>
+</li>
+<li>支持过程(软件相关人员：需求方、开发者、提出概念者、竞品……)。按过程中活动的不同主体，可分为8个过程。
+<ul>
+<li>文档过程</li>
+<li>配置管理过程</li>
+<li>质量保证</li>
+<li>验证过程</li>
+<li>确认过程</li>
+<li>联合评审</li>
+<li>审计过程</li>
+<li>问题解决</li>
+</ul>
+</li>
+<li>组织过程(与软件生产组织有关的活动集)。可分为7个过程。
+<ul>
+<li>管理过程</li>
+<li>基础设施过程</li>
+<li>改进过程</li>
+<li>人力资源过程</li>
+<li>资产管理过程</li>
+<li>复用程序管理过程</li>
+<li>领域软件工程过程</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="软件生存周期模型软件开发周期模型的概念">软件生存周期模型(软件开发周期模型)的概念</h1>
+<p>IEEE Standard 12207.0-1996</p>
+<p>软件生存周期模型：一个包括软件产品开发、运行和维护中有关过程、活动和任务的框架，覆盖了从该系统的需求定义到系统的使用终止。</p>
+<ul>
+<li>瀑布模型<pre><code><code><div>系统需求
+^|
+|v
+软件需求
+^|
+|v
+需求分析
+^|
+|v
+设计
+^|
+|v
+编码
+^|
+|v
+测试
+^|
+|v
+运行
+^|
+|v
+维护
+</div></code></code></pre>
+开发时依次经过：需求、设计、编码、单元测试、集成、维护。
+其优点：
+<ul>
+<li>先规约需求再设计。</li>
+<li>先设计再编码。</li>
+<li>每阶段都复审。</li>
+<li>允许基线和配置早期接受控制。
+其不足：</li>
+<li>客户必须清晰、正确表达需求。开发人员必须理解需求。</li>
+<li>缺乏灵活性。</li>
+<li>在文档上花费的时间多。</li>
+<li>项目结束前不能演示系统的能力。</li>
+</ul>
+</li>
+<li>增量模型（假设需求可分段，分段开发。）<pre><code><code><div>增量规约
+  ^\
+  | \
+  |  \
+  |   \
+  |    \
+  |     v
+  |   增量设计
+  |     ^\
+  |    /  \
+  |   /    \
+  |  /      \
+  | /        \
+  vv          v
+纠错性分析&lt;--&gt;增量实现
+</div></code></code></pre>
+其优点
+<ul>
+<li>瀑布的全部优点。</li>
+<li>交付版本所需要的成本和时间很少。</li>
+<li>各增量块所承担的风险小。</li>
+<li>减少用户变更需求。</li>
+<li>允许增量投资。
+其缺点</li>
+<li>必须确定初始的增量。</li>
+<li>可能不断增量。</li>
+<li>增量过程发生的成本、进度、配置的复杂性可能超出组织的能力。</li>
+</ul>
+</li>
+<li>演化模型。由若干开发步组成，每一步都经历需求分析、设计、实现、验证过程。
+<ul>
+<li>针对事先不能完整地定义需求的软件开发。</li>
+<li>针对用户的核心需求，开发核心系统。</li>
+<li>根据用户的反馈，实施活动的迭代。</li>
+</ul>
+</li>
+<li>喷泉模型
+<ul>
+<li>迭代、无缝</li>
+<li>与面向对象技术的关系</li>
+</ul>
+</li>
+</ul>
+<p>week no.2</p>
+<h1 id="需求的作用">需求的作用</h1>
+<p>定义问题的基本要素</p>
+<ul>
+<li>如何认识需求工作</li>
+<li>软件的作用
+<ul>
+<li>控制</li>
+</ul>
+</li>
+</ul>
+<p>定义问题的基本格式</p>
+<h1 id="需求的定义">需求的定义</h1>
+<ul>
+<li>有功能</li>
+<li>有非功能</li>
+</ul>
+<h1 id="需求的基本性质">需求的基本性质</h1>
+<ul>
+<li>必要性</li>
+<li>无歧义</li>
+<li>可测试的</li>
+<li>可跟踪的</li>
+<li>可测量的</li>
+</ul>
+<h1 id="需求的分类">需求的分类</h1>
+<ul>
+<li>功能
+<ul>
+<li>外部接口</li>
+<li>设计约束</li>
+<li>质量属性</li>
+<li>需要如下规约内容
+<ul>
+<li>关于输入的所有假定</li>
+<li>功能内的次序是否与外部有关。</li>
+<li>对异常条件的响应。</li>
+<li>需求的时序或优先程序</li>
+<li>功能间的互斥规则。</li>
+<li>系统内部状态的假定。</li>
+<li>为了该功能的执行，所需要的输入、输出次序。</li>
+<li>用于转换或内部计算所需要的公式。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>性能：规约系统或系统构件必须具有的性能特性。</li>
+<li>外部接口：规约了系统或系统构件必须与之交互的硬件、软件或数据库元素。它也可能规约其格式、时间或其他因素。
+<ul>
+<li>系统接口</li>
+<li>用户接口</li>
+<li>硬件接口</li>
+<li>软件接口</li>
+<li>通讯接口</li>
+<li>内存约束</li>
+<li>操作</li>
+<li>地点需求</li>
+</ul>
+</li>
+<li>设计约束：限制了系统或系统构件的设计方案。</li>
+<li>质量属性：必须具有的一个性质是否达到质量方法一个所期望的水平。
+<ul>
+<li>可靠性</li>
+<li>存活性</li>
+<li>可维护性</li>
+<li>用户友好性</li>
+<li>安全性</li>
+<li>可移植性</li>
+</ul>
+</li>
+</ul>
+<h1 id="需求发现">需求发现</h1>
+<ul>
+<li>自悟</li>
+<li>交谈
+<ul>
+<li>什么时候对这一增长划界</li>
+<li>什么时候对这一增长通知客户</li>
+</ul>
+</li>
+<li>观察：观察用户执行其现行
+<ul>
+<li>耗时长</li>
+<li>客户抵触</li>
+<li>客户误认为开发者已经熟悉了业务</li>
+</ul>
+</li>
+<li>小组会</li>
+<li>提炼：复审技术文档</li>
+<li>综合运用</li>
+</ul>
+<h1 id="需求规约srs的概念和格式">需求规约（srs）的概念和格式</h1>
+<ul>
+<li>概念：一个需求规约是一个软件、产品、系统所有需求陈述的正式文档，是一个软件产品、系统的概念模型。</li>
+<li>基本性质
+<ul>
+<li>重要性和稳定性程度</li>
+<li>可修改的</li>
+<li>完整的</li>
+<li>一致的
+<ul>
+<li>功能源</li>
+<li>功能共享的数据</li>
+<li>功能与外部界面的交互</li>
+<li>功能所使用的计算资源</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>格式
+<ul>
+<li>使用IEEE标准的830-1998格式<pre><code><code><div>1. 引言
+  1.1 目的
+  1.2 范围
+  1.3 定义，缩略语
+  1.4 参考文献
+  1.5 概述（即项目范围）
+2. 总体描述
+  2.1 产品概述
+  2.2 产品功能
+  2.3 用户特征
+  2.4 约束
+  2.5 假设和依赖
+3. 特定需求：是文档的技术核心，模板如下：
+  3.1 根据系统运行模式，把no.3划分为一些小节，
+2. 总体描述
+2. 总体描述
+</div></code></code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="需求规约的作用">需求规约的作用</h1>
+<ul>
+<li>概述
+<ul>
+<li>最重要的，作为软件开发组织和用户之间一份事实上的技术合同书。是产品功能及其环境的体现。</li>
+<li>管理项目的其余大多数工作。</li>
+<li>一个正式的、受控的起始点。</li>
+<li>基于需求规约一般会产生2个文档：1. 初始测试计划。2. 用户系统操作描述。</li>
+</ul>
+</li>
+<li>软件测试计划
+<ul>
+<li>初始测试计划。
+<ul>
+<li>作用：早发现问题，减少测试代价。</li>
+</ul>
+</li>
+<li>单元测试。在详细设计时产生</li>
+<li>集成测试。在总体设计时产生</li>
+<li>有效性(确认)测试。在需求分析时产生</li>
+</ul>
+</li>
+<li>用户系统操作描述
+<ul>
+<li>描述系统功能、性能。使用系统的主要步骤和方法，以及系统用户的责任。</li>
+<li>相当于用户使用手册。</li>
+</ul>
+</li>
+<li>需求规约不能实现的作用
+<ul>
+<li>不是设计文档。</li>
+<li>不是进度或规则文档。</li>
+</ul>
+</li>
+</ul>
+<h1 id="项目的需求及需求规约">项目的需求及需求规约</h1>
+<ul>
+<li>srs只关注产品需求。产品、系统需求，交付给客户的产品是什么。</li>
+<li>sow应关注项目工作与管理。项目需求——开发组要做的事。</li>
+</ul>
+<p>week no.3</p>
+<h1 id="结构化分析方法的概念">结构化分析方法的概念</h1>
+<ul>
+<li>软件开发方法学
+指开发过程所遵循的办法和步骤。
+软件开发活动的目的是有效地得到一个运行的系统及其支持文档，并且满足有关的质量要求。
+规则、方法和工具的集成。</li>
+<li>结构化方法
+<ul>
+<li>结构化分析方法</li>
+<li>结构化设计方法</li>
+<li>结构化程序设计方法</li>
+</ul>
+</li>
+<li>结构化分析
+系统化地使用问题域术语，给出该问题的模型（即“系统必须做什么”的一个估算）<pre><code><code><div>                   问题域——客观事物系统
+                     |
+  分析（映射）--------&gt;|
+                     |
+                     V             形成
+                   需求——一个抽象层-------&gt;该系统的概念模型或称系统的需求规约
+</div></code></code></pre>
+<ul>
+<li>需求分析的目标
+对需求陈述进行分析，解决其中的歧义、不一致等问题，以系统化的形式表达用户的需求，即给出问题的形式化或半形式化的描述（称为系统的概念模型，或系统的需求规约或需求规格说明）。作为开发人员和客户间技术契约的基础，并作为而后开发活动的基本输入。</li>
+<li>实现软件需求分析的目标对方法学的需求
+<ol>
+<li>提供一组术语（符号），</li>
+<li>表达模型的工具。支持表达系统功能形态。</li>
+<li>给出过程指导，以支持系统化地使用相关信息建造系统模型。</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="结构化分析模型">结构化分析模型</h1>
+<ul>
+<li>基本术语
+<ul>
+<li>数据流</li>
+<li>对数据进行加工</li>
+<li>数据存储</li>
+<li>数据源：数据流的起点。系统外的实体。</li>
+<li>数据潭：数据流的归宿地。系统外的实体。</li>
+</ul>
+</li>
+<li>模型表达工具
+<ul>
+<li>dfd图（数据流图）
+表达系统功能模型的工具。包含5个基本术语。</li>
+<li>数据字典
+定义数据流和数据存储的结构，并给出基本的数据类型。<pre><code><code><div>// 一些逻辑操作符
+= 等价于（定义为）
++ 与（顺序结构）
+{} 重复（循环结构）
+[|] 或（选择结构）
+() 任选
+m..n 界域
+</div></code></code></pre>
+</li>
+<li>加工小说明
+判定表、判定树。</li>
+</ul>
+</li>
+</ul>
+<h1 id="结构化分析过程">结构化分析过程</h1>
+<ul>
+<li>过程指导
+<ul>
+<li>建立功能模型（dfd）。建立系统环境图，确定系统边界。</li>
+<li>建立数据字典
+<ul>
+<li>定义数据流</li>
+<li>定义数据存储</li>
+<li>定义数据项</li>
+</ul>
+</li>
+<li>给出加工小说明</li>
+</ul>
+</li>
+<li>顶层数据流图</li>
+<li>自顶向下，逐层分解。分为顶层、0层、1层、2层、3层。一般3层数据流就够用了。
+加工编号表明该加工所在的层次。除了顶层不用编号，别的层都需要编号。
+<ol>
+<li>按一定要功能要求，将加工打散。形成下一层次的加工。</li>
+<li>分派数据流，把父图中输入流分派给子加工中。</li>
+<li>引入文件，使各子加工形成一个有机整体（即系统）
+此时形成了0层数据流图。</li>
+</ol>
+</li>
+<li>建立数据字典
+<ul>
+<li>定义数据流、数据存储、数据项。</li>
+</ul>
+<pre><code><code><div>      A                    A                    A
+      |                    |                    |
+ ------------         ------------              |
+ |          |         |          |              |
+ B          C         B0        C0              B*
+ 顺序结构                选择结构               重复结构
+</div></code></code></pre>
+</li>
+<li>给出加工小说明
+<ul>
+<li>加工编号</li>
+<li>加工名</li>
+<li>输入流</li>
+<li>输出流</li>
+<li>加工逻辑</li>
+</ul>
+</li>
+<li>应注意的问题
+结构化分析方法是一种半形式化的规约方法，给出了一组特定的术语表和标准化的表达格式-数据流图，在表达上均必须遵循一些约定，即应以一种准确和一致方式使用之。
+<ul>
+<li>模型平衡问题
+<ul>
+<li>父图、子图使用一致的边界。</li>
+<li>每一个数据流、数据存储必须在数据字典中予以定义。</li>
+<li>必须给出叶加工的说明。</li>
+<li>在小说明中必须说明清加工小说明的5个基本要素。</li>
+</ul>
+</li>
+<li>信息组织复杂性控制问题
+<ul>
+<li>上层数据可以打包</li>
+<li>一愊图中图元个数应该控制在7+/-2个以内。</li>
+<li>每个加工相关的数据流中的数目应适中。</li>
+<li>分析数据内容，确定是否所有的输入信息都用于产生输出信息。</li>
+<li>分析加工，确定一个加工所产生的输出，是否都能由该加工的输入信息导出。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>功能分解 v</li>
+<li>14 x 124 x 123 x 1234 x 34 x 134 x
+1 2 3 4 12 13 14 23 24 34 123 124 134 234 1234
+1 2 3 4 12 13 23 24 234</li>
+<li>加工 v</li>
+<li>1234 x 123 x 34 x 13 x 234 x 134 v</li>
+</ol>
+<h1 id="需求规格说明书">需求规格说明书</h1>
+<p>需求文档：整个软件开发中生成文件、图片等都是文档。
+需求规约：</p>
+<pre><code><code><div>xxx系统需求规格说明书
+1. 引言
+  1.1 编写目的
+    说明编写本需求规格说明书的目的
+  1.2 背景说明
+    1) 给出待开发的软件产品的名称
+    2) 说明本项目的提出者、开发者及用户
+    3) 说明该软件产品将做什么，如有必要，说明不做什么。
+  1.3 术语定义
+  1.4 参考文献
+2. 概述
+  2.1 功能概述。
+    叙述待开发软件产品将完成的主要功能。
+  2.1 约束
+    叙述对系统设计产生影响的限制条件，并对下一节所述的某些特殊需求提供理由，如管理模式、硬件限制、安全等。
+3. 数据流图与数据字典及加工说明
+  3.1 数据流图
+    3.1.1 数据流图1
+      - 画出该数据流图
+      - 加工说明
+      - 数据流说明
+    3.1.2 数据流图2
+    3.2 数据字典
+      3.2.1 文件说明
+      3.2.2 数据项说明
+4. 接口
+  4.1 用户接口
+  4.2 硬件接口
+  4.3 软件接口
+5. 性能需求
+  5.1 精度
+    逐项说明各项输入数据和输出数据达到的精度
+  5.2 时间特征
+    定量说明本软件的时间特征，如响应时间 ，更新处理时间。
+  5.3 灵活性
+    说明本软件所具有的灵活性，即当用户需求有某些变化时（如操作方式、运行环境、时间特征等），本软件和适应能力。
+6. 属性
+  6.1 可使用性
+    规定鞁需求，如检验点、恢复方式和重启动性，以确保软件可使用。
+  6.2 保密性
+    规定保护软件的要素
+  6.3 可维护性
+  6.4 可移植性
+7. 其它需求
+  7.1 数据库
+  7.2 操作
+  7.3 故障及处理
+</div></code></code></pre>
+<h1 id="结构化设计的概念">结构化设计的概念</h1>
+<p>一种软件开发活动，定义实现需求规约所需的软件结构。
+设计目标：依据需求规约，在一个抽象层上建立系统软件模型，包括软件体系结构（数据和程序结构），以及详细的处理算法，产生设计规格说明书。
+即：要回答如何解决问题——给出软件解决方案。</p>
+<ul>
+<li>总体设计（体系结构设计(msd)、接口设计、数据设计）</li>
+<li>详细设计（模块内部设计（算法和数据结构））</li>
+<li>整体框架</li>
+<li>对设计方法的需求
+实现软件设计的目标对结构化设计方法的需求
+<ul>
+<li>提供可体现“原理、原则”的一组术语</li>
+<li>给出表达软件模型工具。</li>
+<li>给出设计的过程指导。</li>
+</ul>
+</li>
+<li>总体设计层概述
+<ul>
+<li>在总体设计层
+<ul>
+<li>引入2个术语、符号</li>
+<li>引入模块结构图</li>
+<li>过程指导（dfd=&gt;msd）
+<ol>
+<li>dfd =&gt; msd</li>
+</ol>
+<ul>
+<li>变换型数据流图</li>
+<li>事务型数据流图</li>
+<li>变换设计</li>
+<li>事务设计</li>
+</ul>
+<ol start="2">
+<li>最初的msd -&gt; 可使用的msd</li>
+</ol>
+</li>
+<li>可分为三个阶段
+<ol>
+<li>初始设计。初步确定系统与外部的接口。</li>
+<li>精化设计。“高内聚低耦合”原则，设计全局数据结构和每个模块的接口。</li>
+<li>设计复审阶段。</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="初始模块结构图的设计">初始模块结构图的设计</h1>
+<ul>
+<li>数据流图分类
+<ul>
+<li>变换型dfd
+具有较明显的输入部分和变换部分之间的界面、变换部分和输出部分之间界面的数据流图。</li>
+<li>事务型dfd
+<ul>
+<li>完成如下任务
+<ul>
+<li>接受输入数据</li>
+<li>分析并确定对应的事务</li>
+<li>选取与该事务对应的一条活动路径。</li>
+</ul>
+</li>
+<li>事务型dfd与变换型dfd的区别
+<ul>
+<li>原则上所有的dfd都可以看成是变换型dfd。</li>
+<li>一般而言，接受一个输入数据，分成多条路径。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>变化设计的基本步骤
+<ol>
+<li>设计准备——复审并精化系统模型。</li>
+<li>确定输入、变换、输出，三者的边界。</li>
+<li>第一级分解——系统模块结构图顶层和第一层的设计。</li>
+</ol>
+<ul>
+<li>主模块</li>
+<li>输入模块</li>
+<li>变换模块</li>
+<li>输出模块</li>
+</ul>
+<pre><code><code><div>            主控模块
+              /|\
+             / | \
+            /  |  \
+           /   |   \
+          /    |    \
+         /     |     \
+        /      |      \
+     取得a  a变换成b   输出b
+</div></code></code></pre>
+<ol start="4">
+<li>第二级分解——自项向下，逐步求精</li>
+</ol>
+</li>
+<li>事务设计的基本步骤
+<ol>
+<li>设计准备——复审并精化系统模型</li>
+<li>确定事务处理中心</li>
+<li>第一级分解——系统模块结构图顶层和第一层的设计</li>
+<li>为事务中心设计一个主模块.</li>
+<li>为每一条活动路径设计一个事务处理模块。</li>
+<li>对其输入部分设计一个输入模块。</li>
+<li>如果一个事务数据流图的活动路径集中于一个加工，则设计一个输出模块，否则第一层不设计输出模块。</li>
+<li>第二级分解——自顶向下，逐步求精。</li>
+</ol>
+</li>
+</ul>
+<h1 id="初始化模块结构图精化">初始化模块结构图精化</h1>
+<ul>
+<li>
+<p>精化的概念
+将初始的msd转化为最终可供详细设计使用的msd。
+模块、模块化
+基于模块化原理：高内聚低耦合。
+给出设计规则——经验规则-启发式规则
+用于精化初始的msd.
+体现设计人员的创造</p>
+</li>
+<li>
+<p>模块和模块化
+模块：执行一个特殊任务的一组例程和数据结构
+接口：给出可由其他模块和例程访问的对象
+实现：接口实现
+模块化：把系统分解为模块的过程</p>
+</li>
+<li>
+<p>为什么要模块化</p>
+</li>
+<li>
+<p>基本原则</p>
+</li>
+<li>
+<p>耦合</p>
+<ul>
+<li>耦合的强度所依赖的因素
+<ul>
+<li>一个模块对另一个模块的引用</li>
+<li>一个模块向另一个模块传递的数据量</li>
+<li>一个模块施加到另一个模块的控制的数量</li>
+<li>模块之间的接口的复杂程度</li>
+</ul>
+</li>
+<li>耦合类型（由强到弱）
+<ul>
+<li>内容耦合</li>
+<li>公共耦合</li>
+<li>控制耦合</li>
+<li>标记耦合</li>
+<li>数据耦合</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>内聚
+一个模块之内各成分之间相互依赖程序
+好的设计</p>
+<ul>
+<li>模块的功能单一</li>
+<li>模块的各部分都和模块的功能直接相关</li>
+<li>高内聚
+内聚类型（由低到高）</li>
+<li>偶然内聚</li>
+<li>逻辑内聚</li>
+<li>时间内聚</li>
+<li>过程内聚</li>
+<li>通信内聚</li>
+<li>顺序内聚</li>
+<li>功能内聚</li>
+</ul>
+</li>
+</ul>
+<p>week no.4</p>
+<h1 id="初始模块结构图精化的启发式规则">初始模块结构图精化的启发式规则</h1>
+<ul>
+<li>常见的6种启发式规则
+<ul>
+<li>改进软件结构、提高模块独立性。</li>
+<li>模块规模适中，每页60行语句。</li>
+<li>深度、宽度、扇入和扇出适中。
+在不违背模块独立性的条件下，扇入越大越好。
+扇出大意味着模块复杂。
+扇出小意味着功能集中。
+典型有3-4。（最多5-9）
+好的系统顶层扇出高，中层扇出少，底层扇入高。系统呈”葫芦“型。</li>
+<li>模块的作用域力争在控制域之内。（控制域&gt;作用域）</li>
+<li>降低模块接口的复杂性。</li>
+<li>模块功能应该可以预测。</li>
+</ul>
+</li>
+</ul>
+<h1 id="接口设计">接口设计</h1>
+<ul>
+<li>接口设计的分类
+<ul>
+<li>模块或软件构件间的接口设计</li>
+<li>软件与其他软硬件系统之间的接口设计</li>
+<li>软件与人之间的交互设计</li>
+</ul>
+</li>
+<li>人机交互界面
+必须包括显示、输入。
+<ul>
+<li>用户界面应具备的特性
+<ul>
+<li>可使用性</li>
+<li>灵活性</li>
+<li>可靠性</li>
+</ul>
+</li>
+<li>界面设计类型
+<ul>
+<li>用户类型
+<ul>
+<li>外行型</li>
+<li>初学型。需要很多界面支持。</li>
+<li>熟练型。需要较少界面支持，但不能处理意外错误。</li>
+<li>专家型。需要提供修改、扩充系统能力的复杂界面。</li>
+</ul>
+</li>
+<li>界面设计类型
+<ul>
+<li>使用的难易程度</li>
+<li>学习的难易程序</li>
+<li>操作速度</li>
+<li>复杂程度</li>
+<li>控制</li>
+<li>开发的难易程度</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>设计原则
+<ul>
+<li>一致性</li>
+<li>操作步骤少</li>
+<li>不要“哑播放”</li>
+<li>提供undo功能</li>
+<li>减少人脑的记忆负担</li>
+<li>提高学习效率</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="数据设计">数据设计</h1>
+<ul>
+<li>文件设计
+<ul>
+<li>数据设计
+在设计阶段必须对要存储的数据及其格式进行设计</li>
+<li>适用对象
+<ul>
+<li>数据量较大的非结构化数据。如多媒体信息。</li>
+<li>数据量大，信息松散。如历史记录，档案文件等。</li>
+<li>非关系层次化数据。如系统配置文件。</li>
+<li>对数据的存取速度要求极高的情况。</li>
+<li>临时存放的数据。</li>
+</ul>
+</li>
+<li>主要工作
+<ul>
+<li>使用要求</li>
+<li>处理方式</li>
+<li>存储的信息量</li>
+<li>数据的活动性</li>
+<li>所提供的设备条件</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>数据库设计
+<ul>
+<li>数据对象的映射</li>
+<li>关系的映射</li>
+</ul>
+</li>
+</ul>
+<h1 id="详细设计工具">详细设计工具</h1>
+<ul>
+<li>详细设计概览
+<ul>
+<li>定义每一模块</li>
+<li>三种控制结构：顺序、选择、循环。</li>
+<li>每个代码块只有一个入口、出口。</li>
+</ul>
+</li>
+<li>伪码
+顺序 begin s1;s2;...sn end;
+选择 if condition then s1 else s2;
+循环 while condition do s;</li>
+<li>程序流程图
+一般使用模块中</li>
+<li>pad图 problem analysis diagram</li>
+<li>n-s图</li>
+<li>判定表和判定树</li>
+</ul>
+<h1 id="软件设计规约">软件设计规约</h1>
+<ul>
+<li>概念与组成
+<ul>
+<li>软件的组织或其组成部分的内部结构的描述，满足系统需求规约所指定的全部功能及性能要求。</li>
+<li>软件设计规约的组成
+<ul>
+<li>概要设计规约</li>
+<li>详细设计规约</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>概要设计规约
+是面向软件开发者的文档，主要作为软件项目管理人员、系统分析人员与设计人员之间交流的媒体。
+对应确认测试。
+指明软件的组织结构，包括：
+<ul>
+<li>系统环境
+<ul>
+<li>硬件、软件接口与人机界面</li>
+<li>外部定义的数据库</li>
+<li>与设计有关的限定条件</li>
+</ul>
+</li>
+<li>设计描述
+<ul>
+<li>数据流和主要数据结构</li>
+<li>软件模块的结构</li>
+<li>模块之间的接口</li>
+</ul>
+</li>
+<li>对每个模块的描述
+<ul>
+<li>处理过程外部行为</li>
+<li>界面定义</li>
+<li>数据结构</li>
+<li>必要的注释</li>
+</ul>
+</li>
+<li>文件结构和全局数据
+<ul>
+<li>文件的逻辑结构、记录描述以及访问方式</li>
+<li>交叉引用信息</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>详细设计规约
+主要作为软件设计人员与程序员之间交流的媒体。
+对应集成测试、单元测试。
+对软件各组成部分内部属性描述，它是概要设计的细化。即在概要设计规约的基础上，增加以下内容：
+<ul>
+<li>各处理过程的算法。</li>
+<li>算法所涉及的全部数据结构的描述，特别地，对主要数据结构往往包括与算法实现有关的描述。
+（单元测试、集成测试、确认测试、系统测试。）</li>
+</ul>
+</li>
+<li>设计规约格式<pre><code><code><div>1. 引言
+  1.1 编写目的
+    说明编写本软件设计说明书的目的
+  1.2 背景说明
+    1) 给出待开发的软件产品的名称
+    2）说明本项目的提出者、开发者及用户。
+    3）说明该软件产品将做什么，如有必要，说明不做什么。
+  1.3 术语宝
+    列出本文档中所用的专门术语的定义和外文首字母组词的原词组。
+  1.4 参考资料
+    列出本文档中所引用的全部资料，包括标题、文档编号、版本号、出息日期及出版单位等，必要时注明资料来源。
+2. 总体设计
+  2.1 需求规定
+    说明对本软件的主要输入、输出、处理的功能及性能要求。
+  2.2 运行环境
+    简要说明对本软件运行的软件、硬件环境和支持环境的要求。
+  2.3 处理流程
+    说明本软件的处理流程，尽量使用图、文、表的形式。
+  2.4 软件结构
+    在dfd图的基础上，用模块结构图来说明各层模块的划分及其相互关系，划分原则上应细致程序级（即程序单元），每个单元必须执行单独一个功能（即单元不能再分了）。
+3. 运行设计
+  3.1 运行模块的组合
+    说明对系统施加不同的外界运行控制时所引起的各种不同的运行模块的组合，说明每种运行所经历的内部模块和支持软件。
+  3.2 运行控制
+    说明名运行控制方式、方法和具体的操作步骤。
+4. 系统出错处理
+  4.1 出错信息简要说明每种可能的出错或故障情况出现时，系统输出信息的格式和含义。
+  4.2 出错处理方法及补救措施
+    说明故障出现后可采取的措施，包括：
+      - 后备技术
+        当原始系统数据万一丢失时启用的副本的建立和启动的技术。如周期性的信息转储。
+      - 性能降级
+        使用另一个效率稍低的系统或方法（如手工操作、数据的人工记录等），以求得到所需结果的某些部分。
+      - 恢复和再启动
+        用建立恢复点等技术，使用软件再开始运行。
+5. 模块设计说明
+  以填写模块说明表的形式，对每个模块给出下述内容：
+    - 模块的一般说明，包括名称、编写、设计者、所在文件、所在库、调用本模块的模块名和本模块调用的其他模块名。
+    - 功能概述
+    - 处理描述，使用伪码描述本模块的算法、计算公式及步骤。
+    - 引用格式
+    - 返回值
+    - 内部接口，说明本软件内部各模块间的接口关系，包括
+      - 名称
+      - 意义
+      - 数据类型
+      - 有效范围
+      - i/o标志
+    - 外部接口，说明本软件同其他软件与硬件间的接口关系，包括
+      - 名称
+      - 意义
+      - 数据类型
+      - 有效范围
+      - i/o标志
+      - 格式，指输入或输出数据的语法规则和有关约定
+      - 媒体
+    - 用户接口，说明将向用户提供的命令和命令的语法结构，以及软件的回答信息，包括：
+      - 名称
+      - 意义
+      - 数据类型
+      - 有效范围
+      - i/o标志
+      - 格式，指输入或输出数据的语法规则和有关约定
+      - 媒体
+</div></code></code></pre>
+<ol start="6">
+<li>附</li>
+</ol>
+<pre><code><code><div>模块说明表                                制表日期：    年   月   日
+------------------------------------------------------------------
+|模块名：                       |模块编号：           |设计者：      |
+------------------------------------------------------------------
+|模块所在文件：                  |模块所在库：                       |
+------------------------------------------------------------------
+|调用本模块的模块名：                                               |
+------------------------------------------------------------------
+|本模块调用的其他模块名：                                            |
+------------------------------------------------------------------
+|功能概述：                                                        |
+------------------------------------------------------------------
+|处理描述：                                                        |
+------------------------------------------------------------------
+|返回值：                                                          |
+------------------------------------------------------------------
+
+                                                          续表
+--------------------------------------------------------------------------
+|     |名称     |      意义         |  数据类型   |  数值范围   |   io标志    |
+--------------------------------------------------------------------------
+|  内 |         |                  |            |            |            |
+|  部 |         |                  |            |            |            |
+|  接 |         |                  |            |            |            |
+|  口 |         |                  |            |            |            |
+--------------------------------------------------------------------------
+|     |名称   |      意义      |  数据类型  |  io标志  |  格式   |  媒体 |    |
+--------------------------------------------------------------------------
+|  外 |       |               |           |          |        |      |    |
+|  部 |       |               |           |          |        |      |    |
+|  接 |       |               |           |          |        |      |    |
+|  口 |       |               |           |          |        |      |    |
+--------------------------------------------------------------------------
+|  用 |       |               |           |          |        |      |    |
+|  户 |       |               |           |          |        |      |    |
+|  接 |       |               |           |          |        |      |    |
+|  口 |       |               |           |          |        |      |    |
+--------------------------------------------------------------------------
+</div></code></code></pre>
+</li>
+</ul>
+<h1 id="结构化设计方法总结">结构化设计方法总结</h1>
+<ul>
+<li>结构化方法的世界观
+结构化方法看待世界的基本观点：一切系统都是由信息流构成的（其中包含一些必要的数据变换），每一个信息流都有自己的起点——信息源，有自己的归宿——数据潭，有驱动信息流的加工，因此所谓信息处理主要表现为信息的流动。</li>
+<li>基本原理和原则
+<ul>
+<li>自顶向下功能分解</li>
+<li>数据抽象</li>
+<li>功能、过程抽象</li>
+<li>模块化
+……
+结构化方法是一种系统化的软件系统建模方法，
+从测试的角度看，结构化方法是一种特定的建立验证和确认所需标尺的方法学，
+包括结构化分析和结构化设计。
+结构化方法的抽象层：
+<ul>
+<li>需求分析层</li>
+<li>设计层</li>
+<li>实现层</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>抽象层</li>
+<li>组成</li>
+<li>问题
+<ul>
+<li>捕获的“过程”和“数据”恰恰是客观事物的易变性质</li>
+<li>解的结构没有保持原系统的结构
+从而造成维护验证上的困难。</li>
+</ul>
+</li>
+</ul>
+<h1 id="软件设计评审">软件设计评审</h1>
+<ul>
+<li>概念
+就是对设计文档的说不完。对于软件设计来说，评审与其技术设计方法本身是一样重要，评审对于 研制项目的成功而言是绝对必要的，对设计进行评审是为了尽早发现软件的欠缺，尽可能把这些缺陷在进入下一阶段的工作之前，予以纠正，从而避免后期付出更多的代价。</li>
+<li>方法
+<ul>
+<li>非正式评审</li>
+<li>正式评审</li>
+</ul>
+</li>
+<li>指南
+概要设计评审和详细设计评审应该分开进行，不允许合并为一次审核。
+<ul>
+<li>概要设计评审从需求到设计数据和体系结构的变换</li>
+<li>详细设计评审，通常叫详细设计走查（walkthrough）.注重算法过程的正确性。</li>
+<li>建立一个议事日程并遵循它。</li>
+<li>评审设计文档，不评审设计者。</li>
+<li>评审中提出的问题应详细记录，但不要谋求当场解决。</li>
+<li>限制参与人数和坚持充分准备。
+<ul>
+<li>开发人员、用户代表、有关领域的专家。</li>
+<li>一般不邀请用户、其他领域的代表。</li>
+</ul>
+</li>
+<li>为设计文档开发一个检查表，以帮助评审人员集中在重要问题上。</li>
+<li>参与者应该接受一定的正规培训。</li>
+<li>做出能否通过的结论后再结束。</li>
+</ul>
+</li>
+<li>评审检查表
+概要设计的检查表
+<ul>
+<li>软件体系结构是否反映了软件需求？</li>
+<li>达到高的模块化吗？模块功能能独立吗？</li>
+<li>模块与外部系统元素接口定义了吗？</li>
+<li>数据结构与软件需求一致吗？</li>
+<li>考虑了可维护性吗？</li>
+<li>是否直接评价了质量因素？
+详细设计的检查表</li>
+<li>算法能完成所要求的功能吗？</li>
+<li>算法逻辑正确吗？</li>
+<li>接口与体系结构设计一致吗？</li>
+<li>逻辑的复杂性合理吗？</li>
+<li>是否规定了错误处理和反故障处理？</li>
+<li>正确地定义了局部数据结构吗？</li>
+<li>都使用了结构化编程构造吗？</li>
+<li>设计的细节适用于实现语言吗？</li>
+<li>用的是哪个操作系统或语言独立性质？</li>
+<li>考虑到可维护性吗？</li>
+</ul>
+</li>
+</ul>
+<p>week no.5</p>
+<p>类目：</p>
+<ul>
+<li>类与对象 <code>[可见性]属性名[:类型][多重性][=初始值][{特性串}]</code></li>
+<li>接口 <code>[可见性]属性名[(参数表)][:返回类型][{特性串}]</code></li>
+<li>协作</li>
+<li>用况</li>
+<li>主动类</li>
+<li>构件</li>
+<li>制品</li>
+<li>节点</li>
+</ul>
+<p>包</p>
+<p>关系:{
+关联
+<code>    关联:{       关联 ---------         聚合 -------&lt;&gt; 整体、部分 空菱形           组合 ---------&lt;&lt;&gt;&gt; 实菱形     }    </code>
+泛化（也叫细化）
+实现
+依赖
+}</p>
+<p>week no.6</p>
+<p>静态图
+类图、构件图、组合结构图、对象图、部署图、制品图
+动态图
+用况图、状态图、活动图、顺序图（又名时序图）、通信图、交互概观图、定时图
+用况图：{
+主题，用况，参与者，依赖，泛化，关联
+}
+时序图：{
+交互各方：角色或对象
+交互方式：同步或异步
+交互内容：消息
+alt判断
+loop循环
+opt可选
+par并发
+}
+状态图：{
+简单状态、组合状态
+事件
+转换
+}
+初态、正常状态、终态
+entry/
+exit/
+do/
+character/
+help/
+子状态：{
+顺序子状态（非正交）
+并发子状态（正交）
+}
+状态的规约：{
+命名
+进入、退出之效应
+状态内部转移
+子状态与组合状态
+被延迟事件
+}
+事件：{
+内部事件
+外部事件
+{
+信号 <code>&lt;&lt;signal&gt;&gt;</code>
+调用
+时间事件 at(11:49pm) after(2s)
+变化事件 when(key&lt;1000)
+发送事件
+授受事件
+}
+}</p>
+<p>week no.7</p>
+<ol>
+<li>定义use case</li>
+<li>发现对象</li>
+<li>定义属性与操作</li>
+<li>建立对象之间的关系</li>
+<li>划分包</li>
+<li>建立顺序图、状态图、活动图
+识别类：
+研究问题域和用户需求
+研究用户需求，明确系统责任。
+研究问题域。
+确定系统边界。
+策略和启发
+考虑问题域
+人员、组织、物品、设备、事件、表格、结构……
+考虑系统边界
+考虑系统责任
+审查与筛选
+舍弃无用的对象
+对象的精简
+与实现条件有关的对象（在ood时考虑）
+识别主动对象
+考虑问题域和系统责任
+是否并发。起点在哪儿。
+系统与外部的交互。
+对象分类，建立类图中的类
+对象分类
+对异常情况的检查和调整
+识别类的属性和操作
+识别属性
+识别操作
+有下划线的操作是继承来的。
+是否高内聚。
+拆分、合并
+操作的详细说明：操作的文字解释、操作名、输入输出参数、参数类型、消息发送、约束条件、操作流程。
+对象间的关系：继承、关联、聚合、依赖。
+ooa/ood/oop
+ood目标
+提高软件生产率
+提高质量
+加强可维护性
+易变性： 服务&gt;接口&gt;属性&gt;类
+组成：
+问题域部分
+人机交互部分
+控制驱动部分
+数据接口部分
+需要解决的问题
+编程语言
+硬件、操作系统及网络设施
+复用支持
+数据管理系统
+界面支持系统</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>ooa</th>
+<th>ood</th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>做什么</td>
+<td>怎么做</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>问题域与系统责任</td>
+<td>与实现有关的因素</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>对ooa结果进行补充与调整：</p>
+<ul>
+<li>为复用设计与编程的类而增加结构</li>
+<li>增加一般类心建立共同协议</li>
+<li>按编程语言调整继承</li>
+<li>提高性能</li>
+<li>为实现对象永久存储所做的修改</li>
+<li>为编程方便增加底层细节</li>
+</ul>
+<p>week no.8</p>
+<p>ooa:考虑人机界面的需求。
+ood:设计人机交互的细节。
+gui graphical user interface 用户接口
+为谁设计交互界面。
+用户如何使用系统。
+系统如何显示给用户结果。
+人机交互的细节：</p>
+<ul>
+<li>输入的细化。</li>
+<li>选择输入设备</li>
+<li>向系统提供数据、人对系统下命令。</li>
+<li>输出的细化
+<ul>
+<li>提示信息
+人机界面的设计准则</li>
+</ul>
+</li>
+<li>一致性</li>
+<li>启发性</li>
+<li>减少人脑记忆的负担</li>
+<li>减少重复的输入</li>
+<li>容错性</li>
+<li>及时反馈</li>
+<li>防止灾难性的错误</li>
+<li>如艺术性、趣味性、风格、视感等
+控制驱动部分由主动类</li>
+</ul>
+<p>程序设计范型（编程范型或编程范式）是一种典型的编程风格。如过程化编程、面向对象编程、指令式编程等。</p>
+<p>面向对象编程：一系列相互作用析的对象。
+函数式编程：一个无状态的函数计算的序列。
+oopl（面向对象编程语言）
+类的定义、对象的静态声明或动态创建、属性和操作的定义、继承、聚合、关联和消息的表示。
+类机制、封装机制、继承机制。
+多态、多继承的表示和支持机制。
+静态绑定：在程序运行之前。
+动态绑定：在程序运行时属性、方法被访问、调用。
+敏捷开发是为对对快速变化的需求提出的一种开发方法。建议有简捷的分析、设计。开发人员与客户经常沟通。
+敏捷聪明宣言：
+人体和交互 胜过 过程和工具
+可以工作的软件 胜过 面面倶到的文档
+编写一份系统原理和结构方面的文档。
+客户使用 胜过 合同谈判
+响应变化 胜过 遵循计划
+为下两周做详细计划。为下三个月做粗略计划。再以后做更粗略的计划。
+敏捷原则：
+尽快、持续交付有价值的软件。
+即使到了开发后期，也欢迎改变需求。
+交付时间间隔越短越好。（2week/交付）
+业务人员与开发人员天天在一起工作。
+激励员工、提供所需环境、支持。
+面对面交流。
+进度度量。
+可持续的开发速度。
+不断关注优秀的技能、设计。
+简单是根本的
+最好的体系结构、需求和设计，出自自己组织的团队
+每隔一段时间就对团队如何才能高效地工作进行反省。
+极限编程（xp extreme programming）</p>
+<ol>
+<li>客户作为团队的成员。</li>
+<li>用户素材</li>
+<li>短的交付周期</li>
+<li>验收测试</li>
+<li>结对编程</li>
+<li>测试驱动开发</li>
+<li>集体所有权</li>
+<li>持续集成
+极限编程过程</li>
+<li>策划（验收到的标准）。</li>
+<li>设计（crc）</li>
+<li>编码（重构，结对编程、连续集成）</li>
+<li>测试（单元测试、验收测试、发布，再到1）
+crc（cyclic redundancy check 循环冗余校验）
+敏捷设计
+避免出现：僵化性、脆弱性、粘固性、粘滞性、不必要的复杂性、不必要的复制、晦涩性。
+几乎不做预先设计。多做单元测试、验收测试。灵活、持续地改进设计。
+尽量做到简单、干净。功能
+敏捷设计是一个应用原则、模式、实践的过程，其间不断改善软件结构。
+它的功能、它的内部结构、创造过程。
+scrum模型</li>
+<li>计划。规划纲要阶段：建立大致的项目目标。</li>
+<li>一系列的冲刺。每个冲刺对应一个系统增量。</li>
+<li>项目结束阶段，完善需要的文档。如系统帮助、用户手册、经验。</li>
+</ol>
+<p>week no.9</p>
+<p>检测、评价软件的质量的过程和方法。
+软件测试可以分为
+{
+静态分析 检查和审阅
+动态测试 运行和使用软件
+白盒测试（结构测试）
+黑盒测试（功能测试）
+灰盒测试（）
+}
+测试问题的目标：</p>
+<ol>
+<li>预防错误。</li>
+<li>发出错误。{
+未达到规定的功能。
+出现了不应该出现的错误。
+软件功能超出说明书的范围。
+未达到潜需求。
+不易使用、运行慢、体验不好……
+}
+《软件测试》（美）Patton
+错误、失效、故障
+软件测试原则：：{
+追溯到用户需求
+设计测试计划
+从小规模开始，逐步转向大规模
+不可能穷举测试
+由第三方测试
+}
+测试只能尽可能多的发现错误，无法保证能够发现所有错误。</li>
+</ol>
+<p>白盒测试主要方法有逻辑覆盖、基本路径测试等。依据程序逻辑结构。
+建立被测对象模型。控制流程图
+测试方法：{
+执行所有可能的穿过程序的控制流程路径
+语句测试（p1）。100%语句覆盖被称为c1。
+分支测试(p2)。100%分支覆盖率被称为c2.
+条件组合测试
+}
+至少做到c1+c2
+黑盒测试（或功能测试、数据驱动测试）方法：{
+等价类划分
+边界值分析
+因果图
+错误推测
+}
+黑盒测试试图发现：{
+功能不对或遗漏
+界面错误
+数据结构或外部数据库访问的错误
+性能错误
+初始化和终止错误
+}
+黑盒测试方法：{
+事务处理流程图：{ // 测试步骤
+1. 获取事务流程图，即建立被测对象模型
+2. 浏览与复审。对事务分类。
+3. 用例设计。
+4. 测试设备开发。
+5. 测试执行。
+6. 测试结果比较。
+}
+等价类划分：等价类、有效等价类、无效等价类
+边界值分析：{
+输出、输入选择等于边界值的数据、刚刚超过边界值的数据。
+输出、输入比最大个数少1、最大个数、比最大个数大1。
+从有序集合中选first/last。
+从内部数据结构的边界上取值。
+找到其他可能的边界。
+}
+}
+测试整体流程：{
+单元测试：{ // 白盒测试
+i/o条件
+逻辑结构
+对合理、不合理的输入要鉴别、响应
+审查代码
+做出单元测试计划
+代码审查
+静态测试：代码走查
+动态测试：测试用例：{
+模块接口、局部数据结构、重要执行路径、错误执行路径及4个方面的相应边界。
+}
+执行单元测试
+书写《缺陷跟踪报告》
+书写《测试总结报告》
+}
+集成测试：{
+任务：{
+模块间数据是否正常传输、是否正确。
+模块组合后是否可以正常工作。
+全局数据是否有问题。
+多个模块的误差累加后是否可以接受。
+}
+方法：{
+一次性组装全部模块
+增殖组装模块
+}
+}
+确认测试（有效性测试）：软件功能是否与需求相同：{
+}
+系统测试：在实际运行环境中，与其他软件组合在一起测试：{
+功能测试
+恢复测试
+安全性测试
+强度测试
+性能测试
+可用性测试
+部署测试（配置测试）
+}
+}</p>
+<p>week no.10</p>
+<p>项目定义、项目管理
+cpm（关键路径法）
+最乐观、最悲观、最可能
+统筹法
+<a href="http://www.pmrc.org.cn">www.pmrc.org.cn</a>
+<a href="http://www.pmi.org">www.pmi.org</a>
+体系指南：{
+范围管理   <br>
+时间管理   |
+费用管理   |基准计划
+质量管理   /
+人力资源管理<br>
+采购管理    |协调资源
+沟通管理    /
+风险管理    |防患于未然
+整合管理    |目标一致
+}
+pmbok / c-pmbok
+制定项目计划
+执行项目计划
+控制整体变更
+项目管理工具、技术：{
+wbs(work breakdown structure 工作分解结构)
+gantt chart
+network diagram
+earned value chart
+critical path method
+}
+项目管理要素：{
+范围
+进度
+成本
+质量
+}
+项目生命周期：{
+concept
+development
+implementation
+close-out
+}
+认识软件质量：{
+软件的质量取决于开发、改进它的过程的质量
+改进现有过程
+过程改进是一个持续的过程
+}
+cmm （the capability maturity model for software）可分为5级。第5级成熟度最高。{
+初始级
+严格的过程
+可重复级
+标准的一致的过程
+已定义级
+可预言的过程
+已管理级
+持续改善的过程
+持续优化级
+}
+通过cmm可定义、实施、度量、控制、改进软件过程。
+“没有一种单纯的技术或管理上的进步，能够独立地承诺在10年内大幅度地提高软件的生产率、可靠性和简洁性”
+{
+sw-cmm(cmm)
+se-cmm
+sa-cmm
+ipd-cmm
+p-cmm
+}
+{
+消除不一致
+减少重复
+送回清晰度和理解
+提供公共术语
+提供一致的风格
+建立统一的构造规则
+维护公共组件
+确保与iso/iec 15504保持一致
+}
+{
+定义了过程，建立了使用技术的基础。
+开发和管理遵循一个确定的途径。
+过程得到了很好地控制，并得到各方面（包括测量）的支持。
+实现了过程制度化，并不断改进。
+}
+过程、过程能力、过程性能、过程成熟度、组织成熟度</p>
+<p>week no.11</p>
+<p>case computer-aided software engineering
+case = 软件工程 + 自动化工具
+软件工程环境（工具集成模型）：{
+wasserman五级模型：{
+平台集成
+数据集成
+共享文件
+共享数据结构
+共享数据仓库
+表示集成：窗口系统集成、命令集成、交互集成
+控制集成
+过程集成
+}
+apse模型
+环境的层次模型：{
+工具（工作台）应用：{</p>
+<pre><code>}
+框架嗠
+平台服务：{
+    文件服务
+    进程服务
+    框架服务
+    ……
+  }
+</code></pre>
+<p>}
+pcte模型（portable common tool environment），面积unix/c
+}
+主流应用类型：{桌面应用、web应用、移动应用、其他工程领域，如嵌入式系统应用}
+主流开发平台类型：{window/linux/adroid/mac,ios}
+tiobe公司
+java:{eclipse,myeclipse,netbeans,jdk,jbuilder}
+c/c++:{vs,gcc,xcode,qt}
+web:{brackets,dw,sublime,webstorm,phpstorm,pycharm}
+iphone:{iphone sdk,xcode}
+android:{android sdk,android studio}
+win 10 mobile:{vs,uwp}</p>
+<p>UML可帮助我们做软件需求分析和软件设计的工作</p>
+<p>UML的分类
+结构型的图(Structure Diagram)
+类图(Class Diagram)
+对象图(Object Diagram)
+构件图(Component Diagram)
+部署图(Deployment Diagram)
+包图(Package Diagram)
+行为型的图(Behavior Diagram)
+活动图(Activity Diagram)
+状态机图(State Machine Diagram)
+顺序图(Sequence Diagram)
+通信图(Communication Diagram)
+用例图(Use Case Diagram)
+时序图(Timing Diagram)</p>
+
+        
+        
+    </body>
+    </html>
