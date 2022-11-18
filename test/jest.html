@@ -89,7 +89,7 @@
 </blockquote>
 <h3 id="feature">feature</h3>
 <ul>
-<li>要使用JEST，前端必须要以模块形式暴露，即module.exports</li>
+<li>要使用 JEST，前端必须要以模块形式暴露，即 module.exports</li>
 <li>feature1</li>
 <li>feature2</li>
 </ul>
@@ -166,14 +166,14 @@ npm run jest
 <pre><code class="language-shell"><div>npm i -D ts-jest
 npm i -D @jest/globals
 </div></code></pre>
-<pre><code class="language-ts"><div><span class="hljs-keyword">import</span> {describe, expect, test} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@jest/globals&#x27;</span>;
-<span class="hljs-keyword">import</span> {sum} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./sum&#x27;</span>;
+<pre><code class="language-ts"><div><span class="hljs-keyword">import</span> { describe, expect, test } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@jest/globals&#x27;</span>
+<span class="hljs-keyword">import</span> { sum } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./sum&#x27;</span>
 
 describe(<span class="hljs-string">&#x27;sum module&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
   test(<span class="hljs-string">&#x27;adds 1 + 2 to equal 3&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
-    expect(sum(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)).toBe(<span class="hljs-number">3</span>);
-  });
-});
+    expect(sum(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)).toBe(<span class="hljs-number">3</span>)
+  })
+})
 </div></code></pre>
 <h2 id="使用匹配器">使用匹配器</h2>
 <table>
@@ -199,7 +199,7 @@ describe(<span class="hljs-string">&#x27;sum module&#x27;</span>, <span class="h
 <tr>
 <td></td>
 <td>toBeNull()</td>
-<td>只能为null</td>
+<td>只能为 null</td>
 <td></td>
 <td></td>
 <td></td>
@@ -207,7 +207,7 @@ describe(<span class="hljs-string">&#x27;sum module&#x27;</span>, <span class="h
 <tr>
 <td></td>
 <td>toBeUndefined()</td>
-<td>只能为undefined</td>
+<td>只能为 undefined</td>
 <td></td>
 <td></td>
 <td></td>
@@ -215,7 +215,7 @@ describe(<span class="hljs-string">&#x27;sum module&#x27;</span>, <span class="h
 <tr>
 <td></td>
 <td>toBeDefined()</td>
-<td>非undefined</td>
+<td>非 undefined</td>
 <td></td>
 <td></td>
 <td></td>
@@ -353,54 +353,77 @@ describe(<span class="hljs-string">&#x27;sum module&#x27;</span>, <span class="h
 <h2 id="测试异步代码">测试异步代码</h2>
 <h3 id="promise">promise</h3>
 <pre><code class="language-js"><div>test(<span class="hljs-string">&#x27;describe&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
-    <span class="hljs-keyword">return</span> pf().then(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
-        expect(res).toBe(v)
-    })
+  <span class="hljs-keyword">return</span> pf().then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+    expect(res).toBe(v)
+  })
 })
 </div></code></pre>
 <h3 id="resolvesrejects">.resolves/.rejects</h3>
 <pre><code class="language-js"><div>test(<span class="hljs-string">&#x27;describe&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
-    <span class="hljs-comment">// .resolves 等promise变为fulfilled状态时触发判断</span>
-    <span class="hljs-keyword">return</span> expect(pf()).resolves.toBe(v)
+  <span class="hljs-comment">// .resolves 等promise变为fulfilled状态时触发判断</span>
+  <span class="hljs-keyword">return</span> expect(pf()).resolves.toBe(v)
 })
 test(<span class="hljs-string">&#x27;describe&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
-    <span class="hljs-keyword">return</span> expect(pf()).rejects.toMatch(v)
+  <span class="hljs-keyword">return</span> expect(pf()).rejects.toMatch(v)
 })
 </div></code></pre>
 <h3 id="asyncawait">async/await</h3>
 <pre><code class="language-js"><div>test(<span class="hljs-string">&#x27;describe&#x27;</span>, <span class="hljs-keyword">async</span> () =&gt; {
-    <span class="hljs-keyword">let</span> res = <span class="hljs-keyword">await</span> pf()
-    expect(res).toBe(v)
+  <span class="hljs-keyword">let</span> res = <span class="hljs-keyword">await</span> pf()
+  expect(res).toBe(v)
 })
 <span class="hljs-comment">// async/await &amp; resolves/rejects</span>
 test(<span class="hljs-string">&#x27;describe&#x27;</span>, <span class="hljs-keyword">async</span> () =&gt; {
-    <span class="hljs-comment">// await expect(pf()).resolves.boBe(v)</span>
-    <span class="hljs-keyword">await</span> expect(pf()).rejects.toMatch(<span class="hljs-string">&#x27;err&#x27;</span>)
+  <span class="hljs-comment">// await expect(pf()).resolves.boBe(v)</span>
+  <span class="hljs-keyword">await</span> expect(pf()).rejects.toMatch(<span class="hljs-string">&#x27;err&#x27;</span>)
 })
 </div></code></pre>
 <h3 id="callback">callback</h3>
 <pre><code class="language-js"><div>test(<span class="hljs-string">&#x27;describe&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">done</span>) =&gt;</span> {
-    <span class="hljs-comment">// done 为了防止出现等待过长时间</span>
-    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cb</span> (<span class="hljs-params">err, data</span>) </span>{
-        <span class="hljs-keyword">if</span> (err) {
-            done(err)
-            <span class="hljs-keyword">throw</span> err
-        }
-        expect(data).toBe(v)
-        done()
+  <span class="hljs-comment">// done 为了防止出现等待过长时间</span>
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cb</span>(<span class="hljs-params">err, data</span>) </span>{
+    <span class="hljs-keyword">if</span> (err) {
+      done(err)
+      <span class="hljs-keyword">throw</span> err
     }
-    fetchData(cb)
+    expect(data).toBe(v)
+    done()
+  }
+  fetchData(cb)
 })
 </div></code></pre>
+<h2 id="setup--teardown">setup &amp; teardown</h2>
+<p>钩子方法需要定义在测试方法之前。</p>
+<pre><code class="language-js"><div>beforeAll
+beforeEach
+test
+afterEach
+describe内的beforeAll
+beforeEach
+describe内的beforeEach
+describe内的test
+describe内的afterEach
+afterEach
+describe内的afterAll
+afterAll
+</div></code></pre>
+<p>全局的钩子包含内容的钩子。<br>
+<code>describe('str', () =&gt; {...})</code> 用于分组测试。<br>
+describe方法可以嵌套。<br>
+test.only('str', () =&gt; {...}) 只运行此测试方法。</p>
+<h2 id="mock-functions">mock functions</h2>
 <h2 id="title">title</h2>
 <h2 id="title-1">title</h2>
 <h2 id="title-2">title</h2>
 <h2 id="title-3">title</h2>
 <h2 id="title-4">title</h2>
 <h2 id="title-5">title</h2>
-<h2 id="title-6">title</h2>
-<h2 id="title-7">title</h2>
-<h2 id="title-8">title</h2>
+<h2 id="基本结构">基本结构</h2>
+<pre><code class="language-js"><div><span class="hljs-comment">// file.test.js</span>
+
+beforeAll
+afterAll
+</div></code></pre>
 <h2 id="api">api</h2>
 <p><code>jest.fn(param, first: string, second: boolean = true) =&gt; void</code>
 description</p>
@@ -409,7 +432,8 @@ description</p>
 <h2 id="principle">principle</h2>
 <p>此包的处理逻辑。</p>
 <h3 id="uml">uml</h3>
-<pre><code><code><div></div></code></code></pre>
+<pre><code><code><div>
+</div></code></code></pre>
 <h2 id="todo">todo</h2>
 <blockquote>
 <p>未来迭代计划。

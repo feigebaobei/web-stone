@@ -152,7 +152,31 @@ test('describe', (done) => {
 })
 ```
 
-## title
+## setup & teardown
+
+钩子方法需要定义在测试方法之前。
+
+```js
+beforeAll
+beforeEach
+test
+afterEach
+describe内的beforeAll
+beforeEach
+describe内的beforeEach
+describe内的test
+describe内的afterEach
+afterEach
+describe内的afterAll
+afterAll
+```
+
+全局的钩子包含内容的钩子。  
+`describe('str', () => {...})` 用于分组测试。  
+describe 方法可以嵌套。  
+test.only('str', () => {...}) 只运行此测试方法。
+
+## mock functions
 
 ## title
 
@@ -166,9 +190,14 @@ test('describe', (done) => {
 
 ## title
 
-## title
+## 基本结构
 
-## title
+```js
+// file.test.js
+
+beforeAll
+afterAll
+```
 
 ## api
 
