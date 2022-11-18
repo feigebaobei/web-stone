@@ -309,8 +309,16 @@ FiberNode 也有人叫 Fiber
   },
   "memoizedProps": null,    // 输出更新后节点需要使用的props
   "updateQueue": null,      // 更新队列。详见下文。
-  "memoizedState": null,    // 当前状态。初始化FiberNode节点时会赋初始值。好像与双缓存有关
+  "memoizedState": null,    // 上次渲染组件是使用的状态。初始化FiberNode节点时会赋初始值。
                             // 输出更新后节点需要使用的state
+                {           // 这是一个hook对象
+                  baseState,
+                  next,         // 指向下一次useState对应的hook对象
+                                // 又是链表
+                  baseUpdate,
+                  queue,
+                  memoizedState, // useState返回的结果
+                }
   "dependencies": null,
   "mode": 3,
   "flags": 0,               // 该节点的side-effect。功能同原来的effectTag
@@ -438,6 +446,22 @@ export const MountPassiveDev = /*              */ 0b10000000000000000000000000;
 ## [使用本地 react/react-dom](/framework/react/useLocalReact.html)
 
 ## hooks 的工作原理
+
+更新是如何发生：
+
+调用 useState，内部通过 setState 修改状态后，调用 scheduleUpdate 方法，从根节点执行完整的 dom-diff 比较，进行组件的更新。
+
+为什么不能再条件语句或循环中使用 Hook
+
+从实现来看，每次 hook 的执行，都是从索引为 0 即第一个 hook 开始执行。也是依靠索引记录当前操作的 Hook，假如使用条件语句或者循环，那么 hook 执行的顺序可能与我们在数组中存放的顺序不一致，就会乱掉。因此不能在条件语句或循环中使用 Hook。
+
+方法组件中使用`memoizedState`属性保存 state。
+`FiberNode.memoizedState`  
+一个组件的多个 useState()使用链表的方式串起来。  
+在方法组件更新时会执行完整的方法体。所以会依次执行 useState()。若把 useState()写在非顶级，则有可能不会执行全部 useState()，这样会引发`memoizedState`链出错。
+
+hooks 的状态数据是存放在对应的函数组件的 fiber.memoizedState；  
+一个函数组件上如果有多个 hook，他们会通过声明的顺序以链表的结构存储；
 
 ## tittle
 

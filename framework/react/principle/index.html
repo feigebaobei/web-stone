@@ -715,8 +715,16 @@ FiberNode 也有人叫 Fiber
   },
   <span class="hljs-string">&quot;memoizedProps&quot;</span>: <span class="hljs-literal">null</span>,    <span class="hljs-comment">// 输出更新后节点需要使用的props</span>
   <span class="hljs-string">&quot;updateQueue&quot;</span>: <span class="hljs-literal">null</span>,      <span class="hljs-comment">// 更新队列。详见下文。</span>
-  <span class="hljs-string">&quot;memoizedState&quot;</span>: <span class="hljs-literal">null</span>,    <span class="hljs-comment">// 当前状态。初始化FiberNode节点时会赋初始值。好像与双缓存有关</span>
+  <span class="hljs-string">&quot;memoizedState&quot;</span>: <span class="hljs-literal">null</span>,    <span class="hljs-comment">// 上次渲染组件是使用的状态。初始化FiberNode节点时会赋初始值。</span>
                             <span class="hljs-comment">// 输出更新后节点需要使用的state</span>
+                {           <span class="hljs-comment">// 这是一个hook对象</span>
+                  baseState,
+                  next,         <span class="hljs-comment">// 指向下一次useState对应的hook对象</span>
+                                <span class="hljs-comment">// 又是链表</span>
+                  baseUpdate,
+                  queue,
+                  memoizedState, <span class="hljs-comment">// useState返回的结果</span>
+                }
   <span class="hljs-string">&quot;dependencies&quot;</span>: <span class="hljs-literal">null</span>,
   <span class="hljs-string">&quot;mode&quot;</span>: <span class="hljs-number">3</span>,
   <span class="hljs-string">&quot;flags&quot;</span>: <span class="hljs-number">0</span>,               <span class="hljs-comment">// 该节点的side-effect。功能同原来的effectTag</span>
@@ -842,6 +850,16 @@ flags 表示effect的编码
 </div></code></pre>
 <h2 id="使用本地-reactreact-dom"><a href="/framework/react/useLocalReact.html">使用本地 react/react-dom</a></h2>
 <h2 id="hooks-的工作原理">hooks 的工作原理</h2>
+<p>更新是如何发生：</p>
+<p>调用useState，内部通过setState修改状态后，调用scheduleUpdate方法，从根节点执行完整的dom-diff比较，进行组件的更新。</p>
+<p>为什么不能再条件语句或循环中使用Hook</p>
+<p>从实现来看，每次hook的执行，都是从索引为0即第一个hook开始执行。也是依靠索引记录当前操作的Hook，假如使用条件语句或者循环，那么hook执行的顺序可能与我们在数组中存放的顺序不一致，就会乱掉。因此不能在条件语句或循环中使用Hook。</p>
+<p>方法组件中使用<code>memoizedState</code>属性保存state。
+<code>FiberNode.memoizedState</code><br>
+一个组件的多个useState()使用链表的方式串起来。<br>
+在方法组件更新时会执行完整的方法体。所以会依次执行useState()。若把useState()写在非顶级，则有可能不会执行全部useState()，这样会引发<code>memoizedState</code>链出错。</p>
+<p>hooks的状态数据是存放在对应的函数组件的fiber.memoizedState；<br>
+一个函数组件上如果有多个hook，他们会通过声明的顺序以链表的结构存储；</p>
 <h2 id="tittle">tittle</h2>
 <h2 id="tittle-1">tittle</h2>
 <h2 id="tittle-2">tittle</h2>
@@ -887,7 +905,7 @@ flags 表示effect的编码
 <tr>
 <td></td>
 <td></td>
-<td>每个节点使用 render 方法创建新的ReactElement。再由新的ReactElement生成workInProgress</td>
+<td>每个节点使用 render 方法创建新的 ReactElement。再由新的 ReactElement 生成 workInProgress</td>
 <td></td>
 <td></td>
 </tr>
@@ -1038,7 +1056,7 @@ FiberRootNode.stateNode 指向 HostRoot</p>
 </tr>
 </tbody>
 </table>
-<p>调用 setState/React.render 会把对应的FiberNode指定为需要更新的元素。</p>
+<p>调用 setState/React.render 会把对应的 FiberNode 指定为需要更新的元素。</p>
 <h4 id="render-phase">render phase</h4>
 <p>使用 effectTag 标记该节点应该如何更新。更新工作会在 commit 阶段做。<br>
 此阶段不能执行 side-effect
