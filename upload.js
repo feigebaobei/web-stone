@@ -249,12 +249,11 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = 'jsPackages/serve'
+    // let p = 'test'
     let p = [
-      // 'builder/rollup/index.html',
-      'framework/react/principle/index.html',
-      // 'jsPackages/index.html',
-      // 'open/index.html',
+      // 'test/index.html',
+      // 'test/jest.html',
+      // 'test/tenet.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
