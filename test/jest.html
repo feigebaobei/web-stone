@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>&#x6d4b;&#x8bd5;</title>
+        <title>jest</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -79,133 +79,107 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="测试">测试</h1>
-<p>测试就是预期值与实际值比对。若相等则通过，否则不通过。</p>
-<p>分类（不同技术）：</p>
-<p>分类（不同方式）：</p>
+        <h1 id="jest">jest</h1>
+<h2 id="overview">overview</h2>
+<blockquote>
+<p>无需配置<br>
+可快照<br>
+可隔离<br>
+优秀接口</p>
+</blockquote>
+<h3 id="feature">feature</h3>
 <ul>
-<li>手动测试
-<ul>
-<li>黑盒测试
-<ul>
-<li>功能测试
-<ul>
-<li>单元测试</li>
-<li>集成测试</li>
-<li>系统测试</li>
-<li>验收测试</li>
+<li>要使用JEST，前端必须要以模块形式暴露，即module.exports</li>
+<li>feature1</li>
+<li>feature2</li>
 </ul>
-</li>
-<li>非功能测试
-<ul>
-<li>兼容性测试</li>
-<li>性能测试
-<ul>
-<li>负载测试</li>
-<li>压力测试</li>
-<li>可扩展性测试</li>
-<li>稳定性测试</li>
-</ul>
-</li>
-<li>可用性测试</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>白盒测试</li>
-<li>灰盒测试</li>
-</ul>
-</li>
-<li>自动化测试</li>
-</ul>
-<h1 id="测试级别">测试级别</h1>
+<h2 id="install">install</h2>
+<p><code>npm i jest -D</code></p>
+<h2 id="usage">usage</h2>
+<pre><code class="language-js"><div><span class="hljs-comment">// 定义被测试的文件 sum.js</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sum</span> (<span class="hljs-params">a, b</span>) </span>{ <span class="hljs-keyword">return</span> a + b }
+<span class="hljs-built_in">module</span>.exports = sum
+
+<span class="hljs-comment">// 在根目录中创建 sum.test.js</span>
+<span class="hljs-keyword">const</span> sum = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;./sum&#x27;</span>)
+test(<span class="hljs-string">&quot;describe&quot;</span>, <span class="hljs-function">() =&gt;</span> {
+    expect(sum(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>).toBe(<span class="hljs-number">3</span>))
+})
+
+<span class="hljs-comment">// 在package.json中设置脚本</span>
+{
+    <span class="hljs-string">&quot;scripts&quot;</span>: {
+        <span class="hljs-string">&quot;jest&quot;</span>: <span class="hljs-string">&quot;jest&quot;</span>
+    }
+}
+
+<span class="hljs-comment">// 运行测试命令</span>
+npm run jest
+</div></code></pre>
+<h2 id="configuration">configuration</h2>
+<pre><code class="language-shell"><div>jest --init
+</div></code></pre>
+<p>默认配置文件：<code>path/to/file.json</code>。</p>
 <table>
 <thead>
 <tr>
+<th>key</th>
+<th>description</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
 <th></th>
-<th>目标（范围）</th>
-<th>目的</th>
 <th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>单元测试</td>
-<td>测试一个单元</td>
 <td></td>
 <td></td>
-</tr>
-<tr>
-<td>集成测试</td>
-<td>测试多个单元</td>
+<td></td>
+<td></td>
+<td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td>系统测试</td>
-<td>整个软件</td>
-<td>评估系统是否符合要求</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 <td></td>
 </tr>
 <tr>
-<td>验收测试</td>
-<td>整个软件</td>
-<td>评估是否符合业务需求。是否可交付。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 <td></td>
 </tr>
 </tbody>
 </table>
-<h1 id="测试原则"><a href="/test/tenet.html">测试原则</a></h1>
-<ul>
-<li>c1</li>
-<li>c2</li>
-<li>c3</li>
-<li>c4</li>
-</ul>
-<h1 id="自动化测试">自动化测试</h1>
+<h2 id="jest--ts">jest &amp; ts</h2>
+<pre><code class="language-shell"><div>npm i -D ts-jest
+npm i -D @jest/globals
+</div></code></pre>
+<pre><code class="language-ts"><div><span class="hljs-keyword">import</span> {describe, expect, test} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@jest/globals&#x27;</span>;
+<span class="hljs-keyword">import</span> {sum} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./sum&#x27;</span>;
+
+describe(<span class="hljs-string">&#x27;sum module&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+  test(<span class="hljs-string">&#x27;adds 1 + 2 to equal 3&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+    expect(sum(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)).toBe(<span class="hljs-number">3</span>);
+  });
+});
+</div></code></pre>
+<h2 id="使用匹配器">使用匹配器</h2>
 <table>
 <thead>
 <tr>
 <th></th>
-<th>TDD</th>
-<th>BDD</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td>测试驱动开发，Test Driven Development</td>
-<td>行为驱动开发，Behavior Driven Development</td>
-</tr>
-<tr>
-<td></td>
-<td>先写测试用例代码，再写功能代码</td>
-<td>先写功能代码，再写测试用例代码</td>
-</tr>
-<tr>
-<td></td>
-<td>并且不断的重复上述步骤直到完成开发工作。TDD一般结合单元测试使用，是白盒测试。</td>
-<td>一般结合集成测试或端到端测试使用，是黑盒测试。</td>
-</tr>
-</tbody>
-</table>
-<h2 id="目的">目的</h2>
-<ul>
-<li>产品迭代频繁</li>
-<li>多人共同参与开发，代码维护难</li>
-<li>测试人力不足，回归测试耗时耗力</li>
-<li>验证代码正确性，保障产品质量</li>
-<li>提高测试效率</li>
-<li>起到文档作用</li>
-</ul>
-<h2 id="测试框架">测试框架</h2>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>jest</th>
-<th>mocha</th>
-<th>cypress</th>
 <th></th>
 <th></th>
 <th></th>
@@ -215,10 +189,7 @@
 </thead>
 <tbody>
 <tr>
-<td>单元测试</td>
-<td>v</td>
-<td>v</td>
-<td>v</td>
+<td>判断</td>
 <td></td>
 <td></td>
 <td></td>
@@ -226,10 +197,47 @@
 <td></td>
 </tr>
 <tr>
-<td>集成测试</td>
+<td></td>
+<td>toBeNull()</td>
+<td>只能为null</td>
 <td></td>
 <td></td>
-<td>v</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>toBeUndefined()</td>
+<td>只能为undefined</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>toBeDefined()</td>
+<td>非undefined</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>toBeTruthy()</td>
+<td>真</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>toBeFalsy()</td>
+<td>假</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>数字</td>
 <td></td>
 <td></td>
 <td></td>
@@ -237,32 +245,177 @@
 <td></td>
 </tr>
 <tr>
-<td>端到端测试</td>
+<td></td>
+<td>toBeGreaterThan()</td>
+<td>&gt;</td>
 <td></td>
 <td></td>
-<td>v</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>toBeGreaterThanOrEqual()</td>
+<td>&gt;=</td>
 <td></td>
 <td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>toBeLessThan()</td>
+<td>&lt;</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>toBeLessThanOrEqual()</td>
+<td>&lt;=</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>toBe()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>toEqual()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>toBeCloseTo()</td>
+<td>在浮点型数字时阻止出现过多小数的情况</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>字符串</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>toMatch(reg)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>array &amp; iterables</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>toContain()</td>
+<td>是否包含</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>exceptions</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>expect(() =&gt; fn()).toThrow()</td>
+<td>判断指定方法是否返回错误</td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 </tbody>
 </table>
-<ul>
-<li><a href="/test/jest.html">jest</a></li>
-<li><a href="/test/mocha.html">mocha</a></li>
-<li><a href="/test/cypress.html">cypress</a></li>
-</ul>
-<h1 id="常用测试框架结构">常用测试框架结构：</h1>
-<ul>
-<li>断言库</li>
-<li>测试运行器 test runner</li>
-<li>端到端测试工具</li>
-</ul>
-<h1 id="断言库">断言库</h1>
-<h1 id="测试运行器-test-runner">测试运行器 test runner</h1>
-<h1 id="端到端测试工具">端到端测试工具</h1>
+<h2 id="测试异步代码">测试异步代码</h2>
+<h3 id="promise">promise</h3>
+<pre><code class="language-js"><div>test(<span class="hljs-string">&#x27;describe&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-keyword">return</span> pf().then(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
+        expect(res).toBe(v)
+    })
+})
+</div></code></pre>
+<h3 id="resolvesrejects">.resolves/.rejects</h3>
+<pre><code class="language-js"><div>test(<span class="hljs-string">&#x27;describe&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-comment">// .resolves 等promise变为fulfilled状态时触发判断</span>
+    <span class="hljs-keyword">return</span> expect(pf()).resolves.toBe(v)
+})
+test(<span class="hljs-string">&#x27;describe&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-keyword">return</span> expect(pf()).rejects.toMatch(v)
+})
+</div></code></pre>
+<h3 id="asyncawait">async/await</h3>
+<pre><code class="language-js"><div>test(<span class="hljs-string">&#x27;describe&#x27;</span>, <span class="hljs-keyword">async</span> () =&gt; {
+    <span class="hljs-keyword">let</span> res = <span class="hljs-keyword">await</span> pf()
+    expect(res).toBe(v)
+})
+<span class="hljs-comment">// async/await &amp; resolves/rejects</span>
+test(<span class="hljs-string">&#x27;describe&#x27;</span>, <span class="hljs-keyword">async</span> () =&gt; {
+    <span class="hljs-comment">// await expect(pf()).resolves.boBe(v)</span>
+    <span class="hljs-keyword">await</span> expect(pf()).rejects.toMatch(<span class="hljs-string">&#x27;err&#x27;</span>)
+})
+</div></code></pre>
+<h3 id="callback">callback</h3>
+<pre><code class="language-js"><div>test(<span class="hljs-string">&#x27;describe&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">done</span>) =&gt;</span> {
+    <span class="hljs-comment">// done 为了防止出现等待过长时间</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cb</span> (<span class="hljs-params">err, data</span>) </span>{
+        <span class="hljs-keyword">if</span> (err) {
+            done(err)
+            <span class="hljs-keyword">throw</span> err
+        }
+        expect(data).toBe(v)
+        done()
+    }
+    fetchData(cb)
+})
+</div></code></pre>
+<h2 id="title">title</h2>
+<h2 id="title-1">title</h2>
+<h2 id="title-2">title</h2>
+<h2 id="title-3">title</h2>
+<h2 id="title-4">title</h2>
+<h2 id="title-5">title</h2>
+<h2 id="title-6">title</h2>
+<h2 id="title-7">title</h2>
+<h2 id="title-8">title</h2>
+<h2 id="api">api</h2>
+<p><code>jest.fn(param, first: string, second: boolean = true) =&gt; void</code>
+description</p>
+<p><code>jest.fn(param, [options: {a: string, b?: number}])</code>
+description</p>
+<h2 id="principle">principle</h2>
+<p>此包的处理逻辑。</p>
+<h3 id="uml">uml</h3>
+<pre><code><code><div></div></code></code></pre>
+<h2 id="todo">todo</h2>
+<blockquote>
+<p>未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote>
 
         
         
