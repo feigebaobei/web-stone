@@ -20,6 +20,28 @@
 - 绑定事件示例 `<button onClick={() => this.handleClick()}>` `<button onClick={this.handleClick}>`
 - 传参示例 `<button onClick={(e) => this.deleteRow(id, e)}>Delete Row</button>` `<button onClick={this.deleteRow.bind(this, id)}>Delete Row</button>`
 
+## 合成事件的属性
+
+```js
+boolean bubbles
+boolean cancelable
+DOMEventTarget currentTarget
+boolean defaultPrevented
+number eventPhase
+boolean isTrusted
+DOMEvent nativeEvent
+void preventDefault()
+boolean isDefaultPrevented()
+void stopPropagation()
+boolean isPropagationStopped()
+void persist()
+DOMEventTarget target
+number timeStamp
+string type
+```
+
+## 各种事件
+
 |            |     |     |
 | ---------- | --- | --- |
 | 剪贴板事件 |     |     |

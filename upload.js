@@ -251,9 +251,12 @@ c.on('ready', () => {
     }
     // let p = 'test/jest'
     let p = [
-      'test/index.html',
-      // 'test/jest.html',
-      // 'test/tenet.html',
+      'open/index.html',
+      'development/index.html',
+      // 'framework/react/index.html',
+      // 'framework/react/test.html',
+      // 'test/jest/matcher.html',
+      // 'test/jest/util.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
