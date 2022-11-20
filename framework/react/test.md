@@ -72,3 +72,5 @@ it('str', () => {
 | findRenederdComponentWithType(tree, componentClass)               |                                                                 |              |                                               |     |
 | renderIntoDocument(element)                                       | 不会，好像挺重要的。把 ReactElement 渲染到指定 dom 中。         | ReactElement |                                               |     |
 | Simulate.{eventName}(element, eventData?)                         |                                                                 |              | `ReactTestUtils.Simulate.click(ReactElement)` |     |
+
+# [react-test-renderer](/jsPackages/react-test-renderer.html)

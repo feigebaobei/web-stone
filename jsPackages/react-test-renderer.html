@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>test utilities</title>
+        <title>react-test-renderer</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -79,49 +79,31 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="test-utilities">test utilities</h1>
-<p>react 有一个自己的单测包 react-dom/test-utils</p>
-<h2 id="引入">引入</h2>
-<pre><code class="language-js"><div><span class="hljs-comment">// es6</span>
-<span class="hljs-keyword">import</span> ReactTestUtils <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react-dom/test-utils&#x27;</span>
-<span class="hljs-comment">// es5</span>
-<span class="hljs-keyword">var</span> ReactTestUtils = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;react-dom/test-utils&#x27;</span>)
-</div></code></pre>
+        <h1 id="react-test-renderer">react-test-renderer</h1>
+<h2 id="overview">overview</h2>
+<blockquote>
+<p>不需要dom/native mobile环境，把react组件渲染为纯js对象。</p>
+</blockquote>
+<h3 id="feature">feature</h3>
+<ul>
+<li>feature0</li>
+<li>feature1</li>
+<li>feature2</li>
+</ul>
+<h2 id="install">install</h2>
+<p><code>npm i react-test-renderer</code></p>
 <h2 id="usage">usage</h2>
-<p>通常与 jest 结合使用。</p>
-<h3 id="demo">demo</h3>
-<pre><code class="language-js"><div><span class="hljs-comment">// Counter.test.js</span>
-<span class="hljs-comment">// 前提：</span>
-<span class="hljs-comment">// 已经存在Counter组件</span>
-<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span>
-<span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react-dom/client&#x27;</span>
-<span class="hljs-keyword">import</span> { act } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react-dom/test-utils&#x27;</span>
-<span class="hljs-keyword">import</span> Counter <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./Counter&#x27;</span>
-
-<span class="hljs-keyword">let</span> container
-beforeEach(<span class="hljs-function">() =&gt;</span> {
-  container = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">&#x27;div&#x27;</span>)
-  <span class="hljs-built_in">document</span>.body.appendChild(container)
-})
-afterEach(<span class="hljs-function">() =&gt;</span> {
-  <span class="hljs-built_in">document</span>.body.removeChild(container)
-  container = <span class="hljs-literal">null</span>
-})
-<span class="hljs-comment">// it 与 test 互为别名</span>
-it(<span class="hljs-string">&#x27;str&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
-  <span class="hljs-comment">//</span>
-  act(<span class="hljs-function">() =&gt;</span> {
-    ReactDOM.createRoot(container).render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Counter</span> /&gt;</span></span>)
-  })
-  expect(container.querySelector(<span class="hljs-string">&#x27;p&#x27;</span>).textContent).toBe(<span class="hljs-string">&#x27;str&#x27;</span>)
-
-  act(<span class="hljs-function">() =&gt;</span> {
-    container
-      .querySelector(<span class="hljs-string">&#x27;button&#x27;</span>)
-      .dispatchEvent(<span class="hljs-keyword">new</span> MouseEvent(<span class="hljs-string">&#x27;click&#x27;</span>, { <span class="hljs-attr">bubbles</span>: <span class="hljs-literal">true</span> }))
-  })
-  expect(container.querySelector(<span class="hljs-string">&#x27;p&#x27;</span>).textContent).toBe(<span class="hljs-string">&#x27;str1&#x27;</span>)
-})
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span> TestRenderer <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react-test-renderer&#x27;</span>;
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Link</span>(<span class="hljs-params">props</span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">{props.page}</span>&gt;</span>{props.children}<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></span>;
+}
+<span class="hljs-keyword">const</span> testRenderer = TestRenderer.create(
+  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Link</span> <span class="hljs-attr">page</span>=<span class="hljs-string">&quot;https://www.facebook.com/&quot;</span>&gt;</span>Facebook<span class="hljs-tag">&lt;/<span class="hljs-name">Link</span>&gt;</span></span>
+);
+<span class="hljs-built_in">console</span>.log(testRenderer.toJSON());
+<span class="hljs-comment">// { type: &#x27;a&#x27;,</span>
+<span class="hljs-comment">//   props: { href: &#x27;https://www.facebook.com/&#x27; },</span>
+<span class="hljs-comment">//   children: [ &#x27;Facebook&#x27; ] }</span>
 </div></code></pre>
 <h2 id="api">api</h2>
 <table>
@@ -130,126 +112,177 @@ it(<span class="hljs-string">&#x27;str&#x27;</span>, <span class="hljs-function"
 <th></th>
 <th>说明</th>
 <th>参数</th>
-<th>demo</th>
+<th></th>
 <th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>act(fn)</td>
-<td>为后续的断言、比较。需要在此方法中渲染、更新组件。</td>
-<td>fn 是方法</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>mockComponent(componentClass, mockTagName?)</td>
-<td>创建一个假组件，使用指定标签（mockTagName）渲染。用于包裹子元素</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>isElement(element) =&gt; boolean</td>
-<td>参数是否是 ReactElement 对象</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>isElementOfType(element, componentClass) =&gt; boolean</td>
-<td>参数是否是指定的 Class 组件</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>isDOMComponent(instance) =&gt; boolean</td>
-<td>是否是指定的 dom 元素</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>isCompositeComponent(instance) =&gt; boolean</td>
-<td>是否是用户定义的组件。如：class 组件、funciton 组件</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>isCompositeComponentWithType(instance, componentClass) =&gt; boolean</td>
-<td>instance 是否是指定类的实例</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>findAllInRenderedTree(tree, test)</td>
+<td>静态方法</td>
 <td></td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td>scryRenderedDOMComponentsWithClass(tree, className)</td>
-<td>在渲染树中找到所有与 className 相匹配的组件</td>
 <td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>findRenderedDOMComponentWithclass(tree, className)</td>
-<td></td>
-<td></td>
+<td>create(element, options) =&gt; object</td>
+<td>创建一个表示组件树的对象（不是ReactElement/FiberNode），保存在内存中。</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td>scryRenderedDOMComponentWithTag(tree, tagName)</td>
 <td></td>
-<td></td>
+<td>act(cb)</td>
+<td>在cb中执行渲染组件的工作。通常会用于TestRenderer.creat()/TestRenderer.update()</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td>findRenderedDOMComponentWithTag(tree, tagName)</td>
+<td>原型对象上的属性</td>
 <td></td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td>scryRenderedComponentsWithType(tree, copmonentClass)</td>
-<td>找到所有指定类的实例</td>
+<td></td>
+<td>toJSON()</td>
+<td>返回一个已经渲染的组件树的对象</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>toTree()</td>
+<td>返回一个已经渲染的组件树的对象。比toJSON()详细</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>update(element)</td>
+<td>模拟一次更新</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>unmount()</td>
+<td>模拟一次卸载</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>getInstance()</td>
+<td>返回根组件对应的实例。函数组件无实例。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>root</td>
+<td>返回根元素</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>实例对象上的属性</td>
+<td></td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td>findRenederdComponentWithType(tree, componentClass)</td>
 <td></td>
+<td>find(cb)</td>
+<td>返回cb(testInstance)为true的后代测试实例，若不是一个实例，则报错。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>findByType(type)</td>
+<td>返回匹配type的后代测试实例，若不是一个实例，则报错。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>findByProps(props)</td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td>renderIntoDocument(element)</td>
-<td>不会，好像挺重要的。把 ReactElement 渲染到指定 dom 中。</td>
-<td>ReactElement</td>
+<td></td>
+<td>findAll()</td>
+<td>返回所有test(testInstance)为true的后代实例</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td>Simulate.{eventName}(element, eventData?)</td>
+<td></td>
+<td>findAllByType()</td>
 <td></td>
 <td></td>
-<td><code>ReactTestUtils.Simulate.click(ReactElement)</code></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>findAllByProps()</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>instance</td>
+<td>返回测试实例相对应的组件实例。方法组件无实例。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>type</td>
+<td>返回组件的type</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>ptops</td>
+<td>返回组件的ptops</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>parent</td>
+<td>返回组件的parent (父测试实例)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>children</td>
+<td>返回组件的children （子测试实例）</td>
+<td></td>
 <td></td>
 </tr>
 </tbody>
 </table>
-<h1 id="react-test-renderer"><a href="/jsPackages/react-test-renderer.html">react-test-renderer</a></h1>
+<h2 id="principle">principle</h2>
+<p>此包的处理逻辑。</p>
+<h3 id="uml">uml</h3>
+<pre><code><code><div></div></code></code></pre>
+<h2 id="todo">todo</h2>
+<blockquote>
+<p>未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote>
 
         
         
