@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>jest</title>
+        <title>test utilities</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -79,486 +79,174 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="jest">jest</h1>
-<h2 id="overview">overview</h2>
-<p>官网的文档写的太差了。</p>
-<blockquote>
-<p>无需配置<br>
-可快照<br>
-可隔离<br>
-优秀接口</p>
-</blockquote>
-<h3 id="feature">feature</h3>
-<ul>
-<li>要使用 JEST，前端必须要以模块形式暴露，即 module.exports</li>
-<li>feature1</li>
-<li>feature2</li>
-</ul>
-<h2 id="install">install</h2>
-<p><code>npm i jest -D</code></p>
+        <h1 id="test-utilities">test utilities</h1>
+<p>react 有一个自己的单测包 react-dom/test-utils</p>
+<h2 id="引入">引入</h2>
+<pre><code class="language-js"><div><span class="hljs-comment">// es6</span>
+<span class="hljs-keyword">import</span> ReactTestUtils <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react-dom/test-utils&#x27;</span>
+<span class="hljs-comment">// es5</span>
+<span class="hljs-keyword">var</span> ReactTestUtils = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;react-dom/test-utils&#x27;</span>)
+</div></code></pre>
 <h2 id="usage">usage</h2>
-<pre><code class="language-js"><div><span class="hljs-comment">// 定义被测试的文件 sum.js</span>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sum</span> (<span class="hljs-params">a, b</span>) </span>{ <span class="hljs-keyword">return</span> a + b }
-<span class="hljs-built_in">module</span>.exports = sum
+<p>通常与jest结合使用。</p>
+<h3 id="demo">demo</h3>
+<pre><code class="language-js"><div><span class="hljs-comment">// Counter.test.js</span>
+<span class="hljs-comment">// 前提：</span>
+<span class="hljs-comment">// 已经存在Counter组件</span>
+<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span>
+<span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react-dom/client&#x27;</span>
+<span class="hljs-keyword">import</span> { act } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react-dom/test-utils&#x27;</span>
+<span class="hljs-keyword">import</span> Counter <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./Counter&#x27;</span>
 
-<span class="hljs-comment">// 在根目录中创建 sum.test.js</span>
-<span class="hljs-keyword">const</span> sum = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;./sum&#x27;</span>)
-describe(<span class="hljs-string">&#x27;sum module&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
-  <span class="hljs-comment">// describe中可以有多个test</span>
-  <span class="hljs-comment">// it 与 test 互为别名</span>
-  test(<span class="hljs-string">&quot;describe&quot;</span>, <span class="hljs-function">() =&gt;</span> {
-    <span class="hljs-comment">// test中可以有多个expect</span>
-    expect(sum(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>).toBe(<span class="hljs-number">3</span>))
-  })
+<span class="hljs-keyword">let</span> container;
+beforeEach(<span class="hljs-function">() =&gt;</span> {
+    container = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">&#x27;div&#x27;</span>)
+    <span class="hljs-built_in">document</span>.body.appendChild(container)
 })
+afterEach(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-built_in">document</span>.body.removeChild(container)
+    container = <span class="hljs-literal">null</span>
+})
+<span class="hljs-comment">// it 与 test 互为别名</span>
+it(<span class="hljs-string">&#x27;str&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-comment">// </span>
+    act(<span class="hljs-function">() =&gt;</span> {
+        ReactDOM.createRoot(container).render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Counter</span> /&gt;</span></span>)
+    })
+    expect(container.querySelector(<span class="hljs-string">&#x27;p&#x27;</span>).textContent).toBe(<span class="hljs-string">&#x27;str&#x27;</span>)
 
-<span class="hljs-comment">// 在package.json中设置脚本</span>
-{
-    <span class="hljs-string">&quot;scripts&quot;</span>: {
-        <span class="hljs-string">&quot;jest&quot;</span>: <span class="hljs-string">&quot;jest&quot;</span>
-    }
-}
-
-<span class="hljs-comment">// 运行测试命令</span>
-npm run jest
-</div></code></pre>
-<h2 id="configuration">configuration</h2>
-<pre><code class="language-shell"><div>jest --init
-</div></code></pre>
-<p>默认配置文件：<code>path/to/file.json</code>。</p>
-<table>
-<thead>
-<tr>
-<th>key</th>
-<th>description</th>
-<th>default</th>
-<th>enum</th>
-<th>demo</th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="jest--ts">jest &amp; ts</h2>
-<pre><code class="language-shell"><div>npm i -D ts-jest
-npm i -D @jest/globals
-</div></code></pre>
-<pre><code class="language-ts"><div><span class="hljs-keyword">import</span> { describe, expect, test } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@jest/globals&#x27;</span>
-<span class="hljs-keyword">import</span> { sum } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./sum&#x27;</span>
-
-describe(<span class="hljs-string">&#x27;sum module&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
-  test(<span class="hljs-string">&#x27;adds 1 + 2 to equal 3&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
-    expect(sum(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)).toBe(<span class="hljs-number">3</span>)
-  })
+    act(<span class="hljs-function">() =&gt;</span> {
+        container.querySelector(<span class="hljs-string">&#x27;button&#x27;</span>).dispatchEvent(<span class="hljs-keyword">new</span> MouseEvent(<span class="hljs-string">&#x27;click&#x27;</span>, {<span class="hljs-attr">bubbles</span>: <span class="hljs-literal">true</span>}))
+    })
+    expect(container.querySelector(<span class="hljs-string">&#x27;p&#x27;</span>).textContent).toBe(<span class="hljs-string">&#x27;str1&#x27;</span>)
 })
-</div></code></pre>
-<h2 id="匹配器"><a href="/test/jest/macher.html">匹配器</a></h2>
-<p>常用匹配器</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>判断</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>toBeNull()</td>
-<td>只能为 null</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>toBeUndefined()</td>
-<td>只能为 undefined</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>toBeDefined()</td>
-<td>非 undefined</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>toBeTruthy()</td>
-<td>真</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>toBeFalsy()</td>
-<td>假</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>数字</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>toBeGreaterThan()</td>
-<td>&gt;</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>toBeGreaterThanOrEqual()</td>
-<td>&gt;=</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>toBeLessThan()</td>
-<td>&lt;</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>toBeLessThanOrEqual()</td>
-<td>&lt;=</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>toBe()</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>toEqual()</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>toBeCloseTo()</td>
-<td>在浮点型数字时阻止出现过多小数的情况</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>字符串</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>toMatch(reg)</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>array &amp; iterables</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>toContain()</td>
-<td>是否包含</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>exceptions</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>expect(() =&gt; fn()).toThrow()</td>
-<td>判断指定方法是否返回错误</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="测试异步代码">测试异步代码</h2>
-<h3 id="promise">promise</h3>
-<pre><code class="language-js"><div>test(<span class="hljs-string">&#x27;describe&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
-  <span class="hljs-comment">// 在返回的函数中断言</span>
-  <span class="hljs-keyword">return</span> pf().then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
-    expect(res).toBe(v)
-  })
-})
-</div></code></pre>
-<h3 id="resolvesrejects">.resolves/.rejects</h3>
-<pre><code class="language-js"><div>test(<span class="hljs-string">&#x27;describe&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
-  <span class="hljs-comment">// .resolves 等promise变为fulfilled状态时触发判断</span>
-  <span class="hljs-keyword">return</span> expect(pf()).resolves.toBe(v)
-})
-test(<span class="hljs-string">&#x27;describe&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
-  <span class="hljs-keyword">return</span> expect(pf()).rejects.toMatch(v)
-})
-</div></code></pre>
-<h3 id="asyncawait">async/await</h3>
-<pre><code class="language-js"><div>test(<span class="hljs-string">&#x27;describe&#x27;</span>, <span class="hljs-keyword">async</span> () =&gt; {
-  <span class="hljs-keyword">let</span> res = <span class="hljs-keyword">await</span> pf()
-  expect(res).toBe(v)
-})
-<span class="hljs-comment">// async/await &amp; resolves/rejects</span>
-test(<span class="hljs-string">&#x27;describe&#x27;</span>, <span class="hljs-keyword">async</span> () =&gt; {
-  <span class="hljs-comment">// await expect(pf()).resolves.boBe(v)</span>
-  <span class="hljs-keyword">await</span> expect(pf()).rejects.toMatch(<span class="hljs-string">&#x27;err&#x27;</span>)
-})
-</div></code></pre>
-<h3 id="callback">callback</h3>
-<pre><code class="language-js"><div>test(<span class="hljs-string">&#x27;describe&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">done</span>) =&gt;</span> {
-  <span class="hljs-comment">// done 为了防止出现等待过长时间</span>
-  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cb</span>(<span class="hljs-params">err, data</span>) </span>{
-    <span class="hljs-keyword">if</span> (err) {
-      done(err)
-      <span class="hljs-keyword">throw</span> err
-    }
-    expect(data).toBe(v)
-    done()
-  }
-  fetchData(cb)
-})
-</div></code></pre>
-<h2 id="setup--teardown">setup &amp; teardown</h2>
-<p>钩子方法需要定义在测试方法之前。</p>
-<pre><code class="language-js"><div>beforeAll
-beforeEach
-test
-afterEach
-describe内的beforeAll
-beforeEach
-describe内的beforeEach
-describe内的test
-describe内的afterEach
-afterEach
-describe内的afterAll
-afterAll
-</div></code></pre>
-<p>全局的钩子包含内容的钩子。<br>
-<code>describe('str', () =&gt; {...})</code> 用于分组测试。<br>
-describe 方法可以嵌套。<br>
-test.only('str', () =&gt; {...}) 只运行此测试方法。</p>
-<h2 id="mock-functions">mock functions</h2>
-<h3 id="使用-mock-函数--mock-属性--mock-的返回值--mock-实现--mock-名称">使用 mock 函数 &amp; .mock 属性 &amp; mock 的返回值 &amp; mock 实现 &amp; mock 名称</h3>
-<pre><code class="language-js"><div><span class="hljs-comment">// jest.fn(fn) // 返回一个mock函数。该函数的.mock属性记录了该函数的参数、返回值、调用次数等信息。</span>
-<span class="hljs-keyword">let</span> mockCb = jest.fn(<span class="hljs-function">(<span class="hljs-params">x</span>) =&gt;</span> <span class="hljs-number">2</span> + x)
-forEach([<span class="hljs-number">0</span>, <span class="hljs-number">1</span>].mockCb)
-test(<span class="hljs-string">&#x27;str&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
-  expect(mockCb.mock.calls.length).toBe(<span class="hljs-number">2</span>) <span class="hljs-comment">// 调用次数</span>
-  expect(mockCb.mock.calls[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>]).toBe(<span class="hljs-number">0</span>)
-  expect(mockCb.mock.calls[<span class="hljs-number">1</span>][<span class="hljs-number">0</span>]).toBe(<span class="hljs-number">1</span>)
-  expect(mockCb.mock.results[<span class="hljs-number">0</span>].value).toBe(<span class="hljs-number">42</span>)
-  <span class="hljs-comment">// mockCb.bind(o) // 绑定this</span>
-})
-<span class="hljs-comment">// mock的返回值</span>
-<span class="hljs-keyword">let</span> mockFn = jest.fn()
-mockFn.mockReturnValueOnce(<span class="hljs-string">&#x27;s&#x27;</span>).mockReturnValueOnce(<span class="hljs-number">1</span>).mockReturnValueOnce(<span class="hljs-literal">true</span>)
-<span class="hljs-comment">// 多次调用mockFn()的返回值依次是 &#x27;s&#x27; 1 true</span>
-<span class="hljs-comment">// mock实现</span>
-<span class="hljs-keyword">let</span> mockFn1 = jest
-  .fn()
-  .mockImplementationOnce(<span class="hljs-function">(<span class="hljs-params">cb</span>) =&gt;</span> cb(params)) <span class="hljs-comment">// 定义模拟执行此方法的参数</span>
-  .mockImplementationOnce(<span class="hljs-function">(<span class="hljs-params">cb</span>) =&gt;</span> cb(params)) <span class="hljs-comment">// 可以定义多次。多次调用此方法时依次返回指定结果</span>
-<span class="hljs-comment">// .mockReturnThis() 支持返回this.支持链式调用</span>
-mockFn1()
-<span class="hljs-comment">// 当 mockImplementationOne定义的实现逐个调用完毕时， 如果定义了jest.fn ，它将使用 jest.fn 。</span>
-<span class="hljs-comment">// mock名称</span>
-<span class="hljs-comment">// 用这个方法你就可以在单元测试输出日志中快速找到你定义的Mock函数。</span>
-<span class="hljs-keyword">let</span> mockFn2 = jest
-  .fn()
-  .mockReturnValue(<span class="hljs-string">&#x27;str&#x27;</span>)
-  .mockImplementation(<span class="hljs-function">(<span class="hljs-params">p</span>) =&gt;</span> <span class="hljs-string">&#x27;hi &#x27;</span> + p)
-  .mockName(<span class="hljs-string">&#x27;addHi&#x27;</span>)
-</div></code></pre>
-<h3 id="模拟模块--模拟部分模块">模拟模块 &amp; 模拟部分模块</h3>
-<p>以模拟<code>axios</code>为例</p>
-<pre><code class="language-js"><div><span class="hljs-comment">// file.test.js</span>
-<span class="hljs-comment">// 实际上不会发出请求</span>
-<span class="hljs-keyword">const</span> axios = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;axios&#x27;</span>)
-jest.mock(<span class="hljs-string">&#x27;axios&#x27;</span>) <span class="hljs-comment">// 这里使用模块名</span>
-test(<span class="hljs-string">&#x27;str&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
-  axios.get.mockResolveValue({ <span class="hljs-attr">data</span>: [<span class="hljs-number">1</span>] })
-  <span class="hljs-keyword">return</span> realReqFn().then(<span class="hljs-function">(<span class="hljs-params">resData</span>) =&gt;</span> {
-    expect(resData).toEqual({ <span class="hljs-attr">data</span>: [<span class="hljs-number">1</span>] })
-  })
-})
-
-<span class="hljs-keyword">import</span> defaultExport, { bar, foo } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../file&#x27;</span>
-jest.mock(<span class="hljs-string">&#x27;../file&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
-  <span class="hljs-keyword">let</span> originalModule = jest.requireActual(<span class="hljs-string">&#x27;../file&#x27;</span>)
-  <span class="hljs-comment">// defaultExport / foo 使用模拟的代码。其他的使用真实的引入</span>
-  <span class="hljs-keyword">return</span> {
-    <span class="hljs-attr">__esMoule</span>: <span class="hljs-literal">true</span>,
-    ...originalModule,
-    <span class="hljs-attr">defaultExport</span>: jest.fn(<span class="hljs-function">() =&gt;</span> <span class="hljs-string">&#x27;str&#x27;</span>),
-    <span class="hljs-attr">foo</span>: <span class="hljs-number">123</span>,
-  }
-})
-</div></code></pre>
-<h2 id="jest-平台工具-的常用工具包"><a href="/test/jest/util.html">jest 平台工具 的常用工具包</a></h2>
-<h2 id="与常用框架结合测试">与常用框架结合测试</h2>
-<ul>
-<li><a href="/test/jest/react.html">react</a></li>
-<li><a href="/test/jest/title.html">title</a></li>
-<li><a href="/test/jest/title.html">title</a></li>
-<li><a href="/test/jest/title.html">title</a></li>
-<li><a href="/test/jest/title.html">title</a></li>
-<li><a href="/test/jest/title.html">title</a></li>
-</ul>
-<h2 id="title">title</h2>
-<h2 id="title-1">title</h2>
-<h2 id="title-2">title</h2>
-<h2 id="title-3">title</h2>
-<h2 id="基本结构">基本结构</h2>
-<pre><code class="language-js"><div><span class="hljs-comment">// file.test.js</span>
-
-beforeAll
-afterAll
 </div></code></pre>
 <h2 id="api">api</h2>
-<pre><code class="language-js"><div><span class="hljs-keyword">let</span> mockCallback = jest.fn(f: <span class="hljs-function"><span class="hljs-keyword">function</span>)
-<span class="hljs-title">mockCallback</span>.<span class="hljs-title">mock</span>.<span class="hljs-title">calls</span>.<span class="hljs-title">length</span>
-<span class="hljs-title">mockCallback</span>.<span class="hljs-title">mock</span>.<span class="hljs-title">calls</span>[0][0]
-<span class="hljs-title">mockCallback</span>.<span class="hljs-title">mock</span>.<span class="hljs-title">calls</span>[1][0]
-<span class="hljs-title">mockCallback</span>.<span class="hljs-title">mock</span>.<span class="hljs-title">results</span>[0].<span class="hljs-title">value</span>
-
-
-</span>{
-  <span class="hljs-attr">advanceTimersByTime</span>: [<span class="hljs-built_in">Function</span>: advanceTimersByTime],
-  <span class="hljs-attr">advanceTimersToNextTimer</span>: [<span class="hljs-built_in">Function</span>: advanceTimersToNextTimer],
-  <span class="hljs-attr">autoMockOff</span>: [<span class="hljs-built_in">Function</span>: disableAutomock],
-  <span class="hljs-attr">autoMockOn</span>: [<span class="hljs-built_in">Function</span>: enableAutomock],
-  <span class="hljs-attr">clearAllMocks</span>: [<span class="hljs-built_in">Function</span>: clearAllMocks],
-  <span class="hljs-attr">clearAllTimers</span>: [<span class="hljs-built_in">Function</span>: clearAllTimers],
-  <span class="hljs-attr">createMockFromModule</span>: [<span class="hljs-built_in">Function</span>: createMockFromModule],
-  <span class="hljs-attr">deepUnmock</span>: [<span class="hljs-built_in">Function</span>: deepUnmock],
-  <span class="hljs-attr">disableAutomock</span>: [<span class="hljs-built_in">Function</span>: disableAutomock],
-  <span class="hljs-attr">doMock</span>: [<span class="hljs-built_in">Function</span>: mock],
-  <span class="hljs-attr">dontMock</span>: [<span class="hljs-built_in">Function</span>: unmock],
-  <span class="hljs-attr">enableAutomock</span>: [<span class="hljs-built_in">Function</span>: enableAutomock],
-  <span class="hljs-attr">fn</span>: [<span class="hljs-built_in">Function</span>: bound fn],
-  <span class="hljs-attr">genMockFromModule</span>: [<span class="hljs-built_in">Function</span>: genMockFromModule],
-  <span class="hljs-attr">getRealSystemTime</span>: [<span class="hljs-built_in">Function</span>: getRealSystemTime],
-  <span class="hljs-attr">getSeed</span>: [<span class="hljs-built_in">Function</span>: getSeed],
-  <span class="hljs-attr">getTimerCount</span>: [<span class="hljs-built_in">Function</span>: getTimerCount],
-  <span class="hljs-attr">isMockFunction</span>: [<span class="hljs-built_in">Function</span>: isMockFunction],
-  <span class="hljs-attr">isolateModules</span>: [<span class="hljs-built_in">Function</span>: isolateModules],
-  <span class="hljs-attr">mock</span>: [<span class="hljs-built_in">Function</span>: mock],
-  <span class="hljs-attr">mocked</span>: [<span class="hljs-built_in">Function</span>: bound mocked],
-  <span class="hljs-attr">now</span>: [<span class="hljs-built_in">Function</span>: now],
-  <span class="hljs-attr">requireActual</span>: [<span class="hljs-built_in">Function</span>: requireActual],
-  <span class="hljs-attr">requireMock</span>: [<span class="hljs-built_in">Function</span>: requireMock],
-  <span class="hljs-attr">resetAllMocks</span>: [<span class="hljs-built_in">Function</span>: resetAllMocks],
-  <span class="hljs-attr">resetModules</span>: [<span class="hljs-built_in">Function</span>: resetModules],
-  <span class="hljs-attr">restoreAllMocks</span>: [<span class="hljs-built_in">Function</span>: restoreAllMocks],
-  <span class="hljs-attr">retryTimes</span>: [<span class="hljs-built_in">Function</span>: retryTimes],
-  <span class="hljs-attr">runAllImmediates</span>: [<span class="hljs-built_in">Function</span>: runAllImmediates],
-  <span class="hljs-attr">runAllTicks</span>: [<span class="hljs-built_in">Function</span>: runAllTicks],
-  <span class="hljs-attr">runAllTimers</span>: [<span class="hljs-built_in">Function</span>: runAllTimers],
-  <span class="hljs-attr">runOnlyPendingTimers</span>: [<span class="hljs-built_in">Function</span>: runOnlyPendingTimers],
-  <span class="hljs-attr">setMock</span>: [<span class="hljs-built_in">Function</span>: setMock],
-  <span class="hljs-attr">setSystemTime</span>: [<span class="hljs-built_in">Function</span>: setSystemTime],
-  <span class="hljs-attr">setTimeout</span>: [<span class="hljs-built_in">Function</span>: <span class="hljs-built_in">setTimeout</span>],
-  <span class="hljs-attr">spyOn</span>: [<span class="hljs-built_in">Function</span>: bound spyOn],
-  <span class="hljs-attr">unmock</span>: [<span class="hljs-built_in">Function</span>: unmock],
-  <span class="hljs-attr">unstable_mockModule</span>: [<span class="hljs-built_in">Function</span>: mockModule],
-  <span class="hljs-attr">useFakeTimers</span>: [<span class="hljs-built_in">Function</span>: useFakeTimers],
-  <span class="hljs-attr">useRealTimers</span>: [<span class="hljs-built_in">Function</span>: useRealTimers]
-}
-
-</div></code></pre>
-<h2 id="principle">principle</h2>
-<p>此包的处理逻辑。</p>
-<h3 id="uml">uml</h3>
-<pre><code><code><div>
-</div></code></code></pre>
-<h2 id="todo">todo</h2>
-<blockquote>
-<p>未来迭代计划。
-未来迭代计划。
-未来迭代计划。</p>
-</blockquote>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>说明</th>
+<th>参数</th>
+<th>demo</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>act(fn)</td>
+<td>为后续的断言、比较。需要在此方法中渲染、更新组件。</td>
+<td>fn是方法</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>mockComponent(componentClass, mockTagName?)</td>
+<td>创建一个假组件，使用指定标签（mockTagName）渲染。用于包裹子元素</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>isElement(element) =&gt; boolean</td>
+<td>参数是否是ReactElement对象</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>isElementOfType(element, componentClass) =&gt; boolean</td>
+<td>参数是否是指定的Class组件</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>isDOMComponent(instance) =&gt; boolean</td>
+<td>是否是指定的dom元素</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>isCompositeComponent(instance) =&gt; boolean</td>
+<td>是否是用户定义的组件。如：class组件、funciton组件</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>isCompositeComponentWithType(instance, componentClass) =&gt; boolean</td>
+<td>instance是否是指定类的实例</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>findAllInRenderedTree(tree, test)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>scryRenderedDOMComponentsWithClass(tree, className)</td>
+<td>在渲染树中找到所有与className相匹配的组件</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>findRenderedDOMComponentWithclass(tree, className)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>scryRenderedDOMComponentWithTag(tree, tagName)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>findRenderedDOMComponentWithTag(tree, tagName)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>scryRenderedComponentsWithType(tree, copmonentClass)</td>
+<td>找到所有指定类的实例</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>findRenederdComponentWithType(tree, componentClass)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>renderIntoDocument(element)</td>
+<td>不会，好像挺重要的。把ReactElement渲染到指定dom中。</td>
+<td>ReactElement</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Simulate.{eventName}(element, eventData?)</td>
+<td></td>
+<td></td>
+<td><code>ReactTestUtils.Simulate.click(ReactElement)</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 
         
         

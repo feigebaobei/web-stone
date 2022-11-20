@@ -249,9 +249,9 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = 'test'
+    // let p = 'test/jest'
     let p = [
-      // 'test/index.html',
+      'test/index.html',
       // 'test/jest.html',
       // 'test/tenet.html',
     ]
