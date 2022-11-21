@@ -66,6 +66,16 @@ jest --init
 ```shell
 npm i -D ts-jest
 npm i -D @jest/globals
+npm i -D @babel/preset-typescript
+```
+
+```js
+module.exports = {
+  presets: [
+    ['@babel/preset-env', { targets: { node: 'current' } }],
+    '@babel/preset-typescript',
+  ],
+}
 ```
 
 ```ts
@@ -78,6 +88,31 @@ describe('sum module', () => {
   })
 })
 ```
+
+## jest & esm
+
+jest 默认支持 cjs 规范。若要在 esm 规范中使用 jest，需要配置一些环境。
+
+```shell
+npm install --save-dev babel-jest @babel/core @babel/preset-env
+```
+
+```js
+// babel.config.js
+module.exports = {
+  presets: [['@babel/preset-env', { targets: { node: 'current' } }]],
+}
+```
+
+在实际中我遇到了报错，如下：
+
+```
+You appear to be using a native ECMAScript module configuration file, which is only supported when running Babel asynchronously.
+```
+
+babel 异步运行时才支持 esm 规范的配置文件。  
+我把`babel.config.js`改为`babel.config.cjs`。问题解决了。  
+不知道原因。需要学习 [babel](/babel/index.html)
 
 ## [匹配器](/test/jest/macher.html)
 
@@ -185,7 +220,7 @@ afterAll
 describe 方法可以嵌套。  
 test.only('str', () => {...}) 只运行此测试方法。
 
-## mock functions
+## [mock functions](/test/jest/mockFn.html)
 
 ### 使用 mock 函数 & .mock 属性 & mock 的返回值 & mock 实现 & mock 名称
 
@@ -255,17 +290,35 @@ jest.mock('../file', () => {
 ## 与常用框架结合测试
 
 - [react](/test/jest/react.html)
-- [title](/test/jest/title.html)
+- [vue](/test/jest/vue.html)
 - [title](/test/jest/title.html)
 - [title](/test/jest/title.html)
 - [title](/test/jest/title.html)
 - [title](/test/jest/title.html)
 
-## title
+## spy
 
-## title
+监听对象上的属性。
 
-## title
+```js
+let obj = {
+  a: (p) => {
+    clog('a', p)
+  },
+}
+```
+
+```js
+// file.test.js
+it('str', () => {
+  let spy = jest.spyOn(o, 'a') // 监听
+  o.a('str') // 调用
+  expect(spy).toHaveBeenCalledWith('str')
+  spy.mockRestore() // 取消监听
+})
+```
+
+## [快照](/test/jest/snapshot.html)
 
 ## title
 
@@ -273,12 +326,13 @@ jest.mock('../file', () => {
 
 ```js
 // file.test.js
-
 beforeAll
 afterAll
 ```
 
 ## api
+
+## [cli](/test/jest/cli.html)
 
 ```js
 let mockCallback = jest.fn(f: function)
@@ -344,6 +398,27 @@ mockCallback.mock.results[0].value
 ```
 
 ## todo
+
+### spy & mock
+
+|     | spy      | mock     |     |     |
+| --- | -------- | -------- | --- | --- |
+|     | 监听对象 | 监听方法 |     |     |
+|     |          |          |     |     |
+|     |          |          |     |     |
+|     |          |          |     |     |
+
+### 测试多细？
+
+1. 老板为我的代码会报酬，不是测试。测试应该越少越好。
+2. 不追求 100%覆盖率。测试关键部分。
+3. 不支持 “test first”
+
+### title
+
+### title
+
+### title
 
 > 未来迭代计划。
 > 未来迭代计划。

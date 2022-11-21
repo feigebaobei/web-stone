@@ -255,7 +255,7 @@ c.on('ready', () => {
       // 'development/index.html',
       // 'framework/react/event.html',
       // 'framework/react/index.html',
-      // 'test/ut.html',
+      'test/jest/snapshot.html',
       // 'jsPackages/react-test-renderer.html',
     ]
     // 检测指定目录是否存在
