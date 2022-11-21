@@ -124,6 +124,10 @@ v18 以后的用法：
 
 ## [react test](/framework/react/test/index.html)
 
+- react-test-renderer
+- react-dom/test-utils
+- Enzyme
+
 ## todo
 
 react / react-dom 都用到了 react-reconciler，该包就是 fiber.
