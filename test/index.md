@@ -78,7 +78,7 @@
 | 集成测试   |      |       | v       |     |     |     |     |     |
 | 端到端测试 |      |       | v       |     |     |     |     |     |
 
-- [jest](/test/jest.html)
+- [jest](/test/jest/index.html)
 - [mocha](/test/mocha.html)
 - [cypress](/test/cypress.html)
 - [testing-library](/test/test-library.html)

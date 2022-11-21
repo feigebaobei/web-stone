@@ -118,52 +118,9 @@
 <span class="hljs-comment">// 运行测试命令</span>
 npm run jest
 </code></pre>
-<h2 id="configuration">configuration</h2>
+<h2 id="configuration"><a href="/test/jest/config.html">configuration</a></h2>
 <pre><code class="language-shell">jest --init
 </code></pre>
-<p>默认配置文件：<code>path/to/file.json</code>。</p>
-<table>
-<thead>
-<tr>
-<th>key</th>
-<th>description</th>
-<th>default</th>
-<th>enum</th>
-<th>demo</th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
 <h2 id="jest--ts">jest &amp; ts</h2>
 <pre><code class="language-shell">npm i -D ts-jest
 npm i -D @jest/globals
@@ -171,10 +128,10 @@ npm i -D @babel/preset-typescript
 </code></pre>
 <pre><code class="language-js"><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = {
   <span class="hljs-attr">presets</span>: [
-    [<span class="hljs-string">&#x27;@babel/preset-env&#x27;</span>, {<span class="hljs-attr">targets</span>: {<span class="hljs-attr">node</span>: <span class="hljs-string">&#x27;current&#x27;</span>}}],
+    [<span class="hljs-string">&#x27;@babel/preset-env&#x27;</span>, { <span class="hljs-attr">targets</span>: { <span class="hljs-attr">node</span>: <span class="hljs-string">&#x27;current&#x27;</span> } }],
     <span class="hljs-string">&#x27;@babel/preset-typescript&#x27;</span>,
   ],
-};
+}
 </code></pre>
 <pre><code class="language-ts"><span class="hljs-keyword">import</span> { describe, expect, test } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@jest/globals&#x27;</span>
 <span class="hljs-keyword">import</span> { sum } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./sum&#x27;</span>
@@ -186,20 +143,18 @@ npm i -D @babel/preset-typescript
 })
 </code></pre>
 <h2 id="jest--esm">jest &amp; esm</h2>
-<p>jest默认支持cjs规范。若要在esm规范中使用jest，需要配置一些环境。</p>
+<p>jest 默认支持 cjs 规范。若要在 esm 规范中使用 jest，需要配置一些环境。</p>
 <pre><code class="language-shell">npm install --save-dev babel-jest @babel/core @babel/preset-env
 </code></pre>
 <pre><code class="language-js"><span class="hljs-comment">// babel.config.js</span>
 <span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = {
-  <span class="hljs-attr">presets</span>: [
-    [<span class="hljs-string">&#x27;@babel/preset-env&#x27;</span>, {<span class="hljs-attr">targets</span>: {<span class="hljs-attr">node</span>: <span class="hljs-string">&#x27;current&#x27;</span>}}],
-  ],
-};
+  <span class="hljs-attr">presets</span>: [[<span class="hljs-string">&#x27;@babel/preset-env&#x27;</span>, { <span class="hljs-attr">targets</span>: { <span class="hljs-attr">node</span>: <span class="hljs-string">&#x27;current&#x27;</span> } }]],
+}
 </code></pre>
 <p>在实际中我遇到了报错，如下：</p>
 <pre><code>You appear to be using a native ECMAScript module configuration file, which is only supported when running Babel asynchronously.
 </code></pre>
-<p>babel异步运行时才支持esm规范的配置文件。<br>
+<p>babel 异步运行时才支持 esm 规范的配置文件。<br>
 我把<code>babel.config.js</code>改为<code>babel.config.cjs</code>。问题解决了。<br>
 不知道原因。需要学习 <a href="/babel/index.html">babel</a></p>
 <h2 id="匹配器"><a href="/test/jest/macher.html">匹配器</a></h2>
@@ -502,17 +457,17 @@ jest.<span class="hljs-title function_">mock</span>(<span class="hljs-string">&#
 <ul>
 <li><a href="/test/jest/react.html">react</a></li>
 <li><a href="/test/jest/vue.html">vue</a></li>
-<li><a href="/test/jest/title.html">title</a></li>
+<li><a href="/test/jest/reactNative.html">react native</a></li>
 <li><a href="/test/jest/title.html">title</a></li>
 <li><a href="/test/jest/title.html">title</a></li>
 <li><a href="/test/jest/title.html">title</a></li>
 </ul>
-<h2 id="spy">spy</h2>
+<h2 id="spy"><a href="/test/jest/spy.html">spy</a></h2>
 <p>监听对象上的属性。</p>
 <pre><code class="language-js"><span class="hljs-keyword">let</span> obj = {
   <span class="hljs-attr">a</span>: <span class="hljs-function">(<span class="hljs-params">p</span>) =&gt;</span> {
     <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;a&#x27;</span>, p)
-  }
+  },
 }
 </code></pre>
 <pre><code class="language-js"><span class="hljs-comment">// file.test.js</span>
@@ -524,8 +479,14 @@ jest.<span class="hljs-title function_">mock</span>(<span class="hljs-string">&#
 })
 </code></pre>
 <h2 id="快照"><a href="/test/jest/snapshot.html">快照</a></h2>
+<h2 id="全局设定"><a href="/test/jest/globalSet.html">全局设定</a></h2>
+<h2 id="jset-对象"><a href="/test/jest/jestObj.html">jset 对象</a></h2>
+<h2 id="环境变量"><a href="/test/jest/env.html">环境变量</a></h2>
+<h2 id="代码转码"><a href="/test/jest/transformer.html">代码转码</a></h2>
+<h2 id="title">title</h2>
 <h2 id="title">title</h2>
 <h2 id="基本结构">基本结构</h2>
+<p>待完成</p>
 <pre><code class="language-js"><span class="hljs-comment">// file.test.js</span>
 beforeAll
 afterAll
@@ -581,7 +542,6 @@ mockCallback.<span class="hljs-property">mock</span>.<span class="hljs-property"
   <span class="hljs-attr">useFakeTimers</span>: [<span class="hljs-title class_">Function</span>: useFakeTimers],
   <span class="hljs-attr">useRealTimers</span>: [<span class="hljs-title class_">Function</span>: useRealTimers]
 }
-
 </code></pre>
 <h2 id="principle">principle</h2>
 <p>此包的处理逻辑。</p>
@@ -634,7 +594,7 @@ mockCallback.<span class="hljs-property">mock</span>.<span class="hljs-property"
 <h3 id="测试多细">测试多细？</h3>
 <ol>
 <li>老板为我的代码会报酬，不是测试。测试应该越少越好。</li>
-<li>不追求100%覆盖率。测试关键部分。</li>
+<li>不追求 100%覆盖率。测试关键部分。</li>
 <li>不支持 “test first”</li>
 </ol>
 <h3 id="title">title</h3>
