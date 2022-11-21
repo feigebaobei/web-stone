@@ -48,18 +48,11 @@ describe('sum module', () => {
 npm run jest
 ```
 
-## configuration
+## [configuration](/test/jest/config.html)
 
 ```shell
 jest --init
 ```
-
-默认配置文件：`path/to/file.json`。
-|key|description|default|enum|demo|||
-|-|-|-|-|-|-|-|
-||||||||
-||||||||
-||||||||
 
 ## jest & ts
 
@@ -291,12 +284,12 @@ jest.mock('../file', () => {
 
 - [react](/test/jest/react.html)
 - [vue](/test/jest/vue.html)
-- [title](/test/jest/title.html)
+- [react native](/test/jest/reactNative.html)
 - [title](/test/jest/title.html)
 - [title](/test/jest/title.html)
 - [title](/test/jest/title.html)
 
-## spy
+## [spy](/test/jest/spy.html)
 
 监听对象上的属性。
 
@@ -320,9 +313,21 @@ it('str', () => {
 
 ## [快照](/test/jest/snapshot.html)
 
+## [全局设定](/test/jest/globalSet.html)
+
+## [jset 对象](/test/jest/jestObj.html)
+
+## [环境变量](/test/jest/env.html)
+
+## [代码转码](/test/jest/transformer.html)
+
+## title
+
 ## title
 
 ## 基本结构
+
+待完成
 
 ```js
 // file.test.js
@@ -384,7 +389,6 @@ mockCallback.mock.results[0].value
   useFakeTimers: [Function: useFakeTimers],
   useRealTimers: [Function: useRealTimers]
 }
-
 ```
 
 ## principle
