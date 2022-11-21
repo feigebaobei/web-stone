@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>snapshot</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="snapshot">snapshot</h1>
+<h2 id="快照测试">快照测试</h2>
+<p>第一次生成快照，第二次的运行结果与快照比对。</p>
+<pre><code class="language-shell">npm i -D @babel/core @babel/preset-env @babel/preset-react babel-jest jest react-test-renderer
+</code></pre>
+<pre><code class="language-js"><span class="hljs-comment">// babel.config.js</span>
+<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = {
+    <span class="hljs-attr">presets</span>: [
+        [<span class="hljs-string">&#x27;@babel/preset-env&#x27;</span>, {<span class="hljs-attr">targets</span>: {<span class="hljs-attr">node</span>: <span class="hljs-string">&#x27;current&#x27;</span>}}],
+        [<span class="hljs-string">&#x27;@babel/preset-react&#x27;</span>]
+    ],
+  };
+</code></pre>
+<pre><code class="language-js"><span class="hljs-comment">// __tests__/comp.test.js</span>
+<span class="hljs-keyword">import</span> <span class="hljs-title class_">React</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span>; <span class="hljs-comment">// 引入react才能使用jsx</span>
+<span class="hljs-keyword">import</span> testRenderer <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react-test-renderer&#x27;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-title class_">Link</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../src/components/Link.js&#x27;</span>;
+
+<span class="hljs-title function_">it</span>(<span class="hljs-string">&#x27;renders correctly&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-keyword">const</span> tree = testRenderer
+    .<span class="hljs-title function_">create</span>(<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Link</span> <span class="hljs-attr">page</span>=<span class="hljs-string">&quot;http://www.facebook.com&quot;</span>&gt;</span>Facebook<span class="hljs-tag">&lt;/<span class="hljs-name">Link</span>&gt;</span></span>)
+    .<span class="hljs-title function_">toJSON</span>();
+  <span class="hljs-title function_">expect</span>(tree).<span class="hljs-title function_">toMatchSnapshot</span>();
+});
+</code></pre>
+<pre><code class="language-json"><span class="hljs-comment">// package.json</span>
+...
+<span class="hljs-attr">&quot;script&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;jest&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;jest&quot;</span>
+<span class="hljs-punctuation">}</span>
+...
+</code></pre>
+<h2 id="更新快照">更新快照</h2>
+<p>第一次运行时会生成快照文件。</p>
+<pre><code class="language-shell">npm run jest
+</code></pre>
+<p>再运行一次会执行快照比对。<br>
+执行<code>npm run jest --updateSnapshot</code>可更新快照。</p>
+<h2 id="交互式快照模式">交互式快照模式</h2>
+<pre><code class="language-shell">npm run jest --watch
+</code></pre>
+<p>再按提示操作。</p>
+<h2 id="内联快照">内联快照</h2>
+<p>第一次运行<code>npm run jest</code>后，jest会把快照代码写入测试文件。如下：
+第二次运行时断言运行结果与快照是否相同。</p>
+<pre><code class="language-js"><span class="hljs-comment">// demo</span>
+<span class="hljs-comment">// 除了使用内联快照，别的与first.test.js相同</span>
+<span class="hljs-keyword">import</span> <span class="hljs-title class_">React</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span>;
+<span class="hljs-keyword">import</span> renderer <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react-test-renderer&#x27;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-title class_">Link</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../src/components/Link.js&#x27;</span>;
+
+<span class="hljs-title function_">it</span>(<span class="hljs-string">&#x27;renders correctly&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-keyword">const</span> tree = renderer
+    <span class="hljs-comment">// .create(&lt;Link page=&quot;http://www.facebook.com&quot;&gt;Facebook&lt;/Link&gt;)</span>
+    .<span class="hljs-title function_">create</span>(<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Link</span>/&gt;</span></span>)
+    .<span class="hljs-title function_">toJSON</span>();
+  <span class="hljs-title function_">expect</span>(tree).<span class="hljs-title function_">toMatchInlineSnapshot</span>(<span class="hljs-string">`
+&lt;div&gt;
+  from ReactComp
+&lt;/div&gt;
+`</span>);
+});
+</code></pre>
+<h2 id="属性匹配器">属性匹配器</h2>
+<p>在匹配<code>new Date() / Math.random()</code>时使用此方法。</p>
+<pre><code class="language-js"><span class="hljs-title function_">it</span>(<span class="hljs-string">&#x27;will check the matchers and pass&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-keyword">const</span> user = {
+    <span class="hljs-attr">createdAt</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>(),
+    <span class="hljs-attr">id</span>: <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">floor</span>(<span class="hljs-title class_">Math</span>.<span class="hljs-title function_">random</span>() * <span class="hljs-number">20</span>),
+    <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;LeBron James&#x27;</span>,
+  };
+  <span class="hljs-title function_">expect</span>(user).<span class="hljs-title function_">toMatchSnapshot</span>({
+    <span class="hljs-attr">createdAt</span>: expect.<span class="hljs-title function_">any</span>(<span class="hljs-title class_">Date</span>),
+    <span class="hljs-attr">id</span>: expect.<span class="hljs-title function_">any</span>(<span class="hljs-title class_">Number</span>),
+  });
+});
+<span class="hljs-comment">// Snapshot</span>
+<span class="hljs-comment">// 不匹配匹配器的值会保存在快照中  </span>
+<span class="hljs-built_in">exports</span>[<span class="hljs-string">`will check the matchers and pass 1`</span>] = <span class="hljs-string">`
+Object {
+  &quot;createdAt&quot;: Any&lt;Date&gt;,
+  &quot;id&quot;: Any&lt;Number&gt;,
+  &quot;name&quot;: &quot;LeBron James&quot;,
+}
+`</span>;
+</code></pre>
+<h2 id="持续集成系统ci-中不会生成快照文件">持续集成系统(CI) 中不会生成快照文件</h2>
+<p>截止到Jest 20 版本，如果没有明确传入 --updateSnapshot，快照是不会自动写入CI系统的。 预计所有快照都是在CI上运行的代码的一部分，并且由于新快照会自动通过，因此它们不应通过在CI系统上运行的测试。 建议始终提交所有快照并将其保留在版本控制中。</p>
+<h2 id="总结">总结</h2>
+<ol>
+<li>把快照当做代码。第一次生成的快照是不比对的。需要程序员去读。确认正确后参与后续判断。</li>
+</ol>
+<h2 id="title">title</h2>
+<h2 id="title">title</h2>
+
+        
+        
+    </body>
+    </html>
