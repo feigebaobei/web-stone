@@ -249,14 +249,10 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = 'test/jest'
+    // let p = 'babel/plugin' // todo add
     let p = [
-      // 'open/index.html',
-      // 'development/index.html',
-      // 'framework/react/event.html',
-      // 'framework/react/index.html',
-      'test/jest/snapshot.html',
-      // 'jsPackages/react-test-renderer.html',
+      // 'babel/index.html',
+      // 'babel/setup.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)

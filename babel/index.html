@@ -80,7 +80,8 @@
 <blockquote>
 <p>把 es6 及以上的 js 代码转化为 es5 的 js 代码。<br>
 由插件组成。（又是可插件化的框架）<br>
-v7.8+ 必要 配置文件</p>
+v7.8+ 必要 配置文件<br>
+支持 cli/脚本使用方法</p>
 </blockquote>
 <h3 id="feature">feature</h3>
 <ul>
@@ -88,12 +89,12 @@ v7.8+ 必要 配置文件</p>
 <li>兼容指定环境</li>
 <li>转化功能</li>
 </ul>
-<p>babel认为js的语法和功能不一样吗？</p>
+<p>babel 认为 js 的语法和功能不一样吗？</p>
 <h2 id="install">install</h2>
 <p>它有一系列包，用哪个安装哪个。</p>
 <h2 id="usage">usage</h2>
 <p>根据使用环境不同，用法有很多。这里列出依 cli 的使用方式。</p>
-<pre><code class="language-shell">npm i -D @babel/core @babel/cli
+<pre><code class="language-shell">npm i -D @babel/core @babel/cli @babel/preset-env
 </code></pre>
 <pre><code class="language-json"><span class="hljs-comment">// package.json</span>
 <span class="hljs-attr">&quot;script&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
@@ -105,9 +106,24 @@ v7.8+ 必要 配置文件</p>
 <span class="hljs-meta prompt_"># </span><span class="language-bash">./node_modules/.bin/babel src -d dist_babel</span>
 </code></pre>
 <p>没配置文件也行，有更好些。<br>
-babel.config.json</p>
+babel.config.json<br>
+// 待测试</p>
 <pre><code class="language-json"><span class="hljs-punctuation">{</span>
-  <span class="hljs-attr">&quot;preset&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;@babel/preset-env&quot;</span><span class="hljs-punctuation">]</span>
+  <span class="hljs-attr">&quot;preset&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-punctuation">[</span>
+      <span class="hljs-string">&quot;@babel/preset-env&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;targets&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+          <span class="hljs-attr">&quot;edge&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;17&quot;</span><span class="hljs-punctuation">,</span>
+          <span class="hljs-attr">&quot;firefox&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;60&quot;</span><span class="hljs-punctuation">,</span>
+          <span class="hljs-attr">&quot;chrome&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;67&quot;</span><span class="hljs-punctuation">,</span>
+          <span class="hljs-attr">&quot;safari&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;11.1&quot;</span>
+        <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;useBuildIns&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;usage&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;corejs&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;3.6.5&quot;</span>
+      <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">]</span>
+  <span class="hljs-punctuation">]</span>
 <span class="hljs-punctuation">}</span>
 </code></pre>
 <h3 id="jsx">jsx</h3>
@@ -119,16 +135,12 @@ babel.config.json</p>
 <h3 id="ts">ts</h3>
 <pre><code class="language-shell">npm i -D @babel/preset-typescript
 </code></pre>
-<h2 id="configuration">configuration</h2>
-<p>默认配置文件：<code>path/to/file.json</code>。</p>
+<h2 id="configuration"><a href="/babel/plugin/index.html">configuration</a></h2>
 <table>
 <thead>
 <tr>
-<th>key</th>
-<th>description</th>
-<th>default</th>
-<th>enum</th>
-<th>demo</th>
+<th></th>
+<th></th>
 <th></th>
 <th></th>
 </tr>
@@ -136,26 +148,17 @@ babel.config.json</p>
 <tbody>
 <tr>
 <td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td>v7.8-</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td>v7.8+</td>
+<td>babel.config.json</td>
+<td>必须</td>
 </tr>
 <tr>
-<td></td>
-<td></td>
-<td></td>
 <td></td>
 <td></td>
 <td></td>
@@ -163,24 +166,166 @@ babel.config.json</p>
 </tr>
 </tbody>
 </table>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>适用场景</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>babel.config.json</code></td>
+<td>一库多包、编译node_modules</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>.babelrc.json</code></td>
+<td>简单项目</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>package.json</code></td>
+<td></td>
+<td>设置<code>babel.presets: [...] / babel.plugins: [...]</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>babel.config.js</code> / <code>.babelrc.js</code></td>
+<td>用于js脚本</td>
+<td><code>module.exports = {presets: [...], plugins: [...]}</code></td>
+<td>有网友推荐使用<code>babel.config.js</code>，因为它灵活（它是cjs规范写的）。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="基本结构">基本结构</h3>
+<p>babel.config.json</p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;presets&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;plugins&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
 <h2 id="工作流程">工作流程</h2>
 <pre><code>    code ----------&gt; ast ----------&gt; ast ----------&gt; ast
           parser          transform       generator
           解析源文件        转换            生成新文件
 </code></pre>
 <h2 id="组成">组成</h2>
-<p><a href="/jsPackages/babel/core.html">@babel/core</a> ast转换的核心包<br>
-<a href="/jsPackages/babel/cli.html">@babel/cli</a> 命令行工具<br>
-@babel/plugin-* 插件<br>
-<a href="/jsPackages/babel/core.html">@babel/plugin-transform-runtime</a> 解决polyfill直接修改api带来的全局污染问题<br>
-<a href="/jsPackages/babel/presetEnv.html">@babel/preset-env</a> 插件的集合<br>
-<a href="/jsPackages/babel/coreJs.html">core-js</a><br>
-<a href="/jsPackages/babel/coreJs.html">@babel/polyfill</a>babel放弃使用它，改为使用core-js了。<br>
-<a href="/jsPackages/babel/core.html">@babel/core</a></p>
+<h3 id="babelcore-ast-转换的核心包-没有转换代码的功能"><a href="/jsPackages/babel/core.html">@babel/core</a> ast 转换的核心包 没有转换代码的功能</h3>
+<p>使用方法：</p>
+<pre><code class="language-js"><span class="hljs-comment">// script/babel.js</span>
+<span class="hljs-keyword">const</span> babel = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;@babel/core&#x27;</span>)
+babel.<span class="hljs-title function_">transformSync</span>(<span class="hljs-string">&#x27;code&#x27;</span>, optionsObject)
+</code></pre>
+<pre><code class="language-shell">npm i -D @babel/core
+node script/babel.js
+</code></pre>
+<h3 id="babelcli-命令行工具"><a href="/jsPackages/babel/cli.html">@babel/cli</a> 命令行工具</h3>
+<pre><code class="language-shell">npm i -D @babel/core @babel-cli
+npm pkg set scripts.babel=&quot;babel src --out-dir lib&quot; # 还可以追加plugin / presets
+npm run babel
+</code></pre>
+<h3 id="babelplugin--插件"><code>@babel/plugin-\*</code> 插件</h3>
+<p><a href="/jsPackages/babel/core.html">@babel/plugin-transform-runtime</a> 解决 polyfill 直接修改 api 带来的全局污染问题<br>
+转换 built-in 功能时 babel 使用了 helper，如<code>_classCallCheck / _defineProperty</code>。若每个模块都注入 helper，则会增加很多代码量。该包就是为了复用这些 helper 函数，缩小代码体积的。还为转换后的代码提供了一个沙箱环境，避免全局污染。<br>
+因它是编译时使用，所以安装为开发时依赖。</p>
+<p>所有转化功能都在插件上。<br>
+（所有可插件化系统都在框架上不做处理。工作由插件做。）<br>
+一个插件做一个转换工作。（单一原则）</p>
+<pre><code>babel src --out-dir lib --plugins=@babel/plugin-transform-arrow-functons
+</code></pre>
+<p><a href="/jsPackages/babel/runtime.html">@babel/runtime</a></p>
+<ul>
+<li>它是 helper 函数的集合。</li>
+<li>需要安装为生产依赖。</li>
+<li>需要引入到编译后的代码中</li>
+<li></li>
+</ul>
+<h3 id="babelpreset-env-插件的集合"><a href="/jsPackages/babel/presetEnv.html">@babel/preset-env</a> 插件的集合</h3>
+<p>它是若干插件的组合。<br>
+使用一个 preset 和使用一堆插件是等效的。<br>
+能用一个办了事儿，别用一堆。</p>
+<h3 id="core-js"><a href="/jsPackages/babel/coreJs.html">core-js</a></h3>
+<ul>
+<li>应该使用<code>--save</code>安装。</li>
+<li>需要引入到源码中。</li>
+<li>为执行代码提供执行环境，用来实现 build-in 的注入。（js 的新功能是使用该包转换的）</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>useBuildIns</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>usage</td>
+<td>只轮换用到的功能</td>
+<td>需要配合 corejs 使用</td>
+</tr>
+<tr>
+<td>entry</td>
+<td></td>
+<td>需要在整个项目的入口引入<code>core-js</code>。缺点是增加包体积。需要配合 corejs 使用</td>
+</tr>
+<tr>
+<td>false</td>
+<td></td>
+<td>默认值</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="babelpolyfillbabel-放弃使用它改为使用-core-js-了"><a href="/jsPackages/babel/coreJs.html">@babel/polyfill</a>babel 放弃使用它，改为使用 core-js 了。</h3>
+<h3 id="babelcore"><a href="/jsPackages/babel/core.html">@babel/core</a></h3>
+<h2 id="polyfill-的实现方式">polyfill 的实现方式</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>使用@babel/preset-env, useBuiltIns: 'entry'</td>
+<td>支持使用 targets。注入目标环境不支持的所有 built-in 功能。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>使用@babel/preset-env, useBuiltIns: 'usage'</td>
+<td>支持使用 target。注入目标环境不支持且源代码中使用到的 built-in 功能。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>使用@babel/plugin-transform-runtime</td>
+<td>不支持使用 target。通过局部变量的方式实现被用到的 built-in 功能。不会污染全局。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h2 id="title">title</h2>
 <h2 id="title">title</h2>
-<h2 id="title">title</h2>
-<h2 id="api">api</h2>
+<h2 id="api"><a href="/babel/api/index.html">api</a></h2>
 <p><code>babel.fn(param, first: string, second: boolean = true) =&gt; void</code>
 description</p>
 <p><code>babel.fn(param, [options: {a: string, b?: number}])</code>

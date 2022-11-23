@@ -90,12 +90,23 @@ npm i -D @babel/preset-typescript
 |     | v7.8+ | babel.config.json | 必须 |
 |     |       |                   |      |
 
-默认配置文件：`path/to/file.json`。
-|key|description|default|enum|demo|||
-|-|-|-|-|-|-|-|
-||||||||
-||||||||
-||||||||
+|                                   | 适用场景                    |                                                     |                                                                    |
+| --------------------------------- | --------------------------- | --------------------------------------------------- | ------------------------------------------------------------------ |
+| `babel.config.json`               | 一库多包、编译 node_modules |                                                     |                                                                    |
+| `.babelrc.json`                   | 简单项目                    |                                                     |                                                                    |
+| `package.json`                    |                             | 设置`babel.presets: [...] / babel.plugins: [...]`   |                                                                    |
+| `babel.config.js` / `.babelrc.js` | 用于 js 脚本                | `module.exports = {presets: [...], plugins: [...]}` | 有网友推荐使用`babel.config.js`，因为它灵活（它是 cjs 规范写的）。 |
+
+### 基本结构
+
+babel.config.json
+
+```json
+{
+  "presets": [],
+  "plugins": []
+}
+```
 
 ## 工作流程
 
@@ -186,7 +197,7 @@ babel src --out-dir lib --plugins=@babel/plugin-transform-arrow-functons
 
 ## title
 
-## api
+## [api](/babel/api/index.html)
 
 `babel.fn(param, first: string, second: boolean = true) => void`
 description
