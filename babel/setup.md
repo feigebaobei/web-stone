@@ -4,6 +4,11 @@
 [官网的 setup](https://babeljs.io/setup.html#installation)  
 下面是按使用环境区分的。好多环境我都没用过。
 
+|     |                  |                                     |     |
+| --- | ---------------- | ----------------------------------- | --- |
+|     | 独立使用方式     | in the browser / cli / require hook |     |
+|     | 结合其他工具使用 | 其他的                              |     |
+
 ## in the browser
 
 ## cli
