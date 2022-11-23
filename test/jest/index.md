@@ -11,7 +11,6 @@
 
 ### feature
 
-- 要使用 JEST，前端必须要以模块形式暴露，即 module.exports
 - feature1
 - feature2
 
@@ -107,7 +106,7 @@ babel 异步运行时才支持 esm 规范的配置文件。
 我把`babel.config.js`改为`babel.config.cjs`。问题解决了。  
 不知道原因。需要学习 [babel](/babel/index.html)
 
-## [匹配器](/test/jest/macher.html)
+## [匹配器](/test/jest/matcher.html)
 
 常用匹配器
 | | | | | | |

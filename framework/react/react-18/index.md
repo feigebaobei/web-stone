@@ -244,8 +244,25 @@ function Hello(props) {
 
 constructor() // 为了调用 super()
 static getDerivedStateFromProps(nextProps, prevState)
-它是静态方法，不能使用 this。只能作一些无副作用的操作。
+它是静态方法，不能使用 this。只能作一些无副作用的操作。整个 render 阶段都不能执行副作用方法。
 若返回一个对象，则更新 state。若返回 null，则不更新。
+即使 props 没有任何变化，而是父 state 发生了变化，导致子组件发生了 re-render，这个生命周期函数依然会被调用。
+此生命周期方法在 render 阶段执行。
+既然是生命周期方法，则只能在 class 组件中使用。
+它是为 state 赋值的。
+static getDerivedStateFromProps(nextProps, prevState) {
+// 必须返回值。
+if (condition) {
+return {
+b: prevState.b,
+// ...prevState
+a: nextProps.a,
+}
+}
+return null //
+}
+尽量不要写内 props/state 共同控制的组件（即：受控&非受控）
+
 render()
 class 组件中必须使用的方法。
 用于渲染 dom.
