@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>setup</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
+</style>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="setup">setup</h1>
+<p>快速使用方法。
+<a href="https://babeljs.io/setup.html#installation">官网的setup</a><br>
+下面是按使用环境区分的。好多环境我都没用过。</p>
+<h2 id="in-the-browser">in the browser</h2>
+<h2 id="cli">cli</h2>
+<p>见前文。</p>
+<h2 id="require-hook">require hook</h2>
+<h2 id="broccoli">broccoli</h2>
+<h2 id="browserify">browserify</h2>
+<h2 id="brunch">brunch</h2>
+<h2 id="duo">duo</h2>
+<h2 id="grunt">grunt</h2>
+<h2 id="gulp">gulp</h2>
+<h2 id="jspm">jspm</h2>
+<h2 id="make">make</h2>
+<h2 id="msbuild">msbuild</h2>
+<h2 id="requirejs">requirejs</h2>
+<h2 id="rollup">rollup</h2>
+<pre><code class="language-shell">npm i -D @rollup/plugin-babel @babel/core
+</code></pre>
+<pre><code class="language-js"><span class="hljs-keyword">import</span> babel <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@rollup/plugin-babel&#x27;</span>
+<span class="hljs-keyword">const</span> config = {
+    <span class="hljs-attr">input</span>: <span class="hljs-string">&#x27;src/index.js&#x27;</span>,
+    <span class="hljs-attr">output</span>: {
+        <span class="hljs-attr">dir</span>: <span class="hljs-string">&#x27;dist&#x27;</span>,
+        <span class="hljs-attr">format</span>: <span class="hljs-string">&#x27;esm&#x27;</span>
+    },
+    <span class="hljs-attr">plugins</span>: [
+        <span class="hljs-title function_">babel</span>({
+            <span class="hljs-attr">babelHelpers</span>: <span class="hljs-string">&#x27;bundled&#x27;</span>
+        })
+    ]
+}
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> config
+</code></pre>
+<pre><code class="language-json"><span class="hljs-comment">// babel.config.json</span>
+<span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;presets&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;@babel/preset-env&quot;</span><span class="hljs-punctuation">]</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h2 id="sprockets">sprockets</h2>
+<h2 id="webpack">webpack</h2>
+<pre><code class="language-shell">npm i -D babel-loader @babel/core @babel/preset-env
+</code></pre>
+<pre><code class="language-js"><span class="hljs-comment">// webpack.config.js</span>
+{
+    <span class="hljs-attr">module</span>: {
+        <span class="hljs-attr">rules</span>: [
+            {
+                <span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.m?js/</span>,
+                <span class="hljs-attr">exclude</span>: <span class="hljs-regexp">/node_modules/</span>,
+                <span class="hljs-attr">use</span>: {
+                    <span class="hljs-attr">loader</span>: <span class="hljs-string">&quot;babel-loader&quot;</span>,
+                    <span class="hljs-attr">options</span>: {
+                        <span class="hljs-attr">presets</span>: [<span class="hljs-string">&quot;@babel/preset-env&quot;</span>]
+                    }
+                }
+            }
+        ]
+    }
+}
+</code></pre>
+<pre><code class="language-json"><span class="hljs-comment">// babel.config.json</span>
+<span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;presets&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;@babel/preset-env&quot;</span><span class="hljs-punctuation">]</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h2 id="start">start</h2>
+<h2 id="ember">ember</h2>
+<h2 id="meteor">meteor</h2>
+<h2 id="rails">rails</h2>
+<h2 id="sails">sails</h2>
+<h2 id="ava">ava</h2>
+<h2 id="jasmine">jasmine</h2>
+<h2 id="jest">jest</h2>
+<pre><code class="language-shell">npm i -D babel-jest
+</code></pre>
+<pre><code class="language-js"><span class="hljs-comment">// package.json</span>
+<span class="hljs-string">&quot;script&quot;</span>: {
+    <span class="hljs-string">&quot;jest&quot;</span>: <span class="hljs-string">&quot;jest&quot;</span>,
+},
+<span class="hljs-comment">// 我在实际使用中没设置此字段</span>
+<span class="hljs-string">&quot;jest&quot;</span>: {
+    <span class="hljs-string">&quot;transform&quot;</span>: {
+        <span class="hljs-string">&quot;^.+\\.[t|j]sx?$&quot;</span>: <span class="hljs-string">&quot;babel-jest&quot;</span>
+    }
+}
+</code></pre>
+<pre><code class="language-json"><span class="hljs-comment">// babel.config.json</span>
+<span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;presets&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;@babel/preset-env&quot;</span><span class="hljs-punctuation">]</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h2 id="karma">karma</h2>
+<h2 id="lab">lab</h2>
+<h2 id="mocka">mocka</h2>
+<h2 id="connect">connect</h2>
+<h2 id="nodemon">nodemon</h2>
+<h2 id="c--net">c# &amp; .net</h2>
+<h2 id="node">node</h2>
+<h2 id="ruby">ruby</h2>
+<h2 id="pug">pug</h2>
+<h2 id="webstorm">webstorm</h2>
+<h2 id="node-inspector">node inspector</h2>
+
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
+    </body>
+    </html>
