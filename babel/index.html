@@ -78,19 +78,21 @@
         <h1 id="babel">babel</h1>
 <h2 id="overview">overview</h2>
 <blockquote>
-<p>把es6及以上的js代码转化为es5的js代码。<br>
-由插件组成。（又是可插件化的框架）</p>
+<p>把 es6 及以上的 js 代码转化为 es5 的 js 代码。<br>
+由插件组成。（又是可插件化的框架）<br>
+v7.8+ 必要 配置文件</p>
 </blockquote>
 <h3 id="feature">feature</h3>
 <ul>
 <li>转化语法</li>
 <li>兼容指定环境</li>
-<li>转化代码</li>
+<li>转化功能</li>
 </ul>
+<p>babel认为js的语法和功能不一样吗？</p>
 <h2 id="install">install</h2>
 <p>它有一系列包，用哪个安装哪个。</p>
 <h2 id="usage">usage</h2>
-<p>根据使用环境不同，用法有很多。这里列出依cli的使用方式。</p>
+<p>根据使用环境不同，用法有很多。这里列出依 cli 的使用方式。</p>
 <pre><code class="language-shell">npm i -D @babel/core @babel/cli
 </code></pre>
 <pre><code class="language-json"><span class="hljs-comment">// package.json</span>
@@ -105,7 +107,7 @@
 <p>没配置文件也行，有更好些。<br>
 babel.config.json</p>
 <pre><code class="language-json"><span class="hljs-punctuation">{</span>
-    <span class="hljs-attr">&quot;preset&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;@babel/preset-env&quot;</span><span class="hljs-punctuation">]</span>
+  <span class="hljs-attr">&quot;preset&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;@babel/preset-env&quot;</span><span class="hljs-punctuation">]</span>
 <span class="hljs-punctuation">}</span>
 </code></pre>
 <h3 id="jsx">jsx</h3>
@@ -161,6 +163,23 @@ babel.config.json</p>
 </tr>
 </tbody>
 </table>
+<h2 id="工作流程">工作流程</h2>
+<pre><code>    code ----------&gt; ast ----------&gt; ast ----------&gt; ast
+          parser          transform       generator
+          解析源文件        转换            生成新文件
+</code></pre>
+<h2 id="组成">组成</h2>
+<p><a href="/jsPackages/babel/core.html">@babel/core</a> ast转换的核心包<br>
+<a href="/jsPackages/babel/cli.html">@babel/cli</a> 命令行工具<br>
+@babel/plugin-* 插件<br>
+<a href="/jsPackages/babel/core.html">@babel/plugin-transform-runtime</a> 解决polyfill直接修改api带来的全局污染问题<br>
+<a href="/jsPackages/babel/presetEnv.html">@babel/preset-env</a> 插件的集合<br>
+<a href="/jsPackages/babel/coreJs.html">core-js</a><br>
+<a href="/jsPackages/babel/coreJs.html">@babel/polyfill</a>babel放弃使用它，改为使用core-js了。<br>
+<a href="/jsPackages/babel/core.html">@babel/core</a></p>
+<h2 id="title">title</h2>
+<h2 id="title">title</h2>
+<h2 id="title">title</h2>
 <h2 id="api">api</h2>
 <p><code>babel.fn(param, first: string, second: boolean = true) =&gt; void</code>
 description</p>
@@ -173,6 +192,7 @@ description</p>
 <pre><code>
 </code></pre>
 <h2 id="todo">todo</h2>
+<h3 id="ast"><a href="/babel/ast/index.html">ast</a></h3>
 <blockquote>
 <p>未来迭代计划。
 未来迭代计划。
