@@ -392,6 +392,10 @@ frameborder 属性规定是否显示 iframe 周围的边框。
 | referrerpolic |                     | 获取脚本时是否使用 referrer 字段。                                             |         | `no-referrer`/`no-referrer-when-downgrade`/`origin`/`origin-when-cross-origin`/`same-origin`/`strict-origin`/`strict-origin-when-cross-origin`/`unsafe-url` |
 | type          | module / text/babel |                                                                                |         |                                                                                                                                                             |
 
+```html
+<script type="module" src="xxx"></script>
+```
+
 ```js
 let script = document.createElement('script')
 script.src = 'name.js'

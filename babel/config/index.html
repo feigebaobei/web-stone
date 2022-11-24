@@ -51,7 +51,8 @@
 }
 
 </style>
-        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -119,8 +120,188 @@
 </tr>
 </tbody>
 </table>
+<h2 id="配置文件名">配置文件名</h2>
+<p>所有的配置文件都是平行的。</p>
+<table>
+<thead>
+<tr>
+<th>配置文件名</th>
+<th>支持的扩展名</th>
+<th>适用</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>babel.config.*</td>
+<td>.json .js .cjs .mjs</td>
+<td>使用较多</td>
+<td></td>
+</tr>
+<tr>
+<td>.babelrc.*</td>
+<td>.json .js .cjs .mjs</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>.babelrc</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>package.json中的babel字段</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="一库多包中使用">一库多包中使用</h2>
+<p>根目录中创建的配置文件会作用于所有子包。<br>
+子包中的配置文件只会作用于该子包。</p>
+<h3 id="在子包中使用根目录中的配置文件">在子包中使用根目录中的配置文件</h3>
+<p>cli</p>
+<pre><code class="language-shell">babel --root-mode upward src -d dist_babel
+</code></pre>
+<p>@babel/regiser
+这是一个脚本文件</p>
+<pre><code class="language-js"><span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;@babel/register&#x27;</span>)({
+    <span class="hljs-attr">rootMode</span>: <span class="hljs-string">&quot;upward&quot;</span>
+})
+</code></pre>
+<p>webpack</p>
+<pre><code class="language-js"><span class="hljs-attr">module</span>: {
+    <span class="hljs-attr">rules</span>: [
+        {
+            <span class="hljs-attr">loader</span>: <span class="hljs-string">&quot;babel-loader&quot;</span>,
+            <span class="hljs-attr">options</span>: {
+                <span class="hljs-attr">rootMode</span>: <span class="hljs-string">&quot;upward&quot;</span>
+            }
+        }
+    ]
+}
+</code></pre>
+<p>jest</p>
+<pre><code class="language-js"><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;babel-jest&#x27;</span>).<span class="hljs-property">default</span>.<span class="hljs-title function_">createTransformer</span>({
+    <span class="hljs-attr">rootMode</span>: <span class="hljs-string">&#x27;upward&#x27;</span>
+})
+</code></pre>
+<pre><code class="language-json"><span class="hljs-attr">&quot;transform&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;^.+\\.jsx?$&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;./path/to/wrapper.js&quot;</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h2 id="配置文件中的api">配置文件中的api</h2>
+<p>当使用cjs规范的配置文件时。如下：</p>
+<pre><code class="language-js"><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params">api</span>) {
+    <span class="hljs-keyword">return</span> {...}
+}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>api</th>
+<th>类型</th>
+<th>说明</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>api.version</td>
+<td>string</td>
+<td>当前babel的版本</td>
+<td></td>
+</tr>
+<tr>
+<td>api.cache</td>
+<td></td>
+<td>如何管理缓存</td>
+<td></td>
+</tr>
+<tr>
+<td>api.cache.forever()</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>api.cache.never()</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>api.cache.user(() =&gt; process.env.NODE_ENV)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>api.cache.invalidate(() =&gt; process.env.NODE_ENV)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>api.cache(true)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>api.cache(false)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>api.env()</td>
+<td></td>
+<td>用于检查envName</td>
+<td></td>
+</tr>
+<tr>
+<td>api.env('production')</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>api.env(['production', 'test'])</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>api.env()</td>
+<td></td>
+<td>返回当前的envName</td>
+<td></td>
+</tr>
+<tr>
+<td>api.env(envName =&gt; envName.startswith('test-'))</td>
+<td></td>
+<td>返回当前的envName</td>
+<td></td>
+</tr>
+<tr>
+<td>api.caller(cb)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>api.assertVersion(range)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 
-        
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
     </body>
     </html>

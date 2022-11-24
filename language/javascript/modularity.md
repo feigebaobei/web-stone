@@ -1,5 +1,7 @@
 # 模块化
 
+应该说清这 6 种规范。
+
 | -              | 全称                                    | 代表                           | 加载方式 |     |     |     |
 | -------------- | --------------------------------------- | ------------------------------ | -------- | --- | --- | --- |
 | amd            | asynchronous module definition          | require.js                     | 异步加载 |     |     |     |
@@ -8,7 +10,7 @@
 | commonjs (cjs) |                                         | nodejs                         | 同步加载 |     |     |     |
 | esm            | es6 module                              | 在 js 语言层面上实现了模块化。 |          |     |     |     |
 | iife           | immediately invoked function expression | jquery                         |          |     |     |
-| system         |                                         | jquery                         |          |     |     |
+| system         |                                         |                                |          |     |     |
 
 ## module.exports & exports & export & export defaut
 

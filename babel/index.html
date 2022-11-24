@@ -141,7 +141,7 @@ babel.config.json<br>
 <tr>
 <th></th>
 <th></th>
-<th></th>
+<th>支持</th>
 <th></th>
 </tr>
 </thead>
@@ -149,7 +149,7 @@ babel.config.json<br>
 <tr>
 <td></td>
 <td>v7.8-</td>
-<td></td>
+<td>.babelrc.json babel.config.json babel.config.cjs .babelrc.cjs</td>
 <td></td>
 </tr>
 <tr>
@@ -220,31 +220,31 @@ babel.config.json<br>
 <li>语法分析</li>
 </ul>
 <h4 id="词法分析">词法分析</h4>
-<p>把代码分为如下被称为tokens的东西</p>
-<pre><code class="language-js">[
-    { <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;Keyword&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;const&quot;</span> },
-    { <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;Identifier&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;add&quot;</span> },
-    { <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;Punctuator&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;=&quot;</span> },
-    { <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;Punctuator&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;(&quot;</span> },
-    { <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;Identifier&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;a&quot;</span> },
-    { <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;Punctuator&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;,&quot;</span> },
-    { <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;Identifier&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;b&quot;</span> },
-    { <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;Punctuator&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;)&quot;</span> },
-    { <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;Punctuator&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;=&gt;&quot;</span> },
-    { <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;Identifier&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;a&quot;</span> },
-    { <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;Punctuator&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;+&quot;</span> },
-    { <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;Identifier&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;b&quot;</span> }
+<p>把代码分为如下被称为 tokens 的东西</p>
+<pre><code class="language-js">;[
+  { <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;Keyword&#x27;</span>, <span class="hljs-attr">value</span>: <span class="hljs-string">&#x27;const&#x27;</span> },
+  { <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;Identifier&#x27;</span>, <span class="hljs-attr">value</span>: <span class="hljs-string">&#x27;add&#x27;</span> },
+  { <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;Punctuator&#x27;</span>, <span class="hljs-attr">value</span>: <span class="hljs-string">&#x27;=&#x27;</span> },
+  { <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;Punctuator&#x27;</span>, <span class="hljs-attr">value</span>: <span class="hljs-string">&#x27;(&#x27;</span> },
+  { <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;Identifier&#x27;</span>, <span class="hljs-attr">value</span>: <span class="hljs-string">&#x27;a&#x27;</span> },
+  { <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;Punctuator&#x27;</span>, <span class="hljs-attr">value</span>: <span class="hljs-string">&#x27;,&#x27;</span> },
+  { <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;Identifier&#x27;</span>, <span class="hljs-attr">value</span>: <span class="hljs-string">&#x27;b&#x27;</span> },
+  { <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;Punctuator&#x27;</span>, <span class="hljs-attr">value</span>: <span class="hljs-string">&#x27;)&#x27;</span> },
+  { <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;Punctuator&#x27;</span>, <span class="hljs-attr">value</span>: <span class="hljs-string">&#x27;=&gt;&#x27;</span> },
+  { <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;Identifier&#x27;</span>, <span class="hljs-attr">value</span>: <span class="hljs-string">&#x27;a&#x27;</span> },
+  { <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;Punctuator&#x27;</span>, <span class="hljs-attr">value</span>: <span class="hljs-string">&#x27;+&#x27;</span> },
+  { <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;Identifier&#x27;</span>, <span class="hljs-attr">value</span>: <span class="hljs-string">&#x27;b&#x27;</span> },
 ]
 </code></pre>
 <h4 id="语法分析">语法分析</h4>
-<p>把tokens转化为ast<br>
+<p>把 tokens 转化为 ast<br>
 for todo</p>
 <h3 id="transform">transform</h3>
-<p>操作ast<br>
+<p>操作 ast<br>
 深度优先遍历。<br>
-此步会生成新的ast</p>
+此步会生成新的 ast</p>
 <h3 id="generator">generator</h3>
-<p>把ast转化为代码。</p>
+<p>把 ast 转化为代码。</p>
 <h2 id="组成">组成</h2>
 <h3 id="babelcore-ast-转换的核心包-没有转换代码的功能"><a href="/jsPackages/babel/core.html">@babel/core</a> ast 转换的核心包 没有转换代码的功能</h3>
 <p>使用方法：</p>
