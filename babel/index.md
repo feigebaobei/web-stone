@@ -116,6 +116,47 @@ babel.config.json
           解析源文件        转换            生成新文件
 ```
 
+### parser
+
+- 词法分析
+- 语法分析
+
+#### 词法分析
+
+把代码分为如下被称为 tokens 的东西
+
+```js
+;[
+  { type: 'Keyword', value: 'const' },
+  { type: 'Identifier', value: 'add' },
+  { type: 'Punctuator', value: '=' },
+  { type: 'Punctuator', value: '(' },
+  { type: 'Identifier', value: 'a' },
+  { type: 'Punctuator', value: ',' },
+  { type: 'Identifier', value: 'b' },
+  { type: 'Punctuator', value: ')' },
+  { type: 'Punctuator', value: '=>' },
+  { type: 'Identifier', value: 'a' },
+  { type: 'Punctuator', value: '+' },
+  { type: 'Identifier', value: 'b' },
+]
+```
+
+#### 语法分析
+
+把 tokens 转化为 ast  
+for todo
+
+### transform
+
+操作 ast  
+深度优先遍历。  
+此步会生成新的 ast
+
+### generator
+
+把 ast 转化为代码。
+
 ## 组成
 
 ### [@babel/core](/jsPackages/babel/core.html) ast 转换的核心包 没有转换代码的功能

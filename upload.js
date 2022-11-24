@@ -251,7 +251,8 @@ c.on('ready', () => {
     }
     // let p = 'babel/plugin' // todo add
     let p = [
-      // 'babel/index.html',
+      'babel/config/index.html',
+      'babel/index.html',
       // 'babel/setup.html',
     ]
     // 检测指定目录是否存在

@@ -178,7 +178,7 @@ babel.config.json<br>
 <tbody>
 <tr>
 <td><code>babel.config.json</code></td>
-<td>一库多包、编译node_modules</td>
+<td>一库多包、编译 node_modules</td>
 <td></td>
 <td></td>
 </tr>
@@ -196,9 +196,9 @@ babel.config.json<br>
 </tr>
 <tr>
 <td><code>babel.config.js</code> / <code>.babelrc.js</code></td>
-<td>用于js脚本</td>
+<td>用于 js 脚本</td>
 <td><code>module.exports = {presets: [...], plugins: [...]}</code></td>
-<td>有网友推荐使用<code>babel.config.js</code>，因为它灵活（它是cjs规范写的）。</td>
+<td>有网友推荐使用<code>babel.config.js</code>，因为它灵活（它是 cjs 规范写的）。</td>
 </tr>
 </tbody>
 </table>
@@ -206,7 +206,7 @@ babel.config.json<br>
 <p>babel.config.json</p>
 <pre><code class="language-json"><span class="hljs-punctuation">{</span>
   <span class="hljs-attr">&quot;presets&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
-  <span class="hljs-attr">&quot;plugins&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;plugins&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">]</span>
 <span class="hljs-punctuation">}</span>
 </code></pre>
 <h2 id="工作流程">工作流程</h2>
@@ -214,6 +214,37 @@ babel.config.json<br>
           parser          transform       generator
           解析源文件        转换            生成新文件
 </code></pre>
+<h3 id="parser">parser</h3>
+<ul>
+<li>词法分析</li>
+<li>语法分析</li>
+</ul>
+<h4 id="词法分析">词法分析</h4>
+<p>把代码分为如下被称为tokens的东西</p>
+<pre><code class="language-js">[
+    { <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;Keyword&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;const&quot;</span> },
+    { <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;Identifier&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;add&quot;</span> },
+    { <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;Punctuator&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;=&quot;</span> },
+    { <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;Punctuator&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;(&quot;</span> },
+    { <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;Identifier&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;a&quot;</span> },
+    { <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;Punctuator&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;,&quot;</span> },
+    { <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;Identifier&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;b&quot;</span> },
+    { <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;Punctuator&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;)&quot;</span> },
+    { <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;Punctuator&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;=&gt;&quot;</span> },
+    { <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;Identifier&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;a&quot;</span> },
+    { <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;Punctuator&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;+&quot;</span> },
+    { <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;Identifier&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;b&quot;</span> }
+]
+</code></pre>
+<h4 id="语法分析">语法分析</h4>
+<p>把tokens转化为ast<br>
+for todo</p>
+<h3 id="transform">transform</h3>
+<p>操作ast<br>
+深度优先遍历。<br>
+此步会生成新的ast</p>
+<h3 id="generator">generator</h3>
+<p>把ast转化为代码。</p>
 <h2 id="组成">组成</h2>
 <h3 id="babelcore-ast-转换的核心包-没有转换代码的功能"><a href="/jsPackages/babel/core.html">@babel/core</a> ast 转换的核心包 没有转换代码的功能</h3>
 <p>使用方法：</p>
