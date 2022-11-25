@@ -1,3 +1,5 @@
+学了好多框架，看了好多源码。感觉这些都是次要的，主要是[数学](/math/index.html)[算法与数据结构](/dsa/index.html)[逻辑]()[设计模式](/engineered/design-pattern.html)
+
 - [ftp](/jsPackages/ftp.html)
 - [crtp-cli](/jsPackages/crtp-cli.html)
 - [co](/jsPackages/co.html)
