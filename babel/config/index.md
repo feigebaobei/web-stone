@@ -170,3 +170,66 @@ interface CallerData {
 PluginEntry
 browserlist
 ```
+
+## presets
+
+定义若干 plugins 的集合。  
+已经内置的 presets:
+
+- @babel/preset-env 把 es6 及以上代码转换为 es5
+- @babel/preset-typescript 转换 ts
+- @babel/preset-react 转换 jsx
+- @babel/preset-flow 转换 flow
+
+preset 的执行顺序是倒序
+
+```json
+// demo
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "loose": true,
+        "modules": true
+      }
+    ]
+  ]
+}
+```
+
+### stage-x
+
+babel 7+ 反对使用此配置项
+
+- Stage 0
+- Stage 1
+- Stage 2
+- Stage 3
+- Stage 4
+
+### create a preset
+
+```js
+module.exports = funtion () {
+  return {
+    // 可以指定包含哪些plugins。也可以使用指定需要哪些presets
+    // presets: [require('@babel/preset-env')],
+    plugins: ["pluginA", "pluginB", "pluginC", "pluginD"]
+  }
+}
+```
+
+### title
+
+### title
+
+### title
+
+## plugins
+
+## title
+
+## title
+
+## title
