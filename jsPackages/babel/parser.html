@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>&commat;babel&sol;parser</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="babelparser">@babel/parser</h1>
+<h2 id="overview">overview</h2>
+<blockquote>
+<p>基于<a href="">acorn</a>/<a href="">acorn-jsx</a>，在babel中做解析器。</p>
+</blockquote>
+<h3 id="feature">feature</h3>
+<ul>
+<li>默认支持到es2020.</li>
+<li>comment attachment</li>
+<li>支持jsx/flow/ts</li>
+</ul>
+<h2 id="install">install</h2>
+<p><code>npm i -D @babel/parser</code></p>
+<h2 id="usage">usage</h2>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> @babel/parser = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;@babel/parser&#x27;</span>);
+<span class="hljs-comment">// or</span>
+<span class="hljs-comment">// import @babel/parser from &#x27;@babel/parser&#x27;;</span>
+<span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> DEMONSTRATE API</span>
+</code></pre>
+<h2 id="api">api</h2>
+<p>|key|description|default|enum|demo|||</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>parse(code, options?) =&gt; ast</td>
+<td>code是js代码</td>
+<td>输出是babel的ast（与一般的ast有区别）</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>parseExpression(code, options?)</td>
+<td></td>
+<td>尝试在内存中解析单个表达式。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>若分不清应该使用哪个，则使用<code>parse()</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-ts"><span class="hljs-keyword">interface</span> options: {
+    allowImportExportEverywhere
+    allowAwaitOutsideFunction
+    allowReturnOutsideFunction
+    allowSuperOutsideMethod
+    allowUndeclaredExports
+    attachComment
+    createParenthesizedExpressions
+    errorRecovery
+    plugins
+    sourceType
+    sourceFilename
+    startColumn
+    startLine
+    strictMode
+    ranges
+    tokens
+}
+<span class="hljs-keyword">interface</span> ast {
+    <span class="hljs-title class_">Literal</span>: 
+}
+</code></pre>
+<h2 id="principle">principle</h2>
+<p>此包的处理逻辑。</p>
+<h3 id="uml">uml</h3>
+<pre><code></code></pre>
+<h2 id="todo">todo</h2>
+<blockquote>
+<p>未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote>
+
+        
+        
+    </body>
+    </html>
