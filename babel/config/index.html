@@ -77,49 +77,6 @@
     </head>
     <body class="vscode-body vscode-light">
         <h1 id="config">config</h1>
-<p>默认配置文件：<code>path/to/file.json</code>。</p>
-<table>
-<thead>
-<tr>
-<th>key</th>
-<th>description</th>
-<th>default</th>
-<th>enum</th>
-<th>demo</th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
 <h2 id="配置文件名">配置文件名</h2>
 <p>所有的配置文件都是平行的。</p>
 <table>
@@ -133,13 +90,13 @@
 </thead>
 <tbody>
 <tr>
-<td>babel.config.*</td>
+<td>babel.config._</td>
 <td>.json .js .cjs .mjs</td>
 <td>使用较多</td>
 <td></td>
 </tr>
 <tr>
-<td>.babelrc.*</td>
+<td>.babelrc._</td>
 <td>.json .js .cjs .mjs</td>
 <td></td>
 <td></td>
@@ -151,7 +108,7 @@
 <td></td>
 </tr>
 <tr>
-<td>package.json中的babel字段</td>
+<td>package.json 中的 babel 字段</td>
 <td></td>
 <td></td>
 <td></td>
@@ -168,32 +125,32 @@
 <p>@babel/regiser
 这是一个脚本文件</p>
 <pre><code class="language-js"><span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;@babel/register&#x27;</span>)({
-    <span class="hljs-attr">rootMode</span>: <span class="hljs-string">&quot;upward&quot;</span>
+  <span class="hljs-attr">rootMode</span>: <span class="hljs-string">&#x27;upward&#x27;</span>,
 })
 </code></pre>
 <p>webpack</p>
 <pre><code class="language-js"><span class="hljs-attr">module</span>: {
-    <span class="hljs-attr">rules</span>: [
-        {
-            <span class="hljs-attr">loader</span>: <span class="hljs-string">&quot;babel-loader&quot;</span>,
-            <span class="hljs-attr">options</span>: {
-                <span class="hljs-attr">rootMode</span>: <span class="hljs-string">&quot;upward&quot;</span>
-            }
-        }
-    ]
+  <span class="hljs-attr">rules</span>: [
+    {
+      <span class="hljs-attr">loader</span>: <span class="hljs-string">&#x27;babel-loader&#x27;</span>,
+      <span class="hljs-attr">options</span>: {
+        <span class="hljs-attr">rootMode</span>: <span class="hljs-string">&#x27;upward&#x27;</span>,
+      },
+    },
+  ]
 }
 </code></pre>
 <p>jest</p>
 <pre><code class="language-js"><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;babel-jest&#x27;</span>).<span class="hljs-property">default</span>.<span class="hljs-title function_">createTransformer</span>({
-    <span class="hljs-attr">rootMode</span>: <span class="hljs-string">&#x27;upward&#x27;</span>
+  <span class="hljs-attr">rootMode</span>: <span class="hljs-string">&#x27;upward&#x27;</span>,
 })
 </code></pre>
 <pre><code class="language-json"><span class="hljs-attr">&quot;transform&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
     <span class="hljs-attr">&quot;^.+\\.jsx?$&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;./path/to/wrapper.js&quot;</span>
 <span class="hljs-punctuation">}</span>
 </code></pre>
-<h2 id="配置文件中的api">配置文件中的api</h2>
-<p>当使用cjs规范的配置文件时。如下：</p>
+<h2 id="配置文件中的-api">配置文件中的 api</h2>
+<p>当使用 cjs 规范的配置文件时。如下：</p>
 <pre><code class="language-js"><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params">api</span>) {
     <span class="hljs-keyword">return</span> {...}
 }
@@ -211,7 +168,7 @@
 <tr>
 <td>api.version</td>
 <td>string</td>
-<td>当前babel的版本</td>
+<td>当前 babel 的版本</td>
 <td></td>
 </tr>
 <tr>
@@ -259,7 +216,7 @@
 <tr>
 <td>api.env()</td>
 <td></td>
-<td>用于检查envName</td>
+<td>用于检查 envName</td>
 <td></td>
 </tr>
 <tr>
@@ -277,13 +234,13 @@
 <tr>
 <td>api.env()</td>
 <td></td>
-<td>返回当前的envName</td>
+<td>返回当前的 envName</td>
 <td></td>
 </tr>
 <tr>
 <td>api.env(envName =&gt; envName.startswith('test-'))</td>
 <td></td>
-<td>返回当前的envName</td>
+<td>返回当前的 envName</td>
 <td></td>
 </tr>
 <tr>
@@ -300,6 +257,683 @@
 </tr>
 </tbody>
 </table>
+<h2 id="选项">选项</h2>
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th>可以使用的方式</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>主要选项</td>
+<td>只用于编程时使用</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cwd</td>
+<td>工作目录</td>
+<td>string</td>
+<td>process.cwd()</td>
+<td></td>
+<td></td>
+<td>编程</td>
+<td></td>
+</tr>
+<tr>
+<td>caller</td>
+<td>好像是定义preset/plugin</td>
+<td>obj</td>
+<td>见下文</td>
+<td></td>
+<td></td>
+<td>编程</td>
+<td></td>
+</tr>
+<tr>
+<td>filename</td>
+<td></td>
+<td>string</td>
+<td></td>
+<td></td>
+<td></td>
+<td>编程</td>
+<td></td>
+</tr>
+<tr>
+<td>filenameRelative</td>
+<td>设置sourceFileName的默认值</td>
+<td>string</td>
+<td>path.relative(opts.cwd, opts.filename)</td>
+<td></td>
+<td></td>
+<td>编程</td>
+<td></td>
+</tr>
+<tr>
+<td>code</td>
+<td>生成代码时默认返回code/map属性。</td>
+<td>boolean</td>
+<td>true</td>
+<td></td>
+<td></td>
+<td>编程</td>
+<td></td>
+</tr>
+<tr>
+<td>ast</td>
+<td>默认生成string / source map</td>
+<td>boolean</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td>编程</td>
+<td></td>
+</tr>
+<tr>
+<td>cloneInputAst</td>
+<td>复制输入的ast.以防止它改变。</td>
+<td>boolean</td>
+<td>true</td>
+<td></td>
+<td></td>
+<td>编程</td>
+<td></td>
+</tr>
+<tr>
+<td>加载选项</td>
+<td>处理环境的</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>root</td>
+<td>基于rootMode.</td>
+<td>string</td>
+<td>opts.cwd</td>
+<td></td>
+<td></td>
+<td>编程</td>
+<td></td>
+</tr>
+<tr>
+<td>rootMode</td>
+<td>结合root选项生成最终的项目根目录。只用于编程时使用。v7.1+</td>
+<td>'root'/'upward'/'upward-optional'</td>
+<td>'root'</td>
+<td></td>
+<td></td>
+<td>编程</td>
+<td></td>
+</tr>
+<tr>
+<td>envName</td>
+<td>设置环境变量</td>
+<td>string</td>
+<td>`process.env.BABEL_ENV</td>
+<td></td>
+<td>process.env.NODE_ENV</td>
+<td></td>
+<td>&quot;development&quot;`</td>
+</tr>
+<tr>
+<td>configFile</td>
+<td>设置配置文件的路径</td>
+<td>string/boolean</td>
+<td><code>path.resolve(opts.root, 'babel.config.json')</code></td>
+<td></td>
+<td></td>
+<td>编程</td>
+<td></td>
+</tr>
+<tr>
+<td>babelrc</td>
+<td>当为true时与filename结合使用。会覆盖配置文件中的配置项</td>
+<td>boolean</td>
+<td></td>
+<td></td>
+<td></td>
+<td>编程</td>
+<td></td>
+</tr>
+<tr>
+<td>babelrcRoots</td>
+<td>不会</td>
+<td><code>boolean / MatchPattern / Array&lt;MathPattern&gt;</code></td>
+<td>opts.root</td>
+<td></td>
+<td></td>
+<td>编程</td>
+<td></td>
+</tr>
+<tr>
+<td>plugin/preset选项</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>plugins</td>
+<td>处理文件的插件</td>
+<td><code>Array&lt;PluginEntry&gt;</code></td>
+<td><code>[]</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>presets</td>
+<td>preset组成的数组</td>
+<td><code>Array&lt;PresetEntry&gt;</code></td>
+<td><code>[]</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>输出选项</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>编程、配置</td>
+<td></td>
+</tr>
+<tr>
+<td>targets</td>
+<td>定义转换结果的运行环境。若不指定此字段，则认为运行环境是最旧的浏览器，即转换结果是es5.</td>
+<td>`string</td>
+<td>Array<string></td>
+<td>{[string]: string}`</td>
+<td><code>{}</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>targets.esmodules</td>
+<td>输出的代码可以在支持esm的浏览器 中运行。</td>
+<td>boolean</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>若同时设置了esmodules/target，则取交集。</td>
+</tr>
+<tr>
+<td>targets.node</td>
+<td>指定输出哪个node版本的代码</td>
+<td>string / 'current' / true</td>
+<td></td>
+<td></td>
+<td><code>{&quot;targets&quot;: &quot;node 12.0&quot;}</code></td>
+<td></td>
+<td>需要明确中版本。</td>
+</tr>
+<tr>
+<td>targets.safari</td>
+<td></td>
+<td>string / 'tp'</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>targets.browsers</td>
+<td>browsers</td>
+<td>查询浏览器的版本</td>
+<td><code>string / Array&lt;strgin&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>targets.deno</td>
+<td>最小支持1.0</td>
+<td>string</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>browserslistConfigFile</td>
+<td></td>
+<td>boolean</td>
+<td></td>
+<td></td>
+<td></td>
+<td>编程、配置</td>
+<td></td>
+</tr>
+<tr>
+<td>browserslistEnv</td>
+<td>browserslist的环境</td>
+<td>string</td>
+<td>undefined</td>
+<td></td>
+<td></td>
+<td>编程、配置</td>
+<td></td>
+</tr>
+<tr>
+<td>合并选项</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>extends</td>
+<td>增强配置</td>
+<td>string</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>不能内置presets</td>
+</tr>
+<tr>
+<td>env</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>overrides</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>test</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>include</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>exclude</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ignore</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>only</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>source map 选项</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>inputSourceMap</td>
+<td>是否加载sourcemap文件</td>
+<td>boolean / SourceMap</td>
+<td>true</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>sourceMaps</td>
+<td>true: 在输出结果中包含sourcemap inline: 生成行内sourcemap both: 二者都有</td>
+<td>boolean / 'inline' / 'both'</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>sourceMap</td>
+<td>与sourceMaps等效，请使用sourceMaps</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>sourceFileName</td>
+<td>用于文件内部的source map对象</td>
+<td>string</td>
+<td>path.basename(opts.filenameRelative) / &quot;unknown&quot;</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>sourceRoot</td>
+<td>sourcemap的目录。</td>
+<td>string</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>misc选项</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>sourceType</td>
+<td>代码规范. script: 使用esm，无import/export，使用非严格模式。 module: esm,import/export,严格模式。unambigous: 若有import/export则使用esm.否则使用script</td>
+<td>`'script'</td>
+<td>'module'</td>
+<td>'unambiguous'`</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>assumptions</td>
+<td>假设运行环境已经支持的功能</td>
+<td><code>{[assumption: string]: boolean}</code></td>
+<td><code>{}</code></td>
+<td></td>
+<td><code>{&quot;assumptions&quot;: {&quot;iteratableIsArray&quot;: true}}</code></td>
+<td>编程、配置</td>
+<td></td>
+</tr>
+<tr>
+<td>highlightCode</td>
+<td>是否高亮显示错误信息</td>
+<td>boolean</td>
+<td>true</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>wrapPluginVisitorMethod</td>
+<td>visitor的包裹器</td>
+<td><code>(key: string, nodeType: string, fn: Function) =&gt; Function</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>parserOpts</td>
+<td></td>
+<td><code>{}</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>generatorOpts</td>
+<td></td>
+<td><code>{}</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>代码生成选项</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>retainLines</td>
+<td>是否尽量与原代码保持相同行</td>
+<td>boolean</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td>必要性不大。因为在生产时大多是使用压缩。它的作用不用于生产。</td>
+</tr>
+<tr>
+<td>compact</td>
+<td>是否压缩. auto: code.length &gt; 500_000</td>
+<td>boolean / 'auto'</td>
+<td>'auto'</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>minified</td>
+<td>compact:true + 忽略末尾分号 + 忽略() + 输出短变量</td>
+<td>boolean</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>auxiliaryCommentBefore</td>
+<td>是否使用特定的注释在每一段代码前。</td>
+<td>string</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>auxiliaryCommentAfter</td>
+<td>是否使用特定的注释在每一段代码后</td>
+<td>string</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>shouldPrintComment</td>
+<td>是否使用注释在输出文件中</td>
+<td><code>(value: string) =&gt; boolean</code></td>
+<td><code>() =&gt; opts.comments</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>comments</td>
+<td></td>
+<td>boolean</td>
+<td>true</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>amd/umd/systemjs选项</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>moduleIds</td>
+<td>是否使用module id生成</td>
+<td>boolean</td>
+<td><code>!!opts.moduleId</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>moduleId</td>
+<td>指定module id。不会被getModuleId得到</td>
+<td>string</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>getModuleId</td>
+<td></td>
+<td><code>(name: string) =&gt; string</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>moduleRoot</td>
+<td></td>
+<td>string</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>选项观念</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>MatchPattern</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Merging</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-js">interface <span class="hljs-title class_">CallerData</span> {
+    <span class="hljs-attr">name</span>: string;
+    supportsStaticESM?: boolean;
+    supportsDynamicImport?: boolean;
+    supportsTopLevelAwait?: boolean;
+    supportsExportNamespaceFrom?: boolean;
+}
+<span class="hljs-title class_">PluginEntry</span>
+browserlist
+</code></pre>
 
         <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
