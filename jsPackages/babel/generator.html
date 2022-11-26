@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>&commat;babel&sol;generator</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="babelgenerator">@babel/generator</h1>
+<h2 id="overview">overview</h2>
+<blockquote>
+<p>把ast转换为code</p>
+</blockquote>
+<h3 id="feature">feature</h3>
+<ul>
+<li>feature0</li>
+<li>feature1</li>
+<li>feature2</li>
+</ul>
+<h2 id="install">install</h2>
+<p><code>npm i -D @babel/generator</code></p>
+<h2 id="usage">usage</h2>
+<pre><code class="language-js"><span class="hljs-keyword">import</span> {parse} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@babel/parser&#x27;</span>
+<span class="hljs-keyword">import</span> generate <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@babel/generator&#x27;</span>
+<span class="hljs-keyword">let</span> code = <span class="hljs-string">&quot;class Example {}&quot;</span>
+<span class="hljs-keyword">let</span> ast = <span class="hljs-title function_">parse</span>(code)
+<span class="hljs-keyword">let</span> output = <span class="hljs-title function_">generate</span>(ast, {
+    <span class="hljs-comment">// options</span>
+}, code)
+
+<span class="hljs-comment">// 多个ast源</span>
+<span class="hljs-keyword">let</span> a = <span class="hljs-string">&#x27;var a = 0&#x27;</span>
+<span class="hljs-keyword">let</span> b = <span class="hljs-string">&#x27;var b = 1&#x27;</span>
+<span class="hljs-keyword">let</span> astA = <span class="hljs-title function_">parse</span>(a, {<span class="hljs-attr">sourceFileName</span>: <span class="hljs-string">&#x27;a.js&#x27;</span>})
+<span class="hljs-keyword">let</span> astB = <span class="hljs-title function_">parse</span>(b, {<span class="hljs-attr">sourceFileName</span>: <span class="hljs-string">&#x27;b.js&#x27;</span>})
+<span class="hljs-keyword">let</span> ast = {
+    <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;Program&#x27;</span>,
+    <span class="hljs-attr">body</span>: [].<span class="hljs-title function_">concat</span>(astA.<span class="hljs-property">program</span>.<span class="hljs-property">body</span>, astB.<span class="hljs-property">program</span>.<span class="hljs-property">body</span>)
+}
+<span class="hljs-keyword">let</span> output = <span class="hljs-title function_">generate</span>(ast, {<span class="hljs-attr">sourceMaps</span>: <span class="hljs-literal">true</span>}, {<span class="hljs-string">&quot;a.js&quot;</span>: a, <span class="hljs-string">&quot;b.js&quot;</span>: b})
+</code></pre>
+<h2 id="configuration">configuration</h2>
+<p>默认配置文件：<code>path/to/file.json</code>。</p>
+<h2 id="api">api</h2>
+<p>generate(ast, options: object, code) =&gt; {code, map: sourcemap}</p>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>auxiliaryCommentAfter</td>
+<td>在输出文件的末尾添加一块注释</td>
+<td>string</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>auxiliaryCommentBefore</td>
+<td>在输出文件的开头添加一块注释</td>
+<td>string</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>comments</td>
+<td>输出时是否包含注释</td>
+<td>boolean</td>
+<td>true</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>compact</td>
+<td>是否删除空格</td>
+<td>boolean / 'auto'</td>
+<td>opts.minified</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>concise</td>
+<td>是否减少空间。（与opts.compact不同）</td>
+<td>boolean</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>decoratorsBeforeExport</td>
+<td>输出前使用decorators</td>
+<td>boolean</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>filename</td>
+<td>用于warning message</td>
+<td>string</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>jsescOption</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>jsonCompatibleStrings</td>
+<td></td>
+<td>boolean</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>minified</td>
+<td></td>
+<td>boolean</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>retainFunctionParents</td>
+<td>是否保存方法中的括号</td>
+<td>boolean</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>retainLines</td>
+<td>是否保存同行</td>
+<td>boolean</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>shouldPrintComment</td>
+<td>是否输出注释</td>
+<td>function</td>
+<td>opts.comments</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>topicToken</td>
+<td>不会</td>
+<td>'%' / '#'</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>sourceMaps</td>
+<td>是否生成 sourcemap</td>
+<td>boolean</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>sourceRoot</td>
+<td>相关文件的根目录</td>
+<td>string</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>sourceFileName</td>
+<td>相关文件名</td>
+<td>string</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h2 id="principle">principle</h2>
+<p>此包的处理逻辑。</p>
+<h3 id="uml">uml</h3>
+<pre><code></code></pre>
+<h2 id="todo">todo</h2>
+<blockquote>
+<p>未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote>
+
+        
+        
+    </body>
+    </html>
