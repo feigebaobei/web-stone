@@ -220,7 +220,71 @@ module.exports = funtion () {
 }
 ```
 
-### title
+## plugins
+
+- 所有的转换工作都在插件上完成。
+- 一个插件一个转换功能。
+- 先于 presets 执行
+- 从前向后执行
+
+```json
+// demo
+{
+  "plugins": ["babel-plugin-myPlugin0", "@babel/plugin-transform-runtime"]
+  // 为插件提供选项
+  // "plugins": [
+  //   ["p1", {
+  //     "p1Option1": "value",
+  //     "p1Option2": "value2",
+  //   }]
+  // ]
+}
+```
+
+### plugin development
+
+```js
+// demo for revser
+export default function () {
+  return {
+    visitor: {
+      Identifier(path) {
+        const name = path.node.name
+        path.node.name = name.split('').reverse().join('')
+      },
+    },
+  }
+}
+```
+
+### [plugin list](https://babeljs.io/docs/en/plugins-list)
+
+## compiler assumptions
+
+假设运行环境已经支持了指定功能。  
+|||||
+|-|-|-|-|
+|arrayLikeIsIterable|类数组、数组可扩展|||
+|constantReexports|可连续导出|||
+|constantSuper|可在 class 中使用 super|||
+|enumerableModuleMeta|esm->cjs 时会用到\_\_esModule|||
+|ignoreFunctionLength|参数中的默认值|||
+|ignoreToPrimitiveHint|支持模板字符串|||
+|iterableIsArray|数组可 iterable.即支持 for of|||
+|mutableTemplateObject|可变的模板对象|||
+|noClassCalls|总是使用 new 命令得到实例|||
+|noDocumentAll|可以使用`?.`访问子元素|||
+|noIncompleteNsImportDetection||||
+|noNewArrows||||
+|objectRestNoSymbols|对象解构时使用 rest|||
+|privateFieldsAsProperties|软私有 `#`|||
+|pureGetters||||
+|setClassMethods|class 的静态方法|||
+|setComputedProperties|set 计算属性|||
+|setPublicClassFields||||
+|setSpreadProperties||||
+|skipForOfIteratorClosing||||
+|superIsCallableConstructor||||
 
 ### title
 
