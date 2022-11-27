@@ -34,7 +34,7 @@
 - [dogleg](https://www.npmjs.com/package/dogleg)
 - [serve](/jsPackages/serve.html)
 - [plugincomb](https://www.npmjs.com/package/plugincomb)
-- [title](/jsPackages/title.html)
+- [tapable](/jsPackages/tapable.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)

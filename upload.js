@@ -251,10 +251,10 @@ c.on('ready', () => {
     }
     // let p = 'math' // todo add
     let p = [
-      'babel/index.html',
-      'babel/plugin/index.html',
-      'babel/preset/index.html',
-      // 'jsPackages/babel/parser.html',
+      // 'babel/index.html',
+      // 'babel/plugin/index.html',
+      // 'babel/preset/index.html',
+      'jsPackages/tapable.html',
       // 'jsPackages/babel/core.html',
       // 'jsPackages/babel/generator.html',
       // 'jsPackages/babel/codeFrame.html',

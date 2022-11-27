@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>tapable</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
+</style>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="tapable">tapable</h1>
+<h2 id="overview">overview</h2>
+<blockquote>
+<p>可以创建并使用很多hooks</p>
+</blockquote>
+<h3 id="feature">feature</h3>
+<ul>
+<li>feature0</li>
+<li>feature1</li>
+<li>feature2</li>
+</ul>
+<h2 id="install">install</h2>
+<p><code>npm i tapable</code></p>
+<h2 id="usage">usage</h2>
+<pre><code class="language-js"><span class="hljs-comment">// 在一个类中定义若干hooks</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Car</span> {
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">hooks</span> = {
+            <span class="hljs-attr">accelerate</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">SyncHook</span>([<span class="hljs-string">&#x27;newSpeed&#x27;</span>])
+            <span class="hljs-attr">brake</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">SyncHook</span>(),
+            <span class="hljs-attr">calculateRoutes</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">AsyncParallelHook</span>([<span class="hljs-string">&#x27;source&#x27;</span>, <span class="hljs-string">&#x27;target&#x27;</span>, <span class="hljs-string">&#x27;routesList&#x27;</span>])
+        }
+    }
+    <span class="hljs-comment">// 上面定义的hooks,</span>
+    <span class="hljs-comment">// 下面使用hooks.</span>
+    <span class="hljs-title function_">setSpeed</span>(<span class="hljs-params">newSpeed</span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">hooks</span>.<span class="hljs-property">accelerate</span>.<span class="hljs-title function_">call</span>(newSpeed)
+    }
+    <span class="hljs-comment">// 以Promise方式使用hooks</span>
+    <span class="hljs-title function_">useNavigationSystemPromise</span>(<span class="hljs-params">source, target</span>) {
+        <span class="hljs-keyword">const</span> routesList = <span class="hljs-keyword">new</span> <span class="hljs-title class_">List</span>()
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">hooks</span>.<span class="hljs-property">calculateRoutes</span>.<span class="hljs-title function_">promise</span>(source, target, routesList).<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
+            <span class="hljs-keyword">return</span> routesList.<span class="hljs-title function_">getRoutes</span>()
+        })
+    }
+    <span class="hljs-comment">// 以异步回调方式使用hooks</span>
+    <span class="hljs-title function_">useNavigationSystemAsync</span>(<span class="hljs-params">source, target, cb</span>) {
+        <span class="hljs-keyword">let</span> routesList = <span class="hljs-keyword">new</span> <span class="hljs-title class_">List</span>()
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">hooks</span>.<span class="hljs-property">calculateRoutes</span>.<span class="hljs-title function_">callAsync</span>(source, target, routesList, <span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> {
+            <span class="hljs-keyword">if</span> (err) {
+                <span class="hljs-keyword">return</span> <span class="hljs-title function_">cb</span>(err)
+            }
+            <span class="hljs-title function_">cb</span>(<span class="hljs-literal">null</span>, routesList.<span class="hljs-title function_">getRoutes</span>())
+        })
+    }
+    <span class="hljs-comment">// 读完整个过程，发现实现此功能不是必须使用hooks</span>
+}
+<span class="hljs-comment">// 使用这些hooks</span>
+<span class="hljs-keyword">let</span> car = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Car</span>()
+<span class="hljs-comment">// 必须为插件定义一个名字</span>
+car.<span class="hljs-property">hooks</span>.<span class="hljs-property">brake</span>.<span class="hljs-title function_">tap</span>(<span class="hljs-string">&#x27;WarningLampPlugin&#x27;</span>, <span class="hljs-function">() =&gt;</span> warningLamp.<span class="hljs-title function_">on</span>())
+<span class="hljs-comment">// 指定参数</span>
+car.<span class="hljs-property">hooks</span>.<span class="hljs-property">accelerate</span>.<span class="hljs-title function_">tap</span>(<span class="hljs-string">&#x27;LoggerPlugin&#x27;</span>, <span class="hljs-function"><span class="hljs-params">newSpeed</span> =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Accelerating to <span class="hljs-subst">${newSpeed}</span>`</span>))
+car.<span class="hljs-property">hooks</span>.<span class="hljs-property">calculateRoutes</span>.<span class="hljs-title function_">tapPromise</span>(<span class="hljs-string">&quot;GoogleMapsPlugin&quot;</span>, <span class="hljs-function">(<span class="hljs-params">source, target, routesList</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> google.<span class="hljs-property">maps</span>.<span class="hljs-title function_">findRoute</span>(source, target).<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">route</span> =&gt;</span> {
+        routesList.<span class="hljs-title function_">add</span>(route)
+    })
+})
+car.<span class="hljs-property">hooks</span>.<span class="hljs-property">calculateRoutes</span>.<span class="hljs-title function_">tapAsync</span>(<span class="hljs-string">&quot;BingMapsPlugin&quot;</span>, <span class="hljs-function">(<span class="hljs-params">source, target, routesList, callback</span>) =&gt;</span> {
+    bind.<span class="hljs-title function_">findRoute</span>(source, target, <span class="hljs-function">(<span class="hljs-params">err, route</span>) =&gt;</span> {
+        <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">return</span> <span class="hljs-title function_">callback</span>(err)
+        routesList.<span class="hljs-title function_">add</span>(route)
+        <span class="hljs-title function_">callback</span>()
+    })
+})
+car.<span class="hljs-property">hooks</span>.<span class="hljs-property">calculateRoutes</span>.<span class="hljs-title function_">tap</span>(<span class="hljs-string">&#x27;CachedRotuesPlugin&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">source, target, routesList</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> cacheRoute = cache.<span class="hljs-title function_">get</span>(source, target)
+    <span class="hljs-keyword">if</span> (cachedRoute) {
+        routesList.<span class="hljs-title function_">add</span>(cachedRoute)
+    }
+})
+</code></pre>
+<h2 id="hook-types">Hook types</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Basic hook</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Waterfall</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Bail</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Loop</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Sync</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>AsyncSeries</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>AsyncParallel</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="interception">interception</h2>
+<p>我不知道作者为什么起这么外名字</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>tap(tap: Tag)</td>
+<td>注册hook</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>call(...args)</td>
+<td>调用已经注册的hooks，并传递进去参数</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>loop(...args) =&gt; void</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>register(tap: Tap) =&gt; Tap / undefined</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-ts"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">Hook</span> {
+	<span class="hljs-attr">tap</span>: <span class="hljs-function">(<span class="hljs-params">name: <span class="hljs-built_in">string</span> | Tap, fn: (context?, ...args) =&gt; Result</span>) =&gt;</span> <span class="hljs-built_in">void</span>,
+	<span class="hljs-attr">tapAsync</span>: <span class="hljs-function">(<span class="hljs-params">name: <span class="hljs-built_in">string</span> | Tap, fn: (context?, ...args, callback: (err, result: Result) =&gt; <span class="hljs-built_in">void</span>) =&gt; <span class="hljs-built_in">void</span></span>) =&gt;</span> <span class="hljs-built_in">void</span>,
+	<span class="hljs-attr">tapPromise</span>: <span class="hljs-function">(<span class="hljs-params">name: <span class="hljs-built_in">string</span> | Tap, fn: (context?, ...args) =&gt; <span class="hljs-built_in">Promise</span>&lt;Result&gt;</span>) =&gt;</span> <span class="hljs-built_in">void</span>,
+	<span class="hljs-attr">intercept</span>: <span class="hljs-function">(<span class="hljs-params">interceptor: HookInterceptor</span>) =&gt;</span> <span class="hljs-built_in">void</span>
+}
+
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">HookInterceptor</span> {
+	<span class="hljs-attr">call</span>: <span class="hljs-function">(<span class="hljs-params">context?, ...args</span>) =&gt;</span> <span class="hljs-built_in">void</span>,
+	<span class="hljs-attr">loop</span>: <span class="hljs-function">(<span class="hljs-params">context?, ...args</span>) =&gt;</span> <span class="hljs-built_in">void</span>,
+	<span class="hljs-attr">tap</span>: <span class="hljs-function">(<span class="hljs-params">context?, tap: Tap</span>) =&gt;</span> <span class="hljs-built_in">void</span>,
+	<span class="hljs-attr">register</span>: <span class="hljs-function">(<span class="hljs-params">tap: Tap</span>) =&gt;</span> <span class="hljs-title class_">Tap</span>,
+	<span class="hljs-attr">context</span>: <span class="hljs-built_in">boolean</span>
+}
+
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">HookMap</span> {
+	<span class="hljs-attr">for</span>: <span class="hljs-function">(<span class="hljs-params">key: <span class="hljs-built_in">any</span></span>) =&gt;</span> <span class="hljs-title class_">Hook</span>,
+	<span class="hljs-attr">intercept</span>: <span class="hljs-function">(<span class="hljs-params">interceptor: HookMapInterceptor</span>) =&gt;</span> <span class="hljs-built_in">void</span>
+}
+
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">HookMapInterceptor</span> {
+	<span class="hljs-attr">factory</span>: <span class="hljs-function">(<span class="hljs-params">key: <span class="hljs-built_in">any</span>, hook: Hook</span>) =&gt;</span> <span class="hljs-title class_">Hook</span>
+}
+
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">Tap</span> {
+	<span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>,
+	<span class="hljs-attr">type</span>: <span class="hljs-built_in">string</span>
+	<span class="hljs-attr">fn</span>: <span class="hljs-title class_">Function</span>,
+	<span class="hljs-attr">stage</span>: <span class="hljs-built_in">number</span>,
+	<span class="hljs-attr">context</span>: <span class="hljs-built_in">boolean</span>,
+	before?: <span class="hljs-built_in">string</span> | <span class="hljs-title class_">Array</span>
+}
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">Hook</span> {
+	<span class="hljs-attr">isUsed</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">boolean</span>,
+	<span class="hljs-attr">call</span>: <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> <span class="hljs-title class_">Result</span>,
+	<span class="hljs-attr">promise</span>: <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-title class_">Result</span>&gt;,
+	<span class="hljs-attr">callAsync</span>: <span class="hljs-function">(<span class="hljs-params">...args, callback: (err, result: Result) =&gt; <span class="hljs-built_in">void</span></span>) =&gt;</span> <span class="hljs-built_in">void</span>,
+}
+
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">HookMap</span> {
+	<span class="hljs-attr">get</span>: <span class="hljs-function">(<span class="hljs-params">key: <span class="hljs-built_in">any</span></span>) =&gt;</span> <span class="hljs-title class_">Hook</span> | <span class="hljs-literal">undefined</span>,
+	<span class="hljs-attr">for</span>: <span class="hljs-function">(<span class="hljs-params">key: <span class="hljs-built_in">any</span></span>) =&gt;</span> <span class="hljs-title class_">Hook</span>
+}
+</code></pre>
+<h2 id="hookmap">hookmap</h2>
+<p>hook映射的助手方法</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> keyedHook = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HookMap</span>(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">SyncHook</span>([<span class="hljs-string">&quot;arg&quot;</span>]))
+keyedHook.<span class="hljs-title function_">for</span>(<span class="hljs-string">&quot;some-key&quot;</span>).<span class="hljs-title function_">tap</span>(<span class="hljs-string">&quot;MyPlugin&quot;</span>, <span class="hljs-function">(<span class="hljs-params">arg</span>) =&gt;</span> { <span class="hljs-comment">/* ... */</span> });
+keyedHook.<span class="hljs-title function_">for</span>(<span class="hljs-string">&quot;some-key&quot;</span>).<span class="hljs-title function_">tapAsync</span>(<span class="hljs-string">&quot;MyPlugin&quot;</span>, <span class="hljs-function">(<span class="hljs-params">arg, callback</span>) =&gt;</span> { <span class="hljs-comment">/* ... */</span> });
+keyedHook.<span class="hljs-title function_">for</span>(<span class="hljs-string">&quot;some-key&quot;</span>).<span class="hljs-title function_">tapPromise</span>(<span class="hljs-string">&quot;MyPlugin&quot;</span>, <span class="hljs-function">(<span class="hljs-params">arg</span>) =&gt;</span> { <span class="hljs-comment">/* ... */</span> });
+<span class="hljs-keyword">const</span> hook = keyedHook.<span class="hljs-title function_">get</span>(<span class="hljs-string">&quot;some-key&quot;</span>);
+<span class="hljs-keyword">if</span>(hook !== <span class="hljs-literal">undefined</span>) {
+	hook.<span class="hljs-title function_">callAsync</span>(<span class="hljs-string">&quot;arg&quot;</span>, <span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> { <span class="hljs-comment">/* ... */</span> });
+}
+</code></pre>
+<h2 id="api">api</h2>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h2 id="principle">principle</h2>
+<p>此包的处理逻辑。</p>
+<h3 id="uml">uml</h3>
+<pre><code></code></pre>
+<h2 id="todo">todo</h2>
+<blockquote>
+<p>未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote>
+
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
+    </body>
+    </html>
