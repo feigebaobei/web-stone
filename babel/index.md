@@ -108,12 +108,17 @@ babel.config.json
 }
 ```
 
+## [preset](/babel/preset/index.html)
+
+## title
+
 ## 工作流程
 
 ```
     code ----------> ast ----------> ast ----------> ast
           parser          transform       generator
           解析源文件        转换            生成新文件
+          @babel/parser   @babel/     @babel/generator
 ```
 
 ### parser
@@ -153,7 +158,7 @@ for todo
 深度优先遍历。  
 此步会生成新的 ast
 
-### generator
+### [generator](/jsPackages/babel/generator.html)
 
 把 ast 转化为代码。
 
@@ -175,6 +180,8 @@ node script/babel.js
 ```
 
 ### [@babel/cli](/jsPackages/babel/cli.html) 命令行工具
+
+官网把 cli 中的选项整理到 [配置文件](/babel/config/index.html) 的文档了。
 
 ```shell
 npm i -D @babel/core @babel-cli
@@ -262,6 +269,12 @@ description
 
 ### [ast](/babel/ast/index.html)
 
-> 未来迭代计划。
-> 未来迭代计划。
-> 未来迭代计划。
+### 常用包
+
+- [@babel/code-frame](/jsPackages/babel/codeFrame.html)
+- [@babel/runtime](/jsPackages/babel/codeFrame.html)
+- [@babel/template](/jsPackages/babel/template.html)
+- [@babel/types](/jsPackages/babel/types.html)
+  > 未来迭代计划。
+  > 未来迭代计划。
+  > 未来迭代计划。

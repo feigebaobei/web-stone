@@ -209,10 +209,13 @@ babel.config.json<br>
   <span class="hljs-attr">&quot;plugins&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">]</span>
 <span class="hljs-punctuation">}</span>
 </code></pre>
+<h2 id="preset"><a href="/babel/preset/index.html">preset</a></h2>
+<h2 id="title">title</h2>
 <h2 id="工作流程">工作流程</h2>
 <pre><code>    code ----------&gt; ast ----------&gt; ast ----------&gt; ast
           parser          transform       generator
           解析源文件        转换            生成新文件
+          @babel/parser   @babel/     @babel/generator
 </code></pre>
 <h3 id="parser">parser</h3>
 <ul>
@@ -243,7 +246,7 @@ for todo</p>
 <p>操作 ast<br>
 深度优先遍历。<br>
 此步会生成新的 ast</p>
-<h3 id="generator">generator</h3>
+<h3 id="generator"><a href="/jsPackages/babel/generator.html">generator</a></h3>
 <p>把 ast 转化为代码。</p>
 <h2 id="组成">组成</h2>
 <h3 id="babelcore-ast-转换的核心包-没有转换代码的功能"><a href="/jsPackages/babel/core.html">@babel/core</a> ast 转换的核心包 没有转换代码的功能</h3>
@@ -256,6 +259,7 @@ babel.<span class="hljs-title function_">transformSync</span>(<span class="hljs-
 node script/babel.js
 </code></pre>
 <h3 id="babelcli-命令行工具"><a href="/jsPackages/babel/cli.html">@babel/cli</a> 命令行工具</h3>
+<p>官网把cli中的选项整理到 <a href="/babel/config/index.html">配置文件</a> 的文档了。</p>
 <pre><code class="language-shell">npm i -D @babel/core @babel-cli
 npm pkg set scripts.babel=&quot;babel src --out-dir lib&quot; # 还可以追加plugin / presets
 npm run babel
@@ -369,6 +373,13 @@ description</p>
 </code></pre>
 <h2 id="todo">todo</h2>
 <h3 id="ast"><a href="/babel/ast/index.html">ast</a></h3>
+<h3 id="常用包">常用包</h3>
+<ul>
+<li><a href="/jsPackages/babel/codeFrame.html">@babel/code-frame</a></li>
+<li><a href="/jsPackages/babel/codeFrame.html">@babel/runtime</a></li>
+<li><a href="/jsPackages/babel/template.html">@babel/template</a></li>
+<li><a href="/jsPackages/babel/types.html">@babel/types</a></li>
+</ul>
 <blockquote>
 <p>未来迭代计划。
 未来迭代计划。
