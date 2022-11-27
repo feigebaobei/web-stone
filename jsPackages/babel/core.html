@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>&commat;babel&sol;core</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="babelcore">@babel/core</h1>
+<h2 id="overview">overview</h2>
+<blockquote>
+<p>转化代码为 ast/sourceMap/生成代码.<br>
+承担了整个转换、输出工作。<br>
+依赖：<br>
+&quot;@ampproject/remapping&quot;: &quot;^2.1.0&quot;,
+&quot;@babel/code-frame&quot;: &quot;^7.18.6&quot;,
+&quot;@babel/generator&quot;: &quot;^7.20.2&quot;,
+&quot;@babel/helper-compilation-targets&quot;: &quot;^7.20.0&quot;,
+&quot;@babel/helper-module-transforms&quot;: &quot;^7.20.2&quot;,
+&quot;@babel/helpers&quot;: &quot;^7.20.1&quot;,
+&quot;@babel/parser&quot;: &quot;^7.20.2&quot;,
+&quot;@babel/template&quot;: &quot;^7.18.10&quot;,
+&quot;@babel/traverse&quot;: &quot;^7.20.1&quot;,
+&quot;@babel/types&quot;: &quot;^7.20.2&quot;,
+&quot;convert-source-map&quot;: &quot;^1.7.0&quot;,
+&quot;debug&quot;: &quot;^4.1.0&quot;,
+&quot;gensync&quot;: &quot;^1.0.0-beta.2&quot;,
+&quot;json5&quot;: &quot;^2.2.1&quot;,
+&quot;semver&quot;: &quot;^6.3.0&quot;</p>
+</blockquote>
+<h3 id="feature">feature</h3>
+<ul>
+<li>feature0</li>
+<li>feature1</li>
+<li>feature2</li>
+</ul>
+<h2 id="install">install</h2>
+<p><code>npm i -D @babel/core</code></p>
+<h2 id="usage">usage</h2>
+<!-- 以cjs规范使用该包 -->
+<pre><code class="language-js"><span class="hljs-keyword">const</span> babel = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;@babel/core&#x27;</span>)
+<span class="hljs-keyword">import</span> babel <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@babel/core&#x27;</span>
+<span class="hljs-comment">// 所有转换都使用本地的配置文件</span>
+<span class="hljs-comment">// import @babel/core from &#x27;@babel/core&#x27;;</span>
+<span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> DEMONSTRATE API</span>
+</code></pre>
+<h2 id="configuration"><a href="/babel/config/index.html">configuration</a></h2>
+<p>所有转换都使用本地的配置文件</p>
+<h2 id="api">api</h2>
+<p>options 就是<a href="/babel/config/index.html">配置文件</a>的选项</p>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>transform(code: string, options?: object, cb: (err, result: {code, map, ast}) =&gt; void)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>transformSync(code: string, options?: object) =&gt; {code, map, ast}</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>transformAync(code: string, options?: object) =&gt; Promise&lt;{code, map, ast}&gt;</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>transformFile(filename: string, options?: object, cb: (err, result) =&gt; void)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>transformFileSync(filename: string, options?: object) =&gt; {code, map, ast}</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>transformFileAsync(filename: string, options?: object) =&gt; Promise&lt;{code, map, ast}&gt;</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>transformFromAst(ast: object, code?: string, options?: object, cb: () =&gt; void) =&gt; FileNode</td>
+<td>null</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>transformFromAstSync(ast: object, code?: string, options?: object) =&gt; {code, map, ast}</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>transformFromAstAsync(ast: object, code?: string, options?: object) =&gt; Promise&lt;{code, map, ast}&gt;</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>parse(code: string, options?: object, cb: () =&gt; void)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>parseSync(code: string, options?: object) =&gt; ast</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>parseAsync(code: string, options?: object) =&gt; Promise<ast></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>loadOptions(options?: object)</td>
+<td>需要测试一下运行结果</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>loadPartialConfig(options?: object): PartialConfig</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>createConfigItem(...)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h2 id="principle">principle</h2>
+<p>此包的处理逻辑。</p>
+<h3 id="uml">uml</h3>
+<pre><code>
+</code></pre>
+<h2 id="todo">todo</h2>
+<blockquote>
+<p>未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote>
+
+        
+        
+    </body>
+    </html>

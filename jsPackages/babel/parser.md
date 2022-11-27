@@ -2,7 +2,8 @@
 
 ## overview
 
-> 基于[acorn]()/[acorn-jsx]()，在 babel 中做解析器。
+> 基于[acorn]()/[acorn-jsx]()，在 babel 中做解析器。  
+> 把原代码转换为 ast
 
 ### feature
 

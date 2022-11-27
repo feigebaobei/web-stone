@@ -29,7 +29,7 @@
 
 ## install
 
-`npm i @babel/core`
+`npm i -D @babel/core`
 
 ## usage
 
