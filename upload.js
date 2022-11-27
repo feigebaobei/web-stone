@@ -251,14 +251,16 @@ c.on('ready', () => {
     }
     // let p = 'math' // todo add
     let p = [
-      'babel/config/index.html',
-      'jsPackages/babel/parser.html',
-      'jsPackages/babel/core.html',
-      'jsPackages/babel/generator.html',
-      'jsPackages/babel/codeFrame.html',
-      'jsPackages/babel/template.html',
-      'jsPackages/babel/parser.html',
-      'language/javascript/function.html',
+      'babel/index.html',
+      'babel/plugin/index.html',
+      'babel/preset/index.html',
+      // 'jsPackages/babel/parser.html',
+      // 'jsPackages/babel/core.html',
+      // 'jsPackages/babel/generator.html',
+      // 'jsPackages/babel/codeFrame.html',
+      // 'jsPackages/babel/template.html',
+      // 'jsPackages/babel/parser.html',
+      // 'language/javascript/function.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
