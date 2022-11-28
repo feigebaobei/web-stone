@@ -737,6 +737,41 @@ function useConstructor(cb) {
 }
 ```
 
+useApi
+显示 loading
+调用 api
+只请求一次数据。以后都重用以前的数据。
+停止加载
+
+```js
+useApi = (url, options) => {
+  // options: {
+  //   method: 大写
+  //   headers: {...}
+  //   body: {...}
+  //   mode: xx
+  //   credentialas: {...}
+  //   ...
+  // }
+  let [loading, setLoading] = useState(true)
+  let [data, setData] = useState(null)
+  useEffect(() => {
+    let fetchApi = () => {
+      fetch(url, options)
+        .then((res) => {
+          return res.json()
+        })
+        .then((json) => {
+          setLoading(false)
+          setData(json)
+        })
+    }
+    fetchApi(url, options)
+  }, [])
+  return { loading, data }
+}
+```
+
 ## 自定义 hooks 的包
 
 - [title]()
