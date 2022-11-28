@@ -128,6 +128,36 @@ v18 以后的用法：
 - react-dom/test-utils
 - Enzyme
 
+## 项目结构
+
+目标：可扩展
+
+```
+|-- src
+  |-- api
+  |-- assets
+    |-- fonts
+    |-- images
+  |-- components
+    |-- common
+      |-- button
+      |-- forms
+      |-- text
+    |-- transitions
+  |-- config
+  |-- constants
+  |-- context         提供全局context state
+  |-- helpers         工具类方法。比unit好听多了
+  |-- hooks
+  |-- intl            国际化
+  |-- layout
+  |-- services        在大型项目中，需要有一个处理不同业务逻辑的目录。
+  |-- store           全局相关的状态管理
+  |-- styles          全局样式、变量、主题
+  |-- types           全局共享的types.用于强类型语言
+  |-- views           用于视图展示的组件
+```
+
 ## todo
 
 react / react-dom 都用到了 react-reconciler，该包就是 fiber.
@@ -136,8 +166,6 @@ react / react-dom 都用到了 react-reconciler，该包就是 fiber.
 
 React 创建开销极小的普通对象。  
 React DOM 会负责更新 DOM 来与 React 元素保持一致。
-
-### 项目结构
 
 ### [性能优化](/optimizing/index.html)
 
