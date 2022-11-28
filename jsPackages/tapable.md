@@ -76,6 +76,14 @@ car.hooks.calculateRoutes.tap('CachedRotuesPlugin', (source, target, routesList)
 })
 ```
 
+### 注册&触发
+
+|         | 注册       | 触发      |     |
+| ------- | ---------- | --------- | --- |
+| 同步    | tap        | call      |     |
+| cb      | tapAsync   | callAsync |     |
+| promise | tapPromise | promise   |     |
+
 ## Hook types
 
 |               |     |     |     |     |
@@ -175,6 +183,37 @@ if (hook !== undefined) {
 
 ## api
 
+都是顺序执行、传入参数。  
+暴露了 10 个类、方法：  
+实例化 hooks 时指定参数的数量。
+
+|                          |                                                                                                                                                                                               |                                                                         |     |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | --- |
+| SyncHook                 | 按调用 tap 的顺序执行、传入 call 时的参数                                                                                                                                                     | 回调方法保存在数组 tasks 中，然后依次调用。                             |     |
+| SyncBailHook             | 顺序执行、传入 call 时的参数、若返回非 undefined 则停下执行后续回调                                                                                                                           | 回调方法保存在数组 tasks 中，然后使用 doWhile 调用                      |     |
+| SyncWaterfallHook        | 依次调用，call 的参数是第一个回调方法的参数。后一个回调方法的默认值是 call 方法的参数。当前一个回调方法返回非 undefined 时，作为下一个方法的第一个参数。否则使用默认参数。                    |                                                                         |     |
+| SyncLoopHook             | 依次调用、传入 call 时的参数，                                                                                                                                                                | 当回调方法返回 undefined 时，重复执行此回调方法，直到返回非 undefined。 |     |
+| AsyncParallelHook        | 异步并行、传入 call 时的参数，全部完成后执行 cb.                                                                                                                                              |                                                                         |     |
+| AsyncParallelBailHook    |                                                                                                                                                                                               |                                                                         |     |
+| AsyncSeriesHook          | 异步串行，传入 call 时的参数。全部完成后执行 cb。                                                                                                                                             |                                                                         |     |
+| AsyncSeriesBailHook      |                                                                                                                                                                                               |                                                                         |     |
+| AsyncSeriesLoopHook      |                                                                                                                                                                                               |                                                                         |     |
+| AsyncSeriesWaterfallHook | 异步串行，call 的参数是第一个回调方法的参数。后一个回调方法的默认值是 call 方法的参数。当前一个回调方法返回非 undefined 时，作为下一个方法的第一个参数。否则使用默认参数。全部完成后执行 cb。 |                                                                         |     |
+| HookMap                  |                                                                                                                                                                                               |                                                                         |     |
+| MultiHook                |                                                                                                                                                                                               |                                                                         |     |
+
+```js
+this.hooks.tapAsync('node', function (name, cb) {
+  setTimeout(() => {
+    console.log('node', name)
+    cb() // cb是下一个回调方法。
+  }, 1000)
+})
+this.hooks.callAsync('call end.', function () {
+  console.log('最终的回调')
+})
+```
+
 <!-- prettier-ignore-start -->
 |key|description|type|default|enum|demo|||
 |-|-|-|-|-|-|-|-|
@@ -187,6 +226,14 @@ if (hook !== undefined) {
 
 此包的处理逻辑。
 
+|                                                          |                          |     |     |
+| -------------------------------------------------------- | ------------------------ | --- | --- |
+| 双缓存                                                   | `this._call` `this.call` |     |     |
+| 在父类中定义一个方法，方法体是报错的。子类中实例该方法。 |                          |     |     |
+| 每次执行 call,都需要现编译（new Function 处理）。        |                          |     |     |
+|                                                          |                          |     |     |
+|                                                          |                          |     |     |
+
 ### uml
 
 ```
@@ -195,6 +242,16 @@ if (hook !== undefined) {
 
 ## todo
 
-> 未来迭代计划。
+### tapable & plugincomb
+
+|     | tapable                              | plugincomb                                                                              |     |     |
+| --- | ------------------------------------ | --------------------------------------------------------------------------------------- | --- | --- |
+|     | 使用 new Function 生成方法后执行。   | 暂存定义时的方法，在调用时执行                                                          |     |     |
+|     | 同步、cb/promise 三种注册、触发方法  | register/call 一种                                                                      |     |     |
+|     | 明确指定参数数量。指定参数时无语义。 | register 时使用形参。call 是传入实参。若传入多则截取，若传入少则剩下的赋值为 undefined. |     |     |
+|     | 多种插件                             | 2 种插件\*2 种调用方式                                                                  |     |     |
+|     |                                      |                                                                                         |     |     |
+|     |                                      |                                                                                         |     |     |
+
 > 未来迭代计划。
 > 未来迭代计划。

@@ -79,7 +79,7 @@
         <h1 id="tapable">tapable</h1>
 <h2 id="overview">overview</h2>
 <blockquote>
-<p>可以创建并使用很多hooks</p>
+<p>可以创建并使用很多 hooks</p>
 </blockquote>
 <h3 id="feature">feature</h3>
 <ul>
@@ -148,6 +148,37 @@ car.<span class="hljs-property">hooks</span>.<span class="hljs-property">calcula
     }
 })
 </code></pre>
+<h3 id="注册触发">注册&amp;触发</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>注册</th>
+<th>触发</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>同步</td>
+<td>tap</td>
+<td>call</td>
+<td></td>
+</tr>
+<tr>
+<td>cb</td>
+<td>tapAsync</td>
+<td>callAsync</td>
+<td></td>
+</tr>
+<tr>
+<td>promise</td>
+<td>tapPromise</td>
+<td>promise</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h2 id="hook-types">Hook types</h2>
 <table>
 <thead>
@@ -225,13 +256,13 @@ car.<span class="hljs-property">hooks</span>.<span class="hljs-property">calcula
 <tbody>
 <tr>
 <td>tap(tap: Tag)</td>
-<td>注册hook</td>
+<td>注册 hook</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td>call(...args)</td>
-<td>调用已经注册的hooks，并传递进去参数</td>
+<td>调用已经注册的 hooks，并传递进去参数</td>
 <td></td>
 <td></td>
 </tr>
@@ -250,61 +281,172 @@ car.<span class="hljs-property">hooks</span>.<span class="hljs-property">calcula
 </tbody>
 </table>
 <pre><code class="language-ts"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">Hook</span> {
-	<span class="hljs-attr">tap</span>: <span class="hljs-function">(<span class="hljs-params">name: <span class="hljs-built_in">string</span> | Tap, fn: (context?, ...args) =&gt; Result</span>) =&gt;</span> <span class="hljs-built_in">void</span>,
-	<span class="hljs-attr">tapAsync</span>: <span class="hljs-function">(<span class="hljs-params">name: <span class="hljs-built_in">string</span> | Tap, fn: (context?, ...args, callback: (err, result: Result) =&gt; <span class="hljs-built_in">void</span>) =&gt; <span class="hljs-built_in">void</span></span>) =&gt;</span> <span class="hljs-built_in">void</span>,
-	<span class="hljs-attr">tapPromise</span>: <span class="hljs-function">(<span class="hljs-params">name: <span class="hljs-built_in">string</span> | Tap, fn: (context?, ...args) =&gt; <span class="hljs-built_in">Promise</span>&lt;Result&gt;</span>) =&gt;</span> <span class="hljs-built_in">void</span>,
-	<span class="hljs-attr">intercept</span>: <span class="hljs-function">(<span class="hljs-params">interceptor: HookInterceptor</span>) =&gt;</span> <span class="hljs-built_in">void</span>
+  <span class="hljs-attr">tap</span>: <span class="hljs-function">(<span class="hljs-params">name: <span class="hljs-built_in">string</span> | Tap, fn: (context?, ...args) =&gt; Result</span>) =&gt;</span> <span class="hljs-built_in">void</span>
+  <span class="hljs-attr">tapAsync</span>: <span class="hljs-function">(<span class="hljs-params">
+    name: <span class="hljs-built_in">string</span> | Tap,
+    fn: (context?, ...args, callback: (err, result: Result) =&gt; <span class="hljs-built_in">void</span>) =&gt; <span class="hljs-built_in">void</span>
+  </span>) =&gt;</span> <span class="hljs-built_in">void</span>
+  <span class="hljs-attr">tapPromise</span>: <span class="hljs-function">(<span class="hljs-params">
+    name: <span class="hljs-built_in">string</span> | Tap,
+    fn: (context?, ...args) =&gt; <span class="hljs-built_in">Promise</span>&lt;Result&gt;
+  </span>) =&gt;</span> <span class="hljs-built_in">void</span>
+  <span class="hljs-attr">intercept</span>: <span class="hljs-function">(<span class="hljs-params">interceptor: HookInterceptor</span>) =&gt;</span> <span class="hljs-built_in">void</span>
 }
 
 <span class="hljs-keyword">interface</span> <span class="hljs-title class_">HookInterceptor</span> {
-	<span class="hljs-attr">call</span>: <span class="hljs-function">(<span class="hljs-params">context?, ...args</span>) =&gt;</span> <span class="hljs-built_in">void</span>,
-	<span class="hljs-attr">loop</span>: <span class="hljs-function">(<span class="hljs-params">context?, ...args</span>) =&gt;</span> <span class="hljs-built_in">void</span>,
-	<span class="hljs-attr">tap</span>: <span class="hljs-function">(<span class="hljs-params">context?, tap: Tap</span>) =&gt;</span> <span class="hljs-built_in">void</span>,
-	<span class="hljs-attr">register</span>: <span class="hljs-function">(<span class="hljs-params">tap: Tap</span>) =&gt;</span> <span class="hljs-title class_">Tap</span>,
-	<span class="hljs-attr">context</span>: <span class="hljs-built_in">boolean</span>
+  <span class="hljs-attr">call</span>: <span class="hljs-function">(<span class="hljs-params">context?, ...args</span>) =&gt;</span> <span class="hljs-built_in">void</span>
+  <span class="hljs-attr">loop</span>: <span class="hljs-function">(<span class="hljs-params">context?, ...args</span>) =&gt;</span> <span class="hljs-built_in">void</span>
+  <span class="hljs-attr">tap</span>: <span class="hljs-function">(<span class="hljs-params">context?, tap: Tap</span>) =&gt;</span> <span class="hljs-built_in">void</span>
+  <span class="hljs-attr">register</span>: <span class="hljs-function">(<span class="hljs-params">tap: Tap</span>) =&gt;</span> <span class="hljs-title class_">Tap</span>
+  <span class="hljs-attr">context</span>: <span class="hljs-built_in">boolean</span>
 }
 
 <span class="hljs-keyword">interface</span> <span class="hljs-title class_">HookMap</span> {
-	<span class="hljs-attr">for</span>: <span class="hljs-function">(<span class="hljs-params">key: <span class="hljs-built_in">any</span></span>) =&gt;</span> <span class="hljs-title class_">Hook</span>,
-	<span class="hljs-attr">intercept</span>: <span class="hljs-function">(<span class="hljs-params">interceptor: HookMapInterceptor</span>) =&gt;</span> <span class="hljs-built_in">void</span>
+  <span class="hljs-attr">for</span>: <span class="hljs-function">(<span class="hljs-params">key: <span class="hljs-built_in">any</span></span>) =&gt;</span> <span class="hljs-title class_">Hook</span>
+  <span class="hljs-attr">intercept</span>: <span class="hljs-function">(<span class="hljs-params">interceptor: HookMapInterceptor</span>) =&gt;</span> <span class="hljs-built_in">void</span>
 }
 
 <span class="hljs-keyword">interface</span> <span class="hljs-title class_">HookMapInterceptor</span> {
-	<span class="hljs-attr">factory</span>: <span class="hljs-function">(<span class="hljs-params">key: <span class="hljs-built_in">any</span>, hook: Hook</span>) =&gt;</span> <span class="hljs-title class_">Hook</span>
+  <span class="hljs-attr">factory</span>: <span class="hljs-function">(<span class="hljs-params">key: <span class="hljs-built_in">any</span>, hook: Hook</span>) =&gt;</span> <span class="hljs-title class_">Hook</span>
 }
 
 <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Tap</span> {
-	<span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>,
-	<span class="hljs-attr">type</span>: <span class="hljs-built_in">string</span>
-	<span class="hljs-attr">fn</span>: <span class="hljs-title class_">Function</span>,
-	<span class="hljs-attr">stage</span>: <span class="hljs-built_in">number</span>,
-	<span class="hljs-attr">context</span>: <span class="hljs-built_in">boolean</span>,
-	before?: <span class="hljs-built_in">string</span> | <span class="hljs-title class_">Array</span>
+  <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>
+  <span class="hljs-attr">type</span>: <span class="hljs-built_in">string</span>
+  <span class="hljs-attr">fn</span>: <span class="hljs-title class_">Function</span>
+  <span class="hljs-attr">stage</span>: <span class="hljs-built_in">number</span>
+  <span class="hljs-attr">context</span>: <span class="hljs-built_in">boolean</span>
+  before?: <span class="hljs-built_in">string</span> | <span class="hljs-title class_">Array</span>
 }
 <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Hook</span> {
-	<span class="hljs-attr">isUsed</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">boolean</span>,
-	<span class="hljs-attr">call</span>: <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> <span class="hljs-title class_">Result</span>,
-	<span class="hljs-attr">promise</span>: <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-title class_">Result</span>&gt;,
-	<span class="hljs-attr">callAsync</span>: <span class="hljs-function">(<span class="hljs-params">...args, callback: (err, result: Result) =&gt; <span class="hljs-built_in">void</span></span>) =&gt;</span> <span class="hljs-built_in">void</span>,
+  <span class="hljs-attr">isUsed</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">boolean</span>
+  <span class="hljs-attr">call</span>: <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> <span class="hljs-title class_">Result</span>
+  <span class="hljs-attr">promise</span>: <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-title class_">Result</span>&gt;
+  <span class="hljs-attr">callAsync</span>: <span class="hljs-function">(<span class="hljs-params">...args, callback: (err, result: Result) =&gt; <span class="hljs-built_in">void</span></span>) =&gt;</span> <span class="hljs-built_in">void</span>
 }
 
 <span class="hljs-keyword">interface</span> <span class="hljs-title class_">HookMap</span> {
-	<span class="hljs-attr">get</span>: <span class="hljs-function">(<span class="hljs-params">key: <span class="hljs-built_in">any</span></span>) =&gt;</span> <span class="hljs-title class_">Hook</span> | <span class="hljs-literal">undefined</span>,
-	<span class="hljs-attr">for</span>: <span class="hljs-function">(<span class="hljs-params">key: <span class="hljs-built_in">any</span></span>) =&gt;</span> <span class="hljs-title class_">Hook</span>
+  <span class="hljs-attr">get</span>: <span class="hljs-function">(<span class="hljs-params">key: <span class="hljs-built_in">any</span></span>) =&gt;</span> <span class="hljs-title class_">Hook</span> | <span class="hljs-literal">undefined</span>
+  <span class="hljs-attr">for</span>: <span class="hljs-function">(<span class="hljs-params">key: <span class="hljs-built_in">any</span></span>) =&gt;</span> <span class="hljs-title class_">Hook</span>
 }
 </code></pre>
 <h2 id="hookmap">hookmap</h2>
-<p>hook映射的助手方法</p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> keyedHook = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HookMap</span>(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">SyncHook</span>([<span class="hljs-string">&quot;arg&quot;</span>]))
-keyedHook.<span class="hljs-title function_">for</span>(<span class="hljs-string">&quot;some-key&quot;</span>).<span class="hljs-title function_">tap</span>(<span class="hljs-string">&quot;MyPlugin&quot;</span>, <span class="hljs-function">(<span class="hljs-params">arg</span>) =&gt;</span> { <span class="hljs-comment">/* ... */</span> });
-keyedHook.<span class="hljs-title function_">for</span>(<span class="hljs-string">&quot;some-key&quot;</span>).<span class="hljs-title function_">tapAsync</span>(<span class="hljs-string">&quot;MyPlugin&quot;</span>, <span class="hljs-function">(<span class="hljs-params">arg, callback</span>) =&gt;</span> { <span class="hljs-comment">/* ... */</span> });
-keyedHook.<span class="hljs-title function_">for</span>(<span class="hljs-string">&quot;some-key&quot;</span>).<span class="hljs-title function_">tapPromise</span>(<span class="hljs-string">&quot;MyPlugin&quot;</span>, <span class="hljs-function">(<span class="hljs-params">arg</span>) =&gt;</span> { <span class="hljs-comment">/* ... */</span> });
-<span class="hljs-keyword">const</span> hook = keyedHook.<span class="hljs-title function_">get</span>(<span class="hljs-string">&quot;some-key&quot;</span>);
-<span class="hljs-keyword">if</span>(hook !== <span class="hljs-literal">undefined</span>) {
-	hook.<span class="hljs-title function_">callAsync</span>(<span class="hljs-string">&quot;arg&quot;</span>, <span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> { <span class="hljs-comment">/* ... */</span> });
+<p>hook 映射的助手方法</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> keyedHook = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HookMap</span>(<span class="hljs-function">(<span class="hljs-params">key</span>) =&gt;</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">SyncHook</span>([<span class="hljs-string">&#x27;arg&#x27;</span>]))
+keyedHook.<span class="hljs-title function_">for</span>(<span class="hljs-string">&#x27;some-key&#x27;</span>).<span class="hljs-title function_">tap</span>(<span class="hljs-string">&#x27;MyPlugin&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">arg</span>) =&gt;</span> {
+  <span class="hljs-comment">/* ... */</span>
+})
+keyedHook.<span class="hljs-title function_">for</span>(<span class="hljs-string">&#x27;some-key&#x27;</span>).<span class="hljs-title function_">tapAsync</span>(<span class="hljs-string">&#x27;MyPlugin&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">arg, callback</span>) =&gt;</span> {
+  <span class="hljs-comment">/* ... */</span>
+})
+keyedHook.<span class="hljs-title function_">for</span>(<span class="hljs-string">&#x27;some-key&#x27;</span>).<span class="hljs-title function_">tapPromise</span>(<span class="hljs-string">&#x27;MyPlugin&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">arg</span>) =&gt;</span> {
+  <span class="hljs-comment">/* ... */</span>
+})
+<span class="hljs-keyword">const</span> hook = keyedHook.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;some-key&#x27;</span>)
+<span class="hljs-keyword">if</span> (hook !== <span class="hljs-literal">undefined</span>) {
+  hook.<span class="hljs-title function_">callAsync</span>(<span class="hljs-string">&#x27;arg&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+    <span class="hljs-comment">/* ... */</span>
+  })
 }
 </code></pre>
 <h2 id="api">api</h2>
+<p>都是顺序执行、传入参数。<br>
+暴露了10个类、方法：<br>
+实例化hooks时指定参数的数量。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SyncHook</td>
+<td>按调用tap的顺序执行、传入call时的参数</td>
+<td>回调方法保存在数组tasks中，然后依次调用。</td>
+<td></td>
+</tr>
+<tr>
+<td>SyncBailHook</td>
+<td>顺序执行、传入call时的参数、若返回非undefined则停下执行后续回调</td>
+<td>回调方法保存在数组tasks中，然后使用doWhile调用</td>
+<td></td>
+</tr>
+<tr>
+<td>SyncWaterfallHook</td>
+<td>依次调用，call的参数是第一个回调方法的参数。后一个回调方法的默认值是call方法的参数。当前一个回调方法返回非undefined时，作为下一个方法的第一个参数。否则使用默认参数。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>SyncLoopHook</td>
+<td>依次调用、传入call时的参数，</td>
+<td>当回调方法返回undefined时，重复执行此回调方法，直到返回非undefined。</td>
+<td></td>
+</tr>
+<tr>
+<td>AsyncParallelHook</td>
+<td>异步并行、传入call时的参数，全部完成后执行cb.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>AsyncParallelBailHook</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>AsyncSeriesHook</td>
+<td>异步串行，传入call时的参数。全部完成后执行cb。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>AsyncSeriesBailHook</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>AsyncSeriesLoopHook</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>AsyncSeriesWaterfallHook</td>
+<td>异步串行，call的参数是第一个回调方法的参数。后一个回调方法的默认值是call方法的参数。当前一个回调方法返回非undefined时，作为下一个方法的第一个参数。否则使用默认参数。全部完成后执行cb。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>HookMap</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>MultiHook</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-js"><span class="hljs-variable language_">this</span>.<span class="hljs-property">hooks</span>.<span class="hljs-title function_">tapAsync</span>(<span class="hljs-string">&#x27;node&#x27;</span>,<span class="hljs-keyword">function</span>(<span class="hljs-params">name,cb</span>){
+    <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">()=&gt;</span>{
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;node&#x27;</span>,name);
+        <span class="hljs-title function_">cb</span>(); <span class="hljs-comment">// cb是下一个回调方法。</span>
+    },<span class="hljs-number">1000</span>);
+});
+<span class="hljs-variable language_">this</span>.<span class="hljs-property">hooks</span>.<span class="hljs-title function_">callAsync</span>(<span class="hljs-string">&#x27;call end.&#x27;</span>,<span class="hljs-keyword">function</span>(<span class="hljs-params"></span>){
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;最终的回调&#x27;</span>);
+});
+</code></pre>
 <!-- prettier-ignore-start -->
 <table>
 <thead>
@@ -355,12 +497,110 @@ keyedHook.<span class="hljs-title function_">for</span>(<span class="hljs-string
 <!-- prettier-ignore-end -->
 <h2 id="principle">principle</h2>
 <p>此包的处理逻辑。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>双缓存</td>
+<td><code>this._call</code> <code>this.call</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>在父类中定义一个方法，方法体是报错的。子类中实例该方法。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>每次执行call,都需要现编译（new Function处理）。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h3 id="uml">uml</h3>
-<pre><code></code></pre>
+<pre><code>
+</code></pre>
 <h2 id="todo">todo</h2>
+<h3 id="tapable--plugincomb">tapable &amp; plugincomb</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>tapable</th>
+<th>plugincomb</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>使用new Function生成方法后执行。</td>
+<td>暂存定义时的方法，在调用时执行</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>同步、cb/promise三种注册、触发方法</td>
+<td>register/call一种</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>明确指定参数数量。指定参数时无语义。</td>
+<td>register时使用形参。call是传入实参。若传入多则截取，若传入少则剩下的赋值为undefined.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>多种插件</td>
+<td>2种插件*2种调用方式</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <blockquote>
 <p>未来迭代计划。
-未来迭代计划。
 未来迭代计划。</p>
 </blockquote>
 
