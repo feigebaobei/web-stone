@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>gts</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="gts">gts</h1>
+<h2 id="overview">overview</h2>
+<blockquote>
+<p>google的ts格式指南。可以配置格式、linter、自动fix代码。</p>
+</blockquote>
+<h3 id="feature">feature</h3>
+<ul>
+<li>没有配置文件</li>
+<li>自动格式化代码 <code>gts fix</code></li>
+<li>找到样式错误、简单的编程错误</li>
+<li>推荐使用默认的配置</li>
+</ul>
+<h2 id="install">install</h2>
+<p><code>npm i -D gts</code></p>
+<h2 id="usage">usage</h2>
+<pre><code class="language-shell">npx gts init
+<span class="hljs-meta prompt_"># </span><span class="language-bash">执行结果：</span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">在tsconfig.json中添加google ts 风格</span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">在package.json中添加必要依赖</span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">添加脚本</span>
+    # lint                      格式化并检查代码格式问题
+    # fix                       自动格式化
+    # clean                     删除输出文件
+    # compile                   使用tsc编译ts文件
+    # pretest/posttest/prepare  常用于ci
+</code></pre>
+<h3 id="格式化指定文件">格式化指定文件</h3>
+<pre><code class="language-shell">gts lint index.js
+</code></pre>
+<h3 id="与eslint一起工作">与eslint一起工作</h3>
+<pre><code>// .eslintrc
+---
+extends:
+    - './node_modules/gts'
+</code></pre>
+<pre><code class="language-shell">eslint --fix
+</code></pre>
+<h2 id="principle">principle</h2>
+<p>此包的处理逻辑。</p>
+<h3 id="uml">uml</h3>
+<pre><code></code></pre>
+<h2 id="todo">todo</h2>
+<blockquote>
+<p>没有配置文件会方便一些。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote>
+
+        
+        
+    </body>
+    </html>
