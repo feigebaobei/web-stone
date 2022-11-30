@@ -35,6 +35,7 @@
 - [serve](/jsPackages/serve.html)
 - [plugincomb](https://www.npmjs.com/package/plugincomb)
 - [tapable](/jsPackages/tapable.html)
+- [gts](/jsPackages/gts.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
