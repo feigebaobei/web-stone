@@ -251,18 +251,22 @@ c.on('ready', () => {
     }
     // let p = 'math' // todo add
     let p = [
-      // 'babel/index.html',
+      // 'linux/index.html',
+      // 'linux/nano.html',
       // 'babel/plugin/index.html',
       // 'babel/preset/index.html',
-      'jsPackages/index.html',
-      'framework/react/index.html',
-      'framework/react/hooks.html',
-      // 'jsPackages/babel/core.html',
+      // 'jsPackages/index.html',
+      // 'framework/react/index.html',
+      // 'framework/react/hooks.html',
+      // 'language/typescript/index.html',
+      // 'language/typescript/initTsProject.html',
+      // 'language/typescript/initTsReactProject.html',
+      // 'jsPackages/gts.html',
+      // 'jsPackages/index.html',
       // 'jsPackages/babel/generator.html',
       // 'jsPackages/babel/codeFrame.html',
       // 'jsPackages/babel/template.html',
       // 'jsPackages/babel/parser.html',
-      // 'language/javascript/function.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
