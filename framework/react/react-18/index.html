@@ -362,12 +362,12 @@ funtion <span class="hljs-title class_">Clock</span>(props) { <span class="hljs-
 只能在class组件中使用
 <p>constructor() // 为了调用 super()
 static getDerivedStateFromProps(nextProps, prevState)
-它是静态方法，不能使用 this。只能作一些无副作用的操作。整个render阶段都不能执行副作用方法。
+它是静态方法，不能使用 this。只能作一些无副作用的操作。整个 render 阶段都不能执行副作用方法。
 若返回一个对象，则更新 state。若返回 null，则不更新。
-即使props没有任何变化，而是父state发生了变化，导致子组件发生了re-render，这个生命周期函数依然会被调用。
-此生命周期方法在render阶段执行。
-既然是生命周期方法，则只能在class组件中使用。
-它是为state赋值的。
+即使 props 没有任何变化，而是父 state 发生了变化，导致子组件发生了 re-render，这个生命周期函数依然会被调用。
+此生命周期方法在 render 阶段执行。
+既然是生命周期方法，则只能在 class 组件中使用。
+它是为 state 赋值的。
 static getDerivedStateFromProps(nextProps, prevState) {
 // 必须返回值。
 if (condition) {
@@ -379,7 +379,7 @@ a: nextProps.a,
 }
 return null //
 }
-尽量不要写内props/state共同控制的组件（即：受控&amp;非受控）</p>
+尽量不要写内 props/state 共同控制的组件（即：受控&amp;非受控）</p>
 <p>render()
 class 组件中必须使用的方法。
 用于渲染 dom.
@@ -474,6 +474,7 @@ xx ? <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-nam
 <ul>
 <li>props + event</li>
 <li>context</li>
+<li>三方包（eg: redux）</li>
 </ul>
 <h2 id="代码分割">代码分割</h2>
 <h3 id="1-import">1. import()</h3>
@@ -503,17 +504,32 @@ React.PureComponent 内实现了<code>shouldComponentUpdate()</code>(React.Compo
 <h2 id="异常捕获边界"><a href="/framework/react/react-18/errorBinary.html">异常捕获边界</a></h2>
 <h2 id="forwardref">forwardRef</h2>
 <p>为常规函数组件提供接收 ref 的功能。</p>
+<p>demo for forwardRef &amp; function</p>
 <pre><code class="language-js"><span class="hljs-comment">// 父组件</span>
 <span class="hljs-keyword">let</span> ref = <span class="hljs-title class_">React</span>.<span class="hljs-title function_">createRef</span>()
 &lt;<span class="hljs-title class_">FancyButton</span> ref={ref} /&gt;
 <span class="hljs-comment">// 子组件</span>
-<span class="hljs-keyword">const</span> <span class="hljs-title class_">FancyButton</span> = <span class="hljs-title class_">React</span>.<span class="hljs-title function_">forwardRef</span>(<span class="hljs-params">props, ref</span>) {
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">FancyButton</span> = <span class="hljs-title class_">React</span>.<span class="hljs-title function_">forwardRef</span>(<span class="hljs-function">(<span class="hljs-params">props, ref</span>) =&gt;</span> {
     <span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">{ref}</span>&gt;</span>str<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span>
-}
+})
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title class_">FancyButton</span>
+</code></pre>
+<p>demo for forwardRef &amp; class</p>
+<pre><code class="language-js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">InputCC</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">React.Component</span> {
+  render () {
+    <span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">{this.porps.inputRef}</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> /&gt;</span></span>
+  }
+}
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">InputFR</span> = <span class="hljs-title function_">forwardRef</span>(<span class="hljs-function">(<span class="hljs-params">props, ref</span>) =&gt;</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">InputCC</span> <span class="hljs-attr">inputRef</span>=<span class="hljs-string">{ref}</span> <span class="hljs-attr">...props</span> /&gt;</span></span>)
 </code></pre>
 <p>第二个参数 ref 只在使用 React.forwardRef 定义组件时存在。常规函数和 class 组件不接收 ref 参数，<strong>且 props 中也不存在 ref</strong>。<br>
 Ref 转发不仅限于 DOM 组件，你也可以转发 refs 到 class 组件实例中。</p>
+<h3 id="何时使用">何时使用</h3>
+<ul>
+<li>祖先组件需要操作子组件的元素时。（受控组件的一种）</li>
+<li>需要操作dom时</li>
+<li>需要使用useImperativeHandle时</li>
+</ul>
 <h2 id="hoc-高阶组件"><a href="/framework/react/react-18/hoc.html">HOC 高阶组件</a></h2>
 <h2 id="提高性能">提高性能</h2>
 <p>若无法测量，则无法优化。</p>

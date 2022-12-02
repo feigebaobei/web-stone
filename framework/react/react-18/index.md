@@ -377,6 +377,7 @@ function f() {
 
 - props + event
 - context
+- 三方包（eg: redux）
 
 ## 代码分割
 
@@ -415,19 +416,38 @@ React.PureComponent 内实现了`shouldComponentUpdate()`(React.Component 中未
 
 为常规函数组件提供接收 ref 的功能。
 
+demo for forwardRef & function
+
 ```js
 // 父组件
 let ref = React.createRef()
 <FancyButton ref={ref} />
 // 子组件
-const FancyButton = React.forwardRef(props, ref) {
+const FancyButton = React.forwardRef((props, ref) => {
     return <button ref={ref}>str</button>
-}
+})
 export default FancyButton
+```
+
+demo for forwardRef & class
+
+```js
+class InputCC extends React.Component {
+  render () {
+    return <input ref={this.porps.inputRef} type="text" />
+  }
+}
+const InputFR = forwardRef((props, ref) => <InputCC inputRef={ref} ...props />)
 ```
 
 第二个参数 ref 只在使用 React.forwardRef 定义组件时存在。常规函数和 class 组件不接收 ref 参数，**且 props 中也不存在 ref**。  
 Ref 转发不仅限于 DOM 组件，你也可以转发 refs 到 class 组件实例中。
+
+### 何时使用
+
+- 祖先组件需要操作子组件的元素时。（受控组件的一种）
+- 需要操作 dom 时
+- 需要使用 useImperativeHandle 时
 
 ## [HOC 高阶组件](/framework/react/react-18/hoc.html)
 

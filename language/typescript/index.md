@@ -541,6 +541,8 @@ ts 是一种 js 的方言。以前使用 js 怎么写项目，现在使用 ts �
 
 ## [init ts & react project](/language/typescript/initTsReactProject.html)
 
+## [ts & rollup](/builder/rollup/ts&rollup.html)
+
 ## todo
 
 ### interface & type
