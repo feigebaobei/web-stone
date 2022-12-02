@@ -44,12 +44,13 @@ let parseUrlQS = (url = window.location.href, useCode = true) => {
 let getType = (o) => Object.prototype.toString.call(o).slice(8, -1) // 返回构造函数的名字 大写开头
 // 输出
 let clog = console.log
-let clogs = (jsonObj: object | string) => {
-    if (typof jsonObj === 'object') {
-        clog(JSON.stringify(jsonObj))
-    } else {
-        clog(jsonObj)
-    }
+let j = (obj: object) => (JSON.parse(JSON.stringify(obj)))
+let clogj = (p) => {
+  if (typeof p === 'object') {
+    clog(j(p))
+  } else {
+    clog(p)
+  }
 }
 // 深复制对象
 let cloneDeep = (p, c = {}) => {
