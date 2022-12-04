@@ -249,30 +249,14 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = 'math' // todo add
+    // let p = 'framework/qwik' // todo add
     let p = [
-      'util/index.html',
-      'builder/rollup/ts&rollup.html',
-      'language/typescript/index.html',
-      'language/javascript/index.html',
-      'language/javascript/object.html',
-      'test/jest/cli.html',
-      'test/jest/index.html',
-      'test/jest/mockFn.html',
-      'util/index.html',
-      // 'babel/plugin/index.html',
-      // 'babel/preset/index.html',
-      // 'jsPackages/index.html',
-      // 'framework/react/react-18/index.html',
-      // 'framework/react/hooks.html',
-      // 'language/typescript/initTsProject.html',
-      // 'language/typescript/initTsReactProject.html',
-      // 'jsPackages/gts.html',
-      // 'jsPackages/index.html',
-      // 'jsPackages/babel/generator.html',
-      // 'jsPackages/babel/codeFrame.html',
-      // 'jsPackages/babel/template.html',
-      // 'jsPackages/babel/parser.html',
+      'framework/qwik/index.html',
+      'framework/qwik/preEnv.html',
+      'framework/qwik/qwik&react.html',
+      'framework/qwik/qwikCity.html',
+      'framework/qwik/qwikloader.html',
+      'framework/qwik/thinkQwik.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
@@ -289,24 +273,24 @@ c.on('ready', () => {
     // 测试上传单个文件
     // uploadFile(p)
     // 上传多个文件
-    uploadFiles(p)
-      .then(() => {
-        log('then', '全部完成')
-        c.end()
-      })
-      .catch((err) => {
-        log('catch', err)
-        c.end()
-      })
-    // 创建目录
-    // makeDir(p)
+    // uploadFiles(p)
     //   .then(() => {
+    //     log('then', '全部完成')
     //     c.end()
     //   })
     //   .catch((err) => {
     //     log('catch', err)
     //     c.end()
     //   })
+    // 创建目录
+    makeDir(p)
+      .then(() => {
+        c.end()
+      })
+      .catch((err) => {
+        log('catch', err)
+        c.end()
+      })
     // 测试上传一个目录
     // uploadDir(p).then(res => {
     //     log('全部上传完成', res)

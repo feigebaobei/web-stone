@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>qwikloader</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="qwikloader">qwikloader</h1>
+<ul>
+<li>侦听器核心逻辑</li>
+<li>其他属性用于反序列化
+<ul>
+<li>渲染组件树</li>
+<li>处理状态</li>
+</ul>
+</li>
+</ul>
+<h2 id="原理">原理</h2>
+<p>使用事件委托来侦听所有事件，当点击时获取当前dom上的属性，经过规则解析后import加载进来</p>
+<p>在html中使用prefetch实现预加载。尽量不影响主程序的加载。</p>
+<ol>
+<li>获取html中的qwik/json</li>
+<li>通过解析json创建state</li>
+<li>获取container中的state</li>
+<li>创建反序列化Dom属性工具函数</li>
+<li>启动代理proxy,实现get/set的发布订阅。</li>
+<li>重建state</li>
+<li>触发 set 。触发 render</li>
+</ol>
+<h2 id="title">title</h2>
+<h2 id="title">title</h2>
+<h2 id="title">title</h2>
+<h2 id="title">title</h2>
+
+        
+        
+    </body>
+    </html>

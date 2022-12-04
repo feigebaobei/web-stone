@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>qwik&#x7684;&#x524d;&#x7f6e;&#x73af;&#x5883;</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="qwik的前置环境">qwik的前置环境</h1>
+<p>水合作用：</p>
+<ul>
+<li>侦听器 - 定位事件侦听器并将它们安装在 DOM 节点上以使应用程序具有交互性；</li>
+<li>组件树 - 构造数据并表现在组件树上。</li>
+<li>应用程序状态 - 恢复应用程序状态。</li>
+</ul>
+<h2 id="补水过程">补水过程：</h2>
+<ol>
+<li>必须下载当前页面相关的所有组件代码。</li>
+<li>必须执行与页面上的组件关联的模板，用于重建侦听位置、内部组件树（vdom）</li>
+</ol>
+<h2 id="qwik的实现过程">qwik的实现过程</h2>
+<p>||相对于补水过程中的步骤|qwik中的步骤|||||
+|-|-|-|||||
+||侦听器|dom+quikloader|在服务端完成侦听器的序列化。点击恢复应用程序的所有信息。||||
+||组件树|组件 =&gt; html|只能为需要重新渲染的组件执行此操作。||||
+||||||||
+||||||||
+||||||||
+||||||||</p>
+<p>首屏加载时包括：</p>
+<ul>
+<li>Qwikloader &lt; 1k</li>
+</ul>
+
+        
+        
+    </body>
+    </html>
