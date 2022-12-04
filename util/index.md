@@ -45,6 +45,7 @@ let getType = (o) => Object.prototype.toString.call(o).slice(8, -1) // 返回构
 // 输出
 let clog = console.log
 let j = (obj: object) => (JSON.parse(JSON.stringify(obj)))
+let j = (obj?: object) => (obj === undefined ? undefined : JSON.parse(JSON.stringify(obj)))
 let clogj = (p) => {
   if (typeof p === 'object') {
     clog(j(p))

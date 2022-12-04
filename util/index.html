@@ -121,6 +121,7 @@
 <span class="hljs-comment">// 输出</span>
 <span class="hljs-keyword">let</span> clog = <span class="hljs-variable language_">console</span>.<span class="hljs-property">log</span>
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">j</span> = (<span class="hljs-params">obj: object</span>) =&gt; (<span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(<span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(obj)))
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">j</span> = (<span class="hljs-params">obj?: object</span>) =&gt; (obj === <span class="hljs-literal">undefined</span> ? <span class="hljs-literal">undefined</span> : <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(<span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(obj)))
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">clogj</span> = (<span class="hljs-params">p</span>) =&gt; {
   <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> p === <span class="hljs-string">&#x27;object&#x27;</span>) {
     <span class="hljs-title function_">clog</span>(<span class="hljs-title function_">j</span>(p))

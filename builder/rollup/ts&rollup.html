@@ -76,8 +76,9 @@
     </head>
     <body class="vscode-body vscode-light">
         <h1 id="ts--rollup">ts &amp; rollup</h1>
-<h2 id="使用rollup打包ts项目多个输出">使用rollup打包ts项目。多个输出。</h2>
-<p>创建一个简单的ts项目。目录结构如下：</p>
+<p>建议先使用tsc命令把ts文件编译为js文件，再使用rollup把js文件打包。</p>
+<h2 id="使用-rollup-打包-ts-项目多个输出">使用 rollup 打包 ts 项目。多个输出。</h2>
+<p>创建一个简单的 ts 项目。目录结构如下：</p>
 <pre><code>&lt;root&gt;
 |-- src
     |-- math
@@ -90,36 +91,35 @@
 |-- ...
 </code></pre>
 <p>在<code>app.ts</code>中引入并使用<code>math/index.ts</code>/<code>string/index.ts</code><br>
-生成ts的配置文件<code>tsconfig.json</code>。一般在ts项目中必须有它。</p>
+生成 ts 的配置文件<code>tsconfig.json</code>。一般在 ts 项目中必须有它。</p>
 <pre><code class="language-json"><span class="hljs-punctuation">{</span>
   <span class="hljs-attr">&quot;compilerOptions&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
-    <span class="hljs-attr">&quot;target&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;es2018&quot;</span><span class="hljs-punctuation">,</span>                          
+    <span class="hljs-attr">&quot;target&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;es2018&quot;</span><span class="hljs-punctuation">,</span>
     <span class="hljs-attr">&quot;module&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;esnext&quot;</span><span class="hljs-punctuation">,</span>
-    <span class="hljs-attr">&quot;moduleResolution&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;node&quot;</span><span class="hljs-punctuation">,</span>                     
+    <span class="hljs-attr">&quot;moduleResolution&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;node&quot;</span><span class="hljs-punctuation">,</span>
     <span class="hljs-attr">&quot;noEmitOnError&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
-    <span class="hljs-attr">&quot;lib&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;es2017&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>                            
-    <span class="hljs-attr">&quot;strict&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>  
-    <span class="hljs-attr">&quot;esModuleInterop&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>                 
+    <span class="hljs-attr">&quot;lib&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;es2017&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;strict&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;esModuleInterop&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
     <span class="hljs-attr">&quot;outDir&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;out-tsc&quot;</span><span class="hljs-punctuation">,</span>
     <span class="hljs-attr">&quot;rootDir&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;./&quot;</span>
-  <span class="hljs-punctuation">}</span>
-  <span class="hljs-punctuation">,</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
   <span class="hljs-attr">&quot;include&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;./src/**/*.ts&quot;</span><span class="hljs-punctuation">]</span>
 <span class="hljs-punctuation">}</span>
 </code></pre>
 <p>编辑<code>rollup.config.js</code></p>
 <pre><code class="language-js"><span class="hljs-comment">// rollup.config.js</span>
-<span class="hljs-keyword">import</span> merge <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;deepmerge&#x27;</span>;
-<span class="hljs-keyword">import</span> { createBasicConfig } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@open-wc/building-rollup&#x27;</span>;
+<span class="hljs-keyword">import</span> merge <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;deepmerge&#x27;</span>
+<span class="hljs-keyword">import</span> { createBasicConfig } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@open-wc/building-rollup&#x27;</span>
 
-<span class="hljs-keyword">const</span> baseConfig = <span class="hljs-title function_">createBasicConfig</span>();
+<span class="hljs-keyword">const</span> baseConfig = <span class="hljs-title function_">createBasicConfig</span>()
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">merge</span>(baseConfig, {
   <span class="hljs-attr">input</span>: <span class="hljs-string">&#x27;./out-tsc/src/app.js&#x27;</span>,
   <span class="hljs-attr">output</span>: {
-      <span class="hljs-attr">dir</span>: <span class="hljs-string">&#x27;dist&#x27;</span>,
-  }
-});
+    <span class="hljs-attr">dir</span>: <span class="hljs-string">&#x27;dist&#x27;</span>,
+  },
+})
 </code></pre>
 <p>设置打包脚本</p>
 <pre><code class="language-json"><span class="hljs-punctuation">{</span>
@@ -134,26 +134,28 @@
 <pre><code class="language-shell">npm run build
 </code></pre>
 <h2 id="整理代码">整理代码</h2>
-<pre><code class="language-js"><span class="hljs-keyword">import</span> { nodeResolve } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@rollup/plugin-node-resolve&#x27;</span>;
+<pre><code class="language-js"><span class="hljs-keyword">import</span> { nodeResolve } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@rollup/plugin-node-resolve&#x27;</span>
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
-    <span class="hljs-attr">input</span>: <span class="hljs-string">&#x27;./out-tsc/src/app.js&#x27;</span>,
-    <span class="hljs-attr">output</span>: [ { <span class="hljs-attr">dir</span>: <span class="hljs-string">&#x27;dist1&#x27;</span>, <span class="hljs-attr">format</span>: <span class="hljs-string">&#x27;cjs&#x27;</span> }, { <span class="hljs-attr">dir</span>: <span class="hljs-string">&#x27;dist2&#x27;</span>, <span class="hljs-attr">format</span>: <span class="hljs-string">&#x27;esm&#x27;</span> } ],
-    <span class="hljs-attr">plugins</span>: [
-        <span class="hljs-title function_">nodeResolve</span>()
-    ],
-  }
+  <span class="hljs-attr">input</span>: <span class="hljs-string">&#x27;./out-tsc/src/app.js&#x27;</span>,
+  <span class="hljs-attr">output</span>: [
+    { <span class="hljs-attr">dir</span>: <span class="hljs-string">&#x27;dist1&#x27;</span>, <span class="hljs-attr">format</span>: <span class="hljs-string">&#x27;cjs&#x27;</span> },
+    { <span class="hljs-attr">dir</span>: <span class="hljs-string">&#x27;dist2&#x27;</span>, <span class="hljs-attr">format</span>: <span class="hljs-string">&#x27;esm&#x27;</span> },
+  ],
+  <span class="hljs-attr">plugins</span>: [<span class="hljs-title function_">nodeResolve</span>()],
+}
 </code></pre>
 <p><strong>思路：</strong><br>
-使用tsc把ts文件编译为js文件。使用rollup把js文件打包。用于打包的js文件可删除。</p>
-<h2 id="使用rollup打包ts项目一个输出">使用rollup打包ts项目。一个输出。</h2>
+使用 tsc 把 ts 文件编译为 js 文件。使用 rollup 把 js 文件打包。用于打包的 js 文件可删除。</p>
+<h2 id="使用-rollup-打包-ts-项目一个输出">使用 rollup 打包 ts 项目。一个输出。</h2>
 <p>项目结构同上。修改<code>rollup.config.js</code>为：</p>
 <pre><code class="language-js"><span class="hljs-comment">// import { nodeResolve } from &#x27;@rollup/plugin-node-resolve&#x27;;</span>
 <span class="hljs-keyword">import</span> typescript <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@rollup/plugin-typescript&#x27;</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> [
   {
     <span class="hljs-attr">input</span>: [<span class="hljs-string">&#x27;src/index.ts&#x27;</span>],
-    <span class="hljs-attr">output</span>: [ <span class="hljs-comment">// 只能有一个输出</span>
+    <span class="hljs-attr">output</span>: [
+      <span class="hljs-comment">// 只能有一个输出</span>
       {
         <span class="hljs-attr">dir</span>: <span class="hljs-string">&#x27;dist_esm&#x27;</span>,
         <span class="hljs-comment">// entryFileNames: [name].js,</span>
@@ -168,9 +170,9 @@
       },
     ],
     <span class="hljs-attr">plugins</span>: [
-      <span class="hljs-title function_">typescript</span>(),   <span class="hljs-comment">// 使其可打包ts文件。会使用tsconfig.json中的compilerOptions配置项</span>
-    ]
-  }
+      <span class="hljs-title function_">typescript</span>(), <span class="hljs-comment">// 使其可打包ts文件。会使用tsconfig.json中的compilerOptions配置项</span>
+    ],
+  },
 ]
 </code></pre>
 

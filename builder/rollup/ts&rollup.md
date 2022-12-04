@@ -1,5 +1,7 @@
 # ts & rollup
 
+建议先使用 tsc 命令把 ts 文件编译为 js 文件，再使用 rollup 把 js 文件打包。
+
 ## 使用 rollup 打包 ts 项目。多个输出。
 
 创建一个简单的 ts 项目。目录结构如下：

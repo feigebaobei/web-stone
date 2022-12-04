@@ -166,7 +166,7 @@ test('describe', async () => {
 })
 // async/await & resolves/rejects
 test('describe', async () => {
-  // await expect(pf()).resolves.boBe(v)
+  // await expect(pf()).resolves.toBe(v)
   await expect(pf()).rejects.toMatch('err')
 })
 ```
