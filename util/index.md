@@ -44,7 +44,6 @@ let parseUrlQS = (url = window.location.href, useCode = true) => {
 let getType = (o) => Object.prototype.toString.call(o).slice(8, -1) // 返回构造函数的名字 大写开头
 // 输出
 let clog = console.log
-let j = (obj: object) => (JSON.parse(JSON.stringify(obj)))
 let j = (obj?: object) => (obj === undefined ? undefined : JSON.parse(JSON.stringify(obj)))
 let clogj = (p) => {
   if (typeof p === 'object') {

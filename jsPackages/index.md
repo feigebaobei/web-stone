@@ -13,6 +13,7 @@
 - [ftp](/jsPackages/ftp.html)
 - [pm2](/jsPackages/pm2.html)
 - [redux](/jsPackages/redux.html)
+- [react-redux](/jsPackages/react-redux.html)
 - [@reduxjs/toolkit](/jsPackages/@reduxjs-toolkit.html)
 - [lerna](/jsPackages/lerna/index.html)
 - [axios](/jsPackages/axios.html)

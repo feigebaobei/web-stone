@@ -249,14 +249,18 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = 'framework/qwik' // todo add
+    // let p = 'framework/qwik'
     let p = [
-      'framework/qwik/index.html',
-      'framework/qwik/preEnv.html',
-      'framework/qwik/qwik&react.html',
-      'framework/qwik/qwikCity.html',
-      'framework/qwik/qwikloader.html',
-      'framework/qwik/thinkQwik.html',
+      // 'framework/qwik/index.html',
+      // 'framework/qwik/preEnv.html',
+      // 'framework/qwik/qwik&react.html',
+      // 'framework/qwik/qwikCity.html',
+      // 'framework/qwik/qwikloader.html',
+      'development/index.html',
+      'jsPackages/index.html',
+      'jsPackages/redux.html',
+      'language/typescript/index.html',
+      'util/index.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
@@ -273,24 +277,24 @@ c.on('ready', () => {
     // 测试上传单个文件
     // uploadFile(p)
     // 上传多个文件
-    // uploadFiles(p)
-    //   .then(() => {
-    //     log('then', '全部完成')
-    //     c.end()
-    //   })
-    //   .catch((err) => {
-    //     log('catch', err)
-    //     c.end()
-    //   })
-    // 创建目录
-    makeDir(p)
+    uploadFiles(p)
       .then(() => {
+        log('then', '全部完成')
         c.end()
       })
       .catch((err) => {
         log('catch', err)
         c.end()
       })
+    // 创建目录
+    // makeDir(p)
+    //   .then(() => {
+    //     c.end()
+    //   })
+    //   .catch((err) => {
+    //     log('catch', err)
+    //     c.end()
+    //   })
     // 测试上传一个目录
     // uploadDir(p).then(res => {
     //     log('全部上传完成', res)
