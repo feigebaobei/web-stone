@@ -16,6 +16,9 @@
 - 类型注解
 - 类型推断
 - 在开发过程中发现潜在问题（根据类型发现的）。
+- 静态类型检测
+- 类型提示（在 vscode 中）
+- 命令行工具 tsc
 
 ## install
 
@@ -101,33 +104,72 @@ tsc hello.ts
 
 ## 数据类型
 
-|                 |                                     |                                                                                 |                                |     |     |
-| --------------- | ----------------------------------- | ------------------------------------------------------------------------------- | ------------------------------ | --- | --- |
-| string          |                                     |                                                                                 |                                |     |     |
-| number          |                                     |                                                                                 |                                |     |     |
-| boolean         |                                     |                                                                                 |                                |     |     |
-| array           | `[type]` / `type[]` / `Array<type>` |                                                                                 |                                |     |     |
-| any             |                                     | 当 ts 不能推断出数据类型时，使用 any 类型。                                     |                                |     |     |
-| function        |                                     | 可能与下面的 Function 有关                                                      |                                |     |     |
-| object          |                                     |                                                                                 |                                |     |     |
-| union           |                                     | 联合类型                                                                        |                                |     |     |
-| type            |                                     | 类型别名                                                                        |                                |     |     |
-| interface       |                                     | 声明对象类型的另一种方式                                                        |                                |     |     |
-| object          |                                     |                                                                                 |                                |     |     |
-| type assertions |                                     | 类型断言                                                                        | `(param as type)`              |     |     |
-| literal         |                                     | 明确指定变量的值。初始化对象时 ts 会认为这是最后一次改变。以后不能再改变。      |                                |     |     |
-| null            |                                     |                                                                                 |                                |     |     |
-| undefined       |                                     | 也叫 void                                                                       |                                |     |     |
-| enums           |                                     | 枚举。列出具体的可选的值。它是真实的对象。                                      |                                |     |     |
-| bigint          |                                     |                                                                                 |                                |     |     |
-| symbol          |                                     |                                                                                 |                                |     |     |
-| unknown         |                                     | 代表 any 数据。与 any 类型相似。unknown 更安全。使用时需要类型断言。            |                                |     |     |
-| never           |                                     | 永远不会执行到的对象类型。当方法返回 never 时表示抛出一个错误、或打断执行方法。 |                                |     |     |
-| Function        |                                     |                                                                                 | 别的都是小写，为什么它是大写。 |     |     |
-| ReadonlyArray   |                                     | 使数组只读                                                                      |                                |     |     |
-| tuple           |                                     | 明确数组中对应下标的数据的类型                                                  |                                |     |     |
-| `generic types` |                                     | 泛型                                                                            | ``                             |     |     |
-| symbol          |                                     |                                                                                 |                                |     |     |
+<!-- prettier-ignore-start -->
+||||| | |
+| -- | -- | -- | - | - | - |
+| string|||| | |
+| number|||| | |
+| boolean   |||| | |
+| any  || 当 ts 不能推断出数据类型时，使用 any 类型。|| | |
+| union|| 联合类型| 列出允许的数据类型 | | |
+
+| null |||| | |
+| undefined || 也叫 void || | |
+| enums|| 枚举。列出具体的可选的值。它是真实的对象。 || | |
+| bigint|||| | |
+| symbol|||| | |
+| unknown   || 代表 any 数据。与 any 类型相似。unknown 更安全。使用时需要类型断言。 || | |
+| never|| 永远不会执行到的对象类型。当方法返回 never 时表示抛出一个错误、或打断执行方法。 || | |
+| Function  ||| ts中数据类型是Funtion.j中的数据类型是function | | |
+| ReadonlyArray   || 使数组只读|| | |
+| tuple|| 明确数组中对应下标的数据的类型|| | |
+| `generic types` || 泛型| `` | | |
+| symbol|||| | |
+
+<!-- prettier-ignore-end -->
+
+### 使用示例
+
+```ts
+let a: string = 'a'
+let d = 'a'         // literal types
+let b: number = 0
+let c: any = null
+function fn (p: string): void {clog(p)}
+// (p: string) => void
+type Fn // todo
+type Id = number | string
+interface Abc {
+  x: string
+  y: number
+}
+enum ShapeKing {
+  Circle,
+  Square = 'abc'
+}
+interface Circle {
+  kind: ShapeKing.Circle
+  radius: number
+}
+
+
+```
+
+### 类型范围缩小
+
+<!-- prettier-ignore-start -->
+||思路|demo||
+|-|-|-|-|
+||等号判断|`a === b `||
+||in|`key in obj`||
+||instanceof|`it instanceof p`||
+||as 类型断言|`param as T`||
+||断言unions|`param === 'value'`||
+||穷举类型|使用switch-case根据数据类型分别处理||
+|||||
+<!-- prettier-ignore-end -->
+
+### [union & enum](/language/typescript/union&enum.html)
 
 ### [type & interface 不同](/language/typescript/type&interface.html)
 

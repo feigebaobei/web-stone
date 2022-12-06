@@ -52,6 +52,7 @@ let clogj = (p) => {
     clog(p)
   }
 }
+let randomNum = (n = 10000) => (String(Math.floor(Math.random() * n)))
 // 深复制对象
 let cloneDeep = (p, c = {}) => {
   for (let k in p) {

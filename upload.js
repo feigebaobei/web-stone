@@ -251,16 +251,11 @@ c.on('ready', () => {
     }
     // let p = 'framework/qwik'
     let p = [
-      // 'framework/qwik/index.html',
-      // 'framework/qwik/preEnv.html',
-      // 'framework/qwik/qwik&react.html',
-      // 'framework/qwik/qwikCity.html',
-      // 'framework/qwik/qwikloader.html',
-      'development/index.html',
-      'jsPackages/index.html',
       'jsPackages/redux.html',
-      'language/typescript/index.html',
+      'index.html',
       'util/index.html',
+      'language/typescript/index.html',
+      'language/typescript/union&enum.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)

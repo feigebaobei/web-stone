@@ -86,13 +86,16 @@ ts 是静态类型检测器。比 flow 更强大。<br>
 它就是强类型的 js。它的所有功能都是为了类型服务的。<br>
 ts 把 interface/type 都叫做类型<br>
 它是编写代码的一种方式。可以使用 js/也可以使用 ts.ts 没有宣传的那么重要。它只是为 js 赋予了强类型。还需要把 ts 文件转换为 js 文件。如果 js 未来支持强类型了。ts 也就无存在的意义了。<br>
-从设计 （uml） 到代码比js平滑。</p>
+从设计 （uml） 到代码比 js 平滑。</p>
 </blockquote>
 <h3 id="feature">feature</h3>
 <ul>
 <li>类型注解</li>
 <li>类型推断</li>
 <li>在开发过程中发现潜在问题（根据类型发现的）。</li>
+<li>静态类型检测</li>
+<li>类型提示（在vscode中）</li>
+<li>命令行工具 tsc</li>
 </ul>
 <h2 id="install">install</h2>
 <p><code>npm i -g typescript</code><br>
@@ -202,6 +205,7 @@ ts 把 interface/type 都叫做类型<br>
 </tbody>
 </table>
 <h2 id="数据类型">数据类型</h2>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -239,14 +243,6 @@ ts 把 interface/type 都叫做类型<br>
 <td></td>
 </tr>
 <tr>
-<td>array</td>
-<td><code>[type]</code> / <code>type[]</code> / <code>Array&lt;type&gt;</code></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
 <td>any</td>
 <td></td>
 <td>当 ts 不能推断出数据类型时，使用 any 类型。</td>
@@ -255,160 +251,101 @@ ts 把 interface/type 都叫做类型<br>
 <td></td>
 </tr>
 <tr>
-<td>function</td>
-<td></td>
-<td>可能与下面的 Function 有关</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>object</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
 <td>union</td>
 <td></td>
 <td>联合类型</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>type</td>
-<td></td>
-<td>类型别名</td>
-<td></td>
+<td>列出允许的数据类型</td>
 <td></td>
 <td></td>
 </tr>
+</tbody>
+</table>
+<p>| null |||| | |
+| undefined || 也叫 void || | |
+| enums|| 枚举。列出具体的可选的值。它是真实的对象。 || | |
+| bigint|||| | |
+| symbol|||| | |
+| unknown   || 代表 any 数据。与 any 类型相似。unknown 更安全。使用时需要类型断言。 || | |
+| never|| 永远不会执行到的对象类型。当方法返回 never 时表示抛出一个错误、或打断执行方法。 || | |
+| Function  ||| ts中数据类型是Funtion.j中的数据类型是function | | |
+| ReadonlyArray   || 使数组只读|| | |
+| tuple|| 明确数组中对应下标的数据的类型|| | |
+| <code>generic types</code> || 泛型| `` | | |
+| symbol|||| | |</p>
+<!-- prettier-ignore-end -->
+<h3 id="使用示例">使用示例</h3>
+<pre><code class="language-ts"><span class="hljs-keyword">let</span> <span class="hljs-attr">a</span>: <span class="hljs-built_in">string</span> = <span class="hljs-string">&#x27;a&#x27;</span>
+<span class="hljs-keyword">let</span> d = <span class="hljs-string">&#x27;a&#x27;</span>         <span class="hljs-comment">// literal types</span>
+<span class="hljs-keyword">let</span> <span class="hljs-attr">b</span>: <span class="hljs-built_in">number</span> = <span class="hljs-number">0</span>
+<span class="hljs-keyword">let</span> <span class="hljs-attr">c</span>: <span class="hljs-built_in">any</span> = <span class="hljs-literal">null</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">fn</span> (<span class="hljs-attr">p</span>: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">void</span> {<span class="hljs-title function_">clog</span>(p)}
+<span class="hljs-comment">// (p: string) =&gt; void</span>
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Fn</span> <span class="hljs-comment">// todo</span>
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Id</span> = <span class="hljs-built_in">number</span> | <span class="hljs-built_in">string</span>
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">Abc</span> {
+  <span class="hljs-attr">x</span>: <span class="hljs-built_in">string</span>
+  <span class="hljs-attr">y</span>: <span class="hljs-built_in">number</span>
+}
+<span class="hljs-keyword">enum</span> <span class="hljs-title class_">ShapeKing</span> {
+  <span class="hljs-title class_">Circle</span>,
+  <span class="hljs-title class_">Square</span> = <span class="hljs-string">&#x27;abc&#x27;</span>
+}
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">Circle</span> {
+  <span class="hljs-attr">kind</span>: <span class="hljs-title class_">ShapeKing</span>.<span class="hljs-property">Circle</span>
+  <span class="hljs-attr">radius</span>: <span class="hljs-built_in">number</span>
+}
+
+
+</code></pre>
+<h3 id="类型范围缩小">类型范围缩小</h3>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
 <tr>
-<td>interface</td>
+<th></th>
+<th>思路</th>
+<th>demo</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
 <td></td>
-<td>声明对象类型的另一种方式</td>
-<td></td>
-<td></td>
+<td>等号判断</td>
+<td><code>a === b </code></td>
 <td></td>
 </tr>
 <tr>
-<td>object</td>
 <td></td>
-<td></td>
-<td></td>
-<td></td>
+<td>in</td>
+<td><code>key in obj</code></td>
 <td></td>
 </tr>
 <tr>
-<td>type assertions</td>
 <td></td>
-<td>类型断言</td>
-<td><code>(param as type)</code></td>
-<td></td>
+<td>instanceof</td>
+<td><code>it instanceof p</code></td>
 <td></td>
 </tr>
 <tr>
-<td>literal</td>
 <td></td>
-<td>明确指定变量的值。初始化对象时 ts 会认为这是最后一次改变。以后不能再改变。</td>
-<td></td>
-<td></td>
+<td>as 类型断言</td>
+<td><code>param as T</code></td>
 <td></td>
 </tr>
 <tr>
-<td>null</td>
 <td></td>
-<td></td>
-<td></td>
-<td></td>
+<td>断言unions</td>
+<td><code>param === 'value'</code></td>
 <td></td>
 </tr>
 <tr>
-<td>undefined</td>
 <td></td>
-<td>也叫 void</td>
-<td></td>
-<td></td>
+<td>穷举类型</td>
+<td>使用switch-case根据数据类型分别处理</td>
 <td></td>
 </tr>
 <tr>
-<td>enums</td>
-<td></td>
-<td>枚举。列出具体的可选的值。它是真实的对象。</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>bigint</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>symbol</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>unknown</td>
-<td></td>
-<td>代表 any 数据。与 any 类型相似。unknown 更安全。使用时需要类型断言。</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>never</td>
-<td></td>
-<td>永远不会执行到的对象类型。当方法返回 never 时表示抛出一个错误、或打断执行方法。</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>Function</td>
-<td></td>
-<td></td>
-<td>别的都是小写，为什么它是大写。</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>ReadonlyArray</td>
-<td></td>
-<td>使数组只读</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>tuple</td>
-<td></td>
-<td>明确数组中对应下标的数据的类型</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>generic types</code></td>
-<td></td>
-<td>泛型</td>
-<td>``</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>symbol</td>
-<td></td>
 <td></td>
 <td></td>
 <td></td>
@@ -416,6 +353,8 @@ ts 把 interface/type 都叫做类型<br>
 </tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
+<h3 id="union--enum"><a href="/language/typescript/union&amp;enum.html">union &amp; enum</a></h3>
 <h3 id="type--interface-不同"><a href="/language/typescript/type&amp;interface.html">type &amp; interface 不同</a></h3>
 <h3 id="缩小类型范围">缩小类型范围</h3>
 <ul>

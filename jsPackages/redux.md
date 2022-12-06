@@ -94,4 +94,4 @@ rootReducer(state, action) —→∑     ↗ optTimeReducer(optTime, action) ---
 
 <!-- 1.使用所有reducer处理state，得到nextState. 2.今次触发所有订阅者 3.返回nextState -->
 
-## [自己开发的 redux redux-simple](https://github.com/feigebaobei/simple/packages/redux-simple)
+## [自己开发的 redux redux-simple](https://github.com/feigebaobei/simple/tree/master/packages/redux-simple)
