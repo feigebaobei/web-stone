@@ -255,6 +255,7 @@ c.on('ready', () => {
       'index.html',
       'util/index.html',
       'language/typescript/index.html',
+      'language/typescript/type&interface.html',
       'language/typescript/union&enum.html',
     ]
     // 检测指定目录是否存在

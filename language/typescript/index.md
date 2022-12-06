@@ -120,11 +120,19 @@ tsc hello.ts
 | symbol|||| | |
 | unknown   || 代表 any 数据。与 any 类型相似。unknown 更安全。使用时需要类型断言。 || | |
 | never|| 永远不会执行到的对象类型。当方法返回 never 时表示抛出一个错误、或打断执行方法。 || | |
-| Function  ||| ts中数据类型是Funtion.j中的数据类型是function | | |
+| Function  ||它与`() => {}`不同。| ts中数据类型是Funtion.j中的数据类型是function | | |
 | ReadonlyArray   || 使数组只读|| | |
 | tuple|| 明确数组中对应下标的数据的类型|| | |
 | `generic types` || 泛型| `` | | |
 | symbol|||| | |
+| void|||| | |
+| object|||| | |
+| void|||| | |
+| void|||| | |
+| void|||| | |
+| void|||| | |
+| void|||| | |
+| void|||| | |
 
 <!-- prettier-ignore-end -->
 
@@ -168,6 +176,111 @@ interface Circle {
 ||穷举类型|使用switch-case根据数据类型分别处理||
 |||||
 <!-- prettier-ignore-end -->
+
+### Function
+
+```ts
+type fn = (p: string) => number
+type D = {
+  key: string
+  (p: string): boolean // 注意这里使用 :
+}
+type F = {
+  new (s: string): T // 用于new命令调用
+}
+// 结合泛型一起使用
+function fn<T>(p: T[]): T | undefined { return p[0] }
+// 指定泛型中必须要包含指定的类型
+function f<T extends {length: number}>(p: T): T {...}
+// 可选参数
+function f(x?: number) {...}
+// 方法重载
+function f(a: number): void
+function f(a: string): boolean
+function f(a: string, b: T[]): T {...}
+```
+
+### 对象的类型
+
+```ts
+interface Person {
+  name: string
+  age: number
+}
+type Man = {
+  name: string
+  age: string
+}
+// 是否有; 由编写格式决定
+interface Abc {
+  a: number
+  b: Person
+  c?: string            // 可选参数
+  readonly d: boolean   // 只读参数
+  [key: string]: any    // 限制key的类型。它必须在最后
+}
+interface A extends B {...}
+interface A extends B, C, D {...}
+interface A & B
+```
+
+### interface
+
+<!-- prettier-ignore-start -->
+|||||
+|-|-|-|-|
+||扩展|`interface A extends B`|基于B扩展A|
+||交叉|`type A = B & C`|A是B、C的合集|
+|||||
+|||||
+|||||
+<!-- prettier-ignore-end -->
+
+```ts
+interface A extends B {
+  k: number
+}
+type A = B & C
+// 结合泛型
+interface B<T> {
+  // 定义类型
+  k: T
+}
+let b: B<string> // 使用类型
+```
+
+### title
+
+### 泛型
+
+稍有一点抽象思维就能理解、使用泛型。
+类型的变量
+
+```ts
+// 定义
+function f<T>(p: T): T {...}
+// 使用
+let mf: <string>(p: string) => string = f
+// 使用interface定义后再使用
+interface G {
+  <T>(p: T): T
+}
+let f: G = <string>(a: string): string => {...}
+// class
+class A<T> {
+  k: T
+}
+```
+
+### title
+
+### title
+
+### title
+
+### title
+
+### title
 
 ### [union & enum](/language/typescript/union&enum.html)
 
