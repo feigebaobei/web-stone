@@ -251,12 +251,12 @@ c.on('ready', () => {
     }
     // let p = 'framework/qwik'
     let p = [
-      'jsPackages/redux.html',
-      'index.html',
-      'util/index.html',
+      // 'jsPackages/redux.html',
+      // 'index.html',
+      // 'util/index.html',
       'language/typescript/index.html',
-      'language/typescript/type&interface.html',
-      'language/typescript/union&enum.html',
+      // 'language/typescript/type&interface.html',
+      // 'language/typescript/union&enum.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)

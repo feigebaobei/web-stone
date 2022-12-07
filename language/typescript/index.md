@@ -249,8 +249,6 @@ interface B<T> {
 let b: B<string> // 使用类型
 ```
 
-### title
-
 ### 泛型
 
 稍有一点抽象思维就能理解、使用泛型。
@@ -272,19 +270,129 @@ class A<T> {
 }
 ```
 
-### title
-
-### title
-
-### title
-
-### title
-
-### title
-
 ### [union & enum](/language/typescript/union&enum.html)
 
 ### [type & interface 不同](/language/typescript/type&interface.html)
+
+## 操作类型
+
+<!-- prettier-ignore-start -->
+||||||
+||-|-|-|-|
+||keyof ObjT|得到对象类型的key组成的union|||
+||typeof AnyT|得到指定变量的类型|这个好象js里的typeof||
+|indexed access types||从对象类型中获得指定key的类型|`type A = ObjT["key"]`||
+|conditional types||`type A = condition ? B : C`|||
+||||||
+||||||
+||||||
+||||||
+||||||
+||||||
+||||||
+||||||
+||||||
+||||||
+||||||
+||||||
+<!-- prettier-ignore-end -->
+
+## class
+
+```ts
+class A extends B {
+  a: string // 先声明类型再使用
+  readonly b: number
+  _d: boolean
+  // [s: string]: boolean | ((s: string) => boolean); // 索引签名
+  constructor()
+  constructor(a: string) // 可以重载
+  {
+    super()
+    this.a = a || 'str'
+    this.b = 0
+    this._d = true
+  }
+  f(p: number): void {...}
+  // 存取修饰符
+  get d() {
+    return this._d
+  }
+  set d(b: boolean) {
+    this._d = b
+  }
+  // 成员可见性
+  public g() {...}      // 默认值。可被任何方式访问
+  protected h() {...}   // 只能在当前类内部访问和其子类内部访问。
+  private i() {...}     // 只能在当前类内部访问
+  # j() {...}           //
+  static k() {...}      //
+}
+// class 实现 interface
+interface T {
+  a(): void
+}
+class A implements T {
+  a() {...}
+}
+// 可以继承内置的对象
+class MsgError extends Error {
+  constructor(m:string) {
+    super(m)
+    Object.setPrototypeOf(this, MsgError.prototype)
+  }
+  fn() {
+    return `hi ${this.message}`
+  }
+}
+// 泛型
+class B<T> {
+  a: T
+  constructor(p: T) {
+    this.a = p
+  }
+}
+// 抽象类 不能实例化，可以被继承。
+abstract class A {
+  abstract f(): string
+}
+```
+
+<!-- prettier-ignore-start -->
+||种类||当前类|后代类|实例|
+|-|-|-|-|-|-|
+|公开访问|public|    公开   |v|v|v|
+|只能在当前类内部访问和其子类内部访问|protected|  受保护的|v|v|x|
+|只能在类的内部访问|private|    私有的 |v|x|x|
+|这是一个js语法。只能被当前类直接访问|static|     静态的  |-|x|x|
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
+三者都可以做为class的基础进行扩展。  
+实际开发中使用interface更多些。  
+||type|interface|abstract||
+|-|-|-|-|-|
+||||||
+<!-- prettier-ignore-end -->
+
+## modules
+
+```ts
+type S = string
+interface A {
+  a: boolean
+}
+export { S, A }
+import { S, A } from './file'
+```
+
+### title
+
+### title
+
+### title
+
+### title
 
 ### 缩小类型范围
 

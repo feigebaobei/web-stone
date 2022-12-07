@@ -453,12 +453,12 @@ ts 把 interface/type 都叫做类型<br>
 }
 <span class="hljs-keyword">type</span> A = B &amp; C
 <span class="hljs-comment">// 结合泛型</span>
-<span class="hljs-keyword">interface</span> B&lt;T&gt; { <span class="hljs-comment">// 定义类型</span>
+<span class="hljs-keyword">interface</span> B&lt;T&gt; {
+  <span class="hljs-comment">// 定义类型</span>
   <span class="hljs-attr">k</span>: T
 }
 <span class="hljs-keyword">let</span> <span class="hljs-attr">b</span>: B&lt;<span class="hljs-built_in">string</span>&gt; <span class="hljs-comment">// 使用类型</span>
 </code></pre>
-<h3 id="title">title</h3>
 <h3 id="泛型">泛型</h3>
 <p>稍有一点抽象思维就能理解、使用泛型。
 类型的变量</p>
@@ -476,13 +476,174 @@ ts 把 interface/type 都叫做类型<br>
   <span class="hljs-attr">k</span>: T
 }
 </code></pre>
-<h3 id="title">title</h3>
-<h3 id="title">title</h3>
-<h3 id="title">title</h3>
-<h3 id="title">title</h3>
-<h3 id="title">title</h3>
 <h3 id="union--enum"><a href="/language/typescript/union&amp;enum.html">union &amp; enum</a></h3>
 <h3 id="type--interface-不同"><a href="/language/typescript/type&amp;interface.html">type &amp; interface 不同</a></h3>
+<h2 id="操作类型">操作类型</h2>
+<!-- prettier-ignore-start -->
+<p>||||||
+||-|-|-|-|
+||keyof ObjT|得到对象类型的key组成的union|||
+||typeof AnyT|得到指定变量的类型|这个好象js里的typeof||
+|indexed access types||从对象类型中获得指定key的类型|<code>type A = ObjT[&quot;key&quot;]</code>||
+|conditional types||<code>type A = condition ? B : C</code>|||
+||||||
+||||||
+||||||
+||||||
+||||||
+||||||
+||||||
+||||||
+||||||
+||||||
+||||||
+||||||</p>
+<!-- prettier-ignore-end -->
+<h2 id="class">class</h2>
+<pre><code class="language-ts"><span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">B</span> {
+  <span class="hljs-attr">a</span>: <span class="hljs-built_in">string</span> <span class="hljs-comment">// 先声明类型再使用</span>
+  <span class="hljs-keyword">readonly</span> <span class="hljs-attr">b</span>: <span class="hljs-built_in">number</span>
+  <span class="hljs-attr">_d</span>: <span class="hljs-built_in">boolean</span>
+  <span class="hljs-comment">// [s: string]: boolean | ((s: string) =&gt; boolean); // 索引签名</span>
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>)
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">a: <span class="hljs-built_in">string</span></span>) <span class="hljs-comment">// 可以重载</span>
+  {
+    <span class="hljs-variable language_">super</span>()
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">a</span> = a || <span class="hljs-string">&#x27;str&#x27;</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">b</span> = <span class="hljs-number">0</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">_d</span> = <span class="hljs-literal">true</span>
+  }
+  <span class="hljs-title function_">f</span>(<span class="hljs-attr">p</span>: <span class="hljs-built_in">number</span>): <span class="hljs-built_in">void</span> {...}
+  <span class="hljs-comment">// 存取修饰符</span>
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">d</span>() {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">_d</span>
+  }
+  <span class="hljs-keyword">set</span> <span class="hljs-title function_">d</span>(<span class="hljs-params">b: <span class="hljs-built_in">boolean</span></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">_d</span> = b
+  }
+  <span class="hljs-comment">// 成员可见性</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-title function_">g</span>(<span class="hljs-params"></span>) {...}      <span class="hljs-comment">// 默认值。可被任何方式访问</span>
+  <span class="hljs-keyword">protected</span> <span class="hljs-title function_">h</span>(<span class="hljs-params"></span>) {...}   <span class="hljs-comment">// 只能在当前类内部访问和其子类内部访问。</span>
+  <span class="hljs-keyword">private</span> <span class="hljs-title function_">i</span>(<span class="hljs-params"></span>) {...}     <span class="hljs-comment">// 只能在当前类内部访问</span>
+  # <span class="hljs-title function_">j</span>(<span class="hljs-params"></span>) {...}           <span class="hljs-comment">// </span>
+  <span class="hljs-keyword">static</span> <span class="hljs-title function_">k</span>(<span class="hljs-params"></span>) {...}      <span class="hljs-comment">// </span>
+}
+<span class="hljs-comment">// class 实现 interface</span>
+<span class="hljs-keyword">interface</span> T {
+  <span class="hljs-title function_">a</span>(): <span class="hljs-built_in">void</span>
+}
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> <span class="hljs-keyword">implements</span> T {
+  <span class="hljs-title function_">a</span>(<span class="hljs-params"></span>) {...}
+}
+<span class="hljs-comment">// 可以继承内置的对象</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">MsgError</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Error</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">m:<span class="hljs-built_in">string</span></span>) {
+    <span class="hljs-variable language_">super</span>(m)
+    <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">setPrototypeOf</span>(<span class="hljs-variable language_">this</span>, <span class="hljs-title class_">MsgError</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>)
+  }
+  <span class="hljs-title function_">fn</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`hi <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.message}</span>`</span>
+  }
+}
+<span class="hljs-comment">// 泛型</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">B</span>&lt;T&gt; {
+  <span class="hljs-attr">a</span>: T
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">p: T</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">a</span> = p
+  }
+}
+<span class="hljs-comment">// 抽象类 不能实例化，可以被继承。</span>
+<span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> {
+  <span class="hljs-keyword">abstract</span> <span class="hljs-title function_">f</span>(): <span class="hljs-built_in">string</span>
+}
+</code></pre>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th></th>
+<th>种类</th>
+<th></th>
+<th>当前类</th>
+<th>后代类</th>
+<th>实例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>公开访问</td>
+<td>public</td>
+<td>公开</td>
+<td>v</td>
+<td>v</td>
+<td>v</td>
+</tr>
+<tr>
+<td>只能在当前类内部访问和其子类内部访问</td>
+<td>protected</td>
+<td>受保护的</td>
+<td>v</td>
+<td>v</td>
+<td>x</td>
+</tr>
+<tr>
+<td>只能在类的内部访问</td>
+<td>private</td>
+<td>私有的</td>
+<td>v</td>
+<td>x</td>
+<td>x</td>
+</tr>
+<tr>
+<td>这是一个js语法。只能被当前类直接访问</td>
+<td>static</td>
+<td>静态的</td>
+<td>-</td>
+<td>x</td>
+<td>x</td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<!-- prettier-ignore-start -->
+<p>三者都可以做为class的基础进行扩展。<br>
+实际开发中使用interface更多些。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>type</th>
+<th>interface</th>
+<th>abstract</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h2 id="modules">modules</h2>
+<pre><code class="language-ts"><span class="hljs-keyword">type</span> S = <span class="hljs-built_in">string</span>
+<span class="hljs-keyword">interface</span> A {
+  <span class="hljs-attr">a</span>: <span class="hljs-built_in">boolean</span>
+}
+<span class="hljs-keyword">export</span> {
+  S,
+  A
+}
+<span class="hljs-keyword">import</span> {S, A} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./file&#x27;</span>
+</code></pre>
+<h3 id="title">title</h3>
+<h3 id="title">title</h3>
+<h3 id="title">title</h3>
+<h3 id="title">title</h3>
 <h3 id="缩小类型范围">缩小类型范围</h3>
 <ul>
 <li>typeof 会返回 8 种结果<code>string / number / bigint / boolean / symbol / undefined / object / function</code>。其中<code>null</code>，它被认为是<code>object</code>。与 js 的基本数据类型相比。多了<code>function</code>。</li>
