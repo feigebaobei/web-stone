@@ -87,6 +87,7 @@ console.log(set)
 var set = new Set(arr)
 </code></pre>
 <h2 id="api">api</h2>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -157,37 +158,14 @@ var set = new Set(arr)
 <td></td>
 <td></td>
 </tr>
-<tr>
-<td>size</td>
-<td>数量</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>size</td>
-<td>数量</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>size</td>
-<td>数量</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>size</td>
-<td>数量</td>
-<td></td>
-<td></td>
-</tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
 <p>set 对象没有提供访问指定值的方法。要想访问指定值需要转为数组后再用数组的方法取指定值。</p>
-<pre><code class="language-js">    <span class="hljs-keyword">let</span> set = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>([<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-number">3</span>])
-    <span class="hljs-keyword">let</span> arr = [...set] <span class="hljs-comment">// [&#x27;a&#x27;, 1, 2, 3]</span>
-    <span class="hljs-keyword">let</span> index = arr.<span class="hljs-title function_">indexOf</span>(<span class="hljs-string">&#x27;a&#x27;</span>) <span class="hljs-comment">// 0</span>
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(arr[index]) <span class="hljs-comment">// &#x27;a&#x27;</span>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> set = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>([<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-number">3</span>])
+<span class="hljs-keyword">let</span> arr = [...set] <span class="hljs-comment">// [&#x27;a&#x27;, 1, 2, 3]</span>
+<span class="hljs-keyword">let</span> index = arr.<span class="hljs-title function_">indexOf</span>(<span class="hljs-string">&#x27;a&#x27;</span>) <span class="hljs-comment">// 0</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(arr[index]) <span class="hljs-comment">// &#x27;a&#x27;</span>
 </code></pre>
 <p><strong>因为 set 对象在存数据时无重复值。在取时较困难。所以石头一般使用 set 对象存放对象，然后检查是否有某个值，使用数组取数据。</strong><br>
 <strong>set 对象不能判断对象是否相等。所以不能去重对象。</strong><br>

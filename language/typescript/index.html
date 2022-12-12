@@ -128,7 +128,7 @@ ts 把 interface/type 都叫做类型<br>
   <span class="hljs-attr">age</span>: <span class="hljs-number">2</span>;
   [<span class="hljs-attr">index</span>: <span class="hljs-built_in">number</span>]: T;
 }
-<span class="hljs-keyword">type</span> A = <span class="hljs-title class_">PaintOptions</span> &amp; B
+<span class="hljs-keyword">type</span> A&lt;T&gt; = <span class="hljs-title class_">PaintOptions</span>&lt;T&gt; &amp; B
 <span class="hljs-keyword">let</span> a = <span class="hljs-title class_">PaintOptions</span>&lt;<span class="hljs-built_in">string</span>&gt;
 
 <span class="hljs-comment">// 使用方法</span>
@@ -425,7 +425,7 @@ ts 把 interface/type 都叫做类型<br>
 <td></td>
 <td>交叉</td>
 <td><code>type A = B &amp; C</code></td>
-<td>A是B、C的合集</td>
+<td>A是B、C的交集</td>
 </tr>
 <tr>
 <td></td>
@@ -480,24 +480,173 @@ ts 把 interface/type 都叫做类型<br>
 <h3 id="type--interface-不同"><a href="/language/typescript/type&amp;interface.html">type &amp; interface 不同</a></h3>
 <h2 id="操作类型">操作类型</h2>
 <!-- prettier-ignore-start -->
-<p>||||||
-||-|-|-|-|
-||keyof ObjT|得到对象类型的key组成的union|||
-||typeof AnyT|得到指定变量的类型|这个好象js里的typeof||
-|indexed access types||从对象类型中获得指定key的类型|<code>type A = ObjT[&quot;key&quot;]</code>||
-|conditional types||<code>type A = condition ? B : C</code>|||
-||||||
-||||||
-||||||
-||||||
-||||||
-||||||
-||||||
-||||||
-||||||
-||||||
-||||||
-||||||</p>
+<table>
+<thead>
+<tr>
+<th>说明</th>
+<th>简写</th>
+<th>说明</th>
+<th>demo</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>keyof ObjT</td>
+<td>得到对象类型的key组成的union</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>typeof AnyT</td>
+<td>得到指定变量的类型</td>
+<td>这个好象js里的typeof</td>
+<td></td>
+</tr>
+<tr>
+<td>indexed access types</td>
+<td></td>
+<td>从对象类型中获得指定key的类型</td>
+<td><code>type A = ObjT[&quot;key&quot;]</code></td>
+<td></td>
+</tr>
+<tr>
+<td>conditional types</td>
+<td></td>
+<td><code>type A = condition ? B : C</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>Awaited&lt;T&gt;</code></td>
+<td>解包Promise后的数据类型</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>Partial&lt;T&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>Required&lt;T&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>Readonly&lt;T&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>Record&lt;Keys, T&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>Pick&lt;T, Keys&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>Omit&lt;T, Keys&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>Exclude&lt;UnionType, ExcludedMembers&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>Extract&lt;T, Union&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>NonNullable&lt;T&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>Parameters&lt;T&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>ConstructorParameters&lt;T&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>RetureType&lt;T&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>InstanceType&lt;T&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>ThisParameterType&lt;T&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>OmitThisParameter&lt;T&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>ThisType&lt;T&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <!-- prettier-ignore-end -->
 <h2 id="class">class</h2>
 <pre><code class="language-ts"><span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">B</span> {
@@ -525,8 +674,8 @@ ts 把 interface/type 都叫做类型<br>
   <span class="hljs-keyword">public</span> <span class="hljs-title function_">g</span>(<span class="hljs-params"></span>) {...}      <span class="hljs-comment">// 默认值。可被任何方式访问</span>
   <span class="hljs-keyword">protected</span> <span class="hljs-title function_">h</span>(<span class="hljs-params"></span>) {...}   <span class="hljs-comment">// 只能在当前类内部访问和其子类内部访问。</span>
   <span class="hljs-keyword">private</span> <span class="hljs-title function_">i</span>(<span class="hljs-params"></span>) {...}     <span class="hljs-comment">// 只能在当前类内部访问</span>
-  # <span class="hljs-title function_">j</span>(<span class="hljs-params"></span>) {...}           <span class="hljs-comment">// </span>
-  <span class="hljs-keyword">static</span> <span class="hljs-title function_">k</span>(<span class="hljs-params"></span>) {...}      <span class="hljs-comment">// </span>
+  # <span class="hljs-title function_">j</span>(<span class="hljs-params"></span>) {...}           <span class="hljs-comment">//</span>
+  <span class="hljs-keyword">static</span> <span class="hljs-title function_">k</span>(<span class="hljs-params"></span>) {...}      <span class="hljs-comment">//</span>
 }
 <span class="hljs-comment">// class 实现 interface</span>
 <span class="hljs-keyword">interface</span> T {
@@ -634,11 +783,8 @@ ts 把 interface/type 都叫做类型<br>
 <span class="hljs-keyword">interface</span> A {
   <span class="hljs-attr">a</span>: <span class="hljs-built_in">boolean</span>
 }
-<span class="hljs-keyword">export</span> {
-  S,
-  A
-}
-<span class="hljs-keyword">import</span> {S, A} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./file&#x27;</span>
+<span class="hljs-keyword">export</span> { S, A }
+<span class="hljs-keyword">import</span> { S, A } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./file&#x27;</span>
 </code></pre>
 <h3 id="title">title</h3>
 <h3 id="title">title</h3>

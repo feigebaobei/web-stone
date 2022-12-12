@@ -59,7 +59,7 @@ interface PaintOptions<T> {
   age: 2;
   [index: number]: T;
 }
-type A = PaintOptions & B
+type A<T> = PaintOptions<T> & B
 let a = PaintOptions<string>
 
 // 使用方法
@@ -230,7 +230,7 @@ interface A & B
 |||||
 |-|-|-|-|
 ||扩展|`interface A extends B`|基于B扩展A|
-||交叉|`type A = B & C`|A是B、C的合集|
+||交叉|`type A = B & C`|A是B、C的交集|
 |||||
 |||||
 |||||
@@ -277,24 +277,30 @@ class A<T> {
 ## 操作类型
 
 <!-- prettier-ignore-start -->
-||||||
-||-|-|-|-|
+|说明|简写|说明|demo||
+|-|-|-|-|-|
 ||keyof ObjT|得到对象类型的key组成的union|||
 ||typeof AnyT|得到指定变量的类型|这个好象js里的typeof||
 |indexed access types||从对象类型中获得指定key的类型|`type A = ObjT["key"]`||
 |conditional types||`type A = condition ? B : C`|||
 ||||||
-||||||
-||||||
-||||||
-||||||
-||||||
-||||||
-||||||
-||||||
-||||||
-||||||
-||||||
+||`Awaited<T>`|解包Promise后的数据类型|||
+||`Partial<T>`||||
+||`Required<T>`||||
+||`Readonly<T>`||||
+||`Record<Keys, T>`||||
+||`Pick<T, Keys>`||||
+||`Omit<T, Keys>`||||
+||`Exclude<UnionType, ExcludedMembers>`||||
+||`Extract<T, Union>`||||
+||`NonNullable<T>`||||
+||`Parameters<T>`||||
+||`ConstructorParameters<T>`||||
+||`RetureType<T>`||||
+||`InstanceType<T>`||||
+||`ThisParameterType<T>`||||
+||`OmitThisParameter<T>`||||
+||`ThisType<T>`||||
 <!-- prettier-ignore-end -->
 
 ## class
