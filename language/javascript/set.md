@@ -13,22 +13,33 @@ set 类似数组。其成员的值都是唯一的。其键名与键值相同。
     var arr = Array.from(set)
     var set = new Set(arr)
 
-**Set.prototype.add(value)** 为 set 对象添加一个值  
-**Set.prototype.size** 返回 set 对象的长度  
-**Set.prototype.delete(value)** 删除 set 对象中的指定的值，并返回 bool 结果。  
-**Set.prototype.has(value)** 检查 set 对象中是否有指定的值  
-**Set.prototype.clear()** 删除指定 set 对象中的所有值  
-**Set.prototype.keys()** 返回一个以指定 set 对象的 key 组成的 Iterator 对象。键名和键值是同一个值。其返回结果与 Set.values 一样。可与`Array.form()`/`for...of`一起使用。  
-**Set.prototype.values()** 返回一个以指定 set 对象的 value 组成的 Iterator 对象。可与`Array.form()`/`for...of`一起使用。  
-**Set.prototype.entries()** 返回一个以 key 和 value 组成的数组组成的 Iterator 数组。可与`Array.form()`/`for...of`一起使用。  
-**Set.prototype.forEach(fn(value, key, set) {})** 对 set 对象进行遍历操作。(value 与 key 相同)
+## api
+
+|               |                                                                                                                                                 |     |     |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | --- | --- |
+| constructor   | Set                                                                                                                                             |     |     |
+| add(value)    | 为 set 对象添加一个值                                                                                                                           |     |     |
+| size          | 返回 set 对象的长度                                                                                                                             |     |     |
+| delete(value) | 删除 set 对象中的指定的值，并返回 bool 结果。                                                                                                   |     |     |
+| has(value)    | 检查 set 对象中是否有指定的值                                                                                                                   |     |     |
+| clear()       | 删除指定 set 对象中的所有值                                                                                                                     |     |     |
+| keys()        | 返回一个以指定 set 对象的 key 组成的 Iterator 对象。键名和键值是同一个值。其返回结果与 Set.values 一样。可与`Array.form()`/`for...of`一起使用。 |     |     |
+| values()      | 返回一个以指定 set 对象的 value 组成的 Iterator 对象。可与`Array.form()`/`for...of`一起使用。                                                   |     |     |
+| entries()     | 返回一个以 key 和 value 组成的数组组成的 Iterator 数组。可与`Array.form()`/`for...of`一起使用。                                                 |     |     |
+| forEach()     | 对 set 对象进行遍历操作。(value 与 key 相同)                                                                                                    |     |     |
+| size          | 数量                                                                                                                                            |     |     |
+| size          | 数量                                                                                                                                            |     |     |
+| size          | 数量                                                                                                                                            |     |     |
+| size          | 数量                                                                                                                                            |     |     |
 
 set 对象没有提供访问指定值的方法。要想访问指定值需要转为数组后再用数组的方法取指定值。
 
-    let set = new Set(['a', 1, 2, 2, 2, 1, 3])
-    let arr = [...set] // ['a', 1, 2, 3]
-    let index = arr.indexOf('a') // 0
-    console.log(arr[index]) // 'a'
+```js
+let set = new Set(['a', 1, 2, 2, 2, 1, 3])
+let arr = [...set] // ['a', 1, 2, 3]
+let index = arr.indexOf('a') // 0
+console.log(arr[index]) // 'a'
+```
 
 **因为 set 对象在存数据时无重复值。在取时较困难。所以石头一般使用 set 对象存放对象，然后检查是否有某个值，使用数组取数据。**  
 **set 对象不能判断对象是否相等。所以不能去重对象。**  

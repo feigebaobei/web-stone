@@ -250,14 +250,7 @@ c.on('ready', () => {
       throw err
     }
     // let p = 'framework/qwik'
-    let p = [
-      // 'jsPackages/redux.html',
-      // 'index.html',
-      // 'util/index.html',
-      'language/typescript/index.html',
-      // 'language/typescript/type&interface.html',
-      // 'language/typescript/union&enum.html',
-    ]
+    let p = ['language/typescript/index.html', 'language/javascript/array.html']
     // 检测指定目录是否存在
     // checkDir(p)
     // 检测删除目录
