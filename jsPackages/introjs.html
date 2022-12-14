@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>introjs</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="introjs">introjs</h1>
+<h2 id="overview">overview</h2>
+<blockquote>
+<p>一步一步地展示介绍或提示的工具。<br>
+官网的文档就是坑。都按照示例把功能写完了，才告诉读者还与各框架结合的独立包。</p>
+</blockquote>
+<h3 id="feature">feature</h3>
+<ul>
+<li>控制是否不再提示</li>
+<li>显示提示点</li>
+<li>与原生js结合使用/与常用框架结合使用</li>
+</ul>
+<h2 id="install">install</h2>
+<pre><code class="language-shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">请选择合适的安装</span>
+npm i introjs
+<span class="hljs-meta prompt_"># </span><span class="language-bash">react</span>
+npm install intro.js-react
+<span class="hljs-meta prompt_"># </span><span class="language-bash">angular</span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">dart</span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">drupal</span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">ember</span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">gwt</span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">r</span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">rails</span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">wordpress</span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">yii</span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">yii2</span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">magento</span>
+</code></pre>
+<p>不支持vue</p>
+<h2 id="usage">usage</h2>
+<h3 id="直接使用">直接使用</h3>
+<ol>
+<li>安装</li>
+<li>在html中定义好属性</li>
+<li>使用js代码调用 api</li>
+</ol>
+<pre><code class="language-shell">npm i introjs
+</code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">data-step</span>=<span class="hljs-string">&#x27;1&#x27;</span> <span class="hljs-attr">data-title</span>=<span class="hljs-string">&#x27;title&#x27;</span> <span class="hljs-attr">data-intro</span>=<span class="hljs-string">&#x27;Hello step one!&#x27;</span> <span class="hljs-attr">data-hint</span>=<span class="hljs-string">&#x27;hint&#x27;</span>&gt;</span>str<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</code></pre>
+<pre><code class="language-js"><span class="hljs-keyword">import</span> introJs <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;intro.js&quot;</span>
+<span class="hljs-title function_">introJs</span>().<span class="hljs-title function_">start</span>()
+</code></pre>
+<h3 id="使用配置文件">使用配置文件</h3>
+<pre><code class="language-js"><span class="hljs-title function_">introJs</span>().<span class="hljs-title function_">setOptions</span>({
+  <span class="hljs-attr">steps</span>: [
+    {
+        <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;Welcome&#x27;</span>,
+        <span class="hljs-attr">intro</span>: <span class="hljs-string">&#x27;Hello World! 👋&#x27;</span>
+    },
+    {
+        <span class="hljs-attr">element</span>: <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;.card-demo&#x27;</span>),
+        <span class="hljs-attr">intro</span>: <span class="hljs-string">&#x27;This step focuses on an image&#x27;</span>
+    },
+    {
+        <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;Farewell!&#x27;</span>,
+        <span class="hljs-attr">element</span>: <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;.card__image&#x27;</span>),
+        <span class="hljs-attr">intro</span>: <span class="hljs-string">&#x27;And this is our final step!&#x27;</span>
+    }
+  ]
+}).<span class="hljs-title function_">start</span>();
+</code></pre>
+<h3 id="与react一起使用">与react一起使用</h3>
+<pre><code class="language-shell">npm install intro.js-react
+</code></pre>
+<p>在主文件中引入样式文件</p>
+<pre><code class="language-js"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;intro.js/introjs.css&#x27;</span>;
+</code></pre>
+<pre><code class="language-js"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Steps</span>, <span class="hljs-title class_">Hints</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;intro.js-react&#x27;</span>;
+<span class="hljs-comment">// 只2个。</span>
+<span class="hljs-comment">// Steps 定义介绍的步骤</span>
+<span class="hljs-comment">// Hints 定义介绍的提示点</span>
+<span class="hljs-keyword">const</span> steps = [
+  {
+    <span class="hljs-attr">element</span>: <span class="hljs-string">&#x27;.selector1&#x27;</span>,
+    <span class="hljs-attr">intro</span>: <span class="hljs-string">&#x27;test 1&#x27;</span>,
+    <span class="hljs-attr">position</span>: <span class="hljs-string">&#x27;right&#x27;</span>,
+    <span class="hljs-attr">tooltipClass</span>: <span class="hljs-string">&#x27;myTooltipClass&#x27;</span>,
+    <span class="hljs-attr">highlightClass</span>: <span class="hljs-string">&#x27;myHighlightClass&#x27;</span>,
+  },
+  {
+    <span class="hljs-attr">element</span>: <span class="hljs-string">&#x27;.selector2&#x27;</span>,
+    <span class="hljs-attr">intro</span>: <span class="hljs-string">&#x27;test 2&#x27;</span>,
+  },
+  {
+    <span class="hljs-attr">element</span>: <span class="hljs-string">&#x27;.selector3&#x27;</span>,
+    <span class="hljs-attr">intro</span>: <span class="hljs-string">&#x27;test 3&#x27;</span>,
+  },
+];
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Steps</span>
+  <span class="hljs-attr">enabled</span>=<span class="hljs-string">{stepsEnabled}</span>
+  <span class="hljs-attr">steps</span>=<span class="hljs-string">{steps}</span>
+  <span class="hljs-attr">initialStep</span>=<span class="hljs-string">{initialStep}</span>
+  <span class="hljs-attr">ref</span>=<span class="hljs-string">{steps</span> =&gt;</span> (this.steps = steps)}
+  onExit={this.onExit}
+/&gt;</span>
+onBeforeChange = <span class="hljs-function"><span class="hljs-params">nextStepIndex</span> =&gt;</span> {
+  <span class="hljs-keyword">if</span> (nextStepIndex === <span class="hljs-number">4</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">steps</span>.<span class="hljs-title function_">updateStepElement</span>(nextStepIndex);
+  }
+}
+
+<span class="hljs-keyword">const</span> hints = [
+  {
+    <span class="hljs-attr">element</span>: <span class="hljs-string">&#x27;.selector1&#x27;</span>,
+    <span class="hljs-attr">hint</span>: <span class="hljs-string">&#x27;test 1&#x27;</span>,
+    <span class="hljs-attr">hintPosition</span>: <span class="hljs-string">&#x27;middle-middle&#x27;</span>,
+  },
+  {
+    <span class="hljs-attr">element</span>: <span class="hljs-string">&#x27;.selector2&#x27;</span>,
+    <span class="hljs-attr">hint</span>: <span class="hljs-string">&#x27;test 2&#x27;</span>,
+  },
+];
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Hints</span>
+  <span class="hljs-attr">enabled</span>=<span class="hljs-string">{hintsEnabled}</span>
+  <span class="hljs-attr">hints</span>=<span class="hljs-string">{hints}</span>
+  <span class="hljs-attr">ref</span>=<span class="hljs-string">{hints</span> =&gt;</span> (this.hints = hints)}
+/&gt;</span>
+</code></pre>
+<h4 id="steps">Steps</h4>
+<p>props</p>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th>required</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>enabled</td>
+<td>是否显示</td>
+<td>boolean</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>initialStep</td>
+<td>初始步骤值</td>
+<td>number</td>
+<td></td>
+<td></td>
+<td></td>
+<td>y</td>
+<td></td>
+</tr>
+<tr>
+<td>steps</td>
+<td>所有的步骤</td>
+<td>step[]</td>
+<td></td>
+<td></td>
+<td></td>
+<td>y</td>
+<td></td>
+</tr>
+<tr>
+<td>onExit</td>
+<td>退出时的回调</td>
+<td>Function</td>
+<td></td>
+<td></td>
+<td></td>
+<td>y</td>
+<td></td>
+</tr>
+<tr>
+<td>onBeforeExit</td>
+<td>退出前的回调</td>
+<td>Function</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>onStart</td>
+<td>开始</td>
+<td>Function</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>onChange</td>
+<td>当步骤改变时触发的回调</td>
+<td>Function</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>onBeforeChange</td>
+<td>改变步骤前回调</td>
+<td>Function</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>onAfterChange</td>
+<td>改变步骤后回调</td>
+<td>Function</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>onPreventChange</td>
+<td>阻止改变步骤的回调。当返回false时不改变步骤。</td>
+<td>Function</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>onComplete</td>
+<td>完成时回调</td>
+<td>Function</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>options</td>
+<td></td>
+<td>Objecg</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<p>step的属性</p>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th>required</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>element</td>
+<td></td>
+<td>string</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>intro</td>
+<td></td>
+<td>string/ReactElement</td>
+<td></td>
+<td></td>
+<td></td>
+<td>y</td>
+<td></td>
+</tr>
+<tr>
+<td>position</td>
+<td></td>
+<td>string</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>tooltipClass</td>
+<td></td>
+<td>string</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>highlightClass</td>
+<td></td>
+<td>string</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h4 id="hints">Hints</h4>
+<p>props</p>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th>required</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>enabled</td>
+<td></td>
+<td>boolean</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hints</td>
+<td></td>
+<td>hint[]</td>
+<td></td>
+<td></td>
+<td></td>
+<td>y</td>
+<td></td>
+</tr>
+<tr>
+<td>onClick</td>
+<td></td>
+<td>Function</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>onClose</td>
+<td></td>
+<td>Function</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>options</td>
+<td></td>
+<td>boolean</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<p>hints</p>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th>required</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>elment</td>
+<td></td>
+<td>string</td>
+<td></td>
+<td></td>
+<td></td>
+<td>y</td>
+<td></td>
+</tr>
+<tr>
+<td>hint</td>
+<td></td>
+<td>string</td>
+<td></td>
+<td></td>
+<td></td>
+<td>y</td>
+<td></td>
+</tr>
+<tr>
+<td>hintPosition</td>
+<td></td>
+<td>string</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h3 id="与angular一起使用">与angular一起使用</h3>
+<h2 id="主题">主题</h2>
+<ul>
+<li>classic</li>
+<li>Royal</li>
+<li>Nassim</li>
+<li>Nazanin</li>
+<li>Dark</li>
+<li>Modern</li>
+</ul>
+<h2 id="configuration">configuration</h2>
+<p>默认配置文件：<code>path/to/file.json</code>。</p>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h2 id="api">api</h2>
+<h3 id="introjs的api">introJs的api</h3>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>introJs(dom?) =&gt; introJs</td>
+<td>创建并返回一个introJs对象</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>introJs.start() =&gt; Promise&lt;introJs&gt;</code></td>
+<td>开始介绍</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>introJs.goToStep(step: number =&gt; Promise&lt;introJs&gt;)</code></td>
+<td>跳到指定的步骤</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>introJs.goToStepNumber(step: number =&gt; Promise&lt;introJs&gt;)</code></td>
+<td>跳到指定的步骤</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>introJs.addStep(options)</code></td>
+<td>添加新步骤</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>introJs.addSteps(steps)</code></td>
+<td>添加新步骤</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>introJs.nextStep() =&gt; Promise&lt;introJs&gt;</code></td>
+<td>下一步</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>introJs.previousStep() =&gt; Promise&lt;introJs&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>introJs.exit(force?: boolean) =&gt; Promise&lt;introJs&gt;</code></td>
+<td>退出介绍</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>introJs.setOption(option, value) =&gt; introJs</code></td>
+<td>为introJs对象设置option</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>introJs.setOption(options) =&gt; introJs</code></td>
+<td>为introJs对象设置option</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>introJs.refresh() =&gt; introJs</code></td>
+<td>刷新所有介绍步骤</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>introJs.isActive() =&gt; boolean</code></td>
+<td>是否在活动</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>introJs.setDontShowAgain(dontShowAgain: boolean) =&gt; introJs</code></td>
+<td>是否显示不再提示</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>introJs.oncomplete(providedCallback: Function) =&gt; introJs</code></td>
+<td>完成介绍时的回调方法</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>introJs.onexit(cb: Function) =&gt; introJs</code></td>
+<td>退出介绍时的回调</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>introJs.onbeforeexit(cb) =&gt; introJs</code></td>
+<td>设置退出前的回调，若返回false，则不退出。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>introJs.onchange(cb) =&gt; introJs</code></td>
+<td>当</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>introJs.onbeforechange(cb) =&gt; introJs</code></td>
+<td>进入新步骤前的回调。该回调方法的参数是新步骤。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>introJs.onafterchange(cb) =&gt; introJs</code></td>
+<td>进入新步骤后的回调，该回调方法的参数是当前步骤。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h3 id="html中的属性">html中的属性</h3>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>data-intro</td>
+<td>介绍的内容</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>data-title</td>
+<td>介绍的标题</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>data-step</td>
+<td>指定步骤，可选。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>data-tooltip-class</td>
+<td>可选</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>data-highlight-class</td>
+<td>可选</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>data-position</td>
+<td>位置</td>
+<td>string</td>
+<td>'bottom'</td>
+<td>'top'/ 'left'/ 'right'/ 'bottom'/ 'bottom-left-aligned' (same as bottom)/ 'bottom-middle-aligned'/ 'bottom-right-aligned'/ 'auto'</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>data-scroll-to</td>
+<td>滚动到element还是tootip。</td>
+<td>string</td>
+<td>'element'</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>data-disable-interaction</td>
+<td>不可交互。</td>
+<td>boolean / number</td>
+<td></td>
+<td>true/false/1/0</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h3 id="option的属性">option的属性</h3>
+<!-- prettier-ignore-start -->
+<p>|isActive||||||||
+|steps||||||||
+|nextLabel||||||||
+|prevLabel||||||||
+|skipLabel||||||||
+|doneLabel||||||||
+|hidePrev||||||||
+|hideNext||||||||
+|nextToDone||||||||
+|tooltipPosition||||||||
+|tooltipClass||||||||
+|group||||||||
+|highlightClass||||||||
+|exitOnEsc||||||||
+|exitOnOverlayClick||||||||
+|showStepNumbers||||||||
+|stepNumbersOfLabel||||||||
+|keyboardNavigation||||||||
+|showButtons||||||||
+|showBullets||||||||
+|showProgess||||||||
+|scrollToElement||||||||
+|scrollTo||||||||
+|scrollPadding||||||||
+|overlayOpacity||||||||
+|autoPosition||||||||
+|positionPrecedence||||||||
+|disableInteraction||||||||
+|dontShowAgain||||||||
+|dontShowAgainLabel||||||||
+|dontShowAgainCookie||||||||
+|dontShowAgainCookieDays||||||||
+|helperElementsPadding||||||||
+|buttonClass||||||||
+|progressBarAdditionalClass||||||||</p>
+<!-- prettier-ignore-end -->
+<h2 id="principle">principle</h2>
+<p>此包的处理逻辑。</p>
+<h3 id="uml">uml</h3>
+<pre><code></code></pre>
+<h2 id="todo">todo</h2>
+<blockquote>
+<p>未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote>
+
+        
+        
+    </body>
+    </html>
