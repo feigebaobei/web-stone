@@ -2,37 +2,55 @@
 
 应该说清这 6 种规范。
 
-| -              | 全称                                    | 代表                           | 加载方式 |     |     |     |
-| -------------- | --------------------------------------- | ------------------------------ | -------- | --- | --- | --- |
+<!-- prettier-ignore-start -->
+| -              | 全称       | 代表    | 加载方式 |     |     |     |
+| - | -- | - | - | - | - | - |
 | amd            | asynchronous module definition          | require.js                     | 异步加载 |     |     |     |
-| cmd            | common module definition                | sea.js                         |          |     |     |     |
-| umd            | universion module definition            |                                |          |     |     |     |
-| commonjs (cjs) |                                         | nodejs                         | 同步加载 |     |     |     |
-| esm            | es6 module                              | 在 js 语言层面上实现了模块化。 |          |     |     |     |
-| iife           | immediately invoked function expression | jquery                         |          |     |     |
-| system         |                                         |                                |          |     |     |
-
-## module.exports & exports & export & export defaut
-
-| module.exports                       | exports                              | export                        | export default      |
-| ------------------------------------ | ------------------------------------ | ----------------------------- | ------------------- |
-| node.js 中的语法。用来导出对象用法。 | node.js 中的语法。用来导出对象用法。 | es6 的语法                    | es6 的语法          |
-| module.exports = {}                  | exports={}                           | export {var0, var1}           | export default any  |
-| let t = require 'xxx'                | let t = require 'xxx'                | import {a, b as c} from 'map' | import a from 'map' |
+| cmd            | common module definition                | sea.js  |          |     |     |     |
+| umd            | universion module definition            |         |          |     |     |     |
+| commonjs (cjs) |                  | nodejs  | 同步加载 |     |     |     |
+| esm            | es6 module       | 在 js 语言层面上实现了模块化。 |          |     |     |     |
+| iife           | immediately invoked function expression | jquery  |          |     |     |
+| system         |                  |         |          |     |     |
+<!-- prettier-ignore-end -->
 
 ## amd
 
 异步加载，不阻塞页面的加载，能并行加载多个模块，但不能按需加载，必须提前加载所需依赖。  
-define(id?, []?, callback)  
-模块 id\依赖其它模块\回调函数  
-require([module], callback)  
-需要引入的模块\回调函数  
-回调函数会在前面的模块都加载成功后再执行。
+用于浏览器环境。
+
+```js
+// 定义模块
+define(id?: String, dependencies?: String[], factory: Function|Object);
+//     模块 id       依赖其它模块                   回调函数
+// 若factory不为function，则为该模块的导出值。
+// 引入模块
+require([module], callback)
+// 需要引入的模块    回调函数
+// 回调函数会在前面的模块都加载成功后再执行。
+```
 
 ```
 require(['module'], function (module) {
     module.fn(p)
 })
+```
+
+### usage
+
+```html
+<!-- data-main属性得值为入口文件得路径 -->
+<script data-main="./index.js" src="./path/to/require.js"></script>
+```
+
+requirejs 定义了三个变量：
+
+- define
+- require
+- requirejs === require
+
+```js
+// 在其他模块导入该模块时，拿到的数据即为该模块的第三个参数的值。
 ```
 
 ## cmd
@@ -136,15 +154,15 @@ ts 的`enum`类型就是使用 iife.
 
 ## ES module 和 commonJS
 
-|                   | ES module                                                    | commonJS                                       |     |     |
-| ----------------- | ------------------------------------------------------------ | ---------------------------------------------- | --- | --- |
-|                   | `*.mjs`                                                      | `*.cjs`                                        |     |     |
-|                   | 客户端运行                                                   | 服务端运行                                     |     |     |
-|                   | `import / export`                                            | `require / module.exports`                     |     |     |
-|                   | 若在 package.json 中设置 type：module，则为 esm 规范。       | 否则为 cjs 规范。                              |     |     |
-| 互相引用          | `import all form 'name'`                                     | `(async () => {await import('./file.mjs')})()` |     |     |
-|                   | 只能整体引入后再解构使用。                                   |                                                |     |     |
-| 同时支持 2 种规范 | `exports: {require: "./index.js", import: "./esm/index.js"}` |                                                |     |     |
+| | ES module | commonJS | | |
+| - | | | - | - |
+| | `*.mjs` | `*.cjs` | | |
+| | 客户端运行 | 服务端运行 | | |
+| | `import / export` | `require / module.exports` | | |
+| | 若在 package.json 中设置 type：module，则为 esm 规范。 | 否则为 cjs 规范。 | | |
+| 互相引用 | `import all form 'name'` | `(async () => {await import('./file.mjs')})()` | | |
+| | 只能整体引入后再解构使用。 | | | |
+| 同时支持 2 种规范 | `exports: {require: "./index.js", import: "./esm/index.js"}` | | | |
 
 ### ES module 和 commonJS 循环引用问题
 
@@ -194,6 +212,16 @@ export default 1 + 2 + 3 + more();
 export * from xxx                   // 把xxx中的非default全部导出
 export {default as alias} from xxx  // 把xxx中的default以alias导出
 ```
+
+## module.exports & exports & export & export defaut
+
+<!-- prettier-ignore-start -->
+| module.exports| exports       | export | export default      |
+| - | - | - | -- |
+| node.js 中的语法。用来导出对象用法。 | node.js 中的语法。用来导出对象用法。 | es6 的语法                    | es6 的语法          |
+| module.exports = {}                  | exports={}    | export {var0, var1}           | export default any  |
+| let t = require 'xxx'                | let t = require 'xxx'                | import {a, b as c} from 'map' | import a from 'map' |
+<!-- prettier-ignore-end -->
 
 ## 指明包规范
 

@@ -77,7 +77,8 @@
     </head>
     <body class="vscode-body vscode-light">
         <h1 id="模块化">模块化</h1>
-<p>应该说清这6种规范。</p>
+<p>应该说清这 6 种规范。</p>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -156,47 +157,34 @@
 </tr>
 </tbody>
 </table>
-<h2 id="moduleexports--exports--export--export-defaut">module.exports &amp; exports &amp; export &amp; export defaut</h2>
-<table>
-<thead>
-<tr>
-<th>module.exports</th>
-<th>exports</th>
-<th>export</th>
-<th>export default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>node.js 中的语法。用来导出对象用法。</td>
-<td>node.js 中的语法。用来导出对象用法。</td>
-<td>es6 的语法</td>
-<td>es6 的语法</td>
-</tr>
-<tr>
-<td>module.exports = {}</td>
-<td>exports={}</td>
-<td>export {var0, var1}</td>
-<td>export default any</td>
-</tr>
-<tr>
-<td>let t = require 'xxx'</td>
-<td>let t = require 'xxx'</td>
-<td>import {a, b as c} from 'map'</td>
-<td>import a from 'map'</td>
-</tr>
-</tbody>
-</table>
+<!-- prettier-ignore-end -->
 <h2 id="amd">amd</h2>
 <p>异步加载，不阻塞页面的加载，能并行加载多个模块，但不能按需加载，必须提前加载所需依赖。<br>
-define(id?, []?, callback)<br>
-模块 id\依赖其它模块\回调函数<br>
-require([module], callback)<br>
-需要引入的模块\回调函数<br>
-回调函数会在前面的模块都加载成功后再执行。</p>
+用于浏览器环境。</p>
+<pre><code class="language-js"><span class="hljs-comment">// 定义模块</span>
+<span class="hljs-title function_">define</span>(id?: <span class="hljs-title class_">String</span>, dependencies?: <span class="hljs-title class_">String</span>[], <span class="hljs-attr">factory</span>: <span class="hljs-title class_">Function</span>|<span class="hljs-title class_">Object</span>);
+<span class="hljs-comment">//     模块 id       依赖其它模块                   回调函数  </span>
+<span class="hljs-comment">// 若factory不为function，则为该模块的导出值。</span>
+<span class="hljs-comment">// 引入模块</span>
+<span class="hljs-built_in">require</span>([<span class="hljs-variable language_">module</span>], callback)  
+<span class="hljs-comment">// 需要引入的模块    回调函数  </span>
+<span class="hljs-comment">// 回调函数会在前面的模块都加载成功后再执行。</span>
+</code></pre>
 <pre><code>require(['module'], function (module) {
     module.fn(p)
 })
+</code></pre>
+<h3 id="usage">usage</h3>
+<pre><code class="language-html"><span class="hljs-comment">&lt;!-- data-main属性得值为入口文件得路径 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">data-main</span>=<span class="hljs-string">&quot;./index.js&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./path/to/require.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+<p>requirejs定义了三个变量：</p>
+<ul>
+<li>define</li>
+<li>require</li>
+<li>requirejs === require</li>
+</ul>
+<pre><code class="language-js"><span class="hljs-comment">// 在其他模块导入该模块时，拿到的数据即为该模块的第三个参数的值。</span>
 </code></pre>
 <h2 id="cmd">cmd</h2>
 <p>amd：定义时加载。cmd:执行时加载。<br>
@@ -313,68 +301,15 @@ import v from '...'
 <pre><code>&lt;script src=&quot;./first.js&quot;&gt;&lt;/script&gt;
 </code></pre>
 <h2 id="es-module-和-commonjs">ES module 和 commonJS</h2>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>ES module</th>
-<th>commonJS</th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td><code>*.mjs</code></td>
-<td><code>*.cjs</code></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>客户端运行</td>
-<td>服务端运行</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td><code>import / export</code></td>
-<td><code>require / module.exports</code></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>若在 package.json 中设置 type：module，则为 esm 规范。</td>
-<td>否则为 cjs 规范。</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>互相引用</td>
-<td><code>import all form 'name'</code></td>
-<td><code>(async () =&gt; {await import('./file.mjs')})()</code></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>只能整体引入后再解构使用。</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>同时支持 2 种规范</td>
-<td><code>exports: {require: &quot;./index.js&quot;, import: &quot;./esm/index.js&quot;}</code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
+<p>|                   | ES module      | commonJS                |     |     |
+| - |  |  | - | - |
+|                   | <code>*.mjs</code>        | <code>*.cjs</code>                 |     |     |
+|                   | 客户端运行     | 服务端运行              |     |     |
+|                   | <code>import / export</code>                     | <code>require / module.exports</code>                     |     |     |
+|                   | 若在 package.json 中设置 type：module，则为 esm 规范。       | 否则为 cjs 规范。       |     |     |
+| 互相引用          | <code>import all form 'name'</code>              | <code>(async () =&gt; {await import('./file.mjs')})()</code> |     |     |
+|                   | 只能整体引入后再解构使用。            |  |     |     |
+| 同时支持 2 种规范 | <code>exports: {require: &quot;./index.js&quot;, import: &quot;./esm/index.js&quot;}</code> |  |     |     |</p>
 <h3 id="es-module-和-commonjs-循环引用问题">ES module 和 commonJS 循环引用问题</h3>
 <p>因 esm、commonjs 对待文件(模式)的方式不同。</p>
 <table>
@@ -444,6 +379,39 @@ import v from '...'
 <span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> xxx                   <span class="hljs-comment">// 把xxx中的非default全部导出</span>
 <span class="hljs-keyword">export</span> {<span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> alias} <span class="hljs-keyword">from</span> xxx  <span class="hljs-comment">// 把xxx中的default以alias导出</span>
 </code></pre>
+<h2 id="moduleexports--exports--export--export-defaut">module.exports &amp; exports &amp; export &amp; export defaut</h2>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>module.exports</th>
+<th>exports</th>
+<th>export</th>
+<th>export default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>node.js 中的语法。用来导出对象用法。</td>
+<td>node.js 中的语法。用来导出对象用法。</td>
+<td>es6 的语法</td>
+<td>es6 的语法</td>
+</tr>
+<tr>
+<td>module.exports = {}</td>
+<td>exports={}</td>
+<td>export {var0, var1}</td>
+<td>export default any</td>
+</tr>
+<tr>
+<td>let t = require 'xxx'</td>
+<td>let t = require 'xxx'</td>
+<td>import {a, b as c} from 'map'</td>
+<td>import a from 'map'</td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
 <h2 id="指明包规范">指明包规范</h2>
 <pre><code class="language-json"><span class="hljs-comment">// package.json</span>
 <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;module&quot;</span>
