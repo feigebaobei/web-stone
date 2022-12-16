@@ -187,20 +187,39 @@ lerna publish from-package
 `--canary`
 当使用这个标志运行时，lerna publish 会以更细粒度的方式(每次提交)发布包。在发布到 npm 之前，它通过获取当前版本，将其转移到下一个小版本，添加所提供的元后缀(默认为 alpha)并附加当前的 git sha(例如:1.0.0 变成 1.1.0-alpha.0+81e3b443)来创建新版本标签。
 `--contents <dir>`  
+发布时包括的目录  
 `--dist-tag <tag>`  
+设置 npm 的 dist-tag 属性。默认 latest.  
+只适用于 prerelease / beta 版本。  
+`--force-publish`  
+只能与--canary 一起使用。  
+再次发布最近有改变的包。  
 `--dit-head <sha>`  
+只能与 from-package 一起使用。  
+把 gitHead 添加到要 packing tarbals 中。  
 `--graph-type <all|dependencies>`  
+限定拓扑的范围。一般应该包括 dependencies and devDependencies  
 `--ignore-scripts`  
+发布时不运行的脚本  
 `--ignore-prepublish`  
+发布时不运行 prepublish 脚本  
 `--legacy-auth`  
+设置 npm 的\_auth 属性。  
 `--no-git-reset`  
-`--no-granular-pathspec`  
+跳过未添加到舞台的文件  
+`--no-granular-pathspec`
+
 `--no-verify-access`  
 `--otp`  
 `--preid`  
+只能与--canary 一起使用。  
 `--pre-dist-tag <tag>`  
+与--dist-tag 相同。
 `--registry <url>`  
+设置注册器  
 `--tag-version-prefix`  
+设置前缀  
+`--temp-tag`  
 `--tag-tag`  
 `--yes`
 
