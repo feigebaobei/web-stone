@@ -184,7 +184,7 @@
 <li>require</li>
 <li>requirejs === require</li>
 </ul>
-<p>可以使用于浏览器环境、node环境、……</p>
+<p>可以使用于浏览器环境、node 环境、……</p>
 <pre><code class="language-js"><span class="hljs-comment">// 在其他模块导入该模块时，拿到的数据即为该模块的第三个参数的值。</span>
 </code></pre>
 <h2 id="cmd">cmd</h2>
@@ -339,7 +339,7 @@
 <!-- prettier-ignore-end -->
 <h2 id="umd">umd</h2>
 <p>通用模块定义规范
-使同一个代码块在 commonjs/cmd/amd 中都可运行。可以统一浏览器端、服务端、app 端。</p>
+使同一个代码块在 commonjs/cmd/amd 中都可运行。可以统一浏览器端、服务端（node环境）、app 端。</p>
 <pre><code>((root, factory) =&gt; {
     if (typeof define === 'function' &amp;&amp; define.amd) {
         // amd
@@ -357,6 +357,7 @@
 </code></pre>
 <p>它在定义模块的时候回检测当前使用环境和模块的定义方式，将各种模块化定义方式转化为同样一种写法。
 它会把若干种 js 规范统一为一种（当前环境支持的）。</p>
+<p>有优先node环境的（判断exports是否存在），也有优先amd环境的（判断define是否存在），最后都是使用window/global兜底。</p>
 <h2 id="commonjs">commonjs</h2>
 <p>每一个模块都有一个<code>module</code>对象。该对象有个属性是：<code>exports</code>/<code>require</code><br>
 使用这种规范的代表： node。node 把每一个文件都做为一个模块。加载模块使用 require，该方法<strong>读取一个文件并执行</strong>，最后返回这个模块内部的 exports 对象。返回的是值，不是值的地址。<br>

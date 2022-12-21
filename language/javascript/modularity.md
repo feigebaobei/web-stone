@@ -98,7 +98,7 @@ define(function(require, exports, module) {...})
 ## umd
 
 通用模块定义规范
-使同一个代码块在 commonjs/cmd/amd 中都可运行。可以统一浏览器端、服务端、app 端。
+使同一个代码块在 commonjs/cmd/amd 中都可运行。可以统一浏览器端、服务端（node 环境）、app 端。
 
 ```
 ((root, factory) => {
@@ -119,6 +119,8 @@ define(function(require, exports, module) {...})
 
 它在定义模块的时候回检测当前使用环境和模块的定义方式，将各种模块化定义方式转化为同样一种写法。
 它会把若干种 js 规范统一为一种（当前环境支持的）。
+
+有优先 node 环境的（判断 exports 是否存在），也有优先 amd 环境的（判断 define 是否存在），最后都是使用 window/global 兜底。
 
 ## commonjs
 
@@ -177,6 +179,7 @@ ts 的`enum`类型就是使用 iife.
 
 ## system
 
+好像写错了。  
 在`*.html`文件中以`<script>`的方式引入。
 
 ```
