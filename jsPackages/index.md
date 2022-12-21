@@ -38,7 +38,7 @@
 - [tapable](/jsPackages/tapable.html)
 - [gts](/jsPackages/gts.html)
 - [introjs](/jsPackages/introjs.html)
-- [title](/jsPackages/title.html)
+- [data-footstone](/jsPackages/data-footstone.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)

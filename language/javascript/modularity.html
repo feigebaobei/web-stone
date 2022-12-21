@@ -163,11 +163,11 @@
 用于浏览器环境。</p>
 <pre><code class="language-js"><span class="hljs-comment">// 定义模块</span>
 <span class="hljs-title function_">define</span>(id?: <span class="hljs-title class_">String</span>, dependencies?: <span class="hljs-title class_">String</span>[], <span class="hljs-attr">factory</span>: <span class="hljs-title class_">Function</span>|<span class="hljs-title class_">Object</span>);
-<span class="hljs-comment">//     模块 id       依赖其它模块                   回调函数  </span>
+<span class="hljs-comment">//     模块 id       依赖其它模块                   回调函数</span>
 <span class="hljs-comment">// 若factory不为function，则为该模块的导出值。</span>
 <span class="hljs-comment">// 引入模块</span>
-<span class="hljs-built_in">require</span>([<span class="hljs-variable language_">module</span>], callback)  
-<span class="hljs-comment">// 需要引入的模块    回调函数  </span>
+<span class="hljs-built_in">require</span>([<span class="hljs-variable language_">module</span>], callback)
+<span class="hljs-comment">// 需要引入的模块    回调函数</span>
 <span class="hljs-comment">// 回调函数会在前面的模块都加载成功后再执行。</span>
 </code></pre>
 <pre><code>require(['module'], function (module) {
@@ -178,12 +178,13 @@
 <pre><code class="language-html"><span class="hljs-comment">&lt;!-- data-main属性得值为入口文件得路径 --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">data-main</span>=<span class="hljs-string">&quot;./index.js&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./path/to/require.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 </code></pre>
-<p>requirejs定义了三个变量：</p>
+<p>requirejs 定义了三个变量：</p>
 <ul>
 <li>define</li>
 <li>require</li>
 <li>requirejs === require</li>
 </ul>
+<p>可以使用于浏览器环境、node环境、……</p>
 <pre><code class="language-js"><span class="hljs-comment">// 在其他模块导入该模块时，拿到的数据即为该模块的第三个参数的值。</span>
 </code></pre>
 <h2 id="cmd">cmd</h2>
@@ -191,8 +192,151 @@
 在定义之初声明所有依赖。可以在任意时机动态引入模块。<br>
 可以按需加载。<br>
 由阿里的玉伯提出。</p>
-<pre><code>define(function(require, exports, module) {...})
+<pre><code class="language-js"><span class="hljs-title function_">define</span>(<span class="hljs-attr">factory</span>: string | object | <span class="hljs-function">(<span class="hljs-params"><span class="hljs-built_in">require</span>, <span class="hljs-built_in">exports</span>, <span class="hljs-variable language_">module</span></span>) =&gt;</span> {})
+
+
+
+<span class="hljs-title function_">define</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params"><span class="hljs-built_in">require</span>, <span class="hljs-built_in">exports</span>, <span class="hljs-variable language_">module</span></span>) {...})
+
 </code></pre>
+<h3 id="seajs">sea.js</h3>
+<h4 id="api">api</h4>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>`define(factory: string</td>
+<td>object</td>
+<td>(requrie, exports, module) =&gt; {})`</td>
+<td>定义模块</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>define.cmd</code></td>
+<td>该属性是一个空对象。用于判断当前页面是否有cmd模块加载器。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>require()</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>``</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>``</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>``</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>``</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>``</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>``</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>``</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>``</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>``</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>``</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>``</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>``</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
 <h2 id="umd">umd</h2>
 <p>通用模块定义规范
 使同一个代码块在 commonjs/cmd/amd 中都可运行。可以统一浏览器端、服务端、app 端。</p>
@@ -301,15 +445,15 @@ import v from '...'
 <pre><code>&lt;script src=&quot;./first.js&quot;&gt;&lt;/script&gt;
 </code></pre>
 <h2 id="es-module-和-commonjs">ES module 和 commonJS</h2>
-<p>|                   | ES module      | commonJS                |     |     |
-| - |  |  | - | - |
-|                   | <code>*.mjs</code>        | <code>*.cjs</code>                 |     |     |
-|                   | 客户端运行     | 服务端运行              |     |     |
-|                   | <code>import / export</code>                     | <code>require / module.exports</code>                     |     |     |
-|                   | 若在 package.json 中设置 type：module，则为 esm 规范。       | 否则为 cjs 规范。       |     |     |
-| 互相引用          | <code>import all form 'name'</code>              | <code>(async () =&gt; {await import('./file.mjs')})()</code> |     |     |
-|                   | 只能整体引入后再解构使用。            |  |     |     |
-| 同时支持 2 种规范 | <code>exports: {require: &quot;./index.js&quot;, import: &quot;./esm/index.js&quot;}</code> |  |     |     |</p>
+<p>| | ES module | commonJS | | |
+| - | | | - | - |
+| | <code>*.mjs</code> | <code>*.cjs</code> | | |
+| | 客户端运行 | 服务端运行 | | |
+| | <code>import / export</code> | <code>require / module.exports</code> | | |
+| | 若在 package.json 中设置 type：module，则为 esm 规范。 | 否则为 cjs 规范。 | | |
+| 互相引用 | <code>import all form 'name'</code> | <code>(async () =&gt; {await import('./file.mjs')})()</code> | | |
+| | 只能整体引入后再解构使用。 | | | |
+| 同时支持 2 种规范 | <code>exports: {require: &quot;./index.js&quot;, import: &quot;./esm/index.js&quot;}</code> | | | |</p>
 <h3 id="es-module-和-commonjs-循环引用问题">ES module 和 commonJS 循环引用问题</h3>
 <p>因 esm、commonjs 对待文件(模式)的方式不同。</p>
 <table>
@@ -415,6 +559,7 @@ import v from '...'
 <h2 id="指明包规范">指明包规范</h2>
 <pre><code class="language-json"><span class="hljs-comment">// package.json</span>
 <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;module&quot;</span>
+<span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;commonjs&quot;</span> <span class="hljs-comment">// 默认</span>
 </code></pre>
 
         <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>

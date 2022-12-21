@@ -296,7 +296,7 @@ class A<T> {
 ||`NonNullable<T>`||||
 ||`Parameters<T>`||||
 ||`ConstructorParameters<T>`||||
-||`RetureType<T>`||||
+||`ReturnType<T>`||||
 ||`InstanceType<T>`||||
 ||`ThisParameterType<T>`||||
 ||`OmitThisParameter<T>`||||
@@ -729,7 +729,7 @@ Util<type>
 | `NonNullable<Type>`                   | 去掉 type 中的 null/undefined        |     |     |
 | `Parameters<Type>`                    | 取出指定方法类型中的参数             |     |     |
 | `ConstructorParameters<Type>`         | 不会                                 |     |     |
-| `RetureType<Type>`                    | 获取方法类型的返回的数据类型         |     |     |
+| `ReturnType<Type>`                    | 获取方法类型的返回的数据类型         |     |     |
 | `InstanceType<Type>`                  | 不会                                 |     |     |
 | `ThisParameter<Type>`                 | 不会                                 |     |     |
 | `OmitThisParameter<Type>`             | 不会                                 |     |     |

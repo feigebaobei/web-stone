@@ -90,7 +90,7 @@ npm install --save-dev babel-jest @babel/core @babel/preset-env
 ```
 
 ```js
-// babel.config.js
+// babel.config.cjs
 module.exports = {
   presets: [['@babel/preset-env', { targets: { node: 'current' } }]],
 }

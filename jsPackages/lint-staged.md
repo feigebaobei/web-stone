@@ -18,8 +18,9 @@
 
 ## usage
 
-- package.json
-- 配置文件
+```shell
+crtp initFile .lintstagedrc
+```
 
 ## configuration
 

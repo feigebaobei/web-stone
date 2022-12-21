@@ -16,7 +16,9 @@
 
 ```shell
 npm install -D @commitlint/config-conventional @commitlint/cli
-echo "module.exports = { extends: ['@commitlint/config-conventional'] };" > commitlint.config.js
+crtp initFile commitlint.config.js # 推荐
+# or
+# echo "module.exports = { extends: ['@commitlint/config-conventional'] };" > commitlint.config.js
 ```
 
 ## usage

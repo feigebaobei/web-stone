@@ -49,6 +49,8 @@ requirejs 定义了三个变量：
 - require
 - requirejs === require
 
+可以使用于浏览器环境、node 环境、……
+
 ```js
 // 在其他模块导入该模块时，拿到的数据即为该模块的第三个参数的值。
 ```
@@ -60,9 +62,38 @@ amd：定义时加载。cmd:执行时加载。
 可以按需加载。  
 由阿里的玉伯提出。
 
-```
+```js
+define(factory: string | object | (require, exports, module) => {})
+
+
+
 define(function(require, exports, module) {...})
+
 ```
+
+### sea.js
+
+#### api
+
+<!-- prettier-ignore-start -->
+|||||||
+|-|-|-|-|-|-|
+|`define(factory: string | object | (requrie, exports, module) => {})`|定义模块|||||
+|`define.cmd`|该属性是一个空对象。用于判断当前页面是否有cmd模块加载器。|||||
+|`require()`||||||
+|``||||||
+|``||||||
+|``||||||
+|``||||||
+|``||||||
+|``||||||
+|``||||||
+|``||||||
+|``||||||
+|``||||||
+|``||||||
+|``||||||
+<!-- prettier-ignore-end -->
 
 ## umd
 
@@ -228,4 +259,5 @@ export {default as alias} from xxx  // 把xxx中的default以alias导出
 ```json
 // package.json
 "type": "module"
+"type": "commonjs" // 默认
 ```

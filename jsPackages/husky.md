@@ -40,7 +40,7 @@ npm set-script prepare "husky install" # prepare在执行npm run install / npm p
 npm run prepare # 会在根目录下生成 .husky/_/.gitignore .husky/_/husky.sh
 npm set-script test "echo hi" # 用于测试。
 npx husky add .husky/pre-commit "npm run test" # 创建 .husky/pre-commit文件。在该文件中调用测试脚本
-npx husky add .husky/commit-msg "npx --no-install commitlint --edit "$1"" # 创建 .husky/commit-msg文件。在该文件中调用测试脚本
+npx husky add .husky/commit-msg "npx --no-install commitlint --edit \"\$1\"" # 创建 .husky/commit-msg文件。在该文件中调用测试脚本
 npx husky add .husky/pre-push "npm run test" # 创建 .husky/pre-push文件。在该文件中调用测试脚本
 # 然后就可以在pre-commit hook上执行命令了。
 git add .husky/pre-commit # 这里是shell脚本
