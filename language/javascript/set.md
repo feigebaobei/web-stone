@@ -16,18 +16,18 @@ set 类似数组。其成员的值都是唯一的。其键名与键值相同。
 ## api
 
 <!-- prettier-ignore-start -->
-|      |            |     |     |
-| -- | ---------- | --- | --- |
-| constructor   | Set                                                                                                                                             |     |     |
-| add(value)    | 为 set 对象添加一个值                                                                                                                           |     |     |
-| size          | 返回 set 对象的长度                                                                                                                             |     |     |
-| delete(value) | 删除 set 对象中的指定的值，并返回 bool 结果。                                                                                                   |     |     |
-| has(value)    | 检查 set 对象中是否有指定的值                                                                                                                   |     |     |
-| clear()       | 删除指定 set 对象中的所有值                                                                                                                     |     |     |
-| keys()        | 返回一个以指定 set 对象的 key 组成的 Iterator 对象。键名和键值是同一个值。其返回结果与 Set.values 一样。可与`Array.form()`/`for...of`一起使用。 |     |     |
-| values()      | 返回一个以指定 set 对象的 value 组成的 Iterator 对象。可与`Array.form()`/`for...of`一起使用。                                                   |     |     |
-| entries()     | 返回一个以 key 和 value 组成的数组组成的 Iterator 数组。可与`Array.form()`/`for...of`一起使用。                                                 |     |     |
-| forEach()     | 对 set 对象进行遍历操作。(value 与 key 相同)                                                                                                    |     |     |
+|      |      |     |     |
+| -- | -- | --- | --- |
+| constructor   | Set       |     |     |
+| size    | 返回 set 对象的长度        |     |     |
+| add(value)    | 为 set 对象添加一个值      |     |     |
+| delete(value) | 删除 set 对象中的指定的值，并返回 bool 结果。   |     |     |
+| has(value)    | 检查 set 对象中是否有指定的值    |     |     |
+| clear() | 删除指定 set 对象中的所有值      |     |     |
+| keys()  | 返回一个以指定 set 对象的 key 组成的 Iterator 对象。键名和键值是同一个值。其返回结果与 Set.values 一样。可与`Array.form()`/`for...of`一起使用。 |     |     |
+| values()      | 返回一个以指定 set 对象的 value 组成的 Iterator 对象。可与`Array.form()`/`for...of`一起使用。      |     |     |
+| entries()     | 返回一个以 key 和 value 组成的数组组成的 Iterator 数组。可与`Array.form()`/`for...of`一起使用。    |     |     |
+| forEach()     | 对 set 对象进行遍历操作。(value 与 key 相同)          |     |     |
 <!-- prettier-ignore-end -->
 
 set 对象没有提供访问指定值的方法。要想访问指定值需要转为数组后再用数组的方法取指定值。

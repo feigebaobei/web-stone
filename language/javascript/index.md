@@ -583,7 +583,11 @@ function* helloWorldGenerator() {
   }
 }
 var hw = helloWorldGenerator()
-console.log(hw.next()) // 多执行几次
+console.log(hw.next())
+// 多执行几次
+// {value: false, done: false}
+// {value: true, done: false}
+// {value: false, done: false}
 
 // 生成fibonacci数列
 function* getFibonacci(num = 10) {
@@ -700,6 +704,7 @@ function spawn(genF) {
 - 装饰器是一个方法。参数有 3 个 target:被装饰的对象（类或类的方法），name:被装饰的属性名，descriptor:属性描述符对象。
 - 需要增强已有功能时使用。如本地验证用户登录后再执行某项功能。
 - 有点像高阶函数、代理。
+- 修饰什么就应该返回一个什么。
 - 编译时运行。
 
 ```js
@@ -707,12 +712,15 @@ function spawn(genF) {
 function testable(target) {
     // target.isTestable = true
     target.prototype.isTestable = true
+    // 修饰class时，操作的是原型对象。
 }
 @testable
 class C {...}
 let o = new C() // 使用被装饰过的类
 // no.2
 function readonly (target, name, description) {
+  // target     class
+  // name       class的属性名
     // description: {
     //     value,
     //     enumerable,
@@ -736,6 +744,15 @@ function log (target, name, descriptor) {
     }
     return descriptor
 }
+// 也可以多接收几个参数
+function f (a, b, c, d) {
+  return function (target, name, descriptor) {
+    // 使用a,b,c,d
+    return ...
+  }
+}
+@f(1,2,3,4)
+class C {...}
 ```
 
 常用包

@@ -280,7 +280,17 @@
 <span class="hljs-keyword">function</span> <span class="hljs-title function_">j</span> (obj) {
   <span class="hljs-keyword">return</span> <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(<span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(obj))
 }
-
+<span class="hljs-comment">// 把一个数字表示为2的若干次方相加之和</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">basis2</span> = (<span class="hljs-params">n</span>) =&gt; {
+  <span class="hljs-keyword">let</span> res = []
+  <span class="hljs-keyword">let</span> s = n.<span class="hljs-title function_">toString</span>(<span class="hljs-number">2</span>)
+  s.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;&#x27;</span>).<span class="hljs-title function_">reverse</span>().<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">item, index</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (item === <span class="hljs-string">&#x27;1&#x27;</span>) {
+      res.<span class="hljs-title function_">push</span>(index)
+    }
+  })
+  <span class="hljs-keyword">return</span> res
+}
 
 
 

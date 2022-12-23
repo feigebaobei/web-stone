@@ -204,7 +204,17 @@ function doWork () {
 function j (obj) {
   return JSON.parse(JSON.stringify(obj))
 }
-
+// 把一个数字表示为2的若干次方相加之和
+let basis2 = (n) => {
+  let res = []
+  let s = n.toString(2)
+  s.split('').reverse().forEach((item, index) => {
+    if (item === '1') {
+      res.push(index)
+    }
+  })
+  return res
+}
 
 
 

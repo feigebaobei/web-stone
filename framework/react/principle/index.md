@@ -7,30 +7,29 @@
 
 ### 核心概念
 
-|     |                   |                                                                           |     |
-| --- | ----------------- | ------------------------------------------------------------------------- | --- |
-|     | recenciliation    | 调度器，用于处理 diff、更新视图                                           |     |
-|     | root.render(...)  | 开始渲染视图                                                              |     |
-|     | virtual dom       | 虚拟 dom                                                                  |     |
-|     | diffing algorithm | diff 算法。通过比较 current/workInProgress,得到最小变动.                  |     |
-|     | mvc 框架          |                                                                           |     |
+<!-- prettier-ignore-start -->
+|     |          |            |     |
+| --- | --------- | --------- | --- |
+|     | recenciliation    | 调度器，用于处理 diff、更新视图       |     |
+|     | root.render(...)  | 开始渲染视图        |     |
+|     | virtual dom       | 虚拟 dom            |     |
+|     | diffing algorithm | diff 算法。通过比较 current/workInProgress,得到最小变动.         |     |
+|     | mvc 框架          |            |     |
 |     | 双缓存            | current 表示当前展示的 vdom 树。workInProgress 表示本次更新后的 vdom 树。 |     |
-|     | fiber             | 工作单元。根据 ReactElement 元素生成。                                    |     |
-|     | ReactElement      | 使用 React.createElement 方法生成                                         |     |
-|     |                   |                                                                           |     |
-|     |                   |                                                                           |     |
+|     | fiber             | 工作单元。根据 ReactElement 元素生成。         |     |
+|     | ReactElement      | 使用 React.createElement 方法生成     |     |
+<!-- prettier-ignore-end -->
 
+<!-- prettier-ignore-start -->
 ### React Component & React Element & Component instance
 
-|     | React Component                                                  | React Element                                    | Component instance               |     |
-| --- | ---------------------------------------------------------------- | ------------------------------------------------ | -------------------------------- | --- |
-|     | 组件。方法或 class                                               | 一个基本核心对象                                 |                                  |     |
-|     | 返回 jsx/ReactElement                                            |                                                  | class 组件的实例。它是一个对象。 |     |
+|     | React Component      | React Element  | Component instance       |     |
+| --- | ------ | ------ | ------ | --- |
+|     | 组件。方法或 class                  | 一个基本核心对象            |             |     |
+|     | 返回 jsx/ReactElement  |        | class 组件的实例。它是一个对象。 |     |
 |     | 方法组件，直接调用。class 组件，创建一个实例后调用 render 方法。 | 可描述一个 dom.也可以描述一个 component instance | 有生命周期方法和初始化 state     |     |
-|     |                                                                  | 在 class 组件时期用处大                          |                                  |     |
-|     |                                                                  |                                                  |                                  |     |
-|     |                                                                  |                                                  |                                  |     |
-|     |                                                                  |                                                  |                                  |     |
+|     |   | 在 class 组件时期用处大     |             |     |
+<!-- prettier-ignore-end -->
 
 ### 渲染过程
 
@@ -41,37 +40,28 @@
    1. 使用 diff 算法比对。也叫 recencilication
 5.
 
-### recenciliation
-
-- 若 ReactElement 的 type 不同，则使用新组件及其后代元素。
-  - 会触发 unmount 生命周期方法
-- 属性不同时。更新属性，实例不变，状态不变。
-- 使用 key props 比对。
-
-### diff 算法
+### recenciliation (也叫 diff / diffing)
 
 基于 2 个前提工作：
 
 - type 不同表示不同的元素。
 - 各子元素的 key 惟一。
 
-1. type 不同时更新他与他的后代元素。
-2. 当 type 相同、属性不同时，更新当前元素，保留其他后代元素。
-3. 子元素使用 key 做对应关系
+- 若 ReactElement 的 type 不同（fiberNode 的 type 来自 ReactElement 对象的 type），则使用新组件及其后代元素。
+  - 会触发 unmount 生命周期方法
+- 当 type 相同、属性不同时，更新当前元素，保留其他后代元素。
 
 #### 2 个阶段
 
 |        |     |     |     |     |     |     |
 | ------ | --- | --- | --- | --- | --- | --- |
 | render |     |     |     |     |     |     |
-|        |     |     |     |     |     |     |
 | commit |     |     |     |     |     |     |
-|        |     |     |     |     |     |     |
 
 ## what is react fiber
 
 - 它是一个对象
-- react reconciler 基于它工作。（它是异步的）它是工作单元
+- diff 基于它工作。（它是异步的）它是工作单元
 - 多个 fiber 对象组成树
 
 ### 目的
@@ -125,18 +115,20 @@
 
 ### Fiber & ReactElement
 
-|                                | ReactElement               | FiberNode                                                             |                                         |
-| ------------------------------ | -------------------------- | --------------------------------------------------------------------- | --------------------------------------- |
-|                                | 由 jsx 代码生成            | 由 ReactElement 对象生成                                              |                                         |
-|                                | 从 jsx 代码中得到 type/key | 从 ReactElement 中取 type/key                                         |                                         |
-|                                | 由 jsx 代码生成            | createFiberFromElement / createFiberFromTypeAndProps / createFiber 等 |                                         |
-|                                | 这是 vdom,代表一个 dom     | 工作的单元                                                            |                                         |
-| 功能                           |                            | 1. 寻迹。 2. 暂停。 3. 制定时间表                                     |                                         |
-|                                |                            | 一直使用。若有变动，则修改属性。不销毁。通常在初次挂载时创建          | 修改是在 FiberNode 的替补节点上完成的。 |
-| 如何 ReactElement => FiberNode |                            |                                                                       |                                         |
-|                                |                            |                                                                       |                                         |
-|                                |                            |                                                                       |                                         |
-|                                |                            |                                                                       |                                         |
+<!-- prettier-ignore-start -->
+|    | ReactElement     | FiberNode   |   |
+| --- | ---- | ---- | ---- |
+|    | 由 jsx 代码生成  | 由 ReactElement 对象生成      |   |
+|    | 从 jsx 代码中得到 type/key | 从 ReactElement 中取 type/key   |   |
+|    | React.createElement  | createFiberFromElement / createFiberFromTypeAndProps / createFiber 等 |   |
+|    | 这是 vdom,代表一个 dom     | 工作的单元  |   |
+| 功能       |   | 1. 寻迹。 2. 暂停。 3. 制定时间表  |   |
+|    |   | 一直使用。若有变动，则修改属性。不销毁（除非删除dom节点）。通常在初次挂载时创建  | 修改是在 FiberNode 的替补节点上完成的。 |
+| 如何 ReactElement => FiberNode |   |   |   |
+|    |   |   |   |
+|    |   |   |   |
+|    |   |      |        |
+<!-- prettier-ignore-end -->
 
 ```js
 // 常见的创建fiber的方法
@@ -145,20 +137,17 @@ createFiberFromFragment()
 createFiberFromText()
 ```
 
-|     | current                                             | workInProgress                                                          |     |
-| --- | --------------------------------------------------- | ----------------------------------------------------------------------- | --- |
-|     | 第一次生成的 FiberNode 组成的树和每次更新后生成的树 | Fiber 在工作中生成的树                                                  |     |
-|     |                                                     | 可以影响未来的状态和刷新屏幕                                            |     |
-|     |                                                     | fiber 的所有工作都是从此树开始                                          |     |
-|     |                                                     | 由 class 组件的 render 方法返回的或方法组件返回的 ReactElement 创建     |     |
-|     |                                                     | 完成工作后此树被赋于 current                                            |     |
-|     |                                                     | 处理所有组件的进程、刷新屏幕。                                          |     |
-|     |                                                     | 每个节点的 alternate 指向另一棵树（current/workInProgress）上对应的节点 |     |
-|     |                                                     |                                                                         |     |
-|     |                                                     |                                                                         |     |
-|     |                                                     |                                                                         |     |
-|     |                                                     |                                                                         |     |
-|     |                                                     |                                                                         |     |
+<!-- prettier-ignore-start -->
+|     | current          | workInProgress    |     |
+| --- | --- | ----------- | --- |
+|     | 第一次生成的 FiberNode 组成的树和每次更新后生成的树 | Fiber 在工作中生成的树  |     |
+|     |     | 可以影响未来的状态和刷新屏幕        |     |
+|     |     | fiber 的所有工作都是从此树开始      |     |
+|     |     | 由 class 组件的 render 方法返回的或方法组件返回的 ReactElement 创建     |     |
+|     |     | 完成工作后此树被赋于 current        |     |
+|     |     | 处理所有组件的进程、刷新屏幕。      |     |
+|     |     | 每个节点的 alternate 指向另一棵树（current/workInProgress）上对应的节点 |     |
+<!-- prettier-ignore-end -->
 
 副作用（side-effects）： 每次活动（如：改变 dom）和调用生命周期方法
 Fiber 的 Effecttag 属性是副作用函数
@@ -200,11 +189,6 @@ FiberRootNode 下的第一个 FiberNode 是使用 FiberRootNode()创建的。
 | --- | ----------------------- | -------------- | --- |
 |     | 第一次生成的 fiber tree | 第二次生成的   |     |
 |     | 与真实显示相同          | 可不同         |     |
-|     |                         |                |     |
-|     |                         |                |     |
-|     |                         |                |     |
-|     |                         |                |     |
-|     |                         |                |     |
 
 工作在 commit 阶段进行  
 深度优先
@@ -402,6 +386,7 @@ export const LazyComponent = 16;
 // 还17 、 18 不在这里
 
 flags 表示effect的编码
+// 使用二进制很方便判断值，以后我也可以使用它。
 export const NoFlags = /*                      */ 0b00000000000000000000000000;
 export const PerformedWork = /*                */ 0b00000000000000000000000001;
 // You can change the rest (and add more).
@@ -686,7 +671,7 @@ FiberNode。
 
 # 开拓
 
-## babel 开创了前端中把一种功能由一种写法的思想。如:
+## babel 开创了前端中把一种功能换一种写法的思想。如:
 
 ```
 <span id="#id">string</span>
