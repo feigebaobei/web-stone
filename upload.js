@@ -250,7 +250,10 @@ c.on('ready', () => {
       throw err
     }
     // let p = 'framework/qwik'
-    let p = ['language/typescript/index.html', 'language/javascript/array.html']
+    let p = [
+      'communication-protocol/index.html',
+      // 'communication-protocol/transferProcess.png',
+    ]
     // 检测指定目录是否存在
     // checkDir(p)
     // 检测删除目录
