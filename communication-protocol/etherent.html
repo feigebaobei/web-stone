@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>overview</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="overview">overview</h1>
+<p>是一种局域网技术。</p>
+<ul>
+<li>经典以太网 3-10mb/s</li>
+<li>交换式以太网 100mb/s 以上 广泛应用。</li>
+</ul>
+<pre><code>                           |    46-1500字节     |
+0        5 6     11 12   13|14                 | 
+|---------|--------|-------|-------------------|-----|
+| 目标地址 | 源地址  | 类型   |        数据        | crc |
+|---------|--------|-------|-------------------|-----|
+
+
+|-----------------------------------------------------|
+</code></pre>
+<p>6个字节 源地址和 目的地址是指 网卡的硬件地址（也叫MAC地址），长度是48位（6个字节），是在网卡出厂时固化的。用 ifconfig 命令看一下，“HWaddr 00:15:F2:14:9E:3F” 部分就是硬件地址。<br>
+2个字节协议类型 字段有三种值，分别对应 IP、ARP、RARP。<br>
+4个字节帧末尾 是CRC校验码。<br>
+以太网帧中的 数据长度 规定最小46字节，最大1500字节，ARP 和 RARP 数据包的长度不够46字节，要在后面补填充位。最大值1500 称为以太网的 最大传输单元（MTU），不同的网络类型有不同的 MTU，如果一个数据包从 以太网 路由到 拨号链路上，数据包长度大于拨号链路的 MTU了，则需要对 数据包进行 分片（fragmentation）。ifconfig 命令的输出中也有“MTU:1500”。注意，MTU这个概念指 数据帧中 有效载荷的最大长度，不包括 帧首部的长度。</p>
+
+        
+        
+    </body>
+    </html>
