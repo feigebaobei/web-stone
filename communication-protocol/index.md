@@ -5,12 +5,14 @@
 
 # 组成
 
-| osi                  | 主要的分层 | 说明 | 代表协议                                     | 传输对象                               |
-| -------------------- | ---------- | ---- | -------------------------------------------- | -------------------------------------- |
-| 应用层 表达层 会话层 | 应用层     |      | HTTP HTTPS FTP SMTP DNS Telnet POP3 SNMP NFS | 报文 message                           |
-| 运输层               | 运输层     |      | TCP UDP                                      | tcp 报文段 segment udp 数据报 datagram |
-| 网络层               | 网络层     |      | IP ICMP ARP                                  | 分组、数据包 packet                    |
-| 数据链路层 物理层    | 网络接口层 |      | PPP Etherent                                 | 帧 frame                               |
+<!-- prettier-ignore-start -->
+| osi      | 主要的分层 | 说明 | 代表协议 | 传输对象       |
+| ------------ | -- | ---- | ------------ | ------ |
+| 应用层 表达层 会话层 | 应用层 |  | HTTP HTTPS FTP SMTP DNS Telnet POP3 SNMP NFS | 报文 message       |
+| 运输层   | 运输层 |  | TCP UDP  | tcp 报文段 segment udp 数据报 datagram |
+| 网络层   | 网络层 |  | IP ICMP ARP  | 分组、数据包 packet    |
+| 数据链路层 物理层    | 网络接口层 |  | PPP Etherent  | 帧 frame       |
+<!-- prettier-ignore-end -->
 
 HTTP 超文本传输协议（浏览网页服务）  
 TFTP 文件传输协议（较快，但是不可靠）  
@@ -43,8 +45,9 @@ DNS 域名系统，将域名解析为 IP 地址（将百度的域名转换为服
 - 一个端口只能被一个进程占用
 - 一个端口就是一个数据通道
 - 端口号是一个无符号 16 位整数(0~65535)  
-  五元组：网络中标识一条信息的具体流向，源端口、目的端口、源 IP 地址、目的 IP 地址、协议  
-  [TCP](/communication-protocol/tcp.html) [UDP](/communication-protocol/udp.html)
+  五元组：网络中标识一条信息的具体流向，源端口、目的端口、源 IP 地址、目的 IP 地址、协议
+
+[TCP](/communication-protocol/tcp.html) [UDP](/communication-protocol/udp.html)
 
 ## 网络层的逻辑
 
@@ -57,16 +60,6 @@ DNS 域名系统，将域名解析为 IP 地址（将百度的域名转换为服
 MAC 地址（网卡编号）：48 位的二进制数。表示为 12 位的 16 进制数。分为两部分：前 24 位为厂商编号，后 24 位为网卡的编号（由专门的机构分配）  
 PPP [Etherent](/communication-protocol/etherent.md)
 
-# title
-
-# title
-
-# title
-
-# title
-
-# title
-
 # 端口范围
 
 | 0-6535    |                         |     |
@@ -75,19 +68,6 @@ PPP [Etherent](/communication-protocol/etherent.md)
 | 256-1023  | unix 系统占用           |     |
 | 1024-5000 | tcp / ip 临时分配的端口 |     |
 | >5000     | 给其他服务预留的        |     |
-
-# ip 协议版本
-
-- ipv4
-- ipv6
-
-# overview
-
-是一种局域网技术。
-
-- 经典以太网 3-10mb/s
-- 交换式以太网 100mb/s 以上 广泛应用。
--
 
 # mac 地址
 
