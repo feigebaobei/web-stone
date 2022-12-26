@@ -1,7 +1,8 @@
 # overview
 
 通信协议是指双方实体完成**通信或服务所必须遵循的规则和约定**。协议定义了**数据单元使用的格式**，信息单元应该包含的信息与含义，连接方式，信息发送和接收的时序，从而确保网络中数据顺利地传送到确定的地方。  
-是一层套一层的
+是一层套一层的  
+由某一运行在用户空间的应用程序来实现其功能。
 
 # 组成
 
@@ -34,6 +35,9 @@ DNS 域名系统，将域名解析为 IP 地址（将百度的域名转换为服
 
 应用层:负责应用程序之间的数据交流  
 [HTTP](/communication-protocol/http.html) [HTTPS](/communication-protocol/https.html) FTP SMTP DNS Telnet POP3 SNMP NFS
+[http1]()  
+[http2]()  
+[http3]()
 
 ## 运输层的逻辑
 

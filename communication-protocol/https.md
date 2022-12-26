@@ -9,12 +9,53 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment
 
 # [status](/communication-protocol/status.html)
 
-# title
+# 实现原理
 
-# title
+## 加解密算法
 
-# title
+### 对称加密
 
-# title
+des / aes
 
-# title
+### 非对称加密
+
+rsa/dsa
+
+## 通信过程
+
+```
+
+        client                  server
+           |                       |
+           |     请求https连接      |
+           |---------------------->|
+           |                       |
+           |     返回证书（公钥）     |
+           |<----------------------|
+           |                       |
+    产品随机（对称）密钥              |
+    使用公钥对对称密钥加密             |
+           |                       |
+           |    发送加密后的对称密钥   |
+           |---------------------->|
+           |<----------------------|
+           |                       |
+           |   通过对称密钥加密的密文  |
+           |---------------------->|
+           |<----------------------|
+           |                       |
+```
+
+# 优点
+
+|                                                |     |     |     |
+| ---------------------------------------------- | --- | --- | --- |
+| 客户端生成的密钥只有当前客户端与服务端能得到   |     |     |     |
+| 客户端生成的密文只有当前客户端和服务端能够解密 |     |     |     |
+| 客户端与服务端的通信是安全的                   |     |     |     |
+
+# [HTTP](/communication-protocol/http.html) & [HTTPS](/communication-protocol/https.html)
+
+# ssl & tls
+
+二者运行在 tcp 上
