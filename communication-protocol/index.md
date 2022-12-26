@@ -37,6 +37,8 @@ DNS 域名系统，将域名解析为 IP 地址（将百度的域名转换为服
 
 ## 运输层的逻辑
 
+[TCP](/communication-protocol/tcp.html) [UDP](/communication-protocol/udp.html)
+
 用户数据报协议  
 应用层:负责应用程序之间的数据交流  
 端口：
@@ -46,8 +48,6 @@ DNS 域名系统，将域名解析为 IP 地址（将百度的域名转换为服
 - 一个端口就是一个数据通道
 - 端口号是一个无符号 16 位整数(0~65535)  
   五元组：网络中标识一条信息的具体流向，源端口、目的端口、源 IP 地址、目的 IP 地址、协议
-
-[TCP](/communication-protocol/tcp.html) [UDP](/communication-protocol/udp.html)
 
 ## 网络层的逻辑
 
