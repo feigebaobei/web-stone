@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>overview</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="overview">overview</h1>
+<p>UDP user datagram protocol</p>
+<h2 id="特点">特点</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>无连接、不可靠</td>
+<td>通信时，通信双方不需要建立连接，只需要知道对端地址信息，就可以发送信息</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>面向数据报（有大小限制，且无分包能力）</td>
+<td>数据只能整条向应用层交付，需要要应用层分包。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>不拥塞</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>支持1v1/1vn/nv1/nvn</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>端口号</td>
+<td>0-65535</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>尽可能地交付</td>
+<td>不保证交付，只传输数据。</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="功能">功能</h2>
+<p>为了在给定的主机上能识别多个目的地址，同时允许多个应用程序在同一台主机上工作并能独立进行数据包的发送和接收，设计“用户数据报协议”udp</p>
+<h2 id="报文格式">报文格式</h2>
+<pre><code>0                 15 16                31
+|-------------------|-------------------|  -
+|     16位源端口号    |  16位目标端口号     |  ^
+|-------------------|-------------------|  |
+|     16位udp长度    |  16位udp检验和     |  8字节
+|                   |                   |  |
+|                   |                   |  V
+|-------------------|-------------------|  -
+|                  数据（可以无）         |
+|---------------------------------------|
+</code></pre>
+<p>协议字段：16位源端口 16位目的端口 16位udp数据报数据的最大长度，包含udp首部和数据） 16位校验和</p>
+<p>udp数据报长度决定了一个udp协议格式的数据最大长度不能超过64k-8，否则发送失败；当数据长度过大（&gt;65507字节）时需要用户在应用层进行数据分包</p>
+<p>udp无法保证数据的有序到达，为了保证数据的有序到达，需要用户在应用层对数据进行包序管理</p>
+<h2 id="用途">用途</h2>
+<ul>
+<li>nds/tptp/snmp</li>
+<li>视频、音频、直播、有线电视、普通数据（无关紧要的数据）</li>
+</ul>
+<h2 id="tcp--udp"><a href="/communication-protocol/tcp.html">tcp &amp; udp</a></h2>
+
+        
+        
+    </body>
+    </html>
