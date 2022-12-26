@@ -34,10 +34,7 @@ DNS 域名系统，将域名解析为 IP 地址（将百度的域名转换为服
 ## 应用层的逻辑
 
 应用层:负责应用程序之间的数据交流  
-[HTTP](/communication-protocol/http.html) [HTTPS](/communication-protocol/https.html) FTP SMTP DNS Telnet POP3 SNMP NFS
-[http1]()  
-[http2]()  
-[http3]()
+[HTTP 1 2](/communication-protocol/http.html) [HTTPS](/communication-protocol/https.html) FTP SMTP DNS Telnet POP3 SNMP NFS
 
 ## 运输层的逻辑
 

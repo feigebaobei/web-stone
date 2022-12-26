@@ -24,15 +24,17 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment
 优化了 http 1.x 的请求延迟。  
 解决了 http 1.x 的安全性。
 
-|                                                 |     |     |     |     |     |
-| ----------------------------------------------- | --- | --- | --- | --- | --- |
-| 降低延迟                                        |     |     |     |     |     |
-| 请求优先级                                      |     |     |     |     |     |
-| header 压缩                                     |     |     |     |     |     |
+<!-- prettier-ignore-start -->
+|                   |     |     |     |     |     |
+| --------- | --- | --- | --- | --- | --- |
+| 降低延迟          |     |     |     |     |     |
+| 请求优先级        |     |     |     |     |     |
+| header 压缩       |     |     |     |     |     |
 | 基于 https 的加密协议传输（也就是拥有安全功能） |     |     |     |     |     |
-| 服务端推送                                      |     |     |     |     |     |
-| 降低延迟                                        |     |     |     |     |     |
-|                                                 |     |     |     |     |     |
+| 服务端推送        |     |     |     |     |     |
+| 降低延迟          |     |     |     |     |     |
+|                   |     |     |     |     |     |
+<!-- prettier-ignore-end -->
 
 spdy 的构成图
 
@@ -53,19 +55,21 @@ spdy 的构成图
 
 # 发展阶段
 
-|                    | 0.9 | 1.0                                                     | 1.1                                                         | 1.2 | 2.0                                                                                                              |     |
-| ------------------ | --- | ------------------------------------------------------- | ----------------------------------------------------------- | --- | ---------------------------------------------------------------------------------------------------------------- | --- |
-| 缓存处理           |     | 使用 if-modified-since/expires 判断                     | entity tag / if-Unmodified-Since / if-match / if-None-Match |     |                                                                                                                  |     |
-| 带宽优化及网络连接 |     | 不支持断点续传                                          | 使用 range 头域，只请求资源中的某一部分。返回状态码是 206   |     |                                                                                                                  |     |
-| 错误通知           |     |                                                         | 新增 24 个错误状态响应码。如：409、401                      |     |                                                                                                                  |     |
-| host 头处理        |     | 认为每个服务器绑定一个 ip 地址。因此请求头中无 hostname | 需要指明 host 头域                                          |     |                                                                                                                  |     |
-| 长链接             |     |                                                         | 可以在一个 tcp 连接上传送多个 http 请求、响应。             |     |                                                                                                                  |     |
-|                    |     |                                                         | 默认找开 connection:keep-alive                              |     |                                                                                                                  |     |
-| 解析格式           |     | 基于文本                                                |                                                             |     | 二进制格式                                                                                                       |     |
-|                    |     |                                                         |                                                             |     | **多路复用**。一个连接上有多个请求，每个请求都有一个惟一的 id.接收端根据请求的 id 把请求归属到不同的服务器中。   |     |
-| header 压缩        |     |                                                         |                                                             |     | encoder 减少需要传输的 header 大小。通信双方各缓存一份 header fields。避免重复 header 传输，减少需要传输的大小。 |     |
-|                    |     |                                                         |                                                             |     | 服务端推送                                                                                                       |     |
-|                    |     |                                                         |                                                             |     |                                                                                                                  |     |
+<!-- prettier-ignore-start -->
+|  | 0.9 | 1.0    | 1.1     | 1.2 | 2.0    |     |
+| ---- | --- | ----- | ---- | --- | ------- | --- |
+| 缓存处理      |     | 使用 if-modified-since/expires 判断   | entity tag / if-Unmodified-Since / if-match / if-None-Match |     |     |     |
+| 带宽优化及网络连接 |     | 不支持断点续传   | 使用 range 头域，只请求资源中的某一部分。返回状态码是 206   |     |     |     |
+| 错误通知      |     |     | 新增 24 个错误状态响应码。如：409、401    |     |     |     |
+| host 头处理   |     | 认为每个服务器绑定一个 ip 地址。因此请求头中无 hostname | 需要指明 host 头域   |     |     |     |
+| 长链接   |     |     | 可以在一个 tcp 连接上传送多个 http 请求、响应。   |     |     |     |
+|  |     |     | 默认找开 connection:keep-alive    |     |     |     |
+| 解析格式      |     | 基于文本    |    |     | 二进制格式  |     |
+|  |     |     |    |     | **多路复用**。一个连接上有多个请求，每个请求都有一个惟一的 id.接收端根据请求的 id 把请求归属到不同的服务器中。   |     |
+| header 压缩   |     |     |    |     | encoder 减少需要传输的 header 大小。通信双方各缓存一份 header fields。避免重复 header 传输，减少需要传输的大小。 |     |
+|  |     |     |    |     | 服务端推送  |     |
+|  |     |     |    |     |     |     |
+<!-- prettier-ignore-end -->
 
 ## 0.9
 
@@ -79,6 +83,8 @@ https://blog.csdn.net/z69183787/article/details/106643647/
 
 原来是基于 SPDY 设计的。  
 特点：
+
+<!-- prettier-ignore-start -->
 |||||
 |-|-|-|-|
 |进制分帧|使用二进制|||
@@ -86,6 +92,7 @@ https://blog.csdn.net/z69183787/article/details/106643647/
 |首部压缩|通信双方同时维护一张头信息表，所有字段都记录在这张表中，每次传输只需要传输表中的索引 ID.|||
 |服务端推送|服务端向客户端发送一个请求。|||
 |请求优先级设置|每个 stream 都可以设置依赖和权重，可以按照依赖树分配优先级。|解决了关键请求被阻塞问题||
+<!-- prettier-ignore-end -->
 
 # 编码、解码
 
@@ -100,17 +107,19 @@ https://blog.csdn.net/z69183787/article/details/106643647/
 
 # 请求方法
 
-|         |                                                                                                                |     |     |
-| ------- | -------------------------------------------------------------------------------------------------------------- | --- | --- |
-| GET     | 请求指定的页面信息，并返回实体主体。                                                                           |     |     |
-| HEAD    | 与 GET 请求类似。返回的是响应中没有具体的内容，用于获取报头。                                                  |     |     |
+<!-- prettier-ignore-start -->
+|    |                      |     |     |
+| --- | ---- | --- | --- |
+| GET     | 请求指定的页面信息，并返回实体主体。             |     |     |
+| HEAD    | 与 GET 请求类似。返回的是响应中没有具体的内容，用于获取报头。                    |     |     |
 | POST    | 向指定 url 提交数据进行处理请求（如：提交表单、上传文件）。数据被包含在请求体中。POST 请求一般用于创建新数据。 |     |     |
-| PUT     | 从客户端向服务器传递数据取代指定的文档的内容。一般用于修改数据。                                               |     |     |
-| DELETE  | 请求服务器删除指定的数据。                                                                                     |     |     |
-| CONNECT | http/1.1 协议中预留给能够将连接改为管道方式的代理服务器                                                        |     |     |
-| OPTIONS | 允许客户端查看服务器的性能。                                                                                   |     |     |
-| TRACE   | 显示服务器收到的请求，主要用于测试或诊断。                                                                     |     |     |
-| PATCH   | 是对 PUT 请求的补充，用于对已知资源进行局部更新。                                                              |     |     |
+| PUT     | 从客户端向服务器传递数据取代指定的文档的内容。一般用于修改数据。                 |     |     |
+| DELETE  | 请求服务器删除指定的数据。                         |     |     |
+| CONNECT | http/1.1 协议中预留给能够将连接改为管道方式的代理服务器                          |     |     |
+| OPTIONS | 允许客户端查看服务器的性能。                       |     |     |
+| TRACE   | 显示服务器收到的请求，主要用于测试或诊断。         |     |     |
+| PATCH   | 是对 PUT 请求的补充，用于对已知资源进行局部更新。  |     |     |
+<!-- prettier-ignore-end -->
 
 # 报文格式
 
@@ -145,55 +154,60 @@ https://blog.csdn.net/z69183787/article/details/106643647/
 ```
 
 报文首部包括：
-|||||
-|-|-|-|-|
-||状态行|||
-|||协议级版本||
-|||状态码||
-||响应报文首部|||
-||通用首部字段|||
-||实体首部字段|||
-||报文主体|||
+
+|     |              |            |     |
+| --- | ------------ | ---------- | --- |
+|     | 状态行       |            |     |
+|     |              | 协议级版本 |     |
+|     |              | 状态码     |     |
+|     | 响应报文首部 |            |     |
+|     | 通用首部字段 |            |     |
+|     | 实体首部字段 |            |     |
+|     | 报文主体     |            |     |
 
 ## 回馈
 
-|                  |                                                               |                                        |     |     |
-| ---------------- | ------------------------------------------------------------- | -------------------------------------- | --- | --- |
-| Allow            | 服务器支持的请求方式（如：GET/POST）                          |                                        |     |     |
-| Content-Encoding | 文档的编码方式。                                              | 使用压缩文档会减少 html 文档的下载时间 |     |     |
-| Content-Length   | 内容长度。只有在浏览器使用持久 http 连接时才需要这个数据。    |                                        |     |     |
-| Content-Type     | 指明文档属于什么 MIME 类型。                                  |                                        |     |     |
-| Date             | 当前的 GMT 时间                                               |                                        |     |     |
-| Expires          | 指明文件的过期时刻。若过期，则不缓存。                        |                                        |     |     |
-| Last-Modified    | 文档的最后改动时刻                                            |                                        |     |     |
-| Location         | 客户应当从哪里获取文档。若设置，则需要与状态码 302 一起使用。 |                                        |     |     |
-| Refresh          | 指明浏览器应该在多长时间（单位：秒）后刷新文档。              |                                        |     |     |
-| Server           | 服务器的名字。一般由 web 服务器设置。                         |                                        |     |     |
-| Set-Cookie       | 设置 cookie.                                                  |                                        |     |     |
-| WWW-Authenticate | 客户应该在 Authorization 头中提供什么类型的授权信息。         |                                        |     |     |
+<!-- prettier-ignore-start -->
+|                  |   |          |     |     |
+| ---------------- | ---- | ------------------- | --- | --- |
+| Allow            | 服务器支持的请求方式（如：GET/POST）                          |          |     |     |
+| Content-Encoding | 文档的编码方式。                | 使用压缩文档会减少 html 文档的下载时间 |     |     |
+| Content-Length   | 内容长度。只有在浏览器使用持久 http 连接时才需要这个数据。    |          |     |     |
+| Content-Type     | 指明文档属于什么 MIME 类型。    |          |     |     |
+| Date             | 当前的 GMT 时间                 |          |     |     |
+| Expires          | 指明文件的过期时刻。若过期，则不缓存。                        |          |     |     |
+| Last-Modified    | 文档的最后改动时刻              |          |     |     |
+| Location         | 客户应当从哪里获取文档。若设置，则需要与状态码 302 一起使用。 |          |     |     |
+| Refresh          | 指明浏览器应该在多长时间（单位：秒）后刷新文档。              |          |     |     |
+| Server           | 服务器的名字。一般由 web 服务器设置。                         |          |     |     |
+| Set-Cookie       | 设置 cookie.                    |          |     |     |
+| WWW-Authenticate | 客户应该在 Authorization 头中提供什么类型的授权信息。         |          |     |     |
+<!-- prettier-ignore-end -->
 
 # content-type
 
 指明文档的 MIME 类型。  
 浏览器会根据些字段解析该文档。
 
-|                                   |                                           |     |     |
-| --------------------------------- | ----------------------------------------- | --- | --- |
-| text/html                         | html 格式                                 |     |     |
-| text/plain                        | 纯文本格式                                |     |     |
-| text/xml                          | xml 格式                                  |     |     |
-| image/gif                         | gif                                       |     |     |
-| image/jpeg                        | jpg                                       |     |     |
-| image/png                         | png                                       |     |     |
-| application/xhtml+xml             | xhtml 格式                                |     |     |
-| application/xml                   | xml                                       |     |     |
+<!-- prettier-ignore-start -->
+|     |             |     |     |
+| --------- | --- | --- | --- |
+| text/html                         | html 格式   |     |     |
+| text/plain                        | 纯文本格式  |     |     |
+| text/xml                          | xml 格式    |     |     |
+| image/gif                         | gif         |     |     |
+| image/jpeg                        | jpg         |     |     |
+| image/png                         | png         |     |     |
+| application/xhtml+xml             | xhtml 格式  |     |     |
+| application/xml                   | xml         |     |     |
 | application/atom+xml              | Atom XML 聚合格式                         |     |     |
-| application/json                  | json                                      |     |     |
-| application/pdf                   | pdf                                       |     |     |
-| application/msword                | word                                      |     |     |
+| application/json                  | json        |     |     |
+| application/pdf                   | pdf         |     |     |
+| application/msword                | word        |     |     |
 | application/octet-stream          | 二进制流数据                              |     |     |
 | application/x-www-form-urlencoded | 把 form 中的数据编码为 k/v 格式发送服务器 |     |     |
 | multipart/form-data               | 上传表单时使用此格式                      |     |     |
+<!-- prettier-ignore-end -->
 
 # MIME 类型
 
@@ -203,8 +217,9 @@ https://blog.csdn.net/z69183787/article/details/106643647/
 type/subtype
 ```
 
+<!-- prettier-ignore-start -->
 |                         |     |     |     |
-| ----------------------- | --- | --- | --- |
+| ---- | --- | --- | --- |
 | text/html               |     |     |     |
 | text/plain              |     |     |     |
 | application/rtf         |     |     |     |
@@ -217,6 +232,7 @@ type/subtype
 | video/x-msvideo         |     |     |     |
 | application/x-gzip      |     |     |     |
 | application/x-tar       |     |     |     |
+<!-- prettier-ignore-end -->
 
 # http & [HTTPS](/communication-protocol/https.html)
 
@@ -231,10 +247,6 @@ type/subtype
 ||明文|密文||
 |||http+ssl/tls||
 |||防止运营商劫持||
-|||||
-|||||
-|||||
-|||||
 <!-- prettier-ignore-end -->
 
 # 长连接 & 短连接
@@ -244,5 +256,3 @@ type/subtype
 
 连接 -》 传输数据 -》关闭连接
 ```
-
-# title

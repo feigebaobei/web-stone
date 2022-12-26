@@ -77,13 +77,13 @@
     <body class="vscode-body vscode-light">
         <h1 id="overview">overview</h1>
 <p>http hyper text transfer protocol<br>
-http协议：超文本传输协议<br>
+http 协议：超文本传输协议<br>
 url:统一资源定位符，在网络中唯一定义一份资源。<br>
 protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
-一般基于tcp协议<br>
-基于b/s框架进行通信的。<br>
-服务端需要httpd、nginx等。
-客户端需要浏览器、elink、curl等。</p>
+一般基于 tcp 协议<br>
+基于 b/s 框架进行通信的。<br>
+服务端需要 httpd、nginx 等。
+客户端需要浏览器、elink、curl 等。</p>
 <h1 id="特点">特点</h1>
 <!-- prettier-ignore-start -->
 <table>
@@ -118,8 +118,9 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 </table>
 <!-- prettier-ignore-end -->
 <h2 id="spdy">SPDY</h2>
-<p>优化了http 1.x的请求延迟。<br>
-解决了http 1.x的安全性。</p>
+<p>优化了 http 1.x 的请求延迟。<br>
+解决了 http 1.x 的安全性。</p>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -149,7 +150,7 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 <td></td>
 </tr>
 <tr>
-<td>header压缩</td>
+<td>header 压缩</td>
 <td></td>
 <td></td>
 <td></td>
@@ -157,7 +158,7 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 <td></td>
 </tr>
 <tr>
-<td>基于https的加密协议传输（也就是拥有安全功能）</td>
+<td>基于 https 的加密协议传输（也就是拥有安全功能）</td>
 <td></td>
 <td></td>
 <td></td>
@@ -190,7 +191,8 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 </tr>
 </tbody>
 </table>
-<p>spdy的构成图</p>
+<!-- prettier-ignore-end -->
+<p>spdy 的构成图</p>
 <pre><code>        --------
         | http |
         --------
@@ -205,6 +207,7 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
         --------
 </code></pre>
 <h1 id="发展阶段">发展阶段</h1>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -221,7 +224,7 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 <tr>
 <td>缓存处理</td>
 <td></td>
-<td>使用if-modified-since/expires判断</td>
+<td>使用 if-modified-since/expires 判断</td>
 <td>entity tag / if-Unmodified-Since / if-match / if-None-Match</td>
 <td></td>
 <td></td>
@@ -231,7 +234,7 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 <td>带宽优化及网络连接</td>
 <td></td>
 <td>不支持断点续传</td>
-<td>使用range头域，只请求资源中的某一部分。返回状态码是206</td>
+<td>使用 range 头域，只请求资源中的某一部分。返回状态码是 206</td>
 <td></td>
 <td></td>
 <td></td>
@@ -240,16 +243,16 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 <td>错误通知</td>
 <td></td>
 <td></td>
-<td>新增24个错误状态响应码。如：409、401</td>
+<td>新增 24 个错误状态响应码。如：409、401</td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td>host头处理</td>
+<td>host 头处理</td>
 <td></td>
-<td>认为每个服务器绑定一个ip地址。因此请求头中无hostname</td>
-<td>需要指明host头域</td>
+<td>认为每个服务器绑定一个 ip 地址。因此请求头中无 hostname</td>
+<td>需要指明 host 头域</td>
 <td></td>
 <td></td>
 <td></td>
@@ -258,7 +261,7 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 <td>长链接</td>
 <td></td>
 <td></td>
-<td>可以在一个tcp连接上传送多个http请求、响应。</td>
+<td>可以在一个 tcp 连接上传送多个 http 请求、响应。</td>
 <td></td>
 <td></td>
 <td></td>
@@ -267,7 +270,7 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 <td></td>
 <td></td>
 <td></td>
-<td>默认找开connection:keep-alive</td>
+<td>默认找开 connection:keep-alive</td>
 <td></td>
 <td></td>
 <td></td>
@@ -287,16 +290,16 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 <td></td>
 <td></td>
 <td></td>
-<td><strong>多路复用</strong>。一个连接上有多个请求，每个请求都有一个惟一的id.接收端根据请求的id把请求归属到不同的服务器中。</td>
+<td><strong>多路复用</strong>。一个连接上有多个请求，每个请求都有一个惟一的 id.接收端根据请求的 id 把请求归属到不同的服务器中。</td>
 <td></td>
 </tr>
 <tr>
-<td>header压缩</td>
+<td>header 压缩</td>
 <td></td>
 <td></td>
 <td></td>
 <td></td>
-<td>encoder减少需要传输的header大小。通信双方各缓存一份header fields。避免重复header传输，减少需要传输的大小。</td>
+<td>encoder 减少需要传输的 header 大小。通信双方各缓存一份 header fields。避免重复 header 传输，减少需要传输的大小。</td>
 <td></td>
 </tr>
 <tr>
@@ -319,13 +322,15 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 </tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
 <h2 id="09">0.9</h2>
 <h2 id="10">1.0</h2>
 <h2 id="11">1.1</h2>
 <h2 id="20">2.0</h2>
 <p><a href="https://blog.csdn.net/z69183787/article/details/106643647/">https://blog.csdn.net/z69183787/article/details/106643647/</a></p>
-<p>原来是基于SPDY设计的。<br>
+<p>原来是基于 SPDY 设计的。<br>
 特点：</p>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -344,13 +349,13 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 </tr>
 <tr>
 <td>多路复用</td>
-<td>一个http 2.0连接中发起多个请求。</td>
+<td>一个 http 2.0 连接中发起多个请求。</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td>首部压缩</td>
-<td>通信双方同时维护一张头信息表，所有字段都记录在这张表中，每次传输只需要传输表中的索引ID.</td>
+<td>通信双方同时维护一张头信息表，所有字段都记录在这张表中，每次传输只需要传输表中的索引 ID.</td>
 <td></td>
 <td></td>
 </tr>
@@ -362,12 +367,13 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 </tr>
 <tr>
 <td>请求优先级设置</td>
-<td>每个stream都可以设置依赖和权重，可以按照依赖树分配优先级。</td>
+<td>每个 stream 都可以设置依赖和权重，可以按照依赖树分配优先级。</td>
 <td>解决了关键请求被阻塞问题</td>
 <td></td>
 </tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
 <h1 id="编码解码">编码、解码</h1>
 <h1 id="状态码-status"><a href="/communication-protocol/status.html">状态码 status</a></h1>
 <h1 id="工作原理">工作原理</h1>
@@ -378,6 +384,7 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 <li>客户端与服务端关闭连接</li>
 </ol>
 <h1 id="请求方法">请求方法</h1>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -396,13 +403,13 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 </tr>
 <tr>
 <td>HEAD</td>
-<td>与GET请求类似。返回的是响应中没有具体的内容，用于获取报头。</td>
+<td>与 GET 请求类似。返回的是响应中没有具体的内容，用于获取报头。</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td>POST</td>
-<td>向指定url提交数据进行处理请求（如：提交表单、上传文件）。数据被包含在请求体中。POST请求一般用于创建新数据。</td>
+<td>向指定 url 提交数据进行处理请求（如：提交表单、上传文件）。数据被包含在请求体中。POST 请求一般用于创建新数据。</td>
 <td></td>
 <td></td>
 </tr>
@@ -420,7 +427,7 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 </tr>
 <tr>
 <td>CONNECT</td>
-<td>http/1.1协议中预留给能够将连接改为管道方式的代理服务器</td>
+<td>http/1.1 协议中预留给能够将连接改为管道方式的代理服务器</td>
 <td></td>
 <td></td>
 </tr>
@@ -438,12 +445,13 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 </tr>
 <tr>
 <td>PATCH</td>
-<td>是对PUT请求的补充，用于对已知资源进行局部更新。</td>
+<td>是对 PUT 请求的补充，用于对已知资源进行局部更新。</td>
 <td></td>
 <td></td>
 </tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
 <h1 id="报文格式">报文格式</h1>
 <h2 id="请求">请求</h2>
 <p><img src="https://www.runoob.com/wp-content/uploads/2013/11/2012072810301161.png" alt="请求报文格式"></p>
@@ -508,7 +516,7 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 <td></td>
 <td>报文主体</td>
 <td></td>
-<td>GET时没用报文主体。POST时有。</td>
+<td>GET 时没用报文主体。POST 时有。</td>
 </tr>
 </tbody>
 </table>
@@ -573,6 +581,7 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 </tbody>
 </table>
 <h2 id="回馈">回馈</h2>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -594,27 +603,27 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 <tr>
 <td>Content-Encoding</td>
 <td>文档的编码方式。</td>
-<td>使用压缩文档会减少html文档的下载时间</td>
+<td>使用压缩文档会减少 html 文档的下载时间</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td>Content-Length</td>
-<td>内容长度。只有在浏览器使用持久http连接时才需要这个数据。</td>
+<td>内容长度。只有在浏览器使用持久 http 连接时才需要这个数据。</td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td>Content-Type</td>
-<td>指明文档属于什么MIME类型。</td>
+<td>指明文档属于什么 MIME 类型。</td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td>Date</td>
-<td>当前的GMT时间</td>
+<td>当前的 GMT 时间</td>
 <td></td>
 <td></td>
 <td></td>
@@ -635,7 +644,7 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 </tr>
 <tr>
 <td>Location</td>
-<td>客户应当从哪里获取文档。若设置，则需要与状态码302一起使用。</td>
+<td>客户应当从哪里获取文档。若设置，则需要与状态码 302 一起使用。</td>
 <td></td>
 <td></td>
 <td></td>
@@ -649,30 +658,32 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 </tr>
 <tr>
 <td>Server</td>
-<td>服务器的名字。一般由web服务器设置。</td>
+<td>服务器的名字。一般由 web 服务器设置。</td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td>Set-Cookie</td>
-<td>设置cookie.</td>
+<td>设置 cookie.</td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td>WWW-Authenticate</td>
-<td>客户应该在Authorization头中提供什么类型的授权信息。</td>
+<td>客户应该在 Authorization 头中提供什么类型的授权信息。</td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
 <h1 id="content-type">content-type</h1>
-<p>指明文档的MIME类型。<br>
+<p>指明文档的 MIME 类型。<br>
 浏览器会根据些字段解析该文档。</p>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -685,7 +696,7 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 <tbody>
 <tr>
 <td>text/html</td>
-<td>html格式</td>
+<td>html 格式</td>
 <td></td>
 <td></td>
 </tr>
@@ -697,7 +708,7 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 </tr>
 <tr>
 <td>text/xml</td>
-<td>xml格式</td>
+<td>xml 格式</td>
 <td></td>
 <td></td>
 </tr>
@@ -721,7 +732,7 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 </tr>
 <tr>
 <td>application/xhtml+xml</td>
-<td>xhtml格式</td>
+<td>xhtml 格式</td>
 <td></td>
 <td></td>
 </tr>
@@ -733,7 +744,7 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 </tr>
 <tr>
 <td>application/atom+xml</td>
-<td>Atom XML聚合格式</td>
+<td>Atom XML 聚合格式</td>
 <td></td>
 <td></td>
 </tr>
@@ -763,7 +774,7 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 </tr>
 <tr>
 <td>application/x-www-form-urlencoded</td>
-<td>把form中的数据编码为k/v格式发送服务器</td>
+<td>把 form 中的数据编码为 k/v 格式发送服务器</td>
 <td></td>
 <td></td>
 </tr>
@@ -775,10 +786,12 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 </tr>
 </tbody>
 </table>
-<h1 id="mime类型">MIME类型</h1>
+<!-- prettier-ignore-end -->
+<h1 id="mime-类型">MIME 类型</h1>
 <p>描述消息内容类型的标准。</p>
 <pre><code>type/subtype
 </code></pre>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -826,7 +839,7 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 <td></td>
 </tr>
 <tr>
-<td>audio/midi  audio/x-midi</td>
+<td>audio/midi audio/x-midi</td>
 <td></td>
 <td></td>
 <td></td>
@@ -863,6 +876,7 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 </tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
 <h1 id="http--https">http &amp; <a href="/communication-protocol/https.html">HTTPS</a></h1>
 <!-- prettier-ignore-start -->
 <table>
@@ -923,30 +937,6 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 <td>防止运营商劫持</td>
 <td></td>
 </tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
 </tbody>
 </table>
 <!-- prettier-ignore-end -->
@@ -955,7 +945,6 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 
 连接 -》 传输数据 -》关闭连接
 </code></pre>
-<h1 id="title">title</h1>
 
         
         
