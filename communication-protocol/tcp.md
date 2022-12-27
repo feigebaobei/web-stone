@@ -25,7 +25,7 @@ Transmission Control Protocol
 |     | 面向字节流 |             |  |
 <!-- prettier-ignore-end -->
 
-![tcp头部](http://lixiaodan.org/communication-protocol/tcpHeader.png)  
+![tcp头部](/communication-protocol/tcpHeader.png)  
 源端口(Source Port)  
 目的端口(Desination Port)  
 序列号(Sequence Number)【数据包的序号】  
