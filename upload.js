@@ -249,14 +249,8 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = 'framework/qwik'
-    let p = [
-      // 'communication-protocol/index.html',
-      // 'communication-protocol/transferProcess.png',
-      'communication-protocol/tcpHeader.png',
-      'communication-protocol/ipCategory.png',
-      'communication-protocol/2bc2010e6d84fd5b9fd6ecadff65d5d2_r.jpeg',
-    ]
+    // let p = 'microservices'
+    let p = ['communication-protocol/ip.html']
     // 检测指定目录是否存在
     // checkDir(p)
     // 检测删除目录
