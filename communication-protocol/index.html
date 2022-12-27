@@ -96,21 +96,21 @@
 <td>应用层 表达层 会话层</td>
 <td>应用层</td>
 <td></td>
-<td>HTTP HTTPS FTP SMTP DNS Telnet POP3 SNMP NFS</td>
+<td><a href="/communication-protocol/http.html">HTTP</a> <a href="/communication-protocol/https.html">HTTPS</a> FTP SMTP DNS Telnet POP3 SNMP NFS</td>
 <td>报文 message</td>
 </tr>
 <tr>
 <td>运输层</td>
 <td>运输层</td>
 <td></td>
-<td>TCP UDP</td>
+<td><a href="/communication-protocol/tcp.html">TCP</a> <a href="/communication-protocol/udp.html">UDP</a></td>
 <td>tcp 报文段 segment udp 数据报 datagram</td>
 </tr>
 <tr>
 <td>网络层</td>
 <td>网络层</td>
 <td></td>
-<td>IP ICMP ARP</td>
+<td><a href="/communication-protocol/ip.html">IP</a> ICMP ARP</td>
 <td>分组、数据包 packet</td>
 </tr>
 <tr>
@@ -134,22 +134,13 @@ SNMP 简单网络管理协议（通过网管软件来管理网络）<br>
 DNS 域名系统，将域名解析为 IP 地址（将百度的域名转换为服务器的 IP 地址）</p>
 <p><img src="https://cf-assets.www.cloudflare.com/slt3lc6tev37/3L6e3OwCgSWOxp79AJUzXs/bcc453b68a03ae5a83bda4e5453984d1/osi-model-7-layers_zhCN.svg" alt="osi"></p>
 <h1 id="各层功能">各层功能</h1>
-<p><img src="http://lixiaodan.org/communication-protocol/transferProcess.png" alt="各层之间的传递过程"></p>
+<p><img src="/communication-protocol/transferProcess.png" alt="各层之间的传递过程"></p>
 <h2 id="应用层的逻辑">应用层的逻辑</h2>
 <p>应用层:负责应用程序之间的数据交流<br>
 <a href="/communication-protocol/http.html">HTTP 1 2</a> <a href="/communication-protocol/https.html">HTTPS</a> FTP SMTP DNS Telnet POP3 SNMP NFS</p>
 <h2 id="运输层的逻辑">运输层的逻辑</h2>
 <p><a href="/communication-protocol/tcp.html">TCP</a> <a href="/communication-protocol/udp.html">UDP</a></p>
-<p>用户数据报协议<br>
-应用层:负责应用程序之间的数据交流<br>
-端口：</p>
-<ul>
-<li>一个进程可以占用多个端口；</li>
-<li>一个端口只能被一个进程占用</li>
-<li>一个端口就是一个数据通道</li>
-<li>端口号是一个无符号 16 位整数(0~65535)<br>
-五元组：网络中标识一条信息的具体流向，源端口、目的端口、源 IP 地址、目的 IP 地址、协议</li>
-</ul>
+<p>用户数据报协议</p>
 <h2 id="网络层的逻辑">网络层的逻辑</h2>
 <p><a href="/communication-protocol/ip.html">IP</a> ICMP <a href="/communication-protocol/arp.html">ARP</a></p>
 <h2 id="网络接口层的逻辑">网络接口层的逻辑</h2>
@@ -189,6 +180,14 @@ PPP <a href="/communication-protocol/etherent.html">Etherent</a></p>
 </tr>
 </tbody>
 </table>
+<p>端口：</p>
+<ul>
+<li>一个进程可以占用多个端口；</li>
+<li>一个端口只能被一个进程占用</li>
+<li>一个端口就是一个数据通道</li>
+<li>端口号是一个无符号 16 位整数(0~65535)<br>
+五元组：网络中标识一条信息的具体流向，源端口、目的端口、源 IP 地址、目的 IP 地址、协议</li>
+</ul>
 <h1 id="mac-地址">mac 地址</h1>
 <p>MAC 地址也叫物理地址、硬件地址，由网络设备制造商生产时烧录在网卡(Network lnterface Card)的 EPROM(一种闪存芯片，通常可以通过程序擦写)。IP 地址与 MAC 地址在计算机里都是以二进制表示的，IP 地址是 32 位的，而 MAC 地址则是 48 位的。</p>
 <h1 id="流-streaming"><a href="/communication-protocol/streaming.html">流 streaming</a></h1>

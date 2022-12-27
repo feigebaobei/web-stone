@@ -9,9 +9,9 @@
 <!-- prettier-ignore-start -->
 | osi      | 主要的分层 | 说明 | 代表协议 | 传输对象       |
 | ------------ | -- | ---- | ------------ | ------ |
-| 应用层 表达层 会话层 | 应用层 |  | HTTP HTTPS FTP SMTP DNS Telnet POP3 SNMP NFS | 报文 message       |
-| 运输层   | 运输层 |  | TCP UDP  | tcp 报文段 segment udp 数据报 datagram |
-| 网络层   | 网络层 |  | IP ICMP ARP  | 分组、数据包 packet    |
+| 应用层 表达层 会话层 | 应用层 |  | [HTTP](/communication-protocol/http.html) [HTTPS](/communication-protocol/https.html) FTP SMTP DNS Telnet POP3 SNMP NFS | 报文 message       |
+| 运输层   | 运输层 |  | [TCP](/communication-protocol/tcp.html) [UDP](/communication-protocol/udp.html)  | tcp 报文段 segment udp 数据报 datagram |
+| 网络层   | 网络层 |  | [IP](/communication-protocol/ip.html) ICMP ARP  | 分组、数据包 packet    |
 | 数据链路层 物理层    | 网络接口层 |  | PPP Etherent  | 帧 frame       |
 <!-- prettier-ignore-end -->
 
@@ -29,7 +29,7 @@ DNS 域名系统，将域名解析为 IP 地址（将百度的域名转换为服
 
 # 各层功能
 
-![各层之间的传递过程](http://lixiaodan.org/communication-protocol/transferProcess.png)
+![各层之间的传递过程](/communication-protocol/transferProcess.png)
 
 ## 应用层的逻辑
 
@@ -40,15 +40,7 @@ DNS 域名系统，将域名解析为 IP 地址（将百度的域名转换为服
 
 [TCP](/communication-protocol/tcp.html) [UDP](/communication-protocol/udp.html)
 
-用户数据报协议  
-应用层:负责应用程序之间的数据交流  
-端口：
-
-- 一个进程可以占用多个端口；
-- 一个端口只能被一个进程占用
-- 一个端口就是一个数据通道
-- 端口号是一个无符号 16 位整数(0~65535)  
-  五元组：网络中标识一条信息的具体流向，源端口、目的端口、源 IP 地址、目的 IP 地址、协议
+用户数据报协议
 
 ## 网络层的逻辑
 
@@ -69,6 +61,15 @@ PPP [Etherent](/communication-protocol/etherent.md)
 | 256-1023  | unix 系统占用           |     |
 | 1024-5000 | tcp / ip 临时分配的端口 |     |
 | >5000     | 给其他服务预留的        |     |
+
+端口：
+
+- 一个进程可以占用多个端口；
+- 一个端口只能被一个进程占用
+- 一个端口就是一个数据通道
+- 端口号是一个无符号 16 位整数(0~65535)
+
+五元组：网络中标识一条信息的具体流向，源端口、目的端口、源 IP 地址、目的 IP 地址、协议
 
 # mac 地址
 
