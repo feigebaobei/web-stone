@@ -154,7 +154,7 @@
 </tbody>
 </table>
 <!-- prettier-ignore-end -->
-<p><img src="/communication-protocol/tcpHeader.png" alt="tcp头部"></p>
+<p><img src="file:////communication-protocol/tcpHeader.png" alt="tcp头部"></p>
 <p>源端口(Source Port)<br>
 目的端口(Desination Port)<br>
 序列号(Sequence Number)【数据包的序号】<br>
@@ -196,6 +196,17 @@ MAC 地址<br>
 <li>接收这个最终 fin 的原发送端 tcp 确认这个 fin.</li>
 </ol>
 <p><img src="https://img-blog.csdn.net/20180719110841774?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpYW9taW5nMTAwMDAx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="四挥"></p>
+<h2 id="tcpip的工作过程">tcp/ip的工作过程</h2>
+<ol>
+<li>在源主机上，应用层将一串应用数据流传送给传输层。</li>
+<li>传输层将应用层的数据流截成分组，并加上TCP报头形成TCP段，送交网络层。</li>
+<li>在网络层给TCP段加上包括源、目的主机IP地址的IP报头，生成一个IP数据包，并将IP数据包送交链路层。</li>
+<li>链路层在其MAC帧的数据部分装上IP数据包，再加上源、目的主机的MAC地址和帧头，并根据其目的MAC地址，将MAC帧发往目的主机或IP路由器。</li>
+<li>在目的主机，链路层将MAC帧的帧头去掉，并将IP数据包送交网络层。</li>
+<li>网络层检查IP报头，如果报头中校验和与计算结果不一致，则丢弃该IP数据包；若校验和与计算结果一致，则去掉IP报头，将TCP段送交传输层。</li>
+<li>传输层检查顺序号，判断是否是正确的TCP分组，然后检查TCP报头数据。若正确，则向源主机发确认信息；若不正确或丢包，则向源主机要求重发信息。</li>
+<li>在目的主机，传输层去掉TCP报头，将排好顺序的分组组成应用数据流送给应用程序。这样目的主机接收到的来自源主机的字节流，就像是直接接收来自源主机的字节流一样。</li>
+</ol>
 <h1 id="tcp--udp">tcp &amp; udp</h1>
 <!-- prettier-ignore-start -->
 <table>
