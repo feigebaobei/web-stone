@@ -5,6 +5,18 @@ url:统一资源定位符，在网络中唯一定义一份资源。
 protocol://userName:password@serverAddress:port/path?queryString#fragment  
 一般基于 tcp 协议
 
+# 特点
+
+<!-- prettier-ignore-start -->
+|||||
+|-|-|-|-|
+|内容加密||||
+|验证身份||||
+|保护数据完整性||||
+|内容加密||||
+|||||
+<!-- prettier-ignore-end -->
+
 # 编码、解码
 
 # [status](/communication-protocol/status.html)
@@ -33,7 +45,7 @@ rsa/dsa
            |     返回证书（公钥）     |
            |<----------------------|
            |                       |
-    产品随机（对称）密钥              |
+    产生随机（对称）密钥              |
     使用公钥对对称密钥加密             |
            |                       |
            |    发送加密后的对称密钥   |
@@ -46,6 +58,10 @@ rsa/dsa
            |                       |
 ```
 
+1. 建立 tcp 连接
+2. 初始化安全层
+3. 发送 http 请求
+
 # 优点
 
 |                                                |     |     |     |
@@ -56,6 +72,26 @@ rsa/dsa
 
 # [HTTP](/communication-protocol/http.html) & [HTTPS](/communication-protocol/https.html)
 
-# [ssl](/communication-protocol/ssl.html) & [tls](/communication-protocol/tls.html)
+# [ssl secure socket layer](/communication-protocol/ssl.html) & [tls transport layer security](/communication-protocol/tls.html)
 
-二者运行在 tcp 上
+被称为安全层。二者运行在 tcp 上。
+
+```
+       -------------
+       |    http   |
+       -------------
+       -------------
+       | ssl / tls |
+       -------------
+       -------------
+       |    tcp    |
+       -------------
+       -------------
+       |    ip     |
+       -------------
+       -------------
+       |  网络接口   |
+       -------------
+```
+
+# [ca 证书](/browser/caCert.html)
