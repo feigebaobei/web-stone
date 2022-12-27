@@ -89,7 +89,7 @@ https://blog.csdn.net/z69183787/article/details/106643647/
 |-|-|-|-|
 |进制分帧|使用二进制|||
 |多路复用|一个 http 2.0 连接中发起多个请求。|||
-|首部压缩|通信双方同时维护一张头信息表，所有字段都记录在这张表中，每次传输只需要传输表中的索引 ID.|||
+|首部压缩|通信双方同时维护一张头信息表，所有字段都记录在这张表中，每次传输只需要传输表中的索引 ID.|请求头全是小写||
 |服务端推送|服务端向客户端发送一个请求。|||
 |请求优先级设置|每个 stream 都可以设置依赖和权重，可以按照依赖树分配优先级。|解决了关键请求被阻塞问题||
 <!-- prettier-ignore-end -->
@@ -141,7 +141,19 @@ https://blog.csdn.net/z69183787/article/details/106643647/
 |||uri||
 |||协议及版本||
 ||请求首部字段||客户端的信息、响应的优先级|
+|||Cookie||
+|||Accept-xxx||
+|||Content-Type||
+|||Content-Length||
+|||Authorization||
+|||User-Agent||
+|||Referrer||
 ||能用首部字段||请求报文、响应报文都会使用的报文|
+|||Request URL||
+|||Request Method||
+|||Status Code||
+|||Remote Address||
+|||Referrer Policy||
 ||实体首部字段||补充了实体有关的资源信息|
 ||报文主体||GET 时没用报文主体。POST 时有。|
 
