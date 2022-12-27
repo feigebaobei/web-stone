@@ -1,1 +1,3 @@
-'<img src="file:///'
+// '<img src="file:///'
+
+console.log('md.js')
