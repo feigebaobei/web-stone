@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>git flow</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="git-flow">git flow</h1>
+<p>用于解决开发过程中各种冲突导致问题。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>主分支</th>
+<th>功能分支</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>用于组织、开发、部署。</td>
+<td>解决特定问题</td>
+</tr>
+<tr>
+<td></td>
+<td>可随时用于部署。</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="install">install</h2>
+<pre><code class="language-shell">brew install git-flow
+<span class="hljs-meta prompt_"># </span><span class="language-bash">or</span>
+git flow init
+<span class="hljs-meta prompt_"># </span><span class="language-bash">然后可以使用默认值</span>
+</code></pre>
+<h2 id="usage">usage</h2>
+<pre><code class="language-shell">git checkout master
+git flow feature start f1
+git flow feature publish f1
+<span class="hljs-meta prompt_"># </span><span class="language-bash">or</span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">git push origin feature/f1</span>
+git flow feature finish f1 # 开发结束时删除分支
+<span class="hljs-meta prompt_">
+# </span><span class="language-bash">修复bug</span>
+git checkout master
+git flow hotfix start bug1
+</code></pre>
+<h2 id="总结">总结</h2>
+<p>多年的分支创建、合并、删除已经成习惯了，没必要使用git-flow工具解决这些问题。</p>
+
+        
+        
+    </body>
+    </html>

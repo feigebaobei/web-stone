@@ -336,6 +336,8 @@ merge 前保证当前工作区干净
 
 `<key>(scope): content`
 
+## [git flow](/git/flow.html)
+
 ## [git hook](/git/hooks.html)
 
 执行`git init`时会生成`.git`目录。其下的`hooks`目录是 git 的所有钩子。
