@@ -14,9 +14,9 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment
 <!-- prettier-ignore-start -->
 |||||
 |-|-|-|-|
-|无连接|每次连接只处理一个请求，服务器回馈了客户端的请求后断开连接。|可以节省时间。连接是由tcp负责的。||
+|无连接|客户端发出一个请求，服务器回馈这个请求|可以节省时间。连接是由tcp负责的。||
 |媒体独立|只要客户端、服务端知道如何处理数据内容，则任何数据都可以通过http发送。|客户端、服务端需要指定适合的MIME-type内容类型。||
-|无状态|协议对事务处理没有记忆能力。|后端服务使用cookie+session/header+jwt标记状态。||
+|无状态|协议对事务处理没有记忆能力。都无连接了怎么可能会有状态呢。|后端服务使用cookie+session/header+jwt标记状态。||
 |基于请求回馈||||
 |使用明文通信||||
 <!-- prettier-ignore-end -->
@@ -95,6 +95,17 @@ https://blog.csdn.net/z69183787/article/details/106643647/
 |服务端推送|服务端向客户端发送一个请求。|||
 |请求优先级设置|每个 stream 都可以设置依赖和权重，可以按照依赖树分配优先级。|解决了关键请求被阻塞问题||
 <!-- prettier-ignore-end -->
+
+## 3.0
+
+就是[quic](/communication-protocol/quic.html)  
+用于多次请求（多路复用）
+
+### 特点
+
+- 0 rtt
+- 在客户端发送的第一条信息是随机值 connection id。如果从 wifi 改变为 mobile data 时会使用此字段。
+- 多路复用
 
 # 编码、解码
 
@@ -270,3 +281,12 @@ type/subtype
 
 连接 -》 传输数据 -》关闭连接
 ```
+
+# 指标
+
+|     |                 |          |                                      |
+| --- | --------------- | -------- | ------------------------------------ |
+| rtt | round-trip time | 往返时间 | 从数据完全发送完到收到确认信号的时间 |
+|     |                 |          |                                      |
+|     |                 |          |                                      |
+|     |                 |          |                                      |

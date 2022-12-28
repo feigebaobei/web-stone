@@ -98,7 +98,7 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 <tbody>
 <tr>
 <td>无连接</td>
-<td>每次连接只处理一个请求，服务器回馈了客户端的请求后断开连接。</td>
+<td>客户端发出一个请求，服务器回馈这个请求</td>
 <td>可以节省时间。连接是由tcp负责的。</td>
 <td></td>
 </tr>
@@ -110,7 +110,7 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 </tr>
 <tr>
 <td>无状态</td>
-<td>协议对事务处理没有记忆能力。</td>
+<td>协议对事务处理没有记忆能力。都无连接了怎么可能会有状态呢。</td>
 <td>后端服务使用cookie+session/header+jwt标记状态。</td>
 <td></td>
 </tr>
@@ -386,6 +386,15 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 </tbody>
 </table>
 <!-- prettier-ignore-end -->
+<h2 id="30">3.0</h2>
+<p>就是<a href="/communication-protocol/quic.html">quic</a><br>
+用于多次请求（多路复用）</p>
+<h3 id="特点">特点</h3>
+<ul>
+<li>0 rtt</li>
+<li>在客户端发送的第一条信息是随机值 connection id。如果从wifi改变为mobile data时会使用此字段。</li>
+<li>多路复用</li>
+</ul>
 <h1 id="编码解码">编码、解码</h1>
 <h1 id="状态码-status"><a href="/communication-protocol/status.html">状态码 status</a></h1>
 <h1 id="工作原理">工作原理</h1>
@@ -1029,6 +1038,43 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 
 连接 -》 传输数据 -》关闭连接
 </code></pre>
+<h1 id="指标">指标</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rtt</td>
+<td>round-trip time</td>
+<td>往返时间</td>
+<td>从数据完全发送完到收到确认信号的时间</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 
         
         
