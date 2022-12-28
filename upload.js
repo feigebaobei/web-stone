@@ -249,10 +249,8 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = 'microservices'
-    let p = [
-      // 'communication-protocol/ip.html'
-    ]
+    // let p = 'webRTC'
+    let p = ['webRTC/index.html']
     // 检测指定目录是否存在
     // checkDir(p)
     // 检测删除目录
