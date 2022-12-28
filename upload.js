@@ -250,7 +250,12 @@ c.on('ready', () => {
       throw err
     }
     // let p = 'webRTC'
-    let p = ['webRTC/index.html']
+    let p = [
+      'webRTC/index.html',
+      'browser/index.html',
+      'browser/cookie.html',
+      'browser/keyUrl.html',
+    ]
     // 检测指定目录是否存在
     // checkDir(p)
     // 检测删除目录
