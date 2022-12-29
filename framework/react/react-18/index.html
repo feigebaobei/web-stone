@@ -81,7 +81,7 @@
 <ul>
 <li>创建 element</li>
 <li>基本 hook</li>
-<li>使用 vdom。（可使 diff 更快）</li>
+<li>使用 vdom。（可使 diff 更快。O(n^3) -&gt; O(n)）</li>
 </ul>
 <h2 id="install">install</h2>
 <pre><code class="language-shell">npm i react
@@ -279,7 +279,7 @@ funtion <span class="hljs-title class_">Clock</span>(props) { <span class="hljs-
 </table>
 <ul>
 <li>使用<code>this.setState()</code>改变 state</li>
-<li>setState 本质是同步的。因react的优化机制，有时表现为异步，有时表现为同步。</li>
+<li>setState 本质是同步的。因 react 的优化机制，有时表现为异步，有时表现为同步。</li>
 </ul>
 <pre><code class="language-js"><span class="hljs-title function_">setState</span>({<span class="hljs-attr">k</span>: v})
 <span class="hljs-title function_">setState</span>(<span class="hljs-function">(<span class="hljs-params">state, props, any, ...</span>) =&gt;</span> ({<span class="hljs-attr">k</span>: v}))
@@ -296,12 +296,12 @@ funtion <span class="hljs-title class_">Clock</span>(props) { <span class="hljs-
 <tr>
 <td>异步</td>
 <td>在合成事件、钩子函数中表现为异步</td>
-<td>合成事件和钩子函数在更新之间调用。可以使用setState(partialState, cb)得到更新后的结果。</td>
+<td>合成事件和钩子函数在更新之间调用。可以使用 setState(partialState, cb)得到更新后的结果。</td>
 </tr>
 <tr>
 <td>同步</td>
-<td>在原生事件、setTimeout中表现为同步</td>
-<td>这2种情况不会批量更新。</td>
+<td>在原生事件、setTimeout 中表现为同步</td>
+<td>这 2 种情况不会批量更新。</td>
 </tr>
 </tbody>
 </table>

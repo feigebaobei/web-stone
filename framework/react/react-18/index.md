@@ -4,7 +4,7 @@
 
 - 创建 element
 - 基本 hook
-- 使用 vdom。（可使 diff 更快）
+- 使用 vdom。（可使 diff 更快。O(n^3) -> O(n)）
 
 ## install
 
