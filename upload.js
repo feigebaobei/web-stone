@@ -249,14 +249,26 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = 'promote/cryptology'
+    // let p = 'promote/hash'
     let p = [
       'browser/index.html',
       'browser/uri.html',
       'browser/crossDomain.html',
+      'browser/caCert.html',
       'browser/cookie.html',
       'communication-protocol/tcp3.png',
+      'communication-protocol/https.png',
       'index.html',
+      'communication-protocol/http.html',
+      'communication-protocol/https.html',
+      'communication-protocol/ip.html',
+      'communication-protocol/ipfs.html',
+      'communication-protocol/http.html',
+      'communication-protocol/quic.html',
+      'communication-protocol/ssl.html',
+      'communication-protocol/tcp.html',
+      'communication-protocol/tls.html',
+      'communication-protocol/upd.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
