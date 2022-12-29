@@ -185,22 +185,6 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 <td></td>
 <td></td>
 </tr>
-<tr>
-<td>降低延迟</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
 </tbody>
 </table>
 <!-- prettier-ignore-end -->
@@ -323,23 +307,14 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 <td>服务端推送</td>
 <td></td>
 </tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
 </tbody>
 </table>
 <!-- prettier-ignore-end -->
 <h2 id="09">0.9</h2>
 <h2 id="10">1.0</h2>
 <h2 id="11">1.1</h2>
+<p>服务器回馈后会等待几秒后断开（默认3秒）。若这几秒内有请求，则使用此连接通道收发信息。否则断开连接。</p>
 <h2 id="20">2.0</h2>
-<p><a href="https://blog.csdn.net/z69183787/article/details/106643647/">https://blog.csdn.net/z69183787/article/details/106643647/</a></p>
 <p>原来是基于 SPDY 设计的。<br>
 特点：</p>
 <!-- prettier-ignore-start -->
@@ -387,15 +362,14 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 </table>
 <!-- prettier-ignore-end -->
 <h2 id="30">3.0</h2>
-<p>就是<a href="/communication-protocol/quic.html">quic</a><br>
+<p>旧称是<a href="/communication-protocol/quic.html">quic</a><br>
 用于多次请求（多路复用）</p>
 <h3 id="特点">特点</h3>
 <ul>
 <li>0 rtt</li>
-<li>在客户端发送的第一条信息是随机值 connection id。如果从wifi改变为mobile data时会使用此字段。</li>
+<li>在客户端发送的第一条信息是随机值 connection id。如果从 wifi 改变为 mobile data 时会使用此字段。</li>
 <li>多路复用</li>
 </ul>
-<h1 id="编码解码">编码、解码</h1>
 <h1 id="状态码-status"><a href="/communication-protocol/status.html">状态码 status</a></h1>
 <h1 id="工作原理">工作原理</h1>
 <ol>
@@ -476,7 +450,8 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 <h1 id="报文格式">报文格式</h1>
 <h2 id="请求">请求</h2>
 <p><img src="https://www.runoob.com/wp-content/uploads/2013/11/2012072810301161.png" alt="请求报文格式"></p>
-<pre><code>报文首部
+<pre><code>请求行
+报文首部
 空行
 报文主体
 </code></pre>
@@ -614,7 +589,8 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 </tbody>
 </table>
 <p>回馈报文格式</p>
-<pre><code>报文首部
+<pre><code>状态行
+报文首部
 空行
 报文主体
 </code></pre>

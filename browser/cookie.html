@@ -76,38 +76,74 @@
     </head>
     <body class="vscode-body vscode-light">
         <h1 id="cookie">cookie</h1>
+<h2 id="overview">overview</h2>
+<ul>
+<li>参与通信。弥补http(s)无状态的特点。</li>
+<li>&lt;4k</li>
+<li>只能保存字符串。</li>
+</ul>
+<h2 id="用途">用途</h2>
+<ul>
+<li>记录用户状态。如：判断用户是否登录。</li>
+<li>浏览计数。</li>
+</ul>
 <h2 id="各字段">各字段</h2>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
 <th></th>
-<th></th>
-<th></th>
+<th>说明</th>
+<th>默认值</th>
 <th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
+<td>name</td>
+<td>名称，不可重复，不可删除</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td></td>
-<td></td>
+<td>value</td>
+<td>若为Uniconde则需要编码，若为二进制，则需要base64编码</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
+<td>maxAge</td>
+<td>失效时间。若为正数，则maxAge秒后失效。若为负数，则该cookie为临时cookie，在关闭浏览器后失效。若为0，则删除该cookie.</td>
+<td>-1</td>
+<td></td>
+</tr>
+<tr>
+<td>secure</td>
+<td>是否仅被安全协议使用。</td>
+<td>false</td>
+<td></td>
+</tr>
+<tr>
+<td>path</td>
+<td>指定路径下都可以使用该cookie。最后一个字符必须是<code>/</code></td>
 <td></td>
 <td></td>
+</tr>
+<tr>
+<td>domain</td>
+<td>域名。若为<code>.abc.com</code>，则以<code>abc.com</code>结尾的域名都可以访问此cookie</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>comment</td>
+<td>用处说明。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>version</td>
+<td>版本号。0：Netscape的cookie规范。1：w3c遵循的rfc 2109规范</td>
 <td></td>
 <td></td>
 </tr>
@@ -131,6 +167,16 @@
 </tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
+<h2 id="操作cookie">操作cookie</h2>
+<pre><code class="language-js"><span class="hljs-comment">// 获取cookie</span>
+<span class="hljs-variable language_">document</span>.<span class="hljs-property">cookie</span>
+<span class="hljs-comment">// 设置 &amp; 修改cookie</span>
+<span class="hljs-variable language_">document</span>.<span class="hljs-property">cookie</span> = <span class="hljs-string">&#x27;k=v&#x27;</span>
+<span class="hljs-variable language_">document</span>.<span class="hljs-property">cookie</span> = <span class="hljs-string">&#x27;k=v; expires=Thu, 18 Dec 2043 12:00:00 GMT; path=/&#x27;</span>
+<span class="hljs-comment">// 删除 cookie 设置为以前的时间 可以不指定值</span>
+<span class="hljs-variable language_">document</span>.<span class="hljs-property">cookie</span> = <span class="hljs-string">&#x27;k=; expires=Thu, 18 Dec 1970 12:00:00 GMT; path=/&#x27;</span>
+</code></pre>
 <h2 id="cookie--session">cookie &amp; session</h2>
 <p>二者共同写成标记状态。</p>
 <table>
@@ -181,6 +227,9 @@
 </tr>
 </tbody>
 </table>
+<h2 id="前端存储"><a href="/browser/frontStorage/index.html">前端存储</a></h2>
+<h2 id="跨域"><a href="/browser/crossDomain.html">跨域</a></h2>
+<h2 id="同源策略"><a href="/browser/origin&amp;cors.html">同源策略</a></h2>
 
         
         

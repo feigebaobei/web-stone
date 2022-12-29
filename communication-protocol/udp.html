@@ -76,7 +76,8 @@
     </head>
     <body class="vscode-body vscode-light">
         <h1 id="overview">overview</h1>
-<p>UDP user datagram protocol</p>
+<p>UDP user datagram protocol 用户数据报协议<br>
+它在ip协议上没做多少功能。</p>
 <h2 id="特点">特点</h2>
 <!-- prettier-ignore-start -->
 <table>
@@ -92,7 +93,7 @@
 <tr>
 <td>无连接、不可靠</td>
 <td>通信时，通信双方不需要建立连接，只需要知道对端地址信息，就可以发送信息</td>
-<td></td>
+<td>感觉无连接的都不可靠</td>
 <td></td>
 </tr>
 <tr>
@@ -120,8 +121,14 @@
 <td></td>
 </tr>
 <tr>
-<td>尽可能地交付</td>
-<td>不保证交付，只传输数据。</td>
+<td>尽可能地传递</td>
+<td>不保证交付质量，只传输数据。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>无分包能力</td>
+<td>需要应用层分包</td>
 <td></td>
 <td></td>
 </tr>
@@ -142,15 +149,55 @@
 |                  数据（可以无）         |
 |---------------------------------------|
 </code></pre>
-<p>协议字段：16位源端口 16位目的端口 16位udp数据报数据的最大长度，包含udp首部和数据） 16位校验和</p>
-<p>udp数据报长度决定了一个udp协议格式的数据最大长度不能超过64k-8，否则发送失败；当数据长度过大（&gt;65507字节）时需要用户在应用层进行数据分包</p>
-<p>udp无法保证数据的有序到达，为了保证数据的有序到达，需要用户在应用层对数据进行包序管理</p>
+<p>协议字段：16 位源端口 16 位目的端口 16 位 udp 数据报数据的最大长度，包含 udp 首部和数据） 16 位校验和</p>
+<p>udp 数据报长度决定了一个 udp 协议格式的数据最大长度不能超过 64k-8，否则发送失败；当数据长度过大（&gt;65507 字节）时需要用户在应用层进行数据分包</p>
+<p>udp 无法保证数据的有序到达，为了保证数据的有序到达，需要用户在应用层对数据进行包序管理</p>
 <h2 id="用途">用途</h2>
 <ul>
 <li>nds/tptp/snmp</li>
 <li>视频、音频、直播、有线电视、普通数据（无关紧要的数据）</li>
 </ul>
 <h2 id="tcp--udp"><a href="/communication-protocol/tcp.html">tcp &amp; udp</a></h2>
+<p>基于tcp的协议</p>
+<p>基于udp的协议
+dns / tftp / snmp</p>
+<h2 id="常用udp接口及其功能">常用udp接口及其功能</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>69</td>
+<td>tftp</td>
+<td>简单文件传输协议</td>
+<td></td>
+</tr>
+<tr>
+<td>111</td>
+<td>rpc</td>
+<td>远程过程协议</td>
+<td></td>
+</tr>
+<tr>
+<td>123</td>
+<td>ntp</td>
+<td>网络时间协议</td>
+<td></td>
+</tr>
+<tr>
+<td>161</td>
+<td>snmp</td>
+<td>简单网络管理协议</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 
         
         
