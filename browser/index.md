@@ -24,6 +24,9 @@
 - [ca 证书](/browser/caCert.html)
 - [请求 url 的过程](/browser/keyUrl.html)
 - [cookie](/browser/cookie.html)
+- [uri](/browser/uri.html)
+- [title](/browser/title.html)
+- [title](/browser/title.html)
 - [title](/browser/title.html)
 - [title](/browser/title.html)
 

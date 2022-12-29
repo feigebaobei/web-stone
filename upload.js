@@ -249,12 +249,15 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = 'webRTC'
+    // let p = ''
     let p = [
-      'webRTC/index.html',
+      // 'webRTC/index.html',
       'browser/index.html',
+      'browser/crossDomain.html',
       'browser/cookie.html',
-      'browser/keyUrl.html',
+      // 'browser/keyUrl.html',
+      'index.html',
+      // 'promote/cryptology.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
