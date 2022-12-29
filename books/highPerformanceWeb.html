@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>1&period; &#x51cf;&#x5c11;HTTP&#x8bf7;&#x6c42;&#x3002;</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h2 id="1-减少http请求">1. 减少HTTP请求。</h2>
+<p>只用10%-20%的用户响应时间在下载html文档。其余的80%-90%时间花在下载页面中的所有组件上。</p>
+<p>CSSSprites在国内很多人叫css精灵，是一种网页图片应用处理方式。它允许你将一个页面涉及到的所有零星图片都包含到一张大图中去，这样一来，当访问该页面时，载入的图片就不会像以前那样一幅一幅地慢慢显示出来了。对于当前网络流行的速度而言，不高于200KB的单张图片的所需载入时间基本是差不多的，所以无需顾忌这个问题。</p>
+<p>内联图片。 使用data.</p>
+<p>合并脚本和样式表。</p>
+<h2 id="2-使用内容发布系统cdn">2. 使用内容发布系统。（cdn）</h2>
+<p>常用的cdn服务提供商。</p>
+<blockquote>
+<ol>
+<li>Akamai</li>
+</ol>
+</blockquote>
+<ol start="2">
+<li>Mirror Image</li>
+<li>Limelight</li>
+<li>SAVVIS</li>
+<li>jsdevlivr</li>
+</ol>
+<p>从cdn服务器上加载来的组件比在单个web服务器上的加载速度快18%.</p>
+<h2 id="3-添加expires头">3. 添加Expires头。</h2>
+<p>告诉web客户端它可以使用一个组件的当前副本。直到指定的时间为止。<br>
+也可以使用Cache-Control的max-age指令指定组件可以缓存多久。</p>
+<h2 id="4-压缩组件">4. 压缩组件。</h2>
+<p>client =&gt; server 使用 Accpet-Encoding: gzip deflate</p>
+<p>一般用于 html, xml, json, css, js
+一般不用于 图片，pdf，小于2k的文件<br>
+压缩后请求量可以减少约70%。</p>
+<h2 id="5-将样式文件放在顶部">5. 将样式文件放在顶部。</h2>
+<p>无样式内容的闪烁。</p>
+<h2 id="6-将脚本文件放在底部">6. 将脚本文件放在底部。</h2>
+<p>并行下载</p>
+<pre><code>about:config 中设置 network.http.maxpersistent-connections-per-server
+</code></pre>
+<h2 id="7-避免css表达式">7. 避免css表达式。</h2>
+<pre><code>body {
+    background-color: expression( (new Date()).getSeconds()%2 ? &quot;#B8D4FF&quot; : &quot;#F08A00&quot; );  
+}
+</code></pre>
+<p>经测试后发现不能使用。</p>
+<h2 id="8-使用外部jscss">8. 使用外部js/css.</h2>
+<p>内联比外联快30%~50%.<br>
+内联不可被缓存。外联可被缓存。</p>
+<ol>
+<li>每个页面单独一个css/js.</li>
+<li>所有页面全使用一个css/js.</li>
+<li>一类页面使用一个css/js.</li>
+</ol>
+<p>动态内联。</p>
+<h2 id="9-减少dns查找">9. 减少dns查找。</h2>
+<p>dns(Domain Name System)<br>
+浏览器查找一个给定的主机名的ip地址需要20-120ms。<br>
+ttl(Time-to-live)存活时间<br>
+（这一条和上面的第2条有冲突。我也不知道如何解决。）</p>
+<h2 id="10-精简jscss">10. 精简js/css.</h2>
+<ol>
+<li>精简 （从代码中移除不必要的字符以减小其大小）</li>
+<li>混淆 （移除注释和空白）</li>
+<li>节省 （使用工具JSMin等）</li>
+</ol>
+<h2 id="11-避免重定向">11. 避免重定向。</h2>
+<p>重写向会使网页变慢。</p>
+<pre><code>// 这是重定向的写法。
+&lt;meta http-equiv=&quot;refresh&quot; content=&quot;0; url=http://stevesouders.com/newuri&quot;&gt;
+</code></pre>
+<p>在重定向完毕并且HTML文档下载完毕之前，没有任何东西显示给用户。<br>
+重定向会延迟整个html文档的传输。</p>
+<ol>
+<li>缺少结尾的斜线。</li>
+<li>连接网站。</li>
+<li>跟踪内部流量。</li>
+<li>跟踪出站流量。</li>
+<li>美化url.</li>
+</ol>
+<h2 id="12-移除重复脚本">12. 移除重复脚本。</h2>
+<p>害处。</p>
+<ol>
+<li>页面加载变慢。</li>
+<li>会产生多次加载。</li>
+</ol>
+<p>解决方法。</p>
+<ol>
+<li>使用脚本管理模块。</li>
+<li>在php中创建一个方法。用来判断是否已经加载。</li>
+</ol>
+<h2 id="13-配置etag">13. 配置Etag.</h2>
+<p>ETag(Entity Tag)<br>
+web服务器和浏览器确认缓存组件的有效性的一种机制。</p>
+<h2 id="14-使ajax可缓存">14. 使Ajax可缓存。</h2>
+
+        
+        
+    </body>
+    </html>

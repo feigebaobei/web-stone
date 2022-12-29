@@ -234,7 +234,7 @@ let removeFile = (filePath) => {
 }
 
 let c = new Client()
-// 看到也没乱动
+// 看到也别乱动
 c.connect({
   host: '123.56.120.250',
   user: 'wh-nbbwqo272qg4pzewu9w',
@@ -249,11 +249,12 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = 'framework/react/gatsby'
+    // let p = 'books'
     let p = [
-      'browser/principle.html',
-      'language/html/index.html',
-      'framework/react/react-18/index.html',
+      'books/youDontKnowJs.html',
+      'books/highPerformanceWeb.html',
+      // 'language/html/index.html',
+      // 'framework/react/react-18/index.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)

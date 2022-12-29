@@ -169,8 +169,6 @@ React DOM 会负责更新 DOM 来与 React 元素保持一致。
 
 ### [性能优化](/optimizing/index.html)
 
-### [性能]()
-
 ### title
 
 ### title
