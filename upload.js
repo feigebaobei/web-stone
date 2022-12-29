@@ -250,7 +250,10 @@ c.on('ready', () => {
       throw err
     }
     // let p = 'promote/cryptology.html'
-    let p = ['promote/cryptology/index.html']
+    let p = [
+      'promote/cryptology/index.html',
+      'framework/react-native/index.html',
+    ]
     // 检测指定目录是否存在
     // checkDir(p)
     // 检测删除目录
@@ -268,7 +271,15 @@ c.on('ready', () => {
     // 测试上传单个文件
     // uploadFile(p)
     // 上传多个文件
-    uploadFgit
+    uploadFiles(p)
+      .then(() => {
+        log('then', '全部完成')
+        c.end()
+      })
+      .catch((err) => {
+        log('catch', err)
+        c.end()
+      })
     // 创建目录
     // makeDir(p)
     //   .then(() => {

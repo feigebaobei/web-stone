@@ -12,8 +12,9 @@ exec('git status -s', (err, res) => {
         return item.slice(3)
       })
       .filter((item) => {
-        return item.endsWith('.html')
+        return item.endsWith('.html') && !item.includes('->')
       })
+    // clog(arr)
     arr.forEach((item) => {
       let cont = fs.readFileSync(item, 'utf-8')
       cont = cont.replace(/<img src="file:\/\/\//, '<img src="')

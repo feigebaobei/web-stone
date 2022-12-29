@@ -3,7 +3,8 @@
 ## overview
 
 > 写一份代码在 web/native 都运行。省时间就是省金钱。  
-> 包括一些内置的组件和 api
+> 包括一些内置的组件和 api  
+> 感觉是像 wx 小程序的 react。
 
 ### feature
 

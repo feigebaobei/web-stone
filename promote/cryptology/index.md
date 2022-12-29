@@ -19,6 +19,15 @@
 - [ecdsa](/promote/cryptology/ecdsa.html)
 - [dh](/promote/cryptology/dh.html)
 - [ecdhe](/promote/cryptology/ecdhe.html)
+- 公钥：加密、验签。
+- 私钥：解密、签名。
+
+## 非对称加密 & 对称加密
+
+|      | 非对称加密 | 对称加密 |
+| ---- | ---------- | -------- |
+| 速度 | 慢         | 快       |
+|      |            |          |
 
 ## hash
 

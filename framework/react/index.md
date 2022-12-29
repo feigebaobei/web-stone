@@ -47,7 +47,7 @@ v17 以前的用法：
 
 v18 以后的用法：
 
-1. 引入 reacte 脚本
+1. 引入 react 脚本
 2. 使用`React.createRoot`创建根元素`root`。
 3. 使用`root.render(reactElement对象)`渲染元素
 
@@ -84,8 +84,8 @@ v18 以后的用法：
 |                                                          |                |     |
 | -------------------------------------------------------- | -------------- | --- |
 | [create-react-app](/framework/react/createReactApp.html) | spa            |     |
-| [next.js]()                                              | 静态化和 ssr   |     |
-| [gatsby]()                                               | react/静态网站 |     |
+| [next.js](/framework/react/next/index.html)              | 静态化和 ssr   |     |
+| [gatsby](/framework/react/gatsby/index.html)             | react/静态网站 |     |
 
 ## api
 
@@ -99,12 +99,12 @@ v18 以后的用法：
   - React Context
   - mobx
   - react-tracked
-  - redux
+  - [redux](/jsPackages/redux.html)
   - zustand
   - jotai
   - recoil
   - xstate
-- [redux react-redux](/framework/react/redux/index.html)
+- [redux react-redux 上面还一个，需要整理为一个。](/framework/react/redux/index.html)
 - [react native](/framework/react/reactNative.html)
 - [react-router react-router-dom react-router-native](/framework/react/router.html)
 - [propType](/framework/react/propType.html)
