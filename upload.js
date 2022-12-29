@@ -249,51 +249,26 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = 'promote/hash'
-    let p = [
-      'browser/index.html',
-      'browser/uri.html',
-      'browser/crossDomain.html',
-      'browser/caCert.html',
-      'browser/cookie.html',
-      'communication-protocol/tcp3.png',
-      'communication-protocol/https.png',
-      'index.html',
-      'communication-protocol/http.html',
-      'communication-protocol/https.html',
-      'communication-protocol/ip.html',
-      'communication-protocol/ipfs.html',
-      'communication-protocol/http.html',
-      'communication-protocol/quic.html',
-      'communication-protocol/ssl.html',
-      'communication-protocol/tcp.html',
-      'communication-protocol/tls.html',
-      'communication-protocol/upd.html',
-    ]
+    // let p = 'promote/cryptology.html'
+    let p = ['promote/cryptology/index.html']
     // 检测指定目录是否存在
     // checkDir(p)
     // 检测删除目录
     // removeDir(p).then(() => {c.end()})
     // 测试删除文件
-    // removeFile(p).then(() => {
-    //   // log('then')
-    //   c.end()
-    // }).catch(err => {
-    //       log('catch', err)
-    //       c.end()
-    // })
+    // removeFile(p)
+    //   .then(() => {
+    //     // log('then')
+    //     c.end()
+    //   })
+    //   .catch((err) => {
+    //     log('catch', err)
+    //     c.end()
+    //   })
     // 测试上传单个文件
     // uploadFile(p)
     // 上传多个文件
-    uploadFiles(p)
-      .then(() => {
-        log('then', '全部完成')
-        c.end()
-      })
-      .catch((err) => {
-        log('catch', err)
-        c.end()
-      })
+    uploadFgit
     // 创建目录
     // makeDir(p)
     //   .then(() => {
