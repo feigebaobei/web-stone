@@ -145,14 +145,17 @@ ComponentName.contextType = MyContext // 组件内使用this.context访问
 |                    |                      |                                |                |     |
 
 - 使用`this.setState()`改变 state
-- setState 是异步的。把多个 setState 合并为一个。
-
-setState(obj | (...args) => obj)
+- setState 本质是同步的。因 react 的优化机制，有时表现为异步，有时表现为同步。
 
 ```js
 setState({k: v})
 setState((state, props, any, ...) => ({k: v}))
 ```
+
+|      |                                     |                                                                                         |
+| ---- | ----------------------------------- | --------------------------------------------------------------------------------------- |
+| 异步 | 在合成事件、钩子函数中表现为异步    | 合成事件和钩子函数在更新之间调用。可以使用 setState(partialState, cb)得到更新后的结果。 |
+| 同步 | 在原生事件、setTimeout 中表现为同步 | 这 2 种情况不会批量更新。                                                               |
 
 ### 使用组件
 

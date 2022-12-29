@@ -249,11 +249,8 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = 'promote/cryptology.html'
-    let p = [
-      'promote/cryptology/index.html',
-      'framework/react-native/index.html',
-    ]
+    // let p = 'framework/react/gatsby'
+    let p = ['framework/react/gatsby/index.html']
     // 检测指定目录是否存在
     // checkDir(p)
     // 检测删除目录

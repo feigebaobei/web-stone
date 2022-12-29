@@ -279,12 +279,32 @@ funtion <span class="hljs-title class_">Clock</span>(props) { <span class="hljs-
 </table>
 <ul>
 <li>使用<code>this.setState()</code>改变 state</li>
-<li>setState 是异步的。把多个 setState 合并为一个。</li>
+<li>setState 本质是同步的。因react的优化机制，有时表现为异步，有时表现为同步。</li>
 </ul>
-<p>setState(obj | (...args) =&gt; obj)</p>
 <pre><code class="language-js"><span class="hljs-title function_">setState</span>({<span class="hljs-attr">k</span>: v})
 <span class="hljs-title function_">setState</span>(<span class="hljs-function">(<span class="hljs-params">state, props, any, ...</span>) =&gt;</span> ({<span class="hljs-attr">k</span>: v}))
 </code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>异步</td>
+<td>在合成事件、钩子函数中表现为异步</td>
+<td>合成事件和钩子函数在更新之间调用。可以使用setState(partialState, cb)得到更新后的结果。</td>
+</tr>
+<tr>
+<td>同步</td>
+<td>在原生事件、setTimeout中表现为同步</td>
+<td>这2种情况不会批量更新。</td>
+</tr>
+</tbody>
+</table>
 <h3 id="使用组件">使用组件</h3>
 <pre><code>&lt;ComponentName name=&quot;top&quot; /&gt;
 </code></pre>
@@ -527,8 +547,8 @@ Ref 转发不仅限于 DOM 组件，你也可以转发 refs 到 class 组件实�
 <h3 id="何时使用">何时使用</h3>
 <ul>
 <li>祖先组件需要操作子组件的元素时。（受控组件的一种）</li>
-<li>需要操作dom时</li>
-<li>需要使用useImperativeHandle时</li>
+<li>需要操作 dom 时</li>
+<li>需要使用 useImperativeHandle 时</li>
 </ul>
 <h2 id="hoc-高阶组件"><a href="/framework/react/react-18/hoc.html">HOC 高阶组件</a></h2>
 <h2 id="提高性能">提高性能</h2>
