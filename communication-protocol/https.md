@@ -17,8 +17,6 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment
 |||||
 <!-- prettier-ignore-end -->
 
-# 编码、解码
-
 # [status](/communication-protocol/status.html)
 
 # 实现原理
@@ -35,27 +33,45 @@ rsa/dsa
 
 ## 通信过程
 
+![https通信过程](/communication-protocol/https.png)
+
 ```
 
         client                  server
-           |                       |
+           |     先建立tcp连接      |
            |     请求https连接      |
            |---------------------->|
            |                       |
            |     返回证书（公钥）     |
            |<----------------------|
            |                       |
+    验证证书是否有效                  |
     产生随机（对称）密钥              |
     使用公钥对对称密钥加密             |
            |                       |
            |    发送加密后的对称密钥   |
            |---------------------->|
+           |                       |
+           |             使用私钥解密，得到对称密钥
+           |        ok             |
            |<----------------------|
            |                       |
-           |   通过对称密钥加密的密文  |
+           |        发送请求        |
+           | （通过对称密钥加密的密文）|
            |---------------------->|
+           |                       |
+           |              使用对称密钥解密，得到明文
+           |              处理请求后生成回馈
+           |              使用对称密钥加密回馈
+           |                       |
+           |        返回回馈        |
            |<----------------------|
            |                       |
+       使用对称密钥解密，             |
+       得到明文后渲染                |
+           |                       |
+           |        多路复用        |
+           |      断开tcp连接        |
 ```
 
 1. 建立 tcp 连接
@@ -70,7 +86,7 @@ rsa/dsa
 | 客户端生成的密文只有当前客户端和服务端能够解密 |     |     |     |
 | 客户端与服务端的通信是安全的                   |     |     |     |
 
-# [HTTP](/communication-protocol/http.html) & [HTTPS](/communication-protocol/https.html)
+# [HTTP](/communication-protocol/http.html) & HTTPS
 
 # [ssl secure socket layer](/communication-protocol/ssl.html) & [tls transport layer security](/communication-protocol/tls.html)
 

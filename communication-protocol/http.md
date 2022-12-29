@@ -18,7 +18,7 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment
 |媒体独立|只要客户端、服务端知道如何处理数据内容，则任何数据都可以通过http发送。|客户端、服务端需要指定适合的MIME-type内容类型。||
 |无状态|协议对事务处理没有记忆能力。都无连接了怎么可能会有状态呢。|后端服务使用cookie+session/header+jwt标记状态。||
 |基于请求回馈||||
-|使用明文通信||||
+|使用明文通信|易被中间人攻击|||
 <!-- prettier-ignore-end -->
 
 ## SPDY
@@ -34,8 +34,6 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment
 | header 压缩       |     |     |     |     |     |
 | 基于 https 的加密协议传输（也就是拥有安全功能） |     |     |     |     |     |
 | 服务端推送        |     |     |     |     |     |
-| 降低延迟          |     |     |     |     |     |
-|                   |     |     |     |     |     |
 <!-- prettier-ignore-end -->
 
 spdy 的构成图
@@ -70,7 +68,6 @@ spdy 的构成图
 |  |     |     |    |     | **多路复用**。一个连接上有多个请求，每个请求都有一个惟一的 id.接收端根据请求的 id 把请求归属到不同的服务器中。   |     |
 | header 压缩   |     |     |    |     | encoder 减少需要传输的 header 大小。通信双方各缓存一份 header fields。避免重复 header 传输，减少需要传输的大小。 |     |
 |  |     |     |    |     | 服务端推送  |     |
-|  |     |     |    |     |     |     |
 <!-- prettier-ignore-end -->
 
 ## 0.9
@@ -79,9 +76,9 @@ spdy 的构成图
 
 ## 1.1
 
-## 2.0
+服务器回馈后会等待几秒后断开（默认 3 秒）。若这几秒内有请求，则使用此连接通道收发信息。否则断开连接。
 
-https://blog.csdn.net/z69183787/article/details/106643647/
+## 2.0
 
 原来是基于 SPDY 设计的。  
 特点：
@@ -98,7 +95,7 @@ https://blog.csdn.net/z69183787/article/details/106643647/
 
 ## 3.0
 
-就是[quic](/communication-protocol/quic.html)  
+旧称是[quic](/communication-protocol/quic.html)  
 用于多次请求（多路复用）
 
 ### 特点
@@ -106,8 +103,6 @@ https://blog.csdn.net/z69183787/article/details/106643647/
 - 0 rtt
 - 在客户端发送的第一条信息是随机值 connection id。如果从 wifi 改变为 mobile data 时会使用此字段。
 - 多路复用
-
-# 编码、解码
 
 # [状态码 status](/communication-protocol/status.html)
 
@@ -121,17 +116,17 @@ https://blog.csdn.net/z69183787/article/details/106643647/
 # 请求方法
 
 <!-- prettier-ignore-start -->
-|    |                      |     |     |
+|    |                      |   版本  |     |
 | --- | ---- | --- | --- |
-| GET     | 请求指定的页面信息，并返回实体主体。             |     |     |
-| HEAD    | 与 GET 请求类似。返回的是响应中没有具体的内容，用于获取报头。                    |     |     |
-| POST    | 向指定 url 提交数据进行处理请求（如：提交表单、上传文件）。数据被包含在请求体中。POST 请求一般用于创建新数据。 |     |     |
-| PUT     | 从客户端向服务器传递数据取代指定的文档的内容。一般用于修改数据。                 |     |     |
-| DELETE  | 请求服务器删除指定的数据。                         |     |     |
-| CONNECT | http/1.1 协议中预留给能够将连接改为管道方式的代理服务器                          |     |     |
-| OPTIONS | 允许客户端查看服务器的性能。                       |     |     |
-| TRACE   | 显示服务器收到的请求，主要用于测试或诊断。         |     |     |
-| PATCH   | 是对 PUT 请求的补充，用于对已知资源进行局部更新。  |     |     |
+| GET     | 请求指定的页面信息，并返回实体主体。             |   1.0  |     |
+| HEAD    | 与 GET 请求类似。返回的是响应中没有具体的内容，用于获取报头。                    |   1.0  |     |
+| POST    | 向指定 url 提交数据进行处理请求（如：提交表单、上传文件）。数据被包含在请求体中。POST 请求一般用于创建新数据。 |  1.0   |     |
+| PUT     | 从客户端向服务器传递数据取代指定的文档的内容。一般用于修改数据。                 |   1.1  |     |
+| DELETE  | 请求服务器删除指定的数据。                         |  1.1   |     |
+| CONNECT | http/1.1 协议中预留给能够将连接改为管道方式的代理服务器                          |  1.1   |     |
+| OPTIONS | 允许客户端查看服务器的性能。                       |  1.1   |     |
+| TRACE   | 显示服务器收到的请求，主要用于测试或诊断。         |    1.1 |     |
+| PATCH   | 是对 PUT 请求的补充，用于对已知资源进行局部更新。  |  1.1   |     |
 <!-- prettier-ignore-end -->
 
 # 报文格式
@@ -141,6 +136,7 @@ https://blog.csdn.net/z69183787/article/details/106643647/
 ![请求报文格式](https://www.runoob.com/wp-content/uploads/2013/11/2012072810301161.png)
 
 ```
+请求行
 报文首部
 空行
 报文主体
@@ -170,9 +166,12 @@ https://blog.csdn.net/z69183787/article/details/106643647/
 ||实体首部字段||补充了实体有关的资源信息|
 ||报文主体||GET 时没用报文主体。POST 时有。|
 
+## 回馈
+
 回馈报文格式
 
 ```
+状态行
 报文首部
 空行
 报文主体
@@ -189,8 +188,6 @@ https://blog.csdn.net/z69183787/article/details/106643647/
 |     | 通用首部字段 |            |     |
 |     | 实体首部字段 |            |     |
 |     | 报文主体     |            |     |
-
-## 回馈
 
 <!-- prettier-ignore-start -->
 |                  |   |          |     |     |
@@ -268,6 +265,7 @@ type/subtype
 |默认接口|80|443||
 |||安全协议，可用于传递敏感数据。||
 |||http + ssl/tls||
+|效率|高|低||
 |证书|-|需要向ca申请证书，需要费用。||
 ||明文|密文||
 |||http+ssl/tls||
@@ -281,6 +279,10 @@ type/subtype
 
 连接 -》 传输数据 -》关闭连接
 ```
+
+http 的长短连接功能是使用 tcp 的连接的功能。  
+从 http1.1 起默认使用长连接。Connection: keep-alive.  
+长连接需要服务端、客户端都支持长连接。
 
 # 指标
 
