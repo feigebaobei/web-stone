@@ -3,6 +3,7 @@
 - [console](/browser/console.html)
 - [history](/browser/history.html)
 - [同源策略&cors](/browser/origin&cors.html)
+- [跨域](/browser/crossDomain.html)
 - [crypto](/browser/crypto.html)
 - [chrome devtools](/browser/chromeDevtools.html)
 - app shortcut
