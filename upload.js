@@ -249,15 +249,14 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = ''
+    // let p = 'promote/cryptology'
     let p = [
-      // 'webRTC/index.html',
       'browser/index.html',
+      'browser/uri.html',
       'browser/crossDomain.html',
       'browser/cookie.html',
-      // 'browser/keyUrl.html',
+      'communication-protocol/tcp3.png',
       'index.html',
-      // 'promote/cryptology.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)

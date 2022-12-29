@@ -122,7 +122,7 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 </tr>
 <tr>
 <td>使用明文通信</td>
-<td></td>
+<td>易被中间人攻击</td>
 <td></td>
 <td></td>
 </tr>
@@ -385,7 +385,7 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 <tr>
 <th></th>
 <th></th>
-<th></th>
+<th>版本</th>
 <th></th>
 </tr>
 </thead>
@@ -393,55 +393,55 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 <tr>
 <td>GET</td>
 <td>请求指定的页面信息，并返回实体主体。</td>
-<td></td>
+<td>1.0</td>
 <td></td>
 </tr>
 <tr>
 <td>HEAD</td>
 <td>与 GET 请求类似。返回的是响应中没有具体的内容，用于获取报头。</td>
-<td></td>
+<td>1.0</td>
 <td></td>
 </tr>
 <tr>
 <td>POST</td>
 <td>向指定 url 提交数据进行处理请求（如：提交表单、上传文件）。数据被包含在请求体中。POST 请求一般用于创建新数据。</td>
-<td></td>
+<td>1.0</td>
 <td></td>
 </tr>
 <tr>
 <td>PUT</td>
 <td>从客户端向服务器传递数据取代指定的文档的内容。一般用于修改数据。</td>
-<td></td>
+<td>1.1</td>
 <td></td>
 </tr>
 <tr>
 <td>DELETE</td>
 <td>请求服务器删除指定的数据。</td>
-<td></td>
+<td>1.1</td>
 <td></td>
 </tr>
 <tr>
 <td>CONNECT</td>
 <td>http/1.1 协议中预留给能够将连接改为管道方式的代理服务器</td>
-<td></td>
+<td>1.1</td>
 <td></td>
 </tr>
 <tr>
 <td>OPTIONS</td>
 <td>允许客户端查看服务器的性能。</td>
-<td></td>
+<td>1.1</td>
 <td></td>
 </tr>
 <tr>
 <td>TRACE</td>
 <td>显示服务器收到的请求，主要用于测试或诊断。</td>
-<td></td>
+<td>1.1</td>
 <td></td>
 </tr>
 <tr>
 <td>PATCH</td>
 <td>是对 PUT 请求的补充，用于对已知资源进行局部更新。</td>
-<td></td>
+<td>1.1</td>
 <td></td>
 </tr>
 </tbody>
@@ -588,6 +588,7 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 </tr>
 </tbody>
 </table>
+<h2 id="回馈">回馈</h2>
 <p>回馈报文格式</p>
 <pre><code>状态行
 报文首部
@@ -649,7 +650,6 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 </tr>
 </tbody>
 </table>
-<h2 id="回馈">回馈</h2>
 <!-- prettier-ignore-start -->
 <table>
 <thead>
@@ -1014,6 +1014,9 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 
 连接 -》 传输数据 -》关闭连接
 </code></pre>
+<p>http的长短连接功能是使用tcp的连接的功能。<br>
+从http1.1起默认使用长连接。Connection: keep-alive.<br>
+长连接需要服务端、客户端都支持长连接。</p>
 <h1 id="指标">指标</h1>
 <table>
 <thead>
