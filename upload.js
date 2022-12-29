@@ -251,8 +251,8 @@ c.on('ready', () => {
     }
     // let p = 'books'
     let p = [
-      'books/youDontKnowJs.html',
-      'books/highPerformanceWeb.html',
+      'optimizing/index.html',
+      // 'books/highPerformanceWeb.html',
       // 'language/html/index.html',
       // 'framework/react/react-18/index.html',
     ]
