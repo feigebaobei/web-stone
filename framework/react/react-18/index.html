@@ -189,7 +189,7 @@ funtion <span class="hljs-title class_">Clock</span>(props) { <span class="hljs-
 <span class="hljs-comment">// props是只读的。</span>
 <span class="hljs-comment">// state 是私有的，并且完全受控于当前组件。</span>
 </code></pre>
-<h3 id="class-组件"><a href="/framework/react/classComp.html">class 组件</a></h3>
+<h3 id="class-组件">class 组件</h3>
 <pre><code class="language-js"><span class="hljs-comment">// 类组件模板</span>
 <span class="hljs-keyword">import</span> <span class="hljs-title class_">PropTypes</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;prop-types&#x27;</span>
 <span class="hljs-keyword">class</span> <span class="hljs-title class_">ComponentName</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">React.Component</span> {
@@ -214,14 +214,14 @@ funtion <span class="hljs-title class_">Clock</span>(props) { <span class="hljs-
 }
 <span class="hljs-title class_">ComponentName</span>.<span class="hljs-property">contextType</span> = <span class="hljs-title class_">MyContext</span> <span class="hljs-comment">// 组件内使用this.context访问</span>
 </code></pre>
-<h3 id="state--props--thisxxx">state &amp; props &amp; <a href="http://this.xxx">this.xxx</a></h3>
+<h3 id="state--props--thisxx">state &amp; props &amp; this.xx</h3>
 <table>
 <thead>
 <tr>
 <th></th>
 <th>state</th>
 <th>props</th>
-<th><a href="http://this.xxx">this.xxx</a></th>
+<th>this.xx</th>
 <th></th>
 </tr>
 </thead>
@@ -310,22 +310,104 @@ funtion <span class="hljs-title class_">Clock</span>(props) { <span class="hljs-
 </code></pre>
 <p>name 等属性会在 props 中。</p>
 <h3 id="class-组件--方法组件">class 组件 &amp; 方法组件</h3>
-<p>||class 组件|方法组件||
-||-|-|-|
-||有实例|无实例||
-||会创建一个类，|不会创建类，只是数据的管道。||
-||可使用生命周期方法，|不可使用||
-|hook|不可使用|可使用||
-|默认值|可设置 defaultProps|不可设置||
-||有 displayName 属性|无||
-||this.props|props||
-||this.state|useState(initValue)||
-|返回值|在 render()中返回 jsx/ReactElement|jsx/ReactElement||
-||constructor|无||
-||需要在生命周期方法中写好多与逻辑无关的代码。如请求数据。|监听当特定数据改变时执行指定方法。||
-|||可使用 react 更多新功能||
-||只实例化一次。后续执行只执行 render 方法。|每次都执行一次方法体||
-|||||</p>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th></th>
+<th>class 组件</th>
+<th>方法组件</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>有实例</td>
+<td>无实例</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>会创建一个类，</td>
+<td>不会创建类，只是数据的管道。</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>可使用生命周期方法，</td>
+<td>不可使用</td>
+<td></td>
+</tr>
+<tr>
+<td>hook</td>
+<td>不可使用</td>
+<td>可使用</td>
+<td></td>
+</tr>
+<tr>
+<td>默认值</td>
+<td>可设置 defaultProps</td>
+<td>不可设置</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>有 displayName 属性</td>
+<td>无</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>this.props</td>
+<td>props</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>this.state</td>
+<td>useState(initValue)</td>
+<td></td>
+</tr>
+<tr>
+<td>返回值</td>
+<td>在 render()中返回 jsx/ReactElement</td>
+<td>jsx/ReactElement</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>constructor</td>
+<td>无</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>需要在生命周期方法中写好多与逻辑无关的代码。如请求数据。</td>
+<td>监听当特定数据改变时执行指定方法。</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>可使用 react 更多新功能</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>只实例化一次。后续执行只执行 render 方法。</td>
+<td>每次都执行一次方法体</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
 <h3 id="无状态组件已经过时了">无状态组件（已经过时了）</h3>
 <p>了解它可以帮助读者了解方法式组件</p>
 <ol>
@@ -490,13 +572,14 @@ xx ? <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-nam
 <h3 id="uml">uml</h3>
 <pre><code>
 </code></pre>
-<h2 id="组件间传递数据的方式">组件间传递数据的方式</h2>
+<h2 id="组件间传递数据的方式">[组件间传递数据的方式]</h2>
 <ul>
 <li>props + event</li>
 <li>context</li>
 <li>三方包（eg: redux）</li>
 </ul>
 <h2 id="代码分割">代码分割</h2>
+<p>一般用于<a href="/optimizing/index.html">优化</a></p>
 <h3 id="1-import">1. import()</h3>
 <pre><code>import(...).then(...).catch(...)
 </code></pre>
@@ -550,6 +633,31 @@ Ref 转发不仅限于 DOM 组件，你也可以转发 refs 到 class 组件实�
 <li>需要操作 dom 时</li>
 <li>需要使用 useImperativeHandle 时</li>
 </ul>
+<h3 id="ref--useref--forwardref">ref &amp; useRef &amp; forwardRef</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>ref</th>
+<th>useRef</th>
+<th>forwardRef</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>用于组件的ref属性</td>
+<td>这是React的暴露的一个钩子方法。返回ref.</td>
+<td>使方法组件支持ref属性。</td>
+</tr>
+<tr>
+<td></td>
+<td>与被forwardRef包裹的方法组件一起使用</td>
+<td></td>
+<td>与ref一起使用</td>
+</tr>
+</tbody>
+</table>
 <h2 id="hoc-高阶组件"><a href="/framework/react/react-18/hoc.html">HOC 高阶组件</a></h2>
 <h2 id="提高性能">提高性能</h2>
 <p>若无法测量，则无法优化。</p>
@@ -621,8 +729,8 @@ Ref 转发不仅限于 DOM 组件，你也可以转发 refs 到 class 组件实�
 <ul>
 <li><a href="/language/flow/index.html">flow</a> (react 就是用它写的)</li>
 <li><a href="/language/typescript/index.html">ts</a> （ms 开发的强类型 js）</li>
-<li>ReScript 不会</li>
-<li>Kotlin 不会</li>
+<li>ReScript</li>
+<li>Kotlin</li>
 <li>PropTypes</li>
 </ul>
 <h3 id="proptypes"><a href="/jsPackages/prop-types.html">PropTypes</a></h3>
@@ -714,7 +822,6 @@ react 当组件链上的 ReactElement 改变时执行 rerender.</p>
 <h3 id="多以构造函数prototypeobjectdefineproperty-的方式写代码">多以构造函数+prototype+Object.defineProperty 的方式写代码。</h3>
 <p>为什么不用 class 呢？</p>
 <h3 id="importexport-结构很清晰源码比-vue-好看多了">import/export 结构很清晰。源码比 vue 好看多了。</h3>
-<h3 id="方法组件class-组件的区别">方法组件&amp;class 组件的区别</h3>
 <h3 id="在-class-组件中为什么修改-state-的惟一方法是-setstate">在 class 组件中为什么修改 state 的惟一方法是 setState()</h3>
 <h3 id="为什么当前组件不能知道别的组件中的-state-的值">为什么当前组件不能知道别的组件中的 state 的值</h3>
 <h2 id="版本迭代">版本迭代</h2>

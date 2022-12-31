@@ -252,9 +252,12 @@ c.on('ready', () => {
     // let p = 'books'
     let p = [
       'optimizing/index.html',
+      'test.html',
       // 'books/highPerformanceWeb.html',
       // 'language/html/index.html',
-      // 'framework/react/react-18/index.html',
+      'framework/dataTransmit/index.html',
+      'framework/react/index.html',
+      'framework/react/react-18/index.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)

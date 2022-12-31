@@ -1,20 +1,29 @@
 # 组件间数据传递
+
 - props + event
 - context
 - useSyncExternalStore
 
 ## props + event
+
 ## context
+
 ## useSyncExternalStore
+
 基本用法  
 demo0
+
 ```js
-const state = useSyncExternalStore(store.subscribe, store,getSnapshot)
-const selectedField = useSyncExternalStore(store.subscribe, () => store.getSnapshot().selectedField)
+const state = useSyncExternalStore(store.subscribe, store, getSnapshot)
+const selectedField = useSyncExternalStore(
+  store.subscribe,
+  () => store.getSnapshot().selectedField
+)
 ```
 
-与一个store结合使用
+与一个 store 结合使用
 demo1
+
 ```js
 // 创建store
 const store = {
@@ -49,8 +58,9 @@ let App = () => {
 }
 ```
 
-与多个store结合使用。
+与多个 store 结合使用。
 demo2
+
 ```js
 // createStore.js
 export default const createStore = (initState) => {
@@ -99,8 +109,9 @@ let App = () => {
 }
 ```
 
-与React.reducer结合使用
+与 React.reducer 结合使用
 demo3
+
 ```js
 // createReducerStore.js
 export default let createReducerStore = (reducer, initState) => {
@@ -147,15 +158,21 @@ export default function useTodoStore((selector = loop) => {
 })
 export const {dispatch} = store
 
-// 
+//
 let App = () => {
     let state = useReducerStore()
     return (<button onClick={() => dispatch({type: 'x'})}>str</button>)
 }
 ```
 
+## react
+
+## vue
+
+## angular
+
 ## title
+
 ## title
-## title
-## title
+
 ## title

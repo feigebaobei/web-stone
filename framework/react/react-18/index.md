@@ -104,7 +104,7 @@ Clock.defaultProps = {
 // state 是私有的，并且完全受控于当前组件。
 ```
 
-### [class 组件](/framework/react/classComp.html)
+### class 组件
 
 ```js
 // 类组件模板
@@ -132,9 +132,9 @@ ComponentName.defaultProps = { // 类组件可以设置默认props值。方法�
 ComponentName.contextType = MyContext // 组件内使用this.context访问
 ```
 
-### state & props & this.xxx
+### state & props & this.xx
 
-|                    | state                | props                          | this.xxx       |     |
+|                    | state                | props                          | this.xx        |     |
 | ------------------ | -------------------- | ------------------------------ | -------------- | --- |
 | 改变时             | 会触发本组件重新渲染 | 会触发本组件重新渲染           | 不会           |     |
 | 来源               | 本组件               | 本组件的父元素（一般为父组件） | 本组件         |     |
@@ -167,8 +167,9 @@ name 等属性会在 props 中。
 
 ### class 组件 & 方法组件
 
+<!-- prettier-ignore-start -->
 ||class 组件|方法组件||
-||-|-|-|
+|-|-|-|-|
 ||有实例|无实例||
 ||会创建一个类，|不会创建类，只是数据的管道。||
 ||可使用生命周期方法，|不可使用||
@@ -183,6 +184,7 @@ name 等属性会在 props 中。
 |||可使用 react 更多新功能||
 ||只实例化一次。后续执行只执行 render 方法。|每次都执行一次方法体||
 |||||
+<!-- prettier-ignore-end -->
 
 ### 无状态组件（已经过时了）
 
@@ -376,13 +378,15 @@ function f() {
 
 ```
 
-## 组件间传递数据的方式
+## [组件间传递数据的方式]
 
 - props + event
 - context
 - 三方包（eg: redux）
 
 ## 代码分割
+
+一般用于[优化](/optimizing/index.html)
 
 ### 1. import()
 
@@ -451,6 +455,13 @@ Ref 转发不仅限于 DOM 组件，你也可以转发 refs 到 class 组件实�
 - 祖先组件需要操作子组件的元素时。（受控组件的一种）
 - 需要操作 dom 时
 - 需要使用 useImperativeHandle 时
+
+### ref & useRef & forwardRef
+
+|     | ref                                    | useRef                                     | forwardRef                |
+| --- | -------------------------------------- | ------------------------------------------ | ------------------------- |
+|     | 用于组件的 ref 属性                    | 这是 React 的暴露的一个钩子方法。返回 ref. | 使方法组件支持 ref 属性。 |
+|     | 与被 forwardRef 包裹的方法组件一起使用 |                                            | 与 ref 一起使用           |
 
 ## [HOC 高阶组件](/framework/react/react-18/hoc.html)
 
@@ -532,8 +543,8 @@ function P () {
 
 - [flow](/language/flow/index.html) (react 就是用它写的)
 - [ts](/language/typescript/index.html) （ms 开发的强类型 js）
-- ReScript 不会
-- Kotlin 不会
+- ReScript
+- Kotlin
 - PropTypes
 
 ### [PropTypes](/jsPackages/prop-types.html)
@@ -626,8 +637,6 @@ if (__DEV__) {...}
 为什么不用 class 呢？
 
 ### import/export 结构很清晰。源码比 vue 好看多了。
-
-### 方法组件&class 组件的区别
 
 ### 在 class 组件中为什么修改 state 的惟一方法是 setState()
 
