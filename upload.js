@@ -249,16 +249,8 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = 'books'
-    let p = [
-      'optimizing/index.html',
-      'test.html',
-      // 'books/highPerformanceWeb.html',
-      // 'language/html/index.html',
-      'framework/dataTransmit/index.html',
-      'framework/react/index.html',
-      'framework/react/react-18/index.html',
-    ]
+    // let p = 'framework/dataTransmit'
+    let p = ['framework/dataTransmit/index.html', 'books/index.html']
     // 检测指定目录是否存在
     // checkDir(p)
     // 检测删除目录
