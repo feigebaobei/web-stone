@@ -76,20 +76,46 @@
     </head>
     <body class="vscode-body vscode-light">
         <h1 id="组件间数据传递">组件间数据传递</h1>
-<ul>
-<li>props + event</li>
-<li>context</li>
-<li>useSyncExternalStore</li>
-</ul>
-<h2 id="props--event">props + event</h2>
-<h2 id="context">context</h2>
-<h2 id="usesyncexternalstore">useSyncExternalStore</h2>
+<h2 id="react">react</h2>
+<p>数据从上向下单向流动的</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>父 -&gt; 子</td>
+<td>props</td>
+<td></td>
+</tr>
+<tr>
+<td>子 -&gt; 父</td>
+<td>props + event</td>
+<td></td>
+</tr>
+<tr>
+<td>跨组件</td>
+<td>context / useSyncExternalStore</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="props--event">props + event</h3>
+<h3 id="context"><a href="/framework/react/react-18/context.html">context</a></h3>
+<h3 id="usesyncexternalstore">useSyncExternalStore</h3>
 <p>基本用法<br>
 demo0</p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> state = <span class="hljs-title function_">useSyncExternalStore</span>(store.<span class="hljs-property">subscribe</span>, store,getSnapshot)
-<span class="hljs-keyword">const</span> selectedField = <span class="hljs-title function_">useSyncExternalStore</span>(store.<span class="hljs-property">subscribe</span>, <span class="hljs-function">() =&gt;</span> store.<span class="hljs-title function_">getSnapshot</span>().<span class="hljs-property">selectedField</span>)
+<pre><code class="language-js"><span class="hljs-keyword">const</span> state = <span class="hljs-title function_">useSyncExternalStore</span>(store.<span class="hljs-property">subscribe</span>, store, getSnapshot)
+<span class="hljs-keyword">const</span> selectedField = <span class="hljs-title function_">useSyncExternalStore</span>(
+  store.<span class="hljs-property">subscribe</span>,
+  <span class="hljs-function">() =&gt;</span> store.<span class="hljs-title function_">getSnapshot</span>().<span class="hljs-property">selectedField</span>
+)
 </code></pre>
-<p>与一个store结合使用
+<p>与一个 store 结合使用
 demo1</p>
 <pre><code class="language-js"><span class="hljs-comment">// 创建store</span>
 <span class="hljs-keyword">const</span> store = {
@@ -123,7 +149,7 @@ demo1</p>
     <span class="hljs-keyword">return</span> (<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =&gt;</span> {store.setState({count: state.count+1})}}&gt;state.count<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span>)
 }
 </code></pre>
-<p>与多个store结合使用。
+<p>与多个 store 结合使用。
 demo2</p>
 <pre><code class="language-js"><span class="hljs-comment">// createStore.js</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">createStore</span> = (<span class="hljs-params">initState</span>) =&gt; {
@@ -171,7 +197,7 @@ demo2</p>
     <span class="hljs-keyword">return</span> (<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =&gt;</span> {setState({count: 2})}}&gt;str<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span>)
 }
 </code></pre>
-<p>与React.reducer结合使用
+<p>与 React.reducer 结合使用
 demo3</p>
 <pre><code class="language-js"><span class="hljs-comment">// createReducerStore.js</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">let</span> <span class="hljs-title function_">createReducerStore</span> = (<span class="hljs-params">reducer, initState</span>) =&gt; {
@@ -218,14 +244,110 @@ demo3</p>
 }</span>)
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> {dispatch} = store
 
-<span class="hljs-comment">// </span>
+<span class="hljs-comment">//</span>
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">App</span> = (<span class="hljs-params"></span>) =&gt; {
     <span class="hljs-keyword">let</span> state = <span class="hljs-title function_">useReducerStore</span>()
     <span class="hljs-keyword">return</span> (<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =&gt;</span> dispatch({type: &#x27;x&#x27;})}&gt;str<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span>)
 }
 </code></pre>
-<h2 id="react">react</h2>
 <h2 id="vue">vue</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>父 -》 子</td>
+<td>props</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>子 -》 父</td>
+<td>emit</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>v-model</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>refs</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>provide/inject</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>eventBus</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>vuex/pinia （等状态管理工具）</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="props">props</h3>
+<h3 id="emit">emit</h3>
+<pre><code class="language-js"><span class="hljs-comment">// 父组件</span>
+&lt;template&gt;
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">child-comp</span> @<span class="hljs-attr">add</span>=<span class="hljs-string">&quot;addClickHanler&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">child-comp</span>&gt;</span></span>
+&lt;/template&gt;
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">let</span> <span class="hljs-title function_">addClickHanler</span> = (<span class="hljs-params"></span>) =&gt; {
+        ...
+    }
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span>
+<span class="hljs-comment">// 子组件</span>
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+    ...
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></span>
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">setup</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">import</span> {defineEmits} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
+    <span class="hljs-keyword">const</span> emits = <span class="hljs-title function_">defineEmits</span>([<span class="hljs-string">&#x27;add&#x27;</span>])
+    <span class="hljs-keyword">let</span> <span class="hljs-title function_">buttonClickHanler</span> = (<span class="hljs-params"></span>) =&gt; {
+        <span class="hljs-comment">// value是传递的实参</span>
+        <span class="hljs-title function_">emits</span>(<span class="hljs-string">&#x27;add&#x27;</span>, value)
+    }
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span>
+</code></pre>
+<h3 id="v-model">v-model</h3>
+<p>它是一个语法糖</p>
+<pre><code class="language-html"><span class="hljs-comment">&lt;!-- 父组件 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">child-comp</span> <span class="hljs-attr">v-model:title</span>=<span class="hljs-string">&quot;value&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">child-comp</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">child-comp</span> <span class="hljs-attr">:title</span>=<span class="hljs-string">&quot;value&quot;</span> @<span class="hljs-attr">update:title</span>=<span class="hljs-string">&quot;handler&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">child-comp</span>&gt;</span>
+<span class="hljs-comment">&lt;!-- 子组件 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">import</span> {defineEmits} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
+    <span class="hljs-keyword">const</span> emits = <span class="hljs-title function_">defineEmits</span>([<span class="hljs-string">&#x27;update:title&#x27;</span>])
+    <span class="hljs-keyword">let</span> <span class="hljs-title function_">buttonClickHandler</span> = (<span class="hljs-params"></span>) =&gt; {
+        <span class="hljs-comment">// value是实参</span>
+        <span class="hljs-title function_">emits</span>(<span class="hljs-string">&#x27;update:title&#x27;</span>, value)
+    }
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+<h3 id="refs">refs</h3>
+<h3 id="provideinject">provide/inject</h3>
+<h3 id="eventbus">eventBus</h3>
+<h3 id="vuexpinia">vuex/pinia</h3>
 <h2 id="angular">angular</h2>
 <h2 id="title">title</h2>
 <h2 id="title">title</h2>

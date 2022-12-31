@@ -324,7 +324,7 @@ function A(props) {
 }
 ```
 
-## [context](framework/react/react-18/context.html)
+## [context](/framework/react/react-18/context.html)
 
 - 主要用于不同层级的组件使用同一份数据。
 

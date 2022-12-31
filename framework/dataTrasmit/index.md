@@ -1,14 +1,20 @@
 # 组件间数据传递
 
-- props + event
-- context
-- useSyncExternalStore
+## react
 
-## props + event
+数据从上向下单向流动的
 
-## context
+|          |                                |     |
+| -------- | ------------------------------ | --- |
+| 父 -> 子 | props                          |     |
+| 子 -> 父 | props + event                  |     |
+| 跨组件   | context / useSyncExternalStore |     |
 
-## useSyncExternalStore
+### props + event
+
+### [context](/framework/react/react-18/context.html)
+
+### useSyncExternalStore
 
 基本用法  
 demo0
@@ -165,9 +171,72 @@ let App = () => {
 }
 ```
 
-## react
-
 ## vue
+
+|           |                               |     |     |
+| --------- | ----------------------------- | --- | --- |
+| 父 -》 子 | props                         |     |     |
+| 子 -》 父 | emit                          |     |     |
+|           | v-model                       |     |     |
+|           | refs                          |     |     |
+|           | provide/inject                |     |     |
+|           | eventBus                      |     |     |
+|           | vuex/pinia （等状态管理工具） |     |     |
+
+### props
+
+### emit
+
+```js
+// 父组件
+<template>
+<child-comp @add="addClickHanler"></child-comp>
+</template>
+<script>
+    let addClickHanler = () => {
+        ...
+    }
+</script>
+// 子组件
+<template>
+    ...
+</template>
+<script setup>
+    import {defineEmits} from 'vue'
+    const emits = defineEmits(['add'])
+    let buttonClickHanler = () => {
+        // value是传递的实参
+        emits('add', value)
+    }
+</script>
+```
+
+### v-model
+
+它是一个语法糖
+
+```html
+<!-- 父组件 -->
+<child-comp v-model:title="value"></child-comp>
+<child-comp :title="value" @update:title="handler"></child-comp>
+<!-- 子组件 -->
+<script>
+  import { defineEmits } from 'vue'
+  const emits = defineEmits(['update:title'])
+  let buttonClickHandler = () => {
+    // value是实参
+    emits('update:title', value)
+  }
+</script>
+```
+
+### refs
+
+### provide/inject
+
+### eventBus
+
+### vuex/pinia
 
 ## angular
 
