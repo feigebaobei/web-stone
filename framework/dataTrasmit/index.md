@@ -9,6 +9,7 @@
 | 父 -> 子 | props                          |     |
 | 子 -> 父 | props + event                  |     |
 | 跨组件   | context / useSyncExternalStore |     |
+| 状态管理 | redux / react-redux / mobx     |     |
 
 ### props + event
 
@@ -170,6 +171,12 @@ let App = () => {
     return (<button onClick={() => dispatch({type: 'x'})}>str</button>)
 }
 ```
+
+### redux
+
+### react-redux
+
+### mobx
 
 ## vue
 

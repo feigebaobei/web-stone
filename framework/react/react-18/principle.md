@@ -1,3 +1,5 @@
+主要部分移到[principle](/framework/react/principle/index.html)了。后期考虑删除此文档。
+
 # 介绍各方法的运行逻辑
 
 ## Children

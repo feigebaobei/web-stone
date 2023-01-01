@@ -252,8 +252,13 @@ c.on('ready', () => {
     // let p = 'framework/dataTransmit'
     let p = [
       'framework/dataTransmit/index.html',
+      'framework/react/react-18/context.html',
       'framework/react/react-18/index.html',
-      'books/index.html',
+      'framework/react/react-18/principle.html',
+      'promote/systemArchitect.html',
+      'index.html',
+      'test.html',
+      'promote/softDesigner.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)

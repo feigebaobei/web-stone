@@ -364,7 +364,7 @@ function f() {
 }
 ```
 
-## [principle](/framework/react/react-18/principle.md)
+## [principle](/framework/react/principle/index.html)
 
 ### 更新机制
 

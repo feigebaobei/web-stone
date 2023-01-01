@@ -53,7 +53,7 @@ export default function First() {
 ```js
 import MyContext from './context'
 export default function Second() {
-  let ctx = useContext(MyContext)
+  let ctx = React.useContext(MyContext)
   let buttonClickHander = () => {
     ctx.setStore({ name: 'other string' })
   }
