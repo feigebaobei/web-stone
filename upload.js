@@ -249,16 +249,10 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = 'framework/dataTransmit'
+    // let p = 'promote/systemArchitect'
     let p = [
-      'framework/dataTransmit/index.html',
-      'framework/react/react-18/context.html',
-      'framework/react/react-18/index.html',
-      'framework/react/react-18/principle.html',
       'promote/systemArchitect.html',
-      'index.html',
-      'test.html',
-      'promote/softDesigner.html',
+      'promote/systemArchitect/index.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
