@@ -250,10 +250,7 @@ c.on('ready', () => {
       throw err
     }
     // let p = 'promote/systemArchitect'
-    let p = [
-      'promote/systemArchitect.html',
-      'promote/systemArchitect/index.html',
-    ]
+    let p = ['index.html', 'jsPackages/data-footstone.html']
     // 检测指定目录是否存在
     // checkDir(p)
     // 检测删除目录
