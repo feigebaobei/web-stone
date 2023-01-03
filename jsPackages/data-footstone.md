@@ -135,6 +135,58 @@ s.clear() // 清空栈
 <!-- prettier-ignore-end -->
 
 <!-- prettier-ignore-start -->
+|HashMap|params|description|type|default|enum|demo||
+|-|-|-|-|-|-|-|-|
+|``||||||||
+|``||||||||
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
+|hash方法|params|description|type|default|enum|demo||
+|-|-|-|-|-|-|-|-|
+|`djb2HashFn: (k: A) => number`||1013||||||
+|`loseloseHashFn: (k: A) => number`||37||||||
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
+|BaseTree|params|description|type|default|enum|demo||
+|-|-|-|-|-|-|-|-|
+|``||||||||
+|``||||||||
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
+|BinarySearchTree|params|description|type|default|enum|demo||
+|-|-|-|-|-|-|-|-|
+|``||||||||
+|``||||||||
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
+|AVLTree|params|description|type|default|enum|demo||
+|-|-|-|-|-|-|-|-|
+|``||||||||
+|``||||||||
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
+|RedBackTree|params|description|type|default|enum|demo||
+|-|-|-|-|-|-|-|-|
+|``||||||||
+|``||||||||
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
+|order|params|description|type|default|enum|demo||
+|-|-|-|-|-|-|-|-|
+|`bubbleSort(arr: any[], order = 'asc') => any[]`||冒泡排序||||||
+|`selectSort(arr: any[], order = 'asc') => any[]`||选择排序||||||
+|`mergeSort(arr: any[], order = 'asc') => any[]`||归并排序||||||
+|`insertSort(arr: any[], order = 'asc') => any[]`||插入排序||||||
+|`quickSort(arr: any[], order = 'asc') => any[]`||快速排序||||||
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
 |Fifo|params|description|type|default|enum|demo||
 |-|-|-|-|-|-|-|-|
 |`new Fifo<K, V>(capacity: N) => Fifo`|capacity是容量|返回先进先出的实例||||||
