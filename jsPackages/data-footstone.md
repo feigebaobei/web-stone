@@ -123,7 +123,7 @@ s.clear() // 清空栈
 <!-- prettier-ignore-start -->
 |DoublyCircleChain|params|description|type|default|enum|demo||
 |-|-|-|-|-|-|-|-|
-|`new DoublyCircleChain<T>(...p: T[])`|p是由需要加入链表的元素组成的数组|返回单向循环链表实例||||||
+|`new DoublyCircleChain<T>(...p: T[])`|p是由需要加入链表的元素组成的数组|返回双向循环链表实例||||||
 |`doublyCircleChain.head`||返回链首||||||
 |`doublyCircleChain.tail`||返回链尾||||||
 |`doublyCircleChain.length`||返回链表长度||||||
@@ -135,14 +135,43 @@ s.clear() // 清空栈
 <!-- prettier-ignore-end -->
 
 <!-- prettier-ignore-start -->
-|store|params|description|type|default|enum|demo||
+|Fifo|params|description|type|default|enum|demo||
 |-|-|-|-|-|-|-|-|
-|``||||||||
-|||||||||
-|||||||||
-|||||||||
-|||||||||
-|||||||||
+|`new Fifo<K, V>(capacity: N) => Fifo`|capacity是容量|返回先进先出的实例||||||
+|`fifo.capacity`||容量||||||
+|`fifo.chain`||缓存数据的单向链表||||||
+|`fifo#get(k: K) => V | undefined`||返回缓存中的指定key对应的数据||||||
+|`fifo#put(k: K, v: V) => N`||追加或设置缓存数据后返回缓存的大小||||||
+|`fifo#size() => N`||返回缓存的大小||||||
+|`fifo#keys() => K[]`||返回缓存中的数据中的key组成的数组||||||
+|`fifo#values() => V[]`||返回缓存中的数据中的value组成的数组||||||
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
+|Lru|params|description|type|default|enum|demo||
+|-|-|-|-|-|-|-|-|
+|`new Lru<K, V>(capacity: N) => Lru`|capacity是容量|返回lru实例||||||
+|`lru.capacity`||容量||||||
+|`lru.chain`||缓存数据的双向链表||||||
+|`lru.map`||缓存key的表||||||
+|`lru#get(k: K) => v`||返回缓存中的指定key对应的数据||||||
+|`lru#put(k: K, v: V) => number`||追加或设置缓存数据后返回缓存的大小||||||
+|`lru#remove(k: K) => v | undefined`||返回被删除的元素||||||
+|`lru#size() => number`||返回缓存的数据条数||||||
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
+|Lfu|params|description|type|default|enum|demo||
+|-|-|-|-|-|-|-|-|
+|`new Lfu<K, V>(capacity: N) => Lfu`|capacity是容量|返回lru实例||||||
+|`lfu.capacity`||容量||||||
+|`lfu.chain`||缓存数据的双向链表||||||
+|`lfu#get(k: K) => v`||返回缓存中的指定key对应的数据||||||
+|`lfu#put(k: K, v: V) => number`||追加或设置缓存数据后返回缓存的大小||||||
+|`lfu#remove(k: K) => v | undefined`||返回被删除的元素|||||待开发|
+|`lfu#size() => number`||返回缓存的数据条数||||||
+|`lfu#keys() => K[]`||返回缓存中由key组成的数组||||||
+|`lfu#values() => V[]`||返回缓存中由value组成的数组||||||
 <!-- prettier-ignore-end -->
 
 ## principle
