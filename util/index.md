@@ -215,6 +215,19 @@ let basis2 = (n) => {
   })
   return res
 }
+// 最大公约数
+let gcd = (n, m) => {
+  if (!m) {
+    return n
+    } else {
+      return gcd(m, n % m)
+    }
+}
+// 最小公倍数
+let lcm = (a, b) => {
+  return a * b / gcd(a, b)
+}
+
 
 
 

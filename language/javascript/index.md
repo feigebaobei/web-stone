@@ -20,14 +20,14 @@ prop#method。如：`Promise#then`。
 
 # 数据类型
 
-String
-Number
-Boolean
-Null
-undefined
-Object
-Symbol
-BigInt
+- String
+- Number
+- Boolean
+- Null
+- undefined
+- Object
+- Symbol
+- BigInt
 
 typeof 命令返回数据类型
 
@@ -35,11 +35,13 @@ typeof 命令返回数据类型
 
 ## var & let & const
 
-|       | 是否可以变量提升 | 作用域       |              |
-| ----- | ---------------- | ------------ | ------------ | ------------ | --- | --- | --- | --- |
-| var   | y                | 函数级作用域 | 可多次声明   | 可多次赋值   |     |     |     |     |
-| let   | n                | 块级作用域   | 不可多次声明 | 可多次赋值   |     |     |     |     |
-| const | n                | 块级作用域   | 不可多次声明 | 只能赋值一次 |     |     |     |     |
+<!-- prettier-ignore-start -->
+|       | 是否可以变量提升 | 作用域 |   |  |  |  |  |  |
+| ----- | ----------- | --- | ----- | ---- | --- | --- | --- | --- |
+| var   | y  | 函数级作用域 | 可多次声明   | 可多次赋值   |     |     |     |     |
+| let   | n  | 块级作用域   | 不可多次声明 | 可多次赋值   |     |     |     |     |
+| const | n  | 块级作用域   | 不可多次声明 | 只能赋值一次 |     |     |     |     |
+<!-- prettier-ignore-end -->
 
 ## 声明 & 定义
 
@@ -55,7 +57,7 @@ var n = 0 // 定义
 
 ## 变量提升
 
-function、var 都会触发变量提升。
+function、var 都会触发变量提升。  
 先提升 function，再提升 var。且存在变量覆盖。
 
 # [事件](/language/javascript/event.html)
@@ -71,7 +73,7 @@ function、var 都会触发变量提升。
 
 1. var a = Object.create(Object)
 2. a[[prototype]] = Foo.prototype  
-   // or
+   // or  
    // a.**proto** = Foo.prototype
 3. Foo.call(a)
 4. 先创建一个实例，再把实例添加到原型链中。
@@ -80,8 +82,8 @@ function、var 都会触发变量提升。
 
 # 作用域链
 
-js 在宏观上使用函数作用域，同时支持块级作用域。
-函数作用域。。。。
+js 在宏观上使用函数作用域，同时支持块级作用域。  
+函数作用域。。。。  
 块级作用域，只有`let`、`const`。
 
 ## this
@@ -91,25 +93,40 @@ this 指向运行时（不是定义时）的上下文环境变量。
 ### abc
 
 即`apply / bind / call`。`abc`是作者起的名字。
-||||
-|-|-|-|
-|apply|fn.apply(otherThis, arrOfArgs)|立即执行|
-|call|fn.call(otherThis, arg0, arg1, ...)|立即执行|
-|bind|fn.bind(otherThis, arg0, arg1, ...)|返回一个方法|
+
+|       |                                     | 执行时间     | 参数                                         |
+| ----- | ----------------------------------- | ------------ | -------------------------------------------- |
+| apply | fn.apply(otherThis, arrOfArgs)      | 立即执行     | 数组                                         |
+| call  | fn.call(otherThis, arg0, arg1, ...) | 立即执行     | 多个参数                                     |
+| bind  | fn.bind(otherThis, arg0, arg1, ...) | 返回一个方法 | 执行 bind 的参数追加上执行返回的方法时的参数 |
+
+```js
+// 待测试
+Function.prototype.mockBind = (otherthis, ...args) => {
+  let self = this
+  let fBound = function (...otherArgs) {
+    self.call(otherthis, ...args, ...otherArgs)
+  }
+  let Ft = function () {}
+  Ft.prototype = this.prototype
+  fBound.prototype = new Ft()
+  return fBound
+}
+```
 
 # constructor & class
 
 ## constructor
 
-（特指构造方法）
-es5 前的产物。es6 以后一般不用。
+（特指构造方法）  
+es5 前的产物。es6 以后一般不用。  
 `inst instanceof ClassName`
 
 ## class
 
-与构造函数很像。（不是构造函数的语法糖。）
-不能变量提升，遵守是块级作用域规则。
-class 可以使用`decorator`，构造函数不能使用`decorator`。
+与构造函数很像。（不是构造函数的语法糖。）  
+不能变量提升，遵守是块级作用域规则。  
+class 可以结合`decorator`使用，构造函数不能使用`decorator`。
 
 ```js
 class ClassName {
@@ -130,7 +147,7 @@ class ClassName {
 
 上述代码可(大致)转换为构造函数代码：
 
-```
+```js
 function ClassName (...params) {
     this.a = params[0]
 }
@@ -141,7 +158,7 @@ ClassName.prototype.t = funtion () {
 // 若要使用构造器则构造者是方法ClassName
 ```
 
-```
+```js
 class A {
     constructor () {...} // 可省略
     get p () {...}       // 使用存取描述符
@@ -158,10 +175,10 @@ class A extends B {     // 类A继承类B
 }
 ```
 
-静态方法的本质是定义在构造方法上的方法。所以有人理解为不使用实例化就能使用的方法。也有人理解为不能在实例上使用，只能在类上使用的方法。
+静态方法的本质是定义在构造方法上的方法。所以有人理解为不使用实例化就能使用的方法。也有人理解为不能在实例上使用，只能在类上使用的方法。  
 如果把静态方法的本质写出来，则如下：
 
-```
+```js
 function ClassName () {...}
 ClassName.staticFn () {...}
 ```
@@ -169,11 +186,13 @@ ClassName.staticFn () {...}
 为什么可以这样写？
 `funtion`的原型链上游中有`Object`对象。该对象支持设置属性。静态方法就是为一个是 funtion 的对象设置了一个属性，该属性值是一个方法。
 
-|          |           |                                                       |     |
-| -------- | --------- | ----------------------------------------------------- | --- |
-| 构造函数 | 操作 this | 不返回对象。与`new`操作符一起使用，则会返回一个实例。 |     |
-| class    | 操作 this | 不返回对象。与`new`操作符一起使用，则会返回一个实例。 |     |
-| 普通函数 | 任意逻辑  | 返回或不返回一个对象                                  |     |
+### 构造函数 & class & 普通函数
+
+|          |           |                                                       |
+| -------- | --------- | ----------------------------------------------------- |
+| 构造函数 | 操作 this | 不返回对象。与`new`操作符一起使用，则会返回一个实例。 |
+| class    | 操作 this | 不返回对象。与`new`操作符一起使用，则会返回一个实例。 |
+| 普通函数 | 任意逻辑  | 返回或不返回一个对象                                  |
 
 # proxy & reflect
 
@@ -182,7 +201,7 @@ ClassName.staticFn () {...}
 proxy 让代理模式更容易实现。
 常用于做：保护/预检/代理等。
 
-```
+```js
 let o = {
     a: 's',
     _b: 1
@@ -200,8 +219,8 @@ var p = new Proxy(o, {
         return true // 在严格模式下，set时必须返回true，否则会报错。
     }
 })
-console.log(p.a)
-console.log(p._b)
+console.log(p.a)    // 's'
+console.log(p._b)   // 报错
 ```
 
 this 指向 handler。因为 this 指向运行时上下文环境。
@@ -214,7 +233,7 @@ revoke() // 取消代理
 proxy.key // 报错
 ```
 
-```
+```js
 var proxy = new Proxy(target, handler)
 target: Object,
 handler: 控制对象。
@@ -330,11 +349,11 @@ clog(o.get('k'))
 
 ## 宏任务，由宿主发起。
 
-script 可理解为外层代码
-setTimeout
-setInterval
-postMessage
-MessageChannel
+script 可理解为外层代码触发  
+setTimeout  
+setInterval  
+postMessage  
+MessageChannel  
 setImmediate (node 环境)
 
 ## 微任务，由 js 引擎发起。
@@ -351,35 +370,71 @@ promise 的参数是一个接收`resolve`/`reject`方法的方法。
 
 ### promise 的属性
 
-```
+```js
 Promise#then()
 Promise#catch()
 Promise#finally()    // 不返回东西。即使写了返回东西的代码也不返回。
 Promise.all(arrP)    // 这种写法的都是静态属性。若arrP都是fulfilled状态则执行then方法，参数是一个数组。若arrP中有一个rejected状态则立即执行catch，参数是一个值。
 Promise.race(arrP)   // 返回最先改变状态的promise对象，状态由该对象决定。
-Promise.allSettled(arrP) // 当arrP都改变状态后返回结果。
-结果是由{status: 'fulfilled' | 'rejected', value / reason}组成的数组。
+Promise.allSettled(arrP) // 当arrP都改变状态后返回结果。结果是由{status: 'fulfilled' | 'rejected', value / reason}组成的数组。总是触发then方法。
 Promise.any(arrP)        // arrP中只要有一个状态为fulfilled则返回该值，触发then()。若全为rejected则返回AggregateError对象，触发catch()。
 Promise.resolve()
 Promise.reject()
 Promise.try()            // 正在开发。
 ```
 
+### 模拟 allSettled
+
+```js
+Promise.prototype.mockAllSettled = (arrP) => {
+  // 每个p都触发检查方法。
+  // 检查方法判断是否返回结果
+  return new Promise((s) => {
+    let len = arrP.length
+    let res = new Array(len)
+    res.fill(null)
+    let f = () => {
+      if (res.every((item) => !!item)) {
+        s(res)
+      }
+    }
+    for (let i = 0; i < len; i++) {
+      arrP[i]
+        .then((subRes) => {
+          res[i] = {
+            value: subRes,
+            status: 'fulfilled',
+          }
+        })
+        .catch((e) => {
+          res[i] = {
+            reason: e,
+            status: 'rejected',
+          }
+        })
+        .finally(() => {
+          f()
+        })
+    }
+  })
+}
+```
+
 ### 使用 promise 封装 ajax
 
-```
+```js
 let fetchData = (url, method) => {
-return new Promise((s, j) => {
-    let handler = function() {
-        if (this.readyState !== 4) {
-            return
+  return new Promise((s, j) => {
+    let handler = function () {
+      if (this.readyState !== 4) {
+        return
+      } else {
+        if (this.status === 200) {
+          s(this.response)
         } else {
-            if (this.status === 200) {
-                s(this.response)
-            } else {
-                j(new Error(this.statusText))
-            }
+          j(new Error(this.statusText))
         }
+      }
     }
     let client = new XMLHttpRequest()
     client.open(method.toUpperCase(), url)
@@ -387,7 +442,7 @@ return new Promise((s, j) => {
     client.responseType = 'json'
     client.setRequestHeader('Accept', 'application/json')
     client.send()
-})
+  })
 }
 ```
 
@@ -430,17 +485,17 @@ window.onunhandledrejection = (event) => {
 }
 ```
 
-|      | rejectionhandled                                        | unhandledrejection                                      |
-| ---- | ------------------------------------------------------- | ------------------------------------------------------- |
-| 环境 | window/worker                                           | window/worker                                           |
+<!-- prettier-ignore-start -->
+|      | rejectionhandled          | unhandledrejection        |
+| ---- | --------------- | ----- |
+| 环境 | window/worker             | window/worker             |
 |      | 当 Promise 被 reject 且执行 reject 处理器的时候，会触发 | 当 Promise 被 reject 且没有 reject 处理器的时候，会触发 |
-|      |                                                         |                                                         |
-|      |                                                         |                                                         |
+<!-- prettier-ignore-end -->
 
 ## eventLoop (异步 & 同步)
 
-所有 js 代码按执行时序可分为三部分：同步代码/宏任务/微任务。
-代码从上到下执行。遇到同步代码则依次序执行。遇到宏任务不执行，放入宏任务队列。遇到微任务不执行，入入微任务队列。执行完所有同步代码后执行一个宏任务队列中的宏任务，然后执行完所有微任务。再执行宏任务队列中的一个宏任务，再执行所有微任务。直到宏任务队列为空/微任务队列为空。
+所有 js 代码按执行时序可分为三部分：同步代码/宏任务/微任务。  
+代码从上到下执行。遇到同步代码则依次序执行。遇到宏任务不执行，放入宏任务队列。遇到微任务不执行，入入微任务队列。执行完所有同步代码后执行一个宏任务队列中的宏任务，然后执行完所有微任务。再执行宏任务队列中的一个宏任务，再执行所有微任务。直到宏任务队列为空/微任务队列为空。  
 因宏任务是宿主环境的，微任务是 js 语言的。所以宏任务执行一个，微任务执行一堆。
 
 # Symbol
@@ -460,19 +515,21 @@ String(s) // 'Symbol(str)'
 
 ```
 
-|                     |                                                                       |                                  |     |     |
-| ------------------- | --------------------------------------------------------------------- | -------------------------------- | --- | --- |
-| Symbol#description  | 返回描述                                                              |                                  |     |     |
+<!-- prettier-ignore-start -->
+|      |    |    |     |     |
+| ----- | --- | ---- | --- | --- |
+| Symbol#description  | 返回描述   |    |     |     |
 | Symbol.for(desc)    | 若存在相同的 desc 则返回已经存在的 symbol，否则新建一个 symbol 再返回 | 全局惟一，与在哪个 module 无关。 |     |     |
-| Symbol.keyFor(desc) | 返回一个已登记的 symbol 的 desc                                       |                                  |     |     |
+| Symbol.keyFor(desc) | 返回一个已登记的 symbol 的 desc  |    |     |     |
+<!-- prettier-ignore-end -->
 
 js 内置了很多 symbol 的属性。
 
-||||||
-||||||
-||||||
-||||||
-||||||
+|     |     |     |     |     |
+| --- | --- | --- | --- | --- |
+|     |     |     |     |     |
+|     |     |     |     |     |
+|     |     |     |     |     |
 
 # Generator & Iterator
 
@@ -495,28 +552,28 @@ next 属性值是一个方法。该方法返回一个包含当前对象信息的
 内置 iterator 接口的对象有 Array/Set/Map/String/TypedArray/...。
 也可以自定义 iterator 接口，如：
 
-```
+```js
 let obj = {}
 obj[Symbol.iterator] = () => {
-    let t = 0
-    return {
-        next: function () {
-        if (t++ < 3) {
-            return {
-                value: t,
-                done: false
-            }
-        } else {
-            return {
-                value: 8,
-                done: true
-            }
-        };
+  let t = 0
+  return {
+    next: function () {
+      if (t++ < 3) {
+        return {
+          value: t,
+          done: false,
         }
-    };
+      } else {
+        return {
+          value: 8,
+          done: true,
+        }
+      }
+    },
+  }
 }
 for (let v of obj) {
-    console.log('v', v)
+  console.log('v', v)
 }
 ```
 

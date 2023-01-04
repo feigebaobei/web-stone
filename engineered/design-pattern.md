@@ -1,32 +1,32 @@
 # 设计模式
 
-创建型
-工厂模式
-单例模式
-原型模式
-结构型
-适配器模式
-装饰器模式
-代理模式
-外观模式
-桥接模式
-组合模式
-享元模式
-行为型
-策略模式
-模板方法模式
-观察者模式
-迭代器模式
-职责链模式
-模块模式
-命令模式
-备忘录模式
-发布订阅模式
-状态模式
-访问者模式
-中介模式
-解释器模式
-金子模式（可扩展插件的模式）（可插件模式）
+- 创建型
+  - 工厂模式
+  - 单例模式
+  - 原型模式
+- 结构型
+  - 适配器模式
+  - 装饰器模式
+  - 代理模式
+  - 外观模式
+  - 桥接模式
+  - 组合模式
+  - 享元模式
+- 行为型
+  - 策略模式
+  - 模板方法模式
+  - 观察者模式
+  - 迭代器模式
+  - 职责链模式
+  - 模块模式
+  - 命令模式
+  - 备忘录模式
+  - 发布订阅模式
+  - 状态模式
+  - 访问者模式
+  - 中介模式
+  - 解释器模式
+  - 金子模式（可扩展插件的模式）（可插件模式）
 
 ## [设计模式的六大原则](/engineered/design-principle.html)
 
@@ -605,50 +605,56 @@ let cf = chain(Symbol.for('chain'), fn0, fn1, fn2)
 cf('a', 'b', 'c') // 输出到fn2
 ```
 
-```
+```js
 function Fn1() {
-    console.log(1);
-    return "nextSuccessor";
+  console.log(1)
+  return 'nextSuccessor'
 }
 function Fn2() {
-    console.log(2);
-    var self = this;
-    setTimeout(function(){
-        self.next();
-    },1000);
+  console.log(2)
+  var self = this
+  setTimeout(function () {
+    self.next()
+  }, 1000)
 }
 function Fn3() {
-    console.log(3);
+  console.log(3)
 }
 // 下面需要编写职责链模式的封装构造函数方法
-var Chain = function(fn){
-    this.fn = fn;
-    this.successor = null;
-};
-Chain.prototype.setNextSuccessor = function(successor){
-    return this.successor = successor;
+var Chain = function (fn) {
+  this.fn = fn
+  this.successor = null
+}
+Chain.prototype.setNextSuccessor = function (successor) {
+  return (this.successor = successor)
 }
 // 把请求往下传递
-Chain.prototype.passRequest = function(){
-    var ret = this.fn.apply(this,arguments);
-    if(ret === 'nextSuccessor') {
-        return this.successor && this.successor.passRequest.apply(this.successor,arguments);
-    }
-    return ret;
+Chain.prototype.passRequest = function () {
+  var ret = this.fn.apply(this, arguments)
+  if (ret === 'nextSuccessor') {
+    return (
+      this.successor &&
+      this.successor.passRequest.apply(this.successor, arguments)
+    )
+  }
+  return ret
 }
-Chain.prototype.next = function(){
-    return this.successor && this.successor.passRequest.apply(this.successor,arguments);
+Chain.prototype.next = function () {
+  return (
+    this.successor &&
+    this.successor.passRequest.apply(this.successor, arguments)
+  )
 }
 //现在我们把3个函数分别包装成职责链节点：
-var chainFn1 = new Chain(Fn1);
-var chainFn2 = new Chain(Fn2);
-var chainFn3 = new Chain(Fn3);
+var chainFn1 = new Chain(Fn1)
+var chainFn2 = new Chain(Fn2)
+var chainFn3 = new Chain(Fn3)
 
 // 然后指定节点在职责链中的顺序
-chainFn1.setNextSuccessor(chainFn2);
-chainFn2.setNextSuccessor(chainFn3);
+chainFn1.setNextSuccessor(chainFn2)
+chainFn2.setNextSuccessor(chainFn3)
 
-chainFn1.passRequest();  // 打印出1，2 过1秒后 会打印出3
+chainFn1.passRequest() // 打印出1，2 过1秒后 会打印出3
 ```
 
 ## 模块模式
@@ -677,6 +683,34 @@ ModuleFn.publicFn0()
 ModuleFn.publicFn1()
 // commonjs同理
 // esm同理
+```
+
+```js
+// 再使用class实现一次
+import { SingleChain } from 'data-footstone'
+class DutyChain {
+  constructor() {
+    this.chain = new SingleChain()
+  }
+  append(rule, fn) {
+    this.chain.append({ rule, fn })
+  }
+  remove() {
+    // to do
+  }
+  execute(pararms) {
+    let cur = this.chain.head
+    let res = undefind
+    while (cur) {
+      if (cur.value.rule(pararms)) {
+        res = cur.value.fn(params)
+        break
+      }
+      cur = cur.next
+    }
+    return res
+  }
+}
 ```
 
 ## 命令模式
@@ -768,7 +802,8 @@ c.add(command3);
 
 ## 备忘录模式
 
-也叫缓存模式。在一个栈中保存多个状态。当需要返回前一个状态时，从栈中弹出一状态。直到栈为空。
+也叫缓存模式。在一个栈中保存多个状态。当需要返回前一个状态时，从栈中弹出一状态。直到栈为空。  
+与缓存相关的算法有[fifo/lru/lfu](/jsPackages/data-footstone.html)
 
 ```js
 class Memo {

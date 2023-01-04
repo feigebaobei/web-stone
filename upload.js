@@ -251,8 +251,11 @@ c.on('ready', () => {
     }
     // let p = 'promote/systemArchitect'
     let p = [
-      'jsPackages/data-footstone.html',
-      // 'jsPackages/index.html',
+      // 'jsPackages/data-footstone.html',
+      'language/javascript/index.html',
+      'engineered/index.html',
+      'test.html',
+      'util/index.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)

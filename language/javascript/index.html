@@ -95,22 +95,71 @@
 <strong>原型对象上的方法</strong><br>
 prop#method。如：<code>Promise#then</code>。</p>
 <h1 id="数据类型">数据类型</h1>
-<p>String
-Number
-Boolean
-Null
-undefined
-Object
-Symbol
-BigInt</p>
+<ul>
+<li>String</li>
+<li>Number</li>
+<li>Boolean</li>
+<li>Null</li>
+<li>undefined</li>
+<li>Object</li>
+<li>Symbol</li>
+<li>BigInt</li>
+</ul>
 <p>typeof 命令返回数据类型</p>
 <h1 id="变量">变量</h1>
 <h2 id="var--let--const">var &amp; let &amp; const</h2>
-<p>|       | 是否可以变量提升 | 作用域       |              |
-| ----- | ---------------- | ------------ | ------------ | ------------ | --- | --- | --- | --- |
-| var   | y                | 函数级作用域 | 可多次声明   | 可多次赋值   |     |     |     |     |
-| let   | n                | 块级作用域   | 不可多次声明 | 可多次赋值   |     |     |     |     |
-| const | n                | 块级作用域   | 不可多次声明 | 只能赋值一次 |     |     |     |     |</p>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th></th>
+<th>是否可以变量提升</th>
+<th>作用域</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>var</td>
+<td>y</td>
+<td>函数级作用域</td>
+<td>可多次声明</td>
+<td>可多次赋值</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>let</td>
+<td>n</td>
+<td>块级作用域</td>
+<td>不可多次声明</td>
+<td>可多次赋值</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>const</td>
+<td>n</td>
+<td>块级作用域</td>
+<td>不可多次声明</td>
+<td>只能赋值一次</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
 <h2 id="声明--定义">声明 &amp; 定义</h2>
 <p>声明：提出变量名
 初始化：第一次赋值
@@ -120,7 +169,7 @@ a = 's' // 初始化
 var n = 0 // 定义
 </code></pre>
 <h2 id="变量提升">变量提升</h2>
-<p>function、var 都会触发变量提升。
+<p>function、var 都会触发变量提升。<br>
 先提升 function，再提升 var。且存在变量覆盖。</p>
 <h1 id="事件"><a href="/language/javascript/event.html">事件</a></h1>
 <h1 id="原型链-ppt">原型链 <a href="/confuse/jsPrototypeChain.pptx">ppt</a></h1>
@@ -132,15 +181,15 @@ var n = 0 // 定义
 <ol>
 <li>var a = Object.create(Object)</li>
 <li>a[[prototype]] = Foo.prototype<br>
-// or
+// or<br>
 // a.<strong>proto</strong> = Foo.prototype</li>
 <li>Foo.call(a)</li>
 <li>先创建一个实例，再把实例添加到原型链中。</li>
 </ol>
 <h1 id="继承"><a href="/language/javascript/inherit.html">继承</a></h1>
 <h1 id="作用域链">作用域链</h1>
-<p>js 在宏观上使用函数作用域，同时支持块级作用域。
-函数作用域。。。。
+<p>js 在宏观上使用函数作用域，同时支持块级作用域。<br>
+函数作用域。。。。<br>
 块级作用域，只有<code>let</code>、<code>const</code>。</p>
 <h2 id="this">this</h2>
 <p>this 指向运行时（不是定义时）的上下文环境变量。</p>
@@ -151,7 +200,8 @@ var n = 0 // 定义
 <tr>
 <th></th>
 <th></th>
-<th></th>
+<th>执行时间</th>
+<th>参数</th>
 </tr>
 </thead>
 <tbody>
@@ -159,28 +209,43 @@ var n = 0 // 定义
 <td>apply</td>
 <td>fn.apply(otherThis, arrOfArgs)</td>
 <td>立即执行</td>
+<td>数组</td>
 </tr>
 <tr>
 <td>call</td>
 <td>fn.call(otherThis, arg0, arg1, ...)</td>
 <td>立即执行</td>
+<td>多个参数</td>
 </tr>
 <tr>
 <td>bind</td>
 <td>fn.bind(otherThis, arg0, arg1, ...)</td>
 <td>返回一个方法</td>
+<td>执行bind的参数追加上执行返回的方法时的参数</td>
 </tr>
 </tbody>
 </table>
+<pre><code class="language-js"><span class="hljs-comment">// 待测试</span>
+<span class="hljs-title class_">Function</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">mockBind</span> = <span class="hljs-function">(<span class="hljs-params">otherthis, ...args</span>) =&gt;</span> {
+  <span class="hljs-keyword">let</span> self = <span class="hljs-variable language_">this</span>
+  <span class="hljs-keyword">let</span> fBound = <span class="hljs-keyword">function</span> (<span class="hljs-params">...otherArgs</span>) {
+    self.<span class="hljs-title function_">call</span>(otherthis, ...args, ...otherArgs)
+  }
+  <span class="hljs-keyword">let</span> <span class="hljs-title class_">Ft</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {}
+  <span class="hljs-title class_">Ft</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>
+  fBound.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Ft</span>()
+  <span class="hljs-keyword">return</span> fBound
+}
+</code></pre>
 <h1 id="constructor--class">constructor &amp; class</h1>
 <h2 id="constructor">constructor</h2>
-<p>（特指构造方法）
-es5 前的产物。es6 以后一般不用。
+<p>（特指构造方法）<br>
+es5 前的产物。es6 以后一般不用。<br>
 <code>inst instanceof ClassName</code></p>
 <h2 id="class">class</h2>
-<p>与构造函数很像。（不是构造函数的语法糖。）
-不能变量提升，遵守是块级作用域规则。
-class 可以使用<code>decorator</code>，构造函数不能使用<code>decorator</code>。</p>
+<p>与构造函数很像。（不是构造函数的语法糖。）<br>
+不能变量提升，遵守是块级作用域规则。<br>
+class 可以结合<code>decorator</code>使用，构造函数不能使用<code>decorator</code>。</p>
 <pre><code class="language-js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">ClassName</span> {
     <span class="hljs-title function_">constructor</span> (...params) { <span class="hljs-comment">// 可省略</span>
         <span class="hljs-comment">// super()</span>
@@ -197,41 +262,41 @@ class 可以使用<code>decorator</code>，构造函数不能使用<code>decorat
 }
 </code></pre>
 <p>上述代码可(大致)转换为构造函数代码：</p>
-<pre><code>function ClassName (...params) {
-    this.a = params[0]
+<pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">ClassName</span> (...params) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">a</span> = params[<span class="hljs-number">0</span>]
 }
-ClassName.prototype.t = funtion () {
-    return this.a
+<span class="hljs-title class_">ClassName</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">t</span> = funtion () {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">a</span>
 }
-// 若要使用class则构造者是class ClassName.
-// 若要使用构造器则构造者是方法ClassName
+<span class="hljs-comment">// 若要使用class则构造者是class ClassName.</span>
+<span class="hljs-comment">// 若要使用构造器则构造者是方法ClassName</span>
 </code></pre>
-<pre><code>class A {
-    constructor () {...} // 可省略
-    get p () {...}       // 使用存取描述符
+<pre><code class="language-js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> {
+    <span class="hljs-title function_">constructor</span> () {...} <span class="hljs-comment">// 可省略</span>
+    get p () {...}       <span class="hljs-comment">// 使用存取描述符</span>
     set p (v) {...}
-    [methodName] () {}   // 使用属性表达式
-    static s () {}       // 静态属性
-    static sa = 0       // 静态属性
+    [methodName] () {}   <span class="hljs-comment">// 使用属性表达式</span>
+    <span class="hljs-keyword">static</span> s () {}       <span class="hljs-comment">// 静态属性</span>
+    <span class="hljs-keyword">static</span> sa = <span class="hljs-number">0</span>       <span class="hljs-comment">// 静态属性</span>
 }
-class A extends B {     // 类A继承类B
-    constructor() {
-        super()
-        // ...
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">B</span> {     <span class="hljs-comment">// 类A继承类B</span>
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-variable language_">super</span>()
+        <span class="hljs-comment">// ...</span>
     }
 }
 </code></pre>
-<p>静态方法的本质是定义在构造方法上的方法。所以有人理解为不使用实例化就能使用的方法。也有人理解为不能在实例上使用，只能在类上使用的方法。
+<p>静态方法的本质是定义在构造方法上的方法。所以有人理解为不使用实例化就能使用的方法。也有人理解为不能在实例上使用，只能在类上使用的方法。<br>
 如果把静态方法的本质写出来，则如下：</p>
-<pre><code>function ClassName () {...}
-ClassName.staticFn () {...}
+<pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">ClassName</span> () {...}
+<span class="hljs-title class_">ClassName</span>.<span class="hljs-property">staticFn</span> () {...}
 </code></pre>
 <p>为什么可以这样写？
 <code>funtion</code>的原型链上游中有<code>Object</code>对象。该对象支持设置属性。静态方法就是为一个是 funtion 的对象设置了一个属性，该属性值是一个方法。</p>
+<h3 id="构造函数--class--普通函数">构造函数 &amp; class &amp; 普通函数</h3>
 <table>
 <thead>
 <tr>
-<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -242,19 +307,16 @@ ClassName.staticFn () {...}
 <td>构造函数</td>
 <td>操作 this</td>
 <td>不返回对象。与<code>new</code>操作符一起使用，则会返回一个实例。</td>
-<td></td>
 </tr>
 <tr>
 <td>class</td>
 <td>操作 this</td>
 <td>不返回对象。与<code>new</code>操作符一起使用，则会返回一个实例。</td>
-<td></td>
 </tr>
 <tr>
 <td>普通函数</td>
 <td>任意逻辑</td>
 <td>返回或不返回一个对象</td>
-<td></td>
 </tr>
 </tbody>
 </table>
@@ -262,25 +324,25 @@ ClassName.staticFn () {...}
 <h2 id="proxy">proxy</h2>
 <p>proxy 让代理模式更容易实现。
 常用于做：保护/预检/代理等。</p>
-<pre><code>let o = {
-    a: 's',
-    _b: 1
+<pre><code class="language-js"><span class="hljs-keyword">let</span> o = {
+    <span class="hljs-attr">a</span>: <span class="hljs-string">&#x27;s&#x27;</span>,
+    <span class="hljs-attr">_b</span>: <span class="hljs-number">1</span>
 }
-var p = new Proxy(o, {
-    get: (target, propKey, receiver) =&gt; {
-        if (propKey.startsWith('_')) {
-            return new Error('私有方法不能被外部访问')
-        } else {
-            return target[propKey]
+<span class="hljs-keyword">var</span> p = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Proxy</span>(o, {
+    <span class="hljs-attr">get</span>: <span class="hljs-function">(<span class="hljs-params">target, propKey, receiver</span>) =&gt;</span> {
+        <span class="hljs-keyword">if</span> (propKey.<span class="hljs-title function_">startsWith</span>(<span class="hljs-string">&#x27;_&#x27;</span>)) {
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&#x27;私有方法不能被外部访问&#x27;</span>)
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">return</span> target[propKey]
         }
     },
-    set: (target, propKey, value, receiver) {
+    <span class="hljs-attr">set</span>: (target, propKey, value, receiver) {
         target[propKey] = value
-        return true // 在严格模式下，set时必须返回true，否则会报错。
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span> <span class="hljs-comment">// 在严格模式下，set时必须返回true，否则会报错。</span>
     }
 })
-console.log(p.a)
-console.log(p._b)
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(p.<span class="hljs-property">a</span>)    <span class="hljs-comment">// &#x27;s&#x27;</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(p.<span class="hljs-property">_b</span>)   <span class="hljs-comment">// 报错</span>
 </code></pre>
 <p>this 指向 handler。因为 this 指向运行时上下文环境。</p>
 <pre><code class="language-js"><span class="hljs-keyword">let</span> { proxy, revoke } = <span class="hljs-title class_">Proxy</span>.<span class="hljs-title function_">revocable</span>(target, handler)
@@ -289,23 +351,23 @@ proxy.<span class="hljs-property">key</span> <span class="hljs-comment">// &#x27
 <span class="hljs-title function_">revoke</span>() <span class="hljs-comment">// 取消代理</span>
 proxy.<span class="hljs-property">key</span> <span class="hljs-comment">// 报错</span>
 </code></pre>
-<pre><code>var proxy = new Proxy(target, handler)
-target: Object,
-handler: 控制对象。
+<pre><code class="language-js"><span class="hljs-keyword">var</span> proxy = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Proxy</span>(target, handler)
+<span class="hljs-attr">target</span>: <span class="hljs-title class_">Object</span>,
+<span class="hljs-attr">handler</span>: 控制对象。
     {
-        get(target, propKey, receiver) // receiver 读操作所在的Proxy对象
-        set(target, propKey, value, receiver)
-        has(target, propKey)
-        deleteProperty(target, propKey)
-        ownKeys(target)
-        getOwnPropertyDescription(target, propKey)
-        defineProperty(target, propKey, propDesc)
-        preventExtensions(target)
-        getPrototypeOf(target)
-        isExtensible(target)
-        setPrototypeOf(target, proto)
-        apply(target, object, args)
-        construct(target, args)
+        <span class="hljs-title function_">get</span>(target, propKey, receiver) <span class="hljs-comment">// receiver 读操作所在的Proxy对象</span>
+        <span class="hljs-title function_">set</span>(target, propKey, value, receiver)
+        <span class="hljs-title function_">has</span>(target, propKey)
+        <span class="hljs-title function_">deleteProperty</span>(target, propKey)
+        <span class="hljs-title function_">ownKeys</span>(target)
+        <span class="hljs-title function_">getOwnPropertyDescription</span>(target, propKey)
+        <span class="hljs-title function_">defineProperty</span>(target, propKey, propDesc)
+        <span class="hljs-title function_">preventExtensions</span>(target)
+        <span class="hljs-title function_">getPrototypeOf</span>(target)
+        <span class="hljs-title function_">isExtensible</span>(target)
+        <span class="hljs-title function_">setPrototypeOf</span>(target, proto)
+        <span class="hljs-title function_">apply</span>(target, object, args)
+        <span class="hljs-title function_">construct</span>(target, args)
     }
 </code></pre>
 <h2 id="reflect">reflect</h2>
@@ -396,11 +458,11 @@ o.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;
 </code></pre>
 <h1 id="宏任务--微任务">宏任务 &amp; 微任务</h1>
 <h2 id="宏任务由宿主发起">宏任务，由宿主发起。</h2>
-<p>script 可理解为外层代码
-setTimeout
-setInterval
-postMessage
-MessageChannel
+<p>script 可理解为外层代码触发<br>
+setTimeout<br>
+setInterval<br>
+postMessage<br>
+MessageChannel<br>
 setImmediate (node 环境)</p>
 <h2 id="微任务由-js-引擎发起">微任务，由 js 引擎发起。</h2>
 <p>Promise
@@ -411,39 +473,69 @@ process.nextTick （node 环境）</p>
 一个 promise 对象有三个状态。初始状态是<code>pendding</code>，当执行<code>resolve</code>方法时改变为<code>fulfilled</code>状态，当执行<code>reject</code>方法时改变为<code>rejected</code>状态。二个方法都不执行，则一直是<code>pendding</code>状态。<code>resolve</code>状态触发 promise 对象的<code>then</code>方法。<code>reject</code>状态触发 promise 对象的<code>catch</code>方法。
 在定义时开始执行。</p>
 <h3 id="promise-的属性">promise 的属性</h3>
-<pre><code>Promise#then()
-Promise#catch()
-Promise#finally()    // 不返回东西。即使写了返回东西的代码也不返回。
-Promise.all(arrP)    // 这种写法的都是静态属性。若arrP都是fulfilled状态则执行then方法，参数是一个数组。若arrP中有一个rejected状态则立即执行catch，参数是一个值。
-Promise.race(arrP)   // 返回最先改变状态的promise对象，状态由该对象决定。
-Promise.allSettled(arrP) // 当arrP都改变状态后返回结果。
-结果是由{status: 'fulfilled' | 'rejected', value / reason}组成的数组。
-Promise.any(arrP)        // arrP中只要有一个状态为fulfilled则返回该值，触发then()。若全为rejected则返回AggregateError对象，触发catch()。
-Promise.resolve()
-Promise.reject()
-Promise.try()            // 正在开发。
+<pre><code class="language-js"><span class="hljs-title class_">Promise</span>#<span class="hljs-title function_">then</span>()
+<span class="hljs-title class_">Promise</span>#<span class="hljs-keyword">catch</span>()
+<span class="hljs-title class_">Promise</span>#<span class="hljs-title function_">finally</span>()    <span class="hljs-comment">// 不返回东西。即使写了返回东西的代码也不返回。</span>
+<span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">all</span>(arrP)    <span class="hljs-comment">// 这种写法的都是静态属性。若arrP都是fulfilled状态则执行then方法，参数是一个数组。若arrP中有一个rejected状态则立即执行catch，参数是一个值。</span>
+<span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">race</span>(arrP)   <span class="hljs-comment">// 返回最先改变状态的promise对象，状态由该对象决定。</span>
+<span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">allSettled</span>(arrP) <span class="hljs-comment">// 当arrP都改变状态后返回结果。结果是由{status: &#x27;fulfilled&#x27; | &#x27;rejected&#x27;, value / reason}组成的数组。总是触发then方法。</span>
+<span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">any</span>(arrP)        <span class="hljs-comment">// arrP中只要有一个状态为fulfilled则返回该值，触发then()。若全为rejected则返回AggregateError对象，触发catch()。</span>
+<span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">resolve</span>()
+<span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">reject</span>()
+<span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">try</span>()            <span class="hljs-comment">// 正在开发。</span>
+</code></pre>
+<h3 id="模拟allsettled">模拟allSettled</h3>
+<pre><code class="language-js"><span class="hljs-title class_">Promise</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">mockAllSettled</span> = <span class="hljs-function">(<span class="hljs-params">arrP</span>) =&gt;</span> {
+  <span class="hljs-comment">// 每个p都触发检查方法。</span>
+  <span class="hljs-comment">// 检查方法判断是否返回结果</span>
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">s</span>) =&gt;</span> {
+    <span class="hljs-keyword">let</span> len = arrP.<span class="hljs-property">length</span>
+    <span class="hljs-keyword">let</span> res = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Array</span>(len)
+    res.<span class="hljs-title function_">fill</span>(<span class="hljs-literal">null</span>)
+    <span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params"></span>) =&gt; {
+      <span class="hljs-keyword">if</span> (res.<span class="hljs-title function_">every</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> !!item)) {
+        <span class="hljs-title function_">s</span>(res)
+      }
+    }
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i&lt;len; i++) {
+      arrP[i].<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">subRes</span> =&gt;</span> {
+        res[i] = {
+          <span class="hljs-attr">value</span>: subRes,
+          <span class="hljs-attr">status</span>: <span class="hljs-string">&#x27;fulfilled&#x27;</span>
+        }
+      }).<span class="hljs-title function_">catch</span>(<span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> {
+        res[i] = {
+          <span class="hljs-attr">reason</span>: e,
+          <span class="hljs-attr">status</span>: <span class="hljs-string">&#x27;rejected&#x27;</span>
+        }
+      }).<span class="hljs-title function_">finally</span>(<span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-title function_">f</span>()
+      })
+    }
+  })
+}
 </code></pre>
 <h3 id="使用-promise-封装-ajax">使用 promise 封装 ajax</h3>
-<pre><code>let fetchData = (url, method) =&gt; {
-return new Promise((s, j) =&gt; {
-    let handler = function() {
-        if (this.readyState !== 4) {
-            return
-        } else {
-            if (this.status === 200) {
-                s(this.response)
-            } else {
-                j(new Error(this.statusText))
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">fetchData</span> = (<span class="hljs-params">url, method</span>) =&gt; {
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">s, j</span>) =&gt;</span> {
+    <span class="hljs-keyword">let</span> handler = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">readyState</span> !== <span class="hljs-number">4</span>) {
+            <span class="hljs-keyword">return</span>
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">status</span> === <span class="hljs-number">200</span>) {
+                <span class="hljs-title function_">s</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">response</span>)
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-title function_">j</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">statusText</span>))
             }
         }
     }
-    let client = new XMLHttpRequest()
-    client.open(method.toUpperCase(), url)
-    client.onreadystatechange = handler
-    client.responseType = 'json'
-    client.setRequestHeader('Accept', 'application/json')
-    client.send()
-})
+    <span class="hljs-keyword">let</span> client = <span class="hljs-keyword">new</span> <span class="hljs-title class_">XMLHttpRequest</span>()
+    client.<span class="hljs-title function_">open</span>(method.<span class="hljs-title function_">toUpperCase</span>(), url)
+    client.<span class="hljs-property">onreadystatechange</span> = handler
+    client.<span class="hljs-property">responseType</span> = <span class="hljs-string">&#x27;json&#x27;</span>
+    client.<span class="hljs-title function_">setRequestHeader</span>(<span class="hljs-string">&#x27;Accept&#x27;</span>, <span class="hljs-string">&#x27;application/json&#x27;</span>)
+    client.<span class="hljs-title function_">send</span>()
+  })
 }
 </code></pre>
 <h3 id="判断-promise-对象">判断 promise 对象</h3>
@@ -476,6 +568,7 @@ return new Promise((s, j) =&gt; {
   <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">warn</span>(<span class="hljs-string">`UNHANDLED PROMISE REJECTION: <span class="hljs-subst">${event.reason}</span>`</span>)
 }
 </code></pre>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -495,21 +588,12 @@ return new Promise((s, j) =&gt; {
 <td>当 Promise 被 reject 且执行 reject 处理器的时候，会触发</td>
 <td>当 Promise 被 reject 且没有 reject 处理器的时候，会触发</td>
 </tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
 <h2 id="eventloop-异步--同步">eventLoop (异步 &amp; 同步)</h2>
-<p>所有 js 代码按执行时序可分为三部分：同步代码/宏任务/微任务。
-代码从上到下执行。遇到同步代码则依次序执行。遇到宏任务不执行，放入宏任务队列。遇到微任务不执行，入入微任务队列。执行完所有同步代码后执行一个宏任务队列中的宏任务，然后执行完所有微任务。再执行宏任务队列中的一个宏任务，再执行所有微任务。直到宏任务队列为空/微任务队列为空。
+<p>所有 js 代码按执行时序可分为三部分：同步代码/宏任务/微任务。<br>
+代码从上到下执行。遇到同步代码则依次序执行。遇到宏任务不执行，放入宏任务队列。遇到微任务不执行，入入微任务队列。执行完所有同步代码后执行一个宏任务队列中的宏任务，然后执行完所有微任务。再执行宏任务队列中的一个宏任务，再执行所有微任务。直到宏任务队列为空/微任务队列为空。<br>
 因宏任务是宿主环境的，微任务是 js 语言的。所以宏任务执行一个，微任务执行一堆。</p>
 <h1 id="symbol">Symbol</h1>
 <p>内置了<code>Symbol.iterator</code>属性<br>
@@ -524,6 +608,7 @@ return new Promise((s, j) =&gt; {
 <span class="hljs-comment">// symbol不能转化为number</span>
 
 </code></pre>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -558,12 +643,42 @@ return new Promise((s, j) =&gt; {
 </tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
 <p>js 内置了很多 symbol 的属性。</p>
-<p>||||||
-||||||
-||||||
-||||||
-||||||</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h1 id="generator--iterator">Generator &amp; Iterator</h1>
 <h2 id="iterator">Iterator</h2>
 <p>它是一个遍历器。
@@ -579,27 +694,27 @@ next 属性值是一个方法。该方法返回一个包含当前对象信息的
 </code></pre>
 <p>内置 iterator 接口的对象有 Array/Set/Map/String/TypedArray/...。
 也可以自定义 iterator 接口，如：</p>
-<pre><code>let obj = {}
-obj[Symbol.iterator] = () =&gt; {
-    let t = 0
-    return {
-        next: function () {
-        if (t++ &lt; 3) {
-            return {
-                value: t,
-                done: false
+<pre><code class="language-js"><span class="hljs-keyword">let</span> obj = {}
+obj[<span class="hljs-title class_">Symbol</span>.<span class="hljs-property">iterator</span>] = <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-keyword">let</span> t = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">return</span> {
+      <span class="hljs-attr">next</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+        <span class="hljs-keyword">if</span> (t++ &lt; <span class="hljs-number">3</span>) {
+            <span class="hljs-keyword">return</span> {
+                <span class="hljs-attr">value</span>: t,
+                <span class="hljs-attr">done</span>: <span class="hljs-literal">false</span>
             }
-        } else {
-            return {
-                value: 8,
-                done: true
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">return</span> {
+                <span class="hljs-attr">value</span>: <span class="hljs-number">8</span>,
+                <span class="hljs-attr">done</span>: <span class="hljs-literal">true</span>
             }
         };
-        }
+      }
     };
 }
-for (let v of obj) {
-    console.log('v', v)
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> v <span class="hljs-keyword">of</span> obj) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;v&#x27;</span>, v)
 }
 </code></pre>
 <p>主要使用<code>for...of</code>对接 iterator 接口。</p>
@@ -651,7 +766,11 @@ for (let [k, v] of map)
   }
 }
 <span class="hljs-keyword">var</span> hw = <span class="hljs-title function_">helloWorldGenerator</span>()
-<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(hw.<span class="hljs-title function_">next</span>()) <span class="hljs-comment">// 多执行几次</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(hw.<span class="hljs-title function_">next</span>())
+<span class="hljs-comment">// 多执行几次</span>
+<span class="hljs-comment">// {value: false, done: false}</span>
+<span class="hljs-comment">// {value: true, done: false}</span>
+<span class="hljs-comment">// {value: false, done: false}</span>
 
 <span class="hljs-comment">// 生成fibonacci数列</span>
 <span class="hljs-keyword">function</span>* <span class="hljs-title function_">getFibonacci</span>(<span class="hljs-params">num = <span class="hljs-number">10</span></span>) {
