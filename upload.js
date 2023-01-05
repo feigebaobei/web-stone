@@ -251,8 +251,8 @@ c.on('ready', () => {
     }
     // let p = 'promote/systemDesign'
     let p = [
-      // 'promote/systemDesign/index.html',
-      'promote/systemDesign/archtecturalPattern.html',
+      'promote/systemDesign/index.html',
+      // 'promote/systemDesign/archtecturalPattern.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
