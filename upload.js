@@ -249,14 +249,10 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = 'promote/systemArchitect'
+    // let p = 'promote/systemDesign'
     let p = [
-      // 'jsPackages/data-footstone.html',
-      'language/javascript/index.html',
-      'language/typescript/index.html',
-      // 'engineered/index.html',
-      // 'test.html',
-      // 'util/index.html',
+      // 'promote/systemDesign/index.html',
+      'promote/systemDesign/archtecturalPattern.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)

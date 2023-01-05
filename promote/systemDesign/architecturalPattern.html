@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>&#x67b6;&#x6784;&#x6a21;&#x5f0f;</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="架构模式">架构模式</h1>
+<p>为了解决软件架构的问题。</p>
+<p>layered pattern
+pipe-filter pattern
+client-server pattern
+model view controller pattern
+event bus pattern
+microservices architecture
+broker pattern
+peer-to-peer pattern
+blackboard pattern
+master-slave pattern</p>
+<h2 id="layered-pattern">layered pattern</h2>
+<p>一层一层嵌套。</p>
+<ul>
+<li>表现层</li>
+<li>应用层</li>
+<li>商业逻辑层</li>
+<li>数据层</li>
+</ul>
+<h2 id="pipe-filter-pattern">pipe-filter pattern</h2>
+<pre><code>    \_________/▔▔▔▔▔▔▔▔\________/▔▔▔▔▔▔▔▔\_______/
+ in     pipe    filter    pipe    filter    pipe    out
+        ---&gt;              ---&gt;              ---&gt;
+    /▔▔▔▔▔▔▔▔▔\________/▔▔▔▔▔▔▔▔\________/▔▔▔▔▔▔▔\
+</code></pre>
+<h2 id="client-server-pattern">client-server pattern</h2>
+<h2 id="model-view-controller-pattern">model view controller pattern</h2>
+<p>mvc</p>
+<pre><code class="language-操作">        model &lt;------ controller
+          |             ^
+         更新            |
+          |            使用
+          V     浏览     |
+        view &lt;-------- user
+</code></pre>
+<h2 id="event-bus-pattern">event bus pattern</h2>
+<pre><code>publisher 1 --------- event bus ----------- listener 1
+publisher 2 -----------| |        |-------- listener 2
+publisher 3 -------------|        |-------- listener 3
+</code></pre>
+<h2 id="microservices-architecture">microservices architecture</h2>
+<pre><code>    client req ----&gt; api -------- servicer 1
+                    gateway |---- servicer 2
+                            |---- servicer 3
+                            |---- servicer n
+</code></pre>
+<h2 id="broker-pattern">broker pattern</h2>
+<pre><code>            client
+               |
+            broker
+       ----------------------
+       |          |         |
+    server1    server1    server1
+</code></pre>
+<h2 id="peer-to-peer-pattern">peer-to-peer pattern</h2>
+<h2 id="blackboard-pattern">blackboard pattern</h2>
+<pre><code>
+
+
+            notifies                       enrolls
+        |-------------------&gt; controller -----------|
+        |                                           |
+        |                                           |
+        |                                           |
+        |                                           |
+        |                  updates                  V
+    blackboard &lt;------------------------------- knowledge
+        ^                                         source
+        |
+        |
+        | data input stream
+        |
+</code></pre>
+<h2 id="master-slave-pattern">master-slave pattern</h2>
+<pre><code>    master -------- slave 1
+            |------ slave 2
+            |------ slave 3
+            |------ slave 4
+</code></pre>
+
+        
+        
+    </body>
+    </html>
