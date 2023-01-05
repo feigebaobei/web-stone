@@ -253,9 +253,10 @@ c.on('ready', () => {
     let p = [
       // 'jsPackages/data-footstone.html',
       'language/javascript/index.html',
-      'engineered/index.html',
-      'test.html',
-      'util/index.html',
+      'language/typescript/index.html',
+      // 'engineered/index.html',
+      // 'test.html',
+      // 'util/index.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)

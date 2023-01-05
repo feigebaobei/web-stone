@@ -151,7 +151,7 @@ ts 把 interface/type 都叫做类型<br>
 </code></pre>
 <h2 id="编译器">编译器</h2>
 <ul>
-<li>babel</li>
+<li><a href="/babel/index.html">babel</a></li>
 <li>swc</li>
 <li>sucrase</li>
 </ul>
@@ -400,7 +400,7 @@ ts 把 interface/type 都叫做类型<br>
   [<span class="hljs-attr">key</span>: <span class="hljs-built_in">string</span>]: <span class="hljs-built_in">any</span>    <span class="hljs-comment">// 限制key的类型。它必须在最后</span>
 }
 <span class="hljs-keyword">interface</span> A <span class="hljs-keyword">extends</span> B {...}
-<span class="hljs-keyword">interface</span> A <span class="hljs-keyword">extends</span> B, C, D {...}
+<span class="hljs-keyword">interface</span> A <span class="hljs-keyword">extends</span> B, C, D {...} <span class="hljs-comment">// A接口同时有B/C/D的数据再增加新定义的数据</span>
 <span class="hljs-keyword">interface</span> A &amp; B
 </code></pre>
 <h3 id="interface">interface</h3>
@@ -426,24 +426,6 @@ ts 把 interface/type 都叫做类型<br>
 <td>交叉</td>
 <td><code>type A = B &amp; C</code></td>
 <td>A是B、C的交集</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 </tbody>
 </table>
@@ -529,105 +511,105 @@ ts 把 interface/type 都叫做类型<br>
 <tr>
 <td></td>
 <td><code>Awaited&lt;T&gt;</code></td>
-<td>解包Promise后的数据类型</td>
-<td></td>
+<td>解包Promise后的数据类型。用于then方法。</td>
+<td><code>type B = Awaited&lt;Promise&lt;Promise&lt;number&gt;&gt;&gt; // type B = number</code></td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td><code>Partial&lt;T&gt;</code></td>
-<td></td>
+<td>T类型的所有字段设置为可选字段</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td><code>Required&lt;T&gt;</code></td>
-<td></td>
+<td>T类型的所有字段设置为必填字段</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td><code>Readonly&lt;T&gt;</code></td>
-<td></td>
+<td>T类型的所有字段设置为只读字段</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td><code>Record&lt;Keys, T&gt;</code></td>
-<td></td>
-<td></td>
-<td></td>
+<td>设置Keys的类型为T</td>
+<td>`type C = 'ca'</td>
+<td>'cb'; let a: Record(C, T); =&gt; a: {ca: T, cb: T}`</td>
 </tr>
 <tr>
 <td></td>
 <td><code>Pick&lt;T, Keys&gt;</code></td>
-<td></td>
-<td></td>
-<td></td>
+<td>从T类型中取出Keys的类型</td>
+<td>`type T = Pick&lt;A, 'a'</td>
+<td>'b'&gt;; =&gt; T: {a: xx, b: yy}`</td>
 </tr>
 <tr>
 <td></td>
 <td><code>Omit&lt;T, Keys&gt;</code></td>
-<td></td>
+<td>从T类型中删除出Keys的类型</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td><code>Exclude&lt;UnionType, ExcludedMembers&gt;</code></td>
-<td></td>
-<td></td>
+<td>从联合类型中删除指定成员</td>
+<td><code>type A = Exclude&lt;'a' | 'b' | 'c', 'a'&gt;; =&gt; type A = 'b' | 'c'</code></td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td><code>Extract&lt;T, Union&gt;</code></td>
-<td></td>
+<td>从T中取出联合类型中的类型</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td><code>NonNullable&lt;T&gt;</code></td>
-<td></td>
+<td>排除T类型中的null/undefined</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td><code>Parameters&lt;T&gt;</code></td>
-<td></td>
+<td>返回T类型的参数，返回值是tuple类型。T类型是方法的类型</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td><code>ConstructorParameters&lt;T&gt;</code></td>
-<td></td>
+<td>返回构造方法的参数。返回值是tuple类型。</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td><code>ReturnType&lt;T&gt;</code></td>
-<td></td>
+<td>返回T类型的返回值的类型</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td><code>InstanceType&lt;T&gt;</code></td>
-<td></td>
+<td>返回构造函数的类型</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td><code>ThisParameterType&lt;T&gt;</code></td>
-<td></td>
+<td>返回this参数的类型</td>
 <td></td>
 <td></td>
 </tr>

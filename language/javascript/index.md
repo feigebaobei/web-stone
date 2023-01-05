@@ -839,46 +839,38 @@ class C {...}
 
 # 位运算
 
-& and 与 判断 2 个二进制数每个对应的位上是否都为 1,则该位为 1  
-| or 或 判断 2 个二进制数每个对应的位上是否至少有一位为 1,则该位为 1  
-^ xor 异或 判断 2 个二进制数每个对应的位上是否只有一位为 1,则该位为 1  
- 对应位上是否不同。若是则为 1，否则为 0。  
-~ not 取反 每一位都取反  
-`>>` 右移 （no.1） 右边移出的去掉。左边以最左则的值填充。  
-`<<` 左移（0）当移动位数大于 32 时。使用 x%32。 左边溢出的去掉。右边使用 0 补齐。  
-`>>>` 无符号右移（0） 右边移出的去掉。左边以 0 填充。
-
-`<<=`
-`>>=`
-`>>>=`
-`&=`
-`^=`
-`|=`
+|        |     |                 |                                                                                                     |
+| ------ | --- | --------------- | --------------------------------------------------------------------------------------------------- | --- |
+| `&`    | and | 与              | 判断 2 个二进制数每个对应的位上是否都为 1,则该位为 1                                                |
+| `\|`   | or  | 或              | 判断 2 个二进制数每个对应的位上是否至少有一位为 1,则该位为 1                                        |
+| `^`    | xor | 异或            | 判断 2 个二进制数每个对应的位上是否只有一位为 1,则该位为 1 对应位上是否不同。若是则为 1，否则为 0。 |
+| `~`    | not | 取反            | 每一位都取反                                                                                        |
+| `>>`   |     | 右移            | 右边移出的去掉。左边以最左则的值填充。                                                              |
+| `<<`   |     | 左移            | （0）当移动位数大于 32 时。使用 x%32。 左边溢出的去掉。右边使用 0 补齐。                            |
+| `>>>`  |     | 无符号右移（0） | 右边移出的去掉。左边以 0 填充。                                                                     |
+| `<<=`  |     |                 |                                                                                                     |
+| `>>=`  |     |                 |                                                                                                     |
+| `>>>=` |     |                 |                                                                                                     |
+| `&=`   |     |                 |                                                                                                     |
+| `^=`   |     |                 |                                                                                                     |
+| `      | =`  |                 |                                                                                                     |     |
 
 demo
-|判断奇偶| `x&1`|
-|左移一位| <=> \*2| 右移一位| /2|
+
+|          |         |
+| -------- | ------- | -------- | --- |
+| 判断奇偶 | `x&1`   |
+| 左移一位 | <=> \*2 | 右移一位 | /2  |
+
 0 与任意数^ 结果是任意数。任意与自身异或都是 0  
 |右移一位| 得到整数部分|
 |~~| 得到 number 型(得到整数部分,包括符号.)|
 
-/\*\*
-
-- 是否为奇数
-  \*/
-  let isOdd = n => !!(n & 1)
-  /\*\*
-- 位运算，是否为偶数
-  \*/
-  let isEven = n => !isOdd(n)
-  /\*\*
-- 乘以 2^n
+- 是否为奇数 `let isOdd = n => !!(n & 1)`
+- 位运算，是否为偶数 `let isEven = n => !isOdd(n)`
+- 乘以 2^n `1 << n`
 - n 底
 - m 2 的幂
-  \*/
-  let multipleTwo = (n, m) => {
-  return n << m
-  }
 
 # [worker](/language/javascript/webWorker.html)
 
@@ -939,9 +931,9 @@ dom.classList.toggle(s) // 若存在则删除，否不存在则添加。
 - [URL](/language/javascript/url.html)
 - [blob](/language/javascript/blob.html)
 - [file](/language/javascript/file.html)
-- [file](/language/javascript/file.html)
-- [file](/language/javascript/file.html)
-- [file](/language/javascript/file.html)
+- [title](/language/javascript/title.html)
+- [title](/language/javascript/title.html)
+- [title](/language/javascript/title.html)
 
 # BOM & js
 
@@ -987,15 +979,15 @@ dom.classList.toggle(s) // 若存在则删除，否不存在则添加。
 
 # [模块化](/language/javascript/modularity.html)
 
-|-|全称|代表|加载方式||||  
-|-|-||-|-|-|-|  
-|commonjs (cjs)||nodejs|同步加载||||  
-|amd|asynchronous module definition|require.js|异步加载||||  
-|cmd|common module definition|sea.js|||||  
-|umd|universion module definition||||||  
-|es6|-|在 js 语言层面上实现了模块化。|||||  
-|iife||||||  
-|system||||||
+| -              | 全称                           | 代表                           | 加载方式 |     |     |     |
+| -------------- | ------------------------------ | ------------------------------ | -------- | --- | --- | --- |
+| commonjs (cjs) |                                | nodejs                         | 同步加载 |     |     |     |
+| amd            | asynchronous module definition | require.js                     | 异步加载 |     |     |     |
+| cmd            | common module definition       | sea.js                         |          |     |     |     |
+| umd            | universion module definition   |                                |          |     |     |     |
+| es6            | -                              | 在 js 语言层面上实现了模块化。 |          |     |     |     |
+| iife           |                                |                                |          |     |     |
+| system         |                                |                                |          |     |     |
 
 # [函数式编程](/language/javascript/functionalProgramming.html)
 
@@ -1005,9 +997,6 @@ dom.classList.toggle(s) // 若存在则删除，否不存在则添加。
 | ------------------------------------------- | ----------------------------------------------------------------------------------------------------- | --- | --- | --- | --- |
 | web interfaces                              | Javascript 暴露给 web APP 的接口，也就是 ES 定义的接口。                                              |     |     |     |     |
 | web IDL (web interface definition language) | 用来定义 Web interfaces 的语言，其通过一种规范实现了 JS engine(V8)和 Web core(Blink)之间的低耦合绑定. |     |     |     |     |
-|                                             |                                                                                                       |     |     |     |     |
-|                                             |                                                                                                       |     |     |     |     |
-|                                             |                                                                                                       |     |     |     |     |
 |                                             |                                                                                                       |     |     |     |     |
 
 ## [es 版本](/language/javascript/version.md)

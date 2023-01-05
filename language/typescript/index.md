@@ -87,7 +87,7 @@ tsc hello.ts
 
 ## 编译器
 
-- babel
+- [babel](/babel/index.html)
 - swc
 - sucrase
 
@@ -220,7 +220,7 @@ interface Abc {
   [key: string]: any    // 限制key的类型。它必须在最后
 }
 interface A extends B {...}
-interface A extends B, C, D {...}
+interface A extends B, C, D {...} // A接口同时有B/C/D的数据再增加新定义的数据
 interface A & B
 ```
 
@@ -231,9 +231,6 @@ interface A & B
 |-|-|-|-|
 ||扩展|`interface A extends B`|基于B扩展A|
 ||交叉|`type A = B & C`|A是B、C的交集|
-|||||
-|||||
-|||||
 <!-- prettier-ignore-end -->
 
 ```ts
@@ -284,21 +281,21 @@ class A<T> {
 |indexed access types||从对象类型中获得指定key的类型|`type A = ObjT["key"]`||
 |conditional types||`type A = condition ? B : C`|||
 ||||||
-||`Awaited<T>`|解包Promise后的数据类型|||
-||`Partial<T>`||||
-||`Required<T>`||||
-||`Readonly<T>`||||
-||`Record<Keys, T>`||||
-||`Pick<T, Keys>`||||
-||`Omit<T, Keys>`||||
-||`Exclude<UnionType, ExcludedMembers>`||||
-||`Extract<T, Union>`||||
-||`NonNullable<T>`||||
-||`Parameters<T>`||||
-||`ConstructorParameters<T>`||||
-||`ReturnType<T>`||||
-||`InstanceType<T>`||||
-||`ThisParameterType<T>`||||
+||`Awaited<T>`|解包Promise后的数据类型。用于then方法。|`type B = Awaited<Promise<Promise<number>>> // type B = number`||
+||`Partial<T>`|T类型的所有字段设置为可选字段|||
+||`Required<T>`|T类型的所有字段设置为必填字段|||
+||`Readonly<T>`|T类型的所有字段设置为只读字段|||
+||`Record<Keys, T>`|设置Keys的类型为T|`type C = 'ca' | 'cb'; let a: Record(C, T); => a: {ca: T, cb: T}`||
+||`Pick<T, Keys>`|从T类型中取出Keys的类型|`type T = Pick<A, 'a'|'b'>; => T: {a: xx, b: yy}`||
+||`Omit<T, Keys>`|从T类型中删除出Keys的类型|||
+||`Exclude<UnionType, ExcludedMembers>`|从联合类型中删除指定成员|`type A = Exclude<'a' \| 'b' \| 'c', 'a'>; => type A = 'b' \| 'c'`||
+||`Extract<T, Union>`|从T中取出联合类型中的类型|||
+||`NonNullable<T>`|排除T类型中的null/undefined|||
+||`Parameters<T>`|返回T类型的参数，返回值是tuple类型。T类型是方法的类型|||
+||`ConstructorParameters<T>`|返回构造方法的参数。返回值是tuple类型。|||
+||`ReturnType<T>`|返回T类型的返回值的类型|||
+||`InstanceType<T>`|返回构造函数的类型|||
+||`ThisParameterType<T>`|返回this参数的类型|||
 ||`OmitThisParameter<T>`||||
 ||`ThisType<T>`||||
 <!-- prettier-ignore-end -->

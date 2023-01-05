@@ -221,7 +221,7 @@ var n = 0 // 定义
 <td>bind</td>
 <td>fn.bind(otherThis, arg0, arg1, ...)</td>
 <td>返回一个方法</td>
-<td>执行bind的参数追加上执行返回的方法时的参数</td>
+<td>执行 bind 的参数追加上执行返回的方法时的参数</td>
 </tr>
 </tbody>
 </table>
@@ -484,7 +484,7 @@ process.nextTick （node 环境）</p>
 <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">reject</span>()
 <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">try</span>()            <span class="hljs-comment">// 正在开发。</span>
 </code></pre>
-<h3 id="模拟allsettled">模拟allSettled</h3>
+<h3 id="模拟-allsettled">模拟 allSettled</h3>
 <pre><code class="language-js"><span class="hljs-title class_">Promise</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">mockAllSettled</span> = <span class="hljs-function">(<span class="hljs-params">arrP</span>) =&gt;</span> {
   <span class="hljs-comment">// 每个p都触发检查方法。</span>
   <span class="hljs-comment">// 检查方法判断是否返回结果</span>
@@ -493,24 +493,27 @@ process.nextTick （node 环境）</p>
     <span class="hljs-keyword">let</span> res = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Array</span>(len)
     res.<span class="hljs-title function_">fill</span>(<span class="hljs-literal">null</span>)
     <span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params"></span>) =&gt; {
-      <span class="hljs-keyword">if</span> (res.<span class="hljs-title function_">every</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> !!item)) {
+      <span class="hljs-keyword">if</span> (res.<span class="hljs-title function_">every</span>(<span class="hljs-function">(<span class="hljs-params">item</span>) =&gt;</span> !!item)) {
         <span class="hljs-title function_">s</span>(res)
       }
     }
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i&lt;len; i++) {
-      arrP[i].<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">subRes</span> =&gt;</span> {
-        res[i] = {
-          <span class="hljs-attr">value</span>: subRes,
-          <span class="hljs-attr">status</span>: <span class="hljs-string">&#x27;fulfilled&#x27;</span>
-        }
-      }).<span class="hljs-title function_">catch</span>(<span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> {
-        res[i] = {
-          <span class="hljs-attr">reason</span>: e,
-          <span class="hljs-attr">status</span>: <span class="hljs-string">&#x27;rejected&#x27;</span>
-        }
-      }).<span class="hljs-title function_">finally</span>(<span class="hljs-function">() =&gt;</span> {
-        <span class="hljs-title function_">f</span>()
-      })
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; len; i++) {
+      arrP[i]
+        .<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">subRes</span>) =&gt;</span> {
+          res[i] = {
+            <span class="hljs-attr">value</span>: subRes,
+            <span class="hljs-attr">status</span>: <span class="hljs-string">&#x27;fulfilled&#x27;</span>,
+          }
+        })
+        .<span class="hljs-title function_">catch</span>(<span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+          res[i] = {
+            <span class="hljs-attr">reason</span>: e,
+            <span class="hljs-attr">status</span>: <span class="hljs-string">&#x27;rejected&#x27;</span>,
+          }
+        })
+        .<span class="hljs-title function_">finally</span>(<span class="hljs-function">() =&gt;</span> {
+          <span class="hljs-title function_">f</span>()
+        })
     }
   })
 }
@@ -518,16 +521,16 @@ process.nextTick （node 环境）</p>
 <h3 id="使用-promise-封装-ajax">使用 promise 封装 ajax</h3>
 <pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">fetchData</span> = (<span class="hljs-params">url, method</span>) =&gt; {
   <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">s, j</span>) =&gt;</span> {
-    <span class="hljs-keyword">let</span> handler = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
-        <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">readyState</span> !== <span class="hljs-number">4</span>) {
-            <span class="hljs-keyword">return</span>
+    <span class="hljs-keyword">let</span> handler = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+      <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">readyState</span> !== <span class="hljs-number">4</span>) {
+        <span class="hljs-keyword">return</span>
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">status</span> === <span class="hljs-number">200</span>) {
+          <span class="hljs-title function_">s</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">response</span>)
         } <span class="hljs-keyword">else</span> {
-            <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">status</span> === <span class="hljs-number">200</span>) {
-                <span class="hljs-title function_">s</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">response</span>)
-            } <span class="hljs-keyword">else</span> {
-                <span class="hljs-title function_">j</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">statusText</span>))
-            }
+          <span class="hljs-title function_">j</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">statusText</span>))
         }
+      }
     }
     <span class="hljs-keyword">let</span> client = <span class="hljs-keyword">new</span> <span class="hljs-title class_">XMLHttpRequest</span>()
     client.<span class="hljs-title function_">open</span>(method.<span class="hljs-title function_">toUpperCase</span>(), url)
@@ -696,25 +699,25 @@ next 属性值是一个方法。该方法返回一个包含当前对象信息的
 也可以自定义 iterator 接口，如：</p>
 <pre><code class="language-js"><span class="hljs-keyword">let</span> obj = {}
 obj[<span class="hljs-title class_">Symbol</span>.<span class="hljs-property">iterator</span>] = <span class="hljs-function">() =&gt;</span> {
-    <span class="hljs-keyword">let</span> t = <span class="hljs-number">0</span>
-    <span class="hljs-keyword">return</span> {
-      <span class="hljs-attr">next</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
-        <span class="hljs-keyword">if</span> (t++ &lt; <span class="hljs-number">3</span>) {
-            <span class="hljs-keyword">return</span> {
-                <span class="hljs-attr">value</span>: t,
-                <span class="hljs-attr">done</span>: <span class="hljs-literal">false</span>
-            }
-        } <span class="hljs-keyword">else</span> {
-            <span class="hljs-keyword">return</span> {
-                <span class="hljs-attr">value</span>: <span class="hljs-number">8</span>,
-                <span class="hljs-attr">done</span>: <span class="hljs-literal">true</span>
-            }
-        };
+  <span class="hljs-keyword">let</span> t = <span class="hljs-number">0</span>
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">next</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+      <span class="hljs-keyword">if</span> (t++ &lt; <span class="hljs-number">3</span>) {
+        <span class="hljs-keyword">return</span> {
+          <span class="hljs-attr">value</span>: t,
+          <span class="hljs-attr">done</span>: <span class="hljs-literal">false</span>,
+        }
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> {
+          <span class="hljs-attr">value</span>: <span class="hljs-number">8</span>,
+          <span class="hljs-attr">done</span>: <span class="hljs-literal">true</span>,
+        }
       }
-    };
+    },
+  }
 }
 <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> v <span class="hljs-keyword">of</span> obj) {
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;v&#x27;</span>, v)
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;v&#x27;</span>, v)
 }
 </code></pre>
 <p>主要使用<code>for...of</code>对接 iterator 接口。</p>
@@ -947,43 +950,133 @@ p.<span class="hljs-property">skills</span> = <span class="hljs-function">() =&g
 <li><a href="https://github.com/jayphelps/core-decorators.js">core-decorator</a></li>
 </ul>
 <h1 id="位运算">位运算</h1>
-<p>&amp; and 与 判断 2 个二进制数每个对应的位上是否都为 1,则该位为 1<br>
-| or 或 判断 2 个二进制数每个对应的位上是否至少有一位为 1,则该位为 1<br>
-^ xor 异或 判断 2 个二进制数每个对应的位上是否只有一位为 1,则该位为 1<br>
-对应位上是否不同。若是则为 1，否则为 0。<br>
-~ not 取反 每一位都取反<br>
-<code>&gt;&gt;</code> 右移 （no.1） 右边移出的去掉。左边以最左则的值填充。<br>
-<code>&lt;&lt;</code> 左移（0）当移动位数大于 32 时。使用 x%32。 左边溢出的去掉。右边使用 0 补齐。<br>
-<code>&gt;&gt;&gt;</code> 无符号右移（0） 右边移出的去掉。左边以 0 填充。</p>
-<p><code>&lt;&lt;=</code>
-<code>&gt;&gt;=</code>
-<code>&gt;&gt;&gt;=</code>
-<code>&amp;=</code>
-<code>^=</code>
-<code>|=</code></p>
-<p>demo
-|判断奇偶| <code>x&amp;1</code>|
-|左移一位| &lt;=&gt; *2| 右移一位| /2|
-0 与任意数^ 结果是任意数。任意与自身异或都是 0<br>
-|右移一位| 得到整数部分|
-|~~| 得到 number 型(得到整数部分,包括符号.)|</p>
-<p>/**</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&amp;</code></td>
+<td>and</td>
+<td>与</td>
+<td>判断 2 个二进制数每个对应的位上是否都为 1,则该位为 1</td>
+</tr>
+<tr>
+<td><code>|</code></td>
+<td>or</td>
+<td>或</td>
+<td>判断 2 个二进制数每个对应的位上是否至少有一位为 1,则该位为 1</td>
+</tr>
+<tr>
+<td><code>^</code></td>
+<td>xor</td>
+<td>异或</td>
+<td>判断 2 个二进制数每个对应的位上是否只有一位为 1,则该位为 1 对应位上是否不同。若是则为 1，否则为 0。</td>
+</tr>
+<tr>
+<td><code>~</code></td>
+<td>not</td>
+<td>取反</td>
+<td>每一位都取反</td>
+</tr>
+<tr>
+<td><code>&gt;&gt;</code></td>
+<td></td>
+<td>右移</td>
+<td>右边移出的去掉。左边以最左则的值填充。</td>
+</tr>
+<tr>
+<td><code>&lt;&lt;</code></td>
+<td></td>
+<td>左移</td>
+<td>（0）当移动位数大于 32 时。使用 x%32。 左边溢出的去掉。右边使用 0 补齐。</td>
+</tr>
+<tr>
+<td><code>&gt;&gt;&gt;</code></td>
+<td></td>
+<td>无符号右移（0）</td>
+<td>右边移出的去掉。左边以 0 填充。</td>
+</tr>
+<tr>
+<td><code>&lt;&lt;=</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>&gt;&gt;=</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>&gt;&gt;&gt;=</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>&amp;=</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>^=</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>`</td>
+<td>=`</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>demo</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>判断奇偶</td>
+<td><code>x&amp;1</code></td>
+</tr>
+<tr>
+<td>左移一位</td>
+<td>&lt;=&gt; *2</td>
+</tr>
+<tr>
+<td>0 与任意数^ 结果是任意数。任意与自身异或都是 0</td>
+<td></td>
+</tr>
+<tr>
+<td>右移一位</td>
+<td>得到整数部分</td>
+</tr>
+<tr>
+<td>~~</td>
+<td>得到 number 型(得到整数部分,包括符号.)</td>
+</tr>
+</tbody>
+</table>
 <ul>
-<li>是否为奇数
-*/
-let isOdd = n =&gt; !!(n &amp; 1)
-/**</li>
-<li>位运算，是否为偶数
-*/
-let isEven = n =&gt; !isOdd(n)
-/**</li>
-<li>乘以 2^n</li>
+<li>是否为奇数 <code>let isOdd = n =&gt; !!(n &amp; 1)</code></li>
+<li>位运算，是否为偶数 <code>let isEven = n =&gt; !isOdd(n)</code></li>
+<li>乘以 2^n <code>1 &lt;&lt; n</code></li>
 <li>n 底</li>
-<li>m 2 的幂
-*/
-let multipleTwo = (n, m) =&gt; {
-return n &lt;&lt; m
-}</li>
+<li>m 2 的幂</li>
 </ul>
 <h1 id="worker"><a href="/language/javascript/webWorker.html">worker</a></h1>
 <h1 id="线程">线程</h1>
@@ -1036,9 +1129,9 @@ dom.<span class="hljs-property">classList</span>.<span class="hljs-title functio
 <li><a href="/language/javascript/url.html">URL</a></li>
 <li><a href="/language/javascript/blob.html">blob</a></li>
 <li><a href="/language/javascript/file.html">file</a></li>
-<li><a href="/language/javascript/file.html">file</a></li>
-<li><a href="/language/javascript/file.html">file</a></li>
-<li><a href="/language/javascript/file.html">file</a></li>
+<li><a href="/language/javascript/title.html">title</a></li>
+<li><a href="/language/javascript/title.html">title</a></li>
+<li><a href="/language/javascript/title.html">title</a></li>
 </ul>
 <h1 id="bom--js">BOM &amp; js</h1>
 <ul>
@@ -1106,15 +1199,84 @@ dom.<span class="hljs-property">classList</span>.<span class="hljs-title functio
 </li>
 </ul>
 <h1 id="模块化"><a href="/language/javascript/modularity.html">模块化</a></h1>
-<p>|-|全称|代表|加载方式||||<br>
-|-|-||-|-|-|-|<br>
-|commonjs (cjs)||nodejs|同步加载||||<br>
-|amd|asynchronous module definition|require.js|异步加载||||<br>
-|cmd|common module definition|sea.js|||||<br>
-|umd|universion module definition||||||<br>
-|es6|-|在 js 语言层面上实现了模块化。|||||<br>
-|iife||||||<br>
-|system||||||</p>
+<table>
+<thead>
+<tr>
+<th>-</th>
+<th>全称</th>
+<th>代表</th>
+<th>加载方式</th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>commonjs (cjs)</td>
+<td></td>
+<td>nodejs</td>
+<td>同步加载</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>amd</td>
+<td>asynchronous module definition</td>
+<td>require.js</td>
+<td>异步加载</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cmd</td>
+<td>common module definition</td>
+<td>sea.js</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>umd</td>
+<td>universion module definition</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>es6</td>
+<td>-</td>
+<td>在 js 语言层面上实现了模块化。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>iife</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>system</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h1 id="函数式编程"><a href="/language/javascript/functionalProgramming.html">函数式编程</a></h1>
 <h1 id="低层">低层</h1>
 <table>
@@ -1140,30 +1302,6 @@ dom.<span class="hljs-property">classList</span>.<span class="hljs-title functio
 <tr>
 <td>web IDL (web interface definition language)</td>
 <td>用来定义 Web interfaces 的语言，其通过一种规范实现了 JS engine(V8)和 Web core(Blink)之间的低耦合绑定.</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
 <td></td>
 <td></td>
 <td></td>
