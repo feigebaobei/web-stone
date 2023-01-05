@@ -38,7 +38,6 @@
 3. 当组件改变时生成新 vdom
 4. 比对 2 个 vdom 的不同。再更新 dom
    1. 使用 diff 算法比对。也叫 recencilication
-5.
 
 ### recenciliation (也叫 diff / diffing)
 
@@ -50,13 +49,6 @@
 - 若 ReactElement 的 type 不同（fiberNode 的 type 来自 ReactElement 对象的 type），则使用新组件及其后代元素。
   - 会触发 unmount 生命周期方法
 - 当 type 相同、属性不同时，更新当前元素，保留其他后代元素。
-
-#### 2 个阶段
-
-|        |     |     |     |     |     |     |
-| ------ | --- | --- | --- | --- | --- | --- |
-| render |     |     |     |     |     |     |
-| commit |     |     |     |     |     |     |
 
 ## what is react fiber
 
@@ -79,7 +71,7 @@
 
 - 任务是同步的。
 - 工作就像栈。
-- 栈空了才能停止工作。
+- 栈空了才停止工作。
 
 ### new reconciler (fiber 出现后)
 
@@ -92,15 +84,16 @@
   - 异步
   - 定义任务的优先级，工作可能停止（可以被打断）、丢弃。
   - 开始的方法，如：beginWork() / copmleteWork()
+  - 此阶段处理 fiber
 - commit phase (committing)
   - 从 commitWork()开始
   - 同步
 
-### fiber 的属性
+### fiber 的常用属性
 
 - 总是 1-1 的关系
   - 1 个 fiber 对应一个组件/dom/...
-- type 属性表示 tag
+- type 属性表示 组件的类型
   - 一共有 0-24。 有几个重要的。如下
   - FunctionComponent 0
   - ClassComponent 1
@@ -122,12 +115,9 @@
 |    | 从 jsx 代码中得到 type/key | 从 ReactElement 中取 type/key   |   |
 |    | React.createElement  | createFiberFromElement / createFiberFromTypeAndProps / createFiber 等 |   |
 |    | 这是 vdom,代表一个 dom     | 工作的单元  |   |
-| 功能       |   | 1. 寻迹。 2. 暂停。 3. 制定时间表  |   |
+| 功能|   | 1. 寻迹。 2. 暂停。 3. 制定时间表  |   |
 |    |   | 一直使用。若有变动，则修改属性。不销毁（除非删除dom节点）。通常在初次挂载时创建  | 修改是在 FiberNode 的替补节点上完成的。 |
 | 如何 ReactElement => FiberNode |   |   |   |
-|    |   |   |   |
-|    |   |   |   |
-|    |   |      |        |
 <!-- prettier-ignore-end -->
 
 ```js
@@ -239,7 +229,6 @@ createRoot() {
                 ReactDOMRoot.prototype.unmount = () => {
                     var root = this._internalRoot;
                 }
-
 }
 ```
 
@@ -255,7 +244,7 @@ ReactDOMRoot
 ReactElement
 {
   "$$typeof": Symbol(react.element) // 惟一标记
-  "type": "h1", // html标签 | 构造函数
+  "type": "h1", // html标签 | 构造函数 | class组件名
   "key": null,  // 惟一键
   "ref": null,
   "props": {
@@ -271,7 +260,7 @@ FiberNode 也有人叫 Fiber
 {
   "tag": 5,
   "key": null,          // key 兄弟间惟一
-  "elementType": null,  // 构造函数 | html标签
+  "elementType": null,  // 构造函数 | html标签 | class组件名
   "type": null,         // 组件的类型。与elementType相同值。createFiberFromTypeAndProps
   "stateNode": null,    // dom | FiberRootNode
   "return": null,       // 父 FiberNode
@@ -292,7 +281,7 @@ FiberNode 也有人叫 Fiber
     }
   },
   "memoizedProps": null,    // 输出更新后节点需要使用的props
-  "updateQueue": null,      // 更新队列。详见下文。
+  "updateQueue": null,      // 更新队列。详见下文。链表结构。
   "memoizedState": null,    // 上次渲染组件是使用的状态。初始化FiberNode节点时会赋初始值。
                             // 输出更新后节点需要使用的state
                 {           // 这是一个hook对象

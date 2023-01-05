@@ -273,6 +273,13 @@ class A<T> {
 
 ## 操作类型
 
+都是大写开头。
+
+```ts
+// 通式
+Util<type>
+```
+
 <!-- prettier-ignore-start -->
 |说明|简写|说明|demo||
 |-|-|-|-|-|
@@ -286,8 +293,8 @@ class A<T> {
 ||`Required<T>`|T类型的所有字段设置为必填字段|||
 ||`Readonly<T>`|T类型的所有字段设置为只读字段|||
 ||`Record<Keys, T>`|设置Keys的类型为T|`type C = 'ca' | 'cb'; let a: Record(C, T); => a: {ca: T, cb: T}`||
-||`Pick<T, Keys>`|从T类型中取出Keys的类型|`type T = Pick<A, 'a'|'b'>; => T: {a: xx, b: yy}`||
-||`Omit<T, Keys>`|从T类型中删除出Keys的类型|||
+||`Pick<T, Keys>`|从T类型中提取Keys的类型|`type T = Pick<A, 'a'|'b'>; => T: {a: xx, b: yy}`||
+||`Omit<T, Keys>`|从T类型中删除Keys的类型|||
 ||`Exclude<UnionType, ExcludedMembers>`|从联合类型中删除指定成员|`type A = Exclude<'a' \| 'b' \| 'c', 'a'>; => type A = 'b' \| 'c'`||
 ||`Extract<T, Union>`|从T中取出联合类型中的类型|||
 ||`NonNullable<T>`|排除T类型中的null/undefined|||
@@ -703,38 +710,6 @@ commonjs
 modules.export {...}
 let {a} = require('...')
 ```
-
-## 操作类的工具方法
-
-都是大写开头。
-
-```ts
-// 通式
-Util<type>
-```
-
-|                                       |                                      |     |     |
-| ------------------------------------- | ------------------------------------ | --- | --- |
-| `Partial<Type>`                       | 把所有 key 设置为可选类型            |     |     |
-| `Required<Type>`                      | 把所有 key 设置为必填类型            |     |     |
-| `Readonly<Type>`                      | 把所有 key 设置为只读类型            |     |     |
-| `Record<Keys, Type>`                  | 把指定的 key 设置为 type 类型        |     |     |
-| `Pick<Type, Keys>`                    | 从 type 中取出指定的 key             |     |     |
-| `Omit<Type, Keys>`                    | 从 type 中去掉指定的 key             |     |     |
-| `Exclude<UnionType, ExcludedMembers>` | 从指定的联合类型中取消指定的联合类型 |     |     |
-| `Extract<Type, Union>`                | 取从 type/union 的交集               |     |     |
-| `NonNullable<Type>`                   | 去掉 type 中的 null/undefined        |     |     |
-| `Parameters<Type>`                    | 取出指定方法类型中的参数             |     |     |
-| `ConstructorParameters<Type>`         | 不会                                 |     |     |
-| `ReturnType<Type>`                    | 获取方法类型的返回的数据类型         |     |     |
-| `InstanceType<Type>`                  | 不会                                 |     |     |
-| `ThisParameter<Type>`                 | 不会                                 |     |     |
-| `OmitThisParameter<Type>`             | 不会                                 |     |     |
-| `ThisType<Type>`                      | 不会                                 |     |     |
-| `Uppercase<Type>`                     | 返回全大写                           |     |     |
-| `Lowercase<Type>`                     | 返回全小写                           |     |     |
-| `Capitalize<Type>`                    | 首字段大写                           |     |     |
-| `Uncapitalize<Type>`                  | 首字段小写                           |     |     |
 
 ## 命名空间（内部模块）
 

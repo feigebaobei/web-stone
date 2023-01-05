@@ -197,9 +197,8 @@
 <li>使用 diff 算法比对。也叫 recencilication</li>
 </ol>
 </li>
-<li></li>
 </ol>
-<h3 id="recenciliation-也叫diff--diffing">recenciliation (也叫diff / diffing)</h3>
+<h3 id="recenciliation-也叫-diff--diffing">recenciliation (也叫 diff / diffing)</h3>
 <p>基于 2 个前提工作：</p>
 <ul>
 <li>
@@ -209,7 +208,7 @@
 <p>各子元素的 key 惟一。</p>
 </li>
 <li>
-<p>若 ReactElement 的 type 不同（fiberNode的type来自ReactElement对象的type），则使用新组件及其后代元素。</p>
+<p>若 ReactElement 的 type 不同（fiberNode 的 type 来自 ReactElement 对象的 type），则使用新组件及其后代元素。</p>
 <ul>
 <li>会触发 unmount 生命周期方法</li>
 </ul>
@@ -218,40 +217,6 @@
 <p>当 type 相同、属性不同时，更新当前元素，保留其他后代元素。</p>
 </li>
 </ul>
-<h4 id="2-个阶段">2 个阶段</h4>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>render</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>commit</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
 <h2 id="what-is-react-fiber">what is react fiber</h2>
 <ul>
 <li>它是一个对象</li>
@@ -273,7 +238,7 @@
 <ul>
 <li>任务是同步的。</li>
 <li>工作就像栈。</li>
-<li>栈空了才能停止工作。</li>
+<li>栈空了才停止工作。</li>
 </ul>
 <h3 id="new-reconciler-fiber-出现后">new reconciler (fiber 出现后)</h3>
 <ul>
@@ -287,6 +252,7 @@
 <li>异步</li>
 <li>定义任务的优先级，工作可能停止（可以被打断）、丢弃。</li>
 <li>开始的方法，如：beginWork() / copmleteWork()</li>
+<li>此阶段处理fiber</li>
 </ul>
 </li>
 <li>commit phase (committing)
@@ -296,14 +262,14 @@
 </ul>
 </li>
 </ul>
-<h3 id="fiber-的属性">fiber 的属性</h3>
+<h3 id="fiber-的常用属性">fiber 的常用属性</h3>
 <ul>
 <li>总是 1-1 的关系
 <ul>
 <li>1 个 fiber 对应一个组件/dom/...</li>
 </ul>
 </li>
-<li>type 属性表示 tag
+<li>type 属性表示 组件的类型
 <ul>
 <li>一共有 0-24。 有几个重要的。如下</li>
 <li>FunctionComponent 0</li>
@@ -369,24 +335,6 @@
 </tr>
 <tr>
 <td>如何 ReactElement =&gt; FiberNode</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
 <td></td>
 <td></td>
 <td></td>
@@ -511,36 +459,6 @@ Current 就是 fiberroot</p>
 <td>可不同</td>
 <td></td>
 </tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
 </tbody>
 </table>
 <p>工作在 commit 阶段进行<br>
@@ -588,7 +506,6 @@ Current 就是 fiberroot</p>
                 <span class="hljs-title class_">ReactDOMRoot</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">unmount</span> = <span class="hljs-function">() =&gt;</span> {
                     <span class="hljs-keyword">var</span> root = <span class="hljs-variable language_">this</span>.<span class="hljs-property">_internalRoot</span>;
                 }
-
 }
 </code></pre>
 <p>更新组件时</p>
@@ -598,7 +515,7 @@ Current 就是 fiberroot</p>
 <pre><code class="language-js"><span class="hljs-title class_">ReactElement</span>
 {
   <span class="hljs-string">&quot;$$typeof&quot;</span>: <span class="hljs-title class_">Symbol</span>(react.<span class="hljs-property">element</span>) <span class="hljs-comment">// 惟一标记</span>
-  <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;h1&quot;</span>, <span class="hljs-comment">// html标签 | 构造函数</span>
+  <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;h1&quot;</span>, <span class="hljs-comment">// html标签 | 构造函数 | class组件名</span>
   <span class="hljs-string">&quot;key&quot;</span>: <span class="hljs-literal">null</span>,  <span class="hljs-comment">// 惟一键</span>
   <span class="hljs-string">&quot;ref&quot;</span>: <span class="hljs-literal">null</span>,
   <span class="hljs-string">&quot;props&quot;</span>: {
@@ -614,7 +531,7 @@ Current 就是 fiberroot</p>
 {
   <span class="hljs-string">&quot;tag&quot;</span>: <span class="hljs-number">5</span>,
   <span class="hljs-string">&quot;key&quot;</span>: <span class="hljs-literal">null</span>,          <span class="hljs-comment">// key 兄弟间惟一</span>
-  <span class="hljs-string">&quot;elementType&quot;</span>: <span class="hljs-literal">null</span>,  <span class="hljs-comment">// 构造函数 | html标签</span>
+  <span class="hljs-string">&quot;elementType&quot;</span>: <span class="hljs-literal">null</span>,  <span class="hljs-comment">// 构造函数 | html标签 | class组件名</span>
   <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-literal">null</span>,         <span class="hljs-comment">// 组件的类型。与elementType相同值。createFiberFromTypeAndProps</span>
   <span class="hljs-string">&quot;stateNode&quot;</span>: <span class="hljs-literal">null</span>,    <span class="hljs-comment">// dom | FiberRootNode</span>
   <span class="hljs-string">&quot;return&quot;</span>: <span class="hljs-literal">null</span>,       <span class="hljs-comment">// 父 FiberNode</span>
@@ -635,7 +552,7 @@ Current 就是 fiberroot</p>
     }
   },
   <span class="hljs-string">&quot;memoizedProps&quot;</span>: <span class="hljs-literal">null</span>,    <span class="hljs-comment">// 输出更新后节点需要使用的props</span>
-  <span class="hljs-string">&quot;updateQueue&quot;</span>: <span class="hljs-literal">null</span>,      <span class="hljs-comment">// 更新队列。详见下文。</span>
+  <span class="hljs-string">&quot;updateQueue&quot;</span>: <span class="hljs-literal">null</span>,      <span class="hljs-comment">// 更新队列。详见下文。链表结构。</span>
   <span class="hljs-string">&quot;memoizedState&quot;</span>: <span class="hljs-literal">null</span>,    <span class="hljs-comment">// 上次渲染组件是使用的状态。初始化FiberNode节点时会赋初始值。</span>
                             <span class="hljs-comment">// 输出更新后节点需要使用的state</span>
                 {           <span class="hljs-comment">// 这是一个hook对象</span>
@@ -729,6 +646,7 @@ current 指向 <span class="hljs-title class_">FiberRootNode</span>
 <span class="hljs-comment">// 还17 、 18 不在这里</span>
 
 flags 表示effect的编码
+<span class="hljs-comment">// 使用二进制很方便判断值，以后我也可以使用它。</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">NoFlags</span> = <span class="hljs-comment">/*                      */</span> <span class="hljs-number">0b00000000000000000000000000</span>;
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">PerformedWork</span> = <span class="hljs-comment">/*                */</span> <span class="hljs-number">0b00000000000000000000000001</span>;
 <span class="hljs-comment">// You can change the rest (and add more).</span>

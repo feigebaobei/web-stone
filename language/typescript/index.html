@@ -461,6 +461,10 @@ ts 把 interface/type 都叫做类型<br>
 <h3 id="union--enum"><a href="/language/typescript/union&amp;enum.html">union &amp; enum</a></h3>
 <h3 id="type--interface-不同"><a href="/language/typescript/type&amp;interface.html">type &amp; interface 不同</a></h3>
 <h2 id="操作类型">操作类型</h2>
+<p>都是大写开头。</p>
+<pre><code class="language-ts"><span class="hljs-comment">// 通式</span>
+<span class="hljs-title class_">Util</span>&lt;<span class="hljs-keyword">type</span>&gt;
+</code></pre>
 <!-- prettier-ignore-start -->
 <table>
 <thead>
@@ -546,14 +550,14 @@ ts 把 interface/type 都叫做类型<br>
 <tr>
 <td></td>
 <td><code>Pick&lt;T, Keys&gt;</code></td>
-<td>从T类型中取出Keys的类型</td>
+<td>从T类型中提取Keys的类型</td>
 <td>`type T = Pick&lt;A, 'a'</td>
 <td>'b'&gt;; =&gt; T: {a: xx, b: yy}`</td>
 </tr>
 <tr>
 <td></td>
 <td><code>Omit&lt;T, Keys&gt;</code></td>
-<td>从T类型中删除出Keys的类型</td>
+<td>从T类型中删除Keys的类型</td>
 <td></td>
 <td></td>
 </tr>
@@ -1079,143 +1083,6 @@ init 后不能改变。<br>
 <pre><code class="language-ts">modules.<span class="hljs-property">export</span> {...}
 <span class="hljs-keyword">let</span> {a} = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;...&#x27;</span>)
 </code></pre>
-<h2 id="操作类的工具方法">操作类的工具方法</h2>
-<p>都是大写开头。</p>
-<pre><code class="language-ts"><span class="hljs-comment">// 通式</span>
-<span class="hljs-title class_">Util</span>&lt;<span class="hljs-keyword">type</span>&gt;
-</code></pre>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>Partial&lt;Type&gt;</code></td>
-<td>把所有 key 设置为可选类型</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>Required&lt;Type&gt;</code></td>
-<td>把所有 key 设置为必填类型</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>Readonly&lt;Type&gt;</code></td>
-<td>把所有 key 设置为只读类型</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>Record&lt;Keys, Type&gt;</code></td>
-<td>把指定的 key 设置为 type 类型</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>Pick&lt;Type, Keys&gt;</code></td>
-<td>从 type 中取出指定的 key</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>Omit&lt;Type, Keys&gt;</code></td>
-<td>从 type 中去掉指定的 key</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>Exclude&lt;UnionType, ExcludedMembers&gt;</code></td>
-<td>从指定的联合类型中取消指定的联合类型</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>Extract&lt;Type, Union&gt;</code></td>
-<td>取从 type/union 的交集</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>NonNullable&lt;Type&gt;</code></td>
-<td>去掉 type 中的 null/undefined</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>Parameters&lt;Type&gt;</code></td>
-<td>取出指定方法类型中的参数</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>ConstructorParameters&lt;Type&gt;</code></td>
-<td>不会</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>ReturnType&lt;Type&gt;</code></td>
-<td>获取方法类型的返回的数据类型</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>InstanceType&lt;Type&gt;</code></td>
-<td>不会</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>ThisParameter&lt;Type&gt;</code></td>
-<td>不会</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>OmitThisParameter&lt;Type&gt;</code></td>
-<td>不会</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>ThisType&lt;Type&gt;</code></td>
-<td>不会</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>Uppercase&lt;Type&gt;</code></td>
-<td>返回全大写</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>Lowercase&lt;Type&gt;</code></td>
-<td>返回全小写</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>Capitalize&lt;Type&gt;</code></td>
-<td>首字段大写</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>Uncapitalize&lt;Type&gt;</code></td>
-<td>首字段小写</td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
 <h2 id="命名空间内部模块">命名空间（内部模块）</h2>
 <p>把类型放在一个文件中统一管理。<br>
 把类型全部放在一个文件中。使用时从这个文件中取出。
