@@ -249,14 +249,14 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = 'promote/systemDesign'
+    // let p = 'hybrid'
     let p = [
-      'index.html',
-      'test.html',
-      'development/index.html',
-      'hybrid/index.html',
-      'promote/systemDesign/architecturalPattern.html',
-      'promote/systemDesign/systemDesign.html',
+      // 'index.html',
+      // 'test.html',
+      // 'development/index.html',
+      // 'hybrid/index.html',
+      // 'promote/systemDesign/architecturalPattern.html',
+      // 'promote/systemDesign/systemDesign.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)

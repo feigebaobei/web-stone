@@ -220,7 +220,7 @@
 <h2 id="what-is-react-fiber">what is react fiber</h2>
 <ul>
 <li>它是一个对象</li>
-<li>diff 基于它工作。（它是异步的）它是工作单元</li>
+<li>diff 基于它工作。diff过程是异步的。fiber是工作单元</li>
 <li>多个 fiber 对象组成树</li>
 </ul>
 <h3 id="目的">目的</h3>
@@ -230,9 +230,13 @@
 </ul>
 <h3 id="功能">功能</h3>
 <ul>
-<li>可把工作分块，设置任务优先级。</li>
-<li>停止或再继续工作。</li>
-<li>重新工作或打断工作。</li>
+<li>可把工作分块，一个fiber对象就是一个工作单元。设置任务优先级。</li>
+<li>每一个 ReactElement 都有一个对应的 FiberNode</li>
+<li>它是可变对象，在渲染时不会重新创建。</li>
+<li>包含组件的状态、dom</li>
+<li>提供工作路径、时间表、暂停、打断</li>
+<li>使用 createFiberFromTypeAndProps 创建 FiberNode</li>
+<li>三向链表结构。child/sibling/return</li>
 </ul>
 <h3 id="old-reconciler-fiber-出现前">old reconciler (fiber 出现前)</h3>
 <ul>
@@ -244,46 +248,6 @@
 <ul>
 <li>它是一个工作单元</li>
 <li>当工作完成时 react process 把工作结果提交。生成新 dom</li>
-</ul>
-<h3 id="二个阶段">二个阶段</h3>
-<ul>
-<li>render phase (processing)
-<ul>
-<li>异步</li>
-<li>定义任务的优先级，工作可能停止（可以被打断）、丢弃。</li>
-<li>开始的方法，如：beginWork() / copmleteWork()</li>
-<li>此阶段处理fiber</li>
-</ul>
-</li>
-<li>commit phase (committing)
-<ul>
-<li>从 commitWork()开始</li>
-<li>同步</li>
-</ul>
-</li>
-</ul>
-<h3 id="fiber-的常用属性">fiber 的常用属性</h3>
-<ul>
-<li>总是 1-1 的关系
-<ul>
-<li>1 个 fiber 对应一个组件/dom/...</li>
-</ul>
-</li>
-<li>type 属性表示 组件的类型
-<ul>
-<li>一共有 0-24。 有几个重要的。如下</li>
-<li>FunctionComponent 0</li>
-<li>ClassComponent 1</li>
-<li>HostComponent 5 div/p/...</li>
-<li>Fragment 7</li>
-<li>ContextConsumer 9</li>
-<li>ContextProvider 10</li>
-</ul>
-</li>
-<li>stateNode 引用</li>
-<li>child 第一个子元素</li>
-<li>sibling 下一个同级元素</li>
-<li>return 父元素</li>
 </ul>
 <h3 id="fiber--reactelement">Fiber &amp; ReactElement</h3>
 <!-- prettier-ignore-start -->
@@ -347,6 +311,8 @@
 <span class="hljs-title function_">createFiberFromFragment</span>()
 <span class="hljs-title function_">createFiberFromText</span>()
 </code></pre>
+<p>jsx 代码 =》 ReactElement =&gt; FiberRootNode/FiberNode</p>
+<h3 id="current--workinprogress">current &amp; workInProgress</h3>
 <!-- prettier-ignore-start -->
 <table>
 <thead>
@@ -400,6 +366,48 @@
 <td>每个节点的 alternate 指向另一棵树（current/workInProgress）上对应的节点</td>
 <td></td>
 </tr>
+<tr>
+<td></td>
+<td>第一次生成的 fiber tree</td>
+<td>第二次生成的</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>与真实显示相同</td>
+<td>可不同</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>当前 dom 的 vdom 树</td>
+<td>改变的状态需要更新的节点树。</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>它是工作的终点</td>
+<td>diff从此树开始执行</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>每个节点使用 render 方法创建新的 ReactElement。再由新的 ReactElement 生成 workInProgress</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>不为用户提供服务。是 react 内置的用于缓存的对象。</td>
+<td></td>
+</tr>
 </tbody>
 </table>
 <!-- prettier-ignore-end -->
@@ -408,6 +416,14 @@ Fiber 的 Effecttag 属性是副作用函数
 副作用 tag
 Current 就是 fiberroot</p>
 <p>FiberRootNode 下的第一个 FiberNode 是使用 FiberRootNode()创建的。</p>
+<p>工作在 commit 阶段进行<br>
+深度优先</p>
+<ol>
+<li>当完成所有 workInProgress 树的工作后</li>
+<li>开始同步更新 dom.</li>
+<li>此树成为 current 树。</li>
+</ol>
+<p>react 只更新 dom</p>
 <h3 id="fiber-如何工作">fiber 如何工作</h3>
 <ul>
 <li>state change</li>
@@ -436,33 +452,152 @@ Current 就是 fiberroot</p>
 <li>一直处于此步骤</li>
 <li>到 comleteWork() 结束</li>
 </ol>
-<h3 id="fiber-tree">fiber tree</h3>
+<h2 id="更新dom的二个阶段">更新dom的二个阶段</h2>
+<p>也就是react内部更新dom的过程。</p>
+<ul>
+<li>render phase (processing)
+<ul>
+<li>异步</li>
+<li>定义任务的优先级，工作可能停止（可以被打断）、丢弃。</li>
+<li>开始的方法，如：beginWork() / copmleteWork()</li>
+<li>此阶段处理 fiber</li>
+</ul>
+</li>
+<li>commit phase (committing)
+<ul>
+<li>同步</li>
+<li>从 commitWork()开始</li>
+</ul>
+</li>
+</ul>
 <table>
 <thead>
 <tr>
 <th></th>
-<th>current</th>
-<th>workInProgress</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
 <th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td></td>
-<td>第一次生成的 fiber tree</td>
-<td>第二次生成的</td>
+<td>render phase</td>
+<td>异步</td>
+<td>操作 workInProgress/current</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
 <td></td>
-<td>与真实显示相同</td>
-<td>可不同</td>
+<td></td>
+<td>getDerivedStateFromProps</td>
+<td>被反对的生命周期方法不列出来</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>shouldComponentUpdate</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>render</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>commit phase</td>
+<td>同步</td>
+<td>操作 dom</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>getSnapshotBeforeUpdate</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>componentDidMount</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>componentDidUdate</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>componentWillUnmount</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 <td></td>
 </tr>
 </tbody>
 </table>
-<p>工作在 commit 阶段进行<br>
-深度优先</p>
+<p>调用 setState/React.render 会把对应的 FiberNode 指定为需要更新的元素。</p>
+<h3 id="render-phase">render phase</h3>
+<p>使用 effectTag 标记该节点应该如何更新。更新工作会在 commit 阶段做。<br>
+此阶段不能执行 side-effect
+从根节点开始，然后深度优先，跳过不需要更新的节点 FiberNode，标记出需要更新的节点 FiberNode。</p>
+<ul>
+<li>nextUnitOfWork</li>
+<li>performUnitOfWork 参数是 workInProgress</li>
+<li>beginWork // 返回下一个子节点或 null</li>
+<li>completeUnitOfWork //</li>
+<li>completeWork</li>
+</ul>
+<p>按照 FiberNode 形成的链表，深度优先。</p>
+<h3 id="commit-phase">commit phase</h3>
+<p>从 completeWork 开始。<br>
+主要在 commitRoot 方法中<br>
+因为要改变视图，所以必须是同步。<br>
+当调用<code>finishedWork</code>时更新视图。</p>
+<ul>
+<li>标记了 Snapshot 的 node 会执行 getSnapshotBeforeUpdate 方法</li>
+<li>标记了 Deletion 的 node 会执行 componentWillUnmount 方法</li>
+<li>执行所有节点的插入、更新、删除操作 commitAllHostEffects。此步骤完成了从current到视图的工作。</li>
+<li>设置新的 current</li>
+<li>标记了 Placement 的 node 会执行 componentDidMount 方法</li>
+<li>标记了 Update 的 node 会执行 componentDidUpdate 方法</li>
+</ul>
 <h2 id="自己理出的过程">自己理出的过程</h2>
 <p>创建组件时</p>
 <pre><code class="language-js"><span class="hljs-title function_">createRoot</span>(<span class="hljs-params"></span>) {
@@ -528,15 +663,23 @@ Current 就是 fiberroot</p>
 }
 
 <span class="hljs-title class_">FiberNode</span> 也有人叫 <span class="hljs-title class_">Fiber</span>
+总是与组件一对一。
 {
   <span class="hljs-string">&quot;tag&quot;</span>: <span class="hljs-number">5</span>,
   <span class="hljs-string">&quot;key&quot;</span>: <span class="hljs-literal">null</span>,          <span class="hljs-comment">// key 兄弟间惟一</span>
   <span class="hljs-string">&quot;elementType&quot;</span>: <span class="hljs-literal">null</span>,  <span class="hljs-comment">// 构造函数 | html标签 | class组件名</span>
   <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-literal">null</span>,         <span class="hljs-comment">// 组件的类型。与elementType相同值。createFiberFromTypeAndProps</span>
-  <span class="hljs-string">&quot;stateNode&quot;</span>: <span class="hljs-literal">null</span>,    <span class="hljs-comment">// dom | FiberRootNode</span>
+            <span class="hljs-comment">// 一共有 0-24。 有几个重要的。如下</span>
+            <span class="hljs-comment">// FunctionComponent 0</span>
+            <span class="hljs-comment">// ClassComponent 1</span>
+            <span class="hljs-comment">// HostComponent 5 div/p/...</span>
+            <span class="hljs-comment">// Fragment 7</span>
+            <span class="hljs-comment">// ContextConsumer 9</span>
+            <span class="hljs-comment">// ContextProvider 10</span>
+  <span class="hljs-string">&quot;stateNode&quot;</span>: <span class="hljs-literal">null</span>,    <span class="hljs-comment">// dom | FiberRootNode 的引用</span>
   <span class="hljs-string">&quot;return&quot;</span>: <span class="hljs-literal">null</span>,       <span class="hljs-comment">// 父 FiberNode</span>
-  <span class="hljs-string">&quot;child&quot;</span>: <span class="hljs-literal">null</span>,        <span class="hljs-comment">// 第一个子元素</span>
-  <span class="hljs-string">&quot;sibling&quot;</span>: <span class="hljs-literal">null</span>,      <span class="hljs-comment">// 后面的第一个兄弟元素</span>
+  <span class="hljs-string">&quot;child&quot;</span>: <span class="hljs-literal">null</span>,        <span class="hljs-comment">// 第一个子元素 FiberNode</span>
+  <span class="hljs-string">&quot;sibling&quot;</span>: <span class="hljs-literal">null</span>,      <span class="hljs-comment">// 后面的第一个兄弟元素 FiberNode</span>
   <span class="hljs-string">&quot;index&quot;</span>: <span class="hljs-number">0</span>,           <span class="hljs-comment">// 兄弟间下标</span>
   <span class="hljs-string">&quot;ref&quot;</span>: <span class="hljs-literal">null</span>,          <span class="hljs-comment">// ref</span>
   <span class="hljs-string">&quot;pendingProps&quot;</span>: {     <span class="hljs-comment">// 这些props被修改后应该传入子组件或dom</span>
@@ -579,7 +722,7 @@ Current 就是 fiberroot</p>
   <span class="hljs-string">&quot;_debugOwner&quot;</span>: <span class="hljs-literal">null</span>,
   <span class="hljs-string">&quot;_debugNeedsRemount&quot;</span>: <span class="hljs-literal">false</span>,
   <span class="hljs-string">&quot;_debugHookTypes&quot;</span>: <span class="hljs-literal">null</span>,
-  <span class="hljs-comment">// effectTag: xxxxx              // 该节点的side-effect</span>
+  <span class="hljs-comment">// effectTag: xxxxx              // 该节点的side-effect 副作用</span>
 }
 
 <span class="hljs-title class_">FiberRootNode</span>
@@ -687,96 +830,21 @@ flags 表示effect的编码
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">MountLayoutDev</span> = <span class="hljs-comment">/*               */</span> <span class="hljs-number">0b01000000000000000000000000</span>;
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">MountPassiveDev</span> = <span class="hljs-comment">/*              */</span> <span class="hljs-number">0b10000000000000000000000000</span>;
 </code></pre>
-<h2 id="使用本地-reactreact-dom"><a href="/framework/react/useLocalReact.html">使用本地 react/react-dom</a></h2>
+<h2 id="使用本地-reactreact-dom-调试源码"><a href="/framework/react/useLocalReact.html">使用本地 react/react-dom 调试源码</a></h2>
 <h2 id="hooks-的工作原理">hooks 的工作原理</h2>
 <p>更新是如何发生：</p>
 <p>调用 useState，内部通过 setState 修改状态后，调用 scheduleUpdate 方法，从根节点执行完整的 dom-diff 比较，进行组件的更新。</p>
-<p>为什么不能再条件语句或循环中使用 Hook</p>
-<p>从实现来看，每次 hook 的执行，都是从索引为 0 即第一个 hook 开始执行。也是依靠索引记录当前操作的 Hook，假如使用条件语句或者循环，那么 hook 执行的顺序可能与我们在数组中存放的顺序不一致，就会乱掉。因此不能在条件语句或循环中使用 Hook。</p>
+<p>为什么不能在条件语句或循环中使用 Hook？</p>
+<p>从实现来看，每次 hook 的执行，都是从索引为 0 即第一个 hook 开始执行。也是依靠索引记录当前操作的 Hook，假如使用条件语句或者循环，那么 hook 执行的顺序可能与我们在数组中存放的顺序不一致，就会乱掉。因此不能在条件语句或循环中使用 Hook。
+我看源码得到的结果是：各个状态组件一个链表，每个状态是一个节点。最后一个节点是当前状态。</p>
 <p>方法组件中使用<code>memoizedState</code>属性保存 state。
 <code>FiberNode.memoizedState</code><br>
 一个组件的多个 useState()使用链表的方式串起来。<br>
 在方法组件更新时会执行完整的方法体。所以会依次执行 useState()。若把 useState()写在非顶级，则有可能不会执行全部 useState()，这样会引发<code>memoizedState</code>链出错。</p>
 <p>hooks 的状态数据是存放在对应的函数组件的 fiber.memoizedState；<br>
 一个函数组件上如果有多个 hook，他们会通过声明的顺序以链表的结构存储；</p>
-<h2 id="tittle">tittle</h2>
-<h2 id="tittle">tittle</h2>
-<h2 id="tittle">tittle</h2>
 <h1 id="本地笔记">本地笔记</h1>
 <h2 id="inside-fiber-in-depth-overview-of-the-new-reconciliation-algorithm-in-react">Inside Fiber: in-depth overview of the new reconciliation algorithm in React</h2>
-<p>jsx 代码 =》 ReactElement =&gt; FiberRootNode/FiberNode</p>
-<h3 id="fibernode">FiberNode</h3>
-<ul>
-<li>每一个 ReactElement 都有一个对应的 FiberNode</li>
-<li>它是可变对象，在渲染时不会重新创建。</li>
-<li>包含组件的状态、dom</li>
-<li>代表工作单元</li>
-<li>提供工作路径、时间表、暂停、打断</li>
-<li>使用 createFiberFromTypeAndProps 创建 FiberNode</li>
-<li>三向链表结构。child/sibling/return</li>
-</ul>
-<h3 id="current--workinprogress">current &amp; workInProgress</h3>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>current</th>
-<th>workInProgress</th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td>当前 dom 的 vdom 树</td>
-<td>改变的状态需要更新的节点树。</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>它是工作的终点</td>
-<td>从此树开始执行</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>每个节点使用 render 方法创建新的 ReactElement。再由新的 ReactElement 生成 workInProgress</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>不为用户提供服务。是 react 内置的用于缓存的对象。</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<ol>
-<li>当完成所有 workInProgress 树的工作后</li>
-<li>开始同步更新 dom.</li>
-<li>此树成为 current 树。</li>
-</ol>
-<p>react 只更新 dom</p>
 <h3 id="side-effects">side-effects</h3>
 <ul>
 <li><strong>操作 dom 的方法</strong></li>
@@ -792,138 +860,10 @@ firstEffect 指向第一个节点。nextEffect 指向下一个节点。单向链
 current 指向 FiberRootNode<br>
 根节点是 HostRoot<br>
 FiberRootNode.stateNode 指向 HostRoot</p>
-<h3 id="general-algorithm">general algorithm</h3>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td>render phase</td>
-<td>异步</td>
-<td>操作 workInProgress/current</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>getDerivedStateFromProps</td>
-<td>被反对的生命周期方法不列出来</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>shouldComponentUpdate</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>render</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>commit phase</td>
-<td>同步</td>
-<td>操作 dom</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>getSnapshotBeforeUpdate</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>componentDidMount</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>componentDidUdate</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>componentWillUnmount</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>调用 setState/React.render 会把对应的 FiberNode 指定为需要更新的元素。</p>
-<h4 id="render-phase">render phase</h4>
-<p>使用 effectTag 标记该节点应该如何更新。更新工作会在 commit 阶段做。<br>
-此阶段不能执行 side-effect
-从根节点开始，然后深度优先，跳过不需要更新的节点 FiberNode，标记出需要更新的节点 FiberNode。</p>
-<ul>
-<li>nextUnitOfWork</li>
-<li>performUnitOfWork 参数是 workInProgress</li>
-<li>beginWork // 返回下一个子节点或 null</li>
-<li>completeUnitOfWork //</li>
-<li>completeWork</li>
-</ul>
-<p>按照 FiberNode 形成的链表，深度优先。</p>
-<h4 id="commit-phase">commit phase</h4>
-<p>从 completeWork 开始。<br>
-主要在 commitRoot 方法中<br>
-因为要改变视图，所以必须是同步。<br>
-当调用<code>finishedWork</code>时更新视图。</p>
-<ul>
-<li>标记了 Snapshot 的 node 会执行 getSnapshotBeforeUpdate 方法</li>
-<li>标记了 Deletion 的 node 会执行 componentWillUnmount 方法</li>
-<li>执行所有节点的插入、更新、删除操作 commitAllHostEffects</li>
-<li>设置新的 current</li>
-<li>标记了 Placement 的 node 会执行 componentDidMount 方法</li>
-<li>标记了 Update 的 node 会执行 componentDidUpdate 方法</li>
-</ul>
 <h2 id="in-depth-explanation-of-state-and-props-update-in-react"><a href="https://indepth.dev/posts/1009/in-depth-explanation-of-state-and-props-update-in-react">In-depth explanation of state and props update in React</a></h2>
 <h3 id="scheduling-updates">scheduling updates</h3>
-<pre><code class="language-js">当组件需要更新时
+<pre><code class="language-js">当组件需要更新时，也就是更新前。
+fiber
 {
     <span class="hljs-attr">effectTag</span>: <span class="hljs-number">0</span>,
     <span class="hljs-attr">elementType</span>: <span class="hljs-keyword">class</span> <span class="hljs-title class_">ClickCounter</span>,
@@ -943,7 +883,7 @@ FiberRootNode.stateNode 指向 HostRoot</p>
         ...
     }
 }
-更新后
+fiber更新后
 {
     <span class="hljs-attr">effectTag</span>: <span class="hljs-number">4</span>, <span class="hljs-comment">// 源码中使用二进制表示   100</span>
     <span class="hljs-comment">// 因这里标记为 Update 所以会执行此节点的componentDidUpdate生命周期方法</span>
@@ -961,8 +901,8 @@ FiberRootNode.stateNode 指向 HostRoot</p>
     }
 }
 
-
-更新前
+另一个示例：
+fiber更新前
 {
     <span class="hljs-attr">stateNode</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">HTMLSpanElement</span>,
     <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;span&quot;</span>,
@@ -970,7 +910,7 @@ FiberRootNode.stateNode 指向 HostRoot</p>
     <span class="hljs-attr">updateQueue</span>: <span class="hljs-literal">null</span>
     ...
 }
-更新后
+fiber更新后
 {
     <span class="hljs-attr">stateNode</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">HTMLSpanElement</span>,
     <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;span&quot;</span>,
@@ -979,15 +919,13 @@ FiberRootNode.stateNode 指向 HostRoot</p>
     ...
 }
 </code></pre>
-<p>全局变量 nextUnitOfWork 表示在 workInProgress 树上下一个需要工作的
-FiberNode。<br>
+<p>全局变量 nextUnitOfWork 表示在 workInProgress 树上下一个需要工作的FiberNode。<br>
 若此变量为空，则完成所有工作。</p>
 <ol>
 <li>当执行 setState 时，会在该组件对应的 FiberNode 的 uqdateQueue 中添加工作。</li>
 <li>进入 render 阶段。</li>
-<li>调用 renderRoot 方法。从 HostRoot(它一个 FiberNode)开始，会跳过完成工作的 FiberNode，直到未完成工作的 FiberNode.</li>
-<li>调用 createWorkInProgress 方法，根据
-ReactElement 创建 workInProgress.</li>
+<li>调用 renderRoot 方法。从 HostRoot(它是一个 FiberNode)开始，会跳过完成工作的 FiberNode，直到未完成工作的 FiberNode.</li>
+<li>调用 createWorkInProgress 方法，根据 ReactElement 创建 workInProgress.（可能没有此步）</li>
 <li>调用 beginWork 方法。根据 type 分别调用相应的方法。如<code>updateClassComponent() 、 updateFunctionComponent()</code>。会创建并挂载组件的实例或更新实例。</li>
 <li>调用 updateClassInstance 方法，去更新组件。然后依次调用：
 <ol>
@@ -1018,7 +956,7 @@ ReactElement 创建 workInProgress.</li>
 <li>调用 commitAllHostEffects 方法。</li>
 <li>调用 updateDOMProperties 方法
 <ol>
-<li>把 uqdateQueue 中的 payload 传入 render 方法并执行。</li>
+<li>把 uqdateQueue 中的 payload 传入 render 方法并执行。(为什么又执行一次render方法)</li>
 </ol>
 </li>
 <li>调用 finishedWork 方法。把 workInProgress 赋值给 current</li>

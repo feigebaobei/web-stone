@@ -53,7 +53,7 @@
 ## what is react fiber
 
 - 它是一个对象
-- diff 基于它工作。（它是异步的）它是工作单元
+- diff 基于它工作。diff 过程是异步的。fiber 是工作单元
 - 多个 fiber 对象组成树
 
 ### 目的
@@ -63,9 +63,13 @@
 
 ### 功能
 
-- 可把工作分块，设置任务优先级。
-- 停止或再继续工作。
-- 重新工作或打断工作。
+- 可把工作分块，一个 fiber 对象就是一个工作单元。设置任务优先级。
+- 每一个 ReactElement 都有一个对应的 FiberNode
+- 它是可变对象，在渲染时不会重新创建。
+- 包含组件的状态、dom
+- 提供工作路径、时间表、暂停、打断
+- 使用 createFiberFromTypeAndProps 创建 FiberNode
+- 三向链表结构。child/sibling/return
 
 ### old reconciler (fiber 出现前)
 
@@ -77,34 +81,6 @@
 
 - 它是一个工作单元
 - 当工作完成时 react process 把工作结果提交。生成新 dom
-
-### 二个阶段
-
-- render phase (processing)
-  - 异步
-  - 定义任务的优先级，工作可能停止（可以被打断）、丢弃。
-  - 开始的方法，如：beginWork() / copmleteWork()
-  - 此阶段处理 fiber
-- commit phase (committing)
-  - 从 commitWork()开始
-  - 同步
-
-### fiber 的常用属性
-
-- 总是 1-1 的关系
-  - 1 个 fiber 对应一个组件/dom/...
-- type 属性表示 组件的类型
-  - 一共有 0-24。 有几个重要的。如下
-  - FunctionComponent 0
-  - ClassComponent 1
-  - HostComponent 5 div/p/...
-  - Fragment 7
-  - ContextConsumer 9
-  - ContextProvider 10
-- stateNode 引用
-- child 第一个子元素
-- sibling 下一个同级元素
-- return 父元素
 
 ### Fiber & ReactElement
 
@@ -127,6 +103,10 @@ createFiberFromFragment()
 createFiberFromText()
 ```
 
+jsx 代码 =》 ReactElement => FiberRootNode/FiberNode
+
+### current & workInProgress
+
 <!-- prettier-ignore-start -->
 |     | current          | workInProgress    |     |
 | --- | --- | ----------- | --- |
@@ -137,6 +117,13 @@ createFiberFromText()
 |     |     | 完成工作后此树被赋于 current        |     |
 |     |     | 处理所有组件的进程、刷新屏幕。      |     |
 |     |     | 每个节点的 alternate 指向另一棵树（current/workInProgress）上对应的节点 |     |
+|     | 第一次生成的 fiber tree | 第二次生成的   |     |
+|     | 与真实显示相同          | 可不同         |     |
+|     |           |          |     |
+|     |当前 dom 的 vdom 树| 改变的状态需要更新的节点树。|  |
+||它是工作的终点|diff从此树开始执行||
+|||每个节点使用 render 方法创建新的 ReactElement。再由新的 ReactElement 生成 workInProgress||
+|||不为用户提供服务。是 react 内置的用于缓存的对象。||
 <!-- prettier-ignore-end -->
 
 副作用（side-effects）： 每次活动（如：改变 dom）和调用生命周期方法
@@ -145,6 +132,15 @@ Fiber 的 Effecttag 属性是副作用函数
 Current 就是 fiberroot
 
 FiberRootNode 下的第一个 FiberNode 是使用 FiberRootNode()创建的。
+
+工作在 commit 阶段进行  
+深度优先
+
+1. 当完成所有 workInProgress 树的工作后
+2. 开始同步更新 dom.
+3. 此树成为 current 树。
+
+react 只更新 dom
 
 ### fiber 如何工作
 
@@ -173,15 +169,62 @@ FiberRootNode 下的第一个 FiberNode 是使用 FiberRootNode()创建的。
 2. 一直处于此步骤
 3. 到 comleteWork() 结束
 
-### fiber tree
+## 更新 dom 的二个阶段
 
-|     | current                 | workInProgress |     |
-| --- | ----------------------- | -------------- | --- |
-|     | 第一次生成的 fiber tree | 第二次生成的   |     |
-|     | 与真实显示相同          | 可不同         |     |
+也就是 react 内部更新 dom 的过程。
 
-工作在 commit 阶段进行  
-深度优先
+- render phase (processing)
+  - 异步
+  - 定义任务的优先级，工作可能停止（可以被打断）、丢弃。
+  - 开始的方法，如：beginWork() / copmleteWork()
+  - 此阶段处理 fiber
+- commit phase (committing)
+  - 同步
+  - 从 commitWork()开始
+
+|     |              |                          |                              |     |     |
+| --- | ------------ | ------------------------ | ---------------------------- | --- | --- |
+|     | render phase | 异步                     | 操作 workInProgress/current  |     |     |
+|     |              | getDerivedStateFromProps | 被反对的生命周期方法不列出来 |     |     |
+|     |              | shouldComponentUpdate    |                              |     |     |
+|     |              | render                   |                              |     |     |
+|     |              |                          |                              |     |     |
+|     | commit phase | 同步                     | 操作 dom                     |     |     |
+|     |              | getSnapshotBeforeUpdate  |                              |     |     |
+|     |              | componentDidMount        |                              |     |     |
+|     |              | componentDidUdate        |                              |     |     |
+|     |              | componentWillUnmount     |                              |     |     |
+|     |              |                          |                              |     |     |
+
+调用 setState/React.render 会把对应的 FiberNode 指定为需要更新的元素。
+
+### render phase
+
+使用 effectTag 标记该节点应该如何更新。更新工作会在 commit 阶段做。  
+此阶段不能执行 side-effect
+从根节点开始，然后深度优先，跳过不需要更新的节点 FiberNode，标记出需要更新的节点 FiberNode。
+
+- nextUnitOfWork
+- performUnitOfWork 参数是 workInProgress
+- beginWork // 返回下一个子节点或 null
+- completeUnitOfWork //
+- completeWork
+
+按照 FiberNode 形成的链表，深度优先。
+
+### commit phase
+
+从 completeWork 开始。  
+主要在 commitRoot 方法中  
+因为要改变视图，所以必须是同步。  
+当调用`finishedWork`时更新视图。
+
+- 标记了 Snapshot 的 node 会执行 getSnapshotBeforeUpdate 方法
+- 标记了 Deletion 的 node 会执行 componentWillUnmount 方法
+- 执行所有节点的插入、更新、删除操作 commitAllHostEffects。此步骤完成了从 current 到视图的工作。
+- 设置新的 current
+- 标记了 Placement 的 node 会执行 componentDidMount 方法
+- 标记了 Update 的 node 会执行 componentDidUpdate 方法
 
 ## 自己理出的过程
 
@@ -257,15 +300,23 @@ ReactElement
 }
 
 FiberNode 也有人叫 Fiber
+总是与组件一对一。
 {
   "tag": 5,
   "key": null,          // key 兄弟间惟一
   "elementType": null,  // 构造函数 | html标签 | class组件名
   "type": null,         // 组件的类型。与elementType相同值。createFiberFromTypeAndProps
-  "stateNode": null,    // dom | FiberRootNode
+            // 一共有 0-24。 有几个重要的。如下
+            // FunctionComponent 0
+            // ClassComponent 1
+            // HostComponent 5 div/p/...
+            // Fragment 7
+            // ContextConsumer 9
+            // ContextProvider 10
+  "stateNode": null,    // dom | FiberRootNode 的引用
   "return": null,       // 父 FiberNode
-  "child": null,        // 第一个子元素
-  "sibling": null,      // 后面的第一个兄弟元素
+  "child": null,        // 第一个子元素 FiberNode
+  "sibling": null,      // 后面的第一个兄弟元素 FiberNode
   "index": 0,           // 兄弟间下标
   "ref": null,          // ref
   "pendingProps": {     // 这些props被修改后应该传入子组件或dom
@@ -308,7 +359,7 @@ FiberNode 也有人叫 Fiber
   "_debugOwner": null,
   "_debugNeedsRemount": false,
   "_debugHookTypes": null,
-  // effectTag: xxxxx              // 该节点的side-effect
+  // effectTag: xxxxx              // 该节点的side-effect 副作用
 }
 
 FiberRootNode
@@ -417,7 +468,7 @@ export const MountLayoutDev = /*               */ 0b01000000000000000000000000;
 export const MountPassiveDev = /*              */ 0b10000000000000000000000000;
 ```
 
-## [使用本地 react/react-dom](/framework/react/useLocalReact.html)
+## [使用本地 react/react-dom 调试源码](/framework/react/useLocalReact.html)
 
 ## hooks 的工作原理
 
@@ -425,9 +476,10 @@ export const MountPassiveDev = /*              */ 0b10000000000000000000000000;
 
 调用 useState，内部通过 setState 修改状态后，调用 scheduleUpdate 方法，从根节点执行完整的 dom-diff 比较，进行组件的更新。
 
-为什么不能再条件语句或循环中使用 Hook
+为什么不能在条件语句或循环中使用 Hook？
 
 从实现来看，每次 hook 的执行，都是从索引为 0 即第一个 hook 开始执行。也是依靠索引记录当前操作的 Hook，假如使用条件语句或者循环，那么 hook 执行的顺序可能与我们在数组中存放的顺序不一致，就会乱掉。因此不能在条件语句或循环中使用 Hook。
+我看源码得到的结果是：各个状态组件一个链表，每个状态是一个节点。最后一个节点是当前状态。
 
 方法组件中使用`memoizedState`属性保存 state。
 `FiberNode.memoizedState`  
@@ -437,44 +489,9 @@ export const MountPassiveDev = /*              */ 0b10000000000000000000000000;
 hooks 的状态数据是存放在对应的函数组件的 fiber.memoizedState；  
 一个函数组件上如果有多个 hook，他们会通过声明的顺序以链表的结构存储；
 
-## tittle
-
-## tittle
-
-## tittle
-
 # 本地笔记
 
 ## Inside Fiber: in-depth overview of the new reconciliation algorithm in React
-
-jsx 代码 =》 ReactElement => FiberRootNode/FiberNode
-
-### FiberNode
-
-- 每一个 ReactElement 都有一个对应的 FiberNode
-- 它是可变对象，在渲染时不会重新创建。
-- 包含组件的状态、dom
-- 代表工作单元
-- 提供工作路径、时间表、暂停、打断
-- 使用 createFiberFromTypeAndProps 创建 FiberNode
-- 三向链表结构。child/sibling/return
-
-### current & workInProgress
-
-|     | current             | workInProgress                                                                           |     |     |
-| --- | ------------------- | ---------------------------------------------------------------------------------------- | --- | --- |
-|     | 当前 dom 的 vdom 树 | 改变的状态需要更新的节点树。                                                             |     |     |
-|     | 它是工作的终点      | 从此树开始执行                                                                           |     |     |
-|     |                     | 每个节点使用 render 方法创建新的 ReactElement。再由新的 ReactElement 生成 workInProgress |     |     |
-|     |                     | 不为用户提供服务。是 react 内置的用于缓存的对象。                                        |     |     |
-|     |                     |                                                                                          |     |     |
-|     |                     |                                                                                          |     |     |
-
-1. 当完成所有 workInProgress 树的工作后
-2. 开始同步更新 dom.
-3. 此树成为 current 树。
-
-react 只更新 dom
 
 ### side-effects
 
@@ -495,58 +512,13 @@ current 指向 FiberRootNode
 根节点是 HostRoot  
 FiberRootNode.stateNode 指向 HostRoot
 
-### general algorithm
-
-|     |              |                          |                              |     |     |
-| --- | ------------ | ------------------------ | ---------------------------- | --- | --- |
-|     | render phase | 异步                     | 操作 workInProgress/current  |     |     |
-|     |              | getDerivedStateFromProps | 被反对的生命周期方法不列出来 |     |     |
-|     |              | shouldComponentUpdate    |                              |     |     |
-|     |              | render                   |                              |     |     |
-|     |              |                          |                              |     |     |
-|     | commit phase | 同步                     | 操作 dom                     |     |     |
-|     |              | getSnapshotBeforeUpdate  |                              |     |     |
-|     |              | componentDidMount        |                              |     |     |
-|     |              | componentDidUdate        |                              |     |     |
-|     |              | componentWillUnmount     |                              |     |     |
-|     |              |                          |                              |     |     |
-
-调用 setState/React.render 会把对应的 FiberNode 指定为需要更新的元素。
-
-#### render phase
-
-使用 effectTag 标记该节点应该如何更新。更新工作会在 commit 阶段做。  
-此阶段不能执行 side-effect
-从根节点开始，然后深度优先，跳过不需要更新的节点 FiberNode，标记出需要更新的节点 FiberNode。
-
-- nextUnitOfWork
-- performUnitOfWork 参数是 workInProgress
-- beginWork // 返回下一个子节点或 null
-- completeUnitOfWork //
-- completeWork
-
-按照 FiberNode 形成的链表，深度优先。
-
-#### commit phase
-
-从 completeWork 开始。  
-主要在 commitRoot 方法中  
-因为要改变视图，所以必须是同步。  
-当调用`finishedWork`时更新视图。
-
-- 标记了 Snapshot 的 node 会执行 getSnapshotBeforeUpdate 方法
-- 标记了 Deletion 的 node 会执行 componentWillUnmount 方法
-- 执行所有节点的插入、更新、删除操作 commitAllHostEffects
-- 设置新的 current
-- 标记了 Placement 的 node 会执行 componentDidMount 方法
-- 标记了 Update 的 node 会执行 componentDidUpdate 方法
-
 ## [In-depth explanation of state and props update in React](https://indepth.dev/posts/1009/in-depth-explanation-of-state-and-props-update-in-react)
 
 ### scheduling updates
 
 ```js
-当组件需要更新时
+当组件需要更新时，也就是更新前。
+fiber
 {
     effectTag: 0,
     elementType: class ClickCounter,
@@ -566,7 +538,7 @@ FiberRootNode.stateNode 指向 HostRoot
         ...
     }
 }
-更新后
+fiber更新后
 {
     effectTag: 4, // 源码中使用二进制表示   100
     // 因这里标记为 Update 所以会执行此节点的componentDidUpdate生命周期方法
@@ -584,8 +556,8 @@ FiberRootNode.stateNode 指向 HostRoot
     }
 }
 
-
-更新前
+另一个示例：
+fiber更新前
 {
     stateNode: new HTMLSpanElement,
     type: "span",
@@ -593,7 +565,7 @@ FiberRootNode.stateNode 指向 HostRoot
     updateQueue: null
     ...
 }
-更新后
+fiber更新后
 {
     stateNode: new HTMLSpanElement,
     type: "span",
@@ -603,15 +575,13 @@ FiberRootNode.stateNode 指向 HostRoot
 }
 ```
 
-全局变量 nextUnitOfWork 表示在 workInProgress 树上下一个需要工作的
-FiberNode。  
+全局变量 nextUnitOfWork 表示在 workInProgress 树上下一个需要工作的 FiberNode。  
 若此变量为空，则完成所有工作。
 
 1. 当执行 setState 时，会在该组件对应的 FiberNode 的 uqdateQueue 中添加工作。
 2. 进入 render 阶段。
-3. 调用 renderRoot 方法。从 HostRoot(它一个 FiberNode)开始，会跳过完成工作的 FiberNode，直到未完成工作的 FiberNode.
-4. 调用 createWorkInProgress 方法，根据
-   ReactElement 创建 workInProgress.
+3. 调用 renderRoot 方法。从 HostRoot(它是一个 FiberNode)开始，会跳过完成工作的 FiberNode，直到未完成工作的 FiberNode.
+4. 调用 createWorkInProgress 方法，根据 ReactElement 创建 workInProgress.（可能没有此步）
 5. 调用 beginWork 方法。根据 type 分别调用相应的方法。如`updateClassComponent() 、 updateFunctionComponent()`。会创建并挂载组件的实例或更新实例。
 6. 调用 updateClassInstance 方法，去更新组件。然后依次调用：
    1. UNSAFE_componentWillReceiveProps() deprecated
@@ -635,7 +605,7 @@ FiberNode。
 3. 调用 commitBeforeMutationLifeCycles 方法。若标记 snapshot 则执行 getSnapshotBeforeUpdate()
 4. 调用 commitAllHostEffects 方法。
 5. 调用 updateDOMProperties 方法
-   1. 把 uqdateQueue 中的 payload 传入 render 方法并执行。
+   1. 把 uqdateQueue 中的 payload 传入 render 方法并执行。(为什么又执行一次 render 方法)
 6. 调用 finishedWork 方法。把 workInProgress 赋值给 current
 7. 调用 commitAllLifecycles 方法。调用所有的生命周期方法。
    1. 调用 commitLifeCycles 方法。会更新 refs 引入。 componentDidMount 会只执行一次。
