@@ -2,15 +2,15 @@
 
 为了解决软件架构的问题。
 
-layered pattern
-pipe-filter pattern
-client-server pattern
-model view controller pattern
-event bus pattern
-microservices architecture
-broker pattern
-peer-to-peer pattern
-blackboard pattern
+layered pattern  
+pipe-filter pattern  
+client-server pattern  
+model view controller pattern  
+event bus pattern  
+microservices architecture  
+broker pattern  
+peer-to-peer pattern  
+blackboard pattern  
 master-slave pattern
 
 ## layered pattern
@@ -79,9 +79,6 @@ publisher 3 -------------|        |-------- listener 3
 ## blackboard pattern
 
 ```
-
-
-
             notifies                       enrolls
         |-------------------> controller -----------|
         |                                           |

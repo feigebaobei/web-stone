@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>hybrid &#x6df7;&#x5408;&#x5f00;&#x53d1;</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="hybrid-混合开发">hybrid 混合开发</h1>
+<p>原生 + h5
+使用h5开发一次，然后在多个原生应用中使用。<br>
+优点：</p>
+<ul>
+<li>方便快捷、入侵性小。</li>
+<li>几乎不改变原生 app 的框架。</li>
+<li>开发成本低。</li>
+<li>易更新。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>不如原生流畅。</li>
+</ul>
+<h2 id="基本概念">基本概念</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>webview</td>
+<td>app中的一个组件，用于加载h5页面，相当于浏览器。</td>
+<td></td>
+</tr>
+<tr>
+<td>file协议</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="结构">结构</h2>
+<p>app在webView中打开h5页面。</p>
+<h2 id="native--h5">native &amp; h5</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>native</th>
+<th>h5</th>
+<th>hybrid</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>体验</td>
+<td>好</td>
+<td>不如native流畅</td>
+<td>好</td>
+</tr>
+<tr>
+<td></td>
+<td>发版需审核</td>
+<td>可热更新</td>
+<td>可快速迭代</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>开发成本高。</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>联调、测试比较麻烦</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="二者间通信">二者间通信</h2>
+<h3 id="url-scheme">url scheme</h3>
+<ol>
+<li>native注册url scheme.一般是自定义的。</li>
+<li>h5触发一个url</li>
+<li>native捕获该url</li>
+<li>native分析此url，然后触发相应功能。</li>
+<li>native调用h5中的方法将数据回调给h5.</li>
+</ol>
+<p>兼容性好，效率低。</p>
+<h3 id="javascriptcore--addjavascriptinterface">JavaScriptCore / addJavascriptInterface</h3>
+<ol>
+<li>原生注册一个对象，供js调用。</li>
+<li>低版本机型兼容不好。</li>
+</ol>
+<h2 id="封装一个bridgejs">封装一个bridge.js</h2>
+<pre><code class="language-js"><span class="hljs-variable language_">window</span>.<span class="hljs-property">jsBridge</span> = {
+    <span class="hljs-attr">invoke</span>: <span class="hljs-function">(<span class="hljs-params">{bridgeName, data}</span>) =&gt;</span> {
+        nativeBridge.<span class="hljs-title function_">postMessage</span>({
+            bridgeName,
+            <span class="hljs-attr">data</span>: data || {},
+        })
+    }
+    <span class="hljs-attr">receiveMessage</span>: <span class="hljs-function">(<span class="hljs-params">{bridgeName, data}</span>) =&gt;</span> {
+        <span class="hljs-comment">// op bridgeName data</span>
+
+    }
+}
+</code></pre>
+<h1 id="react-native">react native</h1>
+<p>rn不是用于构建原生app的。所以它不算hybrid.<br>
+它是通过js来直接调用原生组件的。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>组件化</td>
+<td>三方sdk开放的rn比较少</td>
+</tr>
+<tr>
+<td></td>
+<td>虚拟dom.</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>开发效率高</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>性能接近native</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h1 id="cordova">cordova</h1>
+<h1 id="weex">weex</h1>
+
+        
+        
+    </body>
+    </html>
