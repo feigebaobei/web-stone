@@ -252,8 +252,12 @@ c.on('ready', () => {
     // let p = 'framework/react/immutable'
     let p = [
       'package-manager/npm/subCommand.html',
-      // 'framework/react/index.html',
-      // 'framework/react/hooks.html',
+      'framework/vue3/api.html',
+      'framework/vue3/index.html',
+      'framework/vue3/performation.html',
+      'framework/vue3/vue3.html',
+      'framework/vue3/vue3&ts.html',
+      'framework/vue3/wayOfUsing.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
