@@ -253,7 +253,7 @@ c.on('ready', () => {
     let p = [
       // 'index.html',
       // 'test.html',
-      // 'development/index.html',
+      'framework/react/principle/index.html',
       // 'hybrid/index.html',
       // 'promote/systemDesign/architecturalPattern.html',
       // 'promote/systemDesign/systemDesign.html',

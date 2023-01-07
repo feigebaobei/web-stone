@@ -167,7 +167,7 @@ react 只更新 dom
 
 1. 从 beginWork() 开始
 2. 一直处于此步骤
-3. 到 comleteWork() 结束
+3. 到 completeWork() 结束
 
 ## 更新 dom 的二个阶段
 
@@ -176,7 +176,7 @@ react 只更新 dom
 - render phase (processing)
   - 异步
   - 定义任务的优先级，工作可能停止（可以被打断）、丢弃。
-  - 开始的方法，如：beginWork() / copmleteWork()
+  - 开始的方法，如：beginWork() / completeWork()
   - 此阶段处理 fiber
 - commit phase (committing)
   - 同步
@@ -225,6 +225,98 @@ react 只更新 dom
 - 设置新的 current
 - 标记了 Placement 的 node 会执行 componentDidMount 方法
 - 标记了 Update 的 node 会执行 componentDidUpdate 方法
+
+## diff
+
+### diff 策略
+
+1. 忽略节点跨层级移动
+2. 相同类型的组件产生的 dom 结构相似。反之不相似。
+3. 同层级组件之间使用 key 做惟一值。
+
+### 同级之间的 diff
+
+#### 复用节点
+
+1. 在新节点列表中，从头开始取出一个节点 N。
+2. 在旧节点列表中，取出相同 key 的节点 N'.
+3. 设置 lastIndex = 0;此值表示该值前的已经已经排好序了。
+4. 若 N'.index < lastIndex，则不移动。否则移动 N'到 lastIndex.再更新 N'.index = lastIndex
+5. lastIndex++.
+6. 直到完成所有新节点列表。
+
+#### 增、减节点
+
+```
+在新节点列表中，从头开始取出一个节点N.
+在旧节点列表中，若能取出相同key的节点N'.----------------------------------
+  |                                                                |
+  Y                                                                N
+  |                                                                |
+  V                                                                V
+设置lastIndex = 0;此值表示该值前的已经已经排好序了。               lastIndex++
+  |                                                                |
+  |                                                                |
+  |                                                                |
+  V                                                                |
+若N'.index < lastIndex，则不移动。否则移动N'到lastIndex.  <-------------
+lastIndex++.
+遍历完新节点列表。再遍历旧节点列表，删除在新节点列表中不存在的节点。
+```
+
+#### 不足
+
+当最后一个节点移到第一个节点时，react 会把非最后一个节点依次移到后面。也就是会移到 n-1 次。  
+开发时不要这么做。
+
+#### 自己实现一个同级 diff 方法
+
+```js
+// 待测试
+let oldChain = new SingleChain()
+// {
+//   value: 'a'
+//   next
+//   position
+// }
+oldChain.appen('a')
+oldChain.appen('b')
+oldChain.appen('c')
+oldChain.appen('d')
+// a -> b -> c -> d
+let newChain = new SingleChain()
+newChain.appen('b')
+newChain.appen('e')
+newChain.appen('c')
+newChain.appen('a')
+// b -> e -> c -> a
+let f = (newChain, oldChain) => {
+  // 遍历新节点列表
+  let newChainCur = this.newChain.head
+  let lastIndex = 0 // 其实newChainCur.position也可以使用
+  while (newChainCur) {
+    let oldChainCur = this.oldChain.head
+    while (oldChainCur) {
+      if (oldChainCur.value === newChainCur.value) {
+        break
+      }
+      oldChainCur = oldChainCur.next
+    }
+    // 是否找到
+    if (oldChainCur) {
+      oldChain.removeAt(oldChainCur.position)
+      oldChain.insert(oldChainCur, lastIndex)
+    } else {
+      oldChain.insert(newChainCur.value, lastIndex)
+      lastIndex++
+    }
+    newChainCur = newChainCur.next
+  }
+  // 删除节点
+  let index = this.newChain.length
+  return oldChain.slice(0, index) // 需要再开发
+}
+```
 
 ## 自己理出的过程
 
@@ -317,9 +409,9 @@ FiberNode 也有人叫 Fiber
   "return": null,       // 父 FiberNode
   "child": null,        // 第一个子元素 FiberNode
   "sibling": null,      // 后面的第一个兄弟元素 FiberNode
-  "index": 0,           // 兄弟间下标
+  "index": 0,           // 兄弟间下标。用于同级节点移动位置时。
   "ref": null,          // ref
-  "pendingProps": {     // 这些props被修改后应该传入子组件或dom
+  "pendingProps": {     // 这是被修改后的props。应该传入子组件或dom
     "children": {
       "type": "h1",
       "key": null,
@@ -604,8 +696,7 @@ fiber更新后
 2. 设置 FiberRootNode.finishedWork 为 null
 3. 调用 commitBeforeMutationLifeCycles 方法。若标记 snapshot 则执行 getSnapshotBeforeUpdate()
 4. 调用 commitAllHostEffects 方法。
-5. 调用 updateDOMProperties 方法
-   1. 把 uqdateQueue 中的 payload 传入 render 方法并执行。(为什么又执行一次 render 方法)
+5. 调用 updateDOMProperties 方法。设置了 dom 的属性。
 6. 调用 finishedWork 方法。把 workInProgress 赋值给 current
 7. 调用 commitAllLifecycles 方法。调用所有的生命周期方法。
    1. 调用 commitLifeCycles 方法。会更新 refs 引入。 componentDidMount 会只执行一次。
@@ -639,11 +730,3 @@ React.createElement('span', {id: '#id'}, string)
 ```
 
 ## 使用配置文件控制是否使用新代码。同时保持了新代码与老代码在项目中。优点是迭代平滑。
-
-## title
-
-## title
-
-## title
-
-## title
