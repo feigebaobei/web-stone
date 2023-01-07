@@ -251,15 +251,9 @@ c.on('ready', () => {
     }
     // let p = 'framework/react/immutable'
     let p = [
-      'framework/react/immutable/index.html',
-      'framework/react/index.html',
-      'framework/react/hooks.html',
-      // 'index.html',
-      // 'test.html',
-      // 'framework/react/principle/index.html',
-      // 'hybrid/index.html',
-      // 'promote/systemDesign/architecturalPattern.html',
-      // 'promote/systemDesign/systemDesign.html',
+      'package-manager/npm/subCommand.html',
+      // 'framework/react/index.html',
+      // 'framework/react/hooks.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)

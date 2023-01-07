@@ -152,9 +152,27 @@ npm pack [[<@scope>/]<pkg>...] [--dry-run] [--json]
 | `--workspace`       | 工作空间。不会。可选值：- 工作空间的名字。- 工作空间的目录。- 父工作空间的路径 | string  | -     |
 | `--workspaces`      |                                                                                | boolean | false |
 
-# title
+# unpublish
 
-# title
+删除
+
+```shell
+# 删除指定版本
+npm unpublish test@0.0.1
+npm unpublish test@0.0.1-beta.0
+npm unpublish test@0.0.1-beta.0 --force
+# 删除包
+npm unpublish test
+npm unpublish test --force
+```
+
+# deprecate
+
+```shell
+npm deprecate <pkg>[@<version>] <message>
+npm deprecate test '不再维护了'
+npm deprecate test@0.0.1 '不再维护了'
+```
 
 # title
 
