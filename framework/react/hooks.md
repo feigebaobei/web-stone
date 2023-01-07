@@ -253,7 +253,7 @@ https://www.cnblogs.com/bejamin/p/15116546.html
 
 ## 自定义 hook
 
-**Hook 用途：封装为可多次使用的方法。与 uitl 功能相同。**
+**Hook 用途：封装为可多次使用的方法。与 util 功能相同。**
 
 监听对象改变时输出。
 
@@ -402,10 +402,6 @@ export default useViewport
 ```
 
 ```js
-useDeepEffect
-```
-
-```js
 function useInterval(cb = () => {}, delay = 10) {
   let savedCallback = useRef()
   useEffect(() => {
@@ -522,7 +518,7 @@ function usePrefetch(factory) {
     return comp
 }
 let importModal = () => import('./Modal')
-let Modal = usePrefetch(importModal) // 一定要写成这样，否则会是触发useEffect
+let Modal = usePrefetch(importModal) // 一定要写成这样，否则不会触发useEffect
 isShow && <Modal>
 ```
 

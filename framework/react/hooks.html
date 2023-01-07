@@ -357,7 +357,7 @@ useInsertionEffect(didUpdate)
 <h2 id="uml">uml</h2>
 <p><a href="https://www.cnblogs.com/bejamin/p/15116546.html">https://www.cnblogs.com/bejamin/p/15116546.html</a></p>
 <h2 id="自定义-hook">自定义 hook</h2>
-<p><strong>Hook 用途：封装为可多次使用的方法。与 uitl 功能相同。</strong></p>
+<p><strong>Hook 用途：封装为可多次使用的方法。与 util 功能相同。</strong></p>
 <p>监听对象改变时输出。</p>
 <pre><code class="language-js"><span class="hljs-comment">// 定义</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">useLogger</span>(<span class="hljs-params">value</span>) {
@@ -471,8 +471,6 @@ useInsertionEffect(didUpdate)
 }
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> useViewport
 </code></pre>
-<pre><code class="language-js">useDeepEffect
-</code></pre>
 <pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">useInterval</span>(<span class="hljs-params">cb = () =&gt; {}, delay = <span class="hljs-number">10</span></span>) {
   <span class="hljs-keyword">let</span> savedCallback = <span class="hljs-title function_">useRef</span>()
   <span class="hljs-title function_">useEffect</span>(<span class="hljs-function">() =&gt;</span> {
@@ -557,7 +555,7 @@ useInsertionEffect(didUpdate)
 <p>当依赖项改变时，执行异步方法。</p>
 <pre><code class="language-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">useAsyncEffect</span>(<span class="hljs-params">fn, deps, ...args</span>) {
   <span class="hljs-title function_">useEffect</span>(<span class="hljs-function">() =&gt;</span> {
-    ;(<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+    (<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
       <span class="hljs-keyword">await</span> <span class="hljs-title function_">fn</span>(...args)
     })()
   }, deps)
@@ -573,7 +571,7 @@ useInsertionEffect(didUpdate)
     <span class="hljs-keyword">return</span> comp
 }
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">importModal</span> = (<span class="hljs-params"></span>) =&gt; <span class="hljs-title function_">import</span>(<span class="hljs-string">&#x27;./Modal&#x27;</span>)
-<span class="hljs-keyword">let</span> <span class="hljs-title class_">Modal</span> = <span class="hljs-title function_">usePrefetch</span>(importModal) <span class="hljs-comment">// 一定要写成这样，否则会是触发useEffect</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title class_">Modal</span> = <span class="hljs-title function_">usePrefetch</span>(importModal) <span class="hljs-comment">// 一定要写成这样，否则不会触发useEffect</span>
 isShow &amp;&amp; &lt;<span class="hljs-title class_">Modal</span>&gt;
 </code></pre>
 <pre><code class="language-jsx"><span class="hljs-keyword">function</span> <span class="hljs-title function_">useGeo</span>(<span class="hljs-params">opts</span>) {
@@ -768,8 +766,8 @@ isShow &amp;&amp; &lt;<span class="hljs-title class_">Modal</span>&gt;
 }
 </code></pre>
 <p>useApi
-显示loading
-调用api
+显示 loading
+调用 api
 只请求一次数据。以后都重用以前的数据。
 停止加载</p>
 <pre><code class="language-js">useApi = <span class="hljs-function">(<span class="hljs-params">url, options</span>) =&gt;</span> {
@@ -786,17 +784,17 @@ isShow &amp;&amp; &lt;<span class="hljs-title class_">Modal</span>&gt;
   <span class="hljs-title function_">useEffect</span>(<span class="hljs-function">() =&gt;</span> {
     <span class="hljs-keyword">let</span> <span class="hljs-title function_">fetchApi</span> = (<span class="hljs-params"></span>) =&gt; {
       <span class="hljs-title function_">fetch</span>(url, options)
-      .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
-        <span class="hljs-keyword">return</span> res.<span class="hljs-title function_">json</span>()
-      })
-      .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">json</span> =&gt;</span> {
-        <span class="hljs-title function_">setLoading</span>(<span class="hljs-literal">false</span>)
-        <span class="hljs-title function_">setData</span>(json)
-      })
+        .<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+          <span class="hljs-keyword">return</span> res.<span class="hljs-title function_">json</span>()
+        })
+        .<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">json</span>) =&gt;</span> {
+          <span class="hljs-title function_">setLoading</span>(<span class="hljs-literal">false</span>)
+          <span class="hljs-title function_">setData</span>(json)
+        })
     }
     <span class="hljs-title function_">fetchApi</span>(url, options)
   }, [])
-  <span class="hljs-keyword">return</span> {loading, data}
+  <span class="hljs-keyword">return</span> { loading, data }
 }
 </code></pre>
 <h2 id="自定义-hooks-的包">自定义 hooks 的包</h2>

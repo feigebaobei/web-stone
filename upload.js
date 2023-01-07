@@ -249,11 +249,14 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = 'hybrid'
+    // let p = 'framework/react/immutable'
     let p = [
+      'framework/react/immutable/index.html',
+      'framework/react/index.html',
+      'framework/react/hooks.html',
       // 'index.html',
       // 'test.html',
-      'framework/react/principle/index.html',
+      // 'framework/react/principle/index.html',
       // 'hybrid/index.html',
       // 'promote/systemDesign/architecturalPattern.html',
       // 'promote/systemDesign/systemDesign.html',
@@ -275,24 +278,24 @@ c.on('ready', () => {
     // 测试上传单个文件
     // uploadFile(p)
     // 上传多个文件
-    uploadFiles(p)
-      .then(() => {
-        log('then', '全部完成')
-        c.end()
-      })
-      .catch((err) => {
-        log('catch', err)
-        c.end()
-      })
-    // 创建目录
-    // makeDir(p)
+    // uploadFiles(p)
     //   .then(() => {
+    //     log('then', '全部完成')
     //     c.end()
     //   })
     //   .catch((err) => {
     //     log('catch', err)
     //     c.end()
     //   })
+    // 创建目录
+    makeDir(p)
+      .then(() => {
+        c.end()
+      })
+      .catch((err) => {
+        log('catch', err)
+        c.end()
+      })
     // 测试上传一个目录
     // uploadDir(p).then(res => {
     //     log('全部上传完成', res)

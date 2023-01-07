@@ -115,7 +115,7 @@ v18 以后的用法：
 - [react-snapshot](/framework/react/reactSnapshot.html)
 - [react-snap](/framework/react/reactSnap.html)
 - [react-addons-pref](/framework/react/react-addons-pref.html)
-- [title](/framework/react/title.html)
+- [immutable.js](/framework/react/immutable/index.html)
 - [title](/framework/react/title.html)
 - [title](/framework/react/title.html)
 - [title](/framework/react/title.html)
