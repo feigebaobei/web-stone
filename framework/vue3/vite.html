@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>vue2&amp;vue3</title>
+        <title>vite</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -75,81 +75,61 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="vue2vue3">vue2&amp;vue3</h1>
+        <h1 id="vite">vite</h1>
+<h2 id="overview">overview</h2>
+<blockquote>
+<p>TODO: description</p>
+</blockquote>
+<h3 id="feature">feature</h3>
+<ul>
+<li>feature0</li>
+<li>feature1</li>
+<li>feature2</li>
+</ul>
+<h2 id="install">install</h2>
+<p><code>npm i vite</code></p>
+<h2 id="usage">usage</h2>
+<p>同<code>./demo.md</code></p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> vite = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;vite&#x27;</span>);
+<span class="hljs-comment">// or</span>
+<span class="hljs-comment">// import vite from &#x27;vite&#x27;;</span>
+<span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> DEMONSTRATE API</span>
+</code></pre>
+<h2 id="configuration">configuration</h2>
+<p>默认配置文件：<code>path/to/file.json</code>。</p>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
 <th></th>
-<th>vue1</th>
-<th>vue2</th>
-<th>vue3</th>
+<th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>响应式</td>
 <td></td>
-<td>对象：使用<code>defineProperty</code>劫持对象的已有属性的读取、修改操作</td>
-<td>使用proxy拦截、使用reflect操作原始对象。</td>
-</tr>
-<tr>
 <td></td>
-<td>数组：劫持操作数据的7种方法：<code>push/pop/unshift/shift/splice/sort/reverse</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td></td>
-<td>缺点：无法劫持新添加的属性、删除已有的属性。使用数组下标直接改变数组不会触发更新。需要使用<code>Vue.set(obj. key, value)</code>实现响应式。</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>tres-shaking</td>
-<td></td>
-<td>不支持。</td>
-<td>支持。</td>
-</tr>
-<tr>
-<td>diff</td>
-<td></td>
-<td>全量遍历和对比</td>
-<td>叫patch</td>
-</tr>
-<tr>
 <td></td>
 <td></td>
 <td></td>
-<td>以v-if/v-for为边界，将模板分成多个块。每个块中的结构是固定的。块只不需要进行遍历树，只需要比对绑定的值。</td>
-</tr>
-<tr>
 <td></td>
 <td></td>
 <td></td>
-<td>将静态节点、子树等渲染代码移到渲染函数外。这样可以减少渲染工作量</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td>动态数据节点标记（patchFlag）节点类型。调用节点类型比较方法。</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td>缓存监听函数。</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td>细分元素的更新类型。只比对需要变动的内容，只更新变动的内容。</td>
-</tr>
-<tr>
-<td>模板编译</td>
-<td></td>
-<td>compile把模板（*.vue）转化为render方法。render方法返回vdom</td>
 <td></td>
 </tr>
 <tr>
@@ -157,8 +137,6 @@
 <td></td>
 <td></td>
 <td></td>
-</tr>
-<tr>
 <td></td>
 <td></td>
 <td></td>
@@ -166,29 +144,70 @@
 </tr>
 </tbody>
 </table>
-<h2 id="diff">diff</h2>
-<h3 id="vue2-diff">vue2 diff</h3>
-<ul>
-<li>如果新节点有子节点而老节点没有子节点，则判断老节点是否有文本内容，如果有就清空老节点的文本内容，然后为其新增子节点。</li>
-<li>如果新节点没有子节点而老节点有子节点，则先删除老节点的子节点，然后设置文本内容。</li>
-<li>如果新节点没有子节点，老节点也没有子节点，则进行文本的比对，然后设置文本内容。</li>
-<li>如果新节点有子节点，老节点也有子节点，则进行新老子节点的比对，然后进行新增、移动、删除的操作。</li>
-</ul>
-<p><img src="/framework/vue3/vue2Diff.png" alt="vue2Diff"></p>
-<h3 id="vue3-patch">vue3 patch</h3>
-<h2 id="编译模板">编译模板</h2>
-<h3 id="vue2编译模板">vue2编译模板</h3>
-<pre><code>
-*.vue ----&gt; ast ----&gt; render() ----&gt; vdom ----&gt; 视图
-</code></pre>
-<p><img src="file:////framework/vue3/vue2Compile.png" alt="vue2Compile"></p>
-<h3 id="vue3编译模板">vue3编译模板</h3>
-<ol>
-<li>调用baseParse()，解析模板，返回ast.</li>
-<li>调用transform()，转换ast.</li>
-<li>调用generate()，根据ast生成render方法并返回。</li>
-</ol>
-<p><img src="file:////framework/vue3/vue3Compile.png" alt="vue3Compile"></p>
+<!-- prettier-ignore-end -->
+<h2 id="api">api</h2>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<p><code>vite.fn(param, first: string, second: boolean = true) =&gt; void</code>
+description</p>
+<p><code>vite.fn(param, [options: {a: string, b?: number}])</code>
+description</p>
+<h2 id="principle">principle</h2>
+<p>此包的处理逻辑。</p>
+<h3 id="uml">uml</h3>
+<pre><code></code></pre>
+<h2 id="todo">todo</h2>
+<blockquote>
+<p>未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote>
 
         
         

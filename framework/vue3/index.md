@@ -56,7 +56,7 @@ npm i -g @vue/cli  # vue3对应的是@vue/cli v4.5
 yarn global add @vue/cli
 ```
 
-### [vite]()
+### [vite](/framework/vue3/vite.html)
 
 vue 团队开发的 web 开发构建工具。
 

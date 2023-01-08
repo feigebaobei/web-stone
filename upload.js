@@ -251,13 +251,10 @@ c.on('ready', () => {
     }
     // let p = 'framework/react/immutable'
     let p = [
-      'package-manager/npm/subCommand.html',
-      'framework/vue3/api.html',
-      'framework/vue3/index.html',
-      'framework/vue3/performation.html',
-      'framework/vue3/vue3.html',
-      'framework/vue3/vue3&ts.html',
-      'framework/vue3/wayOfUsing.html',
+      // 'framework/vue3/vue2&vue3.html',
+      // 'framework/vue3/vue2Compile.png',
+      // 'framework/vue3/vue2Diff.png',
+      // 'framework/vue3/index.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
@@ -276,24 +273,24 @@ c.on('ready', () => {
     // 测试上传单个文件
     // uploadFile(p)
     // 上传多个文件
-    // uploadFiles(p)
-    //   .then(() => {
-    //     log('then', '全部完成')
-    //     c.end()
-    //   })
-    //   .catch((err) => {
-    //     log('catch', err)
-    //     c.end()
-    //   })
-    // 创建目录
-    makeDir(p)
+    uploadFiles(p)
       .then(() => {
+        log('then', '全部完成')
         c.end()
       })
       .catch((err) => {
         log('catch', err)
         c.end()
       })
+    // 创建目录
+    // makeDir(p)
+    //   .then(() => {
+    //     c.end()
+    //   })
+    //   .catch((err) => {
+    //     log('catch', err)
+    //     c.end()
+    //   })
     // 测试上传一个目录
     // uploadDir(p).then(res => {
     //     log('全部上传完成', res)
