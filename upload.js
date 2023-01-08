@@ -251,10 +251,11 @@ c.on('ready', () => {
     }
     // let p = 'framework/react/immutable'
     let p = [
-      // 'framework/vue3/vue2&vue3.html',
-      // 'framework/vue3/vue2Compile.png',
-      // 'framework/vue3/vue2Diff.png',
-      // 'framework/vue3/index.html',
+      'framework/vue3/index.html',
+      'framework/vue3/vite.html',
+      'framework/vue3/vue2&vue3.html',
+      'jsPackages/data-footstone.html',
+      'jsPackages/vue3/principle.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
