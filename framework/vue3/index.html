@@ -83,12 +83,12 @@
 </blockquote>
 <h3 id="feature">feature</h3>
 <ul>
-<li>增强静态html</li>
-<li>以webComponents嵌入到现有页面中。</li>
+<li>增强静态 html</li>
+<li>以 webComponents 嵌入到现有页面中。</li>
 <li>spa</li>
 <li>ssr</li>
 <li>ssg</li>
-<li>可开发desktop / mobile / webgl / terminal</li>
+<li>可开发 desktop / mobile / webgl / terminal</li>
 </ul>
 <h2 id="基本概念">基本概念</h2>
 <table>
@@ -123,7 +123,7 @@
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://unpkg.com/vue@next&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 </code></pre>
 <h3 id="下载并自托管">下载并自托管</h3>
-<p>下载vue的js文件后放在自己的服务器上。在前端项目中使用自己服务器上的js文件。</p>
+<p>下载 vue 的 js 文件后放在自己的服务器上。在前端项目中使用自己服务器上的 js 文件。</p>
 <h3 id="npm">npm</h3>
 <p>用于构建大型应用。需要与打包工具一起使用。</p>
 <pre><code class="language-shell">npm i vue@next
@@ -136,7 +136,7 @@
 yarn global add @vue/cli
 </code></pre>
 <h3 id="vite"><a href="">vite</a></h3>
-<p>vue团队开发的web开发构建工具。</p>
+<p>vue 团队开发的 web 开发构建工具。</p>
 <pre><code class="language-shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">npm 6.x</span>
 <span class="hljs-meta prompt_">$ </span><span class="language-bash">npm init vite@latest &lt;project-name&gt; --template vue</span>
 <span class="hljs-meta prompt_"># </span><span class="language-bash">npm 7+，需要加上额外的双短横线</span>
@@ -165,51 +165,39 @@ $ </span><span class="language-bash">pnpm create vite &lt;project-name&gt; -- --
     &lt;span v-if=&quot;seen&quot;&gt;str&lt;/span&gt;
     &lt;span v-html=&quot;forHtml&quot;&gt;&lt;/span&gt; // 不要把用户输入的数据直接显示，防止xss攻击。
 &lt;/div&gt;
-const Counter = {
-    data() {
-        return {
-            counter: 0,
-            message: 'str',
-            seen: true,
-            forHtml: '&lt;span&gt;hi&lt;/span&gt;'
-        }
-    },
-    methods: {
-        clickHandler() {...}
-    }
-}
-Vue.createApp(Counter).mount('#id')
+const Counter = { data() { return { counter: 0, message: 'str', seen: true,
+forHtml: '
+&lt;span&gt;hi&lt;/span&gt;
+' } }, methods: { clickHandler() {...} } } Vue.createApp(Counter).mount('#id')
 </code></pre>
 <h3 id="创建项目"><a href="/framework/vue3/demo.html">创建项目</a></h3>
 <h2 id="性能--优化"><a href="/framework/vue3/performation.html">性能 &amp; 优化</a></h2>
 <h2 id="vue--ts"><a href="/framework/vue3/vue3&amp;ts.html">vue + ts</a></h2>
 <h2 id="使用方法"><a href="/framework/vue3/wayOfUsing.html">使用方法</a></h2>
 <h2 id="principle"><a href="/framework/vue3/principle.html">principle</a></h2>
+<h2 id="vue2--vue3"><a href="/framework/vue3/vue2&amp;vue3.html">vue2 &amp; vue3</a></h2>
 <h2 id="title">title</h2>
 <h2 id="title">title</h2>
 <h3 id="组件树">组件树</h3>
 <pre><code class="language-js"><span class="hljs-keyword">const</span> <span class="hljs-title class_">TodoItem</span> = {
-    <span class="hljs-attr">template</span>: <span class="hljs-string">`&lt;li&gt;string&lt;/li&gt;`</span>
+  <span class="hljs-attr">template</span>: <span class="hljs-string">`&lt;li&gt;string&lt;/li&gt;`</span>,
 }
 <span class="hljs-keyword">const</span> app = <span class="hljs-title class_">Vue</span>.<span class="hljs-title function_">createApp</span>({
-    <span class="hljs-attr">components</span>: { <span class="hljs-comment">// 注册全局组件</span>
-        <span class="hljs-title class_">TodoItem</span>
-    }
+  <span class="hljs-attr">components</span>: {
+    <span class="hljs-comment">// 注册全局组件</span>
+    <span class="hljs-title class_">TodoItem</span>,
+  },
 })
 app.<span class="hljs-title function_">mount</span>(<span class="hljs-string">&#x27;#id&#x27;</span>)
 </code></pre>
 <h3 id="运行时--编译器-vs-仅运行时">运行时 + 编译器 vs. 仅运行时</h3>
-<pre><code class="language-vue">Vue.createApp({ //   需要编译器
-    template: '&lt;div&gt;{{hi}}&lt;/div&gt;'
-})
-Vue.createApp({ // 不需要编译器
-    render() {
-        return Vue.h('div', {}, this.hi)
-    }
-})
+<pre><code class="language-vue">Vue.createApp({ // 需要编译器 template: '
+&lt;div&gt;{{hi}}&lt;/div&gt;
+' }) Vue.createApp({ // 不需要编译器 render() { return Vue.h('div', {}, this.hi)
+} })
 </code></pre>
-<p>当在客户端上编译模板时（即：把字符串给template选项，或者在元素dom内使用html为模板），需要完成的构建版本。<br>
-打包时使用<code>vue-loader</code>处理过的<code>*.vue</code>文件会被预编译为js。所以在客户端只需要构建版本。</p>
+<p>当在客户端上编译模板时（即：把字符串给 template 选项，或者在元素 dom 内使用 html 为模板），需要完成的构建版本。<br>
+打包时使用<code>vue-loader</code>处理过的<code>*.vue</code>文件会被预编译为 js。所以在客户端只需要构建版本。</p>
 <h2 id="指令">指令</h2>
 <ul>
 <li>以<code>v-</code>开头。</li>
@@ -234,24 +222,13 @@ Vue.createApp({ // 不需要编译器
 <h3 id="自定义指令">自定义指令</h3>
 <p><code>v-dir:[arg]=&quot;value&quot;</code></p>
 <ul>
-<li>操作dom</li>
+<li>操作 dom</li>
 <li>抽象跨组件逻辑</li>
-<li>一般无dom</li>
+<li>一般无 dom</li>
 </ul>
-<pre><code class="language-vue">// 全局
-const app = Vue.createApp({})
-app.direction('focus', {
-    mounted(el) {
-        el.focus()
-    }
-})
-// 局部
-directives: {
-    focus: {
-        mounted(el) {el.focus()}
-    }
-}
-// 使用
+<pre><code class="language-vue">// 全局 const app = Vue.createApp({}) app.direction('focus', { mounted(el) {
+el.focus() } }) // 局部 directives: { focus: { mounted(el) {el.focus()} } } //
+使用
 &lt;input v-focus /&gt;
 </code></pre>
 <table>
@@ -295,39 +272,27 @@ directives: {
 |unmounted|当指令与元素解除绑定且父组件已卸载时，只调用一次。||||</p>
 <p>参数都是<code>el/binding/vnode/prevVnode</code></p>
 <h2 id="data">data</h2>
-<p>在组件中定义了data属性（其值是方法）中的数据会被封装在组件实例的<code>$data</code>属性内。（为方便）也在组件实例的顶级属性（与$data兄弟级）中设置了这些属性。因此可以在组件的template中直接使用这些属性。<br>
+<p>在组件中定义了 data 属性（其值是方法）中的数据会被封装在组件实例的<code>$data</code>属性内。（为方便）也在组件实例的顶级属性（与$data兄弟级）中设置了这些属性。因此可以在组件的template中直接使用这些属性。<br>
 <code>vm.key</code>、<code>$data.key</code>与<code>vm.$data.key</code>是同一个值。</p>
 <h2 id="methods">methods</h2>
-<p>vue为每个方法方法绑定this为当前组件。<br>
-不要使用箭头函数。否则会引发this不正确的问题。</p>
+<p>vue 为每个方法方法绑定 this 为当前组件。<br>
+不要使用箭头函数。否则会引发 this 不正确的问题。</p>
 <h3 id="参数">参数</h3>
 <p>绑定内联写法中使用<code>$event</code>表示原生事件。</p>
 <h2 id="计算">计算</h2>
 <p>计算属性的 getter 函数没有副作用，它更易于测试和理解。<br>
 包含响应式数据的复杂逻辑</p>
-<pre><code class="language-vue">computed: {
-    fullName: {
-        get() {...},
-        set(value) {
-            ...
-        },
-    }
-}
-vm.fullName = 'xxx' // 设置
-vm.fullName         // 获取
+<pre><code class="language-vue">computed: { fullName: { get() {...}, set(value) { ... }, } } vm.fullName = 'xxx'
+// 设置 vm.fullName // 获取
 </code></pre>
 <h2 id="watch">watch</h2>
 <p>当指定数据改变时执行。<br>
 可执行异步操作。<br>
 <code>vm.$watch</code></p>
-<pre><code class="language-vue">watch: {
-    question(nv, ov) {
-        ...
-    }
-}
+<pre><code class="language-vue">watch: { question(nv, ov) { ... } }
 </code></pre>
 <h2 id="computed--watch--methods">computed &amp; watch &amp; methods</h2>
-<p>为什么计算执行同步，watch执行异步？</p>
+<p>为什么计算执行同步，watch 执行异步？</p>
 <table>
 <thead>
 <tr>
@@ -425,19 +390,18 @@ data() {
 // 多重值 从数组中使用最后一个被浏览器支持的值。
 &lt;div :style=&quot;{display: ['-webkit-box', '-ms-flexbox', 'flex']}&quot;&gt;
 </code></pre>
-<p>vue会使用<code>vendor prefix</code>添加样式前缀。</p>
+<p>vue 会使用<code>vendor prefix</code>添加样式前缀。</p>
 <h2 id="常用指令">常用指令</h2>
 <h3 id="条件渲染">条件渲染</h3>
-<pre><code class="language-vue">v-if
-v-else 必须紧跟在v-if后面
-v-else-if
-&lt;template v-if=&quot;params&quot;&gt; 用分组。与v-for分开。template不会渲染为可岁元素
-v-show
+<pre><code class="language-vue">v-if v-else 必须紧跟在v-if后面 v-else-if
+&lt;template v-if=&quot;params&quot;&gt;
+  用分组。与v-for分开。template不会渲染为可岁元素 v-show
+&lt;/template&gt;
 </code></pre>
 <h3 id="列表渲染-v-for">列表渲染 v-for</h3>
 <p>可用<code>v-for=&quot;(item, index) in arr&quot;</code>
 也可用<code>v-for=&quot;(item, index) of arr&quot;</code>
-可能是vue出生是<code>for...of</code>还未出生。vue使用for...in处理循环。后来for...of出生了。vue使用了与其相同的写法，也兼容了以前的写法。</p>
+可能是 vue 出生是<code>for...of</code>还未出生。vue 使用 for...in 处理循环。后来 for...of 出生了。vue 使用了与其相同的写法，也兼容了以前的写法。</p>
 <pre><code class="language-vue">&lt;ul&gt;
     &lt;li v-for=&quot;value in obj&quot; :key=&quot;value.id&quot;&gt;&lt;/li&gt;
     &lt;li v-for=&quot;(value, name) in obj&quot; :key=&quot;name&quot;&gt;&lt;/li&gt;
@@ -446,7 +410,7 @@ v-show
 </code></pre>
 <p>遍历对象时，是按照<code>Object.keys()</code>遍历的。</p>
 <h4 id="数组更新检测">数组更新检测</h4>
-<p>vue把改变数组的方法进行了处理。（为了实现响应式）。</p>
+<p>vue 把改变数组的方法进行了处理。（为了实现响应式）。</p>
 <ul>
 <li>push</li>
 <li>pop</li>
@@ -469,14 +433,14 @@ v-show
 <tbody>
 <tr>
 <td></td>
-<td>可以与templata标签一起使用</td>
-<td>可以与templata标签一起使用</td>
-<td>不可以与templata标签一起使用</td>
+<td>可以与 templata 标签一起使用</td>
+<td>可以与 templata 标签一起使用</td>
+<td>不可以与 templata 标签一起使用</td>
 </tr>
 <tr>
 <td></td>
 <td>v-if 的优先级大于 v-for</td>
-<td>不要在同一元素上使用v-if v-show</td>
+<td>不要在同一元素上使用 v-if v-show</td>
 <td></td>
 </tr>
 <tr>
@@ -518,20 +482,15 @@ v-show
 </tbody>
 </table>
 <h3 id="事件">事件</h3>
-<p><code>v-on</code>指令会为dom添加事件。
-react中是在vdom上添加事件的。</p>
+<p><code>v-on</code>指令会为 dom 添加事件。
+react 中是在 vdom 上添加事件的。</p>
 <pre><code class="language-vue">// 绑定方法名
 &lt;button @click=&quot;clickHander&quot;&gt;str&lt;/button&gt;
-...
-methods: {
-    clickHander(event) {...}
-}
-// 绑定内联方法
+... methods: { clickHander(event) {...} } // 绑定内联方法
 &lt;button @click=&quot;clickHander('params')&quot;&gt;str&lt;/button&gt;
 // 得到原生事件
-&lt;button @click=&quot;clickHander('params', $event)&quot;&gt;str&lt;/button&gt; // vue也有硬编码
-clickHander(msg, event) {...}
-// 绑定多个事件
+&lt;button @click=&quot;clickHander('params', $event)&quot;&gt;str&lt;/button&gt;
+// vue也有硬编码 clickHander(msg, event) {...} // 绑定多个事件
 &lt;button @click=&quot;one('params'), two&quot;&gt;str&lt;/button&gt;
 </code></pre>
 <h4 id="修饰符">修饰符</h4>
@@ -573,30 +532,30 @@ clickHander(msg, event) {...}
 <li>.right</li>
 <li>.middle</li>
 </ul>
-<p>v-model的修饰符</p>
+<p>v-model 的修饰符</p>
 <ul>
-<li>.lazy // input事件改为change事件</li>
-<li>.number // 若能被parseFloat()处理，则返回number.否则返回string.</li>
+<li>.lazy // input 事件改为 change 事件</li>
+<li>.number // 若能被 parseFloat()处理，则返回 number.否则返回 string.</li>
 <li>.trim // 去掉首尾空格</li>
 </ul>
-<h4 id="vue事件--react事件">vue事件 &amp; react事件</h4>
+<h4 id="vue-事件--react-事件">vue 事件 &amp; react 事件</h4>
 <table>
 <thead>
 <tr>
 <th></th>
-<th>vue事件</th>
-<th>react事件</th>
+<th>vue 事件</th>
+<th>react 事件</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td></td>
-<td>绑定到dom上</td>
-<td>绑定到vdom上</td>
+<td>绑定到 dom 上</td>
+<td>绑定到 vdom 上</td>
 </tr>
 <tr>
 <td></td>
-<td>原生dom的事件</td>
+<td>原生 dom 的事件</td>
 <td>合成事件</td>
 </tr>
 <tr>
@@ -606,39 +565,34 @@ clickHander(msg, event) {...}
 </tr>
 <tr>
 <td></td>
-<td>当vdom(dom)被销毁时，绑定的事件也一起被销毁。</td>
+<td>当 vdom(dom)被销毁时，绑定的事件也一起被销毁。</td>
 <td>-</td>
 </tr>
 </tbody>
 </table>
 <h2 id="表单输入绑定">表单输入绑定</h2>
 <p>一般使用<code>v-model</code>。它为表单元素提供了双向数据绑定的语法糖。<br>
-当使用输入法时不会在组织文字时触发input.(可能内部使用了<code>xxxx</code>)</p>
+当使用输入法时不会在组织文字时触发 input.(可能内部使用了<code>xxxx</code>)</p>
 <pre><code class="language-vue">// text
 &lt;input v-model=&quot;msg&quot; /&gt;
-data() {
-    return {msg: ''}
-}
-// textarea
+data() { return {msg: ''} } // textarea
 &lt;textarea v-model=&quot;msg&quot; /&gt;
-data() {return {msg: ''}}
-// checkbox
+data() {return {msg: ''}} // checkbox
 &lt;input type=&quot;checkbox&quot; v-model=&quot;checked&quot; /&gt;
-data() {return {checkbox: false}} // 一般单个复选框使用boolean,多个复选框使用数组。
-// 
+data() {return {checkbox: false}} //
+一般单个复选框使用boolean,多个复选框使用数组。 //
 &lt;input type=&quot;checkbox&quot; value=&quot;one&quot; v-model=&quot;arr&quot; /&gt;
 &lt;input type=&quot;checkbox&quot; value=&quot;two&quot; v-model=&quot;arr&quot; /&gt;
 &lt;input type=&quot;checkbox&quot; value=&quot;three&quot; v-model=&quot;arr&quot; /&gt;
-data() {return {arr: ['two']}} // 设置默认选中值
-// radio
+data() {return {arr: ['two']}} // 设置默认选中值 // radio
 &lt;input type=&quot;radio&quot; value=&quot;one&quot; id=&quot;radio&quot; v-model=&quot;picked&quot; /&gt;
 &lt;input type=&quot;radio&quot; value=&quot;two&quot; id=&quot;radio&quot; v-model=&quot;picked&quot; /&gt;
-data() {return {picked: ''}} // radio一般于字符串绑定
-// select
+data() {return {picked: ''}} // radio一般于字符串绑定 // select
 &lt;select v-model=&quot;selected&quot;&gt;
     &lt;option v-for=&quot;(value, name, index) in arr&quot; :value=&quot;value.v&quot;&gt;{{index}}: {{name}} {{value.label}}&lt;/option&gt;
 &lt;/select&gt;
-data() {return {arr: [...], selected: ''}} // 单选时又是与字符串绑定。官网在多选时使用了字符串。经过测试可以使用数组。感觉数组更适合多选。
+data() {return {arr: [...], selected: ''}} //
+单选时又是与字符串绑定。官网在多选时使用了字符串。经过测试可以使用数组。感觉数组更适合多选。
 </code></pre>
 <h3 id="值绑定">值绑定</h3>
 <pre><code class="language-vue">&lt;input type=&quot;radio&quot; v-model=&quot;picked&quot; value=&quot;a&quot;&gt; // 单选框一般与字符串绑定。
@@ -650,7 +604,7 @@ data() {return {arr: [...], selected: ''}} // 单选时又是与字符串绑定�
     &lt;option :value=&quot;{number: 123}&quot;&gt;12345&lt;/option&gt;
 &lt;/select&gt;
 </code></pre>
-<h3 id="如何处理input--checkbox--radio--select">如何处理input &amp; checkbox &amp; radio &amp; select</h3>
+<h3 id="如何处理-input--checkbox--radio--select">如何处理 input &amp; checkbox &amp; radio &amp; select</h3>
 <table>
 <thead>
 <tr>
@@ -714,20 +668,16 @@ data() {return {arr: [...], selected: ''}} // 单选时又是与字符串绑定�
 </tbody>
 </table>
 <h2 id="组件"><a href="/framework/vue3/component.html">组件</a></h2>
-<pre><code class="language-vue">// 创建组件
-let app = Vue.createApp({})
-// 定义为全局组件
-app.component('comp-name', {
-    data() { return {count: 0} },
-    template: `&lt;button @click=&quot;count++&quot;&gt;{{count}}&lt;/button&gt;`
-})
+<pre><code class="language-vue">// 创建组件 let app = Vue.createApp({}) // 定义为全局组件
+app.component('comp-name', { data() { return {count: 0} }, template: `
+&lt;button @click=&quot;count++&quot;&gt;{{count}}&lt;/button&gt;
+` })
 </code></pre>
 <h3 id="props">props</h3>
-<p>子组件使用props属性接收从父组件来的数据。</p>
-<pre><code class="language-vue">app.component('comp-name', {
-    props: ['title'],
-    template: `&lt;span&gt;{{title}}&lt;/span&gt;`
-})
+<p>子组件使用 props 属性接收从父组件来的数据。</p>
+<pre><code class="language-vue">app.component('comp-name', { props: ['title'], template: `
+&lt;span&gt;{{title}}&lt;/span&gt;
+` })
 </code></pre>
 <h3 id="emit">$emit</h3>
 <p>用于触发父组件来的事件。</p>
@@ -736,45 +686,43 @@ app.component('comp-name', {
 $emit('event-name', params)
 </code></pre>
 <h3 id="v-model">v-model</h3>
-<p>用于input(text)时，等价于value + input</p>
+<p>用于 input(text)时，等价于 value + input</p>
 <pre><code class="language-vue">&lt;input type=&quot;text&quot; :value=&quot;dValue&quot; @input=&quot;dValue = $event.target.value&quot; /&gt;
 </code></pre>
 <p>用于组件时，</p>
-<pre><code class="language-vue">&lt;comp-name :model-value=&quot;dValue&quot; @update:model-value=&quot;dValue = $event&quot;&gt;&lt;/comp-name&gt;
-app.component('comp-name', {
-    props: ['modelValue'],
-    emits: ['update:modelValue'],
-    template: `xxx`
-})
+<pre><code class="language-vue">&lt;comp-name
+  :model-value=&quot;dValue&quot;
+  @update:model-value=&quot;dValue = $event&quot;
+&gt;&lt;/comp-name&gt;
+app.component('comp-name', { props: ['modelValue'], emits:
+['update:modelValue'], template: `xxx` })
 </code></pre>
 <h4 id="为什么命名方式不同">为什么命名方式不同</h4>
-<p>html中不区分大小写。vue在内部做了命名转化。</p>
+<p>html 中不区分大小写。vue 在内部做了命名转化。</p>
 <h3 id="插槽">插槽</h3>
 <h3 id="动态组件">动态组件</h3>
 <pre><code class="language-vue">&lt;component :is=&quot;currentTabComponent&quot; /&gt;
 </code></pre>
 <p>必须使用<code>&lt;component&gt;</code>标签<br>
-currentTabComponent是</p>
+currentTabComponent 是</p>
 <ul>
 <li>已经注册的组件名</li>
 <li>一个组件选项对象</li>
 </ul>
 <h3 id="异步组件">异步组件</h3>
-<pre><code class="language-vue">Vue.defineAsyncComponent(() =&gt; new Promise((s, j) =&gt; {
-    s({
-        template: `&lt;div&gt;str&lt;/div&gt;`
-    })
-}))
+<pre><code class="language-vue">Vue.defineAsyncComponent(() =&gt; new Promise((s, j) =&gt; { s({ template: `
+&lt;div&gt;str&lt;/div&gt;
+` }) }))
 </code></pre>
 <h3 id="单文件组件">单文件组件</h3>
 <p>使用<a href="/jsPackages/compilerSfc.html"><code>@vue/compiler-sfc</code></a>编译</p>
-<h3 id="react组件--vue组件">react组件 &amp; vue组件</h3>
+<h3 id="react-组件--vue-组件">react 组件 &amp; vue 组件</h3>
 <table>
 <thead>
 <tr>
 <th></th>
-<th>react组件</th>
-<th>vue组件</th>
+<th>react 组件</th>
+<th>vue 组件</th>
 <th></th>
 </tr>
 </thead>
@@ -799,20 +747,20 @@ currentTabComponent是</p>
 </tr>
 <tr>
 <td></td>
-<td>state中保存本组件的数据</td>
+<td>state 中保存本组件的数据</td>
 <td>data()返回本组件的数据</td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td>访问 <a href="http://this.state.xxx">this.state.xxx</a></td>
-<td>js中访问 <a href="http://this.xxx">this.xxx</a>  temlate中访问 xxx</td>
+<td>js 中访问 <a href="http://this.xxx">this.xxx</a> temlate 中访问 xxx</td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td></td>
-<td>因this是指向本组件的实例（vdom）的。为了方便使用vue把data中的数据在本组件的一级属性中设置了一遍。this.$data就是data返回的对象。</td>
+<td>因 this 是指向本组件的实例（vdom）的。为了方便使用 vue 把 data 中的数据在本组件的一级属性中设置了一遍。this.$data 就是 data 返回的对象。</td>
 <td></td>
 </tr>
 <tr>
@@ -891,7 +839,7 @@ currentTabComponent是</p>
 </table>
 <h2 id="api">api</h2>
 <p>Vue.createApp({...})<br>
-返回一个全局组件。react在18以后也有了创建根组件的方法。<br>
+返回一个全局组件。react 在 18 以后也有了创建根组件的方法。<br>
 该组件的大部分方法可以链式调用。<br>
 除了<code>mount()</code>等。</p>
 <table>
@@ -935,7 +883,7 @@ currentTabComponent是</p>
 </tr>
 </tbody>
 </table>
-<h2 id="vue组件实例">vue组件实例</h2>
+<h2 id="vue-组件实例">vue 组件实例</h2>
 <ul>
 <li>其内置的属性是以<code>$</code>开头的。</li>
 <li>保留了以<code>_</code>开头的属性。<br>
@@ -943,12 +891,12 @@ currentTabComponent是</p>
 </ul>
 <h2 id="生命周期">生命周期</h2>
 <p><img src="https://v3.cn.vuejs.org/images/lifecycle.svg" alt="生命周期"></p>
-<p>不要在生命周期方法上使用箭头函数，会影响this指向。</p>
+<p>不要在生命周期方法上使用箭头函数，会影响 this 指向。</p>
 <table>
 <thead>
 <tr>
 <th></th>
-<th>选项式api</th>
+<th>选项式 api</th>
 <th>hook inside setup</th>
 </tr>
 </thead>
@@ -1023,10 +971,10 @@ currentTabComponent是</p>
 <h2 id="组件间传递数据"><a href="/framework/dataTrasmit/index.html">组件间传递数据</a></h2>
 <h2 id="模板引用">模板引用</h2>
 <p>就是在父组件上使用<code>ref</code>属性。<br>
-然后在js中使用<code>this.$refs.xxx</code>或者<code>xxx.value</code></p>
+然后在 js 中使用<code>this.$refs.xxx</code>或者<code>xxx.value</code></p>
 <pre><code class="language-vue">&lt;template&gt;
-    // 使用
-    &lt;div ref=&quot;root&quot;&gt;...&lt;/div&gt;
+  // 使用
+  &lt;div ref=&quot;root&quot;&gt;...&lt;/div&gt;
 &lt;/template&gt;
 &lt;script&gt;
 import {ref, onMounted} form 'vue'
@@ -1048,8 +996,8 @@ export default {
 </code></pre>
 <h3 id="ref--ref--torefs--refs--ref">ref &amp; :ref &amp; toRefs &amp; <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mi>e</mi><mi>f</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">refs </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">re</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mord mathnormal">s</span></span></span></span> Ref</h3>
 <p>它们都是来自<code>reference</code>.<br>
-v2中只用于模板引用。到v3时多了响应式。<br>
-vue中还好多为了兼容以前的功能、逻辑、用法。搞的乱乱的代码。</p>
+v2 中只用于模板引用。到 v3 时多了响应式。<br>
+vue 中还好多为了兼容以前的功能、逻辑、用法。搞的乱乱的代码。</p>
 <table>
 <thead>
 <tr>
@@ -1065,7 +1013,7 @@ vue中还好多为了兼容以前的功能、逻辑、用法。搞的乱乱的�
 <tr>
 <td></td>
 <td>为基本类型数据做响应式</td>
-<td>template中调用ref后，可以模板引用。</td>
+<td>template 中调用 ref 后，可以模板引用。</td>
 <td>把响应式对象解构为多个响应式元素</td>
 <td>用于模板引用</td>
 <td></td>
@@ -1075,17 +1023,17 @@ vue中还好多为了兼容以前的功能、逻辑、用法。搞的乱乱的�
 <td><code>let a = ref(null)</code></td>
 <td><code>&lt;div ref=&quot;rp&quot; /&gt;</code></td>
 <td><code>toRefs(reactiveObject)</code></td>
-<td><code>this.$refs.xxx</code>取得模板，得到dom元素</td>
+<td><code>this.$refs.xxx</code>取得模板，得到 dom 元素</td>
 <td></td>
 </tr>
 </tbody>
 </table>
 <h2 id="watch--watcheffect"><a href="/framework/vue3/watch&amp;WatchEffect.html">watch &amp; watchEffect</a></h2>
 <h2 id="mixin">mixin</h2>
-<p>把可在组件中复用的部分（逻辑、功能）提取成为一个mixin对象。</p>
+<p>把可在组件中复用的部分（逻辑、功能）提取成为一个 mixin 对象。</p>
 <ul>
-<li>data/methods/components/directive会合并。本组件优先。</li>
-<li>生命周期方法都会执行，先执行mixin对象里的，再执行本组件里的。</li>
+<li>data/methods/components/directive 会合并。本组件优先。</li>
+<li>生命周期方法都会执行，先执行 mixin 对象里的，再执行本组件里的。</li>
 </ul>
 <pre><code class="language-js"><span class="hljs-comment">// 定义全局</span>
 <span class="hljs-keyword">const</span> app = <span class="hljs-title class_">Vue</span>.<span class="hljs-title function_">createApp</span>({...})
@@ -1098,85 +1046,53 @@ app.<span class="hljs-title function_">mixin</span>({
 <h2 id="teleport">teleport</h2>
 <p>将模板的这一部分移动到 DOM 中 Vue app 之外的其他位置。<br>
 挂载到目标元素的内部后面。</p>
-<pre><code class="language-vue">app.component('comp-name', {
-    template: `
-        &lt;button /&gt;
-        &lt;teleport to=&quot;body&quot;&gt;
+<pre><code class="language-vue">app.component('comp-name', { template: `
+&lt;button /&gt;
+&lt;teleport to=&quot;body&quot;&gt;
             ...
         &lt;/teleport&gt;
-    `
-})
+` })
 </code></pre>
 <h2 id="渲染函数">渲染函数</h2>
-<p>使用js方法（<code>h / createVNode</code>）编写组件。与sfc功能等价。<br>
-官网举了一个“动态dom标签”的例子。<br>
+<p>使用 js 方法（<code>h / createVNode</code>）编写组件。与 sfc 功能等价。<br>
+官网举了一个“动态 dom 标签”的例子。<br>
 一般用于在组件模版需要更灵活时</p>
-<pre><code class="language-vue">const {createApp, h} = Vue
-const app = createApp()
-app.component('comp-name', {
-    props: {
-        level: {
-            type: Number,
-            required: true
-        }
-    },
-    render() {
-        return h('h', this.level, {}, this.$slots.default())
-    }
-})
+<pre><code class="language-vue">const {createApp, h} = Vue const app = createApp() app.component('comp-name', {
+props: { level: { type: Number, required: true } }, render() { return h('h',
+this.level, {}, this.$slots.default()) } })
 </code></pre>
 <pre><code class="language-js"><span class="hljs-title function_">h</span>(
-    tag, <span class="hljs-comment">// String | Object | Function  一个html标签名、一个组件、一个异步组件、一个函数式组件</span>
-    props, <span class="hljs-comment">// Object</span>
-    children, <span class="hljs-comment">// String | Array | Object  需要唯一</span>
+  tag, <span class="hljs-comment">// String | Object | Function  一个html标签名、一个组件、一个异步组件、一个函数式组件</span>
+  props, <span class="hljs-comment">// Object</span>
+  children <span class="hljs-comment">// String | Array | Object  需要唯一</span>
 )
 </code></pre>
-<pre><code class="language-vue">// 所有事件名都是on+大驼峰命名，可以再加大驼峰的事件修饰符。
-const {h, resolveDomponent, resolveDynamicComponent, resolveDirective, withDirectives} = Vue
-app.component('comp-name', {
-    fn() {...},
-    // 在插槽函数外面调用
-    let CompNameA = resolveComponent('comp-name-a') // 解构全局组件
-    let CompNameB = resolveDynamicComponent('comp-name-b') // 解构全局动态组件
-    // &lt;comp-name-b :is=&quot;xxx&quot; /&gt;
-    // keep-alive transition transition-group teleport 不需要使用resolveComponent处理。直接从Vue中取出后使用。
-    render() {
-        return h('a-name', {
-            // v-model
-            modelValue: xxx,
-            'onUpdate:modelValue': v =&gt; this.$emit('update:modelValue', v),
-            // 事件
-            'onClickCapture': this.fn,
-        }, {
-            // 设置插槽
-            this.$slots.default(),
-            this.$slots.slotName({k: v}), // 作用域插槽
-            // 使用插槽
-            slotName: (props) =&gt; h(...)
-        })
-    }
-    render() {
-        let pin = resolveDirective('pin')
-        return withDirectives(h('div', [
-            [pin, 200, 'top', {animate: true}]
-        ]))
-    }
-})
+<pre><code class="language-vue">// 所有事件名都是on+大驼峰命名，可以再加大驼峰的事件修饰符。 const {h,
+resolveDomponent, resolveDynamicComponent, resolveDirective, withDirectives} =
+Vue app.component('comp-name', { fn() {...}, // 在插槽函数外面调用 let CompNameA
+= resolveComponent('comp-name-a') // 解构全局组件 let CompNameB =
+resolveDynamicComponent('comp-name-b') // 解构全局动态组件 //
+&lt;comp-name-b :is=&quot;xxx&quot; /&gt;
+// keep-alive transition transition-group teleport
+不需要使用resolveComponent处理。直接从Vue中取出后使用。 render() { return
+h('a-name', { // v-model modelValue: xxx, 'onUpdate:modelValue': v =&gt;
+this.$emit('update:modelValue', v), // 事件 'onClickCapture': this.fn, }, { //
+设置插槽 this.$slots.default(), this.$slots.slotName({k: v}), // 作用域插槽 //
+使用插槽 slotName: (props) =&gt; h(...) }) } render() { let pin =
+resolveDirective('pin') return withDirectives(h('div', [ [pin, 200, 'top',
+{animate: true}] ])) } })
 </code></pre>
-<p>当使用<code>@vue/babel-plugin-jsx</code>时，可以在vue文件中使用jsx语法。</p>
-<pre><code class="language-vue">import CompName from './CompName.vue'
-const app = createApp({
-    render() {
-        return (&lt;CompName&gt;
+<p>当使用<code>@vue/babel-plugin-jsx</code>时，可以在 vue 文件中使用 jsx 语法。</p>
+<pre><code class="language-vue">import CompName from './CompName.vue' const app = createApp({ render() { return
+(
+&lt;CompName&gt;
         ...
-        &lt;/CompName&gt;)
-    }
-})
-app.mount('#root')
+        &lt;/CompName&gt;
+) } }) app.mount('#root')
 </code></pre>
 <h2 id="插件">插件</h2>
 <p>插件是自包含的代码，通常向 Vue 添加全局级功能。它可以是公开 install() 方法的 object，也可以是 function
-组件库就是使用公开install()添加组件的。</p>
+组件库就是使用公开 install()添加组件的。</p>
 <h3 id="编写插件">编写插件</h3>
 <pre><code class="language-js"><span class="hljs-comment">// plugins/first.js</span>
 <span class="hljs-comment">// 公开install方法</span>
@@ -1189,7 +1105,7 @@ app.mount('#root')
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {...}
 </code></pre>
 <h3 id="使用插件">使用插件</h3>
-<pre><code class="language-js"><span class="hljs-keyword">import</span> {createApp} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
+<pre><code class="language-js"><span class="hljs-keyword">import</span> { createApp } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
 <span class="hljs-keyword">import</span> <span class="hljs-title class_">Root</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./App.vue&#x27;</span>
 <span class="hljs-keyword">import</span> first <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./plugins/first.js&#x27;</span>
 <span class="hljs-keyword">const</span> app = <span class="hljs-title function_">createApp</span>(root)
@@ -1198,9 +1114,9 @@ app.<span class="hljs-title function_">mount</span>(<span class="hljs-string">&#
 </code></pre>
 <h2 id="响应式">响应式</h2>
 <ul>
-<li>proxy对象无法对基本类型的数据做响应式，所以vue3把基本类型的数据转化为<code>{value: xx}</code>。</li>
-<li>基本响应式api是reactive。ref是基于reactive开发出来的。</li>
-<li>readonly可防止修改响应式对象</li>
+<li>proxy 对象无法对基本类型的数据做响应式，所以 vue3 把基本类型的数据转化为<code>{value: xx}</code>。</li>
+<li>基本响应式 api 是 reactive。ref 是基于 reactive 开发出来的。</li>
+<li>readonly 可防止修改响应式对象</li>
 </ul>
 <h3 id="reactive--ref">reactive &amp; ref</h3>
 <table>
@@ -1227,7 +1143,7 @@ app.<span class="hljs-title function_">mount</span>(<span class="hljs-string">&#
 </tr>
 <tr>
 <td></td>
-<td>使用toRefs可解析为响应式</td>
+<td>使用 toRefs 可解析为响应式</td>
 <td>-</td>
 <td></td>
 </tr>
@@ -1260,7 +1176,7 @@ app.<span class="hljs-title function_">mount</span>(<span class="hljs-string">&#
 <h3 id="watcheffect"><a href="/framework/vue3/watch&amp;WatchEffect.html">watchEffect</a></h3>
 <h2 id="nexttick"><a href="">nextTick</a></h2>
 <h2 id="测试"><a href="/framework/vue3/test.html">测试</a></h2>
-<h2 id="与ts结合使用"><a href="/framework/vue3/tsTogether.html">与ts结合使用</a></h2>
+<h2 id="与-ts-结合使用"><a href="/framework/vue3/tsTogether.html">与 ts 结合使用</a></h2>
 <h2 id="api"><a href="/framework/vue3/api.html">api</a></h2>
 <h2 id="开发跨端应用"><a href="/framework/vue3/devMobile.html">开发跨端应用</a></h2>
 <h2 id="为生产打包"><a href="/framework/vue3/buildTogether.html">为生产打包</a></h2>
@@ -1271,19 +1187,20 @@ app.<span class="hljs-title function_">mount</span>(<span class="hljs-string">&#
 <h2 id="title">title</h2>
 <h2 id="title">title</h2>
 <h2 id="principle"><a href="/framework/vue3/principle.html">principle</a></h2>
-<p>该包负责把<code>*.vue</code>的代码转换为操作dom的代码。操作完dom后由浏览器根据dom显示出来，中间包括大量的重绘、回流。<br>
-在<code>mvvm</code>框架流行之间有面向dom开发的框架——jquery。它也是操作dom。然后让浏览器做重绘、回流的工作。<br>
-把数据做成可生成html代码的js代码，然后交给浏览器运行。vue就做了这一件事。<br>
+<p>该包负责把<code>*.vue</code>的代码转换为操作 dom 的代码。操作完 dom 后由浏览器根据 dom 显示出来，中间包括大量的重绘、回流。<br>
+在<code>mvvm</code>框架流行之间有面向 dom 开发的框架——jquery。它也是操作 dom。然后让浏览器做重绘、回流的工作。<br>
+把数据做成可生成 html 代码的 js 代码，然后交给浏览器运行。vue 就做了这一件事。<br>
 真传一名话，假传万卷书。如一个道理很庞杂，那就不用学了。它是假的。若只有一句话，那剩下的就是去实践它了。</p>
 <h3 id="uml">uml</h3>
-<pre><code></code></pre>
+<pre><code>
+</code></pre>
 <h3 id="diff">diff</h3>
 <h2 id="confuse">confuse</h2>
 <ul>
 <li><a href="/framework/vue3/vModel.html">v-model</a></li>
 <li><a href="/framework/vue3/forceupdate.html">$forceupdate</a></li>
 </ul>
-<h2 id="vue家庭">vue家庭</h2>
+<h2 id="vue-家庭">vue 家庭</h2>
 <ul>
 <li><a href="">vue2</a></li>
 <li><a href="/framework/vue3/vue3.html">vue3</a></li>
@@ -1307,9 +1224,9 @@ app.<span class="hljs-title function_">mount</span>(<span class="hljs-string">&#
 <h2 id="todo">todo</h2>
 <blockquote>
 <p>自己写一个指令。 V-teleport<br>
-v-if/v-for/v-show等常用指令是如何工作的。<br>
+v-if/v-for/v-show 等常用指令是如何工作的。<br>
 未来迭代计划。<br>
-不能够在setUp函数中使用data和methods.</p>
+不能够在 setUp 函数中使用 data 和 methods.</p>
 </blockquote>
 
         <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
