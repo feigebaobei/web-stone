@@ -78,20 +78,20 @@
     <body class="vscode-body vscode-light">
         <h1 id="principle">principle</h1>
 <h2 id="渲染机制">渲染机制</h2>
-<p>程序员使用vue框架，编写sfc文件。vue框架会把它们搞成vdom。vue框架根据vdom生成dom，当vdom改变时vue框架更新dom。</p>
-<h2 id="vue2不能做到的事">vue2不能做到的事</h2>
+<p>程序员使用 vue 框架，编写 sfc 文件。vue 框架会把它们搞成 vdom。vue 框架根据 vdom 生成 dom，当 vdom 改变时 vue 框架更新 dom。</p>
+<h2 id="vue2-不能做到的事">vue2 不能做到的事</h2>
 <ul>
-<li>在data中不声明的对象、属性，不能响应式。</li>
-<li>使用this.$set(this.data.k, 'p', v) 可实现响应式。</li>
+<li>在 data 中不声明的对象、属性，不能响应式。</li>
+<li>使用 this.$set(this.data.k, 'p', v) 可实现响应式。</li>
 <li>对数组根据下标改变数据时，不能响应式。</li>
-<li>使用vm.items.splice(arr, 1, nv) 可实现响应式。（vue2对splice做了修改）</li>
+<li>使用 vm.items.splice(arr, 1, nv) 可实现响应式。（vue2 对 splice 做了修改）</li>
 <li>当改变数组长度时，不能响应式。</li>
-<li>使用vm.items.splice(newLength) 可实现响应式</li>
-<li>内部使用Promise.then() MutationObserver setImmediate setTimeout处理异步功能。</li>
+<li>使用 vm.items.splice(newLength) 可实现响应式</li>
+<li>内部使用 Promise.then() MutationObserver setImmediate setTimeout 处理异步功能。</li>
 <li>Vue.nextTick(cb) 在数据变化后立即执行回调。</li>
 </ul>
 <h2 id="项目结构">项目结构</h2>
-<p>vue3是一个一库多包项目。</p>
+<p>vue3 是一个一库多包项目。</p>
 <pre><code>|-- packages
     |-- reactivity          // 响应式api。如：toRef/reactive/Effect/computed/watch.与框架无关，可以独立构建。
     |-- runtime-core        // 平台无关的运行时核心代码。包括虚拟dom渲染、组件实现和JavaScript API。可以使用这个包针对特定平台构建高价运行时（即定制渲染器）。
@@ -131,42 +131,44 @@
 </table>
 <h2 id="处理逻辑">处理逻辑</h2>
 <ol>
-<li>编译。使用compile方法，把*.vue编译为ast
+<li>编译。使用 compile 方法，把*.vue 编译为 ast
 <ol>
-<li>compile直接调用并返回了baseCompile</li>
+<li>compile 直接调用并返回了 baseCompile</li>
 </ol>
 </li>
-<li>转化。使用transform方法。对no.1中ast进行转换。为特定节点赋值。</li>
-<li>生成render方法。使用generator方法。对no.2的ast编译，生成render方法。</li>
+<li>转化。使用 transform 方法。对 no.1 中 ast 进行转换。为特定节点赋值。
+<ol>
+<li>此阶段处理指令。</li>
+</ol>
+</li>
+<li>生成 render 方法。使用 generator 方法。对 no.2 的 ast 编译，生成 render 方法。</li>
 </ol>
 <h3 id="静态提升">静态提升</h3>
-<p>transform中的hoistStatic方法会递归ast，把不具有响应式的代码序列化为字符串。编译时不处理它们。减少编译工作量。</p>
+<p>transform 中的 hoistStatic 方法会递归 ast，把不具有响应式的代码序列化为字符串。编译时不处理它们。减少编译工作量。</p>
 <p>只有静态内容可以被静态提升。</p>
-<p>静态内容会跳过render/patch.</p>
+<p>静态内容会跳过 render/patch.</p>
 <h3 id="generate">generate</h3>
 <p>根据环境不同（node/browser/ssr）生成不同风格的代码。</p>
 <h2 id="运行时">运行时</h2>
-<p>compile方法和runtime-dom包就是运行时的。</p>
-<p>createApp方法<br>
-创建vdom</p>
-<h3 id="render函数">render函数</h3>
-<p>patch就在这里执行。</p>
+<p>compile 方法和 runtime-dom 包就是运行时的。</p>
+<p>createApp 方法<br>
+创建 vdom</p>
+<h3 id="render-函数">render 函数</h3>
+<p>patch 就在这里执行。</p>
 <h4 id="patch">patch</h4>
-<p>比较新旧vdom的不同，再更新dom.</p>
+<p>比较新旧 vdom 的不同，再更新 dom.</p>
 <ul>
 <li>创建需要新增的节点</li>
 <li>移除不需要的节点</li>
 <li>移动、修改需要更新的节点</li>
 </ul>
 <ol>
-<li>若新旧节点是同一节点，则退出patch</li>
-<li>2节点不同类型（node.type/node.key都相等）时移除旧节点，使用新节点。</li>
+<li>若新旧节点是同一节点，则退出 patch</li>
+<li>2 节点不同类型（node.type/node.key 都相等）时移除旧节点，使用新节点。</li>
 <li>若新节点有<code>BAIL</code>标记，则不优化。</li>
 <li>根据新节点的类型，分别处理。
 <ul>
-<li>
-<h2 id="processcomponent">processComponent</h2>
-</li>
+<li>processComponent</li>
 </ul>
 </li>
 </ol>

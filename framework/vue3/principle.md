@@ -48,7 +48,9 @@ vue3 是一个一库多包项目。
 1. 编译。使用 compile 方法，把\*.vue 编译为 ast
    1. compile 直接调用并返回了 baseCompile
 2. 转化。使用 transform 方法。对 no.1 中 ast 进行转换。为特定节点赋值。
+   1. 此阶段处理指令。
 3. 生成 render 方法。使用 generator 方法。对 no.2 的 ast 编译，生成 render 方法。
+4. patch
 
 ### 静态提升
 
@@ -86,7 +88,6 @@ patch 就在这里执行。
 3. 若新节点有`BAIL`标记，则不优化。
 4. 根据新节点的类型，分别处理。
    - processComponent
-     -
 
 ##### processComponent
 
