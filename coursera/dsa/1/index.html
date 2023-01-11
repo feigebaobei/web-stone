@@ -255,7 +255,7 @@ S(s) 占用存储单元数 （通常不考虑）</p>
 </ul>
 <h2 id="2-subset">2-subset</h2>
 <h2 id="增长速度">增长速度</h2>
-<p><img src="file:////coursera/dsa/1/v.png" alt="增长速度"></p>
+<p><img src="/coursera/dsa/1/v.png" alt="增长速度"></p>
 <h1 id="no3-week">no.3 week</h1>
 <h2 id="算法分析">算法分析</h2>
 <p>主要任务：</p>
@@ -587,15 +587,17 @@ for (let j = 0; j &lt; i; j+= 2)
 }
 </code></pre>
 <h1 id="no5-week">no.5 week</h1>
-<h2 id="fibonacci查找">fibonacci查找</h2>
+<h2 id="fibonacci-查找">fibonacci 查找</h2>
 <p>没学会
-当数组长度n = fib(k) - 1，则m = fib(k - 1) - 1，分为二个数组。长度：（fib(k-1)-1, fib(k-2)-1）</p>
-<pre><code class="language-js"></code></pre>
+当数组长度 n = fib(k) - 1，则 m = fib(k - 1) - 1，分为二个数组。长度：（fib(k-1)-1, fib(k-2)-1）</p>
+<pre><code class="language-js">
+</code></pre>
 <h2 id="改进二分查找">改进二分查找</h2>
 <pre><code class="language-js"><span class="hljs-comment">// 版本b</span>
 <span class="hljs-comment">// 待测试</span>
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">bs</span> = (<span class="hljs-params">arr, e</span>) =&gt; {
-  <span class="hljs-keyword">let</span> lo = <span class="hljs-number">0</span>, hi = arr.<span class="hljs-property">length</span>
+  <span class="hljs-keyword">let</span> lo = <span class="hljs-number">0</span>,
+    hi = arr.<span class="hljs-property">length</span>
   <span class="hljs-keyword">let</span> m
   <span class="hljs-keyword">while</span> (hi - lo &gt; <span class="hljs-number">1</span>) {
     m = (hi + lo) &gt;&gt; <span class="hljs-number">1</span>
@@ -606,7 +608,7 @@ for (let j = 0; j &lt; i; j+= 2)
     }
   }
   <span class="hljs-keyword">return</span> arr[lo] === e ? lo : -<span class="hljs-number">1</span>
-} 
+}
 <span class="hljs-comment">// 版本c</span>
 <span class="hljs-comment">// 待测试</span>
 </code></pre>
@@ -649,6 +651,7 @@ for (let j = 0; j &lt; i; j+= 2)
 <li>快速排序</li>
 </ul>
 <h1 id="no6-week">no.6 week</h1>
+<h2 id="选择排序">选择排序</h2>
 <p>对于列表接口中的 find(e) 与 search(e)，其中一个重要区别在于 find 普适于所有列表，而 search 适用于有序列表。</p>
 <pre><code class="language-js">link.<span class="hljs-title function_">find</span>(e, n, p) <span class="hljs-comment">// 在link中p下标往前n个元素的范围内查找元素e.</span>
 link.<span class="hljs-title function_">find</span>(e, p, n) <span class="hljs-comment">// 在link中p下标往后n个元素的范围内查找元素e.</span>
@@ -675,6 +678,29 @@ link.<span class="hljs-title function_">find</span>(e, p, n) <span class="hljs-c
 </tr>
 </tbody>
 </table>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">arr</span>) =&gt; {
+  <span class="hljs-keyword">if</span> (!arr.<span class="hljs-property">length</span>) {
+    <span class="hljs-keyword">return</span> []
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">let</span> p = arr.<span class="hljs-property">length</span>
+    <span class="hljs-keyword">while</span> (p &gt; <span class="hljs-number">1</span>) {
+      <span class="hljs-keyword">let</span> M = arr[<span class="hljs-number">0</span>], q = <span class="hljs-number">0</span>
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">1</span>; i &lt; p; i++) {
+        <span class="hljs-keyword">if</span> (arr[i] &gt;= M) {
+          M = arr[i]
+          q = i
+        }
+      }
+      <span class="hljs-keyword">let</span> t = arr[q]
+      arr[q] = arr[p - <span class="hljs-number">1</span>]
+      arr[p - <span class="hljs-number">1</span>] = t
+      p--
+    }
+    <span class="hljs-keyword">return</span> arr  
+  }
+}
+</code></pre>
+<h2 id="插入排序">插入排序</h2>
 <h1 id="no7-week">no.7 week</h1>
 
         <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>

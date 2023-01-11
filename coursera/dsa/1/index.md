@@ -502,6 +502,8 @@ loglogn
 
 # no.6 week
 
+## 选择排序
+
 对于列表接口中的 find(e) 与 search(e)，其中一个重要区别在于 find 普适于所有列表，而 search 适用于有序列表。
 
 ```js
@@ -514,5 +516,32 @@ link.find(e, p, n) // 在link中p下标往后n个元素的范围内查找元素e
 |-|-|-|
 ||取出最大值（或最小值）移动一次|多次比较才能得到最大值（或最小值）。过程中会移动多次|
 ||||
+
+```js
+let f = (arr) => {
+  if (!arr.length) {
+    return []
+  } else {
+    let p = arr.length
+    while (p > 1) {
+      let M = arr[0],
+        q = 0
+      for (let i = 1; i < p; i++) {
+        if (arr[i] >= M) {
+          M = arr[i]
+          q = i
+        }
+      }
+      let t = arr[q]
+      arr[q] = arr[p - 1]
+      arr[p - 1] = t
+      p--
+    }
+    return arr
+  }
+}
+```
+
+## 插入排序
 
 # no.7 week
