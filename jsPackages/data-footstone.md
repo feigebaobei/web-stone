@@ -90,6 +90,7 @@ s.clear() // 清空栈
 |`singleChain#reverseSelft() => SingleChain`||使用递归的方式反转链表||||||
 |`singleChain#reverse() => SingleChain`||使用循环的方式反转链表||||||
 |`singleChain#clear() => void`||清空链表||||||
+|`singleChain#slice(from: N, to: N = this.length) => void`||返回指定范围内的元素组成的单向链表||||||
 <!-- prettier-ignore-end -->
 
 <!-- prettier-ignore-start -->
@@ -118,6 +119,7 @@ s.clear() // 清空栈
 |`singleCircleChain#insert(v: T, p: N) => boolean`||把指定元素插入到指定下标。返回是否插入成功。||||||
 |`singleCircleChain#removeAt(p: N) => T \| undefined`||返回被移删的元素||||||
 |`singleCircleChain#clear() => void`||清空链表||||||
+|`singleChain#slice(from: N, to: N = this.length) => void`||返回指定范围内的元素组成的单向循环链表||||||
 <!-- prettier-ignore-end -->
 
 <!-- prettier-ignore-start -->
@@ -149,17 +151,19 @@ s.clear() // 清空栈
 <!-- prettier-ignore-end -->
 
 <!-- prettier-ignore-start -->
-|BaseTree|params|description|type|default|enum|demo||
-|-|-|-|-|-|-|-|-|
-|``||||||||
-|``||||||||
-<!-- prettier-ignore-end -->
-
-<!-- prettier-ignore-start -->
 |BinarySearchTree|params|description|type|default|enum|demo||
 |-|-|-|-|-|-|-|-|
-|``||||||||
-|``||||||||
+|`new BinarySearchTree<T>()`||返回BST实例||||||
+|`root: BinarySearchTreeNodeOrNull<T>`||根节点||||||
+|`createNode: (v: T) => BinarySearchTreeNode<T>`||返回一个BST节点||||||
+|`insert: (v: T) => void`||插入一个节点||||||
+|`search: (v: T) => boolean`||查找树中是否存在指定的值。返回boolean。||||||
+|`traverse: (fn: Function, order: BinarySearchTreeOrder) => void`|`BinarySearchTreeOrder = 'preOrder' | 'inOrder' | 'postOrder'`。fn的参数是节点的value|使用指定顺序遍历树。||||||
+|`min: () => T | undefined`||返回树中最小的值||||||
+|`max: () => T | undefined`||返回树中最大的值||||||
+|`findMinNode: (node: BinarySearchTreeNodeOrNull<T>) => BinarySearchTreeNodeOrNull<T>`||返回指定节点下的最小的节点||||||
+|`findMaxNode: (node: BinarySearchTreeNodeOrNull<T>) => BinarySearchTreeNodeOrNull<T>`||返回指定节点下的最大的节点||||||
+|`remove: (v: T) => void`||移除指定值的节点||||||
 <!-- prettier-ignore-end -->
 
 <!-- prettier-ignore-start -->
@@ -179,11 +183,12 @@ s.clear() // 清空栈
 <!-- prettier-ignore-start -->
 |order|params|description|type|default|enum|demo||
 |-|-|-|-|-|-|-|-|
-|`bubbleSort(arr: any[], order = 'asc') => any[]`|`order: 'asc' \| 'des'`|冒泡排序||||||
-|`selectSort(arr: any[], order = 'asc') => any[]`|`order: 'asc' \| 'des'`|选择排序||||||
-|`mergeSort(arr: any[], order = 'asc') => any[]`|`order: 'asc' \| 'des'`|归并排序||||||
-|`insertSort(arr: any[], order = 'asc') => any[]`|`order: 'asc' \| 'des'`|插入排序||||||
-|`quickSort(arr: any[], order = 'asc') => any[]`|`order: 'asc' \| 'des'`|快速排序||||||
+|`bubbleSort(arr: any[], order = 'asc') => any[]`|`order: 'asc' \| 'des'`|冒泡排序。返回排好序的arr。会改变arr内元素的顺序。||||||
+|`selectSort(arr: any[], order = 'asc') => any[]`|`order: 'asc' \| 'des'`|选择排序。返回排好序的arr。会改变arr内元素的顺序。||||||
+|`mergeSort(arr: any[], order = 'asc') => any[]`|`order: 'asc' \| 'des'`|归并排序。返回排好序的arr。会改变arr内元素的顺序。||||||
+|`insertSort(arr: any[], order = 'asc') => any[]`|`order: 'asc' \| 'des'`|插入排序。返回排好序的arr。会改变arr内元素的顺序。||||||
+|`quickSort(arr: any[], order = 'asc') => any[]`|`order: 'asc' \| 'des'`|快速排序。返回排好序的数组。不会改变arr内元素的顺序。||||||
+|`versionOrder(arr: S[]) => S[]`||快速排序。返回长序的数组。会改变arr内元素的顺序。||||||
 <!-- prettier-ignore-end -->
 
 <!-- prettier-ignore-start -->

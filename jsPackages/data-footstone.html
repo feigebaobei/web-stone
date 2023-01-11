@@ -571,6 +571,16 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 <td></td>
 <td></td>
 </tr>
+<tr>
+<td><code>singleChain#slice(from: N, to: N = this.length) =&gt; void</code></td>
+<td></td>
+<td>返回指定范围内的元素组成的单向链表</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
 </tbody>
 </table>
 <!-- prettier-ignore-end -->
@@ -787,6 +797,16 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 <td></td>
 <td></td>
 </tr>
+<tr>
+<td><code>singleChain#slice(from: N, to: N = this.length) =&gt; void</code></td>
+<td></td>
+<td>返回指定范围内的元素组成的单向循环链表</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
 </tbody>
 </table>
 <!-- prettier-ignore-end -->
@@ -978,44 +998,6 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 <table>
 <thead>
 <tr>
-<th>BaseTree</th>
-<th>params</th>
-<th>description</th>
-<th>type</th>
-<th>default</th>
-<th>enum</th>
-<th>demo</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>``</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>``</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<!-- prettier-ignore-end -->
-<!-- prettier-ignore-start -->
-<table>
-<thead>
-<tr>
 <th>BinarySearchTree</th>
 <th>params</th>
 <th>description</th>
@@ -1028,9 +1010,9 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 </thead>
 <tbody>
 <tr>
-<td>``</td>
+<td><code>new BinarySearchTree&lt;T&gt;()</code></td>
 <td></td>
-<td></td>
+<td>返回BST实例</td>
 <td></td>
 <td></td>
 <td></td>
@@ -1038,9 +1020,99 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 <td></td>
 </tr>
 <tr>
-<td>``</td>
+<td><code>root: BinarySearchTreeNodeOrNull&lt;T&gt;</code></td>
+<td></td>
+<td>根节点</td>
 <td></td>
 <td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>createNode: (v: T) =&gt; BinarySearchTreeNode&lt;T&gt;</code></td>
+<td></td>
+<td>返回一个BST节点</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>insert: (v: T) =&gt; void</code></td>
+<td></td>
+<td>插入一个节点</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>search: (v: T) =&gt; boolean</code></td>
+<td></td>
+<td>查找树中是否存在指定的值。返回boolean。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>traverse: (fn: Function, order: BinarySearchTreeOrder) =&gt; void</code></td>
+<td>`BinarySearchTreeOrder = 'preOrder'</td>
+<td>'inOrder'</td>
+<td>'postOrder'`。fn的参数是节点的value</td>
+<td>使用指定顺序遍历树。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>`min: () =&gt; T</td>
+<td>undefined`</td>
+<td></td>
+<td>返回树中最小的值</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>`max: () =&gt; T</td>
+<td>undefined`</td>
+<td></td>
+<td>返回树中最大的值</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>findMinNode: (node: BinarySearchTreeNodeOrNull&lt;T&gt;) =&gt; BinarySearchTreeNodeOrNull&lt;T&gt;</code></td>
+<td></td>
+<td>返回指定节点下的最小的节点</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>findMaxNode: (node: BinarySearchTreeNodeOrNull&lt;T&gt;) =&gt; BinarySearchTreeNodeOrNull&lt;T&gt;</code></td>
+<td></td>
+<td>返回指定节点下的最大的节点</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>remove: (v: T) =&gt; void</code></td>
+<td></td>
+<td>移除指定值的节点</td>
 <td></td>
 <td></td>
 <td></td>
@@ -1144,7 +1216,7 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 <tr>
 <td><code>bubbleSort(arr: any[], order = 'asc') =&gt; any[]</code></td>
 <td><code>order: 'asc' | 'des'</code></td>
-<td>冒泡排序</td>
+<td>冒泡排序。返回排好序的arr。会改变arr内元素的顺序。</td>
 <td></td>
 <td></td>
 <td></td>
@@ -1154,7 +1226,7 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 <tr>
 <td><code>selectSort(arr: any[], order = 'asc') =&gt; any[]</code></td>
 <td><code>order: 'asc' | 'des'</code></td>
-<td>选择排序</td>
+<td>选择排序。返回排好序的arr。会改变arr内元素的顺序。</td>
 <td></td>
 <td></td>
 <td></td>
@@ -1164,7 +1236,7 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 <tr>
 <td><code>mergeSort(arr: any[], order = 'asc') =&gt; any[]</code></td>
 <td><code>order: 'asc' | 'des'</code></td>
-<td>归并排序</td>
+<td>归并排序。返回排好序的arr。会改变arr内元素的顺序。</td>
 <td></td>
 <td></td>
 <td></td>
@@ -1174,7 +1246,7 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 <tr>
 <td><code>insertSort(arr: any[], order = 'asc') =&gt; any[]</code></td>
 <td><code>order: 'asc' | 'des'</code></td>
-<td>插入排序</td>
+<td>插入排序。返回排好序的arr。会改变arr内元素的顺序。</td>
 <td></td>
 <td></td>
 <td></td>
@@ -1184,7 +1256,17 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 <tr>
 <td><code>quickSort(arr: any[], order = 'asc') =&gt; any[]</code></td>
 <td><code>order: 'asc' | 'des'</code></td>
-<td>快速排序</td>
+<td>快速排序。返回排好序的数组。不会改变arr内元素的顺序。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>versionOrder(arr: S[]) =&gt; S[]</code></td>
+<td></td>
+<td>快速排序。返回长序的数组。会改变arr内元素的顺序。</td>
 <td></td>
 <td></td>
 <td></td>
@@ -1505,7 +1587,7 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 </code></pre>
 <h2 id="todo">todo</h2>
 <blockquote>
-<p>我现在正在找工作。我想找一个技术骨干或前端Leader的岗位。有团队需要增加人手的可以联系我。18515195415@163.com
+<p>我现在正在找工作。我想找一个技术骨干或前端 Leader 的岗位。有团队需要增加人手的可以联系我。18515195415@163.com
 未来迭代计划。
 未来迭代计划。</p>
 </blockquote>

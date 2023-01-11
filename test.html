@@ -22,6 +22,70 @@
       const j = (o) => {
         clog(JSON.parse(JSON.stringify(o)))
       }
+
+let arr = [1,5,8,3,5,8,90,5,4,9,5,7]
+arr = [1,5,3,6,90,6,3,6,9,6,2,1]
+let quickSort = (arr, order = 'asc') => {
+    if (arr.length < 1) {
+        return arr;
+    }
+
+
+    // for test
+    let m = arr.length >> 1
+    // clog('m', m)
+    
+    
+    
+    // let p = arr[m];
+    // let [p] = arr.splice(m, 1)
+    let p = arr[m]
+    // let p = arr[m]
+    let left = [];
+    let right = [];
+    arr.forEach((item, index) => {
+      if (index !== m) {
+        switch (order) {
+            case 'asc':
+                if (item >= p) {
+                    right.push(item);
+                }
+                else {
+                    left.push(item);
+                }
+                break;
+            case 'des':
+                if (item <= p) {
+                    right.push(item);
+                }
+                else {
+                    left.push(item);
+                }
+                break;
+        }
+      }
+    });
+    // clog(p)
+    // clog(left)
+    // clog(right)
+    // return [...quickSort(left, order), p, ...quickSort(right, order)];
+    return quickSort(left, order).concat([p], quickSort(right, order))
+};
+
+
+clog(quickSort(arr))
+clog(quickSort(arr))
+clog(quickSort(arr))
+clog(quickSort(arr))
+// clog(arr)
+// clog(quickSort(arr, 'des'))
+// clog(quickSort(arr, 'des'))
+// clog(quickSort(arr, 'des'))
+
+
+
+
+
       
 
 
