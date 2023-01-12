@@ -139,15 +139,24 @@ s.clear() // 清空栈
 <!-- prettier-ignore-start -->
 |HashMap|params|description|type|default|enum|demo||
 |-|-|-|-|-|-|-|-|
-|``||||||||
-|``||||||||
+|`new HashMap<T>(kind: HMK = 'separate', hash: HMH = 'djb2')`|T是要保存的值的类型。`type HashMapKind = 'separate' \| 'line'    type HashMapHash = 'djb2' | 'loselose'`|返回HashMap实例||||||
+|`box: SingleChain<G> \| HashMapBox<G>`|`HashMapBox<G>: {key: V, value: G}[]`||保存数据的容器。不要直接操作它。|||||
+|`_size: N`||保存了多少条数据||||||
+|`kind: HashMapKind`||HashMap的种类。有2种，`'separate'`: 使用单向链表保存。分离链接。默认值。 `'line'`: 使用数组保存。线性探查。||||||
+|`hash: HashMapHash`||hash方法的种类名。有2种：`'djb2'`: 使用djb2 hash方法。默认值。`'loselose'`: 使用loselose hash方法。|||||未来可能支持自定义的hash方法。|
+|`createNode: (k: A, v: G) => HashMapBoxItem<G>`||返回一个节点||||||
+|`put: (k: A, v: G) => void`||添加一条数据。返回添加后的大小。||||||
+|`remove: (k: A) => G`||添加一条数据，返回数据的value.||||||
+|`get: (k: A) => G \| undefined`||返回数据||||||
+|`hashFn: (k: A) => N`||根据实例化时的参数hash指定的散列方法。||||||
+|`size: () => N`||返回保存了多少条数据|||||暂时暴露此方法|
 <!-- prettier-ignore-end -->
 
 <!-- prettier-ignore-start -->
 |hash方法|params|description|type|default|enum|demo||
 |-|-|-|-|-|-|-|-|
-|`djb2HashFn: (k: A) => number`||1013||||||
-|`loseloseHashFn: (k: A) => number`||37||||||
+|`djb2HashFn: (k: A) => number`||最大无冲突数量 1013||||||
+|`loseloseHashFn: (k: A) => number`||最大无冲突数量 37||||||
 <!-- prettier-ignore-end -->
 
 <!-- prettier-ignore-start -->
@@ -158,9 +167,9 @@ s.clear() // 清空栈
 |`createNode: (v: T) => BinarySearchTreeNode<T>`||返回一个BST节点||||||
 |`insert: (v: T) => void`||插入一个节点||||||
 |`search: (v: T) => boolean`||查找树中是否存在指定的值。返回boolean。||||||
-|`traverse: (fn: Function, order: BinarySearchTreeOrder) => void`|`BinarySearchTreeOrder = 'preOrder' | 'inOrder' | 'postOrder'`。fn的参数是节点的value|使用指定顺序遍历树。||||||
-|`min: () => T | undefined`||返回树中最小的值||||||
-|`max: () => T | undefined`||返回树中最大的值||||||
+|`traverse: (fn: Function, order: BinarySearchTreeOrder) => void`|`BinarySearchTreeOrder = 'preOrder' \| 'inOrder' \| 'postOrder'`。fn的参数是节点的value|使用指定顺序遍历树。||||||
+|`min: () => T \| undefined`||返回树中最小的值||||||
+|`max: () => T \| undefined`||返回树中最大的值||||||
 |`findMinNode: (node: BinarySearchTreeNodeOrNull<T>) => BinarySearchTreeNodeOrNull<T>`||返回指定节点下的最小的节点||||||
 |`findMaxNode: (node: BinarySearchTreeNodeOrNull<T>) => BinarySearchTreeNodeOrNull<T>`||返回指定节点下的最大的节点||||||
 |`remove: (v: T) => void`||移除指定值的节点||||||

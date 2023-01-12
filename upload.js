@@ -249,16 +249,12 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = 'framework/react/immutable'
+    // let p = 'dsa/sort.html'
     let p = [
-      // 'framework/index.html',
-      // 'framework/vue3/principle.html',
-      // 'framework/vue3/vue2&vue3.html',
-      // 'promote/systemDesign/distributed.html',
-      // 'promote/systemDesign/index.html',
-      // 'framework/vue3/vue2&vue3.html',
-      'jsPackages/data-footstone.html',
-      // 'framework/vue3/principle.html',
+      // 'coursera/dsa/1/index.html',
+      // 'dsa/index.html',
+      // 'dsa/tree.html',
+      // 'jsPackages/data-footstone.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)

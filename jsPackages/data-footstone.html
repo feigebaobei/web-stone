@@ -934,9 +934,29 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 </thead>
 <tbody>
 <tr>
-<td>``</td>
+<td><code>new HashMap&lt;T&gt;(kind: HMK = 'separate', hash: HMH = 'djb2')</code></td>
+<td>T是要保存的值的类型。`type HashMapKind = 'separate' | 'line'    type HashMapHash = 'djb2'</td>
+<td>'loselose'`</td>
+<td>返回HashMap实例</td>
 <td></td>
 <td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>box: SingleChain&lt;G&gt; | HashMapBox&lt;G&gt;</code></td>
+<td><code>HashMapBox&lt;G&gt;: {key: V, value: G}[]</code></td>
+<td></td>
+<td>保存数据的容器。不要直接操作它。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>_size: N</code></td>
+<td></td>
+<td>保存了多少条数据</td>
 <td></td>
 <td></td>
 <td></td>
@@ -944,14 +964,84 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 <td></td>
 </tr>
 <tr>
-<td>``</td>
+<td><code>kind: HashMapKind</code></td>
+<td></td>
+<td>HashMap的种类。有2种，<code>'separate'</code>: 使用单向链表保存。分离链接。默认值。 <code>'line'</code>: 使用数组保存。线性探查。</td>
 <td></td>
 <td></td>
 <td></td>
 <td></td>
 <td></td>
+</tr>
+<tr>
+<td><code>hash: HashMapHash</code></td>
+<td></td>
+<td>hash方法的种类名。有2种：<code>'djb2'</code>: 使用djb2 hash方法。默认值。<code>'loselose'</code>: 使用loselose hash方法。</td>
 <td></td>
 <td></td>
+<td></td>
+<td></td>
+<td>未来可能支持自定义的hash方法。</td>
+</tr>
+<tr>
+<td><code>createNode: (k: A, v: G) =&gt; HashMapBoxItem&lt;G&gt;</code></td>
+<td></td>
+<td>返回一个节点</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>put: (k: A, v: G) =&gt; void</code></td>
+<td></td>
+<td>添加一条数据。返回添加后的大小。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>remove: (k: A) =&gt; G</code></td>
+<td></td>
+<td>添加一条数据，返回数据的value.</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>get: (k: A) =&gt; G | undefined</code></td>
+<td></td>
+<td>返回数据</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>hashFn: (k: A) =&gt; N</code></td>
+<td></td>
+<td>根据实例化时的参数hash指定的散列方法。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>size: () =&gt; N</code></td>
+<td></td>
+<td>返回保存了多少条数据</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>暂时暴露此方法</td>
 </tr>
 </tbody>
 </table>
@@ -974,7 +1064,7 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 <tr>
 <td><code>djb2HashFn: (k: A) =&gt; number</code></td>
 <td></td>
-<td>1013</td>
+<td>最大无冲突数量 1013</td>
 <td></td>
 <td></td>
 <td></td>
@@ -984,7 +1074,7 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 <tr>
 <td><code>loseloseHashFn: (k: A) =&gt; number</code></td>
 <td></td>
-<td>37</td>
+<td>最大无冲突数量 37</td>
 <td></td>
 <td></td>
 <td></td>
@@ -1061,29 +1151,29 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 </tr>
 <tr>
 <td><code>traverse: (fn: Function, order: BinarySearchTreeOrder) =&gt; void</code></td>
-<td>`BinarySearchTreeOrder = 'preOrder'</td>
-<td>'inOrder'</td>
-<td>'postOrder'`。fn的参数是节点的value</td>
+<td><code>BinarySearchTreeOrder = 'preOrder' | 'inOrder' | 'postOrder'</code>。fn的参数是节点的value</td>
 <td>使用指定顺序遍历树。</td>
+<td></td>
+<td></td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td>`min: () =&gt; T</td>
-<td>undefined`</td>
+<td><code>min: () =&gt; T | undefined</code></td>
 <td></td>
 <td>返回树中最小的值</td>
 <td></td>
 <td></td>
 <td></td>
 <td></td>
+<td></td>
 </tr>
 <tr>
-<td>`max: () =&gt; T</td>
-<td>undefined`</td>
+<td><code>max: () =&gt; T | undefined</code></td>
 <td></td>
 <td>返回树中最大的值</td>
+<td></td>
 <td></td>
 <td></td>
 <td></td>
