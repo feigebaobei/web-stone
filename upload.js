@@ -251,12 +251,12 @@ c.on('ready', () => {
     }
     // let p = 'coursera/dsa/2'
     let p = [
-      'language/html/element.html',
-      'language/html/index.html',
-      'language/html/shadowDom.html',
-      'language/html/svg.html',
-      'language/html/canvas/index.html',
-      'language/html/webComponents/index.html',
+      'index.html',
+      'language/css/cssSelector.html',
+      'language/xml/index.html',
+      // 'language/html/svg.html',
+      // 'language/html/canvas/index.html',
+      // 'language/html/webComponents/index.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
