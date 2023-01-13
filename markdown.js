@@ -1,13 +1,13 @@
 const fs = require('fs')
 const exec = require('child_process').exec
-let clog = console.log
+// let clog = console.log
 
 exec('git status -s', (err, res) => {
   if (!err) {
     // 取得 *.html 文件
     // 替换
     let arr = res.split('\n')
-    clog(arr)
+    // clog(arr)
     arr = arr
       // .map((item) => {
       //   return item.slice(3)
@@ -20,7 +20,7 @@ exec('git status -s', (err, res) => {
         )
       })
       .map((item) => item.slice(3))
-    clog(arr)
+    // clog(arr)
     arr.forEach((item) => {
       let cont = fs.readFileSync(item, 'utf-8')
       cont = cont.replace(/<img src="file:\/\/\//, '<img src="')

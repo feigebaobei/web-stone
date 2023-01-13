@@ -249,13 +249,8 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = 'dsa/sort.html'
-    let p = [
-      // 'coursera/dsa/1/index.html',
-      // 'dsa/index.html',
-      // 'dsa/tree.html',
-      // 'jsPackages/data-footstone.html',
-    ]
+    // let p = 'coursera/dsa/2'
+    let p = ['coursera/dsa/2/stackSum.png', 'coursera/dsa/2/index.html']
     // 检测指定目录是否存在
     // checkDir(p)
     // 检测删除目录
