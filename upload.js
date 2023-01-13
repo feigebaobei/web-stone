@@ -254,9 +254,6 @@ c.on('ready', () => {
       'index.html',
       'language/css/cssSelector.html',
       'language/xml/index.html',
-      // 'language/html/svg.html',
-      // 'language/html/canvas/index.html',
-      // 'language/html/webComponents/index.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
