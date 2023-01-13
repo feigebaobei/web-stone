@@ -250,7 +250,14 @@ c.on('ready', () => {
       throw err
     }
     // let p = 'coursera/dsa/2'
-    let p = ['coursera/dsa/2/stackSum.png', 'coursera/dsa/2/index.html']
+    let p = [
+      'language/html/element.html',
+      'language/html/index.html',
+      'language/html/shadowDom.html',
+      'language/html/svg.html',
+      'language/html/canvas/index.html',
+      'language/html/webComponents/index.html',
+    ]
     // 检测指定目录是否存在
     // checkDir(p)
     // 检测删除目录

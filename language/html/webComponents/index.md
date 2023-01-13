@@ -39,7 +39,7 @@ Web Components 是一套不同的技术，允许您创建可重用的定制元�
         var wrapper = document.createElement('span')
         wrapper.setAttribute('class', 'wrapper')
         wrapper.textContent = 'text str'
-        this..appendChild(wrapper)
+        this.appendChild(wrapper)
       }
     }
     customElements.define('popup-info', CustomeTag)
@@ -134,13 +134,9 @@ document.body.appendChild(document.querySelector('#myTemp').content)
 
 各自独立。没包含关系。
 
-|     | web components | template/slot | custom-tag | shadowDOM |
-| --- | -------------- | ------------- | ---------- | --------- |
-|     |                |               |            |           |
-|     |                |               |            |           |
-|     |                |               |            |           |
-|     |                |               |            |           |
-|     |                |               |            |           |
+|     | web components                 | template/slot | custom-tag       | shadowDOM     |
+| --- | ------------------------------ | ------------- | ---------------- | ------------- |
+|     | web 组件。自定义 html 的统称。 | 模板、插槽    | 自定义 html 标签 | 影子 dom 元素 |
 
 ## [template](/language/html/template.html)
 

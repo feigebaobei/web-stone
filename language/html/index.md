@@ -3,13 +3,13 @@
 - HTML 指的是超文本标记语言 (Hyper Text Markup Language)。不是一种编程语言，而是一种标记语言 (markup language)，标记语言是一套标记标签 (markup tag)
 - HTML 使用标记标签来描述网页
 - 它在浏览器中有自己默认样式
-- 明确规定需要成对出现，即：开始标签+闭合标签。但是仍有一些标签是自闭合的。因为这些标义，不应该包含非特定的内容。如：`img`它是图片域标签。它是自闭合标签，它只能处理图片，不应该包含非图片内容。`br`是拆行标签。它是自闭合标签，它只能折行，不应该包含非拆行内容。html 语言为了防止包含不正确内容的错误，设置了自闭合标签。
+- 明确规定需要成对出现，即：开始标签+闭合标签。但是仍有一些标签是自闭合的。因为这些标签，不应该包含非特定的内容。如：`img`它是图片域标签。它只能处理图片，不应该包含非图片内容。`br`是拆行标签。它只能折行，不应该包含非拆行内容。html 语言为了防止包含不正确内容引起的错误，设置了自闭合标签。
 - 若无闭合标签，则浏览器会尝试补全闭合标签
 - 块级标签是默认独占一行的标签
 - 行内标签是默认非独占一行的标签
 - 行内标签不包含块级标签。有些标签不可互相嵌套。如 p 不可嵌套 div。
 - 标签语义化可以方便程序员、浏览器、辅助设备
-- 不区分大小写
+- 不区分大小写。react/vue 都受到此特性影响。
 - 每个标签有自己的特性。应根据标签的特性、业务需要选择合适的标签。
 
 # html & css & javascript
@@ -26,7 +26,7 @@ html 为 js 支持很多前提条件。如：
 
 # 浏览器处理 html 文件的过程
 
-# [Element](/language/html/Element.html)
+# [Element](/language/html/element.html)
 
 # [webComponent](/language/html/webComponents.html)
 
@@ -639,17 +639,18 @@ html5 以后 html 很重视语义。提倡使用正常语义编写代码。兼�
 <button>
 ```
 
-|属性| 描述|
-|accept-charset| 规定在被提交表单中使用的字符集（默认：页面字符集）。|
-|action| 规定向何处提交表单的地址（URL）（提交页面）。如果省略 action 属性，则将 action 设置为当前页面。|
-|autocomplete| 规定浏览器应该自动完成表单（默认：开启）。|
-|enctype| 规定被提交数据的编码（默认：url-encoded）。|
-|method| 规定在提交表单时所用的 HTTP 方法（默认：GET）。|
-|name| 规定识别表单的名称（对于 DOM 使用：document.forms.name）。|
-|novalidate| 规定浏览器不验证表单。|
-|target| 规定 action 属性中地址的目标（默认：\_self）。|
+| 属性           | 描述                                                                                            |
+| -------------- | ----------------------------------------------------------------------------------------------- |
+| accept-charset | 规定在被提交表单中使用的字符集（默认：页面字符集）。                                            |
+| action         | 规定向何处提交表单的地址（URL）（提交页面）。如果省略 action 属性，则将 action 设置为当前页面。 |
+| autocomplete   | 规定浏览器应该自动完成表单（默认：开启）。                                                      |
+| enctype        | 规定被提交数据的编码（默认：url-encoded）。                                                     |
+| method         | 规定在提交表单时所用的 HTTP 方法（默认：GET）。                                                 |
+| name           | 规定识别表单的名称（对于 DOM 使用：document.forms.name）。                                      |
+| novalidate     | 规定浏览器不验证表单。                                                                          |
+| target         | 规定 action 属性中地址的目标（默认：\_self）。                                                  |
 
-# [canvas](/html/canvas/index.html)
+# [canvas](/language/html/canvas/index.html)
 
 使用 JavaScript 在网页上绘制图像。
 canvas 是可绘制图像的标签。绘图功能由 js 做。
@@ -658,7 +659,7 @@ canvas 是可绘制图像的标签。绘图功能由 js 做。
 
 SVG 指可伸缩矢量图形 (Scalable Vector Graphics)
 SVG 用于定义用于网络的基于矢量的图形
-详见[svg](/html/svg.html)
+详见[svg](/language//html/svg.html)
 
 # 媒体
 
@@ -682,17 +683,17 @@ Geolocation API 用于获得用户的地理位置。
 <img id="drag1" src="img_logo.gif" draggable="true" ondragstart="drag(event)" width="336" height="69">
 ```
 
-draggable="true" 把元素设置为可拖放
-ondragstart 属性调用了一个 drag(event) 函数，规定拖动什么数据。
-dataTransfer.setData() 方法设置被拖动数据的数据类型和值：
-ondragover 事件规定被拖动的数据能够被放置到何处。为了实现拖放，我们必须阻止元素的这种默认的处理方式。这个任务由 ondragover 事件的 event.preventDefault() 方法完成：
-ondrop 属性调用了一个函数，drop(event)：
-详见[drag](/javascript/event.html)
+draggable="true" 把元素设置为可拖放  
+ondragstart 属性调用了一个 drag(event) 函数，规定拖动什么数据。  
+dataTransfer.setData() 方法设置被拖动数据的数据类型和值：  
+ondragover 事件规定被拖动的数据能够被放置到何处。为了实现拖放，我们必须阻止元素的这种默认的处理方式。这个任务由 ondragover 事件的 event.preventDefault() 方法完成：  
+ondrop 属性调用了一个函数，drop(event)：  
+详见[drag](/language/javascript/event.html)
 
 # 本地存储
 
 cookie / sessionStorage / localStorage
-详见[前端存储](/confuse/frontStore.html)
+详见[前端存储](/browser//confuse/frontStore.html)
 
 # 应用程序缓存
 
@@ -735,9 +736,9 @@ manifest 文件有三个部分：
 - CACHE MANIFEST - 在此标题下列出的文件将在首次下载后进行缓存
 - NETWORK - 在此标题下列出的文件需要与服务器的连接，且不会被缓存
 - FALLBACK - 在此标题下列出的文件规定当页面无法访问时的回退页面（比如 404 页面）
-  详见[前端缓存](/404.html)
+  详见[前端缓存](/browser/cache.html)
 
-# history
+# [history](/browser/history.html)
 
 <details>
   <summary>api</summary>
@@ -752,7 +753,7 @@ history.go([delta]) 进入指定的history栈
 </pre>
 </details>
 
-# [web workers](/javascript/webWorker.html)
+# [web workers](/language/javascript/webWorker.html)
 
 一般用于大量计算。它调用了浏览器的多线程环境。  
 worker 无法访问如下对象：
@@ -861,7 +862,7 @@ source.onmessage = function(event) {
 ## media 事件
 
 | 属性               | 值     | 描述                                                                     |
-| ------------------ | ------ | ------------------------------------------------------------------------ | --------------------------------------------------------- |
+| ------------------ | ------ | ------------------------------------------------------------------------ |
 | onabort            | script | 在退出时运行的脚本。                                                     |
 | oncanplay          | script | 当文件就绪可以开始播放时运行的脚本（缓冲已足够开始时）。                 |
 | oncanplaythrough   | script | 当媒介能够无需因缓冲而停止即可播放至结尾时运行的脚本。                   |
@@ -878,8 +879,8 @@ source.onmessage = function(event) {
 | onprogress         | script | 当浏览器正在获取媒介数据时运行的脚本。                                   |
 | onratechange       | script | 每当回放速率改变时运行的脚本（比如当用户切换到慢动作或快进模式）。       |
 | onreadystatechange | script | 每当就绪状态改变时运行的脚本（就绪状态监测媒介数据的状态）。             |
-| onseeked           | script | 当                                                                       | seeking 属性设置为 false（指示定位已结束）时运行的脚本。  |
-| onseeking          | script | 当                                                                       | seeking 属性设置为 true（指示定位是活动的）时运行的脚本。 |
+| onseeked           | script | 当 seeking 属性设置为 false（指示定位已结束）时运行的脚本。              |
+| onseeking          | script | 当 seeking 属性设置为 true（指示定位是活动的）时运行的脚本。             |
 | onstalled          | script | 在浏览器不论何种原因未能取回媒介数据时运行的脚本。                       |
 | onsuspend          | script | 在媒介数据完全加载之前不论何种原因终止取回媒介数据时运行的脚本。         |
 | ontimeupdate       | script | 当播放位置改变时（比如当用户快进到媒介中一个不同的位置时）运行的脚本。   |
