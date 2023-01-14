@@ -49,7 +49,7 @@ JSON.parse()
 json with padding  
 可以让网页从别的域名（网站）那获取资料，即跨域读取数据。  
 Jsonp 的实现原理是利用 `<script>` 标签可以获取不同源资源的特点，来达到跨域访问某个资源的目的。  
-同源策略？它是由 Netscape 提出的一个著名的安全策略，现在所有支持 JavaScript 的浏览器都会使用这个策略。
+同源策略：它是由 Netscape 提出的一个著名的安全策略，现在所有支持 JavaScript 的浏览器都会使用这个策略。
 
 ## 原理
 
@@ -158,5 +158,3 @@ function onCustomerLoaded(result, methodName){
 # 后记
 
 undefined / function 无法在 json 中使用。
-
-# json

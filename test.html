@@ -25,39 +25,24 @@
       
 
 
-      let parallelMaxPromise = (cb = Promise.resolve(), capacity = 3, material = []) => {
-        let mi = 0
-        let pendingCount = capacity 
-        let createP = () => {
-          Promise.resolve(cb(material[mi]))
-          .finally(() => {
-            pendingCount--
-            check()
-          })
+      function objToStrMap (obj) {
+        let strMap = new Map()
+        for (let key of Object.keys(obj)) {
+            strMap.set(key, obj[key])
         }
-        let check = () => {
-          if (pendingCount < capacity && mi < material.length) {
-            createP()
-            mi++
-          }
-        }
-        if (material.length) {
-          for (let i = 0; i < capacity; i++) {
-            createP()
-            mi++
-          }
-        }
-      }
-      let cb = (param) => {
-        return new Promise((s, j) => {
-          setTimeout(() => {
-            clog(param)
-            s(param)
-          }, Math.floor(Math.random() * 2000))
-        })
-      }
-      let material = [0,1,2,3,4,5,6,7,8,9]
-      parallelMaxPromise( cb, 3, material)
+        return strMap
+    }
+
+    // let map = new Map([['a', 1], ['b', 'str'], ['c', {}], ['d', true]])
+    let o = {
+      a: 1,
+      b: 'str',
+      c: {},
+      d: true,
+    }
+    let t = objToStrMap(o)
+    clog(t)
+    clog(t.get('c'))
 
 
       

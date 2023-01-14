@@ -76,10 +76,11 @@
     </head>
     <body class="vscode-body vscode-light">
         <h1 id="map">map</h1>
-<p>类似对象。实现了“值-值”的对应。就是记录键值对的映射关系的集合。Map 的键实际上是跟内存地址绑定的。如果 Map 的键是一个简单类型的值（数字、字符串、布尔值），则只要两个值严格相等，Map 将其视为一个键。虽然NaN不严格相等于自身，但 Map 将其视为同一个键。<br>
-null不能成为键名。</p>
-<p><strong>Map([[kay, value], [kay, value], [kay, value], [kay, value]])</strong> 以数组为参初始化map对象。<br>
-以第一个参数为key，以第二个参数为value。</p>
+<p>类似对象。实现了“值-值”的对应。就是记录键值对的映射关系的集合。Map 的键实际上是跟内存地址绑定的。如果 Map 的键是一个简单类型的值（数字、字符串、布尔值），则只要两个值严格相等，Map 将其视为一个键。虽然 NaN 不严格相等于自身，但 Map 将其视为同一个键。<br>
+null 不能成为键名。</p>
+<p><strong>Map([[kay, value], [kay, value], [kay, value], [kay, value]])</strong> 以数组为参初始化 map 对象。<br>
+以第一个参数为 key，以第二个参数为 value。</p>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -104,50 +105,50 @@ null不能成为键名。</p>
 </tr>
 <tr>
 <td>get(key)</td>
-<td>若存在key，则返回其对应的值。若不存在key，则返回其undefined。</td>
+<td>若存在 key，则返回其对应的值。若不存在 key，则返回其 undefined。</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td>has(key)</td>
-<td>返回是否包含key。</td>
-<td><a href="http://xn--Object-h76j615md5boz6d319b.is">比较算法和Object.is</a>()几乎一样。</td>
+<td>返回是否包含 key。</td>
+<td>比较算法和 <a href="http://Object.is">Object.is</a>()几乎一样。</td>
 <td></td>
 </tr>
 <tr>
 <td>set(key, value)</td>
-<td>设置该map对象key对应的value。</td>
+<td>设置该 map 对象 key 对应的 value。</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td>delete(key)</td>
-<td>若该map对象中有key，则删除key及其值返回true。若该map对象中没有key，则返回false。</td>
+<td>若该 map 对象中有 key，则删除 key 及其值返回 true。若该 map 对象中没有 key，则返回 false。</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td>clear()</td>
-<td>删除所有kv</td>
+<td>删除所有 kv</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td>keys()</td>
-<td>返回一个iterator对象，其值为key。</td>
-<td>常与for...of一起使用</td>
+<td>返回一个 iterator 对象，其值为 key。</td>
+<td>常与 for...of 一起使用</td>
 <td></td>
 </tr>
 <tr>
 <td>values()</td>
-<td>返回一个iterator对象，其值为value。</td>
-<td>常与for...of一起使用</td>
+<td>返回一个 iterator 对象，其值为 value。</td>
+<td>常与 for...of 一起使用</td>
 <td></td>
 </tr>
 <tr>
 <td>entries()</td>
-<td>返回一个iterator对象，其值为[key, value]</td>
-<td>常与for...of一起使用</td>
+<td>返回一个 iterator 对象，其值为[key, value]</td>
+<td>常与 for...of 一起使用</td>
 <td>for (let [key, value] of map.entries() {...}</td>
 </tr>
 <tr>
@@ -158,6 +159,7 @@ null不能成为键名。</p>
 </tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
 <p><strong>Map =&gt; Array</strong></p>
 <pre><code>[...map] // [[kay, value], [kay, value], [kay, value], [kay, value]]
 </code></pre>
@@ -165,7 +167,7 @@ null不能成为键名。</p>
 <pre><code>new Map([[kay, value], [kay, value], [kay, value], [kay, value]])
 </code></pre>
 <p><strong>Map =&gt; Object</strong></p>
-<pre><code>function strMapToObj (strMap) {
+<pre><code>function mapToObj (strMap) {
     let obj = Object.create(null)
     for (let [key, value] of strMap) {
         obj[key] = value
@@ -174,7 +176,7 @@ null不能成为键名。</p>
 }
 </code></pre>
 <p><strong>Object =&gt; Map</strong></p>
-<pre><code>function objToStrMap (obj) {
+<pre><code>function objToMap (obj) {
     let strMap = new Map()
     for (let key of Object.keys(obj)) {
         strMap.set(key, obj[key])
@@ -183,13 +185,13 @@ null不能成为键名。</p>
 }
 </code></pre>
 <p><strong>Map =&gt; JSON</strong></p>
-<pre><code>function strMapToJson (strMap) {
-    return JSON.stringify(strMapToObj(strMap))
+<pre><code>function mapToJson (strMap) {
+    return JSON.stringify(mapToObj(strMap))
 }
 </code></pre>
 <p><strong>JSON =&gt; Map</strong></p>
-<pre><code>function jsonToStrMap (json) {
-    return objToStrMap(json)
+<pre><code>function jsonToMap (json) {
+    return objToMap(json)
 }
 </code></pre>
 <h3 id="复制合并">复制，合并</h3>
@@ -198,7 +200,7 @@ var merged = new Map([...map0, ...map1, ...map2])
 </code></pre>
 <h1 id="weakmap">WeakMap</h1>
 <ol>
-<li>只能设置对象为key.</li>
+<li>只能设置对象为 key.</li>
 <li>对对象的引用是弱引用。</li>
 <li>常用于解决内存泄漏问题。</li>
 </ol>
@@ -206,7 +208,7 @@ var merged = new Map([...map0, ...map1, ...map2])
 <strong>WeakMap.prototype.set(obj, value)</strong><br>
 <strong>WeakMap.prototype.has(obj)</strong><br>
 <strong>WeakMap.prototype.delete(obj)</strong></p>
-<p>没有遍历weakmap的方法</p>
+<p>没有遍历 weakmap 的方法</p>
 
         
         

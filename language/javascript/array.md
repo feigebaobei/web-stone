@@ -53,7 +53,7 @@ var joinStr = d.join('ok'); // "1ok2ok3ok4"
 
 添加时返回新的长度，删除时返回被删除的元素。都会改变原数组。
 
-**reverse()** 把指定数组排倒序
+**reverse()** 把指定数组排倒序并返回
 
     newd.reverse(); // ['a', 4, 3, 2, 1]
 

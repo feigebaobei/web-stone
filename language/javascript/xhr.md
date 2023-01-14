@@ -112,7 +112,7 @@ let reqFn = (url, method, options = {headers: {}, body: {}, responseType = 'text
 ## 生命周期
 
 ```
-1. 实例化                         ---> xhr对象。readyState=0
+1. 实例化                        ---> xhr对象。readyState=0
 2. xhr.open()                   ---> readyState=1
 3. xhr.setRequestHeader(k, v)   ---> 设置请求头
 4. xhr.send()                   ---> readyState=2

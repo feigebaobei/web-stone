@@ -13,8 +13,8 @@ new Object(any)
 把 source 上的属性合并到 target 上，并返回 target.
 
 `Object.create(proto, [propertiesObject])`  
-按指定的原型对象 proto、对标对象的属性返回一个新对象。
-会被新对象的`__proto__`属性接收原型对象。
+按指定的原型对象 proto、新对象的属性返回新对象。
+新对象的`__proto__`属性指向原型对象。
 
 `Object.defineProperty(obj, prop, descriptor)`  
 obj 目标对象
@@ -198,6 +198,13 @@ obj 对象上的属性描述符不会改变。
 
 `Object#propertyIsNumberable(prop)`  
 返回指定属性是否可枚举
+
+## 固定对象的方法
+
+|     | Object.preventExtensions(obj) | Object.freeze(obj)         | Object.seal(obj)             |     |     |
+| --- | ----------------------------- | -------------------------- | ---------------------------- | --- | --- |
+|     | 不可扩展                      | 冻结                       | 密封                         |     |     |
+|     | 不能添加新属性                | 不能添加新属性。不可修改。 | 不可配置：不改变属性描述符。 |     |     |
 
 ## 描述符
 

@@ -24,9 +24,9 @@ set 类似数组。其成员的值都是唯一的。其键名与键值相同。
 | delete(value) | 删除 set 对象中的指定的值，并返回 bool 结果。   |     |     |
 | has(value)    | 检查 set 对象中是否有指定的值    |     |     |
 | clear() | 删除指定 set 对象中的所有值      |     |     |
-| keys()  | 返回一个以指定 set 对象的 key 组成的 Iterator 对象。键名和键值是同一个值。其返回结果与 Set.values 一样。可与`Array.form()`/`for...of`一起使用。 |     |     |
-| values()      | 返回一个以指定 set 对象的 value 组成的 Iterator 对象。可与`Array.form()`/`for...of`一起使用。      |     |     |
-| entries()     | 返回一个以 key 和 value 组成的数组组成的 Iterator 数组。可与`Array.form()`/`for...of`一起使用。    |     |     |
+| keys()  | 返回一个以指定 set 对象的 key 组成的 `Iterator` 对象。键名和键值是同一个值。其返回结果与 Set.values() 一样。可与`Array.form()`/`for...of`一起使用。 |  注意返回值是“`Iterator`对象”   |     |
+| values()      | 返回一个以指定 set 对象的 value 组成的 `Iterator` 对象。可与`Array.form()`/`for...of`一起使用。      |  注意返回值是“`Iterator`对象”   |     |
+| entries()     | 返回一个以 key 和 value 组成的数组组成的 `Iterator` 数组。可与`Array.form()`/`for...of`一起使用。    |  注意返回值是“`Iterator`对象”   |     |
 | forEach()     | 对 set 对象进行遍历操作。(value 与 key 相同)          |     |     |
 <!-- prettier-ignore-end -->
 
@@ -69,6 +69,7 @@ console.log(arr[index]) // 'a'
 
 1. 只能存放对象。
 2. 对对象是弱引用。
+3. 不支持遍历
 
 **WeakSet.prototype.add(obj)** 为 WeakSet 对象指定添加的对象。  
 **WeakSet.prototype.delete(obj)** 返回是否删除指定的对象。  

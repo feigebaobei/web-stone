@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>array&#x5bf9;&#x8c61;</title>
+        <title>array &#x5bf9;&#x8c61;</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -75,7 +75,7 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="array对象">array对象</h1>
+        <h1 id="array-对象">array 对象</h1>
 <h2 id="简介">简介</h2>
 <p>null</p>
 <h2 id="属性">属性</h2>
@@ -106,7 +106,7 @@ var joinStr = d.join('ok'); // &quot;1ok2ok3ok4&quot;</p>
 <pre><code>var newd = d.pop(); // 4
 </code></pre>
 <p><strong>push()</strong> 在数组的末尾添加新元素并返回数组的新长度</p>
-<pre><code>newd.push('a'); // 5 
+<pre><code>newd.push('a'); // 5
 </code></pre>
 <p><strong>shift()</strong> 返回并删除指定数组的第一个元素</p>
 <pre><code>newd.shift(); // 'a'
@@ -115,7 +115,7 @@ var joinStr = d.join('ok'); // &quot;1ok2ok3ok4&quot;</p>
 <pre><code>f.unshift(0,1,2); // 6
 </code></pre>
 <p>添加时返回新的长度，删除时返回被删除的元素。都会改变原数组。</p>
-<p><strong>reverse()</strong> 把指定数组排倒序</p>
+<p><strong>reverse()</strong> 把指定数组排倒序并返回</p>
 <pre><code>newd.reverse(); // ['a', 4, 3, 2, 1]
 </code></pre>
 <p><strong>slice(start, end)</strong> 返回指定数组的选定部分<br>
@@ -135,15 +135,15 @@ sortby(a, b)，可选。必须是函数。</p>
 </thead>
 <tbody>
 <tr>
-<td>大于0</td>
+<td>大于 0</td>
 <td>ab</td>
 </tr>
 <tr>
-<td>等于0</td>
+<td>等于 0</td>
 <td>不变</td>
 </tr>
 <tr>
-<td>小于0</td>
+<td>小于 0</td>
 <td>ba</td>
 </tr>
 </tbody>
@@ -168,8 +168,8 @@ item0,...，非必填。</p>
 <p><strong>valueOf()</strong> 返回指定数据</p>
 <pre><code>f.valueOf(); // [0,1,2,1,2,'a',8]
 </code></pre>
-<p><strong>indexOf(search, start)</strong> 返回search首次出现的位置。<br>
-es5时添加的新方法。<br>
+<p><strong>indexOf(search, start)</strong> 返回 search 首次出现的位置。<br>
+es5 时添加的新方法。<br>
 search，必填。<br>
 start，非必填。</p>
 <pre><code>f.indexOf(2,3); // 4
@@ -178,7 +178,7 @@ start，非必填。</p>
 <pre><code>f.lastIndexOf(1, -2); // 3
 </code></pre>
 <p><strong>reduce(fn, init)</strong> 遍历当前数组。</p>
-<pre><code>// 把数组减少到一个值。  
+<pre><code>// 把数组减少到一个值。
 f.reduce(function (total, currentValue, currentIndex, arr) {}, initialValue)
 </code></pre>
 <p>total，必填。初始值或计算结束后的返回值。
@@ -189,35 +189,35 @@ initialValue，非必填。传递给函数的初始值。</p>
 <p><strong>reduceRight(fn, init)</strong> 从右边开始遍历当前数组。</p>
 <pre><code>f.reduce(function () {}, 0)
 </code></pre>
-<p><strong>map(fn，obj)</strong> 对原数组的每个元素依次执行fn。返回一位新数组，原数组不变。<br>
+<p><strong>map(fn，obj)</strong> 对原数组的每个元素依次执行 fn。返回一位新数组，原数组不变。<br>
 fn，必填，对每个元素操作的方法。
-obj，非必填，fn执行时this指向的对象。即上下文参数。</p>
+obj，非必填，fn 执行时 this 指向的对象。即上下文参数。</p>
 <pre><code>f.splice(f.indexOf('a',0),1);
 var g = 2;
 f.map(function(item, index, arr) {return item * this}, g); // [0,2,4,2,4,16]
 </code></pre>
-<p><strong>forEach(fn, obj)</strong> 对指定数组的每个元素依次执行fn。不返回东西。原数组不变。<br>
+<p><strong>forEach(fn, obj)</strong> 对指定数组的每个元素依次执行 fn。不返回东西。原数组不变。<br>
 fn，必填。
 obj，上下文参数。</p>
 <pre><code>f.forEach(function(item,index, arr) {console.log(item)}); // 0 2 4 2 4 16
 </code></pre>
 <p>可用于类数组对象。</p>
 <p><strong>filter(boolean|fn)</strong> 用指定数组中满足条件的元素组成新数组并返回。<br>
-boolean|fn，必填，判断结果是true的元素组成的数组。</p>
+boolean|fn，必填，判断结果是 true 的元素组成的数组。</p>
 <pre><code>var h = f.filter(function (item, index, arr) {
     return item &gt; 2
 })
 //[4,4,16]
 </code></pre>
-<p><strong>some(fn)</strong> 把数组中的每一项都运行给定的函数。若有一项返回true，则返回true。反之返回false。不改变原数组。<br>
-fn，必填，返回boolean值。</p>
+<p><strong>some(fn)</strong> 把数组中的每一项都运行给定的函数。若有一项返回 true，则返回 true。反之返回 false。不改变原数组。<br>
+fn，必填，返回 boolean 值。</p>
 <pre><code>var bool0 = h.some(function(item, index, arr) {
     return item % 2 === 0
 })
 // bool0 = true
 </code></pre>
-<p><strong>every(fn)</strong> 用数组中的每一项都运行给定的函数。若都返回true，则返回true。反之返回false。不改变原数组。<br>
-fn，必填，返回boolean值。</p>
+<p><strong>every(fn)</strong> 用数组中的每一项都运行给定的函数。若都返回 true，则返回 true。反之返回 false。不改变原数组。<br>
+fn，必填，返回 boolean 值。</p>
 <pre><code>var bool1 = h.every(function (item, index, arr) {
     return item % 2 === 0
 })
@@ -265,20 +265,20 @@ for ( let [key, value] of arr.entries()) {
     console.log(value)
 }
 </code></pre>
-<p><strong>keys()</strong> 对键的遍历，返回iterator对象</p>
+<p><strong>keys()</strong> 对键的遍历，返回 iterator 对象</p>
 <pre><code>for (let key of arr.keys()) {
     console.log(key)
 }
 </code></pre>
-<p><strong>values()</strong> 对值的遍历，返回iterator对象</p>
+<p><strong>values()</strong> 对值的遍历，返回 iterator 对象</p>
 <pre><code>for (let key of arr.values()) {
     console.log(key)
 }
 </code></pre>
 <p><strong>copyWithin(target, start? = 0, end? = this.length)</strong> 将数组内部指定位置的成员复制到其它位置（会覆盖原有成员）。不会改变数组长度.<br>
-target  开始覆盖的下标
-start   开始复制的下标
-end     结束复制的下标</p>
+target 开始覆盖的下标
+start 开始复制的下标
+end 结束复制的下标</p>
 <pre><code>console.log([1, 2, 3, 4, 5].copyWithin(-2, -3, -1)); // [1, 2, 3, 3, 4]
 </code></pre>
 <p><strong>includes(value, start)</strong> 数组中是否包含给定的值。</p>
@@ -293,8 +293,8 @@ arr.includes(9) // false,
 </code></pre>
 <p><strong>Array.from(arrayLike[, mapFn[, thisArg]])</strong></p>
 <p>arrayLike 必填 数组、伪数组、可迭代对象。<br>
-mapFn 选填 把arrayLike里的数据放入新数组再对每个元素执行这个回调函数再返回到新数组。<br>
-thisArg 选填 mapFn的this对象<br>
+mapFn 选填 把 arrayLike 里的数据放入新数组再对每个元素执行这个回调函数再返回到新数组。<br>
+thisArg 选填 mapFn 的 this 对象<br>
 不会出现空槽位。</p>
 <p>Array.from(obj, mapFn, thisArg) &lt;=&gt; Array.from(obj).map(mapFn, thisArg)</p>
 <pre><code>Array.from([1, 2, 3], x =&gt; x + x) // [2, 4, 6]

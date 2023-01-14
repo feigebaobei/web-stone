@@ -6,19 +6,21 @@ null 不能成为键名。
 **Map([[kay, value], [kay, value], [kay, value], [kay, value]])** 以数组为参初始化 map 对象。  
 以第一个参数为 key，以第二个参数为 value。
 
-|                                                |                                                                                            |                                  |                                              |
-| ---------------------------------------------- | ------------------------------------------------------------------------------------------ | -------------------------------- | -------------------------------------------- |
-| constructor                                    | Map                                                                                        |                                  |                                              |
-| size                                           | 数量                                                                                       |                                  |                                              |
-| get(key)                                       | 若存在 key，则返回其对应的值。若不存在 key，则返回其 undefined。                           |                                  |                                              |
-| has(key)                                       | 返回是否包含 key。                                                                         | 比较算法和 Object.is()几乎一样。 |                                              |
-| set(key, value)                                | 设置该 map 对象 key 对应的 value。                                                         |                                  |                                              |
-| delete(key)                                    | 若该 map 对象中有 key，则删除 key 及其值返回 true。若该 map 对象中没有 key，则返回 false。 |                                  |                                              |
-| clear()                                        | 删除所有 kv                                                                                |                                  |                                              |
-| keys()                                         | 返回一个 iterator 对象，其值为 key。                                                       | 常与 for...of 一起使用           |                                              |
-| values()                                       | 返回一个 iterator 对象，其值为 value。                                                     | 常与 for...of 一起使用           |                                              |
-| entries()                                      | 返回一个 iterator 对象，其值为[key, value]                                                 | 常与 for...of 一起使用           | for (let [key, value] of map.entries() {...} |
-| forEach(callback(item, index, arr)[, thisArg]) |                                                                                            |                                  |
+<!-- prettier-ignore-start -->
+|   |        |    |    |
+| --- | ---- | - | - |
+| constructor      | Map    |    |    |
+| size | 数量   |    |    |
+| get(key)         | 若存在 key，则返回其对应的值。若不存在 key，则返回其 undefined。   |    |    |
+| has(key)         | 返回是否包含 key。 | 比较算法和 Object.is()几乎一样。 |    |
+| set(key, value)  | 设置该 map 对象 key 对应的 value。   |    |    |
+| delete(key)      | 若该 map 对象中有 key，则删除 key 及其值返回 true。若该 map 对象中没有 key，则返回 false。 |    |    |
+| clear()          | 删除所有 kv        |    |    |
+| keys()           | 返回一个 iterator 对象，其值为 key。             | 常与 for...of 一起使用           |    |
+| values()         | 返回一个 iterator 对象，其值为 value。           | 常与 for...of 一起使用           |    |
+| entries()        | 返回一个 iterator 对象，其值为[key, value]       | 常与 for...of 一起使用           | for (let [key, value] of map.entries() {...} |
+| forEach(callback(item, index, arr)[, thisArg]) |        |    |
+<!-- prettier-ignore-end -->
 
 **Map => Array**
 
@@ -30,7 +32,7 @@ null 不能成为键名。
 
 **Map => Object**
 
-    function strMapToObj (strMap) {
+    function mapToObj (strMap) {
         let obj = Object.create(null)
         for (let [key, value] of strMap) {
             obj[key] = value
@@ -40,7 +42,7 @@ null 不能成为键名。
 
 **Object => Map**
 
-    function objToStrMap (obj) {
+    function objToMap (obj) {
         let strMap = new Map()
         for (let key of Object.keys(obj)) {
             strMap.set(key, obj[key])
@@ -50,14 +52,14 @@ null 不能成为键名。
 
 **Map => JSON**
 
-    function strMapToJson (strMap) {
-        return JSON.stringify(strMapToObj(strMap))
+    function mapToJson (strMap) {
+        return JSON.stringify(mapToObj(strMap))
     }
 
 **JSON => Map**
 
-    function jsonToStrMap (json) {
-        return objToStrMap(json)
+    function jsonToMap (json) {
+        return objToMap(json)
     }
 
 ### 复制，合并

@@ -36,24 +36,20 @@ typeof 命令返回数据类型
 ## var & let & const
 
 <!-- prettier-ignore-start -->
-|       | 是否可以变量提升 | 作用域 |   |  |  |  |  |  |
-| ----- | ----------- | --- | ----- | ---- | --- | --- | --- | --- |
-| var   | y  | 函数级作用域 | 可多次声明   | 可多次赋值   |     |     |     |     |
-| let   | n  | 块级作用域   | 不可多次声明 | 可多次赋值   |     |     |     |     |
-| const | n  | 块级作用域   | 不可多次声明 | 只能赋值一次 |     |     |     |     |
+|       | 是否可以变量提升 | 作用域 |   |  |  
+| ----- | ----------- | --- | ----- | ---- |
+| var   | y  | 函数级作用域 | 可多次声明   | 可多次赋值   |
+| let   | n  | 块级作用域   | 不可多次声明 | 可多次赋值   |
+| const | n  | 块级作用域   | 不可多次声明 | 只能赋值一次 |
 <!-- prettier-ignore-end -->
 
 ## 声明 & 定义
 
-声明：提出变量名
-初始化：第一次赋值
-定义 = 声明 + 初始化
-
-```
-var a // 声明
-a = 's' // 初始化
-var n = 0 // 定义
-```
+|        |               |             |
+| ------ | ------------- | ----------- |
+| 声明   | 提出变量名    | `var a`     |
+| 初始化 | 第一次赋值    | `a = 's'`   |
+| 定义   | 声明 + 初始化 | `var n = 0` |
 
 ## 变量提升
 
@@ -349,31 +345,32 @@ clog(o.get('k'))
 
 ## 宏任务，由宿主发起。
 
-script 可理解为外层代码触发  
-setTimeout  
-setInterval  
-postMessage  
-MessageChannel  
-setImmediate (node 环境)
+script 可理解为外层代码触发
+
+- setTimeout
+- setInterval
+- postMessage
+- MessageChannel
+- setImmediate (node 环境)
 
 ## 微任务，由 js 引擎发起。
 
-Promise
-MutationObserver
-process.nextTick （node 环境）
+- Promise
+- MutationObserver
+- process.nextTick （node 环境）
 
 ## promise
 
-promise 的参数是一个接收`resolve`/`reject`方法的方法。
-一个 promise 对象有三个状态。初始状态是`pendding`，当执行`resolve`方法时改变为`fulfilled`状态，当执行`reject`方法时改变为`rejected`状态。二个方法都不执行，则一直是`pendding`状态。`resolve`状态触发 promise 对象的`then`方法。`reject`状态触发 promise 对象的`catch`方法。
+promise 的参数是一个接收`resolve`/`reject`方法的方法。  
+一个 promise 对象有三个状态。初始状态是`pendding`，当执行`resolve`方法时改变为`fulfilled`状态，当执行`reject`方法时改变为`rejected`状态。二个方法都不执行，则一直是`pendding`状态。`resolve`状态触发 promise 对象的`then`方法。`reject`状态触发 promise 对象的`catch`方法。  
 在定义时开始执行。
 
 ### promise 的属性
 
 ```js
-Promise#then()
-Promise#catch()
-Promise#finally()    // 不返回东西。即使写了返回东西的代码也不返回。
+Promise#then((reslt) => {})
+Promise#catch((error) => {})
+Promise#finally(() => {})    // 不返回东西。即使写了返回东西的代码也不返回。回调方法中无参数。
 Promise.all(arrP)    // 这种写法的都是静态属性。若arrP都是fulfilled状态则执行then方法，参数是一个数组。若arrP中有一个rejected状态则立即执行catch，参数是一个值。
 Promise.race(arrP)   // 返回最先改变状态的promise对象，状态由该对象决定。
 Promise.allSettled(arrP) // 当arrP都改变状态后返回结果。结果是由{status: 'fulfilled' | 'rejected', value / reason}组成的数组。总是触发then方法。
