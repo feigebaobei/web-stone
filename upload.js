@@ -249,12 +249,8 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = 'coursera/dsa/2'
-    let p = [
-      'index.html',
-      'language/css/cssSelector.html',
-      'language/xml/index.html',
-    ]
+    // let p = 'language/xml'
+    let p = []
     // 检测指定目录是否存在
     // checkDir(p)
     // 检测删除目录
