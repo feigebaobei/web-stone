@@ -227,6 +227,30 @@ let gcd = (n, m) => {
 let lcm = (a, b) => {
   return a * b / gcd(a, b)
 }
+// 最大并行数量promise
+let parallelMaxPromise = (cb = Promise.resolve(), capacity = 3, material = []) => {
+  let mi = 0
+  let pendingCount = capacity
+  let createP = () => {
+    Promise.resolve(cb(material[mi]))
+    .finally(() => {
+      pendingCount--
+      check()
+    })
+  }
+  let check = () => {
+    if (pendingCount < capacity && mi < material.length) {
+      createP()
+      mi++
+    }
+  }
+  if (material.length) {
+    for (let i = 0; i < capacity; i++) {
+      createP()
+      mi++
+    }
+  }
+}
 
 
 

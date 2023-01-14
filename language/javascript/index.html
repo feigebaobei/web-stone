@@ -461,24 +461,28 @@ o.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;
 </code></pre>
 <h1 id="宏任务--微任务">宏任务 &amp; 微任务</h1>
 <h2 id="宏任务由宿主发起">宏任务，由宿主发起。</h2>
-<p>script 可理解为外层代码触发<br>
-setTimeout<br>
-setInterval<br>
-postMessage<br>
-MessageChannel<br>
-setImmediate (node 环境)</p>
+<p>script 可理解为外层代码触发</p>
+<ul>
+<li>setTimeout</li>
+<li>setInterval</li>
+<li>postMessage</li>
+<li>MessageChannel</li>
+<li>setImmediate (node 环境)</li>
+</ul>
 <h2 id="微任务由-js-引擎发起">微任务，由 js 引擎发起。</h2>
-<p>Promise
-MutationObserver
-process.nextTick （node 环境）</p>
+<ul>
+<li>Promise</li>
+<li>MutationObserver</li>
+<li>process.nextTick （node 环境）</li>
+</ul>
 <h2 id="promise">promise</h2>
-<p>promise 的参数是一个接收<code>resolve</code>/<code>reject</code>方法的方法。
-一个 promise 对象有三个状态。初始状态是<code>pendding</code>，当执行<code>resolve</code>方法时改变为<code>fulfilled</code>状态，当执行<code>reject</code>方法时改变为<code>rejected</code>状态。二个方法都不执行，则一直是<code>pendding</code>状态。<code>resolve</code>状态触发 promise 对象的<code>then</code>方法。<code>reject</code>状态触发 promise 对象的<code>catch</code>方法。
+<p>promise 的参数是一个接收<code>resolve</code>/<code>reject</code>方法的方法。<br>
+一个 promise 对象有三个状态。初始状态是<code>pendding</code>，当执行<code>resolve</code>方法时改变为<code>fulfilled</code>状态，当执行<code>reject</code>方法时改变为<code>rejected</code>状态。二个方法都不执行，则一直是<code>pendding</code>状态。<code>resolve</code>状态触发 promise 对象的<code>then</code>方法。<code>reject</code>状态触发 promise 对象的<code>catch</code>方法。<br>
 在定义时开始执行。</p>
 <h3 id="promise-的属性">promise 的属性</h3>
-<pre><code class="language-js"><span class="hljs-title class_">Promise</span>#<span class="hljs-title function_">then</span>()
-<span class="hljs-title class_">Promise</span>#<span class="hljs-keyword">catch</span>()
-<span class="hljs-title class_">Promise</span>#<span class="hljs-title function_">finally</span>()    <span class="hljs-comment">// 不返回东西。即使写了返回东西的代码也不返回。</span>
+<pre><code class="language-js"><span class="hljs-title class_">Promise</span>#<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">reslt</span>) =&gt;</span> {})
+<span class="hljs-title class_">Promise</span>#<span class="hljs-keyword">catch</span>(<span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> {})
+<span class="hljs-title class_">Promise</span>#<span class="hljs-title function_">finally</span>(<span class="hljs-function">() =&gt;</span> {})    <span class="hljs-comment">// 不返回东西。即使写了返回东西的代码也不返回。回调方法中无参数。</span>
 <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">all</span>(arrP)    <span class="hljs-comment">// 这种写法的都是静态属性。若arrP都是fulfilled状态则执行then方法，参数是一个数组。若arrP中有一个rejected状态则立即执行catch，参数是一个值。</span>
 <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">race</span>(arrP)   <span class="hljs-comment">// 返回最先改变状态的promise对象，状态由该对象决定。</span>
 <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">allSettled</span>(arrP) <span class="hljs-comment">// 当arrP都改变状态后返回结果。结果是由{status: &#x27;fulfilled&#x27; | &#x27;rejected&#x27;, value / reason}组成的数组。总是触发then方法。</span>
