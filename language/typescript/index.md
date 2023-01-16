@@ -226,6 +226,12 @@ interface A & B
 
 ### interface
 
+- 可以基于别的 interface 扩展（也被称为继承）。
+- 类实现接口前，接口必须指定所有属性。类可以定义不在接口内的属性。
+- 接口只能约束类的 public 成员。
+- 接口不能约束构造函数
+- 接口可以继承类。`interface A extends ClassName {}`
+
 <!-- prettier-ignore-start -->
 |||||
 |-|-|-|-|
@@ -367,6 +373,8 @@ abstract class A {
   abstract f(): string
 }
 ```
+
+这种限制只作用于`*.ts`
 
 <!-- prettier-ignore-start -->
 ||种类||当前类|后代类|实例|

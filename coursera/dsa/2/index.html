@@ -79,20 +79,311 @@
 <h2 id="stack">stack</h2>
 <p>10 -》 2<br>
 减而治之、分而治之不能正常运行时，使用使用栈处理。</p>
-<p>栈混洗：2个栈之间多次执行pop/push.<br>
+<p>栈混洗：2 个栈之间多次执行 pop/push.<br>
 排列情况 &lt;= n!<br>
 <img src="/coursera/dsa/2/stackSum.png" alt=""><br>
 任意三个元素能否按某相对次序出现于混洗中，与其它元素无关。<br>
 123 =》 312 是禁形。<br>
-n个括号组成的合法表达式，就是n个括号的栈混洗的过程。<br>
+n 个括号组成的合法表达式，就是 n 个括号的栈混洗的过程。<br>
 合法的括号匹配与合法的栈混洗之间存在一一对应关系。<br>
 <strong>邓老师的代码非常严谨</strong><br>
 逆波兰表达式，可以不使用括号表示优化级。<br>
-示例都是使用0，1，2，3，4，……,9的。经过计算后结果都是2013.</p>
+示例都是使用 0，1，2，3，4，……,9 的。经过计算后结果都是 2013.</p>
 <pre><code class="language-js"><span class="hljs-comment">// 中缀 =》 rpn</span>
 </code></pre>
 <h2 id="queue">queue</h2>
-<h1 id="no3">no.3</h1>
+<h1 id="no3-树">no.3 树</h1>
+<h2 id="overview">overview</h2>
+<ul>
+<li>按层次关系分</li>
+<li>树是特殊的图。连通无环图。</li>
+<li>半线性。前驱惟一，后续不惟一。</li>
+<li></li>
+</ul>
+<h2 id="概念">概念</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>vertex</td>
+<td>节点</td>
+<td></td>
+</tr>
+<tr>
+<td>edge</td>
+<td>边</td>
+<td></td>
+</tr>
+<tr>
+<td>有根树</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>subTree</td>
+<td>子树</td>
+<td></td>
+</tr>
+<tr>
+<td>parent/child/sibling</td>
+<td></td>
+<td>react中把它们使用链表连接起来。</td>
+</tr>
+<tr>
+<td>degree</td>
+<td>度</td>
+<td>该节点的孩子的数量</td>
+</tr>
+<tr>
+<td>有序树</td>
+<td>兄弟节点之间有顺序</td>
+<td></td>
+</tr>
+<tr>
+<td>连通性</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>无环性</td>
+<td></td>
+<td>任一节点与根节点之间存在唯一路径</td>
+</tr>
+<tr>
+<td>通路</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>连通图</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>无环图</td>
+<td>acyclic</td>
+<td></td>
+</tr>
+<tr>
+<td>无环连通图</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>极小连通图</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>极大无环图</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>深度</td>
+<td>从根向叶</td>
+<td>根节点深度为0</td>
+</tr>
+<tr>
+<td>高度</td>
+<td>从叶向根</td>
+<td>叶子点高度为1</td>
+</tr>
+<tr>
+<td>空树</td>
+<td>根节点为null</td>
+<td>空树的高度是-1</td>
+</tr>
+<tr>
+<td>title</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>title</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>title</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>title</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>title</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>title</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>title</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="树的表示法">树的表示法</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>root</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>parent</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>firstChild</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>nextSibling</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>insert(i, e)</td>
+<td>把e作为第i个子节点插入</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>remove(i)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>traverse()</td>
+<td>遍历</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-js">{
+    <span class="hljs-attr">value</span>: A,
+    <span class="hljs-attr">parent</span>: node&lt;T&gt;
+    <span class="hljs-attr">children</span>: <span class="hljs-title class_">Chain</span>&lt;T&gt;
+}
+</code></pre>
+<h3 id="长子兄弟法">长子+兄弟法</h3>
+<p>表示兄弟节点之间的关系。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>firstChild</td>
+<td>长子</td>
+<td></td>
+</tr>
+<tr>
+<td>nextSibling</td>
+<td>下一个兄弟</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-ts">{
+    <span class="hljs-attr">value</span>: T,
+    <span class="hljs-attr">parent</span>: node&lt;T&gt;,
+    <span class="hljs-attr">firstChild</span>: node&lt;T&gt;,
+    <span class="hljs-attr">nextSibling</span>: node&lt;T&gt;
+}
+</code></pre>
+<h2 id="二叉树-binary-tree">二叉树 binary tree</h2>
+<p>度 &lt;= 2<br>
+最多有（2^(h+1)-1）个节点<br>
+可以用于表示“树”</p>
+<p>按每层节点数量可分为：</p>
+<ul>
+<li>单链表</li>
+<li>满二叉树</li>
+</ul>
+<p>特点：</p>
+<ul>
+<li>宽度增长为指数式</li>
+<li>高度增长为对数式<br>
+也就是宽度增长更快。</li>
+</ul>
+<p>还原树：</p>
+<ul>
+<li>可以根据“先序遍历”拓扑出树结构。别的遍历方式不行</li>
+<li>当树是真二叉树时，使用使用preorder/inorder/postorder方式还原。</li>
+<li></li>
+</ul>
+<h3 id="真二叉树-proper-binary-tree">真二叉树 proper binary tree</h3>
+<p>每个节点的出度是0或2.<br>
+意义：只需要在思想上认为度总是2，不需要在实际中真的兑现。</p>
+<h3 id="满二叉树-full-binary-tree">满二叉树 full binary tree</h3>
+<p>叶子节点在最后一层上的真二叉树。</p>
+<h3 id="完全二叉树-complete-binary-tree">完全二叉树 complete binary tree</h3>
+<p>非最后一层为满二叉树，最后一层从左到右分布。</p>
+<ul>
+<li>叶子节点只能出现在最好二层。</li>
+</ul>
+<h3 id="遍历">遍历</h3>
+<ul>
+<li>先序
+<ul>
+<li>先自上而下左侧节点，再自下而上右铡节点。</li>
+<li>使用栈保存右侧节点</li>
+<li>使用深度优先。</li>
+</ul>
+</li>
+<li>中序
+<ul>
+<li>先自下而上左侧节点，再</li>
+</ul>
+</li>
+<li>后序</li>
+<li>层次（广度优先）</li>
+</ul>
+<p>中序处理方法与事件捕获阶段、当前阶段、冒泡阶段，很像。</p>
+<h2 id="多叉树">多叉树</h2>
+<p>使用二叉树表示。<br>
+二叉树的子节点是left/right.长子兄弟表示法的子节点是firstChild、兄弟是nextSibling。都是二个叉。</p>
+<h2 id="title">title</h2>
+<h2 id="title">title</h2>
+<h2 id="title">title</h2>
+<h2 id="title">title</h2>
 <h1 id="no4">no.4</h1>
 <h1 id="no5">no.5</h1>
 <h1 id="no6">no.6</h1>

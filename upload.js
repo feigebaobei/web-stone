@@ -249,31 +249,16 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = 'language/xml'
-    let p = [
-      'index.html',
-      'test.html',
-      'promote/codeMethod.html',
-      'util/index.html',
-      'language/javascript/array.html',
-      'language/javascript/bigint.html',
-      'language/javascript/blob.html',
-      'language/javascript/date.html',
-      'language/javascript/event.html',
-      'language/javascript/index.html',
-      'language/javascript/json.html',
-      'language/javascript/map.html',
-      'language/javascript/math.html',
-      'language/javascript/number.html',
-      'language/javascript/object.html',
-      'language/javascript/set.html',
-      'language/javascript/string.html',
-      'language/javascript/symbol.html',
-      'language/javascript/typedArray.html',
-      'language/javascript/undefined.html',
-      'language/javascript/url.html',
-      'language/javascript/xhr.html',
-    ]
+    let p = 'coursera/dsa/3'
+    // let p = [
+    //   // 'index.html',
+    //   'test.html',
+    //   'coursera/dsa/2/index.html',
+    //   'coursera/dsa/3/index.html',
+    //   'dsa/recursion.html',
+    //   'framework/react/index.html',
+    //   'language/typescript/index.html',
+    // ]
     // 检测指定目录是否存在
     // checkDir(p)
     // 检测删除目录
