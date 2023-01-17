@@ -140,16 +140,16 @@ s.clear() // 清空栈
 |HashMap|params|description|type|default|enum|demo||
 |-|-|-|-|-|-|-|-|
 |`new HashMap<T>(kind: HMK = 'separate', hash: HMH = 'djb2')`|T是要保存的值的类型。`type HashMapKind = 'separate' \| 'line'    type HashMapHash = 'djb2' | 'loselose'`|返回HashMap实例||||||
-|`box: SingleChain<G> \| HashMapBox<G>`|`HashMapBox<G>: {key: V, value: G}[]`||保存数据的容器。不要直接操作它。|||||
-|`_size: N`||保存了多少条数据||||||
-|`kind: HashMapKind`||HashMap的种类。有2种，`'separate'`: 使用单向链表保存。分离链接。默认值。 `'line'`: 使用数组保存。线性探查。||||||
-|`hash: HashMapHash`||hash方法的种类名。有2种：`'djb2'`: 使用djb2 hash方法。默认值。`'loselose'`: 使用loselose hash方法。|||||未来可能支持自定义的hash方法。|
-|`createNode: (k: A, v: G) => HashMapBoxItem<G>`||返回一个节点||||||
-|`put: (k: A, v: G) => void`||添加一条数据。返回添加后的大小。||||||
-|`remove: (k: A) => G`||添加一条数据，返回数据的value.||||||
-|`get: (k: A) => G \| undefined`||返回数据||||||
-|`hashFn: (k: A) => N`||根据实例化时的参数hash指定的散列方法。||||||
-|`size: () => N`||返回保存了多少条数据|||||暂时暴露此方法|
+|`hashMap.box: SingleChain<G> \| HashMapBox<G>`|`HashMapBox<G>: {key: V, value: G}[]`||保存数据的容器。不要直接操作它。|||||
+|`hashMap._size: N`||保存了多少条数据||||||
+|`hashMap.kind: HashMapKind`||HashMap的种类。有2种，`'separate'`: 使用单向链表保存。分离链接。默认值。 `'line'`: 使用数组保存。线性探查。||||||
+|`hashMap.hash: HashMapHash`||hash方法的种类名。有2种：`'djb2'`: 使用djb2 hash方法。默认值。`'loselose'`: 使用loselose hash方法。|||||未来可能支持自定义的hash方法。|
+|`hashMap#createNode: (k: A, v: G) => HashMapBoxItem<G>`||返回一个节点||||||
+|`hashMap#put: (k: A, v: G) => void`||添加一条数据。返回添加后的大小。||||||
+|`hashMap#remove: (k: A) => G`||添加一条数据，返回数据的value.||||||
+|`hashMap#get: (k: A) => G \| undefined`||返回数据||||||
+|`hashMap#hashFn: (k: A) => N`||根据实例化时的参数hash指定的散列方法。||||||
+|`hashMap#size: () => N`||返回保存了多少条数据|||||暂时暴露此方法|
 <!-- prettier-ignore-end -->
 
 <!-- prettier-ignore-start -->
@@ -160,19 +160,42 @@ s.clear() // 清空栈
 <!-- prettier-ignore-end -->
 
 <!-- prettier-ignore-start -->
+|BinaryTree|params|description|type|default|enum|demo||
+|-|-|-|-|-|-|-|-|
+|`new BinaryTree<T>()`||返回BinaryTree实例||||||
+|`binaryTree.root: BinaryTreeOrNull<T>`||根节点||||||
+|`binaryTree#createNode: (v: T) => BinaryTreeNode<T>`||返回一个节点||||||
+|``` ```||缺少一个设置根节点的方法|||||使用`tree.root = tree.createNode(p)`设置|
+|`binaryTree#insertAsLeft: (parent: BinaryTreeNode<T>, current: T) => void`||为指定节点插入左节点||||||
+|`binaryTree#insertAsRight: (parent: BinaryTreeNode<T>, current: T) => void`||为指定节点插入右节点||||||
+|`binaryTree#_preOrderTraverse: (cb: F, node: BinaryTreeNodeOrNull<T>) => void`|cb的参数是node.value|前序遍历||||||
+|`binaryTree#_inOrderTraverse: (cb: F, node: BinaryTreeNodeOrNull<T>) => void`|cb的参数是node.value|中序遍历||||||
+|`binaryTree#_postOrderTraverse: (cb: F, node: BinaryTreeNodeOrNull<T>) => void`|cb的参数是node.value|后序遍历||||||
+|`binaryTree#_levelTraverse: (cb: F, node: BinaryTreeNodeOrNull<T>) => void`|cb的参数是node.value|层次遍历||||||
+|`binaryTree#isEmpty: () => B`||是否是空树||||||
+|`binaryTree#height: (node: BinaryTreeNodeOrNull<T> = this.root) => N`||返回指根节点的树的高度。从1开始数。||||||
+|`binaryTree#deep: (node: BinaryTreeNodeOrNull<T> = this.root) => N`||返回指定节点的深度。从0开始数。当root为null时返回-1.||||||
+|`binaryTree#minDeep: () => N`||返回此树的最小深度。||||||
+|`binaryTree#getLevelNode: (p: N) => BinaryTreeNode[]`||返回指定层数的节点组成的数组。|||||考虑该方法要不要处理为node.value组成的数组。|
+|`binaryTree#isProper: () => B`||是否是真二叉树||||||
+|`binaryTree#vertexCount: () => N`||返回树中节点的总数||||||
+|`binaryTree#isFull: () => B`||是否是满二叉树||||||
+|`binaryTree#isComplete: () => B`||是否是完全二叉树||||||
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
 |BinarySearchTree|params|description|type|default|enum|demo||
 |-|-|-|-|-|-|-|-|
-|`new BinarySearchTree<T>()`||返回BST实例||||||
-|`root: BinarySearchTreeNodeOrNull<T>`||根节点||||||
-|`createNode: (v: T) => BinarySearchTreeNode<T>`||返回一个BST节点||||||
-|`insert: (v: T) => void`||插入一个节点||||||
-|`search: (v: T) => boolean`||查找树中是否存在指定的值。返回boolean。||||||
-|`traverse: (fn: Function, order: BinarySearchTreeOrder) => void`|`BinarySearchTreeOrder = 'preOrder' \| 'inOrder' \| 'postOrder'`。fn的参数是节点的value|使用指定顺序遍历树。||||||
-|`min: () => T \| undefined`||返回树中最小的值||||||
-|`max: () => T \| undefined`||返回树中最大的值||||||
-|`findMinNode: (node: BinarySearchTreeNodeOrNull<T>) => BinarySearchTreeNodeOrNull<T>`||返回指定节点下的最小的节点||||||
-|`findMaxNode: (node: BinarySearchTreeNodeOrNull<T>) => BinarySearchTreeNodeOrNull<T>`||返回指定节点下的最大的节点||||||
-|`remove: (v: T) => void`||移除指定值的节点||||||
+|基于BinaryTree开发||可以使用二叉树的所有方法||||||
+|`new BinarySearchTree<T>()`||返回BinarySearchTree实例||||||
+|`binarySearchTree#insert: (v: T) => void`||插入一个节点||||||
+|`binarySearchTree#search: (v: T) => boolean`||查找树中是否存在指定的值。返回boolean。||||||
+|`binarySearchTree#traverse: (fn: Function, order: BinarySearchTreeOrder) => void`|`BinarySearchTreeOrder = 'preOrder' \| 'inOrder' \| 'postOrder' \| 'level'`。fn的参数是节点的value|使用指定顺序遍历树。||||||
+|`binarySearchTree#min: () => T \| undefined`||返回树中最小的值||||||
+|`binarySearchTree#max: () => T \| undefined`||返回树中最大的值||||||
+|`binarySearchTree#findMinNode: (node: BinarySearchTreeNodeOrNull<T>) => BinarySearchTreeNodeOrNull<T>`||返回指定节点下的最小的节点||||||
+|`binarySearchTree#findMaxNode: (node: BinarySearchTreeNodeOrNull<T>) => BinarySearchTreeNodeOrNull<T>`||返回指定节点下的最大的节点||||||
+|`binarySearchTree#remove: (v: T) => void`||移除指定值的节点||||||
 <!-- prettier-ignore-end -->
 
 <!-- prettier-ignore-start -->

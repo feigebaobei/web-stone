@@ -249,16 +249,14 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    let p = 'coursera/dsa/3'
-    // let p = [
-    //   // 'index.html',
-    //   'test.html',
-    //   'coursera/dsa/2/index.html',
-    //   'coursera/dsa/3/index.html',
-    //   'dsa/recursion.html',
-    //   'framework/react/index.html',
-    //   'language/typescript/index.html',
-    // ]
+    // let p = 'coursera/dsa/3'
+    let p = [
+      // 'test.html',
+      'coursera/dsa/2/index.html',
+      // 'coursera/dsa/3/index.html',
+      'jsPackages/data-footstone.html',
+      'test/jest/index.html',
+    ]
     // 检测指定目录是否存在
     // checkDir(p)
     // 检测删除目录

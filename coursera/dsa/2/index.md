@@ -55,11 +55,6 @@ n 个括号组成的合法表达式，就是 n 个括号的栈混洗的过程。
 | 空树                 | 根节点为 null      | 空树的高度是-1                   |
 | title                |                    |                                  |
 | title                |                    |                                  |
-| title                |                    |                                  |
-| title                |                    |                                  |
-| title                |                    |                                  |
-| title                |                    |                                  |
-| title                |                    |                                  |
 
 ## 树的表示法
 
@@ -73,11 +68,11 @@ n 个括号组成的合法表达式，就是 n 个括号的栈混洗的过程。
 | remove(i)    |                            |     |     |
 | traverse()   | 遍历                       |     |     |
 
-```js
-{
-    value: A,
-    parent: node<T>
-    children: Chain<T>
+```ts
+interface node<T> {
+  value: A
+  parent: node<T>
+  children: Chain<T>
 }
 ```
 
@@ -90,11 +85,11 @@ n 个括号组成的合法表达式，就是 n 个括号的栈混洗的过程。
 |nextSibling|下一个兄弟||
 
 ```ts
-{
-    value: T,
-    parent: node<T>,
-    firstChild: node<T>,
-    nextSibling: node<T>
+interface node<T> {
+  value: T
+  parent: node<T>
+  firstChild: node<T>
+  nextSibling: node<T>
 }
 ```
 
