@@ -213,6 +213,66 @@ s.clear() // 清空栈
 <!-- prettier-ignore-end -->
 
 <!-- prettier-ignore-start -->
+|Graph|params|description|type|default|enum|demo||
+|-|-|-|-|-|-|-|-|
+|基于BinaryTree开发||可以使用二叉树的所有方法||||||
+|`new Graph<T>()`||返回Graph实例||||||
+|`vertexMap: Map<T, Vertex<T>>`||返回图中数据与顶点的映射关系。Map类型。||||||
+|`adjMatrix: Map<T, Map<T, EdgeOrNull<T>>>`||返回图中顶点矩阵。||||||
+|`adjTable: Map<T, Set<Vertex<T>>>`||返回图中数据与顶点的映射关系||||||
+|`createVertex: (v: T) => Vertex<T>`||返回创建的顶点||||||
+|`createEdge: (a: T, b: T) => Edge<T>`||返回创建的边||||||
+|`putVertex: (a: T) => void`||添加或更新顶点||||||
+|`edgeList: () => Edge<T>[]`||返回所有边||||||
+|`removeVertex: (a: T) => Vertex<T> | undefined`||返回移除的顶点||||||
+|`bfs: (data: T, cb: F) => void`||从指定的顶点开始广度优先遍历全图||||||
+|`dfs: (data: T, cb: F) => void`||从指定的顶点开始深度优先遍历全图||||||
+|`shortestPath: (data: T) => ShortestPathObj<T>`||返回从指定顶点到全图各顶点的路径、前置节点。||||||
+|`getPath: (from: T, to: T) => T[]`||返回从from到to的最短路径。由该路径的依次顶点的数据组件成的数组。||||||
+<!-- prettier-ignore-end -->
+
+```ts
+interface Vertex<T> {
+  data: T
+  inDegree: N
+  outDegree: N
+  status: A
+  dTime: D // 考虑使用ms
+  fTime: D
+  // parent: VertexOrNull<T>
+}
+type VertexOrNull<T> = Vertex<T> | null
+interface Edge<T> {
+  data: A // 可能这里需要修改
+  start: Vertex<T>
+  end: Vertex<T>
+  weight: N
+  status: A
+}
+type EdgeOrNull<T> = Edge<T> | null
+type ShortestPathObj<T> = {
+  distance: Map<T, N>
+  predecessors: Map<T, T>
+}
+```
+
+<!-- prettier-ignore-start -->
+|DirectionGraph|params|description|type|default|enum|demo||
+|-|-|-|-|-|-|-|-|
+|基于Graph开发||可以使用Graph的所有属性、方法。||||||
+|`putEdge: (a: T, b: T) => void`|a/b2个顶点的数据|添加边||||||
+|`removeEdge: (a: T, b: T) => Edge<T> | undefined`|a/b2个顶点的数据|返回移除的边或undefined||||||
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
+|UndirectionGraph|params|description|type|default|enum|demo||
+|-|-|-|-|-|-|-|-|
+|基于Graph开发||可以使用Graph的所有属性、方法。||||||
+|`putEdge: (a: T, b: T) => void`|a/b2个顶点的数据|添加边||||||
+|`removeEdge: (a: T, b: T) => Edge<T>[]`|a/b2个顶点的数据|返回移除的边或undefined||||||
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
 |order|params|description|type|default|enum|demo||
 |-|-|-|-|-|-|-|-|
 |`bubbleSort(arr: any[], order = 'asc') => any[]`|`order: 'asc' \| 'des'`|冒泡排序。返回排好序的arr。会改变arr内元素的顺序。||||||
@@ -275,6 +335,6 @@ s.clear() // 清空栈
 
 ## todo
 
-> 我现在正在找工作。我想找一个技术骨干或前端 Leader 的岗位。有团队需要增加人手的可以联系我。18515195415@163.com
-> 未来迭代计划。
+> 我现在正在找工作。我想找一个技术骨干或前端 Leader 的岗位。有团队需要增加人手的可以联系我。18515195415@163.com  
+> 未来迭代计划。  
 > 未来迭代计划。

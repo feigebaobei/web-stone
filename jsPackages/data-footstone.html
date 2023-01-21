@@ -1490,6 +1490,283 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 <table>
 <thead>
 <tr>
+<th>Graph</th>
+<th>params</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>基于BinaryTree开发</td>
+<td></td>
+<td>可以使用二叉树的所有方法</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>new Graph&lt;T&gt;()</code></td>
+<td></td>
+<td>返回Graph实例</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>vertexMap: Map&lt;T, Vertex&lt;T&gt;&gt;</code></td>
+<td></td>
+<td>返回图中数据与顶点的映射关系。Map类型。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>adjMatrix: Map&lt;T, Map&lt;T, EdgeOrNull&lt;T&gt;&gt;&gt;</code></td>
+<td></td>
+<td>返回图中顶点矩阵。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>adjTable: Map&lt;T, Set&lt;Vertex&lt;T&gt;&gt;&gt;</code></td>
+<td></td>
+<td>返回图中数据与顶点的映射关系</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>createVertex: (v: T) =&gt; Vertex&lt;T&gt;</code></td>
+<td></td>
+<td>返回创建的顶点</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>createEdge: (a: T, b: T) =&gt; Edge&lt;T&gt;</code></td>
+<td></td>
+<td>返回创建的边</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>putVertex: (a: T) =&gt; void</code></td>
+<td></td>
+<td>添加或更新顶点</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>edgeList: () =&gt; Edge&lt;T&gt;[]</code></td>
+<td></td>
+<td>返回所有边</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>`removeVertex: (a: T) =&gt; Vertex<T></td>
+<td>undefined`</td>
+<td></td>
+<td>返回移除的顶点</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>bfs: (data: T, cb: F) =&gt; void</code></td>
+<td></td>
+<td>从指定的顶点开始广度优先遍历全图</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>dfs: (data: T, cb: F) =&gt; void</code></td>
+<td></td>
+<td>从指定的顶点开始深度优先遍历全图</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>shortestPath: (data: T) =&gt; ShortestPathObj&lt;T&gt;</code></td>
+<td></td>
+<td>返回从指定顶点到全图各顶点的路径、前置节点。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>getPath: (from: T, to: T) =&gt; T[]</code></td>
+<td></td>
+<td>返回从from到to的最短路径。由该路径的依次顶点的数据组件成的数组。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<pre><code class="language-ts"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">Vertex</span>&lt;T&gt; {
+  <span class="hljs-attr">data</span>: T
+  <span class="hljs-attr">inDegree</span>: N
+  <span class="hljs-attr">outDegree</span>: N
+  <span class="hljs-attr">status</span>: A
+  <span class="hljs-attr">dTime</span>: D <span class="hljs-comment">// 考虑使用ms</span>
+  <span class="hljs-attr">fTime</span>: D
+  <span class="hljs-comment">// parent: VertexOrNull&lt;T&gt;</span>
+}
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">VertexOrNull</span>&lt;T&gt; = <span class="hljs-title class_">Vertex</span>&lt;T&gt; | <span class="hljs-literal">null</span>
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">Edge</span>&lt;T&gt; {
+  <span class="hljs-attr">data</span>: A <span class="hljs-comment">// 可能这里需要修改</span>
+  <span class="hljs-attr">start</span>: <span class="hljs-title class_">Vertex</span>&lt;T&gt;
+  <span class="hljs-attr">end</span>: <span class="hljs-title class_">Vertex</span>&lt;T&gt;
+  <span class="hljs-attr">weight</span>: N
+  <span class="hljs-attr">status</span>: A
+}
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">EdgeOrNull</span>&lt;T&gt; = <span class="hljs-title class_">Edge</span>&lt;T&gt; | <span class="hljs-literal">null</span>
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">ShortestPathObj</span>&lt;T&gt; = {
+  <span class="hljs-attr">distance</span>: <span class="hljs-title class_">Map</span>&lt;T, N&gt;
+  <span class="hljs-attr">predecessors</span>: <span class="hljs-title class_">Map</span>&lt;T, T&gt;
+}
+</code></pre>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>DirectionGraph</th>
+<th>params</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>基于Graph开发</td>
+<td></td>
+<td>可以使用Graph的所有属性、方法。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>putEdge: (a: T, b: T) =&gt; void</code></td>
+<td>a/b2个顶点的数据</td>
+<td>添加边</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>`removeEdge: (a: T, b: T) =&gt; Edge<T></td>
+<td>undefined`</td>
+<td>a/b2个顶点的数据</td>
+<td>返回移除的边或undefined</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>UndirectionGraph</th>
+<th>params</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>基于Graph开发</td>
+<td></td>
+<td>可以使用Graph的所有属性、方法。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>putEdge: (a: T, b: T) =&gt; void</code></td>
+<td>a/b2个顶点的数据</td>
+<td>添加边</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>removeEdge: (a: T, b: T) =&gt; Edge&lt;T&gt;[]</code></td>
+<td>a/b2个顶点的数据</td>
+<td>返回移除的边或undefined</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
 <th>order</th>
 <th>params</th>
 <th>description</th>
@@ -1875,8 +2152,8 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 </code></pre>
 <h2 id="todo">todo</h2>
 <blockquote>
-<p>我现在正在找工作。我想找一个技术骨干或前端 Leader 的岗位。有团队需要增加人手的可以联系我。18515195415@163.com
-未来迭代计划。
+<p>我现在正在找工作。我想找一个技术骨干或前端 Leader 的岗位。有团队需要增加人手的可以联系我。18515195415@163.com<br>
+未来迭代计划。<br>
 未来迭代计划。</p>
 </blockquote>
 
