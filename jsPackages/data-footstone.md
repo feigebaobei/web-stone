@@ -213,9 +213,9 @@ s.clear() // 清空栈
 <!-- prettier-ignore-end -->
 
 <!-- prettier-ignore-start -->
+**暂时没开放此类**
 |Graph|params|description|type|default|enum|demo||
 |-|-|-|-|-|-|-|-|
-|基于BinaryTree开发||可以使用二叉树的所有方法||||||
 |`new Graph<T>()`||返回Graph实例||||||
 |`vertexMap: Map<T, Vertex<T>>`||返回图中数据与顶点的映射关系。Map类型。||||||
 |`adjMatrix: Map<T, Map<T, EdgeOrNull<T>>>`||返回图中顶点矩阵。||||||

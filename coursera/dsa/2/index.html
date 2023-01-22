@@ -268,9 +268,9 @@ n 个括号组成的合法表达式，就是 n 个括号的栈混洗的过程。
 </tbody>
 </table>
 <pre><code class="language-ts"><span class="hljs-keyword">interface</span> node&lt;T&gt; {
-    <span class="hljs-attr">value</span>: A,
-    <span class="hljs-attr">parent</span>: node&lt;T&gt;
-    <span class="hljs-attr">children</span>: <span class="hljs-title class_">Chain</span>&lt;T&gt;
+  <span class="hljs-attr">value</span>: A
+  <span class="hljs-attr">parent</span>: node&lt;T&gt;
+  <span class="hljs-attr">children</span>: <span class="hljs-title class_">Chain</span>&lt;T&gt;
 }
 </code></pre>
 <h3 id="长子兄弟法">长子+兄弟法</h3>
@@ -297,10 +297,10 @@ n 个括号组成的合法表达式，就是 n 个括号的栈混洗的过程。
 </tbody>
 </table>
 <pre><code class="language-ts"><span class="hljs-keyword">interface</span> node&lt;T&gt; {
-    <span class="hljs-attr">value</span>: T,
-    <span class="hljs-attr">parent</span>: node&lt;T&gt;,
-    <span class="hljs-attr">firstChild</span>: node&lt;T&gt;,
-    <span class="hljs-attr">nextSibling</span>: node&lt;T&gt;
+  <span class="hljs-attr">value</span>: T
+  <span class="hljs-attr">parent</span>: node&lt;T&gt;
+  <span class="hljs-attr">firstChild</span>: node&lt;T&gt;
+  <span class="hljs-attr">nextSibling</span>: node&lt;T&gt;
 }
 </code></pre>
 <h2 id="二叉树-binary-tree">二叉树 binary tree</h2>
@@ -359,8 +359,301 @@ n 个括号组成的合法表达式，就是 n 个括号的栈混洗的过程。
 <h2 id="title">title</h2>
 <h2 id="title">title</h2>
 <h2 id="title">title</h2>
-<h1 id="no4">no.4</h1>
-<h1 id="no5">no.5</h1>
+<h1 id="no4-图-graph">no.4 图 graph</h1>
+<h2 id="概念">概念</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>图</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>vertex</td>
+<td>顶点</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>edge</td>
+<td>边</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>adjacency</td>
+<td>邻接</td>
+<td>v-v</td>
+<td></td>
+</tr>
+<tr>
+<td>incidence</td>
+<td>关联</td>
+<td>v-e</td>
+<td></td>
+</tr>
+<tr>
+<td>强连通</td>
+<td>2个双向连通</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>有向图、无向图、混合图</td>
+<td>连接2个顶点的边是否有方向</td>
+<td>一对有向边可表示一个无向边</td>
+<td></td>
+</tr>
+<tr>
+<td>路径</td>
+<td>由顶点组成的数组</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>简单路径</td>
+<td>路径中无重复节点。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>复杂路径</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>环路</td>
+<td>路径的起点与终点相同。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>简单环路、复杂环路</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>欧拉环</td>
+<td>经过所有边且不重复的环</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>哈密尔顿环</td>
+<td>经过所有顶点，且不重复的环</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>平面图</td>
+<td>可以嵌于平面的图。不相邻的边不能相交</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>完全图</td>
+<td>任意2个顶点之间都有边。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>可达区域</td>
+<td></td>
+<td>多个可达区域就是多棵树。也就是森林。</td>
+<td></td>
+</tr>
+<tr>
+<td>活动期</td>
+<td>fTime-dTime</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>dTime</td>
+<td>开始活跃的时间</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>fTime</td>
+<td>结束活跃的时间</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>vertex</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>vertex</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>vertex</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="矩阵">矩阵</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th>无权图</th>
+<th>有权图</th>
+<th>无向图</th>
+<th></th>
+<th>扩展</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>邻接矩阵</td>
+<td>n行n列</td>
+<td>用1表示是否连通</td>
+<td>用w表示权重</td>
+<td>关于对角线对称</td>
+<td>空间与边数无关</td>
+<td>当顶点数量改变时它不太灵活</td>
+</tr>
+<tr>
+<td>关联矩阵</td>
+<td>n行e列</td>
+<td>用1表示是否连通</td>
+<td>常用于边的数量比顶点的数量多</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="顶点">顶点</h3>
+<pre><code class="language-ts"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">Vertex</span> {
+  <span class="hljs-attr">data</span>: xx,
+  <span class="hljs-attr">inDegree</span>: xx,
+  <span class="hljs-attr">outDegree</span>: xx,
+  <span class="hljs-attr">status</span>: xx, <span class="hljs-comment">// undiscovered / discovered / visited</span>
+  <span class="hljs-attr">dTime</span>: xx,
+  <span class="hljs-attr">fTime</span>: xx,
+  <span class="hljs-attr">parent</span>: xx,
+  <span class="hljs-comment">// 构造新顶点</span>
+}
+</code></pre>
+<h3 id="边">边</h3>
+<pre><code class="language-ts"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">Edge</span> {
+  <span class="hljs-attr">data</span>: xx,
+  <span class="hljs-attr">weight</span>: xx,
+  <span class="hljs-attr">status</span>: xx,
+  <span class="hljs-comment">// 构造新边</span>
+}
+</code></pre>
+<h3 id="平面图">平面图</h3>
+<p>满足以下公式：</p>
+<pre><code class="language-js">v-e+f-c=<span class="hljs-number">1</span>
+
+<span class="hljs-attr">v</span>: 顶点
+<span class="hljs-attr">e</span>: 边
+<span class="hljs-attr">f</span>: 区域面片
+<span class="hljs-attr">c</span>: 连通域的总数
+
+e &lt;= <span class="hljs-number">3n</span>-<span class="hljs-number">6</span> = <span class="hljs-title function_">O</span>(n) &lt;&lt; n*n
+此时空间利用率约等于 <span class="hljs-number">1</span>/n
+</code></pre>
+<h2 id="广度优先搜索">广度优先搜索</h2>
+<p>代繁为简<br>
+graph ------&gt; tree ------&gt; sequence
+非线性结构 ---&gt; 半线性结构 --&gt; 线性结构</p>
+<h2 id="深度优先搜索">深度优先搜索</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>u是v的后代</td>
+<td><code>iff active[u] 包含于 active[v]</code></td>
+<td></td>
+</tr>
+<tr>
+<td>u是v的祖先</td>
+<td><code>iff active[u] 包含 active[v]</code></td>
+<td></td>
+</tr>
+<tr>
+<td>u是v无关</td>
+<td><code>iff active[u] 与 active[v] 的交集为空</code></td>
+<td></td>
+</tr>
+<tr>
+<td>使用引方法可快速判断2个顶点之间是否是祖先、后代关系（O(1)）。比<code>parent</code>方法快很多（O(n)）。</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>u是v的祖先</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>u是v的后代</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>u是v的兄弟</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>u是v属于不同的连通分量</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h1 id="no5-二叉搜索树">no.5 二叉搜索树</h1>
+<h3 id="title">title</h3>
+<h3 id="title">title</h3>
+<h2 id="title">title</h2>
 <h1 id="no6">no.6</h1>
 
         

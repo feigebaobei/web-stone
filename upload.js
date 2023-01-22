@@ -255,7 +255,7 @@ c.on('ready', () => {
       'coursera/dsa/2/index.html',
       // 'coursera/dsa/3/index.html',
       'jsPackages/data-footstone.html',
-      'test/jest/index.html',
+      // 'test/jest/index.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
