@@ -201,8 +201,13 @@ n 个括号组成的合法表达式，就是 n 个括号的栈混洗的过程。
 <td>空树的高度是-1</td>
 </tr>
 <tr>
-<td>title</td>
+<td>子节点</td>
+<td>使用方形表示</td>
 <td></td>
+</tr>
+<tr>
+<td>非子节点</td>
+<td>使用圆形表示</td>
 <td></td>
 </tr>
 <tr>
@@ -355,10 +360,6 @@ n 个括号组成的合法表达式，就是 n 个括号的栈混洗的过程。
 <h2 id="多叉树">多叉树</h2>
 <p>使用二叉树表示。<br>
 二叉树的子节点是 left/right.长子兄弟表示法的子节点是 firstChild、兄弟是 nextSibling。都是二个叉。</p>
-<h2 id="title">title</h2>
-<h2 id="title">title</h2>
-<h2 id="title">title</h2>
-<h2 id="title">title</h2>
 <h1 id="no4-图-graph">no.4 图 graph</h1>
 <h2 id="概念">概念</h2>
 <table>
@@ -403,13 +404,13 @@ n 个括号组成的合法表达式，就是 n 个括号的栈混洗的过程。
 </tr>
 <tr>
 <td>强连通</td>
-<td>2个双向连通</td>
+<td>2 个双向连通</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td>有向图、无向图、混合图</td>
-<td>连接2个顶点的边是否有方向</td>
+<td>连接 2 个顶点的边是否有方向</td>
 <td>一对有向边可表示一个无向边</td>
 <td></td>
 </tr>
@@ -463,7 +464,7 @@ n 个括号组成的合法表达式，就是 n 个括号的栈混洗的过程。
 </tr>
 <tr>
 <td>完全图</td>
-<td>任意2个顶点之间都有边。</td>
+<td>任意 2 个顶点之间都有边。</td>
 <td></td>
 <td></td>
 </tr>
@@ -533,17 +534,17 @@ n 个括号组成的合法表达式，就是 n 个括号的栈混洗的过程。
 <tbody>
 <tr>
 <td>邻接矩阵</td>
-<td>n行n列</td>
-<td>用1表示是否连通</td>
-<td>用w表示权重</td>
+<td>n 行 n 列</td>
+<td>用 1 表示是否连通</td>
+<td>用 w 表示权重</td>
 <td>关于对角线对称</td>
 <td>空间与边数无关</td>
 <td>当顶点数量改变时它不太灵活</td>
 </tr>
 <tr>
 <td>关联矩阵</td>
-<td>n行e列</td>
-<td>用1表示是否连通</td>
+<td>n 行 e 列</td>
+<td>用 1 表示是否连通</td>
 <td>常用于边的数量比顶点的数量多</td>
 <td></td>
 <td></td>
@@ -553,21 +554,21 @@ n 个括号组成的合法表达式，就是 n 个括号的栈混洗的过程。
 </table>
 <h3 id="顶点">顶点</h3>
 <pre><code class="language-ts"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">Vertex</span> {
-  <span class="hljs-attr">data</span>: xx,
-  <span class="hljs-attr">inDegree</span>: xx,
-  <span class="hljs-attr">outDegree</span>: xx,
-  <span class="hljs-attr">status</span>: xx, <span class="hljs-comment">// undiscovered / discovered / visited</span>
-  <span class="hljs-attr">dTime</span>: xx,
-  <span class="hljs-attr">fTime</span>: xx,
-  <span class="hljs-attr">parent</span>: xx,
+  <span class="hljs-attr">data</span>: xx
+  <span class="hljs-attr">inDegree</span>: xx
+  <span class="hljs-attr">outDegree</span>: xx
+  <span class="hljs-attr">status</span>: xx <span class="hljs-comment">// undiscovered / discovered / visited</span>
+  <span class="hljs-attr">dTime</span>: xx
+  <span class="hljs-attr">fTime</span>: xx
+  <span class="hljs-attr">parent</span>: xx
   <span class="hljs-comment">// 构造新顶点</span>
 }
 </code></pre>
 <h3 id="边">边</h3>
 <pre><code class="language-ts"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">Edge</span> {
-  <span class="hljs-attr">data</span>: xx,
-  <span class="hljs-attr">weight</span>: xx,
-  <span class="hljs-attr">status</span>: xx,
+  <span class="hljs-attr">data</span>: xx
+  <span class="hljs-attr">weight</span>: xx
+  <span class="hljs-attr">status</span>: xx
   <span class="hljs-comment">// 构造新边</span>
 }
 </code></pre>
@@ -598,27 +599,23 @@ graph ------&gt; tree ------&gt; sequence
 </thead>
 <tbody>
 <tr>
-<td>u是v的后代</td>
+<td>u 是 v 的后代</td>
 <td><code>iff active[u] 包含于 active[v]</code></td>
 <td></td>
 </tr>
 <tr>
-<td>u是v的祖先</td>
+<td>u 是 v 的祖先</td>
 <td><code>iff active[u] 包含 active[v]</code></td>
 <td></td>
 </tr>
 <tr>
-<td>u是v无关</td>
+<td>u 是 v 无关</td>
 <td><code>iff active[u] 与 active[v] 的交集为空</code></td>
-<td></td>
-</tr>
-<tr>
-<td>使用引方法可快速判断2个顶点之间是否是祖先、后代关系（O(1)）。比<code>parent</code>方法快很多（O(n)）。</td>
-<td></td>
 <td></td>
 </tr>
 </tbody>
 </table>
+<p>使用引方法可快速判断 2 个顶点之间是否是祖先、后代关系（O(1)）。比<code>parent</code>方法快很多（O(n)）。</p>
 <table>
 <thead>
 <tr>
@@ -629,30 +626,257 @@ graph ------&gt; tree ------&gt; sequence
 </thead>
 <tbody>
 <tr>
-<td>u是v的祖先</td>
+<td>u 是 v 的祖先</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td>u是v的后代</td>
+<td>u 是 v 的后代</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td>u是v的兄弟</td>
+<td>u 是 v 的兄弟</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td>u是v属于不同的连通分量</td>
+<td>u 是 v 属于不同的连通分量</td>
 <td></td>
 <td></td>
 </tr>
 </tbody>
 </table>
-<h1 id="no5-二叉搜索树">no.5 二叉搜索树</h1>
-<h3 id="title">title</h3>
-<h3 id="title">title</h3>
+<h1 id="no5-二叉搜索树-bst">no.5 二叉搜索树 BST</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>二叉搜索树</td>
+<td>任一节点均不小于、不大于它的左、右后代</td>
+<td>由局部特性决定了全局特性。</td>
+<td>使用中序遍历，则单调非降。此特性可用于判断是否是二叉搜索树。</td>
+</tr>
+<tr>
+<td>call-by-key</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>词条</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>单调非降</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>平均高度</td>
+<td>根号n</td>
+<td>catalan(n )</td>
+<td></td>
+</tr>
+<tr>
+<td>理想平衡</td>
+<td>高度等于log2n时。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>适度平衡</td>
+<td>高度渐进地不超过logn</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>平衡二叉搜索树</td>
+<td>BBST</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>等价bst</td>
+<td>上下可变：连接关系可不同，承袭关系可能颠倒。 左右不乱：中序遍历结果相同，全局单调非降。</td>
+<td><code>1&lt;avlt&lt;logn</code></td>
+<td><code>rbt = 1 * 2</code></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-ts"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">Node</span>&lt;T&gt; {
+  <span class="hljs-attr">key</span>: N
+  <span class="hljs-attr">value</span>: T
+  <span class="hljs-attr">clone</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-title class_">Node</span>&lt;T&gt;
+  <span class="hljs-string">&#x27;operator&lt;&#x27;</span>: <span class="hljs-function">(<span class="hljs-params">otherNode</span>) =&gt;</span> B
+  <span class="hljs-string">&#x27;operator&gt;&#x27;</span>: <span class="hljs-function">(<span class="hljs-params">otherNode</span>) =&gt;</span> B
+  <span class="hljs-string">&#x27;operator===&#x27;</span>: <span class="hljs-function">(<span class="hljs-params">otherNode</span>) =&gt;</span> B
+  <span class="hljs-string">&#x27;operator!==&#x27;</span>: <span class="hljs-function">(<span class="hljs-params">otherNode</span>) =&gt;</span> B
+}
+</code></pre>
+<h2 id="avl-tree">avl tree</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>avl</td>
+<td>Adelson-Velsky &amp; E. Landis</td>
+<td>不一定是完全二叉树</td>
+<td></td>
+</tr>
+<tr>
+<td>平衡因子</td>
+<td>左子树高度 - 右子树高度</td>
+<td><code>tree.height(node.left) - tree.height(node.right)</code></td>
+<td>要求 绝对值 &lt;= 1</td>
+</tr>
+<tr>
+<td></td>
+<td>高度为h的树，最少包含<code>S(h) = fib(h + 3) - 1</code>个节点。</td>
+<td><code>S(h) = 1 + S(h - 1) + S(h - 2)</code></td>
+<td></td>
+</tr>
+<tr>
+<td>旋转</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>单旋转</td>
+<td>节点排列朝同一方向</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>双旋转</td>
+<td>节点排列成之字形</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>查询、插入、删除</td>
+<td>O(logn)</td>
+<td>占用空间 n</td>
+<td></td>
+</tr>
+<tr>
+<td>不改变中序遍历顺序</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>插入</td>
+<td>O(1)次操作</td>
+<td>有可能使祖先节点失衡。非祖先节点总是平衡。</td>
+<td></td>
+</tr>
+<tr>
+<td>删除</td>
+<td>O(logn)次操作</td>
+<td>最多一个祖先节点失衡。</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>各种旋转只是为达到平衡的手段。
+左右</p>
+<h3 id="旋转">旋转</h3>
+<h3 id="34重构">3+4重构</h3>
+<ul>
+<li>简单</li>
+<li>安全</li>
+<li>鲁棒（原子）性</li>
+</ul>
+<pre><code>        b
+    a       c
+  t0  t1  t2  t3
+</code></pre>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">connect34</span> = (<span class="hljs-params">a, b, c, t0, t1, t2, t3</span>) =&gt; {
+  a.<span class="hljs-property">left</span> = t0
+  t0 &amp;&amp; t0.<span class="hljs-property">parent</span> = a
+  a.<span class="hljs-property">right</span> = t1
+  t1 &amp;&amp; t1.<span class="hljs-property">parent</span> = a
+  c.<span class="hljs-property">left</span> = t2
+  t2 &amp;&amp; t2.<span class="hljs-property">parent</span> = c
+  c.<span class="hljs-property">right</span> = t3
+  t3 &amp;&amp; t3.<span class="hljs-property">parent</span> = c
+  b.<span class="hljs-property">left</span> = a
+  a.<span class="hljs-property">parent</span> = b
+  b.<span class="hljs-property">right</span> = c
+  c.<span class="hljs-property">parent</span> = b
+  <span class="hljs-keyword">return</span> b <span class="hljs-comment">// 返回该子树的根节点</span>
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">rotateAt</span> = (<span class="hljs-params">v</span>) =&gt; {
+  <span class="hljs-comment">// v是孙辈的节点</span>
+  <span class="hljs-keyword">let</span> p = v.<span class="hljs-property">parent</span>, g = p.<span class="hljs-property">parent</span>
+  <span class="hljs-keyword">if</span> (p[<span class="hljs-string">&#x27;operator!==&#x27;</span>](g.<span class="hljs-property">left</span>)) {
+    <span class="hljs-keyword">if</span> (v[<span class="hljs-string">&#x27;operator!==&#x27;</span>](p.<span class="hljs-property">left</span>)) {
+      <span class="hljs-comment">// v p g</span>
+      <span class="hljs-title function_">connect34</span>(v, p, g, v.<span class="hljs-property">left</span>, v.<span class="hljs-property">right</span>, p.<span class="hljs-property">right</span>, g.<span class="hljs-property">right</span>)
+    } <span class="hljs-keyword">else</span>  {
+      <span class="hljs-comment">// p v g</span>
+      <span class="hljs-title function_">connect34</span>(p, v, g, p.<span class="hljs-property">left</span>, v.<span class="hljs-property">left</span>, v.<span class="hljs-property">right</span>, g.<span class="hljs-property">right</span>)
+    }
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">if</span> (v[<span class="hljs-string">&#x27;operator!==&#x27;</span>](p.<span class="hljs-property">left</span>)) {
+      <span class="hljs-comment">// g v p</span>
+      <span class="hljs-title function_">connect34</span>(g, v, p, g.<span class="hljs-property">left</span>, v.<span class="hljs-property">left</span>, v.<span class="hljs-property">right</span>, p.<span class="hljs-property">right</span>)
+    } <span class="hljs-keyword">else</span>  {
+      <span class="hljs-comment">// g p v</span>
+      <span class="hljs-title function_">connect34</span>(g, p, v, g.<span class="hljs-property">left</span>, p.<span class="hljs-property">left</span>, v.<span class="hljs-property">left</span>, g.<span class="hljs-property">right</span>)
+    }
+  }
+}
+</code></pre>
+<p>使用中序遍历方法判断出3个节点与4棵树。</p>
+<h2 id="splay-tree-伸展树">splay tree 伸展树</h2>
+<ul>
+<li>不受平衡因素影响。</li>
+<li></li>
+</ul>
+<h2 id="title">title</h2>
+<h2 id="title">title</h2>
+<h2 id="title">title</h2>
+<h2 id="title">title</h2>
+<h2 id="title">title</h2>
+<h2 id="title">title</h2>
 <h2 id="title">title</h2>
 <h1 id="no6">no.6</h1>
 

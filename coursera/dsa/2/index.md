@@ -53,7 +53,8 @@ n 个括号组成的合法表达式，就是 n 个括号的栈混洗的过程。
 | 深度                 | 从根向叶           | 根节点深度为 0                   |
 | 高度                 | 从叶向根           | 叶子点高度为 1                   |
 | 空树                 | 根节点为 null      | 空树的高度是-1                   |
-| title                |                    |                                  |
+| 子节点               | 使用方形表示       |                                  |
+| 非子节点             | 使用圆形表示       |                                  |
 | title                |                    |                                  |
 
 ## 树的表示法
@@ -148,14 +149,6 @@ interface node<T> {
 
 使用二叉树表示。  
 二叉树的子节点是 left/right.长子兄弟表示法的子节点是 firstChild、兄弟是 nextSibling。都是二个叉。
-
-## title
-
-## title
-
-## title
-
-## title
 
 # no.4 图 graph
 
@@ -260,11 +253,124 @@ graph ------> tree ------> sequence
 | u 是 v 的兄弟             |     |     |
 | u 是 v 属于不同的连通分量 |     |     |
 
-# no.5 二叉搜索树
+# no.5 二叉搜索树 BST
 
-### title
+|                |                                                                                         |                            |                                                              |
+| -------------- | --------------------------------------------------------------------------------------- | -------------------------- | ------------------------------------------------------------ |
+| 二叉搜索树     | 任一节点均不小于、不大于它的左、右后代                                                  | 由局部特性决定了全局特性。 | 使用中序遍历，则单调非降。此特性可用于判断是否是二叉搜索树。 |
+| call-by-key    |                                                                                         |                            |                                                              |
+| 词条           |                                                                                         |                            |                                                              |
+| 单调非降       |                                                                                         |                            |                                                              |
+| 平均高度       | 根号 n                                                                                  | catalan(n )                |                                                              |
+| 理想平衡       | 高度等于 log2n 时。                                                                     |                            |                                                              |
+| 适度平衡       | 高度渐进地不超过 logn                                                                   |                            |                                                              |
+| 平衡二叉搜索树 | BBST                                                                                    |                            |                                                              |
+| 等价 bst       | 上下可变：连接关系可不同，承袭关系可能颠倒。 左右不乱：中序遍历结果相同，全局单调非降。 | `1<avlt<logn`              | `rbt = 1 * 2`                                                |
+|                |                                                                                         |                            |                                                              |
+|                |                                                                                         |                            |                                                              |
 
-### title
+```ts
+interface Node<T> {
+  key: N
+  value: T
+  clone: () => Node<T>
+  'operator<': (otherNode) => B
+  'operator>': (otherNode) => B
+  'operator===': (otherNode) => B
+  'operator!==': (otherNode) => B
+}
+```
+
+## avl tree
+
+|                    |                                                        |                                                    |                  |
+| ------------------ | ------------------------------------------------------ | -------------------------------------------------- | ---------------- |
+| avl                | Adelson-Velsky & E. Landis                             | 不一定是完全二叉树                                 |                  |
+| 平衡因子           | 左子树高度 - 右子树高度                                | `tree.height(node.left) - tree.height(node.right)` | 要求 绝对值 <= 1 |
+|                    | 高度为 h 的树，最少包含`S(h) = fib(h + 3) - 1`个节点。 | `S(h) = 1 + S(h - 1) + S(h - 2)`                   |                  |
+| 旋转               |                                                        |                                                    |                  |
+| 单旋转             | 节点排列朝同一方向                                     |                                                    |                  |
+| 双旋转             | 节点排列成之字形                                       |                                                    |                  |
+| 查询、插入、删除   | O(logn)                                                | 占用空间 n                                         |                  |
+| 不改变中序遍历顺序 |                                                        |                                                    |                  |
+| 插入               | O(1)次操作                                             | 有可能使祖先节点失衡。非祖先节点总是平衡。         |                  |
+| 删除               | O(logn)次操作                                          | 最多一个祖先节点失衡。                             |                  |
+|                    |                                                        |                                                    |                  |
+
+各种旋转只是为达到平衡的手段。
+左右
+
+### 旋转
+
+### 3+4 重构
+
+- 简单
+- 安全
+- 鲁棒（原子）性
+
+```
+        b
+    a       c
+  t0  t1  t2  t3
+```
+
+```js
+let connect34 = (a, b, c, t0, t1, t2, t3) => {
+  a.left = t0
+  t0 && t0.parent = a
+  a.right = t1
+  t1 && t1.parent = a
+  c.left = t2
+  t2 && t2.parent = c
+  c.right = t3
+  t3 && t3.parent = c
+  b.left = a
+  a.parent = b
+  b.right = c
+  c.parent = b
+  return b // 返回该子树的根节点
+}
+let rotateAt = (v) => {
+  // v是孙辈的节点
+  let p = v.parent, g = p.parent
+  if (p['operator!=='](g.left)) {
+    if (v['operator!=='](p.left)) {
+      // v p g
+      connect34(v, p, g, v.left, v.right, p.right, g.right)
+    } else  {
+      // p v g
+      connect34(p, v, g, p.left, v.left, v.right, g.right)
+    }
+  } else {
+    if (v['operator!=='](p.left)) {
+      // g v p
+      connect34(g, v, p, g.left, v.left, v.right, p.right)
+    } else  {
+      // g p v
+      connect34(g, p, v, g.left, p.left, v.left, g.right)
+    }
+  }
+}
+```
+
+使用中序遍历方法判断出 3 个节点与 4 棵树。
+
+## splay tree 伸展树
+
+- 不受平衡因素影响。
+-
+
+## title
+
+## title
+
+## title
+
+## title
+
+## title
+
+## title
 
 ## title
 

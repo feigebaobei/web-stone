@@ -1410,6 +1410,24 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 </tbody>
 </table>
 <!-- prettier-ignore-end -->
+<pre><code class="language-ts"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">BinarySearchTreeNode</span>&lt;T&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title class_">BinaryTreeNode</span>&lt;T&gt; {
+  <span class="hljs-attr">key</span>: N
+  <span class="hljs-attr">value</span>: T | <span class="hljs-literal">null</span>
+  <span class="hljs-attr">left</span>: <span class="hljs-title class_">BinarySearchTreeNodeOrNull</span>&lt;T&gt;
+  <span class="hljs-attr">right</span>: <span class="hljs-title class_">BinarySearchTreeNodeOrNull</span>&lt;T&gt;
+  <span class="hljs-attr">parent</span>: <span class="hljs-title class_">BinarySearchTreeNode</span>&lt;T&gt;
+  <span class="hljs-attr">clone</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-title class_">BinarySearchTreeNode</span>&lt;T&gt;
+  <span class="hljs-string">&#x27;operator&lt;&#x27;</span>: <span class="hljs-function">(<span class="hljs-params">otherNode: BinarySearchTreeNode&lt;T&gt;</span>) =&gt;</span> B
+  <span class="hljs-string">&#x27;operator&gt;&#x27;</span>: <span class="hljs-function">(<span class="hljs-params">otherNode: BinarySearchTreeNode&lt;T&gt;</span>) =&gt;</span> B
+  <span class="hljs-string">&#x27;operator===&#x27;</span>: <span class="hljs-function">(<span class="hljs-params">otherNode: BinarySearchTreeNode&lt;T&gt;</span>) =&gt;</span> B
+  <span class="hljs-string">&#x27;operator!==&#x27;</span>: <span class="hljs-function">(<span class="hljs-params">otherNode: BinarySearchTreeNode&lt;T&gt;</span>) =&gt;</span> B
+  <span class="hljs-attr">isLeft</span>: <span class="hljs-function">() =&gt;</span> B
+  <span class="hljs-attr">isRight</span>: <span class="hljs-function">() =&gt;</span> B
+  <span class="hljs-attr">sibling</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-title class_">BinarySearchTreeNodeOrNull</span>&lt;T&gt;
+  <span class="hljs-attr">uncle</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-title class_">BinarySearchTreeNodeOrNull</span>&lt;T&gt;
+}
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">BinarySearchTreeNodeOrNull</span>&lt;T&gt; = <span class="hljs-title class_">BinarySearchTreeNode</span>&lt;T&gt; | <span class="hljs-literal">null</span>
+</code></pre>
 <!-- prettier-ignore-start -->
 <table>
 <thead>
@@ -1426,7 +1444,107 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 </thead>
 <tbody>
 <tr>
-<td>``</td>
+<td>基于BinarySearchTree开发</td>
+<td></td>
+<td>可以使用搜索二叉树的所有方法</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>new AVLTree&lt;T&gt;()</code></td>
+<td></td>
+<td>返回BinarySearchTree实例</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>avlTree#balanced(n: AVLTreeNodeOrNull&lt;T&gt;)</code></td>
+<td></td>
+<td>是否是理想平衡</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>avlTree#balanceFac(n: AVLTreeNodeOrNull&lt;T&gt;)</code></td>
+<td></td>
+<td>返回平衡因子</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>avlTree#avlBalanced(n: AVLTreeNodeOrNull&lt;T&gt;)</code></td>
+<td></td>
+<td>返回是否avl平衡</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>avlTree#insert(k: number, v: T) =&gt; Error | undefined</code></td>
+<td></td>
+<td>当k已经存在时返回Error，否则返回undefined.</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>avlTree#_rotationRR: (node: AVLTreeNode&lt;T&gt;) =&gt; AVLTreeNode&lt;T&gt;</code></td>
+<td></td>
+<td>返回向左单旋转后的子树根节点</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>avlTree#_rotationLL: (node: AVLTreeNode&lt;T&gt;) =&gt; AVLTreeNode&lt;T&gt;</code></td>
+<td></td>
+<td>返回向右单旋转后的子树根节点</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>avlTree#_rotationLR: (node: AVLTreeNode&lt;T&gt;) =&gt; AVLTreeNode&lt;T&gt;</code></td>
+<td></td>
+<td>返回向右双旋转后的子树根节点</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>avlTree#_rotationRL: (node: AVLTreeNode&lt;T&gt;) =&gt; AVLTreeNode&lt;T&gt;</code></td>
+<td></td>
+<td>返回向左双旋转后的子树根节点</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>avlTree#_insertNode: (n0: AVLTreeNode&lt;T&gt;, n1: AVLTreeNode&lt;T&gt;) =&gt; void</code></td>
 <td></td>
 <td></td>
 <td></td>
@@ -1436,9 +1554,29 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 <td></td>
 </tr>
 <tr>
-<td>``</td>
+<td><code>_connect34: (a: AVLTreeNode&lt;T&gt;, b: AVLTreeNode&lt;T&gt;, c: AVLTreeNode&lt;T&gt;, t0: AVLTreeNodeOrNull&lt;T&gt;, t1: AVLTreeNodeOrNull&lt;T&gt;, t2: AVLTreeNodeOrNull&lt;T&gt;, t3: AVLTreeNodeOrNull&lt;T&gt;) =&gt; AVLTreeNode&lt;T&gt;</code></td>
+<td></td>
+<td>使用“3+4重构”节点及子树。返回子树的根节点。</td>
 <td></td>
 <td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>avlTree#rotateAt: (v: AVLTreeNode&lt;T&gt;) =&gt; AVLTreeNode&lt;T&gt;</code></td>
+<td>v是孙辈节点</td>
+<td>返回经过“3+4重构”后的子树根节点</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>avlTree#remove: (k: N) =&gt; boolean</code></td>
+<td>k是节点的key</td>
+<td>返回是否删除成功</td>
 <td></td>
 <td></td>
 <td></td>
@@ -1448,6 +1586,9 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 </tbody>
 </table>
 <!-- prettier-ignore-end -->
+<pre><code class="language-ts"><span class="hljs-keyword">type</span> <span class="hljs-title class_">AVLTreeNode</span>&lt;T&gt; = <span class="hljs-title class_">BinarySearchTreeNode</span>&lt;T&gt;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">AVLTreeNodeOrNull</span>&lt;T&gt; = <span class="hljs-title class_">BinarySearchTreeNodeOrNull</span>&lt;T&gt;
+</code></pre>
 <!-- prettier-ignore-start -->
 <table>
 <thead>
@@ -1694,10 +1835,10 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 <td></td>
 </tr>
 <tr>
-<td>`removeEdge: (a: T, b: T) =&gt; Edge<T></td>
-<td>undefined`</td>
+<td><code>removeEdge: (a: T, b: T) =&gt; Edge&lt;T&gt; | undefined</code></td>
 <td>a/b2个顶点的数据</td>
 <td>返回移除的边或undefined</td>
+<td></td>
 <td></td>
 <td></td>
 <td></td>

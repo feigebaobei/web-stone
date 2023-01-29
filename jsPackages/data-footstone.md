@@ -198,12 +198,49 @@ s.clear() // 清空栈
 |`binarySearchTree#remove: (v: T) => void`||移除指定值的节点||||||
 <!-- prettier-ignore-end -->
 
+```ts
+interface BinarySearchTreeNode<T> extends BinaryTreeNode<T> {
+  key: N
+  value: T | null
+  left: BinarySearchTreeNodeOrNull<T>
+  right: BinarySearchTreeNodeOrNull<T>
+  parent: BinarySearchTreeNode<T>
+  clone: () => BinarySearchTreeNode<T>
+  'operator<': (otherNode: BinarySearchTreeNode<T>) => B
+  'operator>': (otherNode: BinarySearchTreeNode<T>) => B
+  'operator===': (otherNode: BinarySearchTreeNode<T>) => B
+  'operator!==': (otherNode: BinarySearchTreeNode<T>) => B
+  isLeft: () => B
+  isRight: () => B
+  sibling: () => BinarySearchTreeNodeOrNull<T>
+  uncle: () => BinarySearchTreeNodeOrNull<T>
+}
+type BinarySearchTreeNodeOrNull<T> = BinarySearchTreeNode<T> | null
+```
+
 <!-- prettier-ignore-start -->
 |AVLTree|params|description|type|default|enum|demo||
 |-|-|-|-|-|-|-|-|
-|``||||||||
-|``||||||||
+|基于BinarySearchTree开发||可以使用搜索二叉树的所有方法||||||
+|`new AVLTree<T>()`||返回BinarySearchTree实例||||||
+|`avlTree#balanced(n: AVLTreeNodeOrNull<T>)`||是否是理想平衡||||||
+|`avlTree#balanceFac(n: AVLTreeNodeOrNull<T>)`||返回平衡因子||||||
+|`avlTree#avlBalanced(n: AVLTreeNodeOrNull<T>)`||返回是否avl平衡||||||
+|`avlTree#insert(k: number, v: T) => Error \| undefined`||当k已经存在时返回Error，否则返回undefined.||||||
+|`avlTree#_rotationRR: (node: AVLTreeNode<T>) => AVLTreeNode<T>`||返回向左单旋转后的子树根节点||||||
+|`avlTree#_rotationLL: (node: AVLTreeNode<T>) => AVLTreeNode<T>`||返回向右单旋转后的子树根节点||||||
+|`avlTree#_rotationLR: (node: AVLTreeNode<T>) => AVLTreeNode<T>`||返回向右双旋转后的子树根节点||||||
+|`avlTree#_rotationRL: (node: AVLTreeNode<T>) => AVLTreeNode<T>`||返回向左双旋转后的子树根节点||||||
+|`avlTree#_insertNode: (n0: AVLTreeNode<T>, n1: AVLTreeNode<T>) => void`||||||||
+|`_connect34: (a: AVLTreeNode<T>, b: AVLTreeNode<T>, c: AVLTreeNode<T>, t0: AVLTreeNodeOrNull<T>, t1: AVLTreeNodeOrNull<T>, t2: AVLTreeNodeOrNull<T>, t3: AVLTreeNodeOrNull<T>) => AVLTreeNode<T>`||使用“3+4重构”节点及子树。返回子树的根节点。||||||
+|`avlTree#rotateAt: (v: AVLTreeNode<T>) => AVLTreeNode<T>`|v是孙辈节点|返回经过“3+4重构”后的子树根节点||||||
+|`avlTree#remove: (k: N) => boolean`|k是节点的key|返回是否删除成功||||||
 <!-- prettier-ignore-end -->
+
+```ts
+type AVLTreeNode<T> = BinarySearchTreeNode<T>
+type AVLTreeNodeOrNull<T> = BinarySearchTreeNodeOrNull<T>
+```
 
 <!-- prettier-ignore-start -->
 |RedBackTree|params|description|type|default|enum|demo||
@@ -261,7 +298,7 @@ type ShortestPathObj<T> = {
 |-|-|-|-|-|-|-|-|
 |基于Graph开发||可以使用Graph的所有属性、方法。||||||
 |`putEdge: (a: T, b: T) => void`|a/b2个顶点的数据|添加边||||||
-|`removeEdge: (a: T, b: T) => Edge<T> | undefined`|a/b2个顶点的数据|返回移除的边或undefined||||||
+|`removeEdge: (a: T, b: T) => Edge<T> \| undefined`|a/b2个顶点的数据|返回移除的边或undefined||||||
 <!-- prettier-ignore-end -->
 
 <!-- prettier-ignore-start -->
