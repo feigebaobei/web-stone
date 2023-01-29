@@ -8,9 +8,26 @@
 
 - stack
 - queue
+  - PriorityQueue
+- chain
+  - SingleChain
+  - DoublyChain
+  - SingleCircleChain
+  - DoublyCircleChain
 - hashMap
+  - hash 方法
 - tree
-- graph 简单
+  - BinaryTree
+  - BinarySearchTree
+  - AVLTree
+- graph
+  - DirectionGraph
+  - UndirectionGraph
+- sort
+- cache
+  - fifo
+  - lru
+  - lfu
 
 ## install
 
@@ -35,12 +52,14 @@ s.clear() // 清空栈
 <!-- prettier-ignore-start -->
 |stack|params|description|type|default|enum|demo||
 |-|-|-|-|-|-|-|-|
-|`new Statck<T>()`||返回栈实例||||||
+|`new Statck<T>(capacity: number)`|capacity是容量|返回栈实例|||`Number.POSITIVE_INFINITY`|||
+|`stack.capacity`||返回容量。只读。|number|||||
 |`stack#toArray() => T[]`||返回栈内元素组成的数组||||||
-|`stack#push(...p: T[]) => number`||把参数依次入栈，返回栈的长度。||||||
+|`stack#push(p: T) => Error \| number`||若压入前未满，则压入，再返回栈的长度。否则返回error。||||||
 |`stack#pop() => T`||弹出栈顶元素||||||
 |`stack#peek() => T`||返回栈顶元素||||||
 |`stack#isEmpty() => boolean`||是否是空栈||||||
+|`stack#isFull() => boolean`||是否已满||||||
 |`stack#clear() => void`||清空栈||||||
 |`stack#size() => number`||返回栈大小||||||
 <!-- prettier-ignore-end -->
@@ -48,9 +67,9 @@ s.clear() // 清空栈
 <!-- prettier-ignore-start -->
 |queue|params|description|type|default|enum|demo||
 |-|-|-|-|-|-|-|-|
-|`new Queue<T>()`||返回队列实例||||||
-|`queue#enqueue(...p: T[]) => number`||把参数依次入队列，返回队列的长度。||||||
-|`queue#dequeue() => T`||出队列||||||
+|`new Queue<T>(capacity: N = Number.POSITIVE_INFINITY)`|capacity容量|返回队列实例||||||
+|`queue#enqueue(p: T) => number`||若入队列前未满，则入队列，再返回队列的长度。否则返回error。||||||
+|`queue#dequeue() => T`||出队列一个元素||||||
 |`queue#toArray() => T[]`||队列内的元素组成的数组||||||
 |`queue#getHead() => T`||返回队首元素||||||
 |`queue#getTail() => T`||返回队尾元素||||||
@@ -63,7 +82,7 @@ s.clear() // 清空栈
 <!-- prettier-ignore-start -->
 |PriorityQueue|params|description|type|default|enum|demo||
 |-|-|-|-|-|-|-|-|
-|`new PriorityQueue<T>(defaultPriority: N = 0)`|defaultPriority 默认优先级|返回优先队列实例||||||
+|`new PriorityQueue<T>(capacity: N = Number.POSITIVE_INFINITY, defaultPriority: N = 0)`|capacity容量。 defaultPriority默认优先级。|返回优先队列实例||||||
 |`priorityQueue.highestPriority() => number \| undefined`||返回队列中元素的最高优先级||||||
 |`priorityQueue.lowestPriority() => number \| undefined`||返回队列中元素的最低优先级||||||
 |`priorityQueue.enqueue(element: T, priority: N = this.defaultPriority) => void`||入优先队列，返回队列的长度。||||||
@@ -79,12 +98,12 @@ s.clear() // 清空栈
 <!-- prettier-ignore-start -->
 |SingleChain|params|description|type|default|enum|demo||
 |-|-|-|-|-|-|-|-|
-|`new SingleChain<T>(...p: T[])`|p是由需要加入链表的元素组成的数组|返回单向链表实例||||||
+|`new SingleChain<T>(capacity: N = Number.POSITIVE_INFINITY)`|capacity是容量|返回单向链表实例||||||
 |`singleChain.head`||返回链首||||||
 |`singleChain.length`||返回链表长度||||||
 |`singleChain#toArray() => T[]`||返回由链表的元素组成的数组||||||
 |`singleChain#createNode(v: T, p: N) => SingleChainElement[]`||内部使用的方法。用于创建单向链表的节点。||||||
-|`singleChain#append(v: T) => void`||追回元素后返回链表长度||||||
+|`singleChain#append(v: T) => Error \| number`||若入链表前未满，则入队列，再返回链表长度。否则返回Error.||||||
 |`singleChain#insert(v: T, p: N) => boolean`||把指定元素插入到指定下标。返回是否插入成功。||||||
 |`singleChain#removeAt(p: N) => T \| undefined`||返回被移删的元素||||||
 |`singleChain#reverseSelft() => SingleChain`||使用递归的方式反转链表||||||
@@ -96,12 +115,12 @@ s.clear() // 清空栈
 <!-- prettier-ignore-start -->
 |DoublyChain|params|description|type|default|enum|demo||
 |-|-|-|-|-|-|-|-|
-|`new DoublyChain<T>(...p: T[])`|p是由需要加入链表的元素组成的数组|返回双向链表实例||||||
+|`new DoublyChain<T>(capacity: N = Number.POSITIVE_INFINITY)`|p是由需要加入链表的元素组成的数组|返回双向链表实例||||||
 |`doublyChain.head`||返回链首||||||
 |`doublyChain.tail`||返回链尾||||||
 |`doublyChain.length`||返回链表长度||||||
 |`doublyChain#toArray() => T[]`||返回由链表的元素组成的数组||||||
-|`doublyChain#append(v: T) => number`||追回元素后返回链表长度||||||
+|`doublyChain#append(v: T) => Error \| number`||若入链表前未满，则入队列，再返回链表长度。否则返回Error.||||||
 |`doublyChain#insert(v: T, p: N) => boolean`||把指定元素插入到指定下标。返回是否插入成功。||||||
 |`doublyChain#removeAt(p: N) => T \| undefined`||返回被移删的元素||||||
 |`doublyChain#clear() => void`||清空链表||||||
@@ -110,12 +129,12 @@ s.clear() // 清空栈
 <!-- prettier-ignore-start -->
 |SingleCircleChain|params|description|type|default|enum|demo||
 |-|-|-|-|-|-|-|-|
-|`new SingleCircleChain<T>(...p: T[])`|p是由需要加入链表的元素组成的数组|返回单向循环链表实例||||||
+|`new SingleCircleChain<T>(capacity: N = Number.POSITIVE_INFINITY)`|p是由需要加入链表的元素组成的数组|返回单向循环链表实例||||||
 |`singleCircleChain.head`||返回链首||||||
 |`singleCircleChain.tail`||返回链尾||||||
 |`singleCircleChain.length`||返回链表长度||||||
 |`singleCircleChain#toArray() => T[]`||返回由链表的元素组成的数组||||||
-|`singleCircleChain#append(v: T) => number`||追回元素后返回链表长度||||||
+|`singleCircleChain#append(v: T) => Error \| number`||若入链表前未满，则入队列，再返回链表长度。否则返回Error.||||||
 |`singleCircleChain#insert(v: T, p: N) => boolean`||把指定元素插入到指定下标。返回是否插入成功。||||||
 |`singleCircleChain#removeAt(p: N) => T \| undefined`||返回被移删的元素||||||
 |`singleCircleChain#clear() => void`||清空链表||||||
@@ -125,12 +144,12 @@ s.clear() // 清空栈
 <!-- prettier-ignore-start -->
 |DoublyCircleChain|params|description|type|default|enum|demo||
 |-|-|-|-|-|-|-|-|
-|`new DoublyCircleChain<T>(...p: T[])`|p是由需要加入链表的元素组成的数组|返回双向循环链表实例||||||
+|`new DoublyCircleChain<T>(capacity: N = Number.POSITIVE_INFINITY)`|p是由需要加入链表的元素组成的数组|返回双向循环链表实例||||||
 |`doublyCircleChain.head`||返回链首||||||
 |`doublyCircleChain.tail`||返回链尾||||||
 |`doublyCircleChain.length`||返回链表长度||||||
 |`doublyCircleChain#toArray() => T[]`||返回由链表的元素组成的数组||||||
-|`doublyCircleChain#append(v: T) => number`||追回元素后返回链表长度||||||
+|`doublyCircleChain#append(v: T) => Error \| number`||若入链表前未满，则入队列，再返回链表长度。否则返回Error.||||||
 |`doublyCircleChain#insert(v: T, p: N) => boolean`||把指定元素插入到指定下标。返回是否插入成功。||||||
 |`doublyCircleChain#removeAt(p: N) => T \| undefined`||返回被移删的元素||||||
 |`doublyCircleChain#clear() => void`||清空链表||||||
