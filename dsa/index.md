@@ -7,7 +7,7 @@
 - [贪心算法](/dsa/temp.html)
 - [基本算法](/dsa/basic.html)
 - [tree](/dsa/tree.html)
-- [temp](/dsa/temp.html)
+- [bfs&dfs](/dsa/bfs&dfs.html)
 - [temp](/dsa/temp.html)
 - [temp](/dsa/temp.html)
 - [temp](/dsa/temp.html)
