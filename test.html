@@ -24,22 +24,37 @@
       }
       
 
-      class C {
-        constructor() {
-          this.a = 's'
-          this.b = 0
-          Object.defineProperty(this, 'k', {
-            value: true,
-            writable: false
-          })
-        }
-      }
-      let a = new C()
-      clog(a)
-      a.k = false
-      clog(a)
       
-
+      let n = 5
+      let m = 2
+      let line = [1,2,3,4,5]
+      let a = new Stack()
+      let s = new Stack()
+      let popf = (res, s) => {
+        res.push(s.pop())
+      }
+      let pushf = (s, a) => {
+        s.push(a.pop())
+      }
+      let f = () => {
+        let res = []
+        for (let i = 0; i < line.length; i++) {
+          if (s.peek() === line[i]) {
+            popf(res, s)
+          } else {
+            while (!s.isFull()) {
+              if (s.peek() === line[i]) {
+                popf(res, s)
+                break
+              } else {
+                pushf(s, a)
+              }
+            }
+            return 'no'
+          }
+        }
+        return res
+      }
       
 
 

@@ -250,7 +250,12 @@ c.on('ready', () => {
       throw err
     }
     // let p = 'promote/designApi'
-    let p = ['promote/designApi/index.html']
+    let p = [
+      'index.html',
+      'promote/designApi/index.html',
+      'dsa/index.html',
+      'dsa/bfs&dfs.html',
+    ]
     // 检测指定目录是否存在
     // checkDir(p)
     // 检测删除目录
