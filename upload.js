@@ -249,16 +249,8 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = 'coursera/dsa/3'
-    let p = [
-      // 'test.html',
-      // 'coursera/dsa/2/index.html',
-      // 'coursera/dsa/3/index.html',
-      'jsPackages/data-footstone.html',
-      // 'language/typescript/index.html',
-      // 'language/typescript/type&interface.html',
-      // 'index.html',
-    ]
+    // let p = 'promote/designApi'
+    let p = ['promote/designApi/index.html']
     // 检测指定目录是否存在
     // checkDir(p)
     // 检测删除目录
