@@ -684,19 +684,19 @@ graph ------&gt; tree ------&gt; sequence
 </tr>
 <tr>
 <td>平均高度</td>
-<td>根号n</td>
+<td>根号 n</td>
 <td>catalan(n )</td>
 <td></td>
 </tr>
 <tr>
 <td>理想平衡</td>
-<td>高度等于log2n时。</td>
+<td>高度等于 log2n 时。</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td>适度平衡</td>
-<td>高度渐进地不超过logn</td>
+<td>高度渐进地不超过 logn</td>
 <td></td>
 <td></td>
 </tr>
@@ -707,7 +707,7 @@ graph ------&gt; tree ------&gt; sequence
 <td></td>
 </tr>
 <tr>
-<td>等价bst</td>
+<td>等价 bst</td>
 <td>上下可变：连接关系可不同，承袭关系可能颠倒。 左右不乱：中序遍历结果相同，全局单调非降。</td>
 <td><code>1&lt;avlt&lt;logn</code></td>
 <td><code>rbt = 1 * 2</code></td>
@@ -737,6 +737,7 @@ graph ------&gt; tree ------&gt; sequence
 }
 </code></pre>
 <h2 id="avl-tree">avl tree</h2>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -761,7 +762,7 @@ graph ------&gt; tree ------&gt; sequence
 </tr>
 <tr>
 <td></td>
-<td>高度为h的树，最少包含<code>S(h) = fib(h + 3) - 1</code>个节点。</td>
+<td>高度为 h 的树，最少包含<code>S(h) = fib(h + 3) - 1</code>个节点。</td>
 <td><code>S(h) = 1 + S(h - 1) + S(h - 2)</code></td>
 <td></td>
 </tr>
@@ -780,6 +781,18 @@ graph ------&gt; tree ------&gt; sequence
 <tr>
 <td>双旋转</td>
 <td>节点排列成之字形</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>左旋转</td>
+<td>zag</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>右旋转</td>
+<td>zig</td>
 <td></td>
 <td></td>
 </tr>
@@ -815,10 +828,11 @@ graph ------&gt; tree ------&gt; sequence
 </tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
 <p>各种旋转只是为达到平衡的手段。
 左右</p>
 <h3 id="旋转">旋转</h3>
-<h3 id="34重构">3+4重构</h3>
+<h3 id="34-重构">3+4 重构</h3>
 <ul>
 <li>简单</li>
 <li>安全</li>
@@ -865,12 +879,34 @@ graph ------&gt; tree ------&gt; sequence
   }
 }
 </code></pre>
-<p>使用中序遍历方法判断出3个节点与4棵树。</p>
+<p>使用中序遍历方法判断出 3 个节点与 4 棵树。</p>
 <h2 id="splay-tree-伸展树">splay tree 伸展树</h2>
 <ul>
 <li>不受平衡因素影响。</li>
+<li>最近被访问过的节点，有可能很快会再次被访问。（局部性）</li>
+<li>把最近访问的元素移到树根。自下而上，遂层单旋。</li>
+<li>tarjan提出每次上升2层。先旋转祖父节点，再旋转父节点。</li>
+<li>有折叠效果。高度减半。</li>
+<li>基于bst</li>
+<li>不记录高度、平衡因子。</li>
+<li>分摊复杂度为O(logn)</li>
+<li>适用于局部性强的用例。<code>k(使用的数据量) &lt;&lt;n(数据总量) &lt;&lt;m(操作次数)</code>
+<ul>
+<li>经过若干次访问。复杂度变为<code>O(logk)</code></li>
+<li>任何连续m次操作，都可在<code>O(mlogk + nlogn)</code>内完成。</li>
+</ul>
+</li>
+<li>不能保证单次最坏情况不出现。不适用于效率敏感用例。</li>
 <li></li>
 </ul>
+<pre><code class="language-ts"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">SplayTree</span>&lt;T&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title class_">BinarySearchTree</span>&lt;T&gt; {
+  <span class="hljs-attr">splay</span>: <span class="hljs-function">(<span class="hljs-params">v: node</span>) =&gt;</span> <span class="hljs-built_in">void</span>
+  <span class="hljs-attr">search</span>: <span class="hljs-function">(<span class="hljs-params">k: N</span>) =&gt;</span> node
+  <span class="hljs-attr">insert</span>: <span class="hljs-function">(<span class="hljs-params">k: N, v: T</span>) =&gt;</span> node
+  <span class="hljs-attr">remove</span>: <span class="hljs-function">(<span class="hljs-params">k: N</span>) =&gt;</span> <span class="hljs-built_in">void</span>
+}
+
+</code></pre>
 <h2 id="title">title</h2>
 <h2 id="title">title</h2>
 <h2 id="title">title</h2>

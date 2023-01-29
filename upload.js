@@ -251,10 +251,11 @@ c.on('ready', () => {
     }
     // let p = 'promote/designApi'
     let p = [
-      'index.html',
-      'promote/designApi/index.html',
-      'dsa/index.html',
-      'dsa/bfs&dfs.html',
+      // 'index.html',
+      // 'test.html',
+      'coursera/dsa/2/index.html',
+      // 'dsa/index.html',
+      // 'dsa/bfs&dfs.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
