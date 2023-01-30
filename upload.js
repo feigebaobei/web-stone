@@ -254,6 +254,9 @@ c.on('ready', () => {
       // 'index.html',
       // 'test.html',
       'coursera/dsa/2/index.html',
+      'coursera/dsa/2/inOrder.png',
+      'coursera/dsa/2/preOrder.png',
+      'coursera/dsa/2/postOrder.png',
       // 'dsa/index.html',
       // 'dsa/bfs&dfs.html',
     ]

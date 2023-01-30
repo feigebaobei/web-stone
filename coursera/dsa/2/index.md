@@ -115,7 +115,12 @@ interface node<T> {
 
 - 可以根据“先序遍历”拓扑出树结构。别的遍历方式不行
 - 当树是真二叉树时，使用使用 preorder/inorder/postorder 方式还原。
--
+
+### 遍历
+
+![](/coursera/dsa/2/inOrder.png)  
+![](/coursera/dsa/2/preOrder.png)  
+![](/coursera/dsa/2/postOrder.png)
 
 ### 真二叉树 proper binary tree
 
