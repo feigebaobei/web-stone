@@ -8,14 +8,13 @@
 > jsx 语法。（类似 xml，由 babel 解释。）  
 > React 团队希望，组件不要变成复杂的容器，最好只是数据流的管道。开发者根据需要，组合管道即可。 组件的最佳写法应该是函数，而不是类。
 > react 居然使用同步更新 dom.  
-> reacr 是重运行时的。（vue/svelte 是重编译时的）  
-> 邓（俊辉）老师讲的树与 react 中使用的树的结构是一样的。
+> react 是运行时较重。（vue/svelte 是编译时较重）  
+> react 中使用的树就是二叉树。使用长子-兄弟表示法。
 
 ### feature
 
 - react 家族的成员太多了。
 - 更接近 js 语言
-- feature2
 
 ## usage
 
@@ -40,17 +39,17 @@ npm run start
 
 ### 使用 script 标签引入 react 脚本
 
-v17 以前的用法：
-
-1. 引入 react 脚本。
-2. 使用`React.createElement`创建元素。
-3. 使用`ReactDOM.render`渲染元素。
-
 v18 以后的用法：
 
 1. 引入 react 脚本
 2. 使用`React.createRoot`创建根元素`root`。
 3. 使用`root.render(reactElement对象)`渲染元素
+
+v17 以前的用法：
+
+1. 引入 react 脚本。
+2. 使用`React.createElement`创建元素。
+3. 使用`ReactDOM.render`渲染元素。
 
 ```html
 <!-- ... 其它html代码 -->
@@ -165,7 +164,7 @@ react / react-dom 都用到了 react-reconciler，该包就是 fiber.
 
 ### 为什么要最常用的`react`/`react-dom`分开？怎么分清它们？
 
-React 创建开销极小的普通对象。  
+React 创建开销极小的普通对象`ReactElement`。  
 React DOM 会负责更新 DOM 来与 React 元素保持一致。
 
 ### [性能优化](/optimizing/index.html)

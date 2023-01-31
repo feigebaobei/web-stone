@@ -83,10 +83,45 @@
 <h3 id="feature">feature</h3>
 <ul>
 <li>stack</li>
-<li>queue</li>
-<li>hashMap</li>
-<li>tree</li>
-<li>graph 简单</li>
+<li>queue
+<ul>
+<li>PriorityQueue</li>
+</ul>
+</li>
+<li>chain
+<ul>
+<li>SingleChain</li>
+<li>DoublyChain</li>
+<li>SingleCircleChain</li>
+<li>DoublyCircleChain</li>
+</ul>
+</li>
+<li>hashMap
+<ul>
+<li>hash 方法</li>
+</ul>
+</li>
+<li>tree
+<ul>
+<li>BinaryTree</li>
+<li>BinarySearchTree</li>
+<li>AVLTree</li>
+</ul>
+</li>
+<li>graph
+<ul>
+<li>DirectionGraph</li>
+<li>UndirectionGraph</li>
+</ul>
+</li>
+<li>sort</li>
+<li>cache
+<ul>
+<li>fifo</li>
+<li>lru</li>
+<li>lfu</li>
+</ul>
+</li>
 </ul>
 <h2 id="install">install</h2>
 <p><code>npm i data-footstone</code></p>
@@ -118,10 +153,20 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 </thead>
 <tbody>
 <tr>
-<td><code>new Statck&lt;T&gt;()</code></td>
-<td></td>
+<td><code>new Statck&lt;T&gt;(capacity: number)</code></td>
+<td>capacity是容量</td>
 <td>返回栈实例</td>
 <td></td>
+<td></td>
+<td><code>Number.POSITIVE_INFINITY</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>stack.capacity</code></td>
+<td></td>
+<td>返回容量。只读。</td>
+<td>number</td>
 <td></td>
 <td></td>
 <td></td>
@@ -138,9 +183,9 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 <td></td>
 </tr>
 <tr>
-<td><code>stack#push(...p: T[]) =&gt; number</code></td>
+<td><code>stack#push(p: T) =&gt; Error | number</code></td>
 <td></td>
-<td>把参数依次入栈，返回栈的长度。</td>
+<td>若压入前未满，则压入，再返回栈的长度。否则返回error。</td>
 <td></td>
 <td></td>
 <td></td>
@@ -171,6 +216,16 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 <td><code>stack#isEmpty() =&gt; boolean</code></td>
 <td></td>
 <td>是否是空栈</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>stack#isFull() =&gt; boolean</code></td>
+<td></td>
+<td>是否已满</td>
 <td></td>
 <td></td>
 <td></td>
@@ -216,8 +271,8 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 </thead>
 <tbody>
 <tr>
-<td><code>new Queue&lt;T&gt;()</code></td>
-<td></td>
+<td><code>new Queue&lt;T&gt;(capacity: N = Number.POSITIVE_INFINITY)</code></td>
+<td>capacity容量</td>
 <td>返回队列实例</td>
 <td></td>
 <td></td>
@@ -226,9 +281,9 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 <td></td>
 </tr>
 <tr>
-<td><code>queue#enqueue(...p: T[]) =&gt; number</code></td>
+<td><code>queue#enqueue(p: T) =&gt; number</code></td>
 <td></td>
-<td>把参数依次入队列，返回队列的长度。</td>
+<td>若入队列前未满，则入队列，再返回队列的长度。否则返回error。</td>
 <td></td>
 <td></td>
 <td></td>
@@ -238,7 +293,7 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 <tr>
 <td><code>queue#dequeue() =&gt; T</code></td>
 <td></td>
-<td>出队列</td>
+<td>出队列一个元素</td>
 <td></td>
 <td></td>
 <td></td>
@@ -334,8 +389,8 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 </thead>
 <tbody>
 <tr>
-<td><code>new PriorityQueue&lt;T&gt;(defaultPriority: N = 0)</code></td>
-<td>defaultPriority 默认优先级</td>
+<td><code>new PriorityQueue&lt;T&gt;(capacity: N = Number.POSITIVE_INFINITY, defaultPriority: N = 0)</code></td>
+<td>capacity容量。 defaultPriority默认优先级。</td>
 <td>返回优先队列实例</td>
 <td></td>
 <td></td>
@@ -462,8 +517,8 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 </thead>
 <tbody>
 <tr>
-<td><code>new SingleChain&lt;T&gt;(...p: T[])</code></td>
-<td>p是由需要加入链表的元素组成的数组</td>
+<td><code>new SingleChain&lt;T&gt;(capacity: N = Number.POSITIVE_INFINITY)</code></td>
+<td>capacity是容量</td>
 <td>返回单向链表实例</td>
 <td></td>
 <td></td>
@@ -512,9 +567,9 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 <td></td>
 </tr>
 <tr>
-<td><code>singleChain#append(v: T) =&gt; void</code></td>
+<td><code>singleChain#append(v: T) =&gt; Error | number</code></td>
 <td></td>
-<td>追回元素后返回链表长度</td>
+<td>若入链表前未满，则入队列，再返回链表长度。否则返回Error.</td>
 <td></td>
 <td></td>
 <td></td>
@@ -600,7 +655,7 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 </thead>
 <tbody>
 <tr>
-<td><code>new DoublyChain&lt;T&gt;(...p: T[])</code></td>
+<td><code>new DoublyChain&lt;T&gt;(capacity: N = Number.POSITIVE_INFINITY)</code></td>
 <td>p是由需要加入链表的元素组成的数组</td>
 <td>返回双向链表实例</td>
 <td></td>
@@ -650,9 +705,9 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 <td></td>
 </tr>
 <tr>
-<td><code>doublyChain#append(v: T) =&gt; number</code></td>
+<td><code>doublyChain#append(v: T) =&gt; Error | number</code></td>
 <td></td>
-<td>追回元素后返回链表长度</td>
+<td>若入链表前未满，则入队列，再返回链表长度。否则返回Error.</td>
 <td></td>
 <td></td>
 <td></td>
@@ -708,7 +763,7 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 </thead>
 <tbody>
 <tr>
-<td><code>new SingleCircleChain&lt;T&gt;(...p: T[])</code></td>
+<td><code>new SingleCircleChain&lt;T&gt;(capacity: N = Number.POSITIVE_INFINITY)</code></td>
 <td>p是由需要加入链表的元素组成的数组</td>
 <td>返回单向循环链表实例</td>
 <td></td>
@@ -758,9 +813,9 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 <td></td>
 </tr>
 <tr>
-<td><code>singleCircleChain#append(v: T) =&gt; number</code></td>
+<td><code>singleCircleChain#append(v: T) =&gt; Error | number</code></td>
 <td></td>
-<td>追回元素后返回链表长度</td>
+<td>若入链表前未满，则入队列，再返回链表长度。否则返回Error.</td>
 <td></td>
 <td></td>
 <td></td>
@@ -826,7 +881,7 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 </thead>
 <tbody>
 <tr>
-<td><code>new DoublyCircleChain&lt;T&gt;(...p: T[])</code></td>
+<td><code>new DoublyCircleChain&lt;T&gt;(capacity: N = Number.POSITIVE_INFINITY)</code></td>
 <td>p是由需要加入链表的元素组成的数组</td>
 <td>返回双向循环链表实例</td>
 <td></td>
@@ -876,9 +931,9 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 <td></td>
 </tr>
 <tr>
-<td><code>doublyCircleChain#append(v: T) =&gt; number</code></td>
+<td><code>doublyCircleChain#append(v: T) =&gt; Error | number</code></td>
 <td></td>
-<td>追回元素后返回链表长度</td>
+<td>若入链表前未满，则入队列，再返回链表长度。否则返回Error.</td>
 <td></td>
 <td></td>
 <td></td>
@@ -1102,7 +1157,7 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 <tr>
 <td><code>new BinaryTree&lt;T&gt;()</code></td>
 <td></td>
-<td>返回BinaryTree实例</td>
+<td>返回BinaryTree实例。可以有重复的key.</td>
 <td></td>
 <td></td>
 <td></td>
@@ -1120,7 +1175,7 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 <td></td>
 </tr>
 <tr>
-<td><code>binaryTree#createNode: (v: T) =&gt; BinaryTreeNode&lt;T&gt;</code></td>
+<td><code>binaryTree#createBTNode: (v: T) =&gt; BinaryTreeNode&lt;T&gt;</code></td>
 <td></td>
 <td>返回一个节点</td>
 <td></td>
@@ -1137,7 +1192,7 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 <td></td>
 <td></td>
 <td></td>
-<td>使用<code>tree.root = tree.createNode(p)</code>设置</td>
+<td>使用<code>tree.root = tree.createBTNode(p)</code>设置</td>
 </tr>
 <tr>
 <td><code>binaryTree#insertAsLeft: (parent: BinaryTreeNode&lt;T&gt;, current: T) =&gt; void</code></td>
@@ -1310,7 +1365,7 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 <tr>
 <td>基于BinaryTree开发</td>
 <td></td>
-<td>可以使用二叉树的所有方法</td>
+<td>可以使用二叉树的所有方法。不能有重复的key.</td>
 <td></td>
 <td></td>
 <td></td>
@@ -1328,9 +1383,9 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 <td></td>
 </tr>
 <tr>
-<td><code>binarySearchTree#insert: (v: T) =&gt; void</code></td>
+<td><code>binarySearchTree#insert: (v: T) =&gt; Error | BinarySearchTreeNode&lt;T&gt;</code></td>
 <td></td>
-<td>插入一个节点</td>
+<td>若key重复则返回错误。否则返回插入的节点</td>
 <td></td>
 <td></td>
 <td></td>
@@ -1494,9 +1549,9 @@ s.<span class="hljs-title function_">clear</span>() <span class="hljs-comment">/
 <td></td>
 </tr>
 <tr>
-<td><code>avlTree#insert(k: number, v: T) =&gt; Error | undefined</code></td>
+<td><code>avlTree#insert(k: number, v: T) =&gt; Error | AVLTreeNode&lt;T&gt;</code></td>
 <td></td>
-<td>当k已经存在时返回Error，否则返回undefined.</td>
+<td>当k已经存在时返回Error，否则返回插入的节点.</td>
 <td></td>
 <td></td>
 <td></td>

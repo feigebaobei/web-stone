@@ -1,12 +1,12 @@
 # 前端优化
 
-**千万不要过是优化**
+**千万不要过度优化**
 
 ## 文件结构
 
 样式放在 head 中。  
 脚本放在 body 结束前。  
-css 中使用 sprint 图。
+css 中使用 Sprite 图。
 
 ## [高性能网站建设（十几年前的书了）](/books/highPerformanceWeb.html)
 
@@ -16,13 +16,31 @@ css 中使用 sprint 图。
 
 ## 打包是压缩
 
-## 使用虚拟化长列表`react-window` `react-virtualized`。（ant-v 就是使用 canvas 做的表格）
+## 使用虚拟化长列表`react-window` `react-virtualized`。
+
+## 使用 canvas 绘制 （ant-v 就是使用 canvas 做的表格）
 
 ## 按需加载
 
 # 优化 react 应用
 
-## 代码分割
+- 分块
+  - 代码分割 & tree shake 使用 import 可实现
+- 懒加载、懒方法
+  - 懒加载不是立即需要的组件
+- 阻止不必要的渲染
+  - 纯组件
+  - shouldComponentUpdate()
+- 使用缓存
+  - useCallback(fn, deps)
+  - useMemo(fn, deps)
+  - React.memo(fn, deps)
+  - 避免使用内建对象
+  - 避免使用匿名函数
+
+## 代码分割 & tree shake
+
+使用`import`处理各子包
 
 ## 懒加载不是立即需要的组件
 
@@ -89,6 +107,12 @@ function C(props) {
 ```
 
 ## 避免使用匿名函数
+
+# 优化 vue 项目
+
+## title
+
+## title
 
 ## title
 

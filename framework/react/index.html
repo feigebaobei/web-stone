@@ -84,14 +84,13 @@
 jsx 语法。（类似 xml，由 babel 解释。）<br>
 React 团队希望，组件不要变成复杂的容器，最好只是数据流的管道。开发者根据需要，组合管道即可。 组件的最佳写法应该是函数，而不是类。
 react 居然使用同步更新 dom.<br>
-reacr 是重运行时的。（vue/svelte 是重编译时的）<br>
-邓（俊辉）老师讲的树与react中使用的树的结构是一样的。</p>
+react 是运行时较重。（vue/svelte 是编译时较重）<br>
+react 中使用的树就是二叉树。使用长子-兄弟表示法。</p>
 </blockquote>
 <h3 id="feature">feature</h3>
 <ul>
 <li>react 家族的成员太多了。</li>
 <li>更接近 js 语言</li>
-<li>feature2</li>
 </ul>
 <h2 id="usage">usage</h2>
 <pre><code class="language-js"><span class="hljs-title class_">ReactDOM</span>.<span class="hljs-title function_">render</span>(<span class="hljs-title class_">React</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&#x27;span&#x27;</span>, {}, <span class="hljs-string">&#x27;string&#x27;</span>), <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#id&#x27;</span>))
@@ -109,17 +108,17 @@ cd proj-name
 npm run start
 </code></pre>
 <h3 id="使用-script-标签引入-react-脚本">使用 script 标签引入 react 脚本</h3>
-<p>v17 以前的用法：</p>
-<ol>
-<li>引入 react 脚本。</li>
-<li>使用<code>React.createElement</code>创建元素。</li>
-<li>使用<code>ReactDOM.render</code>渲染元素。</li>
-</ol>
 <p>v18 以后的用法：</p>
 <ol>
 <li>引入 react 脚本</li>
 <li>使用<code>React.createRoot</code>创建根元素<code>root</code>。</li>
 <li>使用<code>root.render(reactElement对象)</code>渲染元素</li>
+</ol>
+<p>v17 以前的用法：</p>
+<ol>
+<li>引入 react 脚本。</li>
+<li>使用<code>React.createElement</code>创建元素。</li>
+<li>使用<code>ReactDOM.render</code>渲染元素。</li>
 </ol>
 <pre><code class="language-html"><span class="hljs-comment">&lt;!-- ... 其它html代码 --&gt;</span>
 <span class="hljs-comment">&lt;!-- 引入基本的react包 --&gt;</span>
@@ -244,7 +243,7 @@ npm run start
 <h2 id="todo">todo</h2>
 <p>react / react-dom 都用到了 react-reconciler，该包就是 fiber.</p>
 <h3 id="为什么要最常用的reactreact-dom分开怎么分清它们">为什么要最常用的<code>react</code>/<code>react-dom</code>分开？怎么分清它们？</h3>
-<p>React 创建开销极小的普通对象。<br>
+<p>React 创建开销极小的普通对象<code>ReactElement</code>。<br>
 React DOM 会负责更新 DOM 来与 React 元素保持一致。</p>
 <h3 id="性能优化"><a href="/optimizing/index.html">性能优化</a></h3>
 <h3 id="title">title</h3>

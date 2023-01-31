@@ -189,7 +189,7 @@
 <!-- prettier-ignore-end -->
 <h3 id="渲染过程">渲染过程</h3>
 <ol>
-<li>执行 class 组件的 render 方法或执行方法式组件，生成 Virtual DOM，它保存在内存中。</li>
+<li>执行 class 组件的 render 方法或执行方法式组件，生成 Virtual DOM，它保存在内存中。每次执行都是新的<code>ReactElement</code>对象。</li>
 <li>同步 vdom 到 real dom。初始化时全部插入。</li>
 <li>当组件改变时生成新 vdom</li>
 <li>比对 2 个 vdom 的不同。再更新 dom
@@ -219,16 +219,16 @@
 </ul>
 <h2 id="what-is-react-fiber">what is react fiber</h2>
 <ul>
-<li>它是一个对象</li>
-<li>diff 基于它工作。diff 过程是异步的。fiber 是工作单元</li>
-<li>多个 fiber 对象组成树</li>
+<li>它是一个对象，由<code>ReactElement</code>对象生成。</li>
+<li>diff 基于它工作。diff 过程（render phase）是异步的。fiber 是工作单元.</li>
+<li>多个 fiber 对象组成树(workInProgress/current)</li>
 </ul>
-<h3 id="目的">目的</h3>
+<h3 id="引入fiber的目的">引入fiber的目的</h3>
 <ul>
-<li>动画</li>
-<li>回应速度</li>
+<li>使动画流畅</li>
+<li>加快反应速度</li>
 </ul>
-<h3 id="功能">功能</h3>
+<h3 id="fiber的功能">fiber的功能</h3>
 <ul>
 <li>可把工作分块，一个 fiber 对象就是一个工作单元。设置任务优先级。</li>
 <li>每一个 ReactElement 都有一个对应的 FiberNode</li>
@@ -236,18 +236,18 @@
 <li>包含组件的状态、dom</li>
 <li>提供工作路径、时间表、暂停、打断</li>
 <li>使用 createFiberFromTypeAndProps 创建 FiberNode</li>
-<li>三向链表结构。child/sibling/return</li>
+<li>二叉树结构。child/sibling/return</li>
+</ul>
+<h3 id="new-reconciler-fiber-出现后">new reconciler (fiber 出现后)</h3>
+<ul>
+<li>它是一个工作单元</li>
+<li>当工作完成时 react process 把工作结果提交。生成新 dom</li>
 </ul>
 <h3 id="old-reconciler-fiber-出现前">old reconciler (fiber 出现前)</h3>
 <ul>
 <li>任务是同步的。</li>
 <li>工作就像栈。</li>
 <li>栈空了才停止工作。</li>
-</ul>
-<h3 id="new-reconciler-fiber-出现后">new reconciler (fiber 出现后)</h3>
-<ul>
-<li>它是一个工作单元</li>
-<li>当工作完成时 react process 把工作结果提交。生成新 dom</li>
 </ul>
 <h3 id="fiber--reactelement">Fiber &amp; ReactElement</h3>
 <!-- prettier-ignore-start -->
@@ -311,7 +311,7 @@
 <span class="hljs-title function_">createFiberFromFragment</span>()
 <span class="hljs-title function_">createFiberFromText</span>()
 </code></pre>
-<p>jsx 代码 =》 ReactElement =&gt; FiberRootNode/FiberNode</p>
+<p>jsx 代码 =&gt; ReactElement =&gt; FiberRootNode/FiberNode</p>
 <h3 id="current--workinprogress">current &amp; workInProgress</h3>
 <!-- prettier-ignore-start -->
 <table>
@@ -345,7 +345,7 @@
 <tr>
 <td></td>
 <td></td>
-<td>由 class 组件的 render 方法返回的或方法组件返回的 ReactElement 创建</td>
+<td>由 class 组件的 render 方法返回的或方法组件返回的 ReactElement 创建的</td>
 <td></td>
 </tr>
 <tr>
@@ -380,12 +380,6 @@
 </tr>
 <tr>
 <td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
 <td>当前 dom 的 vdom 树</td>
 <td>改变的状态需要更新的节点树。</td>
 <td></td>
@@ -411,13 +405,13 @@
 </tbody>
 </table>
 <!-- prettier-ignore-end -->
-<p>副作用（side-effects）： 每次活动（如：改变 dom）和调用生命周期方法
-Fiber 的 Effecttag 属性是副作用函数
-副作用 tag
+<p>副作用（side-effects）： 每次活动（如：改变 dom）和调用生命周期方法<br>
+Fiber 的 Effecttag 属性是副作用函数<br>
+副作用 tag<br>
 Current 就是 fiberroot</p>
 <p>FiberRootNode 下的第一个 FiberNode 是使用 FiberRootNode()创建的。</p>
 <p>工作在 commit 阶段进行<br>
-深度优先</p>
+<strong>深度优先</strong></p>
 <ol>
 <li>当完成所有 workInProgress 树的工作后</li>
 <li>开始同步更新 dom.</li>
@@ -433,7 +427,7 @@ Current 就是 fiberroot</p>
 <li>可分割工作为多块</li>
 <li>分高优、低优处理
 <ul>
-<li>高优 requestAnimationFrame()</li>
+<li>高优 requestAnimationFrame() // 该方法是浏览器支持的处理异步任务的方法。</li>
 <li>低优 requestIdleCallback()</li>
 </ul>
 </li>
@@ -460,7 +454,7 @@ Current 就是 fiberroot</p>
 <li>异步</li>
 <li>定义任务的优先级，工作可能停止（可以被打断）、丢弃。</li>
 <li>开始的方法，如：beginWork() / completeWork()</li>
-<li>此阶段处理 fiber</li>
+<li>此阶段处理 fiber。（diff在此执行）</li>
 </ul>
 </li>
 <li>commit phase (committing)
@@ -486,7 +480,7 @@ Current 就是 fiberroot</p>
 <td></td>
 <td>render phase</td>
 <td>异步</td>
-<td>操作 workInProgress/current</td>
+<td>操作 workInProgress/current，即diff</td>
 <td></td>
 <td></td>
 </tr>
@@ -534,7 +528,7 @@ Current 就是 fiberroot</p>
 <td></td>
 <td></td>
 <td>getSnapshotBeforeUpdate</td>
-<td></td>
+<td>执行side-effect</td>
 <td></td>
 <td></td>
 </tr>
@@ -574,7 +568,7 @@ Current 就是 fiberroot</p>
 </table>
 <p>调用 setState/React.render 会把对应的 FiberNode 指定为需要更新的元素。</p>
 <h3 id="render-phase">render phase</h3>
-<p>使用 effectTag 标记该节点应该如何更新。更新工作会在 commit 阶段做。<br>
+<p>使用 effectTag 标记该节点应该如何更新。更新dom的工作在 commit 阶段做。<br>
 此阶段不能执行 side-effect
 从根节点开始，然后深度优先，跳过不需要更新的节点 FiberNode，标记出需要更新的节点 FiberNode。</p>
 <ul>
@@ -584,45 +578,45 @@ Current 就是 fiberroot</p>
 <li>completeUnitOfWork //</li>
 <li>completeWork</li>
 </ul>
-<p>按照 FiberNode 形成的链表，深度优先。</p>
+<p>按照 FiberNode 形成的二叉树，深度优先。</p>
 <h3 id="commit-phase">commit phase</h3>
 <p>从 completeWork 开始。<br>
 主要在 commitRoot 方法中<br>
 因为要改变视图，所以必须是同步。<br>
 当调用<code>finishedWork</code>时更新视图。</p>
 <ul>
-<li>标记了 Snapshot 的 node 会执行 getSnapshotBeforeUpdate 方法</li>
-<li>标记了 Deletion 的 node 会执行 componentWillUnmount 方法</li>
+<li>标记了 Snapshot 的 fiberNode 会执行 getSnapshotBeforeUpdate 方法</li>
+<li>标记了 Deletion 的 fiberNode 会执行 componentWillUnmount 方法</li>
 <li>执行所有节点的插入、更新、删除操作 commitAllHostEffects。此步骤完成了从 current 到视图的工作。</li>
 <li>设置新的 current</li>
-<li>标记了 Placement 的 node 会执行 componentDidMount 方法</li>
-<li>标记了 Update 的 node 会执行 componentDidUpdate 方法</li>
+<li>标记了 Placement 的 fiberNode 会执行 componentDidMount 方法</li>
+<li>标记了 Update 的 fiberNode 会执行 componentDidUpdate 方法</li>
 </ul>
 <h2 id="diff">diff</h2>
-<h3 id="diff策略">diff策略</h3>
+<h3 id="diff-策略">diff 策略</h3>
 <ol>
 <li>忽略节点跨层级移动</li>
-<li>相同类型的组件产生的dom结构相似。反之不相似。</li>
-<li>同层级组件之间使用key做惟一值。</li>
+<li>相同类型<code>type</code>的组件产生的 dom 结构相似。反之不相似。</li>
+<li>同层级组件之间使用 key 做惟一值。</li>
 </ol>
-<h3 id="同级之间的diff">同级之间的diff</h3>
+<h3 id="同级之间的-diff">同级之间的 diff</h3>
 <h4 id="复用节点">复用节点</h4>
 <ol>
-<li>在新节点列表中，从头开始取出一个节点N。</li>
-<li>在旧节点列表中，取出相同key的节点N'.</li>
-<li>设置lastIndex = 0;此值表示该值前的已经已经排好序了。</li>
-<li>若N'.index &lt; lastIndex，则不移动。否则移动N'到lastIndex.再更新N'.index = lastIndex</li>
+<li>在新节点列表中，从头开始取出一个节点 N。</li>
+<li>在旧节点列表中，取出相同 key 的节点 N'.</li>
+<li>设置 lastIndex = 0;此值表示该值前的已经已经排好序了。</li>
+<li>若 N'.index &lt; lastIndex，则不移动。否则移动 N'到 lastIndex.再更新 N'.index = lastIndex</li>
 <li>lastIndex++.</li>
 <li>直到完成所有新节点列表。</li>
 </ol>
 <h4 id="增减节点">增、减节点</h4>
-<pre><code>在新节点列表中，从头开始取出一个节点N.  
+<pre><code>在新节点列表中，从头开始取出一个节点N.
 在旧节点列表中，若能取出相同key的节点N'.----------------------------------
   |                                                                |
   Y                                                                N
   |                                                                |
   V                                                                V
-设置lastIndex = 0;此值表示该值前的已经已经排好序了。               lastIndex++  
+设置lastIndex = 0;此值表示该值前的已经已经排好序了。               lastIndex++
   |                                                                |
   |                                                                |
   |                                                                |
@@ -632,9 +626,9 @@ lastIndex++.
 遍历完新节点列表。再遍历旧节点列表，删除在新节点列表中不存在的节点。
 </code></pre>
 <h4 id="不足">不足</h4>
-<p>当最后一个节点移到第一个节点时，react会把非最后一个节点依次移到后面。也就是会移到n-1次。<br>
+<p>当最后一个节点移到第一个节点时，react 会把非最后一个节点依次移到后面。也就是会移到 n-1 次。<br>
 开发时不要这么做。</p>
-<h4 id="自己实现一个同级diff方法">自己实现一个同级diff方法</h4>
+<h4 id="自己实现一个同级-diff-方法">自己实现一个同级 diff 方法</h4>
 <pre><code class="language-js"><span class="hljs-comment">// 待测试</span>
 <span class="hljs-keyword">let</span> oldChain = <span class="hljs-keyword">new</span> <span class="hljs-title class_">SingleChain</span>()
 <span class="hljs-comment">// {</span>
@@ -671,13 +665,13 @@ newChain.<span class="hljs-title function_">appen</span>(<span class="hljs-strin
       oldChain.<span class="hljs-title function_">insert</span>(oldChainCur, lastIndex)
     } <span class="hljs-keyword">else</span> {
       oldChain.<span class="hljs-title function_">insert</span>(newChainCur.<span class="hljs-property">value</span>, lastIndex)
-      lastIndex++
     }
+    lastIndex++
     newChainCur = newChainCur.<span class="hljs-property">next</span>
   }
   <span class="hljs-comment">// 删除节点</span>
   <span class="hljs-keyword">let</span> index = <span class="hljs-variable language_">this</span>.<span class="hljs-property">newChain</span>.<span class="hljs-property">length</span>
-  <span class="hljs-keyword">return</span> oldChain.<span class="hljs-title function_">slice</span>(<span class="hljs-number">0</span>, index) <span class="hljs-comment">// 需要再开发</span>
+  <span class="hljs-keyword">return</span> oldChain.<span class="hljs-title function_">slice</span>(<span class="hljs-number">0</span>, index)
 }
 </code></pre>
 <h2 id="自己理出的过程">自己理出的过程</h2>
@@ -1036,7 +1030,7 @@ fiber更新后
 <li>设置 FiberRootNode.finishedWork 为 null</li>
 <li>调用 commitBeforeMutationLifeCycles 方法。若标记 snapshot 则执行 getSnapshotBeforeUpdate()</li>
 <li>调用 commitAllHostEffects 方法。</li>
-<li>调用 updateDOMProperties 方法。设置了dom的属性。</li>
+<li>调用 updateDOMProperties 方法。设置了 dom 的属性。</li>
 <li>调用 finishedWork 方法。把 workInProgress 赋值给 current</li>
 <li>调用 commitAllLifecycles 方法。调用所有的生命周期方法。
 <ol>

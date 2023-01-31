@@ -252,11 +252,15 @@ c.on('ready', () => {
     // let p = 'promote/designApi'
     let p = [
       // 'index.html',
-      // 'test.html',
-      'coursera/dsa/2/index.html',
-      'coursera/dsa/2/inOrder.png',
-      'coursera/dsa/2/preOrder.png',
-      'coursera/dsa/2/postOrder.png',
+      'jsPackages/data-footstone.html',
+      'framework/react/index.html',
+      'framework/react/principle/index.html',
+      'framework/react/react-18/index.html',
+      'optimizing/index.html',
+      // 'coursera/dsa/2/index.html',
+      // 'coursera/dsa/2/inOrder.png',
+      // 'coursera/dsa/2/preOrder.png',
+      // 'coursera/dsa/2/postOrder.png',
       // 'dsa/index.html',
       // 'dsa/bfs&dfs.html',
     ]

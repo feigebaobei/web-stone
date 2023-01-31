@@ -2,7 +2,7 @@
 
 ## feature
 
-- 创建 element
+- 创建 ReactElement
 - 基本 hook
 - 使用 vdom。（可使 diff 更快。O(n^3) -> O(n)）
 
@@ -27,13 +27,15 @@ React 只更新它需要更新的部分
 
 - React.createElement(component, props, ...children)
 - 它是像 xml 的 js 代码。（当然也像 html）。
-- 它是 js 代码的语法糖，会被 babel 转换为 js 代码。如:
+- 它是 js 代码的语法糖，会被 babel 转换为 js Function。这些 Function 返回 ReactElement。然后是更新组件、渲染视图。
 - 组件名以大写字母开头。小写会被认为是 html 标签。
 - 使用`{}`包裹 js 表达式
 - `"str"` <=> `{'str'}`
-- props 默认为 true
+- 各 props 的值默认为 true
 - 会移除行首尾的空格以及空行。与标签相邻的空行均会被删除，文本字符串之间的新行会被压缩为一个空格。
-- false, null, undefined, and true 是合法的子元素。但它们并不会被渲染
+- false, null, undefined, true 是合法的子元素。但它们并不会被渲染
+- 支持自闭合。
+- 防止注入攻击
 
 ```js
 let str = 'string'
@@ -43,17 +45,9 @@ let str = 'string'
 React.createElement('span', {}, str)
 ```
 
-- 在 jsx 中使用 js 代码时需要放在`{}`中
-- jsx 代码会被`babel`转化为 js Function。这些 Function 返回 ReactElement。然后是更新组件、渲染视图。
-- 把 html 中不区分大小写变为 camelCase。
-- 支持自闭合。
-- 防止注入攻击
-- false, null, undefined, and true 是合法的子元素。但它们并不会被渲染。
-- 首字母大写。
-
 ### jsx 的特殊属性
 
-|           |          |     |
+| react     | html     |     |
 | --------- | -------- | --- |
 | className | class    |     |
 | tabIndex  | tabindex |     |
@@ -66,7 +60,7 @@ React.createElement('span', {}, str)
 ### 函数组件
 
 其上不能直接使用 ref 属性。因为函数组件没有实例。class 组件有实例。  
-就是在原来的无状态组件上添加了 hooks.  
+就是在原先的无状态组件上添加了 hooks.  
 组件名称必须以大写字母开头。  
 只有在你刻意忽略 prop 更新的情况下使用。此时，应将 prop 重命名为 initialColor 或 defaultColor。
 
@@ -97,7 +91,7 @@ funtion Clock(props) { // (props) => ReactElement
 Clock.propTypes = { // 为props设置类型检测
     k: PropTypes.string
 }
-Clock.defaultProps = {
+Clock.defaultProps = { // 设置方法组件的默认值
     k: 'str'
 }
 // props是只读的。
@@ -126,7 +120,7 @@ class ComponentName extends React.Component {
 ComponentName.propTypes = { // 检查参数数据类型
     k: PropTypes.string
 }
-ComponentName.defaultProps = { // 类组件可以设置默认props值。方法组件不可以。
+ComponentName.defaultProps = { // 类组件可以设置默认props值。
     k: 'v'
 }
 ComponentName.contextType = MyContext // 组件内使用this.context访问
@@ -140,7 +134,7 @@ ComponentName.contextType = MyContext // 组件内使用this.context访问
 | 来源               | 本组件               | 本组件的父元素（一般为父组件） | 本组件         |     |
 | 作用范围           | 本组件               | 本组件                         | 本组件         |     |
 | 是否在本组件可改变 | 可`this.setState()`  | 不可                           | 可             |     |
-| 改变时是否为异步   | 是                   | -                              | 否             |     |
+| 改变时是否为异步   | 否                   | -                              | 否             |     |
 | 出现的组件形式     | class                | function/class                 | function/class |     |
 |                    |                      |                                |                |     |
 
@@ -152,14 +146,14 @@ setState({k: v})
 setState((state, props, any, ...) => ({k: v}))
 ```
 
-|      |                                     |                                                                                         |
-| ---- | ----------------------------------- | --------------------------------------------------------------------------------------- |
-| 异步 | 在合成事件、钩子函数中表现为异步    | 合成事件和钩子函数在更新之间调用。可以使用 setState(partialState, cb)得到更新后的结果。 |
-| 同步 | 在原生事件、setTimeout 中表现为同步 | 这 2 种情况不会批量更新。                                                               |
+|      |                                     |                                                                                                         |
+| ---- | ----------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| 异步 | 在合成事件、钩子函数中表现为异步    | 合成事件和钩子函数（其中有一部分）在更新之前调用。可以使用 setState(partialState, cb)得到更新后的结果。 |
+| 同步 | 在原生事件、setTimeout 中表现为同步 | 这 2 种情况不会批量更新。                                                                               |
 
 ### 使用组件
 
-```
+```js
 <ComponentName name="top" />
 ```
 
@@ -174,16 +168,15 @@ name 等属性会在 props 中。
 ||会创建一个类，|不会创建类，只是数据的管道。||
 ||可使用生命周期方法，|不可使用||
 |hook|不可使用|可使用||
-|默认值|可设置 defaultProps|不可设置||
+|默认值|可设置 defaultProps|可设置 defaultProps||
 ||有 displayName 属性|无||
 ||this.props|props||
 ||this.state|useState(initValue)||
 |返回值|在 render()中返回 jsx/ReactElement|jsx/ReactElement||
 ||constructor|无||
-||需要在生命周期方法中写好多与逻辑无关的代码。如请求数据。|监听当特定数据改变时执行指定方法。||
+||需要在生命周期方法中写好多与逻辑无关的代码。如请求数据。|监听当特定数据改变时执行指定方法。|方法组件更符合发布订阅模式|
 |||可使用 react 更多新功能||
 ||只实例化一次。后续执行只执行 render 方法。|每次都执行一次方法体||
-|||||
 <!-- prettier-ignore-end -->
 
 ### 无状态组件（已经过时了）

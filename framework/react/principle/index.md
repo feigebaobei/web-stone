@@ -33,7 +33,7 @@
 
 ### 渲染过程
 
-1. 执行 class 组件的 render 方法或执行方法式组件，生成 Virtual DOM，它保存在内存中。
+1. 执行 class 组件的 render 方法或执行方法式组件，生成 Virtual DOM，它保存在内存中。每次执行都是新的`ReactElement`对象。
 2. 同步 vdom 到 real dom。初始化时全部插入。
 3. 当组件改变时生成新 vdom
 4. 比对 2 个 vdom 的不同。再更新 dom
@@ -52,16 +52,16 @@
 
 ## what is react fiber
 
-- 它是一个对象
-- diff 基于它工作。diff 过程是异步的。fiber 是工作单元
-- 多个 fiber 对象组成树
+- 它是一个对象，由`ReactElement`对象生成。
+- diff 基于它工作。diff 过程（render phase）是异步的。fiber 是工作单元.
+- 多个 fiber 对象组成树(workInProgress/current)
 
-### 目的
+### 引入 fiber 的目的
 
-- 动画
-- 回应速度
+- 使动画流畅
+- 加快反应速度
 
-### 功能
+### fiber 的功能
 
 - 可把工作分块，一个 fiber 对象就是一个工作单元。设置任务优先级。
 - 每一个 ReactElement 都有一个对应的 FiberNode
@@ -69,18 +69,18 @@
 - 包含组件的状态、dom
 - 提供工作路径、时间表、暂停、打断
 - 使用 createFiberFromTypeAndProps 创建 FiberNode
-- 三向链表结构。child/sibling/return
+- 二叉树结构。child/sibling/return
+
+### new reconciler (fiber 出现后)
+
+- 它是一个工作单元
+- 当工作完成时 react process 把工作结果提交。生成新 dom
 
 ### old reconciler (fiber 出现前)
 
 - 任务是同步的。
 - 工作就像栈。
 - 栈空了才停止工作。
-
-### new reconciler (fiber 出现后)
-
-- 它是一个工作单元
-- 当工作完成时 react process 把工作结果提交。生成新 dom
 
 ### Fiber & ReactElement
 
@@ -103,7 +103,7 @@ createFiberFromFragment()
 createFiberFromText()
 ```
 
-jsx 代码 =》 ReactElement => FiberRootNode/FiberNode
+jsx 代码 => ReactElement => FiberRootNode/FiberNode
 
 ### current & workInProgress
 
@@ -113,28 +113,27 @@ jsx 代码 =》 ReactElement => FiberRootNode/FiberNode
 |     | 第一次生成的 FiberNode 组成的树和每次更新后生成的树 | Fiber 在工作中生成的树  |     |
 |     |     | 可以影响未来的状态和刷新屏幕        |     |
 |     |     | fiber 的所有工作都是从此树开始      |     |
-|     |     | 由 class 组件的 render 方法返回的或方法组件返回的 ReactElement 创建     |     |
+|     |     | 由 class 组件的 render 方法返回的或方法组件返回的 ReactElement 创建的     |     |
 |     |     | 完成工作后此树被赋于 current        |     |
 |     |     | 处理所有组件的进程、刷新屏幕。      |     |
 |     |     | 每个节点的 alternate 指向另一棵树（current/workInProgress）上对应的节点 |     |
 |     | 第一次生成的 fiber tree | 第二次生成的   |     |
 |     | 与真实显示相同          | 可不同         |     |
-|     |           |          |     |
 |     |当前 dom 的 vdom 树| 改变的状态需要更新的节点树。|  |
 ||它是工作的终点|diff从此树开始执行||
 |||每个节点使用 render 方法创建新的 ReactElement。再由新的 ReactElement 生成 workInProgress||
 |||不为用户提供服务。是 react 内置的用于缓存的对象。||
 <!-- prettier-ignore-end -->
 
-副作用（side-effects）： 每次活动（如：改变 dom）和调用生命周期方法
-Fiber 的 Effecttag 属性是副作用函数
-副作用 tag
+副作用（side-effects）： 每次活动（如：改变 dom）和调用生命周期方法  
+Fiber 的 Effecttag 属性是副作用函数  
+副作用 tag  
 Current 就是 fiberroot
 
 FiberRootNode 下的第一个 FiberNode 是使用 FiberRootNode()创建的。
 
 工作在 commit 阶段进行  
-深度优先
+**深度优先**
 
 1. 当完成所有 workInProgress 树的工作后
 2. 开始同步更新 dom.
@@ -150,7 +149,7 @@ react 只更新 dom
 - 生成时间表
 - 可分割工作为多块
 - 分高优、低优处理
-  - 高优 requestAnimationFrame()
+  - 高优 requestAnimationFrame() // 该方法是浏览器支持的处理异步任务的方法。
   - 低优 requestIdleCallback()
 
 ```
@@ -177,30 +176,30 @@ react 只更新 dom
   - 异步
   - 定义任务的优先级，工作可能停止（可以被打断）、丢弃。
   - 开始的方法，如：beginWork() / completeWork()
-  - 此阶段处理 fiber
+  - 此阶段处理 fiber。（diff 在此执行）
 - commit phase (committing)
   - 同步
   - 从 commitWork()开始
 
-|     |              |                          |                              |     |     |
-| --- | ------------ | ------------------------ | ---------------------------- | --- | --- |
-|     | render phase | 异步                     | 操作 workInProgress/current  |     |     |
-|     |              | getDerivedStateFromProps | 被反对的生命周期方法不列出来 |     |     |
-|     |              | shouldComponentUpdate    |                              |     |     |
-|     |              | render                   |                              |     |     |
-|     |              |                          |                              |     |     |
-|     | commit phase | 同步                     | 操作 dom                     |     |     |
-|     |              | getSnapshotBeforeUpdate  |                              |     |     |
-|     |              | componentDidMount        |                              |     |     |
-|     |              | componentDidUdate        |                              |     |     |
-|     |              | componentWillUnmount     |                              |     |     |
-|     |              |                          |                              |     |     |
+|     |              |                          |                                      |     |     |
+| --- | ------------ | ------------------------ | ------------------------------------ | --- | --- |
+|     | render phase | 异步                     | 操作 workInProgress/current，即 diff |     |     |
+|     |              | getDerivedStateFromProps | 被反对的生命周期方法不列出来         |     |     |
+|     |              | shouldComponentUpdate    |                                      |     |     |
+|     |              | render                   |                                      |     |     |
+|     |              |                          |                                      |     |     |
+|     | commit phase | 同步                     | 操作 dom                             |     |     |
+|     |              | getSnapshotBeforeUpdate  | 执行 side-effect                     |     |     |
+|     |              | componentDidMount        |                                      |     |     |
+|     |              | componentDidUdate        |                                      |     |     |
+|     |              | componentWillUnmount     |                                      |     |     |
+|     |              |                          |                                      |     |     |
 
 调用 setState/React.render 会把对应的 FiberNode 指定为需要更新的元素。
 
 ### render phase
 
-使用 effectTag 标记该节点应该如何更新。更新工作会在 commit 阶段做。  
+使用 effectTag 标记该节点应该如何更新。更新 dom 的工作在 commit 阶段做。  
 此阶段不能执行 side-effect
 从根节点开始，然后深度优先，跳过不需要更新的节点 FiberNode，标记出需要更新的节点 FiberNode。
 
@@ -210,7 +209,7 @@ react 只更新 dom
 - completeUnitOfWork //
 - completeWork
 
-按照 FiberNode 形成的链表，深度优先。
+按照 FiberNode 形成的二叉树，深度优先。
 
 ### commit phase
 
@@ -219,19 +218,19 @@ react 只更新 dom
 因为要改变视图，所以必须是同步。  
 当调用`finishedWork`时更新视图。
 
-- 标记了 Snapshot 的 node 会执行 getSnapshotBeforeUpdate 方法
-- 标记了 Deletion 的 node 会执行 componentWillUnmount 方法
+- 标记了 Snapshot 的 fiberNode 会执行 getSnapshotBeforeUpdate 方法
+- 标记了 Deletion 的 fiberNode 会执行 componentWillUnmount 方法
 - 执行所有节点的插入、更新、删除操作 commitAllHostEffects。此步骤完成了从 current 到视图的工作。
 - 设置新的 current
-- 标记了 Placement 的 node 会执行 componentDidMount 方法
-- 标记了 Update 的 node 会执行 componentDidUpdate 方法
+- 标记了 Placement 的 fiberNode 会执行 componentDidMount 方法
+- 标记了 Update 的 fiberNode 会执行 componentDidUpdate 方法
 
 ## diff
 
 ### diff 策略
 
 1. 忽略节点跨层级移动
-2. 相同类型的组件产生的 dom 结构相似。反之不相似。
+2. 相同类型`type`的组件产生的 dom 结构相似。反之不相似。
 3. 同层级组件之间使用 key 做惟一值。
 
 ### 同级之间的 diff
@@ -308,13 +307,13 @@ let f = (newChain, oldChain) => {
       oldChain.insert(oldChainCur, lastIndex)
     } else {
       oldChain.insert(newChainCur.value, lastIndex)
-      lastIndex++
     }
+    lastIndex++
     newChainCur = newChainCur.next
   }
   // 删除节点
   let index = this.newChain.length
-  return oldChain.slice(0, index) // 需要再开发
+  return oldChain.slice(0, index)
 }
 ```
 

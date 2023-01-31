@@ -181,10 +181,10 @@ s.clear() // 清空栈
 <!-- prettier-ignore-start -->
 |BinaryTree|params|description|type|default|enum|demo||
 |-|-|-|-|-|-|-|-|
-|`new BinaryTree<T>()`||返回BinaryTree实例||||||
+|`new BinaryTree<T>()`||返回BinaryTree实例。可以有重复的key.||||||
 |`binaryTree.root: BinaryTreeOrNull<T>`||根节点||||||
-|`binaryTree#createNode: (v: T) => BinaryTreeNode<T>`||返回一个节点||||||
-|``` ```||缺少一个设置根节点的方法|||||使用`tree.root = tree.createNode(p)`设置|
+|`binaryTree#createBTNode: (v: T) => BinaryTreeNode<T>`||返回一个节点||||||
+|``` ```||缺少一个设置根节点的方法|||||使用`tree.root = tree.createBTNode(p)`设置|
 |`binaryTree#insertAsLeft: (parent: BinaryTreeNode<T>, current: T) => void`||为指定节点插入左节点||||||
 |`binaryTree#insertAsRight: (parent: BinaryTreeNode<T>, current: T) => void`||为指定节点插入右节点||||||
 |`binaryTree#_preOrderTraverse: (cb: F, node: BinaryTreeNodeOrNull<T>) => void`|cb的参数是node.value|前序遍历||||||
@@ -205,9 +205,9 @@ s.clear() // 清空栈
 <!-- prettier-ignore-start -->
 |BinarySearchTree|params|description|type|default|enum|demo||
 |-|-|-|-|-|-|-|-|
-|基于BinaryTree开发||可以使用二叉树的所有方法||||||
+|基于BinaryTree开发||可以使用二叉树的所有方法。不能有重复的key.||||||
 |`new BinarySearchTree<T>()`||返回BinarySearchTree实例||||||
-|`binarySearchTree#insert: (v: T) => void`||插入一个节点||||||
+|`binarySearchTree#insert: (v: T) => Error \| BinarySearchTreeNode<T>`||若key重复则返回错误。否则返回插入的节点||||||
 |`binarySearchTree#search: (v: T) => boolean`||查找树中是否存在指定的值。返回boolean。||||||
 |`binarySearchTree#traverse: (fn: Function, order: BinarySearchTreeOrder) => void`|`BinarySearchTreeOrder = 'preOrder' \| 'inOrder' \| 'postOrder' \| 'level'`。fn的参数是节点的value|使用指定顺序遍历树。||||||
 |`binarySearchTree#min: () => T \| undefined`||返回树中最小的值||||||
@@ -245,7 +245,7 @@ type BinarySearchTreeNodeOrNull<T> = BinarySearchTreeNode<T> | null
 |`avlTree#balanced(n: AVLTreeNodeOrNull<T>)`||是否是理想平衡||||||
 |`avlTree#balanceFac(n: AVLTreeNodeOrNull<T>)`||返回平衡因子||||||
 |`avlTree#avlBalanced(n: AVLTreeNodeOrNull<T>)`||返回是否avl平衡||||||
-|`avlTree#insert(k: number, v: T) => Error \| undefined`||当k已经存在时返回Error，否则返回undefined.||||||
+|`avlTree#insert(k: number, v: T) => Error \| AVLTreeNode<T>`||当k已经存在时返回Error，否则返回插入的节点.||||||
 |`avlTree#_rotationRR: (node: AVLTreeNode<T>) => AVLTreeNode<T>`||返回向左单旋转后的子树根节点||||||
 |`avlTree#_rotationLL: (node: AVLTreeNode<T>) => AVLTreeNode<T>`||返回向右单旋转后的子树根节点||||||
 |`avlTree#_rotationLR: (node: AVLTreeNode<T>) => AVLTreeNode<T>`||返回向右双旋转后的子树根节点||||||

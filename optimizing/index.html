@@ -76,19 +76,48 @@
     </head>
     <body class="vscode-body vscode-light">
         <h1 id="前端优化">前端优化</h1>
-<p><strong>千万不要过是优化</strong></p>
+<p><strong>千万不要过度优化</strong></p>
 <h2 id="文件结构">文件结构</h2>
-<p>样式放在head中。<br>
-脚本放在body结束前。<br>
-css中使用sprint图。</p>
+<p>样式放在 head 中。<br>
+脚本放在 body 结束前。<br>
+css 中使用 Sprite 图。</p>
 <h2 id="高性能网站建设十几年前的书了"><a href="/books/highPerformanceWeb.html">高性能网站建设（十几年前的书了）</a></h2>
 <h2 id="使用生产版本的脚本">使用生产版本的脚本</h2>
 <h2 id="访问打包后的文件">访问打包后的文件</h2>
 <h2 id="打包是压缩">打包是压缩</h2>
-<h2 id="使用虚拟化长列表react-window-react-virtualizedant-v就是使用canvas做的表格">使用虚拟化长列表<code>react-window</code> <code>react-virtualized</code>。（ant-v就是使用canvas做的表格）</h2>
+<h2 id="使用虚拟化长列表react-window-react-virtualized">使用虚拟化长列表<code>react-window</code> <code>react-virtualized</code>。</h2>
+<h2 id="使用canvas绘制-ant-v-就是使用-canvas-做的表格">使用canvas绘制 （ant-v 就是使用 canvas 做的表格）</h2>
 <h2 id="按需加载">按需加载</h2>
-<h1 id="优化react应用">优化react应用</h1>
-<h2 id="代码分割">代码分割</h2>
+<h1 id="优化-react-应用">优化 react 应用</h1>
+<ul>
+<li>分块
+<ul>
+<li>代码分割 &amp; tree shake   使用import可实现</li>
+</ul>
+</li>
+<li>懒加载、懒方法
+<ul>
+<li>懒加载不是立即需要的组件</li>
+</ul>
+</li>
+<li>阻止不必要的渲染
+<ul>
+<li>纯组件</li>
+<li>shouldComponentUpdate()</li>
+</ul>
+</li>
+<li>使用缓存
+<ul>
+<li>useCallback(fn, deps)</li>
+<li>useMemo(fn, deps)</li>
+<li>React.memo(fn, deps)</li>
+<li>避免使用内建对象</li>
+<li>避免使用匿名函数</li>
+</ul>
+</li>
+</ul>
+<h2 id="代码分割--tree-shake">代码分割 &amp; tree shake</h2>
+<p>使用<code>import</code>处理各子包</p>
 <h2 id="懒加载不是立即需要的组件">懒加载不是立即需要的组件</h2>
 <pre><code class="language-js"><span class="hljs-keyword">let</span> C = <span class="hljs-title class_">React</span>.<span class="hljs-title function_">lazy</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">import</span>(<span class="hljs-string">&#x27;./file.js&#x27;</span>))
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">B</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">React.Componen</span> {
@@ -100,22 +129,22 @@ css中使用sprint图。</p>
 <p>使用自定义的懒加载方法</p>
 <pre><code class="language-js"><span class="hljs-keyword">import</span> <span class="hljs-title class_">React</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span>
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">asyncComp</span> = (<span class="hljs-params">importComp</span>) =&gt; {
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">extends</span> <span class="hljs-title class_">React</span>.<span class="hljs-property">Component</span> {
-        <span class="hljs-title function_">constructor</span> () {
-            <span class="hljs-variable language_">this</span>.<span class="hljs-property">state</span> = {
-                <span class="hljs-attr">comp</span>: <span class="hljs-literal">null</span>
-            }
-        }
-        componentDidMount () {
-            <span class="hljs-title function_">importComp</span>().<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
-                <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">setState</span>({<span class="hljs-attr">comp</span>: res.<span class="hljs-property">default</span>})
-            })
-        }
-        <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>) {
-            <span class="hljs-keyword">let</span> C = <span class="hljs-variable language_">this</span>.<span class="hljs-property">state</span>.<span class="hljs-property">comp</span>
-            <span class="hljs-keyword">return</span> C ? <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">C</span> {<span class="hljs-attr">...this.props</span>} /&gt;</span></span> : <span class="hljs-literal">null</span>
-        }
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">extends</span> <span class="hljs-title class_">React</span>.<span class="hljs-property">Component</span> {
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">state</span> = {
+        <span class="hljs-attr">comp</span>: <span class="hljs-literal">null</span>,
+      }
     }
+    <span class="hljs-title function_">componentDidMount</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-title function_">importComp</span>().<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">setState</span>({ <span class="hljs-attr">comp</span>: res.<span class="hljs-property">default</span> })
+      })
+    }
+    <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-keyword">let</span> C = <span class="hljs-variable language_">this</span>.<span class="hljs-property">state</span>.<span class="hljs-property">comp</span>
+      <span class="hljs-keyword">return</span> C ? <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">C</span> {<span class="hljs-attr">...this.props</span>} /&gt;</span></span> : <span class="hljs-literal">null</span>
+    }
+  }
 }
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> asyncComp
 
@@ -124,21 +153,24 @@ css中使用sprint图。</p>
 </code></pre>
 <h2 id="纯组件--shouldcomponentupdate-阻止不必要渲染">纯组件 &amp; shouldComponentUpdate() 阻止不必要渲染</h2>
 <pre><code class="language-js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">B</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">React.PureComponent</span> {
-    <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>) {
-        <span class="hljs-keyword">return</span> jsx
-    }
+  <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> jsx
+  }
 }
 </code></pre>
 <h2 id="usecallbackfn-deps">useCallback(fn, deps)</h2>
 <h2 id="usememofn-deps-缓存大量计算">useMemo(fn, deps) 缓存大量计算</h2>
 <h2 id="reactmemoprops--return-jsx-缓存组件">React.memo((props) =&gt; {return jsx}) 缓存组件</h2>
 <h2 id="避免直接内建对象">避免直接内建对象</h2>
-<pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">C</span> (props) {
-    <span class="hljs-keyword">let</span> aProps = {<span class="hljs-attr">k</span>: <span class="hljs-string">&#x27;v&#x27;</span>}
-    <span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">A</span> {<span class="hljs-attr">...aProps</span>}/&gt;</span></span>
+<pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">C</span>(<span class="hljs-params">props</span>) {
+  <span class="hljs-keyword">let</span> aProps = { <span class="hljs-attr">k</span>: <span class="hljs-string">&#x27;v&#x27;</span> }
+  <span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">A</span> {<span class="hljs-attr">...aProps</span>} /&gt;</span></span>
 }
 </code></pre>
 <h2 id="避免使用匿名函数">避免使用匿名函数</h2>
+<h1 id="优化vue项目">优化vue项目</h1>
+<h2 id="title">title</h2>
+<h2 id="title">title</h2>
 <h2 id="title">title</h2>
 <h2 id="title">title</h2>
 <h1 id="打包">打包</h1>

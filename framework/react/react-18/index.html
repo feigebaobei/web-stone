@@ -79,7 +79,7 @@
         <h1 id="react-18">react-18</h1>
 <h2 id="feature">feature</h2>
 <ul>
-<li>创建 element</li>
+<li>创建 ReactElement</li>
 <li>基本 hook</li>
 <li>使用 vdom。（可使 diff 更快。O(n^3) -&gt; O(n)）</li>
 </ul>
@@ -100,13 +100,15 @@ React 只更新它需要更新的部分<br>
 <ul>
 <li>React.createElement(component, props, ...children)</li>
 <li>它是像 xml 的 js 代码。（当然也像 html）。</li>
-<li>它是 js 代码的语法糖，会被 babel 转换为 js 代码。如:</li>
+<li>它是 js 代码的语法糖，会被 babel 转换为 js Function。这些 Function 返回 ReactElement。然后是更新组件、渲染视图。</li>
 <li>组件名以大写字母开头。小写会被认为是 html 标签。</li>
 <li>使用<code>{}</code>包裹 js 表达式</li>
 <li><code>&quot;str&quot;</code> &lt;=&gt; <code>{'str'}</code></li>
-<li>props 默认为 true</li>
+<li>各 props 的值默认为 true</li>
 <li>会移除行首尾的空格以及空行。与标签相邻的空行均会被删除，文本字符串之间的新行会被压缩为一个空格。</li>
-<li>false, null, undefined, and true 是合法的子元素。但它们并不会被渲染</li>
+<li>false, null, undefined, true 是合法的子元素。但它们并不会被渲染</li>
+<li>支持自闭合。</li>
+<li>防止注入攻击</li>
 </ul>
 <pre><code class="language-js"><span class="hljs-keyword">let</span> str = <span class="hljs-string">&#x27;string&#x27;</span>
 &lt;span&gt;{str}&lt;/span&gt;
@@ -114,21 +116,12 @@ React 只更新它需要更新的部分<br>
 <span class="hljs-keyword">let</span> str = <span class="hljs-string">&#x27;string&#x27;</span>
 <span class="hljs-title class_">React</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&#x27;span&#x27;</span>, {}, str)
 </code></pre>
-<ul>
-<li>在 jsx 中使用 js 代码时需要放在<code>{}</code>中</li>
-<li>jsx 代码会被<code>babel</code>转化为 js Function。这些 Function 返回 ReactElement。然后是更新组件、渲染视图。</li>
-<li>把 html 中不区分大小写变为 camelCase。</li>
-<li>支持自闭合。</li>
-<li>防止注入攻击</li>
-<li>false, null, undefined, and true 是合法的子元素。但它们并不会被渲染。</li>
-<li>首字母大写。</li>
-</ul>
 <h3 id="jsx-的特殊属性">jsx 的特殊属性</h3>
 <table>
 <thead>
 <tr>
-<th></th>
-<th></th>
+<th>react</th>
+<th>html</th>
 <th></th>
 </tr>
 </thead>
@@ -154,7 +147,7 @@ React 只更新它需要更新的部分<br>
 <p>没有继承，只有组合。(好像 js 语言中的对象委托呀！原型链就是对象委托的表现。)</p>
 <h3 id="函数组件">函数组件</h3>
 <p>其上不能直接使用 ref 属性。因为函数组件没有实例。class 组件有实例。<br>
-就是在原来的无状态组件上添加了 hooks.<br>
+就是在原先的无状态组件上添加了 hooks.<br>
 组件名称必须以大写字母开头。<br>
 只有在你刻意忽略 prop 更新的情况下使用。此时，应将 prop 重命名为 initialColor 或 defaultColor。</p>
 <pre><code class="language-js"><span class="hljs-comment">// 函数组件模板</span>
@@ -183,7 +176,7 @@ funtion <span class="hljs-title class_">Clock</span>(props) { <span class="hljs-
 <span class="hljs-title class_">Clock</span>.<span class="hljs-property">propTypes</span> = { <span class="hljs-comment">// 为props设置类型检测</span>
     <span class="hljs-attr">k</span>: <span class="hljs-title class_">PropTypes</span>.<span class="hljs-property">string</span>
 }
-<span class="hljs-title class_">Clock</span>.<span class="hljs-property">defaultProps</span> = {
+<span class="hljs-title class_">Clock</span>.<span class="hljs-property">defaultProps</span> = { <span class="hljs-comment">// 设置方法组件的默认值</span>
     <span class="hljs-attr">k</span>: <span class="hljs-string">&#x27;str&#x27;</span>
 }
 <span class="hljs-comment">// props是只读的。</span>
@@ -209,7 +202,7 @@ funtion <span class="hljs-title class_">Clock</span>(props) { <span class="hljs-
 <span class="hljs-title class_">ComponentName</span>.<span class="hljs-property">propTypes</span> = { <span class="hljs-comment">// 检查参数数据类型</span>
     <span class="hljs-attr">k</span>: <span class="hljs-title class_">PropTypes</span>.<span class="hljs-property">string</span>
 }
-<span class="hljs-title class_">ComponentName</span>.<span class="hljs-property">defaultProps</span> = { <span class="hljs-comment">// 类组件可以设置默认props值。方法组件不可以。</span>
+<span class="hljs-title class_">ComponentName</span>.<span class="hljs-property">defaultProps</span> = { <span class="hljs-comment">// 类组件可以设置默认props值。</span>
     <span class="hljs-attr">k</span>: <span class="hljs-string">&#x27;v&#x27;</span>
 }
 <span class="hljs-title class_">ComponentName</span>.<span class="hljs-property">contextType</span> = <span class="hljs-title class_">MyContext</span> <span class="hljs-comment">// 组件内使用this.context访问</span>
@@ -256,7 +249,7 @@ funtion <span class="hljs-title class_">Clock</span>(props) { <span class="hljs-
 </tr>
 <tr>
 <td>改变时是否为异步</td>
-<td>是</td>
+<td>否</td>
 <td>-</td>
 <td>否</td>
 <td></td>
@@ -296,7 +289,7 @@ funtion <span class="hljs-title class_">Clock</span>(props) { <span class="hljs-
 <tr>
 <td>异步</td>
 <td>在合成事件、钩子函数中表现为异步</td>
-<td>合成事件和钩子函数在更新之间调用。可以使用 setState(partialState, cb)得到更新后的结果。</td>
+<td>合成事件和钩子函数（其中有一部分）在更新之前调用。可以使用 setState(partialState, cb)得到更新后的结果。</td>
 </tr>
 <tr>
 <td>同步</td>
@@ -306,7 +299,7 @@ funtion <span class="hljs-title class_">Clock</span>(props) { <span class="hljs-
 </tbody>
 </table>
 <h3 id="使用组件">使用组件</h3>
-<pre><code>&lt;ComponentName name=&quot;top&quot; /&gt;
+<pre><code class="language-js">&lt;<span class="hljs-title class_">ComponentName</span> name=<span class="hljs-string">&quot;top&quot;</span> /&gt;
 </code></pre>
 <p>name 等属性会在 props 中。</p>
 <h3 id="class-组件--方法组件">class 组件 &amp; 方法组件</h3>
@@ -348,7 +341,7 @@ funtion <span class="hljs-title class_">Clock</span>(props) { <span class="hljs-
 <tr>
 <td>默认值</td>
 <td>可设置 defaultProps</td>
-<td>不可设置</td>
+<td>可设置 defaultProps</td>
 <td></td>
 </tr>
 <tr>
@@ -385,7 +378,7 @@ funtion <span class="hljs-title class_">Clock</span>(props) { <span class="hljs-
 <td></td>
 <td>需要在生命周期方法中写好多与逻辑无关的代码。如请求数据。</td>
 <td>监听当特定数据改变时执行指定方法。</td>
-<td></td>
+<td>方法组件更符合发布订阅模式</td>
 </tr>
 <tr>
 <td></td>
@@ -397,12 +390,6 @@ funtion <span class="hljs-title class_">Clock</span>(props) { <span class="hljs-
 <td></td>
 <td>只实例化一次。后续执行只执行 render 方法。</td>
 <td>每次都执行一次方法体</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
 <td></td>
 </tr>
 </tbody>
