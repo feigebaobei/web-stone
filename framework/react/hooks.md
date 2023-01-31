@@ -134,9 +134,9 @@ function C (props, ref) {
         setCount(count + 1)
     }
     let resetCount = () => {setCount(0)}
-    React.useImperativeHandle(ref, () => {
+    React.useImperativeHandle(ref, () => ({
         resetCount: resetCount
-    })
+    }))
     return (<div>
         <span>{count}<span>
         <button onClick={btClickHandler}>+1</button>
@@ -156,7 +156,7 @@ useDebugValue(value, [fn])
 不会
 
 let deferredValue = useDeferredValue(value)
-会根据value返回一个复制的deferredValue（延迟数据）。当有急切的更新时要，react会返回原来的值，当更新结束后再使用新值更新组件。
+会根据value返回一个复制的deferredValue（延迟数据）。当有急切的更新时，react会返回原来的值，当更新结束后再使用新值更新组件。
 使用它可实现节流、防抖功能。它会在别的更新结束后马上更新。
 使用React.useMemo / React.Memo与React.useDeferredValue结合可阻止子组件也参与急切的更新。
 function Comp () {
@@ -208,7 +208,7 @@ eg：let state = useSyncExternalStore(store.subscribe, store.getSnapshot)
 
 useInsertionEffect(didUpdate)
 它与useEffect的用法一样。
-它会在所有dom更新前执行。常用于学页面布局。
+它会在所有dom更新前执行。常用于页面布局。
 ```
 
 ## useRef
@@ -295,12 +295,6 @@ xxx
 
 ```js
 useBoolean
-```
-
-xxx
-
-```js
-useLocalStorage
 ```
 
 xxx
@@ -793,11 +787,22 @@ useApi = (url, options) => {
 
 ### useCallback & useMemo
 
-|      | useCallback | useMemo      |     |     |
-| ---- | ----------- | ------------ | --- | --- |
-| 用途 | 缓存方法    | 缓存计算结果 |     |     |
-|      |             |              |     |     |
-|      |             |              |     |     |
+|      | useCallback | useMemo                          |     |     |
+| ---- | ----------- | -------------------------------- | --- | --- |
+| 用途 | 缓存方法    | 缓存计算结果                     |     |     |
+| 用于 |             | 组件、需要大量计算才能得到的结果 |     |     |
+|      |             |                                  |     |     |
+
+### hooks & helper 方法
+
+|          | hooks                        | helper 方法      |     |     |
+| -------- | ---------------------------- | ---------------- | --- | --- |
+|          | 可实现 deps 改变时调用       | 不依赖 deps      |     |     |
+|          | 底层依赖 react 的 hooks 原理 | 依赖方法调用     |     |     |
+| 何时调用 | deps 改变时                  | 调用时           |     |     |
+|          | 都可实现代码复用             | 都可实现代码复用 |     |     |
+|          |                              |                  |     |     |
+|          |                              |                  |     |     |
 
 ```ts
 type DependencyList = ReadonlyArray<any>
@@ -839,3 +844,6 @@ export default useOnline
 ## todo
 
 ### Hook 为什么要在顶层
+
+- 方法组件被执行时会执行所有方法体。
+- hooks 内部使用链式保存数据。每个节点保存一个调用 hooks 方法的结果。get 时得到最后一个节点的结果。

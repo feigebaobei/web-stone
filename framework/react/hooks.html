@@ -210,9 +210,9 @@ useImperativeHandle 可以让你在使用 ref 时自定义暴露给父组件的�
         <span class="hljs-title function_">setCount</span>(count + <span class="hljs-number">1</span>)
     }
     <span class="hljs-keyword">let</span> <span class="hljs-title function_">resetCount</span> = (<span class="hljs-params"></span>) =&gt; {<span class="hljs-title function_">setCount</span>(<span class="hljs-number">0</span>)}
-    <span class="hljs-title class_">React</span>.<span class="hljs-title function_">useImperativeHandle</span>(ref, <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-title class_">React</span>.<span class="hljs-title function_">useImperativeHandle</span>(ref, <span class="hljs-function">() =&gt;</span> ({
         <span class="hljs-attr">resetCount</span>: resetCount
-    })
+    }))
     <span class="hljs-keyword">return</span> (&lt;div&gt;
         &lt;span&gt;{count}&lt;span&gt;
         &lt;button onClick={btClickHandler}&gt;+1&lt;/button&gt;
@@ -232,7 +232,7 @@ useDebugValue(value, [fn])
 不会
 
 let deferredValue = useDeferredValue(value)
-会根据value返回一个复制的deferredValue（延迟数据）。当有急切的更新时要，react会返回原来的值，当更新结束后再使用新值更新组件。
+会根据value返回一个复制的deferredValue（延迟数据）。当有急切的更新时，react会返回原来的值，当更新结束后再使用新值更新组件。
 使用它可实现节流、防抖功能。它会在别的更新结束后马上更新。
 使用React.useMemo / React.Memo与React.useDeferredValue结合可阻止子组件也参与急切的更新。
 function Comp () {
@@ -284,7 +284,7 @@ eg：let state = useSyncExternalStore(store.subscribe, store.getSnapshot)
 
 useInsertionEffect(didUpdate)
 它与useEffect的用法一样。
-它会在所有dom更新前执行。常用于学页面布局。
+它会在所有dom更新前执行。常用于页面布局。
 </code></pre>
 <h2 id="useref">useRef</h2>
 <table>
@@ -387,9 +387,6 @@ useInsertionEffect(didUpdate)
 </code></pre>
 <p>xxx</p>
 <pre><code class="language-js">useBoolean
-</code></pre>
-<p>xxx</p>
-<pre><code class="language-js">useLocalStorage
 </code></pre>
 <p>xxx</p>
 <pre><code class="language-js">useFontsize
@@ -871,6 +868,62 @@ isShow &amp;&amp; &lt;<span class="hljs-title class_">Modal</span>&gt;
 <td>用途</td>
 <td>缓存方法</td>
 <td>缓存计算结果</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>用于</td>
+<td></td>
+<td>组件、需要大量计算才能得到的结果</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="hooks--helper方法">hooks &amp; helper方法</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>hooks</th>
+<th>helper方法</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>可实现deps改变时调用</td>
+<td>不依赖deps</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>底层依赖react的hooks原理</td>
+<td>依赖方法调用</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>何时调用</td>
+<td>deps改变时</td>
+<td>调用时</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>都可实现代码复用</td>
+<td>都可实现代码复用</td>
 <td></td>
 <td></td>
 </tr>
