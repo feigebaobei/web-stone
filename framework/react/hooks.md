@@ -3,10 +3,10 @@
 > 只能在方法组件的最顶层使用。  
 > 以'use'开头。意为只是使用，不是创建。  
 > Hook 可以存在方法组件的顶层和另一个 hook 中。  
-> 在 React 的函数组件中调用 Hook  
-> 在自定义 Hook 中调用其他 Hook  
+> 可以在 React 的函数组件中调用 Hook  
+> 可以在自定义 Hook 中调用其他 Hook  
 > 它是一个特定方法，可以“hook into”react 功能
-> 为方法组件提供生命周期方法功能  
+> 为方法组件提供类似生命周期方法功能  
 > 从 react v16.8 开始支持 hooks。  
 > 内置于 react 中  
 > 100%向后兼容  
@@ -25,12 +25,12 @@
 ```js
 let [value, setValue] = useState(initValue?)
 用于处理组件内的状态
-组件更新时返回最近的状态。（它是如何做到的？）
+组件更新时返回最近的状态。
 setValus（与useState）都会自动合并更新对象。
 内部使用object.is判断新旧状态是否相同。若相同，则不触发更新。
-setValue是异步的。react会打包一批更新为一次更新。
+setValue是异步的。react会打包一批setValue更新为一次更新。
 setValue(newValue)
-setValue((preValue) => {...; reture obj}) // preValue是当前value的值
+setValue((preValue) => {...; reture obj}) // preValue是当前value的值。回调方法的参数是任意的，react没有限制它。
 useState(() => {reture obj})
 可使用flushSync()强制立即更新。非必要不使用。
 flushSync(() => {

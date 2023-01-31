@@ -82,8 +82,7 @@
 原生事件是浏览器原生 dom 的事件。<br>
 合成事件 react 为兼容多个浏览器的原生事件做的事件。<br>
 react 把所有事件都使用<code>addEventListener</code>绑定在 document 上。合成事件只有冒泡到 document 上时才执行对应的方法。<br>
-一起使用<br>
-先执行原生事件，再执行合成事件。<br>
+一起使用，先执行原生事件，再执行合成事件。<br>
 合成事件中执行<code>event.stopPropagation()</code>才会停止冒泡。会在合成事件对象上添加<code>isPropagationStoped</code>标记。</p>
 </blockquote>
 <pre><code>原生事件阻止冒泡后，不会触发合成事件。（合成事件被绑定在document上）
@@ -249,7 +248,7 @@ string type
 <tr>
 <td>命名</td>
 <td>小驼峰</td>
-<td>全小写。因html不区分大小写</td>
+<td>全小写。因 html 不区分大小写</td>
 </tr>
 <tr>
 <td>值</td>
@@ -259,17 +258,17 @@ string type
 <tr>
 <td>防止默认行为</td>
 <td>event.preventDefault()</td>
-<td>返回false</td>
+<td>返回 false</td>
 </tr>
 <tr>
 <td>对象</td>
-<td>以事件委托的方式绑定在document上。</td>
+<td>以事件委托的方式绑定在 document 上。</td>
 <td></td>
 </tr>
 <tr>
 <td>顺序</td>
 <td>后</td>
-<td>先。 原生事件 -》 合成事件 -》 document事件</td>
+<td>先。 原生事件 -》 合成事件 -》 document 事件</td>
 </tr>
 <tr>
 <td>动机</td>

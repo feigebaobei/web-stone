@@ -81,10 +81,10 @@
 <p>只能在方法组件的最顶层使用。<br>
 以'use'开头。意为只是使用，不是创建。<br>
 Hook 可以存在方法组件的顶层和另一个 hook 中。<br>
-在 React 的函数组件中调用 Hook<br>
-在自定义 Hook 中调用其他 Hook<br>
+可以在 React 的函数组件中调用 Hook<br>
+可以在自定义 Hook 中调用其他 Hook<br>
 它是一个特定方法，可以“hook into”react 功能
-为方法组件提供生命周期方法功能<br>
+为方法组件提供类似生命周期方法功能<br>
 从 react v16.8 开始支持 hooks。<br>
 内置于 react 中<br>
 100%向后兼容<br>
@@ -101,12 +101,12 @@ ellint-plugin-react-hooks 已经内置与 create-react-app 中</p>
 <h2 id="usage">usage</h2>
 <pre><code class="language-js"><span class="hljs-keyword">let</span> [value, setValue] = <span class="hljs-title function_">useState</span>(initValue?)
 用于处理组件内的状态
-组件更新时返回最近的状态。（它是如何做到的？）
+组件更新时返回最近的状态。
 setValus（与useState）都会自动合并更新对象。
 内部使用object.<span class="hljs-property">is</span>判断新旧状态是否相同。若相同，则不触发更新。
-setValue是异步的。react会打包一批更新为一次更新。
+setValue是异步的。react会打包一批setValue更新为一次更新。
 <span class="hljs-title function_">setValue</span>(newValue)
-<span class="hljs-title function_">setValue</span>(<span class="hljs-function">(<span class="hljs-params">preValue</span>) =&gt;</span> {...; reture obj}) <span class="hljs-comment">// preValue是当前value的值</span>
+<span class="hljs-title function_">setValue</span>(<span class="hljs-function">(<span class="hljs-params">preValue</span>) =&gt;</span> {...; reture obj}) <span class="hljs-comment">// preValue是当前value的值。回调方法的参数是任意的，react没有限制它。</span>
 <span class="hljs-title function_">useState</span>(<span class="hljs-function">() =&gt;</span> {reture obj})
 可使用<span class="hljs-title function_">flushSync</span>()强制立即更新。非必要不使用。
 <span class="hljs-title function_">flushSync</span>(<span class="hljs-function">() =&gt;</span> {
@@ -555,7 +555,7 @@ useInsertionEffect(didUpdate)
 <p>当依赖项改变时，执行异步方法。</p>
 <pre><code class="language-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">useAsyncEffect</span>(<span class="hljs-params">fn, deps, ...args</span>) {
   <span class="hljs-title function_">useEffect</span>(<span class="hljs-function">() =&gt;</span> {
-    (<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+    ;(<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
       <span class="hljs-keyword">await</span> <span class="hljs-title function_">fn</span>(...args)
     })()
   }, deps)
