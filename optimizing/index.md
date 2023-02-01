@@ -37,6 +37,10 @@ css 中使用 Sprite 图。
   - React.memo(fn, deps)
   - 避免使用内建对象
   - 避免使用匿名函数
+- 分优先级
+  - 延后渲染
+    - useDeferredValue
+    - useTransition
 
 ## 代码分割 & tree shake
 
@@ -93,7 +97,7 @@ class B extends React.PureComponent {
 
 ## useCallback(fn, deps)
 
-## useMemo(fn, deps) 缓存大量计算
+## useMemo(fn, deps) 缓存大量计算、组件
 
 ## React.memo((props) => {return jsx}) 缓存组件
 
@@ -107,6 +111,11 @@ function C(props) {
 ```
 
 ## 避免使用匿名函数
+
+## 延后渲染
+
+- useDeferredValue
+- useTransition
 
 # 优化 vue 项目
 
