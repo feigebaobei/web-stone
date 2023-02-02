@@ -249,25 +249,12 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = 'promote/designApi'
+    // let p = 'promote/demand'
     let p = [
-      // 'index.html',
-      // 'jsPackages/data-footstone.html',
-      'framework/index.html',
-      'framework/react/event.html',
-      'framework/react/hooks.html',
-      'framework/react/index.html',
-      // 'framework/react/principle/index.html',
-      // 'framework/react/react-18/index.html',
+      // 'framework/react/hooks.html',
+      'framework/react/react-18/index.html',
       'optimizing/index.html',
-      'promote/systemDesign/construct.html',
-      'promote/systemDesign/index.html',
-      // 'coursera/dsa/2/index.html',
-      // 'coursera/dsa/2/inOrder.png',
-      // 'coursera/dsa/2/preOrder.png',
-      // 'coursera/dsa/2/postOrder.png',
-      // 'dsa/index.html',
-      // 'dsa/bfs&dfs.html',
+      'promote/demand/index.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)

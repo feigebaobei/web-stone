@@ -93,7 +93,8 @@ npm i react-dom
 React 只更新它需要更新的部分<br>
 过程如下：</p>
 <ol>
-<li>创建一个 react 元素，传入 ReactDOM.render()。</li>
+<li>创建一个根节点 root.</li>
+<li>创建一个 react 元素，传入 root.render(xx)。</li>
 <li>与之前的 react 元素比较。只更新不同的部分。</li>
 </ol>
 <h2 id="jsx">jsx</h2>
@@ -215,7 +216,7 @@ funtion <span class="hljs-title class_">Clock</span>(props) { <span class="hljs-
 <th>state</th>
 <th>props</th>
 <th>this.xx</th>
-<th></th>
+<th>ref</th>
 </tr>
 </thead>
 <tbody>
@@ -224,42 +225,42 @@ funtion <span class="hljs-title class_">Clock</span>(props) { <span class="hljs-
 <td>会触发本组件重新渲染</td>
 <td>会触发本组件重新渲染</td>
 <td>不会</td>
-<td></td>
+<td>不会</td>
 </tr>
 <tr>
 <td>来源</td>
 <td>本组件</td>
 <td>本组件的父元素（一般为父组件）</td>
 <td>本组件</td>
-<td></td>
+<td>本组件</td>
 </tr>
 <tr>
 <td>作用范围</td>
 <td>本组件</td>
 <td>本组件</td>
 <td>本组件</td>
-<td></td>
+<td>本组件</td>
 </tr>
 <tr>
 <td>是否在本组件可改变</td>
 <td>可<code>this.setState()</code></td>
 <td>不可</td>
 <td>可</td>
-<td></td>
+<td>可</td>
 </tr>
 <tr>
 <td>改变时是否为异步</td>
 <td>否</td>
 <td>-</td>
 <td>否</td>
-<td></td>
+<td>否</td>
 </tr>
 <tr>
 <td>出现的组件形式</td>
 <td>class</td>
 <td>function/class</td>
 <td>function/class</td>
-<td></td>
+<td>function</td>
 </tr>
 <tr>
 <td></td>
@@ -593,7 +594,7 @@ xx ? <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-nam
 React.PureComponent 内实现了<code>shouldComponentUpdate()</code>(React.Component 中未实现)。该方法会简单判断是否需要更新。该方法会跳过所有子组件的 props 更新。</p>
 <h2 id="异常捕获边界"><a href="/framework/react/react-18/errorBinary.html">异常捕获边界</a></h2>
 <h2 id="forwardref">forwardRef</h2>
-<p>为常规函数组件提供接收 ref 的功能。</p>
+<p>为方法函数组件提供接收 ref 的功能。</p>
 <p>demo for forwardRef &amp; function</p>
 <pre><code class="language-js"><span class="hljs-comment">// 父组件</span>
 <span class="hljs-keyword">let</span> ref = <span class="hljs-title class_">React</span>.<span class="hljs-title function_">createRef</span>()
@@ -612,11 +613,12 @@ React.PureComponent 内实现了<code>shouldComponentUpdate()</code>(React.Compo
 }
 <span class="hljs-keyword">const</span> <span class="hljs-title class_">InputFR</span> = <span class="hljs-title function_">forwardRef</span>(<span class="hljs-function">(<span class="hljs-params">props, ref</span>) =&gt;</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">InputCC</span> <span class="hljs-attr">inputRef</span>=<span class="hljs-string">{ref}</span> <span class="hljs-attr">...props</span> /&gt;</span></span>)
 </code></pre>
-<p>第二个参数 ref 只在使用 React.forwardRef 定义组件时存在。常规函数和 class 组件不接收 ref 参数，<strong>且 props 中也不存在 ref</strong>。<br>
+<p>第二个参数 ref 只在使用 React.forwardRef 定义组件时存在。方法函数和 class 组件不接收 ref 参数，<strong>且 props 中也不存在 ref</strong>。<br>
 Ref 转发不仅限于 DOM 组件，你也可以转发 refs 到 class 组件实例中。</p>
-<h3 id="何时使用">何时使用</h3>
+<h3 id="何时使用ref">何时使用ref</h3>
 <ul>
 <li>祖先组件需要操作子组件的元素时。（受控组件的一种）</li>
+<li>改变是不更新组件</li>
 <li>需要操作 dom 时</li>
 <li>需要使用 useImperativeHandle 时</li>
 </ul>

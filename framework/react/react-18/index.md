@@ -20,8 +20,9 @@ ReactElement 对象是**不可变对象**。一旦被创建，你就无法更改
 React 只更新它需要更新的部分  
 过程如下：
 
-1. 创建一个 react 元素，传入 ReactDOM.render()。
-2. 与之前的 react 元素比较。只更新不同的部分。
+1. 创建一个根节点 root.
+2. 创建一个 react 元素，传入 root.render(xx)。
+3. 与之前的 react 元素比较。只更新不同的部分。
 
 ## jsx
 
@@ -128,15 +129,15 @@ ComponentName.contextType = MyContext // 组件内使用this.context访问
 
 ### state & props & this.xx
 
-|                    | state                | props                          | this.xx        |     |
-| ------------------ | -------------------- | ------------------------------ | -------------- | --- |
-| 改变时             | 会触发本组件重新渲染 | 会触发本组件重新渲染           | 不会           |     |
-| 来源               | 本组件               | 本组件的父元素（一般为父组件） | 本组件         |     |
-| 作用范围           | 本组件               | 本组件                         | 本组件         |     |
-| 是否在本组件可改变 | 可`this.setState()`  | 不可                           | 可             |     |
-| 改变时是否为异步   | 否                   | -                              | 否             |     |
-| 出现的组件形式     | class                | function/class                 | function/class |     |
-|                    |                      |                                |                |     |
+|                    | state                | props                          | this.xx        | ref      |
+| ------------------ | -------------------- | ------------------------------ | -------------- | -------- |
+| 改变时             | 会触发本组件重新渲染 | 会触发本组件重新渲染           | 不会           | 不会     |
+| 来源               | 本组件               | 本组件的父元素（一般为父组件） | 本组件         | 本组件   |
+| 作用范围           | 本组件               | 本组件                         | 本组件         | 本组件   |
+| 是否在本组件可改变 | 可`this.setState()`  | 不可                           | 可             | 可       |
+| 改变时是否为异步   | 否                   | -                              | 否             | 否       |
+| 出现的组件形式     | class                | function/class                 | function/class | function |
+|                    |                      |                                |                |          |
 
 - 使用`this.setState()`改变 state
 - setState 本质是同步的。因 react 的优化机制，有时表现为异步，有时表现为同步。
@@ -414,7 +415,7 @@ React.PureComponent 内实现了`shouldComponentUpdate()`(React.Component 中未
 
 ## forwardRef
 
-为常规函数组件提供接收 ref 的功能。
+为方法函数组件提供接收 ref 的功能。
 
 demo for forwardRef & function
 
@@ -440,12 +441,13 @@ class InputCC extends React.Component {
 const InputFR = forwardRef((props, ref) => <InputCC inputRef={ref} ...props />)
 ```
 
-第二个参数 ref 只在使用 React.forwardRef 定义组件时存在。常规函数和 class 组件不接收 ref 参数，**且 props 中也不存在 ref**。  
+第二个参数 ref 只在使用 React.forwardRef 定义组件时存在。方法函数和 class 组件不接收 ref 参数，**且 props 中也不存在 ref**。  
 Ref 转发不仅限于 DOM 组件，你也可以转发 refs 到 class 组件实例中。
 
-### 何时使用
+### 何时使用 ref
 
 - 祖先组件需要操作子组件的元素时。（受控组件的一种）
+- 改变是不更新组件
 - 需要操作 dom 时
 - 需要使用 useImperativeHandle 时
 

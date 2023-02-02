@@ -35,8 +35,8 @@ css 中使用 Sprite 图。
   - useCallback(fn, deps)
   - useMemo(fn, deps)
   - React.memo(fn, deps)
-  - 避免使用内建对象
-  - 避免使用匿名函数
+  - 避免直接使用内建对象
+  - 避免直接使用匿名函数
 - 分优先级
   - 延后渲染
     - useDeferredValue
