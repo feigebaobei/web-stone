@@ -251,8 +251,9 @@ c.on('ready', () => {
     }
     // let p = 'language/markdown'
     let p = [
-      'language/markdown/index.html',
-      'index.html',
+      'language/javascript/index.html',
+      // 'index.html',
+      // 'language/html/defer&async.html',
       // 'browser/frontStorage/index.html',
       // 'framework/vue3/vue2&vue3.html',
       // 'browser/frontStorage/index.html',

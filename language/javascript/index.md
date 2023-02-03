@@ -880,6 +880,25 @@ js 是单线程语言。但是它的宿主环境——browser 支持多线程。
 
 # [xhr](/language/javascript/xhr.html)
 
+# 动画
+
+一般与 canvas 结合工作。
+
+|                                                                                       |                                        |     |     |
+| ------------------------------------------------------------------------------------- | -------------------------------------- | --- | --- |
+| `requestAnimationFrame(cb) => number`                                                 | 在下次更新动画时调用，即在重绘前调用。 |     |     |
+| `cancelAnimationFrame(id: number) => void`                                            | 取消更新动画时的回调。                 |     |     |
+| `requestIdleCallback(cb: (IdleDeadline) => void, opt ?= {timeout: number}) => number` | 在浏览器的空闲时间执行回调方法。       |     |     |
+| `cancelIdleCallback(id: number) => void`                                              |                                        |     |     |
+|                                                                                       |                                        |     |     |
+
+```ts
+IdleDeadline: {
+  didTimeout: boolean // 执行回调方法时是否超过指定时间。此时一定设置了timeout
+  timeRemaining(): nubmer // 返回一个时间DOMHighResTimeStamp, 并且是浮点类型的数值，它用来表示当前闲置周期的预估剩余毫秒数。如果 idle period 已经结束，则它的值是 0。你的回调函数 (传给 requestIdleCallback 的函数) 可以重复的访问这个属性用来判断当前线程的闲置时间是否可以在结束前执行更多的任务。
+}
+```
+
 # js 操作 dom
 
 ```js
