@@ -249,22 +249,12 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = 'promote/demand'
+    // let p = 'language/markdown'
     let p = [
-      // 'test.html',
-      // 'builder/rollup/ts&rollup.html',
-      // 'framework/index.html',
-      // 'framework/vue3/component.html',
-      // 'framework/vue3/index.html',
-      // 'framework/vue3/translate.html',
+      'language/markdown/index.html',
+      'index.html',
+      // 'browser/frontStorage/index.html',
       // 'framework/vue3/vue2&vue3.html',
-      // 'framework/vue3/vue3&ts.html',
-      // 'jsPackages/compilerSfs.html',
-      // 'language/javascript/functionProgramming.html',
-      // 'language/html/element.html',
-      'language/html/index.html',
-      'browser/frontStorage/index.html',
-      'framework/vue3/vue2&vue3.html',
       // 'browser/frontStorage/index.html',
       // 'confuse/upload.html',
       // 'language/html/HTMLElement.html',

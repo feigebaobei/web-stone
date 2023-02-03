@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>defer&amp;async</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
+</style>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h2 id="deferasync">defer&amp;async</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>无修饰</th>
+<th>defer</th>
+<th>async</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>读取并执行该script标签。</td>
+<td>向用户代理提示该脚本不会生成任何网页内容。用户代理可以继续解析和渲染。在DOMContentLoaded执行之前，由上到下依次加载。（即：立即下载/延迟执行）</td>
+<td>异步读取并执行该script标签。加载完成后立即执行。</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>立即下载/延迟执行</td>
+<td>加载完成后立即执行</td>
+</tr>
+<tr>
+<td>默认值</td>
+<td></td>
+<td>true</td>
+<td>true</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>都是script标签的属性</td>
+<td>都是script标签的属性</td>
+</tr>
+</tbody>
+</table>
+<p>dom文档加载步骤</p>
+<ol>
+<li>解析html结构</li>
+<li>加载外部脚本/样式表</li>
+<li>解析并执行脚本代码</li>
+<li>dom树构建完成        // rendy--DOMContentLoaded</li>
+<li>加载html和css中引用的外部资源文件</li>
+<li>页面加载完成         // load
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>d</mi><mi>o</mi><mi>c</mi><mi>u</mi><mi>m</mi><mi>e</mi><mi>n</mi><mi>t</mi><mo stretchy="false">)</mo><mi mathvariant="normal">.</mi><mi>r</mi><mi>e</mi><mi>a</mi><mi>d</mi><mi>y</mi><mo stretchy="false">(</mo><mo stretchy="false">)</mo><mi mathvariant="normal">/</mi><mi mathvariant="normal">/</mi><mo stretchy="false">(</mo><mi>f</mi><mi>u</mi><mi>n</mi><mi>c</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi><mo stretchy="false">(</mo><mo stretchy="false">)</mo><mrow></mrow><mo stretchy="false">)</mo><mtext>在</mtext><mi>n</mi><mi>o</mi><mi mathvariant="normal">.</mi><mn>4</mn><mtext>后执行。多编写多个。都可执行。</mtext><mi>w</mi><mi>i</mi><mi>n</mi><mi>d</mi><mi>o</mi><mi>w</mi><mi mathvariant="normal">.</mi><mi>o</mi><mi>n</mi><mi>l</mi><mi>o</mi><mi>a</mi><mi>d</mi><mi mathvariant="normal">/</mi><mi mathvariant="normal">/</mi></mrow><annotation encoding="application/x-tex">(document).ready()   // (function() {})
+ 在no.4后执行。
+ 多编写多个。都可执行。
+window.onload         // </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mord mathnormal">oc</span><span class="mord mathnormal">u</span><span class="mord mathnormal">m</span><span class="mord mathnormal">e</span><span class="mord mathnormal">n</span><span class="mord mathnormal">t</span><span class="mclose">)</span><span class="mord">.</span><span class="mord mathnormal">re</span><span class="mord mathnormal">a</span><span class="mord mathnormal">d</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mopen">(</span><span class="mclose">)</span><span class="mord">//</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mord mathnormal">u</span><span class="mord mathnormal">n</span><span class="mord mathnormal">c</span><span class="mord mathnormal">t</span><span class="mord mathnormal">i</span><span class="mord mathnormal">o</span><span class="mord mathnormal">n</span><span class="mopen">(</span><span class="mclose">)</span><span class="mord"></span><span class="mclose">)</span><span class="mord cjk_fallback">在</span><span class="mord mathnormal">n</span><span class="mord mathnormal">o</span><span class="mord">.4</span><span class="mord cjk_fallback">后执行。多编写多个。都可执行。</span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mord mathnormal">in</span><span class="mord mathnormal">d</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mord">.</span><span class="mord mathnormal">o</span><span class="mord mathnormal">n</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal">a</span><span class="mord mathnormal">d</span><span class="mord">//</span></span></span></span>(window).load(function () {...})
+在no.6后执行。
+若编写多个，则只执行最后一个。</li>
+</ol>
+<h2 id="在浏览器中使用esmascript">在浏览器中使用esmascript</h2>
+<p><code>type=module</code>
+1. 被当做inline / external脚本处理。
+2. import支持4种路由：url / <code>/</code> / <code>./</code> / <code>../</code>，其它的不支持。
+3. nomodule 向后兼容。
+<code> 		&lt;script type=&quot;module&quot; src=&quot;module.mjs&quot;&gt;&lt;/script&gt; 		&lt;script nomodule src=&quot;fallback.js&quot;&gt;&lt;/script&gt; 		</code>
+若浏览器支持<code>type=module</code>则使用module.mjs，否则使用fallbakc.js。</p>
+<pre><code>4. 默认使用`defer`。行内script也是defer。
+5. 若多次引入同一文件，则只执行一次。因为esm规范是传址引用。  
+6. 总是cors。需要设置`Access-Control-Allow-Origin: *`等字段。
+7. 旧浏览器不会执行credential same-origin cookies
+	新浏览器发送cookie
+8. 必须使用指定的`MIME types`: `text/javascript`
+</code></pre>
+
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
+    </body>
+    </html>

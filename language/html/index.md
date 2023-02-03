@@ -501,12 +501,20 @@ iframe/svg 中都有自己视口。
 
 ### 预加载
 
-使用大文件更快展示。  
-常写在`<head>`内。  
-若浏览器不支持该类型资源预加载，则忽略。  
-预加载有三种方式：`<link rel="preload">` / `<link rel="prefetch">` / `<link rel="subresource">`，优先级依次递减。
-它与`defer` / `async`
-defer/async 只能用于`<script>`。详见：`./defer&async.md`
+- 使用大文件更快展示。
+- 常写在`<head>`内。
+- 若浏览器不支持该类型资源预加载，则忽略。
+- 对首页的资源无效。可以对非首页的资源有效，使其加载内容变少。
+- 不可跨域。
+- 会污染相关资源的访问量。
+
+预加载有三种方式：优先级依次递减。 加载有 preload 的资源，然后加载无 preload 的资源，然后加载 prefetch 的资源，然后加载 subresource 的资源。
+
+1. `<link rel="preload">`
+2. `<link rel="prefetch">`
+3. `<link rel="subresource">`
+
+defer/async 只能用于`<script>`。详见：[defer&async](/language/html/defer&async.html)
 preload/prefetch 只能用于`<link>`.
 
 ```html
@@ -531,11 +539,13 @@ preload/prefetch 只能用于`<link>`.
 - font
 - image
 - object
-- script
+- script 这里好像有问题
 - style
 - track 为媒体元素规定外部文本轨道。
 - worker
 - video
+
+#### 与打包器结合使用的预加载功能
 
 # 布局
 
