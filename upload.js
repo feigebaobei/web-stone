@@ -251,7 +251,7 @@ c.on('ready', () => {
     }
     // let p = 'language/markdown'
     let p = [
-      'books/javascript-partterns.html',
+      'books/index.html',
       // 'index.html',
       // 'language/html/defer&async.html',
       // 'browser/frontStorage/index.html',
