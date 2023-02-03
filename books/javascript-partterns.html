@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>javascript patterns</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
+</style>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="javascript-patterns">javascript patterns</h1>
+<p>作者 stoyan stefanow
+译者 陈新</p>
+<h1 id="no1-简介">no.1 简介</h1>
+<p>js是一门动态性较强的语言，面向对象的语言。
+模式是指一个通用问题的解决方案。
+对象有2类：</p>
+<ul>
+<li>原生的</li>
+<li>宿主环境的
+<ul>
+<li>console
+jslint: 检测js代码质量的工具</li>
+</ul>
+</li>
+</ul>
+<h1 id="no2-基本技巧">no.2 基本技巧</h1>
+<p>易维护的代码：</p>
+<ul>
+<li>阅读性好</li>
+<li>具有一致性</li>
+<li>预见性好</li>
+<li>如一人写成</li>
+<li>有文档
+少用全局变量</li>
+<li>使用var创建的全局变量不能被删除</li>
+<li>未使用var创建的全局变量能被删除
+不要修改内置原型
+避免使用隐式类型转换
+避免使用eval
+大写构造函数首字母
+编写api文档</li>
+</ul>
+<pre><code>/*
+* @tag value {type} description
+* @namespace
+* @class
+* @method
+* @param
+* @return
+*/
+</code></pre>
+<p>正式发布是精简代码</p>
+<h1 id="no3-字面量和构造函数">no.3 字面量和构造函数</h1>
+<p>优先使用字面量方式定义。
+<code>new</code>与构造函数结合使用时的返回值：</p>
+<table>
+<thead>
+<tr>
+<th>返回this</th>
+<th>返回非this的对象</th>
+<th>other</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>返回this</td>
+<td>返回该对象</td>
+<td>返回this</td>
+</tr>
+<tr>
+<td>严格模式中，this指向undefined</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>自调用构造函数：</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code>function Fn(arg) {
+	if (!(this instanceof Fn)) {
+		return new Fn(arg)
+	}
+	this.a = 'str'
+}
+</code></pre>
+<p>改变了实例的<code>instanceof</code>属性，无法改变实例与构造函数的关系。</p>
+<h1 id="no4-函数">no.4 函数</h1>
+<p>可以提供作用域。
+惰性函数定义：</p>
+<pre><code>var fn = function () {
+	// other code
+	fa = function () {...}
+}
+</code></pre>
+<ul>
+<li>被重新定义后原函数上的原型对象被丢失。
+即时函数（立即执行函数/自调用函数/自执行函数）iife<br>
+备忘模式：</li>
+</ul>
+<pre><code>var a, b;
+(function (a, b) {...})(a, b)
+</code></pre>
+<pre><code>// defind
+function fnCurry (caption) {
+	let fn = function (...a) {
+		let k = a.map(e =&gt; e.toString()).join(',')
+		let ele = fn.cache.find(e =&gt; {
+			return e.key === k
+		})
+		let result
+		if (ele) {
+			result = ele.value
+			return result
+		}
+		}
+		// 经过计算
+		result = {...}
+		if (fn.cache.length &gt;= caption) {
+			fn.cache.pop()
+			fn.cache.push({
+				key: k,
+				value: result
+			})
+		}
+		return result
+	}
+	fn.cache = [
+		\\ {key, value}
+	]
+	return fn
+}
+// usage
+let fn = fnCurry(5)
+fn(p, q)
+fn(p, q)
+fn(p, q)
+</code></pre>
+<p>配置对象模式：</p>
+<ul>
+<li>可使用参数变整洁。</li>
+<li>不用记过多参数/顺序</li>
+<li>可忽略可选参数</li>
+<li>易于阅读/维护</li>
+<li>易于添加/删除参数</li>
+<li>需要记住参数名称</li>
+<li>无法压缩属性名称
+curry:
+由“调用函数”改为“应用函数”。</li>
+</ul>
+<pre><code>fn(p) // 调用函数
+fn.call(obj, p) // 应用函数
+</code></pre>
+<ul>
+<li>柯理化是一个转换过程。</li>
+<li>有大多数参数相同时，可使用curry化。
+回调模式</li>
+</ul>
+<h1 id="no5-对象创建模式">no.5 对象创建模式</h1>
+<p>命名空间模式：</p>
+<pre><code>var myapp = myapp || {}
+myapp.namespace = function (path) {
+	let parts = path.split('.')
+	if (parts[0] === 'myapp') {
+		parts.pop()
+	}
+	let parent = myapp
+	for (let i = 0; i &lt;parts.length; i++) {
+		if (typeof parent[parts[i]] === 'undefined') {
+			parent[parts[i]] = {}
+		}
+		parent = parent[part[i]]
+	}
+}
+</code></pre>
+<p>声明依赖关系</p>
+<ul>
+<li>明确依赖</li>
+<li>解析局部变量比解析全局变量快
+闭包：</li>
+</ul>
+<pre><code>function f () {
+	let a = 'str' // 无法被外部直接访问
+	let b = () =&gt; {...}
+	return b
+}
+</code></pre>
+<p>特权方法：可以访问私有属性的方法
+私有性失效：当特权方法返回私有的对象时。返回的是该对象的引用。若在闭包外修改该对象，则闭包内也会受动影响。</p>
+<pre><code>// 接上段代码
+f.prototype = (function () {
+	// other code
+	return {
+		a: a,
+		b: b,
+	}
+})()
+// 闭包与原型对象结合使用，可使用所有实例拥有该功能。
+</code></pre>
+<p>揭示模式</p>
+<pre><code>(function () {
+	function a () {...}
+	function b () {...}
+	return {
+		a,
+		b,
+	}
+}())
+</code></pre>
+<p>模块模式
+提供了一种创建自包含非耦合代码片段的有利工具。命名空间+即时函数+私有特权成员+声明依赖
+沙箱模式</p>
+<ul>
+<li>同一个包可实现多个版本的实例</li>
+<li>解决多个访问长度</li>
+</ul>
+<pre><code>// defind
+function Sandbox(...modules, cb) {
+	if (!(this instanceof Sandbox)) { // 当没有使用new操作符时使用new操作符
+		return new Sandbox(...modules, cb)
+	}
+	// 为this添加属性
+	this.a = 'a'
+	this.b = 'b'
+	for (let i = 0; i &lt; modules.length; i++) {
+		Sandbox.modules[modules[i]](this) // 使this具有指定module的功能
+	}
+	cb(this)
+}
+Sandbox.modules = {}
+Sandbox.modules.a = function() {/*实现模块a的功能*/}
+Sandbox.modules.b = function() {/*实现模块b的功能*/}
+Sandbox.modules.c = function() {/*实现模块c的功能*/}
+// usage
+let box = {} // 
+new Sandbox('a', 'b', function (box) {
+	// ...
+})
+</code></pre>
+<p>链模式</p>
+<ul>
+<li>以创建简短/具有特定功能的函数。</li>
+</ul>
+<pre><code>// defind
+var obj = {
+	v: 0
+	increment: function () {
+		this.v++
+		return this
+	},
+	add: function (p) {
+		this.v += p
+		return this
+	},
+	shout: function(p) {
+		// empty
+	}
+}
+// usage
+obj.increment().add(2).shout
+console.log(obj.v)
+</code></pre>
+<h1 id="no6-代码复用模式">no.6 代码复用模式</h1>
+<p>es5中的方法。<br>
+推荐此方法。因为此方法更遵守js语言的原型链（有对象/无类）的实际情况。</p>
+<pre><code>Object.create(prot: object, attr: object)
+</code></pre>
+<p>利用复制实现继承</p>
+<pre><code>funtion extend(p, c = {}) {
+	for (let k in p) {
+		if (p.hasOwnProperty(k) {
+			c[k] = p[k]
+		})
+	}
+	return c
+}
+</code></pre>
+<p>深复制</p>
+<pre><code>function cloneDeep(p, c = {}) {
+	for (let k in p) {
+		if (p.hasOwnProperty(k)) {
+			if (typeof p[k] === 'object') {
+				c[k] = Object.prototype.toString.call(p[k]) === '[object Array]' ? [] : {}
+				cloneDeep(p[k], c[k])
+			} else {
+				c[k] = p[k]
+			}
+		}
+	}
+	return c
+}
+</code></pre>
+<p>混入</p>
+<pre><code>// define
+function mixin(...os) {
+	let r = {}
+	os.forEach(o =&gt; {
+		Object.entries(o) // [[k0, v0], ...]
+		.forEach([k, v] =&gt; {
+			r[k] = v
+		})
+	})
+	return r
+}
+// usage
+mixin(oa, ob, oc)
+</code></pre>
+<p>借用方法</p>
+<pre><code>// 又希望复用方法，又不想有父子关系
+pf.call(self: object, ...args)
+pf.apply(self: object, args: any[])
+</code></pre>
+<p>绑定方法</p>
+<pre><code>pf.bind(self: object, ...args): () =&gt; function
+// 实现
+if (typeof Function.prototype.bind === 'undefined') {
+	Funciton.prototype.bind = function(self, ...args) {
+		return this.apply(self, args)
+	}
+}
+</code></pre>
+<h2 id="继承">继承</h2>
+<p>这种思想是受到<code>java</code>等语言的影响。非在js语言中使用类。不建议使用此方法。</p>
+<pre><code>function inherit(c, p) {
+	c.prototype = new p()
+}
+</code></pre>
+<p>借用构造函数</p>
+<pre><code>function C(...args) {
+	P.apply(this, args)
+	// 也可以多次借用构造函数
+	// P1.apply(this, args)
+	// P2.apply(this, args)
+}
+</code></pre>
+<p>设置原型，共享原型。</p>
+<pre><code>function inherit(c, p) {
+	c.prototype = p.prototype
+}
+</code></pre>
+<p>临时构造函数</p>
+<pre><code>function inherit(c, p) {
+	let F = function () {}
+	F.prototype = p.prototype
+	c.prototype = new F()
+}
+</code></pre>
+<p>存储超类</p>
+<pre><code>function inherit(c, p) {
+	let F = function () {}
+	F.prototype = p.prototype
+	c.prototype = new F()
+	c.uber = c.prototype
+}
+</code></pre>
+<p>重置构造函数指针</p>
+<pre><code>let inherit = (funtion () {
+	let f = function () {}
+	return function (c, p) {
+		f.prototype = p.prototype
+		c.prototype = new f()
+		c.prototype.constructor = c
+		c.uber = c.prototype
+	}
+})()
+</code></pre>
+<p>klass<br>
+不推荐</p>
+<pre><code>
+</code></pre>
+<h1 id="no7-设计模式">no.7 设计模式</h1>
+<h2 id="单例模式">单例模式</h2>
+<p>一个特定类只有一个实例。</p>
+<pre><code>var universe
+(function() {
+	var instance
+	universe = function () {
+		if (instance) {
+			return instance
+		}
+		instance = this
+		this.a = 'a'
+		this.b = 'b'
+	}
+	})()
+</code></pre>
+<h2 id="多例模式">多例模式</h2>
+<pre><code>var inst = new ClassName()
+</code></pre>
+<h2 id="工厂模式">工厂模式</h2>
+<p>为了批量创建对象。多见于构造函数。</p>
+<pre><code>function Point(x, y) {
+	this.x = x
+	this.y = y
+}
+var p = new Point(1, 2)
+</code></pre>
+<h2 id="迭代器模式">迭代器模式</h2>
+<p>常用于链表。<br>
+链表多作为一种数据结构出现。详见<a href="https://www.npmjs.com/package/data-footstone">数据基石</a></p>
+<pre><code>let makeLink = (...args) =&gt; {
+}
+</code></pre>
+<pre><code>for...of
+filter
+find
+map
+forEach
+reduce
+reduceRight
+</code></pre>
+<h2 id="装饰器模式">装饰器模式</h2>
+<p>运行时为目标添加附加功能。</p>
+<pre><code>@decorator(args)
+Class Cn {
+	constructor() {...}
+	@decoratorF(argsf)
+	first() {...}
+}
+
+// 函数lan处理
+</code></pre>
+<h2 id="策略模式">策略模式</h2>
+<p>定义关键字与方法的对应关系。运行时选择相应算法。（表单验证）
+可看作为if/else判断的另一种表现形式，在达到相同目的的同时，极大的减少了代码量以及代码维护成本。
+分离算法的使用、算法的实现。</p>
+<pre><code>// demo0
+var realize = {
+    first: () =&gt; {},
+    second: () =&gt; {},
+    third: () =&gt; {}
+}
+let result = realize[param] ? realize[param]() : null
+
+// demo1
+// html
+&lt;form&gt;
+// js
+document.getElementById('submit').on('click', (event) =&gt; {
+  event.preventDefault()
+  var validator = new Validator()
+  var result = validator.test({
+    'userName': [
+      {rule: 'isRequired', value: this.userName.value, message: 'string'},
+      ...
+    ],
+    ...
+  })
+})
+
+function Validator () {}
+Validator.prototype.rules = {
+  isRequired: (value) =&gt; {
+    return value.replace(/(^\s*)|(\s*$)/g, '')
+  },
+  ...
+}
+Validator.prototype.test = (rules) =&gt; {
+  var that = this
+  var valid = null
+  for (let key in rules) {
+    for(let i = 0; i &lt; rules[key].length; i++) {
+      let {rule, value, message} = rules[key][i]
+      let result = that.rules[rule](value)
+      // let result = that.rules[rule].apply(this, value)
+      if (!result) {
+        valid = {
+          errValue: key,
+          errMsg: message
+        }
+        break
+      }
+    }
+    if (valid) {
+      break
+    }
+  }
+  return valid
+}
+</code></pre>
+<h2 id="外观模式">外观模式</h2>
+<p>统一对外接口</p>
+<pre><code></code></pre>
+<h2 id="代理模式">代理模式</h2>
+<h2 id="中介模式">中介模式</h2>
+<p>为了促进松耦合。</p>
+<pre><code>			  |---------|
+   -----------|   中介  |----------
+   |		  |---------|        |
+   A                             B
+
+A.fn() -&gt; 中介.fn() -&gt; B.fn()
+</code></pre>
+<h2 id="观察者模式">观察者模式</h2>
+<p>别名：订阅/发布模式</p>
+<pre><code>let publisher = {
+	subscribers: {},
+	subscribe: (type, fn) =&gt; {
+		// subscribers[type] = [].push(fn)
+	},
+	unsubscribe: (type, fn) =&gt; {
+		// subscribers[type].splice(..)
+	},
+	publish: (type, self) =&gt; {
+		// subscribes[type].forEach(fn =&gt; fn(self))
+	}
+}
+function makePublisher(o) {
+	Object.keys(publisher).forEach(k =&gt; {
+		o[k] = publisher[k]
+	})
+}
+// use
+let p = {...}
+let a = makePublisher(p)
+let b1 = {...}
+let b2 = {...}
+a.subscribe('t', b1.f)
+a.subscribe('t', b2.f)
+a.publish('t')
+</code></pre>
+<h1 id="no8-dom和浏览器模式">no.8 DOM和浏览器模式</h1>
+<h2 id="关注点分离">关注点分离</h2>
+<ul>
+<li>内容 html</li>
+<li>表现 css</li>
+<li>行为 js<br>
+特征检测技术</li>
+</ul>
+<pre><code>if (document.attachEvent) {
+	document.attachEvent('onclick', console.log)
+}
+</code></pre>
+<h2 id="访问dom">访问dom</h2>
+<p>访问dom的代价是昂贵的。</p>
+<ul>
+<li>避免在循环中使用dom访问。</li>
+<li>将dom引用分配给局部变量，并使用这些局部变量。</li>
+<li>在可能的情况下使用selector api.</li>
+<li>当在html容器中重复使用时，缓存重复的次数。</li>
+</ul>
+<h2 id="操作dom">操作dom</h2>
+<ul>
+<li>先整理文档碎片，</li>
+<li>再一次插入到合适的父节点。</li>
+</ul>
+<h2 id="事件">事件</h2>
+<ul>
+<li>应该在js中附加监听器。</li>
+<li>事件委托</li>
+</ul>
+<h2 id="temp">temp</h2>
+<ul>
+<li>setTimeout</li>
+<li>web worker</li>
+<li>xhr</li>
+</ul>
+<pre><code>var xhr = new XMLHttpRequest()
+xhr.onreadystatechange = handler
+xhr.open('GET', 'page.html', true) // 指定http请求方法/url.
+xhr.send() // 发送请求
+</code></pre>
+<ul>
+<li>jsonp</li>
+</ul>
+<pre><code>https://www.temp.org/path.php?callback=handler
+</code></pre>
+<h2 id="图像灯塔">图像灯塔</h2>
+<pre><code>new Image().src = &quot;https://www.temp.org&quot;
+</code></pre>
+<ul>
+<li>前端向后端发送，后端可以不回馈。可用于埋点。</li>
+</ul>
+<h2 id="配置脚本文件">配置脚本文件</h2>
+<ul>
+<li>合并</li>
+<li>分为不可改变的，和可改变的。</li>
+<li>使用时间戳/hash为后缀</li>
+<li>精简（压缩）</li>
+<li>expires报头</li>
+<li>使用cdn</li>
+</ul>
+<h2 id="载入策略">载入策略</h2>
+<ul>
+<li>加载时遇到script标签会停止其他工作，直到加载完。</li>
+<li>可用defer/async属性于script标签上。</li>
+<li>可把注入脚本增加到一个数组中，当主脚本文件加载完后再执行该数组中的脚本。（有点像umd/amd）</li>
+<li>增加script元素</li>
+<li>建议在header中使用script标签</li>
+<li>延迟加载。后来发展成为渐进式页面。
+<ul>
+<li>第一部分代码用于初始化页面。</li>
+<li>第二部分代码用于用户交互等。</li>
+</ul>
+</li>
+<li>按需加载</li>
+<li>预加载</li>
+</ul>
+<h1 id="后记">后记</h1>
+<h2 id="惰性函数会越执行越快么">惰性函数会越执行越快么？</h2>
+<p>不会，会在第一次执行时做若干判断，返回一个新函数。其后执行该新函数。</p>
+
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
+    </body>
+    </html>
