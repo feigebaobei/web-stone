@@ -1,3 +1,5 @@
+# HTMLElement
+
 从其父元素 Element 继承属性，并从 DocumentAndElementEventHandlers、ElementCSSInlineStyle、GlobalEventHandlers、HTMLOrForeignElement 和 TouchEventHandlers 实现这些属性。
 
 HTMLOrForeignElement.nonce: 返回内容安全策略用于确定是否允许进行给定提取的一次使用的密码。  

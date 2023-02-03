@@ -28,7 +28,7 @@ html 为 js 支持很多前提条件。如：
 
 # [Element](/language/html/element.html)
 
-# [webComponent](/language/html/webComponents.html)
+# [webComponent](/language/html/webComponents/index.html)
 
 # [HTMLElement](/language/html/HTMLElement.html)
 
@@ -603,11 +603,11 @@ html5 以后 html 很重视语义。提倡使用正常语义编写代码。兼�
 # url
 
 |       |                    |                                     |
-| ----- | ------------------ | ----------------------------------- | --- |
+| ----- | ------------------ | ----------------------------------- |
 | http  | 超文本传输协议     | 以 http:// 开头的普通网页。不加密。 |
 | https | 安全超文本传输协议 | 安全网页。加密所有信息交换。        |
 | ftp   | 文件传输协议       | 用于将文件下载或上传至网站。        |
-| file  |                    | 您计算机上的文件。                  |     |
+| file  |                    | 您计算机上的文件。                  |
 
 # 表单
 
@@ -639,16 +639,18 @@ html5 以后 html 很重视语义。提倡使用正常语义编写代码。兼�
 <button>
 ```
 
-| 属性           | 描述                                                                                            |
-| -------------- | ----------------------------------------------------------------------------------------------- |
-| accept-charset | 规定在被提交表单中使用的字符集（默认：页面字符集）。                                            |
+<!-- prettier-ignore-start -->
+| 属性            | 描述     |
+| -------------- | ------- |
+| accept-charset | 规定在被提交表单中使用的字符集（默认：页面字符集）。 |
 | action         | 规定向何处提交表单的地址（URL）（提交页面）。如果省略 action 属性，则将 action 设置为当前页面。 |
-| autocomplete   | 规定浏览器应该自动完成表单（默认：开启）。                                                      |
-| enctype        | 规定被提交数据的编码（默认：url-encoded）。                                                     |
-| method         | 规定在提交表单时所用的 HTTP 方法（默认：GET）。                                                 |
-| name           | 规定识别表单的名称（对于 DOM 使用：document.forms.name）。                                      |
-| novalidate     | 规定浏览器不验证表单。                                                                          |
-| target         | 规定 action 属性中地址的目标（默认：\_self）。                                                  |
+| autocomplete   | 规定浏览器应该自动完成表单（默认：开启）。           |
+| enctype        | 规定被提交数据的编码（默认：url-encoded）。          |
+| method         | 规定在提交表单时所用的 HTTP 方法（默认：GET）。      |
+| name           | 规定识别表单的名称（对于 DOM 使用：document.forms.name）。         |
+| novalidate     | 规定浏览器不验证表单。  |
+| target         | 规定 action 属性中地址的目标（默认：\_self）。       |
+<!-- prettier-ignore-end -->
 
 # [canvas](/language/html/canvas/index.html)
 

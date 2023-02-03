@@ -1,8 +1,8 @@
 # Web Components
 
-浏览器原生支持的可以自定义可复用的元素。  
-Web Components 是一套不同的技术，允许您创建可重用的定制元素（它们的功能封装在您的代码之外）并且在您的 web 应用中使用它们。  
-需要熟练 js 操作 dom 的 api
+- 浏览器原生支持的可以自定义可复用的元素。
+- Web Components 是一套不同的技术，允许您创建可重用的定制元素（它们的功能封装在您的 js 代码之中）并且在您的 web 应用中使用它们。
+- 需要熟练 js 操作 dom 的 api
 
 ## 基础知识
 
@@ -114,7 +114,7 @@ shadowDOM 内的 link 标签不会阻塞渲染。所以可能发生闪烁。
   class CT extends HTMLElement {
     constructor() {
       let temp = document.querySelector('#myTemp').content
-      this.attachShadow({ mode: true }) // 这行为this挂载了shadom dom
+      this.attachShadow({ mode: true }) // 为this挂载shadom dom
         // 好像template只能与shadowDOM结合起来使用
         .appendChild(temp.cloneNode(true))
     }
