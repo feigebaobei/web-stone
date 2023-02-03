@@ -80,7 +80,7 @@
 <ul>
 <li>(缩写：JS)是一门完备的 动态编程语言。当应用于 HTML 文档时，可为网站提供动态交互特性。由布兰登·艾克（ Brendan Eich，Mozilla 项目、Mozilla 基金会和 Mozilla 公司的联合创始人）发明。</li>
 <li>它是一个面向对象的语言。它比 java 中的对象更纯粹。js 在 es5 后的有<code>class</code>，也不能说 js 中有了类。<code>class</code>的本质还是对象（<code>Object</code>）。</li>
-<li>没有继承，所以没有继承。有引用，没有类，引用是通过原型链实现引用。</li>
+<li>没有类，所以没有继承。有引用，没有类，引用是通过原型链实现引用。</li>
 </ul>
 <h1 id="引擎">引擎</h1>
 <ul>
@@ -957,21 +957,110 @@ p.<span class="hljs-property">skills</span> = <span class="hljs-function">() =&g
 <li><a href="https://github.com/jayphelps/core-decorators.js">core-decorator</a></li>
 </ul>
 <h1 id="位运算">位运算</h1>
-<p>|        |     |                 |                                                                                                     |
-| ------ | --- | --------------- | --------------------------------------------------------------------------------------------------- | --- |
-| <code>&amp;</code>    | and | 与              | 判断 2 个二进制数每个对应的位上是否都为 1,则该位为 1                                                |
-| <code>\|</code>   | or  | 或              | 判断 2 个二进制数每个对应的位上是否至少有一位为 1,则该位为 1                                        |
-| <code>^</code>    | xor | 异或            | 判断 2 个二进制数每个对应的位上是否只有一位为 1,则该位为 1 对应位上是否不同。若是则为 1，否则为 0。 |
-| <code>~</code>    | not | 取反            | 每一位都取反                                                                                        |
-| <code>&gt;&gt;</code>   |     | 右移            | 右边移出的去掉。左边以最左则的值填充。                                                              |
-| <code>&lt;&lt;</code>   |     | 左移            | （0）当移动位数大于 32 时。使用 x%32。 左边溢出的去掉。右边使用 0 补齐。                            |
-| <code>&gt;&gt;&gt;</code>  |     | 无符号右移（0） | 右边移出的去掉。左边以 0 填充。                                                                     |
-| <code>&lt;&lt;=</code>  |     |                 |                                                                                                     |
-| <code>&gt;&gt;=</code>  |     |                 |                                                                                                     |
-| <code>&gt;&gt;&gt;=</code> |     |                 |                                                                                                     |
-| <code>&amp;=</code>   |     |                 |                                                                                                     |
-| <code>^=</code>   |     |                 |                                                                                                     |
-| <code>      | =</code>  |                 |                                                                                                     |     |</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&amp;</code></td>
+<td>and</td>
+<td>与</td>
+<td>判断 2 个二进制数每个对应的位上是否都为 1,则该位为 1</td>
+<td></td>
+</tr>
+<tr>
+<td><code>|</code></td>
+<td>or</td>
+<td>或</td>
+<td>判断 2 个二进制数每个对应的位上是否至少有一位为 1,则该位为 1</td>
+<td></td>
+</tr>
+<tr>
+<td><code>^</code></td>
+<td>xor</td>
+<td>异或</td>
+<td>判断 2 个二进制数每个对应的位上是否只有一位为 1,则该位为 1 对应位上是否不同。若是则为 1，否则为 0。</td>
+<td></td>
+</tr>
+<tr>
+<td><code>~</code></td>
+<td>not</td>
+<td>取反</td>
+<td>每一位都取反</td>
+<td></td>
+</tr>
+<tr>
+<td><code>&gt;&gt;</code></td>
+<td></td>
+<td>右移</td>
+<td>右边移出的去掉。左边以最左则的值填充。</td>
+<td></td>
+</tr>
+<tr>
+<td><code>&lt;&lt;</code></td>
+<td></td>
+<td>左移</td>
+<td>（0）当移动位数大于 32 时。使用 x%32。 左边溢出的去掉。右边使用 0 补齐。</td>
+<td></td>
+</tr>
+<tr>
+<td><code>&gt;&gt;&gt;</code></td>
+<td></td>
+<td>无符号右移（0）</td>
+<td>右边移出的去掉。左边以 0 填充。</td>
+<td></td>
+</tr>
+<tr>
+<td><code>&lt;&lt;=</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>&gt;&gt;=</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>&gt;&gt;&gt;=</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>&amp;=</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>^=</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>|=</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <p>demo</p>
 <p>|          |         |
 | -------- | ------- | -------- | --- |

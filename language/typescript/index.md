@@ -112,7 +112,6 @@ tsc hello.ts
 | boolean   |||| | |
 | any  || 当 ts 不能推断出数据类型时，使用 any 类型。|| | |
 | union|| 联合类型| 列出允许的数据类型 | | |
-
 | null |||| | |
 | undefined || 也叫 void || | |
 | enums|| 枚举。列出具体的可选的值。它是真实的对象。 || | |
@@ -127,13 +126,6 @@ tsc hello.ts
 | symbol|||| | |
 | void|||| | |
 | object|||| | |
-| void|||| | |
-| void|||| | |
-| void|||| | |
-| void|||| | |
-| void|||| | |
-| void|||| | |
-
 <!-- prettier-ignore-end -->
 
 ### 使用示例
@@ -159,8 +151,6 @@ interface Circle {
   kind: ShapeKing.Circle
   radius: number
 }
-
-
 ```
 
 ### 类型范围缩小
@@ -300,7 +290,6 @@ Util<type>
 ||typeof AnyT|得到指定变量的类型|这个好象js里的typeof||
 |indexed access types||从对象类型中获得指定key的类型|`type A = ObjT["key"]`||
 |conditional types||`type A = condition ? B : C`|||
-||||||
 ||`Awaited<T>`|解包Promise后的数据类型。用于then方法。|`type B = Awaited<Promise<Promise<number>>> // type B = number`||
 ||`Partial<T>`|T类型的所有字段设置为可选字段|||
 ||`Required<T>`|T类型的所有字段设置为必填字段|||
@@ -410,14 +399,6 @@ interface A {
 export { S, A }
 import { S, A } from './file'
 ```
-
-### title
-
-### title
-
-### title
-
-### title
 
 ### 缩小类型范围
 
@@ -777,7 +758,7 @@ ts 是一种 js 的方言。以前使用 js 怎么写项目，现在使用 ts �
 ## [configuration](/language/typescript/config.html)
 
 默认配置文件：`path/to/file.json`。
-详见[配置文件](/typescript/config.html)
+详见[配置文件](/language/typescript/config.html)
 
 ## [命令行用法](/language/typescript/tscCli.html)
 

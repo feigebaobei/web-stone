@@ -49,3 +49,31 @@
 3. 调用 generate()，根据 ast 生成 render 方法并返回。
 
 ![vue3Compile](/framework/vue3/vue3Compile.png)
+
+## vue2 & vue3 组件模板
+
+```js
+// vue2
+// 它都过时了，不再整理它了。
+```
+
+```js
+// vue3
+<template>
+    // ...
+</template>
+<script>
+import {
+    provide,
+    inject
+} from 'vue'
+export default {
+    props: {},
+    setup(props, context) {},
+    computed: {},
+    methods: {},
+}
+</script>
+<style>
+</style>
+```

@@ -2,7 +2,7 @@
 
 - (缩写：JS)是一门完备的 动态编程语言。当应用于 HTML 文档时，可为网站提供动态交互特性。由布兰登·艾克（ Brendan Eich，Mozilla 项目、Mozilla 基金会和 Mozilla 公司的联合创始人）发明。
 - 它是一个面向对象的语言。它比 java 中的对象更纯粹。js 在 es5 后的有`class`，也不能说 js 中有了类。`class`的本质还是对象（`Object`）。
-- 没有继承，所以没有继承。有引用，没有类，引用是通过原型链实现引用。
+- 没有类，所以没有继承。有引用，没有类，引用是通过原型链实现引用。
 
 # 引擎
 
@@ -836,7 +836,7 @@ class C {...}
 
 # 位运算
 
-|        |     |                 |                                                                                                     |
+|        |     |                 |                                                                                                     |     |
 | ------ | --- | --------------- | --------------------------------------------------------------------------------------------------- | --- |
 | `&`    | and | 与              | 判断 2 个二进制数每个对应的位上是否都为 1,则该位为 1                                                |
 | `\|`   | or  | 或              | 判断 2 个二进制数每个对应的位上是否至少有一位为 1,则该位为 1                                        |
@@ -850,7 +850,7 @@ class C {...}
 | `>>>=` |     |                 |                                                                                                     |
 | `&=`   |     |                 |                                                                                                     |
 | `^=`   |     |                 |                                                                                                     |
-| `      | =`  |                 |                                                                                                     |     |
+| `\|=`  |     |                 |                                                                                                     |
 
 demo
 
@@ -873,7 +873,7 @@ demo
 
 # 线程
 
-js 是单线程语言。但是它的宿主环境——browser 支持多线程。
+js 是单线程语言。但是它的宿主环境——browser 支持多线程。  
 当遇到大量计算时可以使用`web worker`处理。主`worker`创建一个子`worker`，再让子 worker 处理大量计算，主 worker 会交出数据的控制权给子 worker。得到计算结果后把由子 workern 以消息`message`的形式给主 worker。
 
 ## 协程
@@ -976,15 +976,17 @@ dom.classList.toggle(s) // 若存在则删除，否不存在则添加。
 
 # [模块化](/language/javascript/modularity.html)
 
-| -              | 全称                           | 代表                           | 加载方式 |     |     |     |
-| -------------- | ------------------------------ | ------------------------------ | -------- | --- | --- | --- |
-| commonjs (cjs) |                                | nodejs                         | 同步加载 |     |     |     |
-| amd            | asynchronous module definition | require.js                     | 异步加载 |     |     |     |
-| cmd            | common module definition       | sea.js                         |          |     |     |     |
-| umd            | universion module definition   |                                |          |     |     |     |
-| es6            | -                              | 在 js 语言层面上实现了模块化。 |          |     |     |     |
-| iife           |                                |                                |          |     |     |
-| system         |                                |                                |          |     |     |
+<!-- prettier-ignore-start -->
+| -    | 全称       | 代表       | 加载方式 |     |     |     |
+| - | -------- | -------- | -------- | --- | --- | --- |
+| commonjs (cjs) |            | nodejs     | 同步加载 |     |     |     |
+| amd  | asynchronous module definition | require.js           | 异步加载 |     |     |     |
+| cmd  | common module definition       | sea.js     |          |     |     |     |
+| umd  | universion module definition   |            |          |     |     |     |
+| es6  | -          | 在 js 语言层面上实现了模块化。 |          |     |     |     |
+| iife |            |            |          |     |     |
+| system         |            |            |          |     |     |
+<!-- prettier-ignore-end -->
 
 # [函数式编程](/language/javascript/functionalProgramming.html)
 

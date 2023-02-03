@@ -76,7 +76,7 @@
     </head>
     <body class="vscode-body vscode-light">
         <h1 id="ts--rollup">ts &amp; rollup</h1>
-<p>建议先使用tsc命令把ts文件编译为js文件，再使用rollup把js文件打包。</p>
+<p>建议先使用 tsc 命令把 ts 文件编译为 js 文件，再使用 rollup 把 js 文件打包。</p>
 <h2 id="使用-rollup-打包-ts-项目多个输出">使用 rollup 打包 ts 项目。多个输出。</h2>
 <p>创建一个简单的 ts 项目。目录结构如下：</p>
 <pre><code>&lt;root&gt;
@@ -111,6 +111,7 @@
 <pre><code class="language-js"><span class="hljs-comment">// rollup.config.js</span>
 <span class="hljs-keyword">import</span> merge <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;deepmerge&#x27;</span>
 <span class="hljs-keyword">import</span> { createBasicConfig } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@open-wc/building-rollup&#x27;</span>
+<span class="hljs-comment">// 不用预置的配置项，自己编写配置项也行。我在rollup的文档中列出了常用配置项。</span>
 
 <span class="hljs-keyword">const</span> baseConfig = <span class="hljs-title function_">createBasicConfig</span>()
 
@@ -126,6 +127,7 @@
   ...
   <span class="hljs-attr">&quot;scripts&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
     <span class="hljs-attr">&quot;build&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;rimraf dist &amp;&amp; tsc &amp;&amp; rollup -c rollup.config.js&quot;</span>
+    <span class="hljs-comment">// 删除上一次打包结果，编译，打包。</span>
   <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
   ...
 <span class="hljs-punctuation">}</span>

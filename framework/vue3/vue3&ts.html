@@ -78,18 +78,14 @@
         <h1 id="vue3ts">vue3&amp;ts</h1>
 <h2 id="usage--demo">usage &amp; demo</h2>
 <h2 id="ts--composition-api">ts &amp; composition api</h2>
-<pre><code class="language-vue">&lt;script setup lang=&quot;ts&quot;&gt;
-&lt;/script&gt;
+<pre><code class="language-vue">&lt;script setup lang=&quot;ts&quot;&gt;&lt;/script&gt;
 </code></pre>
 <p>若不使用<code>&lt;script setup&gt;</code>则必须使用<code>defineComponent()</code></p>
-<pre><code class="language-vue">import {defineComponent} from 'vue'
-export default defineComponent({
-    props: {
-        msg: String
-    },
-    setup(props) {
-        props.msg
-    }
+<pre><code class="language-js"><span class="hljs-keyword">import</span> {defineComponent} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">defineComponent</span>({
+    <span class="hljs-attr">props</span>: {
+    <span class="hljs-attr">msg</span>: <span class="hljs-title class_">String</span> },
+    <span class="hljs-title function_">setup</span>(<span class="hljs-params">props</span>) { props.<span class="hljs-property">msg</span> }
 })
 </code></pre>
 <h2 id="ts--options-api">ts &amp; options api</h2>

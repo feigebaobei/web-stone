@@ -1,6 +1,8 @@
 # vue 组件
+
 ## 注册
-```vue
+
+```js
 // 全局注册
 Vue.createApp({...}).component('comp-name', {...})
 // 局部注册
@@ -26,25 +28,31 @@ export default {
     }
 }
 ```
+
 [为什么全局注册的事件可以在所有组件中使用]()。  
 全局注册会使打包体积增大。
 
 ## 接收方式
-- props  
+
+- props
 - emits
 - attrs
-三者都是复数。可能与英语语法有关。  
+  三者都是复数。可能与英语语法有关。
 
 ## props
-子组件使用props属性接收从父组件来的数据。  
+
+子组件使用 props 属性接收从父组件来的数据。
+
 <!-- 它是明确接收父组件来的数据的字段。另一个是`emits`   -->
-```vue
+
+```js
 app.component('comp-name', {
-    props: ['title'],
-    template: `<span>{{title}}</span>`
+  props: ['title'],
+  template: `<span>{{title}}</span>`,
 })
 ```
-```vue
+
+```js
 props: ['title', 'linkes']
 props: {title: String， links: Number} // 这里写构造方法.
 // 有点类似PropTypes
@@ -55,6 +63,7 @@ props: {title: String， links: Number} // 这里写构造方法.
 ```
 
 ### 内置的类型检查（构造函数）
+
 - String
 - Number
 - Boolean
@@ -64,15 +73,14 @@ props: {title: String， links: Number} // 这里写构造方法.
 - Function
 - Symbol
 
-
-
-
 ### 单向数据流
-从父组件到子组件。  
-1. 传递一个初始值  
+
+从父组件到子组件。
+
+1. 传递一个初始值
 2. 传入后转换
 
-```vue
+```js
 props: ['size'],
 computed: {
     compSize() {
@@ -82,9 +90,11 @@ computed: {
 ```
 
 ### 验证
-创建实例前验证，此时data/computed/methods不可使用。  
-在父组件中请使用中划线命名，在props中请使用小驼峰命名。vue会进行转化。  
-```vue
+
+创建实例前验证，此时 data/computed/methods 不可使用。  
+在父组件中请使用中划线命名，在 props 中请使用小驼峰命名。vue 会进行转化。
+
+```js
 function Person(fn, ln) {
     this.firstName = fn
     this.lastName = ln
@@ -126,8 +136,10 @@ props: {
 ```
 
 ## emits
-用于接收从父组件来的事件名称。  
-```vue
+
+用于接收从父组件来的事件名称。
+
+```js
 emits: ['eventOne', 'eventTwo'],
 emits: {
     eventOne: (params) => { // 用于本组件在触发指定事件前的验证。params是为该事件的方法传递的参数。
@@ -137,8 +149,10 @@ emits: {
 ```
 
 ### v-model
-它是值与事件的语法糖。  
-```vue
+
+它是值与事件的语法糖。
+
+```js
 <comp-name v-model:title="param" />
 
 props: {
@@ -148,8 +162,9 @@ emits: ['update:title']
 $emit('update:title', params)
 ```
 
-### v-model的修饰符
-```vue
+### v-model 的修饰符
+
+```js
 <comp-name v-model.cap="params" />
 
 props: {
@@ -163,25 +178,29 @@ $emit('update:modelValue', xx)
 ```
 
 ## attrs
-用于接收从父组件来的且props中未明确定义的属性。  
-```vue
+
+用于接收从父组件来的且 props 中未明确定义的属性。
+
+```js
 props: [...],
 inheritAttrs: false, // 会禁止把$attrs属性设置在当前组件的根节点上。默认为true.
 ```
 
-- 若当前组件为单节点，则把$attrs全部设置在当前组件的根元素上。  
-- 若当前组件为多节点且未明确使用$attrs，则会报错。  
+- 若当前组件为单节点，则把$attrs 全部设置在当前组件的根元素上。
+- 若当前组件为多节点且未明确使用$attrs，则会报错。
 
 ## slot 插槽
-内容分发。  
-> js中可触发event对象。dispatchEvent(event).  
-> redux中也有好dispach方法。  
 
-父级模板里的所有内容都是在父级作用域中编译的；子模板里的所有内容都是在子作用域中编译的。 
+内容分发。
+
+> js 中可触发 event 对象。dispatchEvent(event).  
+> redux 中也有好多 dispach 方法。
+
+父级模板里的所有内容都是在父级作用域中编译的；子模板里的所有内容都是在子作用域中编译的。
 `v-slot`只能于`<template>`一起使用。除非直接在组件上使用。  
-简写为`#`。简写时不能省略参数。  
+简写为`#`。简写时不能省略参数。
 
-```vue
+```js
 // 备用内容
 <div>
     <slot>备用内容</slot>
@@ -199,7 +218,7 @@ inheritAttrs: false, // 会禁止把$attrs属性设置在当前组件的根节�
     <template v-slot:header>....</template>
     <template v-slot:body>....</template>
     <template>....</template>
-    // 等价于
+    // 若不写v-slot 等价于
     // <template v-slot:default>....</template>
     <template v-slot:footer>....</template>
 </comp-name>
@@ -218,24 +237,26 @@ inheritAttrs: false, // 会禁止把$attrs属性设置在当前组件的根节�
 ```
 
 ## provide / inject
+
 它们是祖先组件与后代组件之间传递数据的方式之一。  
-[组件间传递数据](/framework/dataTrasmit/index.html)   
+[组件间传递数据](/framework/dataTrasmit/index.html)
 
-||provide|inject||
-|-|-|-|-|
-||在祖先组件中提供数据|在后代组件中接收数据||
-||每个provide只提供一个数据|可使用数组接收多个数据||
-||可提供响应式、非响应式数据|可接收……||
-||-|可设置默认值||
-||可设置readonly||一般在祖先组件中设置只读|
-||可提供对象、基本类型|-||
-|在setup|需要引入|需要引入||
-|不在setup|选项式api|选项式api||
-|||||
-|||||
-|||||
+|            | provide                     | inject                 |                          |
+| ---------- | --------------------------- | ---------------------- | ------------------------ |
+|            | 在祖先组件中提供数据        | 在后代组件中接收数据   |                          |
+|            | 每个 provide 只提供一个数据 | 可使用数组接收多个数据 |                          |
+|            | 可提供响应式、非响应式数据  | 可接收……               |                          |
+|            | -                           | 可设置默认值           |                          |
+|            | 可设置 readonly             |                        | 一般在祖先组件中设置只读 |
+|            | 可提供对象、基本类型        | -                      |                          |
+| 在 setup   | 需要引入                    | 需要引入               |                          |
+| 不在 setup | 选项式 api                  | 选项式 api             |                          |
+|            |                             |                        |                          |
+|            |                             |                        |                          |
+|            |                             |                        |                          |
 
-```vue
+```js
+// 注册组件时提供
 app.component('comp-name', {
     data() {...},
     // 提供
@@ -285,29 +306,33 @@ setup() {
 
 ## 动态组件 & 异步组件
 
-```vue
+```js
 <keep-alive> // 会使用组件保存在内存中
     <component :is="currentTabComponent"></component>
 </keep-alive>
 ```
-```vue
-let {defineAsyncComponent} = Vue
+
+```js
+let { defineAsyncComponent } = Vue
 let AsyncComp = defineAsyncComponent(() => {
-    return new Promise((s, j) => {
-        s({
-            template: `<div>str</div>`
-        })
+  return new Promise((s, j) => {
+    s({
+      template: `<div>str</div>`,
     })
+  })
 })
 ```
 
 ## 组件名
-一般用于动态组件、递归组件  
+
+一般用于动态组件、递归组件
 
 ## 函数式组件
+
 当组件模版需要更灵活时一般使用函数式组件。  
-它可以在通过控制三个参数（tag/props/children），实现组件。  
-```vue
+它可以在通过控制三个参数（tag/props/children），实现组件。
+
+```js
 Vue.component('comp-name', {
     functoinal: true,
     render: function(createElement, context) {
@@ -324,22 +349,24 @@ Vue.component('comp-name', {
 ```
 
 ## setup
-vue3开创此属性（生命周期）是为了解决“关注点分离”问题。  
-就是把本组件的基本数据、方法、计算等放在setup()中做。别的仍然与vue2时期一样。  
-在创建组件之前执行setup方法。此时data/computed/methods/refs都未被解析。（即不能使用）setup方法暴露的内容可以被本组件的其余部分访问。  
-所谓的关注点分离就是在setup中写基本方法、数据。  
-setup()内的this不是活跃实例的引用。  
-```vue
+
+vue3 开创此属性（生命周期）是为了解决“关注点分离”问题。  
+就是把本组件的基本数据、方法、计算等放在 setup()中做。别的仍然与 vue2 时期一样。  
+在创建组件之前执行 setup 方法。此时 data/computed/methods/refs 都未被解析。（即不能使用）setup 方法暴露的内容可以被本组件的其余部分访问。  
+所谓的关注点分离就是在 setup 中写基本方法、数据。  
+setup()内的 this 不是活跃实例的引用。
+
+```js
 export default {
     components: {...} // 又是复数形式
     props: {...},
     setup(props) {
         console.log('props', props)
-        let repositories = ref([]) // 可以通过一个新的 ref 函数会创建一个**响应式引用**使**任何响应式变量**在任何地方起作用。  
+        let repositories = ref([]) // 可以通过一个新的 ref 函数会创建一个**响应式引用**使**任何响应式变量**在任何地方起作用。
         const fn = async () => {
             repositories = await getP(props.user)
         }
-        // 需要使用前缀`on`,如：`onMounted`  
+        // 需要使用前缀`on`,如：`onMounted`
         onMounted(fn) // 在 mounted 是调用 fn
         // setup中的watch
         // 参数是响应式引用或getter方法和一个回调方法。
@@ -354,14 +381,15 @@ export default {
             fn,
             searchQuery,
             compSearchQuery
-        } // 这里返回的任何内容都可以用于组件的其余部分
+        } // 这里返回的任何内容可以用于组件的template部分
         // 我就发现这儿不一样。
     }
 }
 ```
 
 ### setup watch & watch
-```vue
+
+```js
 // vue2
 // 可能是错的
 export default {
@@ -396,7 +424,8 @@ export default {
     }
 }
 ```
-```vue
+
+```js
 // vue3
 import {ref, watch} from 'vue'
 setup() {
@@ -405,22 +434,25 @@ setup() {
 }
 ```
 
-### 组合式api & 选项式api
-||组合式api|选项式api|
-|-|-|-|
-||setup|无setup|
-|生命周期函数|是方法。逻辑在方法体内执行。|是方法，参数是回调方法。逻辑在回调方法中执行。|
-||||
-||||
+### 组合式 api & 选项式 api
+
+|              | 组合式 api                                  | 选项式 api                                     |
+| ------------ | ------------------------------------------- | ---------------------------------------------- |
+|              | setup                                       | 无 setup                                       |
+| 生命周期函数 | 是方法。逻辑在方法体内执行。                | 是方法，参数是回调方法。逻辑在回调方法中执行。 |
+|              | 底层                                        | 基于组件式 api 开发的                          |
+|              | 它根本不是沉浸式 api.(vue 团队就喜欢做公关) |                                                |
 
 ### 参数
-1. props。它是响应式的。不能解构。  
-2. context。非响应式对象。
-   1. {attrs, slots, emit, expose} // 因emit不是名词所有不使用复数
 
-当传入新的props时组件会更新。（这与react的处理逻辑一样）  
-expose会返回可在外部组件实例访问的数据。
-```vue
+1. props。它是响应式的。不能解构。
+2. context。非响应式对象。
+   1. {attrs, slots, emit, expose} // 因 emit 不是名词所有不使用复数
+
+当传入新的 props 时组件会更新。（这与 react 的处理逻辑一样）  
+expose 会返回可在外部组件实例访问的数据。
+
+```js
 setup(props, context) {
     const k = ref(0)
     context.expose({
@@ -430,14 +462,17 @@ setup(props, context) {
 }
 ```
 
-### 如何理解setup
-- 代替了生命周期beforeCreate / created  
-- 用于关注点分离。返回数据和基本的方法。  
-- 在组合式api中使用。vue2使用的是选项式api.  
+### 如何理解 setup
 
-### 在script标签中使用setup
-这就是组合式api的第二种写法。根本不是语法糖，一点方便都没有带给我们。  
-```vue
+- 代替了生命周期 beforeCreate / created
+- 用于关注点分离。返回数据和基本的方法。
+- 在组合式 api 中使用。vue2 使用的是选项式 api.
+
+### 在 script 标签中使用 setup
+
+这就是组合式 api 的第二种写法。根本不是语法糖，一点方便都没有带给我们。
+
+```js
 <script setup>
 import {
     defineProp, // 接收父组件传来的props
@@ -453,23 +488,25 @@ const fn = () => {
 </script>
 ```
 
-
-
 ## computed
+
 可以从 Vue 导入的 computed 函数**在 Vue 组件外**创建计算属性。  
-ref、computed都是使用`.value`访问响应式值。  
-```vue
-import {ref, computed} from 'vue'
+ref、computed 都是使用`.value`访问响应式值。
+
+```js
+import { ref, computed } from 'vue'
 const counter = ref(0)
 const twiceTheCounter = computed(() => counter.value * 2) // 使用comp.value访问值
 counter.value++
 console.log(counter.value)
-console.log(twiceTheCounter.value)
+console.log(twiceTheCounter.value) // 访问twiceTheCounter的值
 ```
 
 ### 参数
-在vue3.2+新增了`onTrack / onTrigger`参数。  
-```vue
+
+在 vue3.2+新增了`onTrack / onTrigger`参数。
+
+```js
 const plusOne = computed(() => count.value + 1, {
   onTrack(e) {
     // 当 count.value 作为依赖被追踪时触发
@@ -478,7 +515,7 @@ const plusOne = computed(() => count.value + 1, {
   onTrigger(e) {
     // 当 count.value 被修改时触发
     debugger
-  }
+  },
 })
 // 访问 plusOne，应该触发 onTrack
 console.log(plusOne.value)
@@ -487,8 +524,10 @@ count.value++
 ```
 
 ## css
+
 ### 变量注入
-```vue
+
+```js
 <script>
     // ...
     let state = reactive({color: 'red'})
@@ -504,47 +543,25 @@ count.value++
 ```
 
 ## title
+
 ## title
+
 ## title
+
 ## title
+
 ## todo
+
 ### 为什么全局注册的事件可以在所有组件中使用
-可能是在vue的实例（vdom）中的原型链上挂载了组件。
+
+可能是在 vue 的实例（vdom）中的原型链上挂载了组件。
 
 ### title
-### title
-### title
-### title
+
 ### title
 
+### title
 
-## vue2 & vue3 组件模板
-```vue
-// vue2
-```
-```vue
-// vue3
-<template>
-    // ...
-</template>
-<script>
-import {
-    provide,
-    inject
-} from 'vue'
-export default {
-    props: {},
-    setup(props, context) {},
+### title
 
-    computed: {},
-    methods: {},
-}
-</script>
-<style>
-</style>
-```
-
-
-
-
-
+### title

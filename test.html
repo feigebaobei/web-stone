@@ -17,6 +17,15 @@
     <!-- <link rel="prefetch" href="./sw.js" as="script"> -->
   </head>
   <body>
+    <!-- type的值是浏览器不认识的值 -->
+    <script id="worker" type="app/worker">
+      addEventListener('message', (e) => {
+        console.log('e', e)
+        postMessage('hi')
+      }, false)
+    </script>
+
+
     <script>
       const clog = console.log
       const j = (o) => {
@@ -24,7 +33,16 @@
       }
       
 
+      let blob = new Blob([document.querySelector('#worker').textContent])
+      let url = window.URL.createObjectURL(blob)
+      let worker = new Worker(url)
+      clog(worker)
+      worker.postMessage({k: 's'})
+      worker.onmessage = (e) => {
+        clog('1234', e)
+      }
       
+
 
 
 

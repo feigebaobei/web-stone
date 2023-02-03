@@ -18,7 +18,7 @@
 
 同`./demo.md`
 
-```
+```js
 const @vue/compiler-sfc = require('@vue/compiler-sfc');
 // or
 // import @vue/compiler-sfc from '@vue/compiler-sfc';

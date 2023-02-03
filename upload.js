@@ -252,9 +252,26 @@ c.on('ready', () => {
     // let p = 'promote/demand'
     let p = [
       // 'framework/react/hooks.html',
-      'framework/react/react-18/index.html',
-      'optimizing/index.html',
-      'promote/demand/index.html',
+      // 'framework/react/react-18/index.html',
+      'test.html',
+      'builder/rollup/ts&rollup.html',
+      'framework/index.html',
+      'framework/vue3/component.html',
+      'framework/vue3/index.html',
+      'framework/vue3/translate.html',
+      'framework/vue3/vue2&vue3.html',
+      'framework/vue3/vue3&ts.html',
+      'jsPackages/compilerSfs.html',
+      'language/javascript/functionProgramming.html',
+      'language/javascript/index.html',
+      'language/javascript/modularity.html',
+      'language/javascript/webWorker.html',
+      'language/typescript/index.html',
+      'language/typescript/initTsReactProject.html',
+      'language/typescript/type&interface.html',
+      'language/typescript/union&enum.html',
+      'promote/codeMethod.html',
+      // 'promote/demand/index.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)

@@ -10,9 +10,16 @@
 
 若不使用`<script setup>`则必须使用`defineComponent()`
 
-```vue
-import {defineComponent} from 'vue' export default defineComponent({ props: {
-msg: String }, setup(props) { props.msg } })
+```js
+import { defineComponent } from 'vue'
+export default defineComponent({
+  props: {
+    msg: String,
+  },
+  setup(props) {
+    props.msg
+  },
+})
 ```
 
 ## ts & options api

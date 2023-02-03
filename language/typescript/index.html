@@ -258,28 +258,120 @@ ts 把 interface/type 都叫做类型<br>
 <td></td>
 <td></td>
 </tr>
+<tr>
+<td>null</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>undefined</td>
+<td></td>
+<td>也叫 void</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>enums</td>
+<td></td>
+<td>枚举。列出具体的可选的值。它是真实的对象。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>bigint</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>symbol</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>unknown</td>
+<td></td>
+<td>代表 any 数据。与 any 类型相似。unknown 更安全。使用时需要类型断言。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>never</td>
+<td></td>
+<td>永远不会执行到的对象类型。当方法返回 never 时表示抛出一个错误、或打断执行方法。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Function</td>
+<td></td>
+<td>它与<code>() =&gt; {}</code>不同。</td>
+<td>ts中数据类型是Funtion.j中的数据类型是function</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ReadonlyArray</td>
+<td></td>
+<td>使数组只读</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>tuple</td>
+<td></td>
+<td>明确数组中对应下标的数据的类型</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>generic types</code></td>
+<td></td>
+<td>泛型</td>
+<td>``</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>symbol</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>void</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>object</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
 </tbody>
 </table>
-<p>| null |||| | |
-| undefined || 也叫 void || | |
-| enums|| 枚举。列出具体的可选的值。它是真实的对象。 || | |
-| bigint|||| | |
-| symbol|||| | |
-| unknown   || 代表 any 数据。与 any 类型相似。unknown 更安全。使用时需要类型断言。 || | |
-| never|| 永远不会执行到的对象类型。当方法返回 never 时表示抛出一个错误、或打断执行方法。 || | |
-| Function  ||它与<code>() =&gt; {}</code>不同。| ts中数据类型是Funtion.j中的数据类型是function | | |
-| ReadonlyArray   || 使数组只读|| | |
-| tuple|| 明确数组中对应下标的数据的类型|| | |
-| <code>generic types</code> || 泛型| `` | | |
-| symbol|||| | |
-| void|||| | |
-| object|||| | |
-| void|||| | |
-| void|||| | |
-| void|||| | |
-| void|||| | |
-| void|||| | |
-| void|||| | |</p>
 <!-- prettier-ignore-end -->
 <h3 id="使用示例">使用示例</h3>
 <pre><code class="language-ts"><span class="hljs-keyword">let</span> <span class="hljs-attr">a</span>: <span class="hljs-built_in">string</span> = <span class="hljs-string">&#x27;a&#x27;</span>
@@ -302,8 +394,6 @@ ts 把 interface/type 都叫做类型<br>
   <span class="hljs-attr">kind</span>: <span class="hljs-title class_">ShapeKing</span>.<span class="hljs-property">Circle</span>
   <span class="hljs-attr">radius</span>: <span class="hljs-built_in">number</span>
 }
-
-
 </code></pre>
 <h3 id="类型范围缩小">类型范围缩小</h3>
 <!-- prettier-ignore-start -->
@@ -452,7 +542,7 @@ ts 把 interface/type 都叫做类型<br>
 <p>派生类中具有不同参数类型的重写方法</p>
 <ul>
 <li>在派生类中使用联合类型，然后再经过类型转换后调用基类的方法。</li>
-<li>使用2个派生类分别定义相同方法。</li>
+<li>使用 2 个派生类分别定义相同方法。</li>
 <li>只在派生类中定义。</li>
 </ul>
 <h3 id="泛型">泛型</h3>
@@ -516,13 +606,6 @@ ts 把 interface/type 都叫做类型<br>
 <td>conditional types</td>
 <td></td>
 <td><code>type A = condition ? B : C</code></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
 <td></td>
 <td></td>
 </tr>
@@ -787,10 +870,6 @@ ts 把 interface/type 都叫做类型<br>
 <span class="hljs-keyword">export</span> { S, A }
 <span class="hljs-keyword">import</span> { S, A } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./file&#x27;</span>
 </code></pre>
-<h3 id="title">title</h3>
-<h3 id="title">title</h3>
-<h3 id="title">title</h3>
-<h3 id="title">title</h3>
 <h3 id="缩小类型范围">缩小类型范围</h3>
 <ul>
 <li>typeof 会返回 8 种结果<code>string / number / bigint / boolean / symbol / undefined / object / function</code>。其中<code>null</code>，它被认为是<code>object</code>。与 js 的基本数据类型相比。多了<code>function</code>。</li>
@@ -827,8 +906,8 @@ ts 把 interface/type 都叫做类型<br>
 </code></pre>
 <p>方法与泛型结合使用</p>
 <pre><code class="language-ts"><span class="hljs-comment">// defined</span>
-这里指定会用到的泛型
-这是使用指定的泛型
+           这里指定会用到的泛型
+                    这是使用指定的泛型
 <span class="hljs-keyword">function</span> fn&lt;T&gt;(<span class="hljs-attr">arr</span>: T[]): T | <span class="hljs-literal">undefined</span> {
   <span class="hljs-keyword">return</span> arr[<span class="hljs-number">0</span>]
 }
@@ -1135,7 +1214,7 @@ init 后不能改变。<br>
 <a href="/typescript/demo.html">demo for ts</a></p>
 <h2 id="configuration"><a href="/language/typescript/config.html">configuration</a></h2>
 <p>默认配置文件：<code>path/to/file.json</code>。
-详见<a href="/typescript/config.html">配置文件</a></p>
+详见<a href="/language/typescript/config.html">配置文件</a></p>
 <h2 id="命令行用法"><a href="/language/typescript/tscCli.html">命令行用法</a></h2>
 <h2 id="变量类型">变量类型</h2>
 <p>详见<a href="/typescript/contrast.html">ts&amp;js 比对</a></p>

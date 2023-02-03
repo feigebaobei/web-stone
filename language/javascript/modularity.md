@@ -16,8 +16,9 @@
 
 ## amd
 
-异步加载，不阻塞页面的加载，能并行加载多个模块，但不能按需加载，必须提前加载所需依赖。  
-用于浏览器环境。
+- 异步加载，不阻塞页面的加载，能并行加载多个模块，但不能按需加载，必须提前加载所需依赖。然后运行。
+- 用于浏览器环境。
+- 需要开发者明确该包的依赖项。
 
 ```js
 // 定义模块
@@ -30,9 +31,9 @@ require([module], callback)
 // 回调函数会在前面的模块都加载成功后再执行。
 ```
 
-```
+```js
 require(['module'], function (module) {
-    module.fn(p)
+  module.fn(p)
 })
 ```
 
@@ -64,11 +65,7 @@ amd：定义时加载。cmd:执行时加载。
 
 ```js
 define(factory: string | object | (require, exports, module) => {})
-
-
-
 define(function(require, exports, module) {...})
-
 ```
 
 ### sea.js
@@ -82,38 +79,28 @@ define(function(require, exports, module) {...})
 |`define.cmd`|该属性是一个空对象。用于判断当前页面是否有cmd模块加载器。|||||
 |`require()`||||||
 |``||||||
-|``||||||
-|``||||||
-|``||||||
-|``||||||
-|``||||||
-|``||||||
-|``||||||
-|``||||||
-|``||||||
-|``||||||
-|``||||||
 <!-- prettier-ignore-end -->
 
 ## umd
 
-通用模块定义规范
-使同一个代码块在 commonjs/cmd/amd 中都可运行。可以统一浏览器端、服务端（node 环境）、app 端。
+- 通用模块定义规范
+- 使同一个代码块在 commonjs/cmd/amd 中都可运行。即：可以在浏览器端、服务端（node 环境）、app 端运行。
 
-```
-((root, factory) => {
-    if (typeof define === 'function' && define.amd) {
-        // amd
-        define(['jquery'], factory)
-    } else if (typeof exports === 'objects') {
-        // commonjs
-        var $ = require('jquery')
-        module.exports = factory($)
-    } else {
-        root.testModule = factory(root.jQuery)
-    }
+```js
+// demo 示意
+;((root, factory) => {
+  if (typeof define === 'function' && define.amd) {
+    // amd
+    define(['jquery'], factory)
+  } else if (typeof exports === 'objects') {
+    // commonjs
+    var $ = require('jquery')
+    module.exports = factory($)
+  } else {
+    root.testModule = factory(root.jQuery)
+  }
 })(this, ($) => {
-    // todo
+  // todo
 })
 ```
 
@@ -124,25 +111,29 @@ define(function(require, exports, module) {...})
 
 ## commonjs
 
-每一个模块都有一个`module`对象。该对象有个属性是：`exports`/`require`  
-使用这种规范的代表： node。node 把每一个文件都做为一个模块。加载模块使用 require，该方法**读取一个文件并执行**，最后返回这个模块内部的 exports 对象。返回的是值，不是值的地址。  
-使用 `module.exports/exports` 和 `require` 抛出和引入。  
-`module.exports`使用方法：`module.exports = {k: (p) => {...}, var, var2}`  
-`exports`的使用方法：`exports = {v1, v2, v3}`
-`module.exports`是对象。`exports` 指向 `module.exports`。所以`module.exports`可以抛出变量、对象。`exports`只能抛出对象。  
-commonjs 是同步加载的。
+- node.js 模块化的模块方案。在 esm 出现前出现。
+- 每个文件就是一个模块
+- 每一个模块都有一个`module`对象。该对象有个属性是：`exports`/`require`
+- 使用这种规范的代表： node。node 把每一个文件都做为一个模块。加载模块使用 require，该方法**读取一个文件并执行**，最后返回这个模块内部的 exports 对象。返回的是值，不是值的地址。
+- 使用 `module.exports/exports` 和 `require` 抛出和引入。
+- `module.exports`使用方法：`module.exports = {k: (p) => {...}, var, var2}`
+- `exports`的使用方法：`exports = {v1, v2, v3}`
+- `module.exports`是对象。`exports` 指向 `module.exports`。所以`module.exports`可以抛出变量、对象。`exports`只能抛出对象。
+- commonjs 是同步加载的。
 
 ## esm
 
-es6 及以后的 module 规范  
-输出 export / export default  
-引入 import  
-|export|export default|import|||
-|-|-|-|-|-|
-|只能输出对象|输出任意|引入|||
-|输出|输出默认对象|引入|||
-|可执行多次|只能执行一次|-|||
-|`export a; export b;`|`export default {...}`|`import {...} from ...` 或 `import default from ...`|||
+- es6 及以后的 module 规范
+- 输出 `export` / `export default`
+- 引入 `import`
+
+| export                | export default         | import                                               |     |     |
+| --------------------- | ---------------------- | ---------------------------------------------------- | --- | --- |
+| 只能输出对象          | 输出任意               | 引入                                                 |     |     |
+| 输出                  | 输出默认对象           | 引入                                                 |     |     |
+| 可执行多次            | 只能执行一次           | -                                                    |     |     |
+| `export a; export b;` | `export default {...}` | `import {...} from ...` 或 `import default from ...` |     |     |
+
 现代浏览器已经支持`esm`
 
 ```
@@ -154,10 +145,10 @@ import v from '...'
 
 ## iife
 
-立即执行函数  
-定义后立即执行的函数。
+- 立即执行函数
+- 定义后立即执行的函数。
 
-```
+```js
 vat global = {};
 (function(global) {
     global.a = 'string'
@@ -178,13 +169,6 @@ ts 的`enum`类型就是使用 iife.
 ```
 
 ## system
-
-好像写错了。  
-在`*.html`文件中以`<script>`的方式引入。
-
-```
-<script src="./first.js"></script>
-```
 
 ## ES module 和 commonJS
 
@@ -250,11 +234,11 @@ export {default as alias} from xxx  // 把xxx中的default以alias导出
 ## module.exports & exports & export & export defaut
 
 <!-- prettier-ignore-start -->
-| module.exports| exports       | export | export default      |
+| module.exports| exports | export | export default |
 | - | - | - | -- |
-| node.js 中的语法。用来导出对象用法。 | node.js 中的语法。用来导出对象用法。 | es6 的语法                    | es6 的语法          |
-| module.exports = {}                  | exports={}    | export {var0, var1}           | export default any  |
-| let t = require 'xxx'                | let t = require 'xxx'                | import {a, b as c} from 'map' | import a from 'map' |
+| node.js 中的语法。用来导出对象用法。 | node.js 中的语法。用来导出对象用法。 | es6 的语法   | es6 的语法    |
+| module.exports = {} | exports={}    | export {var0, var1}     | export default any  |
+| let t = require 'xxx'    | let t = require 'xxx'    | import {a, b as c} from 'map' | import a from 'map' |
 <!-- prettier-ignore-end -->
 
 ## 指明包规范

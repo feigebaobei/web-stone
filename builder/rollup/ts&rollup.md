@@ -45,6 +45,7 @@
 // rollup.config.js
 import merge from 'deepmerge'
 import { createBasicConfig } from '@open-wc/building-rollup'
+// 不用预置的配置项，自己编写配置项也行。我在rollup的文档中列出了常用配置项。
 
 const baseConfig = createBasicConfig()
 
@@ -63,6 +64,7 @@ export default merge(baseConfig, {
   ...
   "scripts": {
     "build": "rimraf dist && tsc && rollup -c rollup.config.js"
+    // 删除上一次打包结果，编译，打包。
   },
   ...
 }

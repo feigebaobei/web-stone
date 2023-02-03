@@ -40,7 +40,7 @@ npm pkg set script.dev="parcel src/index.html"
 创建`<root>/src/Counter.tsx`
 
 ```ts
-import * as React from 'react'
+import React from 'react'
 
 export default class Counter extends React.Component {
   state = {
@@ -74,7 +74,7 @@ export default class Counter extends React.Component {
 创建`<root>/src/App.tsx`
 
 ```ts
-import * as React from 'react'
+import React from 'react'
 import { render } from 'react-dom'
 
 import Counter from './Counter'
@@ -104,7 +104,7 @@ create-react-app ts-react-app --template typescript
 方法式组件的写法
 
 ```ts
-import * as React from 'react'
+import React from 'react'
 
 interface Props {
   count: number
@@ -120,7 +120,7 @@ export default Count
 class 式组件的写法
 
 ```ts
-import * as React from 'react'
+import React from 'react'
 
 import Count from './Count'
 
