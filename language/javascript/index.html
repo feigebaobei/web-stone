@@ -1078,10 +1078,59 @@ p.<span class="hljs-property">skills</span> = <span class="hljs-function">() =&g
 </ul>
 <h1 id="worker"><a href="/language/javascript/webWorker.html">worker</a></h1>
 <h1 id="线程">线程</h1>
-<p>js 是单线程语言。但是它的宿主环境——browser 支持多线程。
+<p>js 是单线程语言。但是它的宿主环境——browser 支持多线程。<br>
 当遇到大量计算时可以使用<code>web worker</code>处理。主<code>worker</code>创建一个子<code>worker</code>，再让子 worker 处理大量计算，主 worker 会交出数据的控制权给子 worker。得到计算结果后把由子 workern 以消息<code>message</code>的形式给主 worker。</p>
 <h2 id="协程">协程</h2>
 <h1 id="xhr"><a href="/language/javascript/xhr.html">xhr</a></h1>
+<h1 id="动画">动画</h1>
+<p>一般与canvas结合工作。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>requestAnimationFrame(cb) =&gt; number</code></td>
+<td>在下次更新动画时调用，即在重绘前调用。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>cancelAnimationFrame(id: number) =&gt; void</code></td>
+<td>取消更新动画时的回调。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>requestIdleCallback(cb: (IdleDeadline) =&gt; void, opt ?= {timeout: number}) =&gt; number</code></td>
+<td>在浏览器的空闲时间执行回调方法。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>cancelIdleCallback(id: number) =&gt; void</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-ts"><span class="hljs-title class_">IdleDeadline</span>: {
+  <span class="hljs-attr">didTimeout</span>: <span class="hljs-built_in">boolean</span> <span class="hljs-comment">// 执行回调方法时是否超过指定时间。此时一定设置了timeout</span>
+  <span class="hljs-title function_">timeRemaining</span>(): nubmer <span class="hljs-comment">// 返回一个时间DOMHighResTimeStamp, 并且是浮点类型的数值，它用来表示当前闲置周期的预估剩余毫秒数。如果 idle period 已经结束，则它的值是 0。你的回调函数 (传给 requestIdleCallback 的函数) 可以重复的访问这个属性用来判断当前线程的闲置时间是否可以在结束前执行更多的任务。</span>
+}
+</code></pre>
 <h1 id="js-操作-dom">js 操作 dom</h1>
 <pre><code class="language-js"><span class="hljs-comment">// 创建</span>
 <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&#x27;tag&#x27;</span>)
@@ -1197,6 +1246,7 @@ dom.<span class="hljs-property">classList</span>.<span class="hljs-title functio
 </li>
 </ul>
 <h1 id="模块化"><a href="/language/javascript/modularity.html">模块化</a></h1>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -1275,6 +1325,7 @@ dom.<span class="hljs-property">classList</span>.<span class="hljs-title functio
 </tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
 <h1 id="函数式编程"><a href="/language/javascript/functionalProgramming.html">函数式编程</a></h1>
 <h1 id="低层">低层</h1>
 <table>

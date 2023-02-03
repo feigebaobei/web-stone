@@ -82,7 +82,7 @@
 <li>cookie</li>
 <li>localStorage</li>
 <li>sessionStorage</li>
-<li>ie的userData</li>
+<li>ie 的 userData</li>
 <li>web sql</li>
 <li>indexedDB</li>
 </ol>
@@ -91,57 +91,57 @@
 <h3 id="简介">简介</h3>
 <ol>
 <li>cookie：&quot;小饼干，小甜品&quot;</li>
-<li>参与http通信。因为在http中可以看到cookie，所以易受到攻击。</li>
+<li>参与 http 通信。因为在 http 中可以看到 cookie，所以易受到攻击。</li>
 <li>面向路径。只作用于当前路径（页面）。</li>
-<li>每个cookie &lt; 4K</li>
+<li>每个 cookie &lt; 4K</li>
 </ol>
 <h3 id="运行机制">运行机制</h3>
 <ol>
 <li>后端种在前端</li>
-<li>前端动都不动它，下次请求是传给后端。</li>
+<li>前端动都不动它，下次请求时传给后端。</li>
 </ol>
 <p><img src="/Users/cat/Documents/code/personal/web-stone/browser/frontStorage/image/cookie0.png" alt=""></p>
 <h3 id="使用">使用</h3>
 <p><img src="file:////Users/cat/Documents/code/personal/web-stone/browser/frontStorage/image/cookie1.png" alt=""></p>
 <h3 id="总结">总结</h3>
-<p><strong>设置cookie的值</strong></p>
+<p><strong>设置 cookie 的值</strong></p>
 <pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">setCookie</span>(<span class="hljs-params">key, value, duration</span>) {
-    <span class="hljs-comment">// duration 单位为ms</span>
-    <span class="hljs-keyword">var</span> d = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>();
-    <span class="hljs-variable language_">document</span>.<span class="hljs-property">cookie</span> = key + <span class="hljs-string">&quot;=&quot;</span> + value + <span class="hljs-string">&quot;; &quot;</span> + d.<span class="hljs-title function_">getTime</span>() + duration
-} 
+  <span class="hljs-comment">// duration 单位为ms</span>
+  <span class="hljs-keyword">var</span> d = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>()
+  <span class="hljs-variable language_">document</span>.<span class="hljs-property">cookie</span> = key + <span class="hljs-string">&#x27;=&#x27;</span> + value + <span class="hljs-string">&#x27;; &#x27;</span> + d.<span class="hljs-title function_">getTime</span>() + duration
+}
 </code></pre>
-<p><strong>获取cookie的值</strong></p>
+<p><strong>获取 cookie 的值</strong></p>
 <pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">getCookie</span>(<span class="hljs-params">key</span>) {
-    <span class="hljs-keyword">var</span> cookieArr = <span class="hljs-variable language_">document</span>.<span class="hljs-property">cookie</span>.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;;&#x27;</span>);
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; cookieArr.<span class="hljs-property">length</span>; i++) {
-        <span class="hljs-keyword">var</span> cookie = cookieArr[i].<span class="hljs-title function_">trim</span>();
-        <span class="hljs-keyword">if</span> (cookie.<span class="hljs-title function_">indexOf</span>(key)===<span class="hljs-number">0</span>) {
-            <span class="hljs-keyword">return</span> cookie.<span class="hljs-title function_">substring</span>(key.<span class="hljs-property">length</span>, key.<span class="hljs-property">cookie</span>.<span class="hljs-property">length</span>);
-        }
+  <span class="hljs-keyword">var</span> cookieArr = <span class="hljs-variable language_">document</span>.<span class="hljs-property">cookie</span>.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;;&#x27;</span>)
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; cookieArr.<span class="hljs-property">length</span>; i++) {
+    <span class="hljs-keyword">var</span> cookie = cookieArr[i].<span class="hljs-title function_">trim</span>()
+    <span class="hljs-keyword">if</span> (cookie.<span class="hljs-title function_">indexOf</span>(key) === <span class="hljs-number">0</span>) {
+      <span class="hljs-keyword">return</span> cookie.<span class="hljs-title function_">substring</span>(key.<span class="hljs-property">length</span>, key.<span class="hljs-property">cookie</span>.<span class="hljs-property">length</span>)
     }
-} 
+  }
+}
 </code></pre>
 <h2 id="localstoragesessionstorage">localStorage/sessionStorage</h2>
 <ol>
 <li>localStorage &lt; 5M</li>
-<li>localStorage的使用也是遵循同源策略的，所以不同的网站直接是不能共用相同的localStorage。可以在同网站下跨页面。</li>
-<li>sessionStorage只作用于当前页面。</li>
+<li>localStorage 的使用也是遵循同源策略的，所以不同的网站直接是不能共用相同的 localStorage。可以在同网站下跨页面。</li>
+<li>sessionStorage 只作用于当前页面。</li>
 </ol>
 <p><strong>优势</strong><br>
-1、localStorage拓展了cookie的4K限制<br>
-2、localStorage会可以将第一次请求的数据直接存储到本地，这个相当于一个5M大小的针对于前端页面的数据库，相比于cookie可以节约带宽，但是这个却是只有在高版本的浏览器中才支持的</p>
+1、localStorage 拓展了 cookie 的 4K 限制<br>
+2、localStorage 会可以将第一次请求的数据直接存储到本地，这个相当于一个 5M 大小的针对于前端页面的数据库，相比于 cookie 可以节约带宽，但是这个却是只有在高版本的浏览器中才支持的</p>
 <p><strong>局限</strong><br>
-2、目前所有的浏览器中都会把localStorage的值类型限定为string类型，这个在对我们日常比较常见的JSON对象类型需要一些转换<br>
-3、localStorage在浏览器的隐私模式下面是不可读取的<br>
-4、localStorage本质上是对字符串的读取，如果存储内容多的话会消耗内存空间，会导致页面变卡<br>
-5、localStorage不能被爬虫抓取到</p>
+2、目前所有的浏览器中都会把 localStorage 的值类型限定为 string 类型，这个在对我们日常比较常见的 JSON 对象类型需要一些转换<br>
+3、localStorage 在浏览器的隐私模式下面是不可读取的<br>
+4、localStorage 本质上是对字符串的读取，如果存储内容多的话会消耗内存空间，会导致页面变卡<br>
+5、localStorage 不能被爬虫抓取到</p>
 <p><img src="file:////Users/cat/Documents/code/personal/web-stone/browser/frontStorage/image/localstorage.jpg" alt=""></p>
 <h3 id="使用">使用</h3>
 <p>一般在第一次加载页面时在本地保存好数据。从第二次开始使用本地保存的数据。为了保证前端性能，一般不会保存大量数据。只保存关键数据，再根据它做出判断后执行相应的程序。</p>
 <pre><code>window.localStorage//boolean 浏览器是否支持
 </code></pre>
-<p>写入(3种形式)</p>
+<p>写入(3 种形式)</p>
 <pre><code>window.localStorage[&quot;a&quot;] = 1;
 window.localStorage.b = 1;
 window.localStorage.setItem('c',3);
@@ -165,10 +165,10 @@ localStorage.getItem('key');
 localStorage.removeItem('key');
 localStorage.clear();
 </code></pre>
-<h2 id="ie的userdata">ie的userData</h2>
-<p>只有window+ie10-才能可以使用。ie把数据放到c盘的user文件夹里。新浏览器出来了。旧浏览器又有各种不兼容。本着向前看的态度。不于讨论。</p>
+<h2 id="ie-的-userdata">ie 的 userData</h2>
+<p>只有 window+ie10-才能可以使用。ie 把数据放到 c 盘的 user 文件夹里。新浏览器出来了。旧浏览器又有各种不兼容。本着向前看的态度。不于讨论。</p>
 <h2 id="web-sql">web sql</h2>
-<p>在前端创建一个类数据库的对象。使用和数据一样的语法增删改查。关闭页面后就没了。下次打开还需要再创建数据库。后来w3c也不维护了。本着向前看的态度。不于讨论。</p>
+<p>在前端创建一个类数据库的对象。使用和数据一样的语法增删改查。关闭页面后就没了。下次打开还需要再创建数据库。后来 w3c 也不维护了。本着向前看的态度。不于讨论。</p>
 <h2 id="indexeddb">indexedDB</h2>
 <h2 id="storage">storage</h2>
 <p>见<a href="/pwa/index.html">pwa</a></p>
@@ -205,11 +205,11 @@ localStorage.clear();
 <td></td>
 <td></td>
 <td></td>
-<td>约200m.各浏览器不同</td>
+<td>约 200m.各浏览器不同</td>
 </tr>
 <tr>
 <td>与服务器通信</td>
-<td>每次都在http头部信息中。过多会影响性能</td>
+<td>每次都在 http 头部信息中。过多会影响性能</td>
 <td>仅在客户端不能与通信</td>
 <td>仅在客户端不能与通信</td>
 <td></td>
@@ -225,7 +225,7 @@ localStorage.clear();
 <td></td>
 <td></td>
 <td></td>
-<td>api较杂，浏览器支持差异较大。</td>
+<td>api 较杂，浏览器支持差异较大。</td>
 </tr>
 </tbody>
 </table>
