@@ -695,7 +695,7 @@ ondrop 属性调用了一个函数，drop(event)：
 # 本地存储
 
 cookie / sessionStorage / localStorage
-详见[前端存储](/browser//confuse/frontStore.html)
+详见[前端存储](/browser/frontStorage/index.html)
 
 # 应用程序缓存
 
