@@ -752,18 +752,11 @@ manifest 文件有三个部分：
 
 # [history](/browser/history.html)
 
-<details>
-  <summary>api</summary>
-<pre>
-html5提供的操作浏览栈的接口。
-<code>
-window.history 
+html5 提供的操作浏览栈的接口。
+window.history
 history.back() 返回上一个栈内元素
 history.forward() 返回下一个栈内元素
-history.go([delta]) 进入指定的history栈
-</code>
-</pre>
-</details>
+history.go([delta]) 进入指定的 history 栈
 
 # [web workers](/language/javascript/webWorker.html)
 

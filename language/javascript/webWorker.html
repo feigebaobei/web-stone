@@ -77,12 +77,12 @@
     <body class="vscode-body vscode-light">
         <h1 id="overview">overview</h1>
 <ul>
-<li>js是单线程语言</li>
-<li>js支持的web worker可以利用运行js的宿主环境支持的多线程功能。</li>
-<li>worker可嵌套</li>
-<li>主线程/worker线程必须在相同的origin中。</li>
-<li>主线程/worker线程之间转换数据(Transferable Objects)</li>
-<li>有专用worker和共享worker</li>
+<li>js 是单线程语言</li>
+<li>js 支持的 web worker 可以利用运行 js 的宿主环境支持的多线程功能。</li>
+<li>worker 可嵌套</li>
+<li>主线程/worker 线程必须在相同的 origin 中。</li>
+<li>主线程/worker 线程之间转换数据(Transferable Objects)</li>
+<li>有专用 worker 和共享 worker</li>
 </ul>
 <h1 id="demo">demo</h1>
 <pre><code class="language-js"><span class="hljs-comment">// 1. 创建worker对象</span>
@@ -92,11 +92,11 @@
 
 <span class="hljs-comment">// 创建worker对象</span>
 <span class="hljs-keyword">let</span> worker = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Worker</span>(<span class="hljs-string">&#x27;workerFile.js&#x27;</span>)
-<span class="hljs-keyword">let</span> value = {<span class="hljs-attr">k</span>: <span class="hljs-string">&#x27;v&#x27;</span>}
+<span class="hljs-keyword">let</span> value = { <span class="hljs-attr">k</span>: <span class="hljs-string">&#x27;v&#x27;</span> }
 worker.<span class="hljs-title function_">postMessage</span>(value)
 <span class="hljs-comment">// or worker.addEventListener(&#x27;message&#x27;, (e) =&gt; {...}, false)</span>
 worker.<span class="hljs-property">onmessage</span> = <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(event.<span class="hljs-property">data</span>)
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(event.<span class="hljs-property">data</span>)
 }
 worker.<span class="hljs-title function_">terminate</span>() <span class="hljs-comment">// stop worker</span>
 <span class="hljs-comment">// 出错</span>
@@ -120,7 +120,7 @@ self.<span class="hljs-title function_">close</span>() <span class="hljs-comment
 <span class="hljs-comment">// 出错</span>
 <span class="hljs-comment">// self.addEventListener(&#x27;error&#x27;, f)</span>
 </code></pre>
-<h1 id="worker支持的事件">worker支持的事件</h1>
+<h1 id="worker-支持的事件">worker 支持的事件</h1>
 <ul>
 <li>message</li>
 <li>error</li>
@@ -142,7 +142,7 @@ self.<span class="hljs-title function_">close</span>() <span class="hljs-comment
 <td></td>
 <td>new Worker(url, options?: {type, credentials, name})</td>
 <td></td>
-<td>worker对象</td>
+<td>worker 对象</td>
 <td></td>
 </tr>
 <tr>
@@ -162,7 +162,7 @@ self.<span class="hljs-title function_">close</span>() <span class="hljs-comment
 <tr>
 <td></td>
 <td>postMessage(data)</td>
-<td>把数值转移给worker</td>
+<td>把数值转移给 worker</td>
 <td></td>
 <td></td>
 </tr>
@@ -183,7 +183,7 @@ self.<span class="hljs-title function_">close</span>() <span class="hljs-comment
 <tr>
 <td></td>
 <td>onerror</td>
-<td>当worker中出错是触发</td>
+<td>当 worker 中出错是触发</td>
 <td></td>
 <td></td>
 </tr>
@@ -191,7 +191,7 @@ self.<span class="hljs-title function_">close</span>() <span class="hljs-comment
 <td></td>
 <td>onmessage</td>
 <td>当父线程传递过来信息时触发</td>
-<td>event.data是传递来的数据</td>
+<td>event.data 是传递来的数据</td>
 <td></td>
 </tr>
 <tr>
@@ -208,7 +208,7 @@ self.<span class="hljs-title function_">close</span>() <span class="hljs-comment
 </code></pre>
 <h1 id="messageevent">MessageEvent</h1>
 <p>消息对象<br>
-继承自Event对象</p>
+继承自 Event 对象</p>
 <table>
 <thead>
 <tr>
@@ -264,7 +264,7 @@ self.<span class="hljs-title function_">close</span>() <span class="hljs-comment
 <tr>
 <td></td>
 <td>ports</td>
-<td>MessagePort对象数组，表示消息下在通过特定通道传输。</td>
+<td>MessagePort 对象数组，表示消息下在通过特定通道传输。</td>
 <td></td>
 <td></td>
 <td></td>
@@ -279,19 +279,19 @@ self.<span class="hljs-title function_">close</span>() <span class="hljs-comment
 </tr>
 </tbody>
 </table>
-<h1 id="加载worker脚本">加载worker脚本</h1>
+<h1 id="加载-worker-脚本">加载 worker 脚本</h1>
 <pre><code class="language-html"><span class="hljs-comment">&lt;!-- type的值是浏览器不认识的值 --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;worker&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;app/worker&quot;</span>&gt;</span><span class="language-javascript">
-    <span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;message&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-        <span class="hljs-title function_">postMessage</span>(<span class="hljs-string">&#x27;hi&#x27;</span>)
-    }, <span class="hljs-literal">false</span>)
+  <span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;message&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+      <span class="hljs-title function_">postMessage</span>(<span class="hljs-string">&#x27;hi&#x27;</span>)
+  }, <span class="hljs-literal">false</span>)
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;javascript/text&quot;</span>&gt;</span><span class="language-javascript">
-<span class="hljs-keyword">let</span> blob = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Blob</span>([<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#worker&#x27;</span>).<span class="hljs-property">textContent</span>])
-<span class="hljs-keyword">let</span> url = <span class="hljs-variable language_">window</span>.<span class="hljs-property">URL</span>.<span class="hljs-title function_">createObjectURL</span>(blob)
-<span class="hljs-keyword">let</span> worker = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Worker</span>(url)
-worker.<span class="hljs-title function_">postMessage</span>({<span class="hljs-attr">k</span>: <span class="hljs-number">0</span>})
-worker.<span class="hljs-property">onmessage</span> = <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {...}
+  <span class="hljs-keyword">let</span> blob = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Blob</span>([<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#worker&#x27;</span>).<span class="hljs-property">textContent</span>])
+  <span class="hljs-keyword">let</span> url = <span class="hljs-variable language_">window</span>.<span class="hljs-property">URL</span>.<span class="hljs-title function_">createObjectURL</span>(blob)
+  <span class="hljs-keyword">let</span> worker = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Worker</span>(url)
+  worker.<span class="hljs-title function_">postMessage</span>({<span class="hljs-attr">k</span>: <span class="hljs-number">0</span>})
+  worker.<span class="hljs-property">onmessage</span> = <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {...}
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 </code></pre>
 <pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">createWorker</span>(<span class="hljs-params">f</span>) {
@@ -324,7 +324,7 @@ pollingWorker.<span class="hljs-property">onmessage</span> = <span class="hljs-k
 
 pollingWorker.<span class="hljs-title function_">postMessage</span>(<span class="hljs-string">&#x27;init&#x27;</span>);
 </code></pre>
-<h1 id="worker中可以使用不可以使用">worker中可以使用&amp;不可以使用</h1>
+<h1 id="worker-中可以使用不可以使用">worker 中可以使用&amp;不可以使用</h1>
 <table>
 <thead>
 <tr>
@@ -379,21 +379,19 @@ pollingWorker.<span class="hljs-title function_">postMessage</span>(<span class=
 </tr>
 </tbody>
 </table>
-<h1 id="共享worker">共享worker</h1>
+<h1 id="共享-worker">共享 worker</h1>
 <pre><code class="language-js"><span class="hljs-keyword">let</span> myWorker = <span class="hljs-keyword">new</span> <span class="hljs-title class_">SharedWorker</span>(<span class="hljs-string">&#x27;worker.js&#x27;</span>)
 myWorker.<span class="hljs-property">port</span>.<span class="hljs-title function_">start</span>() <span class="hljs-comment">// work线程间需要通信时，需要调用start()方法。父线程调用</span>
 port.<span class="hljs-title function_">start</span>() <span class="hljs-comment">// 当前（子）线程调用</span>
 myWorker.<span class="hljs-property">port</span>.<span class="hljs-title function_">postMessage</span>(value)
 </code></pre>
-<h1 id="todo">todo</h1>
-<h2 id="为什么多个页面会共用一个worker呢">为什么多个页面会共用一个worker呢？</h2>
-<h2 id="专用worke--共享worker">专用worke &amp; 共享worker</h2>
+<h2 id="专用-worke--共享-worker">专用 worke &amp; 共享 worker</h2>
 <table>
 <thead>
 <tr>
 <th></th>
-<th>专用worker</th>
-<th>共享worker</th>
+<th>专用 worker</th>
+<th>共享 worker</th>
 <th></th>
 <th></th>
 <th></th>
@@ -434,6 +432,8 @@ myWorker.<span class="hljs-property">port</span>.<span class="hljs-title functio
 </tr>
 </tbody>
 </table>
+<h1 id="todo">todo</h1>
+<h2 id="为什么多个页面会共用一个-worker-呢">为什么多个页面会共用一个 worker 呢？</h2>
 
         
         
