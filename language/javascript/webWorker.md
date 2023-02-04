@@ -160,10 +160,6 @@ port.start() // 当前（子）线程调用
 myWorker.port.postMessage(value)
 ```
 
-# todo
-
-## 为什么多个页面会共用一个 worker 呢？
-
 ## 专用 worke & 共享 worker
 
 |              | 专用 worker                              | 共享 worker                                           |     |     |     |
@@ -172,3 +168,7 @@ myWorker.port.postMessage(value)
 |              | 遵守同源策略                             | 遵守同源策略                                          |     |     |     |
 | 判断是否支持 | `window.Worker`                          | `window.SharedWorker`                                 |     |     |     |
 |              | `worker.postMessage(xx)`                 | 必须使用端口对象进行通信`worker.port.postMessage(xx)` |     |     |     |
+
+# todo
+
+## 为什么多个页面会共用一个 worker 呢？

@@ -251,7 +251,13 @@ let parallelMaxPromise = (cb = Promise.resolve(), capacity = 3, material = []) =
     }
   }
 }
-
+// 创建一个worker
+function createWorker(f) {
+  var blob = new Blob(['(' + f.toString() +')()']);
+  var url = window.URL.createObjectURL(blob);
+  var worker = new Worker(url);
+  return worker;
+}
 
 
 
