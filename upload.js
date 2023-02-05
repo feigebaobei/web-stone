@@ -249,7 +249,7 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = 'language/markdown'
+    // let p = 'framework/vue3/demo'
     let p = [
       'coursera/index.html',
       // 'browser/history.html',
@@ -261,19 +261,13 @@ c.on('ready', () => {
       'framework/vue3/api.html',
       'framework/vue3/index.html',
       'framework/vue3/slot.html',
+      'framework/vue3/demo/createVueApp.html',
+      'framework/vue3/demo/index.html',
+      'framework/vue3/demo/useVueScript.html',
       // 'browser/frontStorage/index.html',
       // 'confuse/upload.html',
       // 'language/html/HTMLElement.html',
       'language/html/index.html',
-      // 'language/html/canvas/canvasCore.html',
-      // 'language/html/webComponents/index.html',
-      // 'language/javascript/webWorker.html',
-      // 'language/typescript/index.html',
-      // 'language/typescript/initTsReactProject.html',
-      // 'language/typescript/type&interface.html',
-      // 'language/typescript/union&enum.html',
-      // 'promote/codeMethod.html',
-      // 'promote/demand/index.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)

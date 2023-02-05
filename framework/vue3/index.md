@@ -82,6 +82,19 @@ $ pnpm dev
 
 ## usage
 
+### [创建一个 vue 应用](/framework/vue3/demo/createVueApp.html)
+
+### [使用 vue 脚本](/framework/vue3/demo/useVueScript.html)
+
+- 使用全局构建版本。所有 api 都绑定在`window.Vue`对象上。
+- 使用 esm 构建版本。
+
+### title
+
+### title
+
+### title
+
 从创建应用开始
 
 ```js
