@@ -603,6 +603,14 @@ Vue.createApp({...})
 | $watch |     |     |     |     |
 | $watch |     |     |     |     |
 
+## [slot](/framework/vue3/slot.html)
+
+- 默认内容
+- 具名插槽
+- 动态插槽名
+- 作用域插槽
+- v-slot #
+
 ## vue 组件实例
 
 - 其内置的属性是以`$`开头的。
