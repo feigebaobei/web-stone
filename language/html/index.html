@@ -632,6 +632,7 @@
 <li>拥有默认样式</li>
 </ul>
 <h1 id="格式化功能的标签">格式化功能的标签</h1>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -763,6 +764,7 @@
 </tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
 <h1 id="页面基本结构">页面基本结构</h1>
 <pre><code>&lt;html&gt;
     &lt;head&gt;
@@ -873,7 +875,7 @@
 &lt;a name=&quot;#id&quot;&gt;基本的注意事项 - 有用的提示&lt;/a&gt;
 </code></pre>
 <p>使用 Target 属性，你可以定义被链接的文档在何处显示。
-name 属性规定锚（anchor）的名称。用于要内部链接。</p>
+name 属性规定锚（anchor）的名称。用于目标id。</p>
 <h1 id="图像">图像</h1>
 <pre><code>&lt;img src=&quot;boat.gif&quot; alt=&quot;Big Boat&quot;&gt;
 map 图像地图
@@ -1957,11 +1959,11 @@ FALLBACK:
 详见<a href="/browser/cache.html">前端缓存</a></li>
 </ul>
 <h1 id="history"><a href="/browser/history.html">history</a></h1>
-<p>html5提供的操作浏览栈的接口。
+<p>html5 提供的操作浏览栈的接口。
 window.history
 history.back() 返回上一个栈内元素
 history.forward() 返回下一个栈内元素
-history.go([delta]) 进入指定的history栈</p>
+history.go([delta]) 进入指定的 history 栈</p>
 <h1 id="web-workers"><a href="/language/javascript/webWorker.html">web workers</a></h1>
 <p>一般用于大量计算。它调用了浏览器的多线程环境。<br>
 worker 无法访问如下对象：</p>
@@ -2008,40 +2010,174 @@ source.onmessage = function(event) {
 </table>
 <h1 id="事件">事件</h1>
 <h2 id="window-事件">window 事件</h2>
-<p>| 属性           | 值     | 描述                                             |
-| -------------- | ------ | ------------------------------------------------ | ---------------------------------- |
-| onafterprint   | script | 文档打印之后运行的脚本。                         |
-| onbeforeprint  | script | 文档打印之前运行的脚本。                         |
-| onbeforeunload | script | 文档卸载之前运行的脚本。                         |
-| onerror        | script | 在错误发生时运行的脚本。                         |
-| onhaschange    | script | 当文档已改变时运行的脚本。                       |
-| onhashchange   | script | 当 url 的 hash 值改变时                          |
-| onload         | script | 页面结束加载之后触发。                           |
-| onmessage      | script | 在消息被触发时运行的脚本。                       |
-| onoffline      | script | 当文档离线时运行的脚本。                         |
-| ononline       | script | 当文档上线时运行的脚本。                         |
-| onpagehide     | script | 当窗口隐藏时运行的脚本。                         |
-| onpageshow     | script | 当窗口成为可见时运行的脚本。                     |
-| onpopstate     | script | 当窗口历史记录改变时运行的脚本。                 |
-| onredo         | script | 当文档执行撤销（redo）时运行的脚本。             |
-| onresize       | script | 当浏览器窗口被调整大小时触发。                   |
-| onstorage      | script | 在                                               | Web Storage 区域更新后运行的脚本。 |
-| onundo         | script | 在文档执行                                       | undo 时运行的脚本。                |
-| onunload       | script | 一旦页面已下载时触发（或者浏览器窗口已被关闭）。 |</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>onafterprint</td>
+<td>script</td>
+<td>文档打印之后运行的脚本。</td>
+</tr>
+<tr>
+<td>onbeforeprint</td>
+<td>script</td>
+<td>文档打印之前运行的脚本。</td>
+</tr>
+<tr>
+<td>onbeforeunload</td>
+<td>script</td>
+<td>文档卸载之前运行的脚本。</td>
+</tr>
+<tr>
+<td>onerror</td>
+<td>script</td>
+<td>在错误发生时运行的脚本。</td>
+</tr>
+<tr>
+<td>onhaschange</td>
+<td>script</td>
+<td>当文档已改变时运行的脚本。</td>
+</tr>
+<tr>
+<td>onhashchange</td>
+<td>script</td>
+<td>当 url 的 hash 值改变时</td>
+</tr>
+<tr>
+<td>onload</td>
+<td>script</td>
+<td>页面结束加载之后触发。</td>
+</tr>
+<tr>
+<td>onmessage</td>
+<td>script</td>
+<td>在消息被触发时运行的脚本。</td>
+</tr>
+<tr>
+<td>onoffline</td>
+<td>script</td>
+<td>当文档离线时运行的脚本。</td>
+</tr>
+<tr>
+<td>ononline</td>
+<td>script</td>
+<td>当文档上线时运行的脚本。</td>
+</tr>
+<tr>
+<td>onpagehide</td>
+<td>script</td>
+<td>当窗口隐藏时运行的脚本。</td>
+</tr>
+<tr>
+<td>onpageshow</td>
+<td>script</td>
+<td>当窗口成为可见时运行的脚本。</td>
+</tr>
+<tr>
+<td>onpopstate</td>
+<td>script</td>
+<td>当窗口历史记录改变时运行的脚本。</td>
+</tr>
+<tr>
+<td>onredo</td>
+<td>script</td>
+<td>当文档执行撤销（redo）时运行的脚本。</td>
+</tr>
+<tr>
+<td>onresize</td>
+<td>script</td>
+<td>当浏览器窗口被调整大小时触发。</td>
+</tr>
+<tr>
+<td>onstorage</td>
+<td>script</td>
+<td>在 Web Storage 区域更新后运行的脚本。</td>
+</tr>
+<tr>
+<td>onundo</td>
+<td>script</td>
+<td>在文档执行 undo 时运行的脚本。</td>
+</tr>
+<tr>
+<td>onunload</td>
+<td>script</td>
+<td>一旦页面已下载时触发（或者浏览器窗口已被关闭）。</td>
+</tr>
+</tbody>
+</table>
 <h2 id="form-事件">form 事件</h2>
-<p>| 属性          | 值     | 描述                             |
-| ------------- | ------ | -------------------------------- | ---------------- |
-| onblur        | script | 元素失去焦点时运行的脚本。       |
-| onchange      | script | 在元素值被改变时运行的脚本。     |
-| oncontextmenu | script | 当上下文菜单被触发时运行的脚本。 |
-| onfocus       | script | 当元素获得焦点时运行的脚本。     |
-| onformchange  | script | 在表单改变时运行的脚本。         |
-| onforminput   | script | 当表单获得用户输入时运行的脚本。 |
-| oninput       | script | 当元素获得用户输入时运行的脚本。 |
-| oninvalid     | script | 当元素无效时运行的脚本。         |
-| onreset       | script | 当表单中的重置按钮被点击时触发。 | HTML5 中不支持。 |
-| onselect      | script | 在元素中文本被选中后触发。       |
-| onsubmit      | script | 在提交表单时触发。               |</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>onblur</td>
+<td>script</td>
+<td>元素失去焦点时运行的脚本。</td>
+</tr>
+<tr>
+<td>onchange</td>
+<td>script</td>
+<td>在元素值被改变时运行的脚本。</td>
+</tr>
+<tr>
+<td>oncontextmenu</td>
+<td>script</td>
+<td>当上下文菜单被触发时运行的脚本。</td>
+</tr>
+<tr>
+<td>onfocus</td>
+<td>script</td>
+<td>当元素获得焦点时运行的脚本。</td>
+</tr>
+<tr>
+<td>onformchange</td>
+<td>script</td>
+<td>在表单改变时运行的脚本。</td>
+</tr>
+<tr>
+<td>onforminput</td>
+<td>script</td>
+<td>当表单获得用户输入时运行的脚本。</td>
+</tr>
+<tr>
+<td>oninput</td>
+<td>script</td>
+<td>当元素获得用户输入时运行的脚本。</td>
+</tr>
+<tr>
+<td>oninvalid</td>
+<td>script</td>
+<td>当元素无效时运行的脚本。</td>
+</tr>
+<tr>
+<td>onreset</td>
+<td>script</td>
+<td>当表单中的重置按钮被点击时触发。 HTML5 中不支持。</td>
+</tr>
+<tr>
+<td>onselect</td>
+<td>script</td>
+<td>在元素中文本被选中后触发。</td>
+</tr>
+<tr>
+<td>onsubmit</td>
+<td>script</td>
+<td>在提交表单时触发。</td>
+</tr>
+</tbody>
+</table>
 <h2 id="keyboard-事件">keyboard 事件</h2>
 <table>
 <thead>

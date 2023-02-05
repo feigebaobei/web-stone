@@ -83,7 +83,7 @@
 </blockquote>
 <h3 id="feature">feature</h3>
 <ul>
-<li>增强静态 html</li>
+<li>增强静态 html.不参与build</li>
 <li>以 webComponents 嵌入到现有页面中。</li>
 <li>spa</li>
 <li>ssr</li>
@@ -136,7 +136,7 @@
 yarn global add @vue/cli
 </code></pre>
 <h3 id="vite"><a href="/framework/vue3/vite.html">vite</a></h3>
-<p>vue 团队开发的 web 开发构建工具。react团队都计划使用vite取代cra了。</p>
+<p>vue 团队开发的 web 开发构建工具。react 团队都计划使用 vite 取代 cra 了。</p>
 <pre><code class="language-shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">npm 6.x</span>
 <span class="hljs-meta prompt_">$ </span><span class="language-bash">npm init vite@latest &lt;project-name&gt; --template vue</span>
 <span class="hljs-meta prompt_"># </span><span class="language-bash">npm 7+，需要加上额外的双短横线</span>
@@ -165,10 +165,20 @@ $ </span><span class="language-bash">pnpm create vite &lt;project-name&gt; -- --
     <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">&quot;seen&quot;</span>&gt;</span>str<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span></span>
     <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">v-html</span>=<span class="hljs-string">&quot;forHtml&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span></span> <span class="hljs-comment">// 不要把用户输入的数据直接显示，防止xss攻击。</span>
 &lt;/div&gt;
-<span class="hljs-keyword">const</span> <span class="hljs-title class_">Counter</span> = { <span class="hljs-title function_">data</span>(<span class="hljs-params"></span>) { <span class="hljs-keyword">return</span> { <span class="hljs-attr">counter</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">message</span>: <span class="hljs-string">&#x27;str&#x27;</span>, <span class="hljs-attr">seen</span>: <span class="hljs-literal">true</span>,
-<span class="hljs-attr">forHtml</span>: <span class="hljs-string">&#x27;
-&lt;span&gt;hi&lt;/span&gt;
-&#x27;</span> } }, <span class="hljs-attr">methods</span>: { <span class="hljs-title function_">clickHandler</span>(<span class="hljs-params"></span>) {...} } } <span class="hljs-title class_">Vue</span>.<span class="hljs-title function_">createApp</span>(<span class="hljs-title class_">Counter</span>).<span class="hljs-title function_">mount</span>(<span class="hljs-string">&#x27;#id&#x27;</span>)
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">Counter</span> = { 
+  <span class="hljs-title function_">data</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> {
+      <span class="hljs-attr">counter</span>: <span class="hljs-number">0</span>,
+      <span class="hljs-attr">message</span>: <span class="hljs-string">&#x27;str&#x27;</span>,
+      <span class="hljs-attr">seen</span>: <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">forHtml</span>: <span class="hljs-string">&#x27;&lt;span&gt;hi&lt;/span&gt;&#x27;</span>
+    }
+  },
+  <span class="hljs-attr">methods</span>: {
+    <span class="hljs-title function_">clickHandler</span>(<span class="hljs-params"></span>) {...}
+  }
+}
+<span class="hljs-title class_">Vue</span>.<span class="hljs-title function_">createApp</span>(<span class="hljs-title class_">Counter</span>).<span class="hljs-title function_">mount</span>(<span class="hljs-string">&#x27;#id&#x27;</span>)
 </code></pre>
 <h3 id="创建项目"><a href="/framework/vue3/demo.html">创建项目</a></h3>
 <h2 id="性能--优化"><a href="/framework/vue3/performation.html">性能 &amp; 优化</a></h2>
@@ -193,11 +203,13 @@ app.<span class="hljs-title function_">mount</span>(<span class="hljs-string">&#
 <h3 id="运行时--编译器-vs-仅运行时">运行时 + 编译器 vs. 仅运行时</h3>
 <pre><code class="language-js"><span class="hljs-comment">// 需要编译器</span>
 <span class="hljs-title class_">Vue</span>.<span class="hljs-title function_">createApp</span>({
-    <span class="hljs-attr">template</span>: <span class="hljs-string">&#x27;&lt;div&gt;{{hi}}&lt;/div&gt;&#x27;</span>
+  <span class="hljs-attr">template</span>: <span class="hljs-string">&#x27;&lt;div&gt;{{hi}}&lt;/div&gt;&#x27;</span>,
 })
 <span class="hljs-comment">// 不需要编译器</span>
 <span class="hljs-title class_">Vue</span>.<span class="hljs-title function_">createApp</span>({
-    <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>) { <span class="hljs-keyword">return</span> <span class="hljs-title class_">Vue</span>.<span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;div&#x27;</span>, {}, <span class="hljs-variable language_">this</span>.<span class="hljs-property">hi</span>)}
+  <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">Vue</span>.<span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;div&#x27;</span>, {}, <span class="hljs-variable language_">this</span>.<span class="hljs-property">hi</span>)
+  },
 })
 </code></pre>
 <p>当在客户端上编译模板时（即：把字符串给 template 选项，或者在元素 dom 内使用 html 为模板），需要完整的构建版本。<br>
@@ -237,7 +249,7 @@ app.<span class="hljs-title function_">direction</span>(<span class="hljs-string
 })
 <span class="hljs-comment">// 局部</span>
 <span class="hljs-attr">directives</span>: {
-    <span class="hljs-attr">focus</span>: { <span class="hljs-title function_">mounted</span>(<span class="hljs-params">el</span>) {el.<span class="hljs-title function_">focus</span>()} } 
+    <span class="hljs-attr">focus</span>: { <span class="hljs-title function_">mounted</span>(<span class="hljs-params">el</span>) {el.<span class="hljs-title function_">focus</span>()} }
 }
 <span class="hljs-comment">//使用</span>
 &lt;input v-focus /&gt;
@@ -687,15 +699,23 @@ react 中是在 vdom 上添加事件的。</p>
 </table>
 <h2 id="组件"><a href="/framework/vue3/component.html">组件</a></h2>
 <pre><code class="language-js"><span class="hljs-comment">// 创建组件 let app = Vue.createApp({}) // 定义为全局组件</span>
-app.<span class="hljs-title function_">component</span>(<span class="hljs-string">&#x27;comp-name&#x27;</span>, { <span class="hljs-title function_">data</span>(<span class="hljs-params"></span>) { <span class="hljs-keyword">return</span> {<span class="hljs-attr">count</span>: <span class="hljs-number">0</span>} }, <span class="hljs-attr">template</span>: <span class="hljs-string">`
+app.<span class="hljs-title function_">component</span>(<span class="hljs-string">&#x27;comp-name&#x27;</span>, {
+  <span class="hljs-title function_">data</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> { <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> }
+  },
+  <span class="hljs-attr">template</span>: <span class="hljs-string">`
 &lt;button @click=&quot;count++&quot;&gt;{{count}}&lt;/button&gt;
-`</span> })
+`</span>,
+})
 </code></pre>
 <h3 id="props">props</h3>
 <p>子组件使用 props 属性接收从父组件来的数据。</p>
-<pre><code class="language-js">app.<span class="hljs-title function_">component</span>(<span class="hljs-string">&#x27;comp-name&#x27;</span>, { <span class="hljs-attr">props</span>: [<span class="hljs-string">&#x27;title&#x27;</span>], <span class="hljs-attr">template</span>: <span class="hljs-string">`
+<pre><code class="language-js">app.<span class="hljs-title function_">component</span>(<span class="hljs-string">&#x27;comp-name&#x27;</span>, {
+  <span class="hljs-attr">props</span>: [<span class="hljs-string">&#x27;title&#x27;</span>],
+  <span class="hljs-attr">template</span>: <span class="hljs-string">`
 &lt;span&gt;{{title}}&lt;/span&gt;
-`</span> })
+`</span>,
+})
 </code></pre>
 <h3 id="emit">$emit</h3>
 <p>用于触发父组件来的事件。</p>
@@ -728,9 +748,16 @@ currentTabComponent 是</p>
 <li>一个组件选项对象</li>
 </ul>
 <h3 id="异步组件">异步组件</h3>
-<pre><code class="language-js"><span class="hljs-title class_">Vue</span>.<span class="hljs-title function_">defineAsyncComponent</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">s, j</span>) =&gt;</span> { <span class="hljs-title function_">s</span>({ <span class="hljs-attr">template</span>: <span class="hljs-string">`
+<pre><code class="language-js"><span class="hljs-title class_">Vue</span>.<span class="hljs-title function_">defineAsyncComponent</span>(
+  <span class="hljs-function">() =&gt;</span>
+    <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">s, j</span>) =&gt;</span> {
+      <span class="hljs-title function_">s</span>({
+        <span class="hljs-attr">template</span>: <span class="hljs-string">`
 &lt;div&gt;str&lt;/div&gt;
-`</span> }) }))
+`</span>,
+      })
+    })
+)
 </code></pre>
 <h3 id="单文件组件">单文件组件</h3>
 <p>使用<a href="/jsPackages/compilerSfc.html"><code>@vue/compiler-sfc</code></a>编译</p>
@@ -738,7 +765,7 @@ currentTabComponent 是</p>
 <p>强制更新 $forceUpdate
 低级静态组件 v-once 只求值一次。</p>
 <h2 id="过滤--动画"><a href="/framework/vue3/translate.html">过滤 &amp; 动画</a></h2>
-<h2 id="api">api</h2>
+<h2 id="api"><a href="/framework/vue3/api.html">api</a></h2>
 <p>Vue.createApp({...})<br>
 返回一个全局组件。react 在 18 以后也有了创建根组件的方法。<br>
 该组件的大部分方法可以链式调用。<br>
@@ -947,26 +974,28 @@ app.<span class="hljs-title function_">mixin</span>({
 <h2 id="teleport">teleport</h2>
 <p>将模板的这一部分移动到 DOM 中 Vue app 之外的其他位置。<br>
 挂载到目标元素的内部后面。</p>
-<pre><code class="language-js">app.<span class="hljs-title function_">component</span>(<span class="hljs-string">&#x27;comp-name&#x27;</span>, { <span class="hljs-attr">template</span>: <span class="hljs-string">`
+<pre><code class="language-js">app.<span class="hljs-title function_">component</span>(<span class="hljs-string">&#x27;comp-name&#x27;</span>, {
+  <span class="hljs-attr">template</span>: <span class="hljs-string">`
 &lt;button /&gt;
 &lt;teleport to=&quot;body&quot;&gt;
             ...
         &lt;/teleport&gt;
-`</span> })
+`</span>,
+})
 </code></pre>
 <h2 id="渲染函数">渲染函数</h2>
 <p>使用 js 方法（<code>h / createVNode</code>）编写组件。与 sfc 功能等价。<br>
 官网举了一个“动态 dom 标签”的例子。<br>
 一般用于在组件模版需要更灵活时</p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> {createApp, h} = <span class="hljs-title class_">Vue</span>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> { createApp, h } = <span class="hljs-title class_">Vue</span>
 <span class="hljs-keyword">const</span> app = <span class="hljs-title function_">createApp</span>()
 app.<span class="hljs-title function_">component</span>(<span class="hljs-string">&#x27;comp-name&#x27;</span>, {
-    <span class="hljs-attr">props</span>: {
-        <span class="hljs-attr">level</span>: { <span class="hljs-attr">type</span>: <span class="hljs-title class_">Number</span>, <span class="hljs-attr">required</span>: <span class="hljs-literal">true</span> }
-    },
-    <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>) {
-        <span class="hljs-keyword">return</span> <span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;h&#x27;</span>, <span class="hljs-variable language_">this</span>.<span class="hljs-property">level</span>, {}, <span class="hljs-variable language_">this</span>.<span class="hljs-property">$slots</span>.<span class="hljs-title function_">default</span>()) 
-    } 
+  <span class="hljs-attr">props</span>: {
+    <span class="hljs-attr">level</span>: { <span class="hljs-attr">type</span>: <span class="hljs-title class_">Number</span>, <span class="hljs-attr">required</span>: <span class="hljs-literal">true</span> },
+  },
+  <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;h&#x27;</span>, <span class="hljs-variable language_">this</span>.<span class="hljs-property">level</span>, {}, <span class="hljs-variable language_">this</span>.<span class="hljs-property">$slots</span>.<span class="hljs-title function_">default</span>())
+  },
 })
 </code></pre>
 <pre><code class="language-js"><span class="hljs-title function_">h</span>(

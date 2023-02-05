@@ -6,7 +6,7 @@
 
 ### feature
 
-- 增强静态 html
+- 增强静态 html.不参与 build
 - 以 webComponents 嵌入到现有页面中。
 - spa
 - ssr
@@ -93,10 +93,20 @@ $ pnpm dev
     <span v-if="seen">str</span>
     <span v-html="forHtml"></span> // 不要把用户输入的数据直接显示，防止xss攻击。
 </div>
-const Counter = { data() { return { counter: 0, message: 'str', seen: true,
-forHtml: '
-<span>hi</span>
-' } }, methods: { clickHandler() {...} } } Vue.createApp(Counter).mount('#id')
+const Counter = {
+  data() {
+    return {
+      counter: 0,
+      message: 'str',
+      seen: true,
+      forHtml: '<span>hi</span>'
+    }
+  },
+  methods: {
+    clickHandler() {...}
+  }
+}
+Vue.createApp(Counter).mount('#id')
 ```
 
 ### [创建项目](/framework/vue3/demo.html)
@@ -579,7 +589,7 @@ Vue.defineAsyncComponent(
 
 ## [过滤 & 动画](/framework/vue3/translate.md)
 
-## api
+## [api](/framework/vue3/api.html)
 
 Vue.createApp({...})  
 返回一个全局组件。react 在 18 以后也有了创建根组件的方法。  
