@@ -260,6 +260,7 @@ c.on('ready', () => {
       // 'browser/frontStorage/index.html',
       'framework/vue3/api.html',
       'framework/vue3/index.html',
+      'framework/vue3/slot.html',
       // 'browser/frontStorage/index.html',
       // 'confuse/upload.html',
       // 'language/html/HTMLElement.html',
