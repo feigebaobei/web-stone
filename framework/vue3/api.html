@@ -99,37 +99,37 @@
 <tr>
 <td></td>
 <td>各选项会绑定到<code>this</code>上</td>
-<td>使用<code>&lt;script setup&gt;</code>，vue框架会把编译它。</td>
+<td>使用<code>&lt;script setup&gt;</code>，vue 框架会把编译它。</td>
 </tr>
 <tr>
 <td></td>
 <td></td>
-<td>此时可以使用setup().setup()返回的东西，会绑定到this对象上</td>
+<td>此时可以使用 setup().setup()返回的东西，会绑定到 this 对象上</td>
 </tr>
 <tr>
 <td></td>
 <td>用于低复杂度，如：功能增强。</td>
-<td>若全应用中使用vue,则使用composition api + sfc</td>
+<td>若全应用中使用 vue,则使用 composition api + sfc</td>
 </tr>
 <tr>
 <td>这个功能好</td>
-<td>不支持tree shaking</td>
-<td>支持import方式引入，即支持tree shaking</td>
+<td>不支持 tree shaking</td>
+<td>支持 import 方式引入，即支持 tree shaking</td>
 </tr>
 <tr>
 <td></td>
 <td></td>
-<td>vue2.7中可以使用<code>@vue/composition-api</code>包支持composition api写法。</td>
+<td>vue2.7 中可以使用<code>@vue/composition-api</code>包支持 composition api 写法。</td>
 </tr>
 <tr>
 <td></td>
 <td></td>
-<td>vue3中常用此写法，再与<code>&lt;script setup&gt;</code>结合使用。</td>
+<td>vue3 中常用此写法，再与<code>&lt;script setup&gt;</code>结合使用。</td>
 </tr>
 <tr>
 <td></td>
 <td>不可以</td>
-<td>可以脱离vue框架使用。该用例被称为“组合式函数”</td>
+<td>可以脱离 vue 框架使用。该用例被称为“组合式函数”</td>
 </tr>
 <tr>
 <td></td>
@@ -142,60 +142,18 @@
 <h2 id="composition-api">composition api</h2>
 <p>可分为三类：</p>
 <ul>
-<li>响应式api</li>
+<li>响应式 api</li>
 <li>生命周期方法</li>
-<li>依赖注入，（需要与响应api结合使用）</li>
+<li>依赖注入，（需要与响应 api 结合使用）</li>
 </ul>
-<h3 id="为什么使用组合式api">为什么使用组合式api</h3>
+<h3 id="为什么使用组合式-api">为什么使用组合式 api</h3>
 <ul>
 <li>更好逻辑复用</li>
 <li>方便扩展</li>
-<li>更好的类型推断。主要与ts结合使用。</li>
+<li>更好的类型推断。主要与 ts 结合使用。</li>
 <li>打包结果更小</li>
 <li></li>
 </ul>
-<h3 id="组合式函数">组合式函数</h3>
-<ul>
-<li>以<code>use</code>开头</li>
-<li>可实现代码复用。如：<code>useMouse / useFetch</code></li>
-<li>通常使用ref,不使用reactive。是为了在使用时解析后也得到响应功能。也可以使用<code>let o = reactive(useMouse()); o.x o.y</code></li>
-<li>在ssr时，请确保可以访问到dom.</li>
-<li>记得在<code>onUnmouted()</code>时清除副作用</li>
-</ul>
-<pre><code class="language-js"><span class="hljs-comment">// mouse.js</span>
-<span class="hljs-keyword">import</span> { ref, onMounted, onUnmounted } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
-
-<span class="hljs-comment">// 按照惯例，组合式函数名以“use”开头</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">useMouse</span>(<span class="hljs-params"></span>) {
-  <span class="hljs-comment">// 被组合式函数封装和管理的状态</span>
-  <span class="hljs-keyword">const</span> x = <span class="hljs-title function_">ref</span>(<span class="hljs-number">0</span>)
-  <span class="hljs-keyword">const</span> y = <span class="hljs-title function_">ref</span>(<span class="hljs-number">0</span>)
-
-  <span class="hljs-comment">// 组合式函数可以随时更改其状态。</span>
-  <span class="hljs-keyword">function</span> <span class="hljs-title function_">update</span>(<span class="hljs-params">event</span>) {
-    x.<span class="hljs-property">value</span> = event.<span class="hljs-property">pageX</span>
-    y.<span class="hljs-property">value</span> = event.<span class="hljs-property">pageY</span>
-  }
-
-  <span class="hljs-comment">// 一个组合式函数也可以挂靠在所属组件的生命周期上</span>
-  <span class="hljs-comment">// 来启动和卸载副作用</span>
-  <span class="hljs-title function_">onMounted</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;mousemove&#x27;</span>, update))
-  <span class="hljs-title function_">onUnmounted</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">removeEventListener</span>(<span class="hljs-string">&#x27;mousemove&#x27;</span>, update))
-
-  <span class="hljs-comment">// 通过返回值暴露所管理的状态</span>
-  <span class="hljs-keyword">return</span> { x, y }
-}
-
-<span class="hljs-comment">// 在其他组件中使用</span>
-&lt;script setup&gt;
-<span class="hljs-keyword">import</span> { useMouse } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./mouse.js&#x27;</span>
-
-<span class="hljs-keyword">const</span> { x, y } = <span class="hljs-title function_">useMouse</span>()
-&lt;/script&gt;
-
-<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>Mouse position is at: {{ x }}, {{ y }}<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></span>
-</code></pre>
-<h2 id="title">title</h2>
 <h2 id="title">title</h2>
 <h2 id="title">title</h2>
 <h2 id="title">title</h2>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>&#x7ec4;&#x5408;&#x5f0f;&#x51fd;&#x6570;</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="组合式函数">组合式函数</h1>
+<ul>
+<li>以<code>use</code>开头</li>
+<li>可实现代码复用。如：<code>useMouse / useFetch</code></li>
+<li>通常使用 ref,不使用 reactive。是为了在使用时解析后也得到响应功能。也可以使用<code>let o = reactive(useMouse()); o.x o.y</code></li>
+<li>在 ssr 时，请确保可以访问到 dom.</li>
+<li>记得在<code>onUnmouted()</code>时清除副作用</li>
+</ul>
+<pre><code class="language-js"><span class="hljs-comment">// mouse.js</span>
+<span class="hljs-keyword">import</span> { ref, onMounted, onUnmounted } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
+
+<span class="hljs-comment">// 按照惯例，组合式函数名以“use”开头</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">useMouse</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-comment">// 被组合式函数封装和管理的状态</span>
+  <span class="hljs-keyword">const</span> x = <span class="hljs-title function_">ref</span>(<span class="hljs-number">0</span>)
+  <span class="hljs-keyword">const</span> y = <span class="hljs-title function_">ref</span>(<span class="hljs-number">0</span>)
+
+  <span class="hljs-comment">// 组合式函数可以随时更改其状态。</span>
+  <span class="hljs-keyword">function</span> <span class="hljs-title function_">update</span>(<span class="hljs-params">event</span>) {
+    x.<span class="hljs-property">value</span> = event.<span class="hljs-property">pageX</span>
+    y.<span class="hljs-property">value</span> = event.<span class="hljs-property">pageY</span>
+  }
+
+  <span class="hljs-comment">// 一个组合式函数也可以挂靠在所属组件的生命周期上</span>
+  <span class="hljs-comment">// 来启动和卸载副作用</span>
+  <span class="hljs-title function_">onMounted</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;mousemove&#x27;</span>, update))
+  <span class="hljs-title function_">onUnmounted</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">removeEventListener</span>(<span class="hljs-string">&#x27;mousemove&#x27;</span>, update))
+
+  <span class="hljs-comment">// 通过返回值暴露所管理的状态</span>
+  <span class="hljs-keyword">return</span> { x, y }
+}
+
+<span class="hljs-comment">// 在其他组件中使用</span>
+&lt;script setup&gt;
+<span class="hljs-keyword">import</span> { useMouse } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./mouse.js&#x27;</span>
+
+<span class="hljs-keyword">const</span> { x, y } = <span class="hljs-title function_">useMouse</span>()
+&lt;/script&gt;
+
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>Mouse position is at: {{ x }}, {{ y }}<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></span>
+</code></pre>
+<h2 id="title">title</h2>
+
+        
+        
+    </body>
+    </html>
