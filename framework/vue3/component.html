@@ -77,9 +77,88 @@
     </head>
     <body class="vscode-body vscode-light">
         <h1 id="vue-组件">vue 组件</h1>
+<ul>
+<li>整个vue应用由vue组件组成的vue组件库构成。</li>
+<li>组件名
+<ul>
+<li>PascalCase</li>
+<li>支持自闭合</li>
+</ul>
+</li>
+<li>title</li>
+<li>title</li>
+<li>title</li>
+</ul>
+<h2 id="组件模板">组件模板</h2>
+<pre><code class="language-html">
+</code></pre>
+<h2 id="动态组件">动态组件</h2>
+<p>is的属性值</p>
+<ul>
+<li>注册组件时的name</li>
+<li>引入的组件对象</li>
+</ul>
+<pre><code class="language-js">&lt;keep-alive&gt; <span class="hljs-comment">// 会使用组件保存在内存中</span>
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">component</span> <span class="hljs-attr">:is</span>=<span class="hljs-string">&quot;currentTabComponent&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">component</span>&gt;</span></span>
+&lt;/keep-alive&gt;
+</code></pre>
+<h2 id="异步组件">异步组件</h2>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> { defineAsyncComponent } = <span class="hljs-title class_">Vue</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title class_">AsyncComp</span> = <span class="hljs-title function_">defineAsyncComponent</span>(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">s, j</span>) =&gt;</span> {
+    <span class="hljs-title function_">s</span>({
+      <span class="hljs-attr">template</span>: <span class="hljs-string">`&lt;div&gt;str&lt;/div&gt;`</span>,
+    })
+  })
+})
+</code></pre>
 <h2 id="注册">注册</h2>
+<p>先注册，再使用。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>全局注册</th>
+<th>局部注册</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>注册在vue应用中</td>
+<td>注册在当前组件中</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>可以tree-shaking</td>
+<td>不可以tree-shaking</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>全局组件可以使用。</td>
+<td>只作用于当前组件内。</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <pre><code class="language-js"><span class="hljs-comment">// 全局注册</span>
-<span class="hljs-title class_">Vue</span>.<span class="hljs-title function_">createApp</span>({...}).<span class="hljs-title function_">component</span>(<span class="hljs-string">&#x27;comp-name&#x27;</span>, {...})
+<span class="hljs-keyword">import</span> comp <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./comp.vue&#x27;</span>
+<span class="hljs-title class_">Vue</span>.<span class="hljs-title function_">createApp</span>({...}).<span class="hljs-title function_">component</span>(<span class="hljs-string">&#x27;comp-name&#x27;</span>, comp)
 <span class="hljs-comment">// 局部注册</span>
 <span class="hljs-comment">// 1</span>
 <span class="hljs-keyword">let</span> app = <span class="hljs-title class_">Vue</span>.<span class="hljs-title function_">createApp</span>({
@@ -105,6 +184,19 @@
 </code></pre>
 <p><a href="">为什么全局注册的事件可以在所有组件中使用</a>。<br>
 全局注册会使打包体积增大。</p>
+<h2 id="title">title</h2>
+<h2 id="title">title</h2>
+<h2 id="title">title</h2>
+<h2 id="title">title</h2>
+<h2 id="title">title</h2>
+<h2 id="title">title</h2>
+<h2 id="title">title</h2>
+<h2 id="title">title</h2>
+<h2 id="title">title</h2>
+<h2 id="title">title</h2>
+<h2 id="title">title</h2>
+<h2 id="title">title</h2>
+<h2 id="title">title</h2>
 <h2 id="接收方式">接收方式</h2>
 <ul>
 <li>props</li>
@@ -113,15 +205,14 @@
 三者都是复数。可能与英语语法有关。</li>
 </ul>
 <h2 id="props">props</h2>
-<p>子组件使用props属性接收从父组件来的数据。</p>
-<!-- 它是明确接收父组件来的数据的字段。另一个是`emits`   -->
+<p>子组件使用 props 属性接收从父组件来的数据。</p>
 <pre><code class="language-js">app.<span class="hljs-title function_">component</span>(<span class="hljs-string">&#x27;comp-name&#x27;</span>, {
-    <span class="hljs-attr">props</span>: [<span class="hljs-string">&#x27;title&#x27;</span>],
-    <span class="hljs-attr">template</span>: <span class="hljs-string">`&lt;span&gt;{{title}}&lt;/span&gt;`</span>
+  <span class="hljs-attr">props</span>: [<span class="hljs-string">&#x27;title&#x27;</span>],
+  <span class="hljs-attr">template</span>: <span class="hljs-string">`&lt;span&gt;{{title}}&lt;/span&gt;`</span>,
 })
 </code></pre>
 <pre><code class="language-js"><span class="hljs-attr">props</span>: [<span class="hljs-string">&#x27;title&#x27;</span>, <span class="hljs-string">&#x27;linkes&#x27;</span>]
-<span class="hljs-attr">props</span>: {<span class="hljs-attr">title</span>: <span class="hljs-title class_">String</span>， <span class="hljs-attr">links</span>: <span class="hljs-title class_">Number</span>} <span class="hljs-comment">// 这里写构造方法.</span>
+<span class="hljs-attr">props</span>: {<span class="hljs-attr">title</span>: <span class="hljs-title class_">String</span>， <span class="hljs-attr">links</span>: <span class="hljs-title class_">Number</span>} <span class="hljs-comment">// 这里写构造函数.</span>
 <span class="hljs-comment">// 有点类似PropTypes</span>
 <span class="hljs-comment">// 把一个对象的所有属性作为prop传入。</span>
 &lt;comp-name v-bind=<span class="hljs-string">&quot;obj&quot;</span> /&gt;
@@ -153,8 +244,8 @@
 }
 </code></pre>
 <h3 id="验证">验证</h3>
-<p>创建实例前验证，此时data/computed/methods不可使用。<br>
-在父组件中请使用中划线命名，在props中请使用小驼峰命名。vue会进行转化。</p>
+<p>创建实例前验证，此时 data/computed/methods 不可使用。<br>
+在父组件中请使用中划线命名，在 props 中请使用小驼峰命名。vue 会进行转化。</p>
 <pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">Person</span>(<span class="hljs-params">fn, ln</span>) {
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">firstName</span> = fn
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">lastName</span> = ln
@@ -199,11 +290,11 @@
 <pre><code class="language-js"><span class="hljs-attr">emits</span>: [<span class="hljs-string">&#x27;eventOne&#x27;</span>, <span class="hljs-string">&#x27;eventTwo&#x27;</span>],
 <span class="hljs-attr">emits</span>: {
     <span class="hljs-attr">eventOne</span>: <span class="hljs-function">(<span class="hljs-params">params</span>) =&gt;</span> { <span class="hljs-comment">// 用于本组件在触发指定事件前的验证。params是为该事件的方法传递的参数。</span>
-        <span class="hljs-keyword">return</span> boolean
+        <span class="hljs-keyword">return</span> boolean <span class="hljs-comment">// 是否通过验证</span>
     }
 }
 </code></pre>
-<h3 id="v-model">v-model</h3>
+<h2 id="v-model">v-model</h2>
 <p>它是值与事件的语法糖。</p>
 <pre><code class="language-js">&lt;comp-name v-<span class="hljs-attr">model</span>:title=<span class="hljs-string">&quot;param&quot;</span> /&gt;
 
@@ -213,7 +304,23 @@
 <span class="hljs-attr">emits</span>: [<span class="hljs-string">&#x27;update:title&#x27;</span>]
 $emit(<span class="hljs-string">&#x27;update:title&#x27;</span>, params)
 </code></pre>
-<h3 id="v-model的修饰符">v-model的修饰符</h3>
+<h3 id="v-model的参数">v-model的参数</h3>
+<pre><code>&lt;Comp v-model:title=&quot;value&quot;/&gt;
+let emits = defineEmits('update:title')
+&lt;!-- or --&gt;
+context.emit('update:title', [params])
+</code></pre>
+<h3 id="多个v-model绑定">多个v-model绑定</h3>
+<pre><code class="language-js">&lt;<span class="hljs-title class_">Comp</span>
+v-<span class="hljs-attr">model</span>:first=<span class="hljs-string">&quot;v0&quot;</span>
+v-<span class="hljs-attr">model</span>:second=<span class="hljs-string">&quot;v1&quot;</span>
+/&gt;
+
+context.<span class="hljs-title function_">emit</span>(<span class="hljs-string">&#x27;update:first&#x27;</span>)
+context.<span class="hljs-title function_">emit</span>(<span class="hljs-string">&#x27;update:second&#x27;</span>)
+</code></pre>
+<h3 id="v-model-的修饰符">v-model 的修饰符</h3>
+<p>这是为v-model自定义的修改符</p>
 <pre><code class="language-js">&lt;comp-name v-model.<span class="hljs-property">cap</span>=<span class="hljs-string">&quot;params&quot;</span> /&gt;
 
 <span class="hljs-attr">props</span>: {
@@ -226,57 +333,15 @@ $emit(<span class="hljs-string">&#x27;update:title&#x27;</span>, params)
 $emit(<span class="hljs-string">&#x27;update:modelValue&#x27;</span>, xx)
 </code></pre>
 <h2 id="attrs">attrs</h2>
-<p>用于接收从父组件来的且props中未明确定义的属性。</p>
+<p>用于接收从父组件来的且 props 中未明确定义的属性。</p>
 <pre><code class="language-js"><span class="hljs-attr">props</span>: [...],
 <span class="hljs-attr">inheritAttrs</span>: <span class="hljs-literal">false</span>, <span class="hljs-comment">// 会禁止把$attrs属性设置在当前组件的根节点上。默认为true.</span>
+v-bind=<span class="hljs-string">&quot;$attrs&quot;</span>
 </code></pre>
 <ul>
-<li>若当前组件为单节点，则把$attrs全部设置在当前组件的根元素上。</li>
+<li>若当前组件为单节点，则把$attrs 全部设置在当前组件的根元素上。</li>
 <li>若当前组件为多节点且未明确使用$attrs，则会报错。</li>
 </ul>
-<h2 id="slot-插槽">slot 插槽</h2>
-<p>内容分发。</p>
-<blockquote>
-<p>js中可触发event对象。dispatchEvent(event).<br>
-redux中也有好多dispach方法。</p>
-</blockquote>
-<p>父级模板里的所有内容都是在父级作用域中编译的；子模板里的所有内容都是在子作用域中编译的。
-<code>v-slot</code>只能于<code>&lt;template&gt;</code>一起使用。除非直接在组件上使用。<br>
-简写为<code>#</code>。简写时不能省略参数。</p>
-<pre><code class="language-js"><span class="hljs-comment">// 备用内容</span>
-&lt;div&gt;
-    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">slot</span>&gt;</span>备用内容<span class="hljs-tag">&lt;/<span class="hljs-name">slot</span>&gt;</span></span>
-&lt;/div&gt;
-<span class="hljs-comment">// 具名插槽</span>
-&lt;div&gt;
-    &lt;slot name=&quot;header&quot;&gt;
-    &lt;slot name=&quot;body&quot;&gt;
-    &lt;slot&gt; // 若不写name，则为默认插槽。
-    // 等价于
-    // &lt;slot name=&quot;default&quot;&gt;
-    &lt;slot name=&quot;footer&quot;&gt;
-&lt;/div&gt;
-&lt;comp-name&gt;
-    &lt;template v-slot:header&gt;....&lt;/template&gt;
-    &lt;template v-slot:body&gt;....&lt;/template&gt;
-    &lt;template&gt;....&lt;/template&gt;
-    // 若不写v-slot 等价于
-    // &lt;template v-slot:default&gt;....&lt;/template&gt;
-    &lt;template v-slot:footer&gt;....&lt;/template&gt;
-&lt;/comp-name&gt;
-// 作用域插槽
-&lt;div&gt;
-    &lt;slot :item=&quot;params&quot;&gt;
-&lt;/div&gt;
-&lt;comp-name&gt;
-    &lt;div v-slot:default=&quot;slotProps&quot;&gt;{{slotProps.item}}&lt;/div&gt;
-&lt;/comp-name&gt;
-// 可以把slotProps解构了。
-// 动态插槽名
-&lt;template v-slot:[dynamicSlotName]&gt;&lt;/template&gt;
-// sss
-// sss
-</code></pre>
 <h2 id="provide--inject">provide / inject</h2>
 <p>它们是祖先组件与后代组件之间传递数据的方式之一。<br>
 <a href="/framework/dataTrasmit/index.html">组件间传递数据</a></p>
@@ -298,7 +363,7 @@ redux中也有好多dispach方法。</p>
 </tr>
 <tr>
 <td></td>
-<td>每个provide只提供一个数据</td>
+<td>每个 provide 只提供一个数据</td>
 <td>可使用数组接收多个数据</td>
 <td></td>
 </tr>
@@ -316,7 +381,7 @@ redux中也有好多dispach方法。</p>
 </tr>
 <tr>
 <td></td>
-<td>可设置readonly</td>
+<td>可设置 readonly</td>
 <td></td>
 <td>一般在祖先组件中设置只读</td>
 </tr>
@@ -327,15 +392,15 @@ redux中也有好多dispach方法。</p>
 <td></td>
 </tr>
 <tr>
-<td>在setup</td>
+<td>在 setup</td>
 <td>需要引入</td>
 <td>需要引入</td>
 <td></td>
 </tr>
 <tr>
-<td>不在setup</td>
-<td>选项式api</td>
-<td>选项式api</td>
+<td>不在 setup</td>
+<td>选项式 api</td>
+<td>选项式 api</td>
 <td></td>
 </tr>
 <tr>
@@ -405,20 +470,6 @@ app.<span class="hljs-title function_">component</span>(<span class="hljs-string
 }
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span>
 </code></pre>
-<h2 id="动态组件--异步组件">动态组件 &amp; 异步组件</h2>
-<pre><code class="language-js">&lt;keep-alive&gt; <span class="hljs-comment">// 会使用组件保存在内存中</span>
-    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">component</span> <span class="hljs-attr">:is</span>=<span class="hljs-string">&quot;currentTabComponent&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">component</span>&gt;</span></span>
-&lt;/keep-alive&gt;
-</code></pre>
-<pre><code class="language-js"><span class="hljs-keyword">let</span> {defineAsyncComponent} = <span class="hljs-title class_">Vue</span>
-<span class="hljs-keyword">let</span> <span class="hljs-title class_">AsyncComp</span> = <span class="hljs-title function_">defineAsyncComponent</span>(<span class="hljs-function">() =&gt;</span> {
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">s, j</span>) =&gt;</span> {
-        <span class="hljs-title function_">s</span>({
-            <span class="hljs-attr">template</span>: <span class="hljs-string">`&lt;div&gt;str&lt;/div&gt;`</span>
-        })
-    })
-})
-</code></pre>
 <h2 id="组件名">组件名</h2>
 <p>一般用于动态组件、递归组件</p>
 <h2 id="函数式组件">函数式组件</h2>
@@ -439,21 +490,21 @@ app.<span class="hljs-title function_">component</span>(<span class="hljs-string
 })
 </code></pre>
 <h2 id="setup">setup</h2>
-<p>vue3开创此属性（生命周期）是为了解决“关注点分离”问题。<br>
-就是把本组件的基本数据、方法、计算等放在setup()中做。别的仍然与vue2时期一样。<br>
-在创建组件之前执行setup方法。此时data/computed/methods/refs都未被解析。（即不能使用）setup方法暴露的内容可以被本组件的其余部分访问。<br>
-所谓的关注点分离就是在setup中写基本方法、数据。<br>
-setup()内的this不是活跃实例的引用。</p>
+<p>vue3 开创此属性（生命周期）是为了解决“关注点分离”问题。<br>
+就是把本组件的基本数据、方法、计算等放在 setup()中做。别的仍然与 vue2 时期一样。<br>
+在创建组件之前执行 setup 方法。此时 data/computed/methods/refs 都未被解析。（即不能使用）setup 方法暴露的内容可以被本组件的其余部分访问。<br>
+所谓的关注点分离就是在 setup 中写基本方法、数据。<br>
+setup()内的 this 不是活跃实例的引用。</p>
 <pre><code class="language-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
     <span class="hljs-attr">components</span>: {...} <span class="hljs-comment">// 又是复数形式</span>
     <span class="hljs-attr">props</span>: {...},
     <span class="hljs-title function_">setup</span>(<span class="hljs-params">props</span>) {
         <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;props&#x27;</span>, props)
-        <span class="hljs-keyword">let</span> repositories = <span class="hljs-title function_">ref</span>([]) <span class="hljs-comment">// 可以通过一个新的 ref 函数会创建一个**响应式引用**使**任何响应式变量**在任何地方起作用。  </span>
+        <span class="hljs-keyword">let</span> repositories = <span class="hljs-title function_">ref</span>([]) <span class="hljs-comment">// 可以通过一个新的 ref 函数会创建一个**响应式引用**使**任何响应式变量**在任何地方起作用。</span>
         <span class="hljs-keyword">const</span> <span class="hljs-title function_">fn</span> = <span class="hljs-keyword">async</span> (<span class="hljs-params"></span>) =&gt; {
             repositories = <span class="hljs-keyword">await</span> <span class="hljs-title function_">getP</span>(props.<span class="hljs-property">user</span>)
         }
-        <span class="hljs-comment">// 需要使用前缀`on`,如：`onMounted`  </span>
+        <span class="hljs-comment">// 需要使用前缀`on`,如：`onMounted`</span>
         <span class="hljs-title function_">onMounted</span>(fn) <span class="hljs-comment">// 在 mounted 是调用 fn</span>
         <span class="hljs-comment">// setup中的watch</span>
         <span class="hljs-comment">// 参数是响应式引用或getter方法和一个回调方法。</span>
@@ -515,20 +566,20 @@ setup()内的this不是活跃实例的引用。</p>
     <span class="hljs-title function_">watch</span>(counter, <span class="hljs-function">(<span class="hljs-params">nv, ov</span>) =&gt;</span> {...})
 }
 </code></pre>
-<h3 id="组合式api--选项式api">组合式api &amp; 选项式api</h3>
+<h3 id="组合式-api--选项式-api">组合式 api &amp; 选项式 api</h3>
 <table>
 <thead>
 <tr>
 <th></th>
-<th>组合式api</th>
-<th>选项式api</th>
+<th>组合式 api</th>
+<th>选项式 api</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td></td>
 <td>setup</td>
-<td>无setup</td>
+<td>无 setup</td>
 </tr>
 <tr>
 <td>生命周期函数</td>
@@ -538,11 +589,11 @@ setup()内的this不是活跃实例的引用。</p>
 <tr>
 <td></td>
 <td>底层</td>
-<td>基于组件式api开发的</td>
+<td>基于组件式 api 开发的</td>
 </tr>
 <tr>
 <td></td>
-<td>它根本不是沉浸式api.(vue团队就喜欢做公关)</td>
+<td>它根本不是沉浸式 api.(vue 团队就喜欢做公关)</td>
 <td></td>
 </tr>
 </tbody>
@@ -552,12 +603,12 @@ setup()内的this不是活跃实例的引用。</p>
 <li>props。它是响应式的。不能解构。</li>
 <li>context。非响应式对象。
 <ol>
-<li>{attrs, slots, emit, expose} // 因emit不是名词所有不使用复数</li>
+<li>{attrs, slots, emit, expose} // 因 emit 不是名词所有不使用复数</li>
 </ol>
 </li>
 </ol>
-<p>当传入新的props时组件会更新。（这与react的处理逻辑一样）<br>
-expose会返回可在外部组件实例访问的数据。</p>
+<p>当传入新的 props 时组件会更新。（这与 react 的处理逻辑一样）<br>
+expose 会返回可在外部组件实例访问的数据。</p>
 <pre><code class="language-js"><span class="hljs-title function_">setup</span>(<span class="hljs-params">props, context</span>) {
     <span class="hljs-keyword">const</span> k = <span class="hljs-title function_">ref</span>(<span class="hljs-number">0</span>)
     context.<span class="hljs-title function_">expose</span>({
@@ -566,14 +617,14 @@ expose会返回可在外部组件实例访问的数据。</p>
     <span class="hljs-keyword">return</span> {...}
 }
 </code></pre>
-<h3 id="如何理解setup">如何理解setup</h3>
+<h3 id="如何理解-setup">如何理解 setup</h3>
 <ul>
-<li>代替了生命周期beforeCreate / created</li>
+<li>代替了生命周期 beforeCreate / created</li>
 <li>用于关注点分离。返回数据和基本的方法。</li>
-<li>在组合式api中使用。vue2使用的是选项式api.</li>
+<li>在组合式 api 中使用。vue2 使用的是选项式 api.</li>
 </ul>
-<h3 id="在script标签中使用setup">在script标签中使用setup</h3>
-<p>这就是组合式api的第二种写法。根本不是语法糖，一点方便都没有带给我们。</p>
+<h3 id="在-script-标签中使用-setup">在 script 标签中使用 setup</h3>
+<p>这就是组合式 api 的第二种写法。根本不是语法糖，一点方便都没有带给我们。</p>
 <pre><code class="language-js">&lt;script setup&gt;
 <span class="hljs-keyword">import</span> {
     defineProp, <span class="hljs-comment">// 接收父组件传来的props</span>
@@ -590,8 +641,8 @@ expose会返回可在外部组件实例访问的数据。</p>
 </code></pre>
 <h2 id="computed">computed</h2>
 <p>可以从 Vue 导入的 computed 函数<strong>在 Vue 组件外</strong>创建计算属性。<br>
-ref、computed都是使用<code>.value</code>访问响应式值。</p>
-<pre><code class="language-js"><span class="hljs-keyword">import</span> {ref, computed} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
+ref、computed 都是使用<code>.value</code>访问响应式值。</p>
+<pre><code class="language-js"><span class="hljs-keyword">import</span> { ref, computed } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
 <span class="hljs-keyword">const</span> counter = <span class="hljs-title function_">ref</span>(<span class="hljs-number">0</span>)
 <span class="hljs-keyword">const</span> twiceTheCounter = <span class="hljs-title function_">computed</span>(<span class="hljs-function">() =&gt;</span> counter.<span class="hljs-property">value</span> * <span class="hljs-number">2</span>) <span class="hljs-comment">// 使用comp.value访问值</span>
 counter.<span class="hljs-property">value</span>++
@@ -599,7 +650,7 @@ counter.<span class="hljs-property">value</span>++
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(twiceTheCounter.<span class="hljs-property">value</span>) <span class="hljs-comment">// 访问twiceTheCounter的值</span>
 </code></pre>
 <h3 id="参数">参数</h3>
-<p>在vue3.2+新增了<code>onTrack / onTrigger</code>参数。</p>
+<p>在 vue3.2+新增了<code>onTrack / onTrigger</code>参数。</p>
 <pre><code class="language-js"><span class="hljs-keyword">const</span> plusOne = <span class="hljs-title function_">computed</span>(<span class="hljs-function">() =&gt;</span> count.<span class="hljs-property">value</span> + <span class="hljs-number">1</span>, {
   <span class="hljs-title function_">onTrack</span>(<span class="hljs-params">e</span>) {
     <span class="hljs-comment">// 当 count.value 作为依赖被追踪时触发</span>
@@ -608,7 +659,7 @@ counter.<span class="hljs-property">value</span>++
   <span class="hljs-title function_">onTrigger</span>(<span class="hljs-params">e</span>) {
     <span class="hljs-comment">// 当 count.value 被修改时触发</span>
     <span class="hljs-keyword">debugger</span>
-  }
+  },
 })
 <span class="hljs-comment">// 访问 plusOne，应该触发 onTrack</span>
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(plusOne.<span class="hljs-property">value</span>)
@@ -636,8 +687,162 @@ count.<span class="hljs-property">value</span>++
 <h2 id="title">title</h2>
 <h2 id="todo">todo</h2>
 <h3 id="为什么全局注册的事件可以在所有组件中使用">为什么全局注册的事件可以在所有组件中使用</h3>
-<p>可能是在vue的实例（vdom）中的原型链上挂载了组件。</p>
-<h3 id="title">title</h3>
+<p>可能是在 vue 的实例（vdom）中的原型链上挂载了组件。</p>
+<h3 id="script-setup做了什么"><code>&lt;script setup&gt;</code>做了什么</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>定义宏</td>
+<td>defineProps()</td>
+<td>声明可接收的props</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>defineEmits()</td>
+<td>声明暴露的事件</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>组件</td>
+<td>引入后直接使用</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>defineEmits()</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>defineEmits()</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>defineEmits()</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>defineEmits()</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>把所有js代码当作setup()的方法化。全部暴露出来。</td>
+<td>需要从源码中验证。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="script-setup--script"><code>&lt;script setup&gt; &amp; &lt;script&gt;</code></h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><code>&lt;script setup&gt;</code></th>
+<th><code>&lt;script&gt;</code></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>-</td>
+<td>必须使用<code>setup(){return{...}}</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>props</td>
+<td><code>let props = defineProps(['xxx'])</code></td>
+<td><code>props: [...]</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>emits</td>
+<td><code>let emits = defineEmits(['xxx'])</code></td>
+<td><code>emits: [...]</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>组件</td>
+<td>引入后直接在template中使用</td>
+<td>引入后使用<code>components: {...}</code>注册</td>
+<td>template中使用<code>$emit(...)</code></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>vue团队非要搞“语法糖”，结果搞乱了。</p>
 <h3 id="title">title</h3>
 <h3 id="title">title</h3>
 <h3 id="title">title</h3>

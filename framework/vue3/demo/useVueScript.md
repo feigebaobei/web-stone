@@ -24,6 +24,8 @@
 
 ## 拆分模块
 
+在非工程化的用法中，实现模块化。
+
 ```html
 <!-- index.html -->
 <script type="module">
