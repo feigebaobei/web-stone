@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>&#x57fa;&#x672c;&#x7528;&#x6cd5;</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
+</style>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="基本用法">基本用法</h1>
+<h2 id="创建一个-vue-应用"><a href="/framework/vue3/demo/createVueApp.html">创建一个 vue 应用</a></h2>
+<h2 id="模板语法">模板语法</h2>
+<pre><code>文本插值
+&lt;span&gt;Message: {{ msg }}&lt;/span&gt;
+
+原始 HTML
+&lt;p&gt;Using text interpolation: {{ rawHtml }}&lt;/p&gt;
+&lt;p&gt;Using v-html directive: &lt;span v-html=&quot;rawHtml&quot;&gt;&lt;/span&gt;&lt;/p&gt;
+
+Attribute 绑定
+&lt;div v-bind:id=&quot;dynamicId&quot;&gt;&lt;/div&gt;
+&lt;div :id=&quot;dynamicId&quot;&gt;&lt;/div&gt;
+
+使用 JavaScript 表达式
+{{ number + 1 }}
+{{ ok ? 'YES' : 'NO' }}
+{{ message.split('').reverse().join('') }}
+&lt;div :id=&quot;`list-${id}`&quot;&gt;&lt;/div&gt;
+
+调用函数
+&lt;span :title=&quot;toTitleDate(date)&quot;&gt;
+  {{ formatDate(date) }}
+&lt;/span&gt;
+
+受限的全局访问
+在app.config.globalProperties上添加数据。
+
+指令 Directives
+v-xx:arg.modify=&quot;value&quot;
+</code></pre>
+<h2 id="响应式基础">响应式基础</h2>
+<ul>
+<li><code>&lt;script setup&gt;</code>语法糖会避免手动暴露大量状态、方法的繁索工作。</li>
+<li>更改响应式状态后更新组件</li>
+<li>默认深层响应式</li>
+<li>ref嵌套在reactive里时，会不具有响应性。在浅层响应式对象里时不会解包。</li>
+<li>ref与数组、set/map结合使用时不会解包。</li>
+<li>js中需要使用refObj.value访问。在template中可以使用refObj访问，这是vue做的语法糖。</li>
+</ul>
+<h3 id="reactive--ref">reactive &amp; ref</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>reactive</th>
+<th>ref</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>对对象有效，对基本类型无效。</td>
+<td>对任意类型有效</td>
+</tr>
+<tr>
+<td></td>
+<td>不要替换响应式对象的引用</td>
+<td></td>
+</tr>
+<tr>
+<td>访问</td>
+<td>直接访问</td>
+<td><code>refObj.value</code></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>传递给函数、解构时不丢失响应性</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="计算属性">计算属性</h2>
+<p>用途：</p>
+<ul>
+<li>处理复杂响应式逻辑。</li>
+<li>getter不应该有副作用</li>
+</ul>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">setup</span>&gt;</span><span class="language-javascript">
+<span class="hljs-keyword">import</span> { ref, computed } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
+
+<span class="hljs-keyword">const</span> firstName = <span class="hljs-title function_">ref</span>(<span class="hljs-string">&#x27;John&#x27;</span>)
+<span class="hljs-keyword">const</span> lastName = <span class="hljs-title function_">ref</span>(<span class="hljs-string">&#x27;Doe&#x27;</span>)
+
+<span class="hljs-keyword">const</span> fullName = <span class="hljs-title function_">computed</span>({
+  <span class="hljs-comment">// getter</span>
+  <span class="hljs-title function_">get</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> firstName.<span class="hljs-property">value</span> + <span class="hljs-string">&#x27; &#x27;</span> + lastName.<span class="hljs-property">value</span>
+  },
+  <span class="hljs-comment">// setter</span>
+  <span class="hljs-title function_">set</span>(<span class="hljs-params">newValue</span>) {
+    <span class="hljs-comment">// 注意：我们这里使用的是解构赋值语法</span>
+    [firstName.<span class="hljs-property">value</span>, lastName.<span class="hljs-property">value</span>] = newValue.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27; &#x27;</span>)
+  }
+})
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+<h3 id="computed--methods--wetch--wetcheffect">computed &amp; methods &amp; wetch &amp; wetchEffect</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>computed</th>
+<th>methods</th>
+<th>watch</th>
+<th>watchEffect</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>基于响应式依赖，缓存计算结果，当响应式对象改变时重新计算。</td>
+<td>只执行一次。</td>
+<td>懒执行。当依赖改变时执行回调。</td>
+<td>先执行一次（用于收集依赖）</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>追踪明确监听的数据源。更精确。</td>
+<td>在副作用发生期间追踪依赖。不太明确。</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>触发的时机：默认在组件更新前。设置flush:post，可以在组件更新后执行回调。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>必须是同步语句创建</td>
+<td>必须是同步语句创建</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>返回取消监听方法</td>
+<td>返回取消监听方法</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="class--style">class &amp; style</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>class</th>
+<th>style</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>值</td>
+<td>对象、数组、字符串</td>
+<td>对象、数组</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>
+  <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;static&quot;</span>
+  <span class="hljs-attr">:class</span>=<span class="hljs-string">&quot;{ active: isActive, &#x27;text-danger&#x27;: hasError }&quot;</span>
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">:class</span>=<span class="hljs-string">&quot;classObject&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">:class</span>=<span class="hljs-string">&quot;[activeClass, errorClass]&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">:class</span>=<span class="hljs-string">&quot;[isActive ? activeClass : &#x27;&#x27;, errorClass]&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">:class</span>=<span class="hljs-string">&quot;[{ active: isActive }, errorClass]&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;foo bar active&quot;</span>&gt;</span>Hi<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">:style</span>=<span class="hljs-string">&quot;{ color: activeColor, fontSize: fontSize + &#x27;px&#x27; }&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">:style</span>=<span class="hljs-string">&quot;styleObject&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">:style</span>=<span class="hljs-string">&quot;[baseStyles, overridingStyles]&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">:style</span>=<span class="hljs-string">&quot;{ display: [&#x27;-webkit-box&#x27;, &#x27;-ms-flexbox&#x27;, &#x27;flex&#x27;] }&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</code></pre>
+<h2 id="条件渲染">条件渲染</h2>
+<ul>
+<li>v-if</li>
+<li>v-else</li>
+<li>v-else-if</li>
+<li>v-show</li>
+<li>v-if + template 实现一次切换多个元素。</li>
+<li>v-if、v-for 尽量不要作用于同一个元素。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>v-if</th>
+<th>v-show</th>
+<th>v-for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>可以与 templata 标签一起使用</td>
+<td>不可以与 templata 标签一起使用</td>
+<td>可以与 templata 标签一起使用</td>
+</tr>
+<tr>
+<td></td>
+<td>true时真实渲染出现，否则不渲染。</td>
+<td>问题渲染。</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>“惰性”</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td></td>
+<td>若false，则不渲染。</td>
+<td>不能减少初次渲染的工作量</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>v-if 的优先级大于 v-for</td>
+<td>不要在同一元素上使用 v-if v-show</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>在编译阶段处理</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="列表渲染">列表渲染</h2>
+<ul>
+<li>遍历对象时，是按照<code>Object.keys()</code>遍历的。</li>
+<li>可用<code>v-for=&quot;(item, index) in arr&quot;</code></li>
+<li>也可用<code>v-for=&quot;(item, index) of arr&quot;</code></li>
+<li>可能是 vue 出生是<code>for...of</code>还未出生。vue 使用 for...in 处理循环。后来 for...of 出生了。vue 使用了与其相同的写法，也兼容了以前的写法。</li>
+</ul>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;item in items&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;item.id&quot;</span>&gt;</span>
+  {{ item.message }}
+<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;(item, index) in items&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;item.id&quot;</span>&gt;</span>
+  {{ parentMessage }} - {{ index }} - {{ item.message }}
+<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;{ message } in items&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;item.id&quot;</span>&gt;</span>
+  {{ message }}
+<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;({ message }, index) in items&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;item.id&quot;</span>&gt;</span>
+  {{ message }} {{ index }}
+<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;item in items&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;item.id&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;childItem in item.children&quot;</span>&gt;</span>
+    {{ item.message }} {{ childItem }}
+  <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;item in items&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;item.id&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>{{ item.msg }}<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;divider&quot;</span> <span class="hljs-attr">role</span>=<span class="hljs-string">&quot;presentation&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+</code></pre>
+<p>封装array的方法。</p>
+<ul>
+<li>push</li>
+<li>pop</li>
+<li>shift</li>
+<li>unshift</li>
+<li>splice</li>
+<li>sort</li>
+<li>reverse</li>
+</ul>
+<h2 id="事件">事件</h2>
+<ul>
+<li>内联</li>
+<li>方法</li>
+<li><code>v-on</code>指令会为 dom 添加事件。</li>
+<li>react 中是在 vdom 上添加事件的。</li>
+</ul>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">&quot;count++&quot;</span>&gt;</span>Add 1<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Count is: {{ count }}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+</code></pre>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> name = <span class="hljs-title function_">ref</span>(<span class="hljs-string">&#x27;Vue.js&#x27;</span>)
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">greet</span>(<span class="hljs-params">event</span>) {
+  <span class="hljs-title function_">alert</span>(<span class="hljs-string">`Hello <span class="hljs-subst">${name.value}</span>!`</span>)
+  <span class="hljs-comment">// `event` 是 DOM 原生事件</span>
+  <span class="hljs-keyword">if</span> (event) {
+    <span class="hljs-title function_">alert</span>(event.<span class="hljs-property">target</span>.<span class="hljs-property">tagName</span>)
+  }
+}
+
+<span class="hljs-comment">// &lt;!-- 使用特殊的 $event 变量 --&gt;</span>
+&lt;button @click=<span class="hljs-string">&quot;warn(&#x27;Form cannot be submitted yet.&#x27;, $event)&quot;</span>&gt;
+  <span class="hljs-title class_">Submit</span>
+&lt;/button&gt;
+
+<span class="hljs-comment">// &lt;!-- 使用内联箭头函数 --&gt;</span>
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">&quot;(event) =&gt; warn(&#x27;Form cannot be submitted yet.&#x27;, event)&quot;</span>&gt;</span>
+  Submit
+<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span>
+</code></pre>
+<h3 id="事件修饰符">事件修饰符</h3>
+<p>可链式调用。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.stop</td>
+<td>防止冒泡</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>.prevent</td>
+<td>防止默认事件</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>.self</td>
+<td>仅当event.target是当前dom元素时触发</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>.capture</td>
+<td>在事件捕获阶段处理。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>.once</td>
+<td>只触发一次</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>.passive</td>
+<td>不阻止默认事件</td>
+<td>passive为true时，不会触发preventDefault()</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="按键修饰符">按键修饰符</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.enter</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>.tab</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>.delete (捕获“Delete”和“Backspace”两个按键)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>.esc</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>.space</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>.up</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>.down</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>.left</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>.right</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="系统修饰符">系统修饰符</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.ctrl</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>.alt</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>.shift</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>.meta</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="严格修饰符">严格修饰符</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.exact</td>
+<td>允许控制触发一个事件所需的确定组合的系统按键修饰符。</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="鼠标按键修饰符">鼠标按键修饰符</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.left</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>.right</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>.middle</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="v-model-的修饰符">v-model 的修饰符</h3>
+<ul>
+<li>.lazy // input 事件改为 change 事件</li>
+<li>.number // 若能被 parseFloat()处理，则返回 number.否则返回 string.</li>
+<li>.trim // 去掉首尾空格</li>
+</ul>
+<h3 id="vue-事件--react-事件">vue 事件 &amp; react 事件</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>vue 事件</th>
+<th>react 事件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>绑定到 dom 上</td>
+<td>绑定到 vdom 上</td>
+</tr>
+<tr>
+<td></td>
+<td>原生 dom 的事件</td>
+<td>合成事件</td>
+</tr>
+<tr>
+<td></td>
+<td>有原生事件对应的修饰符等</td>
+<td>无</td>
+</tr>
+<tr>
+<td></td>
+<td>当 vdom(dom)被销毁时，绑定的事件也一起被销毁。</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h2 id="表单绑定">表单绑定</h2>
+<p>一般使用<code>v-model</code>。它为表单元素提供了双向数据绑定的语法糖。<br>
+当使用输入法时不会在组织文字时触发 input.(可能内部使用了<code>xxxx</code>)</p>
+<pre><code class="language-js"><span class="hljs-comment">// text</span>
+&lt;input v-model=<span class="hljs-string">&quot;msg&quot;</span> /&gt;
+<span class="hljs-title function_">data</span>(<span class="hljs-params"></span>) { <span class="hljs-keyword">return</span> {<span class="hljs-attr">msg</span>: <span class="hljs-string">&#x27;&#x27;</span>} } <span class="hljs-comment">// textarea</span>
+&lt;textarea v-model=<span class="hljs-string">&quot;msg&quot;</span> /&gt;
+<span class="hljs-title function_">data</span>(<span class="hljs-params"></span>) {<span class="hljs-keyword">return</span> {<span class="hljs-attr">msg</span>: <span class="hljs-string">&#x27;&#x27;</span>}} <span class="hljs-comment">// checkbox</span>
+&lt;input type=<span class="hljs-string">&quot;checkbox&quot;</span> v-model=<span class="hljs-string">&quot;checked&quot;</span> /&gt;
+<span class="hljs-title function_">data</span>(<span class="hljs-params"></span>) {<span class="hljs-keyword">return</span> {<span class="hljs-attr">checkbox</span>: <span class="hljs-literal">false</span>}} <span class="hljs-comment">//</span>
+一般单个复选框使用boolean,多个复选框使用数组。 <span class="hljs-comment">//</span>
+&lt;input type=<span class="hljs-string">&quot;checkbox&quot;</span> value=<span class="hljs-string">&quot;one&quot;</span> v-model=<span class="hljs-string">&quot;arr&quot;</span> /&gt;
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;checkbox&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;two&quot;</span> <span class="hljs-attr">v-model</span>=<span class="hljs-string">&quot;arr&quot;</span> /&gt;</span></span>
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;checkbox&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;three&quot;</span> <span class="hljs-attr">v-model</span>=<span class="hljs-string">&quot;arr&quot;</span> /&gt;</span></span>
+<span class="hljs-title function_">data</span>(<span class="hljs-params"></span>) {<span class="hljs-keyword">return</span> {<span class="hljs-attr">arr</span>: [<span class="hljs-string">&#x27;two&#x27;</span>]}} <span class="hljs-comment">// 设置默认选中值 // radio</span>
+&lt;input type=<span class="hljs-string">&quot;radio&quot;</span> value=<span class="hljs-string">&quot;one&quot;</span> id=<span class="hljs-string">&quot;radio&quot;</span> v-model=<span class="hljs-string">&quot;picked&quot;</span> /&gt;
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;radio&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;two&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;radio&quot;</span> <span class="hljs-attr">v-model</span>=<span class="hljs-string">&quot;picked&quot;</span> /&gt;</span></span>
+<span class="hljs-title function_">data</span>(<span class="hljs-params"></span>) {<span class="hljs-keyword">return</span> {<span class="hljs-attr">picked</span>: <span class="hljs-string">&#x27;&#x27;</span>}} <span class="hljs-comment">// radio一般于字符串绑定 // select</span>
+&lt;select v-model=<span class="hljs-string">&quot;selected&quot;</span>&gt;
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;(value, name, index) in arr&quot;</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">&quot;value.v&quot;</span>&gt;</span>{{index}}: {{name}} {{value.label}}<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span></span>
+&lt;/select&gt;
+<span class="hljs-title function_">data</span>(<span class="hljs-params"></span>) {<span class="hljs-keyword">return</span> {<span class="hljs-attr">arr</span>: [...], <span class="hljs-attr">selected</span>: <span class="hljs-string">&#x27;&#x27;</span>}} <span class="hljs-comment">//</span>
+单选时又是与字符串绑定。官网在多选时使用了字符串。经过测试可以使用数组。感觉数组更适合多选。
+</code></pre>
+<h3 id="值绑定">值绑定</h3>
+<pre><code class="language-js">&lt;input type=<span class="hljs-string">&quot;radio&quot;</span> v-model=<span class="hljs-string">&quot;picked&quot;</span> value=<span class="hljs-string">&quot;a&quot;</span>&gt; <span class="hljs-comment">// 单选框一般与字符串绑定。</span>
+&lt;input type=&quot;checkbox&quot; v-model=&quot;picked&quot; value=&quot;a&quot;&gt; // 多选框可以与字符串、boolean、数组绑定。
+&lt;select v-model=&quot;selected&quot;&gt;...&lt;/select&gt; // 下拉选择器可以与字符串、数组绑定。
+&lt;input type=&quot;checkbox&quot; v-model=&quot;toggle&quot; true-value=&quot;yes&quot; false-value=&quot;no&quot;&gt; // 绑定真值与假值
+&lt;input type=&quot;radio&quot; v-model=&quot;pick&quot; :value=&quot;a&quot;&gt; // 选中时pick为变量a的值
+&lt;select&gt;
+    &lt;option :value=&quot;{number: 123}&quot;&gt;12345&lt;/option&gt;
+&lt;/select&gt;
+</code></pre>
+<h3 id="如何处理-input--checkbox--radio--select">如何处理 input &amp; checkbox &amp; radio &amp; select</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>input</th>
+<th>checkbox</th>
+<th>select</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>text &amp; textarea</td>
+<td>checkbox &amp; radio</td>
+<td>select</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>value + input</td>
+<td>checked + change</td>
+<td>value + change</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>true-value</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>false-value</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="生命周期">生命周期</h2>
+<p><img src="/framework/vue3//lifecycle.16e4c08e.png" alt="生命周期"></p>
+<p>不要在生命周期方法上使用箭头函数，会影响 this 指向。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>选项式 api</th>
+<th>hook inside setup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>beforeCreate</td>
+<td>-</td>
+</tr>
+<tr>
+<td></td>
+<td>created</td>
+<td>-</td>
+</tr>
+<tr>
+<td></td>
+<td>beforeMount</td>
+<td>onBeforeMount</td>
+</tr>
+<tr>
+<td></td>
+<td>mounted</td>
+<td>onMounted</td>
+</tr>
+<tr>
+<td></td>
+<td>beforeUpdate</td>
+<td>onBeforeUpdate</td>
+</tr>
+<tr>
+<td></td>
+<td>updated</td>
+<td>onUpdated</td>
+</tr>
+<tr>
+<td></td>
+<td>beforeUnmount</td>
+<td>onBeforeUnmount</td>
+</tr>
+<tr>
+<td></td>
+<td>unmounted</td>
+<td>onUnmounted</td>
+</tr>
+<tr>
+<td></td>
+<td>errorCaptured</td>
+<td>onErrorCaptured</td>
+</tr>
+<tr>
+<td></td>
+<td>renderTracked</td>
+<td>onRenderTracked</td>
+</tr>
+<tr>
+<td></td>
+<td>renderTriggered</td>
+<td>onRenderTriggered</td>
+</tr>
+<tr>
+<td></td>
+<td>activated</td>
+<td>onActivated</td>
+</tr>
+<tr>
+<td></td>
+<td>deactivated</td>
+<td>onDeactivated</td>
+</tr>
+</tbody>
+</table>
+<h2 id="监听器">监听器</h2>
+<ul>
+<li>默认深层监听响应式对象。可以使用getter方法设置为只改变特定值时触发回调。</li>
+<li>必是同步语句创建。</li>
+<li>watch &amp; watchEffect</li>
+</ul>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> x = <span class="hljs-title function_">ref</span>(<span class="hljs-number">0</span>)
+<span class="hljs-keyword">const</span> y = <span class="hljs-title function_">ref</span>(<span class="hljs-number">0</span>)
+
+<span class="hljs-comment">// 单个 ref</span>
+<span class="hljs-title function_">watch</span>(x, <span class="hljs-function">(<span class="hljs-params">newX</span>) =&gt;</span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`x is <span class="hljs-subst">${newX}</span>`</span>)
+})
+
+<span class="hljs-comment">// getter 函数</span>
+<span class="hljs-title function_">watch</span>(
+  <span class="hljs-function">() =&gt;</span> x.<span class="hljs-property">value</span> + y.<span class="hljs-property">value</span>,
+  <span class="hljs-function">(<span class="hljs-params">sum</span>) =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`sum of x + y is: <span class="hljs-subst">${sum}</span>`</span>)
+  }
+)
+
+<span class="hljs-comment">// 多个来源组成的数组</span>
+<span class="hljs-title function_">watch</span>([x, <span class="hljs-function">() =&gt;</span> y.<span class="hljs-property">value</span>], <span class="hljs-function">(<span class="hljs-params">[newX, newY]</span>) =&gt;</span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`x is <span class="hljs-subst">${newX}</span> and y is <span class="hljs-subst">${newY}</span>`</span>)
+})
+
+<span class="hljs-title function_">watch</span>(
+  <span class="hljs-function">() =&gt;</span> state.<span class="hljs-property">someObject</span>,
+  <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-comment">// 仅当 state.someObject 被替换时触发</span>
+  }
+)
+
+<span class="hljs-title function_">watch</span>(
+  <span class="hljs-function">() =&gt;</span> state.<span class="hljs-property">someObject</span>,
+  <span class="hljs-function">(<span class="hljs-params">newValue, oldValue</span>) =&gt;</span> {
+    <span class="hljs-comment">// 注意：`newValue` 此处和 `oldValue` 是相等的</span>
+    <span class="hljs-comment">// *除非* state.someObject 被整个替换了</span>
+  },
+  { <span class="hljs-attr">deep</span>: <span class="hljs-literal">true</span> } <span class="hljs-comment">// 还有别的选项</span>
+)
+</code></pre>
+<h2 id="模板引用">模板引用</h2>
+<ul>
+<li>需要考虑ref对象为null的情况。初次渲染时指定元素还不存在。</li>
+<li>ref与v-for结合使用时ref对象的值是列表元素组成的数组。</li>
+</ul>
+<h2 id="组件"><a href="/framework/vue3/component.html">组件</a></h2>
+
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
+    </body>
+    </html>

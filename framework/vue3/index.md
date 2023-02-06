@@ -124,6 +124,8 @@ Vue.createApp(Counter).mount('#id')
 
 ### [创建项目](/framework/vue3/demo.html)
 
+### [基本用法](/framework/vue3/basic.html)
+
 ## [性能 & 优化](/framework/vue3/performation.html)
 
 ## [vue3 + ts](/framework/vue3/vue3&ts.html)
@@ -330,58 +332,7 @@ data() {
 
 vue 会使用`vendor prefix`添加样式前缀。
 
-## 常用指令
-
-### 条件渲染
-
-```js
-v-if v-else 必须紧跟在v-if后面 v-else-if
-<template v-if="params">
-  用分组。与v-for分开。template不会渲染为可岁元素 v-show
-</template>
-```
-
-### 列表渲染 v-for
-
-可用`v-for="(item, index) in arr"`
-也可用`v-for="(item, index) of arr"`
-可能是 vue 出生是`for...of`还未出生。vue 使用 for...in 处理循环。后来 for...of 出生了。vue 使用了与其相同的写法，也兼容了以前的写法。
-
-```js
-<ul>
-    <li v-for="value in obj" :key="value.id"></li>
-    <li v-for="(value, name) in obj" :key="name"></li>
-    <li v-for="(value, name, index) in obj" :key="index"></li>
-</ul>
-```
-
-遍历对象时，是按照`Object.keys()`遍历的。
-
-#### 数组更新检测
-
-vue 把改变数组的方法进行了封装。（为了实现响应式）。
-
-- push
-- pop
-- shift
-- unshift
-- splice
-- sort
-- reverse
-
-### v-if & v-for & v-show
-
-|     | v-if                         | v-for                            | v-show                         |
-| --- | ---------------------------- | -------------------------------- | ------------------------------ |
-|     | 可以与 templata 标签一起使用 | 可以与 templata 标签一起使用     | 不可以与 templata 标签一起使用 |
-|     | v-if 的优先级大于 v-for      | 不要在同一元素上使用 v-if v-show |                                |
-|     | 在编译阶段处理               |                                  |                                |
-|     |                              |                                  |                                |
-
 ### 事件
-
-`v-on`指令会为 dom 添加事件。
-react 中是在 vdom 上添加事件的。
 
 ```js
 // 绑定方法名
@@ -394,115 +345,14 @@ react 中是在 vdom 上添加事件的。
 <button @click="one('params'), two">str</button>
 ```
 
-#### 修饰符
+## [组件](/framework/vue3/component.html)
 
-事件修饰符
+精减此块内容
 
-- .stop
-- .prevent
-- .capture
-- .self
-- .once
-- .passive
-
-按键修饰符
-
-- .enter
-- .tab
-- .delete (删除和退格键)
-- .esc
-- .space
-- .up
-- .down
-- .left
-- .right
-
-系统修饰键
-
-- .ctrl
-- .alt
-- .shift
-- .meta
-
-严格修饰符
-
-- .exact
-
-鼠标修饰符
-
-- .left
-- .right
-- .middle
-
-v-model 的修饰符
-
-- .lazy // input 事件改为 change 事件
-- .number // 若能被 parseFloat()处理，则返回 number.否则返回 string.
-- .trim // 去掉首尾空格
-
-#### vue 事件 & react 事件
-
-|     | vue 事件                                       | react 事件     |
-| --- | ---------------------------------------------- | -------------- |
-|     | 绑定到 dom 上                                  | 绑定到 vdom 上 |
-|     | 原生 dom 的事件                                | 合成事件       |
-|     | 有原生事件对应的修饰符等                       | 无             |
-|     | 当 vdom(dom)被销毁时，绑定的事件也一起被销毁。 | -              |
-
-## 表单输入绑定
-
-一般使用`v-model`。它为表单元素提供了双向数据绑定的语法糖。  
-当使用输入法时不会在组织文字时触发 input.(可能内部使用了`xxxx`)
-
-```js
-// text
-<input v-model="msg" />
-data() { return {msg: ''} } // textarea
-<textarea v-model="msg" />
-data() {return {msg: ''}} // checkbox
-<input type="checkbox" v-model="checked" />
-data() {return {checkbox: false}} //
-一般单个复选框使用boolean,多个复选框使用数组。 //
-<input type="checkbox" value="one" v-model="arr" />
-<input type="checkbox" value="two" v-model="arr" />
-<input type="checkbox" value="three" v-model="arr" />
-data() {return {arr: ['two']}} // 设置默认选中值 // radio
-<input type="radio" value="one" id="radio" v-model="picked" />
-<input type="radio" value="two" id="radio" v-model="picked" />
-data() {return {picked: ''}} // radio一般于字符串绑定 // select
-<select v-model="selected">
-    <option v-for="(value, name, index) in arr" :value="value.v">{{index}}: {{name}} {{value.label}}</option>
-</select>
-data() {return {arr: [...], selected: ''}} //
-单选时又是与字符串绑定。官网在多选时使用了字符串。经过测试可以使用数组。感觉数组更适合多选。
-```
-
-### 值绑定
-
-```js
-<input type="radio" v-model="picked" value="a"> // 单选框一般与字符串绑定。
-<input type="checkbox" v-model="picked" value="a"> // 多选框可以与字符串、boolean、数组绑定。
-<select v-model="selected">...</select> // 下拉选择器可以与字符串、数组绑定。
-<input type="checkbox" v-model="toggle" true-value="yes" false-value="no"> // 绑定真值与假值
-<input type="radio" v-model="pick" :value="a"> // 选中时pick为变量a的值
-<select>
-    <option :value="{number: 123}">12345</option>
-</select>
-```
-
-### 如何处理 input & checkbox & radio & select
-
-|     | input           | checkbox         | select         |     |
-| --- | --------------- | ---------------- | -------------- | --- |
-|     | text & textarea | checkbox & radio | select         |     |
-|     | value + input   | checked + change | value + change |     |
-|     |                 |                  |                |     |
-|     |                 |                  |                |     |
-|     |                 |                  |                |     |
-|     |                 |                  |                |     |
-|     |                 |                  |                |     |
-
-## [组件](/framework/vue3/component.md)
+- 定义一个组件
+- 使用组件
+- 传递 props
+-
 
 ```js
 // 创建组件 let app = Vue.createApp({}) // 定义为全局组件
@@ -591,7 +441,7 @@ Vue.defineAsyncComponent(
 )
 ```
 
-### 单文件组件
+### [单文件组件](/framework/vue3/sfc.html)
 
 使用[`@vue/compiler-sfc`](/jsPackages/compilerSfc.html)编译
 
@@ -618,6 +468,8 @@ Vue.createApp({...})
 
 ## [slot](/framework/vue3/slot.html)
 
+内容分发。
+
 - 默认内容
 - 具名插槽
 - 动态插槽名
@@ -629,28 +481,6 @@ Vue.createApp({...})
 - 其内置的属性是以`$`开头的。
 - 保留了以`_`开头的属性。  
   尽量不要动这样的属性。
-
-## 生命周期
-
-![生命周期](https://v3.cn.vuejs.org/images/lifecycle.svg)
-
-不要在生命周期方法上使用箭头函数，会影响 this 指向。
-
-|     | 选项式 api      | hook inside setup |
-| --- | --------------- | ----------------- |
-|     | beforeCreate    | -                 |
-|     | created         | -                 |
-|     | beforeMount     | onBeforeMount     |
-|     | mounted         | onMounted         |
-|     | beforeUpdate    | onBeforeUpdate    |
-|     | updated         | onUpdated         |
-|     | beforeUnmount   | onBeforeUnmount   |
-|     | unmounted       | onUnmounted       |
-|     | errorCaptured   | onErrorCaptured   |
-|     | renderTracked   | onRenderTracked   |
-|     | renderTriggered | onRenderTriggered |
-|     | activated       | onActivated       |
-|     | deactivated     | onDeactivated     |
 
 ## [组件间传递数据](/framework/dataTrasmit/index.html)
 
