@@ -251,19 +251,9 @@ c.on('ready', () => {
     }
     // let p = 'framework/vue3/demo'
     let p = [
-      // 'coursera/index.html',
-      // 'framework/vue3/lifecycle.16e4c08e.png',
-      // 'framework/index.html',
-      // 'framework/vue3/basic.html',
-      'framework/vue3/index.html',
-      'framework/vue3/directive.html',
-      'framework/vue3/component.html',
-      // 'framework/vue3/sfc.html',
-      // 'framework/vue3/compositionApi.html',
-      // 'framework/vue3/demo/createVueApp.html',
-      // 'framework/vue3/demo/index.html',
-      // 'framework/vue3/demo/useVueScript.html',
-      // 'language/html/index.html',
+      // 'framework/vue3/index.html',
+      // 'framework/vue3/directive.html',
+      // 'framework/vue3/component.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
