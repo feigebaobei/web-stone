@@ -1,10 +1,87 @@
 # vue 组件
 
+- 整个 vue 应用由 vue 组件组成的 vue 组件库构成。
+- 组件名
+  - PascalCase
+  - 支持自闭合
+  - 一般用于动态组件、递归组件
+- title
+- title
+- title
+
+## 组件模板
+
+```html
+
+```
+
+## 动态组件
+
+is 的属性值：
+
+- 注册组件时的 name
+- 引入的组件对象
+
+```js
+<keep-alive> // 会使用组件保存在内存中
+    <component :is="currentTabComponent"></component>
+</keep-alive>
+```
+
+## 异步组件
+
+```js
+// 局部注册
+let { defineAsyncComponent } = Vue
+let AsyncComp = defineAsyncComponent(() => {
+  return new Promise((s, j) => {
+    s({
+      template: `<div>str</div>`,
+    })
+    //   or
+    // return import('./components/AdminPageComponent.vue')
+  })
+})
+
+// 全局注册
+app.component(
+  'MyComponent',
+  defineAsyncComponent(() => import('./components/MyComponent.vue'))
+)
+
+// api
+const AsyncComp = defineAsyncComponent({
+  // 加载函数
+  loader: () => import('./Foo.vue'),
+  // 加载异步组件时使用的组件
+  loadingComponent: LoadingComponent,
+  // 展示加载组件前的延迟时间，默认为 200ms
+  delay: 200,
+  // 加载失败后展示的组件
+  errorComponent: ErrorComponent,
+  // 如果提供了一个 timeout 时间限制，并超时了
+  // 也会显示这里配置的报错组件，默认值是：Infinity
+  timeout: 3000,
+})
+```
+
+[defineAsyncComponent api](/framework/vue3/api.html)
+
 ## 注册
+
+先注册，再使用。  
+||全局注册|局部注册||
+|-|-|-|-|
+||注册在 vue 应用中|注册在当前组件中||
+||可以 tree-shaking|不可以 tree-shaking||
+||全局组件可以使用。|只作用于当前组件内。||
+|||||
+|||||
 
 ```js
 // 全局注册
-Vue.createApp({...}).component('comp-name', {...})
+import comp from './comp.vue'
+Vue.createApp({...}).component('comp-name', comp)
 // 局部注册
 // 1
 let app = Vue.createApp({
@@ -32,6 +109,32 @@ export default {
 [为什么全局注册的事件可以在所有组件中使用]()。  
 全局注册会使打包体积增大。
 
+## title
+
+## title
+
+## title
+
+## title
+
+## title
+
+## title
+
+## title
+
+## title
+
+## title
+
+## title
+
+## title
+
+## title
+
+## title
+
 ## 接收方式
 
 - props
@@ -43,8 +146,6 @@ export default {
 
 子组件使用 props 属性接收从父组件来的数据。
 
-<!-- 它是明确接收父组件来的数据的字段。另一个是`emits`   -->
-
 ```js
 app.component('comp-name', {
   props: ['title'],
@@ -54,7 +155,7 @@ app.component('comp-name', {
 
 ```js
 props: ['title', 'linkes']
-props: {title: String， links: Number} // 这里写构造方法.
+props: {title: String， links: Number} // 这里写构造函数.
 // 有点类似PropTypes
 // 把一个对象的所有属性作为prop传入。
 <comp-name v-bind="obj" />
@@ -143,12 +244,12 @@ props: {
 emits: ['eventOne', 'eventTwo'],
 emits: {
     eventOne: (params) => { // 用于本组件在触发指定事件前的验证。params是为该事件的方法传递的参数。
-        return boolean
+        return boolean // 是否通过验证
     }
 }
 ```
 
-### v-model
+## v-model
 
 它是值与事件的语法糖。
 
@@ -162,7 +263,27 @@ emits: ['update:title']
 $emit('update:title', params)
 ```
 
+### v-model 的参数
+
+```
+<Comp v-model:title="value"/>
+let emits = defineEmits('update:title')
+<!-- or -->
+context.emit('update:title', [params])
+```
+
+### 多个 v-model 绑定
+
+```js
+;<Comp v-model:first="v0" v-model:second="v1" />
+
+context.emit('update:first')
+context.emit('update:second')
+```
+
 ### v-model 的修饰符
+
+这是为 v-model 自定义的修改符
 
 ```js
 <comp-name v-model.cap="params" />
@@ -184,63 +305,20 @@ $emit('update:modelValue', xx)
 ```js
 props: [...],
 inheritAttrs: false, // 会禁止把$attrs属性设置在当前组件的根节点上。默认为true.
+v-bind="$attrs"
 ```
 
 - 若当前组件为单节点，则把$attrs 全部设置在当前组件的根元素上。
 - 若当前组件为多节点且未明确使用$attrs，则会报错。
 
-## slot 插槽
-
-内容分发。
-
-> js 中可触发 event 对象。dispatchEvent(event).  
-> redux 中也有好多 dispach 方法。
-
-父级模板里的所有内容都是在父级作用域中编译的；子模板里的所有内容都是在子作用域中编译的。
-`v-slot`只能于`<template>`一起使用。除非直接在组件上使用。  
-简写为`#`。简写时不能省略参数。
-
-```js
-// 备用内容
-<div>
-    <slot>备用内容</slot>
-</div>
-// 具名插槽
-<div>
-    <slot name="header">
-    <slot name="body">
-    <slot> // 若不写name，则为默认插槽。
-    // 等价于
-    // <slot name="default">
-    <slot name="footer">
-</div>
-<comp-name>
-    <template v-slot:header>....</template>
-    <template v-slot:body>....</template>
-    <template>....</template>
-    // 若不写v-slot 等价于
-    // <template v-slot:default>....</template>
-    <template v-slot:footer>....</template>
-</comp-name>
-// 作用域插槽
-<div>
-    <slot :item="params">
-</div>
-<comp-name>
-    <div v-slot:default="slotProps">{{slotProps.item}}</div>
-</comp-name>
-// 可以把slotProps解构了。
-// 动态插槽名
-<template v-slot:[dynamicSlotName]></template>
-// sss
-// sss
-```
-
 ## provide / inject
 
-它们是祖先组件与后代组件之间传递数据的方式之一。  
+- 它们是祖先组件向后代组件传递数据的方式之一。
+- 使用 symbol 类型为 key 可以减少变量名冲突。
+
 [组件间传递数据](/framework/dataTrasmit/index.html)
 
+<!-- prettier-ignore-start -->
 |            | provide                     | inject                 |                          |
 | ---------- | --------------------------- | ---------------------- | ------------------------ |
 |            | 在祖先组件中提供数据        | 在后代组件中接收数据   |                          |
@@ -254,8 +332,11 @@ inheritAttrs: false, // 会禁止把$attrs属性设置在当前组件的根节�
 |            |                             |                        |                          |
 |            |                             |                        |                          |
 |            |                             |                        |                          |
+<!-- prettier-ignore-end -->
 
 ```js
+// 组件中使用
+provide(key, value)
 // 注册组件时提供
 app.component('comp-name', {
     data() {...},
@@ -303,29 +384,6 @@ setup() {
 }
 </script>
 ```
-
-## 动态组件 & 异步组件
-
-```js
-<keep-alive> // 会使用组件保存在内存中
-    <component :is="currentTabComponent"></component>
-</keep-alive>
-```
-
-```js
-let { defineAsyncComponent } = Vue
-let AsyncComp = defineAsyncComponent(() => {
-  return new Promise((s, j) => {
-    s({
-      template: `<div>str</div>`,
-    })
-  })
-})
-```
-
-## 组件名
-
-一般用于动态组件、递归组件
 
 ## 函数式组件
 
@@ -556,7 +614,35 @@ count.value++
 
 可能是在 vue 的实例（vdom）中的原型链上挂载了组件。
 
-### title
+### `<script setup>`做了什么
+
+|                                                    |                    |                    |     |     |
+| -------------------------------------------------- | ------------------ | ------------------ | --- | --- |
+| 定义宏                                             | defineProps()      | 声明可接收的 props |     |     |
+|                                                    | defineEmits()      | 声明暴露的事件     |     |     |
+|                                                    | 组件               | 引入后直接使用     |     |     |
+|                                                    | defineEmits()      |                    |     |     |
+|                                                    | defineEmits()      |                    |     |     |
+|                                                    | defineEmits()      |                    |     |     |
+|                                                    | defineEmits()      |                    |     |     |
+| 把所有 js 代码当作 setup()的方法化。全部暴露出来。 | 需要从源码中验证。 |                    |     |     |
+|                                                    |                    |                    |     |     |
+|                                                    |                    |                    |     |     |
+
+### `<script setup> & <script>`
+
+|       | `<script setup>`                   | `<script>`                           |                             |     |
+| ----- | ---------------------------------- | ------------------------------------ | --------------------------- | --- |
+|       | -                                  | 必须使用`setup(){return{...}}`       |                             |     |
+| props | `let props = defineProps(['xxx'])` | `props: [...]`                       |                             |     |
+| emits | `let emits = defineEmits(['xxx'])` | `emits: [...]`                       |                             |     |
+| 组件  | 引入后直接在 template 中使用       | 引入后使用`components: {...}`注册    | template 中使用`$emit(...)` |     |
+|       | 直接使用`provide(key, value)`      | 在 setup 中使用`provide(key, value)` |                             |     |
+|       |                                    |                                      |                             |     |
+|       |                                    |                                      |                             |     |
+|       |                                    |                                      |                             |     |
+
+vue 团队非要搞“语法糖”，结果搞乱了。
 
 ### title
 

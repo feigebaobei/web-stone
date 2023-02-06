@@ -83,6 +83,7 @@
 <ul>
 <li>PascalCase</li>
 <li>支持自闭合</li>
+<li>一般用于动态组件、递归组件</li>
 </ul>
 </li>
 <li>title</li>
@@ -93,7 +94,7 @@
 <pre><code class="language-html">
 </code></pre>
 <h2 id="动态组件">动态组件</h2>
-<p>is的属性值</p>
+<p>is的属性值：</p>
 <ul>
 <li>注册组件时的name</li>
 <li>引入的组件对象</li>
@@ -103,15 +104,39 @@
 &lt;/keep-alive&gt;
 </code></pre>
 <h2 id="异步组件">异步组件</h2>
-<pre><code class="language-js"><span class="hljs-keyword">let</span> { defineAsyncComponent } = <span class="hljs-title class_">Vue</span>
+<pre><code class="language-js"><span class="hljs-comment">// 局部注册</span>
+<span class="hljs-keyword">let</span> { defineAsyncComponent } = <span class="hljs-title class_">Vue</span>
 <span class="hljs-keyword">let</span> <span class="hljs-title class_">AsyncComp</span> = <span class="hljs-title function_">defineAsyncComponent</span>(<span class="hljs-function">() =&gt;</span> {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">s, j</span>) =&gt;</span> {
     <span class="hljs-title function_">s</span>({
       <span class="hljs-attr">template</span>: <span class="hljs-string">`&lt;div&gt;str&lt;/div&gt;`</span>,
     })
+<span class="hljs-comment">//   or</span>
+<span class="hljs-comment">// return import(&#x27;./components/AdminPageComponent.vue&#x27;)</span>
   })
 })
+
+<span class="hljs-comment">// 全局注册</span>
+app.<span class="hljs-title function_">component</span>(<span class="hljs-string">&#x27;MyComponent&#x27;</span>, <span class="hljs-title function_">defineAsyncComponent</span>(<span class="hljs-function">() =&gt;</span>
+  <span class="hljs-title function_">import</span>(<span class="hljs-string">&#x27;./components/MyComponent.vue&#x27;</span>)
+))
+
+<span class="hljs-comment">// api</span>
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">AsyncComp</span> = <span class="hljs-title function_">defineAsyncComponent</span>({
+  <span class="hljs-comment">// 加载函数</span>
+  <span class="hljs-attr">loader</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">import</span>(<span class="hljs-string">&#x27;./Foo.vue&#x27;</span>),
+  <span class="hljs-comment">// 加载异步组件时使用的组件</span>
+  <span class="hljs-attr">loadingComponent</span>: <span class="hljs-title class_">LoadingComponent</span>,
+  <span class="hljs-comment">// 展示加载组件前的延迟时间，默认为 200ms</span>
+  <span class="hljs-attr">delay</span>: <span class="hljs-number">200</span>,
+  <span class="hljs-comment">// 加载失败后展示的组件</span>
+  <span class="hljs-attr">errorComponent</span>: <span class="hljs-title class_">ErrorComponent</span>,
+  <span class="hljs-comment">// 如果提供了一个 timeout 时间限制，并超时了</span>
+  <span class="hljs-comment">// 也会显示这里配置的报错组件，默认值是：Infinity</span>
+  <span class="hljs-attr">timeout</span>: <span class="hljs-number">3000</span>
+})
 </code></pre>
+<p><a href="/framework/vue3/api.html">defineAsyncComponent api</a></p>
 <h2 id="注册">注册</h2>
 <p>先注册，再使用。</p>
 <table>
@@ -343,8 +368,12 @@ v-bind=<span class="hljs-string">&quot;$attrs&quot;</span>
 <li>若当前组件为多节点且未明确使用$attrs，则会报错。</li>
 </ul>
 <h2 id="provide--inject">provide / inject</h2>
-<p>它们是祖先组件与后代组件之间传递数据的方式之一。<br>
-<a href="/framework/dataTrasmit/index.html">组件间传递数据</a></p>
+<ul>
+<li>它们是祖先组件向后代组件传递数据的方式之一。</li>
+<li>使用symbol类型为key可以减少变量名冲突。</li>
+</ul>
+<p><a href="/framework/dataTrasmit/index.html">组件间传递数据</a></p>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -423,7 +452,10 @@ v-bind=<span class="hljs-string">&quot;$attrs&quot;</span>
 </tr>
 </tbody>
 </table>
-<pre><code class="language-js"><span class="hljs-comment">// 注册组件时提供</span>
+<!-- prettier-ignore-end -->
+<pre><code class="language-js"><span class="hljs-comment">// 组件中使用</span>
+<span class="hljs-title function_">provide</span>(key, value)
+<span class="hljs-comment">// 注册组件时提供</span>
 app.<span class="hljs-title function_">component</span>(<span class="hljs-string">&#x27;comp-name&#x27;</span>, {
     <span class="hljs-title function_">data</span>(<span class="hljs-params"></span>) {...},
     <span class="hljs-comment">// 提供</span>
@@ -470,8 +502,6 @@ app.<span class="hljs-title function_">component</span>(<span class="hljs-string
 }
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span>
 </code></pre>
-<h2 id="组件名">组件名</h2>
-<p>一般用于动态组件、递归组件</p>
 <h2 id="函数式组件">函数式组件</h2>
 <p>当组件模版需要更灵活时一般使用函数式组件。<br>
 它可以在通过控制三个参数（tag/props/children），实现组件。</p>
@@ -814,8 +844,8 @@ count.<span class="hljs-property">value</span>++
 </tr>
 <tr>
 <td></td>
-<td></td>
-<td></td>
+<td>直接使用<code>provide(key, value)</code></td>
+<td>在setup中使用<code>provide(key, value)</code></td>
 <td></td>
 <td></td>
 </tr>

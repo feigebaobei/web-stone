@@ -251,23 +251,17 @@ c.on('ready', () => {
     }
     // let p = 'framework/vue3/demo'
     let p = [
-      'coursera/index.html',
-      // 'browser/history.html',
+      // 'coursera/index.html',
+      // 'framework/vue3/lifecycle.16e4c08e.png',
+      // 'framework/index.html',
+      // 'framework/vue3/basic.html',
+      'framework/vue3/component.html',
+      'framework/vue3/sfc.html',
+      // 'framework/vue3/compositionApi.html',
+      // 'framework/vue3/demo/createVueApp.html',
+      // 'framework/vue3/demo/index.html',
+      // 'framework/vue3/demo/useVueScript.html',
       // 'language/html/index.html',
-      // 'util/index.html',
-      // 'language/javascript/webWorker.html',
-      // 'index.html',
-      // 'browser/frontStorage/index.html',
-      'framework/vue3/api.html',
-      'framework/vue3/index.html',
-      'framework/vue3/slot.html',
-      'framework/vue3/demo/createVueApp.html',
-      'framework/vue3/demo/index.html',
-      'framework/vue3/demo/useVueScript.html',
-      // 'browser/frontStorage/index.html',
-      // 'confuse/upload.html',
-      // 'language/html/HTMLElement.html',
-      'language/html/index.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
