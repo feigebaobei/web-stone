@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>&#x6307;&#x4ee4;</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="指令">指令</h1>
+<h2 id="内置指令">内置指令</h2>
+<ul>
+<li>以<code>v-</code>开头。</li>
+<li><code>v-bind</code>简写为<code>:</code>
+<ul>
+<li>支持一个参数，如：<code>:href=&quot;url&quot;</code></li>
+<li>动态参数 <code>:[attr]=&quot;url&quot;</code></li>
+</ul>
+</li>
+<li><code>v-on</code>简写为<code>@</code>
+<ul>
+<li>修饰符，用于<code>v-on</code>指令上。
+<ul>
+<li><code>.prevent</code> 阻止默认事件</li>
+<li>还有好多修饰符</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>应用于一个根元素上。当多个元素时，会报错。</li>
+</ul>
+<h2 id="自定义指令">自定义指令</h2>
+<p><code>v-dir:[arg]=&quot;value&quot;</code></p>
+<ul>
+<li>操作 dom</li>
+<li>抽象跨组件逻辑</li>
+<li>一般无 dom</li>
+</ul>
+<pre><code class="language-js"><span class="hljs-comment">// 全局</span>
+<span class="hljs-keyword">const</span> app = <span class="hljs-title class_">Vue</span>.<span class="hljs-title function_">createApp</span>({})
+app.<span class="hljs-title function_">direction</span>(<span class="hljs-string">&#x27;focus&#x27;</span>, {
+    <span class="hljs-title function_">mounted</span>(<span class="hljs-params">el</span>) { el.<span class="hljs-title function_">focus</span>() }
+})
+<span class="hljs-comment">// script setup 局部</span>
+<span class="hljs-keyword">let</span> vFocus = {
+    <span class="hljs-attr">mounted</span>: <span class="hljs-function">(<span class="hljs-params">el</span>) =&gt;</span> el.<span class="hljs-title function_">focus</span>()
+}
+<span class="hljs-comment">// 非script setup 局部</span>
+<span class="hljs-attr">directives</span>: {
+    <span class="hljs-attr">focus</span>: { <span class="hljs-title function_">mounted</span>(<span class="hljs-params">el</span>) {el.<span class="hljs-title function_">focus</span>()} }
+}
+<span class="hljs-comment">//使用</span>
+&lt;input v-focus /&gt;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>钩子</th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>created(el, binding, vnode, prevVnode)</td>
+<td>在绑定元素的 attribute 或事件监听器被应用之前调用。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>beforeMount(el, binding, vnode, prevVnode)</td>
+<td>指令第一次绑定到元素并且在挂载父组件之前调用。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>mounted(el, binding, vnode, prevVnode)</td>
+<td>在绑定元素的父组件被挂载后调用。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>beforeUpdate(el, binding, vnode, prevVnode)</td>
+<td>在更新包含组件的 VNode 之前调用。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>updated(el, binding, vnode, prevVnode)</td>
+<td>在包含组件的 VNode 及其子组件的 VNode 更新后调用。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>beforeUnmount(el, binding, vnode, prevVnode)</td>
+<td>在卸载绑定元素的父组件之前调用</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>unmounted(el, binding, vnode, prevVnode)</td>
+<td>当指令与元素解除绑定且父组件已卸载时，只调用一次。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>参数都是<code>el/binding/vnode/prevVnode</code></p>
+<pre><code>el              dom元素
+binding     
+    value       传递给指令的值
+    oldValue    之前的值
+    arg         指令的参数
+    modifiers   指定的修饰符
+    instance    组件实例
+    dir         定义对象
+vnode           底层逻辑中的vnode
+prevNode        上一次沉浸的vnode
+</code></pre>
+<h2 id="title">title</h2>
+<h2 id="title">title</h2>
+<h2 id="title">title</h2>
+<h2 id="title">title</h2>
+
+        
+        
+    </body>
+    </html>

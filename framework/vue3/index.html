@@ -224,109 +224,7 @@ app.<span class="hljs-title function_">mount</span>(<span class="hljs-string">&#
 </code></pre>
 <p>当在客户端上编译模板时（即：把字符串给 template 选项，或者在元素 dom 内使用 html 为模板），需要完整的构建版本。<br>
 打包时使用<code>vue-loader</code>处理<code>*.vue</code>文件为 js。所以在客户端只需要构建版本。</p>
-<h2 id="指令">指令</h2>
-<ul>
-<li>以<code>v-</code>开头。</li>
-<li><code>v-bind</code>简写为<code>:</code>
-<ul>
-<li>支持一个参数，如：<code>:href=&quot;url&quot;</code></li>
-<li>动态参数 <code>:[attr]=&quot;url&quot;</code></li>
-</ul>
-</li>
-<li><code>v-on</code>简写为<code>@</code>
-<ul>
-<li>修饰符，用于<code>v-on</code>指令上。
-<ul>
-<li><code>.prevent</code> 阻止默认事件</li>
-<li>还有好多修饰符</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>应用于一个根元素上。当多个元素时，会报错。</li>
-</ul>
-<h3 id="自定义指令">自定义指令</h3>
-<p><code>v-dir:[arg]=&quot;value&quot;</code></p>
-<ul>
-<li>操作 dom</li>
-<li>抽象跨组件逻辑</li>
-<li>一般无 dom</li>
-</ul>
-<pre><code class="language-js"><span class="hljs-comment">// 全局</span>
-<span class="hljs-keyword">const</span> app = <span class="hljs-title class_">Vue</span>.<span class="hljs-title function_">createApp</span>({})
-app.<span class="hljs-title function_">direction</span>(<span class="hljs-string">&#x27;focus&#x27;</span>, {
-    <span class="hljs-title function_">mounted</span>(<span class="hljs-params">el</span>) { el.<span class="hljs-title function_">focus</span>() }
-})
-<span class="hljs-comment">// 局部</span>
-<span class="hljs-attr">directives</span>: {
-    <span class="hljs-attr">focus</span>: { <span class="hljs-title function_">mounted</span>(<span class="hljs-params">el</span>) {el.<span class="hljs-title function_">focus</span>()} }
-}
-<span class="hljs-comment">//使用</span>
-&lt;input v-focus /&gt;
-</code></pre>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>钩子</th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>created</td>
-<td>在绑定元素的 attribute 或事件监听器被应用之前调用。</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>beforeMount</td>
-<td>指令第一次绑定到元素并且在挂载父组件之前调用。</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>mounted</td>
-<td>在绑定元素的父组件被挂载后调用。</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>beforeUpdate</td>
-<td>在更新包含组件的 VNode 之前调用。</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>updated</td>
-<td>在包含组件的 VNode 及其子组件的 VNode 更新后调用。</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>beforeUnmount</td>
-<td>在卸载绑定元素的父组件之前调用</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>unmounted</td>
-<td>当指令与元素解除绑定且父组件已卸载时，只调用一次。</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>参数都是<code>el/binding/vnode/prevVnode</code></p>
+<h2 id="指令"><a href="/framework/vue3/directive.html">指令</a></h2>
 <h2 id="data">data</h2>
 <p>在组件中定义了 data 属性（其值是方法）中的数据会被封装在组件实例的<code>$data</code>属性内。（为方便）也在组件实例的顶级属性（与$data兄弟级）中设置了这些属性。因此可以在组件的template中直接使用这些属性。<br>
 <code>vm.key</code>、<code>$data.key</code>与<code>vm.$data.key</code>是同一个值。</p>
@@ -356,6 +254,7 @@ vm.<span class="hljs-property">fullName</span>
 <pre><code class="language-js"><span class="hljs-attr">watch</span>: { <span class="hljs-title function_">question</span>(<span class="hljs-params">nv, ov</span>) { ... } }
 </code></pre>
 <h2 id="computed--watch--methods">computed &amp; watch &amp; methods</h2>
+<!-- prettier-ignore-start -->
 <p>为什么计算执行同步，watch 执行异步？</p>
 <table>
 <thead>
@@ -405,6 +304,7 @@ vm.<span class="hljs-property">fullName</span>
 </tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
 <h2 id="class--style">class &amp; style</h2>
 <p>二者都是样式</p>
 <h3 id="class">class</h3>
@@ -470,7 +370,7 @@ data() {
 <ul>
 <li>定义一个组件</li>
 <li>使用组件</li>
-<li>传递props</li>
+<li>传递 props</li>
 <li></li>
 </ul>
 <pre><code class="language-js"><span class="hljs-comment">// 创建组件 let app = Vue.createApp({}) // 定义为全局组件</span>

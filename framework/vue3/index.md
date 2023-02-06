@@ -173,51 +173,7 @@ Vue.createApp({
 当在客户端上编译模板时（即：把字符串给 template 选项，或者在元素 dom 内使用 html 为模板），需要完整的构建版本。  
 打包时使用`vue-loader`处理`*.vue`文件为 js。所以在客户端只需要构建版本。
 
-## 指令
-
-- 以`v-`开头。
-- `v-bind`简写为`:`
-  - 支持一个参数，如：`:href="url"`
-  - 动态参数 `:[attr]="url"`
-- `v-on`简写为`@`
-  - 修饰符，用于`v-on`指令上。
-    - `.prevent` 阻止默认事件
-    - 还有好多修饰符
-- 应用于一个根元素上。当多个元素时，会报错。
-
-### 自定义指令
-
-`v-dir:[arg]="value"`
-
-- 操作 dom
-- 抽象跨组件逻辑
-- 一般无 dom
-
-```js
-// 全局
-const app = Vue.createApp({})
-app.direction('focus', {
-    mounted(el) { el.focus() }
-})
-// 局部
-directives: {
-    focus: { mounted(el) {el.focus()} }
-}
-//使用
-<input v-focus />
-```
-
-|               | 钩子                                                |     |     |     |
-| ------------- | --------------------------------------------------- | --- | --- | --- |
-| created       | 在绑定元素的 attribute 或事件监听器被应用之前调用。 |     |     |     |
-| beforeMount   | 指令第一次绑定到元素并且在挂载父组件之前调用。      |     |     |     |
-| mounted       | 在绑定元素的父组件被挂载后调用。                    |     |     |     |
-| beforeUpdate  | 在更新包含组件的 VNode 之前调用。                   |     |     |     |
-| updated       | 在包含组件的 VNode 及其子组件的 VNode 更新后调用。  |     |     |     |
-| beforeUnmount | 在卸载绑定元素的父组件之前调用                      |     |     |     |
-| unmounted     | 当指令与元素解除绑定且父组件已卸载时，只调用一次。  |     |     |     |
-
-参数都是`el/binding/vnode/prevVnode`
+## [指令](/framework/vue3/directive.html)
 
 ## data
 
@@ -263,6 +219,7 @@ watch: { question(nv, ov) { ... } }
 
 ## computed & watch & methods
 
+<!-- prettier-ignore-start -->
 为什么计算执行同步，watch 执行异步？
 ||computed|watch|methods|
 |-|-|-|-|
@@ -272,6 +229,7 @@ watch: { question(nv, ov) { ... } }
 |结合使用|computed + methods|watch + methods|methods + methods|
 ||-|侦听器|方法（可复用）|
 |相同|都是对象|都是对象|都是对象|
+<!-- prettier-ignore-end -->
 
 ## class & style
 

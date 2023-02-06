@@ -525,6 +525,7 @@ setup(props, context) {
 - 代替了生命周期 beforeCreate / created
 - 用于关注点分离。返回数据和基本的方法。
 - 在组合式 api 中使用。vue2 使用的是选项式 api.
+- vue 本来是用 setup()去实现模块化的，后来又加入语法糖。结果搞成什么都乱七八糟。
 
 ### 在 script 标签中使用 setup
 
