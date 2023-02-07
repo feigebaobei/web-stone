@@ -14,7 +14,7 @@
 
 ## 自定义指令
 
-`v-dir:[arg]="value"`
+`v-dir:[arg][.modify]="value"`
 
 - 操作 dom
 - 抽象跨组件逻辑
@@ -38,15 +38,16 @@ directives: {
 <input v-focus />
 ```
 
-|                                              | 钩子                                                |     |     |     |
+下表指挂载到父组件上，不是挂载到 dom 上。  
+| | 钩子 | | | |
 | -------------------------------------------- | --------------------------------------------------- | --- | --- | --- |
-| created(el, binding, vnode, prevVnode)       | 在绑定元素的 attribute 或事件监听器被应用之前调用。 |     |     |     |
-| beforeMount(el, binding, vnode, prevVnode)   | 指令第一次绑定到元素并且在挂载父组件之前调用。      |     |     |     |
-| mounted(el, binding, vnode, prevVnode)       | 在绑定元素的父组件被挂载后调用。                    |     |     |     |
-| beforeUpdate(el, binding, vnode, prevVnode)  | 在更新包含组件的 VNode 之前调用。                   |     |     |     |
-| updated(el, binding, vnode, prevVnode)       | 在包含组件的 VNode 及其子组件的 VNode 更新后调用。  |     |     |     |
-| beforeUnmount(el, binding, vnode, prevVnode) | 在卸载绑定元素的父组件之前调用                      |     |     |     |
-| unmounted(el, binding, vnode, prevVnode)     | 当指令与元素解除绑定且父组件已卸载时，只调用一次。  |     |     |     |
+| created(el, binding, vnode, prevVnode) | 在绑定元素的 attribute 或事件监听器被应用之前调用。 | | | |
+| beforeMount(el, binding, vnode, prevVnode) | 指令第一次绑定到元素并且在挂载父组件之前调用。 | | | |
+| mounted(el, binding, vnode, prevVnode) | 在绑定元素的父组件被挂载后调用。 | | | |
+| beforeUpdate(el, binding, vnode, prevVnode) | 在更新包含组件的 VNode 之前调用。 | | | |
+| updated(el, binding, vnode, prevVnode) | 在包含组件的 VNode 及其子组件的 VNode 更新后调用。 | | | |
+| beforeUnmount(el, binding, vnode, prevVnode) | 在卸载绑定元素的父组件之前调用 | | | |
+| unmounted(el, binding, vnode, prevVnode) | 当指令与元素解除绑定且父组件已卸载时，只调用一次。 | | | |
 
 参数都是`el/binding/vnode/prevVnode`
 
@@ -63,10 +64,29 @@ vnode           底层逻辑中的vnode
 prevNode        上一次沉浸的vnode
 ```
 
-## title
+```js
+// teleport.js
+let clog = console.log
+export default {
+  mounted: (el, binding, vnode, preVnode) => {
+    // binding.arg
+    // binding.modifiers
+    let value = binding.value || 'body'
+    let target = document.querySelector(value)
+    target.appendChild(el)
+  },
+}
+// v-teleport:arg.modify="value"
+// v-teleport:to="body"
+```
 
-## title
+```js
+// main.js
+import teleport from './directive/teleport'
+createApp(App).directive('teleport', teleport)
+// ...
+```
 
-## title
-
-## title
+```html
+<Comp v-teleport></<Comp>
+```

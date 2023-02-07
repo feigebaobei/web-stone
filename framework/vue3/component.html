@@ -704,7 +704,7 @@ count.<span class="hljs-property">value</span>++
 <ul>
 <li><strong>只是过滤，不是动画。</strong></li>
 <li>可以为过滤期设置动画。</li>
-<li>设置一个元素进入、离开dom时的动画。</li>
+<li>设置一个元素进入、离开 dom 时的动画。</li>
 </ul>
 <p>触发条件：</p>
 <ul>
@@ -764,18 +764,14 @@ count.<span class="hljs-property">value</span>++
 <pre><code class="language-html"><span class="hljs-comment">&lt;!-- 为过渡效果命名。 --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">Transition</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;xxx&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">Transition</span>&gt;</span>
 <span class="hljs-comment">&lt;!-- 命名过渡类名 --&gt;</span>
-.xxx-enter-from
-.xxx-enter-active
-.xxx-enter-to
-.xxx-leave-from
-.xxx-leave-active
-.xxx-leave-to
+.xxx-enter-from .xxx-enter-active .xxx-enter-to .xxx-leave-from
+.xxx-leave-active .xxx-leave-to
 <span class="hljs-comment">&lt;!-- 命名的过渡类 --&gt;</span>
 </code></pre>
 <h3 id="transitiongroup">TransitionGroup</h3>
 <ul>
-<li>设置一个列表进入、离开dom时的动画。</li>
-<li>必须有tag</li>
+<li>设置一个列表进入、离开 dom 时的动画。</li>
+<li>必须有 tag</li>
 <li>成组过渡</li>
 </ul>
 <table>
@@ -792,28 +788,28 @@ count.<span class="hljs-property">value</span>++
 <tr>
 <td></td>
 <td></td>
-<td>使用tag props指定容器标签</td>
+<td>使用 tag props 指定容器标签</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td></td>
-<td>不能过渡模式mode</td>
+<td>不能过渡模式 mode</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td></td>
-<td>列表中每个元素都有独一无二的key</td>
+<td>列表中每个元素都有独一无二的 key</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td></td>
-<td>过渡class会应用于列表中各元素上。</td>
+<td>过渡 class 会应用于列表中各元素上。</td>
 <td></td>
 <td></td>
 </tr>
@@ -838,8 +834,35 @@ count.<span class="hljs-property">value</span>++
 &lt;/TransitionGroup&gt;
 </code></pre>
 <h3 id="keepalive">KeepAlive</h3>
-<p>用于缓存组件</p>
+<ul>
+<li>用于缓存组件。</li>
+<li>include &amp; exclude</li>
+<li>max</li>
+<li>onActivated() &amp; onDeactivated()</li>
+</ul>
+<pre><code class="language-html"><span class="hljs-comment">&lt;!-- 以英文逗号分隔的字符串 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">KeepAlive</span> <span class="hljs-attr">include</span>=<span class="hljs-string">&quot;a,b&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">component</span> <span class="hljs-attr">:is</span>=<span class="hljs-string">&quot;view&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">KeepAlive</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- 正则表达式 (需使用 `v-bind`) --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">KeepAlive</span> <span class="hljs-attr">:include</span>=<span class="hljs-string">&quot;/a|b/&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">component</span> <span class="hljs-attr">:is</span>=<span class="hljs-string">&quot;view&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">KeepAlive</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- 数组 (需使用 `v-bind`) --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">KeepAlive</span> <span class="hljs-attr">:include</span>=<span class="hljs-string">&quot;[&#x27;a&#x27;, &#x27;b&#x27;]&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">component</span> <span class="hljs-attr">:is</span>=<span class="hljs-string">&quot;view&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">KeepAlive</span>&gt;</span>
+</code></pre>
 <h3 id="teleport">Teleport</h3>
+<ul>
+<li>把指定dom元素放在dom树的其它位置。</li>
+<li>to</li>
+<li>disabled</li>
+<li>可共享目标</li>
+<li>当目标元素匹配多个时，只有第一个有效。</li>
+</ul>
 <h3 id="suspense">Suspense</h3>
 <h2 id="title">title</h2>
 <h2 id="title">title</h2>

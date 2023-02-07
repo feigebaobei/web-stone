@@ -447,7 +447,6 @@ import CompName from './CompName.vue' const app = createApp({ render() { return
 
 ## todo
 
-> 自己写一个指令。 V-teleport  
 > v-if/v-for/v-show 等常用指令是如何工作的。  
 > 未来迭代计划。  
-> 不能够在 setUp 函数中使用 data 和 methods.
+> 不能够在 setup 函数中使用 data 和 methods.

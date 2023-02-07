@@ -251,9 +251,10 @@ c.on('ready', () => {
     }
     // let p = 'framework/vue3/demo.md'
     let p = [
-      // 'framework/vue3/plugin.html',
       // 'framework/vue3/index.html',
-      // 'framework/vue3/directive.html',
+      // 'framework/vue3/transition.html',
+      // 'framework/vue3/translate.html',
+      // 'framework/vue3/transition-classes.f0f7b3c9.png',
       // 'framework/vue3/component.html',
     ]
     // 检测指定目录是否存在
