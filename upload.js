@@ -258,6 +258,9 @@ c.on('ready', () => {
       'framework/vue3/component.html',
       'framework/vue3/router.html',
       'framework/vue3/sfc.html',
+      'framework/vue3/stateManager.html',
+      'framework/vue3/test.html',
+      'framework/vue3/tsTogether.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)

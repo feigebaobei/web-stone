@@ -1,27 +1,34 @@
-vue中常用vuex、piona做状态管理工作。  
-# [vuex](/jsPackages/vuex.html)
+# 状态管理
 
-# [piona]
+- vue 中常用 vuex、piona 做状态管理工作。
+- 从项目级的角度看，状态管理就是单例模式。
 
-# 自制
-利用vue3中reactive做状态管理。
+## [vuex](/jsPackages/vuex.html)已经落伍了
+
+# [pinia](/jsPackages/pinia.md)
+
+# 自制状态管理
+
+利用 vue3 中 reactive 做状态管理。
 好像单例模式。
+
 ```js
-import {createApp, reactive} from 'vue'
+import { createApp, reactive } from 'vue'
 const obj = reactive({
-    msg: 'string'
+  msg: 'string',
 })
 const appA = createApp({
-    data() {
-        return obj
-    }
+  data() {
+    return obj
+  },
 }).mount('#a')
 const appB = createApp({
-    data() {
-        return obj
-    }
+  data() {
+    return obj
+  },
 }).mount('#b')
 ```
+
 ```js
 import {reactive} from 'vue'
 export let store = {
