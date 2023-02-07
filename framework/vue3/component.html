@@ -78,7 +78,7 @@
     <body class="vscode-body vscode-light">
         <h1 id="vue-组件">vue 组件</h1>
 <ul>
-<li>整个 vue 应用由 vue 组件组成的 vue 组件库构成。</li>
+<li>整个 vue 应用由 vue 组件组成的 vue 组件树构成。</li>
 <li>组件名
 <ul>
 <li>PascalCase</li>
@@ -771,11 +771,74 @@ count.<span class="hljs-property">value</span>++
 .xxx-leave-active
 .xxx-leave-to
 <span class="hljs-comment">&lt;!-- 命名的过渡类 --&gt;</span>
-
 </code></pre>
 <h3 id="transitiongroup">TransitionGroup</h3>
-<p>设置一个列表进入、离开dom时的动画。</p>
+<ul>
+<li>设置一个列表进入、离开dom时的动画。</li>
+<li>必须有tag</li>
+<li>成组过渡</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Transition</th>
+<th>TransitionGroup</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td>使用tag props指定容器标签</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>不能过渡模式mode</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>列表中每个元素都有独一无二的key</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>过渡class会应用于列表中各元素上。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code>&lt;TransitionGroup name=&quot;list&quot; tag=&quot;ul&quot;&gt;
+    &lt;li v-for=&quot;item in obj&quot; :key=&quot;item.id&quot;&gt;...&lt;/li&gt;
+&lt;/TransitionGroup&gt;
+</code></pre>
 <h3 id="keepalive">KeepAlive</h3>
+<p>用于缓存组件</p>
 <h3 id="teleport">Teleport</h3>
 <h3 id="suspense">Suspense</h3>
 <h2 id="title">title</h2>

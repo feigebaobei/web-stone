@@ -162,34 +162,6 @@ $ </span><span class="language-bash">pnpm create vite &lt;project-name&gt; -- --
 <li>使用全局构建版本。所有 api 都绑定在<code>window.Vue</code>对象上。</li>
 <li>使用 esm 构建版本。</li>
 </ul>
-<h3 id="title">title</h3>
-<h3 id="title">title</h3>
-<h3 id="title">title</h3>
-<p>从创建应用开始</p>
-<pre><code class="language-js">&lt;div id=<span class="hljs-string">&quot;&quot;</span>&gt;
-    <span class="hljs-title class_">Counter</span>: {{counter}}
-    &lt;span v-<span class="hljs-attr">bind</span>:title=<span class="hljs-string">&quot;message&quot;</span>&gt;&lt;<span class="hljs-regexp">/span&gt; /</span><span class="hljs-regexp">/ 绑定属性
-    &lt;button v-on:click=&quot;clickHandler&quot;&gt;button&lt;/</span>button&gt;
-    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">v-model</span>=<span class="hljs-string">&quot;message&quot;</span> /&gt;</span></span>
-    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">&quot;seen&quot;</span>&gt;</span>str<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span></span>
-    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">v-html</span>=<span class="hljs-string">&quot;forHtml&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span></span> <span class="hljs-comment">// 不要把用户输入的数据直接显示，防止xss攻击。</span>
-&lt;/div&gt;
-<span class="hljs-keyword">const</span> <span class="hljs-title class_">Counter</span> = {
-  <span class="hljs-title function_">data</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-keyword">return</span> {
-      <span class="hljs-attr">counter</span>: <span class="hljs-number">0</span>,
-      <span class="hljs-attr">message</span>: <span class="hljs-string">&#x27;str&#x27;</span>,
-      <span class="hljs-attr">seen</span>: <span class="hljs-literal">true</span>,
-      <span class="hljs-attr">forHtml</span>: <span class="hljs-string">&#x27;&lt;span&gt;hi&lt;/span&gt;&#x27;</span>
-    }
-  },
-  <span class="hljs-attr">methods</span>: {
-    <span class="hljs-title function_">clickHandler</span>(<span class="hljs-params"></span>) {...}
-  }
-}
-<span class="hljs-title class_">Vue</span>.<span class="hljs-title function_">createApp</span>(<span class="hljs-title class_">Counter</span>).<span class="hljs-title function_">mount</span>(<span class="hljs-string">&#x27;#id&#x27;</span>)
-</code></pre>
-<h3 id="创建项目"><a href="/framework/vue3/demo.html">创建项目</a></h3>
 <h3 id="基本用法"><a href="/framework/vue3/basic.html">基本用法</a></h3>
 <h2 id="性能--优化"><a href="/framework/vue3/performation.html">性能 &amp; 优化</a></h2>
 <h2 id="vue3--ts"><a href="/framework/vue3/vue3&amp;ts.html">vue3 + ts</a></h2>
@@ -198,18 +170,6 @@ $ </span><span class="language-bash">pnpm create vite &lt;project-name&gt; -- --
 <h2 id="vue2--vue3"><a href="/framework/vue3/vue2&amp;vue3.html">vue2 &amp; vue3</a></h2>
 <h2 id="title">title</h2>
 <h2 id="title">title</h2>
-<h3 id="组件树">组件树</h3>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> <span class="hljs-title class_">TodoItem</span> = {
-  <span class="hljs-attr">template</span>: <span class="hljs-string">`&lt;li&gt;string&lt;/li&gt;`</span>,
-}
-<span class="hljs-keyword">const</span> app = <span class="hljs-title class_">Vue</span>.<span class="hljs-title function_">createApp</span>({
-  <span class="hljs-attr">components</span>: {
-    <span class="hljs-comment">// 注册全局组件</span>
-    <span class="hljs-title class_">TodoItem</span>,
-  },
-})
-app.<span class="hljs-title function_">mount</span>(<span class="hljs-string">&#x27;#id&#x27;</span>)
-</code></pre>
 <h3 id="运行时--编译器-vs-仅运行时">运行时 + 编译器 vs. 仅运行时</h3>
 <pre><code class="language-js"><span class="hljs-comment">// 需要编译器</span>
 <span class="hljs-title class_">Vue</span>.<span class="hljs-title function_">createApp</span>({
@@ -225,15 +185,19 @@ app.<span class="hljs-title function_">mount</span>(<span class="hljs-string">&#
 <p>当在客户端上编译模板时（即：把字符串给 template 选项，或者在元素 dom 内使用 html 为模板），需要完整的构建版本。<br>
 打包时使用<code>vue-loader</code>处理<code>*.vue</code>文件为 js。所以在客户端只需要构建版本。</p>
 <h2 id="指令"><a href="/framework/vue3/directive.html">指令</a></h2>
-<h2 id="data">data</h2>
+<h2 id="组件"><a href="/framework/vue3/component.html">组件</a></h2>
+<p>html 中不区分大小写。vue 内部转化组件名。</p>
+<h3 id="单文件组件"><a href="/framework/vue3/sfc.html">单文件组件</a></h3>
+<p>使用<a href="/jsPackages/compilerSfc.html"><code>@vue/compiler-sfc</code></a>编译</p>
+<h3 id="data">data</h3>
 <p>在组件中定义了 data 属性（其值是方法）中的数据会被封装在组件实例的<code>$data</code>属性内。（为方便）也在组件实例的顶级属性（与$data兄弟级）中设置了这些属性。因此可以在组件的template中直接使用这些属性。<br>
 <code>vm.key</code>、<code>$data.key</code>与<code>vm.$data.key</code>是同一个值。</p>
-<h2 id="methods">methods</h2>
+<h3 id="methods">methods</h3>
 <p>vue 为每个方法方法绑定 this 为当前组件。<br>
 不要使用箭头函数。否则会引发 this 不正确的问题。</p>
-<h3 id="参数">参数</h3>
+<h4 id="参数">参数</h4>
 <p>绑定内联写法中使用<code>$event</code>表示原生事件。</p>
-<h2 id="计算">计算</h2>
+<h3 id="计算">计算</h3>
 <p>计算属性的 getter 函数没有副作用，它更易于测试和理解。<br>
 包含响应式数据的复杂逻辑</p>
 <pre><code class="language-js"><span class="hljs-attr">computed</span>: {
@@ -247,13 +211,13 @@ vm.<span class="hljs-property">fullName</span> = <span class="hljs-string">&#x27
 <span class="hljs-comment">// 获取</span>
 vm.<span class="hljs-property">fullName</span>
 </code></pre>
-<h2 id="watch">watch</h2>
+<h3 id="watch">watch</h3>
 <p>当指定数据改变时执行。<br>
 可执行异步操作。<br>
 <code>vm.$watch</code></p>
 <pre><code class="language-js"><span class="hljs-attr">watch</span>: { <span class="hljs-title function_">question</span>(<span class="hljs-params">nv, ov</span>) { ... } }
 </code></pre>
-<h2 id="computed--watch--methods">computed &amp; watch &amp; methods</h2>
+<h3 id="computed--watch--methods">computed &amp; watch &amp; methods</h3>
 <!-- prettier-ignore-start -->
 <p>为什么计算执行同步，watch 执行异步？</p>
 <table>
@@ -305,70 +269,6 @@ vm.<span class="hljs-property">fullName</span>
 </tbody>
 </table>
 <!-- prettier-ignore-end -->
-<h2 id="class--style">class &amp; style</h2>
-<p>二者都是样式</p>
-<h3 id="class">class</h3>
-<pre><code>// 对象语法
-&lt;div :class=&quot;{class-name: params}&quot;&gt;
-&lt;div :class=&quot;{class-name: params, key: p2}&quot;&gt; // 对象中多个属性就是多个class
-// 计算属性
-&lt;div :class=&quot;compClass&quot;&gt;
-...
-computed: {
-    compClass() {
-        return {color: 'red'}
-    }
-}
-// 数组语法 可以设置多个类
-&lt;div :class=&quot;[aC, bC]&quot;&gt;
-...
-data() {
-    return {
-        aC: 'aa',
-        bC: 'bb',
-    }
-}
-// 组件上使用
-&lt;comp class=&quot;a b&quot; /&gt; // 与内部class合并。
-</code></pre>
-<h3 id="style">style</h3>
-<pre><code class="language-js"><span class="hljs-comment">// 对象语法</span>
-&lt;div :style=<span class="hljs-string">&quot;{color: dColor}&quot;</span>&gt;
-...
-<span class="hljs-title function_">data</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-keyword">return</span> {
-        <span class="hljs-attr">dColor</span>: <span class="hljs-string">&#x27;red&#x27;</span>
-    }
-}
-&lt;div :style=<span class="hljs-string">&quot;sObj&quot;</span> /&gt;
-...
-<span class="hljs-title function_">data</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-keyword">return</span> {
-        <span class="hljs-attr">sObj</span>: {
-            <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;red&#x27;</span>
-        }
-    }
-}
-<span class="hljs-comment">// 数组语法 把多个样式对象合并为一个</span>
-&lt;div :style=<span class="hljs-string">&quot;[aS, bS]&quot;</span> /&gt;
-<span class="hljs-comment">// 多重值 从数组中使用最后一个被浏览器支持的值。</span>
-<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">:style</span>=<span class="hljs-string">&quot;{display: [&#x27;-webkit-box&#x27;, &#x27;-ms-flexbox&#x27;, &#x27;flex&#x27;]}&quot;</span>&gt;</span>
-</span></code></pre>
-<p>vue 会使用<code>vendor prefix</code>添加样式前缀。</p>
-<h3 id="事件">事件</h3>
-<pre><code class="language-js"><span class="hljs-comment">// 绑定方法名</span>
-&lt;button @click=<span class="hljs-string">&quot;clickHander&quot;</span>&gt;str&lt;/button&gt;
-... <span class="hljs-attr">methods</span>: { <span class="hljs-title function_">clickHander</span>(<span class="hljs-params">event</span>) {...} } <span class="hljs-comment">// 绑定内联方法</span>
-&lt;button @click=<span class="hljs-string">&quot;clickHander(&#x27;params&#x27;)&quot;</span>&gt;str&lt;/button&gt;
-<span class="hljs-comment">// 得到原生事件</span>
-<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">&quot;clickHander(&#x27;params&#x27;, $event)&quot;</span>&gt;</span>str<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span>
-<span class="hljs-comment">// vue也有硬编码 clickHander(msg, event) {...} // 绑定多个事件</span>
-<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">&quot;one(&#x27;params&#x27;), two&quot;</span>&gt;</span>str<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span>
-</code></pre>
-<h2 id="组件"><a href="/framework/vue3/component.html">组件</a></h2>
-<p>html 中不区分大小写。vue 内部转化组件名。</p>
-<h3 id="单文件组件"><a href="/framework/vue3/sfc.html">单文件组件</a></h3>
-<p>使用<a href="/jsPackages/compilerSfc.html"><code>@vue/compiler-sfc</code></a>编译</p>
 <h2 id="处理边界情况">处理边界情况</h2>
 <p>强制更新 $forceUpdate
 低级静态组件 v-once 只求值一次。</p>

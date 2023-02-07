@@ -1,10 +1,13 @@
-# 过滤 & 动画
+# 过渡 & 动画
 
 > vue 内置了`<transition>`组件。可用于处理单组件的动画。  
 > `transition-group`用于多组件的动画。  
 > 设置动画使用更新 class / style 方式
+> appear  
+> mode  
+> 时长
 
-## 基于 class 设置动画（过滤）
+## 基于 class 设置动画（过渡）
 
 ```js
 <div :class="{shake: dp}">
@@ -38,7 +41,7 @@
 }
 ```
 
-## 基于 style 设置过滤
+## 基于 style 设置过渡
 
 ```js
 <div :style="{backgroudColor: `hsl(${x}, 80%, 50%)`}" @mousemove="mmh" class="movearea"></div>
@@ -54,7 +57,7 @@ methods: {
 
 ## 单元素的过渡
 
-为其添加进入、离开的过滤效果。
+为其添加进入、离开的过渡效果。
 
 ```js
 <transition name="fade"><div v-if="p">...</div></transition>
@@ -68,7 +71,7 @@ methods: {
 }
 ```
 
-### 过滤 class
+### 过渡 class
 
 |                |                    |     |     |     |
 | -------------- | ------------------ | --- | --- | --- |
@@ -115,7 +118,7 @@ methods: {
 <transition :duration="250">...</transition>
 ```
 
-### 过滤的 js 钩子
+### 过渡的 js 钩子
 
 |                  |                        |     |     |
 | ---------------- | ---------------------- | --- | --- |
@@ -130,7 +133,7 @@ methods: {
 
 相较于类名多了 2 个取消
 
-### 初始渲染过滤
+### 初始渲染过渡
 
 ```js
 <transition appear>...</transition>
@@ -171,7 +174,7 @@ methods: {
 - 使用 tag 设置元素标签。
 - 内部元素需要使用 key 标明唯一性。
 - css 过渡类会应用于其内部的元素。
-- 过滤模式不可用。
+- 过渡模式不可用。
 
 ```js
 <transition-groupt name="list" tag="p">

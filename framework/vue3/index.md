@@ -89,41 +89,6 @@ $ pnpm dev
 - 使用全局构建版本。所有 api 都绑定在`window.Vue`对象上。
 - 使用 esm 构建版本。
 
-### title
-
-### title
-
-### title
-
-从创建应用开始
-
-```js
-<div id="">
-    Counter: {{counter}}
-    <span v-bind:title="message"></span> // 绑定属性
-    <button v-on:click="clickHandler">button</button>
-    <input v-model="message" />
-    <span v-if="seen">str</span>
-    <span v-html="forHtml"></span> // 不要把用户输入的数据直接显示，防止xss攻击。
-</div>
-const Counter = {
-  data() {
-    return {
-      counter: 0,
-      message: 'str',
-      seen: true,
-      forHtml: '<span>hi</span>'
-    }
-  },
-  methods: {
-    clickHandler() {...}
-  }
-}
-Vue.createApp(Counter).mount('#id')
-```
-
-### [创建项目](/framework/vue3/demo.html)
-
 ### [基本用法](/framework/vue3/basic.html)
 
 ## [性能 & 优化](/framework/vue3/performation.html)
@@ -139,21 +104,6 @@ Vue.createApp(Counter).mount('#id')
 ## title
 
 ## title
-
-### 组件树
-
-```js
-const TodoItem = {
-  template: `<li>string</li>`,
-}
-const app = Vue.createApp({
-  components: {
-    // 注册全局组件
-    TodoItem,
-  },
-})
-app.mount('#id')
-```
 
 ### 运行时 + 编译器 vs. 仅运行时
 
@@ -175,21 +125,29 @@ Vue.createApp({
 
 ## [指令](/framework/vue3/directive.html)
 
-## data
+## [组件](/framework/vue3/component.html)
+
+html 中不区分大小写。vue 内部转化组件名。
+
+### [单文件组件](/framework/vue3/sfc.html)
+
+使用[`@vue/compiler-sfc`](/jsPackages/compilerSfc.html)编译
+
+### data
 
 在组件中定义了 data 属性（其值是方法）中的数据会被封装在组件实例的`$data`属性内。（为方便）也在组件实例的顶级属性（与$data兄弟级）中设置了这些属性。因此可以在组件的template中直接使用这些属性。  
 `vm.key`、`$data.key`与`vm.$data.key`是同一个值。
 
-## methods
+### methods
 
 vue 为每个方法方法绑定 this 为当前组件。  
 不要使用箭头函数。否则会引发 this 不正确的问题。
 
-### 参数
+#### 参数
 
 绑定内联写法中使用`$event`表示原生事件。
 
-## 计算
+### 计算
 
 计算属性的 getter 函数没有副作用，它更易于测试和理解。  
 包含响应式数据的复杂逻辑
@@ -207,7 +165,7 @@ vm.fullName = 'xxx'
 vm.fullName
 ```
 
-## watch
+### watch
 
 当指定数据改变时执行。  
 可执行异步操作。  
@@ -217,7 +175,7 @@ vm.fullName
 watch: { question(nv, ov) { ... } }
 ```
 
-## computed & watch & methods
+### computed & watch & methods
 
 <!-- prettier-ignore-start -->
 为什么计算执行同步，watch 执行异步？
@@ -231,184 +189,12 @@ watch: { question(nv, ov) { ... } }
 |相同|都是对象|都是对象|都是对象|
 <!-- prettier-ignore-end -->
 
-## class & style
-
-二者都是样式
-
-### class
-
-```
-// 对象语法
-<div :class="{class-name: params}">
-<div :class="{class-name: params, key: p2}"> // 对象中多个属性就是多个class
-// 计算属性
-<div :class="compClass">
-...
-computed: {
-    compClass() {
-        return {color: 'red'}
-    }
-}
-// 数组语法 可以设置多个类
-<div :class="[aC, bC]">
-...
-data() {
-    return {
-        aC: 'aa',
-        bC: 'bb',
-    }
-}
-// 组件上使用
-<comp class="a b" /> // 与内部class合并。
-```
-
-### style
-
-```js
-// 对象语法
-<div :style="{color: dColor}">
-...
-data() {
-    return {
-        dColor: 'red'
-    }
-}
-<div :style="sObj" />
-...
-data() {
-    return {
-        sObj: {
-            color: 'red'
-        }
-    }
-}
-// 数组语法 把多个样式对象合并为一个
-<div :style="[aS, bS]" />
-// 多重值 从数组中使用最后一个被浏览器支持的值。
-<div :style="{display: ['-webkit-box', '-ms-flexbox', 'flex']}">
-```
-
-vue 会使用`vendor prefix`添加样式前缀。
-
-### 事件
-
-```js
-// 绑定方法名
-<button @click="clickHander">str</button>
-... methods: { clickHander(event) {...} } // 绑定内联方法
-<button @click="clickHander('params')">str</button>
-// 得到原生事件
-<button @click="clickHander('params', $event)">str</button>
-// vue也有硬编码 clickHander(msg, event) {...} // 绑定多个事件
-<button @click="one('params'), two">str</button>
-```
-
-## [组件](/framework/vue3/component.html)
-
-精减此块内容
-
-- 定义一个组件
-- 使用组件
-- 传递 props
--
-
-```js
-// 创建组件 let app = Vue.createApp({}) // 定义为全局组件
-app.component('comp-name', {
-  data() {
-    return { count: 0 }
-  },
-  template: `
-<button @click="count++">{{count}}</button>
-`,
-})
-```
-
-### props
-
-子组件使用 props 属性接收从父组件来的数据。
-
-```js
-app.component('comp-name', {
-  props: ['title'],
-  template: `
-<span>{{title}}</span>
-`,
-})
-```
-
-### $emit
-
-用于触发父组件来的事件。
-
-```js
-<comp-name @event-name="fn(p)"></comp-name>
-<button @click="$emit('event-name')">sss</button>
-$emit('event-name', params)
-```
-
-### v-model
-
-用于 input(text)时，等价于 value + input
-
-```js
-<input type="text" :value="dValue" @input="dValue = $event.target.value" />
-```
-
-用于组件时，
-
-```js
-<comp-name
-  :model-value="dValue"
-  @update:model-value="dValue = $event"
-></comp-name>
-app.component('comp-name', { props: ['modelValue'], emits:
-['update:modelValue'], template: `xxx` })
-```
-
-#### 为什么命名方式不同
-
-html 中不区分大小写。vue 在内部做了命名转化。
-
-### 插槽
-
-### 动态组件
-
-```js
-<component :is="currentTabComponent" />
-```
-
-必须使用`<component>`标签  
-currentTabComponent 是
-
-- 已经注册的组件名
-- 一个组件选项对象
-
-### 异步组件
-
-```js
-Vue.defineAsyncComponent(
-  () =>
-    new Promise((s, j) => {
-      s({
-        template: `
-<div>str</div>
-`,
-      })
-    })
-)
-```
-
-### [单文件组件](/framework/vue3/sfc.html)
-
-使用[`@vue/compiler-sfc`](/jsPackages/compilerSfc.html)编译
-
 ## 处理边界情况
 
 强制更新 $forceUpdate
 低级静态组件 v-once 只求值一次。
 
-## [过滤 & 动画](/framework/vue3/translate.md)
+## [过滤 & 动画](/framework/vue3/translate.html)
 
 ## [api](/framework/vue3/api.html)
 

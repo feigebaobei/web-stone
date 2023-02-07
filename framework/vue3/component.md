@@ -1,6 +1,6 @@
 # vue 组件
 
-- 整个 vue 应用由 vue 组件组成的 vue 组件库构成。
+- 整个 vue 应用由 vue 组件组成的 vue 组件树构成。
 - 组件名
   - PascalCase
   - 支持自闭合
@@ -21,6 +21,7 @@ is 的属性值：
 
 - 注册组件时的 name
 - 引入的组件对象
+- 必须使用`<component>`标签
 
 ```js
 <keep-alive> // 会使用组件保存在内存中
@@ -108,32 +109,6 @@ export default {
 
 [为什么全局注册的事件可以在所有组件中使用]()。  
 全局注册会使打包体积增大。
-
-## title
-
-## title
-
-## title
-
-## title
-
-## title
-
-## title
-
-## title
-
-## title
-
-## title
-
-## title
-
-## title
-
-## title
-
-## title
 
 ## 接收方式
 
@@ -601,7 +576,70 @@ count.value++
 </style>
 ```
 
-## title
+## 内置组件
+
+### [Transition & TransitionGroup](/framework/vue3/translate.html)
+
+### Transition
+
+- **只是过滤，不是动画。**
+- 可以为过滤期设置动画。
+- 设置一个元素进入、离开 dom 时的动画。
+
+触发条件：
+
+- v-if
+- v-show
+- `<component>`切换时的动态组件
+
+![](/framework/vue3/transition-classes.f0f7b3c9.png)
+
+|                |     |     |     |
+| -------------- | --- | --- | --- |
+| v-enter-from   |     |     |     |
+| v-enter-active |     |     |     |
+| v-enter-to     |     |     |     |
+| v-leave-from   |     |     |     |
+| v-leave-active |     |     |     |
+| v-leave-to     |     |     |     |
+
+```html
+<!-- 为过渡效果命名。 -->
+<Transition name="xxx"></Transition>
+<!-- 命名过渡类名 -->
+.xxx-enter-from .xxx-enter-active .xxx-enter-to .xxx-leave-from
+.xxx-leave-active .xxx-leave-to
+<!-- 命名的过渡类 -->
+```
+
+### TransitionGroup
+
+- 设置一个列表进入、离开 dom 时的动画。
+- 必须有 tag
+- 成组过渡
+
+|     | Transition | TransitionGroup                     |     |     |
+| --- | ---------- | ----------------------------------- | --- | --- |
+|     |            | 使用 tag props 指定容器标签         |     |     |
+|     |            | 不能过渡模式 mode                   |     |     |
+|     |            | 列表中每个元素都有独一无二的 key    |     |     |
+|     |            | 过渡 class 会应用于列表中各元素上。 |     |     |
+|     |            |                                     |     |     |
+|     |            |                                     |     |     |
+
+```
+<TransitionGroup name="list" tag="ul">
+    <li v-for="item in obj" :key="item.id">...</li>
+</TransitionGroup>
+```
+
+### KeepAlive
+
+用于缓存组件
+
+### Teleport
+
+### Suspense
 
 ## title
 
