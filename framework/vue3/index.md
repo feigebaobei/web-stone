@@ -382,6 +382,8 @@ import CompName from './CompName.vue' const app = createApp({ render() { return
 
 ## [nextTick]()
 
+## [路由](/framework/vue3/router.html)
+
 ## [测试](/framework/vue3/test.html)
 
 ## [与 ts 结合使用](/framework/vue3/tsTogether.html)
@@ -429,6 +431,7 @@ import CompName from './CompName.vue' const app = createApp({ render() { return
 - [vue2]()
 - [vue3](/framework/vue3/vue3.html)
 - [vue-cli]()
+- [create-vue 脚手架]()
 - [@vue/compiler-sfc]()
 - [vite](/builder/vite/index.html)
 - [vue-router@4](/jsPackages/vueRouter4.html)

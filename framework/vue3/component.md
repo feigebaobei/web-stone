@@ -12,7 +12,31 @@
 ## 组件模板
 
 ```html
-
+<template>
+  <p>{{refObj}}</p>
+  <p>{{title}}</p>
+  <button @click="buttonClickHandle">button</button>
+  <!-- <slot></slot> -->
+</template>
+<script>
+  import { ref, provide, defineComponent } from 'vue'
+  let clog = console.log
+  export default defineComponent({
+    props: ['title'],
+    emits: ['eventName'],
+    setup(props, context) {
+      let refObj = ref(0)
+      let buttonClickHandle = () => {
+        clog('buttonClickHandle')
+        context.emit('eventName', 'str')
+      }
+      return {
+        refObj,
+        buttonClickHandle,
+      }
+    },
+  })
+</script>
 ```
 
 ## 动态组件
@@ -67,6 +91,7 @@ const AsyncComp = defineAsyncComponent({
 ```
 
 [defineAsyncComponent api](/framework/vue3/api.html)
+选项式 api 中设置 suspensible:false，则不受`<Suspense>`控制。
 
 ## 注册
 
@@ -627,9 +652,9 @@ count.value++
 |     |            |                                     |     |     |
 |     |            |                                     |     |     |
 
-```
+```html
 <TransitionGroup name="list" tag="ul">
-    <li v-for="item in obj" :key="item.id">...</li>
+  <li v-for="item in obj" :key="item.id">...</li>
 </TransitionGroup>
 ```
 
@@ -667,6 +692,15 @@ count.value++
 
 ### Suspense
 
+- 用于协调加载异步组件
+- 支持的异步依赖：
+  - setup()中有 await()
+  - 异步组件
+- #default & #fallback
+- pending & resolve & fallback
+- 本身不提供错误处理，可以使用 errorCaptured 事件或`onErrorCaptured()`钩子。
+- 常常与` <Transition>``<Keepalive> `结合使用。
+
 ## title
 
 ## title
@@ -696,16 +730,20 @@ count.value++
 
 ### `<script setup> & <script>`
 
-|       | `<script setup>`                   | `<script>`                           |                             |     |
-| ----- | ---------------------------------- | ------------------------------------ | --------------------------- | --- |
-|       | -                                  | 必须使用`setup(){return{...}}`       |                             |     |
-| props | `let props = defineProps(['xxx'])` | `props: [...]`                       |                             |     |
-| emits | `let emits = defineEmits(['xxx'])` | `emits: [...]`                       |                             |     |
+虽然 vue 官网推荐使用`<script setup>`，但是我仍喜欢`<script>` + `setup()`。因为它模块化更好，语义更好。
+
+<!-- prettier-ignore-start -->
+|       | `<script setup>`                   | `<script>`    |      |     |
+| ----- | ------ | -------- | ------------- | --- |
+|       | -           | 必须使用`setup(){return{...}}`       |      |     |
+| props | `let props = defineProps(['xxx'])` | `props: [...]`|      |     |
+| emits | `let emits = defineEmits(['xxx'])` | `emits: [...]`|      |     |
 | 组件  | 引入后直接在 template 中使用       | 引入后使用`components: {...}`注册    | template 中使用`$emit(...)` |     |
-|       | 直接使用`provide(key, value)`      | 在 setup 中使用`provide(key, value)` |                             |     |
-|       |                                    |                                      |                             |     |
-|       |                                    |                                      |                             |     |
-|       |                                    |                                      |                             |     |
+|       | 直接使用`provide(key, value)`      | 在 setup 中使用`provide(key, value)` |      |     |
+|       |             |               |      |     |
+|       |             |               |      |     |
+|       |             |               |      |     |
+<!-- prettier-ignore-end -->
 
 vue 团队非要搞“语法糖”，结果搞乱了。
 
