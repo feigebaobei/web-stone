@@ -635,9 +635,35 @@ count.value++
 
 ### KeepAlive
 
-用于缓存组件
+- 用于缓存组件。
+- include & exclude
+- max.达到最大值使用 lru 处理（最久未使用的组件被移除）。
+- onActivated() & onDeactivated()
+
+```html
+<!-- 以英文逗号分隔的字符串 -->
+<KeepAlive include="a,b">
+  <component :is="view" />
+</KeepAlive>
+
+<!-- 正则表达式 (需使用 `v-bind`) -->
+<KeepAlive :include="/a|b/">
+  <component :is="view" />
+</KeepAlive>
+
+<!-- 数组 (需使用 `v-bind`) -->
+<KeepAlive :include="['a', 'b']">
+  <component :is="view" />
+</KeepAlive>
+```
 
 ### Teleport
+
+- 把指定 dom 元素放在 dom 树的其它位置。
+- to
+- disabled
+- 可共享目标
+- 当目标元素匹配多个时，只有第一个有效。
 
 ### Suspense
 

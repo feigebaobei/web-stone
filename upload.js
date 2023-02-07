@@ -253,7 +253,7 @@ c.on('ready', () => {
     let p = [
       // 'framework/vue3/index.html',
       // 'framework/vue3/transition.html',
-      // 'framework/vue3/translate.html',
+      // 'framework/vue3/directive.html',
       // 'framework/vue3/transition-classes.f0f7b3c9.png',
       // 'framework/vue3/component.html',
     ]
