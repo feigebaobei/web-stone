@@ -366,74 +366,7 @@ data() {
 <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">&quot;one(&#x27;params&#x27;), two&quot;</span>&gt;</span>str<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span>
 </code></pre>
 <h2 id="组件"><a href="/framework/vue3/component.html">组件</a></h2>
-<p>精减此块内容</p>
-<ul>
-<li>定义一个组件</li>
-<li>使用组件</li>
-<li>传递 props</li>
-<li></li>
-</ul>
-<pre><code class="language-js"><span class="hljs-comment">// 创建组件 let app = Vue.createApp({}) // 定义为全局组件</span>
-app.<span class="hljs-title function_">component</span>(<span class="hljs-string">&#x27;comp-name&#x27;</span>, {
-  <span class="hljs-title function_">data</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-keyword">return</span> { <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> }
-  },
-  <span class="hljs-attr">template</span>: <span class="hljs-string">`
-&lt;button @click=&quot;count++&quot;&gt;{{count}}&lt;/button&gt;
-`</span>,
-})
-</code></pre>
-<h3 id="props">props</h3>
-<p>子组件使用 props 属性接收从父组件来的数据。</p>
-<pre><code class="language-js">app.<span class="hljs-title function_">component</span>(<span class="hljs-string">&#x27;comp-name&#x27;</span>, {
-  <span class="hljs-attr">props</span>: [<span class="hljs-string">&#x27;title&#x27;</span>],
-  <span class="hljs-attr">template</span>: <span class="hljs-string">`
-&lt;span&gt;{{title}}&lt;/span&gt;
-`</span>,
-})
-</code></pre>
-<h3 id="emit">$emit</h3>
-<p>用于触发父组件来的事件。</p>
-<pre><code class="language-js">&lt;comp-name @event-name=<span class="hljs-string">&quot;fn(p)&quot;</span>&gt;&lt;/comp-name&gt;
-<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">&quot;$emit(&#x27;event-name&#x27;)&quot;</span>&gt;</span>sss<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span>
-$emit(<span class="hljs-string">&#x27;event-name&#x27;</span>, params)
-</code></pre>
-<h3 id="v-model">v-model</h3>
-<p>用于 input(text)时，等价于 value + input</p>
-<pre><code class="language-js">&lt;input type=<span class="hljs-string">&quot;text&quot;</span> :value=<span class="hljs-string">&quot;dValue&quot;</span> @input=<span class="hljs-string">&quot;dValue = $event.target.value&quot;</span> /&gt;
-</code></pre>
-<p>用于组件时，</p>
-<pre><code class="language-js">&lt;comp-name
-  :model-value=<span class="hljs-string">&quot;dValue&quot;</span>
-  @<span class="hljs-attr">update</span>:model-value=<span class="hljs-string">&quot;dValue = $event&quot;</span>
-&gt;&lt;/comp-name&gt;
-app.<span class="hljs-title function_">component</span>(<span class="hljs-string">&#x27;comp-name&#x27;</span>, { <span class="hljs-attr">props</span>: [<span class="hljs-string">&#x27;modelValue&#x27;</span>], <span class="hljs-attr">emits</span>:
-[<span class="hljs-string">&#x27;update:modelValue&#x27;</span>], <span class="hljs-attr">template</span>: <span class="hljs-string">`xxx`</span> })
-</code></pre>
-<h4 id="为什么命名方式不同">为什么命名方式不同</h4>
-<p>html 中不区分大小写。vue 在内部做了命名转化。</p>
-<h3 id="插槽">插槽</h3>
-<h3 id="动态组件">动态组件</h3>
-<pre><code class="language-js">&lt;component :is=<span class="hljs-string">&quot;currentTabComponent&quot;</span> /&gt;
-</code></pre>
-<p>必须使用<code>&lt;component&gt;</code>标签<br>
-currentTabComponent 是</p>
-<ul>
-<li>已经注册的组件名</li>
-<li>一个组件选项对象</li>
-</ul>
-<h3 id="异步组件">异步组件</h3>
-<pre><code class="language-js"><span class="hljs-title class_">Vue</span>.<span class="hljs-title function_">defineAsyncComponent</span>(
-  <span class="hljs-function">() =&gt;</span>
-    <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">s, j</span>) =&gt;</span> {
-      <span class="hljs-title function_">s</span>({
-        <span class="hljs-attr">template</span>: <span class="hljs-string">`
-&lt;div&gt;str&lt;/div&gt;
-`</span>,
-      })
-    })
-)
-</code></pre>
+<p>html 中不区分大小写。vue 内部转化组件名。</p>
 <h3 id="单文件组件"><a href="/framework/vue3/sfc.html">单文件组件</a></h3>
 <p>使用<a href="/jsPackages/compilerSfc.html"><code>@vue/compiler-sfc</code></a>编译</p>
 <h2 id="处理边界情况">处理边界情况</h2>
@@ -632,28 +565,7 @@ resolveDomponent, resolveDynamicComponent, resolveDirective, withDirectives} =
         <span class="hljs-tag">&lt;/<span class="hljs-name">CompName</span>&gt;</span></span>
 ) } }) app.<span class="hljs-title function_">mount</span>(<span class="hljs-string">&#x27;#root&#x27;</span>)
 </code></pre>
-<h2 id="插件">插件</h2>
-<p>插件是自包含的代码，通常向 Vue 添加全局级功能。它可以是公开 install() 方法的 object，也可以是 function
-组件库就是使用公开 install()添加组件的。</p>
-<h3 id="编写插件">编写插件</h3>
-<pre><code class="language-js"><span class="hljs-comment">// plugins/first.js</span>
-<span class="hljs-comment">// 公开install方法</span>
-<span class="hljs-comment">// vue会自动调用install()</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
-    <span class="hljs-attr">install</span>: (app, options) {...}
-}
-<span class="hljs-comment">// 当插件是一个方法</span>
-<span class="hljs-comment">// vue会自动调用此方法</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {...}
-</code></pre>
-<h3 id="使用插件">使用插件</h3>
-<pre><code class="language-js"><span class="hljs-keyword">import</span> { createApp } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
-<span class="hljs-keyword">import</span> <span class="hljs-title class_">Root</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./App.vue&#x27;</span>
-<span class="hljs-keyword">import</span> first <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./plugins/first.js&#x27;</span>
-<span class="hljs-keyword">const</span> app = <span class="hljs-title function_">createApp</span>(root)
-app.<span class="hljs-title function_">use</span>(first, opt)
-app.<span class="hljs-title function_">mount</span>(<span class="hljs-string">&#x27;#root&#x27;</span>)
-</code></pre>
+<h2 id="插件"><a href="/framework/vue3/plugin.html">插件</a></h2>
 <h2 id="响应式">响应式</h2>
 <ul>
 <li>proxy 对象无法对基本类型的数据做响应式，所以 vue3 把基本类型的数据转化为<code>{value: xx}</code>。</li>

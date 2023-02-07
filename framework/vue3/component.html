@@ -98,6 +98,7 @@
 <ul>
 <li>注册组件时的 name</li>
 <li>引入的组件对象</li>
+<li>必须使用<code>&lt;component&gt;</code>标签</li>
 </ul>
 <pre><code class="language-js">&lt;keep-alive&gt; <span class="hljs-comment">// 会使用组件保存在内存中</span>
     <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">component</span> <span class="hljs-attr">:is</span>=<span class="hljs-string">&quot;currentTabComponent&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">component</span>&gt;</span></span>
@@ -210,19 +211,6 @@ app.<span class="hljs-title function_">component</span>(
 </code></pre>
 <p><a href="">为什么全局注册的事件可以在所有组件中使用</a>。<br>
 全局注册会使打包体积增大。</p>
-<h2 id="title">title</h2>
-<h2 id="title">title</h2>
-<h2 id="title">title</h2>
-<h2 id="title">title</h2>
-<h2 id="title">title</h2>
-<h2 id="title">title</h2>
-<h2 id="title">title</h2>
-<h2 id="title">title</h2>
-<h2 id="title">title</h2>
-<h2 id="title">title</h2>
-<h2 id="title">title</h2>
-<h2 id="title">title</h2>
-<h2 id="title">title</h2>
 <h2 id="接收方式">接收方式</h2>
 <ul>
 <li>props</li>
@@ -650,7 +638,7 @@ expose 会返回可在外部组件实例访问的数据。</p>
 <li>代替了生命周期 beforeCreate / created</li>
 <li>用于关注点分离。返回数据和基本的方法。</li>
 <li>在组合式 api 中使用。vue2 使用的是选项式 api.</li>
-<li>vue本来是用setup()去实现模块化的，后来又加入语法糖。结果搞成什么都乱七八糟。</li>
+<li>vue 本来是用 setup()去实现模块化的，后来又加入语法糖。结果搞成什么都乱七八糟。</li>
 </ul>
 <h3 id="在-script-标签中使用-setup">在 script 标签中使用 setup</h3>
 <p>这就是组合式 api 的第二种写法。根本不是语法糖，一点方便都没有带给我们。</p>
@@ -710,7 +698,86 @@ count.<span class="hljs-property">value</span>++
     }
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span></span>
 </code></pre>
-<h2 id="title">title</h2>
+<h2 id="内置组件">内置组件</h2>
+<h3 id="transition--transitiongroup"><a href="/framework/vue3/translate.html">Transition &amp; TransitionGroup</a></h3>
+<h3 id="transition">Transition</h3>
+<ul>
+<li><strong>只是过滤，不是动画。</strong></li>
+<li>可以为过滤期设置动画。</li>
+<li>设置一个元素进入、离开dom时的动画。</li>
+</ul>
+<p>触发条件：</p>
+<ul>
+<li>v-if</li>
+<li>v-show</li>
+<li><code>&lt;component&gt;</code>切换时的动态组件</li>
+</ul>
+<p><img src="/framework/vue3/transition-classes.f0f7b3c9.png" alt=""></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v-enter-from</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>v-enter-active</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>v-enter-to</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>v-leave-from</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>v-leave-active</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>v-leave-to</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-html"><span class="hljs-comment">&lt;!-- 为过渡效果命名。 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">Transition</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;xxx&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">Transition</span>&gt;</span>
+<span class="hljs-comment">&lt;!-- 命名过渡类名 --&gt;</span>
+.xxx-enter-from
+.xxx-enter-active
+.xxx-enter-to
+.xxx-leave-from
+.xxx-leave-active
+.xxx-leave-to
+<span class="hljs-comment">&lt;!-- 命名的过渡类 --&gt;</span>
+
+</code></pre>
+<h3 id="transitiongroup">TransitionGroup</h3>
+<p>设置一个列表进入、离开dom时的动画。</p>
+<h3 id="keepalive">KeepAlive</h3>
+<h3 id="teleport">Teleport</h3>
+<h3 id="suspense">Suspense</h3>
 <h2 id="title">title</h2>
 <h2 id="title">title</h2>
 <h2 id="title">title</h2>

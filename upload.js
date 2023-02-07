@@ -249,38 +249,39 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = 'framework/vue3/demo'
-    let p = [
-      // 'framework/vue3/index.html',
-      // 'framework/vue3/directive.html',
-      // 'framework/vue3/component.html',
-    ]
+    let p = 'framework/vue3/demo.md'
+    // let p = [
+    //   // 'framework/vue3/plugin.html',
+    //   // 'framework/vue3/index.html',
+    //   // 'framework/vue3/directive.html',
+    //   // 'framework/vue3/component.html',
+    // ]
     // 检测指定目录是否存在
     // checkDir(p)
     // 检测删除目录
     // removeDir(p).then(() => {c.end()})
     // 测试删除文件
-    // removeFile(p)
-    //   .then(() => {
-    //     // log('then')
-    //     c.end()
-    //   })
-    //   .catch((err) => {
-    //     log('catch', err)
-    //     c.end()
-    //   })
-    // 测试上传单个文件
-    // uploadFile(p)
-    // 上传多个文件
-    uploadFiles(p)
+    removeFile(p)
       .then(() => {
-        log('then', '全部完成')
+        // log('then')
         c.end()
       })
       .catch((err) => {
         log('catch', err)
         c.end()
       })
+    // 测试上传单个文件
+    // uploadFile(p)
+    // 上传多个文件
+    // uploadFiles(p)
+    //   .then(() => {
+    //     log('then', '全部完成')
+    //     c.end()
+    //   })
+    //   .catch((err) => {
+    //     log('catch', err)
+    //     c.end()
+    //   })
     // 创建目录
     // makeDir(p)
     //   .then(() => {
