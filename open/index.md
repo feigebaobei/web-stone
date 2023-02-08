@@ -10,3 +10,12 @@
 二个模块之间是兄弟关系。（如古人云：他山之石，可以攻玉。）  
 [plugincomb](https://www.npmjs.com/package/plugincomb)  
 [tapable 日后改为本地的 readme](https://www.npmjs.com/package/tapable)
+
+### 实现方式
+
+- 增强功能型
+  - vue
+- 流水线型
+  - webpack
+- 钩子型
+  - react

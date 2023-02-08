@@ -95,8 +95,6 @@ $ pnpm dev
 
 ## [vue3 + ts](/framework/vue3/vue3&ts.html)
 
-## [使用方法](/framework/vue3/wayOfUsing.html)
-
 ## [principle](/framework/vue3/principle.html)
 
 ## [vue2 & vue3](/framework/vue3/vue2&vue3.html)

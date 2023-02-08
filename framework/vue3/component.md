@@ -740,7 +740,7 @@ count.value++
 | emits | `let emits = defineEmits(['xxx'])` | `emits: [...]`|      |     |
 | 组件  | 引入后直接在 template 中使用       | 引入后使用`components: {...}`注册    | template 中使用`$emit(...)` |     |
 |       | 直接使用`provide(key, value)`      | 在 setup 中使用`provide(key, value)` |      |     |
-|       |             |               |      |     |
+|       |             | `defineComponent()`可以传递给`setup()`的参数`prop`的推导              |      |     |
 |       |             |               |      |     |
 |       |             |               |      |     |
 <!-- prettier-ignore-end -->

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>pinia</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
+</style>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="pinia">pinia</h1>
+<h2 id="overview">overview</h2>
+<blockquote>
+<p>支持vue2/vue3/ssr的状态管理工具。<br>
+使用选项式api.</p>
+</blockquote>
+<h3 id="feature">feature</h3>
+<ul>
+<li>devtools</li>
+<li>热更新</li>
+<li>可插件</li>
+<li>支持ts</li>
+<li>支持ssr</li>
+</ul>
+<h2 id="install">install</h2>
+<p><code>npm i pinia</code></p>
+<h2 id="usage">usage</h2>
+<pre><code class="language-js"><span class="hljs-keyword">import</span> {createPinia} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;pinia&#x27;</span>;
+...
+<span class="hljs-keyword">let</span> pinia = <span class="hljs-title function_">createPinia</span>()
+app.<span class="hljs-title function_">use</span>(pinia)
+...
+</code></pre>
+<pre><code class="language-js"><span class="hljs-keyword">import</span> {defineStore} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;pinia&#x27;</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> useStore = <span class="hljs-title function_">defineStore</span>(<span class="hljs-string">&#x27;key&#x27;</span>, {
+    <span class="hljs-attr">state</span>: <span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-keyword">return</span> {
+            <span class="hljs-attr">da</span>: <span class="hljs-number">0</span>
+            ...
+        }
+    },
+    <span class="hljs-attr">getters</span>: {
+        <span class="hljs-attr">ka</span>: <span class="hljs-function">(<span class="hljs-params">state</span>) =&gt;</span> state.<span class="hljs-property">da</span> * <span class="hljs-number">2</span>
+    },
+    <span class="hljs-attr">actions</span>: {
+        <span class="hljs-title function_">fna</span>(<span class="hljs-params"></span>) {
+            <span class="hljs-comment">// this指向store</span>
+            <span class="hljs-variable language_">this</span>.<span class="hljs-property">da</span>++
+        }
+    }
+})
+</code></pre>
+<h3 id="state">state</h3>
+<pre><code class="language-js"><span class="hljs-comment">// 可与ts结合使用。</span>
+<span class="hljs-comment">// 访问</span>
+<span class="hljs-keyword">let</span> store = <span class="hljs-title function_">useStore</span>()
+store.<span class="hljs-property">dataKey</span>
+<span class="hljs-comment">// 重置state</span>
+store.$reset()
+<span class="hljs-comment">// 变更state</span>
+store.<span class="hljs-property">dataKey</span>++
+store.$patch({<span class="hljs-attr">dataKey</span>: <span class="hljs-number">2</span>})
+<span class="hljs-comment">// 替换state</span>
+store.$patch(...)
+<span class="hljs-comment">// 订阅state</span>
+store.$subscribe(<span class="hljs-function">(<span class="hljs-params">mutation, state</span>) =&gt;</span> {
+    <span class="hljs-comment">// mutation: {</span>
+    <span class="hljs-comment">//     type: &#x27;direct&#x27; | &#x27;patch object&#x27; | &#x27;patch function&#x27;</span>
+    <span class="hljs-comment">//     storeId</span>
+    <span class="hljs-comment">//     payload</span>
+    <span class="hljs-comment">// }</span>
+})
+</code></pre>
+<h3 id="getter">getter</h3>
+<p>根据state中的数据，得到新数据。</p>
+<pre><code class="language-js"><span class="hljs-comment">// this -&gt; store</span>
+<span class="hljs-comment">// 可访问其他getter</span>
+<span class="hljs-attr">getters</span>: {
+    <span class="hljs-attr">ka</span>: <span class="hljs-function">(<span class="hljs-params">state</span>) =&gt;</span> (state.<span class="hljs-property">dataKey</span> * <span class="hljs-number">2</span>),
+    <span class="hljs-title function_">kb</span>(<span class="hljs-params"></span>) { <span class="hljs-comment">// 注意这里不是箭头函数</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">ka</span> + <span class="hljs-number">1</span>
+    }
+    <span class="hljs-comment">// 向getter传递参数。利用高阶函数处理。</span>
+    <span class="hljs-attr">kc</span>: <span class="hljs-function">(<span class="hljs-params">state</span>) =&gt;</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">param</span>) =&gt;</span> {...}
+    }
+    <span class="hljs-attr">kd</span>: <span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-comment">// 可以直接使用其它store</span>
+    }
+}
+</code></pre>
+<h3 id="action">action</h3>
+<ul>
+<li>支持异步</li>
+<li>this -&gt; store</li>
+<li>可访问其他store</li>
+<li>可订阅</li>
+</ul>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> unsubscribe = store.$onAction(<span class="hljs-function">(<span class="hljs-params">{
+    name,           // action的名称
+    store,          // store的实例
+    args,           // 传递给该action的参数数组
+    after,          // 该action解决后触发的钩子
+    onError,        // 该action为rejected状态时的钩子。
+}</span>) =&gt;</span> {
+    ...
+}) <span class="hljs-comment">// 返回取消订阅方法</span>
+<span class="hljs-title function_">unsubscribe</span>()
+</code></pre>
+<h3 id="插件">插件</h3>
+<ul>
+<li>就是一个函数</li>
+<li>插件中调用<code>$subscribe</code></li>
+<li>扩展store</li>
+<li>添加新选项</li>
+</ul>
+<pre><code class="language-js"><span class="hljs-comment">// 定义</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">fn</span> = (<span class="hljs-params">context</span>) =&gt; {
+    <span class="hljs-comment">// context: {</span>
+    <span class="hljs-comment">//     pinia       // createPinia创建的pinia实例</span>
+    <span class="hljs-comment">//     app       // createApp创建的app。只在vue3时有效</span>
+    <span class="hljs-comment">//     store       // 当前store</span>
+    <span class="hljs-comment">//     options       // defineStore的参数</span>
+    <span class="hljs-comment">// }</span>
+    <span class="hljs-keyword">return</span> {...}
+} <span class="hljs-comment">// 返回一个对象</span>
+<span class="hljs-keyword">const</span> pinia = <span class="hljs-title function_">createPinia</span>()
+pinia.<span class="hljs-title function_">use</span>(fn) <span class="hljs-comment">// 把返回的对象的静态属性添加到store中。</span>
+</code></pre>
+<pre><code class="language-js"><span class="hljs-comment">// 使用</span>
+<span class="hljs-keyword">let</span> store = <span class="hljs-title function_">useStore</span>()
+store.<span class="hljs-property">fn</span>
+</code></pre>
+<h2 id="configuration">configuration</h2>
+<p>默认配置文件：<code>path/to/file.json</code>。</p>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h2 id="api">api</h2>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<p><code>pinia.fn(param, first: string, second: boolean = true) =&gt; void</code>
+description</p>
+<p><code>pinia.fn(param, [options: {a: string, b?: number}])</code>
+description</p>
+<h2 id="principle">principle</h2>
+<p>此包的处理逻辑。</p>
+<h3 id="uml">uml</h3>
+<pre><code></code></pre>
+<h2 id="todo">todo</h2>
+<blockquote>
+<p>vue团队都已经在vue3中使用了组合式api。在pinia中还使用选项式api.<br>
+使用pinia实例时，可以通过<code>store.xxx</code>得到state里的数据。为什么有开发<code>getters</code>，让它去得到数据。应该从前者得到数据后由调用者自己封装getters.后者有操作者<code>op</code>的功能。<br>
+状态管理工具只提供getter/setter。<br>
+未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote>
+
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
+    </body>
+    </html>

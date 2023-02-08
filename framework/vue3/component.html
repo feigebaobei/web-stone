@@ -92,32 +92,29 @@
 </ul>
 <h2 id="组件模板">组件模板</h2>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{refObj}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{title}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">&quot;buttonClickHandle&quot;</span>&gt;</span>button<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
-    <span class="hljs-comment">&lt;!-- &lt;slot&gt;&lt;/slot&gt; --&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{refObj}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{title}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">&quot;buttonClickHandle&quot;</span>&gt;</span>button<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+  <span class="hljs-comment">&lt;!-- &lt;slot&gt;&lt;/slot&gt; --&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-<span class="hljs-keyword">import</span> { ref,
-    provide,
-    defineComponent
- } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
-<span class="hljs-keyword">let</span> clog = <span class="hljs-variable language_">console</span>.<span class="hljs-property">log</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">defineComponent</span>({
+  <span class="hljs-keyword">import</span> { ref, provide, defineComponent } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
+  <span class="hljs-keyword">let</span> clog = <span class="hljs-variable language_">console</span>.<span class="hljs-property">log</span>
+  <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">defineComponent</span>({
     <span class="hljs-attr">props</span>: [<span class="hljs-string">&#x27;title&#x27;</span>],
     <span class="hljs-attr">emits</span>: [<span class="hljs-string">&#x27;eventName&#x27;</span>],
     <span class="hljs-title function_">setup</span>(<span class="hljs-params">props, context</span>) {
-        <span class="hljs-keyword">let</span> refObj = <span class="hljs-title function_">ref</span>(<span class="hljs-number">0</span>)
-        <span class="hljs-keyword">let</span> <span class="hljs-title function_">buttonClickHandle</span> = (<span class="hljs-params"></span>) =&gt; {
-            <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;buttonClickHandle&#x27;</span>)
-            context.<span class="hljs-title function_">emit</span>(<span class="hljs-string">&#x27;eventName&#x27;</span>, <span class="hljs-string">&#x27;str&#x27;</span>)
-        }
-        <span class="hljs-keyword">return</span> {
-            refObj,
-            buttonClickHandle
-        }
-    }
-})
+      <span class="hljs-keyword">let</span> refObj = <span class="hljs-title function_">ref</span>(<span class="hljs-number">0</span>)
+      <span class="hljs-keyword">let</span> <span class="hljs-title function_">buttonClickHandle</span> = (<span class="hljs-params"></span>) =&gt; {
+        <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;buttonClickHandle&#x27;</span>)
+        context.<span class="hljs-title function_">emit</span>(<span class="hljs-string">&#x27;eventName&#x27;</span>, <span class="hljs-string">&#x27;str&#x27;</span>)
+      }
+      <span class="hljs-keyword">return</span> {
+        refObj,
+        buttonClickHandle,
+      }
+    },
+  })
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 </code></pre>
 <h2 id="动态组件">动态组件</h2>
@@ -166,7 +163,7 @@ app.<span class="hljs-title function_">component</span>(
 })
 </code></pre>
 <p><a href="/framework/vue3/api.html">defineAsyncComponent api</a>
-选项式api中设置suspensible:false，则不受<code>&lt;Suspense&gt;</code>控制。</p>
+选项式 api 中设置 suspensible:false，则不受<code>&lt;Suspense&gt;</code>控制。</p>
 <h2 id="注册">注册</h2>
 <p>先注册，再使用。</p>
 <table>
@@ -858,7 +855,7 @@ count.<span class="hljs-property">value</span>++
 </tbody>
 </table>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">TransitionGroup</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;list&quot;</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&quot;ul&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;item in obj&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;item.id&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;item in obj&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;item.id&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">TransitionGroup</span>&gt;</span>
 </code></pre>
 <h3 id="keepalive">KeepAlive</h3>
@@ -896,13 +893,13 @@ count.<span class="hljs-property">value</span>++
 <li>用于协调加载异步组件</li>
 <li>支持的异步依赖：
 <ul>
-<li>setup()中有await()</li>
+<li>setup()中有 await()</li>
 <li>异步组件</li>
 </ul>
 </li>
 <li>#default &amp; #fallback</li>
 <li>pending &amp; resolve &amp; fallback</li>
-<li>本身不提供错误处理，可以使用errorCaptured事件或<code>onErrorCaptured()</code>钩子。</li>
+<li>本身不提供错误处理，可以使用 errorCaptured 事件或<code>onErrorCaptured()</code>钩子。</li>
 <li>常常与<code>&lt;Transition&gt;``&lt;Keepalive&gt;</code>结合使用。</li>
 </ul>
 <h2 id="title">title</h2>
@@ -996,7 +993,7 @@ count.<span class="hljs-property">value</span>++
 </tbody>
 </table>
 <h3 id="script-setup--script"><code>&lt;script setup&gt; &amp; &lt;script&gt;</code></h3>
-<p>虽然vue官网推荐使用<code>&lt;script setup&gt;</code>，但是我仍喜欢<code>&lt;script&gt;</code> + <code>setup()</code>。因为它模块化更好，语义更好。</p>
+<p>虽然 vue 官网推荐使用<code>&lt;script setup&gt;</code>，但是我仍喜欢<code>&lt;script&gt;</code> + <code>setup()</code>。因为它模块化更好，语义更好。</p>
 <!-- prettier-ignore-start -->
 <table>
 <thead>
@@ -1047,7 +1044,7 @@ count.<span class="hljs-property">value</span>++
 <tr>
 <td></td>
 <td></td>
-<td></td>
+<td><code>defineComponent()</code>可以传递给<code>setup()</code>的参数<code>prop</code>的推导</td>
 <td></td>
 <td></td>
 </tr>
