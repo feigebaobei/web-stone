@@ -249,13 +249,16 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
-    // let p = 'framework/vue3/wayOfUsing.html'
+    // let p = 'builder/turbopack'
     let p = [
       // 'framework/vue3/index.html',
       // 'framework/vue3/component.html',
       // 'framework/vue3/ssr.html',
-      'framework/stateManager/index.html',
-      // 'jsPackages/pinia.html',
+      // 'framework/stateManager/index.html',
+      'promote/frontEnd.html',
+      'buidler/index.html',
+      'confuse/ts?!.html',
+      'buidler/turbopack/index.html',
       // 'index.html',
     ]
     // 检测指定目录是否存在
