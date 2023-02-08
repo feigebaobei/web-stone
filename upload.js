@@ -251,20 +251,12 @@ c.on('ready', () => {
     }
     // let p = 'framework/vue3/wayOfUsing.html'
     let p = [
-      'framework/vue3/index.html',
-      // 'framework/vue3/transition.html',
-      // 'framework/vue3/directive.html',
-      // 'framework/vue3/transition-classes.f0f7b3c9.png',
-      'framework/vue3/component.html',
-      // 'framework/vue3/router.html',
-      // 'framework/vue3/sfc.html',
-      'framework/vue3/ssr.html',
-      'framework/vue3/plugin.html',
+      // 'framework/vue3/index.html',
+      // 'framework/vue3/component.html',
+      // 'framework/vue3/ssr.html',
+      // 'framework/vue3/plugin.html',
       'jsPackages/pinia.html',
-      'open/index.html',
-      // 'framework/vue3/stateManager.html',
-      // 'framework/vue3/test.html',
-      // 'framework/vue3/tsTogether.html',
+      // 'open/index.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)

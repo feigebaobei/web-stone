@@ -79,16 +79,16 @@
         <h1 id="pinia">pinia</h1>
 <h2 id="overview">overview</h2>
 <blockquote>
-<p>支持vue2/vue3/ssr的状态管理工具。<br>
-使用选项式api.</p>
+<p>支持 vue2/vue3/ssr 的状态管理工具。<br>
+使用选项式 api.</p>
 </blockquote>
 <h3 id="feature">feature</h3>
 <ul>
 <li>devtools</li>
 <li>热更新</li>
 <li>可插件</li>
-<li>支持ts</li>
-<li>支持ssr</li>
+<li>支持 ts</li>
+<li>支持 ssr</li>
 </ul>
 <h2 id="install">install</h2>
 <p><code>npm i pinia</code></p>
@@ -140,7 +140,7 @@ store.$subscribe(<span class="hljs-function">(<span class="hljs-params">mutation
 })
 </code></pre>
 <h3 id="getter">getter</h3>
-<p>根据state中的数据，得到新数据。</p>
+<p>根据 state 中的数据，得到新数据。</p>
 <pre><code class="language-js"><span class="hljs-comment">// this -&gt; store</span>
 <span class="hljs-comment">// 可访问其他getter</span>
 <span class="hljs-attr">getters</span>: {
@@ -161,7 +161,7 @@ store.$subscribe(<span class="hljs-function">(<span class="hljs-params">mutation
 <ul>
 <li>支持异步</li>
 <li>this -&gt; store</li>
-<li>可访问其他store</li>
+<li>可访问其他 store</li>
 <li>可订阅</li>
 </ul>
 <pre><code class="language-js"><span class="hljs-keyword">let</span> unsubscribe = store.$onAction(<span class="hljs-function">(<span class="hljs-params">{
@@ -179,7 +179,7 @@ store.$subscribe(<span class="hljs-function">(<span class="hljs-params">mutation
 <ul>
 <li>就是一个函数</li>
 <li>插件中调用<code>$subscribe</code></li>
-<li>扩展store</li>
+<li>扩展 store</li>
 <li>添加新选项</li>
 </ul>
 <pre><code class="language-js"><span class="hljs-comment">// 定义</span>
@@ -303,14 +303,21 @@ description</p>
 <p><code>pinia.fn(param, [options: {a: string, b?: number}])</code>
 description</p>
 <h2 id="principle">principle</h2>
-<p>此包的处理逻辑。</p>
+<pre><code class="language-ts"><span class="hljs-title function_">createPinia</span>() =&gt; <span class="hljs-title class_">Pinia</span>
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">Pinia</span> {
+    <span class="hljs-attr">install</span>: <span class="hljs-function">(<span class="hljs-params">app: App</span>) =&gt;</span> <span class="hljs-built_in">void</span>
+    <span class="hljs-attr">use</span>: <span class="hljs-function">(<span class="hljs-params">plugin</span>) =&gt;</span> <span class="hljs-built_in">void</span>
+}
+</code></pre>
+<p>使用单例模式+vue底层的响应式功能+很多dev/hot/vue2的判断完成的状态管理。</p>
 <h3 id="uml">uml</h3>
-<pre><code></code></pre>
+<pre><code>
+</code></pre>
 <h2 id="todo">todo</h2>
 <blockquote>
-<p>vue团队都已经在vue3中使用了组合式api。在pinia中还使用选项式api.<br>
-使用pinia实例时，可以通过<code>store.xxx</code>得到state里的数据。为什么有开发<code>getters</code>，让它去得到数据。应该从前者得到数据后由调用者自己封装getters.后者有操作者<code>op</code>的功能。<br>
-状态管理工具只提供getter/setter。<br>
+<p>vue 团队都已经在 vue3 中使用了组合式 api。在 pinia 中还使用选项式 api.<br>
+使用 pinia 实例时，可以通过<code>store.xxx</code>得到 state 里的数据。为什么有开发<code>getters</code>，让它去得到数据。应该从前者得到数据后由调用者自己封装 getters.后者有操作者<code>op</code>的功能。<br>
+状态管理工具只提供 getter/setter。<br>
 未来迭代计划。
 未来迭代计划。
 未来迭代计划。</p>

@@ -172,7 +172,15 @@ description
 
 ## principle
 
-此包的处理逻辑。
+```ts
+createPinia() => Pinia
+interface Pinia {
+    install: (app: App) => void
+    use: (plugin) => void
+}
+```
+
+使用单例模式+vue 底层的响应式功能+很多 dev/hot/vue2 的判断完成的状态管理。
 
 ### uml
 
