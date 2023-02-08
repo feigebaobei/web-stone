@@ -254,9 +254,9 @@ c.on('ready', () => {
       // 'framework/vue3/index.html',
       // 'framework/vue3/component.html',
       // 'framework/vue3/ssr.html',
-      // 'framework/vue3/plugin.html',
-      'jsPackages/pinia.html',
-      // 'open/index.html',
+      'framework/stateManager/index.html',
+      // 'jsPackages/pinia.html',
+      // 'index.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
