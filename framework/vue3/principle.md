@@ -108,7 +108,203 @@ patch 就在这里执行。
     挂载新节点      唤醒节点
 ```
 
-## title
+## 自己读的源码
+
+@vue/shared 里放置 helper 方法。  
+ts 写的包好读一点，可以根据它的类型较快得到属性、方法。若命名规范，则更容易理解。
+
+### 打包
+
+根据 package.json 中的 buildOptions.formats 分别打包 runtime 包和全量包
+
+### 内部方法
+
+各包中嵌套输出方法。
+
+#### createApp
+
+为应用初始化若干属性，再返回应用。
+mount()中使用了`isMounted`做为 flag.
+
+ShapeFlags 中使用位移的方式处理二进制。react 中使用直接赋值的方式处理二进制。
+
+创建应用的过程比较简单。嵌套调用各个方法。最后返回一个可链式调用的对象。
+
+#### createVNode
+
+创建 vnode，并返回。
+
+#### getExposeProxy
+
+就是在里使用 Proxy 对象的。
+
+#### publicPropertiesMap
+
+定义了很多这样的方法：从指定实例中取出该实例的值。
+把这些方法封装在一个该对象中。
+
+#### markRow()
+
+底层使用`Objecj.defineProperty`设置属性。
+
+#### ReactiveFlags
+
+宏字段
+
+#### isReactive()
+
+是否是响应式。
+与 isReadonly 有关。
+还与 ReactiveFlags.IS_REACTIVE 属性值有关
+
+#### isReadonly()
+
+判断参数的 ReactiveFlags.IS_READONLY 属性值
+
+#### proxyRefs()
+
+这里也用到了 proxy
+
+#### shallowUnwrapHandlers
+
+#### compileToFunction()
+
+利用了缓存机制。  
+从此方法开始执行 vue 的基本原理（编译、转换、生成）
+什么时候调用？
+
+#### compile
+
+调用 baseCompile
+参数 template 好像是\*.vue 文件中的 temlate 部分。
+
+#### baseParse()
+
+是编译阶段的主要方法。
+
+#### baseCompile()
+
+#### transform()
+
+的参数 ast 是 RootNode 对象，并不是抽象语法树。  
+按深度优先遍历转换当前元素及其子元素+静态提升。
+
+#### generate()
+
+#### createRoot()
+
+返回一个 RootNode 对象。
+就是编译阶段结果——ast 对象。
+
+#### createParserContext()
+
+返回一个对象
+
+#### getCursor
+
+返回一个对象
+
+#### isEnd()
+
+是否结束
+
+#### parseChildren()
+
+解析子元素
+
+#### createTransformContext
+
+把 RootNode 放在 context 对象里，再添加好多属性后返回 context 对象。
+
+#### traverseNode
+
+转换当前元素及其子元素。  
+深度优先转换。  
+这就是转换阶段的函数。
+
+#### hoistStatic
+
+遍历所有子元素。提升静态元素。
+
+#### isSingleElementRoot
+
+参数 root 下是否只有一个子元素
+
+#### createCodegenContext
+
+这是一个工厂函数，返回一个 CodegenContext 对象。
+
+#### title
+
+#### title
+
+#### title
+
+#### title
+
+#### title
+
+#### title
+
+#### title
+
+#### title
+
+#### title
+
+#### title
+
+#### title
+
+#### title
+
+#### title
+
+#### title
+
+#### title
+
+#### title
+
+#### title
+
+#### title
+
+#### title
+
+#### title
+
+#### title
+
+#### title
+
+#### title
+
+#### title
+
+#### title
+
+#### title
+
+#### title
+
+#### title
+
+#### title
+
+#### title
+
+#### title
+
+#### title
+
+#### title
+
+### title
+
+### title
+
+### title
 
 ## title
 
