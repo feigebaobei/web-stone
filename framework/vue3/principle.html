@@ -142,6 +142,7 @@
 </ol>
 </li>
 <li>生成 render 方法。使用 generator 方法。对 no.2 的 ast 编译，生成 render 方法。</li>
+<li>patch</li>
 </ol>
 <h3 id="静态提升">静态提升</h3>
 <p>transform 中的 hoistStatic 方法会递归 ast，把不具有响应式的代码序列化为字符串。编译时不处理它们。减少编译工作量。</p>
@@ -188,7 +189,111 @@
         V           V
     挂载新节点      唤醒节点
 </code></pre>
-<h2 id="title">title</h2>
+<h2 id="自己读的源码">自己读的源码</h2>
+<p>@vue/shared里放置helper方法。<br>
+ts写的包好读一点，可以根据它的类型较快得到属性、方法。若命名规范，则更容易理解。</p>
+<h3 id="打包">打包</h3>
+<p>根据package.json中的buildOptions.formats分别打包runtime包和全量包</p>
+<h3 id="内部方法">内部方法</h3>
+<p>各包中嵌套输出方法。</p>
+<h4 id="createapp">createApp</h4>
+<p>为应用初始化若干属性，再返回应用。
+mount()中使用了<code>isMounted</code>做为flag.</p>
+<p>ShapeFlags中使用位移的方式处理二进制。react中使用直接赋值的方式处理二进制。</p>
+<p>创建应用的过程比较简单。嵌套调用各个方法。最后返回一个可链式调用的对象。</p>
+<h4 id="createvnode">createVNode</h4>
+<p>创建vnode，并返回。</p>
+<h4 id="getexposeproxy">getExposeProxy</h4>
+<p>就是在里使用Proxy对象的。</p>
+<h4 id="publicpropertiesmap">publicPropertiesMap</h4>
+<p>定义了很多这样的方法：从指定实例中取出该实例的值。
+把这些方法封装在一个该对象中。</p>
+<h4 id="markrow">markRow()</h4>
+<p>底层使用<code>Objecj.defineProperty</code>设置属性。</p>
+<h4 id="reactiveflags">ReactiveFlags</h4>
+<p>宏字段</p>
+<h4 id="isreactive">isReactive()</h4>
+<p>是否是响应式。
+与isReadonly有关。
+还与ReactiveFlags.IS_REACTIVE属性值有关</p>
+<h4 id="isreadonly">isReadonly()</h4>
+<p>判断参数的ReactiveFlags.IS_READONLY属性值</p>
+<h4 id="proxyrefs">proxyRefs()</h4>
+<p>这里也用到了proxy</p>
+<h4 id="shallowunwraphandlers">shallowUnwrapHandlers</h4>
+<h4 id="compiletofunction">compileToFunction()</h4>
+<p>利用了缓存机制。<br>
+从此方法开始执行vue的基本原理（编译、转换、生成）
+什么时候调用？</p>
+<h4 id="compile">compile</h4>
+<p>调用baseCompile
+参数template好像是*.vue文件中的temlate部分。</p>
+<h4 id="baseparse">baseParse()</h4>
+<p>是编译阶段的主要方法。</p>
+<h4 id="basecompile">baseCompile()</h4>
+<h4 id="transform">transform()</h4>
+<p>的参数ast是RootNode对象，并不是抽象语法树。<br>
+按深度优先遍历转换当前元素及其子元素+静态提升。</p>
+<h4 id="generate">generate()</h4>
+<h4 id="createroot">createRoot()</h4>
+<p>返回一个RootNode对象。
+就是编译阶段结果——ast对象。</p>
+<h4 id="createparsercontext">createParserContext()</h4>
+<p>返回一个对象</p>
+<h4 id="getcursor">getCursor</h4>
+<p>返回一个对象</p>
+<h4 id="isend">isEnd()</h4>
+<p>是否结束</p>
+<h4 id="parsechildren">parseChildren()</h4>
+<p>解析子元素</p>
+<h4 id="createtransformcontext">createTransformContext</h4>
+<p>把RootNode放在context对象里，再添加好多属性后返回context对象。</p>
+<h4 id="traversenode">traverseNode</h4>
+<p>转换当前元素及其子元素。<br>
+深度优先转换。<br>
+这就是转换阶段的函数。</p>
+<h4 id="hoiststatic">hoistStatic</h4>
+<p>遍历所有子元素。提升静态元素。</p>
+<h4 id="issingleelementroot">isSingleElementRoot</h4>
+<p>参数root下是否只有一个子元素</p>
+<h4 id="createcodegencontext">createCodegenContext</h4>
+<p>这是一个工厂函数，返回一个CodegenContext对象。</p>
+<h4 id="title">title</h4>
+<h4 id="title">title</h4>
+<h4 id="title">title</h4>
+<h4 id="title">title</h4>
+<h4 id="title">title</h4>
+<h4 id="title">title</h4>
+<h4 id="title">title</h4>
+<h4 id="title">title</h4>
+<h4 id="title">title</h4>
+<h4 id="title">title</h4>
+<h4 id="title">title</h4>
+<h4 id="title">title</h4>
+<h4 id="title">title</h4>
+<h4 id="title">title</h4>
+<h4 id="title">title</h4>
+<h4 id="title">title</h4>
+<h4 id="title">title</h4>
+<h4 id="title">title</h4>
+<h4 id="title">title</h4>
+<h4 id="title">title</h4>
+<h4 id="title">title</h4>
+<h4 id="title">title</h4>
+<h4 id="title">title</h4>
+<h4 id="title">title</h4>
+<h4 id="title">title</h4>
+<h4 id="title">title</h4>
+<h4 id="title">title</h4>
+<h4 id="title">title</h4>
+<h4 id="title">title</h4>
+<h4 id="title">title</h4>
+<h4 id="title">title</h4>
+<h4 id="title">title</h4>
+<h4 id="title">title</h4>
+<h3 id="title">title</h3>
+<h3 id="title">title</h3>
+<h3 id="title">title</h3>
 <h2 id="title">title</h2>
 <h2 id="title">title</h2>
 <h2 id="title">title</h2>

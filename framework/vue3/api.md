@@ -33,7 +33,161 @@
 - 打包结果更小
 -
 
-## title
+## 全局 api
+
+<!-- prettier-ignore-start -->
+||||||||
+||params|description|type|default|enum|demo||
+|-|-|-|-|-|-|-|-|
+|`function createApp(rootComponet: Component, rootProps?: Object): app`|rootComponent根组件 rootProps 传入根组件的props|||||||
+|`createSSRApp(rootComp, rootProps)`||||||||
+|`app.mount(rootContainer: Element | string): ComponentPublicInstance`||||||||
+|`app.unmount(): void`||||||||
+|`app.provide()`||||||||
+|`app.component()`||||||||
+|`app.directive()`||||||||
+|`app.use()`||||||||
+|`app.mixin()`||||||||
+|`app.version: string`||返回版本号||||||
+|`app.config`||设置全局配置项||||||
+|`app.mount()`||||||||
+|`app.mount()`||||||||
+|`app.mount()`||||||||
+|`app.mount()`||||||||
+|`app.mount()`||||||||
+|`app.mount()`||||||||
+|`app.mount()`||||||||
+|`app.mount()`||||||||
+|`app.mount()a`||||||||
+|``||||||||
+|``||||||||
+```ts
+interface App<HostElement = any> {
+    // 版本号
+  version: string
+//   配置
+  config: AppConfig   // 这是全局配置项
+//   用于安装插件
+  use<Options extends unknown[]>(
+    plugin: Plugin<Options>,
+    ...options: Options
+  ): this
+  use<Options>(plugin: Plugin<Options>, options: Options): this
+//   混入
+  mixin(mixin: ComponentOptions): this
+//   用于注册全局组件
+  component(name: string): Component | undefined
+  component(name: string, component: Component): this
+//   用于注册、得到指令
+  directive(name: string): Directive | undefined
+  directive(name: string, directive: Directive): this
+//   挂载
+  mount(
+    rootContainer: HostElement | string,
+    isHydrate?: boolean,
+    isSVG?: boolean
+  ): ComponentPublicInstance
+//   卸载
+  unmount(): void
+//   提供
+  provide<T>(key: InjectionKey<T> | string, value: T): this
+//   若干私有属性
+  // internal, but we need to expose these for the server-renderer and devtools
+  _uid: number
+  _component: ConcreteComponent
+  _props: Data | null
+  _container: HostElement | null
+  _context: AppContext
+  _instance: ComponentInternalInstance | null
+//   用于处理新旧版本的兼容性
+  /**
+   * v2 compat only
+   */
+  filter?(name: string): Function | undefined
+  filter?(name: string, filter: Function): this
+  /**
+   * @internal v3 compat only
+   */
+  _createRoot?(options: ComponentOptions): ComponentPublicInstance
+}
+
+// 编译配置项
+interface AppConfig {
+  // @private
+  readonly isNativeTag?: (tag: string) => boolean
+  performance: boolean
+//   指定合并策略的对象
+  optionMergeStrategies: Record<string, OptionMergeFunction>
+//   所有组件都可以使用的全局属性对象
+  globalProperties: ComponentCustomProperties & Record<string, any>
+  errorHandler?: (
+    err: unknown,
+    instance: ComponentPublicInstance | null,
+    info: string
+  ) => void
+  warnHandler?: (
+    msg: string,
+    instance: ComponentPublicInstance | null,
+    trace: string
+  ) => void
+  /**
+   * Options to pass to `@vue/compiler-dom`.
+   * Only supported in runtime compiler build.
+   */
+  compilerOptions: RuntimeCompilerOptions
+  /**
+   * @deprecated use config.compilerOptions.isCustomElement
+   */
+  isCustomElement?: (tag: string) => boolean
+  /**
+   * Temporary config for opt-in to unwrap injected refs.
+   * TODO deprecate in 3.3
+   */
+  unwrapInjectedRef?: boolean
+}
+export interface RuntimeCompilerOptions {
+    // 是否指定一个识别是原生自定义元素的方法
+  isCustomElement?: (tag: string) => boolean
+//   如何处理模板中的空格
+  whitespace?: 'preserve' | 'condense'
+// 是否移除模板中的html注释
+  comments?: boolean
+//   设置模板文本插值的分隔符。
+// 我在vue2的时候就感觉vue使用了模板模式。在vue3时终于证明了我的猜想。
+  delimiters?: [string, string]
+}
+```
+
+
+
+
+<!-- prettier-ignore-end -->
+
+## 组合式 api
+
+<!-- prettier-ignore-start -->
+||||||||
+||params|description|type|default|enum|demo||
+|-|-|-|-|-|-|-|-|
+|``||||||||
+|``||||||||
+|``||||||||
+|``||||||||
+|``||||||||
+<!-- prettier-ignore-end -->
+
+## 选项式 api
+
+<!-- prettier-ignore-start -->
+||||||||
+||params|description|type|default|enum|demo||
+|-|-|-|-|-|-|-|-|
+|``||||||||
+|``||||||||
+|``||||||||
+|``||||||||
+|``||||||||
+<!-- prettier-ignore-end -->
 
 ## title
 
