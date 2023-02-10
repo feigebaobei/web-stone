@@ -251,14 +251,16 @@ c.on('ready', () => {
     }
     // let p = 'builder/turbopack'
     let p = [
-      // 'framework/vue3/index.html',
-      // 'framework/vue3/component.html',
+      'framework/vue3/index.html',
+      'framework/vue3/api.html',
+      'framework/vue3/princile.html',
       // 'framework/vue3/ssr.html',
       // 'framework/stateManager/index.html',
-      'promote/frontEnd.html',
-      'buidler/index.html',
-      'confuse/ts?!.html',
-      'buidler/turbopack/index.html',
+      // 'promote/frontEnd.html',
+      // 'builder/index.html',
+      // 'confuse/ts?!.html',
+      'confuse/index.html',
+      // 'builder/turbopack/index.html',
       // 'index.html',
     ]
     // 检测指定目录是否存在
