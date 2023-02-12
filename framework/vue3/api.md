@@ -50,48 +50,44 @@
 |`app.mixin()`||||||||
 |`app.version: string`||返回版本号||||||
 |`app.config`||设置全局配置项||||||
-|`app.mount()`||||||||
-|`app.mount()`||||||||
-|`app.mount()`||||||||
-|`app.mount()`||||||||
-|`app.mount()`||||||||
-|`app.mount()`||||||||
-|`app.mount()`||||||||
-|`app.mount()`||||||||
-|`app.mount()a`||||||||
-|``||||||||
-|``||||||||
+|`version: string`||||||||
+|`nextTick()`|cb|设置回调方法，无参数时返回promise||||||
+|`defineComponent()`||||||||
+|`defineAsyncComponent()`||||||||
+|`defineCustomElement()`||定义自定义元素||||||
+<!-- prettier-ignore-end -->
+
 ```ts
 interface App<HostElement = any> {
-    // 版本号
+  // 版本号
   version: string
-//   配置
-  config: AppConfig   // 这是全局配置项
-//   用于安装插件
+  //   配置
+  config: AppConfig // 这是全局配置项
+  //   用于安装插件
   use<Options extends unknown[]>(
     plugin: Plugin<Options>,
     ...options: Options
   ): this
   use<Options>(plugin: Plugin<Options>, options: Options): this
-//   混入
+  //   混入
   mixin(mixin: ComponentOptions): this
-//   用于注册全局组件
+  //   用于注册全局组件
   component(name: string): Component | undefined
   component(name: string, component: Component): this
-//   用于注册、得到指令
+  //   用于注册、得到指令
   directive(name: string): Directive | undefined
   directive(name: string, directive: Directive): this
-//   挂载
+  //   挂载
   mount(
     rootContainer: HostElement | string,
     isHydrate?: boolean,
     isSVG?: boolean
   ): ComponentPublicInstance
-//   卸载
+  //   卸载
   unmount(): void
-//   提供
+  //   提供
   provide<T>(key: InjectionKey<T> | string, value: T): this
-//   若干私有属性
+  //   若干私有属性
   // internal, but we need to expose these for the server-renderer and devtools
   _uid: number
   _component: ConcreteComponent
@@ -99,7 +95,7 @@ interface App<HostElement = any> {
   _container: HostElement | null
   _context: AppContext
   _instance: ComponentInternalInstance | null
-//   用于处理新旧版本的兼容性
+  //   用于处理新旧版本的兼容性
   /**
    * v2 compat only
    */
@@ -116,9 +112,9 @@ interface AppConfig {
   // @private
   readonly isNativeTag?: (tag: string) => boolean
   performance: boolean
-//   指定合并策略的对象
+  //   指定合并策略的对象
   optionMergeStrategies: Record<string, OptionMergeFunction>
-//   所有组件都可以使用的全局属性对象
+  //   所有组件都可以使用的全局属性对象
   globalProperties: ComponentCustomProperties & Record<string, any>
   errorHandler?: (
     err: unknown,
@@ -146,22 +142,17 @@ interface AppConfig {
   unwrapInjectedRef?: boolean
 }
 export interface RuntimeCompilerOptions {
-    // 是否指定一个识别是原生自定义元素的方法
+  // 是否指定一个识别是原生自定义元素的方法
   isCustomElement?: (tag: string) => boolean
-//   如何处理模板中的空格
+  //   如何处理模板中的空格
   whitespace?: 'preserve' | 'condense'
-// 是否移除模板中的html注释
+  // 是否移除模板中的html注释
   comments?: boolean
-//   设置模板文本插值的分隔符。
-// 我在vue2的时候就感觉vue使用了模板模式。在vue3时终于证明了我的猜想。
+  //   设置模板文本插值的分隔符。
+  // 我在vue2的时候就感觉vue使用了模板模式。在vue3时终于证明了我的猜想。
   delimiters?: [string, string]
 }
 ```
-
-
-
-
-<!-- prettier-ignore-end -->
 
 ## 组合式 api
 
@@ -169,12 +160,54 @@ export interface RuntimeCompilerOptions {
 ||||||||
 ||params|description|type|default|enum|demo||
 |-|-|-|-|-|-|-|-|
-|``||||||||
-|``||||||||
-|``||||||||
-|``||||||||
-|``||||||||
+|`setup(props, context)`||||||||
+|``||返回渲染函数时，会覆盖template中内容。||||||
+|`ref() => Ref<T>`||||||||
+|`computed(...) => Ref<T>`||||||||
+|`reactive(obj) => UnwrapNestedRefs<T>`||||||||
+|`readonly(obj)`||||||||
+|`watchEffect()`||||||||
+|`watchPostEffect()`||||||||
+|`watchSyncEffect()`||||||||
+|`watch()`||||||||
+|`isRef()`||||||||
+|`unref()`||||||||
+|`toRef()`||||||||
+|`toRefs()`||||||||
+|`isProxy()`||||||||
+|`isReactive()`||||||||
+|`isReadonly()`||||||||
+|`shallowRef()`||||||||
+|`triggerRef()`||||||||
+|`customRef()`||||||||
+|`shallowReactive()`||||||||
+|`shallowReadonly()`||||||||
+|`toRaw()`||||||||
+|`markRaw()`||||||||
+|`effectScope()`||||||||
+|`getCurrentScope()`||||||||
+|`onScopeDispose()`||||||||
+|`onMounted()`||||||||
+|`onUpdated()`||||||||
+|`onUnmounted()`||||||||
+|`onBeforeMount()`||||||||
+|`onBeforeUpdate()`||||||||
+|`onBeforeUnmount()`||||||||
+|`onErrorCaptured()`||||||||
+|`onRenderTracked()`||||||||
+|`onRenderTriggered()`||||||||
+|`onActivated()`||||||||
+|`onDeactivated()`||||||||
+|`onServerPrefetch()`||||||||
+|`provied()`||||||||
+|`inject()`||||||||
 <!-- prettier-ignore-end -->
+
+```ts
+interface Ref<T> {
+  value: T
+}
+```
 
 ## 选项式 api
 
@@ -182,11 +215,51 @@ export interface RuntimeCompilerOptions {
 ||||||||
 ||params|description|type|default|enum|demo||
 |-|-|-|-|-|-|-|-|
-|``||||||||
-|``||||||||
-|``||||||||
-|``||||||||
-|``||||||||
+|`data`||||||||
+|`props`||||||||
+|`computed`||||||||
+|`methods`||||||||
+|`watch`||||||||
+|`emits`||||||||
+|`expose`||||||||
+|`template`||||||||
+|`render`||||||||
+|`compilerOptions`||||||||
+|`beforeCreate`||||||||
+|`created`||||||||
+|`beforeMount`||||||||
+|`mounted`||||||||
+|`beforeUpdate`||||||||
+|`updated`||||||||
+|`beforeUnmount`||||||||
+|`unmounted`||||||||
+|`errorCaptured`||||||||
+|`renderTracked`||||||||
+|`renderTriggered`||||||||
+|`activated`||||||||
+|`deactivated`||||||||
+|`serverPrefetch`||||||||
+|`provide`||||||||
+|`inject`||||||||
+|`mixins`||||||||
+|`extends`||||||||
+|`name`||||||||
+|`inheritAttrs`||||||||
+|`components`||||||||
+|`directives`||||||||
+|`$data`||||||||
+|`$props`||||||||
+|`$el`||||||||
+|`$options`||||||||
+|`$parent`||||||||
+|`$root`||||||||
+|`$slots`||||||||
+|`$refs`||||||||
+|`$attrs`||||||||
+|`$watch()`||||||||
+|`$emit()`||||||||
+|`$forceUpdate()`||||||||
+|`$nextTick()`||||||||
 <!-- prettier-ignore-end -->
 
 ## title
