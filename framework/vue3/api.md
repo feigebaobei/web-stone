@@ -262,8 +262,59 @@ interface Ref<T> {
 |`$nextTick()`||||||||
 <!-- prettier-ignore-end -->
 
-## title
+## 渲染函数 api
 
-## title
+<!-- prettier-ignore-start -->
+||||||||
+||params|description|type|default|enum|demo||
+|-|-|-|-|-|-|-|-|
+|`h()`||||||||
+|`mergeProps()`||||||||
+|`cloneVNode()`||||||||
+|`isVNode()`||||||||
+|`resolveComponent()`||||||||
+|`resolveDirective()`||||||||
+|`withDirectives()`||||||||
+|`withModifiers()`||||||||
+<!-- prettier-ignore-end -->
 
-## title
+## 服务端渲染函数 api
+
+<!-- prettier-ignore-start -->
+||||||||
+||params|description|type|default|enum|demo||
+|-|-|-|-|-|-|-|-|
+|`renderToString()`||||||||
+|`renderToNodeStream()`||||||||
+|`pipeToNodeWritable()`||||||||
+|`renderToWebStream()`||||||||
+|`pipeToWebWritable()`||||||||
+|`renderToSimpleStream()`||||||||
+|`useSSRContext()`||||||||
+<!-- prettier-ignore-end -->
+
+## ts 工具类型
+
+```ts
+import type { PropType } from 'vue'
+interface Book {
+  name: string
+}
+export default {
+  props: {
+    book: {
+      type: Object as PropType<Book>,
+      required: true,
+    },
+  },
+}
+
+ComponentCustomProperties
+ComponentCustomOptions
+ComponentCustomProps
+CSSProperties
+```
+
+## 自定义渲染器 api
+
+createRender()

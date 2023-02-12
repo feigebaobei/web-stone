@@ -89,21 +89,21 @@
 <h2 id="template"><code>&lt;template&gt;</code></h2>
 <ul>
 <li>最多一个顶层<code>&lt;template&gt;</code>标签。</li>
-<li>由<code>@vue/compiler-dom</code>转换为js渲染函数。</li>
+<li>由<code>@vue/compiler-dom</code>转换为 js 渲染函数。</li>
 </ul>
 <h2 id="script-setup"><code>&lt;script setup&gt;</code></h2>
 <ul>
 <li>最多一个<code>&lt;script setup&gt;</code></li>
-<li>预处理为setup()函数。
+<li>预处理为 setup()函数。
 <ul>
-<li>由vue预处理的工作改为程序员使用setup()会更好吗？</li>
+<li>由 vue 预处理的工作改为程序员使用 setup()会更好吗？</li>
 </ul>
 </li>
 </ul>
 <h2 id="script"><code>&lt;script&gt;</code></h2>
 <ul>
 <li>可有多个<code>&lt;script&gt;</code>标签</li>
-<li>都被转换为esm模块再执行。</li>
+<li>都被转换为 esm 模块再执行。</li>
 </ul>
 <h2 id="style"><code>&lt;style&gt;</code></h2>
 <ul>
@@ -116,13 +116,14 @@
 <li><code>&lt;script lang=&quot;ts&quot;&gt;</code></li>
 <li><code>&lt;style lang=&quot;scss&quot;&gt;</code></li>
 </ul>
-<h2 id="src导入">src导入</h2>
+<h2 id="src-导入">src 导入</h2>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./template.html&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">style</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./style.css&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./script.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>s
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./script.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+s
 </code></pre>
 <h2 id="script-setup"><code>&lt;script setup&gt;</code></h2>
-<p>官网说了它的4个好处。反正我是不信。我要在源码中搞清它的处理逻辑，找到一个更合适的编写方式。</p>
+<p>官网说了它的 4 个好处。反正我是不信。我要在源码中搞清它的处理逻辑，找到一个更合适的编写方式。</p>
 <ul>
 <li>更少的样板内容，更简洁的代码。</li>
 <li>能够使用纯 TypeScript 声明 props 和自定义事件。</li>
@@ -131,10 +132,10 @@
 </ul>
 <p><strong><code>&lt;script setup&gt;</code> 中的代码会在每次组件实例被创建的时候执行。</strong></p>
 <ul>
-<li>在<code>&lt;script&gt;</code>标签中调用setup属性</li>
+<li>在<code>&lt;script&gt;</code>标签中调用 setup 属性</li>
 <li>顶层的绑定会暴露给模板</li>
-<li>响应式对象需要使用响应式api创建</li>
-<li>引入组件后可以直接在template中使用
+<li>响应式对象需要使用响应式 api 创建</li>
+<li>引入组件后可以直接在 template 中使用
 <ul>
 <li>动态组件</li>
 <li>递归组件</li>
@@ -147,13 +148,13 @@
 <li>defineExpose()</li>
 <li>useSlots()</li>
 <li>useAttrs()</li>
-<li>顶层await会被编译为 <code>async setup()</code></li>
-<li>不能与src一起使用</li>
+<li>顶层 await 会被编译为 <code>async setup()</code></li>
+<li>不能与 src 一起使用</li>
 </ul>
-<h2 id="css功能">css功能</h2>
+<h2 id="css-功能">css 功能</h2>
 <ul>
 <li><code>&lt;style scoped&gt;</code> 只作用于当前组件</li>
-<li>深度选择器 <code>:deep()</code>  会影响到后代元素。</li>
+<li>深度选择器 <code>:deep()</code> 会影响到后代元素。</li>
 <li>插槽选择器 <code>:slotted(xxx)</code></li>
 <li>全局选择器 <code>:global(xx)</code></li>
 <li>可以混合局部 + 全局样式</li>
@@ -161,7 +162,7 @@
 <ul>
 <li>使用示例： <code>&lt;p :class=&quot;$style.key&quot; /&gt;</code></li>
 <li>自定义注入名称</li>
-<li>与组合式api一同使用</li>
+<li>与组合式 api 一同使用</li>
 </ul>
 </li>
 <li>与<code>v-bind()</code>一起使用</li>

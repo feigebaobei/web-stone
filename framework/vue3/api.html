@@ -336,35 +336,35 @@
 </table>
 <!-- prettier-ignore-end -->
 <pre><code class="language-ts"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">App</span>&lt;<span class="hljs-title class_">HostElement</span> = <span class="hljs-built_in">any</span>&gt; {
-    <span class="hljs-comment">// 版本号</span>
+  <span class="hljs-comment">// 版本号</span>
   <span class="hljs-attr">version</span>: <span class="hljs-built_in">string</span>
-<span class="hljs-comment">//   配置</span>
-  <span class="hljs-attr">config</span>: <span class="hljs-title class_">AppConfig</span>   <span class="hljs-comment">// 这是全局配置项</span>
-<span class="hljs-comment">//   用于安装插件</span>
+  <span class="hljs-comment">//   配置</span>
+  <span class="hljs-attr">config</span>: <span class="hljs-title class_">AppConfig</span> <span class="hljs-comment">// 这是全局配置项</span>
+  <span class="hljs-comment">//   用于安装插件</span>
   use&lt;<span class="hljs-title class_">Options</span> <span class="hljs-keyword">extends</span> <span class="hljs-built_in">unknown</span>[]&gt;(
     <span class="hljs-attr">plugin</span>: <span class="hljs-title class_">Plugin</span>&lt;<span class="hljs-title class_">Options</span>&gt;,
     ...<span class="hljs-attr">options</span>: <span class="hljs-title class_">Options</span>
   ): <span class="hljs-variable language_">this</span>
   use&lt;<span class="hljs-title class_">Options</span>&gt;(<span class="hljs-attr">plugin</span>: <span class="hljs-title class_">Plugin</span>&lt;<span class="hljs-title class_">Options</span>&gt;, <span class="hljs-attr">options</span>: <span class="hljs-title class_">Options</span>): <span class="hljs-variable language_">this</span>
-<span class="hljs-comment">//   混入</span>
+  <span class="hljs-comment">//   混入</span>
   <span class="hljs-title function_">mixin</span>(<span class="hljs-attr">mixin</span>: <span class="hljs-title class_">ComponentOptions</span>): <span class="hljs-variable language_">this</span>
-<span class="hljs-comment">//   用于注册全局组件</span>
+  <span class="hljs-comment">//   用于注册全局组件</span>
   <span class="hljs-title function_">component</span>(<span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>): <span class="hljs-title class_">Component</span> | <span class="hljs-literal">undefined</span>
   <span class="hljs-title function_">component</span>(<span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>, <span class="hljs-attr">component</span>: <span class="hljs-title class_">Component</span>): <span class="hljs-variable language_">this</span>
-<span class="hljs-comment">//   用于注册、得到指令</span>
+  <span class="hljs-comment">//   用于注册、得到指令</span>
   <span class="hljs-title function_">directive</span>(<span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>): <span class="hljs-title class_">Directive</span> | <span class="hljs-literal">undefined</span>
   <span class="hljs-title function_">directive</span>(<span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>, <span class="hljs-attr">directive</span>: <span class="hljs-title class_">Directive</span>): <span class="hljs-variable language_">this</span>
-<span class="hljs-comment">//   挂载</span>
+  <span class="hljs-comment">//   挂载</span>
   <span class="hljs-title function_">mount</span>(
     <span class="hljs-attr">rootContainer</span>: <span class="hljs-title class_">HostElement</span> | <span class="hljs-built_in">string</span>,
     isHydrate?: <span class="hljs-built_in">boolean</span>,
     isSVG?: <span class="hljs-built_in">boolean</span>
   ): <span class="hljs-title class_">ComponentPublicInstance</span>
-<span class="hljs-comment">//   卸载</span>
+  <span class="hljs-comment">//   卸载</span>
   <span class="hljs-title function_">unmount</span>(): <span class="hljs-built_in">void</span>
-<span class="hljs-comment">//   提供</span>
+  <span class="hljs-comment">//   提供</span>
   provide&lt;T&gt;(<span class="hljs-attr">key</span>: <span class="hljs-title class_">InjectionKey</span>&lt;T&gt; | <span class="hljs-built_in">string</span>, <span class="hljs-attr">value</span>: T): <span class="hljs-variable language_">this</span>
-<span class="hljs-comment">//   若干私有属性</span>
+  <span class="hljs-comment">//   若干私有属性</span>
   <span class="hljs-comment">// internal, but we need to expose these for the server-renderer and devtools</span>
   <span class="hljs-attr">_uid</span>: <span class="hljs-built_in">number</span>
   <span class="hljs-attr">_component</span>: <span class="hljs-title class_">ConcreteComponent</span>
@@ -372,7 +372,7 @@
   <span class="hljs-attr">_container</span>: <span class="hljs-title class_">HostElement</span> | <span class="hljs-literal">null</span>
   <span class="hljs-attr">_context</span>: <span class="hljs-title class_">AppContext</span>
   <span class="hljs-attr">_instance</span>: <span class="hljs-title class_">ComponentInternalInstance</span> | <span class="hljs-literal">null</span>
-<span class="hljs-comment">//   用于处理新旧版本的兼容性</span>
+  <span class="hljs-comment">//   用于处理新旧版本的兼容性</span>
   <span class="hljs-comment">/**
    * v2 compat only
    */</span>
@@ -389,9 +389,9 @@
   <span class="hljs-comment">// @private</span>
   <span class="hljs-keyword">readonly</span> isNativeTag?: <span class="hljs-function">(<span class="hljs-params">tag: <span class="hljs-built_in">string</span></span>) =&gt;</span> <span class="hljs-built_in">boolean</span>
   <span class="hljs-attr">performance</span>: <span class="hljs-built_in">boolean</span>
-<span class="hljs-comment">//   指定合并策略的对象</span>
+  <span class="hljs-comment">//   指定合并策略的对象</span>
   <span class="hljs-attr">optionMergeStrategies</span>: <span class="hljs-title class_">Record</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-title class_">OptionMergeFunction</span>&gt;
-<span class="hljs-comment">//   所有组件都可以使用的全局属性对象</span>
+  <span class="hljs-comment">//   所有组件都可以使用的全局属性对象</span>
   <span class="hljs-attr">globalProperties</span>: <span class="hljs-title class_">ComponentCustomProperties</span> &amp; <span class="hljs-title class_">Record</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">any</span>&gt;
   errorHandler?: <span class="hljs-function">(<span class="hljs-params">
     err: <span class="hljs-built_in">unknown</span>,
@@ -419,14 +419,14 @@
   unwrapInjectedRef?: <span class="hljs-built_in">boolean</span>
 }
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">RuntimeCompilerOptions</span> {
-    <span class="hljs-comment">// 是否指定一个识别是原生自定义元素的方法</span>
+  <span class="hljs-comment">// 是否指定一个识别是原生自定义元素的方法</span>
   isCustomElement?: <span class="hljs-function">(<span class="hljs-params">tag: <span class="hljs-built_in">string</span></span>) =&gt;</span> <span class="hljs-built_in">boolean</span>
-<span class="hljs-comment">//   如何处理模板中的空格</span>
+  <span class="hljs-comment">//   如何处理模板中的空格</span>
   whitespace?: <span class="hljs-string">&#x27;preserve&#x27;</span> | <span class="hljs-string">&#x27;condense&#x27;</span>
-<span class="hljs-comment">// 是否移除模板中的html注释</span>
+  <span class="hljs-comment">// 是否移除模板中的html注释</span>
   comments?: <span class="hljs-built_in">boolean</span>
-<span class="hljs-comment">//   设置模板文本插值的分隔符。</span>
-<span class="hljs-comment">// 我在vue2的时候就感觉vue使用了模板模式。在vue3时终于证明了我的猜想。</span>
+  <span class="hljs-comment">//   设置模板文本插值的分隔符。</span>
+  <span class="hljs-comment">// 我在vue2的时候就感觉vue使用了模板模式。在vue3时终于证明了我的猜想。</span>
   delimiters?: [<span class="hljs-built_in">string</span>, <span class="hljs-built_in">string</span>]
 }
 </code></pre>
@@ -1334,9 +1334,217 @@
 </tbody>
 </table>
 <!-- prettier-ignore-end -->
-<h2 id="title">title</h2>
-<h2 id="title">title</h2>
-<h2 id="title">title</h2>
+<h2 id="渲染函数api">渲染函数api</h2>
+<!-- prettier-ignore-start -->
+<p>||||||||</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>params</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>h()</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>mergeProps()</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>cloneVNode()</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>isVNode()</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>resolveComponent()</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>resolveDirective()</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>withDirectives()</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>withModifiers()</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h2 id="服务端渲染函数api">服务端渲染函数api</h2>
+<!-- prettier-ignore-start -->
+<p>||||||||</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>params</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>renderToString()</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>renderToNodeStream()</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>pipeToNodeWritable()</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>renderToWebStream()</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>pipeToWebWritable()</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>renderToSimpleStream()</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>useSSRContext()</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h2 id="ts工具类型">ts工具类型</h2>
+<pre><code class="language-ts"><span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> {<span class="hljs-title class_">PropType</span>} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">Book</span> {
+  <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>
+}
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  <span class="hljs-attr">props</span>: {
+    <span class="hljs-attr">book</span>: {
+      <span class="hljs-attr">type</span>: <span class="hljs-title class_">Object</span> <span class="hljs-keyword">as</span> <span class="hljs-title class_">PropType</span>&lt;<span class="hljs-title class_">Book</span>&gt;,
+      <span class="hljs-attr">required</span>: <span class="hljs-literal">true</span>
+    }
+  }
+}
+
+<span class="hljs-title class_">ComponentCustomProperties</span>
+<span class="hljs-title class_">ComponentCustomOptions</span>
+<span class="hljs-title class_">ComponentCustomProps</span>
+<span class="hljs-title class_">CSSProperties</span>
+</code></pre>
+<h2 id="自定义渲染器api">自定义渲染器api</h2>
+<p>createRender()</p>
 
         <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
