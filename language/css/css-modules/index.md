@@ -1,18 +1,27 @@
 # css-modules
 
 ## overview
-> description
+
+> 把 css 文件中的所有 class name 和动画名打包为一个默认对象输出。然后就可以使用`url(...)`/`@imports`使用了。
 
 ### feature
-- feature0  
-- feature1  
-- feature2  
+
+- 推荐不强制使用 camelCase 命名
+- 组合
+- 依赖
+  - 与别的文件组合 `.a {compose: className from './style.css'}`
+  - 与全局 class name 组合
+  - 与预处理器一起使用
+- `:global(...)`/`:local(...)`
+-
 
 ## install
+
 `npm i {{packageName}}`
 
 ## usage
-```
+
+```js
 // 编译*.css，并在html中使用。
 // 也可以在*.css中写多个class，然后在html中使用多个类。
 // widget1.css
@@ -42,13 +51,10 @@ export default Widget1
 }
 // css选择器中的html标签不会被编译
 // css选择器中的媒体查询不好被编译
-
-
-
-
 ```
 
 ## configuration
+
 默认配置文件：`path/to/file.json`。  
 |key|description|default|enum|demo|||
 |-|-|-|-|-|-|-|
@@ -57,6 +63,7 @@ export default Widget1
 ||||||||
 
 ## api
+
 `{{packageName}}.fn(param, first: string, second: boolean = true) => void`
 description
 
@@ -64,13 +71,17 @@ description
 description
 
 ## principle
+
 此包的处理逻辑。
 
 ### uml
+
 ```
+
 ```
 
 ## todo
+
 > 未来迭代计划。
 > 未来迭代计划。
 > 未来迭代计划。

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>css-modules</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="css-modules">css-modules</h1>
+<h2 id="overview">overview</h2>
+<blockquote>
+<p>把css文件中的所有class name 和动画名打包为一个默认对象输出。然后就可以使用<code>url(...)</code>/<code>@imports</code>使用了。</p>
+</blockquote>
+<h3 id="feature">feature</h3>
+<ul>
+<li>推荐不强制使用camelCase命名</li>
+<li>组合</li>
+<li>依赖
+<ul>
+<li>与别的文件组合 <code>.a {compose: className from './style.css'}</code></li>
+<li>与全局class name组合</li>
+<li>与预处理器一起使用</li>
+</ul>
+</li>
+<li><code>:global(...)</code>/<code>:local(...)</code></li>
+<li></li>
+</ul>
+<h2 id="install">install</h2>
+<p><code>npm i {{packageName}}</code></p>
+<h2 id="usage">usage</h2>
+<pre><code class="language-js"><span class="hljs-comment">// 编译*.css，并在html中使用。</span>
+<span class="hljs-comment">// 也可以在*.css中写多个class，然后在html中使用多个类。</span>
+<span class="hljs-comment">// widget1.css</span>
+.<span class="hljs-property">button</span> {...}
+<span class="hljs-comment">// widget1.js</span>
+<span class="hljs-keyword">import</span> <span class="hljs-title class_">React</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span>
+<span class="hljs-keyword">import</span> styles <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./widget.css&#x27;</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Widget1</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">React.Component</span> {
+    <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-keyword">return</span> (
+            <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">className</span>=<span class="hljs-string">{styles.button}</span>&gt;</span>
+                click me
+            <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span>
+        )
+    }
+}
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title class_">Widget1</span>
+<span class="hljs-comment">// *.css中的类名会被编译为`&lt;filename&gt;_&lt;classname&gt;_&lt;randomHash&gt;`</span>
+<span class="hljs-comment">// 可以使用嵌套的类名。定义时嵌套，使用时也嵌套。</span>
+<span class="hljs-comment">// 可以在*.css中使用其他*.css的内容。</span>
+<span class="hljs-comment">// util.css</span>
+.<span class="hljs-property">grape</span> {...}
+<span class="hljs-comment">// widget2.css</span>
+.<span class="hljs-property">button</span> {
+    <span class="hljs-attr">composes</span>: grape <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./util.css&#x27;</span>;
+    ...
+}
+<span class="hljs-comment">// css选择器中的html标签不会被编译</span>
+<span class="hljs-comment">// css选择器中的媒体查询不好被编译</span>
+
+
+
+
+</code></pre>
+<h2 id="configuration">configuration</h2>
+<p>默认配置文件：<code>path/to/file.json</code>。</p>
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="api">api</h2>
+<p><code>{{packageName}}.fn(param, first: string, second: boolean = true) =&gt; void</code>
+description</p>
+<p><code>{{packageName}}.fn(param, [options: {a: string, b?: number}])</code>
+description</p>
+<h2 id="principle">principle</h2>
+<p>此包的处理逻辑。</p>
+<h3 id="uml">uml</h3>
+<pre><code></code></pre>
+<h2 id="todo">todo</h2>
+<blockquote>
+<p>未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote>
+
+        
+        
+    </body>
+    </html>

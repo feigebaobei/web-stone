@@ -249,12 +249,16 @@ c.on('ready', () => {
       log('cwd', 'htdocs', err)
       throw err
     }
+
     // let p = 'builder/turbopack'
     let p = [
-      // 'framework/vue3/index.html',
+      'framework/vue3/index.html',
+      'framework/vue3/sfc.html',
       'framework/vue3/directive.html',
+      'framework/vue3/component.html',
       // 'framework/vue3/princile.html',
       // 'framework/vue3/ssr.html',
+      'framework/vue3/api.html',
       // 'framework/stateManager/index.html',
       // 'promote/frontEnd.html',
       // 'builder/index.html',
