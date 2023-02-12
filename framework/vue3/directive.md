@@ -12,6 +12,24 @@
     - 还有好多修饰符
 - 应用于一个根元素上。当多个元素时，会报错。
 
+```js
+v-text
+v-html
+v-show
+v-if
+v-else
+v-else-if
+v-for
+v-on @
+v-bind :
+v-model  只用于input select textarea components
+v-slot #
+v-pre
+v-once
+v-memo
+v-cloak
+```
+
 ## 自定义指令
 
 `v-dir:[arg][.modify]="value"`

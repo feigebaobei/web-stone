@@ -97,6 +97,22 @@
 </li>
 <li>应用于一个根元素上。当多个元素时，会报错。</li>
 </ul>
+<pre><code class="language-js">v-text
+v-html
+v-show
+v-<span class="hljs-keyword">if</span>
+v-<span class="hljs-keyword">else</span>
+v-<span class="hljs-keyword">else</span>-<span class="hljs-keyword">if</span>
+v-<span class="hljs-keyword">for</span>
+v-on @
+v-bind :
+v-model  只用于input select textarea components
+v-slot #
+v-pre
+v-once
+v-memo
+v-cloak
+</code></pre>
 <h2 id="自定义指令">自定义指令</h2>
 <p><code>v-dir:[arg][.modify]=&quot;value&quot;</code></p>
 <ul>
@@ -120,7 +136,7 @@ app.<span class="hljs-title function_">direction</span>(<span class="hljs-string
 <span class="hljs-comment">//使用</span>
 &lt;input v-focus /&gt;
 </code></pre>
-<p>下表指挂载到父组件上，不是挂载到dom上。</p>
+<p>下表指挂载到父组件上，不是挂载到 dom 上。</p>
 <table>
 <thead>
 <tr>
@@ -198,21 +214,20 @@ prevNode        上一次沉浸的vnode
 <pre><code class="language-js"><span class="hljs-comment">// teleport.js</span>
 <span class="hljs-keyword">let</span> clog = <span class="hljs-variable language_">console</span>.<span class="hljs-property">log</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
-    <span class="hljs-attr">mounted</span>: <span class="hljs-function">(<span class="hljs-params">el, binding, vnode, preVnode</span>) =&gt;</span> {
-        <span class="hljs-comment">// binding.arg</span>
-        <span class="hljs-comment">// binding.modifiers</span>
-        <span class="hljs-keyword">let</span> value = binding.<span class="hljs-property">value</span> || <span class="hljs-string">&#x27;body&#x27;</span>
-        <span class="hljs-keyword">let</span> target = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(value)
-        target.<span class="hljs-title function_">appendChild</span>(el)
-    }
+  <span class="hljs-attr">mounted</span>: <span class="hljs-function">(<span class="hljs-params">el, binding, vnode, preVnode</span>) =&gt;</span> {
+    <span class="hljs-comment">// binding.arg</span>
+    <span class="hljs-comment">// binding.modifiers</span>
+    <span class="hljs-keyword">let</span> value = binding.<span class="hljs-property">value</span> || <span class="hljs-string">&#x27;body&#x27;</span>
+    <span class="hljs-keyword">let</span> target = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(value)
+    target.<span class="hljs-title function_">appendChild</span>(el)
+  },
 }
 <span class="hljs-comment">// v-teleport:arg.modify=&quot;value&quot;</span>
 <span class="hljs-comment">// v-teleport:to=&quot;body&quot;</span>
 </code></pre>
 <pre><code class="language-js"><span class="hljs-comment">// main.js</span>
 <span class="hljs-keyword">import</span> teleport <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./directive/teleport&#x27;</span>
-<span class="hljs-title function_">createApp</span>(<span class="hljs-title class_">App</span>)
-.<span class="hljs-title function_">directive</span>(<span class="hljs-string">&#x27;teleport&#x27;</span>, teleport)
+<span class="hljs-title function_">createApp</span>(<span class="hljs-title class_">App</span>).<span class="hljs-title function_">directive</span>(<span class="hljs-string">&#x27;teleport&#x27;</span>, teleport)
 <span class="hljs-comment">// ...</span>
 </code></pre>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">Comp</span> <span class="hljs-attr">v-teleport</span>&gt;</span>&lt;/<span class="hljs-tag">&lt;<span class="hljs-name">Comp</span>&gt;</span>
