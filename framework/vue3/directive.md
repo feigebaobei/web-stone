@@ -32,7 +32,7 @@ v-cloak
 
 ## 自定义指令
 
-`v-dir:[arg][.modify]="value"`
+`v-name-directtive:[arg][.modify]="value"`
 
 - 操作 dom
 - 抽象跨组件逻辑

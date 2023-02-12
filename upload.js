@@ -252,7 +252,7 @@ c.on('ready', () => {
     // let p = 'builder/turbopack'
     let p = [
       // 'framework/vue3/index.html',
-      'framework/vue3/api.html',
+      'framework/vue3/directive.html',
       // 'framework/vue3/princile.html',
       // 'framework/vue3/ssr.html',
       // 'framework/stateManager/index.html',

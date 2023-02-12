@@ -51,7 +51,8 @@
 }
 
 </style>
-        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -81,16 +82,96 @@
 <li>使用 jsx 时，编译优化效果较差。</li>
 <li>文本插值<code>&lt;div&gt;{{msg}}&lt;/div&gt;</code></li>
 <li>原始 html</li>
-<li>由<code>@vue/compiler-sfc</code>编译。结果是esm规范。所以可以使用import引入。</li>
-<li>sfc中的style标签在开发时使用原生<code>&lt;style&gt;</code>注入。在生产是抽取、合并成单独的css文件。</li>
-<li></li>
+<li>由<code>@vue/compiler-sfc</code>编译。结果是 esm 规范。所以可以使用 import 引入。</li>
+<li>sfc 中的 style 标签在开发时使用原生<code>&lt;style&gt;</code>注入。在生产是抽取、合并成单独的 css 文件。</li>
+<li>由三部分组成：<code>&lt;template&gt; &lt;script&gt; &lt;style&gt;</code></li>
+</ul>
+<h2 id="template"><code>&lt;template&gt;</code></h2>
+<ul>
+<li>最多一个顶层<code>&lt;template&gt;</code>标签。</li>
+<li>由<code>@vue/compiler-dom</code>转换为js渲染函数。</li>
+</ul>
+<h2 id="script-setup"><code>&lt;script setup&gt;</code></h2>
+<ul>
+<li>最多一个<code>&lt;script setup&gt;</code></li>
+<li>预处理为setup()函数。
+<ul>
+<li>由vue预处理的工作改为程序员使用setup()会更好吗？</li>
+</ul>
+</li>
+</ul>
+<h2 id="script"><code>&lt;script&gt;</code></h2>
+<ul>
+<li>可有多个<code>&lt;script&gt;</code>标签</li>
+<li>都被转换为esm模块再执行。</li>
+</ul>
+<h2 id="style"><code>&lt;style&gt;</code></h2>
+<ul>
+<li>可包含多个<code>&lt;style&gt;</code>标签。</li>
+<li>可以使用<code>scoped</code>/<code>module</code></li>
+</ul>
+<h2 id="预处理器">预处理器</h2>
+<ul>
+<li><code>&lt;template lang=&quot;pug&quot;&gt;</code></li>
+<li><code>&lt;script lang=&quot;ts&quot;&gt;</code></li>
+<li><code>&lt;style lang=&quot;scss&quot;&gt;</code></li>
+</ul>
+<h2 id="src导入">src导入</h2>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./template.html&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">style</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./style.css&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./script.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>s
+</code></pre>
+<h2 id="script-setup"><code>&lt;script setup&gt;</code></h2>
+<p>官网说了它的4个好处。反正我是不信。我要在源码中搞清它的处理逻辑，找到一个更合适的编写方式。</p>
+<ul>
+<li>更少的样板内容，更简洁的代码。</li>
+<li>能够使用纯 TypeScript 声明 props 和自定义事件。</li>
+<li>更好的运行时性能 (其模板会被编译成同一作用域内的渲染函数，避免了渲染上下文代理对象)。</li>
+<li>更好的 IDE 类型推导性能 (减少了语言服务器从代码中抽取类型的工作)。</li>
+</ul>
+<p><strong><code>&lt;script setup&gt;</code> 中的代码会在每次组件实例被创建的时候执行。</strong></p>
+<ul>
+<li>在<code>&lt;script&gt;</code>标签中调用setup属性</li>
+<li>顶层的绑定会暴露给模板</li>
+<li>响应式对象需要使用响应式api创建</li>
+<li>引入组件后可以直接在template中使用
+<ul>
+<li>动态组件</li>
+<li>递归组件</li>
+<li>命名空间组件</li>
+</ul>
+</li>
+<li>定义自定义指令后可以直接使用</li>
+<li>defineProps()</li>
+<li>defineEmits()</li>
+<li>defineExpose()</li>
+<li>useSlots()</li>
+<li>useAttrs()</li>
+<li>顶层await会被编译为 <code>async setup()</code></li>
+<li>不能与src一起使用</li>
+</ul>
+<h2 id="css功能">css功能</h2>
+<ul>
+<li><code>&lt;style scoped&gt;</code> 只作用于当前组件</li>
+<li>深度选择器 <code>:deep()</code>  会影响到后代元素。</li>
+<li>插槽选择器 <code>:slotted(xxx)</code></li>
+<li>全局选择器 <code>:global(xx)</code></li>
+<li>可以混合局部 + 全局样式</li>
+<li><code>&lt;style module&gt;</code>
+<ul>
+<li>使用示例： <code>&lt;p :class=&quot;$style.key&quot; /&gt;</code></li>
+<li>自定义注入名称</li>
+<li>与组合式api一同使用</li>
+</ul>
+</li>
+<li>与<code>v-bind()</code>一起使用</li>
 </ul>
 <h2 id="title">title</h2>
 <h2 id="title">title</h2>
 <h2 id="title">title</h2>
 <h2 id="title">title</h2>
 
-        
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
     </body>
     </html>

@@ -430,7 +430,7 @@ import CompName from './CompName.vue' const app = createApp({ render() { return
 - [vue3](/framework/vue3/vue3.html)
 - [vue-cli]()
 - [create-vue 脚手架]()
-- [@vue/compiler-sfc]()
+- [@vue/compiler-sfc](/jsPackages/compilerSfc.html)
 - [vite](/builder/vite/index.html)
 - [vue-router@4](/jsPackages/vueRouter4.html)
 - [@vue/reactivity 响应式核心包]()
