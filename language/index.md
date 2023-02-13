@@ -1,0 +1,17 @@
+# 编程语言
+
+- [html](/language/html/index.html)
+- [xml](/language/xml/index.html)
+- [css](/language/css/index.html)
+- [javascript](/language/javascript/index.html)
+- [typescript](/language/typescript/index.html)
+- [flow](/language/flow/index.html)
+- [python](/language/python/index.html)
+- [yaml](/language/yaml/index.html)
+- [toml](/language/toml/index.html)
+- [bun](/language/bun/index.html)
+- [elm](/language/elm/index.html)
+- [emscripten](/language/emscripten/index.html)
+- [WebAssembly](/language/WebAssembly/index.html)
+- [java](/language/java/index.html)
+- [markdown](/language/markdown/index.html)
