@@ -250,11 +250,15 @@ c.on('ready', () => {
       throw err
     }
 
-    // let p = 'language/go'
+    // let p = 'gateway'
     let p = [
-      // 'index.html',
-      // 'framework/single-spa/index.html',
-      // 'framework/qiankun/index.html',
+      'index.html',
+      'language/index.html',
+      'language/go/index.html',
+      'framework/diff.html',
+      'framework/index.html',
+      'framework/microservices.html',
+      'gateway/index.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
