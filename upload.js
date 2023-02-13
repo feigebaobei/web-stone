@@ -250,18 +250,15 @@ c.on('ready', () => {
       throw err
     }
 
-    // let p = 'builder/turbopack'
+    // let p = 'microservices/single-spa/'
     let p = [
-      'framework/vue3/index.html',
-      'framework/vue3/sfc.html',
-      'framework/vue3/directive.html',
-      'framework/vue3/component.html',
-      // 'framework/vue3/princile.html',
-      // 'framework/vue3/ssr.html',
-      'framework/vue3/api.html',
       // 'framework/stateManager/index.html',
       // 'promote/frontEnd.html',
       // 'builder/index.html',
+      'microservices/index.html',
+      'microservices/qiankun/index.html',
+      'microservices/single-spa/index.html',
+      // 'language/css/css-modules/index.html',
       // 'confuse/ts?!.html',
       // 'confuse/index.html',
       // 'builder/turbopack/index.html',
