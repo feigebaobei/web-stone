@@ -250,19 +250,11 @@ c.on('ready', () => {
       throw err
     }
 
-    // let p = 'microservices/single-spa/'
+    // let p = 'framework/single-spa'
     let p = [
-      // 'framework/stateManager/index.html',
-      // 'promote/frontEnd.html',
-      // 'builder/index.html',
-      'microservices/index.html',
-      'microservices/qiankun/index.html',
-      'microservices/single-spa/index.html',
-      // 'language/css/css-modules/index.html',
-      // 'confuse/ts?!.html',
-      // 'confuse/index.html',
-      // 'builder/turbopack/index.html',
       // 'index.html',
+      'framework/single-spa/index.html',
+      'framework/qiankun/index.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
