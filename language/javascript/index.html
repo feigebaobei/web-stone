@@ -605,6 +605,36 @@ o.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;
 <p>所有 js 代码按执行时序可分为三部分：同步代码/宏任务/微任务。<br>
 代码从上到下执行。遇到同步代码则依次序执行。遇到宏任务不执行，放入宏任务队列。遇到微任务不执行，入入微任务队列。执行完所有同步代码后执行一个宏任务队列中的宏任务，然后执行完所有微任务。再执行宏任务队列中的一个宏任务，再执行所有微任务。直到宏任务队列为空/微任务队列为空。<br>
 因宏任务是宿主环境的，微任务是 js 语言的。所以宏任务执行一个，微任务执行一堆。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>i/o</th>
+<th>timings</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ram</td>
+<td>ns</td>
+<td>sync</td>
+<td></td>
+</tr>
+<tr>
+<td>disk</td>
+<td>1ms</td>
+<td>async/sync</td>
+<td></td>
+</tr>
+<tr>
+<td>network</td>
+<td>100ms-2000ms</td>
+<td>async</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h1 id="symbol">Symbol</h1>
 <p>内置了<code>Symbol.iterator</code>属性<br>
 用于表示独一无二的值</p>
@@ -1083,7 +1113,8 @@ p.<span class="hljs-property">skills</span> = <span class="hljs-function">() =&g
 <h2 id="协程">协程</h2>
 <h1 id="xhr"><a href="/language/javascript/xhr.html">xhr</a></h1>
 <h1 id="动画">动画</h1>
-<p>一般与canvas结合工作。</p>
+<p>一般与 canvas 结合工作。</p>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -1126,7 +1157,8 @@ p.<span class="hljs-property">skills</span> = <span class="hljs-function">() =&g
 </tr>
 </tbody>
 </table>
-<pre><code class="language-ts"><span class="hljs-title class_">IdleDeadline</span>: {
+<!-- prettier-ignore-end -->
+<pre><code class="language-ts"><span class="hljs-title class_">IdleDeadline</span> {
   <span class="hljs-attr">didTimeout</span>: <span class="hljs-built_in">boolean</span> <span class="hljs-comment">// 执行回调方法时是否超过指定时间。此时一定设置了timeout</span>
   <span class="hljs-title function_">timeRemaining</span>(): nubmer <span class="hljs-comment">// 返回一个时间DOMHighResTimeStamp, 并且是浮点类型的数值，它用来表示当前闲置周期的预估剩余毫秒数。如果 idle period 已经结束，则它的值是 0。你的回调函数 (传给 requestIdleCallback 的函数) 可以重复的访问这个属性用来判断当前线程的闲置时间是否可以在结束前执行更多的任务。</span>
 }
