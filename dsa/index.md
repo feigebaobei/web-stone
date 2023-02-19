@@ -1,4 +1,13 @@
 - [data-footstone](https://www.npmjs.com/package/data-footstone)
+  - stack
+  - queue
+  - chain
+  - hashMap
+  - binaryTree
+    - bst
+    - redBlockTree
+    - splayTree
+    - B-tree
 - [temp](/coursera/dsa/temp.html)
 - [sort](https://github.com/feigebaobei/simple/blob/master/packages/data-footstone/src/order.ts)
 - [循环](/dsa/circulation.html)

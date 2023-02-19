@@ -262,6 +262,22 @@ type AVLTreeNodeOrNull<T> = BinarySearchTreeNodeOrNull<T>
 ```
 
 <!-- prettier-ignore-start -->
+|SplayTree|params|description|type|default|enum|demo||
+|-|-|-|-|-|-|-|-|
+|基于BinarySearchTree开发||可以使用搜索二叉树的所有方法||||||
+|`splayTree#splay(v: BinarySearchTreeNodeOrNull<T>) => BinarySearchTreeNodeOrNull<T>`||伸展指定节点，即把该节点移到根节点。||||||
+|`splayTree#searchSplayTreeNode(k: number) => BinarySearchTreeNodeOrNull<T>`||搜索并伸展指定节点。||||||
+|`splayTree#insertSplayTreeNode(k: number, v: T) => Error | BinarySearchTreeNode<T>`||插入并伸展指定节点。||||||
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
+|BTree|params|description|type|default|enum|demo||
+|-|-|-|-|-|-|-|-|
+|``||||||||
+|``||||||||
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
 |RedBackTree|params|description|type|default|enum|demo||
 |-|-|-|-|-|-|-|-|
 |``||||||||

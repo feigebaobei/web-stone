@@ -157,7 +157,6 @@ export interface RuntimeCompilerOptions {
 ## 组合式 api
 
 <!-- prettier-ignore-start -->
-||||||||
 ||params|description|type|default|enum|demo||
 |-|-|-|-|-|-|-|-|
 |`setup(props, context)`||||||||

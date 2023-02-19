@@ -13,5 +13,12 @@
 - [常用框架的不同](/framework/diff.html)
 - [前端微服务](/framework/microservices.html)
 - [qiankun](/framework/qiankun/index.html)
-- [single-spa](/framework/single-spa/index.html)  
+- [single-spa](/framework/single-spa/index.html)
 
+# title
+
+- [ssr]()
+- [ssg]()
+- [csr]()
+- [spa]()
+- [mpa]()
