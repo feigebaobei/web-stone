@@ -253,12 +253,18 @@ c.on('ready', () => {
     // let p = 'gateway'
     let p = [
       'index.html',
-      'language/index.html',
-      'language/go/index.html',
-      'framework/diff.html',
-      'framework/index.html',
-      'framework/microservices.html',
-      'gateway/index.html',
+      'promote/toolBySelf.html',
+      'promote/learnConstruct.html',
+      // 'language/index.html',
+      // 'language/go/index.html',
+      // 'language/javascript/index.html',
+      // 'framework/diff.html',
+      // 'framework/index.html',
+      // 'framework/microservices.html',
+      // 'gateway/index.html',
+      // 'coursera/dsa/3/index.html',
+      // 'dsa/index.html',
+      'jsPackages/express-generator.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
