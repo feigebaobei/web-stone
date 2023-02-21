@@ -24,33 +24,23 @@ npm i
 npm run start
 ```
 
-## configuration
-
-默认配置文件：`path/to/file.json`。
+## command line options
 
 <!-- prettier-ignore-start -->
-|key|description|type|default|enum|demo|||
+|options|description|type|default|enum|demo|||
 |-|-|-|-|-|-|-|-|
-|||||||||
-|||||||||
-|||||||||
+|--verions|版本号|||||||
+|--ejs, -e|使用ejs引擎|||||||
+|--pug|使用pug引擎|||||||
+|--hbs|使用handlebars引擎|||||||
+|--hogan, -H|使用hogan.js引擎|||||||
+|`--view <engine>`, -v|添回view引擎。||jade/dust/ejs/hbs/hjs/jade/pug/twig/vash)||||
+|--no-view|使用静态html文件代替view引擎|||||||
+|`--css <engine>`, -c|添加样式预处理工具。|css||less/stylus/compass/sass||||
+|--git|添加 .gitignore|||||||
+|--force, -f|强制在非空目录创建express应用|||||||
+|--help, -h||||||||
 <!-- prettier-ignore-end -->
-
-## api
-
-<!-- prettier-ignore-start -->
-|key|description|type|default|enum|demo|||
-|-|-|-|-|-|-|-|-|
-|||||||||
-|||||||||
-|||||||||
-<!-- prettier-ignore-end -->
-
-`express-generator.fn(param, first: string, second: boolean = true) => void`
-description
-
-`express-generator.fn(param, [options: {a: string, b?: number}])`
-description
 
 ## principle
 
