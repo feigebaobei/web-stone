@@ -135,7 +135,8 @@
   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> k <span class="hljs-keyword">in</span> p) {
     <span class="hljs-keyword">if</span> (p.<span class="hljs-title function_">hasOwnProperty</span>(k)) {
       <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> p[k] === <span class="hljs-string">&#x27;object&#x27;</span>) {
-        c[k] = <span class="hljs-title function_">getType</span>(p[k]) === <span class="hljs-string">&#x27;Array&#x27;</span> ? [] : {}
+        <span class="hljs-comment">// c[k] = getType(p[k]) === &#x27;Array&#x27; ? [] : {}</span>
+        c[k] = <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">isArray</span>(p[k]) ? [] : {}s
         <span class="hljs-title function_">cloneDeep</span>(p[k], c[k])
       } <span class="hljs-keyword">else</span> {
         c[k] = p[k]
