@@ -129,25 +129,56 @@ request 请求对象
 <!-- prettier-ignore-start -->
 |key|description|type|default|enum|demo|||
 |-|-|-|-|-|-|-|-|
-|res.loccals||||||||
-|res.loccals||||||||
-|res.loccals||||||||
-|res.loccals||||||||
-|res.loccals||||||||
-|||||||||
-|||||||||
-|||||||||
-|||||||||
-|||||||||
-|||||||||
-|||||||||
-|||||||||
-|||||||||
-|||||||||
-|||||||||
-|||||||||
-|||||||||
-|||||||||
+|res.app||||||||
+|res.headersSent|是否已经发送回馈|||||||
+|res.locals|得到 app.locals 设置的数据|||||||
+|res.append(field [, value])|追加或创建header中的字段、值|||||||
+|res.attachement([filename])|不会|||||||
+|res.cookie(name, value [, options])|设置cookie的name和value|||||||
+||domain||String|||||
+||encode||Function|||||
+||expires||Date|||||
+||httpOnly||Boolean|||||
+||maxAge||Number|||||
+||path||String|||||
+||priority||String|||||
+||secure||Boolean|||||
+||signed||Boolean|||||
+||sameSite||Boolean/String|||||
+|res.clearCookis(name [, optins])|删除指定的cookie|||||||
+|res.download(path [, filename] [, options] [, fn])|设置下载的文件|||||||
+||maxAge||0|||||
+||root|||||||
+||lastModified||Enabled|||||
+||headers|||||||
+||dotfiles||'ignore'|||||
+||acceptRanges||true|||||
+||cacheControl||true|||||
+||immutable|||||||
+|res.end([data] [, encoding])|强制结构Response对象的链式操作|||||||
+|res.format(object)||||||||
+|res.get(field)||||||||
+|res.json([body])||||||||
+|res.jsonp([body])||||||||
+|res.links(links)|在回馈头中设置link字段|||||||
+|res.location(path)||||||||
+|res.redirect([status,] path)||||||||
+|res.render(view [, locals] [, cb])||||||||
+|res.req()||||||||
+|res.send([body])||||||||
+|res.sendFile(path [, options] [, fn])||||||||
+||maxAge|||||||
+||root|||||||
+||lastModified|||||||
+||headers|||||||
+||dotfiles|||||||
+||acceptRanges|||||||
+||cacheControl|||||||
+|res.sendStatus(statucCode)|设置code码值|||||||
+|res.set(field [, value])|设置回馈头的字段、值|||||||
+|res.status(code)|是res.sendStatus(statusCode)的别名|||||||
+|res.type(type)||||||||
+|res.vary(field)||||||||
 <!-- prettier-ignore-end -->
 
 # Router
@@ -155,13 +186,11 @@ request 请求对象
 <!-- prettier-ignore-start -->
 |key|description|type|default|enum|demo|||
 |-|-|-|-|-|-|-|-|
-|||||||||
-|||||||||
-|||||||||
-|||||||||
-|||||||||
-|||||||||
-|||||||||
+|router.all(path, [cb, ...] cb)||||||||
+|router.METHOD(path, [cb, ...] cb)||||||||
+|router.param(name, cb)|不会|||||||
+|router.route(path)||||||||
+|router.use([path], [function, ...] function)|绑定中间件|||||||
 <!-- prettier-ignore-end -->
 
 # Router 对象
