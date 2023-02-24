@@ -110,22 +110,18 @@ request 请求对象
 |req.res|返回当前请求相关的response对象|||||||
 |req.route|返回与请求配置的路由|||||||
 |req.secure||||||||
-|req.signedCookies||||||||
-|req.loccals||||||||
-|||||||||
-|||||||||
-|||||||||
-|||||||||
-|||||||||
-|||||||||
-|||||||||
-|||||||||
-|||||||||
-|||||||||
-|||||||||
-|||||||||
-|||||||||
-|||||||||
+|req.signedCookies|被cookie-parser签名的cookie值|||||||
+|req.stale|是否旧|||||||
+|req.subdomains|返回子级域名组成的数组|||||||
+|req.xhr|header是否包含`X-Requested-With`字段|||||||
+|req.accepts(types)||||||||
+|req.acceptsCharsets(charset[, ...])||||||||
+|req.acceptsEncoding(encodeing[, ...])||||||||
+|req.acceptsLanguages(lang [, ...])||||||||
+|req.get(field)||||||||
+|req.is(type)||||||||
+|req.param(name, [defaultvalue])||||||||
+|req.range(size[, options])||||||||
 <!-- prettier-ignore-end -->
 
 # Response
@@ -133,6 +129,18 @@ request 请求对象
 <!-- prettier-ignore-start -->
 |key|description|type|default|enum|demo|||
 |-|-|-|-|-|-|-|-|
+|res.loccals||||||||
+|res.loccals||||||||
+|res.loccals||||||||
+|res.loccals||||||||
+|res.loccals||||||||
+|||||||||
+|||||||||
+|||||||||
+|||||||||
+|||||||||
+|||||||||
+|||||||||
 |||||||||
 |||||||||
 |||||||||

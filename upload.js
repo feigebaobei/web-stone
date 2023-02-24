@@ -250,21 +250,30 @@ c.on('ready', () => {
       throw err
     }
 
-    // let p = 'gateway'
+    // let p = 'framework/express/linkDb'
     let p = [
       // 'index.html',
       // 'promote/toolBySelf.html',
       // 'promote/learnConstruct.html',
-      // 'language/index.html',
+      // 'language/node/index.html',
+      // 'language/node/window&node&npm&cli.html',
+      // 'package-manager/index.html',
       // 'language/go/index.html',
       // 'language/javascript/index.html',
-      // 'framework/diff.html',
-      'communication-protocol/http.html',
+      // 'framework/index.html',
+      // 'framework/express/linkDb/index.html',
+      // 'framework/express/linkDb/mongodb.html',
+      // 'framework/express/linkDb/mysql.html',
+      'framework/express/api.html',
+      // 'framework/express/index.html',
+      // 'framework/express/index.html',
+      // 'framework/express/readme.html',
+      // 'communication-protocol/http.html',
       // 'framework/index.html',
       // 'framework/microservices.html',
       // 'gateway/index.html',
       // 'coursera/dsa/3/index.html',
-      // 'dsa/index.html',
+      // 'util/index.html',
       // 'jsPackages/express-generator.html',
     ]
     // 检测指定目录是否存在
