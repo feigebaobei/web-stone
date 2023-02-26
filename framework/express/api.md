@@ -192,5 +192,3 @@ request 请求对象
 |router.route(path)||||||||
 |router.use([path], [function, ...] function)|绑定中间件|||||||
 <!-- prettier-ignore-end -->
-
-# Router 对象
