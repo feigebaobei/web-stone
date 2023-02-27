@@ -13,7 +13,7 @@
 - [react 方法式组件使用 ref ](/confuse/reactFnComp%26Ref.html)
 - [性能优先的设计哲学](/confuse/title.html)
 - [cdn](/confuse/cdn.html)
-- [ts 里的?!](/confuse/ts?!.html)
+- [ts 里的?!](/confuse/tsQuestionMarkExclamationPoint.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
