@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>vue-router</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
+</style>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="vue-router">vue-router</h1>
+<h2 id="overview">overview</h2>
+<blockquote>
+<p>这是与<a href="">vue</a>相结合的路由管理工作。
+以vue插件的形式开发、使用。<br>
+基于h5的<a href="/browser/history.html">history api</a>开发的。</p>
+</blockquote>
+<h1 id="vue-router-3x">vue-router 3.x</h1>
+<h2 id="overview">overview</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>vue 2.x</th>
+<th>vue 3.x</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>vue-router 3.x</td>
+<td>vue-router 4.x</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="feature">feature</h3>
+<ul>
+<li>feature0</li>
+<li>feature1</li>
+<li>feature2</li>
+</ul>
+<h2 id="install">install</h2>
+<p>使用script标签</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/path/to/vue.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/path/to/vue-router.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+<pre><code class="language-shell">npm i vue-router
+<span class="hljs-meta prompt_"># </span><span class="language-bash">注意安装的版本号</span>
+</code></pre>
+<p>与<a href="">@vue/cli</a>结合使用。
+会覆盖App.vue文件。</p>
+<pre><code class="language-shell">vue add router
+</code></pre>
+<h2 id="usage">usage</h2>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title class_">CompA</span> = {<span class="hljs-attr">template</span>: <span class="hljs-string">&#x27;xxx&#x27;</span>}
+<span class="hljs-keyword">let</span> <span class="hljs-title class_">CompB</span> = {<span class="hljs-attr">template</span>: <span class="hljs-string">&#x27;xxx&#x27;</span>}
+<span class="hljs-keyword">let</span> routes = [
+    { <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;/a&#x27;</span>, <span class="hljs-attr">component</span>: <span class="hljs-title class_">CompA</span> },
+    { <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;/b&#x27;</span>, <span class="hljs-attr">component</span>: <span class="hljs-title class_">CompB</span> },
+]
+<span class="hljs-keyword">let</span> router = <span class="hljs-keyword">new</span> <span class="hljs-title class_">VueRrouter</span>({
+    routes
+})
+<span class="hljs-keyword">let</span> app = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Vue</span>({
+    router
+}).$mount(<span class="hljs-string">&#x27;#app&#x27;</span>)
+</code></pre>
+<pre><code class="language-js"><span class="hljs-variable language_">this</span>.<span class="hljs-property">$router</span> <span class="hljs-comment">// 访问路由器</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-property">$route</span>  <span class="hljs-comment">// 访问当前路由</span>
+</code></pre>
+<h3 id="动态路由">动态路由</h3>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> router = <span class="hljs-keyword">new</span> <span class="hljs-title class_">VueRouter</span>({
+    <span class="hljs-attr">routes</span>: [
+        <span class="hljs-comment">// 动态路由</span>
+        <span class="hljs-comment">// this.$route.params 可访问</span>
+        <span class="hljs-comment">// eg: this.$route.params.id</span>
+        { <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;/user/:id&#x27;</span>, <span class="hljs-attr">component</span>: <span class="hljs-title class_">User</span>}
+    ]
+})
+<span class="hljs-comment">// 监听路由变化</span>
+<span class="hljs-attr">watch</span>: {
+    $route(to, <span class="hljs-keyword">from</span>) {
+        ...
+    }
+}
+</code></pre>
+<h2 id="路由守卫">路由守卫</h2>
+<p>按作用域可分为：</p>
+<ul>
+<li>组件内路由守卫</li>
+<li>全局路由守卫</li>
+</ul>
+<p>beforeRouteUpdate() {}</p>
+<h2 id="嵌套路由">嵌套路由</h2>
+<p>以 / 开头的嵌套路径会被当作根路径。 这让你充分的使用嵌套组件而无须设置嵌套的路径。</p>
+<pre><code class="language-html"><span class="hljs-comment">&lt;!-- 在父组件中使用 router-view --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+    ...
+    <span class="hljs-tag">&lt;<span class="hljs-name">router-view</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+</code></pre>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> router = <span class="hljs-keyword">new</span> <span class="hljs-title class_">VueRouter</span>({
+    <span class="hljs-attr">routes</span>: [
+        { <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;/user/:id&#x27;</span>,
+            <span class="hljs-attr">component</span>: <span class="hljs-title class_">User</span>, <span class="hljs-comment">// 该组件中必须包括 &lt;router-view&gt;</span>
+            <span class="hljs-attr">children</span>: [
+                {
+                    <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;profile&#x27;</span>, <span class="hljs-comment">// 若以 / 开头则为绝对路由，否则为相对父路由的路由。</span>
+                    <span class="hljs-attr">componentn</span>: <span class="hljs-title class_">UserProfile</span>
+                }
+            ]
+        }
+    ]
+})
+</code></pre>
+<h3 id="多视窗">多视窗</h3>
+<p>命名路由</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">&quot;{name: &#x27;user&#x27;, params: {k: 12}}&quot;</span>&gt;</span>link<span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">router-view</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;first&quot;</span> /&gt;</span>
+</code></pre>
+<pre><code class="language-js">{
+    <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;...&#x27;</span>,
+    <span class="hljs-attr">component</span>: <span class="hljs-title class_">Comp</span>,
+    <span class="hljs-attr">children</span>: [
+        {
+            <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;..&#x27;</span>,
+            <span class="hljs-attr">component</span>: xx
+        },
+        {
+            <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;xxx&#x27;</span>,
+            <span class="hljs-attr">components</span>: {
+                <span class="hljs-attr">default</span>: <span class="hljs-title class_">CompA</span>,
+                <span class="hljs-attr">first</span>: <span class="hljs-title class_">CompB</span>
+            }
+        }
+    ]
+}
+</code></pre>
+<h2 id="编写方式">编写方式</h2>
+<h3 id="声明式">声明式</h3>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">&quot;...&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">&quot;...&quot;</span> <span class="hljs-attr">replace</span> /&gt;</span>
+</code></pre>
+<h3 id="编程式导航">编程式导航</h3>
+<pre><code class="language-js"><span class="hljs-comment">// 向 history 栈中添加一个新的记录。</span>
+router.<span class="hljs-title function_">push</span>(location, onComplete? , onAbort?)
+router.<span class="hljs-title function_">replace</span>(location, onComplete?, onAbort?)
+router.<span class="hljs-property">replace</span>
+{
+    <span class="hljs-attr">name</span>: string
+    <span class="hljs-attr">path</span>: string
+    <span class="hljs-attr">params</span>: string
+    <span class="hljs-attr">component</span>: <span class="hljs-title class_">Comp</span>
+    <span class="hljs-attr">components</span>: {
+        <span class="hljs-attr">$routerViewName</span>: <span class="hljs-title class_">Comp</span>
+    }
+    <span class="hljs-attr">redirect</span>: string / object / <span class="hljs-function">() =&gt;</span> object
+    <span class="hljs-attr">alias</span>: string
+    <span class="hljs-attr">name</span>: string
+    <span class="hljs-attr">name</span>: string
+    <span class="hljs-attr">name</span>: string
+    <span class="hljs-attr">name</span>: string
+}
+router.<span class="hljs-title function_">go</span>(n)
+</code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>router.push</td>
+<td>window.history.pushState</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>router.replace</td>
+<td>window.history.replaceState</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><a href="http://router.to">router.to</a></td>
+<td>window.history.go</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="声明式--path--name">声明式 &amp; path &amp; name</h3>
+<p>||声明式|path|name|
+|-|-|-|
+|写法|<code>&lt;router-link :to=&quot;...&quot;&gt;</code>|<code>router.push({path: '/path/to'})</code>|<code>router.push({name: 'xxx'})</code>|
+|特点|明了|明确路径|明确组件|
+|||推荐||
+|||||</p>
+<h2 id="优先级">优先级</h2>
+<p>同一个路径可以匹配多个路由，此时，匹配的优先级就按照路由的定义顺序：路由定义得越早，优先级就越高。</p>
+<h2 id="重定向--别名">重定向 &amp; 别名</h2>
+<pre><code>redirect: '/b',
+redirect: {name: 'xx'},
+redirect: () =&gt; ({}),
+</code></pre>
+<h2 id="模式">模式</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>history</th>
+<th>hash</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>真的会发出get请求。服务端应该做好兜底解决方案。</td>
+<td>不太好看。</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="路由为组件传参">路由为组件传参</h2>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title class_">User</span> = {
+    <span class="hljs-attr">props</span>: [<span class="hljs-string">&#x27;id&#x27;</span>],
+    <span class="hljs-attr">template</span>: <span class="hljs-string">&#x27;&lt;div&gt;{{id}}&lt;/div&gt;&#x27;</span>
+}
+<span class="hljs-keyword">let</span> router = <span class="hljs-keyword">new</span> <span class="hljs-title class_">VueRouter</span>({
+    <span class="hljs-attr">routes</span>: [
+        {
+            <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;/xx/:id&#x27;</span>, <span class="hljs-attr">component</span>: <span class="hljs-title class_">User</span>, <span class="hljs-attr">props</span>: <span class="hljs-literal">true</span>
+        },
+        <span class="hljs-comment">// 当包含多个视窗时，必须为每个命名视窗添加 props 选项。</span>
+        <span class="hljs-comment">// 当 props 为 true 时，router.params会被设置为组件属性。组件使用props接收。</span>
+        <span class="hljs-comment">// boolean</span>
+        <span class="hljs-comment">// object</span>
+        <span class="hljs-comment">// function () =&gt; object</span>
+        {
+            <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;/xx/:id&#x27;</span>,
+            <span class="hljs-attr">components</span>: {<span class="hljs-attr">default</span>: <span class="hljs-title class_">User</span>, <span class="hljs-attr">sidebar</span>: <span class="hljs-title class_">Sidebar</span>},
+            <span class="hljs-attr">props</span>: {<span class="hljs-attr">default</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">sidebar</span>: <span class="hljs-literal">false</span>}
+        }
+    ]
+})
+</code></pre>
+<h2 id="模式">模式</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>history</th>
+<th>hash</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>demo</td>
+<td><code>http://asdf.com/user</code></td>
+<td><code>http://asf.com/#/id</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>好看</td>
+<td>不好看</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>真的会向服务发get请求</td>
+<td>不会发请求</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>需要后端兼容</td>
+<td>不需要</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>常用于生产</td>
+<td>常用于开发</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>前端做404路由、页面</td>
+<td>后端做</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="apache">apache</h3>
+<h3 id="nginx">nginx</h3>
+<pre><code>location / {
+    try_files $uri $uri/ /index.html;
+}
+</code></pre>
+<h3 id="nodejs">node.js</h3>
+<pre><code>let http = require('http')
+let fs = require('fs')
+let httpPort = 80
+http.createServer((req, res) =&gt; {
+    fs.readFile('index.html', 'utf-8', (err, content) =&gt; {
+        if (err) {...}
+        res.writeHead(200, {
+            'Content-Type': 'text/html; charset=utf-8'
+        })
+        res.end(content)
+    })
+}).listen(httpPort, () =&gt; {
+    console.log('strxs')
+})
+</code></pre>
+<h3 id="express">express</h3>
+<p>使用<code>connect-history-api-fallback</code></p>
+<h3 id="iis">iis</h3>
+<h3 id="caddy">caddy</h3>
+<h3 id="firebase">firebase</h3>
+<h3 id="apache">apache</h3>
+<h2 id="守卫">守卫</h2>
+<h2 id="configuration">configuration</h2>
+<p>默认配置文件：<code>path/to/file.json</code>。</p>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h2 id="api">api</h2>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<p><code>vue-router.fn(param, first: string, second: boolean = true) =&gt; void</code>
+description</p>
+<p><code>vue-router.fn(param, [options: {a: string, b?: number}])</code>
+description</p>
+<h2 id="principle">principle</h2>
+<p>此包的处理逻辑。</p>
+<h3 id="uml">uml</h3>
+<pre><code></code></pre>
+<h2 id="todo">todo</h2>
+<blockquote>
+<p>未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote>
+<h1 id="vue-router-4x">vue-router 4.x</h1>
+<h2 id="overview">overview</h2>
+<blockquote>
+<p>vue-router 3.x 与 vue 2.x 配套使用</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>vue 2.x</th>
+<th>vue 3.x</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>vue-router 3.x</td>
+<td>vue-router 4.x</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="feature">feature</h3>
+<ul>
+<li>feature0</li>
+<li>feature1</li>
+<li>feature2</li>
+</ul>
+<h2 id="install">install</h2>
+<p>使用script标签</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/path/to/vue.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/path/to/vue-router.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+<pre><code class="language-shell">npm i vue-router
+</code></pre>
+<h2 id="usage">usage</h2>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> vue-router = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;vue-router&#x27;</span>);
+<span class="hljs-comment">// or</span>
+<span class="hljs-comment">// import vue-router from &#x27;vue-router&#x27;;</span>
+<span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> DEMONSTRATE API</span>
+</code></pre>
+<h2 id="configuration">configuration</h2>
+<p>默认配置文件：<code>path/to/file.json</code>。</p>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h2 id="api">api</h2>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<p><code>vue-router.fn(param, first: string, second: boolean = true) =&gt; void</code>
+description</p>
+<p><code>vue-router.fn(param, [options: {a: string, b?: number}])</code>
+description</p>
+<h2 id="principle">principle</h2>
+<p>此包的处理逻辑。</p>
+<h3 id="uml">uml</h3>
+<pre><code></code></pre>
+<h2 id="todo">todo</h2>
+<blockquote>
+<p>未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote>
+
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
+    </body>
+    </html>
