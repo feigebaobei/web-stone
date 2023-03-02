@@ -132,11 +132,11 @@ let router = new VueRouter({
 ```
 
 ```js
-{
+{ // 这是一个路由记录
     path: '...',
     component: Comp,
     children: [
-        {
+        { // 这是一个路由记录
             path: '..',
             component: xx
         },
@@ -176,8 +176,8 @@ router.replace
     }
     redirect: string / object / () => object
     alias: string
-    name: string
-    name: string
+    beforeEnter: (to, from, next) => {}
+    meta: object
     name: string
     name: string
 }
@@ -301,33 +301,196 @@ http.createServer((req, res) => {
 
 ## 守卫
 
-## configuration
+按作用域不同，可分为：
 
-默认配置文件：`path/to/file.json`。
+- 全局守卫
+- 路由独享守卫
+- 组件守卫
 
-<!-- prettier-ignore-start -->
-|key|description|type|default|enum|demo|||
-|-|-|-|-|-|-|-|-|
-|||||||||
-|||||||||
-|||||||||
-<!-- prettier-ignore-end -->
+```js
+let router = new VueRouter({...})
+router.beforeResolve()
+router.beforeEach((to, from, next) => {
+  ...
+  // next() 是进行管道中的下一个钩子。
+  // next(false) 中断导航
+  // next('/')  进入特定路由
+  // next({path: '/'}) 进入特定路由
+  // next(error) 导航中止并触发router.onError()
+  // next 可出现多次，只能执行一次。
+})
+```
+
+### 触发流程
+
+1. 触发导航
+2. 在失活的组件中调用 beforeRouteLeave
+3. 调用全局 beforeEach
+4. 在重用的组件中调用 beforeRouteUpdate
+5. 在路由配置时调用 beforeEnter
+6. 解析异步路由组件
+7. 在激活的组件时调用 beforeRouteEnter
+8. 调用全局的 beforeResolve
+9. 确认导航
+10. 调用全局 afterEach
+11. 触发 dom 更新
+12. 调用 beforeRouteEnter 守卫中传给 next 的回调函数，创建好的组件实例会作为回调函数的参数传入。
+
+## 动画
+
+总是与`<transition>`结合使用
+按使用范围可以分为：
+
+- 视窗级动画
+- 路由级动画
+
+```html
+<transtion>
+  <router-view />
+</transition>
+```
+
+```js
+const Foo = {
+  template: `<transition name="slide">
+    <div class="foo" />
+  </transition>`,
+}
+```
+
+```js
+watch: {
+  '$route' (to, from) {
+    let toDepth = to.path.split('/').length
+    let fromDepth = to.path.split('/').length
+    this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
+  },
+  // or
+  '$route': 'fn'
+},
+method: {
+  fn () {....}
+}
+```
+
+## 请求数据的时刻
+
+|                |     |     |     |     |
+| -------------- | --- | --- | --- | --- |
+| 导航完成后获取 |     |     |     |     |
+| 导航完成前获取 |     |     |     |     |
+| created        |     |     |     |     |
+| mounted        |     |     |     |     |
+
+## 滚动行为
+
+```js
+const router = new VueRouter({
+  routes: [...],
+  scrollBehavior (to, from, savedPosition) {
+    // savedPosition 在 popstate 时才有效。
+    return {x: N, y: N}
+    return {
+      selector: S,
+      offset?: {
+        x: N,
+        y: N
+      },
+      behavior: S
+    }
+  }
+})
+```
+
+## 路由懒加载
+
+```js
+let router = new VueRouter({
+  routes: [
+    {
+      path: '..',
+      component: () => import('./file.vue'),
+    },
+  ],
+})
+```
+
+## 检测导航故障
+
+```js
+// router.beforeEach((to, from, next) => {
+//   if ()
+// })
+let { isNavigationFailure, NavigationFailureType } = VueRouter
+router.push('./admin').catch((failure) => {
+  if (isNavigationFailure(failure, NavigationFailureType.redirected)) {
+    // failure.to.path     '/admin'
+    // failure.from.path   '/'
+  }
+})
+```
+
+## 协商路由
+
+由前后端共同决定前端路由是什么。
+一般由前端创建一个有少量路由记录的路由器，再由后端给前端一些数据，然后前端处理此数据后使用`router.addRoute()`添加路由。  
+路由对应的文件是已经开发好的。
 
 ## api
 
 <!-- prettier-ignore-start -->
-|key|description|type|default|enum|demo|||
+|key|subKey|description|type|default|enum|demo|||
 |-|-|-|-|-|-|-|-|
-|||||||||
-|||||||||
-|||||||||
+|`<router-link>`||链接组件|||||||
+||`to`|目标|string/Location||||||
+||`replace`||boolean|false|||||
+||`append`|是否追加路径|boolean|false|||||
+||`tag`||string|'a'|||||
+||`active-class`|激活状态时使用的类名|string|'router-link-active'|||||
+||`exact`|是否使用精确匹配模式|boolean|false|||||
+||`event`|触发导航的事件|`string/Array<string>`|'click'|||||
+||`exact-active-class`|string|'router-link-exact-active'||||||
+||`aria-current-value`||'page'/'step'/'location'/'date'/'time'/'true'/'false'|'page'|||||
+|`<router-view>`||视窗组件|||||||
+||`name`||string|'default'|||||
+|router的构建选项|||||||||
+||`routes`|路由记录组成的数组|||||||
+||`mode`||string|'hash'/'abstract'|'hash'/'history'/'abstract'||||
+||`base`||string|'/'|||||
+||`linkActiveClass`||string|'router-link-active'|||||
+||`linkExactActiveClass`||string|'router-link-exact-active'|||||
+||`scrollBehavior`||function||||||
+||`parseQuery/stringifyQuery`|自定义qs的解析、反解析函数|||||||
+||`fallback`||boolean|true|||||
+|router实例|||||||||
+||`router.app`|Vue实例|||||||
+||`router.mode`|模式|string||||||
+||`router.currentRoute`||Route||||||
+||`router.START_LOCATION`|初始路由地址|Route||||||
+||`router.beforeEach((to, from, next) => {...})`|必须调用next|||||||
+||`router.beforeResolve((to, from, next) => {...})`|必须调用next|||||||
+||`router.afterEach((to, from) => {...})`||||||||
+||`router.push()`||||||||
+||`router.replace()`||||||||
+||`router.go()`||||||||
+||`router.back()`||||||||
+||`router.forward()`||||||||
+||`router.getMatchedComponents()`|返回当前路由匹配的组件（种类）数组|||||||
+||`router.resolve()`||||||||
+||`router.addRoute(parentname?: string, route: RouteConfig)`|添加路由。与后端交互时常用。|||||||
+||`router.getRoutes()`|得到当前路由记录|||||||
+||`router.onReady(cb, [errorcb])`||||||||
+||`router.onError(cb)`||||||||
+|$router||路由对象|||||||
+||`$router.path`|返回当前路由的路径|string||||||
+||`$router.params`|返回动态参数组成的对象|object||||||
+||`$router.query`|返回qs组成的对象|object||||||
+||`$router.hash`|返回hash值，带#|string||||||
+||`$router.fullPath`|返回解析后的url|||||||
+||`$router.matched`|返回匹配的路由记录|||||||
+||`$router.name`|返回路由的名称|||||||
+||`$router.redirectionFrom`|返回重定向来源的路由的名字|||||||
 <!-- prettier-ignore-end -->
-
-`vue-router.fn(param, first: string, second: boolean = true) => void`
-description
-
-`vue-router.fn(param, [options: {a: string, b?: number}])`
-description
 
 ## principle
 
@@ -346,6 +509,8 @@ description
 > 未来迭代计划。
 
 # vue-router 4.x
+
+已经整理出来了。
 
 ## overview
 

@@ -258,6 +258,7 @@ c.on('ready', () => {
       // 'books/codeComplete/index.html',
       // 'books/codeComplete/checkList/index.html',
       // 'books/codeComplete/preface.html',
+      // 'jsPackages/vue-router.html',
       // 'confuse/ts?!.html',
       // 'confuse/tsQuestionMarkExclamationPoint.html',
     ]
@@ -266,27 +267,27 @@ c.on('ready', () => {
     // 检测删除目录
     // removeDir(p).then(() => {c.end()})
     // 测试删除文件
-    removeFile(p)
-      .then(() => {
-        // log('then')
-        c.end()
-      })
-      .catch((err) => {
-        log('catch', err)
-        c.end()
-      })
-    // 测试上传单个文件
-    // uploadFile(p)
-    // 上传多个文件
-    // uploadFiles(p)
+    // removeFile(p)
     //   .then(() => {
-    //     log('then', '全部完成')
+    //     // log('then')
     //     c.end()
     //   })
     //   .catch((err) => {
     //     log('catch', err)
     //     c.end()
     //   })
+    // 测试上传单个文件
+    // uploadFile(p)
+    // 上传多个文件
+    uploadFiles(p)
+      .then(() => {
+        log('then', '全部完成')
+        c.end()
+      })
+      .catch((err) => {
+        log('catch', err)
+        c.end()
+      })
     // 创建目录
     // makeDir(p)
     //   .then(() => {
