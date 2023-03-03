@@ -41,7 +41,7 @@
 - [introjs](/jsPackages/introjs.html)
 - [data-footstone](/jsPackages/data-footstone.html)
 - [vue-router](/jsPackages/vue-router.html)
-- [title](/jsPackages/title.html)
-- [title](/jsPackages/title.html)
+- [v-drag](/jsPackages/v-drag.html) 支持 vue1/vue2/vue3
+- [vuedraggable](/jsPackages/vuedraggable.html) 支持 vue1/vue2
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
