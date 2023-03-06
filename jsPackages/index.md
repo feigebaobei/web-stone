@@ -23,6 +23,7 @@
 - [mkcert](/jsPackages/mkcert.html)
 - [md5](/jsPackages/md5.html)
 - [commander](/jsPackages/commander/index.html)
+- [zx](/jsPackages/zx/index.html) 是 node+commander 的竞品
 - [sql.js](/jsPackages/sql.js.html)
 - [lath](/jsPackages/lath.html)
 - [html-server](/jsPackages/html-server.html)
