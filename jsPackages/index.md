@@ -44,5 +44,11 @@
 - [vue-router](/jsPackages/vue-router.html)
 - [v-drag](/jsPackages/v-drag.html) 支持 vue1/vue2/vue3
 - [vuedraggable](/jsPackages/vuedraggable.html) 支持 vue1/vue2
+
+## icon 类
+
+- [xicons](/jsPackages/xicons.html)
+- [title](/jsPackages/title.html)
+- [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)

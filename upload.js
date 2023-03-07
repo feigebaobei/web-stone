@@ -250,17 +250,15 @@ c.on('ready', () => {
       throw err
     }
 
-    // let p = 'books/codeComplete/checkList'
+    // let p = 'promote/standard'
     let p = [
-      // 'confuse/ts?!.html',
-      // 'framework/express/api.html',
-      // 'books/index.html',
-      // 'books/codeComplete/index.html',
-      // 'books/codeComplete/checkList/index.html',
-      // 'books/codeComplete/preface.html',
-      // 'jsPackages/vue-router.html',
-      // 'confuse/ts?!.html',
-      // 'confuse/tsQuestionMarkExclamationPoint.html',
+      'index.html',
+      'promote/standard/index.html',
+      'framework/vue2/vue-cli.html',
+      'jsPackages/index.html',
+      'jsPackages/xicons.html',
+      'jsPackages/zx.html',
+      'jsPackages/v-drag.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
