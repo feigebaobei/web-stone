@@ -22,8 +22,14 @@
 - [ngrok](/jsPackages/ngrok.html)
 - [mkcert](/jsPackages/mkcert.html)
 - [md5](/jsPackages/md5.html)
+
+## 编写 cli 的工具
+
 - [commander](/jsPackages/commander/index.html)
 - [zx](/jsPackages/zx/index.html) 是 node+commander 的竞品
+
+## 数据库的工具
+
 - [sql.js](/jsPackages/sql.js.html)
 - [lath](/jsPackages/lath.html)
 - [html-server](/jsPackages/html-server.html)
@@ -48,6 +54,7 @@
 ## icon 类
 
 - [xicons](/jsPackages/xicons.html)
+
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)

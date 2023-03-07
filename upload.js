@@ -252,13 +252,13 @@ c.on('ready', () => {
 
     // let p = 'promote/standard'
     let p = [
-      'index.html',
-      'promote/standard/index.html',
-      'framework/vue2/vue-cli.html',
-      'jsPackages/index.html',
-      'jsPackages/xicons.html',
-      'jsPackages/zx.html',
-      'jsPackages/v-drag.html',
+      // 'index.html',
+      // 'promote/standard/index.html',
+      // 'framework/vue2/vue-cli.html',
+      // 'jsPackages/index.html',
+      // 'jsPackages/xicons.html',
+      // 'jsPackages/zx.html',
+      // 'jsPackages/v-drag.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)

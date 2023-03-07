@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>zx</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
+
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
+
+</style>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="zx">zx</h1>
+<h2 id="overview">overview</h2>
+<blockquote>
+<p>用于运行复杂的脚本。若使用 node.js 则需要引入若干脚本再使用。
+使用 child_process 执行<br>
+node &gt;= 16.0.0</p>
+</blockquote>
+<h3 id="feature">feature</h3>
+<ul>
+<li>feature0</li>
+<li>feature1</li>
+<li>feature2</li>
+</ul>
+<h2 id="install">install</h2>
+<p><code>npm i zx -g</code></p>
+<h2 id="usage">usage</h2>
+<p>若执行<code>*.mjs</code>，则可以在顶层<code>await</code>.<br>
+若执行<code>*.js</code>，则可以在顶层<code>void async function() {....}()</code>.<br>
+zx 的所有方法都会可以直接使用，即使没有引入。</p>
+<h3 id="使用-zx-执行-js-代码">使用 zx 执行 js 代码</h3>
+<pre><code class="language-js">#!<span class="hljs-regexp">/usr/</span>bin/env zx
+<span class="hljs-keyword">let</span> name = <span class="hljs-string">&#x27;foo&#x27;</span>
+<span class="hljs-keyword">await</span> $<span class="hljs-string">`mkdir /temp/<span class="hljs-subst">${name}</span>`</span>
+</code></pre>
+<pre><code class="language-shell">zx ./script.mjs
+</code></pre>
+<h3 id="使用-zx-执行脚本文件">使用 zx 执行脚本文件</h3>
+<pre><code class="language-shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">!/usr/bin/env zx</span>
+<span class="hljs-meta prompt_">
+# </span><span class="language-bash">可能需要执行</span>
+chmod +x ./script.mjs
+./script.mjs
+</code></pre>
+<h3 id="command">$<code>command</code></h3>
+<p>使用<code>spawn</code>执行并返回<code>ProcessPromise</code>对象</p>
+<pre><code class="language-js"><span class="hljs-keyword">await</span> $<span class="hljs-string">`cd <span class="hljs-subst">${path}</span>`</span>
+</code></pre>
+<p>若执行一个方法，返回非零状态码，则返回<code>ProcessOutput</code>对象</p>
+<pre><code class="language-js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">ProcessPromise</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Promise</span>&lt;<span class="hljs-title class_">ProcessOutput</span>&gt; {
+    <span class="hljs-attr">stdin</span>: <span class="hljs-title class_">Writable</span>
+    <span class="hljs-attr">stdout</span>: <span class="hljs-title class_">Readable</span>
+    <span class="hljs-attr">stderr</span>: <span class="hljs-title class_">Readable</span>
+    <span class="hljs-attr">exitCode</span>: <span class="hljs-title class_">Promise</span>&lt;number&gt;
+    <span class="hljs-title function_">pipe</span>(dest): <span class="hljs-title class_">ProcessPromise</span>
+    <span class="hljs-title function_">kill</span>(): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-keyword">void</span>&gt;
+    <span class="hljs-title function_">nothrow</span>(): <span class="hljs-variable language_">this</span>
+    <span class="hljs-attr">quiet</span>: <span class="hljs-variable language_">this</span>
+}
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">ProcessOutput</span> {
+    readonly <span class="hljs-attr">stdout</span>: string
+    readonly <span class="hljs-attr">stderr</span>: string
+    readonly <span class="hljs-attr">signal</span>: string
+    readonly <span class="hljs-attr">exitCode</span>: number
+    <span class="hljs-title function_">toString</span>(): string
+}
+</code></pre>
+<h3 id="functions">Functions</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cb()</td>
+<td>改变当前工作目录</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>fetch()</td>
+<td>使用<code>node-fetch</code>处理参数</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>question()</td>
+<td>使用<code>readline</code>处理参数</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>sleep()</td>
+<td>使用<code>setTimout</code>处理参数</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>echo()</td>
+<td><code>console.log()</code>处理参数。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>stdin()</td>
+<td>返回stdin的string</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>within()</td>
+<td>创建一个异步上下文</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>retry()</td>
+<td>尝试指定次数的回调方法。返返回第一次成功的结果，或返回最后的失败。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>spinner()</td>
+<td>创建一个简单的spinner</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="packages">Packages</h3>
+<p>下列包不需要引入就能直接使用：</p>
+<ul>
+<li>chalk</li>
+<li>fs-extra</li>
+<li>os</li>
+<li>path</li>
+<li>globby</li>
+<li>yaml</li>
+<li>minimist</li>
+<li>which</li>
+</ul>
+<h3 id="configuration">configuration</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th>default</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$.shell</td>
+<td>设置运行的壳</td>
+<td><code>/bin/base</code></td>
+<td></td>
+</tr>
+<tr>
+<td>$.spawn</td>
+<td>指定<code>spawn</code>api.</td>
+<td><code>require(child_process)</code></td>
+<td></td>
+</tr>
+<tr>
+<td>$.prefix</td>
+<td></td>
+<td><code>est -euo pipefail</code></td>
+<td></td>
+</tr>
+<tr>
+<td>$.quote</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>$.verbose</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>$.env</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>$.cwd</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>$.log</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="polyfills">polyfills</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>__filename</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>__dirname</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>require()</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="configuration">configuration</h2>
+<p>默认配置文件：<code>path/to/file.json</code>。</p>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h2 id="api">api</h2>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<p><code>zx.fn(param, first: string, second: boolean = true) =&gt; void</code>
+description</p>
+<p><code>zx.fn(param, [options: {a: string, b?: number}])</code>
+description</p>
+<h2 id="principle">principle</h2>
+<p>此包的处理逻辑。</p>
+<h3 id="uml">uml</h3>
+<pre><code>
+</code></pre>
+<h2 id="手动解析--commander--zx">手动解析 &amp; commander &amp; zx</h2>
+<p>这三个方法分别对应写脚本的三个层次。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>手动解析</th>
+<th>commander</th>
+<th>zx</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>编写难度递减</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>无本质区别</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>逻辑</td>
+<td>根据stdin取出参数。再喂入指定方法。由该方法执行核心功能</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>贡献</td>
+<td>开启了基于node编写的脚本。</td>
+<td>从别的语言中借鉴来编写方式。再经过特定格式取出参数。支持定义方法。由参数+方法得到执行结果。</td>
+<td>让编写脚本更友好。</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>带来规范的编写方式</td>
+<td>已经内置若干包。对外提供易于编写脚本的方法。</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="todo">todo</h2>
+<blockquote>
+<p>未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote>
+
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
+    </body>
+    </html>
