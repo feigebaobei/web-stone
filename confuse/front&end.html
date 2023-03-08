@@ -15,41 +15,6 @@
 	display: none;
 }
 
-/* From extension ms-toolsai.jupyter */
-/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
-
-.alert {
-    width: auto;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-.alert > *:last-child {
-    margin-bottom: 0;
-}
-#preview > .alert:last-child {
-    /* Prevent this being set to zero by the default notebook stylesheet */
-    padding-bottom: 1em;
-}
-
-.alert-success {
-    /* Note there is no suitable color available, so we just copy "info" */
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-info {
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-warning {
-    background-color: var(--theme-warning-background);
-    color: var(--theme-warning-foreground);
-}
-.alert-danger {
-    background-color: var(--theme-error-background);
-    color: var(--theme-error-foreground);
-}
-
 </style>
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
@@ -122,12 +87,12 @@
 <p>语义 &gt; 功能：前端告诉后端要做什么</p>
 <h2 id="cors">cors</h2>
 <p>Cross-Origin Resource Sharing，跨域资源共享<br>
-必须实例的4个header字段。</p>
+必须实例的 4 个 header 字段。</p>
 <ul>
-<li>Access-Control-Allow-Origin  指示请求的资源能共享给哪些域。</li>
-<li>Access-Control-Allow-Credentials  指示当请求的凭证标记为 true 时，是否响应该请求。</li>
-<li>Access-Control-Allow-Headers  用在对预请求的响应中，指示实际的请求中可以使用哪些 HTTP 头。</li>
-<li>Access-Control-Allow-Methods  指定对预请求的响应中，哪些 HTTP 方法允许访问请求的资源。</li>
+<li>Access-Control-Allow-Origin 指示请求的资源能共享给哪些域。</li>
+<li>Access-Control-Allow-Credentials 指示当请求的凭证标记为 true 时，是否响应该请求。</li>
+<li>Access-Control-Allow-Headers 用在对预请求的响应中，指示实际的请求中可以使用哪些 HTTP 头。</li>
+<li>Access-Control-Allow-Methods 指定对预请求的响应中，哪些 HTTP 方法允许访问请求的资源。</li>
 </ul>
 <h2 id="数据结构不变">数据结构不变</h2>
 <pre><code class="language-js">{
@@ -162,16 +127,105 @@
 </tr>
 </tbody>
 </table>
-<p>尽量不要给null。
-因为null在原型链的最顶端。它什么方法也没有。</p>
-<h2 id="无法传递undefined">无法传递undefined</h2>
+<p>尽量不要给 null。
+因为 null 在原型链的最顶端。它什么方法也没有。</p>
+<h2 id="无法传递-undefined">无法传递 undefined</h2>
 <h2 id="最大数字问题">最大数字问题</h2>
 <p>JavaScript 内部使用 64 位浮点数<br>
-Number.MAX_SAFE_INTEGER	最大安全数	2^53 - 1<br>
-Number.MIN_SAFE_INTEGER	最小安全数	-(2^53 - 1)<br>
-Number.isSafeInteger(value)	返回是否是安全数。(-(2^53 - 1), 2^53 - 1)</p>
+Number.MAX_SAFE_INTEGER 最大安全数 2^53 - 1<br>
+Number.MIN_SAFE_INTEGER 最小安全数 -(2^53 - 1)<br>
+Number.isSafeInteger(value) 返回是否是安全数。(-(2^53 - 1), 2^53 - 1)</p>
+<h2 id="接口重载">接口重载</h2>
+<h2 id="最小权限原则">最小权限原则</h2>
+<p>非必要字段不给前端</p>
+<h2 id="只传递必要字段">只传递必要字段</h2>
+<ul>
+<li>后端使用惟一键可以得到对应的详细信息。</li>
+<li>后端不应该相信前端</li>
+</ul>
+<h2 id="前端做什么不做什么">前端做什么？不做什么？</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th>eg</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>不为敏感结果计算</td>
+<td>不算钱</td>
+<td>不包括边缘计算</td>
+</tr>
+<tr>
+<td></td>
+<td>不传递敏感数据</td>
+<td>不传递金额</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>正确渲染页面</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>正确操作逻辑</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>传递操作结果后后端</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>前端是一个接口，为用户使用后端服务提供接口。</p>
+<h2 id="前后端都要做数据检查">前后端都要做数据检查</h2>
+<ul>
+<li>必传字段</li>
+<li>数据类型（兼容/严格）</li>
+<li>数据结构</li>
+<li>数据值的范围</li>
+<li>数据值的精度</li>
+</ul>
+<h2 id="restful">restful</h2>
+<pre><code>/path/data
+get     得到
+post    创建
+put     修改
+delete  删除
+</code></pre>
 <h2 id="可以谈">可以谈</h2>
 <p>根据实际情况可灵活变动。</p>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a href="https://baike.baidu.com/item/RESTful/4406165?fr=aladdin">restful</a></li>
+</ul>
 
         
         

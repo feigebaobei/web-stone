@@ -144,7 +144,7 @@
 }).$mount(<span class="hljs-string">&#x27;#app&#x27;</span>)
 </code></pre>
 <pre><code class="language-js"><span class="hljs-variable language_">this</span>.<span class="hljs-property">$router</span> <span class="hljs-comment">// 访问路由器</span>
-<span class="hljs-variable language_">this</span>.<span class="hljs-property">$route</span>  <span class="hljs-comment">// 访问当前路由</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-property">$route</span> <span class="hljs-comment">// 访问当前路由</span>
 </code></pre>
 <h3 id="动态路由">动态路由</h3>
 <pre><code class="language-js"><span class="hljs-keyword">let</span> router = <span class="hljs-keyword">new</span> <span class="hljs-title class_">VueRouter</span>({
@@ -484,8 +484,8 @@ router.<span class="hljs-title function_">beforeEach</span>(<span class="hljs-fu
 <li>调用全局的 beforeResolve</li>
 <li>确认导航</li>
 <li>调用全局 afterEach</li>
-<li>触发dom更新</li>
-<li>调用 beforeRouteEnter 守卫中传给next的回调函数，创建好的组件实例会作为回调函数的参数传入。</li>
+<li>触发 dom 更新</li>
+<li>调用 beforeRouteEnter 守卫中传给 next 的回调函数，创建好的组件实例会作为回调函数的参数传入。</li>
 </ol>
 <h2 id="动画">动画</h2>
 <p>总是与<code>&lt;transition&gt;</code>结合使用
@@ -501,7 +501,7 @@ router.<span class="hljs-title function_">beforeEach</span>(<span class="hljs-fu
 <pre><code class="language-js"><span class="hljs-keyword">const</span> <span class="hljs-title class_">Foo</span> = {
   <span class="hljs-attr">template</span>: <span class="hljs-string">`&lt;transition name=&quot;slide&quot;&gt;
     &lt;div class=&quot;foo&quot; /&gt;
-  &lt;/transition&gt;`</span>
+  &lt;/transition&gt;`</span>,
 }
 </code></pre>
 <pre><code class="language-js"><span class="hljs-attr">watch</span>: {
@@ -581,17 +581,17 @@ router.<span class="hljs-title function_">beforeEach</span>(<span class="hljs-fu
   <span class="hljs-attr">routes</span>: [
     {
       <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;..&#x27;</span>,
-      <span class="hljs-attr">component</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">import</span>(<span class="hljs-string">&#x27;./file.vue&#x27;</span>)
-    }
-  ]
+      <span class="hljs-attr">component</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">import</span>(<span class="hljs-string">&#x27;./file.vue&#x27;</span>),
+    },
+  ],
 })
 </code></pre>
 <h2 id="检测导航故障">检测导航故障</h2>
 <pre><code class="language-js"><span class="hljs-comment">// router.beforeEach((to, from, next) =&gt; {</span>
 <span class="hljs-comment">//   if ()</span>
 <span class="hljs-comment">// })</span>
-<span class="hljs-keyword">let</span> {isNavigationFailure, <span class="hljs-title class_">NavigationFailureType</span>} = <span class="hljs-title class_">VueRouter</span>
-router.<span class="hljs-title function_">push</span>(<span class="hljs-string">&#x27;./admin&#x27;</span>).<span class="hljs-title function_">catch</span>(<span class="hljs-function"><span class="hljs-params">failure</span> =&gt;</span> {
+<span class="hljs-keyword">let</span> { isNavigationFailure, <span class="hljs-title class_">NavigationFailureType</span> } = <span class="hljs-title class_">VueRouter</span>
+router.<span class="hljs-title function_">push</span>(<span class="hljs-string">&#x27;./admin&#x27;</span>).<span class="hljs-title function_">catch</span>(<span class="hljs-function">(<span class="hljs-params">failure</span>) =&gt;</span> {
   <span class="hljs-keyword">if</span> (<span class="hljs-title function_">isNavigationFailure</span>(failure, <span class="hljs-title class_">NavigationFailureType</span>.<span class="hljs-property">redirected</span>)) {
     <span class="hljs-comment">// failure.to.path     &#x27;/admin&#x27;</span>
     <span class="hljs-comment">// failure.from.path   &#x27;/&#x27;</span>
@@ -646,15 +646,15 @@ router.<span class="hljs-title function_">push</span>(<span class="hljs-string">
 ||<code>router.getRoutes()</code>|得到当前路由记录|||||||
 ||<code>router.onReady(cb, [errorcb])</code>||||||||
 ||<code>router.onError(cb)</code>||||||||
-|$router||路由对象|||||||
-||<code>$router.path</code>|返回当前路由的路径|string||||||
-||<code>$router.params</code>|返回动态参数组成的对象|object||||||
-||<code>$router.query</code>|返回qs组成的对象|object||||||
-||<code>$router.hash</code>|返回hash值，带#|string||||||
-||<code>$router.fullPath</code>|返回解析后的url|||||||
-||<code>$router.matched</code>|返回匹配的路由记录|||||||
-||<code>$router.name</code>|返回路由的名称|||||||
-||<code>$router.redirectionFrom</code>|返回重定向来源的路由的名字|||||||</p>
+|$route||路由对象|||||||
+||<code>$route.path</code>|返回当前路由的路径|string||||||
+||<code>$route.params</code>|返回动态参数组成的对象|object||||||
+||<code>$route.query</code>|返回qs组成的对象|object||||||
+||<code>$route.hash</code>|返回hash值，带#|string||||||
+||<code>$route.fullPath</code>|返回解析后的url|||||||
+||<code>$route.matched</code>|返回匹配的路由记录|||||||
+||<code>$route.name</code>|返回路由的名称|||||||
+||<code>$route.redirectionFrom</code>|返回重定向来源的路由的名字|||||||</p>
 <!-- prettier-ignore-end -->
 <h2 id="principle">principle</h2>
 <p>此包的处理逻辑。</p>
