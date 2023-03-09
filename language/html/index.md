@@ -721,7 +721,8 @@ ondragstart 属性调用了一个 drag(event) 函数，规定拖动什么数据�
 dataTransfer.setData() 方法设置被拖动数据的数据类型和值：  
 ondragover 事件规定被拖动的数据能够被放置到何处。为了实现拖放，我们必须阻止元素的这种默认的处理方式。这个任务由 ondragover 事件的 event.preventDefault() 方法完成：  
 ondrop 属性调用了一个函数，drop(event)：  
-详见[drag](/language/javascript/event.html)
+详见[drag](/language/javascript/drag.html)
+详见[event](/language/javascript/event.html)
 
 # 本地存储
 

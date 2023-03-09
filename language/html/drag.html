@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>drag &amp; drop</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="drag--drop">drag &amp; drop</h1>
+<h2 id="setup">setup</h2>
+<p>必要条件：</p>
+<ul>
+<li>为可拖动元素设置<code>draggable=&quot;true&quot;</code></li>
+<li>在可放置元素设置<code>@dragover=&quot;$event =&gt; $event.preventDefault()&quot;</code></li>
+</ul>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dropzone&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;draggable&quot;</span> <span class="hljs-attr">draggable</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
+    这个 div 可以拖动
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dropzone&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;droptarget&quot;</span> @<span class="hljs-attr">dragover</span>=<span class="hljs-string">&quot;dragoverHandler&quot;</span> @<span class="hljs-attr">drop</span>=<span class="hljs-string">&quot;dropHandler&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</code></pre>
+<pre><code>let ondragoverHandler = ($event) =&gt; {
+ $event.preventDefault()
+}
+let dropHandler = ($event) =&gt; {
+    $event.
+}
+</code></pre>
+<h2 id="事件">事件</h2>
+<p>DragEvent.dataTransfer // dragEvent的数据</p>
+<p>包括如下事件</p>
+<h3 id="drag">drag</h3>
+<pre><code>Event &lt;---- UIEvent &lt;---- MouseEvent &lt;---- DragEvent
+</code></pre>
+<h3 id="dragstart">dragstart</h3>
+<h3 id="dragend">dragend</h3>
+<h3 id="dragover">dragover</h3>
+<h3 id="dragenter">dragenter</h3>
+<h3 id="dragleave">dragleave</h3>
+<h3 id="datatransfer">DataTransfer</h3>
+<p>当拖拽发生时，数据必须与被拖拽的项目相关联。它持有拖拽数据。<br>
+它为拖动事件之间担任数据传递的角色。<br>
+在dragover/dragleave事件对象中无dataTransfer属性。</p>
+<pre><code>new DataTransfer() // 返回一个DataTransfer对象
+</code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>属性</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>dropEffect</td>
+<td>得到或设置拖动类型</td>
+<td>'none' / 'copy' / 'link' / 'move'</td>
+</tr>
+<tr>
+<td></td>
+<td>effectAllowed</td>
+<td>所有可用的操作类型</td>
+<td>none, copy, copyLink, copyMove, link, linkMove, move, all or uninitialized</td>
+</tr>
+<tr>
+<td></td>
+<td>files</td>
+<td>本地文件的列表</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>items 只读</td>
+<td>拖动数据列表的DataTransferItemList对象</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>types 只读</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>方法</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>clearData(key?)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>getData(key)</td>
+<td>返回dataTransfer对象上的指定数据，若不存在则返回空字符串。</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>setData(key, value)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>setDragImage()</td>
+<td>自定义拖动图像</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>addElement()</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>属性</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code>let img = new Image()
+img.src = './path/to/file.png'
+$event.dataTransfer.setDragImage(img, x, y)
+
+</code></pre>
+
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
+    </body>
+    </html>
