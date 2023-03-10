@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>vue3-dnd</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="vue3-dnd">vue3-dnd</h1>
+<h2 id="overview">overview</h2>
+<blockquote>
+<p>基于react-dnd的核心程序开发的。<br>
+一般需要与react-dnd-html5-backend一起使用</p>
+</blockquote>
+<h3 id="feature">feature</h3>
+<ul>
+<li>feature0</li>
+<li>feature1</li>
+<li>feature2</li>
+</ul>
+<h3 id="概念">概念</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>项目</td>
+<td>items</td>
+<td>拖动的是项目（数据）</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>类型</td>
+<td>types</td>
+<td>项目的类型</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>监视器</td>
+<td>monitors</td>
+<td>监视拖动过程中的状态</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>连接器</td>
+<td>connectors</td>
+<td>把dom元素与backend中预定义角色建立连接</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>拖拽源</td>
+<td>drag sources</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>拖放目标</td>
+<td>drop targets</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="install">install</h2>
+<p><code>npm i vue3-dnd</code></p>
+<h2 id="usage">usage</h2>
+<p>同<code>./demo.md</code></p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> vue3-dnd = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;vue3-dnd&#x27;</span>);
+<span class="hljs-comment">// or</span>
+<span class="hljs-comment">// import vue3-dnd from &#x27;vue3-dnd&#x27;;</span>
+<span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> DEMONSTRATE API</span>
+</code></pre>
+<h2 id="configuration">configuration</h2>
+<p>默认配置文件：<code>path/to/file.json</code>。</p>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h2 id="api">api</h2>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<p><code>vue3-dnd.fn(param, first: string, second: boolean = true) =&gt; void</code>
+description</p>
+<p><code>vue3-dnd.fn(param, [options: {a: string, b?: number}])</code>
+description</p>
+<h3 id="dragsourcemonitor">DragSourceMonitor</h3>
+<p>它是传递给DragSource的对象。它提供了若干获取拖动源信息的方法。</p>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>canDrag: () =&gt; boolean</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>isDragging: () =&gt; boolean</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>`getItemType: () =&gt; string</td>
+<td>null`</td>
+<td>返回当前拖动项的类型type.</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>`getItem: () =&gt; object</td>
+<td>null`</td>
+<td>当前拖动项对应的普通对象（它是数据）。每个拖动源使用其item属性来设置它。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>`getDropResult: () =&gt; object</td>
+<td>null`</td>
+<td>返回放置对象对应的普通对象（它是数据）。只能在end()内部设置，否则返回null</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>didDrop: () =&gt; boolean</code></td>
+<td>某个拖放目标是否已经处于拖放事件</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>`getInitialClientOffset: () =&gt; {x: number, y: number}</td>
+<td>null`</td>
+<td>返回拖动开始时鼠标的位置</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>`getInitialSourceClientOffset: () =&gt; {x: N, y: N}</td>
+<td>null`</td>
+<td>返回当前拖动开始时，拖动源的相对于客户端的初始位置</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>getClientOffset: () =&gt; {x:N, y: N}</code></td>
+<td>返回拖动起点相对于客户端的偏移量</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>getDifferenceFromInitialOffset: () =&gt; {x:N, y:N}</code></td>
+<td>返回当前拖动中鼠标指针相对于开始拖动时的鼠标指针位置的偏移量</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>getSourceClientOffset: () =&gt; {x:N, y:N}</code></td>
+<td>返回当前拖动源的根DOM节点相对于客户端的偏移量</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h3 id="specification">specification</h3>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th>required</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>`type: string</td>
+<td>symbol`</td>
+<td>拖拽元素的类型</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>y</td>
+</tr>
+<tr>
+<td>`item: object</td>
+<td>() =&gt; object`</td>
+<td>是一个描述被拖动数据的纯 JavaScript 对象。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>y</td>
+</tr>
+<tr>
+<td><code>collect: (monitor: DragSourceMonitor) =&gt; CollectedProps</code></td>
+<td>一个收集器的函数。它应该返回一个普通对象并成为useDrag返回值中的第一个项。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>n</td>
+<td></td>
+</tr>
+<tr>
+<td><code>previewOptions: DragPreviewOptions</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>n</td>
+<td></td>
+</tr>
+<tr>
+<td><code>options: DragSourceOptions</code></td>
+<td>一个普通对象，可选地包含以下任何属性：dropEffect: 非必填，在此拖动中使用的拖放效果类型。可选值：'move' / 'copy'</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>n</td>
+<td></td>
+</tr>
+<tr>
+<td><code>end: (draggedItem: object, monitor: DragSourceMonitor) =&gt; void</code></td>
+<td>当拖动停止时，end函数会被调用。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>n</td>
+<td></td>
+</tr>
+<tr>
+<td>`canDrag: boolean</td>
+<td>(monitor: DragSourceMonitor) =&gt; boolean`</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>n</td>
+</tr>
+<tr>
+<td>`isDragging: boolean</td>
+<td>(monitor: DragSourceMonitor) =&gt; boolean`</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>n</td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h3 id="usedrag">useDrag</h3>
+<p>可以使用组件成为拖拽源，接入DnD方法。</p>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>`useDrag: (params: Specification</td>
+<td>() =&gt; Specification) =&gt; [CollectedProps, dragSource, dragPreview]`</td>
+<td>CollectedProps是ref对象，是collect函数的返回值</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h3 id="usedrop">useDrop</h3>
+<p>可以使用组件成为放置目标，接入DnD方法。</p>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>`useDrop: (params: Specification</td>
+<td>() =&gt; Specification) =&gt; [CollectedProps, DragTarget]`</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h3 id="specification">Specification</h3>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th>required</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>`accept: string</td>
+<td>symbol</td>
+<td>string[]</td>
+<td>symbol[]`</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>accept: (monitor: DropTargetMonitor) =&gt; CollectedProps</code></td>
+<td>一个收集器的函数。它应该返回一个普通对象并成为useDrop返回值中的第一个项。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>n</td>
+<td></td>
+</tr>
+<tr>
+<td><code>options: object</code></td>
+<td>目前没什么用。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>n</td>
+<td></td>
+</tr>
+<tr>
+<td>`drop: (item: object, monitor: DropTargetMonitor) =&gt; (void</td>
+<td>Record&lt;string, any&gt;)`</td>
+<td>当拖拽元素放置在目标上时调用。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>n</td>
+</tr>
+<tr>
+<td><code>hover: (item: object, monitor: DropTargetMonitor) =&gt; void</code></td>
+<td>当拖拽组件经过组件上时调用该方法。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>n</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h3 id="usedraglayer">useDragLayer</h3>
+<p>提供了一种将你的组件作为拖动层连接到 DnD 的方法。</p>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>`useDragLayer: (params: (monitor: DragLayerMonitor) =&gt; (void</td>
+<td>object)) =&gt; ref`</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h3 id="droptargetmonitor">DropTargetMonitor</h3>
+<p>DropTargetMonitor 是传递给DropTarget放置目标的对象。它提供了一些方法，让你可以获取到有关放置目标的一些状态信息。绑定到该监视器的特定放置目标在下面称为监视器的所有者。</p>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>canDrop: () =&gt; xx</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>isOver: (options?: { shallow: boolean }) =&gt; boolean</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>`getItemType: () =&gt; string</td>
+<td>null`</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>`getItem: () =&gt; object</td>
+<td>null`</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>`getDropResult: () =&gt; object</td>
+<td>null`</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>didDrop: () =&gt; boolean</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>getInitialClientOffset: () =&gt; { x: number, y: number }</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>getInitialSourceClientOffset: () =&gt; { x: number, y: number }</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>getClientOffset: () =&gt; { x: number, y: number }</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>getDifferenceFromInitialOffset: () =&gt; { x: number, y: number }</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>getSourceClientOffset: () =&gt; { x: number, y: number }</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h3 id="draglayermoniter">DragLayerMoniter</h3>
+<p>DragLayerMonitor 是传递给DragLayer拖动层collect收集函数的对象。它提供了一些方法，让你可以获取到全局拖放状态信息。</p>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>isDragging: () =&gt; boolean</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>`getItemType: () =&gt; (string</td>
+<td>null)`</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>`getItem: () =&gt; (object</td>
+<td>null)`</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>getInitialClientOffset: () =&gt; { x: number, y: number }</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>getInitialSourceClientOffset: () =&gt; { x: number, y: number }</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>getClientOffset: () =&gt; { x: number, y: number }</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>getDifferenceFromInitialOffset: () =&gt; { x: number, y: number }</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>getSourceClientOffset: () =&gt; { x: number, y: number }</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h3 id="title">title</h3>
+<h2 id="principle">principle</h2>
+<p>此包的处理逻辑。</p>
+<h3 id="uml">uml</h3>
+<pre><code></code></pre>
+<h2 id="todo">todo</h2>
+<blockquote>
+<p>未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote>
+
+        
+        
+    </body>
+    </html>
