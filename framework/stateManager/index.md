@@ -32,7 +32,7 @@
 - [xstate]()
 - [vuex]()
 - [useSyncExternalStore]()
-- [title]()
+- [pinia](/jsPackages/pinia.html)
 - [title]()
 - [title]()
 - [title]()

@@ -254,9 +254,14 @@ c.on('ready', () => {
     let p = [
       // 'index.html',
       // 'promote/standard/index.html',
-      // 'framework/vue2/vue-cli.html',
-      // 'jsPackages/index.html',
-      // 'jsPackages/xicons.html',
+      'framework/stateManager/index.html',
+      // 'confuse/index.html',
+      // 'confuse/front&end.html',
+      // 'language/html/drag.html',
+      // 'language/html/index.html',
+      'jsPackages/index.html',
+      'jsPackages/vue3-dnd.html',
+      // // 'jsPackages/xicons.html',
       // 'jsPackages/zx.html',
       // 'jsPackages/v-drag.html',
     ]
