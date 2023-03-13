@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>rimraf</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="rimraf">rimraf</h1>
+<h2 id="overview">overview</h2>
+<blockquote>
+<p>为node环境提供的unix command <code>rm -rf</code></p>
+</blockquote>
+<h3 id="feature">feature</h3>
+<ul>
+<li>return promise</li>
+<li>--glob</li>
+<li>arrays of paths</li>
+<li>支持esm/cjs</li>
+<li>优先使用原生实现，在win可接收到。原生实现更快、更可靠。</li>
+<li>支持cli/api</li>
+</ul>
+<h2 id="install">install</h2>
+<p><code>npm i rimraf</code></p>
+<h2 id="usage">usage</h2>
+<pre><code class="language-js"><span class="hljs-comment">// 以esm为例。cjs同理</span>
+<span class="hljs-keyword">import</span> rimraf <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;rimraf&#x27;</span>
+<span class="hljs-keyword">import</span> {rimraf, rimrafSync, native, nativeSync} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;rimraf&#x27;</span>
+
+</code></pre>
+<h2 id="api">api</h2>
+<p>所有的删除方法都返回boolean，表示是否删除成功。</p>
+<!-- prettier-ignore-start -->
+<p>|方法|参数|子参数|description|type|default|enum|demo|支持的环境||
+|-|-|-|-|-|-|-|-|
+|<code>rimraf(f, opts?) =&gt; Promise&lt;Boolean&gt;</code>||||||||||
+||options|preserveRoot|是否保留根文件|||||||
+|||tmp|不会，只在wind有效|||||wind||
+|||maxRetries|最大尝试次数|||||wind/native||
+|||backoff|不会|||||win||
+|||maxBackoff|不会|||||wind||
+|||retryDelay|尝试延迟|||100||native||
+|||signal|使用AbortSignal打断执行|||||||
+|||filter|自定义过滤要删除的文件|||||||
+|<code>rimraf.sync(f, opts?) =&gt; Promise&lt;B&gt;``rimraf.rimrafSync(f, opts?) =&gt; Promise&lt;B&gt;</code>|||同步的删除|||||||
+|<code>rimraf.native(f, opts) =&gt; Promise&lt;B&gt;</code>|||使用node内置的<code>fs.rm</code>去实现。node v14.14.0+|||||||
+|<code>rimraf.nativeSync(f, opts) =&gt; Promise&lt;B&gt;</code> <code>rimraf.native.nativeSync(f, opts) =&gt; Promise&lt;B&gt;</code>||||||||||
+|<code>rimraf.manual(f, opts) =&gt; Promise&lt;B&gt;</code>||||||||||
+|<code>rimraf.manualSync(f, opts) =&gt; Promise&lt;B&gt;</code> ||||||||||
+|<code>rimraf.window(f, opts) =&gt; Promise&lt;B&gt;</code>||||||||||
+|<code>rimraf.window.sync(f, opts) =&gt; Promise&lt;B&gt;</code> <code>rimraf.windowSync(f, opts) =&gt; Promise&lt;B&gt;</code>||||||||||
+|<code>rimraf.moveRemove(f, opts) =&gt; Promise&lt;B&gt;</code>||||||||||
+|<code>rimraf.moveRemove.sync(f, opts) =&gt; Promise&lt;B&gt;</code> <code>rimraf.moveRemoveSync(f, opts) =&gt; Promise&lt;B&gt;</code>||||||||||
+|||signal||||||||</p>
+<!-- prettier-ignore-end -->
+<h2 id="principle">principle</h2>
+<p>此包的处理逻辑。</p>
+<h3 id="uml">uml</h3>
+<pre><code></code></pre>
+<h2 id="todo">todo</h2>
+<blockquote>
+<p>未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote>
+
+        
+        
+    </body>
+    </html>
