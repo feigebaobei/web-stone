@@ -83,6 +83,6 @@ options 就是[配置文件](/babel/config/index.html)的选项
 
 ## todo
 
-> 未来迭代计划。
+> [lebab es5=>es6/7](/jsPackages/babel/lebal.html)  
 > 未来迭代计划。
 > 未来迭代计划。

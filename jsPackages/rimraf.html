@@ -43,27 +43,26 @@
         <h1 id="rimraf">rimraf</h1>
 <h2 id="overview">overview</h2>
 <blockquote>
-<p>为node环境提供的unix command <code>rm -rf</code></p>
+<p>为 node 环境提供的 unix command <code>rm -rf</code></p>
 </blockquote>
 <h3 id="feature">feature</h3>
 <ul>
 <li>return promise</li>
 <li>--glob</li>
 <li>arrays of paths</li>
-<li>支持esm/cjs</li>
-<li>优先使用原生实现，在win可接收到。原生实现更快、更可靠。</li>
-<li>支持cli/api</li>
+<li>支持 esm/cjs</li>
+<li>优先使用原生实现，在 win 可接收到。原生实现更快、更可靠。</li>
+<li>支持 cli/api</li>
 </ul>
 <h2 id="install">install</h2>
 <p><code>npm i rimraf</code></p>
 <h2 id="usage">usage</h2>
 <pre><code class="language-js"><span class="hljs-comment">// 以esm为例。cjs同理</span>
 <span class="hljs-keyword">import</span> rimraf <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;rimraf&#x27;</span>
-<span class="hljs-keyword">import</span> {rimraf, rimrafSync, native, nativeSync} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;rimraf&#x27;</span>
-
+<span class="hljs-keyword">import</span> { rimraf, rimrafSync, native, nativeSync } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;rimraf&#x27;</span>
 </code></pre>
 <h2 id="api">api</h2>
-<p>所有的删除方法都返回boolean，表示是否删除成功。</p>
+<p>所有的删除方法都返回 boolean，表示是否删除成功。</p>
 <!-- prettier-ignore-start -->
 <p>|方法|参数|子参数|description|type|default|enum|demo|支持的环境||
 |-|-|-|-|-|-|-|-|
@@ -87,10 +86,47 @@
 |<code>rimraf.moveRemove.sync(f, opts) =&gt; Promise&lt;B&gt;</code> <code>rimraf.moveRemoveSync(f, opts) =&gt; Promise&lt;B&gt;</code>||||||||||
 |||signal||||||||</p>
 <!-- prettier-ignore-end -->
+<h2 id="cli">cli</h2>
+<pre><code class="language-shell">rimraf version 4.3.0
+
+Usage: rimraf &lt;path&gt; [&lt;path&gt; ...]
+Deletes all files and folders at &quot;path&quot;, recursively.
+
+Options:
+  --                   Treat all subsequent arguments as paths
+  -h --help            Display this usage info
+  --preserve-root      Do not remove &#x27;/&#x27; recursively (default)
+  --no-preserve-root   Do not treat &#x27;/&#x27; specially
+  -G --no-glob         Treat arguments as literal paths, not globs (default)
+  -g --glob            Treat arguments as glob patterns
+  -v --verbose         Be verbose when deleting files, showing them as
+                       they are removed. Not compatible with --impl=native
+  -V --no-verbose      Be silent when deleting files, showing nothing as
+                       they are removed (default)
+  -i --interactive     Ask for confirmation before deleting anything
+                       Not compatible with --impl=native
+  -I --no-interactive  Do not ask for confirmation before deleting
+
+  --impl=&lt;type&gt;        Specify the implementation to use:
+                       rimraf: choose the best option (default)
+                       native: the built-in implementation in Node.js
+                       manual: the platform-specific JS implementation
+                       posix: the Posix JS implementation
+                       windows: the Windows JS implementation (falls back to
+                                move-remove on ENOTEMPTY)
+                       move-remove: a slow reliable Windows fallback
+
+Implementation-specific options:
+  --tmp=&lt;path&gt;        Temp file folder for &#x27;move-remove&#x27; implementation
+  --max-retries=&lt;n&gt;   maxRetries for &#x27;native&#x27; and &#x27;windows&#x27; implementations
+  --retry-delay=&lt;n&gt;   retryDelay for &#x27;native&#x27; implementation, default 100
+  --backoff=&lt;n&gt;       Exponential backoff factor for retries (default: 1.2)
+</code></pre>
 <h2 id="principle">principle</h2>
 <p>此包的处理逻辑。</p>
 <h3 id="uml">uml</h3>
-<pre><code></code></pre>
+<pre><code>
+</code></pre>
 <h2 id="todo">todo</h2>
 <blockquote>
 <p>未来迭代计划。

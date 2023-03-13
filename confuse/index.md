@@ -15,7 +15,7 @@
 - [cdn](/confuse/cdn.html)
 - [ts 里的?!](/confuse/tsQuestionMarkExclamationPoint.html)
 - [前后端交互常识](/confuse/front&end.html)
-- [title](/confuse/title.html)
+- [如何写一个脚本](/confuse/writeScript.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
