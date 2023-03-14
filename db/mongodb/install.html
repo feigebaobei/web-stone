@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>1&period; &#x53bb;&#x5b98;&#x7f51;&#x8fdb;&#x5165;&#x4e0b;&#x8f7d;&#x8bf4;&#x660e;&#x9875;&#x9762;&#x3002;</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h2 id="1-去官网进入下载说明页面">1. 去官网进入下载说明页面。</h2>
+<p><code>https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/#install-mongodb-community-edition-on-windows</code>
+<img src="/Users/cat/Documents/code/personal/web-stone/image/db/mongodb/explain.jpg" alt=""></p>
+<h2 id="2-下载">2. 下载</h2>
+<p>官网的文档说了3个步骤去安装。<br>
+先进入下载页面<code>https://www.mongodb.com/download-center/community?jmp=docs</code><br>
+选择想要有版本、配置。<br>
+复制这个链接，在讯雷中下载。</p>
+<p><img src="file:////Users/cat/Documents/code/personal/web-stone/image/db/mongodb/download.jpg" alt=""></p>
+<h2 id="3-安装时的配置">3. 安装时的配置</h2>
+<p>安装类型有2个（complete/custom）。选择custom可以设置安装位置。<br>
+安装位置建议在非c盘。<br>
+<img src="file:////Users/cat/Documents/code/personal/web-stone/image/db/mongodb/install.jpg" alt=""><br>
+取消选择<code>Install MongoDB Compass</code>会快。因为勾选上会下载mongodb compass（图形化管理界面）很久。<br>
+<img src="file:////Users/cat/Documents/code/personal/web-stone/image/db/mongodb/compass.jpg" alt=""></p>
+<h2 id="4-验证是否安装成功">4. 验证是否安装成功</h2>
+<p>进入安装目录的bin目录下。打开cmd命令行。<br>
+执行<code>mongod dbpath path\to\MongoDB\data\db</code><br>
+<img src="file:////Users/cat/Documents/code/personal/web-stone/image/db/mongodb/start.jpg" alt=""><br>
+在浏览器中输入<code>http://localhost:27017</code>。能看到<code>It looks like you are trying to access MongoDB over HTTP on the native driver port.</code>。说明安装成功。</p>
+<h2 id="5-添加为服务">5. 添加为服务</h2>
+<p>D:\mongodb\bin\monogd --install -f &quot;D:\mongodb\mongod.cfg&quot;</p>
+<h2 id="6-启动停止">6. 启动/停止</h2>
+<p>方法一
+net start MongoDB // 启动MongoDB服务<br>
+net stop MongoDB // 关闭MongoDB服务<br>
+C:\mongodb\bin\mongod.exe --remove // 移除MongoDB服务<br>
+方法二
+在全局变量中添加变量路径<br>
+方法三
+创建****.bat文件。</p>
+<pre><code>    echo &quot;MongoDB starting....&quot;
+    mongod --dbpath path\to\mongodb\data
+    pause
+</code></pre>
+<hr>
+<p>2019/01/04 by stone</p>
+<p><strong>tip</strong>
+创建数据库：
+如果没有添加到环境变量就会报错！！！根据提示输入相对路径即可</p>
+<p>PS D:\zyhsoftware\MongoDB\Server\4.0\bin&gt; mongod --dbpath D:\zyhsoftware\MongoDB\Server\4.0\data\db
+mongod : 无法将“mongod”项识别为 cmdlet、函数、脚本文件或可运行程序的名称。请检查名称的拼写，如果包括路径，请确保路径
+正确，然后再试一次。
+所在位置 行:1 字符: 1</p>
+<ul>
+<li>mongod --dbpath D:\zyhsoftware\MongoDB\Server\4.0\data\db</li>
+<li>
+<pre><code>  + CategoryInfo          : ObjectNotFound: (mongod:String) [], CommandNotFoundException
+  + FullyQualifiedErrorId : CommandNotFoundException
+</code></pre>
+</li>
+</ul>
+<p>Suggestion [3,General]: 找不到命令 mongod，但它确实存在于当前位置。默认情况下，Windows PowerShell 不会从当前位置加载命令。如果信任此命令，请改为键入“.\mongod”。有关详细信息，请参阅 &quot;get-help about_Command_Precedence&quot;。
+PS D:\zyhsoftware\MongoDB\Server\4.0\bin&gt; .\mongod --dbpath D:\zyhsoftware\MongoDB\Server\4.0\data\db</p>
+
+        
+        
+    </body>
+    </html>

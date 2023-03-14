@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>&#x5173;&#x95ed;</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <p>mongodb 是由c++语言编写的。基于分布式文件存储的开源数据库。 =&gt; 方便扩展<br>
+将数据保存为一个文档。数据结构由kv对组成。<br>
+最像关系型数据库的非关系型数据库。
+面向文档存储的数据库。</p>
+<p>##启动</p>
+<pre><code>// 在服务器或本地启动mongodb服务
+cd &lt;path&gt;/mongodb/bin
+./mongod
+// 在服务器上的后台运行mongodb
+./mongod --fork --logpath=/data/log/log.log
+// 检查启动的结果
+netstat -an| grep 27017
+</code></pre>
+<h2 id="关闭">关闭</h2>
+<pre><code>我不会
+</code></pre>
+<p>##concept</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>database</td>
+<td>数据库</td>
+<td>多个集合</td>
+</tr>
+<tr>
+<td>collection</td>
+<td>集合</td>
+<td>多个文档是一个集合。{},{},{}</td>
+</tr>
+<tr>
+<td>document</td>
+<td>文档</td>
+<td>一个{...}就是一个文档</td>
+</tr>
+<tr>
+<td>field</td>
+<td>域</td>
+<td></td>
+</tr>
+<tr>
+<td>index</td>
+<td>索引</td>
+<td></td>
+</tr>
+<tr>
+<td>primary key</td>
+<td>主键</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>以上是mongodb的几个数据级别。下面聊聊它们的基本用法。</p>
+<h2 id="数据级别的基本用法">数据级别的基本用法</h2>
+<p>数据库</p>
+<pre><code>./mongo
+show dbs // 列出数据库
+use dbname // 创建数据库并使用
+db.dropDatabase() // 删除当前数据库
+</code></pre>
+<p>集合</p>
+<pre><code>db.createCollection(name, options)
+name 集合名
+options
+  capped      bool       false 是否创建固定大小的集合。
+  autoIndexId bool       false 是否使用_id字段创建索引
+  size        number(kb) --    固定集合时的最大值
+  max         number     --    集合中文档的最大数量
+show collections // 查看所有集合
+show tables      // 查看所有集合
+db.&lt;colname&gt;.insert(&lt;dom&gt;)
+db.&lt;colname&gt;.drop() // 删除当前集合
+db.&lt;colname&gt;.insertOne(&lt;dom&gt;) // 插入一个文档
+db.&lt;colname&gt;.insertMany([&lt;dom&gt;]) // 插入多个文档
+db.collection.update(&lt;query&gt;, &lt;update&gt;, options&gt;) // 更新文档
+options
+  upsert       bool false 是否在不存在更新记录时插入数据。
+  multi        bool false 是否更新多条记录。
+  writeConcern            抛出异常的级别
+db.&lt;colname&gt;.remove(&lt;query&gt;, options)
+options
+  justOne      bool false
+  writeConcern 抛出异常的级别
+db.&lt;colname&gt;.find(query, projection) // 查询文档
+db.&lt;colname&gt;.find().pretty()
+</code></pre>
+<p>文档</p>
+<pre><code>db.&lt;colname&gt;.insert(doc) // 保存文档
+db.&lt;colname&gt;.insertOne(doc, {writeConcern: &lt;doc&gt;})
+db.&lt;colname&gt;.replaceOne(doc)
+db.&lt;colname&gt;.insertMany([doc], {writeConcern: &lt;doc&gt;, ordered: &lt;bool&gt;})
+db.&lt;colname&gt;.save(doc) // 已经弃用
+db.&lt;colname&gt;.remove(query, {
+  justOne: boolean,
+  writeConcern: boolean
+})
+db.&lt;colname&gt;.find(query, projection) // 查询文档
+db.&lt;colname&gt;.find(query, projection).pretty() // 格式化查询结果
+db.&lt;colname&gt;.findOne(query, projection) // 返回一个文档
+</code></pre>
+<p>条件操作符</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&gt;</td>
+<td>$gt</td>
+<td></td>
+</tr>
+<tr>
+<td>&lt;</td>
+<td>$lt</td>
+<td></td>
+</tr>
+<tr>
+<td>&gt;=</td>
+<td>$gte</td>
+<td></td>
+</tr>
+<tr>
+<td>&lt;=</td>
+<td>$lte</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code>// demo
+db.user.find({likes: {$lt: 200, $gt: 100}})
+// 类似： select * from user where likes&gt;100 and likes&lt;200
+</code></pre>
+<h2 id="mongodb数据类型">mongodb数据类型</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>String</td>
+<td>字符串。存储数据常用的数据类型。在 MongoDB 中，UTF-8 编码的字符串才是合法的。</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>整型数值。用于存储数值。根据你所采用的服务器，可分为 32 位或 64 位。</td>
+</tr>
+<tr>
+<td>Boolean</td>
+<td>布尔值。用于存储布尔值（真/假）。</td>
+</tr>
+<tr>
+<td>Double</td>
+<td>双精度浮点值。用于存储浮点值。</td>
+</tr>
+<tr>
+<td>Min/Max</td>
+<td>keys  将一个值与 BSON（二进制的 JSON）元素的最低值和最高值相对比。</td>
+</tr>
+<tr>
+<td>Array</td>
+<td>用于将数组或列表或多个值存储为一个键。</td>
+</tr>
+<tr>
+<td>Timestamp</td>
+<td>时间戳。记录文档修改或添加的具体时间。</td>
+</tr>
+<tr>
+<td>Object</td>
+<td>用于内嵌文档。</td>
+</tr>
+<tr>
+<td>Null</td>
+<td>用于创建空值。</td>
+</tr>
+<tr>
+<td>Symbol</td>
+<td>符号。该数据类型基本上等同于字符串类型，但不同的是，它一般用于采用特殊符号类型的语言。</td>
+</tr>
+<tr>
+<td>Date</td>
+<td>日期时间。用 UNIX 时间格式来存储当前日期或时间。你可以指定自己的日期时间：创建 Date 对象，传入年月日信息。</td>
+</tr>
+<tr>
+<td>Object</td>
+<td>ID 对象 ID。用于创建文档的 ID。</td>
+</tr>
+<tr>
+<td>Binary</td>
+<td>Data 二进制数据。用于存储二进制数据。</td>
+</tr>
+<tr>
+<td>Code</td>
+<td>代码类型。用于在文档中存储 JavaScript 代码。</td>
+</tr>
+<tr>
+<td>Regular expression</td>
+<td>正则表达式类型。用于存储正则表达式。</td>
+</tr>
+</tbody>
+</table>
+<p>objectId类似唯一主键。可以很快的去生成和排序。包含12bytes。
+0 1 2 3 4 5 6 7 8 9 10 11
+时间戳  |机器 |pid |随机数</p>
+<h2 id="连接mongodb">连接mongodb</h2>
+<pre><code>mongodb://[username:password@]host1[:port1][,host2[:port2],...][/[database][?options]]
+// 使用默认接口链接
+mongodb://localhost
+// 使用shell连接
+./mongo
+</code></pre>
+<p>mongodb:// 固定的格式，必须要指定。<br>
+username:password@ // 可选项。<br>
+host1 // 至少指定一个host。<br>
+post // 可以省略，默认为27017<br>
+/database // 若指定username:password@。连接登录指定数据库。若不指定默认打开test数据压力开关。</p>
+<p>?options // 是连接选项。若不使用/database，则前面需要加上/。所有连接选项都是kv格式。多个连接选项之间使用&amp;或;隔开。</p>
+<p><strong>options</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>replicaSet=name</td>
+<td>验证replica set 的名称。Impliesconnect=replicaSet.</td>
+<td></td>
+</tr>
+<tr>
+<td>key</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>key</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>key</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>key</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>key</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>key</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>key</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>key</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>基本command line</strong></p>
+<p>show dbs // 显示全部的db<br>
+use dbname // 使用dbname 数据库</p>
+<p><strong>db命名</strong></p>
+<ul>
+<li>不能有空格</li>
+<li>不能有.$/\</li>
+<li>全部小写</li>
+<li>最多64字节（也就是最多64个字母）</li>
+</ul>
+<p>###db</p>
+<p>元数据</p>
+<p>dbname.system.*  // namespaces/indexes/profile/users<br>
+dbname.local.sources</p>
+<p>数据类型</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>String</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Integer</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Boolean</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Double</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Min/Max keys</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Array</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Timestamp</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Object</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Null</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Symbol</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Date</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Object ID</td>
+<td></td>
+<td>类似唯一主键。可以很快生成的排序。包含12bytes。由4个字节表示unix时间，之后3个字节是机器标识码，再之后2个字节是由进行id组成的pid，最后3个字节是随机数。</td>
+</tr>
+<tr>
+<td>Binary Data</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Code</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Regular expression</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="常用的方法">常用的方法</h2>
+<pre><code>db.colname.find(query) // 查询
+.sort({key: 1}) // 按指定key排序
+.limit(number) // 读取指定数量的数据
+.skip(number) // 跳过指定数量的数据
+</code></pre>
+<h3 id="索引">索引</h3>
+<p>若不使用索引则查询效率很低。
+索引是对数据库表中一列、多列的值进行排序的一种结构。</p>
+<pre><code>db.collection.createIndex(keys, options)
+  keys: {
+    key0: 1, // 1 表示升序。-1 表示降序。
+    key2: -1
+  }
+  options: {
+    background:        boolean         false 是否以后台方式创建索引
+    unique:            boolean         false 是否是唯一索引
+    name:              string
+    dropDups:          boolean
+    sparse:            boolean
+    expireAfterSecond: integer
+    v:                 index | version
+    weights:           document
+    default_language:  string
+    language_overrie:  string
+  }
+</code></pre>
+<h3 id="聚合">聚合</h3>
+<h3 id="副本">副本</h3>
+<h3 id="分片">分片</h3>
+<h3 id="备份">备份</h3>
+<h3 id="恢复">恢复</h3>
+<h3 id="监控">监控</h3>
+<p>##node操作mongodb(基础)</p>
+<p>node中常用mongoose作为mongodb的驱动。
+总共分三步:</p>
+<ol>
+<li>引入mongodb.MongoClient</li>
+<li>连接mongodb</li>
+<li>创建/连接collection</li>
+<li>操作数据库</li>
+</ol>
+<pre><code>    let MongoClient = require('mongodb').MongoClient
+    MongoClient.connect('mongodb://localhost:27017/mongotest', {useNewUrlParse: true}, (err, client) =&gt; {
+      let students = client.db('students')
+      // students.createCollection('site') //创建集合
+      // 链接集合
+      students.collection('site').find({}) // 操作db
+    })
+</code></pre>
+<p>关闭mongodb</p>
+<pre><code>  let MongoClient = require('mongodb').MongoClient
+  MongoClient.connect('mongodb://localhost:27017/mongotest', {useNewUrlParse: true}, (err, client) =&gt; {
+    console.log('connected to mongdb')
+    client.close() // 关闭mongodb
+  })
+</code></pre>
+
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
+    </body>
+    </html>

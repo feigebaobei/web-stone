@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>&ldquo;&#x6307;&#x5b9a;&#x7684;&#x670d;&#x52a1;&#x5df2;&#x6807;&#x8bb0;&#x4e3a;&#x5220;&#x9664;&CloseCurlyDoubleQuote;&#x7684;&#x89e3;&#x51b3;</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="指定的服务已标记为删除的解决">“指定的服务已标记为删除”的解决</h1>
+<p>在管理员权限下运行cmd:</p>
+<p>&quot;sc delete MongoDB&quot; // 会删除服务。</p>
+<p>我们需要的不是删除服务，而是启动服务。</p>
+<p>解决方法：关闭服务管理窗口，重新删除，安装服务项。</p>
+<p>mongod --install -f &quot;D:\mongodb\mongod.cfg&quot;</p>
+<h1 id="启动服务">启动服务</h1>
+<p>net start mongodb</p>
+<h1 id="win10安装mongodb并配置服务">win10安装mongodb，并配置服务</h1>
+<ol>
+<li>
+<p>下载，安装mongodb.</p>
+</li>
+<li>
+<p>创建data目录（用来放数据）log目录（用来放日志）</p>
+</li>
+<li>
+<p>在mongodb根目录下创建一个配置文件。</p>
+<pre><code>dbpath=d:\mongodb\data
+logpath=d:\mongodb\log\mongolog.log
+logappend=true
+auth=false
+</code></pre>
+<p>auth默认为false，不起用密码验证。</p>
+</li>
+<li>
+<p>d:\mongodb\bin&gt; mongod --config d:\mongodb\mongod.cfg --serviceName MongoDB --install</p>
+</li>
+<li>
+<p>启动服务。在服务管理里手动启动服务。或者，net start MongoDB. 使用相同的方法可以关闭服务。</p>
+</li>
+<li>
+<p>使用密码验证。</p>
+<pre><code>use admin // 打开用户库
+db.createUser({user: &quot;sa&quot;, pwd: &quot;123456&quot;, roles: [{role:&quot;root&quot;, db: &quot;admin&quot;}]})
+把config文件里auth=false改为true。然后重启服务。
+</code></pre>
+</li>
+</ol>
+<h1 id="通过cmd命令安装卸载启动和停止windows-serviceinstallutilexe">通过cmd命令安装、卸载、启动和停止Windows Service（InstallUtil.exe）</h1>
+<ol>
+<li>打开cmd</li>
+<li>进入xx.exe目录。</li>
+<li>xx.exe path/to/xx.exe</li>
+<li>net start servicename</li>
+<li>net stop servicename</li>
+<li>xx.exe /u path/to/xx.exe</li>
+</ol>
+
+        
+        
+    </body>
+    </html>
