@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>cookie-parser</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="cookie-parser">cookie-parser</h1>
+<h2 id="overview">overview</h2>
+<blockquote>
+<p>操作cookie</p>
+</blockquote>
+<h3 id="feature">feature</h3>
+<ul>
+<li>解析cookie到req.cookies/req.signedCookies</li>
+<li>加密cookie/解密cookie.(原文中使用sign/unsign)</li>
+<li>feature2</li>
+</ul>
+<h2 id="install">install</h2>
+<p><code>npm i cookie-parser</code></p>
+<h2 id="usage">usage</h2>
+<pre><code class="language-js"><span class="hljs-keyword">var</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;express&#x27;</span>)
+<span class="hljs-keyword">var</span> cookieParser = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;cookie-parser&#x27;</span>)
+<span class="hljs-keyword">var</span> app = <span class="hljs-title function_">express</span>()
+app.<span class="hljs-title function_">use</span>(<span class="hljs-title function_">cookieParser</span>())
+app.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;/&#x27;</span>, <span class="hljs-keyword">function</span> (<span class="hljs-params">req, res</span>) {
+  <span class="hljs-comment">// Cookies that have not been signed</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Cookies: &#x27;</span>, req.<span class="hljs-property">cookies</span>)
+  <span class="hljs-comment">// Cookies that have been signed</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Signed Cookies: &#x27;</span>, req.<span class="hljs-property">signedCookies</span>)
+})
+app.<span class="hljs-title function_">listen</span>(<span class="hljs-number">8080</span>)
+<span class="hljs-comment">// curl command that sends an HTTP request with two cookies</span>
+<span class="hljs-comment">// curl http://127.0.0.1:8080 --cookie &quot;Cho=Kim;Greet=Hello&quot;</span>
+</code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>cookie</th>
+<th>加密cookie</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>若使用secret</td>
+<td>req.cookies</td>
+<td>req.signedCookies</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>以<code>s:</code>开头。若签名验证失败，则为false</td>
+<td></td>
+</tr>
+<tr>
+<td>若支持'JSON cookies'</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>若支持'JSON cookies'，则cookie的值以<code>j:</code>开头，其值是<code>JSON.parse()</code>的结果。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>若使用secret，则req.cookies是</p>
+<h2 id="configuration">configuration</h2>
+<p>默认配置文件：<code>path/to/file.json</code>。</p>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>参数</th>
+<th>子参数</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>`cookieParser(secret?: S</td>
+<td>S[], options?)`</td>
+<td></td>
+<td></td>
+<td>若使用secret则签名。否则不签名。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>options: {decode}</td>
+<td>decode</td>
+<td>解码的自定义方法</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>cookieParser.JSONCookie(str) =&gt; json</code></td>
+<td></td>
+<td></td>
+<td>返回解析后的json cookie</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>cookieParser.JSONCookies(cookies) =&gt; json</code></td>
+<td></td>
+<td></td>
+<td>依次使用<code>JSONCookie</code>解析每一个key对应的值，再返回一个json对象。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>`cookieParser.signedCookie(str, secret: S</td>
+<td>S[])`</td>
+<td></td>
+<td></td>
+<td>若str是签名的cookie，则返回解密后的cookie。若str不是签名的cookie，则返回str。若str是签名的cookie并无法解密，则返回false.</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>cookieParser.signedCookies(cookies, secret)</code></td>
+<td></td>
+<td></td>
+<td>依次使用解密</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h2 id="api">api</h2>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>参数</th>
+<th>子参数</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<p><code>cookie-parser.fn(param, first: string, second: boolean = true) =&gt; void</code>
+description</p>
+<p><code>cookie-parser.fn(param, [options: {a: string, b?: number}])</code>
+description</p>
+<h2 id="principle">principle</h2>
+<p>此包的处理逻辑。</p>
+<h3 id="uml">uml</h3>
+<pre><code></code></pre>
+<h2 id="todo">todo</h2>
+<blockquote>
+<p>未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote>
+
+        
+        
+    </body>
+    </html>
