@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>window&#x7cfb;&#x7edf;&#x4e2d;&#x5b89;&#x88c5;node&#xff0c;&#x518d;&#x52a0;&#x4e0a;npm&#x4e0d;&#x80fd;&#x4f7f;&#x7528;&#x5b89;&#x88c5;&#x7684;cli&period;</title>
+        <title>window &#x7cfb;&#x7edf;&#x4e2d;&#x5b89;&#x88c5; node&#xff0c;&#x518d;&#x52a0;&#x4e0a; npm &#x4e0d;&#x80fd;&#x4f7f;&#x7528;&#x5b89;&#x88c5;&#x7684; cli&period;</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -13,41 +13,6 @@
 .vscode-dark img[src$=\#gh-light-mode-only],
 .vscode-light img[src$=\#gh-dark-mode-only] {
 	display: none;
-}
-
-/* From extension ms-toolsai.jupyter */
-/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
-
-.alert {
-    width: auto;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-.alert > *:last-child {
-    margin-bottom: 0;
-}
-#preview > .alert:last-child {
-    /* Prevent this being set to zero by the default notebook stylesheet */
-    padding-bottom: 1em;
-}
-
-.alert-success {
-    /* Note there is no suitable color available, so we just copy "info" */
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-info {
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-warning {
-    background-color: var(--theme-warning-background);
-    color: var(--theme-warning-foreground);
-}
-.alert-danger {
-    background-color: var(--theme-error-background);
-    color: var(--theme-error-foreground);
 }
 
 </style>
@@ -75,21 +40,21 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="window系统中安装node再加上npm不能使用安装的cli">window系统中安装node，再加上npm不能使用安装的cli.</h1>
+        <h1 id="window-系统中安装-node再加上-npm-不能使用安装的-cli">window 系统中安装 node，再加上 npm 不能使用安装的 cli.</h1>
 <p>一般整个安装过程会很顺序。但是有极端情况。整个问题不好复现。若遇到则按照如下配置设置，则可以解决。</p>
 <ol>
-<li>安装nvm</li>
-<li>使用nvm安装各版本node</li>
-<li>npm会随着node一起安装</li>
-<li>使用npm安装若干cli.以<code>crtp-cli</code>为例。</li>
+<li>安装 nvm</li>
+<li>使用 nvm 安装各版本 node</li>
+<li>npm 会随着 node 一起安装</li>
+<li>使用 npm 安装若干 cli.以<code>crtp-cli</code>为例。</li>
 <li>若在命令行中可以执行<code>crtp -v</code>，则一切正常运行。</li>
 </ol>
-<p>环境变量中应该nvm。安装nvm到哪儿，环境变量就设置到哪儿目录。
-一般nvm会设置node的环境变量和链接。若二者对应不上，应该改为对应上。
+<p>环境变量中应该设置 nvm。安装 nvm 到哪儿，环境变量就设置到哪儿目录。
+一般 nvm 会设置 node 的环境变量和链接。若二者对应不上，应该改为对应上。
 此时可以执行<code>node -v``npm -v</code>
-然后执行<code>npm config ls</code>，查看prefix的值是什么。
-再执行<code>npm i -g crtp-cli</code>.若在prefix对应的目录能看到crpt则安装成功。
-在环境变量中设置prefix的值。
+然后执行<code>npm config ls</code>，查看 prefix 的值是什么。
+再执行<code>npm i -g crtp-cli</code>.若在 prefix 对应的目录能看到 crpt 则安装成功。
+在环境变量中设置 prefix 的值。
 到此就一起设置正常了。</p>
 
         

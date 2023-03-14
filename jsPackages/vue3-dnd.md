@@ -4,6 +4,8 @@
 
 > 基于 react-dnd 的核心程序开发的。  
 > 一般需要与 react-dnd-html5-backend 一起使用
+> 官网的 api 写的很好。我一般不直接抄的，人家写的太好了。本文章好多是直接复制来的。
+> api 不好找。
 
 ### feature
 
@@ -88,7 +90,7 @@ description
 |`getSourceClientOffset: () => {x:N, y:N}`|返回当前拖动源的根DOM节点相对于客户端的偏移量|||||||
 <!-- prettier-ignore-end -->
 
-### specification
+### useDrag 的 specification
 
 <!-- prettier-ignore-start -->
 |key|description|type|default|enum|demo|required||
@@ -127,13 +129,13 @@ description
 |||||||||
 <!-- prettier-ignore-end -->
 
-### Specification
+### useDrop 的 Specification
 
 <!-- prettier-ignore-start -->
 |key|description|type|default|enum|demo|required||
 |-|-|-|-|-|-|-|-|
-|`accept: string | symbol | string[] | symbol[]`||||||y||
-|`accept: (monitor: DropTargetMonitor) => CollectedProps`|一个收集器的函数。它应该返回一个普通对象并成为useDrop返回值中的第一个项。|||||n||
+|`accept: string | symbol | string[] | symbol[]`|此放置目标只会对指定类型的拖动源做出反应。|||||y||
+|`collect: (monitor: DropTargetMonitor) => CollectedProps`|一个收集器的函数。它应该返回一个普通对象并成为useDrop返回值中的第一个项。|||||n||
 |`options: object`|目前没什么用。|||||n||
 |`drop: (item: object, monitor: DropTargetMonitor) => (void | Record<string, any>)`|当拖拽元素放置在目标上时调用。|||||n||
 |`hover: (item: object, monitor: DropTargetMonitor) => void`|当拖拽组件经过组件上时调用该方法。|||||n||
@@ -161,7 +163,7 @@ DropTargetMonitor 是传递给 DropTarget 放置目标的对象。它提供了�
 |`canDrop: () => xx`||||||||
 |`isOver: (options?: { shallow: boolean }) => boolean`||||||||
 |`getItemType: () => string | null`||||||||
-|`getItem: () => object | null`||||||||
+|`getItem: () => object | null`|返回表示当前拖动项的普通对象。每个拖动源必须通过从其item属性来指定它。如果没有项目被拖动，则返回null。|||||||
 |`getDropResult: () => object | null`||||||||
 |`didDrop: () => boolean`||||||||
 |`getInitialClientOffset: () => { x: number, y: number }`||||||||
@@ -183,7 +185,7 @@ DragLayerMonitor 是传递给 DragLayer 拖动层 collect 收集函数的对象�
 |`getItem: () => (object | null)`||||||||
 |`getInitialClientOffset: () => { x: number, y: number }`||||||||
 |`getInitialSourceClientOffset: () => { x: number, y: number }`||||||||
-|`getClientOffset: () => { x: number, y: number }`||||||||
+|`getClientOffset: () => { x: number, y: number }`|返回被拖动元素此刻的客户端偏移量|||||||
 |`getDifferenceFromInitialOffset: () => { x: number, y: number }`||||||||
 |`getSourceClientOffset: () => { x: number, y: number }`||||||||
 <!-- prettier-ignore-end -->

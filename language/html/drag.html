@@ -49,11 +49,14 @@
 <li>在可放置元素设置<code>@dragover=&quot;$event =&gt; $event.preventDefault()&quot;</code></li>
 </ul>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dropzone&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;draggable&quot;</span> <span class="hljs-attr">draggable</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
-    这个 div 可以拖动
-  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;draggable&quot;</span> <span class="hljs-attr">draggable</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>这个 div 可以拖动<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dropzone&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;droptarget&quot;</span> @<span class="hljs-attr">dragover</span>=<span class="hljs-string">&quot;dragoverHandler&quot;</span> @<span class="hljs-attr">drop</span>=<span class="hljs-string">&quot;dropHandler&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span>
+  <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dropzone&quot;</span>
+  <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;droptarget&quot;</span>
+  @<span class="hljs-attr">dragover</span>=<span class="hljs-string">&quot;dragoverHandler&quot;</span>
+  @<span class="hljs-attr">drop</span>=<span class="hljs-string">&quot;dropHandler&quot;</span>
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 </code></pre>
 <pre><code>let ondragoverHandler = ($event) =&gt; {
  $event.preventDefault()
@@ -63,20 +66,23 @@ let dropHandler = ($event) =&gt; {
 }
 </code></pre>
 <h2 id="事件">事件</h2>
-<p>DragEvent.dataTransfer // dragEvent的数据</p>
+<p>DragEvent.dataTransfer // dragEvent 的数据</p>
 <p>包括如下事件</p>
-<h3 id="drag">drag</h3>
 <pre><code>Event &lt;---- UIEvent &lt;---- MouseEvent &lt;---- DragEvent
 </code></pre>
-<h3 id="dragstart">dragstart</h3>
-<h3 id="dragend">dragend</h3>
-<h3 id="dragover">dragover</h3>
-<h3 id="dragenter">dragenter</h3>
-<h3 id="dragleave">dragleave</h3>
+<p>事件顺序
+dragstart -&gt; dragenter -&gt; dragover -&gt; drop -&gt; dragend</p>
+<h3 id="dragstart-开始拖元素时触发">dragstart 开始拖元素时触发</h3>
+<h3 id="dragenter-拖进drop元素时触发">dragenter 拖进drop元素时触发</h3>
+<h3 id="dragover-拖到drop元素上时触发">dragover 拖到drop元素上时触发</h3>
+<h3 id="drop-放入到drop元素时触发">drop 放入到drop元素时触发</h3>
+<h3 id="dragleave-当元素离开drop元素时触发">dragleave 当元素离开drop元素时触发</h3>
+<h3 id="drag-被拖动时触发">drag 被拖动时触发</h3>
+<h3 id="dragend-放开拖动元素时触发">dragend 放开拖动元素时触发</h3>
 <h3 id="datatransfer">DataTransfer</h3>
 <p>当拖拽发生时，数据必须与被拖拽的项目相关联。它持有拖拽数据。<br>
 它为拖动事件之间担任数据传递的角色。<br>
-在dragover/dragleave事件对象中无dataTransfer属性。</p>
+在 dragover/dragleave 事件对象中无 dataTransfer 属性。</p>
 <pre><code>new DataTransfer() // 返回一个DataTransfer对象
 </code></pre>
 <table>
@@ -116,7 +122,7 @@ let dropHandler = ($event) =&gt; {
 <tr>
 <td></td>
 <td>items 只读</td>
-<td>拖动数据列表的DataTransferItemList对象</td>
+<td>拖动数据列表的 DataTransferItemList 对象</td>
 <td></td>
 </tr>
 <tr>
@@ -140,7 +146,7 @@ let dropHandler = ($event) =&gt; {
 <tr>
 <td></td>
 <td>getData(key)</td>
-<td>返回dataTransfer对象上的指定数据，若不存在则返回空字符串。</td>
+<td>返回 dataTransfer 对象上的指定数据，若不存在则返回空字符串。</td>
 <td></td>
 </tr>
 <tr>

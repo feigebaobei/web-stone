@@ -43,8 +43,10 @@
         <h1 id="vue3-dnd">vue3-dnd</h1>
 <h2 id="overview">overview</h2>
 <blockquote>
-<p>基于react-dnd的核心程序开发的。<br>
-一般需要与react-dnd-html5-backend一起使用</p>
+<p>基于 react-dnd 的核心程序开发的。<br>
+一般需要与 react-dnd-html5-backend 一起使用
+官网的api写的很好。我一般不直接抄的，人家写的太好了。本文章好多是直接复制来的。
+api不好找。</p>
 </blockquote>
 <h3 id="feature">feature</h3>
 <ul>
@@ -88,7 +90,7 @@
 <tr>
 <td>连接器</td>
 <td>connectors</td>
-<td>把dom元素与backend中预定义角色建立连接</td>
+<td>把 dom 元素与 backend 中预定义角色建立连接</td>
 <td></td>
 <td></td>
 </tr>
@@ -242,7 +244,7 @@ description</p>
 <p><code>vue3-dnd.fn(param, [options: {a: string, b?: number}])</code>
 description</p>
 <h3 id="dragsourcemonitor">DragSourceMonitor</h3>
-<p>它是传递给DragSource的对象。它提供了若干获取拖动源信息的方法。</p>
+<p>它是传递给 DragSource 的对象。它提供了若干获取拖动源信息的方法。</p>
 <!-- prettier-ignore-start -->
 <table>
 <thead>
@@ -371,7 +373,7 @@ description</p>
 </tbody>
 </table>
 <!-- prettier-ignore-end -->
-<h3 id="specification">specification</h3>
+<h3 id="usedrag-的-specification">useDrag 的 specification</h3>
 <!-- prettier-ignore-start -->
 <table>
 <thead>
@@ -471,7 +473,7 @@ description</p>
 </table>
 <!-- prettier-ignore-end -->
 <h3 id="usedrag">useDrag</h3>
-<p>可以使用组件成为拖拽源，接入DnD方法。</p>
+<p>可以使用组件成为拖拽源，接入 DnD 方法。</p>
 <!-- prettier-ignore-start -->
 <table>
 <thead>
@@ -521,7 +523,7 @@ description</p>
 </table>
 <!-- prettier-ignore-end -->
 <h3 id="usedrop">useDrop</h3>
-<p>可以使用组件成为放置目标，接入DnD方法。</p>
+<p>可以使用组件成为放置目标，接入 DnD 方法。</p>
 <!-- prettier-ignore-start -->
 <table>
 <thead>
@@ -570,7 +572,7 @@ description</p>
 </tbody>
 </table>
 <!-- prettier-ignore-end -->
-<h3 id="specification">Specification</h3>
+<h3 id="usedrop-的-specification">useDrop 的 Specification</h3>
 <!-- prettier-ignore-start -->
 <table>
 <thead>
@@ -591,13 +593,13 @@ description</p>
 <td>symbol</td>
 <td>string[]</td>
 <td>symbol[]`</td>
-<td></td>
+<td>此放置目标只会对指定类型的拖动源做出反应。</td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td><code>accept: (monitor: DropTargetMonitor) =&gt; CollectedProps</code></td>
+<td><code>collect: (monitor: DropTargetMonitor) =&gt; CollectedProps</code></td>
 <td>一个收集器的函数。它应该返回一个普通对象并成为useDrop返回值中的第一个项。</td>
 <td></td>
 <td></td>
@@ -690,7 +692,7 @@ description</p>
 </table>
 <!-- prettier-ignore-end -->
 <h3 id="droptargetmonitor">DropTargetMonitor</h3>
-<p>DropTargetMonitor 是传递给DropTarget放置目标的对象。它提供了一些方法，让你可以获取到有关放置目标的一些状态信息。绑定到该监视器的特定放置目标在下面称为监视器的所有者。</p>
+<p>DropTargetMonitor 是传递给 DropTarget 放置目标的对象。它提供了一些方法，让你可以获取到有关放置目标的一些状态信息。绑定到该监视器的特定放置目标在下面称为监视器的所有者。</p>
 <!-- prettier-ignore-start -->
 <table>
 <thead>
@@ -739,7 +741,7 @@ description</p>
 <tr>
 <td>`getItem: () =&gt; object</td>
 <td>null`</td>
-<td></td>
+<td>返回表示当前拖动项的普通对象。每个拖动源必须通过从其item属性来指定它。如果没有项目被拖动，则返回null。</td>
 <td></td>
 <td></td>
 <td></td>
@@ -820,7 +822,7 @@ description</p>
 </table>
 <!-- prettier-ignore-end -->
 <h3 id="draglayermoniter">DragLayerMoniter</h3>
-<p>DragLayerMonitor 是传递给DragLayer拖动层collect收集函数的对象。它提供了一些方法，让你可以获取到全局拖放状态信息。</p>
+<p>DragLayerMonitor 是传递给 DragLayer 拖动层 collect 收集函数的对象。它提供了一些方法，让你可以获取到全局拖放状态信息。</p>
 <!-- prettier-ignore-start -->
 <table>
 <thead>
@@ -888,7 +890,7 @@ description</p>
 </tr>
 <tr>
 <td><code>getClientOffset: () =&gt; { x: number, y: number }</code></td>
-<td></td>
+<td>返回被拖动元素此刻的客户端偏移量</td>
 <td></td>
 <td></td>
 <td></td>
@@ -923,7 +925,8 @@ description</p>
 <h2 id="principle">principle</h2>
 <p>此包的处理逻辑。</p>
 <h3 id="uml">uml</h3>
-<pre><code></code></pre>
+<pre><code>
+</code></pre>
 <h2 id="todo">todo</h2>
 <blockquote>
 <p>未来迭代计划。

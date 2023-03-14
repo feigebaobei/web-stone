@@ -34,21 +34,26 @@ DragEvent.dataTransfer // dragEvent 的数据
 
 包括如下事件
 
-### drag
-
 ```
 Event <---- UIEvent <---- MouseEvent <---- DragEvent
 ```
 
-### dragstart
+事件顺序
+dragstart -> dragenter -> dragover -> drop -> dragend
 
-### dragend
+### dragstart 开始拖元素时触发
 
-### dragover
+### dragenter 拖进 drop 元素时触发
 
-### dragenter
+### dragover 拖到 drop 元素上时触发
 
-### dragleave
+### drop 放入到 drop 元素时触发
+
+### dragleave 当元素离开 drop 元素时触发
+
+### drag 被拖动时触发
+
+### dragend 放开拖动元素时触发
 
 ### DataTransfer
 
