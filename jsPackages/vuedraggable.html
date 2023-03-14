@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>vuedraggable</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="vuedraggable">vuedraggable</h1>
+<h2 id="overview">overview</h2>
+<blockquote>
+<p>支持vue1/vue2的拖动、排序组件。
+基于sortable.js</p>
+</blockquote>
+<h3 id="feature">feature</h3>
+<ul>
+<li>兼容vue2 / transition-group</li>
+<li>支持取消</li>
+<li>feature2</li>
+</ul>
+<h2 id="install">install</h2>
+<p><code>npm i vuedraggable</code></p>
+<h2 id="usage">usage</h2>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">draggable</span> <span class="hljs-attr">v-model</span>=<span class="hljs-string">&quot;myArr&quot;</span> <span class="hljs-attr">group</span>=<span class="hljs-string">&quot;people&quot;</span> @<span class="hljs-attr">start</span>=<span class="hljs-string">&quot;drag=true&quot;</span> @<span class="hljs-attr">end</span>=<span class="hljs-string">&quot;drag=false&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;(item) in myArr&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;item.id&quot;</span>&gt;</span>str<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">draggable</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">draggable</span> <span class="hljs-attr">v-model</span>=<span class="hljs-string">&quot;myArr&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">transition-group</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;...&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">transition-group</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">draggable</span>&gt;</span>
+
+import draggable from &#x27;vuedraggable&#x27;
+exprot default {
+    components: {
+        draggable
+    }
+}
+</code></pre>
+<h2 id="configuration">configuration</h2>
+<p>默认配置文件：<code>path/to/file.json</code>。</p>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h2 id="api">api</h2>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>value</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>list</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>所有sortable的选项</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>tag</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>clone</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>move</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>componentData</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<table>
+<thead>
+<tr>
+<th>事件</th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>start</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>add</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>remove</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>update</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>end</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>choose</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>unchoose</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>sort</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>filter</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>clone</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>slots</th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>header</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>footer</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>gotchas</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><code>vuedraggable.fn(param, first: string, second: boolean = true) =&gt; void</code>
+description</p>
+<p><code>vuedraggable.fn(param, [options: {a: string, b?: number}])</code>
+description</p>
+<h2 id="principle">principle</h2>
+<p>此包的处理逻辑。</p>
+<h3 id="uml">uml</h3>
+<pre><code></code></pre>
+<h2 id="todo">todo</h2>
+<blockquote>
+<p>未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote>
+
+        
+        
+    </body>
+    </html>

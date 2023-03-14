@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <p>#mysql</p>
+<p>##install</p>
+<p>###down</p>
+<p>###1. 在官网下载压缩包。</p>
+<p>###2. 解压到本地相应的目录。</p>
+<p>如： D:\mysql</p>
+<p>###3. 配置。</p>
+<p>在D:\mysql里创建my.ini<br>
+输入：</p>
+<pre><code>[mysql]
+# 设置mysql客户端默认字符集
+default-character-set=utf8
+[mysqld]
+# 设置3306端口
+port = 3306
+# 设置mysql的安装目录
+# basedir=C:\web\mysql-8.0.11
+basedir=D:\mysql
+</code></pre>
+<p>###4. 安装</p>
+<pre><code>cd D:\mysql\bin
+mysqld --initialize --console
+// 会生成初始密码
+mysqld install
+//install
+</code></pre>
+<p>###5. 使用</p>
+<pre><code>net start mysql
+// 连接mysql，也就是启动。
+mysql -h localhost -u root -p // login
+... //password
+</code></pre>
+<p>###6. 修改初始密码</p>
+<pre><code>alter user user() identified by &quot;123456&quot;;
+// 好像这个也可以
+mysqladmin -u root password &quot;123456&quot;
+</code></pre>
+<p>###7. 关闭</p>
+<pre><code>exit; // 退出
+mysqladmin -uroot -p shutdown // 关闭
+</code></pre>
+<p>##设置mysql用户账户</p>
+<pre><code>INSERT INTO user 
+(host, user, password, 
+select_priv, insert_priv, update_priv) 
+VALUES ('localhost', 'yiibai', 
+PASSWORD('123456'), 'Y', 'Y', 'Y');
+</code></pre>
+
+        
+        
+    </body>
+    </html>

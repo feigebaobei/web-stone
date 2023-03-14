@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>insert data</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>use databasename</td>
+<td>在mysql工作区的数据库</td>
+</tr>
+<tr>
+<td>show databases</td>
+<td></td>
+</tr>
+<tr>
+<td>show tables</td>
+<td></td>
+</tr>
+<tr>
+<td>show columns from tablename</td>
+<td>显示属性、属性类型...</td>
+</tr>
+<tr>
+<td>show index from tablename</td>
+<td>所有指标的详细信息表</td>
+</tr>
+<tr>
+<td>show table status like tablename\g</td>
+<td>报告mysql的数据库管理系统的性能和统计数据的详细信息</td>
+</tr>
+</tbody>
+</table>
+<p>##创建数据库</p>
+<pre><code>craeta database dbname;
+</code></pre>
+<p>##删除database</p>
+<pre><code>drop database dbname;
+</code></pre>
+<p>##使用database</p>
+<pre><code>use dbname;
+</code></pre>
+<p>##数据类型</p>
+<p>主要有：number, date, time, string</p>
+<table>
+<thead>
+<tr>
+<th>number</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>int</td>
+<td></td>
+</tr>
+<tr>
+<td>tinyint</td>
+<td></td>
+</tr>
+<tr>
+<td>smallint</td>
+<td></td>
+</tr>
+<tr>
+<td>mediumint</td>
+<td></td>
+</tr>
+<tr>
+<td>bigint</td>
+<td></td>
+</tr>
+<tr>
+<td>float</td>
+<td></td>
+</tr>
+<tr>
+<td>double(m,d)</td>
+<td>双精度浮点。m:显示长度。d:小数位数。</td>
+</tr>
+<tr>
+<td>decimal(m,d)</td>
+<td>非压缩浮点</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>date</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>date</td>
+<td>YYYY-MM-DD</td>
+</tr>
+<tr>
+<td>datetime</td>
+<td>YYYY-MM-DD HH:MM:SS</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>YYYYMMDDHHMMSS</td>
+</tr>
+<tr>
+<td>time</td>
+<td>HH:MM:SS</td>
+</tr>
+<tr>
+<td>year(M)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>string</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>char(m)</td>
+<td></td>
+</tr>
+<tr>
+<td>varchar(m)</td>
+<td>必须</td>
+</tr>
+<tr>
+<td>blob or text</td>
+<td>blob 区分大小写，text 不区分大小写。</td>
+</tr>
+<tr>
+<td>tinyblob or tinytext</td>
+<td></td>
+</tr>
+<tr>
+<td>mediumblob or mediumtext</td>
+<td></td>
+</tr>
+<tr>
+<td>longblob or longtext</td>
+<td></td>
+</tr>
+<tr>
+<td>enum</td>
+<td>枚举</td>
+</tr>
+</tbody>
+</table>
+<p>##create table</p>
+<pre><code>create table tablename (columnname columntype);
+
+CREATE TABLE tutorials_tbl(
+tutorial_id INT NOT NULL AUTO_INCREMENT,
+tutorial_title VARCHAR(100) NOT NULL,
+tutorial_author VARCHAR(40) NOT NULL,
+submission_date DATE,
+PRIMARY KEY ( tutorial_id )
+);
+</code></pre>
+<p>##del table</p>
+<pre><code>drop table tablename;
+</code></pre>
+<h2 id="insert-data">insert data</h2>
+<pre><code>insert into tablename (field0, field1, field2...) values (value0, value1, value2...);
+</code></pre>
+<h2 id="select">select</h2>
+<pre><code>select field0, field1, field2 tablename, tablename2... [where clause] [offset m] [limit n];
+</code></pre>
+<p>##update</p>
+<pre><code>update tn set field = value, [field2 = value2, ...] [where field = value, field2 = value2];
+</code></pre>
+<p>##where</p>
+<pre><code>select field0, field1, field2 tablename1, tablename2... [where condition1 [and [or]] condition2...];
+</code></pre>
+<h2 id="del">del</h2>
+<pre><code>delete from tablename [where clause];
+</code></pre>
+<p>##like
+like 可以与 % 一起使用。</p>
+<pre><code>select field0, field1, field2 tn, tn2, tn3 where field1 like condition0 [an [or]] field2 = 'string';
+</code></pre>
+<p>##order by</p>
+<pre><code>select field1... from tn [where condition] order by field1, [field2...] [asc [desc]];
+</code></pre>
+<p>##join</p>
+<pre><code>select a.id, b.author from tn1 a, tn2 b where a.id = b.author;
+</code></pre>
+<p>##null</p>
+<pre><code>is null
+is not null
+</code></pre>
+<p>##regexp</p>
+<pre><code>... where name regexp 'value&amp;';
+</code></pre>
+<p>##事务性质</p>
+<ul>
+<li>原子性</li>
+<li>一致性</li>
+<li>隔离</li>
+<li>持久性</li>
+</ul>
+<p>##alter</p>
+<p>添加、删除表字段。</p>
+<pre><code>alter table tn drop fieldname; // 若删除最后一列则会失败。
+alter table tn add column field int; // 添加一个i列，类型是int.
+</code></pre>
+<p>更改列定义、名称。<br>
+modify/change</p>
+<pre><code>alter table tn modify fieldname char(10); // 更改类型
+alter table tn change i j int;
+</code></pre>
+<p>设置默认值</p>
+<pre><code>alter table tn alter field set default 1000;
+</code></pre>
+<p>删除默认值</p>
+<pre><code>alter table tn alter fieldname drop default;
+</code></pre>
+<p>##更改表类型</p>
+<pre><code>alter table tn type = myisam;
+show table status like 'value$'\g;
+
+alter table tn rename to tn2;
+</code></pre>
+<p>##查看表结构</p>
+<pre><code>desc tablename;
+</code></pre>
+<p>##索引</p>
+<p>###唯一索引</p>
+<pre><code>create unique index index_name on tn (column1, column2...);
+create unique index author_index on tn (field desc);
+</code></pre>
+<p>###add/del index</p>
+<pre><code>alter table tn add primary key (column_list);
+alter table tn add unique index_name (column_list);
+alter table tn add index index_name (column_list);
+alter table tn add pulltext index_name (column_list);
+alter table tn drop primary key;
+
+show index from tn\g;
+</code></pre>
+<h2 id="mysql临时表">mysql临时表</h2>
+<pre><code>create temporary table tn (fieldname0 varchar(50) not null, ...);
+// 可以 insert...
+dorp table tn;
+</code></pre>
+<p>##复制表</p>
+<ol>
+<li>查看表详情。</li>
+<li>创建一个一模一样的表。</li>
+<li>把表里的所有数据插入到新表。</li>
+</ol>
+<pre><code>    show create table tn\g;
+    create table clonetn (field int(11), ...) type=myisam;
+    insert into clonetn (field, ...) select field, ... from tn;
+</code></pre>
+<p>##获取服务器元数据</p>
+<ul>
+<li>select version()</li>
+<li>select database()</li>
+<li>select user()</li>
+<li>show status</li>
+<li>show variables</li>
+</ul>
+<p>##导出数据</p>
+<pre><code>select * from tn into outrile 'C:\xx.txt';
+
+masqldump -u root -p dbname tn &gt; dump.txt;
+password ****
+</code></pre>
+<p>##导入数据</p>
+<pre><code>load data local infile 'C:\dump.txt' into table tn;
+mysqlimport -u root -p --loacl dbname dump.txt;
+password ****
+</code></pre>
+<hr>
+<p>2018/10/27 by stone</p>
+
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
+    </body>
+    </html>
