@@ -257,14 +257,17 @@ c.on('ready', () => {
       // 'framework/stateManager/index.html',
       // 'books/codeComplete/index.html',
       // 'books/codeComplete/no1_4.html',
-      'jsPackages/mkdirp.html',
+      // 'jsPackages/mkdirp.html',
       // 'jsPackages/babel/core.html',
       // 'jsPackages/cookie-parse.html',
       // 'jsPackages/index.html',
       // 'confuse/index.html',
+      'package-manager/index.html',
+      'promote/standard.html',
       // 'confuse/writeScript.html',
       // 'books/codeComplete/no5_9.html',
       // 'books/codeComplete/no10_13.html',
+      // 'books/codeComplete/no14_19.html',
       // 'books/codeComplete/no14_19.html',
     ]
     // 检测指定目录是否存在

@@ -17,10 +17,10 @@ npm 团队创建了 npmjs.com 网站。创建了 npm 命令行。与 node 团队
 
 ## npm & yarn & yarn2 & yarn3 & pnpm
 
-|     | npm | yarn | yarn2 | yarn3 | pnpm |
-| --- | --- | ---- | ----- | ----- | ---- |
-|     |     |      |       |       |      |
-|     |     |      |       |       |      |
-|     |     |      |       |       |      |
+|          | npm | yarn | yarn2 | yarn3 | pnpm |
+| -------- | --- | ---- | ----- | ----- | ---- |
+| 错误提示 | 差  | 准确 |       |       |      |
+|          |     |      |       |       |      |
+|          |     |      |       |       |      |
 
 ## [window & node & npm & cli](/language/node/window%26node%26npm%26cli.html)
