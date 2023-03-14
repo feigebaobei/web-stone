@@ -254,16 +254,18 @@ c.on('ready', () => {
     let p = [
       // 'index.html',
       // 'promote/standard/index.html',
-      'framework/stateManager/index.html',
+      // 'framework/stateManager/index.html',
+      // 'books/codeComplete/index.html',
+      // 'books/codeComplete/no1_4.html',
+      'jsPackages/mkdirp.html',
+      // 'jsPackages/babel/core.html',
+      // 'jsPackages/cookie-parse.html',
+      // 'jsPackages/index.html',
       // 'confuse/index.html',
-      // 'confuse/front&end.html',
-      // 'language/html/drag.html',
-      // 'language/html/index.html',
-      'jsPackages/index.html',
-      'jsPackages/vue3-dnd.html',
-      // // 'jsPackages/xicons.html',
-      // 'jsPackages/zx.html',
-      // 'jsPackages/v-drag.html',
+      // 'confuse/writeScript.html',
+      // 'books/codeComplete/no5_9.html',
+      // 'books/codeComplete/no10_13.html',
+      // 'books/codeComplete/no14_19.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
