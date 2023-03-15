@@ -15,41 +15,6 @@
 	display: none;
 }
 
-/* From extension ms-toolsai.jupyter */
-/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
-
-.alert {
-    width: auto;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-.alert > *:last-child {
-    margin-bottom: 0;
-}
-#preview > .alert:last-child {
-    /* Prevent this being set to zero by the default notebook stylesheet */
-    padding-bottom: 1em;
-}
-
-.alert-success {
-    /* Note there is no suitable color available, so we just copy "info" */
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-info {
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-warning {
-    background-color: var(--theme-warning-background);
-    color: var(--theme-warning-foreground);
-}
-.alert-danger {
-    background-color: var(--theme-error-background);
-    color: var(--theme-error-foreground);
-}
-
 </style>
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
@@ -76,9 +41,27 @@
     </head>
     <body class="vscode-body vscode-light">
         <h1 id="分布式系统设计">分布式系统设计</h1>
+<p>由多台计算机和通信的软件组件通过计算机网络连接（本地网络、广域网）。</p>
+<h2 id="优点">优点</h2>
+<ul>
+<li>可靠性（容错）</li>
+<li>可扩展性</li>
+<li>资源共享</li>
+<li>灵活性</li>
+<li>更快的速度</li>
+<li>开放系统</li>
+<li>更高的性能</li>
+</ul>
+<h2 id="缺点">缺点</h2>
+<ul>
+<li>故障排除</li>
+<li>软件</li>
+<li>网络</li>
+<li>安全性</li>
+</ul>
 <h2 id="负载均衡">负载均衡</h2>
-<p>从dns到web server之间使用load balancer<br>
-用于保护web server</p>
+<p>从 dns 到 web server 之间使用 load balancer<br>
+用于保护 web server</p>
 <pre><code>client -----&gt; dns
                 |
                 |
@@ -117,9 +100,9 @@
 </table>
 <p>二者都有高可扩展性（high scalablity）</p>
 <h2 id="caching">caching</h2>
-<p>用于保护database<br>
-一般database是最慢的环节。<br>
-在web server和database之间使用caching</p>
+<p>用于保护 database<br>
+一般 database 是最慢的环节。<br>
+在 web server 和 database 之间使用 caching</p>
 <pre><code>web server 0    web server 1    ...
     |               |            |
     |               |            |
@@ -132,14 +115,14 @@
 
 </code></pre>
 <h2 id="cdn">cdn</h2>
-<p>在访问量大网站上会把网站的静态内容分发到全球各地的cdn上。
-访问者可以从最近的cdn上得到内容。获得更快的下载速度。</p>
+<p>在访问量大网站上会把网站的静态内容分发到全球各地的 cdn 上。
+访问者可以从最近的 cdn 上得到内容。获得更快的下载速度。</p>
 <h2 id="异步处理">异步处理</h2>
 <p>用途：耗时的任务<br>
-一般使用message queue实现。</p>
+一般使用 message queue 实现。</p>
 <h2 id="title">title</h2>
 <h2 id="title">title</h2>
-<p>youtube的分布式mysql的方案《vitess》</p>
+<p>youtube 的分布式 mysql 的方案《vitess》</p>
 
         
         
