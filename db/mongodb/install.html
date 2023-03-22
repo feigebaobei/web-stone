@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>1&period; &#x53bb;&#x5b98;&#x7f51;&#x8fdb;&#x5165;&#x4e0b;&#x8f7d;&#x8bf4;&#x660e;&#x9875;&#x9762;&#x3002;</title>
+        <title>window</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -40,23 +40,75 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h2 id="1-去官网进入下载说明页面">1. 去官网进入下载说明页面。</h2>
+        <p>因系统不同可分为如下三种</p>
+<h1 id="window">window</h1>
+<ol>
+<li>先下载 .msi 文件 <a href="https://www.mongodb.com/download-center/community">https://www.mongodb.com/download-center/community</a></li>
+<li>双击该文件，再按提示安装。</li>
+<li>不安装<code>install mongodb compass</code></li>
+<li>在根目录下（如: c:\ d:\）创建<code>data\db</code>目录做为db目录。</li>
+<li>使用命令行<code>c:\mongodb\bin\mongod --dbpath c:\data\db</code>启动mongodb服务器。若启动成功，则看到正常提示。</li>
+<li>使用命令<code>c:\mongodb\bin\mongo.exe</code>连接mongodb</li>
+</ol>
+<h2 id="配置mongodb服务">配置mongodb服务</h2>
+<p>以管理员身份打开cmd。然后执行</p>
+<pre><code class="language-shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">创建数据库目录</span>
+mkdir c:\data\db
+<span class="hljs-meta prompt_"># </span><span class="language-bash">创建日志文件</span>
+mkdir c:\data\log
+<span class="hljs-meta prompt_"># </span><span class="language-bash">创建配置文件</span>
+c:\mongodb\mongod.cfg
+<span class="hljs-meta prompt_"># </span><span class="language-bash">内容如下</span>
+systemLog:
+    destination: file
+    path: c:\data\log\mongod.log
+storage:
+    dbPath: c:\data\db
+<span class="hljs-meta prompt_"># </span><span class="language-bash">安装mongodb服务</span>
+c:\mongodb\bin\mongod.exe --config &quot;c:\mongodb\mongod.cfg&quot; --install
+<span class="hljs-meta prompt_"># </span><span class="language-bash">启动mongodb服务</span>
+net start MongoDB
+<span class="hljs-meta prompt_"># </span><span class="language-bash">关闭mongodb服务</span>
+net stop MongoDB
+<span class="hljs-meta prompt_"># </span><span class="language-bash">移除mongodb服务</span>
+c:\mongodb\bin\mongod.exe --remove
+</code></pre>
+<h2 id="启动方式">启动方式</h2>
+<p>任选一个：</p>
+<ul>
+<li>运行mongodb服务器</li>
+<li>配置mongodb服务</li>
+</ul>
+<h2 id="后台管理shell">后台管理shell</h2>
+<p>可运行js脚本<br>
+交互式环境</p>
+<pre><code>&gt; mongo
+MongoDB shell version: 3.0.7
+...
+
+&gt; db      # 查看当前文档
+test
+&gt; db.test.insert({x: 2})      # 在test文档中插入一条记录
+</code></pre>
+<h1 id="linux">linux</h1>
+<h1 id="osx">osx</h1>
+<h2 id="1-去官网进入下载说明页面">1. 去官网进入下载说明页面。</h2>
 <p><code>https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/#install-mongodb-community-edition-on-windows</code>
 <img src="/Users/cat/Documents/code/personal/web-stone/image/db/mongodb/explain.jpg" alt=""></p>
 <h2 id="2-下载">2. 下载</h2>
-<p>官网的文档说了3个步骤去安装。<br>
+<p>官网的文档说了 3 个步骤去安装。<br>
 先进入下载页面<code>https://www.mongodb.com/download-center/community?jmp=docs</code><br>
 选择想要有版本、配置。<br>
 复制这个链接，在讯雷中下载。</p>
 <p><img src="file:////Users/cat/Documents/code/personal/web-stone/image/db/mongodb/download.jpg" alt=""></p>
 <h2 id="3-安装时的配置">3. 安装时的配置</h2>
-<p>安装类型有2个（complete/custom）。选择custom可以设置安装位置。<br>
-安装位置建议在非c盘。<br>
+<p>安装类型有 2 个（complete/custom）。选择 custom 可以设置安装位置。<br>
+安装位置建议在非 c 盘。<br>
 <img src="file:////Users/cat/Documents/code/personal/web-stone/image/db/mongodb/install.jpg" alt=""><br>
-取消选择<code>Install MongoDB Compass</code>会快。因为勾选上会下载mongodb compass（图形化管理界面）很久。<br>
+取消选择<code>Install MongoDB Compass</code>会快。因为勾选上会下载 mongodb compass（图形化管理界面）很久。<br>
 <img src="file:////Users/cat/Documents/code/personal/web-stone/image/db/mongodb/compass.jpg" alt=""></p>
 <h2 id="4-验证是否安装成功">4. 验证是否安装成功</h2>
-<p>进入安装目录的bin目录下。打开cmd命令行。<br>
+<p>进入安装目录的 bin 目录下。打开 cmd 命令行。<br>
 执行<code>mongod dbpath path\to\MongoDB\data\db</code><br>
 <img src="file:////Users/cat/Documents/code/personal/web-stone/image/db/mongodb/start.jpg" alt=""><br>
 在浏览器中输入<code>http://localhost:27017</code>。能看到<code>It looks like you are trying to access MongoDB over HTTP on the native driver port.</code>。说明安装成功。</p>
@@ -64,13 +116,13 @@
 <p>D:\mongodb\bin\monogd --install -f &quot;D:\mongodb\mongod.cfg&quot;</p>
 <h2 id="6-启动停止">6. 启动/停止</h2>
 <p>方法一
-net start MongoDB // 启动MongoDB服务<br>
-net stop MongoDB // 关闭MongoDB服务<br>
-C:\mongodb\bin\mongod.exe --remove // 移除MongoDB服务<br>
+net start MongoDB // 启动 MongoDB 服务<br>
+net stop MongoDB // 关闭 MongoDB 服务<br>
+C:\mongodb\bin\mongod.exe --remove // 移除 MongoDB 服务<br>
 方法二
 在全局变量中添加变量路径<br>
 方法三
-创建****.bat文件。</p>
+创建****.bat 文件。</p>
 <pre><code>    echo &quot;MongoDB starting....&quot;
     mongod --dbpath path\to\mongodb\data
     pause

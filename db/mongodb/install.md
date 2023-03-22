@@ -1,3 +1,67 @@
+因系统不同可分为如下三种
+
+# window
+
+1. 先下载 .msi 文件 [https://www.mongodb.com/download-center/community](https://www.mongodb.com/download-center/community)
+2. 双击该文件，再按提示安装。
+3. 不安装`install mongodb compass`
+4. 在根目录下（如: c:\ d:\）创建`data\db`目录做为 db 目录。
+5. 使用命令行`c:\mongodb\bin\mongod --dbpath c:\data\db`启动 mongodb 服务器。若启动成功，则看到正常提示。
+6. 使用命令`c:\mongodb\bin\mongo.exe`连接 mongodb
+
+## 配置 mongodb 服务
+
+以管理员身份打开 cmd。然后执行
+
+```shell
+# 创建数据库目录
+mkdir c:\data\db
+# 创建日志文件
+mkdir c:\data\log
+# 创建配置文件
+c:\mongodb\mongod.cfg
+# 内容如下
+systemLog:
+    destination: file
+    path: c:\data\log\mongod.log
+storage:
+    dbPath: c:\data\db
+# 安装mongodb服务
+c:\mongodb\bin\mongod.exe --config "c:\mongodb\mongod.cfg" --install
+# 启动mongodb服务
+net start MongoDB
+# 关闭mongodb服务
+net stop MongoDB
+# 移除mongodb服务
+c:\mongodb\bin\mongod.exe --remove
+```
+
+## 启动方式
+
+任选一个：
+
+- 运行 mongodb 服务器
+- 配置 mongodb 服务
+
+## 后台管理 shell
+
+可运行 js 脚本  
+交互式环境
+
+```
+> mongo
+MongoDB shell version: 3.0.7
+...
+
+> db      # 查看当前文档
+test
+> db.test.insert({x: 2})      # 在test文档中插入一条记录
+```
+
+# linux
+
+# osx
+
 ## 1. 去官网进入下载说明页面。
 
 `https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/#install-mongodb-community-edition-on-windows`
