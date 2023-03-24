@@ -250,25 +250,26 @@ c.on('ready', () => {
       throw err
     }
 
-    // let p = 'promote/standard'
+    // let p = 'db/mongodb/compass'
     let p = [
-      // 'index.html',
-      // 'promote/standard/index.html',
-      // 'framework/stateManager/index.html',
-      // 'books/codeComplete/index.html',
-      // 'books/codeComplete/no1_4.html',
-      'jsPackages/vue3-dnd.html',
-      // 'jsPackages/babel/core.html',
-      // 'jsPackages/cookie-parse.html',
-      // 'jsPackages/index.html',
-      // 'confuse/index.html',
-      // 'package-manager/index.html',
-      // 'promote/standard.html',
-      // 'confuse/writeScript.html',
-      // 'books/codeComplete/no5_9.html',
-      // 'books/codeComplete/no10_13.html',
-      // 'books/codeComplete/no14_19.html',
-      // 'books/codeComplete/no14_19.html',
+      // 'db/mongodb/compass/install.html',
+      // 'db/mongodb/basic.html',
+      // 'db/mongodb/index.html',
+      'db/mongodb/introduction.html',
+      'db/mongodb/install.html',
+      // 'db/index.html',
+      // 'promote/systemDesign/distributed.html',
+      // 'db/mongodb/install.html',
+      // 'db/mongodb/windingCourse.html',
+      // 'db/mysql/basic.html',
+      // 'db/mysql/index.html',
+      // 'db/mysql/init.html',
+      // 'db/mysql/install.html',
+      // 'db/mysql/issue.html',
+      // 'db/mysql/retrieve.html',
+      // 'db/mysql/usage.html',
+      // 'db/redis/index.html',
+      // 'db/redis/rdb-aof.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
