@@ -257,6 +257,8 @@ c.on('ready', () => {
       // 'db/mongodb/index.html',
       'db/mongodb/introduction.html',
       'db/mongodb/install.html',
+      'browser/goto.html',
+      'browser/index.html',
       // 'db/index.html',
       // 'promote/systemDesign/distributed.html',
       // 'db/mongodb/install.html',

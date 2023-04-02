@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <pre><code class="language-js"><span class="hljs-meta">&#x27;use strict&#x27;</span>;
+
+<span class="hljs-keyword">import</span> bind <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./helpers/bind.js&#x27;</span>;
+
+<span class="hljs-comment">// utils is a library of generic helper functions non-specific to axios</span>
+
+<span class="hljs-keyword">const</span> {toString} = <span class="hljs-title class_">Object</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>;
+<span class="hljs-keyword">const</span> {getPrototypeOf} = <span class="hljs-title class_">Object</span>;
+
+<span class="hljs-keyword">const</span> kindOf = (<span class="hljs-function"><span class="hljs-params">cache</span> =&gt;</span> <span class="hljs-function"><span class="hljs-params">thing</span> =&gt;</span> {
+    <span class="hljs-keyword">const</span> str = toString.<span class="hljs-title function_">call</span>(thing);
+    <span class="hljs-keyword">return</span> cache[str] || (cache[str] = str.<span class="hljs-title function_">slice</span>(<span class="hljs-number">8</span>, -<span class="hljs-number">1</span>).<span class="hljs-title function_">toLowerCase</span>());
+})(<span class="hljs-title class_">Object</span>.<span class="hljs-title function_">create</span>(<span class="hljs-literal">null</span>));
+
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">kindOfTest</span> = (<span class="hljs-params">type</span>) =&gt; {
+  type = type.<span class="hljs-title function_">toLowerCase</span>();
+  <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">thing</span>) =&gt;</span> <span class="hljs-title function_">kindOf</span>(thing) === type
+}
+
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">typeOfTest</span> = type =&gt; <span class="hljs-function"><span class="hljs-params">thing</span> =&gt;</span> <span class="hljs-keyword">typeof</span> thing === type;
+
+<span class="hljs-comment">/**
+ * Determine if a value is an Array
+ *
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">Object</span>} val The value to test
+ *
+ * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">boolean</span>} True if value is an Array, otherwise false
+ */</span>
+<span class="hljs-keyword">const</span> {isArray} = <span class="hljs-title class_">Array</span>;
+
+<span class="hljs-comment">/**
+ * Determine if a value is undefined
+ *
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">*</span>} val The value to test
+ *
+ * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">boolean</span>} True if the value is undefined, otherwise false
+ */</span>
+<span class="hljs-keyword">const</span> isUndefined = <span class="hljs-title function_">typeOfTest</span>(<span class="hljs-string">&#x27;undefined&#x27;</span>);
+
+<span class="hljs-comment">/**
+ * Determine if a value is a Buffer
+ *
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">*</span>} val The value to test
+ *
+ * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">boolean</span>} True if value is a Buffer, otherwise false
+ */</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">isBuffer</span>(<span class="hljs-params">val</span>) {
+  <span class="hljs-keyword">return</span> val !== <span class="hljs-literal">null</span> &amp;&amp; !<span class="hljs-title function_">isUndefined</span>(val) &amp;&amp; val.<span class="hljs-property">constructor</span> !== <span class="hljs-literal">null</span> &amp;&amp; !<span class="hljs-title function_">isUndefined</span>(val.<span class="hljs-property">constructor</span>)
+    &amp;&amp; <span class="hljs-title function_">isFunction</span>(val.<span class="hljs-property">constructor</span>.<span class="hljs-property">isBuffer</span>) &amp;&amp; val.<span class="hljs-property">constructor</span>.<span class="hljs-title function_">isBuffer</span>(val);
+}
+
+<span class="hljs-comment">/**
+ * Determine if a value is an ArrayBuffer
+ *
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">*</span>} val The value to test
+ *
+ * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">boolean</span>} True if value is an ArrayBuffer, otherwise false
+ */</span>
+<span class="hljs-keyword">const</span> isArrayBuffer = <span class="hljs-title function_">kindOfTest</span>(<span class="hljs-string">&#x27;ArrayBuffer&#x27;</span>);
+
+
+<span class="hljs-comment">/**
+ * Determine if a value is a view on an ArrayBuffer
+ *
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">*</span>} val The value to test
+ *
+ * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">boolean</span>} True if value is a view on an ArrayBuffer, otherwise false
+ */</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">isArrayBufferView</span>(<span class="hljs-params">val</span>) {
+  <span class="hljs-keyword">let</span> result;
+  <span class="hljs-keyword">if</span> ((<span class="hljs-keyword">typeof</span> <span class="hljs-title class_">ArrayBuffer</span> !== <span class="hljs-string">&#x27;undefined&#x27;</span>) &amp;&amp; (<span class="hljs-title class_">ArrayBuffer</span>.<span class="hljs-property">isView</span>)) {
+    result = <span class="hljs-title class_">ArrayBuffer</span>.<span class="hljs-title function_">isView</span>(val);
+  } <span class="hljs-keyword">else</span> {
+    result = (val) &amp;&amp; (val.<span class="hljs-property">buffer</span>) &amp;&amp; (<span class="hljs-title function_">isArrayBuffer</span>(val.<span class="hljs-property">buffer</span>));
+  }
+  <span class="hljs-keyword">return</span> result;
+}
+
+<span class="hljs-comment">/**
+ * Determine if a value is a String
+ *
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">*</span>} val The value to test
+ *
+ * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">boolean</span>} True if value is a String, otherwise false
+ */</span>
+<span class="hljs-keyword">const</span> isString = <span class="hljs-title function_">typeOfTest</span>(<span class="hljs-string">&#x27;string&#x27;</span>);
+
+<span class="hljs-comment">/**
+ * Determine if a value is a Function
+ *
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">*</span>} val The value to test
+ * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">boolean</span>} True if value is a Function, otherwise false
+ */</span>
+<span class="hljs-keyword">const</span> isFunction = <span class="hljs-title function_">typeOfTest</span>(<span class="hljs-string">&#x27;function&#x27;</span>);
+
+<span class="hljs-comment">/**
+ * Determine if a value is a Number
+ *
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">*</span>} val The value to test
+ *
+ * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">boolean</span>} True if value is a Number, otherwise false
+ */</span>
+<span class="hljs-keyword">const</span> isNumber = <span class="hljs-title function_">typeOfTest</span>(<span class="hljs-string">&#x27;number&#x27;</span>);
+
+<span class="hljs-comment">/**
+ * Determine if a value is an Object
+ *
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">*</span>} thing The value to test
+ *
+ * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">boolean</span>} True if value is an Object, otherwise false
+ */</span>
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">isObject</span> = (<span class="hljs-params">thing</span>) =&gt; thing !== <span class="hljs-literal">null</span> &amp;&amp; <span class="hljs-keyword">typeof</span> thing === <span class="hljs-string">&#x27;object&#x27;</span>;
+
+<span class="hljs-comment">/**
+ * Determine if a value is a Boolean
+ *
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">*</span>} thing The value to test
+ * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">boolean</span>} True if value is a Boolean, otherwise false
+ */</span>
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">isBoolean</span> = thing =&gt; thing === <span class="hljs-literal">true</span> || thing === <span class="hljs-literal">false</span>;
+
+<span class="hljs-comment">/**
+ * Determine if a value is a plain Object
+ *
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">*</span>} val The value to test
+ *
+ * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">boolean</span>} True if value is a plain Object, otherwise false
+ */</span>
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">isPlainObject</span> = (<span class="hljs-params">val</span>) =&gt; {
+  <span class="hljs-keyword">if</span> (<span class="hljs-title function_">kindOf</span>(val) !== <span class="hljs-string">&#x27;object&#x27;</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+  }
+
+  <span class="hljs-keyword">const</span> prototype = <span class="hljs-title function_">getPrototypeOf</span>(val);
+  <span class="hljs-keyword">return</span> (prototype === <span class="hljs-literal">null</span> || prototype === <span class="hljs-title class_">Object</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span> || <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">getPrototypeOf</span>(prototype) === <span class="hljs-literal">null</span>) &amp;&amp; !(<span class="hljs-title class_">Symbol</span>.<span class="hljs-property">toStringTag</span> <span class="hljs-keyword">in</span> val) &amp;&amp; !(<span class="hljs-title class_">Symbol</span>.<span class="hljs-property">iterator</span> <span class="hljs-keyword">in</span> val);
+}
+
+<span class="hljs-comment">/**
+ * Determine if a value is a Date
+ *
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">*</span>} val The value to test
+ *
+ * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">boolean</span>} True if value is a Date, otherwise false
+ */</span>
+<span class="hljs-keyword">const</span> isDate = <span class="hljs-title function_">kindOfTest</span>(<span class="hljs-string">&#x27;Date&#x27;</span>);
+
+<span class="hljs-comment">/**
+ * Determine if a value is a File
+ *
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">*</span>} val The value to test
+ *
+ * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">boolean</span>} True if value is a File, otherwise false
+ */</span>
+<span class="hljs-keyword">const</span> isFile = <span class="hljs-title function_">kindOfTest</span>(<span class="hljs-string">&#x27;File&#x27;</span>);
+
+<span class="hljs-comment">/**
+ * Determine if a value is a Blob
+ *
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">*</span>} val The value to test
+ *
+ * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">boolean</span>} True if value is a Blob, otherwise false
+ */</span>
+<span class="hljs-keyword">const</span> isBlob = <span class="hljs-title function_">kindOfTest</span>(<span class="hljs-string">&#x27;Blob&#x27;</span>);
+
+<span class="hljs-comment">/**
+ * Determine if a value is a FileList
+ *
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">*</span>} val The value to test
+ *
+ * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">boolean</span>} True if value is a File, otherwise false
+ */</span>
+<span class="hljs-keyword">const</span> isFileList = <span class="hljs-title function_">kindOfTest</span>(<span class="hljs-string">&#x27;FileList&#x27;</span>);
+
+<span class="hljs-comment">/**
+ * Determine if a value is a Stream
+ *
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">*</span>} val The value to test
+ *
+ * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">boolean</span>} True if value is a Stream, otherwise false
+ */</span>
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">isStream</span> = (<span class="hljs-params">val</span>) =&gt; <span class="hljs-title function_">isObject</span>(val) &amp;&amp; <span class="hljs-title function_">isFunction</span>(val.<span class="hljs-property">pipe</span>);
+
+<span class="hljs-comment">/**
+ * Determine if a value is a FormData
+ *
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">*</span>} thing The value to test
+ *
+ * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">boolean</span>} True if value is an FormData, otherwise false
+ */</span>
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">isFormData</span> = (<span class="hljs-params">thing</span>) =&gt; {
+  <span class="hljs-keyword">const</span> pattern = <span class="hljs-string">&#x27;[object FormData]&#x27;</span>;
+  <span class="hljs-keyword">return</span> thing &amp;&amp; (
+    (<span class="hljs-keyword">typeof</span> <span class="hljs-title class_">FormData</span> === <span class="hljs-string">&#x27;function&#x27;</span> &amp;&amp; thing <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">FormData</span>) ||
+    toString.<span class="hljs-title function_">call</span>(thing) === pattern ||
+    (<span class="hljs-title function_">isFunction</span>(thing.<span class="hljs-property">toString</span>) &amp;&amp; thing.<span class="hljs-title function_">toString</span>() === pattern)
+  );
+}
+
+<span class="hljs-comment">/**
+ * Determine if a value is a URLSearchParams object
+ *
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">*</span>} val The value to test
+ *
+ * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">boolean</span>} True if value is a URLSearchParams object, otherwise false
+ */</span>
+<span class="hljs-keyword">const</span> isURLSearchParams = <span class="hljs-title function_">kindOfTest</span>(<span class="hljs-string">&#x27;URLSearchParams&#x27;</span>);
+
+<span class="hljs-comment">/**
+ * Trim excess whitespace off the beginning and end of a string
+ *
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">String</span>} str The String to trim
+ *
+ * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">String</span>} The String freed of excess whitespace
+ */</span>
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">trim</span> = (<span class="hljs-params">str</span>) =&gt; str.<span class="hljs-property">trim</span> ?
+  str.<span class="hljs-title function_">trim</span>() : str.<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g</span>, <span class="hljs-string">&#x27;&#x27;</span>);
+
+<span class="hljs-comment">/**
+ * Iterate over an Array or an Object invoking a function for each item.
+ *
+ * If `obj` is an Array callback will be called passing
+ * the value, index, and complete array for each item.
+ *
+ * If &#x27;obj&#x27; is an Object callback will be called passing
+ * the value, key, and complete object for each property.
+ *
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">Object|Array</span>} obj The object to iterate
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">Function</span>} fn The callback to invoke for each item
+ *
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">Boolean</span>} [allOwnKeys = false]
+ * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">any</span>}
+ */</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">forEach</span>(<span class="hljs-params">obj, fn, {allOwnKeys = <span class="hljs-literal">false</span>} = {}</span>) {
+  <span class="hljs-comment">// Don&#x27;t bother if no value provided</span>
+  <span class="hljs-keyword">if</span> (obj === <span class="hljs-literal">null</span> || <span class="hljs-keyword">typeof</span> obj === <span class="hljs-string">&#x27;undefined&#x27;</span>) {
+    <span class="hljs-keyword">return</span>;
+  }
+
+  <span class="hljs-keyword">let</span> i;
+  <span class="hljs-keyword">let</span> l;
+
+  <span class="hljs-comment">// Force an array if not already something iterable</span>
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> obj !== <span class="hljs-string">&#x27;object&#x27;</span>) {
+    <span class="hljs-comment">/*eslint no-param-reassign:0*/</span>
+    obj = [obj];
+  }
+
+  <span class="hljs-keyword">if</span> (<span class="hljs-title function_">isArray</span>(obj)) {
+    <span class="hljs-comment">// Iterate over array values</span>
+    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>, l = obj.<span class="hljs-property">length</span>; i &lt; l; i++) {
+      fn.<span class="hljs-title function_">call</span>(<span class="hljs-literal">null</span>, obj[i], i, obj);
+    }
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-comment">// Iterate over object keys</span>
+    <span class="hljs-keyword">const</span> keys = allOwnKeys ? <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">getOwnPropertyNames</span>(obj) : <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">keys</span>(obj);
+    <span class="hljs-keyword">const</span> len = keys.<span class="hljs-property">length</span>;
+    <span class="hljs-keyword">let</span> key;
+
+    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; len; i++) {
+      key = keys[i];
+      fn.<span class="hljs-title function_">call</span>(<span class="hljs-literal">null</span>, obj[key], key, obj);
+    }
+  }
+}
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">findKey</span>(<span class="hljs-params">obj, key</span>) {
+  key = key.<span class="hljs-title function_">toLowerCase</span>();
+  <span class="hljs-keyword">const</span> keys = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">keys</span>(obj);
+  <span class="hljs-keyword">let</span> i = keys.<span class="hljs-property">length</span>;
+  <span class="hljs-keyword">let</span> _key;
+  <span class="hljs-keyword">while</span> (i-- &gt; <span class="hljs-number">0</span>) {
+    _key = keys[i];
+    <span class="hljs-keyword">if</span> (key === _key.<span class="hljs-title function_">toLowerCase</span>()) {
+      <span class="hljs-keyword">return</span> _key;
+    }
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+}
+
+<span class="hljs-keyword">const</span> _global = (<span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-comment">/*eslint no-undef:0*/</span>
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> globalThis !== <span class="hljs-string">&quot;undefined&quot;</span>) <span class="hljs-keyword">return</span> globalThis;
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">typeof</span> self !== <span class="hljs-string">&quot;undefined&quot;</span> ? self : (<span class="hljs-keyword">typeof</span> <span class="hljs-variable language_">window</span> !== <span class="hljs-string">&#x27;undefined&#x27;</span> ? <span class="hljs-variable language_">window</span> : <span class="hljs-variable language_">global</span>)
+})();
+
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">isContextDefined</span> = (<span class="hljs-params">context</span>) =&gt; !<span class="hljs-title function_">isUndefined</span>(context) &amp;&amp; context !== _global;
+
+<span class="hljs-comment">/**
+ * Accepts varargs expecting each argument to be an object, then
+ * immutably merges the properties of each object and returns result.
+ *
+ * When multiple objects contain the same key the later object in
+ * the arguments list will take precedence.
+ *
+ * Example:
+ *
+ * ```js
+ * var result = merge({foo: 123}, {foo: 456});
+ * console.log(result.foo); // outputs 456
+ * ```
+ *
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">Object</span>} obj1 Object to merge
+ *
+ * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">Object</span>} Result of all merge properties
+ */</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">merge</span>(<span class="hljs-params"><span class="hljs-comment">/* obj1, obj2, obj3, ... */</span></span>) {
+  <span class="hljs-keyword">const</span> {caseless} = <span class="hljs-title function_">isContextDefined</span>(<span class="hljs-variable language_">this</span>) &amp;&amp; <span class="hljs-variable language_">this</span> || {};
+  <span class="hljs-keyword">const</span> result = {};
+  <span class="hljs-keyword">const</span> <span class="hljs-title function_">assignValue</span> = (<span class="hljs-params">val, key</span>) =&gt; {
+    <span class="hljs-keyword">const</span> targetKey = caseless &amp;&amp; <span class="hljs-title function_">findKey</span>(result, key) || key;
+    <span class="hljs-keyword">if</span> (<span class="hljs-title function_">isPlainObject</span>(result[targetKey]) &amp;&amp; <span class="hljs-title function_">isPlainObject</span>(val)) {
+      result[targetKey] = <span class="hljs-title function_">merge</span>(result[targetKey], val);
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-title function_">isPlainObject</span>(val)) {
+      result[targetKey] = <span class="hljs-title function_">merge</span>({}, val);
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-title function_">isArray</span>(val)) {
+      result[targetKey] = val.<span class="hljs-title function_">slice</span>();
+    } <span class="hljs-keyword">else</span> {
+      result[targetKey] = val;
+    }
+  }
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>, l = <span class="hljs-variable language_">arguments</span>.<span class="hljs-property">length</span>; i &lt; l; i++) {
+    <span class="hljs-variable language_">arguments</span>[i] &amp;&amp; <span class="hljs-title function_">forEach</span>(<span class="hljs-variable language_">arguments</span>[i], assignValue);
+  }
+  <span class="hljs-keyword">return</span> result;
+}
+
+<span class="hljs-comment">/**
+ * Extends object a by mutably adding to it the properties of object b.
+ *
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">Object</span>} a The object to be extended
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">Object</span>} b The object to copy properties from
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">Object</span>} thisArg The object to bind function to
+ *
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">Boolean</span>} [allOwnKeys]
+ * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">Object</span>} The resulting value of object a
+ */</span>
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">extend</span> = (<span class="hljs-params">a, b, thisArg, {allOwnKeys}= {}</span>) =&gt; {
+  <span class="hljs-title function_">forEach</span>(b, <span class="hljs-function">(<span class="hljs-params">val, key</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (thisArg &amp;&amp; <span class="hljs-title function_">isFunction</span>(val)) {
+      a[key] = <span class="hljs-title function_">bind</span>(val, thisArg);
+    } <span class="hljs-keyword">else</span> {
+      a[key] = val;
+    }
+  }, {allOwnKeys});
+  <span class="hljs-keyword">return</span> a;
+}
+
+<span class="hljs-comment">/**
+ * Remove byte order marker. This catches EF BB BF (the UTF-8 BOM)
+ *
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">string</span>} content with BOM
+ *
+ * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">string</span>} content value without BOM
+ */</span>
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">stripBOM</span> = (<span class="hljs-params">content</span>) =&gt; {
+  <span class="hljs-keyword">if</span> (content.<span class="hljs-title function_">charCodeAt</span>(<span class="hljs-number">0</span>) === <span class="hljs-number">0xFEFF</span>) {
+    content = content.<span class="hljs-title function_">slice</span>(<span class="hljs-number">1</span>);
+  }
+  <span class="hljs-keyword">return</span> content;
+}
+
+<span class="hljs-comment">/**
+ * Inherit the prototype methods from one constructor into another
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">function</span>} <span class="hljs-variable">constructor</span>
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">function</span>} <span class="hljs-variable">superConstructor</span>
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">object</span>} [props]
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">object</span>} [descriptors]
+ *
+ * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">void</span>}
+ */</span>
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">inherits</span> = (<span class="hljs-params">constructor, superConstructor, props, descriptors</span>) =&gt; {
+  constructor.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span> = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">create</span>(superConstructor.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>, descriptors);
+  constructor.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">constructor</span> = constructor;
+  <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">defineProperty</span>(constructor, <span class="hljs-string">&#x27;super&#x27;</span>, {
+    <span class="hljs-attr">value</span>: superConstructor.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>
+  });
+  props &amp;&amp; <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">assign</span>(constructor.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>, props);
+}
+
+<span class="hljs-comment">/**
+ * Resolve object with deep prototype chain to a flat object
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">Object</span>} sourceObj source object
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">Object</span>} [destObj]
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">Function|Boolean</span>} [filter]
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">Function</span>} [propFilter]
+ *
+ * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">Object</span>}
+ */</span>
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">toFlatObject</span> = (<span class="hljs-params">sourceObj, destObj, filter, propFilter</span>) =&gt; {
+  <span class="hljs-keyword">let</span> props;
+  <span class="hljs-keyword">let</span> i;
+  <span class="hljs-keyword">let</span> prop;
+  <span class="hljs-keyword">const</span> merged = {};
+
+  destObj = destObj || {};
+  <span class="hljs-comment">// eslint-disable-next-line no-eq-null,eqeqeq</span>
+  <span class="hljs-keyword">if</span> (sourceObj == <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> destObj;
+
+  <span class="hljs-keyword">do</span> {
+    props = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">getOwnPropertyNames</span>(sourceObj);
+    i = props.<span class="hljs-property">length</span>;
+    <span class="hljs-keyword">while</span> (i-- &gt; <span class="hljs-number">0</span>) {
+      prop = props[i];
+      <span class="hljs-keyword">if</span> ((!propFilter || <span class="hljs-title function_">propFilter</span>(prop, sourceObj, destObj)) &amp;&amp; !merged[prop]) {
+        destObj[prop] = sourceObj[prop];
+        merged[prop] = <span class="hljs-literal">true</span>;
+      }
+    }
+    sourceObj = filter !== <span class="hljs-literal">false</span> &amp;&amp; <span class="hljs-title function_">getPrototypeOf</span>(sourceObj);
+  } <span class="hljs-keyword">while</span> (sourceObj &amp;&amp; (!filter || <span class="hljs-title function_">filter</span>(sourceObj, destObj)) &amp;&amp; sourceObj !== <span class="hljs-title class_">Object</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>);
+
+  <span class="hljs-keyword">return</span> destObj;
+}
+
+<span class="hljs-comment">/**
+ * Determines whether a string ends with the characters of a specified string
+ *
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">String</span>} <span class="hljs-variable">str</span>
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">String</span>} <span class="hljs-variable">searchString</span>
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">Number</span>} [position= 0]
+ *
+ * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">boolean</span>}
+ */</span>
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">endsWith</span> = (<span class="hljs-params">str, searchString, position</span>) =&gt; {
+  str = <span class="hljs-title class_">String</span>(str);
+  <span class="hljs-keyword">if</span> (position === <span class="hljs-literal">undefined</span> || position &gt; str.<span class="hljs-property">length</span>) {
+    position = str.<span class="hljs-property">length</span>;
+  }
+  position -= searchString.<span class="hljs-property">length</span>;
+  <span class="hljs-keyword">const</span> lastIndex = str.<span class="hljs-title function_">indexOf</span>(searchString, position);
+  <span class="hljs-keyword">return</span> lastIndex !== -<span class="hljs-number">1</span> &amp;&amp; lastIndex === position;
+}
+
+
+<span class="hljs-comment">/**
+ * Returns new array from array like object or null if failed
+ *
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">*</span>} [thing]
+ *
+ * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">?Array</span>}
+ */</span>
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">toArray</span> = (<span class="hljs-params">thing</span>) =&gt; {
+  <span class="hljs-keyword">if</span> (!thing) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+  <span class="hljs-keyword">if</span> (<span class="hljs-title function_">isArray</span>(thing)) <span class="hljs-keyword">return</span> thing;
+  <span class="hljs-keyword">let</span> i = thing.<span class="hljs-property">length</span>;
+  <span class="hljs-keyword">if</span> (!<span class="hljs-title function_">isNumber</span>(i)) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+  <span class="hljs-keyword">const</span> arr = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Array</span>(i);
+  <span class="hljs-keyword">while</span> (i-- &gt; <span class="hljs-number">0</span>) {
+    arr[i] = thing[i];
+  }
+  <span class="hljs-keyword">return</span> arr;
+}
+
+<span class="hljs-comment">/**
+ * Checking if the Uint8Array exists and if it does, it returns a function that checks if the
+ * thing passed in is an instance of Uint8Array
+ *
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">TypedArray</span>}
+ *
+ * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">Array</span>}
+ */</span>
+<span class="hljs-comment">// eslint-disable-next-line func-names</span>
+<span class="hljs-keyword">const</span> isTypedArray = (<span class="hljs-function"><span class="hljs-params">TypedArray</span> =&gt;</span> {
+  <span class="hljs-comment">// eslint-disable-next-line func-names</span>
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-params">thing</span> =&gt;</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">TypedArray</span> &amp;&amp; thing <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">TypedArray</span>;
+  };
+})(<span class="hljs-keyword">typeof</span> <span class="hljs-title class_">Uint8Array</span> !== <span class="hljs-string">&#x27;undefined&#x27;</span> &amp;&amp; <span class="hljs-title function_">getPrototypeOf</span>(<span class="hljs-title class_">Uint8Array</span>));
+
+<span class="hljs-comment">/**
+ * For each entry in the object, call the function with the key and value.
+ *
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">Object&lt;any, any&gt;</span>} <span class="hljs-variable">obj</span> - The object to iterate over.
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">Function</span>} <span class="hljs-variable">fn</span> - The function to call for each entry.
+ *
+ * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">void</span>}
+ */</span>
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">forEachEntry</span> = (<span class="hljs-params">obj, fn</span>) =&gt; {
+  <span class="hljs-keyword">const</span> generator = obj &amp;&amp; obj[<span class="hljs-title class_">Symbol</span>.<span class="hljs-property">iterator</span>];
+
+  <span class="hljs-keyword">const</span> iterator = generator.<span class="hljs-title function_">call</span>(obj);
+
+  <span class="hljs-keyword">let</span> result;
+
+  <span class="hljs-keyword">while</span> ((result = iterator.<span class="hljs-title function_">next</span>()) &amp;&amp; !result.<span class="hljs-property">done</span>) {
+    <span class="hljs-keyword">const</span> pair = result.<span class="hljs-property">value</span>;
+    fn.<span class="hljs-title function_">call</span>(obj, pair[<span class="hljs-number">0</span>], pair[<span class="hljs-number">1</span>]);
+  }
+}
+
+<span class="hljs-comment">/**
+ * It takes a regular expression and a string, and returns an array of all the matches
+ *
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">string</span>} <span class="hljs-variable">regExp</span> - The regular expression to match against.
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">string</span>} <span class="hljs-variable">str</span> - The string to search.
+ *
+ * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">Array&lt;boolean&gt;</span>}
+ */</span>
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">matchAll</span> = (<span class="hljs-params">regExp, str</span>) =&gt; {
+  <span class="hljs-keyword">let</span> matches;
+  <span class="hljs-keyword">const</span> arr = [];
+
+  <span class="hljs-keyword">while</span> ((matches = regExp.<span class="hljs-title function_">exec</span>(str)) !== <span class="hljs-literal">null</span>) {
+    arr.<span class="hljs-title function_">push</span>(matches);
+  }
+
+  <span class="hljs-keyword">return</span> arr;
+}
+
+<span class="hljs-comment">/* Checking if the kindOfTest function returns true when passed an HTMLFormElement. */</span>
+<span class="hljs-keyword">const</span> isHTMLForm = <span class="hljs-title function_">kindOfTest</span>(<span class="hljs-string">&#x27;HTMLFormElement&#x27;</span>);
+
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">toCamelCase</span> = str =&gt; {
+  <span class="hljs-keyword">return</span> str.<span class="hljs-title function_">toLowerCase</span>().<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/[-_\s]([a-z\d])(\w*)/g</span>,
+    <span class="hljs-keyword">function</span> <span class="hljs-title function_">replacer</span>(<span class="hljs-params">m, p1, p2</span>) {
+      <span class="hljs-keyword">return</span> p1.<span class="hljs-title function_">toUpperCase</span>() + p2;
+    }
+  );
+};
+
+<span class="hljs-comment">/* Creating a function that will check if an object has a property. */</span>
+<span class="hljs-keyword">const</span> hasOwnProperty = (<span class="hljs-function">(<span class="hljs-params">{hasOwnProperty}</span>) =&gt;</span> <span class="hljs-function">(<span class="hljs-params">obj, prop</span>) =&gt;</span> hasOwnProperty.<span class="hljs-title function_">call</span>(obj, prop))(<span class="hljs-title class_">Object</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>);
+
+<span class="hljs-comment">/**
+ * Determine if a value is a RegExp object
+ *
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">*</span>} val The value to test
+ *
+ * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">boolean</span>} True if value is a RegExp object, otherwise false
+ */</span>
+<span class="hljs-keyword">const</span> isRegExp = <span class="hljs-title function_">kindOfTest</span>(<span class="hljs-string">&#x27;RegExp&#x27;</span>);
+
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">reduceDescriptors</span> = (<span class="hljs-params">obj, reducer</span>) =&gt; {
+  <span class="hljs-keyword">const</span> descriptors = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">getOwnPropertyDescriptors</span>(obj);
+  <span class="hljs-keyword">const</span> reducedDescriptors = {};
+
+  <span class="hljs-title function_">forEach</span>(descriptors, <span class="hljs-function">(<span class="hljs-params">descriptor, name</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (<span class="hljs-title function_">reducer</span>(descriptor, name, obj) !== <span class="hljs-literal">false</span>) {
+      reducedDescriptors[name] = descriptor;
+    }
+  });
+
+  <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">defineProperties</span>(obj, reducedDescriptors);
+}
+
+<span class="hljs-comment">/**
+ * Makes all methods read-only
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">Object</span>} <span class="hljs-variable">obj</span>
+ */</span>
+
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">freezeMethods</span> = (<span class="hljs-params">obj</span>) =&gt; {
+  <span class="hljs-title function_">reduceDescriptors</span>(obj, <span class="hljs-function">(<span class="hljs-params">descriptor, name</span>) =&gt;</span> {
+    <span class="hljs-comment">// skip restricted props in strict mode</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-title function_">isFunction</span>(obj) &amp;&amp; [<span class="hljs-string">&#x27;arguments&#x27;</span>, <span class="hljs-string">&#x27;caller&#x27;</span>, <span class="hljs-string">&#x27;callee&#x27;</span>].<span class="hljs-title function_">indexOf</span>(name) !== -<span class="hljs-number">1</span>) {
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    }
+
+    <span class="hljs-keyword">const</span> value = obj[name];
+
+    <span class="hljs-keyword">if</span> (!<span class="hljs-title function_">isFunction</span>(value)) <span class="hljs-keyword">return</span>;
+
+    descriptor.<span class="hljs-property">enumerable</span> = <span class="hljs-literal">false</span>;
+
+    <span class="hljs-keyword">if</span> (<span class="hljs-string">&#x27;writable&#x27;</span> <span class="hljs-keyword">in</span> descriptor) {
+      descriptor.<span class="hljs-property">writable</span> = <span class="hljs-literal">false</span>;
+      <span class="hljs-keyword">return</span>;
+    }
+
+    <span class="hljs-keyword">if</span> (!descriptor.<span class="hljs-property">set</span>) {
+      descriptor.<span class="hljs-property">set</span> = <span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-keyword">throw</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&#x27;Can not rewrite read-only method \&#x27;&#x27;</span> + name + <span class="hljs-string">&#x27;\&#x27;&#x27;</span>);
+      };
+    }
+  });
+}
+
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">toObjectSet</span> = (<span class="hljs-params">arrayOrString, delimiter</span>) =&gt; {
+  <span class="hljs-keyword">const</span> obj = {};
+
+  <span class="hljs-keyword">const</span> <span class="hljs-title function_">define</span> = (<span class="hljs-params">arr</span>) =&gt; {
+    arr.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">value</span> =&gt;</span> {
+      obj[value] = <span class="hljs-literal">true</span>;
+    });
+  }
+
+  <span class="hljs-title function_">isArray</span>(arrayOrString) ? <span class="hljs-title function_">define</span>(arrayOrString) : <span class="hljs-title function_">define</span>(<span class="hljs-title class_">String</span>(arrayOrString).<span class="hljs-title function_">split</span>(delimiter));
+
+  <span class="hljs-keyword">return</span> obj;
+}
+
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">noop</span> = (<span class="hljs-params"></span>) =&gt; {}
+
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">toFiniteNumber</span> = (<span class="hljs-params">value, defaultValue</span>) =&gt; {
+  value = +value;
+  <span class="hljs-keyword">return</span> <span class="hljs-title class_">Number</span>.<span class="hljs-built_in">isFinite</span>(value) ? value : defaultValue;
+}
+
+<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">ALPHA</span> = <span class="hljs-string">&#x27;abcdefghijklmnopqrstuvwxyz&#x27;</span>
+
+<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">DIGIT</span> = <span class="hljs-string">&#x27;0123456789&#x27;</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">ALPHABET</span> = {
+  <span class="hljs-variable constant_">DIGIT</span>,
+  <span class="hljs-variable constant_">ALPHA</span>,
+  <span class="hljs-attr">ALPHA_DIGIT</span>: <span class="hljs-variable constant_">ALPHA</span> + <span class="hljs-variable constant_">ALPHA</span>.<span class="hljs-title function_">toUpperCase</span>() + <span class="hljs-variable constant_">DIGIT</span>
+}
+
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">generateString</span> = (<span class="hljs-params">size = <span class="hljs-number">16</span>, alphabet = ALPHABET.ALPHA_DIGIT</span>) =&gt; {
+  <span class="hljs-keyword">let</span> str = <span class="hljs-string">&#x27;&#x27;</span>;
+  <span class="hljs-keyword">const</span> {length} = alphabet;
+  <span class="hljs-keyword">while</span> (size--) {
+    str += alphabet[<span class="hljs-title class_">Math</span>.<span class="hljs-title function_">random</span>() * length|<span class="hljs-number">0</span>]
+  }
+
+  <span class="hljs-keyword">return</span> str;
+}
+
+<span class="hljs-comment">/**
+ * If the thing is a FormData object, return true, otherwise return false.
+ *
+ * <span class="hljs-doctag">@param</span> {<span class="hljs-type">unknown</span>} <span class="hljs-variable">thing</span> - The thing to check.
+ *
+ * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">boolean</span>}
+ */</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">isSpecCompliantForm</span>(<span class="hljs-params">thing</span>) {
+  <span class="hljs-keyword">return</span> !!(thing &amp;&amp; <span class="hljs-title function_">isFunction</span>(thing.<span class="hljs-property">append</span>) &amp;&amp; thing[<span class="hljs-title class_">Symbol</span>.<span class="hljs-property">toStringTag</span>] === <span class="hljs-string">&#x27;FormData&#x27;</span> &amp;&amp; thing[<span class="hljs-title class_">Symbol</span>.<span class="hljs-property">iterator</span>]);
+}
+
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">toJSONObject</span> = (<span class="hljs-params">obj</span>) =&gt; {
+  <span class="hljs-keyword">const</span> stack = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Array</span>(<span class="hljs-number">10</span>);
+
+  <span class="hljs-keyword">const</span> <span class="hljs-title function_">visit</span> = (<span class="hljs-params">source, i</span>) =&gt; {
+
+    <span class="hljs-keyword">if</span> (<span class="hljs-title function_">isObject</span>(source)) {
+      <span class="hljs-keyword">if</span> (stack.<span class="hljs-title function_">indexOf</span>(source) &gt;= <span class="hljs-number">0</span>) {
+        <span class="hljs-keyword">return</span>;
+      }
+
+      <span class="hljs-keyword">if</span>(!(<span class="hljs-string">&#x27;toJSON&#x27;</span> <span class="hljs-keyword">in</span> source)) {
+        stack[i] = source;
+        <span class="hljs-keyword">const</span> target = <span class="hljs-title function_">isArray</span>(source) ? [] : {};
+
+        <span class="hljs-title function_">forEach</span>(source, <span class="hljs-function">(<span class="hljs-params">value, key</span>) =&gt;</span> {
+          <span class="hljs-keyword">const</span> reducedValue = <span class="hljs-title function_">visit</span>(value, i + <span class="hljs-number">1</span>);
+          !<span class="hljs-title function_">isUndefined</span>(reducedValue) &amp;&amp; (target[key] = reducedValue);
+        });
+
+        stack[i] = <span class="hljs-literal">undefined</span>;
+
+        <span class="hljs-keyword">return</span> target;
+      }
+    }
+
+    <span class="hljs-keyword">return</span> source;
+  }
+
+  <span class="hljs-keyword">return</span> <span class="hljs-title function_">visit</span>(obj, <span class="hljs-number">0</span>);
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  isArray,
+  isArrayBuffer,
+  isBuffer,
+  isFormData,
+  isArrayBufferView,
+  isString,
+  isNumber,
+  isBoolean,
+  isObject,
+  isPlainObject,
+  isUndefined,
+  isDate,
+  isFile,
+  isBlob,
+  isRegExp,
+  isFunction,
+  isStream,
+  isURLSearchParams,
+  isTypedArray,
+  isFileList,
+  forEach,
+  merge,
+  extend,
+  trim,
+  stripBOM,
+  inherits,
+  toFlatObject,
+  kindOf,
+  kindOfTest,
+  endsWith,
+  toArray,
+  forEachEntry,
+  matchAll,
+  isHTMLForm,
+  hasOwnProperty,
+  <span class="hljs-attr">hasOwnProp</span>: hasOwnProperty, <span class="hljs-comment">// an alias to avoid ESLint no-prototype-builtins detection</span>
+  reduceDescriptors,
+  freezeMethods,
+  toObjectSet,
+  toCamelCase,
+  noop,
+  toFiniteNumber,
+  findKey,
+  <span class="hljs-attr">global</span>: _global,
+  isContextDefined,
+  <span class="hljs-variable constant_">ALPHABET</span>,
+  generateString,
+  isSpecCompliantForm,
+  toJSONObject
+};
+</code></pre>
+
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
+    </body>
+    </html>

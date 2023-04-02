@@ -25,7 +25,7 @@
 - [请求 url 的过程](/browser/keyUrl.html)
 - [cookie](/browser/cookie.html)
 - [uri](/browser/uri.html)
-- [跳转](/browser/goto.html)
+- [几种跳转](/browser/goto.html)
 - [title](/browser/title.html)
 - [title](/browser/title.html)
 - [title](/browser/title.html)
