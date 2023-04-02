@@ -15,41 +15,6 @@
 	display: none;
 }
 
-/* From extension ms-toolsai.jupyter */
-/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
-
-.alert {
-    width: auto;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-.alert > *:last-child {
-    margin-bottom: 0;
-}
-#preview > .alert:last-child {
-    /* Prevent this being set to zero by the default notebook stylesheet */
-    padding-bottom: 1em;
-}
-
-.alert-success {
-    /* Note there is no suitable color available, so we just copy "info" */
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-info {
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-warning {
-    background-color: var(--theme-warning-background);
-    color: var(--theme-warning-foreground);
-}
-.alert-danger {
-    background-color: var(--theme-error-background);
-    color: var(--theme-error-foreground);
-}
-
 </style>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
@@ -114,6 +79,13 @@
 <li>金子模式（可扩展插件的模式）（可插件模式）</li>
 </ul>
 </li>
+</ul>
+<h2 id="为什么要总结设计模式">为什么要总结设计模式</h2>
+<ul>
+<li>解决常见问题</li>
+<li>有名称便于交流</li>
+<li>方便code review</li>
+<li>方便理解现有代码</li>
 </ul>
 <h2 id="设计模式的六大原则"><a href="/engineered/design-principle.html">设计模式的六大原则</a></h2>
 <h2 id="工厂模式">工厂模式</h2>
@@ -627,48 +599,54 @@ c.<span class="hljs-title function_">passRequest</span>(<span class="hljs-string
 <span class="hljs-title function_">cf</span>(<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-string">&#x27;c&#x27;</span>) <span class="hljs-comment">// 输出到fn2</span>
 </code></pre>
 <pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">Fn1</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">1</span>);
-    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;nextSuccessor&quot;</span>;
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">1</span>)
+  <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;nextSuccessor&#x27;</span>
 }
 <span class="hljs-keyword">function</span> <span class="hljs-title function_">Fn2</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">2</span>);
-    <span class="hljs-keyword">var</span> self = <span class="hljs-variable language_">this</span>;
-    <span class="hljs-built_in">setTimeout</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params"></span>){
-        self.<span class="hljs-title function_">next</span>();
-    },<span class="hljs-number">1000</span>);
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">2</span>)
+  <span class="hljs-keyword">var</span> self = <span class="hljs-variable language_">this</span>
+  <span class="hljs-built_in">setTimeout</span>(<span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+    self.<span class="hljs-title function_">next</span>()
+  }, <span class="hljs-number">1000</span>)
 }
 <span class="hljs-keyword">function</span> <span class="hljs-title function_">Fn3</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">3</span>);
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">3</span>)
 }
 <span class="hljs-comment">// 下面需要编写职责链模式的封装构造函数方法</span>
-<span class="hljs-keyword">var</span> <span class="hljs-title class_">Chain</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params">fn</span>){
-    <span class="hljs-variable language_">this</span>.<span class="hljs-property">fn</span> = fn;
-    <span class="hljs-variable language_">this</span>.<span class="hljs-property">successor</span> = <span class="hljs-literal">null</span>;
-};
-<span class="hljs-title class_">Chain</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">setNextSuccessor</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params">successor</span>){
-    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">successor</span> = successor;
+<span class="hljs-keyword">var</span> <span class="hljs-title class_">Chain</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params">fn</span>) {
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">fn</span> = fn
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">successor</span> = <span class="hljs-literal">null</span>
+}
+<span class="hljs-title class_">Chain</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">setNextSuccessor</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params">successor</span>) {
+  <span class="hljs-keyword">return</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">successor</span> = successor)
 }
 <span class="hljs-comment">// 把请求往下传递</span>
-<span class="hljs-title class_">Chain</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">passRequest</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>){
-    <span class="hljs-keyword">var</span> ret = <span class="hljs-variable language_">this</span>.<span class="hljs-property">fn</span>.<span class="hljs-title function_">apply</span>(<span class="hljs-variable language_">this</span>,<span class="hljs-variable language_">arguments</span>);
-    <span class="hljs-keyword">if</span>(ret === <span class="hljs-string">&#x27;nextSuccessor&#x27;</span>) {
-        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">successor</span> &amp;&amp; <span class="hljs-variable language_">this</span>.<span class="hljs-property">successor</span>.<span class="hljs-property">passRequest</span>.<span class="hljs-title function_">apply</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">successor</span>,<span class="hljs-variable language_">arguments</span>);
-    }
-    <span class="hljs-keyword">return</span> ret;
+<span class="hljs-title class_">Chain</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">passRequest</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">var</span> ret = <span class="hljs-variable language_">this</span>.<span class="hljs-property">fn</span>.<span class="hljs-title function_">apply</span>(<span class="hljs-variable language_">this</span>, <span class="hljs-variable language_">arguments</span>)
+  <span class="hljs-keyword">if</span> (ret === <span class="hljs-string">&#x27;nextSuccessor&#x27;</span>) {
+    <span class="hljs-keyword">return</span> (
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">successor</span> &amp;&amp;
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">successor</span>.<span class="hljs-property">passRequest</span>.<span class="hljs-title function_">apply</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">successor</span>, <span class="hljs-variable language_">arguments</span>)
+    )
+  }
+  <span class="hljs-keyword">return</span> ret
 }
-<span class="hljs-title class_">Chain</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">next</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>){
-    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">successor</span> &amp;&amp; <span class="hljs-variable language_">this</span>.<span class="hljs-property">successor</span>.<span class="hljs-property">passRequest</span>.<span class="hljs-title function_">apply</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">successor</span>,<span class="hljs-variable language_">arguments</span>);
+<span class="hljs-title class_">Chain</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">next</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">return</span> (
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">successor</span> &amp;&amp;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">successor</span>.<span class="hljs-property">passRequest</span>.<span class="hljs-title function_">apply</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">successor</span>, <span class="hljs-variable language_">arguments</span>)
+  )
 }
 <span class="hljs-comment">//现在我们把3个函数分别包装成职责链节点：</span>
-<span class="hljs-keyword">var</span> chainFn1 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Chain</span>(<span class="hljs-title class_">Fn1</span>);
-<span class="hljs-keyword">var</span> chainFn2 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Chain</span>(<span class="hljs-title class_">Fn2</span>);
-<span class="hljs-keyword">var</span> chainFn3 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Chain</span>(<span class="hljs-title class_">Fn3</span>);
+<span class="hljs-keyword">var</span> chainFn1 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Chain</span>(<span class="hljs-title class_">Fn1</span>)
+<span class="hljs-keyword">var</span> chainFn2 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Chain</span>(<span class="hljs-title class_">Fn2</span>)
+<span class="hljs-keyword">var</span> chainFn3 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Chain</span>(<span class="hljs-title class_">Fn3</span>)
 
 <span class="hljs-comment">// 然后指定节点在职责链中的顺序</span>
-chainFn1.<span class="hljs-title function_">setNextSuccessor</span>(chainFn2);
-chainFn2.<span class="hljs-title function_">setNextSuccessor</span>(chainFn3);
+chainFn1.<span class="hljs-title function_">setNextSuccessor</span>(chainFn2)
+chainFn2.<span class="hljs-title function_">setNextSuccessor</span>(chainFn3)
 
-chainFn1.<span class="hljs-title function_">passRequest</span>();  <span class="hljs-comment">// 打印出1，2 过1秒后 会打印出3</span>
+chainFn1.<span class="hljs-title function_">passRequest</span>() <span class="hljs-comment">// 打印出1，2 过1秒后 会打印出3</span>
 </code></pre>
 <h2 id="模块模式">模块模式</h2>
 <p>把方法、属性分为分开的与私有的。</p>
@@ -695,13 +673,13 @@ chainFn1.<span class="hljs-title function_">passRequest</span>();  <span class="
 <span class="hljs-comment">// esm同理</span>
 </code></pre>
 <pre><code class="language-js"><span class="hljs-comment">// 再使用class实现一次</span>
-<span class="hljs-keyword">import</span> {<span class="hljs-title class_">SingleChain</span>} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;data-footstone&#x27;</span>
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">SingleChain</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;data-footstone&#x27;</span>
 <span class="hljs-keyword">class</span> <span class="hljs-title class_">DutyChain</span> {
-  <span class="hljs-title function_">constructor</span> () {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">chain</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">SingleChain</span>()
   }
   <span class="hljs-title function_">append</span>(<span class="hljs-params">rule, fn</span>) {
-    <span class="hljs-variable language_">this</span>.<span class="hljs-property">chain</span>.<span class="hljs-title function_">append</span>({rule, fn})
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">chain</span>.<span class="hljs-title function_">append</span>({ rule, fn })
   }
   <span class="hljs-title function_">remove</span>(<span class="hljs-params"></span>) {
     <span class="hljs-comment">// to do</span>
