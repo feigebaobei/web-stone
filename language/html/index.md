@@ -393,7 +393,7 @@ frameborder 属性规定是否显示 iframe 周围的边框。
 | nomodule      | boolean             | 脚本是否在支持 es2015 modules 的浏览器中执行         |    |    |
 | nonce         |                     |   |    |    |
 | referrerpolic |                     | 获取脚本时是否使用 referrer 字段。                   |    | `no-referrer`/`no-referrer-when-downgrade`/`origin`/`origin-when-cross-origin`/`same-origin`/`strict-origin`/`strict-origin-when-cross-origin`/`unsafe-url` |
-| type          | module / text/babel |   |    |    |
+| type          | module / text/babel / importmap |   |    |    |
 <!-- prettier-ignore-end -->
 
 ```html
@@ -410,6 +410,7 @@ document.querySelect('body').appendChild(script)
 
 ```html
 <script type="importmap">
+  <!-- 这时使用json格式编写 -->
   {
     "imports": {
       "lodash": "path",
@@ -419,9 +420,18 @@ document.querySelect('body').appendChild(script)
 </script>
 ```
 
-- 必须在第一个`type="module"`的`script`标签之前
+- 必须在第一个`type="module"`的`script`标签之前。一般在`head`标签中。
 - 只是声明，不会真实加载
 - 可以在项目中使用多个版本
+- 明确指定本地项目会使用哪些外部依赖。
+- 只有在这里定义的才能在`type="module"`的脚本中使用。按指定 key 使用。
+- 常用于“专题类”项目。相较与 builder，它的能力较弱。
+
+浏览器支持情况
+chrome > 89  
+firefox > 108  
+edge > 89  
+safera x
 
 ## meta
 

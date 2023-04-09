@@ -1060,7 +1060,7 @@ dom.<span class="hljs-property">classList</span>.<span class="hljs-title functio
 </table>
 <h2 id="script">script</h2>
 <p>内部包含脚本代码。</p>
-<h3 id="属性">属性</h3>
+<h3 id="属性-1">属性</h3>
 <p>好像不对</p>
 <!-- prettier-ignore-start -->
 <table>
@@ -1125,7 +1125,7 @@ dom.<span class="hljs-property">classList</span>.<span class="hljs-title functio
 </tr>
 <tr>
 <td>type</td>
-<td>module / text/babel</td>
+<td>module / text/babel / importmap</td>
 <td></td>
 <td></td>
 <td></td>
@@ -1140,24 +1140,33 @@ script.<span class="hljs-property">src</span> = <span class="hljs-string">&#x27;
 <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelect</span>(<span class="hljs-string">&#x27;body&#x27;</span>).<span class="hljs-title function_">appendChild</span>(script)
 </code></pre>
 <h3 id="script-typeimportmap">script type=&quot;importmap&quot;</h3>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;importmap&quot;</span>&gt;</span><span class="language-javascript">
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;importmap&quot;</span>&gt;</span><span class="language-handlebars"><span class="language-xml">
+  <span class="hljs-comment">&lt;!-- 这时使用json格式编写 --&gt;</span>
   {
-    <span class="hljs-string">&quot;imports&quot;</span>: {
-      <span class="hljs-string">&quot;lodash&quot;</span>: <span class="hljs-string">&quot;path&quot;</span>,
-      <span class="hljs-string">&quot;first&quot;</span>: condition ? <span class="hljs-string">&#x27;a&#x27;</span> : <span class="hljs-string">&#x27;b&#x27;</span>
+    &quot;imports&quot;: {
+      &quot;lodash&quot;: &quot;path&quot;,
+      &quot;first&quot;: condition ? &#x27;a&#x27; : &#x27;b&#x27;
     }
   }
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</span></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 </code></pre>
 <ul>
-<li>必须在第一个<code>type=&quot;module&quot;</code>的<code>script</code>标签之前</li>
+<li>必须在第一个<code>type=&quot;module&quot;</code>的<code>script</code>标签之前。一般在<code>head</code>标签中。</li>
 <li>只是声明，不会真实加载</li>
 <li>可以在项目中使用多个版本</li>
+<li>明确指定本地项目会使用哪些外部依赖。</li>
+<li>只有在这里定义的才能在<code>type=&quot;module&quot;</code>的脚本中使用。按指定key使用。</li>
+<li>常用于“专题类”项目。相较与builder，它的能力较弱。</li>
 </ul>
+<p>浏览器支持情况
+chrome &gt; 89<br>
+firefox &gt; 108<br>
+edge &gt; 89<br>
+safera x</p>
 <h2 id="meta">meta</h2>
 <p><code>&lt;meta&gt;</code> 元素可提供有关页面的元信息（meta-information），比如针对搜索引擎和更新频度的描述和关键词。
 放在<code>&lt;header&gt;</code>内。</p>
-<h3 id="属性">属性</h3>
+<h3 id="属性-2">属性</h3>
 <p>script 标签上无 preload / prefetch 属性</p>
 <table>
 <thead>

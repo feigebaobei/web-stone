@@ -1,1252 +1,98 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>&DiacriticalGrave;axios&DiacriticalGrave;</title>
-    <style>
-      /* From extension vscode.github */
-      /*---------------------------------------------------------------------------------------------
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>&DiacriticalGrave;axios&DiacriticalGrave;</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-      .vscode-dark img[src$='\#gh-light-mode-only'],
-      .vscode-light img[src$='\#gh-dark-mode-only'] {
-        display: none;
-      }
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
 
-      /* From extension vscode.markdown-math */
-      @font-face {
-        font-family: KaTeX_AMS;
-        font-style: normal;
-        font-weight: 400;
-        src: url(fonts/KaTeX_AMS-Regular.woff2) format('woff2'),
-          url(fonts/KaTeX_AMS-Regular.woff) format('woff'),
-          url(fonts/KaTeX_AMS-Regular.ttf) format('truetype');
-      }
-      @font-face {
-        font-family: KaTeX_Caligraphic;
-        font-style: normal;
-        font-weight: 700;
-        src: url(fonts/KaTeX_Caligraphic-Bold.woff2) format('woff2'),
-          url(fonts/KaTeX_Caligraphic-Bold.woff) format('woff'),
-          url(fonts/KaTeX_Caligraphic-Bold.ttf) format('truetype');
-      }
-      @font-face {
-        font-family: KaTeX_Caligraphic;
-        font-style: normal;
-        font-weight: 400;
-        src: url(fonts/KaTeX_Caligraphic-Regular.woff2) format('woff2'),
-          url(fonts/KaTeX_Caligraphic-Regular.woff) format('woff'),
-          url(fonts/KaTeX_Caligraphic-Regular.ttf) format('truetype');
-      }
-      @font-face {
-        font-family: KaTeX_Fraktur;
-        font-style: normal;
-        font-weight: 700;
-        src: url(fonts/KaTeX_Fraktur-Bold.woff2) format('woff2'),
-          url(fonts/KaTeX_Fraktur-Bold.woff) format('woff'),
-          url(fonts/KaTeX_Fraktur-Bold.ttf) format('truetype');
-      }
-      @font-face {
-        font-family: KaTeX_Fraktur;
-        font-style: normal;
-        font-weight: 400;
-        src: url(fonts/KaTeX_Fraktur-Regular.woff2) format('woff2'),
-          url(fonts/KaTeX_Fraktur-Regular.woff) format('woff'),
-          url(fonts/KaTeX_Fraktur-Regular.ttf) format('truetype');
-      }
-      @font-face {
-        font-family: KaTeX_Main;
-        font-style: normal;
-        font-weight: 700;
-        src: url(fonts/KaTeX_Main-Bold.woff2) format('woff2'),
-          url(fonts/KaTeX_Main-Bold.woff) format('woff'),
-          url(fonts/KaTeX_Main-Bold.ttf) format('truetype');
-      }
-      @font-face {
-        font-family: KaTeX_Main;
-        font-style: italic;
-        font-weight: 700;
-        src: url(fonts/KaTeX_Main-BoldItalic.woff2) format('woff2'),
-          url(fonts/KaTeX_Main-BoldItalic.woff) format('woff'),
-          url(fonts/KaTeX_Main-BoldItalic.ttf) format('truetype');
-      }
-      @font-face {
-        font-family: KaTeX_Main;
-        font-style: italic;
-        font-weight: 400;
-        src: url(fonts/KaTeX_Main-Italic.woff2) format('woff2'),
-          url(fonts/KaTeX_Main-Italic.woff) format('woff'),
-          url(fonts/KaTeX_Main-Italic.ttf) format('truetype');
-      }
-      @font-face {
-        font-family: KaTeX_Main;
-        font-style: normal;
-        font-weight: 400;
-        src: url(fonts/KaTeX_Main-Regular.woff2) format('woff2'),
-          url(fonts/KaTeX_Main-Regular.woff) format('woff'),
-          url(fonts/KaTeX_Main-Regular.ttf) format('truetype');
-      }
-      @font-face {
-        font-family: KaTeX_Math;
-        font-style: italic;
-        font-weight: 700;
-        src: url(fonts/KaTeX_Math-BoldItalic.woff2) format('woff2'),
-          url(fonts/KaTeX_Math-BoldItalic.woff) format('woff'),
-          url(fonts/KaTeX_Math-BoldItalic.ttf) format('truetype');
-      }
-      @font-face {
-        font-family: KaTeX_Math;
-        font-style: italic;
-        font-weight: 400;
-        src: url(fonts/KaTeX_Math-Italic.woff2) format('woff2'),
-          url(fonts/KaTeX_Math-Italic.woff) format('woff'),
-          url(fonts/KaTeX_Math-Italic.ttf) format('truetype');
-      }
-      @font-face {
-        font-family: 'KaTeX_SansSerif';
-        font-style: normal;
-        font-weight: 700;
-        src: url(fonts/KaTeX_SansSerif-Bold.woff2) format('woff2'),
-          url(fonts/KaTeX_SansSerif-Bold.woff) format('woff'),
-          url(fonts/KaTeX_SansSerif-Bold.ttf) format('truetype');
-      }
-      @font-face {
-        font-family: 'KaTeX_SansSerif';
-        font-style: italic;
-        font-weight: 400;
-        src: url(fonts/KaTeX_SansSerif-Italic.woff2) format('woff2'),
-          url(fonts/KaTeX_SansSerif-Italic.woff) format('woff'),
-          url(fonts/KaTeX_SansSerif-Italic.ttf) format('truetype');
-      }
-      @font-face {
-        font-family: 'KaTeX_SansSerif';
-        font-style: normal;
-        font-weight: 400;
-        src: url(fonts/KaTeX_SansSerif-Regular.woff2) format('woff2'),
-          url(fonts/KaTeX_SansSerif-Regular.woff) format('woff'),
-          url(fonts/KaTeX_SansSerif-Regular.ttf) format('truetype');
-      }
-      @font-face {
-        font-family: KaTeX_Script;
-        font-style: normal;
-        font-weight: 400;
-        src: url(fonts/KaTeX_Script-Regular.woff2) format('woff2'),
-          url(fonts/KaTeX_Script-Regular.woff) format('woff'),
-          url(fonts/KaTeX_Script-Regular.ttf) format('truetype');
-      }
-      @font-face {
-        font-family: KaTeX_Size1;
-        font-style: normal;
-        font-weight: 400;
-        src: url(fonts/KaTeX_Size1-Regular.woff2) format('woff2'),
-          url(fonts/KaTeX_Size1-Regular.woff) format('woff'),
-          url(fonts/KaTeX_Size1-Regular.ttf) format('truetype');
-      }
-      @font-face {
-        font-family: KaTeX_Size2;
-        font-style: normal;
-        font-weight: 400;
-        src: url(fonts/KaTeX_Size2-Regular.woff2) format('woff2'),
-          url(fonts/KaTeX_Size2-Regular.woff) format('woff'),
-          url(fonts/KaTeX_Size2-Regular.ttf) format('truetype');
-      }
-      @font-face {
-        font-family: KaTeX_Size3;
-        font-style: normal;
-        font-weight: 400;
-        src: url(fonts/KaTeX_Size3-Regular.woff2) format('woff2'),
-          url(fonts/KaTeX_Size3-Regular.woff) format('woff'),
-          url(fonts/KaTeX_Size3-Regular.ttf) format('truetype');
-      }
-      @font-face {
-        font-family: KaTeX_Size4;
-        font-style: normal;
-        font-weight: 400;
-        src: url(fonts/KaTeX_Size4-Regular.woff2) format('woff2'),
-          url(fonts/KaTeX_Size4-Regular.woff) format('woff'),
-          url(fonts/KaTeX_Size4-Regular.ttf) format('truetype');
-      }
-      @font-face {
-        font-family: KaTeX_Typewriter;
-        font-style: normal;
-        font-weight: 400;
-        src: url(fonts/KaTeX_Typewriter-Regular.woff2) format('woff2'),
-          url(fonts/KaTeX_Typewriter-Regular.woff) format('woff'),
-          url(fonts/KaTeX_Typewriter-Regular.ttf) format('truetype');
-      }
-      .katex {
-        text-rendering: auto;
-        font: normal 1.21em KaTeX_Main, Times New Roman, serif;
-        line-height: 1.2;
-        text-indent: 0;
-      }
-      .katex * {
-        -ms-high-contrast-adjust: none !important;
-        border-color: currentColor;
-      }
-      .katex .katex-version:after {
-        content: '0.13.24';
-      }
-      .katex .katex-mathml {
-        clip: rect(1px, 1px, 1px, 1px);
-        border: 0;
-        height: 1px;
-        overflow: hidden;
-        padding: 0;
-        position: absolute;
-        width: 1px;
-      }
-      .katex .katex-html > .newline {
-        display: block;
-      }
-      .katex .base {
-        position: relative;
-        white-space: nowrap;
-        width: -webkit-min-content;
-        width: -moz-min-content;
-        width: min-content;
-      }
-      .katex .base,
-      .katex .strut {
-        display: inline-block;
-      }
-      .katex .textbf {
-        font-weight: 700;
-      }
-      .katex .textit {
-        font-style: italic;
-      }
-      .katex .textrm {
-        font-family: KaTeX_Main;
-      }
-      .katex .textsf {
-        font-family: KaTeX_SansSerif;
-      }
-      .katex .texttt {
-        font-family: KaTeX_Typewriter;
-      }
-      .katex .mathnormal {
-        font-family: KaTeX_Math;
-        font-style: italic;
-      }
-      .katex .mathit {
-        font-family: KaTeX_Main;
-        font-style: italic;
-      }
-      .katex .mathrm {
-        font-style: normal;
-      }
-      .katex .mathbf {
-        font-family: KaTeX_Main;
-        font-weight: 700;
-      }
-      .katex .boldsymbol {
-        font-family: KaTeX_Math;
-        font-style: italic;
-        font-weight: 700;
-      }
-      .katex .amsrm,
-      .katex .mathbb,
-      .katex .textbb {
-        font-family: KaTeX_AMS;
-      }
-      .katex .mathcal {
-        font-family: KaTeX_Caligraphic;
-      }
-      .katex .mathfrak,
-      .katex .textfrak {
-        font-family: KaTeX_Fraktur;
-      }
-      .katex .mathtt {
-        font-family: KaTeX_Typewriter;
-      }
-      .katex .mathscr,
-      .katex .textscr {
-        font-family: KaTeX_Script;
-      }
-      .katex .mathsf,
-      .katex .textsf {
-        font-family: KaTeX_SansSerif;
-      }
-      .katex .mathboldsf,
-      .katex .textboldsf {
-        font-family: KaTeX_SansSerif;
-        font-weight: 700;
-      }
-      .katex .mathitsf,
-      .katex .textitsf {
-        font-family: KaTeX_SansSerif;
-        font-style: italic;
-      }
-      .katex .mainrm {
-        font-family: KaTeX_Main;
-        font-style: normal;
-      }
-      .katex .vlist-t {
-        border-collapse: collapse;
-        display: inline-table;
-        table-layout: fixed;
-      }
-      .katex .vlist-r {
-        display: table-row;
-      }
-      .katex .vlist {
-        display: table-cell;
-        position: relative;
-        vertical-align: bottom;
-      }
-      .katex .vlist > span {
-        display: block;
-        height: 0;
-        position: relative;
-      }
-      .katex .vlist > span > span {
-        display: inline-block;
-      }
-      .katex .vlist > span > .pstrut {
-        overflow: hidden;
-        width: 0;
-      }
-      .katex .vlist-t2 {
-        margin-right: -2px;
-      }
-      .katex .vlist-s {
-        display: table-cell;
-        font-size: 1px;
-        min-width: 2px;
-        vertical-align: bottom;
-        width: 2px;
-      }
-      .katex .vbox {
-        align-items: baseline;
-        display: inline-flex;
-        flex-direction: column;
-      }
-      .katex .hbox {
-        width: 100%;
-      }
-      .katex .hbox,
-      .katex .thinbox {
-        display: inline-flex;
-        flex-direction: row;
-      }
-      .katex .thinbox {
-        max-width: 0;
-        width: 0;
-      }
-      .katex .msupsub {
-        text-align: left;
-      }
-      .katex .mfrac > span > span {
-        text-align: center;
-      }
-      .katex .mfrac .frac-line {
-        border-bottom-style: solid;
-        display: inline-block;
-        width: 100%;
-      }
-      .katex .hdashline,
-      .katex .hline,
-      .katex .mfrac .frac-line,
-      .katex .overline .overline-line,
-      .katex .rule,
-      .katex .underline .underline-line {
-        min-height: 1px;
-      }
-      .katex .mspace {
-        display: inline-block;
-      }
-      .katex .clap,
-      .katex .llap,
-      .katex .rlap {
-        position: relative;
-        width: 0;
-      }
-      .katex .clap > .inner,
-      .katex .llap > .inner,
-      .katex .rlap > .inner {
-        position: absolute;
-      }
-      .katex .clap > .fix,
-      .katex .llap > .fix,
-      .katex .rlap > .fix {
-        display: inline-block;
-      }
-      .katex .llap > .inner {
-        right: 0;
-      }
-      .katex .clap > .inner,
-      .katex .rlap > .inner {
-        left: 0;
-      }
-      .katex .clap > .inner > span {
-        margin-left: -50%;
-        margin-right: 50%;
-      }
-      .katex .rule {
-        border: 0 solid;
-        display: inline-block;
-        position: relative;
-      }
-      .katex .hline,
-      .katex .overline .overline-line,
-      .katex .underline .underline-line {
-        border-bottom-style: solid;
-        display: inline-block;
-        width: 100%;
-      }
-      .katex .hdashline {
-        border-bottom-style: dashed;
-        display: inline-block;
-        width: 100%;
-      }
-      .katex .sqrt > .root {
-        margin-left: 0.27777778em;
-        margin-right: -0.55555556em;
-      }
-      .katex .fontsize-ensurer.reset-size1.size1,
-      .katex .sizing.reset-size1.size1 {
-        font-size: 1em;
-      }
-      .katex .fontsize-ensurer.reset-size1.size2,
-      .katex .sizing.reset-size1.size2 {
-        font-size: 1.2em;
-      }
-      .katex .fontsize-ensurer.reset-size1.size3,
-      .katex .sizing.reset-size1.size3 {
-        font-size: 1.4em;
-      }
-      .katex .fontsize-ensurer.reset-size1.size4,
-      .katex .sizing.reset-size1.size4 {
-        font-size: 1.6em;
-      }
-      .katex .fontsize-ensurer.reset-size1.size5,
-      .katex .sizing.reset-size1.size5 {
-        font-size: 1.8em;
-      }
-      .katex .fontsize-ensurer.reset-size1.size6,
-      .katex .sizing.reset-size1.size6 {
-        font-size: 2em;
-      }
-      .katex .fontsize-ensurer.reset-size1.size7,
-      .katex .sizing.reset-size1.size7 {
-        font-size: 2.4em;
-      }
-      .katex .fontsize-ensurer.reset-size1.size8,
-      .katex .sizing.reset-size1.size8 {
-        font-size: 2.88em;
-      }
-      .katex .fontsize-ensurer.reset-size1.size9,
-      .katex .sizing.reset-size1.size9 {
-        font-size: 3.456em;
-      }
-      .katex .fontsize-ensurer.reset-size1.size10,
-      .katex .sizing.reset-size1.size10 {
-        font-size: 4.148em;
-      }
-      .katex .fontsize-ensurer.reset-size1.size11,
-      .katex .sizing.reset-size1.size11 {
-        font-size: 4.976em;
-      }
-      .katex .fontsize-ensurer.reset-size2.size1,
-      .katex .sizing.reset-size2.size1 {
-        font-size: 0.83333333em;
-      }
-      .katex .fontsize-ensurer.reset-size2.size2,
-      .katex .sizing.reset-size2.size2 {
-        font-size: 1em;
-      }
-      .katex .fontsize-ensurer.reset-size2.size3,
-      .katex .sizing.reset-size2.size3 {
-        font-size: 1.16666667em;
-      }
-      .katex .fontsize-ensurer.reset-size2.size4,
-      .katex .sizing.reset-size2.size4 {
-        font-size: 1.33333333em;
-      }
-      .katex .fontsize-ensurer.reset-size2.size5,
-      .katex .sizing.reset-size2.size5 {
-        font-size: 1.5em;
-      }
-      .katex .fontsize-ensurer.reset-size2.size6,
-      .katex .sizing.reset-size2.size6 {
-        font-size: 1.66666667em;
-      }
-      .katex .fontsize-ensurer.reset-size2.size7,
-      .katex .sizing.reset-size2.size7 {
-        font-size: 2em;
-      }
-      .katex .fontsize-ensurer.reset-size2.size8,
-      .katex .sizing.reset-size2.size8 {
-        font-size: 2.4em;
-      }
-      .katex .fontsize-ensurer.reset-size2.size9,
-      .katex .sizing.reset-size2.size9 {
-        font-size: 2.88em;
-      }
-      .katex .fontsize-ensurer.reset-size2.size10,
-      .katex .sizing.reset-size2.size10 {
-        font-size: 3.45666667em;
-      }
-      .katex .fontsize-ensurer.reset-size2.size11,
-      .katex .sizing.reset-size2.size11 {
-        font-size: 4.14666667em;
-      }
-      .katex .fontsize-ensurer.reset-size3.size1,
-      .katex .sizing.reset-size3.size1 {
-        font-size: 0.71428571em;
-      }
-      .katex .fontsize-ensurer.reset-size3.size2,
-      .katex .sizing.reset-size3.size2 {
-        font-size: 0.85714286em;
-      }
-      .katex .fontsize-ensurer.reset-size3.size3,
-      .katex .sizing.reset-size3.size3 {
-        font-size: 1em;
-      }
-      .katex .fontsize-ensurer.reset-size3.size4,
-      .katex .sizing.reset-size3.size4 {
-        font-size: 1.14285714em;
-      }
-      .katex .fontsize-ensurer.reset-size3.size5,
-      .katex .sizing.reset-size3.size5 {
-        font-size: 1.28571429em;
-      }
-      .katex .fontsize-ensurer.reset-size3.size6,
-      .katex .sizing.reset-size3.size6 {
-        font-size: 1.42857143em;
-      }
-      .katex .fontsize-ensurer.reset-size3.size7,
-      .katex .sizing.reset-size3.size7 {
-        font-size: 1.71428571em;
-      }
-      .katex .fontsize-ensurer.reset-size3.size8,
-      .katex .sizing.reset-size3.size8 {
-        font-size: 2.05714286em;
-      }
-      .katex .fontsize-ensurer.reset-size3.size9,
-      .katex .sizing.reset-size3.size9 {
-        font-size: 2.46857143em;
-      }
-      .katex .fontsize-ensurer.reset-size3.size10,
-      .katex .sizing.reset-size3.size10 {
-        font-size: 2.96285714em;
-      }
-      .katex .fontsize-ensurer.reset-size3.size11,
-      .katex .sizing.reset-size3.size11 {
-        font-size: 3.55428571em;
-      }
-      .katex .fontsize-ensurer.reset-size4.size1,
-      .katex .sizing.reset-size4.size1 {
-        font-size: 0.625em;
-      }
-      .katex .fontsize-ensurer.reset-size4.size2,
-      .katex .sizing.reset-size4.size2 {
-        font-size: 0.75em;
-      }
-      .katex .fontsize-ensurer.reset-size4.size3,
-      .katex .sizing.reset-size4.size3 {
-        font-size: 0.875em;
-      }
-      .katex .fontsize-ensurer.reset-size4.size4,
-      .katex .sizing.reset-size4.size4 {
-        font-size: 1em;
-      }
-      .katex .fontsize-ensurer.reset-size4.size5,
-      .katex .sizing.reset-size4.size5 {
-        font-size: 1.125em;
-      }
-      .katex .fontsize-ensurer.reset-size4.size6,
-      .katex .sizing.reset-size4.size6 {
-        font-size: 1.25em;
-      }
-      .katex .fontsize-ensurer.reset-size4.size7,
-      .katex .sizing.reset-size4.size7 {
-        font-size: 1.5em;
-      }
-      .katex .fontsize-ensurer.reset-size4.size8,
-      .katex .sizing.reset-size4.size8 {
-        font-size: 1.8em;
-      }
-      .katex .fontsize-ensurer.reset-size4.size9,
-      .katex .sizing.reset-size4.size9 {
-        font-size: 2.16em;
-      }
-      .katex .fontsize-ensurer.reset-size4.size10,
-      .katex .sizing.reset-size4.size10 {
-        font-size: 2.5925em;
-      }
-      .katex .fontsize-ensurer.reset-size4.size11,
-      .katex .sizing.reset-size4.size11 {
-        font-size: 3.11em;
-      }
-      .katex .fontsize-ensurer.reset-size5.size1,
-      .katex .sizing.reset-size5.size1 {
-        font-size: 0.55555556em;
-      }
-      .katex .fontsize-ensurer.reset-size5.size2,
-      .katex .sizing.reset-size5.size2 {
-        font-size: 0.66666667em;
-      }
-      .katex .fontsize-ensurer.reset-size5.size3,
-      .katex .sizing.reset-size5.size3 {
-        font-size: 0.77777778em;
-      }
-      .katex .fontsize-ensurer.reset-size5.size4,
-      .katex .sizing.reset-size5.size4 {
-        font-size: 0.88888889em;
-      }
-      .katex .fontsize-ensurer.reset-size5.size5,
-      .katex .sizing.reset-size5.size5 {
-        font-size: 1em;
-      }
-      .katex .fontsize-ensurer.reset-size5.size6,
-      .katex .sizing.reset-size5.size6 {
-        font-size: 1.11111111em;
-      }
-      .katex .fontsize-ensurer.reset-size5.size7,
-      .katex .sizing.reset-size5.size7 {
-        font-size: 1.33333333em;
-      }
-      .katex .fontsize-ensurer.reset-size5.size8,
-      .katex .sizing.reset-size5.size8 {
-        font-size: 1.6em;
-      }
-      .katex .fontsize-ensurer.reset-size5.size9,
-      .katex .sizing.reset-size5.size9 {
-        font-size: 1.92em;
-      }
-      .katex .fontsize-ensurer.reset-size5.size10,
-      .katex .sizing.reset-size5.size10 {
-        font-size: 2.30444444em;
-      }
-      .katex .fontsize-ensurer.reset-size5.size11,
-      .katex .sizing.reset-size5.size11 {
-        font-size: 2.76444444em;
-      }
-      .katex .fontsize-ensurer.reset-size6.size1,
-      .katex .sizing.reset-size6.size1 {
-        font-size: 0.5em;
-      }
-      .katex .fontsize-ensurer.reset-size6.size2,
-      .katex .sizing.reset-size6.size2 {
-        font-size: 0.6em;
-      }
-      .katex .fontsize-ensurer.reset-size6.size3,
-      .katex .sizing.reset-size6.size3 {
-        font-size: 0.7em;
-      }
-      .katex .fontsize-ensurer.reset-size6.size4,
-      .katex .sizing.reset-size6.size4 {
-        font-size: 0.8em;
-      }
-      .katex .fontsize-ensurer.reset-size6.size5,
-      .katex .sizing.reset-size6.size5 {
-        font-size: 0.9em;
-      }
-      .katex .fontsize-ensurer.reset-size6.size6,
-      .katex .sizing.reset-size6.size6 {
-        font-size: 1em;
-      }
-      .katex .fontsize-ensurer.reset-size6.size7,
-      .katex .sizing.reset-size6.size7 {
-        font-size: 1.2em;
-      }
-      .katex .fontsize-ensurer.reset-size6.size8,
-      .katex .sizing.reset-size6.size8 {
-        font-size: 1.44em;
-      }
-      .katex .fontsize-ensurer.reset-size6.size9,
-      .katex .sizing.reset-size6.size9 {
-        font-size: 1.728em;
-      }
-      .katex .fontsize-ensurer.reset-size6.size10,
-      .katex .sizing.reset-size6.size10 {
-        font-size: 2.074em;
-      }
-      .katex .fontsize-ensurer.reset-size6.size11,
-      .katex .sizing.reset-size6.size11 {
-        font-size: 2.488em;
-      }
-      .katex .fontsize-ensurer.reset-size7.size1,
-      .katex .sizing.reset-size7.size1 {
-        font-size: 0.41666667em;
-      }
-      .katex .fontsize-ensurer.reset-size7.size2,
-      .katex .sizing.reset-size7.size2 {
-        font-size: 0.5em;
-      }
-      .katex .fontsize-ensurer.reset-size7.size3,
-      .katex .sizing.reset-size7.size3 {
-        font-size: 0.58333333em;
-      }
-      .katex .fontsize-ensurer.reset-size7.size4,
-      .katex .sizing.reset-size7.size4 {
-        font-size: 0.66666667em;
-      }
-      .katex .fontsize-ensurer.reset-size7.size5,
-      .katex .sizing.reset-size7.size5 {
-        font-size: 0.75em;
-      }
-      .katex .fontsize-ensurer.reset-size7.size6,
-      .katex .sizing.reset-size7.size6 {
-        font-size: 0.83333333em;
-      }
-      .katex .fontsize-ensurer.reset-size7.size7,
-      .katex .sizing.reset-size7.size7 {
-        font-size: 1em;
-      }
-      .katex .fontsize-ensurer.reset-size7.size8,
-      .katex .sizing.reset-size7.size8 {
-        font-size: 1.2em;
-      }
-      .katex .fontsize-ensurer.reset-size7.size9,
-      .katex .sizing.reset-size7.size9 {
-        font-size: 1.44em;
-      }
-      .katex .fontsize-ensurer.reset-size7.size10,
-      .katex .sizing.reset-size7.size10 {
-        font-size: 1.72833333em;
-      }
-      .katex .fontsize-ensurer.reset-size7.size11,
-      .katex .sizing.reset-size7.size11 {
-        font-size: 2.07333333em;
-      }
-      .katex .fontsize-ensurer.reset-size8.size1,
-      .katex .sizing.reset-size8.size1 {
-        font-size: 0.34722222em;
-      }
-      .katex .fontsize-ensurer.reset-size8.size2,
-      .katex .sizing.reset-size8.size2 {
-        font-size: 0.41666667em;
-      }
-      .katex .fontsize-ensurer.reset-size8.size3,
-      .katex .sizing.reset-size8.size3 {
-        font-size: 0.48611111em;
-      }
-      .katex .fontsize-ensurer.reset-size8.size4,
-      .katex .sizing.reset-size8.size4 {
-        font-size: 0.55555556em;
-      }
-      .katex .fontsize-ensurer.reset-size8.size5,
-      .katex .sizing.reset-size8.size5 {
-        font-size: 0.625em;
-      }
-      .katex .fontsize-ensurer.reset-size8.size6,
-      .katex .sizing.reset-size8.size6 {
-        font-size: 0.69444444em;
-      }
-      .katex .fontsize-ensurer.reset-size8.size7,
-      .katex .sizing.reset-size8.size7 {
-        font-size: 0.83333333em;
-      }
-      .katex .fontsize-ensurer.reset-size8.size8,
-      .katex .sizing.reset-size8.size8 {
-        font-size: 1em;
-      }
-      .katex .fontsize-ensurer.reset-size8.size9,
-      .katex .sizing.reset-size8.size9 {
-        font-size: 1.2em;
-      }
-      .katex .fontsize-ensurer.reset-size8.size10,
-      .katex .sizing.reset-size8.size10 {
-        font-size: 1.44027778em;
-      }
-      .katex .fontsize-ensurer.reset-size8.size11,
-      .katex .sizing.reset-size8.size11 {
-        font-size: 1.72777778em;
-      }
-      .katex .fontsize-ensurer.reset-size9.size1,
-      .katex .sizing.reset-size9.size1 {
-        font-size: 0.28935185em;
-      }
-      .katex .fontsize-ensurer.reset-size9.size2,
-      .katex .sizing.reset-size9.size2 {
-        font-size: 0.34722222em;
-      }
-      .katex .fontsize-ensurer.reset-size9.size3,
-      .katex .sizing.reset-size9.size3 {
-        font-size: 0.40509259em;
-      }
-      .katex .fontsize-ensurer.reset-size9.size4,
-      .katex .sizing.reset-size9.size4 {
-        font-size: 0.46296296em;
-      }
-      .katex .fontsize-ensurer.reset-size9.size5,
-      .katex .sizing.reset-size9.size5 {
-        font-size: 0.52083333em;
-      }
-      .katex .fontsize-ensurer.reset-size9.size6,
-      .katex .sizing.reset-size9.size6 {
-        font-size: 0.5787037em;
-      }
-      .katex .fontsize-ensurer.reset-size9.size7,
-      .katex .sizing.reset-size9.size7 {
-        font-size: 0.69444444em;
-      }
-      .katex .fontsize-ensurer.reset-size9.size8,
-      .katex .sizing.reset-size9.size8 {
-        font-size: 0.83333333em;
-      }
-      .katex .fontsize-ensurer.reset-size9.size9,
-      .katex .sizing.reset-size9.size9 {
-        font-size: 1em;
-      }
-      .katex .fontsize-ensurer.reset-size9.size10,
-      .katex .sizing.reset-size9.size10 {
-        font-size: 1.20023148em;
-      }
-      .katex .fontsize-ensurer.reset-size9.size11,
-      .katex .sizing.reset-size9.size11 {
-        font-size: 1.43981481em;
-      }
-      .katex .fontsize-ensurer.reset-size10.size1,
-      .katex .sizing.reset-size10.size1 {
-        font-size: 0.24108004em;
-      }
-      .katex .fontsize-ensurer.reset-size10.size2,
-      .katex .sizing.reset-size10.size2 {
-        font-size: 0.28929605em;
-      }
-      .katex .fontsize-ensurer.reset-size10.size3,
-      .katex .sizing.reset-size10.size3 {
-        font-size: 0.33751205em;
-      }
-      .katex .fontsize-ensurer.reset-size10.size4,
-      .katex .sizing.reset-size10.size4 {
-        font-size: 0.38572806em;
-      }
-      .katex .fontsize-ensurer.reset-size10.size5,
-      .katex .sizing.reset-size10.size5 {
-        font-size: 0.43394407em;
-      }
-      .katex .fontsize-ensurer.reset-size10.size6,
-      .katex .sizing.reset-size10.size6 {
-        font-size: 0.48216008em;
-      }
-      .katex .fontsize-ensurer.reset-size10.size7,
-      .katex .sizing.reset-size10.size7 {
-        font-size: 0.57859209em;
-      }
-      .katex .fontsize-ensurer.reset-size10.size8,
-      .katex .sizing.reset-size10.size8 {
-        font-size: 0.69431051em;
-      }
-      .katex .fontsize-ensurer.reset-size10.size9,
-      .katex .sizing.reset-size10.size9 {
-        font-size: 0.83317261em;
-      }
-      .katex .fontsize-ensurer.reset-size10.size10,
-      .katex .sizing.reset-size10.size10 {
-        font-size: 1em;
-      }
-      .katex .fontsize-ensurer.reset-size10.size11,
-      .katex .sizing.reset-size10.size11 {
-        font-size: 1.19961427em;
-      }
-      .katex .fontsize-ensurer.reset-size11.size1,
-      .katex .sizing.reset-size11.size1 {
-        font-size: 0.20096463em;
-      }
-      .katex .fontsize-ensurer.reset-size11.size2,
-      .katex .sizing.reset-size11.size2 {
-        font-size: 0.24115756em;
-      }
-      .katex .fontsize-ensurer.reset-size11.size3,
-      .katex .sizing.reset-size11.size3 {
-        font-size: 0.28135048em;
-      }
-      .katex .fontsize-ensurer.reset-size11.size4,
-      .katex .sizing.reset-size11.size4 {
-        font-size: 0.32154341em;
-      }
-      .katex .fontsize-ensurer.reset-size11.size5,
-      .katex .sizing.reset-size11.size5 {
-        font-size: 0.36173633em;
-      }
-      .katex .fontsize-ensurer.reset-size11.size6,
-      .katex .sizing.reset-size11.size6 {
-        font-size: 0.40192926em;
-      }
-      .katex .fontsize-ensurer.reset-size11.size7,
-      .katex .sizing.reset-size11.size7 {
-        font-size: 0.48231511em;
-      }
-      .katex .fontsize-ensurer.reset-size11.size8,
-      .katex .sizing.reset-size11.size8 {
-        font-size: 0.57877814em;
-      }
-      .katex .fontsize-ensurer.reset-size11.size9,
-      .katex .sizing.reset-size11.size9 {
-        font-size: 0.69453376em;
-      }
-      .katex .fontsize-ensurer.reset-size11.size10,
-      .katex .sizing.reset-size11.size10 {
-        font-size: 0.83360129em;
-      }
-      .katex .fontsize-ensurer.reset-size11.size11,
-      .katex .sizing.reset-size11.size11 {
-        font-size: 1em;
-      }
-      .katex .delimsizing.size1 {
-        font-family: KaTeX_Size1;
-      }
-      .katex .delimsizing.size2 {
-        font-family: KaTeX_Size2;
-      }
-      .katex .delimsizing.size3 {
-        font-family: KaTeX_Size3;
-      }
-      .katex .delimsizing.size4 {
-        font-family: KaTeX_Size4;
-      }
-      .katex .delimsizing.mult .delim-size1 > span {
-        font-family: KaTeX_Size1;
-      }
-      .katex .delimsizing.mult .delim-size4 > span {
-        font-family: KaTeX_Size4;
-      }
-      .katex .nulldelimiter {
-        display: inline-block;
-        width: 0.12em;
-      }
-      .katex .delimcenter,
-      .katex .op-symbol {
-        position: relative;
-      }
-      .katex .op-symbol.small-op {
-        font-family: KaTeX_Size1;
-      }
-      .katex .op-symbol.large-op {
-        font-family: KaTeX_Size2;
-      }
-      .katex .accent > .vlist-t,
-      .katex .op-limits > .vlist-t {
-        text-align: center;
-      }
-      .katex .accent .accent-body {
-        position: relative;
-      }
-      .katex .accent .accent-body:not(.accent-full) {
-        width: 0;
-      }
-      .katex .overlay {
-        display: block;
-      }
-      .katex .mtable .vertical-separator {
-        display: inline-block;
-        min-width: 1px;
-      }
-      .katex .mtable .arraycolsep {
-        display: inline-block;
-      }
-      .katex .mtable .col-align-c > .vlist-t {
-        text-align: center;
-      }
-      .katex .mtable .col-align-l > .vlist-t {
-        text-align: left;
-      }
-      .katex .mtable .col-align-r > .vlist-t {
-        text-align: right;
-      }
-      .katex .svg-align {
-        text-align: left;
-      }
-      .katex svg {
-        fill: currentColor;
-        stroke: currentColor;
-        fill-rule: nonzero;
-        fill-opacity: 1;
-        stroke-width: 1;
-        stroke-linecap: butt;
-        stroke-linejoin: miter;
-        stroke-miterlimit: 4;
-        stroke-dasharray: none;
-        stroke-dashoffset: 0;
-        stroke-opacity: 1;
-        display: block;
-        height: inherit;
-        position: absolute;
-        width: 100%;
-      }
-      .katex svg path {
-        stroke: none;
-      }
-      .katex img {
-        border-style: none;
-        max-height: none;
-        max-width: none;
-        min-height: 0;
-        min-width: 0;
-      }
-      .katex .stretchy {
-        display: block;
-        overflow: hidden;
-        position: relative;
-        width: 100%;
-      }
-      .katex .stretchy:after,
-      .katex .stretchy:before {
-        content: '';
-      }
-      .katex .hide-tail {
-        overflow: hidden;
-        position: relative;
-        width: 100%;
-      }
-      .katex .halfarrow-left {
-        left: 0;
-        overflow: hidden;
-        position: absolute;
-        width: 50.2%;
-      }
-      .katex .halfarrow-right {
-        overflow: hidden;
-        position: absolute;
-        right: 0;
-        width: 50.2%;
-      }
-      .katex .brace-left {
-        left: 0;
-        overflow: hidden;
-        position: absolute;
-        width: 25.1%;
-      }
-      .katex .brace-center {
-        left: 25%;
-        overflow: hidden;
-        position: absolute;
-        width: 50%;
-      }
-      .katex .brace-right {
-        overflow: hidden;
-        position: absolute;
-        right: 0;
-        width: 25.1%;
-      }
-      .katex .x-arrow-pad {
-        padding: 0 0.5em;
-      }
-      .katex .cd-arrow-pad {
-        padding: 0 0.55556em 0 0.27778em;
-      }
-      .katex .mover,
-      .katex .munder,
-      .katex .x-arrow {
-        text-align: center;
-      }
-      .katex .boxpad {
-        padding: 0 0.3em;
-      }
-      .katex .fbox,
-      .katex .fcolorbox {
-        border: 0.04em solid;
-        box-sizing: border-box;
-      }
-      .katex .cancel-pad {
-        padding: 0 0.2em;
-      }
-      .katex .cancel-lap {
-        margin-left: -0.2em;
-        margin-right: -0.2em;
-      }
-      .katex .sout {
-        border-bottom-style: solid;
-        border-bottom-width: 0.08em;
-      }
-      .katex .angl {
-        border-right: 0.049em solid;
-        border-top: 0.049em solid;
-        box-sizing: border-box;
-        margin-right: 0.03889em;
-      }
-      .katex .anglpad {
-        padding: 0 0.03889em;
-      }
-      .katex .eqn-num:before {
-        content: '(' counter(katexEqnNo) ')';
-        counter-increment: katexEqnNo;
-      }
-      .katex .mml-eqn-num:before {
-        content: '(' counter(mmlEqnNo) ')';
-        counter-increment: mmlEqnNo;
-      }
-      .katex .mtr-glue {
-        width: 50%;
-      }
-      .katex .cd-vert-arrow {
-        display: inline-block;
-        position: relative;
-      }
-      .katex .cd-label-left {
-        display: inline-block;
-        position: absolute;
-        right: calc(50% + 0.3em);
-        text-align: left;
-      }
-      .katex .cd-label-right {
-        display: inline-block;
-        left: calc(50% + 0.3em);
-        position: absolute;
-        text-align: right;
-      }
-      .katex-display {
-        display: block;
-        margin: 1em 0;
-        text-align: center;
-      }
-      .katex-display > .katex {
-        display: block;
-        text-align: center;
-        white-space: nowrap;
-      }
-      .katex-display > .katex > .katex-html {
-        display: block;
-        position: relative;
-      }
-      .katex-display > .katex > .katex-html > .tag {
-        position: absolute;
-        right: 0;
-      }
-      .katex-display.leqno > .katex > .katex-html > .tag {
-        left: 0;
-        right: auto;
-      }
-      .katex-display.fleqn > .katex {
-        padding-left: 2em;
-        text-align: left;
-      }
-      body {
-        counter-reset: katexEqnNo mmlEqnNo;
-      }
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
 
-      /*---------------------------------------------------------------------------------------------
- *  Copyright (c) Microsoft Corporation. All rights reserved.
- *  Licensed under the MIT License. See License.txt in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
-
-      .katex-error {
-        color: var(--vscode-editorError-foreground);
-      }
-
-      /* From extension ms-toolsai.jupyter */
-      /* These classnames are inherited from bootstrap, but are present in most notebook renderers */
-
-      .alert {
-        width: auto;
-        padding: 1em;
-        margin-top: 1em;
-        margin-bottom: 1em;
-      }
-      .alert > *:last-child {
-        margin-bottom: 0;
-      }
-      #preview > .alert:last-child {
-        /* Prevent this being set to zero by the default notebook stylesheet */
-        padding-bottom: 1em;
-      }
-
-      .alert-success {
-        /* Note there is no suitable color available, so we just copy "info" */
-        background-color: var(--theme-info-background);
-        color: var(--theme-info-foreground);
-      }
-      .alert-info {
-        background-color: var(--theme-info-background);
-        color: var(--theme-info-foreground);
-      }
-      .alert-warning {
-        background-color: var(--theme-warning-background);
-        color: var(--theme-warning-foreground);
-      }
-      .alert-danger {
-        background-color: var(--theme-error-background);
-        color: var(--theme-error-foreground);
-      }
-    </style>
-
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css"
-    />
-    <style>
-      body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI',
-          system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
-        font-size: 14px;
-        line-height: 1.6;
-      }
-    </style>
-    <style>
-      .task-list-item {
-        list-style-type: none;
-      }
-      .task-list-item-checkbox {
-        margin-left: -20px;
-        vertical-align: middle;
-      }
-    </style>
-  </head>
-  <body class="vscode-body vscode-light">
-    <h1 id="axios"><code>axios</code></h1>
-    <h2 id="overview">overview</h2>
-    <p>前端一种异步请求的方式。</p>
-    <table>
-      <thead>
-        <tr>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>XMLHttpRequests</td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>fetch</td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>axios(promise)</td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </tbody>
-    </table>
-    <h3 id="feature">feature</h3>
-    <ul>
-      <li>从浏览器中发出 xhr</li>
-      <li>在 node.js 中发现 http 请求</li>
-      <li>支持 promise</li>
-      <li>支持打断请求和回馈</li>
-      <li>可转换 request 和 response data</li>
-      <li>可取消请求。（fetch 不可取消）</li>
-    </ul>
-    <h2 id="install">install</h2>
-    <p><code>npm i axios</code></p>
-    <h2 id="usage">usage</h2>
-    <pre><code class="language-js"><div><span class="hljs-keyword">const</span> axios = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;axios&#x27;</span>).default
-axios.get(url,
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="axios"><code>axios</code></h1>
+<h2 id="overview">overview</h2>
+<p>前端一种异步请求的方式。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>XMLHttpRequests</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>fetch</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>axios(promise)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="feature">feature</h3>
+<ul>
+<li>从浏览器中发出 xhr</li>
+<li>在 node.js 中发现 http 请求</li>
+<li>支持 promise</li>
+<li>支持打断请求和回馈</li>
+<li>可转换 request 和 response data</li>
+<li>可取消请求。（fetch 不可取消）</li>
+</ul>
+<h2 id="install">install</h2>
+<p><code>npm i axios</code></p>
+<h2 id="usage">usage</h2>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> axios = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;axios&#x27;</span>).<span class="hljs-property">default</span>
+axios.<span class="hljs-title function_">get</span>(url,
     <span class="hljs-attr">params</span>: {
         <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span>
     }
-).then(...).catch(...)
-<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fn</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-keyword">let</span> result = <span class="hljs-keyword">await</span> axios.post(url, {
+).<span class="hljs-title function_">then</span>(...).<span class="hljs-title function_">catch</span>(...)
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">fn</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">let</span> result = <span class="hljs-keyword">await</span> axios.<span class="hljs-title function_">post</span>(url, {
         <span class="hljs-attr">key0</span>: <span class="hljs-string">&#x27;v0&#x27;</span>,
         <span class="hljs-attr">key1</span>: <span class="hljs-string">&#x27;v1&#x27;</span>
     })
@@ -1254,7 +100,7 @@ axios.get(url,
 
 <span class="hljs-comment">// 创建一个实例</span>
 <span class="hljs-comment">// axios.create([config])</span>
-<span class="hljs-keyword">let</span> instance = axios.create({
+<span class="hljs-keyword">let</span> instance = axios.<span class="hljs-title function_">create</span>({
     <span class="hljs-attr">baseURL</span>: <span class="hljs-string">&#x27;http:www.xxx.com&#x27;</span>,
     <span class="hljs-attr">timeout</span>: <span class="hljs-number">5000</span>,
     <span class="hljs-attr">headers</span>: {
@@ -1262,45 +108,45 @@ axios.get(url,
     }
 })
 <span class="hljs-comment">// 实例的方法</span>
-axios#request(config)
-axios#get(url[, config])
-axios#<span class="hljs-keyword">delete</span>(url[, config])
-axios#head(url[, config])
-axios#options(url[, config])
-axios#post(url[, data[, config]])
-axios#put(url[, data[, config]])
-axios#patch(url[, data[, config]])
-axios#getUri([config])
-</div></code></pre>
-    <h2 id="configuration">configuration</h2>
-    <p>没有配置文件。有配置项</p>
-    <pre><code class="language-js"><div>config: {
+axios#<span class="hljs-title function_">request</span>(config)
+axios#<span class="hljs-title function_">get</span>(url[, config])
+axios#<span class="hljs-title function_">delete</span>(url[, config])
+axios#<span class="hljs-title function_">head</span>(url[, config])
+axios#<span class="hljs-title function_">options</span>(url[, config])
+axios#<span class="hljs-title function_">post</span>(url[, data[, config]])
+axios#<span class="hljs-title function_">put</span>(url[, data[, config]])
+axios#<span class="hljs-title function_">patch</span>(url[, data[, config]])
+axios#<span class="hljs-title function_">getUri</span>([config])
+</code></pre>
+<h2 id="configuration">configuration</h2>
+<p>没有配置文件。有配置项</p>
+<pre><code class="language-js"><span class="hljs-attr">config</span>: {
     <span class="hljs-attr">url</span>: <span class="hljs-string">&#x27;/user&#x27;</span>,
     <span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;get&#x27;</span>, <span class="hljs-comment">// default</span>
     <span class="hljs-attr">baseURL</span>: <span class="hljs-string">&#x27;https://xxx&#x27;</span>,
-    <span class="hljs-attr">transformRequest</span>: [<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">data, headers</span>) </span>{...}], <span class="hljs-comment">// 在&#x27;PUT&#x27;, &#x27;POST&#x27;, &#x27;PATCH&#x27; and &#x27;DELETE&#x27;时，发出请求前处理一次数据</span>
-    <span class="hljs-attr">transformResponse</span>: [<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">data</span>) </span>{...}],
+    <span class="hljs-attr">transformRequest</span>: [<span class="hljs-keyword">function</span> (<span class="hljs-params">data, headers</span>) {...}], <span class="hljs-comment">// 在&#x27;PUT&#x27;, &#x27;POST&#x27;, &#x27;PATCH&#x27; and &#x27;DELETE&#x27;时，发出请求前处理一次数据</span>
+    <span class="hljs-attr">transformResponse</span>: [<span class="hljs-keyword">function</span> (<span class="hljs-params">data</span>) {...}],
     <span class="hljs-attr">header</span>: {<span class="hljs-string">&#x27;k&#x27;</span>: <span class="hljs-string">&#x27;v&#x27;</span>},
     <span class="hljs-attr">params</span>: {<span class="hljs-string">&#x27;k&#x27;</span>: <span class="hljs-string">&#x27;v&#x27;</span>}, <span class="hljs-comment">// 发出get请求时把参数拼接到url中。</span>
-    <span class="hljs-attr">paramsSerializer</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">params</span>) </span>{...}, <span class="hljs-comment">// serializing 查询字符串</span>
+    <span class="hljs-attr">paramsSerializer</span>: <span class="hljs-keyword">function</span>(<span class="hljs-params">params</span>) {...}, <span class="hljs-comment">// serializing 查询字符串</span>
     <span class="hljs-attr">data</span>: {<span class="hljs-string">&#x27;k&#x27;</span>: <span class="hljs-string">&#x27;v&#x27;</span>}, <span class="hljs-comment">// 发出&#x27;PUT&#x27;, &#x27;POST&#x27;, &#x27;DELETE , and &#x27;PATCH&#x27;请求时的参数</span>
     <span class="hljs-attr">timeout</span>: <span class="hljs-number">5000</span>, <span class="hljs-comment">// 超时时间</span>
     <span class="hljs-attr">withCredentials</span>: <span class="hljs-literal">false</span>, <span class="hljs-comment">// 跨域请求时是否带cookie</span>
-    <span class="hljs-attr">adapter</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">config</span>) </span>{...}, <span class="hljs-comment">// 需要学习</span>
+    <span class="hljs-attr">adapter</span>: <span class="hljs-keyword">function</span>(<span class="hljs-params">config</span>) {...}, <span class="hljs-comment">// 需要学习</span>
     <span class="hljs-attr">auth</span>: {<span class="hljs-string">&#x27;k&#x27;</span>: <span class="hljs-string">&#x27;v&#x27;</span>}, <span class="hljs-comment">// 用于http的auth验证</span>
     <span class="hljs-attr">ressponseType</span>: <span class="hljs-string">&#x27;json&#x27;</span>, <span class="hljs-comment">// default</span>
     <span class="hljs-attr">responseEncoding</span>: <span class="hljs-string">&#x27;utf-8&#x27;</span>, <span class="hljs-comment">// default</span>
     <span class="hljs-attr">xsrfCookieName</span>: <span class="hljs-string">&#x27;XSRF-TOKEN&#x27;</span>, <span class="hljs-comment">// 不会</span>
     <span class="hljs-attr">xsrfHeaderName</span>: <span class="hljs-string">&#x27;X-XSRF-TOKEN&#x27;</span>, <span class="hljs-comment">// 不会</span>
-    <span class="hljs-attr">onUploadProgress</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">progressEvent</span>) </span>{...}, <span class="hljs-comment">// 只在浏览器中支持，控制上传进程的控制器</span>
-    <span class="hljs-attr">onDownLoadProgress</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">progressEvent</span>) </span>{...},
+    <span class="hljs-attr">onUploadProgress</span>: <span class="hljs-keyword">function</span>(<span class="hljs-params">progressEvent</span>) {...}, <span class="hljs-comment">// 只在浏览器中支持，控制上传进程的控制器</span>
+    <span class="hljs-attr">onDownLoadProgress</span>: <span class="hljs-keyword">function</span>(<span class="hljs-params">progressEvent</span>) {...},
     <span class="hljs-attr">maxCoutentLength</span>: <span class="hljs-number">2000</span>, <span class="hljs-comment">// 返回的最大数据</span>
-    <span class="hljs-attr">validateStatus</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">status</span>) </span>{...},
+    <span class="hljs-attr">validateStatus</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params">status</span>) {...},
     <span class="hljs-attr">maxRedirects</span>: <span class="hljs-number">21</span>, <span class="hljs-comment">// 最大重定向次数</span>
     <span class="hljs-attr">beforeRedirect</span>: <span class="hljs-function">(<span class="hljs-params">options, {headers}</span>) =&gt;</span> {...},
     <span class="hljs-attr">socketPath</span>: <span class="hljs-literal">null</span>, <span class="hljs-comment">// default 不会</span>
-    <span class="hljs-attr">httpAgent</span>: <span class="hljs-keyword">new</span> http.Agent({<span class="hljs-attr">keepAlive</span>: <span class="hljs-literal">true</span>}), <span class="hljs-comment">// 默认是浏览器的agent. 若在node.js中使用，一般用于模拟浏览器请求</span>
-    <span class="hljs-attr">httsAgent</span>: <span class="hljs-keyword">new</span> http.Agent({<span class="hljs-attr">keepAlive</span>: <span class="hljs-literal">true</span>}),
+    <span class="hljs-attr">httpAgent</span>: <span class="hljs-keyword">new</span> http.<span class="hljs-title class_">Agent</span>({<span class="hljs-attr">keepAlive</span>: <span class="hljs-literal">true</span>}), <span class="hljs-comment">// 默认是浏览器的agent. 若在node.js中使用，一般用于模拟浏览器请求</span>
+    <span class="hljs-attr">httsAgent</span>: <span class="hljs-keyword">new</span> http.<span class="hljs-title class_">Agent</span>({<span class="hljs-attr">keepAlive</span>: <span class="hljs-literal">true</span>}),
     <span class="hljs-attr">proxy</span>: { <span class="hljs-comment">// 设置代理服务器</span>
         <span class="hljs-attr">protocol</span>: <span class="hljs-string">&#x27;https&#x27;</span>,
         <span class="hljs-attr">host</span>: <span class="hljs-string">&#x27;127.0.0.1&#x27;</span>,
@@ -1310,9 +156,9 @@ axios#getUri([config])
         <span class="hljs-attr">password</span>: <span class="hljs-string">&#x27;rapunz3l&#x27;</span>
         }
     },
-    <span class="hljs-attr">cancelToken</span>: <span class="hljs-keyword">new</span> CancelToken(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">cancel</span>) </span>{
+    <span class="hljs-attr">cancelToken</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">CancelToken</span>(<span class="hljs-keyword">function</span> (<span class="hljs-params">cancel</span>) {
     }), <span class="hljs-comment">// 专用于取消请求的token</span>
-    <span class="hljs-attr">signal</span>: <span class="hljs-keyword">new</span> AbortController().signal,
+    <span class="hljs-attr">signal</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbortController</span>().<span class="hljs-property">signal</span>,
     <span class="hljs-attr">decompress</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// default</span>
     <span class="hljs-attr">insecureTHHPParser</span>: <span class="hljs-literal">undefined</span>, <span class="hljs-comment">// default 不会</span>
     <span class="hljs-attr">transitional</span>: { <span class="hljs-comment">// 不会</span>
@@ -1323,23 +169,23 @@ axios#getUri([config])
         <span class="hljs-attr">clarifyTimeoutError</span>: <span class="hljs-literal">false</span>,
     },
     <span class="hljs-attr">env</span>: {
-         <span class="hljs-attr">FormData</span>: <span class="hljs-built_in">window</span>?.FormData || <span class="hljs-built_in">global</span>?.FormData <span class="hljs-comment">// 自动序列化为FormData对象的payload</span>
+         <span class="hljs-title class_">FormData</span>: <span class="hljs-variable language_">window</span>?.<span class="hljs-property">FormData</span> || <span class="hljs-variable language_">global</span>?.<span class="hljs-property">FormData</span> <span class="hljs-comment">// 自动序列化为FormData对象的payload</span>
     },
 }
-</div></code></pre>
-    <h3 id="配置默认值">配置默认值</h3>
-    <pre><code><code><div>axios.default.baseURL = 'xxx'
+</code></pre>
+<h3 id="配置默认值">配置默认值</h3>
+<pre><code>axios.default.baseURL = 'xxx'
 axios.default.headers.common['Authorization'] = axios.default.baseURL = AUTH_TOKEN
-</div></code></code></pre>
-    <h3 id="自定义实例的默认值">自定义实例的默认值</h3>
-    <pre><code><code><div>const instance = axios.create({
+</code></pre>
+<h3 id="自定义实例的默认值">自定义实例的默认值</h3>
+<pre><code>const instance = axios.create({
   baseURL: 'https://api.example.com'
 });
 // Alter defaults after instance has been created
 instance.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-</div></code></code></pre>
-    <h2 id="api">api</h2>
-    <pre><code class="language-js"><div>axios({
+</code></pre>
+<h2 id="api">api</h2>
+<pre><code class="language-js"><span class="hljs-title function_">axios</span>({
     <span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;post&#x27;</span>, <span class="hljs-comment">// 小写</span>
     <span class="hljs-attr">url</span>: <span class="hljs-string">&#x27;/user/1234&#x27;</span>,
     <span class="hljs-attr">data</span>: {
@@ -1347,82 +193,80 @@ instance.defaults.headers.common['Authorization'] = AUTH_TOKEN;
         <span class="hljs-attr">k1</span>: <span class="hljs-string">&#x27;v1&#x27;</span>,
     }
 })
-axios(url[, config])
-axios.request(config)
-axios.get(url[, config])
-axios.post(url[, config])
-axios.put(url[, config])
-axios.delete(url[, config])
-axios.head(url[, config])
-axios.options(url[, config])
-axios.patch(url[, config])
-</div></code></pre>
-    <h2 id="response-schema">response schema</h2>
-    <pre><code class="language-js"><div>{
-    <span class="hljs-attr">data</span>: {}
-    <span class="hljs-attr">status</span>: <span class="hljs-number">200</span>
-    <span class="hljs-attr">statusText</span>: <span class="hljs-string">&#x27;OK&#x27;</span>
-    <span class="hljs-attr">headers</span>: {}
-    <span class="hljs-attr">config</span>: {}
-    <span class="hljs-attr">request</span>: {}
+<span class="hljs-title function_">axios</span>(url[, config])
+axios.<span class="hljs-title function_">request</span>(config)
+axios.<span class="hljs-title function_">get</span>(url[, config])
+axios.<span class="hljs-title function_">post</span>(url[, config])
+axios.<span class="hljs-title function_">put</span>(url[, config])
+axios.<span class="hljs-title function_">delete</span>(url[, config])
+axios.<span class="hljs-title function_">head</span>(url[, config])
+axios.<span class="hljs-title function_">options</span>(url[, config])
+axios.<span class="hljs-title function_">patch</span>(url[, config])
+</code></pre>
+<h2 id="response-schema">response schema</h2>
+<pre><code class="language-js">{
+  <span class="hljs-attr">data</span>: {
+  }
+  <span class="hljs-attr">status</span>: <span class="hljs-number">200</span>
+  <span class="hljs-attr">statusText</span>: <span class="hljs-string">&#x27;OK&#x27;</span>
+  <span class="hljs-attr">headers</span>: {
+  }
+  <span class="hljs-attr">config</span>: {
+  }
+  <span class="hljs-attr">request</span>: {
+  }
 }
-</div></code></pre>
-    <h2 id="interceptors">interceptors</h2>
-    <pre><code class="language-js"><div>axios.interceptors.request.use(<span class="hljs-function">(<span class="hljs-params">config</span>) =&gt;</span> {
+</code></pre>
+<h2 id="interceptors">interceptors</h2>
+<pre><code class="language-js">axios.<span class="hljs-property">interceptors</span>.<span class="hljs-property">request</span>.<span class="hljs-title function_">use</span>(<span class="hljs-function">(<span class="hljs-params">config</span>) =&gt;</span> {
     ...
     <span class="hljs-keyword">return</span> config
-}, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">error</span>) </span>{
-    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>.reject(error)
+}, <span class="hljs-keyword">function</span> (<span class="hljs-params">error</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">reject</span>(error)
 })
-axios.interceptors.response.use(<span class="hljs-function">(<span class="hljs-params">config</span>) =&gt;</span> {
+axios.<span class="hljs-property">interceptors</span>.<span class="hljs-property">response</span>.<span class="hljs-title function_">use</span>(<span class="hljs-function">(<span class="hljs-params">config</span>) =&gt;</span> {
     ...
     <span class="hljs-keyword">return</span> config
-}, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">error</span>) </span>{
-    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>.reject(error)
+}, <span class="hljs-keyword">function</span> (<span class="hljs-params">error</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">reject</span>(error)
 })
 <span class="hljs-comment">// 删除打断</span>
-<span class="hljs-keyword">let</span> myInterceptor = axios.interceptors.request.use(<span class="hljs-function">() =&gt;</span> {...})
-axios.interceptors.request.eject(myInterceptor)
+<span class="hljs-keyword">let</span> myInterceptor = axios.<span class="hljs-property">interceptors</span>.<span class="hljs-property">request</span>.<span class="hljs-title function_">use</span>(<span class="hljs-function">() =&gt;</span> {...})
+axios.<span class="hljs-property">interceptors</span>.<span class="hljs-property">request</span>.<span class="hljs-title function_">eject</span>(myInterceptor)
 <span class="hljs-comment">// 删除实例的打断也类似</span>
-</div></code></pre>
-    <ul>
-      <li>每个 interceptor 都会执行</li>
-      <li>按定义顺序执行</li>
-      <li>只返回最后一个 interceptor 的结果</li>
-      <li>每个 interceptor 接收前一个的结果</li>
-    </ul>
-    <h2 id="cancellation">cancellation</h2>
-    <p>推荐<code>AbortController</code>.在 axios v0.22.0+ 支持。</p>
-    <pre><code class="language-js"><div><span class="hljs-keyword">let</span> controller = <span class="hljs-keyword">new</span> AbortController()
-axios.get(...).then(...)
-controller() <span class="hljs-comment">// 取消请求</span>
-</div></code></pre>
-    <h2 id="使用-applicationx-www-form-urlencoded-格式">
-      使用 application/x-www-form-urlencoded 格式
-    </h2>
-    <p>有下面多种方法</p>
-    <h3 id="form-data">form data</h3>
-    <p>
-      在 v0.27.0 后支持设置了<code
-        >header.Content-Type: multipart/form-data</code
-      >会，自动序列化为 FormData 对象。
-    </p>
-    <pre><code><code><div>import axios from 'axios';
+</code></pre>
+<ul>
+<li>每个 interceptor 都会执行</li>
+<li>按定义顺序执行</li>
+<li>只返回最后一个 interceptor 的结果</li>
+<li>每个 interceptor 接收前一个的结果</li>
+</ul>
+<h2 id="cancellation">cancellation</h2>
+<p>推荐<code>AbortController</code>.在 axios v0.22.0+ 支持。</p>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> controller = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbortController</span>()
+axios.<span class="hljs-title function_">get</span>(...).<span class="hljs-title function_">then</span>(...)
+<span class="hljs-title function_">controller</span>() <span class="hljs-comment">// 取消请求</span>
+</code></pre>
+<h2 id="使用-applicationx-www-form-urlencoded-格式">使用 application/x-www-form-urlencoded 格式</h2>
+<p>有下面多种方法</p>
+<h3 id="form-data">form data</h3>
+<p>在 v0.27.0 后支持设置了<code>header.Content-Type: multipart/form-data</code>会，自动序列化为 FormData 对象。</p>
+<pre><code>import axios from 'axios';
 axios.post('https://httpbin.org/post', {x: 1}, {
   headers: {
     'Content-Type': 'multipart/form-data'
   }
 }).then(({data})=&gt; console.log(data));
-</div></code></code></pre>
-    <h3 id="browser">browser</h3>
-    <pre><code class="language-js"><div><span class="hljs-comment">// no.1</span>
-<span class="hljs-keyword">const</span> params = <span class="hljs-keyword">new</span> URLSearchParams()
-params.append(<span class="hljs-string">&#x27;key&#x27;</span>, <span class="hljs-string">&#x27;value&#x27;</span>)
-axios.post(url, params)
+</code></pre>
+<h3 id="browser">browser</h3>
+<pre><code class="language-js"><span class="hljs-comment">// no.1</span>
+<span class="hljs-keyword">const</span> params = <span class="hljs-keyword">new</span> <span class="hljs-title class_">URLSearchParams</span>()
+params.<span class="hljs-title function_">append</span>(<span class="hljs-string">&#x27;key&#x27;</span>, <span class="hljs-string">&#x27;value&#x27;</span>)
+axios.<span class="hljs-title function_">post</span>(url, params)
 
 <span class="hljs-comment">// no.2</span>
 <span class="hljs-keyword">const</span> qs = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;qs&#x27;</span>)
-axios.post(<span class="hljs-string">&#x27;/foo&#x27;</span>, qs.stringify({ <span class="hljs-attr">bar</span>: <span class="hljs-number">123</span> }))
+axios.<span class="hljs-title function_">post</span>(<span class="hljs-string">&#x27;/foo&#x27;</span>, qs.<span class="hljs-title function_">stringify</span>({ <span class="hljs-attr">bar</span>: <span class="hljs-number">123</span> }))
 
 <span class="hljs-comment">// no.3</span>
 <span class="hljs-keyword">import</span> qs <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;qs&#x27;</span>
@@ -1430,33 +274,147 @@ axios.post(<span class="hljs-string">&#x27;/foo&#x27;</span>, qs.stringify({ <sp
 <span class="hljs-keyword">const</span> options = {
   <span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;POST&#x27;</span>,
   <span class="hljs-attr">headers</span>: { <span class="hljs-string">&#x27;content-type&#x27;</span>: <span class="hljs-string">&#x27;application/x-www-form-urlencoded&#x27;</span> },
-  <span class="hljs-attr">data</span>: qs.stringify(data),
+  <span class="hljs-attr">data</span>: qs.<span class="hljs-title function_">stringify</span>(data),
   url,
 }
-axios(options)
-</div></code></pre>
-    <h3 id="nodejs">node.js</h3>
-    <pre><code class="language-js"><div><span class="hljs-comment">// no.1</span>
+<span class="hljs-title function_">axios</span>(options)
+</code></pre>
+<h3 id="nodejs">node.js</h3>
+<pre><code class="language-js"><span class="hljs-comment">// no.1</span>
 <span class="hljs-keyword">const</span> querystring = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;querystring&#x27;</span>)
-axios.post(<span class="hljs-string">&#x27;http://something.com/&#x27;</span>, querystring.stringify({ <span class="hljs-attr">foo</span>: <span class="hljs-string">&#x27;bar&#x27;</span> }))
+axios.<span class="hljs-title function_">post</span>(<span class="hljs-string">&#x27;http://something.com/&#x27;</span>, querystring.<span class="hljs-title function_">stringify</span>({ <span class="hljs-attr">foo</span>: <span class="hljs-string">&#x27;bar&#x27;</span> }))
 
 <span class="hljs-comment">// no.2</span>
 <span class="hljs-keyword">const</span> url = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;url&#x27;</span>)
-<span class="hljs-keyword">const</span> params = <span class="hljs-keyword">new</span> url.URLSearchParams({ <span class="hljs-attr">foo</span>: <span class="hljs-string">&#x27;bar&#x27;</span> })
-axios.post(<span class="hljs-string">&#x27;http://something.com/&#x27;</span>, params.toString())
-</div></code></pre>
-    <h2 id="principle">principle</h2>
-    <h3 id="uml">uml</h3>
-    <pre><code><code><div>
-</div></code></code></pre>
-    <h2 id="demo">demo</h2>
-    <pre><code class="language-js"><div><span class="hljs-keyword">import</span> axios <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;axios&#x27;</span>
+<span class="hljs-keyword">const</span> params = <span class="hljs-keyword">new</span> url.<span class="hljs-title class_">URLSearchParams</span>({ <span class="hljs-attr">foo</span>: <span class="hljs-string">&#x27;bar&#x27;</span> })
+axios.<span class="hljs-title function_">post</span>(<span class="hljs-string">&#x27;http://something.com/&#x27;</span>, params.<span class="hljs-title function_">toString</span>())
+</code></pre>
+<h2 id="principle">principle</h2>
+<p>输出了多个东西。平时只使用了主要的。<br>
+平时用不到。作者有使用文档中也没写如何使用已经输出的其他东西。都已经不使用了，为什么还输出呢？
+<code>import defaults from './defaults/index.js';</code>是默认配置文件。使用了<code>*.js</code>，而非<code>*.json</code>。<br>
+全项目使用js开发。非ts,在ts项目使用此包会有类型问题。<br>
+<code>axios</code>是<code>Axios</code>的实例。
+<code>axios.Axios = Axios;</code>外国人总喜欢使用这种环。可能是为了文件引用。<br>
+打包工具： rollup/webpack</p>
+<pre><code class="language-js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Axios</span> {
+  <span class="hljs-title function_">constructor</span> (instanceConfig) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">defaults</span> = instanceConfig; <span class="hljs-comment">// 这里设置了默认配置项</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">interceptors</span> = {           <span class="hljs-comment">// 这是设置了打断器</span>
+      <span class="hljs-attr">request</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">InterceptorManager</span>(),
+      <span class="hljs-attr">response</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">InterceptorManager</span>()
+    };
+  }
+  <span class="hljs-title function_">request</span>(<span class="hljs-params"></span>) {} <span class="hljs-comment">// 它是做什么的</span>
+  <span class="hljs-comment">// 经过处理配置信息</span>
+  <span class="hljs-comment">// 验证配置信息</span>
+  <span class="hljs-comment">// 处理请求头</span>
+  <span class="hljs-comment">// 把请求打断器和回馈打断器分别放在2个组件中。</span>
+  <span class="hljs-comment">// 使用</span>
+  <span class="hljs-title function_">getUri</span>(<span class="hljs-params"></span>) {}
+}
+</code></pre>
+<p>很多功能、服务、方法都是在init时从类似配置文件中取出配置项再与程序员设计的配置项相结合，再初始化。</p>
+<pre><code class="language-js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">InterceptorManager</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">helpers</span> = []
+  }
+  <span class="hljs-title function_">use</span>(<span class="hljs-params">fulfilled, rejected, options</span>) {} <span class="hljs-comment">// 挂载的。把数据添加helpers中。vue就是使用此方法挂载插件的。</span>
+  <span class="hljs-comment">// 还有第三个参数。文档中也不说明它。</span>
+  <span class="hljs-title function_">eject</span>(<span class="hljs-params">id</span>) {} <span class="hljs-comment">// 从hlepers中删除指定的数据</span>
+  <span class="hljs-title function_">clear</span>(<span class="hljs-params"></span>) {}   <span class="hljs-comment">// 清空helpers</span>
+  <span class="hljs-title function_">forEach</span>(<span class="hljs-params"></span>) {} <span class="hljs-comment">// 执行全部helpers中的数据、方法</span>
+}
+</code></pre>
+<p><code>import AxiosError from '../core/AxiosError.js';</code>是封装的错误对象
+作者封装了错误对象。错误信息中包括</p>
+<pre><code class="language-js">message
+name
+stack
+code
+config
+request
+response
+</code></pre>
+<p>需要一个包括更多有关该信息在错误对象中。所以封装了该对象。我在我项目也可以这样做。<br>
+又在原型链上。
+<code>import validator from '../helpers/validator.js';</code>是验证文件。若验证出错，则使用封装的错误对象抛出错误。
+<code>import CanceledError from '../cancel/CanceledError.js';</code>是基于AxiosError封装的取消请求时的错误
+内部与AbortController对象结合使用。<br>
+<code>import AxiosHeaders from '../core/AxiosHeaders.js';</code>是</p>
+<pre><code class="language-js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">AxiosHeaders</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">headers</span>) {
+    headers &amp;&amp; <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">set</span>(headers);
+  }
+  <span class="hljs-title function_">set</span>(<span class="hljs-params"></span>) {} <span class="hljs-comment">// 设置头后，返回this. 这是常用的链模式</span>
+  <span class="hljs-title function_">get</span>(<span class="hljs-params"></span>) {} <span class="hljs-comment">// 返回头中的指定字段</span>
+  <span class="hljs-title function_">has</span>(<span class="hljs-params"></span>) {} <span class="hljs-comment">// 返回是否存在指定头字段</span>
+  <span class="hljs-title function_">delete</span>(<span class="hljs-params"></span>) {} <span class="hljs-comment">// 返回是否删除的指定头</span>
+  <span class="hljs-title function_">clear</span>(<span class="hljs-params"></span>) {} <span class="hljs-comment">// </span>
+  <span class="hljs-title function_">normalize</span>(<span class="hljs-params"></span>) {} <span class="hljs-comment">// 序列化</span>
+  <span class="hljs-title function_">concat</span>(<span class="hljs-params"></span>) {} <span class="hljs-comment">// </span>
+  <span class="hljs-title function_">toJSON</span>(<span class="hljs-params"></span>) {} <span class="hljs-comment">// 返回反序列化</span>
+  [<span class="hljs-title class_">Symbol</span>.<span class="hljs-property">iterator</span>]() {} <span class="hljs-comment">// 基于反序列化后使用</span>
+  <span class="hljs-title function_">toString</span>(<span class="hljs-params"></span>) {} <span class="hljs-comment">// 序列化</span>
+  get [<span class="hljs-title class_">Symbol</span>.<span class="hljs-property">toStringTag</span>]() {} <span class="hljs-comment">// 覆盖原型方法</span>
+  <span class="hljs-keyword">static</span> <span class="hljs-keyword">from</span> <span class="hljs-comment">// 是否是实例</span>
+  <span class="hljs-keyword">static</span> <span class="hljs-title function_">concat</span>(first, ...targets) <span class="hljs-comment">// 添加头后返回实例</span>
+  <span class="hljs-keyword">static</span> accessor <span class="hljs-comment">// 记录是否访问过。key是序列化后的header</span>
+}
+</code></pre>
+<p><code>import adapters from &quot;../adapters/adapters.js&quot;;</code>中使用2个适配器：http/xhr<br>
+使用映射表判断使用哪个适配器。<br>
+最后返回指定的适配器，它是一个请求方法。
+<code>import dispatchRequest from './dispatchRequest.js';</code>会触发请求。
+使用正确的请求方法请求。
+若请求数据成功，则经过转换数据后返回数据。否则返回经过转换数据后经过包装后返回数据。
+全程使用promise处理。</p>
+<p><code>import httpAdapter from './http.js';</code>
+依赖http/https。使用该包请求。
+可能使用了它们才使得axios可以在服务端使用。<br>
+使用了自定义事件处理。</p>
+<p><code>import xhrAdapter from './xhr.js';</code>
+使用promise+xhr实现请求+链式调用。</p>
+<h3 id="运行的顺序图">运行的顺序图。</h3>
+<h3 id="目录结构">目录结构</h3>
+<pre><code>&lt;root&gt;
+|-- bin
+|-- dist
+|-- examples
+|-- lib
+    |-- core
+    |-- axios.js
+    |-- utils.js
+    |-- lib
+    |-- lib
+    |-- lib
+    |-- lib
+    |-- lib
+    |-- lib
+|-- sandbox
+|-- templates
+|-- test
+|-- index.js
+|-- package.json
+|-- readme.md
+|-- rollup.config.js
+|-- tsconfig.json
+|-- webpack.config.js
+|-- xxx
+|-- xxx
+</code></pre>
+<p>是否可以use多个？</p>
+<h3 id="uml">uml</h3>
+<pre><code>
+</code></pre>
+<h2 id="demo">demo</h2>
+<pre><code class="language-js"><span class="hljs-keyword">import</span> axios <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;axios&#x27;</span>
 <span class="hljs-keyword">import</span> md5 <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;md5&#x27;</span>
 <span class="hljs-keyword">import</span> createSimpleStore <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./simpleStore&#x27;</span>
 
-<span class="hljs-keyword">let</span> simpleStore = createSimpleStore()
+<span class="hljs-keyword">let</span> simpleStore = <span class="hljs-title function_">createSimpleStore</span>()
 
-<span class="hljs-keyword">let</span> instance = axios.create({
+<span class="hljs-keyword">let</span> instance = axios.<span class="hljs-title function_">create</span>({
   <span class="hljs-comment">// baseURL: &#x27;http:www.xxx.com&#x27;,</span>
   <span class="hljs-comment">// 用于各种后端接口，所以不适合设置baseURL</span>
   <span class="hljs-attr">timeout</span>: <span class="hljs-number">5000</span>,
@@ -1464,42 +422,42 @@ axios.post(<span class="hljs-string">&#x27;http://something.com/&#x27;</span>, p
     <span class="hljs-comment">// &#x27;key&#x27;: &#x27;value&#x27;</span>
   },
 })
-<span class="hljs-keyword">let</span> myInterceptor = instance.interceptors.request.use(
+<span class="hljs-keyword">let</span> myInterceptor = instance.<span class="hljs-property">interceptors</span>.<span class="hljs-property">request</span>.<span class="hljs-title function_">use</span>(
   <span class="hljs-function">(<span class="hljs-params">config</span>) =&gt;</span> {
     <span class="hljs-comment">// 取消重复请求</span>
-    <span class="hljs-keyword">let</span> hashStr = md5({
-      <span class="hljs-attr">url</span>: config.url,
-      <span class="hljs-attr">method</span>: config.method,
-      <span class="hljs-attr">params</span>: config.params,
-      <span class="hljs-attr">data</span>: config.data,
+    <span class="hljs-keyword">let</span> hashStr = <span class="hljs-title function_">md5</span>({
+      <span class="hljs-attr">url</span>: config.<span class="hljs-property">url</span>,
+      <span class="hljs-attr">method</span>: config.<span class="hljs-property">method</span>,
+      <span class="hljs-attr">params</span>: config.<span class="hljs-property">params</span>,
+      <span class="hljs-attr">data</span>: config.<span class="hljs-property">data</span>,
     })
-    <span class="hljs-keyword">if</span> (simpleStore.isExist(hashStr)) {
+    <span class="hljs-keyword">if</span> (simpleStore.<span class="hljs-title function_">isExist</span>(hashStr)) {
       <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>
     } <span class="hljs-keyword">else</span> {
       <span class="hljs-keyword">return</span> config
     }
   },
-  <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">error</span>) </span>{
-    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>.reject(error)
+  <span class="hljs-keyword">function</span> (<span class="hljs-params">error</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">reject</span>(error)
   }
 )
-instance.interceptors.response.use(
+instance.<span class="hljs-property">interceptors</span>.<span class="hljs-property">response</span>.<span class="hljs-title function_">use</span>(
   <span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
-    <span class="hljs-keyword">let</span> hashStr = md5({
-      <span class="hljs-attr">url</span>: res.config.url,
-      <span class="hljs-attr">method</span>: res.config.method,
-      <span class="hljs-attr">params</span>: res.config.params,
-      <span class="hljs-attr">data</span>: res.config.data,
+    <span class="hljs-keyword">let</span> hashStr = <span class="hljs-title function_">md5</span>({
+      <span class="hljs-attr">url</span>: res.<span class="hljs-property">config</span>.<span class="hljs-property">url</span>,
+      <span class="hljs-attr">method</span>: res.<span class="hljs-property">config</span>.<span class="hljs-property">method</span>,
+      <span class="hljs-attr">params</span>: res.<span class="hljs-property">config</span>.<span class="hljs-property">params</span>,
+      <span class="hljs-attr">data</span>: res.<span class="hljs-property">config</span>.<span class="hljs-property">data</span>,
     })
-    simpleStore.remove(hashStr)
-    <span class="hljs-keyword">if</span> (res.status === <span class="hljs-number">200</span>) {
-      <span class="hljs-keyword">return</span> res.data
+    simpleStore.<span class="hljs-title function_">remove</span>(hashStr)
+    <span class="hljs-keyword">if</span> (res.<span class="hljs-property">status</span> === <span class="hljs-number">200</span>) {
+      <span class="hljs-keyword">return</span> res.<span class="hljs-property">data</span>
     } <span class="hljs-keyword">else</span> {
-      <span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>.reject(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">&#x27;请求出错&#x27;</span>))
+      <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">reject</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&#x27;请求出错&#x27;</span>))
     }
   },
-  <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">error</span>) </span>{
-    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>.reject(error)
+  <span class="hljs-keyword">function</span> (<span class="hljs-params">error</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">reject</span>(error)
   }
 )
 <span class="hljs-comment">// let cancelRequest = () =&gt; {</span>
@@ -1511,23 +469,30 @@ instance.interceptors.response.use(
   <span class="hljs-comment">// 强制取消请求</span>
   <span class="hljs-comment">// cancelRequest</span>
 }
-</div></code></pre>
-    <pre><code class="language-js"><div><span class="hljs-keyword">let</span> createSimpleStore = <span class="hljs-function">() =&gt;</span> {
+</code></pre>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">createSimpleStore</span> = (<span class="hljs-params"></span>) =&gt; {
   <span class="hljs-keyword">let</span> simpleStore = {
-    <span class="hljs-attr">value</span>: <span class="hljs-keyword">new</span> <span class="hljs-built_in">Set</span>(),
-    <span class="hljs-attr">isExist</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">v</span>) </span>{
-      <span class="hljs-keyword">return</span> simpleStore.value.has(v)
+    <span class="hljs-attr">value</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>(),
+    <span class="hljs-attr">isExist</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params">v</span>) {
+      <span class="hljs-keyword">return</span> simpleStore.<span class="hljs-property">value</span>.<span class="hljs-title function_">has</span>(v)
     },
-    <span class="hljs-attr">add</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">v</span>) </span>{
-      simpleStore.value.add(v)
+    <span class="hljs-attr">add</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params">v</span>) {
+      simpleStore.<span class="hljs-property">value</span>.<span class="hljs-title function_">add</span>(v)
     },
-    <span class="hljs-attr">remove</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">v</span>) </span>{
-      simpleStore.value.delete(v)
+    <span class="hljs-attr">remove</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params">v</span>) {
+      simpleStore.<span class="hljs-property">value</span>.<span class="hljs-title function_">delete</span>(v)
     },
   }
   <span class="hljs-keyword">return</span> simpleStore
 }
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> createSimpleStore
-</div></code></pre>
-  </body>
-</html>
+</code></pre>
+<h2 id="todo">todo</h2>
+<p>如使用promise实现的。
+可以匿名的地方也使用具名函数编写。（如：回调函数）
+如何使用简写。</p>
+
+        
+        
+    </body>
+    </html>

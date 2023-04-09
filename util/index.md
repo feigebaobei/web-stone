@@ -1,3 +1,5 @@
+## 2022 年了还想开发工具方法包。赶紧取消这个想法吧。
+
 ```js
 // 去抖
 let createDebounceFn = (fn, t = 250) => {
@@ -267,7 +269,7 @@ function createWorker(f) {
 
 - [rxjs](/util/rxjs.html)
 - [转换 JSON](/language/javascript/json-transfer.html)
-- [title](/util/title.html)
+- [axios 项目中使用工具方法](/util/axios.html)
 - [title](/util/title.html)
 - [title](/util/title.html)
 - [title](/util/title.html)
