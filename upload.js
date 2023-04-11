@@ -250,17 +250,12 @@ c.on('ready', () => {
       throw err
     }
 
-    // let p = 'db/mongodb/compass'
+    // let p = 'editor'
     let p = [
-      // 'db/mongodb/compass/install.html',
-      // 'db/mongodb/basic.html',
-      // 'db/mysql/retrieve.html',
       'editor/index.html',
       'editor/notepad++.html',
       'editor/sublime.html',
       'editor/vscode.html',
-      // 'db/redis/index.html',
-      // 'db/redis/rdb-aof.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
