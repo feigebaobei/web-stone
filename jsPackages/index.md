@@ -19,7 +19,7 @@
 - [pinia](/jsPackages/pinia.html)
 - [@reduxjs/toolkit](/jsPackages/@reduxjs-toolkit.html)
 - [lerna](/jsPackages/lerna/index.html)
-- [axios](/jsPackages/axios.html)
+- [axios](/jsPackages/axios/index.html)
 - [prop-types](/jsPackages/prop-types.html)
 - [ngrok](/jsPackages/ngrok.html)
 - [mkcert](/jsPackages/mkcert.html)

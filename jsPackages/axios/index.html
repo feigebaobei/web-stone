@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>&DiacriticalGrave;axios&DiacriticalGrave;</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="axios"><code>axios</code></h1>
+<h2 id="overview">overview</h2>
+<p>前端一种异步请求的方式。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>XMLHttpRequests</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>fetch</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>axios(promise+xhr/http(s))</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="feature">feature</h3>
+<ul>
+<li>从浏览器中发出 xhr</li>
+<li>在 node.js 中发出 http(s) 请求</li>
+<li>支持 promise</li>
+<li>支持打断请求和回馈</li>
+<li>可转换 request 和 response data</li>
+<li>可取消请求。（fetch 不可取消）</li>
+</ul>
+<h2 id="install">install</h2>
+<p><code>npm i axios</code></p>
+<h2 id="usage">usage</h2>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> axios = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;axios&#x27;</span>).<span class="hljs-property">default</span>
+axios.<span class="hljs-title function_">get</span>(url,
+    <span class="hljs-attr">params</span>: {
+        <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span>
+    }
+).<span class="hljs-title function_">then</span>(...).<span class="hljs-title function_">catch</span>(...)
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">fn</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">let</span> result = <span class="hljs-keyword">await</span> axios.<span class="hljs-title function_">post</span>(url, {
+        <span class="hljs-attr">key0</span>: <span class="hljs-string">&#x27;v0&#x27;</span>,
+        <span class="hljs-attr">key1</span>: <span class="hljs-string">&#x27;v1&#x27;</span>
+    })
+}
+
+<span class="hljs-comment">// 执行多个请求</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">getUserAccount</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">return</span> axios.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;/user/12345&#x27;</span>);
+}
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">getUserPermissions</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">return</span> axios.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;/user/12345/permissions&#x27;</span>);
+}
+<span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">all</span>([<span class="hljs-title function_">getUserAccount</span>(), <span class="hljs-title function_">getUserPermissions</span>()])
+  .<span class="hljs-title function_">then</span>(<span class="hljs-keyword">function</span> (<span class="hljs-params">results</span>) {
+    <span class="hljs-keyword">const</span> acct = results[<span class="hljs-number">0</span>];
+    <span class="hljs-keyword">const</span> perm = results[<span class="hljs-number">1</span>];
+  });
+
+<span class="hljs-comment">// 创建一个实例</span>
+<span class="hljs-comment">// axios.create([config])</span>
+<span class="hljs-keyword">let</span> instance = axios.<span class="hljs-title function_">create</span>({
+    <span class="hljs-attr">baseURL</span>: <span class="hljs-string">&#x27;http:www.xxx.com&#x27;</span>,
+    <span class="hljs-attr">timeout</span>: <span class="hljs-number">5000</span>,
+    <span class="hljs-attr">headers</span>: {
+        <span class="hljs-string">&#x27;key&#x27;</span>: <span class="hljs-string">&#x27;value&#x27;</span>
+    }
+})
+<span class="hljs-comment">// 实例的方法</span>
+axios#<span class="hljs-title function_">request</span>(config)
+axios#<span class="hljs-title function_">get</span>(url[, config])
+axios#<span class="hljs-title function_">delete</span>(url[, config])
+axios#<span class="hljs-title function_">head</span>(url[, config])
+axios#<span class="hljs-title function_">options</span>(url[, config])
+axios#<span class="hljs-title function_">post</span>(url[, data[, config]])
+axios#<span class="hljs-title function_">put</span>(url[, data[, config]])
+axios#<span class="hljs-title function_">patch</span>(url[, data[, config]])
+axios#<span class="hljs-title function_">getUri</span>([config])
+</code></pre>
+<p>支持用法：</p>
+<ul>
+<li>esm</li>
+<li>cjs</li>
+<li>script</li>
+</ul>
+<h2 id="configuration">configuration</h2>
+<p>没有配置文件。有配置项</p>
+<pre><code class="language-js"><span class="hljs-attr">config</span>: {
+    <span class="hljs-attr">url</span>: <span class="hljs-string">&#x27;/user&#x27;</span>,
+    <span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;get&#x27;</span>, <span class="hljs-comment">// default</span>
+    <span class="hljs-attr">baseURL</span>: <span class="hljs-string">&#x27;https://xxx&#x27;</span>,
+    <span class="hljs-attr">transformRequest</span>: [<span class="hljs-keyword">function</span> (<span class="hljs-params">data, headers</span>) {...}], <span class="hljs-comment">// 在&#x27;PUT&#x27;, &#x27;POST&#x27;, &#x27;PATCH&#x27; and &#x27;DELETE&#x27;时，发出请求前处理一次数据</span>
+    <span class="hljs-attr">transformResponse</span>: [<span class="hljs-keyword">function</span> (<span class="hljs-params">data</span>) {...}],
+    <span class="hljs-attr">header</span>: {<span class="hljs-string">&#x27;k&#x27;</span>: <span class="hljs-string">&#x27;v&#x27;</span>},
+    <span class="hljs-attr">params</span>: {<span class="hljs-string">&#x27;k&#x27;</span>: <span class="hljs-string">&#x27;v&#x27;</span>}, <span class="hljs-comment">// 发出get请求时把参数拼接到url中。</span>
+    <span class="hljs-attr">paramsSerializer</span>: <span class="hljs-keyword">function</span>(<span class="hljs-params">params</span>) {...}, <span class="hljs-comment">// serializing 查询字符串</span>
+    <span class="hljs-attr">data</span>: {<span class="hljs-string">&#x27;k&#x27;</span>: <span class="hljs-string">&#x27;v&#x27;</span>}, <span class="hljs-comment">// 发出&#x27;PUT&#x27;, &#x27;POST&#x27;, &#x27;DELETE , and &#x27;PATCH&#x27;请求时的参数</span>
+    <span class="hljs-attr">timeout</span>: <span class="hljs-number">5000</span>, <span class="hljs-comment">// 超时时间</span>
+    <span class="hljs-attr">withCredentials</span>: <span class="hljs-literal">false</span>, <span class="hljs-comment">// 跨域请求时是否带cookie</span>
+    <span class="hljs-attr">adapter</span>: <span class="hljs-keyword">function</span>(<span class="hljs-params">config</span>) {...}, <span class="hljs-comment">// 需要学习</span>
+    <span class="hljs-attr">auth</span>: {<span class="hljs-string">&#x27;k&#x27;</span>: <span class="hljs-string">&#x27;v&#x27;</span>}, <span class="hljs-comment">// 用于http的auth验证</span>
+    <span class="hljs-attr">ressponseType</span>: <span class="hljs-string">&#x27;json&#x27;</span>, <span class="hljs-comment">// default</span>
+    <span class="hljs-attr">responseEncoding</span>: <span class="hljs-string">&#x27;utf-8&#x27;</span>, <span class="hljs-comment">// default</span>
+    <span class="hljs-attr">xsrfCookieName</span>: <span class="hljs-string">&#x27;XSRF-TOKEN&#x27;</span>, <span class="hljs-comment">// 不会</span>
+    <span class="hljs-attr">xsrfHeaderName</span>: <span class="hljs-string">&#x27;X-XSRF-TOKEN&#x27;</span>, <span class="hljs-comment">// 不会</span>
+    <span class="hljs-attr">onUploadProgress</span>: <span class="hljs-keyword">function</span>(<span class="hljs-params">progressEvent</span>) {...}, <span class="hljs-comment">// 只在浏览器中支持，控制上传进程的控制器</span>
+    <span class="hljs-attr">onDownLoadProgress</span>: <span class="hljs-keyword">function</span>(<span class="hljs-params">progressEvent</span>) {...},
+    <span class="hljs-attr">maxCoutentLength</span>: <span class="hljs-number">2000</span>, <span class="hljs-comment">// 返回的最大数据</span>
+    <span class="hljs-attr">validateStatus</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params">status</span>) {...},
+    <span class="hljs-attr">maxRedirects</span>: <span class="hljs-number">21</span>, <span class="hljs-comment">// 最大重定向次数</span>
+    <span class="hljs-attr">beforeRedirect</span>: <span class="hljs-function">(<span class="hljs-params">options, {headers}</span>) =&gt;</span> {...},
+    <span class="hljs-attr">socketPath</span>: <span class="hljs-literal">null</span>, <span class="hljs-comment">// default 不会</span>
+    <span class="hljs-attr">httpAgent</span>: <span class="hljs-keyword">new</span> http.<span class="hljs-title class_">Agent</span>({<span class="hljs-attr">keepAlive</span>: <span class="hljs-literal">true</span>}), <span class="hljs-comment">// 默认是浏览器的agent. 若在node.js中使用，一般用于模拟浏览器请求</span>
+    <span class="hljs-attr">httsAgent</span>: <span class="hljs-keyword">new</span> http.<span class="hljs-title class_">Agent</span>({<span class="hljs-attr">keepAlive</span>: <span class="hljs-literal">true</span>}),
+    <span class="hljs-attr">proxy</span>: { <span class="hljs-comment">// 设置代理服务器</span>
+        <span class="hljs-attr">protocol</span>: <span class="hljs-string">&#x27;https&#x27;</span>,
+        <span class="hljs-attr">host</span>: <span class="hljs-string">&#x27;127.0.0.1&#x27;</span>,
+        <span class="hljs-attr">port</span>: <span class="hljs-number">9000</span>,
+        <span class="hljs-attr">auth</span>: {
+        <span class="hljs-attr">username</span>: <span class="hljs-string">&#x27;mikeymike&#x27;</span>,
+        <span class="hljs-attr">password</span>: <span class="hljs-string">&#x27;rapunz3l&#x27;</span>
+        }
+    },
+    <span class="hljs-attr">cancelToken</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">CancelToken</span>(<span class="hljs-keyword">function</span> (<span class="hljs-params">cancel</span>) {
+    }), <span class="hljs-comment">// 专用于取消请求的token</span>
+    <span class="hljs-attr">signal</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbortController</span>().<span class="hljs-property">signal</span>,
+    <span class="hljs-attr">decompress</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// default</span>
+    <span class="hljs-attr">insecureTHHPParser</span>: <span class="hljs-literal">undefined</span>, <span class="hljs-comment">// default 不会</span>
+    <span class="hljs-attr">transitional</span>: { <span class="hljs-comment">// 不会</span>
+        <span class="hljs-attr">silentJSONParsing</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// default value for the current Axios version</span>
+        <span class="hljs-comment">// try to parse the response string as JSON even if `responseType` is not &#x27;json&#x27;</span>
+        <span class="hljs-attr">forcedJSONParsing</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-comment">// throw ETIMEDOUT error instead of generic ECONNABORTED on request timeouts</span>
+        <span class="hljs-attr">clarifyTimeoutError</span>: <span class="hljs-literal">false</span>,
+    },
+    <span class="hljs-attr">env</span>: {
+         <span class="hljs-title class_">FormData</span>: <span class="hljs-variable language_">window</span>?.<span class="hljs-property">FormData</span> || <span class="hljs-variable language_">global</span>?.<span class="hljs-property">FormData</span> <span class="hljs-comment">// 自动序列化为FormData对象的payload</span>
+    },
+}
+</code></pre>
+<h3 id="配置默认值">配置默认值</h3>
+<pre><code>axios.default.baseURL = 'xxx'
+axios.default.headers.common['Authorization'] = axios.default.baseURL = AUTH_TOKEN
+</code></pre>
+<h3 id="自定义实例的默认值">自定义实例的默认值</h3>
+<pre><code>const instance = axios.create({
+  baseURL: 'https://api.example.com'
+});
+// Alter defaults after instance has been created
+instance.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+</code></pre>
+<h2 id="api">api</h2>
+<pre><code class="language-js"><span class="hljs-title function_">axios</span>({
+    <span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;post&#x27;</span>, <span class="hljs-comment">// 小写</span>
+    <span class="hljs-attr">url</span>: <span class="hljs-string">&#x27;/user/1234&#x27;</span>,
+    <span class="hljs-attr">data</span>: {
+        <span class="hljs-attr">k0</span>: <span class="hljs-string">&#x27;v0&#x27;</span>,
+        <span class="hljs-attr">k1</span>: <span class="hljs-string">&#x27;v1&#x27;</span>,
+    }
+})
+<span class="hljs-title function_">axios</span>(url[, config])
+axios.<span class="hljs-title function_">request</span>(config)
+axios.<span class="hljs-title function_">get</span>(url[, config])
+axios.<span class="hljs-title function_">post</span>(url[, config])
+axios.<span class="hljs-title function_">put</span>(url[, config])
+axios.<span class="hljs-title function_">delete</span>(url[, config])
+axios.<span class="hljs-title function_">head</span>(url[, config])
+axios.<span class="hljs-title function_">options</span>(url[, config])
+axios.<span class="hljs-title function_">patch</span>(url[, config])
+</code></pre>
+<h2 id="response-schema">response schema</h2>
+<pre><code class="language-js">{
+  <span class="hljs-attr">data</span>: {
+  }
+  <span class="hljs-attr">status</span>: <span class="hljs-number">200</span>
+  <span class="hljs-attr">statusText</span>: <span class="hljs-string">&#x27;OK&#x27;</span>
+  <span class="hljs-attr">headers</span>: {
+  }
+  <span class="hljs-attr">config</span>: {
+  }
+  <span class="hljs-attr">request</span>: {
+  }
+}
+</code></pre>
+<h2 id="interceptors">interceptors</h2>
+<pre><code class="language-js">axios.<span class="hljs-property">interceptors</span>.<span class="hljs-property">request</span>.<span class="hljs-title function_">use</span>(<span class="hljs-function">(<span class="hljs-params">config</span>) =&gt;</span> {
+    ...
+    <span class="hljs-keyword">return</span> config
+}, <span class="hljs-keyword">function</span> (<span class="hljs-params">error</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">reject</span>(error)
+})
+axios.<span class="hljs-property">interceptors</span>.<span class="hljs-property">response</span>.<span class="hljs-title function_">use</span>(<span class="hljs-function">(<span class="hljs-params">config</span>) =&gt;</span> {
+    ...
+    <span class="hljs-keyword">return</span> config
+}, <span class="hljs-keyword">function</span> (<span class="hljs-params">error</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">reject</span>(error)
+})
+<span class="hljs-comment">// 删除打断</span>
+<span class="hljs-keyword">let</span> myInterceptor = axios.<span class="hljs-property">interceptors</span>.<span class="hljs-property">request</span>.<span class="hljs-title function_">use</span>(<span class="hljs-function">() =&gt;</span> {...})
+axios.<span class="hljs-property">interceptors</span>.<span class="hljs-property">request</span>.<span class="hljs-title function_">eject</span>(myInterceptor)
+<span class="hljs-comment">// 删除实例的打断也类似</span>
+</code></pre>
+<ul>
+<li>每个 interceptor 都会执行</li>
+<li>按定义顺序执行</li>
+<li>只返回最后一个 interceptor 的结果</li>
+<li>每个 interceptor 接收前一个的结果</li>
+</ul>
+<h2 id="cancellation">cancellation</h2>
+<p>推荐<code>AbortController</code>.在 axios v0.22.0+ 支持。</p>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> controller = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbortController</span>()
+axios.<span class="hljs-title function_">get</span>(...).<span class="hljs-title function_">then</span>(...)
+<span class="hljs-title function_">controller</span>() <span class="hljs-comment">// 取消请求</span>
+</code></pre>
+<h2 id="使用-applicationx-www-form-urlencoded-格式">使用 application/x-www-form-urlencoded 格式</h2>
+<p>有下面多种方法</p>
+<h3 id="form-data">form data</h3>
+<p>在 v0.27.0 后支持设置了<code>header.Content-Type: multipart/form-data</code>会，自动序列化为 FormData 对象。</p>
+<pre><code>import axios from 'axios';
+axios.post('https://httpbin.org/post', {x: 1}, {
+  headers: {
+    'Content-Type': 'multipart/form-data'
+  }
+}).then(({data})=&gt; console.log(data));
+</code></pre>
+<h3 id="browser">browser</h3>
+<pre><code class="language-js"><span class="hljs-comment">// no.1</span>
+<span class="hljs-keyword">const</span> params = <span class="hljs-keyword">new</span> <span class="hljs-title class_">URLSearchParams</span>()
+params.<span class="hljs-title function_">append</span>(<span class="hljs-string">&#x27;key&#x27;</span>, <span class="hljs-string">&#x27;value&#x27;</span>)
+axios.<span class="hljs-title function_">post</span>(url, params)
+
+<span class="hljs-comment">// no.2</span>
+<span class="hljs-keyword">const</span> qs = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;qs&#x27;</span>)
+axios.<span class="hljs-title function_">post</span>(<span class="hljs-string">&#x27;/foo&#x27;</span>, qs.<span class="hljs-title function_">stringify</span>({ <span class="hljs-attr">bar</span>: <span class="hljs-number">123</span> }))
+
+<span class="hljs-comment">// no.3</span>
+<span class="hljs-keyword">import</span> qs <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;qs&#x27;</span>
+<span class="hljs-keyword">const</span> data = { <span class="hljs-attr">bar</span>: <span class="hljs-number">123</span> }
+<span class="hljs-keyword">const</span> options = {
+  <span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;POST&#x27;</span>,
+  <span class="hljs-attr">headers</span>: { <span class="hljs-string">&#x27;content-type&#x27;</span>: <span class="hljs-string">&#x27;application/x-www-form-urlencoded&#x27;</span> },
+  <span class="hljs-attr">data</span>: qs.<span class="hljs-title function_">stringify</span>(data),
+  url,
+}
+<span class="hljs-title function_">axios</span>(options)
+</code></pre>
+<h3 id="nodejs">node.js</h3>
+<pre><code class="language-js"><span class="hljs-comment">// no.1</span>
+<span class="hljs-keyword">const</span> querystring = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;querystring&#x27;</span>)
+axios.<span class="hljs-title function_">post</span>(<span class="hljs-string">&#x27;http://something.com/&#x27;</span>, querystring.<span class="hljs-title function_">stringify</span>({ <span class="hljs-attr">foo</span>: <span class="hljs-string">&#x27;bar&#x27;</span> }))
+
+<span class="hljs-comment">// no.2</span>
+<span class="hljs-keyword">const</span> url = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;url&#x27;</span>)
+<span class="hljs-keyword">const</span> params = <span class="hljs-keyword">new</span> url.<span class="hljs-title class_">URLSearchParams</span>({ <span class="hljs-attr">foo</span>: <span class="hljs-string">&#x27;bar&#x27;</span> })
+axios.<span class="hljs-title function_">post</span>(<span class="hljs-string">&#x27;http://something.com/&#x27;</span>, params.<span class="hljs-title function_">toString</span>())
+</code></pre>
+<h2 id="principle"><a href="/jsPackages/axios/principle.html">principle</a></h2>
+<h2 id="demo">demo</h2>
+<pre><code class="language-js"><span class="hljs-keyword">import</span> axios <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;axios&#x27;</span>
+<span class="hljs-keyword">import</span> md5 <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;md5&#x27;</span>
+<span class="hljs-keyword">import</span> createSimpleStore <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./simpleStore&#x27;</span>
+
+<span class="hljs-keyword">let</span> simpleStore = <span class="hljs-title function_">createSimpleStore</span>()
+
+<span class="hljs-keyword">let</span> instance = axios.<span class="hljs-title function_">create</span>({
+  <span class="hljs-comment">// baseURL: &#x27;http:www.xxx.com&#x27;,</span>
+  <span class="hljs-comment">// 用于各种后端接口，所以不适合设置baseURL</span>
+  <span class="hljs-attr">timeout</span>: <span class="hljs-number">5000</span>,
+  <span class="hljs-attr">headers</span>: {
+    <span class="hljs-comment">// &#x27;key&#x27;: &#x27;value&#x27;</span>
+  },
+})
+<span class="hljs-keyword">let</span> myInterceptor = instance.<span class="hljs-property">interceptors</span>.<span class="hljs-property">request</span>.<span class="hljs-title function_">use</span>(
+  <span class="hljs-function">(<span class="hljs-params">config</span>) =&gt;</span> {
+    <span class="hljs-comment">// 取消重复请求</span>
+    <span class="hljs-keyword">let</span> hashStr = <span class="hljs-title function_">md5</span>({
+      <span class="hljs-attr">url</span>: config.<span class="hljs-property">url</span>,
+      <span class="hljs-attr">method</span>: config.<span class="hljs-property">method</span>,
+      <span class="hljs-attr">params</span>: config.<span class="hljs-property">params</span>,
+      <span class="hljs-attr">data</span>: config.<span class="hljs-property">data</span>,
+    })
+    <span class="hljs-keyword">if</span> (simpleStore.<span class="hljs-title function_">isExist</span>(hashStr)) {
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">return</span> config
+    }
+  },
+  <span class="hljs-keyword">function</span> (<span class="hljs-params">error</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">reject</span>(error)
+  }
+)
+instance.<span class="hljs-property">interceptors</span>.<span class="hljs-property">response</span>.<span class="hljs-title function_">use</span>(
+  <span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+    <span class="hljs-keyword">let</span> hashStr = <span class="hljs-title function_">md5</span>({
+      <span class="hljs-attr">url</span>: res.<span class="hljs-property">config</span>.<span class="hljs-property">url</span>,
+      <span class="hljs-attr">method</span>: res.<span class="hljs-property">config</span>.<span class="hljs-property">method</span>,
+      <span class="hljs-attr">params</span>: res.<span class="hljs-property">config</span>.<span class="hljs-property">params</span>,
+      <span class="hljs-attr">data</span>: res.<span class="hljs-property">config</span>.<span class="hljs-property">data</span>,
+    })
+    simpleStore.<span class="hljs-title function_">remove</span>(hashStr)
+    <span class="hljs-keyword">if</span> (res.<span class="hljs-property">status</span> === <span class="hljs-number">200</span>) {
+      <span class="hljs-keyword">return</span> res.<span class="hljs-property">data</span>
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">reject</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&#x27;请求出错&#x27;</span>))
+    }
+  },
+  <span class="hljs-keyword">function</span> (<span class="hljs-params">error</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">reject</span>(error)
+  }
+)
+<span class="hljs-comment">// let cancelRequest = () =&gt; {</span>
+<span class="hljs-comment">//     axios.interceptors.request.eject(myInterceptor)</span>
+<span class="hljs-comment">// }</span>
+
+<span class="hljs-keyword">export</span> {
+  instance,
+  <span class="hljs-comment">// 强制取消请求</span>
+  <span class="hljs-comment">// cancelRequest</span>
+}
+</code></pre>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">createSimpleStore</span> = (<span class="hljs-params"></span>) =&gt; {
+  <span class="hljs-keyword">let</span> simpleStore = {
+    <span class="hljs-attr">value</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>(),
+    <span class="hljs-attr">isExist</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params">v</span>) {
+      <span class="hljs-keyword">return</span> simpleStore.<span class="hljs-property">value</span>.<span class="hljs-title function_">has</span>(v)
+    },
+    <span class="hljs-attr">add</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params">v</span>) {
+      simpleStore.<span class="hljs-property">value</span>.<span class="hljs-title function_">add</span>(v)
+    },
+    <span class="hljs-attr">remove</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params">v</span>) {
+      simpleStore.<span class="hljs-property">value</span>.<span class="hljs-title function_">delete</span>(v)
+    },
+  }
+  <span class="hljs-keyword">return</span> simpleStore
+}
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> createSimpleStore
+</code></pre>
+<h2 id="todo">todo</h2>
+<p>如何实现特定功能的。
+如使用 promise 实现的。
+如何实现简写（别名）的
+可以匿名的地方也使用具名函数编写。（如：回调函数）
+文件结构
+uml.
+类图</p>
+<p>如何使用简写。</p>
+
+        
+        
+    </body>
+    </html>

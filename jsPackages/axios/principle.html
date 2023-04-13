@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>principle</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h2 id="principle">principle</h2>
+<p>输出了多个东西。平时只使用了主要的。<br>
+平时用不到。作者有使用文档中也没写如何使用已经输出的其他东西。都已经不使用了，为什么还输出呢？
+<code>import defaults from './defaults/index.js';</code>是默认配置文件。使用了<code>*.js</code>，而非<code>*.json</code>。<br>
+全项目使用 js 开发。非 ts,在 ts 项目使用此包会有类型问题。<br>
+<code>axios</code>是<code>Axios</code>的实例。
+<code>axios.Axios = Axios;</code>外国人总喜欢使用这种环。可能是为了文件引用。<br>
+打包工具： rollup/webpack</p>
+<pre><code class="language-js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Axios</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">instanceConfig</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">defaults</span> = instanceConfig <span class="hljs-comment">// 这里设置了默认配置项</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">interceptors</span> = {
+      <span class="hljs-comment">// 这是设置了打断器</span>
+      <span class="hljs-attr">request</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">InterceptorManager</span>(),
+      <span class="hljs-attr">response</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">InterceptorManager</span>(),
+    }
+  }
+  <span class="hljs-title function_">request</span>(<span class="hljs-params"></span>) {} <span class="hljs-comment">// 它是做什么的</span>
+  <span class="hljs-comment">// 经过处理配置信息</span>
+  <span class="hljs-comment">// 验证配置信息</span>
+  <span class="hljs-comment">// 处理请求头</span>
+  <span class="hljs-comment">// 把请求打断器和回馈打断器分别放在2个组件中。</span>
+  <span class="hljs-comment">// 使用</span>
+  <span class="hljs-title function_">getUri</span>(<span class="hljs-params"></span>) {}
+}
+</code></pre>
+<p>很多功能、服务、方法都是在 init 时从类似配置文件中取出配置项再与程序员设计的配置项相结合，再初始化。</p>
+<pre><code class="language-js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">InterceptorManager</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">helpers</span> = []
+  }
+  <span class="hljs-title function_">use</span>(<span class="hljs-params">fulfilled, rejected, options</span>) {} <span class="hljs-comment">// 挂载的。把数据添加helpers中。vue就是使用此方法挂载插件的。</span>
+  <span class="hljs-comment">// 还有第三个参数。文档中也不说明它。</span>
+  <span class="hljs-title function_">eject</span>(<span class="hljs-params">id</span>) {} <span class="hljs-comment">// 从hlepers中删除指定的数据</span>
+  <span class="hljs-title function_">clear</span>(<span class="hljs-params"></span>) {} <span class="hljs-comment">// 清空helpers</span>
+  <span class="hljs-title function_">forEach</span>(<span class="hljs-params"></span>) {} <span class="hljs-comment">// 执行全部helpers中的数据、方法</span>
+}
+</code></pre>
+<p><code>import AxiosError from '../core/AxiosError.js';</code>是封装的错误对象
+作者封装了错误对象。错误信息中包括</p>
+<pre><code class="language-js">message
+name
+stack
+code
+config
+request
+response
+</code></pre>
+<p>需要一个包括更多有关该信息在错误对象中。所以封装了该对象。我在我项目也可以这样做。<br>
+又在原型链上。
+<code>import validator from '../helpers/validator.js';</code>是验证文件。若验证出错，则使用封装的错误对象抛出错误。
+<code>import CanceledError from '../cancel/CanceledError.js';</code>是基于 AxiosError 封装的取消请求时的错误
+内部与 AbortController 对象结合使用。<br>
+<code>import AxiosHeaders from '../core/AxiosHeaders.js';</code>是</p>
+<pre><code class="language-js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">AxiosHeaders</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">headers</span>) {
+    headers &amp;&amp; <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">set</span>(headers);
+  }
+  <span class="hljs-title function_">set</span>(<span class="hljs-params"></span>) {} <span class="hljs-comment">// 设置头后，返回this. 这是常用的链模式</span>
+  <span class="hljs-title function_">get</span>(<span class="hljs-params"></span>) {} <span class="hljs-comment">// 返回头中的指定字段</span>
+  <span class="hljs-title function_">has</span>(<span class="hljs-params"></span>) {} <span class="hljs-comment">// 返回是否存在指定头字段</span>
+  <span class="hljs-title function_">delete</span>(<span class="hljs-params"></span>) {} <span class="hljs-comment">// 返回是否删除的指定头</span>
+  <span class="hljs-title function_">clear</span>(<span class="hljs-params"></span>) {} <span class="hljs-comment">//</span>
+  <span class="hljs-title function_">normalize</span>(<span class="hljs-params"></span>) {} <span class="hljs-comment">// 序列化</span>
+  <span class="hljs-title function_">concat</span>(<span class="hljs-params"></span>) {} <span class="hljs-comment">//</span>
+  <span class="hljs-title function_">toJSON</span>(<span class="hljs-params"></span>) {} <span class="hljs-comment">// 返回反序列化</span>
+  [<span class="hljs-title class_">Symbol</span>.<span class="hljs-property">iterator</span>]() {} <span class="hljs-comment">// 基于反序列化后使用</span>
+  <span class="hljs-title function_">toString</span>(<span class="hljs-params"></span>) {} <span class="hljs-comment">// 序列化</span>
+  get [<span class="hljs-title class_">Symbol</span>.<span class="hljs-property">toStringTag</span>]() {} <span class="hljs-comment">// 覆盖原型方法</span>
+  <span class="hljs-keyword">static</span> <span class="hljs-keyword">from</span> <span class="hljs-comment">// 是否是实例</span>
+  <span class="hljs-keyword">static</span> <span class="hljs-title function_">concat</span>(first, ...targets) <span class="hljs-comment">// 添加头后返回实例</span>
+  <span class="hljs-keyword">static</span> accessor <span class="hljs-comment">// 记录是否访问过。key是序列化后的header</span>
+}
+</code></pre>
+<p><code>import adapters from &quot;../adapters/adapters.js&quot;;</code>中使用 2 个适配器：http/xhr<br>
+使用映射表判断使用哪个适配器。<br>
+最后返回指定的适配器，它是一个请求方法。
+<code>import dispatchRequest from './dispatchRequest.js';</code>会触发请求。
+使用正确的请求方法请求。
+若请求数据成功，则经过转换数据后返回数据。否则返回经过转换数据后经过包装后返回数据。
+全程使用 promise 处理。</p>
+<p><code>import httpAdapter from './http.js';</code>
+依赖 http/https。使用该包请求。
+可能使用了它们才使得 axios 可以在服务端使用。<br>
+使用了自定义事件处理。</p>
+<p><code>import xhrAdapter from './xhr.js';</code>
+使用 promise+xhr 实现请求+链式调用。</p>
+<h3 id="运行的顺序图">运行的顺序图。</h3>
+<h3 id="目录结构">目录结构</h3>
+<pre><code>&lt;root&gt;
+|-- bin
+|-- dist
+|-- examples
+|-- lib
+    |-- core
+    |-- axios.js
+    |-- utils.js
+    |-- lib
+    |-- lib
+    |-- lib
+    |-- lib
+    |-- lib
+    |-- lib
+|-- sandbox
+|-- templates
+|-- test
+|-- index.js
+|-- package.json
+|-- readme.md
+|-- rollup.config.js
+|-- tsconfig.json
+|-- webpack.config.js
+|-- xxx
+|-- xxx
+</code></pre>
+<p>是否可以 use 多个？</p>
+<h3 id="uml">uml</h3>
+<pre><code>
+</code></pre>
+
+        
+        
+    </body>
+    </html>
