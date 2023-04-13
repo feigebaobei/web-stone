@@ -7,12 +7,12 @@
 |-|-|-|-|
 |XMLHttpRequests||||
 |fetch||||
-|axios(promise)||||
+|axios(promise+xhr/http(s))||||
 
 ### feature
 
 - 从浏览器中发出 xhr
-- 在 node.js 中发现 http 请求
+- 在 node.js 中发出 http(s) 请求
 - 支持 promise
 - 支持打断请求和回馈
 - 可转换 request 和 response data
@@ -38,6 +38,19 @@ async function fn() {
     })
 }
 
+// 执行多个请求
+function getUserAccount() {
+  return axios.get('/user/12345');
+}
+function getUserPermissions() {
+  return axios.get('/user/12345/permissions');
+}
+Promise.all([getUserAccount(), getUserPermissions()])
+  .then(function (results) {
+    const acct = results[0];
+    const perm = results[1];
+  });
+
 // 创建一个实例
 // axios.create([config])
 let instance = axios.create({
@@ -58,6 +71,12 @@ axios#put(url[, data[, config]])
 axios#patch(url[, data[, config]])
 axios#getUri([config])
 ```
+
+支持用法：
+
+- esm
+- cjs
+- script
 
 ## configuration
 
@@ -494,6 +513,12 @@ export default createSimpleStore
 
 ## todo
 
+如何实现特定功能的。
 如使用 promise 实现的。
+如何实现简写（别名）的
 可以匿名的地方也使用具名函数编写。（如：回调函数）
+文件结构
+uml.
+类图
+
 如何使用简写。
