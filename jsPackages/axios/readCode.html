@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>&#x8bfb;&#x6e90;&#x7801;</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="读源码">读源码</h1>
+<h2 id="readmemd"><a href="http://readme.html">readme.md</a></h2>
+<p>的内容与npm网站上的内容相同。忽略，不看它了。</p>
+<h2 id="packagejson">package.json</h2>
+<ul>
+<li>使用<code>gulp</code>/<code>rollup</code>执行任务、打包。</li>
+<li>使用<code>eslint</code>/<code>husky</code>做规范化管理。</li>
+<li>使用<code>karma</code>/<code>mocha</code>做测试</li>
+<li>依赖了<code>typescript</code>，但是发现好多<code>*.js</code>文件，未发现<code>*.ts</code></li>
+<li>还有好多脚本使用node运行<code>*.js</code>。不看具体代码无法知道内部逻辑。</li>
+<li>执行<code>npm run build</code>时调用rollup打包</li>
+</ul>
+<h2 id="rollupconfigjs">rollup.config.js</h2>
+<p>以<code>./lib/axios.js</code>为入口，输出了esm/umd/cjs，三种结果。</p>
+<h2 id="libaxiosjs">./lib/axios.js</h2>
+<p><code>lib</code>目录一般放命令行代码。源代码放在<code>src</code>目录下。
+输出了<code>axios</code>变量，它是<code>createInstance()</code>的返回值。该方法内实例化<code>Axios</code>，再经过绑定this后返回实例。</p>
+<h2 id="coreaxiosjs">./core/Axios.js</h2>
+<p>这是Axios类文件。</p>
+<pre><code class="language-ts"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Axios</span> {
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params">instanceConfig</span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">defaults</span> = instanceConfig;
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">interceptors</span> = {
+            <span class="hljs-attr">request</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">InterceptorManager</span>(), <span class="hljs-comment">// /InterceptorManager.js</span>
+            <span class="hljs-attr">response</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">InterceptorManager</span>()
+        };
+    }
+    <span class="hljs-title function_">request</span>(<span class="hljs-params">configOrUrl, config</span>) {} <span class="hljs-comment">// 这是一个主要方法。它返回一个Promise对象。就是这个返回值使axios实现了链式调用。</span>
+    <span class="hljs-comment">// </span>
+    <span class="hljs-title function_">getUri</span>(<span class="hljs-params">config</span>) {}
+}
+</code></pre>
+<h3 id="什么时候调用request">什么时候调用request()</h3>
+<p>使用默认该包的默认输出时调用。</p>
+<h3 id="为什么这么写const-instance--bindaxiosprototyperequest-context">为什么这么写<code>const instance = bind(Axios.prototype.request, context);</code></h3>
+<p>它是为request()方法设置了this对象。
+我觉得它不是好写法。应该使用实例化的方式编写。</p>
+<h3 id="细聊requestconfigorurl-config">细聊request(configOrUrl, config)</h3>
+<p>该方法接收2个参数。未使用es6的rest方法。</p>
+<pre><code class="language-js"><span class="hljs-title function_">request</span>(<span class="hljs-params">configOrUrl, config</span>) {
+    <span class="hljs-comment">// ...</span>
+    config = <span class="hljs-title function_">mergeConfig</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">defaults</span>, config); <span class="hljs-comment">// 得到合并后的配置对象。就是在这里实现了当前配置项的优先级大于默认配置项。</span>
+    <span class="hljs-comment">// ... // 校验配置项</span>
+    config.<span class="hljs-property">method</span> = (config.<span class="hljs-property">method</span> || <span class="hljs-variable language_">this</span>.<span class="hljs-property">defaults</span>.<span class="hljs-property">method</span> || <span class="hljs-string">&#x27;get&#x27;</span>).<span class="hljs-title function_">toLowerCase</span>(); <span class="hljs-comment">// 把不规范的配置项转化为规范的。   </span>
+    <span class="hljs-comment">// ...</span>
+}
+</code></pre>
+<p>然后停下先看下面的类</p>
+<h3 id="interceptormanagerjs">./InterceptorManager.js</h3>
+<p>它是打断器管理者</p>
+<pre><code class="language-js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">InterceptorManager</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">handlers</span> = [];                 <span class="hljs-comment">// 打断器的容器</span>
+  }
+  <span class="hljs-title function_">use</span>(<span class="hljs-params">fulfilled, rejected, options</span>) {}  <span class="hljs-comment">// 添加一个打断器</span>
+  <span class="hljs-title function_">eject</span>(<span class="hljs-params">id</span>) {}                          <span class="hljs-comment">// 删除指定的打断器</span>
+  <span class="hljs-title function_">clear</span>(<span class="hljs-params"></span>) {}                            <span class="hljs-comment">// 清除所有打断器</span>
+  <span class="hljs-title function_">forEach</span>(<span class="hljs-params">fn</span>) {}                        <span class="hljs-comment">// 使用fn()执行所有打断器</span>
+}
+</code></pre>
+<p>它就是一个简单的store</p>
+<h3 id="再细聊requestconfigorurl-config">再细聊request(configOrUrl, config)</h3>
+<pre><code class="language-js"><span class="hljs-title function_">request</span>(<span class="hljs-params">...</span>) {
+    <span class="hljs-comment">// ...</span>
+    <span class="hljs-keyword">const</span> requestInterceptorChain = []; <span class="hljs-comment">// 保存请求打断器的数组</span>
+    <span class="hljs-keyword">let</span> synchronousRequestInterceptors = <span class="hljs-literal">true</span>;
+    <span class="hljs-comment">// 这种写法支持调用多次 instance.interceptors.request.use()</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">interceptors</span>.<span class="hljs-property">request</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-keyword">function</span> <span class="hljs-title function_">unshiftRequestInterceptors</span>(<span class="hljs-params">interceptor</span>) {
+      <span class="hljs-comment">// 遇到同步方法则返回</span>
+      <span class="hljs-comment">// 若runWhen是方法且运行后返回false，则跳过。</span>
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> interceptor.<span class="hljs-property">runWhen</span> === <span class="hljs-string">&#x27;function&#x27;</span> &amp;&amp; interceptor.<span class="hljs-title function_">runWhen</span>(config) === <span class="hljs-literal">false</span>) {
+        <span class="hljs-keyword">return</span>;
+      }
+      synchronousRequestInterceptors = synchronousRequestInterceptors &amp;&amp; interceptor.<span class="hljs-property">synchronous</span>; <span class="hljs-comment">// 有一个为真，则真。否则为假。</span>
+      requestInterceptorChain.<span class="hljs-title function_">unshift</span>(interceptor.<span class="hljs-property">fulfilled</span>, interceptor.<span class="hljs-property">rejected</span>);     <span class="hljs-comment">// 在请求打断器的数组中前置保存一对then、catch的回调方法</span>
+    });
+
+    <span class="hljs-keyword">const</span> responseInterceptorChain = []; <span class="hljs-comment">// 保存回馈打断器的数组</span>
+    <span class="hljs-comment">// 同理。支持调用多次 instance.interceptors.response.use()</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">interceptors</span>.<span class="hljs-property">response</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-keyword">function</span> <span class="hljs-title function_">pushResponseInterceptors</span>(<span class="hljs-params">interceptor</span>) {
+      responseInterceptorChain.<span class="hljs-title function_">push</span>(interceptor.<span class="hljs-property">fulfilled</span>, interceptor.<span class="hljs-property">rejected</span>);     <span class="hljs-comment">// 同理。在回馈打断器的数组中追加保存一对then、catch的回调方法</span>
+    });
+
+    <span class="hljs-keyword">let</span> promise;
+    <span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">let</span> len;
+    <span class="hljs-comment">// 同步处理config</span>
+    <span class="hljs-keyword">if</span> (!synchronousRequestInterceptors) {
+      <span class="hljs-comment">// 这里使用了巧妙的方法组装请求打断器、回馈打断器。</span>
+      <span class="hljs-keyword">const</span> chain = [dispatchRequest.<span class="hljs-title function_">bind</span>(<span class="hljs-variable language_">this</span>), <span class="hljs-literal">undefined</span>];
+      chain.<span class="hljs-property">unshift</span>.<span class="hljs-title function_">apply</span>(chain, requestInterceptorChain); <span class="hljs-comment">// 数组前半部分是请求打断器，后半部分是回馈打断器</span>
+      chain.<span class="hljs-property">push</span>.<span class="hljs-title function_">apply</span>(chain, responseInterceptorChain);
+      len = chain.<span class="hljs-property">length</span>;
+      <span class="hljs-comment">// 然后链式调用。</span>
+      promise = <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">resolve</span>(config);
+      <span class="hljs-keyword">while</span> (i &lt; len) {
+        promise = promise.<span class="hljs-title function_">then</span>(chain[i++], chain[i++]); <span class="hljs-comment">// 上面成对放入数组，现在成对从数组中取出</span>
+      }
+      <span class="hljs-keyword">return</span> promise;
+    }
+
+    len = requestInterceptorChain.<span class="hljs-property">length</span>;
+    <span class="hljs-keyword">let</span> newConfig = config;
+    i = <span class="hljs-number">0</span>;
+    <span class="hljs-comment">// 异步处理config</span>
+    <span class="hljs-keyword">while</span> (i &lt; len) {
+      <span class="hljs-keyword">const</span> onFulfilled = requestInterceptorChain[i++]; <span class="hljs-comment">// 又是成对取出</span>
+      <span class="hljs-keyword">const</span> onRejected = requestInterceptorChain[i++];
+      <span class="hljs-keyword">try</span> {
+        newConfig = <span class="hljs-title function_">onFulfilled</span>(newConfig); <span class="hljs-comment">// 被请求打断器处理过的适配器</span>
+      } <span class="hljs-keyword">catch</span> (error) {
+        onRejected.<span class="hljs-title function_">call</span>(<span class="hljs-variable language_">this</span>, error);
+        <span class="hljs-keyword">break</span>;
+      }
+    }
+
+    <span class="hljs-keyword">try</span> {
+      promise = dispatchRequest.<span class="hljs-title function_">call</span>(<span class="hljs-variable language_">this</span>, newConfig); <span class="hljs-comment">// 该方法分情况（xhr+promise / http）发出请求。</span>
+    <span class="hljs-comment">//   就是在这里发出请求的。</span>
+    } <span class="hljs-keyword">catch</span> (error) {
+      <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">reject</span>(error);
+    }
+
+    i = <span class="hljs-number">0</span>;
+    len = responseInterceptorChain.<span class="hljs-property">length</span>;
+    <span class="hljs-comment">// 依次使用回馈打断器处理回馈结果</span>
+    <span class="hljs-keyword">while</span> (i &lt; len) {
+      promise = promise.<span class="hljs-title function_">then</span>(responseInterceptorChain[i++], responseInterceptorChain[i++]);
+    }
+
+    <span class="hljs-keyword">return</span> promise; <span class="hljs-comment">// 返回结果</span>
+}
+</code></pre>
+<p><code>requestInterceptorChain</code>、<code>responseInterceptorChain</code>分别保存了请求打断方法、回馈打断方法。
+读到这里，axios的主要部分就读完了。</p>
+<h2 id="如何实现功能缩写">如何实现功能缩写</h2>
+<p>如<code>axios.get(...)</code>/<code>axios.post(...)</code>/<code>axios.put(...)</code></p>
+<pre><code class="language-js"><span class="hljs-comment">// Provide aliases for supported request methods</span>
+utils.<span class="hljs-title function_">forEach</span>([<span class="hljs-string">&#x27;delete&#x27;</span>, <span class="hljs-string">&#x27;get&#x27;</span>, <span class="hljs-string">&#x27;head&#x27;</span>, <span class="hljs-string">&#x27;options&#x27;</span>], <span class="hljs-keyword">function</span> <span class="hljs-title function_">forEachMethodNoData</span>(<span class="hljs-params">method</span>) {
+  <span class="hljs-comment">/*eslint func-names:0*/</span>
+  <span class="hljs-title class_">Axios</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>[method] = <span class="hljs-keyword">function</span>(<span class="hljs-params">url, config</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">request</span>(<span class="hljs-title function_">mergeConfig</span>(config || {}, {
+      method,
+      url,
+      <span class="hljs-attr">data</span>: (config || {}).<span class="hljs-property">data</span>
+    }));
+  };
+});
+<span class="hljs-comment">// ...</span>
+</code></pre>
+<h2 id="utilsjs">./utils.js</h2>
+<p>这里封装了好多工具方法。
+下面说几个源码中常用的方法。</p>
+<pre><code class="language-js"><span class="hljs-comment">// 把origin的属性赋值给target</span>
+utils.<span class="hljs-title function_">extend</span>(target, origin, thisArg, option)
+</code></pre>
+<h2 id="如何实现axioscreate">如何实现<code>axios.create()</code></h2>
+<pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">createInstance</span>(<span class="hljs-params">defaultConfig</span>) {
+  <span class="hljs-keyword">const</span> context = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Axios</span>(defaultConfig);
+  <span class="hljs-keyword">const</span> instance = <span class="hljs-title function_">bind</span>(<span class="hljs-title class_">Axios</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">request</span>, context);
+  <span class="hljs-comment">// Copy axios.prototype to instance</span>
+  utils.<span class="hljs-title function_">extend</span>(instance, <span class="hljs-title class_">Axios</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>, context, {<span class="hljs-attr">allOwnKeys</span>: <span class="hljs-literal">true</span>});
+  <span class="hljs-comment">// Copy context to instance</span>
+  utils.<span class="hljs-title function_">extend</span>(instance, context, <span class="hljs-literal">null</span>, {<span class="hljs-attr">allOwnKeys</span>: <span class="hljs-literal">true</span>});
+  <span class="hljs-comment">// Factory for creating new instances</span>
+  instance.<span class="hljs-property">create</span> = <span class="hljs-keyword">function</span> <span class="hljs-title function_">create</span>(<span class="hljs-params">instanceConfig</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-title function_">createInstance</span>(<span class="hljs-title function_">mergeConfig</span>(defaultConfig, instanceConfig));
+  };
+  <span class="hljs-keyword">return</span> instance;
+}
+</code></pre>
+<p>这个方法的返回值就是该包的默认输出值。调用<code>axios.create()</code>时会使用当前配置项生成一个Axios的实例。</p>
+<h2 id="mergeconfigjs">./mergeConfig.js</h2>
+<p>功能是把二个配置对象合并为一个。
+未细读。
+为什么不使用<code>Object.assign()</code>/<code>Object.create()</code>/深复制的方法呢？</p>
+<h2 id="dispatchrequestjs">./dispatchRequest.js</h2>
+<p>它是一个适配文件。
+使用了适配器模式。</p>
+<pre><code class="language-js"><span class="hljs-title function_">dispatchRequest</span>(<span class="hljs-params">config</span>) {
+    <span class="hljs-title function_">throwIfCancellationRequested</span>(config) <span class="hljs-comment">// 这是一个检测参数的方法。</span>
+    <span class="hljs-comment">// 作者在这个方法中使用了基于Error封装出来的错误对象。</span>
+    <span class="hljs-comment">// ...</span>
+    <span class="hljs-keyword">const</span> adapter = adapters.<span class="hljs-title function_">getAdapter</span>(config.<span class="hljs-property">adapter</span> || defaults.<span class="hljs-property">adapter</span>); <span class="hljs-comment">// 得到请求方法。</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-title function_">adapter</span>(config).<span class="hljs-title function_">then</span>(<span class="hljs-keyword">function</span> <span class="hljs-title function_">onAdapterResolution</span>(<span class="hljs-params">response</span>) {
+    <span class="hljs-title function_">throwIfCancellationRequested</span>(config);
+
+    response.<span class="hljs-property">data</span> = transformData.<span class="hljs-title function_">call</span>( <span class="hljs-comment">// 封装回馈结果</span>
+      config,
+      config.<span class="hljs-property">transformResponse</span>,
+      response
+    );
+    response.<span class="hljs-property">headers</span> = <span class="hljs-title class_">AxiosHeaders</span>.<span class="hljs-title function_">from</span>(response.<span class="hljs-property">headers</span>);
+    <span class="hljs-keyword">return</span> response;
+  }, <span class="hljs-keyword">function</span> <span class="hljs-title function_">onAdapterRejection</span>(<span class="hljs-params">reason</span>) {
+    <span class="hljs-keyword">if</span> (!<span class="hljs-title function_">isCancel</span>(reason)) {
+      <span class="hljs-title function_">throwIfCancellationRequested</span>(config);
+      <span class="hljs-keyword">if</span> (reason &amp;&amp; reason.<span class="hljs-property">response</span>) {
+        reason.<span class="hljs-property">response</span>.<span class="hljs-property">data</span> = transformData.<span class="hljs-title function_">call</span>(
+          config,
+          config.<span class="hljs-property">transformResponse</span>,
+          reason.<span class="hljs-property">response</span>
+        );
+        reason.<span class="hljs-property">response</span>.<span class="hljs-property">headers</span> = <span class="hljs-title class_">AxiosHeaders</span>.<span class="hljs-title function_">from</span>(reason.<span class="hljs-property">response</span>.<span class="hljs-property">headers</span>);
+      }
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">reject</span>(reason);
+  });
+}
+</code></pre>
+<h3 id="adaptersadaptersjs">../adapters/adapters.js</h3>
+<p>这是真正的适配器</p>
+<pre><code class="language-js">
+<span class="hljs-keyword">const</span> knownAdapters = {
+  <span class="hljs-attr">http</span>: httpAdapter, <span class="hljs-comment">// 基于http、https封装的方法。用于node.js环境请求接口。</span>
+  <span class="hljs-attr">xhr</span>: xhrAdapter    <span class="hljs-comment">// 基于XMLHttpRequest对象和Promise封装的方法。用于browser环境请求接口。</span>
+}
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  <span class="hljs-attr">getAdapter</span>: <span class="hljs-function">(<span class="hljs-params">adapters</span>) =&gt;</span> {
+    adapters = utils.<span class="hljs-title function_">isArray</span>(adapters) ? adapters : [adapters];
+    <span class="hljs-keyword">const</span> {length} = adapters;
+    <span class="hljs-keyword">let</span> nameOrAdapter;
+    <span class="hljs-keyword">let</span> adapter;
+    <span class="hljs-comment">// ... // 一堆校验方法</span>
+    <span class="hljs-keyword">return</span> adapter;
+  },
+  <span class="hljs-attr">adapters</span>: knownAdapters
+}
+</code></pre>
+<h3 id="transformdatajs">./transformData.js</h3>
+<p>它是封装回馈数据的方法</p>
+<pre><code class="language-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">transformData</span>(<span class="hljs-params">fns, response</span>) {
+  <span class="hljs-keyword">const</span> config = <span class="hljs-variable language_">this</span> || defaults;
+  <span class="hljs-keyword">const</span> context = response || config;
+  <span class="hljs-keyword">const</span> headers = <span class="hljs-title class_">AxiosHeaders</span>.<span class="hljs-title function_">from</span>(context.<span class="hljs-property">headers</span>);
+  <span class="hljs-keyword">let</span> data = context.<span class="hljs-property">data</span>;
+
+  utils.<span class="hljs-title function_">forEach</span>(fns, <span class="hljs-keyword">function</span> <span class="hljs-title function_">transform</span>(<span class="hljs-params">fn</span>) {
+    data = fn.<span class="hljs-title function_">call</span>(config, data, headers.<span class="hljs-title function_">normalize</span>(), response ? response.<span class="hljs-property">status</span> : <span class="hljs-literal">undefined</span>);
+  });
+
+  headers.<span class="hljs-title function_">normalize</span>();
+
+  <span class="hljs-keyword">return</span> data;
+}
+</code></pre>
+<h2 id="如果让我做默认配置项当前配置项的优先级如何实现">如果让我做默认配置项、当前配置项的优先级，如何实现？</h2>
+<ul>
+<li>使用原型链、对象委托、类继承。</li>
+<li>使用链式数据。</li>
+</ul>
+<pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">A</span> (config = <span class="hljs-literal">null</span>) {
+    <span class="hljs-comment">// ...</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">_config</span> = config
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">getConfig</span> = <span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">_config</span> || <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span>
+    }
+}
+A.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">config</span> = defaultConfig
+
+<span class="hljs-keyword">let</span> B = {
+    <span class="hljs-attr">config</span>: defaultConfig
+}
+<span class="hljs-keyword">let</span> C = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">assign</span>(B, {
+    <span class="hljs-attr">config</span>: curConfig
+})
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">C</span> {
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params">defaultConfig</span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">defaultConfig</span> = defaultConfig
+    }
+}
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">D</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">C</span> {
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params">config</span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span> = config
+    }
+    <span class="hljs-title function_">getConfig</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span> || <span class="hljs-variable language_">this</span>.<span class="hljs-property">defaultConfig</span>
+    }
+}
+
+<span class="hljs-keyword">let</span> chain = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Chain</span>()
+chain.<span class="hljs-title function_">append</span>(defaultConfig)
+chain.<span class="hljs-title function_">append</span>(config)
+<span class="hljs-keyword">let</span> r = {}
+<span class="hljs-keyword">let</span> cur = chain.<span class="hljs-property">head</span>
+<span class="hljs-keyword">while</span> (cur) {
+    r = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">assign</span>(r, cur.<span class="hljs-property">value</span>)
+    cur = cur.<span class="hljs-property">next</span>
+}
+</code></pre>
+<h2 id="未暴露的方法">未暴露的方法</h2>
+<pre><code class="language-js"><span class="hljs-comment">// fulfilled 触发then方法</span>
+<span class="hljs-comment">// rejected  触发then方法</span>
+<span class="hljs-comment">// options: {</span>
+<span class="hljs-comment">//     synchronous   默认值 false  是否同步运行</span>
+<span class="hljs-comment">//     runWhen       默认值 null   处理config的方法。返回boolean</span>
+<span class="hljs-comment">// }</span>
+instance.<span class="hljs-property">interceptors</span>.<span class="hljs-property">request</span>.<span class="hljs-title function_">use</span>(<span class="hljs-params">fulfilled, rejected, options</span>) {...}
+</code></pre>
+<h2 id="是否可以多次执行instanceinterceptorsrequestuse">是否可以多次执行<code>instance.interceptors.request.use()</code></h2>
+<p>可以。</p>
+<h2 id="顺序图">顺序图</h2>
+<pre><code>                axios包内逻辑
+          |-----------------------------------|
+调用请求 -》| 执行请求打断 -》 请求 -》 执行回馈打断 | -》 得到回馈结果
+          |-----------------------------------|
+    1           2           3       4               5
+
+</code></pre>
+<p>程序在使用该包时只能感觉到1、5.<br>
+2/3/4是axios包内部运行逻辑。</p>
+<h2 id="titte">titte</h2>
+<h2 id="titte-1">titte</h2>
+
+        
+        
+    </body>
+    </html>

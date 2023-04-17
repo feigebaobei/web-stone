@@ -139,59 +139,521 @@ axios#<span class="hljs-title function_">getUri</span>([config])
 </ul>
 <h2 id="configuration">configuration</h2>
 <p>没有配置文件。有配置项</p>
-<pre><code class="language-js"><span class="hljs-attr">config</span>: {
-    <span class="hljs-attr">url</span>: <span class="hljs-string">&#x27;/user&#x27;</span>,
-    <span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;get&#x27;</span>, <span class="hljs-comment">// default</span>
-    <span class="hljs-attr">baseURL</span>: <span class="hljs-string">&#x27;https://xxx&#x27;</span>,
-    <span class="hljs-attr">transformRequest</span>: [<span class="hljs-keyword">function</span> (<span class="hljs-params">data, headers</span>) {...}], <span class="hljs-comment">// 在&#x27;PUT&#x27;, &#x27;POST&#x27;, &#x27;PATCH&#x27; and &#x27;DELETE&#x27;时，发出请求前处理一次数据</span>
-    <span class="hljs-attr">transformResponse</span>: [<span class="hljs-keyword">function</span> (<span class="hljs-params">data</span>) {...}],
-    <span class="hljs-attr">header</span>: {<span class="hljs-string">&#x27;k&#x27;</span>: <span class="hljs-string">&#x27;v&#x27;</span>},
-    <span class="hljs-attr">params</span>: {<span class="hljs-string">&#x27;k&#x27;</span>: <span class="hljs-string">&#x27;v&#x27;</span>}, <span class="hljs-comment">// 发出get请求时把参数拼接到url中。</span>
-    <span class="hljs-attr">paramsSerializer</span>: <span class="hljs-keyword">function</span>(<span class="hljs-params">params</span>) {...}, <span class="hljs-comment">// serializing 查询字符串</span>
-    <span class="hljs-attr">data</span>: {<span class="hljs-string">&#x27;k&#x27;</span>: <span class="hljs-string">&#x27;v&#x27;</span>}, <span class="hljs-comment">// 发出&#x27;PUT&#x27;, &#x27;POST&#x27;, &#x27;DELETE , and &#x27;PATCH&#x27;请求时的参数</span>
-    <span class="hljs-attr">timeout</span>: <span class="hljs-number">5000</span>, <span class="hljs-comment">// 超时时间</span>
-    <span class="hljs-attr">withCredentials</span>: <span class="hljs-literal">false</span>, <span class="hljs-comment">// 跨域请求时是否带cookie</span>
-    <span class="hljs-attr">adapter</span>: <span class="hljs-keyword">function</span>(<span class="hljs-params">config</span>) {...}, <span class="hljs-comment">// 需要学习</span>
-    <span class="hljs-attr">auth</span>: {<span class="hljs-string">&#x27;k&#x27;</span>: <span class="hljs-string">&#x27;v&#x27;</span>}, <span class="hljs-comment">// 用于http的auth验证</span>
-    <span class="hljs-attr">ressponseType</span>: <span class="hljs-string">&#x27;json&#x27;</span>, <span class="hljs-comment">// default</span>
-    <span class="hljs-attr">responseEncoding</span>: <span class="hljs-string">&#x27;utf-8&#x27;</span>, <span class="hljs-comment">// default</span>
-    <span class="hljs-attr">xsrfCookieName</span>: <span class="hljs-string">&#x27;XSRF-TOKEN&#x27;</span>, <span class="hljs-comment">// 不会</span>
-    <span class="hljs-attr">xsrfHeaderName</span>: <span class="hljs-string">&#x27;X-XSRF-TOKEN&#x27;</span>, <span class="hljs-comment">// 不会</span>
-    <span class="hljs-attr">onUploadProgress</span>: <span class="hljs-keyword">function</span>(<span class="hljs-params">progressEvent</span>) {...}, <span class="hljs-comment">// 只在浏览器中支持，控制上传进程的控制器</span>
-    <span class="hljs-attr">onDownLoadProgress</span>: <span class="hljs-keyword">function</span>(<span class="hljs-params">progressEvent</span>) {...},
-    <span class="hljs-attr">maxCoutentLength</span>: <span class="hljs-number">2000</span>, <span class="hljs-comment">// 返回的最大数据</span>
-    <span class="hljs-attr">validateStatus</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params">status</span>) {...},
-    <span class="hljs-attr">maxRedirects</span>: <span class="hljs-number">21</span>, <span class="hljs-comment">// 最大重定向次数</span>
-    <span class="hljs-attr">beforeRedirect</span>: <span class="hljs-function">(<span class="hljs-params">options, {headers}</span>) =&gt;</span> {...},
-    <span class="hljs-attr">socketPath</span>: <span class="hljs-literal">null</span>, <span class="hljs-comment">// default 不会</span>
-    <span class="hljs-attr">httpAgent</span>: <span class="hljs-keyword">new</span> http.<span class="hljs-title class_">Agent</span>({<span class="hljs-attr">keepAlive</span>: <span class="hljs-literal">true</span>}), <span class="hljs-comment">// 默认是浏览器的agent. 若在node.js中使用，一般用于模拟浏览器请求</span>
-    <span class="hljs-attr">httsAgent</span>: <span class="hljs-keyword">new</span> http.<span class="hljs-title class_">Agent</span>({<span class="hljs-attr">keepAlive</span>: <span class="hljs-literal">true</span>}),
-    <span class="hljs-attr">proxy</span>: { <span class="hljs-comment">// 设置代理服务器</span>
-        <span class="hljs-attr">protocol</span>: <span class="hljs-string">&#x27;https&#x27;</span>,
-        <span class="hljs-attr">host</span>: <span class="hljs-string">&#x27;127.0.0.1&#x27;</span>,
-        <span class="hljs-attr">port</span>: <span class="hljs-number">9000</span>,
-        <span class="hljs-attr">auth</span>: {
-        <span class="hljs-attr">username</span>: <span class="hljs-string">&#x27;mikeymike&#x27;</span>,
-        <span class="hljs-attr">password</span>: <span class="hljs-string">&#x27;rapunz3l&#x27;</span>
-        }
-    },
-    <span class="hljs-attr">cancelToken</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">CancelToken</span>(<span class="hljs-keyword">function</span> (<span class="hljs-params">cancel</span>) {
-    }), <span class="hljs-comment">// 专用于取消请求的token</span>
-    <span class="hljs-attr">signal</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbortController</span>().<span class="hljs-property">signal</span>,
-    <span class="hljs-attr">decompress</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// default</span>
-    <span class="hljs-attr">insecureTHHPParser</span>: <span class="hljs-literal">undefined</span>, <span class="hljs-comment">// default 不会</span>
-    <span class="hljs-attr">transitional</span>: { <span class="hljs-comment">// 不会</span>
-        <span class="hljs-attr">silentJSONParsing</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// default value for the current Axios version</span>
-        <span class="hljs-comment">// try to parse the response string as JSON even if `responseType` is not &#x27;json&#x27;</span>
-        <span class="hljs-attr">forcedJSONParsing</span>: <span class="hljs-literal">true</span>,
-        <span class="hljs-comment">// throw ETIMEDOUT error instead of generic ECONNABORTED on request timeouts</span>
-        <span class="hljs-attr">clarifyTimeoutError</span>: <span class="hljs-literal">false</span>,
-    },
-    <span class="hljs-attr">env</span>: {
-         <span class="hljs-title class_">FormData</span>: <span class="hljs-variable language_">window</span>?.<span class="hljs-property">FormData</span> || <span class="hljs-variable language_">global</span>?.<span class="hljs-property">FormData</span> <span class="hljs-comment">// 自动序列化为FormData对象的payload</span>
-    },
-}
-</code></pre>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>参数</th>
+<th>子参数</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>url</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>method</td>
+<td></td>
+<td>请求方式</td>
+<td>string</td>
+<td>'get'</td>
+<td>'get'/'post'/'put'/'delete'/'option'/...</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>baseUrl</td>
+<td></td>
+<td>当url是相对链接时url的前缀。作用于当前实例。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>transformRequest</td>
+<td></td>
+<td>当使用‘put’、‘post’、‘patch’、‘delete’请求时，改变请求数据。最后一个方法必须返回string/buffer/buffer[]/FormData/Stream。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Function[]</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>transformResponse</td>
+<td></td>
+<td>改变回馈数据，然后传递给then/catch</td>
+<td>Function[]</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>headers</td>
+<td></td>
+<td>设置header</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>{'X-Request-With': 'XMLHttpRequest'}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>params</td>
+<td></td>
+<td>设置qs</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>paramsSerializer</td>
+<td></td>
+<td>设置qs的序列化方法</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><code>{encode?: (params: string): string =&gt; {}, serialize?: (params: Record&lt;string, any&gt;, option?: ParamsSerializerOptions), indexes: false}</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>data</td>
+<td></td>
+<td>设置请求体。只作用于put/post/delete/patch</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>timeout</td>
+<td></td>
+<td>超时阈值</td>
+<td></td>
+<td>1000</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>withCredentials</td>
+<td></td>
+<td>明确是否使用cross-site / Access-Control</td>
+<td></td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>adapter</td>
+<td></td>
+<td>自定义请求控制柄。可以方便测试。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>auth</td>
+<td></td>
+<td>设置<code>Authorization</code>字段（也可以在headers中设置）。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>responseType</td>
+<td></td>
+<td>回馈类型。</td>
+<td></td>
+<td>'blob'</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>responseEncoding</td>
+<td></td>
+<td>回馈的码类型</td>
+<td></td>
+<td>'utf8'</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>xsrfCookieName</td>
+<td></td>
+<td>xsrf的cookie名</td>
+<td></td>
+<td>'XSRF-TOKEN'</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>xsrfHeaderName</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>onUploadProgress</td>
+<td></td>
+<td>upload的进度控制柄</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><code>function({loaded, total, progress, bytes, emtimated, rate, upload = true}) {...}</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>onDownloadProgress</td>
+<td></td>
+<td>下载的进度控制柄</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><code>function({loaded, total, progress, bytes, estimated, rate, download = true}) {}</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>maxContentLength</td>
+<td></td>
+<td>回馈的最大体积。node.js时有效</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>maxBodyLength</td>
+<td></td>
+<td>只在node.js时有效。请求体的最大体积。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>validateStatus</td>
+<td></td>
+<td>有效的回馈码值</td>
+<td></td>
+<td><code>function (status) {return status &gt;= 200 &amp;&amp; status &lt; 300}</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>maxRedirects</td>
+<td></td>
+<td>最大可重定向次数。</td>
+<td></td>
+<td>21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>beforeRedirect</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>socketPath</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>transport</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>httpAgent</td>
+<td></td>
+<td>http(s)的代理</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>httpsAgent</td>
+<td></td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>proxy</td>
+<td><code>{protocal: 'https', host: '127.0.0.1', hostname: '127.0.0.1', port: 9000, auth: {username: 'name', password: 'pwd'}}</code></td>
+<td>设置代理</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cancelToken</td>
+<td></td>
+<td>可以用于取消请求</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><code>new CancelToken(function (cancel) {...})</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>signal</td>
+<td></td>
+<td>用于取消请求</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><code>new AbortController().signal</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>decompress</td>
+<td></td>
+<td>是否解压</td>
+<td></td>
+<td>true</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>insecureHTTPParser</td>
+<td></td>
+<td>不安全的http解析器</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>transitional</td>
+<td><code>{silentJSONParsing: true, forcedJSONParsing: true, clarifyTimeoutError: false}</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>env</td>
+<td></td>
+<td>设置处理FormData的类</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>formSerializer</td>
+<td><code>{visitor: (value, key, path, helpers) =&gt; {}, dots: boolean, metaTokens: boolean, indexes: boolean}</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>maxRate</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h3 id="transformrequest--transformresponse--interceptionrequest--interceptionresponse">transformRequest &amp; transformResponse &amp; interception.request &amp; interception.response</h3>
+<table>
+<thead>
+<tr>
+<th>transformRequest</th>
+<th>transformResponse</th>
+<th>interception.request</th>
+<th>interception.response</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>处理请求前的数据</td>
+<td>处理回馈后的数据</td>
+<td>处理请求时的配置项。处理请求成功和请求失败。</td>
+<td>处理回馈后的数据。处理回馈成功和回馈失败。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h3 id="配置默认值">配置默认值</h3>
 <pre><code>axios.default.baseURL = 'xxx'
 axios.default.headers.common['Authorization'] = axios.default.baseURL = AUTH_TOKEN
@@ -212,6 +674,7 @@ instance.defaults.headers.common['Authorization'] = AUTH_TOKEN;
         <span class="hljs-attr">k1</span>: <span class="hljs-string">&#x27;v1&#x27;</span>,
     }
 })
+<span class="hljs-comment">// 这里的配置项</span>
 <span class="hljs-title function_">axios</span>(url[, config])
 axios.<span class="hljs-title function_">request</span>(config)
 axios.<span class="hljs-title function_">get</span>(url[, config])
@@ -224,16 +687,12 @@ axios.<span class="hljs-title function_">patch</span>(url[, config])
 </code></pre>
 <h2 id="response-schema">response schema</h2>
 <pre><code class="language-js">{
-  <span class="hljs-attr">data</span>: {
-  }
-  <span class="hljs-attr">status</span>: <span class="hljs-number">200</span>
-  <span class="hljs-attr">statusText</span>: <span class="hljs-string">&#x27;OK&#x27;</span>
-  <span class="hljs-attr">headers</span>: {
-  }
-  <span class="hljs-attr">config</span>: {
-  }
-  <span class="hljs-attr">request</span>: {
-  }
+  <span class="hljs-attr">data</span>: {} <span class="hljs-comment">// 服务端回馈的数据</span>
+  <span class="hljs-attr">status</span>: <span class="hljs-number">200</span> <span class="hljs-comment">// http 码值</span>
+  <span class="hljs-attr">statusText</span>: <span class="hljs-string">&#x27;OK&#x27;</span> <span class="hljs-comment">// http status message</span>
+  <span class="hljs-attr">headers</span>: {} <span class="hljs-comment">// 服务端给的回馈头的</span>
+  <span class="hljs-attr">config</span>: {} <span class="hljs-comment">// 本次请求的的配置项</span>
+  <span class="hljs-attr">request</span>: {} <span class="hljs-comment">// response的请求</span>
 }
 </code></pre>
 <h2 id="interceptors">interceptors</h2>
@@ -389,6 +848,7 @@ instance.<span class="hljs-property">interceptors</span>.<span class="hljs-prope
 }
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> createSimpleStore
 </code></pre>
+<h2 id="读源码"><a href="/jsPackages/axios/readCode.html">读源码</a></h2>
 <h2 id="todo">todo</h2>
 <p>如何实现特定功能的。
 如使用 promise 实现的。
@@ -396,7 +856,8 @@ instance.<span class="hljs-property">interceptors</span>.<span class="hljs-prope
 可以匿名的地方也使用具名函数编写。（如：回调函数）
 文件结构
 uml.
-类图</p>
+类图
+有多个地方把get与别的请求方式分开对待。</p>
 <p>如何使用简写。</p>
 
         

@@ -11,3 +11,4 @@
 - [title](/promote/title.html)
 - [title](/promote/title.html)
 - [title](/promote/title.html)
+  知道每块框架的功能，若不知道则需要学习所有 api.

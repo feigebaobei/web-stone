@@ -2,3 +2,6 @@
 - [notepad++](/editor/notepad++.html)
 - [vscode](/editor/vscode.html)
 - [sublime](/editor/sublime.html)
+- [sublime](/editor/sublime.html)
+- [sublime](/editor/sublime.html)
+- [sublime](/editor/sublime.html)
