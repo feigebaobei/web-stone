@@ -9,7 +9,8 @@
 > 它就是强类型的 js。它的所有功能都是为了类型服务的。  
 > ts 把 interface/type 都叫做类型  
 > 它是编写代码的一种方式。可以使用 js/也可以使用 ts.ts 没有宣传的那么重要。它只是为 js 赋予了强类型。还需要把 ts 文件转换为 js 文件。如果 js 未来支持强类型了。ts 也就无存在的意义了。  
-> 从设计 （uml） 到代码比 js 平滑。
+> 从设计 （uml） 到代码比 js 平滑。  
+> ts 的类型可以用于防御式编程
 
 ### feature
 
@@ -114,17 +115,16 @@ tsc hello.ts
 | union|| 联合类型| 列出允许的数据类型 | | |
 | null |||| | |
 | undefined || 也叫 void || | |
+| void|||| | |
 | enums|| 枚举。列出具体的可选的值。它是真实的对象。 || | |
 | bigint|||| | |
 | symbol|||| | |
-| unknown   || 代表 any 数据。与 any 类型相似。unknown 更安全。使用时需要类型断言。 || | |
+| unknown   || 代表 any 数据。与 any 类型相似。unknown 比 any 更安全。使用时需要类型断言。 || | |
 | never|| 永远不会执行到的对象类型。当方法返回 never 时表示抛出一个错误、或打断执行方法。 || | |
 | Function  ||它与`() => {}`不同。| ts中数据类型是Funtion.j中的数据类型是function | | |
 | ReadonlyArray   || 使数组只读|| | |
 | tuple|| 明确数组中对应下标的数据的类型|| | |
 | `generic types` || 泛型| `` | | |
-| symbol|||| | |
-| void|||| | |
 | object|||| | |
 <!-- prettier-ignore-end -->
 
@@ -154,6 +154,8 @@ interface Circle {
 ```
 
 ### 类型范围缩小
+
+经常在项目中使用到。
 
 <!-- prettier-ignore-start -->
 ||思路|demo||
@@ -295,7 +297,7 @@ Util<type>
 ||`Required<T>`|T类型的所有字段设置为必填字段|||
 ||`Readonly<T>`|T类型的所有字段设置为只读字段|||
 ||`Record<Keys, T>`|设置Keys的类型为T|`type C = 'ca' | 'cb'; let a: Record(C, T); => a: {ca: T, cb: T}`||
-||`Pick<T, Keys>`|从T类型中提取Keys的类型|`type T = Pick<A, 'a'|'b'>; => T: {a: xx, b: yy}`||
+||`Pick<T, Keys>`|从T类型中提取Keys的类型|`type T = Pick<A, 'a'|'b'>; => T: {a: xx, b: yy}`|与`T[k]`同效|
 ||`Omit<T, Keys>`|从T类型中删除Keys的类型|||
 ||`Exclude<UnionType, ExcludedMembers>`|从联合类型中删除指定成员|`type A = Exclude<'a' \| 'b' \| 'c', 'a'>; => type A = 'b' \| 'c'`||
 ||`Extract<T, Union>`|从T中取出联合类型中的类型|||
@@ -337,8 +339,8 @@ class A extends B {
   public g() {...}      // 默认值。可被任何方式访问
   protected h() {...}   // 只能在当前类内部访问和其子类内部访问。
   private i() {...}     // 只能在当前类内部访问
-  # j() {...}           //
-  static k() {...}      //
+  static k() {...}      // 静态方法。属于js范围。
+  # j() {...}           // 是static的简写
 }
 // class 实现 interface
 interface T {
@@ -628,7 +630,7 @@ init 后不能改变。
 
 ```ts
 enum D {
-  Up = 1, // 若有明确的值，则其后的值无明确值，则递增。
+  Up = 1, // 若有明确的值，则其后的值无明确值时递增。
   Down,
   Left,
   Right,

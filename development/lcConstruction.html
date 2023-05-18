@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>&#x524d;&#x8a00;</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h2 id="前言">前言</h2>
+<p>在现在的低码行业中都收以组件为单位平铺式保存。此文描述一种树型结构。借鉴了react源码。
+本文旨在说清数据结构、渲染逻辑，有些核心代码，无全部代码。</p>
+<h3 id="介绍概念">介绍概念</h3>
+<ul>
+<li>同级组件：以<code>prev</code>/<code>next</code>串联起来的组件。</li>
+<li>根组件：<code>root</code>属性指向的组件是。</li>
+<li>一级组件：根组件的同级组件。</li>
+<li>子组件：当前组件的<code>headerChild</code>/<code>bodyChild</code>/<code>footerChild</code>指向的组件。</li>
+<li>父组件：当前组件的<code>parent</code>指向的组件。</li>
+<li>子组件与父组件是相对的。</li>
+<li>二级组件：一级组件的子组件。</li>
+<li>组件级别依次类推。</li>
+<li></li>
+</ul>
+<h2 id="数据结构">数据结构</h2>
+<pre><code class="language-ts"><span class="hljs-keyword">type</span> N = <span class="hljs-built_in">number</span>
+<span class="hljs-keyword">type</span> S = <span class="hljs-built_in">string</span>
+<span class="hljs-keyword">type</span> B = <span class="hljs-built_in">boolean</span>
+<span class="hljs-keyword">type</span> A = <span class="hljs-built_in">any</span>
+<span class="hljs-keyword">type</span> <span class="hljs-variable constant_">NS</span> = N | S
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">UniqueId</span> = <span class="hljs-variable constant_">NS</span>
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">NSNull</span> = <span class="hljs-variable constant_">NS</span> | <span class="hljs-literal">null</span>
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">UniqueIdNull</span> = <span class="hljs-title class_">NSNull</span>
+
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">App</span> {
+    <span class="hljs-attr">id</span>: N
+    <span class="hljs-attr">desc</span>: S
+    <span class="hljs-attr">members</span>: <span class="hljs-title class_">Member</span>[]
+    <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;App&#x27;</span>
+}
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">Member</span> {
+    <span class="hljs-attr">id</span>: N
+    <span class="hljs-attr">name</span>: S
+    <span class="hljs-attr">email</span>: S
+}
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">Page</span> {
+    <span class="hljs-attr">id</span>: N
+    <span class="hljs-attr">uuid</span>: S
+    <span class="hljs-attr">firstChild</span>: <span class="hljs-title class_">ComponentInfo</span>
+    <span class="hljs-attr">lastChild</span>: <span class="hljs-title class_">ComponentInfo</span>   <span class="hljs-comment">// 预留字段</span>
+    <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;Page&#x27;</span>
+}
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">ComponentInfo</span> {      <span class="hljs-comment">// 保存在数据库的数据结构</span>
+    <span class="hljs-attr">id</span>: N
+    <span class="hljs-attr">props</span>: A
+    <span class="hljs-attr">uuid</span>: S
+    <span class="hljs-attr">pageId</span>: N
+    <span class="hljs-attr">appId</span>: N
+    <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;Component&#x27;</span>
+    <span class="hljs-comment">// 下列字段指明是否有相关节点</span>
+    <span class="hljs-attr">parentUniqueId</span>: <span class="hljs-title class_">UniqueIdNull</span>
+    <span class="hljs-attr">nextUniqueId</span>: <span class="hljs-title class_">UniqueIdNull</span>
+    <span class="hljs-attr">prevUniqueId</span>: <span class="hljs-title class_">UniqueIdNull</span>
+    <span class="hljs-attr">headerChildUniqueId</span>: <span class="hljs-title class_">UniqueIdNull</span>
+    <span class="hljs-attr">bodyChildUniqueId</span>: <span class="hljs-title class_">UniqueIdNull</span>
+    <span class="hljs-attr">footerChildUniqueId</span>: <span class="hljs-title class_">UniqueIdNull</span>
+}
+<span class="hljs-comment">// type ComponentInfoNull = ComponentInfo | null</span>
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">ComponentMeta</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">ComponentInfo</span> {     <span class="hljs-comment">// 在前端的store中的数据结构</span>
+    <span class="hljs-comment">// 下列字段用于形成树型结构</span>
+    <span class="hljs-attr">parent</span>: <span class="hljs-title class_">ComponentMeta</span> | <span class="hljs-title class_">Page</span>
+    <span class="hljs-attr">next</span>: <span class="hljs-title class_">ComponentMetaNull</span>
+    <span class="hljs-attr">prev</span>: <span class="hljs-title class_">ComponentMetaNull</span>
+    <span class="hljs-attr">headerChild</span>: <span class="hljs-title class_">ComponentMetaNull</span>
+    <span class="hljs-attr">bodyChild</span>: <span class="hljs-title class_">ComponentMetaNull</span>
+    <span class="hljs-attr">footerChild</span>: <span class="hljs-title class_">ComponentMetaNull</span>
+    <span class="hljs-attr">parentSlot</span>: <span class="hljs-title class_">ParentSlot</span>   <span class="hljs-comment">// 在父组件的哪个槽里面</span>
+}
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">ComponentMetaNull</span> = <span class="hljs-title class_">ComponentMeta</span> | <span class="hljs-literal">null</span>
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">ParentSlot</span> = <span class="hljs-string">&#x27;&#x27;</span> | <span class="hljs-string">&#x27;headerChild&#x27;</span> | <span class="hljs-string">&#x27;bodyChild&#x27;</span> | <span class="hljs-string">&#x27;footerChild&#x27;</span>
+</code></pre>
+<h2 id="助手函数">助手函数</h2>
+<pre><code class="language-js"><span class="hljs-comment">// 创建组件</span>
+<span class="hljs-keyword">let</span> createComponentInfo = (<span class="hljs-attr">id</span>: N, <span class="hljs-title class_">Props</span>: A): <span class="hljs-function"><span class="hljs-params">ComponentInfo</span> =&gt;</span> {
+    <span class="hljs-keyword">return</span> {
+        id,
+        <span class="hljs-attr">uuid</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">Uuid</span>(),
+        props,
+        <span class="hljs-attr">parentUniqueId</span>: <span class="hljs-literal">null</span>,
+        <span class="hljs-attr">nextUniqueId</span>: <span class="hljs-literal">null</span>,
+        <span class="hljs-attr">prevUniqueId</span>: <span class="hljs-literal">null</span>,
+        <span class="hljs-attr">headerChildUniqueId</span>: <span class="hljs-literal">null</span>,
+        <span class="hljs-attr">bodyChildUniqueId</span>: <span class="hljs-literal">null</span>,
+        <span class="hljs-attr">footerChildUniqueId</span>: <span class="hljs-literal">null</span>,
+    }
+}
+<span class="hljs-comment">// 根据ComponentInfo生成ComponentMeta</span>
+<span class="hljs-keyword">let</span> createComponentMetaByInfo = (<span class="hljs-attr">compInfo</span>: <span class="hljs-title class_">ComponentInfo</span>): <span class="hljs-function"><span class="hljs-params">ComponentMeta</span> =&gt;</span> {
+    <span class="hljs-comment">// 方法体同下</span>
+    <span class="hljs-keyword">return</span> {...}
+}
+<span class="hljs-comment">// 根据ComponentMeta生成ComponentInfo</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">getComponentInfoByCompMeta</span> = (<span class="hljs-params">compMeta: ComponentMeta</span>) =&gt; {
+    <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">xxx</span>: compMeta.<span class="hljs-property">xxx</span>
+    }
+}
+<span class="hljs-keyword">let</span> hasUniqueId = (<span class="hljs-attr">uniqueId</span>: <span class="hljs-title class_">UniqueId</span>, <span class="hljs-attr">id</span>: N, <span class="hljs-attr">uuid</span>: S): <span class="hljs-function"><span class="hljs-params">B</span> =&gt;</span> {
+    <span class="hljs-keyword">return</span> [id, uuid].<span class="hljs-title function_">includes</span>(uniqueId)
+}
+</code></pre>
+<h2 id="uml">uml</h2>
+<p>说清处理逻辑</p>
+<pre><code>        c                               s
+  创建组件
+  生成组件信息ComponentInfo ---------》创建id,并保存在数据库
+
+  请求指定页面的组件 -----------------》 根据pageId选择出组件并返回
+                  《-----------------
+  处理为树型结构
+  保存在store中
+  使用store提供的方法，
+  取出指定数据，再渲染。
+</code></pre>
+<h2 id="定义store">定义store</h2>
+<pre><code class="language-ts"><span class="hljs-keyword">import</span> { reactive } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
+<span class="hljs-keyword">import</span> { defineStore } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;pinia&#x27;</span>
+<span class="hljs-comment">// 引入若干类型</span>
+<span class="hljs-comment">// 引入若干助手函数</span>
+<span class="hljs-keyword">let</span> useStore = <span class="hljs-title function_">defineStore</span>(<span class="hljs-string">&#x27;component&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-keyword">let</span> tree = <span class="hljs-title function_">reactive</span>({
+        <span class="hljs-attr">root</span>: <span class="hljs-literal">null</span>
+    })
+    <span class="hljs-keyword">let</span> <span class="hljs-title function_">getRoot</span> = (<span class="hljs-params"></span>) =&gt; (tree.<span class="hljs-property">root</span>)
+    <span class="hljs-comment">// 创建节点</span>
+    <span class="hljs-keyword">let</span> createComponentMetaByInfo = (<span class="hljs-attr">compInfo</span>: <span class="hljs-title class_">ComponentInfo</span>): <span class="hljs-function"><span class="hljs-params">ComponentMeta</span> =&gt;</span> {
+        <span class="hljs-keyword">return</span> {
+            ...compInfo,
+            <span class="hljs-attr">parent</span>: <span class="hljs-literal">null</span>,
+            <span class="hljs-attr">next</span>: <span class="hljs-literal">null</span>,
+            <span class="hljs-attr">prev</span>: <span class="hljs-literal">null</span>,
+            <span class="hljs-attr">headerChild</span>: <span class="hljs-literal">null</span>,
+            <span class="hljs-attr">bodyChild</span>: <span class="hljs-literal">null</span>,
+            <span class="hljs-attr">footerChild</span>: <span class="hljs-literal">null</span>,
+            <span class="hljs-attr">parentSlot</span>: <span class="hljs-string">&#x27;&#x27;</span>,
+        }
+    }
+    <span class="hljs-comment">// 添加节点</span>
+    <span class="hljs-keyword">let</span> mountComponent = (<span class="hljs-attr">componentInfo</span>: <span class="hljs-title class_">ComponentInfo</span>): <span class="hljs-function"><span class="hljs-params">B</span> =&gt;</span> {
+        <span class="hljs-keyword">let</span> <span class="hljs-attr">flag</span>: B
+        <span class="hljs-keyword">let</span> componentMeta = <span class="hljs-title function_">createComponentMetaByInfo</span>(componentInfo)
+        <span class="hljs-keyword">if</span> (tree.<span class="hljs-property">root</span>) {
+            <span class="hljs-keyword">if</span> (!componentInfo.<span class="hljs-property">prevUniqueId</span> &amp;&amp; componentInfo.<span class="hljs-property">parentUniqueId</span>) {
+                flag = <span class="hljs-title function_">mountComponentChild</span>(componentMeta)
+            } <span class="hljs-keyword">else</span> {
+                flag = <span class="hljs-title function_">mountComponentNext</span>(componentMeta)
+            }
+        } <span class="hljs-keyword">else</span> {
+            tree.<span class="hljs-property">root</span> = componentMeta
+        }
+        <span class="hljs-keyword">return</span> flag
+    }
+    <span class="hljs-keyword">let</span> mountComponentNext = (<span class="hljs-attr">componentMeta</span>: <span class="hljs-title class_">ComponentMeta</span>): <span class="hljs-function"><span class="hljs-params">B</span> =&gt;</span> {
+        <span class="hljs-keyword">let</span> <span class="hljs-attr">flag</span>: B = <span class="hljs-literal">false</span>
+        <span class="hljs-keyword">let</span> prevUniqueId = componentMeta.<span class="hljs-property">prevUniqueId</span>
+        <span class="hljs-keyword">let</span> prevComp = <span class="hljs-title function_">getComponentByUniqueId</span>(prevUniqueId)
+        <span class="hljs-keyword">if</span> (prevComp) {
+            prevComp.<span class="hljs-property">next</span> = componentMeta
+            componentMeta.<span class="hljs-property">prev</span> = prevComp
+            componentMeta.<span class="hljs-property">parent</span> = prevComp.<span class="hljs-property">parent</span>
+            componentMeta.<span class="hljs-property">parentSlot</span> = prevComp.<span class="hljs-property">parentSlot</span>
+            <span class="hljs-comment">// componentMeta.next保持为null</span>
+            flag = <span class="hljs-literal">true</span>
+        }
+        <span class="hljs-keyword">return</span> flag
+    }
+    <span class="hljs-keyword">let</span> mountComponentChild = (<span class="hljs-attr">componentMeta</span>: <span class="hljs-title class_">ComponentMeta</span>): <span class="hljs-function"><span class="hljs-params">B</span> =&gt;</span> {
+        <span class="hljs-keyword">let</span> <span class="hljs-attr">flag</span>: B = <span class="hljs-literal">false</span>
+        <span class="hljs-keyword">let</span> parentComp = <span class="hljs-title function_">getComponentByUniqueId</span>(componentMeta.<span class="hljs-property">parentUniqueId</span>)
+        <span class="hljs-keyword">if</span> (parentComp) {
+            <span class="hljs-keyword">if</span> (<span class="hljs-title function_">hasUniqueId</span>(parentComp.<span class="hljs-property">headerChildUniqueId</span> componentMeta.<span class="hljs-property">id</span>, componentMeta.<span class="hljs-property">uuid</span>)) {
+                parentComp.<span class="hljs-property">headerChild</span> = componentMeta
+                componentMeta.<span class="hljs-property">parent</span> = parentComp
+                componentMeta.<span class="hljs-property">parentSlot</span> = <span class="hljs-string">&#x27;headerChild&#x27;</span>
+                flag = <span class="hljs-literal">true</span>
+            } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-title function_">hasUniqueId</span>(parentComp.<span class="hljs-property">bodyChildUniqueId</span> componentMeta.<span class="hljs-property">id</span>, componentMeta.<span class="hljs-property">uuid</span>)) {
+                parentComp.<span class="hljs-property">bodyChild</span> = componentMeta
+                componentMeta.<span class="hljs-property">parent</span> = parentComp
+                componentMeta.<span class="hljs-property">parentSlot</span> = <span class="hljs-string">&#x27;bodyChild&#x27;</span>
+                flag = <span class="hljs-literal">true</span>
+            } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-title function_">hasUniqueId</span>(parentComp.<span class="hljs-property">footerChildUniqueId</span> componentMeta.<span class="hljs-property">id</span>, componentMeta.<span class="hljs-property">uuid</span>)) {
+                parentComp.<span class="hljs-property">footerChild</span> = componentMeta
+                componentMeta.<span class="hljs-property">parent</span> = parentComp
+                componentMeta.<span class="hljs-property">parentSlot</span> = <span class="hljs-string">&#x27;footerChild&#x27;</span>
+                flag = <span class="hljs-literal">true</span>
+            }
+        }
+        <span class="hljs-keyword">return</span> flag
+    }
+    <span class="hljs-comment">// 得到节点</span>
+    <span class="hljs-keyword">let</span> getComponentByUniqueId = (<span class="hljs-attr">uniqueId</span>: <span class="hljs-title class_">UniqueIdNull</span>): <span class="hljs-function"><span class="hljs-params">ComponentMetaNull</span> =&gt;</span> {
+        <span class="hljs-keyword">if</span> (!uniqueId) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>
+        <span class="hljs-keyword">let</span> root = <span class="hljs-title function_">getRoot</span>()
+        <span class="hljs-keyword">if</span> (root) {
+            <span class="hljs-keyword">let</span> queue = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Queue</span>&lt;<span class="hljs-title class_">ComponentMetaNull</span>&gt;()
+            queue.<span class="hljs-title function_">enquene</span>(root)
+            <span class="hljs-keyword">let</span> res = <span class="hljs-literal">null</span>
+            <span class="hljs-keyword">while</span> (queue.<span class="hljs-title function_">size</span>()) {
+                <span class="hljs-keyword">let</span> cur = queue.<span class="hljs-title function_">dequene</span>()
+                <span class="hljs-keyword">if</span> (<span class="hljs-title function_">hasUniqueId</span>(uniqueId, cur.<span class="hljs-property">id</span>, cur.<span class="hljs-property">uuid</span>)) {
+                    res = cur
+                    <span class="hljs-keyword">break</span>
+                } <span class="hljs-keyword">else</span> {
+                    queue.<span class="hljs-title function_">push</span>(cur.<span class="hljs-property">next</span>)
+                    queue.<span class="hljs-title function_">push</span>(cur.<span class="hljs-property">headerChild</span>)
+                    queue.<span class="hljs-title function_">push</span>(cur.<span class="hljs-property">bodyChild</span>)
+                    queue.<span class="hljs-title function_">push</span>(cur.<span class="hljs-property">footerChild</span>)
+                }
+            }
+            <span class="hljs-keyword">return</span> res
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>
+        }
+    }
+    <span class="hljs-keyword">let</span> getComponentByUniqueId2 = (<span class="hljs-attr">uniqueId</span>: <span class="hljs-title class_">UniqueIdNull</span>, cur = <span class="hljs-title function_">getRoot</span>()): <span class="hljs-function"><span class="hljs-params">ComponentMetaNull</span> =&gt;</span> {
+        <span class="hljs-keyword">if</span> (!cur) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>
+        <span class="hljs-comment">// let cur = start</span>
+        <span class="hljs-keyword">let</span> res = <span class="hljs-literal">null</span>
+        <span class="hljs-keyword">while</span> (cur) {
+            <span class="hljs-keyword">if</span> (<span class="hljs-title function_">hasUniqueId</span>(uniqueId, cur.<span class="hljs-property">id</span>, cur.<span class="hljs-property">uuid</span>)) {
+                res = cur
+                <span class="hljs-keyword">break</span>
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-keyword">let</span> res = <span class="hljs-title function_">getComponentByUniqueId</span>(uniqueId, cur.<span class="hljs-property">next</span>) || <span class="hljs-title function_">getComponentByUniqueId</span>(uniqueId, cur.<span class="hljs-property">headerChild</span>) || <span class="hljs-title function_">getComponentByUniqueId</span>(uniqueId, cur.<span class="hljs-property">bodyChild</span>) || <span class="hljs-title function_">getComponentByUniqueId</span>(uniqueId, cur.<span class="hljs-property">footerChild</span>)
+            }
+            cur = cur.<span class="hljs-property">next</span>
+        }
+        <span class="hljs-keyword">return</span> res
+    }
+    <span class="hljs-comment">// 删除节点</span>
+    <span class="hljs-keyword">let</span> removeComponent = (<span class="hljs-attr">uniqueId</span>: <span class="hljs-title class_">UniqueId</span>): <span class="hljs-function"><span class="hljs-params">ComponentMetaNull</span> =&gt;</span> {
+        <span class="hljs-keyword">let</span> comp = <span class="hljs-title function_">getComponentByUniqueId</span>(uniqueId)
+        <span class="hljs-keyword">if</span> (comp) {
+            <span class="hljs-comment">// comp.parent</span>
+            <span class="hljs-comment">// comp.prev</span>
+            <span class="hljs-comment">// comp.next</span>
+            <span class="hljs-keyword">if</span> (comp.<span class="hljs-property">parent</span>) { <span class="hljs-comment">// 有父组件</span>
+                <span class="hljs-keyword">if</span> (comp.<span class="hljs-property">prev</span>) {
+                    comp.<span class="hljs-property">prev</span>.<span class="hljs-property">next</span> = comp.<span class="hljs-property">next</span>
+                    <span class="hljs-keyword">if</span> (comp.<span class="hljs-property">next</span>) {
+                        comp.<span class="hljs-property">next</span>.<span class="hljs-property">prev</span> = comp.<span class="hljs-property">prev</span>
+                    }
+                } <span class="hljs-keyword">else</span> {
+                    comp.<span class="hljs-property">parent</span>[comp.<span class="hljs-property">parentSlot</span>] = comp.<span class="hljs-property">next</span>
+                    <span class="hljs-keyword">if</span> (comp.<span class="hljs-property">next</span>) {
+                        comp.<span class="hljs-property">next</span>.<span class="hljs-property">prev</span> = <span class="hljs-literal">null</span>
+                    }
+                }
+            } <span class="hljs-keyword">else</span> { <span class="hljs-comment">// 无父组件</span>
+                <span class="hljs-keyword">if</span> (comp.<span class="hljs-property">prev</span>) { <span class="hljs-comment">// 有前组件</span>
+                    comp.<span class="hljs-property">prev</span>.<span class="hljs-property">next</span> = comp.<span class="hljs-property">next</span>
+                    <span class="hljs-keyword">if</span> (comp.<span class="hljs-property">next</span>) {
+                        comp.<span class="hljs-property">next</span>.<span class="hljs-property">prev</span> = comp.<span class="hljs-property">prev</span>
+                    }
+                } <span class="hljs-keyword">else</span> { <span class="hljs-comment">// 无前组件</span>
+                    tree.<span class="hljs-property">root</span> = comp.<span class="hljs-property">next</span>
+                    <span class="hljs-keyword">if</span> (comp.<span class="hljs-property">next</span>) {
+                        comp.<span class="hljs-property">next</span>.<span class="hljs-property">prev</span> = <span class="hljs-literal">null</span>
+                    }
+                }
+            }
+            <span class="hljs-keyword">return</span> comp
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>
+        }
+    }
+    <span class="hljs-comment">// 插入节点</span>
+    <span class="hljs-keyword">let</span> insertComponent = (<span class="hljs-attr">compInfo</span>: <span class="hljs-title class_">ComponentInfo</span>, <span class="hljs-attr">prevUniqueId</span>: uniqueId): <span class="hljs-function"><span class="hljs-params">B</span> =&gt;</span> {
+        <span class="hljs-keyword">let</span> result = <span class="hljs-literal">false</span>
+        <span class="hljs-keyword">if</span> (!<span class="hljs-title function_">getRoot</span>()) {
+            <span class="hljs-title function_">mountComponent</span>(compInfo)
+            result = <span class="hljs-literal">true</span>
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">let</span> comp = <span class="hljs-title function_">getComponentByUniqueId</span>(prevUniqueId)
+            <span class="hljs-keyword">if</span> (comp) {
+                <span class="hljs-keyword">let</span> componentMeta = <span class="hljs-title function_">createComponentMetaByInfo</span>(componentInfo)
+                <span class="hljs-keyword">let</span> nextComp = comp.<span class="hljs-property">next</span>
+                comp.<span class="hljs-property">next</span> = compenentMeta
+                comp.<span class="hljs-property">nextUniqueId</span> = componentMeta.
+                component.<span class="hljs-property">prev</span> = comp
+                component.<span class="hljs-property">parentSlot</span> = comp.<span class="hljs-property">parentSlot</span>
+                <span class="hljs-keyword">if</span> (nextComp) {
+                    nextComp.<span class="hljs-property">prev</span> = componentMeta
+                    componentMeta.<span class="hljs-property">next</span> = nextComp
+                }
+                result = <span class="hljs-literal">true</span>
+            }
+        }
+        <span class="hljs-keyword">return</span> result
+    }
+    <span class="hljs-comment">// 不可以修改节点</span>
+    <span class="hljs-comment">// 得到指定节点及同级其后节点</span>
+    <span class="hljs-keyword">let</span> getAfterComponent = (<span class="hljs-attr">uniqueId</span>: <span class="hljs-title class_">UniqueId</span>): <span class="hljs-title class_">ComponentMeta</span>[] =&gt; {
+        <span class="hljs-keyword">let</span> comp = <span class="hljs-title function_">getComponentByUniqueId</span>(uniqueId)
+        <span class="hljs-keyword">let</span> <span class="hljs-attr">res</span>: <span class="hljs-title class_">ComponentMeta</span>[] = []
+        <span class="hljs-keyword">if</span> (comp) {
+            <span class="hljs-keyword">let</span> cur = comp
+            <span class="hljs-keyword">while</span> (cur) {
+                res.<span class="hljs-title function_">push</span>(cur)
+                cur = cur.<span class="hljs-property">next</span>
+            }
+        }
+        <span class="hljs-keyword">return</span> res
+    }
+    <span class="hljs-comment">// 得到指定节点及同级其前节点</span>
+    <span class="hljs-keyword">let</span> getBeforeComponent = (<span class="hljs-attr">uniqueId</span>: <span class="hljs-title class_">UniqueId</span>): <span class="hljs-title class_">ComponentMeta</span>[] =&gt; {
+        <span class="hljs-keyword">let</span> comp = <span class="hljs-title function_">getComponentByUniqueId</span>(uniqueId)
+        <span class="hljs-keyword">let</span> <span class="hljs-attr">res</span>: <span class="hljs-title class_">ComponentMeta</span>[] = []
+        <span class="hljs-keyword">if</span> (comp) {
+            <span class="hljs-keyword">let</span> cur = comp
+            <span class="hljs-keyword">while</span> (cur) {
+                res.<span class="hljs-title function_">unshift</span>(cur)
+                cur = cur.<span class="hljs-property">prev</span>
+            }
+        }
+        <span class="hljs-keyword">return</span> res
+    }
+    <span class="hljs-comment">// 得到指定节点的同级节点</span>
+    <span class="hljs-keyword">let</span> getSameLevelComponent = (<span class="hljs-attr">uniqueId</span>: <span class="hljs-title class_">UniqueId</span>): <span class="hljs-title class_">ComponentMeta</span>[] =&gt; {
+        <span class="hljs-keyword">let</span> comp = <span class="hljs-title function_">getComponentByUniqueId</span>(uniqueId)
+        <span class="hljs-keyword">let</span> <span class="hljs-attr">res</span>: <span class="hljs-title class_">ComponentMeta</span>[] = []
+        <span class="hljs-keyword">if</span> (comp) {
+            <span class="hljs-keyword">let</span> cur = comp
+            <span class="hljs-keyword">while</span> (cur) {
+                res.<span class="hljs-title function_">unshift</span>(cur)
+                cur = cur.<span class="hljs-property">prev</span>
+            }
+            cur = comp
+            <span class="hljs-keyword">while</span> (cur) {
+                res.<span class="hljs-title function_">push</span>(cur)
+                cur = cur.<span class="hljs-property">next</span>
+            }
+        }
+        <span class="hljs-keyword">return</span> res
+    }
+    <span class="hljs-keyword">let</span> editComponentByUniqueId = (<span class="hljs-attr">uniqueId</span>: <span class="hljs-title class_">UniqueId</span>, <span class="hljs-attr">obj</span>: &lt;T <span class="hljs-keyword">extends</span> {<span class="hljs-attr">props</span>: A}&gt;): <span class="hljs-literal">false</span> | <span class="hljs-function"><span class="hljs-params">ComponentMeta</span> =&gt;</span> {
+        <span class="hljs-keyword">let</span> flag = <span class="hljs-literal">false</span>
+        <span class="hljs-keyword">let</span> comp = <span class="hljs-title function_">getComponentByUniqueId</span>(uniqueId)
+        <span class="hljs-keyword">if</span> (comp) {
+            comp.<span class="hljs-property">props</span> = obj.<span class="hljs-property">props</span>
+            <span class="hljs-keyword">return</span> comp
+        }
+        <span class="hljs-keyword">return</span> flag
+    }
+    <span class="hljs-comment">// 重排组件。必须原子性。</span>
+    <span class="hljs-keyword">let</span> reorderComponent = (<span class="hljs-attr">uniqueId</span>: <span class="hljs-title class_">UniqueId</span>, <span class="hljs-attr">toPrevUniqueId</span>: <span class="hljs-title class_">UniqueId</span>): <span class="hljs-function"><span class="hljs-params">B</span> =&gt;</span> {
+        <span class="hljs-keyword">let</span> flagMap = {
+            <span class="hljs-attr">hasRemoved</span>: <span class="hljs-literal">false</span>,
+            <span class="hljs-attr">hasInserted</span>: <span class="hljs-literal">false</span>,
+        }
+        <span class="hljs-keyword">let</span> compMeta = <span class="hljs-title function_">removeComponent</span>(uniqueId)
+        <span class="hljs-keyword">if</span> (compMeta) {
+            flagMpa.<span class="hljs-property">hasRemoved</span> = <span class="hljs-literal">true</span>
+            <span class="hljs-comment">// compMeta.prevUniqueId = toPrevUniqueId</span>
+            <span class="hljs-comment">// compMeta.parentUniqueId = toParentUniqueId</span>
+            flagMap.<span class="hljs-property">hasInserted</span> = <span class="hljs-title function_">insertComponent</span>(<span class="hljs-title function_">getComponentInfoByCompMeta</span>(compMeta), toPrevUniqueId)
+        }
+        <span class="hljs-keyword">if</span> (flagMap.<span class="hljs-property">hasRemoved</span> &amp;&amp; flagMap.<span class="hljs-property">hasInserted</span>) {
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>
+        }
+    }
+    <span class="hljs-keyword">return</span> {
+        tree,
+        getRoot,
+        ...
+    }
+})
+<span class="hljs-keyword">export</span> {
+    useStore
+}
+</code></pre>
+<h2 id="在vue文件中使用store中的数据">在vue文件中使用store中的数据</h2>
+<pre><code class="language-js"><span class="hljs-comment">// 渲染所有的一级组件。</span>
+&lt;<span class="hljs-title class_">Stack</span> v-<span class="hljs-keyword">for</span>=<span class="hljs-string">&quot;(item, index) in compList&quot;</span> :key=<span class="hljs-string">&quot;item.uuid&quot;</span> v-bind=<span class="hljs-string">&quot;item.props&quot;</span>&gt;&lt;/<span class="hljs-title class_">Stack</span>&gt;
+...
+<span class="hljs-keyword">import</span> {useStore} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../store.ts&#x27;</span>
+<span class="hljs-keyword">let</span> componentStore = <span class="hljs-title function_">useStore</span>()
+<span class="hljs-keyword">let</span> compList = ref&lt;<span class="hljs-title class_">ComponentMeta</span>[]&gt;([])
+<span class="hljs-title function_">req</span>({...}) <span class="hljs-comment">// 根据pageId获取当前页面的组件信息</span>
+.<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
+    <span class="hljs-keyword">if</span> (res.<span class="hljs-property">code</span> === <span class="hljs-number">0</span>) {
+        res.<span class="hljs-property">data</span> <span class="hljs-comment">// 这是组件列表</span>
+            <span class="hljs-comment">// 这里假设第一元素是当前页面的第一个组件。实现常与假设不同，实现情况做变通。</span>
+            .<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">compInfo</span> =&gt;</span> { <span class="hljs-comment">// 处理为一棵树。</span>
+                componentStore.<span class="hljs-title function_">mountComponent</span>(compInfo)
+            })
+        <span class="hljs-keyword">let</span> root = componentStore.<span class="hljs-title function_">getRoot</span>()
+        <span class="hljs-keyword">if</span> (root) {
+            compList.<span class="hljs-property">value</span> = componentStore.<span class="hljs-title function_">getAfterComponent</span>(root.<span class="hljs-property">uuid</span>) <span class="hljs-comment">// 取出一级组件</span>
+        }
+    }
+})
+</code></pre>
+<pre><code class="language-js"><span class="hljs-comment">// Stack.vue</span>
+<span class="hljs-comment">// 示意如何递归渲染子组件。</span>
+&lt;div&gt;
+    ...
+    &lt;div&gt;
+        <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Stack</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;(item, index) in headerCompList&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;index&quot;</span> <span class="hljs-attr">v-bind</span>=<span class="hljs-string">&quot;item.props&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">Stack</span>&gt;</span></span>
+    &lt;/div&gt;
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">Stack</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;(item, index) in bodyCompList&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;index&quot;</span> <span class="hljs-attr">v-bind</span>=<span class="hljs-string">&quot;item.props&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">Stack</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">Stack</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;(item, index) in footerCompList&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;index&quot;</span> <span class="hljs-attr">v-bind</span>=<span class="hljs-string">&quot;item.props&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">Stack</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+&lt;/div&gt;
+<span class="hljs-keyword">let</span> headerCompList = ref&lt;<span class="hljs-title class_">ComponentMeta</span>[]&gt;(componentStore.<span class="hljs-title function_">getAfterComponent</span>(props.<span class="hljs-property">headerChildUniqueId</span>))
+<span class="hljs-keyword">let</span> bodyCompList = ref&lt;<span class="hljs-title class_">ComponentMeta</span>[]&gt;(componentStore.<span class="hljs-title function_">getAfterComponent</span>(props.<span class="hljs-property">bodyChildUniqueId</span>))
+<span class="hljs-keyword">let</span> footerCompList = ref&lt;<span class="hljs-title class_">ComponentMeta</span>[]&gt;(componentStore.<span class="hljs-title function_">getAfterComponent</span>(props.<span class="hljs-property">footerChildUniqueId</span>))
+</code></pre>
+<h2 id="与后端接口交互">与后端接口交互</h2>
+<p>在数据库表中，每一条组件信息占用一行数据。</p>
+<h3 id="createcomponent">createComponent</h3>
+<p>生成一个id，再组织成ComponentInfo类型，保存在数据库中。</p>
+<h3 id="removecomponent">removeComponent</h3>
+<ol>
+<li>根据uniqueId找到要被删除的组件dc。</li>
+<li>再找到相关的前面的组件pc、后面的组件nc、父组件pac。</li>
+<li>修改相关组件
+<ul>
+<li>若无pc，也无nc，则设置pac的指定子属性为null</li>
+<li>若无nc，则设置pc的next属性为null.</li>
+<li>若无pc，则设置pac的指定子属性为nc。</li>
+</ul>
+</li>
+</ol>
+<h3 id="reorder">reorder</h3>
+<p>// 同级重排
+// 跨级重排
+// 子元素一起移动
+payload: {
+uniqueId,
+prevUniqueId,
+nextUniqueId,
+}
+let comp = sqlByUniqueId(payload.uniqueId)
+com.prevUniqueId = com.prevUniqueId
+com.nextUniqueId = com.nextUniqueId</p>
+<h3 id="editcomponent">editComponent</h3>
+<p>修改数据后保存。
+paylaod: {
+uniqueId,
+props,
+}
+let compInfo = sqlByUniqueId(payload.uniqueId)
+compInfo.props = payload.props
+saveCompInfo(compInfo)</p>
+<h2 id="与store的交互">与store的交互</h2>
+<p>store中是树型结构。</p>
+<h3 id="createcomponent-1">createComponent</h3>
+<p>let compInfo = createComponentInfo(...)
+componentStore.mountComponent(compInfo)
+componentStore.insertComponent(compInfo, prevUniqueId)</p>
+<h3 id="removecomponent-1">removeComponent</h3>
+<p>componentStore.removeComponent(comp.uuid)</p>
+<h3 id="reorder-1">reorder</h3>
+<p>let dropIndex // 放置后的组件的下标。
+let dropBox   // 放置后的组件的父组件。
+let prevInde
+compList //</p>
+<p>componentStore.reorderComponent(compInfo, compList[dropIndex - 1])
+let compMeta = componentStore.removeComponent(comp.uuid)
+componentStore.mountComponent(getComponentInfoByCompMeta(compMeta))</p>
+<p>compMeta = componentStore.removeComponent(<a href="http://dragItem.id">dragItem.id</a> || dragItem.uuid)
+compInfo = getComponentInfoByCompMeta(compMeta)
+let dropIndex = compList.findIndex(item =&gt; {
+return hasUniqueId(<a href="http://dragItem.id">dragItem.id</a> || dragItem.uuid, <a href="http://item.id">item.id</a>, item.uuid)
+})
+if (dropIndex) { // 非第一个
+toPrevUniqueId = compList[dropIndex - 1].id || compList[dropIndex - 1].uuid
+componentStore.reorderComponentNext(compInfo, toPrevUniqueId)
+} else {
+toParentUniqueId = compMeta.parentUniqueId
+componentStore.reorderComponentChild(compInfo, toParentUniqueId)
+}
+// reorderComponent
+// 分为：
+// reorderComponentNext
+// reorderComponentChild</p>
+<h3 id="editcomponent-1">editComponent</h3>
+<p>let comp = componentStore.selectedComponent()
+comp.props = ...</p>
+<p>没有使用到editComponent</p>
+
+        
+        
+    </body>
+    </html>
