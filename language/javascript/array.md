@@ -155,7 +155,7 @@ fn，必填，返回 boolean 值。
     })
     // bool0 = true
 
-**every(fn)** 用数组中的每一项都运行给定的函数。若都返回 true，则返回 true。反之返回 false。不改变原数组。  
+**every(fn)** 用数组中的每一项都运行给定的函数。若都返回 true，则返回 true。反之返回 false。不改变原数组。当遇到第一个为 false 时，不再执行剩下元素并返回 false.  
 fn，必填，返回 boolean 值。
 
     var bool1 = h.every(function (item, index, arr) {

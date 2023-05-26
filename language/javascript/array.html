@@ -15,41 +15,6 @@
 	display: none;
 }
 
-/* From extension ms-toolsai.jupyter */
-/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
-
-.alert {
-    width: auto;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-.alert > *:last-child {
-    margin-bottom: 0;
-}
-#preview > .alert:last-child {
-    /* Prevent this being set to zero by the default notebook stylesheet */
-    padding-bottom: 1em;
-}
-
-.alert-success {
-    /* Note there is no suitable color available, so we just copy "info" */
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-info {
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-warning {
-    background-color: var(--theme-warning-background);
-    color: var(--theme-warning-foreground);
-}
-.alert-danger {
-    background-color: var(--theme-error-background);
-    color: var(--theme-error-foreground);
-}
-
 </style>
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
@@ -216,7 +181,7 @@ fn，必填，返回 boolean 值。</p>
 })
 // bool0 = true
 </code></pre>
-<p><strong>every(fn)</strong> 用数组中的每一项都运行给定的函数。若都返回 true，则返回 true。反之返回 false。不改变原数组。<br>
+<p><strong>every(fn)</strong> 用数组中的每一项都运行给定的函数。若都返回 true，则返回 true。反之返回 false。不改变原数组。当遇到第一个为false时，不再执行剩下元素并返回false.<br>
 fn，必填，返回 boolean 值。</p>
 <pre><code>var bool1 = h.every(function (item, index, arr) {
     return item % 2 === 0
