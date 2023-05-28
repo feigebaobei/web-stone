@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>ts &plus; axios</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h2 id="ts--axios">ts + axios</h2>
+<pre><code class="language-ts"><span class="hljs-keyword">import</span> axios <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;axios&#x27;</span>
+
+<span class="hljs-keyword">let</span> instance = axios.<span class="hljs-title function_">create</span>({
+    <span class="hljs-attr">baseURL</span>: <span class="hljs-string">&#x27;...&#x27;</span>,
+    <span class="hljs-attr">timeout</span>: <span class="hljs-number">5000</span>
+})
+
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">req</span> = (<span class="hljs-params">params</span>) =&gt; {
+    <span class="hljs-keyword">return</span> <span class="hljs-title function_">instance</span>(params).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+        <span class="hljs-keyword">return</span> res.<span class="hljs-property">data</span>
+    }).<span class="hljs-title function_">catch</span>(<span class="hljs-function"><span class="hljs-params">error</span> =&gt;</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">reject</span>(error)
+    })
+}
+<span class="hljs-keyword">export</span> {
+    instance,
+    req,
+}
+
+</code></pre>
+
+        
+        
+    </body>
+    </html>
