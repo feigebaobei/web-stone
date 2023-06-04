@@ -23,3 +23,15 @@
 - [csr]()
 - [spa]()
 - [mpa]()
+
+# vue2 & vue3 & react & angular & svelte & preact & redom & qwik
+
+| vue2            | vue3                          | react | angular | svelte | preact | redom | qwik |
+| --------------- | ----------------------------- | ----- | ------- | ------ | ------ | ----- | ---- |
+| 选项式 api      | 组合式 api。可以 tree shaking |       |         |        |        |       |
+| js              | ts                            |       |         |        |        |       |
+| import + method | useXxx                        |       |         |        |        |       |
+| -               | 比 vue2 模块化思想更好        |       |         |        |        |       |
+|                 |                               |       |         |        |        |       |
+|                 |                               |       |         |        |        |       |
+|                 |                               |       |         |        |        |       |

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>&#x57fa;&#x7840;</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="基础">基础</h1>
+<p>先出现低代码，再出现“低代码”概念。<br>
+能够以最少的手写代码和设置快速开发应用、配置和部署业务应用程序。</p>
+<h2 id="lc平台的能力">lc平台的能力</h2>
+<ul>
+<li>可视化页面搭建</li>
+<li>可视化模型设计</li>
+<li>可视化流程设计</li>
+<li>可视化报表及数据分析</li>
+<li>可视化服务与数据开放、集成</li>
+<li>权限、角色设置标准化和业务化</li>
+<li>不关心技术概念与底层运维</li>
+</ul>
+<h2 id="概念介绍">概念介绍</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>设置器</td>
+<td>setter</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>-</td>
+<td>schema</td>
+<td>数据流的结构</td>
+<td>与blc类似</td>
+</tr>
+<tr>
+<td>设置器</td>
+<td>setter</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>设置器</td>
+<td>setter</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="软件开发演进">软件开发演进</h2>
+<p>pro =&gt; low =&gt; zero =&gt; 自驱式开发</p>
+<h1 id="引擎介绍">引擎介绍</h1>
+<p>为低码平台开发者提供一个具备强大定制扩展能力的低代码设计器研发框架。<br>
+设计器骨架</p>
+<pre><code>|----------------------------------------|
+|         顶部面板 topArea                |
+|----------------------------------------|
+|-----||---------------------||----------|
+|     ||  工具栏 toolBar      ||          |
+|  功  ||---------------------||  设置    |
+|  能  ||                     ||  面板    |
+|  面  ||                     ||  right  |
+|  板  ||        画布         ||   Area   |
+|left ||       mainArea      ||          |
+|Area ||                     ||          |
+|     ||                     ||          |
+|-----||---------------------||----------|
+</code></pre>
+<p>代码设计器 = 低码引擎 + 设计器插件 * n + 物料 * n + 设置器 * n</p>
+<h2 id="建设理念">建设理念</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>协议先行</td>
+<td>就是数据流先行</td>
+<td>所有的系统设计都是数据流先行。作者提出此点可能是为了统一团队意识。</td>
+</tr>
+<tr>
+<td>最小内核</td>
+<td>内核做精做深，差异部分为插件、物料、设置器扩展。例如linux内核与linux系统的关系。从现状来看，还未达到此目标。</td>
+<td>分层设计的体现。详见<a href="/promote/systemDesign/architecturalPattern.html">架构模式</a></td>
+</tr>
+<tr>
+<td>最强生态</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>阿里内部有100+个lc平台</p>
+<h1 id="应用篇">应用篇</h1>
+<h2 id="setup">setup</h2>
+<pre><code>git clone https://github.com/alibaba/lowcode-demo.git
+cd xxx
+npm install
+npm run start
+# 即可看到效果
+# 默认为中后台设计器
+</code></pre>
+<pre><code class="language-js"><span class="hljs-keyword">import</span> <span class="hljs-title class_">ReactRenderer</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@alilc/lowcode-react-renderer&#x27;</span>
+<span class="hljs-keyword">import</span> <span class="hljs-title class_">ReactDOM</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react-dom&#x27;</span>
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Button</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@alifd/next&#x27;</span> <span class="hljs-comment">// 按需引入组件</span>
+<span class="hljs-keyword">let</span> schema = {...}
+<span class="hljs-keyword">let</span> components = {
+    <span class="hljs-title class_">Button</span>
+}
+<span class="hljs-comment">// 把要用到的组件+schema传入高阶组件</span>
+<span class="hljs-title class_">ReactDOM</span>.<span class="hljs-title function_">render</span>((<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">ReactRenderer</span>
+    <span class="hljs-attr">schema</span>=<span class="hljs-string">{schema}</span>
+    <span class="hljs-attr">components</span>=<span class="hljs-string">{components}</span>
+ /&gt;</span></span>), <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;root&#x27;</span>))
+</code></pre>
+<h2 id="定制设计器">定制设计器</h2>
+<ul>
+<li>插件的功能是什么？</li>
+<li>如何扩展、新增组件（物料、资产包）</li>
+<li>设计器渲染的逻辑是什么？</li>
+<li>设计器渲染与运行时渲染有何不同？</li>
+</ul>
+<h2 id="功能">功能</h2>
+<ul>
+<li>可以加载外置物料</li>
+<li>可以挂载外置插件</li>
+</ul>
+<h2 id="定制插件">定制插件</h2>
+<pre><code class="language-shell">npm init @alilc/element your-material-name
+</code></pre>
+<p>插件示例代码中体现了：</p>
+<ul>
+<li>注册环境下唯一。数据中心化系统唯一键是id.反之唯一是name.</li>
+<li>exports</li>
+<li>hooks</li>
+</ul>
+<h2 id="定制设置器">定制设置器</h2>
+<p>内置22种设置器。
+可开发设置器后挂载到引擎上。blc中把设置器做成了json。由组件的配置文件决定设置器的功能。ali把设置器做成了js包。二者相较，js包的功能更强大。
+插件、设置器之间使用了<code>@alilc/lowcode-engine</code>包的<code>emit</code>对象实现。blc中有这样的设计，但未有时间实现。它计划使用<code>plugin-xxx</code>实现。</p>
+<h2 id="定制物料">定制物料</h2>
+<p>组件是最小可复用单元。
+又是使用cli生成项目的基本结构。blc也可以使用些方式实现自动化。在一组件的包中打包，打包结果包括搭建侧的和渲染侧的。
+具体过程：</p>
+<ol>
+<li>使用脚本生成基本项目。</li>
+<li>编辑基本项目后打包。</li>
+<li>发布组件包。</li>
+<li>在低码平台项目中使用此组件包。</li>
+</ol>
+<h2 id="定制出码">定制出码</h2>
+<ul>
+<li>rax       适用于m、applet</li>
+<li>icejs     适用于pc
+有调试、测试。</li>
+</ul>
+<h2 id="宜搭">宜搭</h2>
+<h1 id="基础协议">基础协议</h1>
+<p>协议（数据流）：系统之模块之间数据结构。
+各种json配置文件。</p>
+<h1 id="原理篇">原理篇</h1>
+<h2 id="入料">入料</h2>
+<p>经过扫描、解析源码，产出一份符合规范协议地schema(json).然后使用动态，静态二种方式入料。
+blc不使用扫描+解析源码的方式实现。使用自动化脚本生成的组件包中就存在的配置文件。</p>
+<h2 id="编排">编排</h2>
+<p>产生schema的过程</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>项目模型</td>
+<td>一个引擎只有一个项目</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>文档模型</td>
+<td>一个项目中有多个文档。一个文档就是一个页面。一个文档中有多个节点</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>节点模型</td>
+<td>一个节点就是一个组件。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>属性模型</td>
+<td>一个节点中有一个prop,它就是属性。</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="渲染">渲染</h2>
+<p>schema + component =&gt; page</p>
+<p>|名称|英文名称|说明|优点|缺点|
+|-|-|-|-|
+|运行时编译|jit|加载schema，执行js。通过递归、计算props等，完成渲染。|无编译时间，可在修改后短时间内看到效果。（编译时间比渲染时间长）|首屏时间较长。当改变上下文时需要重新递归，损耗大。|
+|预先编译|aot|又称为出码渲染。产出特定语言的代码。可出特定技术栈的代码，也可出js+html的代码。|运行时性能好。|出码不统一。实时性低。|</p>
+<h2 id="出码">出码</h2>
+<ul>
+<li>需要极致的打开速度</li>
+<li>老项目+新需求</li>
+<li>协议不能描述部分代码逻辑</li>
+</ul>
+<p>schema + solution =&gt; source code</p>
+<ol>
+<li>前置优化</li>
+<li>代码生成</li>
+<li>插槽</li>
+<li>代码块</li>
+<li>后置优化（prettier）</li>
+</ol>
+<h2 id="生态设计">生态设计</h2>
+<ul>
+<li>物料生态</li>
+<li>设置器生态</li>
+<li>插件生态</li>
+</ul>
+<h2 id="设置器建设">设置器建设</h2>
+<p>setter</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>属性</td>
+<td></td>
+<td>defaultValue/value</td>
+</tr>
+<tr>
+<td>样式</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>事件</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>高级</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="插件建设">插件建设</h2>
+<h2 id="物料建设">物料建设</h2>
+<h1 id="展望">展望</h1>
+<h1 id="难点">难点</h1>
+<ul>
+<li>定制化</li>
+<li>灵活性
+lc的风头已经盖过几年前的工程化（模块化、自动化、规范化）了</li>
+</ul>
+<h1 id="blc可实现的新增功能">blc可实现的新增功能</h1>
+<ul>
+<li>出码</li>
+<li>自动化创建组件基本结构</li>
+<li>支持插件</li>
+<li>组件版本跌代</li>
+<li>lc + pc</li>
+</ul>
+<p>这么多年过来了。生态还是是那样。说明它做的也不好。
+大家也没有基于它做出多好的lc平台。</p>
+<p>低码引擎与低码平台的比例应该是1:n。但是现在能提上名号的只有宜搭。ali内部100+个lc平台。我不相信有比宜搭做的好的平台而不公布出来的。计划是1:n，现实是1:1。
+各插件也没做起来。给它点时间吧。</p>
+
+        
+        
+    </body>
+    </html>
