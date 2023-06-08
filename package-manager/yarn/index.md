@@ -1,37 +1,44 @@
 # `yarn`
 
 ## overview
+
 > 它是一个包管理工具。类似产品有：npm/pnpm  
 > cli  
 > 可以方便分享代码给别的开发者。很快，安全，不会遇到问题。  
 > 把项目概述写入`package.json`中。  
-> yarn2及以后版本已写入了corepack包（它是node 16.10+内置的包。）。通过`corepack`管理`yarn`  
+> yarn2 及以后版本已写入了 corepack 包（它是 node 16.10+内置的包。）。通过`corepack`管理`yarn`  
 > `pnpm`把依赖包做成树型的。`yarn`有可能也把依赖包做成树型的。  
-> 可读强的输出日志。 
-> facebook开发   
+> 可读强的输出日志。
+> facebook 开发
 
 ### feature
-- offline mode  
-- meterministic  
-- network performance  
-- network resilicense  
-- flat mode // pnpm是树型结构  
-- 0安装
+
+- offline mode
+- meterministic
+- network performance
+- network resilicense
+- flat mode // pnpm 是树型结构
+- 0 安装
 - 即插即用
 - 插件文档
 - 支持一库多包
 - 支持多个工作空间
 
 ## install
+
 最好使用`corepack`管理`yarn`。`corepack`是`node > 16.10`的内置包。默认不使用引包。
-### 安装yarn 1+
+
+### 安装 yarn 1+
+
 ```shell
 # for yarn 1+
 npm i -g yarn
 ```
 
-### 安装yarn 2+
+### 安装 yarn 2+
+
 #### node >= 16.0
+
 ```shell
 # for yarn 2+ / yarn 3+
 corepack enable
@@ -39,12 +46,13 @@ yarn set version stable # 更新yarn 默认执行yarn init
 ```
 
 #### node < 16.0
+
 ```shell
 npm i -g corepack
 ```
 
 ```shell
-yarn --version # 若返回版本号，则安装成功。  
+yarn --version # 若返回版本号，则安装成功。
 yarn init -2 # init project
 yarn set version stable # 更新yarn 默认执行yarn init
 yarn set version from sources # 更新到最新的master分支
@@ -52,6 +60,7 @@ yarn set version from sources --branch 1211 # 更新为指定的PRs
 ```
 
 ## usage
+
 ```shell
 yarn help // 列出命令
 yarn init
@@ -86,74 +95,54 @@ yarn add <package>[@version]|[@url] // 安装依赖包
   --prefer-dev
   -i --interactive
   --cached
-  --mode #0 
-
-yarn bin [name] // 执行二进制脚本
-  -v --verbose
-  --json
-
-yarn cache clean // 删除共享的缓存文件
-  --mirror
-  --all
-
-yarn config get <name> // 读取配置项
-  --json
-  --no-redacted
-
-yarn config set <name> <value> // 设置配置项
-  --json
-  -H --home
-
-yarn config unset <name> // 不设置指定配置项
-  -H --home
-
-yarn config // 列出当前的配置项
- -v --verbose
- --why
- --json
-
-yarn constraints query <query> // Query the constraints fact database.
-  --json
-
-yarn constraints source // 列出源代码
-  -v --verbose
-
-yarn constraints // 检测本项目的限制
-  --fix
-
-yarn dedupe // 删除重复依赖
-  -s --strategy #0
-  -c --check
-  --json
   --mode #0
 
-yarn dlx <command> // 在临时环境中运行指定的包
-  -p --package #0
-  -q --quiet
+yarn bin [name] // 执行二进制脚本
+-v --verbose
+--json
 
-yarn exec <commandName> // 执行shell脚本
+yarn cache clean // 删除共享的缓存文件
+--mirror
+--all
+
+yarn config get <name> // 读取配置项
+--json
+--no-redacted
+
+yarn config set <name> <value> // 设置配置项
+--json
+-H --home
+
+yarn config unset <name> // 不设置指定配置项
+-H --home
+
+yarn config // 列出当前的配置项
+-v --verbose
+--why
+--json
+
+yarn constraints query <query> // Query the constraints fact database.
+--json
+
+yarn constraints source // 列出源代码
+-v --verbose
+
+yarn constraints // 检测本项目的限制
+--fix
+
+yarn dedupe // 删除重复依赖
+-s --strategy #0
+-c --check
+--json
+--mode #0
+
+yarn dlx <command> // 在临时环境中运行指定的包
+-p --package #0
+-q --quiet
+
+yarn exec <commandName> // 执行 shell 脚本
 
 yarn explain peer-requirements
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 </pre>
 </details>
@@ -179,7 +168,7 @@ yarn help
     --frozen-lockfile                   don't generate a lockfile and fail if an update is needed
     --global-folder <path>              specify a custom folder to store global packages
     --har                               save HAR output of network traffic
-    --https-proxy <host>                
+    --https-proxy <host>
     --ignore-engines                    ignore engines check
     --ignore-optional                   ignore optional dependencies
     --ignore-platform                   ignore platform checks
@@ -201,14 +190,14 @@ yarn help
     --otp <otpcode>                     one-time password for two factor authentication
     --prefer-offline                    use network only if dependencies are not available in local cache
     --preferred-cache-folder <path>     specify a custom folder to store the yarn cache if possible
-    --prod, --production [prod]         
-    --proxy <host>                      
+    --prod, --production [prod]
+    --proxy <host>
     --pure-lockfile                     don't generate a lockfile
     --registry <url>                    override configuration registry
     -s, --silent                        skip Yarn console logs, other types of logs (script output) will be printed
     --scripts-prepend-node-path [bool]  prepend the node executable dir to the PATH in scripts
     --skip-integrity-check              run install without checking if node_modules is installed
-    --strict-semver                     
+    --strict-semver
     --update-checksums                  update package checksums from current repository
     --use-yarnrc <path>                 specifies a yarnrc file that Yarn should use (.yarnrc only, not .npmrc) (default: )
     -v, --version                       output the version number
@@ -262,37 +251,45 @@ yarn help
 ```
 
 ## cli
+
 `yarn init` init project
 `yarn add [package]` add package
 `yarn add [package]@[version]` add package
 `yarn add [package]@[tag]` add package
-`--dev` 安装到devDependencies
-`--peer` 安装到peerDependencies
-`--optional` 安装到optionalDependencies
+`--dev` 安装到 devDependencies
+`--peer` 安装到 peerDependencies
+`--optional` 安装到 optionalDependencies
 `yarn upgrade [package]` upgrade package
 `yarn upgrade [package]@[version]` upgrade package
 `yarn upgrade [package]@[tag]` upgrade package
 `yarn remove [package]` remove package
 `yarn` 安装项目中的依赖
-当不确定时不要使用`yarn dlx`代替`yarn add`。`yarn dlx`不会跟踪包的名称、版本。  
+当不确定时不要使用`yarn dlx`代替`yarn add`。`yarn dlx`不会跟踪包的名称、版本。
+
 ## 配置文件
+
 默认配置文件：`<root>/.yarnrc`。  
 |key|description|default|enum|demo|||
 |-|-|-|-|-|-|-|
-||||||||
-||||||||
-||||||||
-
+|yarn-offline-mirror|"./packages-cache"||||||
+|yarn-offline-mirror-pruning|true||||||
+|yarn-path|"./bin/yarn"||||||
+|disable-self-update-check|true||||||
+|child-concurrency|#number#||||||
+|unsafe-disable-integrity-migration|false||||||
 
 ## [pnp](/package-manager/yarn/pnp.html)
-## [编辑器的sdk](/package-manager/yarn/editor-sdk.html)
+
+## [编辑器的 sdk](/package-manager/yarn/editor-sdk.html)
 
 ## 输出日志
+
 ```shell
 > <错误码>: <符号><说明文本>
 ```
 
 ### 错误码
+
 <details>
 	<summary>错误码</summary>
 <pre>
@@ -351,20 +348,26 @@ YN0077 - GHOST_ARCHITECTURE
 </details>
 
 ## yarn dlx
-与npx类似，是download and execute的简称。  
+
+与 npx 类似，是 download and execute 的简称。  
 只能执行远端的可执行文件。（不能执行本地的可执行文件）
 
 ## principle
-可基于插件、模块化与作者共同开发yarn。  
-yarn的核心代码：是由不同的内置插件实现的。  
+
+可基于插件、模块化与作者共同开发 yarn。  
+yarn 的核心代码：是由不同的内置插件实现的。
 
 如何支持多个编辑器？
 为什么要与`corepack`一起工作？
+
 ### uml
+
 ```
+
 ```
 
 ## todo
-> 版本迭代后api无变化
+
+> 版本迭代后 api 无变化
 > 开发一个插件
 > 未来迭代计划。
