@@ -3,6 +3,7 @@
 - [vue2](/framework/vue2/index.html)
 - [vue3](/framework/vue3/index.html)
 - [react](/framework/react/index.html)
+- [angular](/framework/angular/index.html)
 - [svelte](/framework/svelte/index.html)
 - [preact](/framework/preact/index.html)
 - [redom](/framework/redom/index.html)
