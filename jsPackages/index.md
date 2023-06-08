@@ -20,6 +20,7 @@
 - [@reduxjs/toolkit](/jsPackages/@reduxjs-toolkit.html)
 - [lerna](/jsPackages/lerna/index.html)
 - [axios](/jsPackages/axios/index.html)
+- [alova](/jsPackages/alova/index.html)
 - [prop-types](/jsPackages/prop-types.html)
 - [ngrok](/jsPackages/ngrok.html)
 - [mkcert](/jsPackages/mkcert.html)
