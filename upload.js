@@ -250,12 +250,12 @@ c.on('ready', () => {
       throw err
     }
 
-    // let p = 'editor'
+    // let p = 'framework/angular/family'
     let p = [
-      'editor/index.html',
-      'editor/notepad++.html',
-      'editor/sublime.html',
-      'editor/vscode.html',
+      // 'framework/angular/family/angularCli.html',
+      // 'framework/angular/family/angularRouter.html',
+      // 'framework/angular/basic.html',
+      'builder/vite/index.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
