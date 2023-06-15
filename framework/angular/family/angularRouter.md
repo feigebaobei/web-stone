@@ -1,12 +1,8 @@
-# @angular/cli
+# @anuglar/router
 
 ## overview
 
-> develop  
-> scaffold  
-> maintain  
-> compile
-> update / maintain / scaffold / develop
+> TODO: description
 
 ### feature
 
@@ -16,15 +12,26 @@
 
 ## install
 
-`npm i @angular/cli`
+一般使用`ng`命令行安装，不需要手动安装。
+`npm i @anuglar/router`
 
 ## usage
 
-```shell
-ng new project-name
-cd project-name
-ng g c path/compName # 创建的组件会自动注册
+```html
+<a [routerLink]="[/home]">home</a>
+<!-- 匹配路由后，组件的出口 -->
+<router-outlet></router-outlet>
 ```
+
+```ts
+let routes: Routes = [
+  { path: 'home', component: HomeComponent },
+  { path: '**', component: NotFountComponent },
+  // ...
+]
+```
+
+### 懒加载
 
 ## configuration
 
@@ -48,10 +55,10 @@ ng g c path/compName # 创建的组件会自动注册
 |||||||||||
 <!-- prettier-ignore-end -->
 
-`@angular/cli.fn(param, first: string, second: boolean = true) => void`
+`@anuglar/router.fn(param, first: string, second: boolean = true) => void`
 description
 
-`@angular/cli.fn(param, [options: {a: string, b?: number}])`
+`@anuglar/router.fn(param, [options: {a: string, b?: number}])`
 description
 
 ## principle

@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>&commat;angular&sol;cli</title>
+        <title>&commat;anuglar&sol;router</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -40,14 +40,10 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="angularcli">@angular/cli</h1>
+        <h1 id="anuglarrouter">@anuglar/router</h1>
 <h2 id="overview">overview</h2>
 <blockquote>
-<p>develop<br>
-scaffold<br>
-maintain<br>
-compile
-update / maintain / scaffold / develop</p>
+<p>TODO: description</p>
 </blockquote>
 <h3 id="feature">feature</h3>
 <ul>
@@ -56,12 +52,20 @@ update / maintain / scaffold / develop</p>
 <li>feature2</li>
 </ul>
 <h2 id="install">install</h2>
-<p><code>npm i @angular/cli</code></p>
+<p>一般使用<code>ng</code>命令行安装，不需要手动安装。
+<code>npm i @anuglar/router</code></p>
 <h2 id="usage">usage</h2>
-<pre><code class="language-shell">ng new project-name
-cd project-name
-ng g c path/compName # 创建的组件会自动注册
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> [<span class="hljs-attr">routerLink</span>]=<span class="hljs-string">&quot;[/home]&quot;</span>&gt;</span>home<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+<span class="hljs-comment">&lt;!-- 匹配路由后，组件的出口 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">router-outlet</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">router-outlet</span>&gt;</span>
 </code></pre>
+<pre><code class="language-ts"><span class="hljs-keyword">let</span> <span class="hljs-attr">routes</span>: <span class="hljs-title class_">Routes</span> = [
+    { <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;home&#x27;</span>, <span class="hljs-attr">component</span>: <span class="hljs-title class_">HomeComponent</span> },
+    { <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;**&#x27;</span>, <span class="hljs-attr">component</span>: <span class="hljs-title class_">NotFountComponent</span> },
+    <span class="hljs-comment">// ...</span>
+]
+</code></pre>
+<h3 id="懒加载">懒加载</h3>
 <h2 id="configuration">configuration</h2>
 <p>默认配置文件：<code>path/to/file.json</code>。</p>
 <!-- prettier-ignore-start -->
@@ -177,15 +181,14 @@ ng g c path/compName # 创建的组件会自动注册
 </tbody>
 </table>
 <!-- prettier-ignore-end -->
-<p><code>@angular/cli.fn(param, first: string, second: boolean = true) =&gt; void</code>
+<p><code>@anuglar/router.fn(param, first: string, second: boolean = true) =&gt; void</code>
 description</p>
-<p><code>@angular/cli.fn(param, [options: {a: string, b?: number}])</code>
+<p><code>@anuglar/router.fn(param, [options: {a: string, b?: number}])</code>
 description</p>
 <h2 id="principle">principle</h2>
 <p>此包的处理逻辑。</p>
 <h3 id="uml">uml</h3>
-<pre><code>
-</code></pre>
+<pre><code></code></pre>
 <h2 id="todo">todo</h2>
 <blockquote>
 <p>未来迭代计划。
