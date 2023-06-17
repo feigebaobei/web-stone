@@ -15,41 +15,6 @@
 	display: none;
 }
 
-/* From extension ms-toolsai.jupyter */
-/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
-
-.alert {
-    width: auto;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-.alert > *:last-child {
-    margin-bottom: 0;
-}
-#preview > .alert:last-child {
-    /* Prevent this being set to zero by the default notebook stylesheet */
-    padding-bottom: 1em;
-}
-
-.alert-success {
-    /* Note there is no suitable color available, so we just copy "info" */
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-info {
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-warning {
-    background-color: var(--theme-warning-background);
-    color: var(--theme-warning-foreground);
-}
-.alert-danger {
-    background-color: var(--theme-error-background);
-    color: var(--theme-error-foreground);
-}
-
 </style>
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
@@ -88,7 +53,7 @@
 </ol>
 <p>从技术角度看待这些方法。没有高低之分，只有对特定任务是否合适。</p>
 <h2 id="cookie">cookie</h2>
-<h3 id="简介">简介</h3>
+<h3 id="简介-1">简介</h3>
 <ol>
 <li>cookie：&quot;小饼干，小甜品&quot;</li>
 <li>参与 http 通信。因为在 http 中可以看到 cookie，所以易受到攻击。</li>
@@ -137,7 +102,7 @@
 4、localStorage 本质上是对字符串的读取，如果存储内容多的话会消耗内存空间，会导致页面变卡<br>
 5、localStorage 不能被爬虫抓取到</p>
 <p><img src="file:////Users/cat/Documents/code/personal/web-stone/browser/frontStorage/image/localstorage.jpg" alt=""></p>
-<h3 id="使用">使用</h3>
+<h3 id="使用-1">使用</h3>
 <p>一般在第一次加载页面时在本地保存好数据。从第二次开始使用本地保存的数据。为了保证前端性能，一般不会保存大量数据。只保存关键数据，再根据它做出判断后执行相应的程序。</p>
 <pre><code>window.localStorage//boolean 浏览器是否支持
 </code></pre>
@@ -229,6 +194,83 @@ localStorage.clear();
 </tr>
 </tbody>
 </table>
+<h2 id="前端存储用户信息">前端存储用户信息</h2>
+<p>前端一般不存储用户信息。但不排除老项目中存储用户信息的。
+用户信息不宜长期、明文保存在前端。一般保存在后端，然后在前端存储一个指向该用户信息的key.如：token/cookie.
+前端常用的保存方式：ls/ss/store。因不能长期保存，不使用ls.因不能关闭页面后再打开还需要登录，不使用ss.store可以实现不直白保存在浏览器。最后选择store。接下来不要频繁请求用户信息。</p>
+<pre><code class="language-js"><span class="hljs-comment">// 请求并保存用户信息。</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">reqASave</span>() = <span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-keyword">return</span> <span class="hljs-title function_">reqUserInfo</span>().<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
+      store.<span class="hljs-property">userInfo</span> = res.<span class="hljs-property">data</span>
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>
+  }).<span class="hljs-title function_">catch</span>(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;获取用户信息失败&#x27;</span>)
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>
+  })
+}
+
+<span class="hljs-comment">// 可以在每一次切换路由前，检查是否有用户信息。</span>
+<span class="hljs-comment">// 全局前置路由守卫beforeEach</span>
+router.<span class="hljs-title function_">beforeEach</span>(<span class="hljs-function">(<span class="hljs-params">to, <span class="hljs-keyword">from</span>, next</span>) =&gt;</span> {
+  <span class="hljs-keyword">if</span> (store.<span class="hljs-property">hasUserInfo</span>) {
+    <span class="hljs-title function_">next</span>()
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-title function_">reqASave</span>().<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">bool</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (bool) {
+        <span class="hljs-title function_">next</span>()
+      }
+    })
+})
+
+<span class="hljs-comment">// 也可以在每次调用接口前检查</span>
+<span class="hljs-keyword">let</span> axiosInstance = axios.<span class="hljs-title function_">create</span>({
+  <span class="hljs-attr">baseURL</span>: <span class="hljs-string">&#x27;...&#x27;</span>,
+})
+<span class="hljs-keyword">let</span> axiosInstance2 = axios.<span class="hljs-title function_">create</span>({
+  <span class="hljs-attr">baseURL</span>: <span class="hljs-string">&#x27;...&#x27;</span>,
+})
+axiosInstance.<span class="hljs-property">intercepters</span>.<span class="hljs-property">request</span>.<span class="hljs-title function_">use</span>(<span class="hljs-function">(<span class="hljs-params">config</span>) =&gt;</span> {
+  <span class="hljs-comment">// return config</span>
+  <span class="hljs-keyword">if</span> (store.<span class="hljs-title function_">hasUserInfo</span>()) {
+    <span class="hljs-keyword">return</span> config
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-comment">// 防止出现死循环，使用另一个axiosInstance</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-title function_">axiosInstance2</span>({
+      <span class="hljs-attr">url</span>: <span class="hljs-string">&#x27;...&#x27;</span>,
+      <span class="hljs-attr">params</span>: {...}
+    }).<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
+      store.<span class="hljs-property">userInfo</span> = res.<span class="hljs-property">data</span>
+    }).<span class="hljs-title function_">catch</span>(<span class="hljs-function"><span class="hljs-params">error</span> =&gt;</span> {
+      <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;获取用户信息失败&#x27;</span>)
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>
+      <span class="hljs-comment">// 或者取消请求。</span>
+    })
+  }
+}, <span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> {
+  <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">reject</span>(error)
+})
+
+axiosInstance.<span class="hljs-property">intercepters</span>.<span class="hljs-property">request</span>.<span class="hljs-title function_">use</span>(<span class="hljs-function">(<span class="hljs-params">config</span>) =&gt;</span> {
+  <span class="hljs-comment">// 为本次请求添加取消器</span>
+  <span class="hljs-keyword">if</span> (stoer.<span class="hljs-property">hasUserInfo</span>) {
+    <span class="hljs-keyword">return</span> config
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">let</span> reqConfig = config
+    <span class="hljs-keyword">let</span> controller = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbortController</span>()
+    reqConfig.<span class="hljs-property">cancelToken</span> = controller.<span class="hljs-property">token</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-title function_">axiosInstance2</span>({
+      <span class="hljs-attr">url</span>: <span class="hljs-string">&#x27;...&#x27;</span>
+    }).<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
+      store.<span class="hljs-property">userInfo</span> = res.<span class="hljs-property">data</span>
+      <span class="hljs-keyword">return</span> reqConfig
+    }).<span class="hljs-title function_">catch</span>(<span class="hljs-function">() =&gt;</span> {
+      reqConfig.<span class="hljs-title function_">cancel</span>(<span class="hljs-string">&#x27;因获得用户信息失败，不发出此请求。&#x27;</span>)
+    })
+    <span class="hljs-comment">// if ()</span>
+    <span class="hljs-comment">// reqConfig.cancelToken = new CancelToken((cancel) =&gt; {})</span>
+  }
+})
+</code></pre>
 
         
         

@@ -142,12 +142,12 @@ axios.default.headers.common['Authorization'] = axios.default.baseURL = AUTH_TOK
 
 ### 自定义实例的默认值
 
-```
+```js
 const instance = axios.create({
-  baseURL: 'https://api.example.com'
-});
+  baseURL: 'https://api.example.com',
+})
 // Alter defaults after instance has been created
-instance.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+instance.defaults.headers.common['Authorization'] = AUTH_TOKEN
 ```
 
 ## api
@@ -224,6 +224,23 @@ axios.interceptors.request.eject(myInterceptor)
 let controller = new AbortController()
 axios.get(...).then(...)
 controller() // 取消请求
+
+let sourceToken = axios.CancelToken.source()
+
+<!-- servies是封装的http函数 -->
+return servies({
+  url: '/data/group_query',
+  method: 'get',
+  params: data,
+  cancelToken: sourceToken.token
+})
+<!-- 中断请求 -->
+sourceToken.cancel('取消请求')
+
+tips：
+<!-- 遇到中断后无法继续发起请求情况，重新赋值就好了 -->
+sourceToken = axios.CancelToken.source()
+<!-- 遇到上传多个文件请求，需要每个请求对于一个 axios.CancelToken.source() 便于逐个取消请求 -->
 ```
 
 ## 使用 application/x-www-form-urlencoded 格式

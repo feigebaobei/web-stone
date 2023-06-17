@@ -134,3 +134,84 @@ function getCookie(key) {
 | 可存放大小   | <4k                                                                      | <5m                            | <5m                            |          |         |           | 约 200m.各浏览器不同                 |
 | 与服务器通信 | 每次都在 http 头部信息中。过多会影响性能                                 | 仅在客户端不能与通信           | 仅在客户端不能与通信           |          |         |           | 不参与通信。可使前端脱使用。         |
 | 易用性       | 原生的方法较难使用，自己封装后会好用。                                   | 原生的方法就挺好用。可再交封装 | 原生的方法就挺好用。可再交封装 |          |         |           | api 较杂，浏览器支持差异较大。       |
+
+## 前端存储用户信息
+
+前端一般不存储用户信息。但不排除老项目中存储用户信息的。
+用户信息不宜长期、明文保存在前端。一般保存在后端，然后在前端存储一个指向该用户信息的 key.如：token/cookie.
+前端常用的保存方式：ls/ss/store。因不能长期保存，不使用 ls.因不能关闭页面后再打开还需要登录，不使用 ss.store 可以实现不直白保存在浏览器。最后选择 store。接下来不要频繁请求用户信息。
+
+```js
+// 请求并保存用户信息。
+let reqASave() = () => {
+  return reqUserInfo().then(res => {
+      store.userInfo = res.data
+      return true
+  }).catch(() => {
+    clog('获取用户信息失败')
+    return false
+  })
+}
+
+// 可以在每一次切换路由前，检查是否有用户信息。
+// 全局前置路由守卫beforeEach
+router.beforeEach((to, from, next) => {
+  if (store.hasUserInfo) {
+    next()
+  } else {
+    reqASave().then((bool) => {
+      if (bool) {
+        next()
+      }
+    })
+})
+
+// 也可以在每次调用接口前检查
+let axiosInstance = axios.create({
+  baseURL: '...',
+})
+let axiosInstance2 = axios.create({
+  baseURL: '...',
+})
+axiosInstance.intercepters.request.use((config) => {
+  // return config
+  if (store.hasUserInfo()) {
+    return config
+  } else {
+    // 防止出现死循环，使用另一个axiosInstance
+    return axiosInstance2({
+      url: '...',
+      params: {...}
+    }).then(res => {
+      store.userInfo = res.data
+    }).catch(error => {
+      clog('获取用户信息失败')
+      return null
+      // 或者取消请求。
+    })
+  }
+}, (error) => {
+  return Promise.reject(error)
+})
+
+axiosInstance.intercepters.request.use((config) => {
+  // 为本次请求添加取消器
+  if (stoer.hasUserInfo) {
+    return config
+  } else {
+    let reqConfig = config
+    let controller = new AbortController()
+    reqConfig.cancelToken = controller.token
+    return axiosInstance2({
+      url: '...'
+    }).then(res => {
+      store.userInfo = res.data
+      return reqConfig
+    }).catch(() => {
+      reqConfig.cancel('因获得用户信息失败，不发出此请求。')
+    })
+    // if ()
+    // reqConfig.cancelToken = new CancelToken((cancel) => {})
+  }
+})
+```
