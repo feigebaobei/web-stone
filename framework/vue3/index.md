@@ -83,6 +83,11 @@ $ pnpm dev
 
 ## usage
 
+可以使用:
+
+- [@vue/cli]()
+- [vite](/builder/vite/index.html)
+
 ### [创建一个 vue 应用](/framework/vue3/demo/createVueApp.html)
 
 ### [使用 vue 脚本](/framework/vue3/demo/useVueScript.html)

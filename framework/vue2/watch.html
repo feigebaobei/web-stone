@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>watch</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="watch">watch</h1>
+<h2 id="监听data">监听data</h2>
+<pre><code class="language-js"><span class="hljs-title function_">data</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;str&#x27;</span>
+    }
+},
+<span class="hljs-attr">watch</span>: {
+    <span class="hljs-attr">key</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params">nv, ov</span>) { <span class="hljs-comment">// 请使用function</span>
+        <span class="hljs-comment">// this.req()</span>
+    }
+}
+</code></pre>
+<h2 id="监听props">监听props</h2>
+<pre><code class="language-js"><span class="hljs-title function_">props</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-attr">initData</span>: {
+        <span class="hljs-attr">type</span>: <span class="hljs-title class_">String</span>,
+        <span class="hljs-attr">dafault</span>: <span class="hljs-string">&#x27;&#x27;</span>
+    }
+},
+data () {
+    <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">boxD</span>: <span class="hljs-string">&#x27;&#x27;</span>
+    }
+},
+<span class="hljs-attr">computed</span>: {
+    <span class="hljs-attr">compData</span>: {
+        <span class="hljs-attr">set</span>: funtion (v) {
+            <span class="hljs-variable language_">this</span>.<span class="hljs-property">boxD</span> = v
+        },
+        <span class="hljs-attr">get</span>: funtion () {
+            <span class="hljs-variable language_">this</span>.<span class="hljs-property">boxD</span>
+        },
+    }
+},
+<span class="hljs-attr">watch</span>: {
+    <span class="hljs-attr">compData</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params">nv, ov</span>) {
+        <span class="hljs-comment">// this.req()</span>
+    }
+}
+</code></pre>
+
+        
+        
+    </body>
+    </html>
