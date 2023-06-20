@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>build-scripts</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="build-scripts">build-scripts</h1>
+<h2 id="overview">overview</h2>
+<blockquote>
+<p>基于webpack-service开发的包。用于构建。</p>
+</blockquote>
+<h3 id="feature">feature</h3>
+<ul>
+<li>feature0</li>
+<li>feature1</li>
+<li>feature2</li>
+</ul>
+<h2 id="install">install</h2>
+<p><code>npm i build-scripts</code></p>
+<h2 id="usage">usage</h2>
+<pre><code class="language-json"><span class="hljs-comment">// package.json</span>
+<span class="hljs-attr">&quot;scripts&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+<span class="hljs-attr">&quot;build&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;build-scripts build&quot;</span>
+<span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+</code></pre>
+<h2 id="configuration">configuration</h2>
+<p>默认配置文件：<code>&lt;root&gt;/build.json</code>。</p>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>参数</th>
+<th>子参数</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>externals</td>
+<td></td>
+<td></td>
+<td>默认不支持任何字段。</td>
+<td>object</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>plugins</td>
+<td></td>
+<td></td>
+<td>通过本地插件更改webpack config。每一项代表一个插件。按顺序插件插件。第一个项为插件名，第二项为该插件的参数。</td>
+<td>[]</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;plugins&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-comment">// 数组第一项为插件名，第二项为插件参数</span>
+    <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;build-plugin-fusion&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;themePackage&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;@icedesign/theme&quot;</span>
+    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">]</span>
+  <span class="hljs-punctuation">]</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h3 id="自定义配置">自定义配置</h3>
+<p>自定义插件</p>
+<pre><code class="language-js"><span class="hljs-comment">// build.plugin.js</span>
+<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = <span class="hljs-function">(<span class="hljs-params">{ context, onGetConfig }</span>) =&gt;</span> {
+  <span class="hljs-comment">// 这里面可以写哪些，具体请查看插件开发章节</span>
+  <span class="hljs-title function_">onGetConfig</span>(<span class="hljs-function">(<span class="hljs-params">config</span>) =&gt;</span> {
+  });
+}
+</code></pre>
+<pre><code class="language-json"><span class="hljs-comment">// build.json</span>
+<span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;plugins&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-string">&quot;build-plugin-app&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-string">&quot;./build.plugin.js&quot;</span>
+  <span class="hljs-punctuation">]</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h2 id="开发插件">开发插件</h2>
+<p>日后更新吧</p>
+<h2 id="api">api</h2>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>参数</th>
+<th>子参数</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<p><code>build-scripts.fn(param, first: string, second: boolean = true) =&gt; void</code>
+description</p>
+<p><code>build-scripts.fn(param, [options: {a: string, b?: number}])</code>
+description</p>
+<h2 id="principle">principle</h2>
+<p>此包的处理逻辑。</p>
+<h3 id="uml">uml</h3>
+<pre><code></code></pre>
+<h2 id="todo">todo</h2>
+<blockquote>
+<p>未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote>
+
+        
+        
+    </body>
+    </html>

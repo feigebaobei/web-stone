@@ -25,6 +25,7 @@
 - [ngrok](/jsPackages/ngrok.html)
 - [mkcert](/jsPackages/mkcert.html)
 - [md5](/jsPackages/md5.html)
+- [build-scripts](/jsPackages/build-scripts.html)
 
 ## 编写 cli 的工具
 
