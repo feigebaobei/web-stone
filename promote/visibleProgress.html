@@ -8,8 +8,10 @@
     <style>
       .box {
         width: 500px;
-        height: 300px;
-        border: 1px solid #fff;
+        height: 140px;
+        /* border: 1px solid #fff; */
+        overflow: auto;
+        margin-top: 30px;
       }
       .progress {
         width: 300px;
@@ -60,7 +62,6 @@
       .date-list {
         margin-top: 50px;
         display: flex;
-
       }
       .date_item {
         /* width: 120px; */
@@ -80,6 +81,32 @@
       .opacity05 {
         opacity: 0.5;
       }
+      .legend_progress {
+        width: 30px;
+        height: 30px;
+        border-radius: 15px;
+        margin-right: 8px;
+      }
+      .legend_time {
+        width: 30px;
+        height: 30px;
+        border-radius: 15px;
+        margin-right: 8px;
+      }
+      .legend_all {
+        width: 30px;
+        height: 30px;
+        border-radius: 15px;
+        margin-right: 8px;
+      }
+      .legend_item {
+        display: flex;
+        align-items: center;
+        margin: 14px;
+      }
+      .inline_block {
+        display: inline-block;
+      }
 
 
     </style>
@@ -94,6 +121,20 @@
       <progress-circle width="100%" centerWidth="30%" bgColor="#d2a4da" class="pa opacity05"></progress-circle>
       <progress-circle width="100%" centerWidth="40%" bgColor="#004ac2" class="pa opacity05"></progress-circle>
       <date-list class="date-list"></date-list> -->
+    </section>
+    <section class="legend">
+      <section class="legend_item">
+        <div class="legend_progress level2 opacity05 inline_block"></div>
+        <span>当前进度</span>
+      </section>
+      <section class="legend_item">
+        <div class="legend_time level1 opacity05 inline_block"></div>
+        <span>预期进度</span>
+      </section>
+      <section class="legend_item">
+        <div class="legend_all level0 opacity05 inline_block"></div>
+        <span>总时长</span>
+      </section>
     </section>
     <!-- template -->
     <template id="progressCircleTemp">
@@ -155,12 +196,8 @@
         getTempInnerHTML () {
           return `<div class="{{className}}"></div><p class="bar-p">{{date}}</p>`
         }
-        style() {
-
-        }
-        connectedCallback() {
-          
-        }
+        style() {}
+        connectedCallback() {}
       }
       customElements.define('date-item', DateItem)
       class DateList extends HTMLElement {
