@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>2022&#x5e74;&#x4e86;&#x8fd8;&#x60f3;&#x5f00;&#x53d1;&#x5de5;&#x5177;&#x65b9;&#x6cd5;&#x5305;&#x3002;&#x8d76;&#x7d27;&#x53d6;&#x6d88;&#x8fd9;&#x4e2a;&#x60f3;&#x6cd5;&#x5427;&#x3002;</title>
+        <title>2022 &#x5e74;&#x4e86;&#x8fd8;&#x60f3;&#x5f00;&#x53d1;&#x5de5;&#x5177;&#x65b9;&#x6cd5;&#x5305;&#x3002;&#x8d76;&#x7d27;&#x53d6;&#x6d88;&#x8fd9;&#x4e2a;&#x60f3;&#x6cd5;&#x5427;&#x3002;</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -40,7 +40,7 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h2 id="2022年了还想开发工具方法包赶紧取消这个想法吧">2022年了还想开发工具方法包。赶紧取消这个想法吧。</h2>
+        <h2 id="2022-年了还想开发工具方法包赶紧取消这个想法吧">2022 年了还想开发工具方法包。赶紧取消这个想法吧。</h2>
 <pre><code class="language-js"><span class="hljs-comment">// 去抖</span>
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">createDebounceFn</span> = (<span class="hljs-params">fn, t = <span class="hljs-number">250</span></span>) =&gt; {
     <span class="hljs-keyword">let</span> id
@@ -301,6 +301,17 @@
   <span class="hljs-keyword">var</span> worker = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Worker</span>(url);
   <span class="hljs-keyword">return</span> worker;
 }
+<span class="hljs-comment">// 可控制状态的promise对象</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> createDefer&lt;T = any&gt;(): <span class="hljs-title class_">Defer</span>&lt;T&gt; {
+  <span class="hljs-keyword">const</span> <span class="hljs-attr">r</span>: any = {};
+  <span class="hljs-keyword">const</span> promise = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>&lt;T&gt;(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+    r.<span class="hljs-property">resolve</span> = resolve;
+    r.<span class="hljs-property">reject</span> = reject;
+  });
+  r.<span class="hljs-property">promise</span> = <span class="hljs-function">() =&gt;</span> promise;
+  <span class="hljs-keyword">return</span> r;
+}
+
 
 
 
@@ -309,7 +320,7 @@
 <ul>
 <li><a href="/util/rxjs.html">rxjs</a></li>
 <li><a href="/language/javascript/json-transfer.html">转换 JSON</a></li>
-<li><a href="/util/axios.html">axios项目中使用工具方法</a></li>
+<li><a href="/util/axios.html">axios 项目中使用工具方法</a></li>
 <li><a href="/util/title.html">title</a></li>
 <li><a href="/util/title.html">title</a></li>
 <li><a href="/util/title.html">title</a></li>

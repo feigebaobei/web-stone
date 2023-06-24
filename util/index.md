@@ -261,6 +261,17 @@ function createWorker(f) {
   var worker = new Worker(url);
   return worker;
 }
+// 可控制状态的promise对象
+export function createDefer<T = any>(): Defer<T> {
+  const r: any = {};
+  const promise = new Promise<T>((resolve, reject) => {
+    r.resolve = resolve;
+    r.reject = reject;
+  });
+  r.promise = () => promise;
+  return r;
+}
+
 
 
 
