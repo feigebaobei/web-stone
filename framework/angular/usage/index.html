@@ -41,6 +41,60 @@
     </head>
     <body class="vscode-body vscode-light">
         <h1 id="用法">用法</h1>
+<pre><code class="language-html">文本插值
+<span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{title}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+
+import { Component } from &#x27;@angular/core&#x27;
+<span class="hljs-comment">&lt;!-- 装饰组件 --&gt;</span>
+<span class="hljs-comment">&lt;!-- 按照指定条件渲染组件 --&gt;</span>
+@Component({
+    selector: &#x27;..&#x27;,
+    templateUrl: &#x27;..&#x27;,
+    standalone: true,
+    styleUrls: [&#x27;...&#x27;],
+})
+export class AppComponent {
+    title = &#x27;string&#x27;
+}
+
+<span class="hljs-comment">&lt;!-- *ngIf 条件渲染 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">p</span> *<span class="hljs-attr">ngIf</span>=<span class="hljs-string">&quot;var else def&quot;</span>&gt;</span>str<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+<span class="hljs-comment">&lt;!-- #def 是模板变量 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">ng-template</span> #<span class="hljs-attr">def</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>hi<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ng-template</span>&gt;</span>
+
+ngIf
+ngFor
+ngSwitch
+ngStyle
+都来自 @angular/common
+
+<span class="hljs-comment">&lt;!-- 绑定事件 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">button</span> (<span class="hljs-attr">click</span>)=<span class="hljs-string">&quot;fn()&quot;</span>&gt;</span>bt<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- 循环渲染 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">p</span> *<span class="hljs-attr">ngFor</span>=<span class="hljs-string">&quot;let item of items&quot;</span>&gt;</span>{{item.title}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">a</span> [<span class="hljs-attr">routerLink</span>]=<span class="hljs-string">&quot;[&#x27;a&#x27;, &#x27;b&#x27;]&quot;</span>&gt;</span>link<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">router-outlet</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">router-outlet</span>&gt;</span>
+
+import { HttpClient } from &#x27;@angular/common/http&#x27;
+constructor(private http: HttpClient) {}
+ngOnInit(): void {
+    this.http.get&lt;T[]&gt;(&#x27;url&#x27;)
+        .subscribe((items) =&gt; {
+            this.arr = items
+        })
+}
+
+
+
+
+
+
+
+</code></pre>
 
         
         

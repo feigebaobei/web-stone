@@ -24,6 +24,7 @@
 ng new project-name
 cd project-name
 ng g c path/compName # 创建的组件会自动注册
+ng g module moduleName # 创建module
 ```
 
 ## configuration

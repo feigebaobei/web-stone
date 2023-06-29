@@ -1,12 +1,12 @@
 # 基础知识
 
-## component
+## 组件 component
 
 - ng 是基于组件的框架
 - 组件是 ng 应用的单元块。无组件无法创建 ng 应用。
 - 编译组件、数据、逻辑
 - 代表一个视图区
--
+- 必须注册与模块的 decleration 才能使用。
 
 ### 组件之间共享数据
 
@@ -60,12 +60,20 @@
 
 ## service
 
-`ng g s services/<serviceName>`
+可以从任何地方获取数据，比如：Web 服务、本地存储（LocalStorage）或一个模拟的数据源。
+由 Injectabl 装饰器装饰的类。
+提倡把与视图无关的逻辑抽取到服务中。
+
+```shell
+ng generate service heros/hero
+ng g s services/<serviceName>
+```
 
 ```ts
 import { Injectable } from '@angular/core'
 @Injectable({
-  provided: 'root',
+  // 标记为可以被注入的服务器
+  provided: 'root', // 表示当前服务在root注入器中提供。可在整个应用中单例使用。
 })
 export class Asdf {
   constructor() {}
@@ -142,3 +150,67 @@ export class HomeComponent implements OnInit {
 ## module
 
 我在它中设置了路由映射。
+
+## message
+
+## 模块
+
+NgModule.它是 Angular 模块。Angular 应用由一个一个模块组成。
+不是 esm/cjs 中的模块。
+是一系统相关功能的集合。
+它是由 NgModule 装饰的类。
+每一个模块就是一个打包块。
+
+- 一个应用至少一个模块。
+- 模块之间可引用。
+- 指令、组件、管道必须属于一个模块。（有且只有一个）
+
+### [字段说明](/framework/angular/decorator.md)
+
+### 模块 & esm & cjs
+
+|     | NgModule               | 模块                   | module                           |
+| --- | ---------------------- | ---------------------- | -------------------------------- |
+|     | angular                | esm                    | cjs                              |
+|     | 使用@NgModule 修饰的类 | 每个文件都是一个模块。 | 每个文件都是一个模块             |
+|     | -                      | import / export        | require / module.exports/exports |
+|     |                        |                        |                                  |
+|     |                        |                        |                                  |
+
+### 根模块
+
+一个 angular 应用至少有一个。用于启动应用。
+
+## 项目结构
+
+```
+<root>
+|-- angular.json    angular应用的配置文件
+|-- src             源代码
+  |-- main.ts       入口文件
+  |-- index.html    单页面应用的入口html文件。
+  |-- assets        资源文件
+  |-- app/app.component.ts    根组件的类文件
+  |-- style.scss    样式入口文件
+|-- tsconfig.json   ts的配置文件
+|-- tsconfig.app.json   应用的ts的配置文件
+|-- tsconfig.spec.json   应用的测试的ts的配置文件
+```
+
+## 生命周期
+
+## dependency injection di 依赖注入
+
+```ts
+// 全写
+class A {
+  private foo: T
+  constructor(_foo: T) {
+    this.foo = _foo
+  }
+}
+// 简写
+class A {
+  constructor(private foo: T) {}
+}
+```
