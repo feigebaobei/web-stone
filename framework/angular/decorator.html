@@ -56,7 +56,7 @@
 <tr>
 <td>selector</td>
 <td>string</td>
-<td>css选择器</td>
+<td>css 选择器</td>
 <td></td>
 </tr>
 <tr>
@@ -77,50 +77,15 @@
 <td>一组可供事件绑定的输出属性。当输出属性发出事件时，就会调用模板中一个附加到该事件的处理器。每个输出属性都会把 directiveProperty 映射到 bindingProperty：</td>
 <td></td>
 </tr>
-<tr>
-<td>· directiveProperty 指定要发出事件的组件属性。</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>· bindingProperty 指定要附加事件处理器的 HTML 属性。</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>provides</td>
-<td>Provider[]</td>
-<td>服务提供商的集合</td>
-<td></td>
-</tr>
-<tr>
-<td>exportAs</td>
-<td>string</td>
-<td>一个或多个名字，可以用来在模板中把该指令赋值给一个变量。当有多个名字时，请使用逗号分隔它们。</td>
-<td></td>
-</tr>
-<tr>
-<td>queries</td>
-<td>{[key: string]: any}</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>jit</td>
-<td>true</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>host</td>
-<td><code>Record&lt;string, string&gt;</code></td>
-<td></td>
-<td></td>
-</tr>
 </tbody>
 </table>
+<p>· directiveProperty 指定要发出事件的组件属性。
+· bindingProperty 指定要附加事件处理器的 HTML 属性。||
+|provides|Provider[]|服务提供商的集合||
+|exportAs|string|一个或多个名字，可以用来在模板中把该指令赋值给一个变量。当有多个名字时，请使用逗号分隔它们。||
+|queries|{[key: string]: any}|||
+|jit|true|||
+|host|<code>Record&lt;string, string&gt;</code>|||</p>
 <h2 id="component">@Component</h2>
 <table>
 <thead>
@@ -134,8 +99,92 @@
 <tbody>
 <tr>
 <td>changeDetection</td>
+<td>ChangeDetectionStrategy</td>
 <td></td>
 <td></td>
+</tr>
+<tr>
+<td>viewProviders</td>
+<td>Provider[]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>moduleId</td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>templateUrl</td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>template</td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>styleUrls</td>
+<td>string[]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>styles</td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>animations</td>
+<td>any[]</td>
+<td>一个或多个动画 trigger() 调用，包含一些 state() 和 transition() 定义。</td>
+<td></td>
+</tr>
+<tr>
+<td>encapsulation</td>
+<td>ViewEncapsulation</td>
+<td>供模板和 CSS 样式使用的样式封装策略。取值为：</td>
+<td></td>
+</tr>
+<tr>
+<td>· ViewEncapsulation.ShadowDom：使用 Shadow DOM。它只在原生支持 Shadow DOM 的平台上才能工作。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>· ViewEncapsulation.Emulated：使用垫片（shimmed) CSS 来模拟原生行为。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>· ViewEncapsulation.None：使用全局 CSS，不做任何封装。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>interpolation</td>
+<td>[string, string]</td>
+<td>改写默认的插值表达式起止分界符（<code>{{</code> 和 <code>}}</code>）</td>
+<td></td>
+</tr>
+<tr>
+<td>entryComponent</td>
+<td>ViewEncapsulation</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>preserveWhitespaces</td>
+<td>boolean</td>
+<td>为 true 则保留，为 false 则从编译后的模板中移除可能多余的空白字符。 空白字符就是指那些能在 JavaScript 正则表达式中匹配 \s 的字符。默认为 false，除非通过编译器选项改写了它。</td>
 <td></td>
 </tr>
 </tbody>
@@ -177,15 +226,15 @@
 </tr>
 <tr>
 <td>exports</td>
-<td>declarations的子集，可用于其他模块的declaration.</td>
+<td>declarations 的子集，可用于其他模块的 declaration.</td>
 <td></td>
 <td></td>
 </tr>
 </tbody>
 </table>
+<h2 id="injectable">@Injectable</h2>
 <h2 id="component-1">@Component</h2>
 <h2 id="component-2">@Component</h2>
-<h2 id="component-3">@Component</h2>
 
         
         

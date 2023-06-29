@@ -21,9 +21,24 @@
 
 ## @Component
 
-| 选项            | 类型 | 说明 |     |
-| --------------- | ---- | ---- | --- |
-| changeDetection |      |      |     |
+| 选项            | 类型                    | 说明                                                                   |     |
+| --------------- | ----------------------- | ---------------------------------------------------------------------- | --- |
+| changeDetection | ChangeDetectionStrategy |                                                                        |     |
+| viewProviders   | Provider[]              |                                                                        |     |
+| moduleId        | string                  |                                                                        |     |
+| templateUrl     | string                  |                                                                        |     |
+| template        | string                  |                                                                        |     |
+| styleUrls       | string[]                |                                                                        |     |
+| styles          | string                  |                                                                        |     |
+| animations      | any[]                   | 一个或多个动画 trigger() 调用，包含一些 state() 和 transition() 定义。 |     |
+| encapsulation   | ViewEncapsulation       | 供模板和 CSS 样式使用的样式封装策略。取值为：                          |
+
+· ViewEncapsulation.ShadowDom：使用 Shadow DOM。它只在原生支持 Shadow DOM 的平台上才能工作。
+· ViewEncapsulation.Emulated：使用垫片（shimmed) CSS 来模拟原生行为。
+· ViewEncapsulation.None：使用全局 CSS，不做任何封装。 | |
+| interpolation | [string, string] | 改写默认的插值表达式起止分界符（`{{` 和 `}}`） | |
+| entryComponent | ViewEncapsulation | | |
+| preserveWhitespaces | boolean | 为 true 则保留，为 false 则从编译后的模板中移除可能多余的空白字符。 空白字符就是指那些能在 JavaScript 正则表达式中匹配 \s 的字符。默认为 false，除非通过编译器选项改写了它。 | |
 
 ## @NgModule
 
@@ -35,7 +50,7 @@
 | bootstrap    | 指定根组件。只有根模块才设置此属性。               |      |     |
 | exports      | declarations 的子集，可用于其他模块的 declaration. |      |     |
 
-## @Component
+## @Injectable
 
 ## @Component
 
