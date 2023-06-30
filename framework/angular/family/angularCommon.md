@@ -1,4 +1,4 @@
-# @angular/commo
+# @angular/common
 
 ## overview
 
@@ -13,7 +13,7 @@
 ## install
 
 这是 angular 内置包。一般不需要安装。
-`npm i @angular/commo`
+`npm i @angular/common`
 
 ## usage
 
@@ -62,10 +62,10 @@ constructor(private http:HttpClient) {}
 |||||||||||
 <!-- prettier-ignore-end -->
 
-`@angular/commo.fn(param, first: string, second: boolean = true) => void`
+`@angular/common.fn(param, first: string, second: boolean = true) => void`
 description
 
-`@angular/commo.fn(param, [options: {a: string, b?: number}])`
+`@angular/common.fn(param, [options: {a: string, b?: number}])`
 description
 
 ## principle
