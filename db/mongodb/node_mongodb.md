@@ -62,3 +62,31 @@ router.route('/login')
 })
 module.exports = router;
 ```
+
+## command
+
+```js
+await collection.findOne({ key: 'value' }) // result
+await collection.find({ key: 'value' }) // result[]
+await collection.insertOne({ key: 'value' })
+await collection.insertMany([{ key: 'value' }])
+await collection.updateOne({ key: 'value' }, { $set: { newKey: 1 } })
+await collection.updateMany({ key: 'value' }, { $inc: { newKey: 1 } })
+await collection.updateOne({ key: 'value' }, { $push: { key: 1 } })
+await collection.replaceOne({ key: 'value' }, { nk: nv })
+await collection.deleteOne({ key: 'value' })
+await collection.deleteMany({ key: 'value' })
+await collection.bulkWrite([
+  { insertOne: { document: { k0: v0, k1: v1 } } },
+  { deleteMany: { filter: { k0: { $lt: v } } } },
+])
+collection.watch([{ $match: { year: { $gtd: v } } }]) // 监听变化
+await collection.countDocuments({ key: 'value' })
+await collection.distinct({ key: 'value' }) // 列出这个字段的所有值组成的数组
+await collection.find().limit(2) // 最多2个值组成的数组。
+await collection.find({ key: { $regex: /^Rocky/ } }, { skip: 10 })
+await collection.find().sort({ year: 1 })
+await collection.find().project()
+await collection.createIndex({ title: 1 }) // 不会
+await collection.find({ $text: { $search: 'value' } }) // 返回搜索key是字母的值中包括'value'的doc组成的数组。
+```

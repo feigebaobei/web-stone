@@ -250,12 +250,17 @@ c.on('ready', () => {
       throw err
     }
 
-    // let p = 'framework/angular/family'
+    // let p = 'framework/vue2'
     let p = [
-      // 'framework/angular/family/angularCli.html',
-      // 'framework/angular/family/angularRouter.html',
-      // 'framework/angular/basic.html',
-      'builder/vite/index.html',
+      // 'index.html',
+      // 'test.html',
+      // 'util/index.html',
+      // 'db/mongodb/index.html',
+      'db/mongodb/node_mongodb.html',
+      // 'framework/angular/decorator.html',
+      // 'framework/angular/usage/index.html',
+      // 'framework/angular/index.html',
+      // 'framework/angular/family/angularCommon.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)

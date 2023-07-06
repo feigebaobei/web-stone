@@ -16,7 +16,8 @@
 }
 
 </style>
-        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -44,14 +45,15 @@
 <pre><code class="language-shell">pnpm add mongodb
 </code></pre>
 <p>src/app.js</p>
-<pre><code class="language-js"><span class="hljs-keyword">var</span> usersRouter = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;./routes/users&#x27;</span>);
-app.<span class="hljs-title function_">use</span>(<span class="hljs-string">&#x27;/users&#x27;</span>, usersRouter);
+<pre><code class="language-js"><span class="hljs-keyword">var</span> usersRouter = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;./routes/users&#x27;</span>)
+app.<span class="hljs-title function_">use</span>(<span class="hljs-string">&#x27;/users&#x27;</span>, usersRouter)
 </code></pre>
 <p>src/mongodb.js</p>
 <pre><code class="language-js"><span class="hljs-keyword">let</span> { <span class="hljs-title class_">MongoClient</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;mongodb&#x27;</span>)
 <span class="hljs-keyword">let</span> clog = <span class="hljs-variable language_">console</span>.<span class="hljs-property">log</span>
 
-<span class="hljs-keyword">let</span> uri = <span class="hljs-string">&#x27;mongodb+srv://feigebaobei:1qaz2wsx@feigebaobei.ojo8z3u.mongodb.net/?retryWrites=true&amp;w=majority&#x27;</span>
+<span class="hljs-keyword">let</span> uri =
+  <span class="hljs-string">&#x27;mongodb+srv://feigebaobei:1qaz2wsx@feigebaobei.ojo8z3u.mongodb.net/?retryWrites=true&amp;w=majority&#x27;</span>
 <span class="hljs-keyword">let</span> client = <span class="hljs-keyword">new</span> <span class="hljs-title class_">MongoClient</span>(uri)
 <span class="hljs-keyword">let</span> usersDb = client.<span class="hljs-title function_">db</span>(<span class="hljs-string">&#x27;users&#x27;</span>)
 <span class="hljs-keyword">let</span> appsDb = client.<span class="hljs-title function_">db</span>(<span class="hljs-string">&#x27;apps&#x27;</span>)
@@ -59,10 +61,10 @@ app.<span class="hljs-title function_">use</span>(<span class="hljs-string">&#x2
 <span class="hljs-keyword">let</span> componentsDb = client.<span class="hljs-title function_">db</span>(<span class="hljs-string">&#x27;components&#x27;</span>)
 <span class="hljs-comment">// let usersCollection = database.collection(&#x27;users&#x27;)</span>
 <span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = {
-    usersDb,
-    appsDb,
-    pagesDb,
-    componentsDb,
+  usersDb,
+  appsDb,
+  pagesDb,
+  componentsDb,
 }
 </code></pre>
 <p>src/routes/users.js</p>
@@ -92,8 +94,30 @@ router.<span class="hljs-title function_">route</span>(<span class="hljs-string"
 })
 <span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = router;
 </code></pre>
+<h2 id="command">command</h2>
+<pre><code class="language-js"><span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">findOne</span>({<span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span>}) <span class="hljs-comment">// result</span>
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">find</span>({<span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span>})    <span class="hljs-comment">// result[]</span>
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">insertOne</span>({<span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span>})
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">insertMany</span>([{<span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span>}])
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">updateOne</span>({<span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span>}, { <span class="hljs-attr">$set</span>: {<span class="hljs-attr">newKey</span>: <span class="hljs-number">1</span>}})
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">updateMany</span>({<span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span>}, {<span class="hljs-attr">$inc</span>: {<span class="hljs-attr">newKey</span>: <span class="hljs-number">1</span>}})
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">updateOne</span>({<span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span>}, {<span class="hljs-attr">$push</span>: {<span class="hljs-attr">key</span>: <span class="hljs-number">1</span>}})
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">replaceOne</span>({<span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span>}, {<span class="hljs-attr">nk</span>: nv})
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">deleteOne</span>({<span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span>})
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">deleteMany</span>({<span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span>})
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">bulkWrite</span>([{<span class="hljs-attr">insertOne</span>: {<span class="hljs-attr">document</span>:{<span class="hljs-attr">k0</span>: v0, <span class="hljs-attr">k1</span>: v1}}}, {<span class="hljs-attr">deleteMany</span>: {<span class="hljs-attr">filter</span>: {<span class="hljs-attr">k0</span>: {<span class="hljs-attr">$lt</span>: v}}}}])
+collection.<span class="hljs-title function_">watch</span>([{<span class="hljs-attr">$match</span>: {<span class="hljs-attr">year</span>: {<span class="hljs-attr">$gtd</span>: v}}}]) <span class="hljs-comment">// 监听变化</span>
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">countDocuments</span>({<span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span>})
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">distinct</span>({<span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span>}) <span class="hljs-comment">// 列出这个字段的所有值组成的数组</span>
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">find</span>().<span class="hljs-title function_">limit</span>(<span class="hljs-number">2</span>) <span class="hljs-comment">// 最多2个值组成的数组。</span>
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">find</span>({<span class="hljs-attr">key</span>: {<span class="hljs-attr">$regex</span>: <span class="hljs-regexp">/^Rocky/</span>}}, {<span class="hljs-attr">skip</span>: <span class="hljs-number">10</span>})
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">find</span>().<span class="hljs-title function_">sort</span>({<span class="hljs-attr">year</span>: <span class="hljs-number">1</span>})
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">find</span>().<span class="hljs-title function_">project</span>()
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">createIndex</span>({<span class="hljs-attr">title</span>: <span class="hljs-number">1</span>}) <span class="hljs-comment">// 不会</span>
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">find</span>({<span class="hljs-attr">$text</span>: {<span class="hljs-attr">$search</span>: <span class="hljs-string">&#x27;value&#x27;</span>}}) <span class="hljs-comment">// 返回搜索key是字母的值中包括&#x27;value&#x27;的doc组成的数组。</span>
+</code></pre>
 
-        
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
     </body>
     </html>

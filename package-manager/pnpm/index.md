@@ -20,76 +20,160 @@
 ### feature
 
 - 多包一库管理工具。
-- 包管理工具。与 npm/yarn 同功能。
+- 包管理工具，比 npm/yarn 强大。
+- 会检验所有参数。若一个参数出错，则无法执行。
+- pnpm run cmd <=> pnpm cmd. 若找到具名脚本则执行引脚本，否则当作 shell 执行。
+- pnpm 使用 npm 的配置。
 
 ## install
 
-非 node.js 环境
+### 非 node.js 环境
 
-```
+```shell
 // posix system
 curl -fsSL https://get.pnpm.io/install.sh | sh -
 // or
 wget -qO- https://get.pnpm.io/install.sh | sh -
+brew install pnpm
+winget install pnpm
+scoop install nodejs-lts pnpm
+choco install pnpm
 ```
 
-node.js 环境
+### node.js 环境
 
-```
+```shell
 // macos
 curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
 // windows
 (Invoke-WebRequest 'https://get.pnpm.io/v6.16.js' -UseBasicParsing).Content | node - add --global pnpm
 ```
 
-`npm i pnpm -g`
+### 使用其他包管理工具安装
+
+```shell
+npm i pnpm -g
+# or
+yarn global add pnpm
+```
 
 ## usage
 
+在 node v16.13+ 发布了 corepack 来管理包管理工具。但是它默认不启用。需要执行`corepack enable`才能启动。
+
+```shell
+pnpm install <packageName>
+pnpm add pn # 安装到dependencies
+pnpm add -D pn # 安装到devDependencies
+pnpm add -O pn
+pnpm add -g pn
+pnpm add pn@next
+pnpm add pn@3.0.0
+pnpm install # => npm install
+pnpm add <pkg> # => npm i <pkg>
+pnpm <cmd> # => npm run <cmd>
+```
+
+### 定义别名
+
+在`.bashrc`或`.zshrc`或`config.fish`中添加：`alias pn=pnpm`
+
+### uninstall
+
+```shell
+pnpm ls -g # 列出所有全局包
+pnpm rm -g <pkg>... # 列出每个全局包
+pnpm root -g # 找到全局目录的位置并手动删除它
+# 使用独立脚本安装后，使用此命令移除
+rm -rf $PNPM_HOME
+# 使用npm安装后，使用此命令移除
+npm rm -g pnpm
+rm -rf $(pnpm store path) # 删除全局内容可寻址存储
+```
+
+### 过滤
+
+```
+pnpm --filter
+```
+
 ## configuration
 
-默认配置文件：`path/to/file.json`。  
+使用`npm`的配置
+默认配置文件：`path/to/.npmrc`。  
 |key|description|default|enum|demo|||
 |-|-|-|-|-|-|-|
 ||||||||
 ||||||||
 ||||||||
 
+### package.json
+
+详见 [npm](/package-manager/npm/index.html) 的 package.json 各字段说明
+
+### .npmrc
+
+### pnpm-workspace.yaml
+
+示例
+
+```yaml
+packages:
+  # all packages in direct subdirs of packages/
+  - 'packages/*'
+  # all packages in subdirs of components/
+  - 'components/**'
+  # exclude packages that are inside test directories
+  - '!**/test/**'
+```
+
+### .pnpmfile.cjs
+
 ## cli
 
-|                                     |     |                                      |                       |
+未完。
+| | | | |
 | ----------------------------------- | --- | ------------------------------------ | --------------------- |
-| add                                 |     | 安装包                               | 同`npm install <pkg>` |
-| import                              |     | 生成 pnpm-lock.yaml                  |                       |
-| install                             | i   | 安装所有依赖                         | 同`npm install`       |
-| install-test                        | it  | 执行完 pnpm install 后执行 pnpm test |                       |
-| link                                | ln  | 创立本地软链接                       |                       |
-| prune                               |     | 删除无关联的依赖包                   |                       |
-| rebuild                             | rb  | 重新打包                             |                       |
-| remove                              | rm  | 删除本项目的 node_modules            |                       |
-| unlink                              |     | 取消本地软链接                       |                       |
-| update                              | up  | 更新依赖包成为允许的最新版本         |                       |
-| audit                               |     | 检查不安全的依赖                     |                       |
-| list                                | ls  | 以树状结构列出所有依赖               |                       |
-| outdated                            |     | 检测过时的依赖包                     |                       |
-| exec                                |     | 执行指定 command                     |                       |
-| run                                 |     | 执行指定脚本                         | 同`npm run`           |
-| start                               |     | 执行 start 脚本                      |                       |
-| test                                |     | 执行 test 脚本                       |                       |
-| pack                                |     |                                      |                       |
-| publish                             |     | 发布包                               |                       |
-| root                                |     |                                      |                       |
-| store add                           |     |                                      |                       |
-| store add                           |     |                                      |                       |
-| store add                           |     |                                      |                       |
-| store add                           |     |                                      |                       |
-| store add                           |     |                                      |                       |
-| ...还有一些未在 help 中显露的子命令 |     |                                      |                       |
+| add | | 安装包 | 同`npm install <pkg>` |
+| import | | 生成 pnpm-lock.yaml | |
+| install | i | 安装所有依赖 | 同`npm install` |
+| install-test | it | 执行完 pnpm install 后执行 pnpm test | |
+| link | ln | 创立本地软链接 | |
+| prune | | 删除无关联的依赖包 | |
+| rebuild | rb | 重新打包 | |
+| remove | rm | 删除本项目的 node_modules | |
+| unlink | | 取消本地软链接 | |
+| update | up | 更新依赖包成为允许的最新版本 | |
+| audit | | 检查不安全的依赖 | |
+| list | ls | 以树状结构列出所有依赖 | |
+| outdated | | 检测过时的依赖包 | |
+| exec | | 执行指定 command | |
+| run | | 执行指定脚本 | 同`npm run` |
+| start | | 执行 start 脚本 | |
+| test | | 执行 test 脚本 | |
+| pack | | | |
+| publish | | 发布包 | |
+| root | | | |
+| store add | | | |
+| store add | | | |
+| store add | | | |
+| store add | | | |
+| store add | | | |
+| ...还有一些未在 help 中显露的子命令 | | | |
 
 `-c / --dir` 指定工具目录  
 `-w / --workspace-root` 指定工具根目录  
 `pnpm exec` 运行本地、远端指定包  
 `--filter xxx`
+
+## 生命周期脚本
+
+`devPreinstall`。只在本地 pnpm install 时运行。在安装依赖前运行。在根目录中有 package.json 时运行。
+
+## workspace
+
+一库多包项目可以连接起本地开发包的引用关系。
+该类项目的根目录下必须有`pnpm-workspace.yaml`.有它的目录就是命名空间的根目录。
 
 ## api
 
@@ -102,6 +186,26 @@ curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
 ```
 
 ```
+
+## issue
+
+```shell
+# 检查pnpm的命令位置
+which pnpm
+
+```
+
+## pnpm & lerna
+
+|                  | pnpm                                                                  | lerna                                                                     |     |
+| ---------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------- | --- |
+| 作者             | 一直更新着                                                            | 被 nx 团队收购后就与 nx 项目强绑定了。再加上后来 api 变化，现在不好用了。 |     |
+| 管理 node 版本   | y                                                                     | n                                                                         |     |
+| 一库多包         | 基于全设备共享依赖来源，+ --filter + workspace 指定安装范围。项目结构 | 这是它的初衷。在安装依赖、发布包时很方便。                                |     |
+| api              | 稳定，没变过                                                          | 一点一点地变。v7+后变得我都不能使用了。                                   |     |
+| 对项目结构的影响 | 无影响，一库一包项目相同。                                            | 有特定的项目结构。子包都放在指定目录下。                                  |     |
+|                  |                                                                       |                                                                           |     |
+|                  |                                                                       |                                                                           |     |
 
 ## todo
 

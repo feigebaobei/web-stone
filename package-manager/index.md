@@ -19,10 +19,22 @@ npm 团队创建了 npmjs.com 网站。创建了 npm 命令行。与 node 团队
 
 每个包管理工具都有自己的配置文件。像 nvm 工具不能把修改过的源，同时作用于全部包管理工具。
 
-|          | npm | yarn | yarn2 | yarn3 | pnpm |
-| -------- | --- | ---- | ----- | ----- | ---- |
-| 错误提示 | 差  | 准确 |       |       |      |
-|          |     |      |       |       |      |
-|          |     |      |       |       |      |
+|                     | npm               | yarn      | yarn2 | yarn3 | pnpm           |
+| ------------------- | ----------------- | --------- | ----- | ----- | -------------- |
+| 错误提示            | 差                | 准确      |       |       |                |
+| 工作空间            | y                 | y         | y     | y     | y              |
+| 隔离的 node_modules | y                 | y         |       |       | y              |
+| 提升的 node_modules | y                 | y         |       |       | y              |
+| 自动安装 peers      | y                 | n         |       |       | y              |
+| plug'n'play         | n                 | y         |       |       | y              |
+| 零安装              | n                 | y         |       |       | n              |
+| 修补依赖项          | n                 | y         |       |       | y              |
+| 管理 node 版本      | n                 | n         |       |       | y              |
+| 锁文件              | package-lock.json | yarn.lock |       |       | pnpm-lock.yaml |
+| 支持覆盖            | y                 | y         |       |       | y              |
+| 内容可址存储        | n                 | n         |       |       | y              |
+| 动态包执行          | npx               | yarn dlx  |       |       | pnpm dlx       |
+| 隔离的 node_modules |                   |           |       |       |                |
+| 隔离的 node_modules |                   |           |       |       |                |
 
 ## [window & node & npm & cli](/language/node/window%26node%26npm%26cli.html)
