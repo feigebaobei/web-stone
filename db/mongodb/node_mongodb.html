@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>node &plus; mongodb</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="node--mongodb">node + mongodb</h1>
+<pre><code class="language-shell">pnpm add mongodb
+</code></pre>
+<p>src/app.js</p>
+<pre><code class="language-js"><span class="hljs-keyword">var</span> usersRouter = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;./routes/users&#x27;</span>);
+app.<span class="hljs-title function_">use</span>(<span class="hljs-string">&#x27;/users&#x27;</span>, usersRouter);
+</code></pre>
+<p>src/mongodb.js</p>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> { <span class="hljs-title class_">MongoClient</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;mongodb&#x27;</span>)
+<span class="hljs-keyword">let</span> clog = <span class="hljs-variable language_">console</span>.<span class="hljs-property">log</span>
+
+<span class="hljs-keyword">let</span> uri = <span class="hljs-string">&#x27;mongodb+srv://feigebaobei:1qaz2wsx@feigebaobei.ojo8z3u.mongodb.net/?retryWrites=true&amp;w=majority&#x27;</span>
+<span class="hljs-keyword">let</span> client = <span class="hljs-keyword">new</span> <span class="hljs-title class_">MongoClient</span>(uri)
+<span class="hljs-keyword">let</span> usersDb = client.<span class="hljs-title function_">db</span>(<span class="hljs-string">&#x27;users&#x27;</span>)
+<span class="hljs-keyword">let</span> appsDb = client.<span class="hljs-title function_">db</span>(<span class="hljs-string">&#x27;apps&#x27;</span>)
+<span class="hljs-keyword">let</span> pagesDb = client.<span class="hljs-title function_">db</span>(<span class="hljs-string">&#x27;pages&#x27;</span>)
+<span class="hljs-keyword">let</span> componentsDb = client.<span class="hljs-title function_">db</span>(<span class="hljs-string">&#x27;components&#x27;</span>)
+<span class="hljs-comment">// let usersCollection = database.collection(&#x27;users&#x27;)</span>
+<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = {
+    usersDb,
+    appsDb,
+    pagesDb,
+    componentsDb,
+}
+</code></pre>
+<p>src/routes/users.js</p>
+<pre><code class="language-js">...
+<span class="hljs-keyword">let</span> {usersDb} = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;../mongodb&#x27;</span>)
+
+router.<span class="hljs-title function_">route</span>(<span class="hljs-string">&#x27;/login&#x27;</span>)
+.<span class="hljs-title function_">post</span>(cors.<span class="hljs-property">corsWithOptions</span>, <span class="hljs-keyword">async</span> (req, res) =&gt; {
+  <span class="hljs-comment">// clog(&#x27;req&#x27;, req.body)</span>
+  <span class="hljs-keyword">if</span> (required(req.<span class="hljs-property">body</span>.<span class="hljs-property">account</span>) &amp;&amp; required(req.<span class="hljs-property">body</span>.<span class="hljs-property">password</span>)) {
+    <span class="hljs-keyword">let</span> result = <span class="hljs-keyword">await</span> usersDb.<span class="hljs-title function_">collection</span>(<span class="hljs-string">&#x27;users&#x27;</span>).<span class="hljs-title function_">insertOne</span>({
+      <span class="hljs-attr">account</span>: req.<span class="hljs-property">body</span>.<span class="hljs-property">account</span>,
+      <span class="hljs-attr">password</span>: req.<span class="hljs-property">body</span>.<span class="hljs-property">password</span>,
+    })
+    res.<span class="hljs-title function_">status</span>(<span class="hljs-number">200</span>).<span class="hljs-title function_">json</span>({
+      <span class="hljs-attr">code</span>: <span class="hljs-number">0</span>,
+      <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;ok&quot;</span>,
+      <span class="hljs-attr">data</span>: result,
+    })
+  } <span class="hljs-keyword">else</span> {
+    res.<span class="hljs-title function_">status</span>(<span class="hljs-number">200</span>).<span class="hljs-title function_">json</span>({
+      <span class="hljs-attr">code</span>: <span class="hljs-number">1</span>,
+      <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;参数出错&quot;</span>,
+      <span class="hljs-attr">data</span>: result,
+    })
+  }
+})
+<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = router;
+</code></pre>
+
+        
+        
+    </body>
+    </html>
