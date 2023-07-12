@@ -1,10 +1,14 @@
-# `vite`
+# vite
 
 ## overview
 
-> 一个开发服务器，它基于 原生 ES 模块 提供了 丰富的内建功能，
+> 是一个开发时服务器，它基于 原生 ES 模块 提供了 丰富的内建功能，
+> 基于 rollup 提供打包功能，vite 插件也就是被 rollup 使用的。
+> 基于 rollup 提供插件功能。
+> 以 esm 规范提供代码。然后由浏览器处理。
 > 套构建指令，它使用 Rollup 打包你的代码，并且它是预配置的，可输出用于生产环境的高度优化过的静态资源。
 > 强大的导入功能。
+> 需要与支持 esm 语法的浏览器配合工作。
 > node v14.18.0+  
 > 它是一个工具集。把一些常用的工具放在一起了。（像不像门面模式）构建功能大部分是基于 rollup(esbuild)的。而且面向现代浏览器。  
 > 它运行的快，原来是因为基于 esbuild、做了很少工作、面向现代浏览。能不干的事儿，全不干了。
@@ -18,7 +22,10 @@
 - 可以实现多入口（即多页面）。
 - 使用 Vite 开发和使用一个静态文件服务器并没有太大区别。然而，Vite 还通过原生 ESM 导入提供了许多主要用于打包场景的增强功能。
 - 内部使用 esbuild 把要 cjs/umd 转换为 esm（该过程叫预构建）。
-- 已内置支持 ts
+- 由 esbuild ts=>js
+- 支持 ts
+- 支持 hmr
+-
 
 ## install
 
@@ -33,6 +40,7 @@ npm init vite@latest
 npm create vite@latest # cteate 是 init 的别名
 yarn create vite
 pnpm create vite
+# 然后会提示选择什么模板。
 ```
 
 ## 功能
@@ -46,7 +54,21 @@ pnpm create vite
 - esbuild 做了
   - jsx / tsx
   - 预构建（cjs/umd => esm）
--
+- hmr
+- 使用 esbuild 完成 ts=>js
+  - tsconfig.json
+    - isolatedModules: true
+    - useDefineForClassFields: true
+- 把`*.css`放入`<style>`内。
+  - postcss
+  - css modules
+  - css 预处理器
+- 处理静态资源。把相对路径变为可解析的 url.
+- 支持 worker
+- 构建优化
+  - css 代码分割
+  - 生成预加载指令
+  - 优化异步 chunk 加载
 
 ### 设置 esbuild 配置项
 
@@ -71,8 +93,7 @@ export default defineConfig({
 - 禁用 css 注入页面`import styles from './foo.css?inline'`
 - 导入静态资源`import imgUrl from './img.png'; document.querySelect(#id).src = imgUrl;`
 - 导入 json`import json from './foo.json`
-- glob 导入 `import.meta.glob(params)`
-  -
+- ## glob 导入 `import.meta.glob(params)`
 
 ```js
 // 懒加载，动态导入实现。
@@ -151,144 +172,38 @@ import MyWorker from './worker?worker&url'
 
 会把多个 chunk 中共用的 chunk 一起打包。
 
-## 插件
+## [cli](/builder/vite/cli.html)
 
-vite 的插件是基于 rollup 的插件，只是增加一个 vite 的特有配置项。可以用于服务器。
-
-```js
-// 添加插件
-npm add -D @vitejs/plugin-legacy
-
-// vite.config.js
-import legacy from '@vitejs/plugin-legacy'
-import image from '@rollup/plugin-image'
-import {defineConfig} from 'vite'
-export default defineConfig({
-    plugins: [ // 可以接受多个插件。若无效则不使用。
-        legacy({
-            targets: ['defaults', 'not IE 11']
-        }),
-        {
-            ...image(),
-            enforce: 'pre' // 使用此字段明确指定本插件与vite core plugins的执行顺序。
-            // pre
-            // default 默认post
-            // post
-            apply: 'build' // 明确在哪个期间执行，默认2个期间都执行。
-            // build
-            // serve
-        }
-    ]
-})
-```
-
-### 发现插件
-
-[vite rollup plugins 的网站](https://vite-rollup-plugins.patak.dev/)
-
-### 插件 api
-
-#### 习惯
-
-推荐使用 rollup 的命名习惯。
-
-- 以`rollup-plugin-`开头
-- 包括`rollup-plugin vite-plugin`关键字。
-
-若只对 vite 开发的插件。
-
-- 以`vite-plugin-`开头
-- 包括`vite-plugin`关键字。
-  - 也可以以特定框架说明`vite-plugin-vue-` / `vite-plugin-react-` / `vite-plugin-svelte-`
-
-#### 插件的配置
-
-一般这样使用插件
-
-```js
-// vite.config.js
-import { defineConfig } from 'vite'
-import { framework } from 'vite-plugin-frame-work'
-export default defineConfig({
-  plugins: [framework()],
-})
-```
-
-```js
-export default function myPlugin() {
-  const virtualModuleId = 'virtual:my-module'
-  const resolvedVirtualModuleId = '\0' + virtualModuleId
-  return {
-    name: 'plugin-name',
-    transform(src, id) {
-      if (reg.test(id)) {
-        return {
-          code: fn(src),
-          map: null,
-        }
-      }
-    },
-    load(id) {
-      if (id === resolvedVirtualModuleId) {
-        return `export const msg = 'from virtual module'`
-      }
-    },
-  }
-}
-```
-
-##### virtual modules convention
-
-把打包时的信息给源文件，用于 esm 语法导入。
-
-#### 钩子
-
-|             |                    |     |     |
-| ----------- | ------------------ | --- | --- |
-| options     | 在服务端调用一次   |     |     |
-| buildStart  | 在服务端调用一次   |     |     |
-| resolveId   | 每交进入模块时调用 |     |     |
-| load        | 每交进入模块时调用 |     |     |
-| transform   | 每交进入模块时调用 |     |     |
-| buildEnd    | 当服务器关闭时调用 |     |     |
-| closeBundle | 当服务器关闭时调用 |     |     |
-
-#### vite 的钩子
-
-不会作用于 rollup  
-||||||
-|-|-|-|-|-|
-|config|||||
-|configResolved|||||
-|configureServer|||||
-|configurePreviewServer|||||
-|transformIndexHtml|||||
-|handleHotUpdate|||||
-
-#### 插件的顺序
-
-- alias
-- 使用 enforce: 'pre'的插件
-- vite core 插件
-- 未设置 enforce 的插件
-- vite build 插件
-- 使用 enforce: 'post'的插件
-- 打包后的插件（minify / manifest / reporting）
+## [插件](/builder/vite/plugin.html)
 
 ## 依赖预构建
+
+就是 cjs/umd => esm 的过程。使用 esbuild 完成。
 
 - 兼容 cjs/umd
 - 把多个 esm 依赖关系的内部模块转换为单个模块。
 - 自动依赖搜寻
   1. 从缓存中找
   2. 从 node_modules 中找
-- 在一库多包中，自动侦测不在 node_modules 中的依赖项。
+- 在一库多包中，不打包的依赖项目，分析并预处理依赖项目的依赖列表。可以使用`optimizeDeps.include / build.optimizeDeps.include`优化。
 - vite 使用强缓存。`max-age=31536000,immutable`
 - 文件系统缓存。当下列一个改变时重新运行预构建
   - package.json 中的 dependencies
   - lockfile
   - vite.config.js
 -
+
+### 缓存
+
+- 文件系统缓存。有其一变动，则重新运行构建。
+  - 锁文件。
+  - 补丁文件
+  - vite.config.js
+  - NODE_ENV
+- 浏览器缓存。有其一则不使用缓存。
+  - 禁用缓存
+  - `--force`选项。
+  - 重新载入页面。
 
 ## 静态资源
 
@@ -319,6 +234,9 @@ img.src = imgUrl // 使用
 ```
 
 ## 构建生产版本
+
+默认入口是`<root>/index.html`。
+vite 是从`*.html`文件开始打包的。
 
 ### 公共基础路径
 
@@ -367,70 +285,7 @@ export default defineConfig({
 }
 ```
 
-## 环境变量和模式
-
-```js
-import.meta.env.MODE // 应用运行的模式
-import.meta.env.BASE_URL // 基本url.  base
-import.meta.env.PROD // 是否是生产环境
-import.meta.env.DEV // 是否是开发环境
-import.meta.env.SSR // 是否运行在server上
-```
-
-### `.env`文件
-
-```
-.env                # 所有情况下都会加载
-.env.local          # 所有情况下都会加载，但会被 git 忽略
-.env.[mode]         # 只在指定模式下加载
-.env.[mode].local   # 只在指定模式下加载，但会被 git 忽略
-```
-
-mode 是此环境文件的名称。
-
-常用的环境变量名称
-
-```
-.env
-.env.production
-.env.test
-.env.development
-```
-
-```
-# 定义
-# 必须以VITE_开头。否则不会被vite处理。
-VITE_SOME_KEY=123
-# $必须被转义
-VITE_KEY2=a\$b
-```
-
-使用环境变量
-
-```js
-console.log(import.meta.env.VITE_SOME_KEY)
-```
-
-使用环境文件
-
-```shell
-vite build --mode development
-```
-
-### 环境文件 & 类型
-
-`env.d.ts`
-
-```ts
-/// <reference types="vite/client">
-interface ImportMetaEnv {
-  readonly VITE_APP_TITLE: string
-  // ...
-}
-interface ImportMeta {
-  readonly env: ImportMetaEnv
-}
-```
+## [环境变量](/builder/vite/env.html)
 
 ## 服务端渲染
 
@@ -616,17 +471,11 @@ import { defineConfig, loadEnv } from 'vite'
 
 ## title
 
-## api
-
-`vite.fn(param, first: string, second: boolean = true) => void`
-description
-
-`vite.fn(param, [options: {a: string, b?: number}])`
-description
+## [api](/builder/vite/api.html)
 
 ## principle
 
-此包的处理逻辑。
+基于 esbuil/rollup 开发的。
 
 ### uml
 
@@ -651,6 +500,6 @@ description
 
 > 我不喜欢这个项目。
 > vue 团队就喜欢搞些方便使用的畸型代码。把 data/methods 都放在 vm 上。把 VITE\_开头的变量放在 import.meta.env 上。  
-> 未来迭代计划。
+> vite 自己做了什么？esbuild 做了什么？
 > 未来迭代计划。
 > 未来迭代计划。

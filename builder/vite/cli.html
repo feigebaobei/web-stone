@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>vite&#x7684;&#x547d;&#x4ee4;&#x884c;</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="vite的命令行">vite的命令行</h1>
+<h2 id="开发">开发</h2>
+<p><code>vite [root]</code>在指定目录下执行vite命令</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>说明</th>
+<th>类型</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--host [host]</code></td>
+<td>指定url的域名</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>--port &lt;port&gt;</code></td>
+<td>指定url的域名</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>--https</code></td>
+<td>是否使用tls+http/2</td>
+<td>boolean</td>
+<td></td>
+</tr>
+<tr>
+<td><code>--open [path]</code></td>
+<td>启动时打开浏览器</td>
+<td>boolean/string</td>
+<td></td>
+</tr>
+<tr>
+<td><code>--cors</code></td>
+<td>是否启用cors</td>
+<td>boolean</td>
+<td></td>
+</tr>
+<tr>
+<td><code>--strictPort</code></td>
+<td>是否严格使用指定port</td>
+<td>B</td>
+<td></td>
+</tr>
+<tr>
+<td><code>--force</code></td>
+<td>是否忽略缓存并重新构建</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>-c --config &lt;file&gt;</code></td>
+<td>使用指定的配置文件</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>--base [path]</code></td>
+<td>指定基础路径</td>
+<td>S</td>
+<td>'/'</td>
+</tr>
+<tr>
+<td><code>-l --logLevel [level]</code></td>
+<td>好像是指定输出日志的级别（该级别以上的都输出）info/warn/error/silent</td>
+<td>S</td>
+<td></td>
+</tr>
+<tr>
+<td><code>--clearScreen</code></td>
+<td>允许或禁用日志时清除屏幕</td>
+<td>B</td>
+<td></td>
+</tr>
+<tr>
+<td><code>-d --debug [feat]</code></td>
+<td>显示调试日志</td>
+<td>S/B</td>
+<td></td>
+</tr>
+<tr>
+<td><code>-f --filter &lt;filter&gt;</code></td>
+<td>过滤高度日志</td>
+<td>S</td>
+<td></td>
+</tr>
+<tr>
+<td><code>-m --mode &lt;mode&gt;</code></td>
+<td>设置环境模式</td>
+<td>S</td>
+<td></td>
+</tr>
+<tr>
+<td><code>-h --help</code></td>
+<td>列出可用cli选项</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>-v --version</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="构建">构建</h2>
+<p>就是打包
+<code>viet build [root]</code></p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>说明</th>
+<th>类型</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--target &lt;target&gt;</code></td>
+<td>编译目录，不会</td>
+<td>S</td>
+<td>'modules'</td>
+</tr>
+<tr>
+<td><code>--outDir &lt;dir&gt;</code></td>
+<td>输出目录</td>
+<td>S</td>
+<td>'dist'</td>
+</tr>
+<tr>
+<td><code>--assetsDir &lt;dir&gt;</code></td>
+<td>指定在输出目录下放置资源的目录</td>
+<td>S</td>
+<td>'assets'</td>
+</tr>
+<tr>
+<td><code>--assetsInlineLimit &lt;number&gt;</code></td>
+<td>指定url的域名</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>--ssr [entry]</code></td>
+<td>为服务端渲染指定入口文件</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>--sourcemap [output]</code></td>
+<td>输出sourcemap文件。boolean/'inline'/'hidden'</td>
+<td>S/B</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>--minify [minifier]</code></td>
+<td>指定压缩器。boolean/'terser'/'esbuild'</td>
+<td>S/B</td>
+<td>'esbuild'</td>
+</tr>
+<tr>
+<td><code>--manifest [name]</code></td>
+<td>manifest.json</td>
+<td>B/S</td>
+<td></td>
+</tr>
+<tr>
+<td><code>--force</code></td>
+<td>是否忽略缓存并重新构建</td>
+<td>B</td>
+<td></td>
+</tr>
+<tr>
+<td><code>--emptyOutDir</code></td>
+<td>是否清空输出目录</td>
+<td>B</td>
+<td></td>
+</tr>
+<tr>
+<td><code>-w --watch</code></td>
+<td>当模块发生变化时，重新构建。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>-c --config &lt;file&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>--base &lt;path&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>-l --logLevel &lt;level&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>--clearScreen</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>-d --debug [feat]</code></td>
+<td>是否显示调试日志</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>-f --filter &lt;filter&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>-m --mode &lt;mode&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>-h --help</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="优化项">优化项</h2>
+<p><code>vite optimize [root]</code></p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>说明</th>
+<th>类型</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--force</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>-c --config &lt;file&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>--base &lt;path&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>-l --logLevel &lt;level&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>--clearScreen</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>-d --debug [feat]</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>-f --filter &lt;filter&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>-m --mode &lt;mode&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>-h --help</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="预览">预览</h2>
+<p><code>vite preview [root]</code>在本地预览构建产物。</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>说明</th>
+<th>类型</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--host [host]</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>--port [port]</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>--strictPort</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>--https</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>--open [path]</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>--outDir &lt;dir&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>-c --config &lt;file&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>--base &lt;path&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>-l --logLevel &lt;level&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>--clearScreen</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>-d --debug [feat]</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>-f --filter &lt;filter&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>-m --mode &lt;mode&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>-h --help</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+        
+        
+    </body>
+    </html>
