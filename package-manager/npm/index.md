@@ -366,7 +366,12 @@ npm install esbuild -- registry=https://registry.npmjs.org
 }
 ```
 
-## title
+## workspace
+
+在一库多包`monorepo`项目中使用。
+
+- 在项目根目录下的 package.json 中指定`workspaces`字段。
+- 然后包管理工具会把该字段下的所有子包创建软链接。就像执行了`npm link`一样。这样就可以在其他子包中使用该子包了。
 
 ## title
 

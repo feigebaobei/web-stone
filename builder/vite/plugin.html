@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>vite plugin</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="vite-plugin">vite plugin</h1>
+<p>vite 的插件是基于 rollup 的插件，只是增加一个 vite 的特有配置项。可以用于服务器。</p>
+<h2 id="使用方法">使用方法</h2>
+<pre><code class="language-js"><span class="hljs-comment">// 添加插件</span>
+pnpm add -D @vitejs/plugin-legacy
+
+<span class="hljs-comment">// vite.config.js</span>
+<span class="hljs-keyword">import</span> legacy <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@vitejs/plugin-legacy&#x27;</span>
+<span class="hljs-keyword">import</span> image <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@rollup/plugin-image&#x27;</span>
+<span class="hljs-keyword">import</span> {defineConfig} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vite&#x27;</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">defineConfig</span>({
+    <span class="hljs-attr">plugins</span>: [ <span class="hljs-comment">// 可以接受多个插件。若无效则不使用。</span>
+        <span class="hljs-title function_">legacy</span>({
+            <span class="hljs-attr">targets</span>: [<span class="hljs-string">&#x27;defaults&#x27;</span>, <span class="hljs-string">&#x27;not IE 11&#x27;</span>]
+        }),
+        {
+            ...<span class="hljs-title function_">image</span>(),
+            <span class="hljs-attr">enforce</span>: <span class="hljs-string">&#x27;pre&#x27;</span> <span class="hljs-comment">// 使用此字段明确指定本插件与vite core plugins的执行顺序。</span>
+            <span class="hljs-comment">// pre</span>
+            <span class="hljs-comment">// default 默认post</span>
+            <span class="hljs-comment">// post</span>
+            <span class="hljs-attr">apply</span>: <span class="hljs-string">&#x27;build&#x27;</span> <span class="hljs-comment">// 明确在哪个期间执行，默认2个期间都执行。</span>
+            <span class="hljs-comment">// build</span>
+            <span class="hljs-comment">// serve</span>
+        }
+    ]
+})
+</code></pre>
+<h2 id="发现插件">发现插件</h2>
+<p><a href="https://vite-rollup-plugins.patak.dev/">vite rollup plugins 的网站</a></p>
+<h2 id="插件-api">插件 api</h2>
+<h3 id="习惯">习惯</h3>
+<p>推荐使用 rollup 的命名习惯。</p>
+<ul>
+<li>以<code>rollup-plugin-</code>开头</li>
+<li>包括<code>rollup-plugin vite-plugin</code>关键字。</li>
+</ul>
+<p>若只对 vite 开发的插件。</p>
+<ul>
+<li>以<code>vite-plugin-</code>开头</li>
+<li>包括<code>vite-plugin</code>关键字。
+<ul>
+<li>也可以以特定框架说明<code>vite-plugin-vue-</code> / <code>vite-plugin-react-</code> / <code>vite-plugin-svelte-</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="插件的配置">插件的配置</h3>
+<p>一般这样使用插件</p>
+<pre><code class="language-js"><span class="hljs-comment">// vite.config.js</span>
+<span class="hljs-keyword">import</span> { defineConfig } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vite&#x27;</span>
+<span class="hljs-keyword">import</span> { framework } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vite-plugin-frame-work&#x27;</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">defineConfig</span>({
+  <span class="hljs-attr">plugins</span>: [<span class="hljs-title function_">framework</span>()],
+})
+</code></pre>
+<pre><code class="language-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">myPlugin</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> virtualModuleId = <span class="hljs-string">&#x27;virtual:my-module&#x27;</span>
+  <span class="hljs-keyword">const</span> resolvedVirtualModuleId = <span class="hljs-string">&#x27;\0&#x27;</span> + virtualModuleId
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;plugin-name&#x27;</span>,
+    <span class="hljs-title function_">transform</span>(<span class="hljs-params">src, id</span>) {
+      <span class="hljs-keyword">if</span> (reg.<span class="hljs-title function_">test</span>(id)) {
+        <span class="hljs-keyword">return</span> {
+          <span class="hljs-attr">code</span>: <span class="hljs-title function_">fn</span>(src),
+          <span class="hljs-attr">map</span>: <span class="hljs-literal">null</span>,
+        }
+      }
+    },
+    <span class="hljs-title function_">load</span>(<span class="hljs-params">id</span>) {
+      <span class="hljs-keyword">if</span> (id === resolvedVirtualModuleId) {
+        <span class="hljs-keyword">return</span> <span class="hljs-string">`export const msg = &#x27;from virtual module&#x27;`</span>
+      }
+    },
+  }
+}
+</code></pre>
+<h4 id="virtual-modules-convention">virtual modules convention</h4>
+<p>把打包时的信息给源文件，用于 esm 语法导入。</p>
+<h3 id="钩子">钩子</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>options</td>
+<td>在服务端调用一次</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>buildStart</td>
+<td>在服务端调用一次</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>resolveId</td>
+<td>每交进入模块时调用</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>load</td>
+<td>每交进入模块时调用</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>transform</td>
+<td>每交进入模块时调用</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>buildEnd</td>
+<td>当服务器关闭时调用</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>closeBundle</td>
+<td>当服务器关闭时调用</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="vite-的钩子">vite 的钩子</h3>
+<p>不会作用于 rollup</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>config</td>
+<td>`(config: UserConfig, env: {mode: S, command: S}) =&gt; UserConfig</td>
+<td>null</td>
+<td>void`</td>
+<td>在解析vite配置前调用。接收原始用户配置，返回合并后（或改变后）的配置对象。</td>
+</tr>
+<tr>
+<td>configResolved</td>
+<td>`(config: ResolvedConfig) =&gt; void</td>
+<td>Promise<void>`</td>
+<td>在解析vite配置后调用。</td>
+<td></td>
+</tr>
+<tr>
+<td>configureServer</td>
+<td>`(server: ViteDevServer) =&gt; (() =&gt; void)</td>
+<td>void</td>
+<td>Promise&lt;(() =&gt; void)</td>
+<td>void&gt;`</td>
+</tr>
+<tr>
+<td>configurePreviewServer</td>
+<td>`(server: PreviewServerForHook) =&gt; (() =&gt; void)</td>
+<td>void</td>
+<td>Promise&lt;(() =&gt; void)</td>
+<td>void&gt;`</td>
+</tr>
+<tr>
+<td>transformIndexHtml</td>
+<td>`IndexHtmlTransformHook</td>
+<td>{order?: 'pre'</td>
+<td>'post', hander: IndexHtmlTransformHook}`</td>
+<td>用于转换html</td>
+</tr>
+<tr>
+<td>handleHotUpdate</td>
+<td>`(ctx: HmrContext) =&gt; Array<ModuleNode></td>
+<td>void</td>
+<td>Promise&lt;Array<ModuleNode></td>
+<td>void&gt;`</td>
+</tr>
+</tbody>
+</table>
+<h3 id="插件的顺序">插件的顺序</h3>
+<ul>
+<li>alias</li>
+<li>使用 enforce: 'pre'的插件</li>
+<li>vite core 插件</li>
+<li>未设置 enforce 的插件</li>
+<li>vite build 插件</li>
+<li>使用 enforce: 'post'的插件</li>
+<li>打包后的插件（minify / manifest / reporting）</li>
+</ul>
+<h2 id="title">title</h2>
+<h2 id="title-1">title</h2>
+<h2 id="title-2">title</h2>
+<h2 id="title-3">title</h2>
+
+        
+        
+    </body>
+    </html>

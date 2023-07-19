@@ -107,12 +107,12 @@ export default function myPlugin() {
 不会作用于 rollup  
 ||||||
 |-|-|-|-|-|
-|config|||||
-|configResolved|||||
-|configureServer|||||
-|configurePreviewServer|||||
-|transformIndexHtml|||||
-|handleHotUpdate|||||
+|config|`(config: UserConfig, env: {mode: S, command: S}) => UserConfig | null | void`|在解析 vite 配置前调用。接收原始用户配置，返回合并后（或改变后）的配置对象。|在此钩子中添加 plugin 无效。||
+|configResolved|`(config: ResolvedConfig) => void | Promise<void>`|在解析 vite 配置后调用。|||
+|configureServer|`(server: ViteDevServer) => (() => void) | void | Promise<(() => void) | void>`|用于配置开发服务器的钩子|||
+|configurePreviewServer|`(server: PreviewServerForHook) => (() => void) | void | Promise<(() => void) | void>`|用于配置预览服务器|||
+|transformIndexHtml|`IndexHtmlTransformHook | {order?: 'pre' | 'post', hander: IndexHtmlTransformHook}`|用于转换 html|||
+|handleHotUpdate|`(ctx: HmrContext) => Array<ModuleNode> | void | Promise<Array<ModuleNode> | void>`|用于自定义 HMR 处理|||
 
 ### 插件的顺序
 

@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>&DiacriticalGrave;TypeScript&DiacriticalGrave;</title>
+        <title>TypeScript</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -41,7 +41,7 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="typescript"><code>TypeScript</code></h1>
+        <h1 id="typescript">TypeScript</h1>
 <h2 id="overview">overview</h2>
 <blockquote>
 <p>简称 ts<br>
@@ -523,6 +523,49 @@ ts 的类型可以用于防御式编程</p>
 }
 </code></pre>
 <h3 id="union--enum"><a href="/language/typescript/union&amp;enum.html">union &amp; enum</a></h3>
+<h3 id="any--unknown--never">any &amp; unknown &amp; never</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>any</th>
+<th>unknown</th>
+<th>never</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>任意类型</td>
+<td>不知道类型</td>
+<td>永不类型</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>所有基础类型的父类型</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>可以接收任意类型的值</td>
+<td>可以接收任意类型的值。（因为父类型的缘故）</td>
+<td>抛出异常的函数或永远不会返回的函数的返回值</td>
+</tr>
+<tr>
+<td></td>
+<td>不做类型检测</td>
+<td>断言类型后才能使用</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>可以赋值给明确且匹配类型的变量</td>
+<td>不可直接赋值给非unknown变量的值，加上类型断言才可以。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h3 id="type--interface-不同"><a href="/language/typescript/type&amp;interface.html">type &amp; interface 不同</a></h3>
 <h2 id="操作类型">操作类型</h2>
 <p>都是大写开头。</p>
@@ -1186,6 +1229,12 @@ init 后不能改变。<br>
 <h2 id="init-ts-project"><a href="/language/typescript/initTsProject.html">init ts project</a></h2>
 <h2 id="init-ts--react-project"><a href="/language/typescript/initTsReactProject.html">init ts &amp; react project</a></h2>
 <h2 id="ts--rollup"><a href="/builder/rollup/ts&amp;rollup.html">ts &amp; rollup</a></h2>
+<h2 id="类型断言的不足">类型断言的不足</h2>
+<p>或称为ts的不足。</p>
+<ul>
+<li>不能明确定义所有变量的类型。(ts允许存在any/unknown/never就是佐证。)</li>
+<li>然后有类型断言。类型断言只能做到代码静态检测时类型是否满足运行逻辑，不能防止实际运行时具体的值不满足运行逻辑的情况。</li>
+</ul>
 <h2 id="todo">todo</h2>
 <h3 id="interface--type">interface &amp; type</h3>
 <table>

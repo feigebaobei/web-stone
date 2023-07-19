@@ -95,6 +95,7 @@ rm -rf $(pnpm store path) # 删除全局内容可寻址存储
 
 ```
 pnpm --filter
+pnpm --filter ./packages/<name> add <package>
 ```
 
 ## configuration
@@ -152,7 +153,7 @@ packages:
 | start | | 执行 start 脚本 | |
 | test | | 执行 test 脚本 | |
 | pack | | | |
-| publish | | 发布包 | |
+| publish | | 发布包 | `pnpm publish <name> [flags]`|
 | root | | | |
 | store add | | | |
 | store add | | | |

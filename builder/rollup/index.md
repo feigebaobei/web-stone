@@ -771,7 +771,7 @@ export default function () {
 }
 ```
 
-# [插件](/builder/rollup/plugin/index.html)
+# [插件](/builder/rollup/plugins/index.html)
 
 插件部分的文档写的一团糟。还得让我去看 rollup 的源码、插件的源码。
 
