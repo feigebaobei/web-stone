@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>template</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <p>三者只是编码方式。三者之间无明显差距。</p>
+<h1 id="template">template</h1>
+<p>vue2时就已经支持了。这种写法是vue擅长的写法。
+官网推荐此写法。原因：</p>
+<ul>
+<li>方便利用html。方便理解。闭包的html/css。</li>
+<li>方便做静态分析。可以让vue做一些编辑时分析，以达到编译时优化。方便提高性能。</li>
+</ul>
+<h1 id="render-function">render function</h1>
+<pre><code class="language-js"><span class="hljs-keyword">import</span> { h } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
+<span class="hljs-keyword">let</span> vnode = <span class="hljs-title function_">h</span>(
+    <span class="hljs-string">&#x27;div&#x27;</span>, <span class="hljs-comment">// type</span>
+    { <span class="hljs-attr">id</span>: <span class="hljs-string">&#x27;foo&#x27;</span>, <span class="hljs-attr">class</span>: <span class="hljs-string">&#x27;bar&#x27;</span>}, <span class="hljs-comment">// props</span>
+    [], <span class="hljs-comment">// children</span>
+)
+
+<span class="hljs-comment">// all arguments except the type are optional</span>
+<span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;div&#x27;</span>)
+<span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;div&#x27;</span>, { <span class="hljs-attr">id</span>: <span class="hljs-string">&#x27;foo&#x27;</span> })
+<span class="hljs-comment">// both attributes and properties can be used in props</span>
+<span class="hljs-comment">// Vue automatically picks the right way to assign it</span>
+<span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;div&#x27;</span>, { <span class="hljs-attr">class</span>: <span class="hljs-string">&#x27;bar&#x27;</span>, <span class="hljs-attr">innerHTML</span>: <span class="hljs-string">&#x27;hello&#x27;</span> })
+<span class="hljs-comment">// props modifiers such as `.prop` and `.attr` can be added</span>
+<span class="hljs-comment">// with `.` and `^` prefixes respectively</span>
+<span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;div&#x27;</span>, { <span class="hljs-string">&#x27;.name&#x27;</span>: <span class="hljs-string">&#x27;some-name&#x27;</span>, <span class="hljs-string">&#x27;^width&#x27;</span>: <span class="hljs-string">&#x27;100&#x27;</span> })
+<span class="hljs-comment">// class and style have the same object / array</span>
+<span class="hljs-comment">// value support that they have in templates</span>
+<span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;div&#x27;</span>, { <span class="hljs-attr">class</span>: [foo, { bar }], <span class="hljs-attr">style</span>: { <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;red&#x27;</span> } })
+<span class="hljs-comment">// event listeners should be passed as onXxx</span>
+<span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;div&#x27;</span>, { <span class="hljs-attr">onClick</span>: <span class="hljs-function">() =&gt;</span> {} })
+<span class="hljs-comment">// children can be a string</span>
+<span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;div&#x27;</span>, { <span class="hljs-attr">id</span>: <span class="hljs-string">&#x27;foo&#x27;</span> }, <span class="hljs-string">&#x27;hello&#x27;</span>)
+<span class="hljs-comment">// props can be omitted when there are no props</span>
+<span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;div&#x27;</span>, <span class="hljs-string">&#x27;hello&#x27;</span>)
+<span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;div&#x27;</span>, [<span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;span&#x27;</span>, <span class="hljs-string">&#x27;hello&#x27;</span>)])
+<span class="hljs-comment">// children array can contain mixed vnodes and strings</span>
+<span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;div&#x27;</span>, [<span class="hljs-string">&#x27;hello&#x27;</span>, <span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;span&#x27;</span>, <span class="hljs-string">&#x27;hello&#x27;</span>)])
+</code></pre>
+<pre><code class="language-js"><span class="hljs-keyword">import</span> { ref, h } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> { 
+    <span class="hljs-attr">props</span>: {...},
+    <span class="hljs-comment">// setup只会执行一次。它返回的方法可以被使用很多次。</span>
+    <span class="hljs-title function_">setup</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-comment">// template写法是返回data，为了让template可以使用data.</span>
+        <span class="hljs-comment">// render方法返回的是一个render方法。</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-function">() =&gt;</span> {}
+    }
+}
+</code></pre>
+<h2 id="render-function-的语法">render function 的语法</h2>
+<pre><code class="language-js"><span class="hljs-comment">// v-if</span>
+<span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;div&#x27;</span>, [ok.<span class="hljs-property">value</span> ? h (<span class="hljs-string">&#x27;div&#x27;</span>, <span class="hljs-string">&#x27;yes&#x27;</span>) : <span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;div&#x27;</span>, <span class="hljs-string">&#x27;no&#x27;</span>)])
+<span class="hljs-comment">// v-for</span>
+<span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;ul&#x27;</span>, item.<span class="hljs-property">value</span>.<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">{id, text}</span>) =&gt;</span> (<span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;li&#x27;</span>, {<span class="hljs-attr">key</span>: id}, text)))
+&lt;ul&gt;
+    {items.<span class="hljs-property">value</span>.<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">{id, text}</span>) =&gt;</span> (<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">key</span>=<span class="hljs-string">{id}</span>&gt;</span>{text}<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span></span>))}
+&lt;/ul&gt;
+<span class="hljs-comment">// v-on</span>
+<span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;button&#x27;</span>, {
+    <span class="hljs-title function_">onClick</span>(<span class="hljs-params">event</span>) {...}
+}, <span class="hljs-string">&#x27;str&#x27;</span>)
+&lt;button onClick={<span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {...}}&gt;str&lt;/button&gt;
+<span class="hljs-comment">// event modifiers</span>
+<span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;input&#x27;</span>, {
+    <span class="hljs-title function_">onClickCapture</span>(<span class="hljs-params"></span>) {...},
+    <span class="hljs-title function_">onKeyupOnce</span>(<span class="hljs-params"></span>) {...},
+    <span class="hljs-title function_">onMouseoverOnceCapture</span>(<span class="hljs-params"></span>) {...},
+})
+&lt;input
+onClickCapture={<span class="hljs-function">() =&gt;</span> {...}}
+onKeyupOnce={<span class="hljs-function">() =&gt;</span>{}}
+onMouseoverOnceCapture={<span class="hljs-function">() =&gt;</span>{}}
+/&gt;
+<span class="hljs-comment">// 或者使用withModifiers</span>
+<span class="hljs-keyword">import</span> { withModifiers } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
+<span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;div&#x27;</span>, {
+    <span class="hljs-attr">onClick</span>: <span class="hljs-title function_">withModifier</span>(<span class="hljs-function">() =&gt;</span> {...}, [<span class="hljs-string">&#x27;self&#x27;</span>])
+}, <span class="hljs-string">&#x27;str&#x27;</span>)
+&lt;div onClick={<span class="hljs-title function_">withModifiers</span>(<span class="hljs-function">() =&gt;</span> {}, [<span class="hljs-string">&#x27;self&#x27;</span>])}&gt;str&lt;/div&gt;
+<span class="hljs-comment">// slots</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+    <span class="hljs-attr">props</span>: [<span class="hljs-string">&#x27;msg&#x27;</span>],
+    <span class="hljs-title function_">setup</span>(<span class="hljs-params">props, {slots}</span>) {
+        <span class="hljs-comment">// 返回一个render方法</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-function">() =&gt;</span> [
+            <span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;div&#x27;</span>, slots.<span class="hljs-title function_">default</span>()),
+            <span class="hljs-comment">// 具名插槽+作用域插槽</span>
+            <span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;div&#x27;</span>, slots.<span class="hljs-title function_">footer</span>({<span class="hljs-attr">text</span>: props.<span class="hljs-property">msg</span>}))
+        ]
+    }
+}
+&lt;div&gt;{slots.<span class="hljs-title function_">default</span>()}&lt;/div&gt;
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>{slots.footer({text: props.msg})}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+<span class="hljs-comment">// 透传</span>
+<span class="hljs-comment">// passing slots</span>
+<span class="hljs-title function_">h</span>(<span class="hljs-title class_">MyComp</span>, <span class="hljs-function">() =&gt;</span> <span class="hljs-string">&#x27;str&#x27;</span>)
+<span class="hljs-title function_">h</span>(<span class="hljs-title class_">MyComp</span>, <span class="hljs-literal">null</span>, {
+    <span class="hljs-attr">default</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-string">&#x27;str&#x27;</span>,
+    <span class="hljs-attr">foo</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;div&#x27;</span>, <span class="hljs-string">&#x27;foo&#x27;</span>),
+    <span class="hljs-attr">bar</span>: <span class="hljs-function">() =&gt;</span> [<span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;sapn&#x27;</span>, <span class="hljs-string">&#x27;one&#x27;</span>), <span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;sapn&#x27;</span>, <span class="hljs-string">&#x27;two&#x27;</span>)],
+})
+&lt;<span class="hljs-title class_">MyComp</span>&gt;{<span class="hljs-function">() =&gt;</span> <span class="hljs-string">&#x27;str&#x27;</span>}&lt;/<span class="hljs-title class_">MyComp</span>&gt;
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">MyComp</span>&gt;</span>{{
+    default: () =&gt; &#x27;str&#x27;,
+    foo: () =&gt; <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>str<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>,
+    bar: () =&gt; [<span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>one<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>, <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>two<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>],
+}}<span class="hljs-tag">&lt;/<span class="hljs-name">MyComp</span>&gt;</span></span>
+<span class="hljs-comment">// 内置组件</span>
+<span class="hljs-keyword">import</span> { h, keepAlive, <span class="hljs-title class_">Teleport</span>, <span class="hljs-title class_">Transition</span>, <span class="hljs-title class_">TransitionGroup</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
+<span class="hljs-comment">// v-model</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+    <span class="hljs-attr">props</span>: [<span class="hljs-string">&#x27;modelValue&#x27;</span>],
+    <span class="hljs-attr">emits</span>: [<span class="hljs-string">&#x27;update:modelValue&#x27;</span>],
+    <span class="hljs-title function_">setup</span>(<span class="hljs-params">props, {emit}</span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-function">() =&gt;</span> {
+            <span class="hljs-title function_">h</span>(<span class="hljs-title class_">MyComp</span>, {
+                <span class="hljs-attr">modelValue</span>: props.<span class="hljs-property">modelValue</span>,
+                <span class="hljs-string">&#x27;onUpdate:modelValue&#x27;</span>: <span class="hljs-function">(<span class="hljs-params">value</span>) =&gt;</span> <span class="hljs-title function_">emit</span>(<span class="hljs-string">&#x27;update:modelValue&#x27;</span>, value)
+            })
+        }
+    }
+}
+<span class="hljs-comment">// custom directives</span>
+<span class="hljs-keyword">import</span> { h, withDirectives } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
+<span class="hljs-keyword">let</span> pin = {
+    <span class="hljs-title function_">mounted</span>(<span class="hljs-params"></span>) {...},
+    <span class="hljs-title function_">updated</span>(<span class="hljs-params"></span>) {...},
+}
+<span class="hljs-keyword">let</span> vnode = <span class="hljs-title function_">withDirectives</span>(<span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;div&#x27;</span>), [
+    [pin, <span class="hljs-number">200</span>, <span class="hljs-string">&#x27;top&#x27;</span>, {<span class="hljs-attr">animate</span>: <span class="hljs-literal">true</span>}]
+])
+<span class="hljs-comment">// =&gt; &lt;div v-pin:top.animate=&quot;200&quot;&gt;&lt;/div&gt;</span>
+<span class="hljs-comment">// template refs</span>
+improt { h, ref } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+    <span class="hljs-title function_">setup</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-keyword">let</span> divEl = <span class="hljs-title function_">ref</span>()
+        <span class="hljs-keyword">return</span> <span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;div&#x27;</span>, {<span class="hljs-attr">ref</span>: divEl})
+        <span class="hljs-comment">// =&gt; &lt;div ref=&quot;divEl&quot;&gt;</span>
+    }
+}
+
+
+
+
+
+</code></pre>
+<h1 id="jsx-tsx">jsx (tsx)</h1>
+<p>一种类xml写法的js</p>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> vnode = <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>str{var}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+</code></pre>
+
+        
+        
+    </body>
+    </html>

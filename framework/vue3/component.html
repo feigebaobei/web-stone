@@ -15,41 +15,6 @@
 	display: none;
 }
 
-/* From extension ms-toolsai.jupyter */
-/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
-
-.alert {
-    width: auto;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-.alert > *:last-child {
-    margin-bottom: 0;
-}
-#preview > .alert:last-child {
-    /* Prevent this being set to zero by the default notebook stylesheet */
-    padding-bottom: 1em;
-}
-
-.alert-success {
-    /* Note there is no suitable color available, so we just copy "info" */
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-info {
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-warning {
-    background-color: var(--theme-warning-background);
-    color: var(--theme-warning-foreground);
-}
-.alert-danger {
-    background-color: var(--theme-error-background);
-    color: var(--theme-error-foreground);
-}
-
 </style>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
@@ -369,7 +334,7 @@ context.<span class="hljs-title function_">emit</span>(<span class="hljs-string"
 $emit(<span class="hljs-string">&#x27;update:modelValue&#x27;</span>, xx)
 </code></pre>
 <h2 id="attrs">attrs</h2>
-<p>用于接收从父组件来的且 props 中未明确定义的属性。</p>
+<p>用于接收从父组件来的且 props/emits 中未明确定义的属性。</p>
 <pre><code class="language-js"><span class="hljs-attr">props</span>: [...],
 <span class="hljs-attr">inheritAttrs</span>: <span class="hljs-literal">false</span>, <span class="hljs-comment">// 会禁止把$attrs属性设置在当前组件的根节点上。默认为true.</span>
 v-bind=<span class="hljs-string">&quot;$attrs&quot;</span>
@@ -382,6 +347,7 @@ v-bind=<span class="hljs-string">&quot;$attrs&quot;</span>
 <ul>
 <li>它们是祖先组件向后代组件传递数据的方式之一。</li>
 <li>使用 symbol 类型为 key 可以减少变量名冲突。</li>
+<li>可以与ref/reactive/readonly/var/symbol/function结合使用。</li>
 </ul>
 <p><a href="/framework/dataTrasmit/index.html">组件间传递数据</a></p>
 <!-- prettier-ignore-start -->
@@ -639,6 +605,9 @@ setup()内的 this 不是活跃实例的引用。</p>
 </tr>
 </tbody>
 </table>
+<h4 id="为什么选项式组合式">为什么选项式=》组合式</h4>
+<p>为了支持树摇。
+选项式无法摇下去。组合式可以做到。</p>
 <h3 id="参数">参数</h3>
 <ol>
 <li>props。它是响应式的。不能解构。</li>
@@ -691,7 +660,7 @@ counter.<span class="hljs-property">value</span>++
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(counter.<span class="hljs-property">value</span>)
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(twiceTheCounter.<span class="hljs-property">value</span>) <span class="hljs-comment">// 访问twiceTheCounter的值</span>
 </code></pre>
-<h3 id="参数">参数</h3>
+<h3 id="参数-1">参数</h3>
 <p>在 vue3.2+新增了<code>onTrack / onTrigger</code>参数。</p>
 <pre><code class="language-js"><span class="hljs-keyword">const</span> plusOne = <span class="hljs-title function_">computed</span>(<span class="hljs-function">() =&gt;</span> count.<span class="hljs-property">value</span> + <span class="hljs-number">1</span>, {
   <span class="hljs-title function_">onTrack</span>(<span class="hljs-params">e</span>) {
@@ -904,8 +873,27 @@ count.<span class="hljs-property">value</span>++
 </ul>
 <h3 id="component">component</h3>
 <h3 id="slot">slot</h3>
+<p>全定
+<code>&lt;template v-slot:slotName&gt;...&lt;/template&gt;</code>
+简定
+<code>&lt;template #slotName&gt;...&lt;/template&gt;</code>
+动态插槽
+<code>&lt;template #[slotName]&gt;</code></p>
+<h4 id="作用域插槽">作用域插槽</h4>
+<pre><code>&lt;!-- 定义 --&gt;
+&lt;!-- &lt;MyComponent&gt; template --&gt;
+&lt;div&gt;
+    &lt;!-- 在slot标签是声明需要的props --&gt;
+  &lt;slot :text=&quot;greetingMessage&quot; :count=&quot;1&quot;&gt;&lt;/slot&gt;
+&lt;/div&gt;
+
+&lt;!-- 使用 --&gt;
+&lt;MyComponent v-slot=&quot;slotProps&quot;&gt;
+  {{ slotProps.text }} {{ slotProps.count }}
+&lt;/MyComponent&gt;
+</code></pre>
 <h3 id="template">template</h3>
-<h2 id="内置的attributes">内置的attributes</h2>
+<h2 id="内置的-attributes">内置的 attributes</h2>
 <h3 id="key">key</h3>
 <h3 id="ref">ref</h3>
 <h3 id="is">is</h3>
@@ -1071,9 +1059,9 @@ count.<span class="hljs-property">value</span>++
 <!-- prettier-ignore-end -->
 <p>vue 团队非要搞“语法糖”，结果搞乱了。</p>
 <h3 id="title">title</h3>
-<h3 id="title">title</h3>
-<h3 id="title">title</h3>
-<h3 id="title">title</h3>
+<h3 id="title-1">title</h3>
+<h3 id="title-2">title</h3>
+<h3 id="title-3">title</h3>
 
         <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         

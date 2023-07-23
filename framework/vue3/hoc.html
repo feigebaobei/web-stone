@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>vue3&#x7684;&#x9ad8;&#x9636;&#x7ec4;&#x4ef6;</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="vue3的高阶组件">vue3的高阶组件</h1>
+<h2 id="overview">overview</h2>
+<blockquote>
+<p>TODO: description</p>
+</blockquote>
+<h3 id="feature">feature</h3>
+<ul>
+<li>feature0</li>
+<li>feature1</li>
+<li>feature2</li>
+</ul>
+<h3 id="vue2hoc-vue3hoc--reacthoc">vue2Hoc &amp;vue3Hoc &amp; reactHoc</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>vue2Hoc</th>
+<th>vue3Hoc</th>
+<th>reactHoc</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>如何实现</td>
+<td></td>
+<td>处理props/method/event/slots</td>
+<td>传递props</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="demo">demo</h2>
+<pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">hoc</span> (<span class="hljs-title class_">SubComp</span>) {
+    <span class="hljs-keyword">return</span> {
+        <span class="hljs-title function_">mounted</span>(<span class="hljs-params"></span>) {
+            <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;...&#x27;</span>)
+        },
+        <span class="hljs-attr">props</span>: <span class="hljs-title class_">SubComp</span>.<span class="hljs-property">props</span>,
+        <span class="hljs-title function_">render</span>(<span class="hljs-params">h</span>) {
+            <span class="hljs-keyword">let</span> children = ...
+            <span class="hljs-keyword">return</span> <span class="hljs-title function_">h</span>(<span class="hljs-title class_">SubComp</span>, {
+                <span class="hljs-attr">on</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">$listeners</span>,
+                <span class="hljs-attr">props</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">$props</span>,
+                <span class="hljs-attr">atts</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">$attrs</span>,
+            }, children)
+        }
+    }
+}
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> hoc
+</code></pre>
+<h2 id="知识基座">知识基座</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>$props</code></td>
+<td>在组件上声明的props</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$attrs</code></td>
+<td>组件上未声明的props</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$listeners</code></td>
+<td>组件上声明的事件</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$refs</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$slots</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">usage</h2>
+<p>同<code>./demo.md</code></p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> {{packageName}} = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;{{packageName}}&#x27;</span>);
+<span class="hljs-comment">// or</span>
+<span class="hljs-comment">// import {{packageName}} from &#x27;{{packageName}}&#x27;;</span>
+<span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> DEMONSTRATE API</span>
+</code></pre>
+<h2 id="configuration">configuration</h2>
+<p>默认配置文件：<code>path/to/file.json</code>。</p>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h2 id="api">api</h2>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<p><code>{{packageName}}.fn(param, first: string, second: boolean = true) =&gt; void</code>
+description</p>
+<p><code>{{packageName}}.fn(param, [options: {a: string, b?: number}])</code>
+description</p>
+<h2 id="principle">principle</h2>
+<p>此包的处理逻辑。</p>
+<h3 id="uml">uml</h3>
+<pre><code></code></pre>
+<h2 id="todo">todo</h2>
+<blockquote>
+<p>未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote>
+
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
+    </body>
+    </html>

@@ -300,7 +300,7 @@ $emit('update:modelValue', xx)
 
 ## attrs
 
-用于接收从父组件来的且 props 中未明确定义的属性。
+用于接收从父组件来的且 props/emits 中未明确定义的属性。
 
 ```js
 props: [...],
@@ -315,6 +315,7 @@ v-bind="$attrs"
 
 - 它们是祖先组件向后代组件传递数据的方式之一。
 - 使用 symbol 类型为 key 可以减少变量名冲突。
+- 可以与 ref/reactive/readonly/var/symbol/function 结合使用。
 
 [组件间传递数据](/framework/dataTrasmit/index.html)
 
@@ -500,6 +501,11 @@ setup() {
 | 生命周期函数 | 是方法。逻辑在方法体内执行。                | 是方法，参数是回调方法。逻辑在回调方法中执行。 |
 |              | 底层                                        | 基于组件式 api 开发的                          |
 |              | 它根本不是沉浸式 api.(vue 团队就喜欢做公关) |                                                |
+
+#### 为什么选项式=》组合式
+
+为了支持树摇。
+选项式无法摇下去。组合式可以做到。
 
 ### 参数
 
@@ -704,6 +710,29 @@ count.value++
 ### component
 
 ### slot
+
+全定
+`<template v-slot:slotName>...</template>`
+简定
+`<template #slotName>...</template>`
+动态插槽
+`<template #[slotName]>`
+
+#### 作用域插槽
+
+```
+<!-- 定义 -->
+<!-- <MyComponent> template -->
+<div>
+    <!-- 在slot标签是声明需要的props -->
+  <slot :text="greetingMessage" :count="1"></slot>
+</div>
+
+<!-- 使用 -->
+<MyComponent v-slot="slotProps">
+  {{ slotProps.text }} {{ slotProps.count }}
+</MyComponent>
+```
 
 ### template
 

@@ -404,9 +404,9 @@ import CompName from './CompName.vue' const app = createApp({ render() { return
 
 ## [安全](/framework/vue3/safe.html)
 
-## title
+## [高阶组件 hoc](/framework/vue3/hoc.html)
 
-## title
+## [三种写法 template / render function / jsx](/framework/vue3/format.html)
 
 ## title
 
