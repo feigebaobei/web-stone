@@ -188,45 +188,45 @@ pnpm add -D @vitejs/plugin-legacy
 <tbody>
 <tr>
 <td>config</td>
-<td>`(config: UserConfig, env: {mode: S, command: S}) =&gt; UserConfig</td>
-<td>null</td>
-<td>void`</td>
-<td>在解析vite配置前调用。接收原始用户配置，返回合并后（或改变后）的配置对象。</td>
+<td><code>(config: UserConfig, env: {mode: S, command: S}) =&gt; UserConfig | null | void</code></td>
+<td>在解析 vite 配置前调用。接收原始用户配置，返回合并后（或改变后）的配置对象。</td>
+<td>在此钩子中添加 plugin 无效。</td>
+<td></td>
 </tr>
 <tr>
 <td>configResolved</td>
-<td>`(config: ResolvedConfig) =&gt; void</td>
-<td>Promise<void>`</td>
-<td>在解析vite配置后调用。</td>
+<td><code>(config: ResolvedConfig) =&gt; void | Promise&lt;void&gt;</code></td>
+<td>在解析 vite 配置后调用。</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
 <td>configureServer</td>
-<td>`(server: ViteDevServer) =&gt; (() =&gt; void)</td>
-<td>void</td>
-<td>Promise&lt;(() =&gt; void)</td>
-<td>void&gt;`</td>
+<td><code>(server: ViteDevServer) =&gt; (() =&gt; void) | void | Promise&lt;(() =&gt; void) | void&gt;</code></td>
+<td>用于配置开发服务器的钩子</td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td>configurePreviewServer</td>
-<td>`(server: PreviewServerForHook) =&gt; (() =&gt; void)</td>
-<td>void</td>
-<td>Promise&lt;(() =&gt; void)</td>
-<td>void&gt;`</td>
+<td><code>(server: PreviewServerForHook) =&gt; (() =&gt; void) | void | Promise&lt;(() =&gt; void) | void&gt;</code></td>
+<td>用于配置预览服务器</td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td>transformIndexHtml</td>
-<td>`IndexHtmlTransformHook</td>
-<td>{order?: 'pre'</td>
-<td>'post', hander: IndexHtmlTransformHook}`</td>
-<td>用于转换html</td>
+<td><code>IndexHtmlTransformHook | {order?: 'pre' | 'post', hander: IndexHtmlTransformHook}</code></td>
+<td>用于转换 html</td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td>handleHotUpdate</td>
-<td>`(ctx: HmrContext) =&gt; Array<ModuleNode></td>
-<td>void</td>
-<td>Promise&lt;Array<ModuleNode></td>
-<td>void&gt;`</td>
+<td><code>(ctx: HmrContext) =&gt; Array&lt;ModuleNode&gt; | void | Promise&lt;Array&lt;ModuleNode&gt; | void&gt;</code></td>
+<td>用于自定义 HMR 处理</td>
+<td></td>
+<td></td>
 </tr>
 </tbody>
 </table>

@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>vue3&#x7684;&#x9ad8;&#x9636;&#x7ec4;&#x4ef6;</title>
+        <title>vue3 &#x7684;&#x9ad8;&#x9636;&#x7ec4;&#x4ef6;</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -41,10 +41,10 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="vue3的高阶组件">vue3的高阶组件</h1>
+        <h1 id="vue3-的高阶组件">vue3 的高阶组件</h1>
 <h2 id="overview">overview</h2>
 <blockquote>
-<p>TODO: description</p>
+<p>vue的hoc是一个方法。参数是组件，返回值是vnode.使用方法如下文。</p>
 </blockquote>
 <h3 id="feature">feature</h3>
 <ul>
@@ -74,30 +74,126 @@
 <tr>
 <td>如何实现</td>
 <td></td>
-<td>处理props/method/event/slots</td>
-<td>传递props</td>
+<td>处理 props/method/event/slots</td>
+<td>传递 props</td>
 <td></td>
 </tr>
 </tbody>
 </table>
 <h2 id="demo">demo</h2>
-<pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">hoc</span> (<span class="hljs-title class_">SubComp</span>) {
-    <span class="hljs-keyword">return</span> {
-        <span class="hljs-title function_">mounted</span>(<span class="hljs-params"></span>) {
-            <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;...&#x27;</span>)
-        },
+<p>引示例中hoc的功能：</p>
+<ul>
+<li>在hoc中设置若干基本dom.</li>
+<li>把hoc组件上的props全部给其子组件。</li>
+<li>暴露子组件支持的事件。透传事件。</li>
+<li>把hoc收到的插槽全给子组件。（由子组件使用可以使用的）</li>
+<li>为hoc的子组件绑定ref值，这样可以在hoc中调用子组件的method。</li>
+</ul>
+<pre><code class="language-js"><span class="hljs-comment">// hoc.ts</span>
+<span class="hljs-keyword">import</span> { defineComponent, h, ref,
+    <span class="hljs-comment">// getCurrentInstance,</span>
+    onMounted, } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
+<span class="hljs-keyword">import</span> type { <span class="hljs-title class_">ComponentInternalInstance</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
+
+<span class="hljs-keyword">let</span> clog = <span class="hljs-variable language_">console</span>.<span class="hljs-property">log</span>
+<span class="hljs-keyword">let</span> scR = <span class="hljs-title function_">ref</span>() <span class="hljs-comment">// 它必须在defineComponent外面。</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">hoc</span> = (<span class="hljs-params">SubComp</span>) =&gt; {
+    <span class="hljs-keyword">return</span> <span class="hljs-title function_">defineComponent</span>({
         <span class="hljs-attr">props</span>: <span class="hljs-title class_">SubComp</span>.<span class="hljs-property">props</span>,
-        <span class="hljs-title function_">render</span>(<span class="hljs-params">h</span>) {
-            <span class="hljs-keyword">let</span> children = ...
-            <span class="hljs-keyword">return</span> <span class="hljs-title function_">h</span>(<span class="hljs-title class_">SubComp</span>, {
-                <span class="hljs-attr">on</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">$listeners</span>,
-                <span class="hljs-attr">props</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">$props</span>,
-                <span class="hljs-attr">atts</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">$attrs</span>,
-            }, children)
+        <span class="hljs-attr">emits</span>: <span class="hljs-title class_">SubComp</span>.<span class="hljs-property">emits</span>,
+        <span class="hljs-title function_">setup</span>(<span class="hljs-params">props, ctx</span>) {
+            <span class="hljs-title function_">onMounted</span>(<span class="hljs-function">() =&gt;</span> {
+                scR.<span class="hljs-property">value</span>.<span class="hljs-title function_">fn</span>()
+            })
+            <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;props&#x27;</span>, props)
+            <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;ctx&#x27;</span>, ctx)
+            <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;SubComp&#x27;</span>, <span class="hljs-title class_">SubComp</span>)
+            <span class="hljs-keyword">let</span> b = <span class="hljs-title function_">ref</span>(<span class="hljs-string">&#x27;strb&#x27;</span>)
+            <span class="hljs-keyword">let</span> <span class="hljs-title function_">opProps</span> = (<span class="hljs-params"></span>) =&gt; {
+                <span class="hljs-keyword">let</span> t = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">entries</span>(<span class="hljs-title class_">SubComp</span>.<span class="hljs-property">props</span>) <span class="hljs-comment">// [[k, v]]</span>
+                .<span class="hljs-title function_">reduce</span>(<span class="hljs-function">(<span class="hljs-params">r, [k]</span>) =&gt;</span> {
+                    r[k] = props[k]
+                    <span class="hljs-keyword">return</span> r
+                }, {})
+                <span class="hljs-keyword">return</span> t
+            }
+            <span class="hljs-keyword">let</span> <span class="hljs-title function_">opEvent</span> = (<span class="hljs-params">self</span>) =&gt; {
+                <span class="hljs-keyword">let</span> t = {};
+                (<span class="hljs-title class_">SubComp</span>.<span class="hljs-property">emits</span> || []).<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">eventName</span> =&gt;</span> {
+                    <span class="hljs-keyword">let</span> onEventName = <span class="hljs-string">`on<span class="hljs-subst">${eventName.slice(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>).toUpperCase()}</span><span class="hljs-subst">${eventName.slice(<span class="hljs-number">1</span>)}</span>`</span>
+                    t[onEventName] = <span class="hljs-function">(<span class="hljs-params">...rest</span>) =&gt;</span> {
+                        self.$emit(eventName, ...rest)
+                    }
+                }, self)
+                <span class="hljs-keyword">return</span> t
+            }
+            <span class="hljs-keyword">let</span> <span class="hljs-title function_">opSlot</span> = (<span class="hljs-params">self</span>) =&gt; {
+                <span class="hljs-keyword">let</span> t = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">entries</span>(self.<span class="hljs-property">$slots</span>).<span class="hljs-title function_">reduce</span>(<span class="hljs-function">(<span class="hljs-params">r, [k, v]</span>) =&gt;</span> {
+                    r[k] = v
+                    <span class="hljs-keyword">return</span> r
+                }, {})
+                <span class="hljs-keyword">return</span> t 
+            }
+            <span class="hljs-keyword">return</span> {
+                <span class="hljs-attr">k</span>: <span class="hljs-string">&#x27;v&#x27;</span>,
+                <span class="hljs-attr">a</span>: <span class="hljs-string">&#x27;b&#x27;</span>,
+                b,
+                opProps,
+                opEvent,
+                opSlot,
+            }
+        },
+        <span class="hljs-comment">// h写法</span>
+        <span class="hljs-title function_">render</span>(<span class="hljs-params">self: ComponentInternalInstance</span>) {
+            <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;self&#x27;</span>, self)
+            <span class="hljs-keyword">return</span> <span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;div&#x27;</span>, [
+                <span class="hljs-string">&#x27;render&#x27;</span>,
+                <span class="hljs-variable language_">this</span>.<span class="hljs-property">b</span>,
+                <span class="hljs-title function_">h</span>(<span class="hljs-title class_">SubComp</span>,
+                    {
+                        ...<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">opProps</span>(),
+                        ...<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">opEvent</span>(<span class="hljs-variable language_">this</span>),
+                        <span class="hljs-attr">ref</span>: scR
+                    },
+                    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">opSlot</span>(<span class="hljs-variable language_">this</span>)
+                ),
+            ])
+        },
+    })
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> hoc
+</code></pre>
+<pre><code class="language-js">&lt;template&gt;
+    {<span class="hljs-comment">/* 设置属性、绑定事件 */</span>}
+    &lt;wrap-comp :msg=<span class="hljs-string">&quot;&#x27;msg str1&#x27;&quot;</span> @baseClick=<span class="hljs-string">&quot;eventNameH&quot;</span>&gt;
+        <span class="hljs-keyword">from</span> app hi
+        {<span class="hljs-comment">/* 具名插槽 * 2 */</span>}
+        &lt;template #footer&gt;footer string&lt;/template&gt;
+        <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> #<span class="hljs-attr">header</span>&gt;</span>header string<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></span>
+        {<span class="hljs-comment">/* 作用域插槽 */</span>}
+        &lt;template #body=<span class="hljs-string">&quot;obj&quot;</span>&gt;
+            <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{ obj }}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span>
+            <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{ obj.text }}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span>
+        &lt;/template&gt;
+    &lt;/wrap-comp&gt;
+&lt;/template&gt;
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;ts&quot;</span>&gt;</span><span class="language-javascript">
+<span class="hljs-keyword">import</span> <span class="hljs-title class_">Base</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./Base.vue&#x27;</span>
+<span class="hljs-keyword">import</span> hoc <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./hoc&#x27;</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title class_">WrapComp</span> = <span class="hljs-title function_">hoc</span>(<span class="hljs-title class_">Base</span>)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">defineComponent</span>({
+    <span class="hljs-attr">components</span>: {
+        <span class="hljs-title class_">WrapComp</span>
+    },
+    <span class="hljs-title function_">setup</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-keyword">let</span> <span class="hljs-title function_">eventNameH</span> = (<span class="hljs-params"></span>) =&gt; {}
+        <span class="hljs-keyword">return</span> {
+            eventNameH
         }
     }
-}
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> hoc
+})
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span>
 </code></pre>
 <h2 id="知识基座">知识基座</h2>
 <table>
@@ -112,20 +208,20 @@
 <tbody>
 <tr>
 <td><code>$props</code></td>
-<td>在组件上声明的props</td>
+<td>在组件上声明的 props</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td><code>$attrs</code></td>
-<td>组件上未声明的props</td>
+<td>组件上未声明的 props</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td><code>$listeners</code></td>
 <td>组件上声明的事件</td>
-<td></td>
+<td>vue3不再支持了。它被合并到了<code>this.$attrs</code></td>
 <td></td>
 </tr>
 <tr>
@@ -144,11 +240,6 @@
 </table>
 <h2 id="usage">usage</h2>
 <p>同<code>./demo.md</code></p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> {{packageName}} = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;{{packageName}}&#x27;</span>);
-<span class="hljs-comment">// or</span>
-<span class="hljs-comment">// import {{packageName}} from &#x27;{{packageName}}&#x27;;</span>
-<span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> DEMONSTRATE API</span>
-</code></pre>
 <h2 id="configuration">configuration</h2>
 <p>默认配置文件：<code>path/to/file.json</code>。</p>
 <!-- prettier-ignore-start -->
@@ -255,7 +346,58 @@ description</p>
 <h2 id="principle">principle</h2>
 <p>此包的处理逻辑。</p>
 <h3 id="uml">uml</h3>
-<pre><code></code></pre>
+<pre><code>
+</code></pre>
+<h2 id="后记">后记</h2>
+<p>vue3组件库的每个组件的api分4种，如下：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>props</td>
+<td>接收属性</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>event</td>
+<td>绑定事件回调方法</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>method</td>
+<td>暴露的方法</td>
+<td>这点很多作者忽略了。这么强大的功能，不用多可惜呀。</td>
+<td></td>
+</tr>
+<tr>
+<td>slots</td>
+<td>插槽</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>因no.3常被忽略，所以在做hoc时也习惯性忽略了。近些天看了网友的文章都是只做到1、2、4。我觉得少了method是不完美的。所以在写hoc时把它补齐了。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>不可能完成一个万能的hoc。需要在具体需求中开发具体的hoc。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h2 id="todo">todo</h2>
 <blockquote>
 <p>未来迭代计划。

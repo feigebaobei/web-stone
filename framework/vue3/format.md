@@ -148,11 +148,37 @@ export default {
         // => <div ref="divEl">
     }
 }
+```
 
+## 新旧写法比较
 
+```js
+// 2.x
+export default {
+    render(h) {
+        return h('div')
+    }
+}
+// 3.x
+import { h } from 'vue'
+export default {
+    render() {
+        return h('div')
+    }
+}
+```
 
+# functional component
 
+已经不再支持`functional: true`
+`listeners`合并到`$attrs`中了。
 
+```js
+import { h } from vue
+let Fc = (props, context) => {
+    return h(`h${props.level}`, context.attrs, context.slots)
+}
+Fc.props = ['level']
 ```
 
 # jsx (tsx)
@@ -162,3 +188,27 @@ export default {
 ```js
 let vnode = <div>str{var}</div>
 ```
+
+# issue
+
+The type of a component (stateful vs. functional) must be known before hand because the side-effect of calling
+
+```js
+function Counter(props) {
+  // the render function itself
+  return h('div', props.foo)
+}
+vs.
+
+function Counter(props) {
+  // stateful setup logic
+
+  return () => h('div', props.foo)
+}
+```
+
+is completely different. The former is expected to be inside a reactive effect that tracks its dependencies. The latter does not. So it would be too late to determine how this function should be treated based on its return value.
+
+So you either force all functional components to return the render function (even for state-less ones, which becomes confusing), or require explicit defineComponent wrapper to indicate this is a stateful component. I'd rather go the explicit route.
+
+I think this sort of confusion largely comes from React hooks users, but in Vue 3 the rule of thumb is: functional components are always state-less. Use an object or defineComponent if you want a stateful component.
