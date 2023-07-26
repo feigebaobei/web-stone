@@ -212,3 +212,11 @@ is completely different. The former is expected to be inside a reactive effect t
 So you either force all functional components to return the render function (even for state-less ones, which becomes confusing), or require explicit defineComponent wrapper to indicate this is a stateful component. I'd rather go the explicit route.
 
 I think this sort of confusion largely comes from React hooks users, but in Vue 3 the rule of thumb is: functional components are always state-less. Use an object or defineComponent if you want a stateful component.
+
+# 比较三种写法
+
+|     | template                            | render / h                        | jsx                                                                |
+| --- | ----------------------------------- | --------------------------------- | ------------------------------------------------------------------ |
+|     | 首选。vue-loader 会优化此写法的组件 |                                   | 需要安装`@vitejs/plugin-vue-jsx`插件。然后在`vite.config.ts`中使用 |
+|     |                                     | 需要使用 defineComponent          | 需要使用 defineComponent                                           |
+|     |                                     | render()中写模板。返回的是 vnode. | render()中使用 jsx 代码。                                          |

@@ -107,12 +107,12 @@ export default function myPlugin() {
 不会作用于 rollup  
 ||||||
 |-|-|-|-|-|
-|config|`(config: UserConfig, env: {mode: S, command: S}) => UserConfig | null | void`|在解析 vite 配置前调用。接收原始用户配置，返回合并后（或改变后）的配置对象。|在此钩子中添加 plugin 无效。||
-|configResolved|`(config: ResolvedConfig) => void | Promise<void>`|在解析 vite 配置后调用。|||
-|configureServer|`(server: ViteDevServer) => (() => void) | void | Promise<(() => void) | void>`|用于配置开发服务器的钩子|||
-|configurePreviewServer|`(server: PreviewServerForHook) => (() => void) | void | Promise<(() => void) | void>`|用于配置预览服务器|||
-|transformIndexHtml|`IndexHtmlTransformHook | {order?: 'pre' | 'post', hander: IndexHtmlTransformHook}`|用于转换 html|||
-|handleHotUpdate|`(ctx: HmrContext) => Array<ModuleNode> | void | Promise<Array<ModuleNode> | void>`|用于自定义 HMR 处理|||
+|config|`(config: UserConfig, env: {mode: S, command: S}) => UserConfig \| null \| void`|在解析 vite 配置前调用。接收原始用户配置，返回合并后（或改变后）的配置对象。|在此钩子中添加 plugin 无效。||
+|configResolved|`(config: ResolvedConfig) => void \| Promise<void>`|在解析 vite 配置后调用。|||
+|configureServer|`(server: ViteDevServer) => (() => void) \| void \| Promise<(() => void) \| void>`|用于配置开发服务器的钩子|||
+|configurePreviewServer|`(server: PreviewServerForHook) => (() => void) \| void \| Promise<(() => void) \| void>`|用于配置预览服务器|||
+|transformIndexHtml|`IndexHtmlTransformHook \| {order?: 'pre' \| 'post', hander: IndexHtmlTransformHook}`|用于转换 html|||
+|handleHotUpdate|`(ctx: HmrContext) => Array<ModuleNode> \| void \| Promise<Array<ModuleNode> \| void>`|用于自定义 HMR 处理|||
 
 ### 插件的顺序
 
@@ -124,7 +124,79 @@ export default function myPlugin() {
 - 使用 enforce: 'post'的插件
 - 打包后的插件（minify / manifest / reporting）
 
-## title
+这 7 个顺序是所有插件的执行顺序。插件作者能控制的只有三个。即：enforce 控制的三个执行节点。
+
+## demo
+
+```js
+// 列出已经使用的插件
+let clog = console.log
+export default () => {
+  return {
+    name: 'vite-plugin-output',
+    configResolved(config) {
+      let pluginNameList = config.plugin.map(plugin => plugin.name)
+      clog(`已经使用的插件：${pluginNameList.join('\n')}`)
+    }
+  }
+}
+// 分析请求的插件
+let clog = console.log
+export default () => {
+  return {
+    name: 'vite-plugin-request-analytics',
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        clog(`${req.method}\t${req.url}`)
+        next()
+      })
+    }
+  }
+}
+// 列出热更新的文件
+let clog = console.log
+export default () => {
+  return {
+    name: 'vite-plugin-hot-update-report',
+    handleHotUpdate({file, timestamp, modules}) {
+      let date = new Date(timestamp)
+      let [y, m, d, h, mn, s] = [
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate(),
+        date.getHours(),
+        date.getMinutes(),
+        date.getSeconds(),
+      ]
+      clog(`${modules.length}个模块被更新，${y}-${m+1}-${d} ${h}:${mn}:${s}`)
+      modules.forEach(m => {
+        clog(`\t${m.url}`)
+      })
+    }
+  }
+}
+// 写入打包结果的插件
+import fs from 'fs'
+import path from 'path'
+let viteConfig = null
+let clog = console.log
+export default () => {
+  return {
+    name: 'vite-plugin-write',
+    configResolved(config) {
+      viteConfig = config
+    },
+    writeBundle() {
+      let outDir = path.resolve(viteConfig.build.outDir || 'dist')
+      if (!fs.existsSync(outDir)) {
+        fs.mkdirSync(outDir)
+      }
+      let fileOutPath = path.resolve(outDir, filename)
+      fs.writeFileSync(fileOutPath, domain)
+    }
+  }
+}
+```
 
 ## title
 

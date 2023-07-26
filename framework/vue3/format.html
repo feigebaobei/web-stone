@@ -16,7 +16,8 @@
 }
 
 </style>
-        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -42,18 +43,18 @@
     <body class="vscode-body vscode-light">
         <p>三者只是编码方式。三者之间无明显差距。</p>
 <h1 id="template">template</h1>
-<p>vue2时就已经支持了。这种写法是vue擅长的写法。
+<p>vue2 时就已经支持了。这种写法是 vue 擅长的写法。
 官网推荐此写法。原因：</p>
 <ul>
-<li>方便利用html。方便理解。闭包的html/css。</li>
-<li>方便做静态分析。可以让vue做一些编辑时分析，以达到编译时优化。方便提高性能。</li>
+<li>方便利用 html。方便理解。闭包的 html/css。</li>
+<li>方便做静态分析。可以让 vue 做一些编辑时分析，以达到编译时优化。方便提高性能。</li>
 </ul>
 <h1 id="render-function">render function</h1>
 <pre><code class="language-js"><span class="hljs-keyword">import</span> { h } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
 <span class="hljs-keyword">let</span> vnode = <span class="hljs-title function_">h</span>(
-    <span class="hljs-string">&#x27;div&#x27;</span>, <span class="hljs-comment">// type</span>
-    { <span class="hljs-attr">id</span>: <span class="hljs-string">&#x27;foo&#x27;</span>, <span class="hljs-attr">class</span>: <span class="hljs-string">&#x27;bar&#x27;</span>}, <span class="hljs-comment">// props</span>
-    [], <span class="hljs-comment">// children</span>
+  <span class="hljs-string">&#x27;div&#x27;</span>, <span class="hljs-comment">// type</span>
+  { <span class="hljs-attr">id</span>: <span class="hljs-string">&#x27;foo&#x27;</span>, <span class="hljs-attr">class</span>: <span class="hljs-string">&#x27;bar&#x27;</span> }, <span class="hljs-comment">// props</span>
+  [] <span class="hljs-comment">// children</span>
 )
 
 <span class="hljs-comment">// all arguments except the type are optional</span>
@@ -79,7 +80,7 @@
 <span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;div&#x27;</span>, [<span class="hljs-string">&#x27;hello&#x27;</span>, <span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;span&#x27;</span>, <span class="hljs-string">&#x27;hello&#x27;</span>)])
 </code></pre>
 <pre><code class="language-js"><span class="hljs-keyword">import</span> { ref, h } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> { 
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
     <span class="hljs-attr">props</span>: {...},
     <span class="hljs-comment">// setup只会执行一次。它返回的方法可以被使用很多次。</span>
     <span class="hljs-title function_">setup</span>(<span class="hljs-params"></span>) {
@@ -181,18 +182,85 @@ improt { h, ref } <span class="hljs-keyword">from</span> <span class="hljs-strin
         <span class="hljs-comment">// =&gt; &lt;div ref=&quot;divEl&quot;&gt;</span>
     }
 }
-
-
-
-
-
+</code></pre>
+<h2 id="新旧写法比较">新旧写法比较</h2>
+<pre><code class="language-js"><span class="hljs-comment">// 2.x</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+    <span class="hljs-title function_">render</span>(<span class="hljs-params">h</span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;div&#x27;</span>)
+    }
+}
+<span class="hljs-comment">// 3.x</span>
+<span class="hljs-keyword">import</span> { h } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+    <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;div&#x27;</span>)
+    }
+}
+</code></pre>
+<h1 id="functional-component">functional component</h1>
+<p>已经不再支持<code>functional: true</code>
+<code>listeners</code>合并到<code>$attrs</code>中了。</p>
+<pre><code class="language-js"><span class="hljs-keyword">import</span> { h } <span class="hljs-keyword">from</span> vue
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">Fc</span> = (<span class="hljs-params">props, context</span>) =&gt; {
+    <span class="hljs-keyword">return</span> <span class="hljs-title function_">h</span>(<span class="hljs-string">`h<span class="hljs-subst">${props.level}</span>`</span>, context.<span class="hljs-property">attrs</span>, context.<span class="hljs-property">slots</span>)
+}
+<span class="hljs-title class_">Fc</span>.<span class="hljs-property">props</span> = [<span class="hljs-string">&#x27;level&#x27;</span>]
 </code></pre>
 <h1 id="jsx-tsx">jsx (tsx)</h1>
-<p>一种类xml写法的js</p>
+<p>一种类 xml 写法的 js</p>
 <pre><code class="language-js"><span class="hljs-keyword">let</span> vnode = <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>str{var}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
 </code></pre>
+<h1 id="issue">issue</h1>
+<p>The type of a component (stateful vs. functional) must be known before hand because the side-effect of calling</p>
+<pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">Counter</span>(<span class="hljs-params">props</span>) {
+  <span class="hljs-comment">// the render function itself</span>
+  <span class="hljs-keyword">return</span> <span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;div&#x27;</span>, props.<span class="hljs-property">foo</span>)
+}
+vs.
 
-        
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">Counter</span>(<span class="hljs-params">props</span>) {
+  <span class="hljs-comment">// stateful setup logic</span>
+
+  <span class="hljs-keyword">return</span> <span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;div&#x27;</span>, props.<span class="hljs-property">foo</span>)
+}
+</code></pre>
+<p>is completely different. The former is expected to be inside a reactive effect that tracks its dependencies. The latter does not. So it would be too late to determine how this function should be treated based on its return value.</p>
+<p>So you either force all functional components to return the render function (even for state-less ones, which becomes confusing), or require explicit defineComponent wrapper to indicate this is a stateful component. I'd rather go the explicit route.</p>
+<p>I think this sort of confusion largely comes from React hooks users, but in Vue 3 the rule of thumb is: functional components are always state-less. Use an object or defineComponent if you want a stateful component.</p>
+<h1 id="比较三种写法">比较三种写法</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>template</th>
+<th>render / h</th>
+<th>jsx</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>首选。vue-loader会优化此写法的组件</td>
+<td></td>
+<td>需要安装<code>@vitejs/plugin-vue-jsx</code>插件。然后在<code>vite.config.ts</code>中使用</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>需要使用defineComponent</td>
+<td>需要使用defineComponent</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>render()中写模板。返回的是vnode.</td>
+<td>render()中使用jsx代码。</td>
+</tr>
+</tbody>
+</table>
+
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
     </body>
     </html>

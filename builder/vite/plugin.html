@@ -16,7 +16,8 @@
 }
 
 </style>
-        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -240,12 +241,81 @@ pnpm add -D @vitejs/plugin-legacy
 <li>使用 enforce: 'post'的插件</li>
 <li>打包后的插件（minify / manifest / reporting）</li>
 </ul>
+<p>这7个顺序是所有插件的执行顺序。插件作者能控制的只有三个。即：enforce控制的三个执行节点。</p>
+<h2 id="demo">demo</h2>
+<pre><code class="language-js"><span class="hljs-comment">// 列出已经使用的插件</span>
+<span class="hljs-keyword">let</span> clog = <span class="hljs-variable language_">console</span>.<span class="hljs-property">log</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; {
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;vite-plugin-output&#x27;</span>,
+    <span class="hljs-title function_">configResolved</span>(<span class="hljs-params">config</span>) {
+      <span class="hljs-keyword">let</span> pluginNameList = config.<span class="hljs-property">plugin</span>.<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">plugin</span> =&gt;</span> plugin.<span class="hljs-property">name</span>)
+      <span class="hljs-title function_">clog</span>(<span class="hljs-string">`已经使用的插件：<span class="hljs-subst">${pluginNameList.join(<span class="hljs-string">&#x27;\n&#x27;</span>)}</span>`</span>)
+    }
+  }
+}
+<span class="hljs-comment">// 分析请求的插件</span>
+<span class="hljs-keyword">let</span> clog = <span class="hljs-variable language_">console</span>.<span class="hljs-property">log</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; {
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;vite-plugin-request-analytics&#x27;</span>,
+    <span class="hljs-title function_">configureServer</span>(<span class="hljs-params">server</span>) {
+      server.<span class="hljs-property">middlewares</span>.<span class="hljs-title function_">use</span>(<span class="hljs-function">(<span class="hljs-params">req, res, next</span>) =&gt;</span> {
+        <span class="hljs-title function_">clog</span>(<span class="hljs-string">`<span class="hljs-subst">${req.method}</span>\t<span class="hljs-subst">${req.url}</span>`</span>)
+        <span class="hljs-title function_">next</span>()
+      })
+    }
+  }
+}
+<span class="hljs-comment">// 列出热更新的文件</span>
+<span class="hljs-keyword">let</span> clog = <span class="hljs-variable language_">console</span>.<span class="hljs-property">log</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; {
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;vite-plugin-hot-update-report&#x27;</span>,
+    <span class="hljs-title function_">handleHotUpdate</span>(<span class="hljs-params">{file, timestamp, modules}</span>) {
+      <span class="hljs-keyword">let</span> date = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>(timestamp)  
+      <span class="hljs-keyword">let</span> [y, m, d, h, mn, s] = [
+        date.<span class="hljs-title function_">getFullYear</span>(),
+        date.<span class="hljs-title function_">getMonth</span>(),
+        date.<span class="hljs-title function_">getDate</span>(),
+        date.<span class="hljs-title function_">getHours</span>(),
+        date.<span class="hljs-title function_">getMinutes</span>(),
+        date.<span class="hljs-title function_">getSeconds</span>(),
+      ]
+      <span class="hljs-title function_">clog</span>(<span class="hljs-string">`<span class="hljs-subst">${modules.length}</span>个模块被更新，<span class="hljs-subst">${y}</span>-<span class="hljs-subst">${m+<span class="hljs-number">1</span>}</span>-<span class="hljs-subst">${d}</span> <span class="hljs-subst">${h}</span>:<span class="hljs-subst">${mn}</span>:<span class="hljs-subst">${s}</span>`</span>)
+      modules.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">m</span> =&gt;</span> {
+        <span class="hljs-title function_">clog</span>(<span class="hljs-string">`\t<span class="hljs-subst">${m.url}</span>`</span>)
+      })
+    }
+  }
+}
+<span class="hljs-comment">// 写入打包结果的插件</span>
+<span class="hljs-keyword">import</span> fs <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;fs&#x27;</span>
+<span class="hljs-keyword">import</span> path <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;path&#x27;</span>
+<span class="hljs-keyword">let</span> viteConfig = <span class="hljs-literal">null</span>
+<span class="hljs-keyword">let</span> clog = <span class="hljs-variable language_">console</span>.<span class="hljs-property">log</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; {
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;vite-plugin-write&#x27;</span>,
+    <span class="hljs-title function_">configResolved</span>(<span class="hljs-params">config</span>) {
+      viteConfig = config
+    },
+    <span class="hljs-title function_">writeBundle</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-keyword">let</span> outDir = path.<span class="hljs-title function_">resolve</span>(viteConfig.<span class="hljs-property">build</span>.<span class="hljs-property">outDir</span> || <span class="hljs-string">&#x27;dist&#x27;</span>)
+      <span class="hljs-keyword">if</span> (!fs.<span class="hljs-title function_">existsSync</span>(outDir)) {
+        fs.<span class="hljs-title function_">mkdirSync</span>(outDir)
+      }
+      <span class="hljs-keyword">let</span> fileOutPath = path.<span class="hljs-title function_">resolve</span>(outDir, filename)
+      fs.<span class="hljs-title function_">writeFileSync</span>(fileOutPath, domain)
+    }
+  }
+}
+</code></pre>
 <h2 id="title">title</h2>
 <h2 id="title-1">title</h2>
 <h2 id="title-2">title</h2>
-<h2 id="title-3">title</h2>
 
-        
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
     </body>
     </html>
