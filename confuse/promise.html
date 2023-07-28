@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>promise &#x7684;&#x5de5;&#x5177;&#x65b9;&#x6cd5;</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="promise-的工具方法">promise 的工具方法</h1>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> type = any
+<span class="hljs-keyword">let</span> resolve
+<span class="hljs-keyword">let</span> reject
+<span class="hljs-keyword">let</span> p
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">init</span> = (<span class="hljs-params"></span>) =&gt; {
+<span class="hljs-attr">p</span>:<span class="hljs-title class_">Promise</span>&lt;T&gt; = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>&lt;T&gt;(<span class="hljs-function">(<span class="hljs-params">s, j</span>) =&gt;</span> {
+    resolve = s
+    reject = j
+})
+}
+<span class="hljs-title function_">init</span>()
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+    p,
+    resolve,
+    reject,
+    init,
+}
+</code></pre>
+<pre><code class="language-js"><span class="hljs-keyword">import</span> pBox <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;...&#x27;</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">f0</span> = (<span class="hljs-params"></span>) =&gt; {
+    pBox.<span class="hljs-property">p</span>.<span class="hljs-title function_">then</span>(<span class="hljs-function">() =&gt;</span> {...})
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">f1</span> = (<span class="hljs-params"></span>) =&gt; {
+    <span class="hljs-comment">// 若干操作后设置promise对象的状态为fulfilled</span>
+    pBox.<span class="hljs-title function_">resolve</span>()
+    <span class="hljs-comment">// pBox.reject() // 同理</span>
+}
+<span class="hljs-title function_">f0</span>()
+<span class="hljs-title function_">f1</span>()
+</code></pre>
+
+        
+        
+    </body>
+    </html>

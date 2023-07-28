@@ -16,7 +16,7 @@
 - [ts 里的?!](/confuse/tsQuestionMarkExclamationPoint.html)
 - [前后端交互常识](/confuse/front&end.html)
 - [如何写一个脚本](/confuse/writeScript.html)
-- [title](/confuse/title.html)
+- [promise 的工具方法](/confuse/promise.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)

@@ -1,4 +1,4 @@
-# `TypeScript`
+# TypeScript
 
 ## overview
 
@@ -275,6 +275,16 @@ class A<T> {
 
 ### [union & enum](/language/typescript/union&enum.html)
 
+### any & unknown & never
+
+|     | any                            | unknown                                                 | never                                      |
+| --- | ------------------------------ | ------------------------------------------------------- | ------------------------------------------ |
+|     | 任意类型                       | 不知道类型                                              | 永不类型                                   |
+|     |                                | 所有基础类型的父类型                                    |                                            |
+|     | 可以接收任意类型的值           | 可以接收任意类型的值。（因为父类型的缘故）              | 抛出异常的函数或永远不会返回的函数的返回值 |
+|     | 不做类型检测                   | 断言类型后才能使用                                      |                                            |
+|     | 可以赋值给明确且匹配类型的变量 | 不可直接赋值给非 unknown 变量的值，加上类型断言才可以。 |                                            |
+
 ### [type & interface 不同](/language/typescript/type&interface.html)
 
 ## 操作类型
@@ -412,7 +422,8 @@ import { S, A } from './file'
 - 实例判断 `intance instanceof Consturctor`
 - 变量的数据类型与赋的值的数据类型不同时，不能赋值。
 - 分数据类型控制分支。`switch(p) {case 'k': ...`
-- 使用类型断言。如：`(params as number)`
+- 显示类型转换。
+- 使用类型断言。如：`(params as number)`。优先使用以上方法。
 - 枚举值判断。
 
 ### 方法的类型
@@ -784,6 +795,13 @@ ts 是一种 js 的方言。以前使用 js 怎么写项目，现在使用 ts �
 ## [init ts & react project](/language/typescript/initTsReactProject.html)
 
 ## [ts & rollup](/builder/rollup/ts&rollup.html)
+
+## 类型断言的不足
+
+或称为 ts 的不足。
+
+- 不能明确定义所有变量的类型。(ts 允许存在 any/unknown/never 就是佐证。)
+- 然后有类型断言。类型断言只能做到代码静态检测时类型是否满足运行逻辑，不能防止实际运行时具体的值不满足运行逻辑的情况。
 
 ## todo
 

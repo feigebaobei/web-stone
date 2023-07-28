@@ -25,7 +25,7 @@
 - 由 esbuild ts=>js
 - 支持 ts
 - 支持 hmr
--
+- 预览功能。（先打包才能在本地预览）`npm run preview`
 
 ## install
 

@@ -15,41 +15,6 @@
 	display: none;
 }
 
-/* From extension ms-toolsai.jupyter */
-/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
-
-.alert {
-    width: auto;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-.alert > *:last-child {
-    margin-bottom: 0;
-}
-#preview > .alert:last-child {
-    /* Prevent this being set to zero by the default notebook stylesheet */
-    padding-bottom: 1em;
-}
-
-.alert-success {
-    /* Note there is no suitable color available, so we just copy "info" */
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-info {
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-warning {
-    background-color: var(--theme-warning-background);
-    color: var(--theme-warning-foreground);
-}
-.alert-danger {
-    background-color: var(--theme-error-background);
-    color: var(--theme-error-foreground);
-}
-
 </style>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
@@ -905,6 +870,49 @@ function spawn(genF) {
   });
 }
 </code></pre>
+<h3 id="async--promise">async &amp; promise</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>async</th>
+<th>promise</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>基于promise.</td>
+<td>js的底层语法</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>生成于es7</td>
+<td>生成于es6</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>由内部promise决定状态</td>
+<td>由s/j决定状态</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>语法糖</td>
+<td>更本质</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>需要与try/catch结合使用才能处理错误</td>
+<td>可使用then/catch处理错误</td>
+<td>因此我更喜欢promise</td>
+</tr>
+</tbody>
+</table>
 <h1 id="decorator">decorator</h1>
 <ul>
 <li>可以用于装饰类、类的属性。不可用于装饰方法。因为方法会被变量提升。类、类的属性不会提升。</li>
@@ -1110,7 +1118,7 @@ p.<span class="hljs-property">skills</span> = <span class="hljs-function">() =&g
 <h1 id="线程">线程</h1>
 <p>js 是单线程语言。但是它的宿主环境——browser 支持多线程。<br>
 当遇到大量计算时可以使用<code>web worker</code>处理。主<code>worker</code>创建一个子<code>worker</code>，再让子 worker 处理大量计算，主 worker 会交出数据的控制权给子 worker。得到计算结果后把由子 workern 以消息<code>message</code>的形式给主 worker。</p>
-<h2 id="协程">协程</h2>
+<h2 id="协程-1">协程</h2>
 <h1 id="xhr"><a href="/language/javascript/xhr.html">xhr</a></h1>
 <h1 id="动画">动画</h1>
 <p>一般与 canvas 结合工作。</p>
