@@ -489,6 +489,12 @@ window.onunhandledrejection = (event) => {
 |      | 当 Promise 被 reject 且执行 reject 处理器的时候，会触发 | 当 Promise 被 reject 且没有 reject 处理器的时候，会触发 |
 <!-- prettier-ignore-end -->
 
+### promise & ts
+
+```
+let p = new Promise<T>((s, j) => {...})
+```
+
 ## eventLoop (异步 & 同步)
 
 所有 js 代码按执行时序可分为三部分：同步代码/宏任务/微任务。  
@@ -759,13 +765,14 @@ function spawn(genF) {
 
 ### async & promise
 
-|     | async                                 | promise                    |                      |
-| --- | ------------------------------------- | -------------------------- | -------------------- |
-|     | 基于 promise.                         | js 的底层语法              |                      |
-|     | 生成于 es7                            | 生成于 es6                 |                      |
-|     | 由内部 promise 决定状态               | 由 s/j 决定状态            |                      |
-|     | 语法糖                                | 更本质                     |                      |
-|     | 需要与 try/catch 结合使用才能处理错误 | 可使用 then/catch 处理错误 | 因此我更喜欢 promise |
+|     | async                                             | promise                    |                      |
+| --- | ------------------------------------------------- | -------------------------- | -------------------- |
+|     | 基于 promise.                                     | js 的底层语法              |                      |
+|     | 生成于 es7                                        | 生成于 es6                 |                      |
+|     | 由内部 promise 决定状态                           | 由 s/j 决定状态            |                      |
+|     | 语法糖                                            | 更本质                     |                      |
+|     | 需要与 try/catch 结合使用才能处理错误             | 可使用 then/catch 处理错误 | 因此我更喜欢 promise |
+|     | 若能保证返回 fulfilled 状态。可以使用 async/await |                            |                      |
 
 # decorator
 

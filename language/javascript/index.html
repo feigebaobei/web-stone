@@ -566,6 +566,9 @@ o.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;
 </tbody>
 </table>
 <!-- prettier-ignore-end -->
+<h3 id="promise--ts">promise &amp; ts</h3>
+<pre><code>let p = new Promise&lt;T&gt;((s, j) =&gt; {...})
+</code></pre>
 <h2 id="eventloop-异步--同步">eventLoop (异步 &amp; 同步)</h2>
 <p>所有 js 代码按执行时序可分为三部分：同步代码/宏任务/微任务。<br>
 代码从上到下执行。遇到同步代码则依次序执行。遇到宏任务不执行，放入宏任务队列。遇到微任务不执行，入入微任务队列。执行完所有同步代码后执行一个宏任务队列中的宏任务，然后执行完所有微任务。再执行宏任务队列中的一个宏任务，再执行所有微任务。直到宏任务队列为空/微任务队列为空。<br>
@@ -883,20 +886,20 @@ function spawn(genF) {
 <tbody>
 <tr>
 <td></td>
-<td>基于promise.</td>
-<td>js的底层语法</td>
+<td>基于 promise.</td>
+<td>js 的底层语法</td>
 <td></td>
 </tr>
 <tr>
 <td></td>
-<td>生成于es7</td>
-<td>生成于es6</td>
+<td>生成于 es7</td>
+<td>生成于 es6</td>
 <td></td>
 </tr>
 <tr>
 <td></td>
-<td>由内部promise决定状态</td>
-<td>由s/j决定状态</td>
+<td>由内部 promise 决定状态</td>
+<td>由 s/j 决定状态</td>
 <td></td>
 </tr>
 <tr>
@@ -907,9 +910,15 @@ function spawn(genF) {
 </tr>
 <tr>
 <td></td>
-<td>需要与try/catch结合使用才能处理错误</td>
-<td>可使用then/catch处理错误</td>
-<td>因此我更喜欢promise</td>
+<td>需要与 try/catch 结合使用才能处理错误</td>
+<td>可使用 then/catch 处理错误</td>
+<td>因此我更喜欢 promise</td>
+</tr>
+<tr>
+<td></td>
+<td>若能保证返回fulfilled状态。可以使用async/await</td>
+<td></td>
+<td></td>
 </tr>
 </tbody>
 </table>

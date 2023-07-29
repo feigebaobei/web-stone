@@ -6,248 +6,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-      .box {
-        width: 500px;
-        height: 300px;
-        border: 1px solid #fff;
-      }
-      .progress {
-        width: 300px;
-        height: 60px;
-        position: absolute;
-      }
-      .all {
-        width: 400px;
-      }
-      .level0 {
-        background-color: #e2e0e0;
-      }
-      .level1 {
-        background-color: #d2a4da;
-      }
-      .level2 {
-        background-color: #004ac2;
-        opacity: 0.5;
-      }
-      .left {
-        float: left;
-        border-top-left-radius: 15px;
-        border-bottom-left-radius: 15px;
-        width: 15px;
-        height: 30px;
-      }
-      .center {
-        float: left;
-        width: 15px;
-        height: 30px;
-      }
-      .right {
-        float: left;
-        border-top-right-radius: 15px;
-        border-bottom-right-radius: 15px;
-        width: 15px;
-        height: 30px;
-      }
-      .bar {
-        width: 100%;
-        height: 8px;
-        background-color: #d0d0f8;
-      }
-      .bar-p {
-        margin: 4px;
-        text-align: center;
-      }
-      .date-list {
-        margin-top: 50px;
-        display: flex;
-
-      }
-      .date_item {
-        /* width: 120px; */
-        flex-basis: 30%;
-        /* margin: 0 8px; */
-        padding: 0 8px;
-        display: block;
-      }
-      .pr {
-        position: relative;
-      }
-      .pa {
-        position: absolute;
-        left: 0;
-        right: 0;
-      }
-      .opacity05 {
-        opacity: 0.5;
-      }
 
 
     </style>
   </head>
   <body>
-    <textarea id="dataBox" rows="20" cols="60"></textarea>
-    <button id="refresh">更新</button>
-    <section class="box pr" id="section">
-      <p>placeholder</p>
-      <!-- 日期 -->
-      <!-- <progress-circle width="100%" centerWidth="50%" bgColor="#e2e0e0" class="pa"></progress-circle>
-      <progress-circle width="100%" centerWidth="30%" bgColor="#d2a4da" class="pa opacity05"></progress-circle>
-      <progress-circle width="100%" centerWidth="40%" bgColor="#004ac2" class="pa opacity05"></progress-circle>
-      <date-list class="date-list"></date-list> -->
-    </section>
-    <!-- template -->
-    <template id="progressCircleTemp">
-      <!-- <div class="left level0"></div>
-      <div class="center level0" id="allCenter"></div>
-      <div class="right level0"></div> -->
-    </template>
-    <template id="dateListTemp">
-      <!-- <p>string</p> -->
-    </template>
-    <template id="dateItemTemp">
-      <div></div>
-      <p>{{date}}</p>
-    </template>
-    
+    <button onclick="btClickHandler()">click button</button>
     <script>
       let clog = console.log
-      let data = [
-        {
-          time: '06.21',
-          task: [
-            { label: 'task0', value: '0', done: true },
-            { label: 'task1', value: '1', done: true },
-            { label: 'task2', value: '2', done: true },
-            { label: 'task3', value: '3', done: false },
-          ]
-        },
-        {
-          time: '06.22',
-          task: [
-            { label: 'task0', value: '0', done: true },
-            { label: 'task1', value: '1', done: true },
-            { label: 'task2', value: '2', done: true },
-            { label: 'task3', value: '3', done: false },
-          ]
-        },
-        {
-          time: '06.23',
-          task: [
-            { label: 'task0', value: '0', done: true },
-            { label: 'task1', value: '1', done: true },
-            { label: 'task2', value: '2', done: true },
-            { label: 'task3', value: '3', done: false },
-          ]
-        },
-      ]
-      // 定义web component
-      class DateItem extends HTMLElement {
-        constructor() {
-          super()
-          let temp = document.createElement('template')
-          let date = this.getAttribute('date');
-          let className = this.getAttribute('className');
-          temp.innerHTML = this.getTempInnerHTML().replace('{{date}}', date)
-          temp.innerHTML = temp.innerHTML.replace('{{className}}', className)
-          this.style()
-          this.appendChild(temp.content.cloneNode(true))
+      class Observable {
+        constructor(fn) {
+          this.fn = fn
+          this.subscriber = new Subscriber(this)
         }
-        getTempInnerHTML () {
-          return `<div class="{{className}}"></div><p class="bar-p">{{date}}</p>`
-        }
-        style() {
-
-        }
-        connectedCallback() {
-          
+        subscribe(cb) {
+          this.cb = cb
+          this.fn(this.subscriber)
         }
       }
-      customElements.define('date-item', DateItem)
-      class DateList extends HTMLElement {
-        constructor() {
-          super()
-          let dateListTemp = document.querySelector('#dateListTemp')
-          let dateListTempContent = dateListTemp.content
-          let data = JSON.parse(document.querySelector('#dataBox').value)
-          let timeList = data.map(item => item.time)
-          dateListTemp.innerHTML = ''
-          timeList.forEach((item) => {
-            dateListTemp.innerHTML += `<date-item class="date_item" className="bar" date="${item}"/>`
-          })
-          this.appendChild(dateListTempContent.cloneNode(true))
+      class Subscriber {
+        constructor(observable) {
+          this.observable = observable
+        }
+        next(x) {
+          this.observable.cb(x)
         }
       }
-      customElements.define('date-list', DateList)
-      class ProgressCircle extends HTMLElement {
-        constructor() {
-          super()
-          let progressCircleTemp = document.querySelector('#progressCircleTemp')
-          let progressCircleTempContent = progressCircleTemp.content
-          let centerWidth = this.getAttribute('centerWidth');
-          let width = this.getAttribute('width');
-          let bgColor = this.getAttribute('bgColor');
-          progressCircleTemp.innerHTML = this.getTempInnerHTML().replace('{{centerWidth}}', `${centerWidth}`)
-          progressCircleTemp.innerHTML = progressCircleTemp.innerHTML.replace('{{width}}', `${width}`)
-          progressCircleTemp.innerHTML = progressCircleTemp.innerHTML.replace(/{{bgColor}}/g, `${bgColor}`)
-          this.appendChild(progressCircleTempContent.cloneNode(true))
-        }
-        getTempInnerHTML () {
-          return `<div style="display: flex; width: {{width}};">
-          <div class="left level0"  style="flex-grow: 0; background-color: {{bgColor}}"></div>
-            <div class="center level0" id="allCenter" style="flex-grow: 0; flex-basis: {{centerWidth}}; background-color: {{bgColor}}"></div>
-            <div class="right level0" style="flex-grow: 0; background-color: {{bgColor}};"></div></div>`
-        }
-      }
-      customElements.define('progress-circle', ProgressCircle)
-
-      let dataBox = document.querySelector('#dataBox')
-      dataBox.value = JSON.stringify(data, null, 2)
-      let refreshBt = document.querySelector('#refresh')
-      let sectionBox = document.querySelector('#section')
-      refreshBt.addEventListener('click', () => {
-        Array.from(sectionBox.children).forEach(child => {
-          child.remove()
-        })
-        render()
+      let ob = new Observable((sub) => {
+        sub.next('hi')
+        sub.next('hi1')
+        sub.next('hi2')
+        sub.next('hi3')
       })
-      let render = () => {
-        let data = JSON.parse(dataBox.value)
-        let todoList = []
-        let doneList = []
-        data.forEach(item => {
-          item.task.forEach(task => {
-            if (task.done) {
-              doneList.push(task)
-            } else {
-              todoList.push(task)
-            }
-          })
+      ob.subscribe((x) => {
+        clog(x)
+      })
+      let btClickHandler = () => {
+        clog('lss')
+        ob.subscribe((x) => {
+          clog(x)
         })
-        let denePercent = doneList.length / (todoList.length + doneList.length) * 100
-        let now = new Date()
-        let [startMonth, startDate] = data[0].time.split('.')
-        startMonth -= 1
-        let startTime = new Date(now.setMonth(startMonth, startDate))
-        // 不跨年就不会有问题
-        let timePercent = calcTimePercent(data.map(item => item.time))
-        sectionBox.innerHTML = `
-        <progress-circle width="100%" centerWidth="100%" bgColor="#e2e0e0" class="pa"></progress-circle>
-        <progress-circle width="100%" centerWidth="${timePercent}%" bgColor="#d2a4da" class="pa opacity05"></progress-circle>
-        <progress-circle width="100%" centerWidth="${denePercent}%" bgColor="#004ac2" class="pa opacity05"></progress-circle>
-        <date-list class="date-list"></date-list>
-        `
       }
-      let calcTimePercent = (timeList) => {
-        let now = new Date()
-        now = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours())
-        let [startMonth, startDate] = timeList[0].split('.')
-        startMonth -= 1
-        let start = new Date(now.getFullYear(), startMonth, startDate, 0)
-        let timeLength = timeList.length * 24
-        return (now.getTime() - start.getTime()) / (1000 * 60 * 60) / timeLength * 100
-      }
-      // exec
-      render()
     </script>
   </body>
 </html>

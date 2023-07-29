@@ -101,7 +101,7 @@ subscription.unsubscribe() // 不再使用数据
 
 ## api
 
-## principle
+## [principle](/jsPackages/rxjs/principle.html)
 
 使用 rollup 打包。打包的配置文件是分层的。
 在`<root>/src/index.js`中统一输出。
