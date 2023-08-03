@@ -4,14 +4,16 @@
 
 > 支持 vue2/vue3/ssr 的状态管理工具。  
 > 使用选项式 api.
+> 本文不关心 vue2+pinia 的用法  
+> 在应用外保存数据
 
 ### feature
 
 - devtools
 - 热更新
 - 可插件
-- 支持 ts
-- 支持 ssr
+  > 支持 ts 和自动补全  
+  > 支持 ssr
 
 ## install
 
@@ -20,11 +22,13 @@
 ## usage
 
 ```js
-import {createPinia} from 'pinia';
-...
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
+import App from './App.vue'
+let app = createApp(App)
 let pinia = createPinia()
 app.use(pinia)
-...
+app.mount('#app')
 ```
 
 ```js
@@ -48,28 +52,81 @@ export const useStore = defineStore('key', {
 })
 ```
 
+```html
+<script setup>
+  import { useStore } from 'path'
+  let counter = useStore
+  couter.da++ // 从state中取值
+  counter.$patch({ da: counter.da + 2 })
+  counter.fna()
+</script>
+```
+
+### defineStore
+
+有 2 种定义方式，推荐使用 setup.
+
+2 种创建方式 option Stores & setup stores
+
+- option stores 同上
+- setup stores 如下
+  - 输出的对象包括响应式对象、方法
+  - ref() => state
+  - computed() => getters
+  - function() => actions
+
+```js
+export let useCounterStore = defineStore('counter', () => {
+  let count = ref(0)
+  let name = ref('str')
+  let doubleCount = computed(() => count.value * 2)
+  function increment() {
+    count.value++
+  }
+  return { count, name, doubelCount, increment }
+})
+```
+
+```js
+import { storeToRefs } from 'pinia'
+let store = useCounterStore()
+// `store`是一个响应式对象，不能直接解构。
+// 解构是请使用 storeToRefs
+let { key, key2 } = storeToRefs(store)
+```
+
 ### state
+
+state 是存储区，可直接访问、设置（因为它是响应式的）。
 
 ```js
 // 可与ts结合使用。
 // 访问
 let store = useStore()
 store.dataKey
-// 重置state
+// 重置state，恢复为初始状态。
 store.$reset()
 // 变更state
 store.dataKey++
 store.$patch({dataKey: 2})
 // 替换state
-store.$patch(...)
+store.$patch({
+    k0: 'v0',
+    k1: 'v1',
+    k2: 'v2',
+}) // 一次修改多个变化
+store.$patch(() => {
+    return {...}
+})
 // 订阅state
+// 会在组件挂载以后执行
 store.$subscribe((mutation, state) => {
     // mutation: {
     //     type: 'direct' | 'patch object' | 'patch function'
     //     storeId
     //     payload
     // }
-})
+}, {detached: true})
 ```
 
 ### getter
@@ -77,7 +134,7 @@ store.$subscribe((mutation, state) => {
 根据 state 中的数据，得到新数据。
 
 ```js
-// this -> store
+// this 指向 store
 // 可访问其他getter
 getters: {
     ka: (state) => (state.dataKey * 2),
@@ -90,8 +147,20 @@ getters: {
     }
     kd: () => {
         // 可以直接使用其它store
+        // 可以使用别的getters,即可嵌套。
+        return kb()
+    }
+    // 传递参数给getters
+    ke: (state) => {
+        return (p) => {...}
     }
 }
+// 使用接收参数的getters方法
+import {useXxxStore} from './store'
+let xxxStore = useXxxStore()
+<p>{{xxxStore.ke(3)}}<p>
+// 直接setup中使用getters
+xxxStore.kb // 注意是属性写法
 ```
 
 ### action
@@ -187,6 +256,20 @@ interface Pinia {
 ```
 
 ```
+
+## vuex & pinia
+
+|     | vuex                                        | pinia                 |     |
+| --- | ------------------------------------------- | --------------------- | --- |
+|     | vue2 时期的状态管理工具。有 vuex3.x vuex4.x | vue3 的状态管理工具   |     |
+|     | state/getters/mutations/actions             | state/getters/actions |     |
+|     |                                             |                       |     |
+|     |                                             |                       |     |
+|     |                                             |                       |     |
+
+## 为什么可以同时工作在 s/c
+
+state 是工厂函数。使用工厂函数返回一个对象。
 
 ## todo
 

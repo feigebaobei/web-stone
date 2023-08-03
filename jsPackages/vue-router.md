@@ -481,15 +481,15 @@ router.push('./admin').catch((failure) => {
 ||`router.getRoutes()`|得到当前路由记录|||||||
 ||`router.onReady(cb, [errorcb])`||||||||
 ||`router.onError(cb)`||||||||
-|$router||路由对象|||||||
-||`$router.path`|返回当前路由的路径|string||||||
-||`$router.params`|返回动态参数组成的对象|object||||||
-||`$router.query`|返回qs组成的对象|object||||||
-||`$router.hash`|返回hash值，带#|string||||||
-||`$router.fullPath`|返回解析后的url|||||||
-||`$router.matched`|返回匹配的路由记录|||||||
-||`$router.name`|返回路由的名称|||||||
-||`$router.redirectionFrom`|返回重定向来源的路由的名字|||||||
+|$route||路由对象|||||||
+||`$route.path`|返回当前路由的路径|string||||||
+||`$route.params`|返回动态参数组成的对象|object||||||
+||`$route.query`|返回qs组成的对象|object||||||
+||`$route.hash`|返回hash值，带#|string||||||
+||`$route.fullPath`|返回解析后的url|||||||
+||`$route.matched`|返回匹配的路由记录|||||||
+||`$route.name`|返回路由的名称|||||||
+||`$route.redirectionFrom`|返回重定向来源的路由的名字|||||||
 <!-- prettier-ignore-end -->
 
 ## principle

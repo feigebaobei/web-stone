@@ -1,7 +1,7 @@
 # Web Components
 
 - 浏览器原生支持的可以自定义可复用的元素。
-- Web Components 是一套不同的技术，允许您创建可重用的定制元素（它们的功能封装在您的 js 代码之中）并且在您的 web 应用中使用它们。
+- Web Components 是一套不同的技术，允许您创建可复用的定制元素（它们的功能封装在您的 js 代码之中）并且在您的 web 应用中使用它们。
 - 需要熟练 js 操作 dom 的 api
 
 ## 基础知识
@@ -13,15 +13,13 @@
 | window.customElements.define('custom-tag', Xxx) | 定义自定义标签                           |                                                 |     |     |
 | Element.attachShadow({...})                     | 挂载并返回一个 shadowDOM                 |                                                 |     |     |
 | cloneNode(boolean)                              | 返回复制的 dom。boolean 表示是否深复制。 | `document.querySelector('#id').cloneNode(true)` |     |     |
-| HTMLElement                                     | 一个低层对象                             |                                                 |     |     |
+| HTMLElement                                     | 一个底层对象                             |                                                 |     |     |
 | Shadow DOM                                      | 影子 dom                                 |                                                 |     |     |
 
 ## 一般使用过程
 
-1. 创建一个自定义标签的类。如`class CustomTag extends HTMLElement {...}`
-2. `window.CustomElementRegistry.define('custom-tag', CustomTag)` 一般自定义标签使用`-`连接。
-
-在 no.1 中可以使用 shadowDOM/template/slot
+1. 创建一个自定义标签的类。如`class CustomTag extends HTMLElement {...}`。可以使用 shadowDOM/template/slot
+1. `window.CustomElementRegistry.define('custom-tag', CustomTag)` 一般自定义标签使用`-`连接。
 
 ## demo
 
@@ -74,10 +72,10 @@ class CT extends HTMLElement {
 }
 ```
 
-connectedCallback：当 custom element 首次被插入文档 DOM 时，被调用。
-disconnectedCallback：当 custom element 从文档 DOM 中删除时，被调用。
-adoptedCallback：当 custom element 被移动到新的文档时，被调用。
-attributeChangedCallback: 当 custom element 增加、删除、修改自身属性时，被调用。
+- connectedCallback：当 custom element 首次被插入文档 DOM 时，被调用。
+- disconnectedCallback：当 custom element 从文档 DOM 中删除时，被调用。
+- adoptedCallback：当 custom element 被移动到新的文档时，被调用。
+- attributeChangedCallback: 当 custom element 增加、删除、修改自身属性时，被调用。
 
 ## use shadow dom
 

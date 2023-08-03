@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>rxjs&#x7684;&#x539f;&#x7406;</title>
+        <title>rxjs &#x7684;&#x539f;&#x7406;</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -40,27 +40,27 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="rxjs的原理">rxjs的原理</h1>
+        <h1 id="rxjs-的原理">rxjs 的原理</h1>
 <h2 id="自己写一个">自己写一个。</h2>
 <p>看了官网的订阅示例后，我想自己写一个。</p>
 <pre><code class="language-js"><span class="hljs-keyword">let</span> clog = <span class="hljs-variable language_">console</span>.<span class="hljs-property">log</span>
 <span class="hljs-keyword">class</span> <span class="hljs-title class_">Observable</span> {
-    <span class="hljs-title function_">constructor</span>(<span class="hljs-params">fn</span>) {
-        <span class="hljs-variable language_">this</span>.<span class="hljs-property">fn</span> = fn
-        <span class="hljs-variable language_">this</span>.<span class="hljs-property">subscriber</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Subscriber</span>(<span class="hljs-variable language_">this</span>)
-    }
-    <span class="hljs-title function_">subscribe</span>(<span class="hljs-params">cb</span>) {
-        <span class="hljs-variable language_">this</span>.<span class="hljs-property">cb</span> = cb
-        <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">fn</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">subscriber</span>)
-    }
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">fn</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">fn</span> = fn
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">subscriber</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Subscriber</span>(<span class="hljs-variable language_">this</span>)
+  }
+  <span class="hljs-title function_">subscribe</span>(<span class="hljs-params">cb</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">cb</span> = cb
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">fn</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">subscriber</span>)
+  }
 }
 <span class="hljs-keyword">class</span> <span class="hljs-title class_">Subscriber</span> {
-    <span class="hljs-title function_">constructor</span>(<span class="hljs-params">observable</span>) {
-        <span class="hljs-variable language_">this</span>.<span class="hljs-property">observable</span> = observable
-    }
-    <span class="hljs-title function_">next</span>(<span class="hljs-params">x</span>) {
-        <span class="hljs-variable language_">this</span>.<span class="hljs-property">observable</span>.<span class="hljs-title function_">cb</span>(x)
-    }
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">observable</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">observable</span> = observable
+  }
+  <span class="hljs-title function_">next</span>(<span class="hljs-params">x</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">observable</span>.<span class="hljs-title function_">cb</span>(x)
+  }
 }
 </code></pre>
 <p>经过自测，可以实现基本功能。</p>

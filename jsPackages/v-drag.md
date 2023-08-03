@@ -6,7 +6,7 @@
 
 ### feature
 
-- feature0
+- 只能拖动，不能排序。
 - feature1
 - feature2
 

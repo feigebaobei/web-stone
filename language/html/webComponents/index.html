@@ -15,41 +15,6 @@
 	display: none;
 }
 
-/* From extension ms-toolsai.jupyter */
-/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
-
-.alert {
-    width: auto;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-.alert > *:last-child {
-    margin-bottom: 0;
-}
-#preview > .alert:last-child {
-    /* Prevent this being set to zero by the default notebook stylesheet */
-    padding-bottom: 1em;
-}
-
-.alert-success {
-    /* Note there is no suitable color available, so we just copy "info" */
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-info {
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-warning {
-    background-color: var(--theme-warning-background);
-    color: var(--theme-warning-foreground);
-}
-.alert-danger {
-    background-color: var(--theme-error-background);
-    color: var(--theme-error-foreground);
-}
-
 </style>
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
@@ -78,7 +43,7 @@
         <h1 id="web-components">Web Components</h1>
 <ul>
 <li>浏览器原生支持的可以自定义可复用的元素。</li>
-<li>Web Components 是一套不同的技术，允许您创建可重用的定制元素（它们的功能封装在您的js代码之中）并且在您的 web 应用中使用它们。</li>
+<li>Web Components 是一套不同的技术，允许您创建可复用的定制元素（它们的功能封装在您的 js 代码之中）并且在您的 web 应用中使用它们。</li>
 <li>需要熟练 js 操作 dom 的 api</li>
 </ul>
 <h2 id="基础知识">基础知识</h2>
@@ -130,7 +95,7 @@
 </tr>
 <tr>
 <td>HTMLElement</td>
-<td>一个低层对象</td>
+<td>一个底层对象</td>
 <td></td>
 <td></td>
 <td></td>
@@ -146,10 +111,9 @@
 </table>
 <h2 id="一般使用过程">一般使用过程</h2>
 <ol>
-<li>创建一个自定义标签的类。如<code>class CustomTag extends HTMLElement {...}</code></li>
+<li>创建一个自定义标签的类。如<code>class CustomTag extends HTMLElement {...}</code>。可以使用 shadowDOM/template/slot</li>
 <li><code>window.CustomElementRegistry.define('custom-tag', CustomTag)</code> 一般自定义标签使用<code>-</code>连接。</li>
 </ol>
-<p>在 no.1 中可以使用 shadowDOM/template/slot</p>
 <h2 id="demo">demo</h2>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
   <span class="hljs-comment">&lt;!-- 自定义标签与script标签的前后顺序无关 --&gt;</span>
@@ -225,10 +189,12 @@
     <span class="hljs-title function_">attributeChangedCallback</span>(<span class="hljs-params"></span>) {}
 }
 </code></pre>
-<p>connectedCallback：当 custom element 首次被插入文档 DOM 时，被调用。
-disconnectedCallback：当 custom element 从文档 DOM 中删除时，被调用。
-adoptedCallback：当 custom element 被移动到新的文档时，被调用。
-attributeChangedCallback: 当 custom element 增加、删除、修改自身属性时，被调用。</p>
+<ul>
+<li>connectedCallback：当 custom element 首次被插入文档 DOM 时，被调用。</li>
+<li>disconnectedCallback：当 custom element 从文档 DOM 中删除时，被调用。</li>
+<li>adoptedCallback：当 custom element 被移动到新的文档时，被调用。</li>
+<li>attributeChangedCallback: 当 custom element 增加、删除、修改自身属性时，被调用。</li>
+</ul>
 <h2 id="use-shadow-dom">use shadow dom</h2>
 <pre><code class="language-js">element.<span class="hljs-title function_">attachShadow</span>({ <span class="hljs-attr">mode</span>: <span class="hljs-string">&#x27;open&#x27;</span> })
 </code></pre>
@@ -240,7 +206,7 @@ attributeChangedCallback: 当 custom element 增加、删除、修改自身属�
 <li>定义 custom-tag</li>
 <li>使用 custom-tag</li>
 </ol>
-<h3 id="demo">demo</h3>
+<h3 id="demo-1">demo</h3>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;myTemp&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
     <span class="hljs-comment">/* css code */</span>
@@ -258,7 +224,7 @@ attributeChangedCallback: 当 custom element 增加、删除、修改自身属�
   <span class="hljs-keyword">class</span> <span class="hljs-title class_">CT</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">HTMLElement</span> {
     <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {
       <span class="hljs-keyword">let</span> temp = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#myTemp&#x27;</span>).<span class="hljs-property">content</span>
-      <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">attachShadow</span>({ <span class="hljs-attr">mode</span>: <span class="hljs-literal">true</span> }) <span class="hljs-comment">// 这行为this挂载了shadom dom</span>
+      <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">attachShadow</span>({ <span class="hljs-attr">mode</span>: <span class="hljs-literal">true</span> }) <span class="hljs-comment">// 为this挂载shadom dom</span>
         <span class="hljs-comment">// 好像template只能与shadowDOM结合起来使用</span>
         .<span class="hljs-title function_">appendChild</span>(temp.<span class="hljs-title function_">cloneNode</span>(<span class="hljs-literal">true</span>))
     }

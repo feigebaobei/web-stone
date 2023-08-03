@@ -12,6 +12,7 @@
 > observable 是一个可调用的未来值或事件的集合。它能被多个 observer 订阅，每个订阅关系相互独立、互不影响。  
 > 可观察对象一般以`$`结尾。  
 > 数据的生产者生产出数据以流的形式给消费者（observer）。
+> 官网介绍了数据流程的二种方式，push:生产者主动，pull:消费者主动。rxjs 是 pull 形式的。
 
 ### feature
 
@@ -28,11 +29,23 @@
 
 ## usage
 
+同下文
+
 ```js
 // 展示一个响应式功能
 ```
 
 ## 概念
+
+| 英文       | 中文         | 说明                                                                                         | 用途                           |
+| ---------- | ------------ | -------------------------------------------------------------------------------------------- | ------------------------------ |
+| observable | 可观察的对象 | pull 式数据流。产生数据的地方，可使用 next/error/complete 产生数据。能产生该对象的方式很多。 | 用于定义消费者可以收到的数据。 |
+| observer   |              | 数据的消费者。明确如何消费数据，有三种方式：next/error/complete.默认是 next.                 |                                |
+| operator   | 处理者       | 有管道式和创建式                                                                             | 处理数据                       |
+| observable | 可观察的对象 |                                                                                              |                                |
+| observable | 可观察的对象 |                                                                                              |                                |
+|            |              |                                                                                              |                                |
+|            |              |                                                                                              |                                |
 
 ### observables
 
@@ -70,15 +83,33 @@ observable$.subscribe(observer) // 给可观察者定义一个观察者。
 // 观察者使用以上三个方法处理接收到的数据。
 ```
 
-### operators
+### [operators](/jsPackages/rxjs/operators.html)
 
-基于可观察者做要若干操作。
+基于可观察者做要若干操作。  
+每个操作符提供的只是一些通用的简单功能，但通过链式调用，这些小功能可以组合在一起，用来解决复杂的问题。
+
+[官网的 api 列表](https://rxjs.dev/guide/operators)
 
 ```js
 observable$.pipe($operator())
 // 不改变该observable$，返回一个新的observable$
 // jQuery的链式调用是改变原jQuery对象。
 ```
+
+#### 功能分类
+
+- 创建类（creation）
+- 转化类（transformation）
+- 过滤类（filtering）
+- 合并类（combination）
+- 多播类（multicasting）
+- 错误处理类（error Handling）
+- 条件分支类（conditional&boolean）
+- 数学和合计类（mathmatical&aggregate）
+- 其他
+  - 背压控制类（backpressure control）
+  - 可连接类（connectable）
+  - 高阶
 
 ### subscription
 
@@ -99,7 +130,7 @@ subscription.unsubscribe() // 不再使用数据
 
 默认配置文件：`path/to/file.json`。
 
-## api
+## [api](/jsPackages/rxjs/api.html)
 
 ## [principle](/jsPackages/rxjs/principle.html)
 
@@ -136,6 +167,8 @@ class Observable<T> implements Subscribable<T> {
    提供者 --->  流          ---> 消费者
              -------------
 ```
+
+## [竞品](/jsPackages/rxjs/principle.html)
 
 ## todo
 
