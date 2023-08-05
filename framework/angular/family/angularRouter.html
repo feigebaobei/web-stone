@@ -60,10 +60,17 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">router-outlet</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">router-outlet</span>&gt;</span>
 </code></pre>
 <pre><code class="language-ts"><span class="hljs-keyword">let</span> <span class="hljs-attr">routes</span>: <span class="hljs-title class_">Routes</span> = [
-    { <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;home&#x27;</span>, <span class="hljs-attr">component</span>: <span class="hljs-title class_">HomeComponent</span> },
-    { <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;**&#x27;</span>, <span class="hljs-attr">component</span>: <span class="hljs-title class_">NotFountComponent</span> },
-    <span class="hljs-comment">// ...</span>
+  { <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;home&#x27;</span>, <span class="hljs-attr">component</span>: <span class="hljs-title class_">HomeComponent</span> },
+  { <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;**&#x27;</span>, <span class="hljs-attr">component</span>: <span class="hljs-title class_">NotFountComponent</span> },
+  <span class="hljs-comment">// ...</span>
 ]
+</code></pre>
+<pre><code class="language-ts"><span class="hljs-variable language_">this</span>.<span class="hljs-property">router</span>.<span class="hljs-title function_">navigate</span>([<span class="hljs-string">&#x27;path&#x27;</span>, <span class="hljs-string">&#x27;path2&#x27;</span>]) <span class="hljs-comment">// 以根路由为起点跳转</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-property">router</span>.<span class="hljs-title function_">navigate</span>([<span class="hljs-string">&#x27;path&#x27;</span>, <span class="hljs-string">&#x27;path2&#x27;</span>], { <span class="hljs-attr">relativeTo</span>: route }) <span class="hljs-comment">// 相对于route跳转。route是ActivatedRoute.</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-property">router</span>.<span class="hljs-title function_">navigate</span>([<span class="hljs-string">&#x27;path&#x27;</span>, <span class="hljs-string">&#x27;path2&#x27;</span>], { <span class="hljs-attr">queryParams</span>: { <span class="hljs-attr">id</span>: <span class="hljs-number">2</span> } }) <span class="hljs-comment">// /path/path2?id=2</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-property">router</span>.<span class="hljs-title function_">navigate</span>([<span class="hljs-string">&#x27;path&#x27;</span>, <span class="hljs-string">&#x27;path2&#x27;</span>], { <span class="hljs-attr">preserveQueryParams</span>: <span class="hljs-literal">true</span> }) <span class="hljs-comment">// 保留现有的qs</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-property">router</span>.<span class="hljs-title function_">navigate</span>([<span class="hljs-string">&#x27;path&#x27;</span>, <span class="hljs-string">&#x27;path2&#x27;</span>], { <span class="hljs-attr">skipLocationChange</span>: <span class="hljs-literal">true</span> }) <span class="hljs-comment">// 保持浏览器的url不变。且传入的参数有效。</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-property">router</span>.<span class="hljs-title function_">navigate</span>([<span class="hljs-string">&#x27;path&#x27;</span>, <span class="hljs-string">&#x27;path2&#x27;</span>], { <span class="hljs-attr">replaceUrl</span>: <span class="hljs-literal">true</span> }) <span class="hljs-comment">// 是否跳转</span>
 </code></pre>
 <h3 id="懒加载">懒加载</h3>
 <h2 id="configuration">configuration</h2>
@@ -188,7 +195,8 @@ description</p>
 <h2 id="principle">principle</h2>
 <p>此包的处理逻辑。</p>
 <h3 id="uml">uml</h3>
-<pre><code></code></pre>
+<pre><code>
+</code></pre>
 <h2 id="todo">todo</h2>
 <blockquote>
 <p>未来迭代计划。

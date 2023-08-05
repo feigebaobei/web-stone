@@ -11,7 +11,7 @@ import { Component } from '@angular/core'
 ['...'], }) export class AppComponent { title = 'string' }
 
 <!-- *ngIf 条件渲染 -->
-<p *ngIf="var else def">str</p>
+<p *ngIf="condition; else def">str</p>
 <!-- #def 是模板变量 -->
 <ng-template #def>
   <p>hi</p>
@@ -32,4 +32,16 @@ import { HttpClient } from '@angular/common/http' constructor(private http:
 HttpClient) {} ngOnInit(): void { this.http.get<T[]
   >('url') .subscribe((items) => { this.arr = items }) }
 </T[]>
+
+<!-- class / style -->
+<div class="foo" [class.bar]="true" />
+<div class="foo" [ngClass]="{bar: true}" />
+<div class="foo" [ngClass]="['bar']" />
+<div
+  style="font-weight: bold"
+  [style.color]="'#f08'"
+  [style.fontSize]="'20px'"
+/>
+<div style="font-weight: bold" [style.fontSize.px]="20" />
+<div style="font-weight: bold" [ngStyle]="{color: '#f08', fontSize: '64px'}" />
 ```
