@@ -12,51 +12,84 @@
   </head>
   <body>
     <button onclick="btClickHandler()">click button</button>
+    <script src="https://unpkg.com/rxjs@7.8.1/dist/bundles/rxjs.umd.min.js"></script>
     <script>
       let clog = console.log
-      class Observable {
-        constructor(fn) {
-          this.fn = fn
-          this.subscriber = new Subscriber(this)
-        }
-        subscribe(cb) {
-          this.cb = cb
-          this.fn(this.subscriber)
-        }
-      }
-      class Subscriber {
-        constructor(observable) {
-          this.observable = observable
-        }
-        next(x) {
-          this.observable.cb(x)
-        }
-      }
-      let ob = new Observable((sub) => {
-        sub.next('hi')
-        sub.next('hi1')
-        sub.next('hi2')
-        sub.next('hi3')
+      // class Observable {
+      //   constructor(fn) {
+      //     this.fn = fn
+      //     this.subscriber = new Subscriber(this)
+      //   }
+      //   subscribe(cb) {
+      //     this.cb = cb
+      //     this.fn(this.subscriber)
+      //     return {
+      //       unsubscribe: () => {
+      //         this.subscriber.unsubscribe()
+      //         // this.fn = () => {}
+      //       }
+      //     }
+      //   }
+      // }
+      // class Subscriber {
+      //   constructor(observable) {
+      //     this.observable = observable
+      //     this.status = 1
+      //     // 1 订阅
+      //     // 10 出错
+      //     // 20 完成
+      //   }
+      //   next(x) {
+      //     switch(this.status) {
+      //       case 1:
+      //         this.observable.cb(x)
+      //     }
+      //   }
+      //   error() {
+      //     this.status = 10
+      //   }
+      //   complete() {
+      //     this.status = 20
+      //   }
+      //   unsubscribe() {
+      //     this.complete()
+      //   }
+      // }
+      // let ob = new Observable((sub) => {
+      //   sub.next('hi')
+      //   sub.next('hi1')
+      //   sub.next('hi2')
+      //   sub.next('hi3')
+      //   setTimeout(() => {
+      //     sub.next('hi4')
+      //   }, 1000)
+      // })
+      // let obj = ob.subscribe((x) => {
+      //   clog(x)
+      // })
+      // obj.unsubscribe()
+      // let btClickHandler = () => {
+      //   clog('lss')
+      //   ob.subscribe((x) => {
+      //     clog(x)
+      //   })
+      // }
+
+
+      let observable = new Observable((subscribe) => {
+        subscribe.next('boy')
       })
-      ob.subscribe((x) => {
-        clog(x)
+      observable.subscribe((x) => {
+        clog('x', x)
       })
-      let btClickHandler = () => {
-        clog('lss')
-        ob.subscribe((x) => {
-          clog(x)
-        })
-      }
     </script>
   </body>
 </html>
 
 <!--
-  后记
-  自定义标签不具有默认样式。
-  感觉自定义标签不好用
-    样式无法做到避免冲突。若结合css-module/scope可能解决此问题。
-    需要严格操作dom
-    何时重新渲染
+  功能
+  1. 发布订阅功能
+  2. 取消订阅
+  3. next/error/complete
   
  -->

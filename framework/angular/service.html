@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>&#x670d;&#x52a1;</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="服务">服务</h1>
+<p>可以从任何地方获取数据，比如：Web 服务、本地存储（LocalStorage）或一个模拟的数据源。
+由 Injectabl 装饰器装饰的类。
+提倡把与视图无关的逻辑抽取到服务中。</p>
+<pre><code class="language-shell">ng generate service heros/hero
+ng g s services/&lt;serviceName&gt;
+</code></pre>
+<pre><code class="language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Injectable</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/core&#x27;</span>
+<span class="hljs-meta">@Injectable</span>({
+  <span class="hljs-comment">// 标记为可以被注入的服务器</span>
+  <span class="hljs-attr">provided</span>: <span class="hljs-string">&#x27;root&#x27;</span>, <span class="hljs-comment">// 表示当前服务在root注入器中提供。可在整个应用中单例使用。</span>
+})
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Asdf</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {}
+  <span class="hljs-title function_">fn</span>(<span class="hljs-params"></span>) {}
+}
+</code></pre>
+<p>在<code>app.module.ts</code>中引入</p>
+<pre><code class="language-ts">...
+<span class="hljs-attr">providers</span>: [<span class="hljs-title class_">Asdf</span>]
+</code></pre>
+
+        
+        
+    </body>
+    </html>

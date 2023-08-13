@@ -30,6 +30,29 @@ yarn start
 
 ## [usage](/framework/angular/usage/index.html)
 
+```shell
+npm i -g @angular/cli
+ng v # 查看版本
+ng new first-app # 创建一个应用
+cd first-app
+ng serve
+    # --open / -o
+    # --port
+ng g component product-list
+```
+
+## [组件](/framework/angular/component.html)
+
+## [模板](/framework/angular/template.html)
+
+## [指令](/framework/angular/directive.html)
+
+## [管道](/framework/angular/pipe.html)
+
+## [生命周期](/framework/angular/lifeCircle.html)
+
+## [表单](/framework/angular/form.html)
+
 ## [principle](/framework/angular/principle/index.html)
 
 ## angular js & angular
@@ -57,10 +80,12 @@ yarn start
 
 - [@angular/cli](/framework/angular/family/angularCli.html)
 - [@angular/router](/framework/angular/family/angularRouter.html)
-- [@angular/common](/framework/angular/family/angularCommon)
-- [@angular/cli](/framework/angular/family/angularCli)
-- [@angular/cli](/framework/angular/family/angularCli)
-- [@angular/cli](/framework/angular/family/angularCli)
+- [@angular/common](/framework/angular/family/angularCommon.html)
+- [@angular/core](/framework/angular/family/core.html)
+- [@angular/module](/framework/angular/family/module.html)
+- [@angular/cli](/framework/angular/family/angularCli.html)
+- [@angular/cli](/framework/angular/family/angularCli.html)
+- [@angular/cli](/framework/angular/family/angularCli.html)
 
 ## 生态
 

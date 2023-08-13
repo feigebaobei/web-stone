@@ -1,4 +1,4 @@
-# 基础知识
+# 基础知识 这个文章日后会分别迁移到别的文章中
 
 ## 组件 component
 
@@ -10,10 +10,13 @@
 
 ### 组件之间共享数据
 
-1. 父组件中使用`@Input`声明数据。
-2. 子组件中使用`@Output`声明数据
-3. 使用`Emitter`处理子组件到父组件的数据
-4. 使用`@ViewChild`修饰子组件。
+|                                       |     |     |
+| ------------------------------------- | --- | --- |
+| 父组件中使用`@Input`声明数据。        |     |     |
+| 子组件中使用`@Output`声明数据         |     |     |
+| 使用`Emitter`处理子组件到父组件的数据 |     |     |
+| 使用`@ViewChild`修饰子组件。          |     |     |
+|                                       |     |     |
 
 ### module & component
 
@@ -23,70 +26,6 @@
 |     | 可以声明很多组件。module 内的组件可以互相引用。 | 与其它组件通信   |     |     |
 |     | 可以管理当前 module 内组件。                    | 为应用提供服务   |     |     |
 |     |                                                 |                  |     |     |
-
-## directive 指令
-
-- 操作 dom
-
-分类
-
-- 组件指令
-- 结构指令 `*ngFor/*ngIf/*ngSwitchCase`
-- 属性指令 `*ngStyle/*ngClass`
-- 自定义指令
-
-## pipe
-
-内置 pipe
-
-- uppercase pipe
-- lowercase pipe
-- decimal / number pipe
-- currency pipe
-- date pipe
-- json pipe
-- precent pipe
-- slice pipe
-
-### 自定义 pipe
-
-`ng g pipe Pipes/<pipeName>`
-会在指定目录下生成 pipe 的模板文件。
-会在`app.module.ts`中注册 pipe.
-
-```html
-<p>{{city | append}}</p>
-```
-
-## service
-
-可以从任何地方获取数据，比如：Web 服务、本地存储（LocalStorage）或一个模拟的数据源。
-由 Injectabl 装饰器装饰的类。
-提倡把与视图无关的逻辑抽取到服务中。
-
-```shell
-ng generate service heros/hero
-ng g s services/<serviceName>
-```
-
-```ts
-import { Injectable } from '@angular/core'
-@Injectable({
-  // 标记为可以被注入的服务器
-  provided: 'root', // 表示当前服务在root注入器中提供。可在整个应用中单例使用。
-})
-export class Asdf {
-  constructor() {}
-  fn() {}
-}
-```
-
-在`app.module.ts`中引入
-
-```ts
-...
-providers: [Asdf]
-```
 
 ## interface
 
@@ -147,13 +86,9 @@ export class HomeComponent implements OnInit {
 
 ### 单文件
 
-## module
-
-我在它中设置了路由映射。
-
 ## message
 
-## 模块
+## 模块 【日后迁移走】
 
 NgModule.它是 Angular 模块。Angular 应用由一个一个模块组成。
 不是 esm/cjs 中的模块。
@@ -166,16 +101,6 @@ NgModule.它是 Angular 模块。Angular 应用由一个一个模块组成。
 - 指令、组件、管道必须属于一个模块。（有且只有一个）
 
 ### [字段说明](/framework/angular/decorator.md)
-
-### 模块 & esm & cjs
-
-|     | NgModule               | 模块                   | module                           |
-| --- | ---------------------- | ---------------------- | -------------------------------- |
-|     | angular                | esm                    | cjs                              |
-|     | 使用@NgModule 修饰的类 | 每个文件都是一个模块。 | 每个文件都是一个模块             |
-|     | -                      | import / export        | require / module.exports/exports |
-|     |                        |                        |                                  |
-|     |                        |                        |                                  |
 
 ### 根模块
 

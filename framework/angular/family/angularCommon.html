@@ -52,11 +52,16 @@
 <li>feature2</li>
 </ul>
 <h2 id="install">install</h2>
-<p>这是angular内置包。一般不需要安装。
+<p>这是 angular 内置包。一般不需要安装。
 <code>npm i @angular/common</code></p>
 <h2 id="usage">usage</h2>
-<pre><code class="language-js"></code></pre>
+<pre><code class="language-js">
+</code></pre>
 <h3 id="http">http</h3>
+<ul>
+<li>一般把请求功能封装在一个<a href="/framework/angular//service.html">服务</a>中。</li>
+<li>返回值是Observable对象</li>
+</ul>
 <pre><code class="language-ts"><span class="hljs-comment">// app.module.ts</span>
 <span class="hljs-keyword">import</span> { <span class="hljs-title class_">HttpClientModule</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/common/http&#x27;</span>
 ...
@@ -65,13 +70,68 @@
     <span class="hljs-title class_">HttpClientModule</span>,
 ]
 
+<span class="hljs-comment">// user.service.ts</span>
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">HttpClient</span>, <span class="hljs-title class_">HttpInterceptor</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/common/http&#x27;</span>
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { <span class="hljs-title class_">User</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;...&#x27;</span>
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { <span class="hljs-title class_">Observable</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;rxjs&#x27;</span>
+
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">ResUser</span> {
+    <span class="hljs-attr">code</span>: <span class="hljs-built_in">number</span>
+    <span class="hljs-attr">message</span>: <span class="hljs-built_in">string</span>
+    <span class="hljs-attr">data</span>: <span class="hljs-title class_">User</span>
+}
+
+<span class="hljs-meta">@Injectable</span>({
+    <span class="hljs-attr">providedIn</span>: <span class="hljs-string">&#x27;root&#x27;</span>
+})
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserService</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">HttpInterceptor</span> {
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> http: HttpClient</span>) {
+        <span class="hljs-comment">//</span>
+    }
+    <span class="hljs-title function_">getUser</span>(): <span class="hljs-title class_">Observable</span>&lt;<span class="hljs-title class_">User</span>&gt; {
+        <span class="hljs-keyword">let</span> url = <span class="hljs-string">&#x27;...&#x27;</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">http</span>.<span class="hljs-property">get</span>&lt;<span class="hljs-title class_">ResUser</span>&gt;(url, {
+            <span class="hljs-attr">responseType</span>: <span class="hljs-string">&#x27;json&#x27;</span>,
+            <span class="hljs-title class_">Authorization</span>: <span class="hljs-string">&#x27;token&#x27;</span>
+        }).<span class="hljs-title function_">pipe</span>(
+            <span class="hljs-title function_">retry</span>(<span class="hljs-number">3</span>),
+            <span class="hljs-title function_">catchError</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">handleError</span>)
+        )
+    }
+    <span class="hljs-comment">// 可以有多个拦截器</span>
+    <span class="hljs-title function_">intercept</span>(<span class="hljs-params">req: HttpRequest&lt;<span class="hljs-built_in">any</span>&gt;: next: HttpHandler</span>) {
+        <span class="hljs-keyword">return</span> next.<span class="hljs-title function_">handle</span>(req)
+            .<span class="hljs-title function_">pipe</span>(
+                <span class="hljs-comment">// tap(),</span>
+                <span class="hljs-title function_">finalize</span>(<span class="hljs-function">() =&gt;</span> {})
+            )
+    }
+}
+
 <span class="hljs-comment">// feature.component.ts</span>
-<span class="hljs-keyword">import</span> {httpClient, <span class="hljs-title class_">HttpHeaders</span>} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/common/http&#x27;</span>
+<span class="hljs-comment">// import {httpClient, HttpHeaders} from &#x27;@angular/common/http&#x27;</span>
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">UserService</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;/path/to/userService&#x27;</span>
 ....
-<span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> http:HttpClient</span>) {}
+<span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> service: UserService</span>) {...}
 <span class="hljs-comment">// 使用</span>
+<span class="hljs-title function_">getUser</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">service</span>.<span class="hljs-title function_">getUser</span>().<span class="hljs-title function_">subscribe</span>({
+        <span class="hljs-attr">next</span>: <span class="hljs-function">(<span class="hljs-params">response</span>) =&gt;</span> {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">user</span> = response
+    }, 
+    <span class="hljs-attr">error</span>: <span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> {
+        <span class="hljs-title function_">clog</span>(error)
+    }})
+}
 <span class="hljs-comment">// this.http.get(url).subscribe(res =&gt; {thsi.res = res})</span>
 </code></pre>
+<h4 id="api">api</h4>
+<pre><code class="language-ts">
+</code></pre>
+<h3 id="form">form</h3>
+<h3 id="title">title</h3>
+<h3 id="title-1">title</h3>
+<h3 id="title-2">title</h3>
 <h2 id="configuration">configuration</h2>
 <p>默认配置文件：<code>path/to/file.json</code>。</p>
 <!-- prettier-ignore-start -->
@@ -130,7 +190,7 @@
 </tbody>
 </table>
 <!-- prettier-ignore-end -->
-<h2 id="api">api</h2>
+<h2 id="api-1">api</h2>
 <!-- prettier-ignore-start -->
 <table>
 <thead>
@@ -194,7 +254,8 @@ description</p>
 <h2 id="principle">principle</h2>
 <p>此包的处理逻辑。</p>
 <h3 id="uml">uml</h3>
-<pre><code></code></pre>
+<pre><code>
+</code></pre>
 <h2 id="todo">todo</h2>
 <blockquote>
 <p>未来迭代计划。

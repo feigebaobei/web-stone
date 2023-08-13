@@ -23,6 +23,9 @@
 
 ### http
 
+- 一般把请求功能封装在一个[服务](/framework/angular//service.html)中。
+- 返回值是 Observable 对象
+
 ```ts
 // app.module.ts
 import { HttpClientModule } from '@angular/common/http'
@@ -32,13 +35,75 @@ imports: [
     HttpClientModule,
 ]
 
+// user.service.ts
+import { HttpClient, HttpInterceptor } from '@angular/common/http'
+import type { User } from '...'
+import type { Observable } from 'rxjs'
+
+interface ResUser {
+    code: number
+    message: string
+    data: User
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class UserService implements HttpInterceptor {
+    constructor(private http: HttpClient) {
+        //
+    }
+    getUser(): Observable<User> {
+        let url = '...'
+        return this.http.get<ResUser>(url, {
+            responseType: 'json',
+            Authorization: 'token'
+        }).pipe(
+            retry(3),
+            catchError(this.handleError)
+        )
+    }
+    // 可以有多个拦截器
+    intercept(req: HttpRequest<any>: next: HttpHandler) {
+        return next.handle(req)
+            .pipe(
+                // tap(),
+                finalize(() => {})
+            )
+    }
+}
+
 // feature.component.ts
-import {httpClient, HttpHeaders} from '@angular/common/http'
+// import {httpClient, HttpHeaders} from '@angular/common/http'
+import { UserService } from '/path/to/userService'
 ....
-constructor(private http:HttpClient) {}
+constructor(private service: UserService) {...}
 // 使用
+getUser() {
+    this.service.getUser().subscribe({
+        next: (response) => {
+        this.user = response
+    },
+    error: (error) => {
+        clog(error)
+    }})
+}
 // this.http.get(url).subscribe(res => {thsi.res = res})
 ```
+
+#### api
+
+```ts
+
+```
+
+### form
+
+### title
+
+### title
+
+### title
 
 ## configuration
 
