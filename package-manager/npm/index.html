@@ -392,327 +392,55 @@ npm unlink &lt;package-name&gt; # 取消链接依赖项
 在 webpack 打包或者 webpack-dev-server 的时候，引入的是 package.json 中&quot;module&quot;指向的文件。</p>
 <h2 id="packagejson-各字段说明">package.json 各字段说明</h2>
 <p>有些项目中会在此文件中添加自定义字段。可以是该项目需要。</p>
-<table>
-<thead>
-<tr>
-<th>key</th>
-<th>description</th>
-<th>optional</th>
-<th>type</th>
-<th>demo</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>name</td>
-<td>包的名字。可以使用作用域前缀<code>@myorg/mypackage</code></td>
-<td>n</td>
-<td>string</td>
-<td></td>
-</tr>
-<tr>
-<td>version</td>
-<td>版本号</td>
-<td>n</td>
-<td>string</td>
-<td></td>
-</tr>
-<tr>
-<td>description</td>
-<td>展示必要的信息。方便<code>npm search</code></td>
-<td></td>
-<td>string</td>
-<td></td>
-</tr>
-<tr>
-<td>keywords</td>
-<td>该包的关键字</td>
-<td>string[]</td>
-<td>string</td>
-<td></td>
-</tr>
-<tr>
-<td>homepage</td>
-<td>项目的主页</td>
-<td></td>
-<td></td>
-<td>&quot;homepage&quot;: &quot;<a href="https://github.com/owner/project#readme">https://github.com/owner/project#readme</a>&quot;</td>
-</tr>
-<tr>
-<td>bugs</td>
-<td>当前包的 issue 的地址</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>license</td>
-<td>版权说明</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>author</td>
-<td>作者</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>contributors</td>
-<td>贡献者</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>funding</td>
-<td>最新的信息所在网址的字段。</td>
-<td></td>
-<td>Object / Array</td>
-<td></td>
-</tr>
-<tr>
-<td>files</td>
-<td>用于描述包作为依赖项安装时要包含的条目</td>
-<td>y</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>main</td>
-<td>主要入口。使用<code>require(packageName)</code>时就是从这个字段开始获取数据。</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>browser</td>
-<td>当该包使用在 browser 时，会代替 main 字段的功能。包中不能使用 node.js modules</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>bin</td>
-<td>一个包会有若干个可执行文件。这些可执行文件需要安装到<code>PATH</code>。使用该字段定义命令与本包中可执行文件的映射关系。在安装后 npm 会链接到<code>prefix/bin</code>为全局使用或安装到<code>./node_modules/.bin</code>为本地使用。当有多可执行文件时需要写成<code>object</code>，当只有一个可执行文件时可写成<code>string</code>。可执行文件需要以<code>#!/usr/bin/env node</code>开头。</td>
-<td></td>
-<td></td>
-<td><code>{&quot;bin&quot;: {&quot;myapp&quot;: &quot;./cli.js&quot;}}</code></td>
-</tr>
-<tr>
-<td>man</td>
-<td>方便 linux 的 man 命令查找文件</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>directories</td>
-<td>本包的目录结构</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>description.lib</td>
-<td>指定 lib 目录</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>description.bin</td>
-<td>指定 bin 目录</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>description.man</td>
-<td>指定 man 目录</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>description.doc</td>
-<td>指定 doc 目录</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>description.example</td>
-<td>指定示例目录</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>description.test</td>
-<td>指定测试目录</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>repository</td>
-<td>该包的仓库</td>
-<td>Object</td>
-<td>{&quot;type&quot;:&quot;git&quot;,&quot;url&quot;:&quot;xxxx&quot;}</td>
-<td></td>
-</tr>
-<tr>
-<td>script</td>
-<td>可运行的脚本。包括一些生命周期脚本。</td>
-<td>Object</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>config</td>
-<td>使用该包时需要的配置项，将用于该包的脚本。</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>dependencies</td>
-<td>生产环境的依赖项。可以使用 url/github url/本地路径/</td>
-<td>Object</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>devDependencies</td>
-<td>开发环境的依赖项。</td>
-<td>Object</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>peerDependencies</td>
-<td>本包依赖的其他依赖包。同等依赖，会同级安装。执行<code>install</code>时不安装。</td>
-<td>Object</td>
-<td>{'vue': '2.6.0'}</td>
-<td>一般用于常用包、babel 等。</td>
-</tr>
-<tr>
-<td>peerDependenciesMeta</td>
-<td>若安装 peerDependencies 中的包时，报警告。则使用<code>peerDependenciesMeta</code>指明提示信息。</td>
-<td></td>
-<td><code>{peerDependenciesMeta: &quot;${packageName}&quot;: {&quot;optional&quot;: true}}</code></td>
-<td></td>
-</tr>
-<tr>
-<td>bundledDependencies</td>
-<td>一组包名，他们会在发布的时候被打包进去。</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>optionalDependencies</td>
-<td>如果一个依赖不可用，但你希望在它安装失败的时候 npm 也能继续初始化。npm 会使用该字段对应的包。此时该字段的功能与<code>dependencies</code>的功能一样。使用<code>npm i --no-optional</code>时该字段无效。</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>engines</td>
-<td>需要什么样的引擎环境支持</td>
-<td></td>
-<td><code>{&quot;engines&quot;: {&quot;node&quot;: &quot;&gt;=10.0.0&quot;}}</code></td>
-<td></td>
-</tr>
-<tr>
-<td>os</td>
-<td>需要什么样的操作系统</td>
-<td></td>
-<td>string[]</td>
-<td></td>
-</tr>
-<tr>
-<td>cpu</td>
-<td>指定 cpu</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>private</td>
-<td>若 true，则不能<code>npm publish</code></td>
-<td></td>
-<td>Boolean</td>
-<td></td>
-</tr>
-<tr>
-<td>publishConfig</td>
-<td>发布时的配置</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>workspaces</td>
-<td>它描述了本地文件系统中的位置，安装时应该查找这些位置，以找到需要与顶级 node_modules 文件夹进行符号链接的每个工作区。就像工作区内有 package.json 一样。常用于一库多包。workspace 中的每一项都是一个包，每个包都有一个 package.json。</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>DEFAULT VALUES</td>
-<td>不支持的 value</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>unpkg</td>
-<td>上所有的文件都开启 cdn 服务地址</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>engineStrict</td>
-<td>不会</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>preferGlobal</td>
-<td>不会</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>types</td>
-<td>指定类型文件的目录</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>type</td>
-<td>指定规范</td>
-<td>&quot;module&quot; / &quot;commonjs&quot;</td>
-<td>默认为&quot;commonjs&quot;</td>
-<td></td>
-</tr>
-<tr>
-<td>exports</td>
-<td>可以根据不同的引用方式或者模块化类型，来指定 npm 包引用不同的入口文件。</td>
-<td>如<code>&quot;exports&quot;: {&quot;import&quot;: &quot;./main-module.js&quot;,&quot;require&quot;: &quot;./main-require.cjs&quot;</code>}import 为 esm 的导入方式，require 为 cjs 的导入方式</td>
-<td>优先级高于 brower/module/main.比 file 好用。</td>
-<td></td>
-</tr>
-</tbody>
-</table>
+<!-- prettier-ignore-start -->
+<p>| key   | description                             | optional                | type              | demo     |
+| ---- | ------------- |  | ------ | ----- |
+| name  | 包的名字。可以使用作用域前缀<code>@myorg/mypackage</code>    | n        | string            |          |
+| version              | 版本号                   | n        | string            |          |
+| description          | 展示必要的信息。方便<code>npm search</code>   |          | string                 |               |
+| keywords             | 该包的关键字      | string[]                   | string   | |
+| homepage             | 项目的主页        |        |          | &quot;homepage&quot;: &quot;<a href="https://github.com/owner/project#readme">https://github.com/owner/project#readme</a>&quot; |
+| bugs                 | 当前包的 issue 的地址                 |        |          | |
+| license              | 版权说明          |        |          | |
+| author               | 作者              |        |          | |
+| contributors         | 贡献者            |        |          | |
+| funding              | 最新的信息所在网址的字段。            |        | Object / Array               | |
+| files                | 用于描述包作为依赖项安装时要包含的条目              | y      |          | |
+| main                 | 主要入口。使用<code>require(packageName)</code>时就是从这个字段开始获取数据。                    |        |          | |
+| browser              | 当该包使用在 browser 时，会代替 main 字段的功能。包中不能使用 node.js modules         |        |          | |
+| bin                  | 一个包会有若干个可执行文件。这些可执行文件需要安装到<code>PATH</code>。使用该字段定义命令与本包中可执行文件的映射关系。在安装后 npm 会链接到<code>prefix/bin</code>为全局使用或安装到<code>./node_modules/.bin</code>为本地使用。当有多可执行文件时需要写成<code>object</code>，当只有一个可执行文件时可写成<code>string</code>。可执行文件需要以<code>#!/usr/bin/env node</code>开头。 |        |          | <code>{&quot;bin&quot;: {&quot;myapp&quot;: &quot;./cli.js&quot;}}</code>  |
+| man                  | 方便 linux 的 man 命令查找文件                  |              |      |               |
+| directories          | 本包的目录结构      |              |      |   |
+| description.lib      | 指定 lib 目录       |              |      |   |
+| description.bin      | 指定 bin 目录       |              |      |   |
+| description.man      | 指定 man 目录       |              |      |   |
+| description.doc      | 指定 doc 目录       |              |      |   |
+| description.example  | 指定示例目录        |              |      |   |
+| description.test     | 指定测试目录        |              |      |   |
+| repository           | 该包的仓库          | Object       | {&quot;type&quot;:&quot;git&quot;,&quot;url&quot;:&quot;xxxx&quot;}                |   |
+| script               | 可运行的脚本。包括一些生命周期脚本。  | Object       |      |   |
+| config               | 使用该包时需要的配置项，将用于该包的脚本。                |              |      |   |
+| dependencies         | 生产环境的依赖项。可以使用 url/github url/本地路径/       | Object       |      |   |
+| devDependencies      | 开发环境的依赖项。        | Object       |      |   |
+| peerDependencies     | 本包依赖的其他依赖包。同等依赖，会同级安装。执行<code>install</code>时不安装。           | Object                   | {'vue': '2.6.0'}       | 一般用于常用包、babel 等。        |
+| peerDependenciesMeta | 若安装 peerDependencies 中的包时，报警告。则使用<code>peerDependenciesMeta</code>指明提示信息。                  |      | <code>{peerDependenciesMeta: &quot;${packageName}&quot;: {&quot;optional&quot;: true}}</code> |
+| bundledDependencies  | 一组包名，他们会在发布的时候被打包进去。          |      |            |   |
+| optionalDependencies | 如果一个依赖不可用，但你希望在它安装失败的时候 npm 也能继续初始化。npm 会使用该字段对应的包。此时该字段的功能与<code>dependencies</code>的功能一样。使用<code>npm i --no-optional</code>时该字段无效。          |      |            |   |
+| engines              | 需要什么样的引擎环境支持      |      | <code>{&quot;engines&quot;: {&quot;node&quot;: &quot;&gt;=10.0.0&quot;}}</code>        |   |
+| os                   | 需要什么样的操作系统          |      | string[]   |   |
+| cpu                  | 指定 cpu  |      |            |   |
+| private              | 若 true，则不能<code>npm publish</code>  |      | Boolean    |   |
+| publishConfig        | 发布时的配置                  |      |            |   |
+| workspaces           | 它描述了本地文件系统中的位置，安装时应该查找这些位置，以找到需要与顶级 node_modules 文件夹进行符号链接的每个工作区。就像工作区内有 package.json 一样。常用于一库多包。workspace 中的每一项都是一个包，每个包都有一个 package.json。           |      |            |
+| DEFAULT VALUES       | 不支持的 value                |      |            |   |
+| unpkg                | 上所有的文件都开启 cdn 服务地址                   |      |            |
+| engineStrict         | 不会      |                  |    |               |
+| preferGlobal         | 不会                     |               |    |               |
+| types                | 指定类型文件的目录       |               |    |               |
+| typings                | 指定类型文件的目录       |               |    |               |
+| type                 | 指定规范                 | &quot;module&quot; / &quot;commonjs&quot;             | 默认为&quot;commonjs&quot;       |               |
+| exports              | 可以根据不同的引用方式或者模块化类型，来指定 npm 包引用不同的入口文件。              | 如<code>&quot;exports&quot;: {&quot;import&quot;: &quot;./main-module.js&quot;,&quot;require&quot;: &quot;./main-require.cjs&quot;</code>}import 为 esm 的导入方式，require 为 cjs 的导入方式 | 优先级高于 brower/module/main.比 file 好用。                   |               |</p>
+<!-- prettier-ignore-end -->
 <h3 id="注册-cli-的逻辑">注册 cli 的逻辑</h3>
 <p>在 package.json 中定义<code>bin</code>字段。npm 会根据该字段创建一个软链接。若使用全局安装，则安装在<code>/home/turbo/.nvm/versions/node/v14.16.1/bin/</code>。若使用局部安装，则安装在<code>./node_modules/.bin/</code></p>
 <h2 id="scope">scope</h2>
@@ -896,7 +624,7 @@ process.env.npm_config_registry # 读取
 <h2 id="workspace">workspace</h2>
 <p>在一库多包<code>monorepo</code>项目中使用。</p>
 <ul>
-<li>在项目根目录下的package.json中指定<code>workspaces</code>字段。</li>
+<li>在项目根目录下的 package.json 中指定<code>workspaces</code>字段。</li>
 <li>然后包管理工具会把该字段下的所有子包创建软链接。就像执行了<code>npm link</code>一样。这样就可以在其他子包中使用该子包了。</li>
 </ul>
 <h2 id="title">title</h2>

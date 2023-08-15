@@ -65,23 +65,23 @@
 <tr>
 <td></td>
 <td>ajax</td>
-<td>使用url/请求体请求</td>
+<td>使用 url/请求体请求</td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td></td>
-<td>defer</td>
-<td></td>
+<td>defer(observableFactory)</td>
+<td>等待参数方法返回 Observable 对象</td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td></td>
-<td>from</td>
-<td></td>
+<td>from(input: ObservableInput<T>, scheduler: SchecdulerLike)</td>
+<td>根据数组、类数组、promise/iterable/类 Observable 对象生成一个新的 observable 对象</td>
 <td></td>
 <td></td>
 <td></td>
@@ -89,23 +89,31 @@
 <tr>
 <td></td>
 <td>of</td>
+<td>转化参数为 Observable，然后依次触发。</td>
 <td></td>
 <td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>interval</td>
+<td>period: N = 0, schduler: SchedulerLike = asyncScheduler</td>
+<td>每隔指定时长触发一次值。从 0 开始累加 1。</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td>range</td>
-<td></td>
+<td>指定范围内的整数依次触发</td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td></td>
-<td>iif</td>
-<td></td>
+<td>iif(() =&gt; B, trueResult, falseResult)</td>
+<td>当 cb 返回 true 时返回 trueResult,反之返回 falseResult</td>
 <td></td>
 <td></td>
 <td></td>
@@ -121,7 +129,7 @@
 <tr>
 <td></td>
 <td>concat</td>
-<td></td>
+<td>依次触发全部参数</td>
 <td></td>
 <td></td>
 <td></td>
@@ -129,7 +137,7 @@
 <tr>
 <td></td>
 <td>merge</td>
-<td></td>
+<td>把多个 observable 合并后依次触发</td>
 <td></td>
 <td></td>
 <td></td>
@@ -137,7 +145,7 @@
 <tr>
 <td></td>
 <td>race</td>
-<td></td>
+<td>返回第一个开始触发的 observable</td>
 <td></td>
 <td></td>
 <td></td>
@@ -145,7 +153,7 @@
 <tr>
 <td></td>
 <td>zip</td>
-<td></td>
+<td>溶合多个 observable 的值。返回可观察的二维数组</td>
 <td></td>
 <td></td>
 <td></td>
@@ -160,8 +168,8 @@
 </tr>
 <tr>
 <td></td>
-<td>butter</td>
-<td></td>
+<td>butter(obs$)</td>
+<td>缓存指定 observable 触发前已经触发的值</td>
 <td></td>
 <td></td>
 <td></td>
@@ -177,7 +185,7 @@
 <tr>
 <td></td>
 <td>map</td>
-<td></td>
+<td>依次触发每一个值</td>
 <td></td>
 <td></td>
 <td></td>
@@ -185,7 +193,7 @@
 <tr>
 <td></td>
 <td>scan</td>
-<td></td>
+<td>依次迭代每一个值成为一个值</td>
 <td></td>
 <td></td>
 <td></td>
@@ -201,7 +209,7 @@
 <tr>
 <td></td>
 <td>audit</td>
-<td></td>
+<td>触发满足条件期间的最后一个值</td>
 <td></td>
 <td></td>
 <td></td>
@@ -209,7 +217,7 @@
 <tr>
 <td></td>
 <td>debounce</td>
-<td></td>
+<td>触发指定时长内最后一次值</td>
 <td></td>
 <td></td>
 <td></td>
@@ -217,7 +225,7 @@
 <tr>
 <td></td>
 <td>distinct</td>
-<td></td>
+<td>触发去重后的值</td>
 <td></td>
 <td></td>
 <td></td>
@@ -249,7 +257,7 @@
 <tr>
 <td></td>
 <td>skip</td>
-<td></td>
+<td>触发跳过前几个后的值</td>
 <td></td>
 <td></td>
 <td></td>
@@ -257,7 +265,7 @@
 <tr>
 <td></td>
 <td>take</td>
-<td></td>
+<td>取出前几个。与 skip 互为差运算。</td>
 <td></td>
 <td></td>
 <td></td>
@@ -265,7 +273,7 @@
 <tr>
 <td></td>
 <td>throttle</td>
-<td></td>
+<td>触发指定时间内的第一个值</td>
 <td></td>
 <td></td>
 <td></td>
@@ -281,7 +289,7 @@
 <tr>
 <td></td>
 <td>concatAll</td>
-<td></td>
+<td>压平高阶 observable，并依次触发</td>
 <td></td>
 <td></td>
 <td></td>
@@ -289,7 +297,7 @@
 <tr>
 <td></td>
 <td>mergeAll</td>
-<td></td>
+<td>有序压平后依次触发</td>
 <td></td>
 <td></td>
 <td></td>
@@ -297,22 +305,6 @@
 <tr>
 <td>multicasting operators</td>
 <td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>multicast</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>publish</td>
 <td></td>
 <td></td>
 <td></td>
@@ -485,7 +477,7 @@
 } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;rxjs/ajax&#x27;</span>
 <span class="hljs-keyword">let</span> obs$ = <span class="hljs-title function_">ajax</span>(<span class="hljs-string">&#x27;url&#x27;</span>).<span class="hljs-title function_">pipe</span>(
     <span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">userRes</span>) =&gt;</span> <span class="hljs-title function_">clog</span>(userRes)),
-    <span class="hljs-title function_">catchError</span>(<span class="hljs-function"><span class="hljs-params">error</span> =&gt;</span> {
+    <span class="hljs-title function_">catchError</span>(<span class="hljs-function"><span class="hljs-params">error</span> =&gt;</span> { <span class="hljs-comment">// 当有错误时执行。返回Observable对象</span>
         <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;error&#x27;</span>, error)
         <span class="hljs-keyword">return</span> <span class="hljs-title function_">of</span>(error)
     })
@@ -501,15 +493,40 @@ ajax.<span class="hljs-title function_">getJSON</span>(url)
         <span class="hljs-attr">k</span>: v
     }
 })
+<span class="hljs-title function_">defer</span>(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">random</span>() &gt; <span class="hljs-number">0.5</span> ? <span class="hljs-title function_">fromEvent</span>(<span class="hljs-variable language_">document</span>, <span class="hljs-string">&#x27;click&#x27;</span>):
+    <span class="hljs-title function_">interval</span>(<span class="hljs-number">1000</span>)
+})
+<span class="hljs-title function_">from</span>([<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>])
+<span class="hljs-title function_">of</span>(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>)
+<span class="hljs-title function_">range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">10</span>)
+<span class="hljs-title function_">interval</span>(<span class="hljs-number">1000</span>)
+<span class="hljs-title function_">iif</span>(<span class="hljs-function">() =&gt;</span> b, <span class="hljs-title function_">of</span>(<span class="hljs-string">&#x27;first&#x27;</span>), <span class="hljs-title function_">of</span>(<span class="hljs-string">&#x27;second&#x27;</span>))
+b = <span class="hljs-literal">true</span>
 
+<span class="hljs-keyword">let</span> timer1 = <span class="hljs-title function_">interval</span>(<span class="hljs-number">1000</span>).<span class="hljs-title function_">pipe</span>(<span class="hljs-title function_">take</span>(<span class="hljs-number">10</span>))
+<span class="hljs-keyword">let</span> timer2 = <span class="hljs-title function_">interval</span>(<span class="hljs-number">2000</span>).<span class="hljs-title function_">pipe</span>(<span class="hljs-title function_">take</span>(<span class="hljs-number">6</span>))
+<span class="hljs-keyword">let</span> timer3 = <span class="hljs-title function_">interval</span>(<span class="hljs-number">500</span>).<span class="hljs-title function_">pipe</span>(<span class="hljs-title function_">take</span>(<span class="hljs-number">10</span>))
+<span class="hljs-title function_">concat</span>(timer1, timer2, timer3)
 
+<span class="hljs-keyword">let</span> clicks = <span class="hljs-title function_">fromEvent</span>(<span class="hljs-variable language_">document</span>, <span class="hljs-string">&#x27;click&#x27;</span>)
+<span class="hljs-keyword">let</span> timer = <span class="hljs-title function_">interval</span>(<span class="hljs-number">1000</span>)
+<span class="hljs-title function_">merge</span>(clicks, timer)
+<span class="hljs-title function_">race</span>(obs1, obs2, obs3)
+<span class="hljs-title function_">zip</span>(age$, name$, isDev$) <span class="hljs-comment">// [[age, name, isDev], ...]</span>
 
-
-
-
-
-
-
+<span class="hljs-title function_">interval</span>(<span class="hljs-number">1000</span>).<span class="hljs-title function_">pipe</span>(<span class="hljs-title function_">buffer</span>(<span class="hljs-title function_">fromEvent</span>(<span class="hljs-variable language_">document</span>, <span class="hljs-string">&#x27;click&#x27;</span>)))
+<span class="hljs-title function_">fromEvent</span>(<span class="hljs-variable language_">document</span>, <span class="hljs-string">&#x27;click&#x27;</span>).<span class="hljs-title function_">pipe</span>(
+    <span class="hljs-title function_">scan</span>(<span class="hljs-function"><span class="hljs-params">i</span> =&gt;</span> ++i, <span class="hljs-number">1</span>),
+    <span class="hljs-title function_">debounce</span>(<span class="hljs-function"><span class="hljs-params">i</span> =&gt;</span> <span class="hljs-title function_">interval</span>(<span class="hljs-number">200</span> * i))
+)
+<span class="hljs-title function_">fromEvent</span>(<span class="hljs-variable language_">document</span>, <span class="hljs-string">&#x27;click&#x27;</span>).<span class="hljs-title function_">pipe</span>(<span class="hljs-title function_">audit</span>(<span class="hljs-function"><span class="hljs-params">ev</span> =&gt;</span> <span class="hljs-title function_">interval</span>(<span class="hljs-number">1000</span>)))
+<span class="hljs-title function_">of</span>(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>).<span class="hljs-title function_">pipe</span>(
+    <span class="hljs-title function_">distinct</span>()
+)
+source$.<span class="hljs-title function_">pipe</span>(<span class="hljs-title function_">skip</span>(<span class="hljs-number">12</span>)) <span class="hljs-comment">// 跳过前12个</span>
+source$.<span class="hljs-title function_">pipe</span>(<span class="hljs-title function_">take</span>(<span class="hljs-number">2</span>)) <span class="hljs-comment">// 触发前2个</span>
+source$.<span class="hljs-title function_">pipe</span>(<span class="hljs-title function_">throttle</span>(<span class="hljs-function">() =&gt;</span> {<span class="hljs-title function_">interval</span>(<span class="hljs-number">1000</span>)}))
 
 
 

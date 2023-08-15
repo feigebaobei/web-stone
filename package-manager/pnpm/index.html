@@ -135,7 +135,7 @@ pnpm add &lt;pkg&gt; # =&gt; npm i &lt;pkg&gt;
 pnpm &lt;cmd&gt; # =&gt; npm run &lt;cmd&gt;
 </code></pre>
 <h3 id="定义别名">定义别名</h3>
-<p>在<code>.bashrc</code>或<code>.zshrc</code>或<code>config.fish</code>中添加：<code>alias pn=pnpm</code></p>
+<p>在<code>.bashrc</code>或<code>.zshrc</code>或<code> .fish</code>中添加：<code>alias pn=pnpm</code></p>
 <h3 id="uninstall">uninstall</h3>
 <pre><code class="language-shell">pnpm ls -g # 列出所有全局包
 pnpm rm -g &lt;pkg&gt;... # 列出每个全局包
@@ -388,6 +388,16 @@ pnpm --filter ./packages/&lt;name&gt; add &lt;package&gt;
 <h2 id="workspace">workspace</h2>
 <p>一库多包项目可以连接起本地开发包的引用关系。
 该类项目的根目录下必须有<code>pnpm-workspace.yaml</code>.有它的目录就是命名空间的根目录。</p>
+<h2 id="config">config</h2>
+<pre><code class="language-shell">pnpm config list # 查看配置
+global-bin-dir=D:\pnpm_node_module
+registry=http://registry.npmjs.org/
+store-dir=D:\pnpm_node_module
+user-agent=pnpm/8.2.0 npm/? node/v16.16.0 win32 x64
+pnpm config set store-dir D:\\node\\global # 设置全局地址
+pnpm config set cache-dir D:\\node\\cache # 设置缓存地址
+
+</code></pre>
 <h2 id="api">api</h2>
 <h2 id="principle">principle</h2>
 <p>此包的处理逻辑。</p>

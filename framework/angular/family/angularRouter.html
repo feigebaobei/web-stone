@@ -43,24 +43,48 @@
         <h1 id="anuglarrouter">@anuglar/router</h1>
 <h2 id="overview">overview</h2>
 <blockquote>
-<p>TODO: description</p>
+<p>基于index.html中的base url<code>&lt;base href=&quot;/&quot;&gt;</code></p>
 </blockquote>
 <h3 id="feature">feature</h3>
 <ul>
-<li>feature0</li>
-<li>feature1</li>
-<li>feature2</li>
+<li>定义路由</li>
 </ul>
 <h2 id="install">install</h2>
 <p>一般使用<code>ng</code>命令行安装，不需要手动安装。
 <code>npm i @anuglar/router</code></p>
 <h2 id="usage">usage</h2>
+<ul>
+<li>可以为模块设置路由</li>
+<li>app-routing.module.ts</li>
+<li>在模块的类文件引入，并使用<code>@NgModule({imports: [RouterModule.forRoot(routes)]})</code>或者<code>@NgModule({imports: [...AppRoutingModule]})</code></li>
+<li></li>
+</ul>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> [<span class="hljs-attr">routerLink</span>]=<span class="hljs-string">&quot;[/home]&quot;</span>&gt;</span>home<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
 <span class="hljs-comment">&lt;!-- 匹配路由后，组件的出口 --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">router-outlet</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">router-outlet</span>&gt;</span>
 </code></pre>
 <pre><code class="language-ts"><span class="hljs-keyword">let</span> <span class="hljs-attr">routes</span>: <span class="hljs-title class_">Routes</span> = [
   { <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;home&#x27;</span>, <span class="hljs-attr">component</span>: <span class="hljs-title class_">HomeComponent</span> },
+  <span class="hljs-comment">// 重定向</span>
+  { <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-attr">redirectTo</span>: <span class="hljs-string">&#x27;home&#x27;</span>, <span class="hljs-attr">pathMatch</span>: <span class="hljs-string">&#x27;full&#x27;</span> },
+  <span class="hljs-comment">// 嵌套路由</span>
+  { <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;first&#x27;</span>, <span class="hljs-attr">component</span>: <span class="hljs-title class_">FirstComp</span>, <span class="hljs-attr">children</span>: [{
+    <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;second&#x27;</span>, <span class="hljs-attr">component</span>: <span class="hljs-title class_">SecondComp</span>
+  }]}
+  <span class="hljs-comment">// 动态路由</span>
+  { <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;third/:id&#x27;</span>, <span class="hljs-attr">component</span>: <span class="hljs-title class_">ThirdComp</span> }
+  <span class="hljs-comment">// 使用路由守卫</span>
+  { <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;third/:id&#x27;</span>, <span class="hljs-attr">component</span>: <span class="hljs-title class_">ThirdComp</span>, <span class="hljs-attr">canActivate</span>: [<span class="hljs-title class_">AuthGuard</span>] }
+  { <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;third/:id&#x27;</span>, <span class="hljs-attr">component</span>: <span class="hljs-title class_">ThirdComp</span>, <span class="hljs-attr">children</span>: [{
+    <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;&#x27;</span>,
+    <span class="hljs-attr">canActivateChild</span>: [<span class="hljs-title class_">AuthGuard</span>],
+    <span class="hljs-attr">children</span>: [{
+      <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;detail&#x27;</span>,
+      <span class="hljs-attr">component</span>: <span class="hljs-title class_">DetailComp</span>,
+    }]
+  }] <span class="hljs-attr">canActivate</span>: [<span class="hljs-title class_">AuthGuard</span>] }
+
+  <span class="hljs-comment">// 通配路由放在最后。</span>
   { <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;**&#x27;</span>, <span class="hljs-attr">component</span>: <span class="hljs-title class_">NotFountComponent</span> },
   <span class="hljs-comment">// ...</span>
 ]
@@ -72,7 +96,132 @@
 <span class="hljs-variable language_">this</span>.<span class="hljs-property">router</span>.<span class="hljs-title function_">navigate</span>([<span class="hljs-string">&#x27;path&#x27;</span>, <span class="hljs-string">&#x27;path2&#x27;</span>], { <span class="hljs-attr">skipLocationChange</span>: <span class="hljs-literal">true</span> }) <span class="hljs-comment">// 保持浏览器的url不变。且传入的参数有效。</span>
 <span class="hljs-variable language_">this</span>.<span class="hljs-property">router</span>.<span class="hljs-title function_">navigate</span>([<span class="hljs-string">&#x27;path&#x27;</span>, <span class="hljs-string">&#x27;path2&#x27;</span>], { <span class="hljs-attr">replaceUrl</span>: <span class="hljs-literal">true</span> }) <span class="hljs-comment">// 是否跳转</span>
 </code></pre>
+<h3 id="在组件中使用">在组件中使用</h3>
+<pre><code class="language-ts">&lt;a [routerLink]=<span class="hljs-string">&quot;[/home]&quot;</span> routerLinkActive=<span class="hljs-string">&quot;active&quot;</span>&gt;home&lt;/a&gt;
+<span class="hljs-variable language_">this</span>.<span class="hljs-property">router</span>.<span class="hljs-title function_">navigate</span>([<span class="hljs-string">&#x27;/news&#x27;</span>], {
+  <span class="hljs-attr">queryParams</span>: {
+    <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span>
+  }
+})
+</code></pre>
+<h3 id="路由守卫">路由守卫</h3>
+<pre><code></code></pre>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CanActivate</td>
+<td>用来处理系统跳转到到某个路由地址的操作（判断是否可以进行访问）</td>
+</tr>
+<tr>
+<td>CanActivateChild</td>
+<td>功能同 CanActivate，只不过针对的是子路由</td>
+</tr>
+<tr>
+<td>CanDeactivate</td>
+<td>用来处理从当前路由离开的情况（判断是否存在未提交的信息）</td>
+</tr>
+<tr>
+<td>CanLoad</td>
+<td>是否允许通过延迟加载的方式加载某个模块</td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>路由守卫的返回值</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>true</td>
+<td>导航将会继续</td>
+</tr>
+<tr>
+<td>false</td>
+<td>导航将会中断，用户停留在当前的页面或者是跳转到指定的页面</td>
+</tr>
+<tr>
+<td>UrlTree</td>
+<td>取消当前的导航，并导航到路由守卫返回的这个 UrlTree 上（一个新的路由信息）</td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<pre><code class="language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Injectable</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/core&#x27;</span>
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">CanActivate</span>, <span class="hljs-title class_">UrlTree</span>,
+ } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/router&#x27;</span>
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Observable</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;rxjs&#x27;</span>
+
+<span class="hljs-meta">@Injectable</span>({
+  <span class="hljs-attr">providedIn</span>: <span class="hljs-string">&#x27;root&#x27;</span>
+})
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AuthGuard</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">CanActivate</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> router: Router</span>) {
+    }
+  <span class="hljs-title function_">canActivate</span>(
+    <span class="hljs-attr">next</span>: <span class="hljs-title class_">ActivatedRouteSnapshot</span>,
+    <span class="hljs-attr">state</span>: <span class="hljs-title class_">RouterStateSnapshot</span>
+  ): <span class="hljs-title class_">Observable</span>&lt;<span class="hljs-built_in">boolean</span> | <span class="hljs-title class_">UrlTree</span>&gt; | 
+    <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">boolean</span> | <span class="hljs-title class_">UrlTree</span>&gt; | 
+    <span class="hljs-built_in">boolean</span> | 
+    <span class="hljs-title class_">UrlTree</span> {
+      <span class="hljs-keyword">if</span> (condition) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">router</span>.<span class="hljs-title function_">navigate</span>([<span class="hljs-string">&#x27;/login&#x27;</span>])
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>
+      }
+  }
+  <span class="hljs-title function_">canActivateChild</span>(
+    <span class="hljs-attr">childRoute</span>: <span class="hljs-title class_">ActivatedRouteSnapshot</span>,
+    <span class="hljs-attr">state</span>: <span class="hljs-title class_">RouterStateSnapshot</span>,
+  ): <span class="hljs-built_in">boolean</span> | <span class="hljs-title class_">UrlTree</span> | <span class="hljs-title class_">Observable</span>&lt;<span class="hljs-built_in">boolean</span> | <span class="hljs-title class_">UrlTree</span>&gt; | 
+    <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">boolean</span> | <span class="hljs-title class_">UrlTree</span>&gt; {
+      ...
+    }
+  <span class="hljs-title function_">canDeactivate</span>(
+    <span class="hljs-attr">component</span>: unknow,
+    <span class="hljs-attr">currentRoute</span>: <span class="hljs-title class_">ActivatedRouteSnapshot</span>,
+    <span class="hljs-attr">currentState</span>: <span class="hljs-title class_">RouterStateSnapshot</span>,
+    nextState?: <span class="hljs-title class_">RouterStateSnapshot</span>,
+  ) <span class="hljs-built_in">boolean</span> | <span class="hljs-title class_">UrlTree</span> | <span class="hljs-title class_">Observable</span>&lt;<span class="hljs-built_in">boolean</span> | <span class="hljs-title class_">UrlTree</span>&gt; | 
+    <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">boolean</span> | <span class="hljs-title class_">UrlTree</span>&gt; {
+      ...
+    }
+  <span class="hljs-title function_">canLoad</span>(<span class="hljs-params"></span>) {}
+}
+</code></pre>
 <h3 id="懒加载">懒加载</h3>
+<ol>
+<li>创建特性模块</li>
+<li>在根模块中引入并在imports中的要路由模块前使用特征模块。</li>
+<li>在特性模块中创建组件，创建路由。</li>
+<li>在根模块的路由中指定懒加载的模块。</li>
+</ol>
+<pre><code class="language-ts"><span class="hljs-keyword">const</span> <span class="hljs-attr">routes</span>: <span class="hljs-title class_">Routes</span> = [
+  {
+    <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;str&#x27;</span>,
+    <span class="hljs-attr">loadChildren</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">import</span>(<span class="hljs-string">&#x27;path&#x27;</span>).<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">m</span> =&gt;</span> m.<span class="hljs-property">CrisisModule</span>)
+  }
+]
+<span class="hljs-meta">@NgModule</span>({
+  <span class="hljs-attr">imports</span>: [
+    <span class="hljs-title class_">RouterModule</span>.<span class="hljs-title function_">forRoot</span>(routes, {
+      <span class="hljs-attr">enableTracing</span>: <span class="hljs-literal">true</span>
+    })
+  ]
+})
+</code></pre>
 <h2 id="configuration">configuration</h2>
 <p>默认配置文件：<code>path/to/file.json</code>。</p>
 <!-- prettier-ignore-start -->

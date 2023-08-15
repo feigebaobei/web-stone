@@ -76,7 +76,7 @@ pnpm <cmd> # => npm run <cmd>
 
 ### 定义别名
 
-在`.bashrc`或`.zshrc`或`config.fish`中添加：`alias pn=pnpm`
+在`.bashrc`或`.zshrc`或` .fish`中添加：`alias pn=pnpm`
 
 ### uninstall
 
@@ -175,6 +175,19 @@ packages:
 
 一库多包项目可以连接起本地开发包的引用关系。
 该类项目的根目录下必须有`pnpm-workspace.yaml`.有它的目录就是命名空间的根目录。
+
+## config
+
+```shell
+pnpm config list # 查看配置
+global-bin-dir=D:\pnpm_node_module
+registry=http://registry.npmjs.org/
+store-dir=D:\pnpm_node_module
+user-agent=pnpm/8.2.0 npm/? node/v16.16.0 win32 x64
+pnpm config set store-dir D:\\node\\global # 设置全局地址
+pnpm config set cache-dir D:\\node\\cache # 设置缓存地址
+
+```
 
 ## api
 
