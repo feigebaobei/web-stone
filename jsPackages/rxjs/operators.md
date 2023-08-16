@@ -61,7 +61,7 @@ import {
 } from 'rxjs/ajax'
 let obs$ = ajax('url').pipe(
     map((userRes) => clog(userRes)),
-    catchError(error => {
+    catchError(error => { // 当有错误时执行。返回Observable对象
         clog('error', error)
         return of(error)
     })

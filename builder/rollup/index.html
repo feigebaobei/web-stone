@@ -331,6 +331,43 @@ rollup main.js -o bundle.js -f umd --name &quot;myBundle&quot;
 </tr>
 </tbody>
 </table>
+<h3 id="demo-常用配置项">demo 常用配置项</h3>
+<pre><code class="language-ts"><span class="hljs-comment">// rollup.config.js</span>
+<span class="hljs-keyword">import</span> resolve <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@rollup/plugin-node-resolve&#x27;</span>
+<span class="hljs-keyword">import</span> commonjs <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@rollup/plugin-commonjs&#x27;</span>
+<span class="hljs-comment">// import externals from &#x27;rollup-plugin-node-externals&#x27;</span>
+<span class="hljs-keyword">import</span> postcss <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;rollup-plugin-postcss&#x27;</span>
+<span class="hljs-keyword">import</span> autoprefixer <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;autoprefixer&#x27;</span>
+<span class="hljs-keyword">import</span> cssnano <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;cssnano&#x27;</span>
+<span class="hljs-keyword">import</span> typescript <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@rollup/plugin-typescript&#x27;</span>
+<span class="hljs-keyword">import</span> strip <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@rollup/plugin-strip&#x27;</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  <span class="hljs-attr">input</span>: <span class="hljs-string">&#x27;src/main.js&#x27;</span>,
+  <span class="hljs-attr">output</span>: {
+    <span class="hljs-attr">file</span>: <span class="hljs-string">&#x27;bundle.js&#x27;</span>,
+    <span class="hljs-attr">format</span>: <span class="hljs-string">&#x27;es&#x27;</span>, <span class="hljs-comment">// 打包为es规范，会按需输出。</span>
+    <span class="hljs-attr">exports</span>: <span class="hljs-string">&#x27;named&#x27;</span>, <span class="hljs-comment">// 指定导出模式（自动、默认、命名、无）</span>
+    <span class="hljs-attr">preserveModules</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// 保留模块结构</span>
+    <span class="hljs-attr">preserveModulesRoot</span>: <span class="hljs-string">&#x27;src&#x27;</span>, <span class="hljs-comment">// 将保留的模块放在根级别的此路径下</span>
+  },
+  <span class="hljs-attr">plugins</span>: [
+    <span class="hljs-title function_">resolve</span>(),
+    <span class="hljs-title function_">commonjs</span>(),
+    <span class="hljs-comment">// externals({devDeps: false})</span>
+    <span class="hljs-title function_">postcss</span>({
+      <span class="hljs-attr">plugins</span>: [<span class="hljs-title function_">autoprefixer</span>(), <span class="hljs-title function_">cssnano</span>()],
+    }),
+    <span class="hljs-title function_">typescript</span>({
+      <span class="hljs-attr">outDir</span>: <span class="hljs-string">&#x27;dist&#x27;</span>,
+      <span class="hljs-attr">declaration</span>: <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">declarationDir</span>: <span class="hljs-string">&#x27;dist&#x27;</span>,
+    }),
+    <span class="hljs-title function_">strip</span>()
+  ],
+  <span class="hljs-attr">external</span>: [<span class="hljs-string">&#x27;react&#x27;</span>]
+}
+</code></pre>
 <h3 id="配置文件的基本结构">配置文件的基本结构</h3>
 <pre><code class="language-js"><span class="hljs-comment">// 待测试</span>
 <span class="hljs-keyword">import</span> { nodeResolve } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@rollup/plugin-node-resolve&#x27;</span>

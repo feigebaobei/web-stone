@@ -275,6 +275,46 @@ export default (commandLineArgs) => {
 ||node v13+ 且 `*.mjs`，则不转换。但是入口文件必须是 esm 规范|||
 |Esm 比 cjs 好用这么多。请推荐使用 esm。||||
 
+### demo 常用配置项
+
+```ts
+// rollup.config.js
+import resolve from '@rollup/plugin-node-resolve'
+import commonjs from '@rollup/plugin-commonjs'
+// import externals from 'rollup-plugin-node-externals'
+import postcss from 'rollup-plugin-postcss'
+import autoprefixer from 'autoprefixer'
+import cssnano from 'cssnano'
+import typescript from '@rollup/plugin-typescript'
+import strip from '@rollup/plugin-strip'
+
+export default {
+  input: 'src/main.js',
+  output: {
+    file: 'bundle.js',
+    format: 'es', // 打包为es规范，会按需输出。
+    exports: 'named', // 指定导出模式（自动、默认、命名、无）
+    preserveModules: true, // 保留模块结构
+    preserveModulesRoot: 'src', // 将保留的模块放在根级别的此路径下
+  },
+  plugins: [
+    resolve(),
+    commonjs(),
+    // externals({devDeps: false})
+    postcss({
+      plugins: [autoprefixer(), cssnano()],
+    }),
+    typescript({
+      outDir: 'dist',
+      declaration: true,
+      declarationDir: 'dist',
+    }),
+    strip(),
+  ],
+  external: ['react'],
+}
+```
+
 ### 配置文件的基本结构
 
 ```js
