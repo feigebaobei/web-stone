@@ -20,10 +20,12 @@
 ### feature
 
 - 多包一库管理工具。
-- 包管理工具，比 npm/yarn 强大。
+- 包管理工具，比 npm/yarn 强大。用法上与竞品无区别，内部逻辑不同。
 - 会检验所有参数。若一个参数出错，则无法执行。
 - pnpm run cmd <=> pnpm cmd. 若找到具名脚本则执行引脚本，否则当作 shell 执行。
 - pnpm 使用 npm 的配置。
+- 有自己的锁文件。
+- 管理 node 环境。
 
 ## install
 
@@ -101,7 +103,7 @@ pnpm --filter ./packages/<name> add <package>
 ## configuration
 
 使用`npm`的配置
-默认配置文件：`path/to/.npmrc`。  
+默认配置文件：`<root>/.npmrc`。  
 |key|description|default|enum|demo|||
 |-|-|-|-|-|-|-|
 ||||||||
@@ -112,7 +114,14 @@ pnpm --filter ./packages/<name> add <package>
 
 详见 [npm](/package-manager/npm/index.html) 的 package.json 各字段说明
 
-### .npmrc
+### [.npmrc](/package-manager/pnpm/npmrc.html)
+
+pnpm 会加载配置项、环境变量。
+
+- 当前项目中的 `/path/to/my/project/.npmrc`
+- 当前工作空间的`pnpm-workspace.yaml`
+- 当前用户的`~/.npmrc`
+- 当前设备的`/etc/npmrc`
 
 ### pnpm-workspace.yaml
 
@@ -132,35 +141,65 @@ packages:
 
 ## cli
 
+该包有一库多包管理功能，所以一定要有处理多个工作工作空间、子包的命令。`--filter`
+
 未完。
-| | | | |
-| ----------------------------------- | --- | ------------------------------------ | --------------------- |
-| add | | 安装包 | 同`npm install <pkg>` |
-| import | | 生成 pnpm-lock.yaml | |
-| install | i | 安装所有依赖 | 同`npm install` |
-| install-test | it | 执行完 pnpm install 后执行 pnpm test | |
-| link | ln | 创立本地软链接 | |
-| prune | | 删除无关联的依赖包 | |
-| rebuild | rb | 重新打包 | |
-| remove | rm | 删除本项目的 node_modules | |
-| unlink | | 取消本地软链接 | |
-| update | up | 更新依赖包成为允许的最新版本 | |
-| audit | | 检查不安全的依赖 | |
-| list | ls | 以树状结构列出所有依赖 | |
-| outdated | | 检测过时的依赖包 | |
-| exec | | 执行指定 command | |
-| run | | 执行指定脚本 | 同`npm run` |
-| start | | 执行 start 脚本 | |
-| test | | 执行 test 脚本 | |
-| pack | | | |
-| publish | | 发布包 | `pnpm publish <name> [flags]`|
-| root | | | |
-| store add | | | |
-| store add | | | |
-| store add | | | |
-| store add | | | |
-| store add | | | |
-| ...还有一些未在 help 中显露的子命令 | | | |
+
+<!-- prettier-ignore-start -->
+|命令|简写 | 说明|对比 |选项|
+| ----------------------------------- | --- | ------------------------------------ | --------------------- |--|
+| add | | 安装包 | 同`npm install <pkg>` |-P -D -O -E --save-peer -g --workspace `--filter <package_selector>`|
+| import | | 从其他锁文件（`package-lock.json / npm-shrinkwrap.json / yarn.json`）生成 pnpm-lock.yaml | ||
+| install | i | 安装所有依赖 | 同`npm install` | --force --offline -P --ignore-scripts|
+| install-test | it | 执行完 pnpm install 后执行 pnpm test | |无选项|
+| link | ln | 创立本地软链接 | |`--dir <dir>` -C|
+| unlink |  | 取消本地软链接 | | -r `--filter <package_selector>`|
+| prune | | 删除无关联的依赖包 | |--prod --no-optional|
+| rebuild | rb | 重新打包 | ||
+| remove | rm | 删除本项目的 node_modules | | -r -g -O -P --filter|
+| unlink | | 取消本地软链接 | ||
+| update | up | 更新依赖包成为允许的最新版本 | |--latest -L -g --workspace -P -D|
+| audit | | 检查不安全的依赖 | |`--audit-level <severity>` --json -D -P|
+| list | ls | 以树状结构列出所有依赖 | |-r --json --long -g -P -D|
+| outdated | | 检测过时的依赖包 | |-r -g --long -D -P|
+| exec | | (已经在node_modules/.bin中添加PATH)执行指定 command. | ||
+| run | | 执行指定脚本 | 同`npm run` ||
+| start | | 执行 start 脚本 | ||
+| test | | 执行 test 脚本 | ||
+| pack | | | ||
+| publish | | 发布包。会触发的生命周期方法`prepublishOnly prepublish prepack postpack publish postpublish` | `pnpm publish <name> [flags]`|-r --json `--tag <tag>` --force --dry-run|
+| root | |显示有效的模块目录 | ||
+| bin | |可执行命令的目录 | ||
+| dedupe | | 移除旧版本（相当于现有node_modules中的版本号）的包 | |--check|
+| fetch | | 不会| |-D -P|
+| patch | |提取一个包到临时目录。为了修改此包中的内容。 | |`--edit-dir <dir>`|
+| `patch-commit <path>` | |提取出一个目录 | ||
+| why | |显示所有包的依赖关系 | |-r --json --long -g -P -D|
+| licenses | | | ||
+| dlx | |安装依赖并不写package.json,运行默认命令。 | ||
+| create | | 从`create-*`/`@foo/create-*`开始工具中创建项目 | |无选项|
+| `env <cmd>` | | 管理node环境| ||
+|  | | | `pnpm env use --global lts`|安装并使用指定版本|
+|  | | | `pnpm env remove --global 14.0.0`||
+|  | | | `pnpm env list`|--remote|
+| pack | |创建一个tarball包 | ||
+| server |管理store server | | ||
+| store status | | | ||
+| store add | | | ||
+| store prune | | | ||
+| store path | | | ||
+| setup | |用于标准的加载脚本。 | ||
+| init | |创建package.json文件 | ||
+| deploy | |不会 | ||
+| doctor | |不会 | ||
+| config c | |管理配置文件 | | -g --location --json|
+| `config set <key> <value>` | | | ||
+| `config get <key>`| | | ||
+| `config delete <key>` | | | ||
+| config list | | | ||
+| config c | | | ||
+| ...还有一些未在 help 中显露的子命令 | | | ||
+<!-- prettier-ignore-end -->
 
 `-c / --dir` 指定工具目录  
 `-w / --workspace-root` 指定工具根目录  

@@ -94,10 +94,12 @@
 <h3 id="feature">feature</h3>
 <ul>
 <li>多包一库管理工具。</li>
-<li>包管理工具，比 npm/yarn 强大。</li>
+<li>包管理工具，比 npm/yarn 强大。用法上与竞品无区别，内部逻辑不同。</li>
 <li>会检验所有参数。若一个参数出错，则无法执行。</li>
 <li>pnpm run cmd &lt;=&gt; pnpm cmd. 若找到具名脚本则执行引脚本，否则当作 shell 执行。</li>
 <li>pnpm 使用 npm 的配置。</li>
+<li>有自己的锁文件。</li>
+<li>管理node环境。</li>
 </ul>
 <h2 id="install">install</h2>
 <h3 id="非-nodejs-环境">非 node.js 环境</h3>
@@ -152,7 +154,7 @@ pnpm --filter ./packages/&lt;name&gt; add &lt;package&gt;
 </code></pre>
 <h2 id="configuration">configuration</h2>
 <p>使用<code>npm</code>的配置
-默认配置文件：<code>path/to/.npmrc</code>。</p>
+默认配置文件：<code>&lt;root&gt;/.npmrc</code>。</p>
 <table>
 <thead>
 <tr>
@@ -210,14 +212,17 @@ pnpm --filter ./packages/&lt;name&gt; add &lt;package&gt;
 </code></pre>
 <h3 id="pnpmfilecjs">.pnpmfile.cjs</h3>
 <h2 id="cli">cli</h2>
+<p>该包有一库多包管理功能，所以一定要有处理多个工作工作空间、子包的命令。<code>--filter</code></p>
 <p>未完。</p>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
+<th>命令</th>
+<th>简写</th>
+<th>说明</th>
+<th>对比</th>
+<th>选项</th>
 </tr>
 </thead>
 <tbody>
@@ -226,11 +231,13 @@ pnpm --filter ./packages/&lt;name&gt; add &lt;package&gt;
 <td></td>
 <td>安装包</td>
 <td>同<code>npm install &lt;pkg&gt;</code></td>
+<td>-P -D -O -E --save-peer -g --workspace <code>--filter &lt;package_selector&gt;</code></td>
 </tr>
 <tr>
 <td>import</td>
 <td></td>
-<td>生成 pnpm-lock.yaml</td>
+<td>从其他锁文件（<code>package-lock.json / npm-shrinkwrap.json / yarn.json</code>）生成 pnpm-lock.yaml</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -238,29 +245,41 @@ pnpm --filter ./packages/&lt;name&gt; add &lt;package&gt;
 <td>i</td>
 <td>安装所有依赖</td>
 <td>同<code>npm install</code></td>
+<td>--force --offline -P --ignore-scripts</td>
 </tr>
 <tr>
 <td>install-test</td>
 <td>it</td>
 <td>执行完 pnpm install 后执行 pnpm test</td>
 <td></td>
+<td>无选项</td>
 </tr>
 <tr>
 <td>link</td>
 <td>ln</td>
 <td>创立本地软链接</td>
 <td></td>
+<td><code>--dir &lt;dir&gt;</code> -C</td>
+</tr>
+<tr>
+<td>unlink</td>
+<td></td>
+<td>取消本地软链接</td>
+<td></td>
+<td>-r <code>--filter &lt;package_selector&gt;</code></td>
 </tr>
 <tr>
 <td>prune</td>
 <td></td>
 <td>删除无关联的依赖包</td>
 <td></td>
+<td>--prod --no-optional</td>
 </tr>
 <tr>
 <td>rebuild</td>
 <td>rb</td>
 <td>重新打包</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -268,11 +287,13 @@ pnpm --filter ./packages/&lt;name&gt; add &lt;package&gt;
 <td>rm</td>
 <td>删除本项目的 node_modules</td>
 <td></td>
+<td>-r -g -O -P --filter</td>
 </tr>
 <tr>
 <td>unlink</td>
 <td></td>
 <td>取消本地软链接</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -280,29 +301,34 @@ pnpm --filter ./packages/&lt;name&gt; add &lt;package&gt;
 <td>up</td>
 <td>更新依赖包成为允许的最新版本</td>
 <td></td>
+<td>--latest -L -g --workspace -P -D</td>
 </tr>
 <tr>
 <td>audit</td>
 <td></td>
 <td>检查不安全的依赖</td>
 <td></td>
+<td><code>--audit-level &lt;severity&gt;</code> --json -D -P</td>
 </tr>
 <tr>
 <td>list</td>
 <td>ls</td>
 <td>以树状结构列出所有依赖</td>
 <td></td>
+<td>-r --json --long -g -P -D</td>
 </tr>
 <tr>
 <td>outdated</td>
 <td></td>
 <td>检测过时的依赖包</td>
 <td></td>
+<td>-r -g --long -D -P</td>
 </tr>
 <tr>
 <td>exec</td>
 <td></td>
-<td>执行指定 command</td>
+<td>(已经在node_modules/.bin中添加PATH)执行指定 command.</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -310,11 +336,13 @@ pnpm --filter ./packages/&lt;name&gt; add &lt;package&gt;
 <td></td>
 <td>执行指定脚本</td>
 <td>同<code>npm run</code></td>
+<td></td>
 </tr>
 <tr>
 <td>start</td>
 <td></td>
 <td>执行 start 脚本</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -322,9 +350,11 @@ pnpm --filter ./packages/&lt;name&gt; add &lt;package&gt;
 <td></td>
 <td>执行 test 脚本</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>pack</td>
+<td></td>
 <td></td>
 <td></td>
 <td></td>
@@ -332,12 +362,126 @@ pnpm --filter ./packages/&lt;name&gt; add &lt;package&gt;
 <tr>
 <td>publish</td>
 <td></td>
-<td>发布包</td>
+<td>发布包。会触发的生命周期方法<code>prepublishOnly prepublish prepack postpack publish postpublish</code></td>
 <td><code>pnpm publish &lt;name&gt; [flags]</code></td>
+<td>-r --json <code>--tag &lt;tag&gt;</code> --force --dry-run</td>
 </tr>
 <tr>
 <td>root</td>
 <td></td>
+<td>显示有效的模块目录</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>bin</td>
+<td></td>
+<td>可执行命令的目录</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>dedupe</td>
+<td></td>
+<td>移除旧版本（相当于现有node_modules中的版本号）的包</td>
+<td></td>
+<td>--check</td>
+</tr>
+<tr>
+<td>fetch</td>
+<td></td>
+<td>不会</td>
+<td></td>
+<td>-D -P</td>
+</tr>
+<tr>
+<td>patch</td>
+<td></td>
+<td>提取一个包到临时目录。为了修改此包中的内容。</td>
+<td></td>
+<td><code>--edit-dir &lt;dir&gt;</code></td>
+</tr>
+<tr>
+<td><code>patch-commit &lt;path&gt;</code></td>
+<td></td>
+<td>提取出一个目录</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>why</td>
+<td></td>
+<td>显示所有包的依赖关系</td>
+<td></td>
+<td>-r --json --long -g -P -D</td>
+</tr>
+<tr>
+<td>licenses</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>dlx</td>
+<td></td>
+<td>安装依赖并不写package.json,运行默认命令。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>create</td>
+<td></td>
+<td>从<code>create-*</code>/<code>@foo/create-*</code>开始工具中创建项目</td>
+<td></td>
+<td>无选项</td>
+</tr>
+<tr>
+<td><code>env &lt;cmd&gt;</code></td>
+<td></td>
+<td>管理node环境</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><code>pnpm env use --global lts</code></td>
+<td>安装并使用指定版本</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><code>pnpm env remove --global 14.0.0</code></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><code>pnpm env list</code></td>
+<td>--remote</td>
+</tr>
+<tr>
+<td>pack</td>
+<td></td>
+<td>创建一个tarball包</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>server</td>
+<td>管理store server</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>store status</td>
+<td></td>
+<td></td>
 <td></td>
 <td></td>
 </tr>
@@ -346,27 +490,88 @@ pnpm --filter ./packages/&lt;name&gt; add &lt;package&gt;
 <td></td>
 <td></td>
 <td></td>
-</tr>
-<tr>
-<td>store add</td>
-<td></td>
-<td></td>
 <td></td>
 </tr>
 <tr>
-<td>store add</td>
+<td>store prune</td>
+<td></td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td>store add</td>
+<td>store path</td>
+<td></td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td>store add</td>
+<td>setup</td>
+<td></td>
+<td>用于标准的加载脚本。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>init</td>
+<td></td>
+<td>创建package.json文件</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>deploy</td>
+<td></td>
+<td>不会</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>doctor</td>
+<td></td>
+<td>不会</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>config c</td>
+<td></td>
+<td>管理配置文件</td>
+<td></td>
+<td>-g --location --json</td>
+</tr>
+<tr>
+<td><code>config set &lt;key&gt; &lt;value&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>config get &lt;key&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>config delete &lt;key&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>config list</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>config c</td>
+<td></td>
 <td></td>
 <td></td>
 <td></td>
@@ -376,9 +581,11 @@ pnpm --filter ./packages/&lt;name&gt; add &lt;package&gt;
 <td></td>
 <td></td>
 <td></td>
+<td></td>
 </tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
 <p><code>-c / --dir</code> 指定工具目录<br>
 <code>-w / --workspace-root</code> 指定工具根目录<br>
 <code>pnpm exec</code> 运行本地、远端指定包<br>

@@ -19,6 +19,7 @@ npm 团队创建了 npmjs.com 网站。创建了 npm 命令行。与 node 团队
 
 每个包管理工具都有自己的配置文件。像 nvm 工具不能把修改过的源，同时作用于全部包管理工具。
 
+<!-- prettier-ignore-start -->
 |                     | npm               | yarn      | yarn2 | yarn3 | pnpm           |
 | ------------------- | ----------------- | --------- | ----- | ----- | -------------- |
 | 错误提示            | 差                | 准确      |       |       |                |
@@ -36,5 +37,6 @@ npm 团队创建了 npmjs.com 网站。创建了 npm 命令行。与 node 团队
 | 动态包执行          | npx               | yarn dlx  |       |       | pnpm dlx       |
 | 隔离的 node_modules |                   |           |       |       |                |
 | 隔离的 node_modules |                   |           |       |       |                |
+<!-- prettier-ignore-end -->
 
 ## [window & node & npm & cli](/language/node/window%26node%26npm%26cli.html)
