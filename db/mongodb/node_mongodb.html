@@ -95,28 +95,380 @@ router.<span class="hljs-title function_">route</span>(<span class="hljs-string"
 <span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = router;
 </code></pre>
 <h2 id="command">command</h2>
-<pre><code class="language-js"><span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">findOne</span>({<span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span>}) <span class="hljs-comment">// result</span>
-<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">find</span>({<span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span>})    <span class="hljs-comment">// result[]</span>
-<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">insertOne</span>({<span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span>})
-<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">insertMany</span>([{<span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span>}])
-<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">updateOne</span>({<span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span>}, { <span class="hljs-attr">$set</span>: {<span class="hljs-attr">newKey</span>: <span class="hljs-number">1</span>}})
-<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">updateMany</span>({<span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span>}, {<span class="hljs-attr">$inc</span>: {<span class="hljs-attr">newKey</span>: <span class="hljs-number">1</span>}})
-<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">updateOne</span>({<span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span>}, {<span class="hljs-attr">$push</span>: {<span class="hljs-attr">key</span>: <span class="hljs-number">1</span>}})
-<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">replaceOne</span>({<span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span>}, {<span class="hljs-attr">nk</span>: nv})
-<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">deleteOne</span>({<span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span>})
-<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">deleteMany</span>({<span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span>})
-<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">bulkWrite</span>([{<span class="hljs-attr">insertOne</span>: {<span class="hljs-attr">document</span>:{<span class="hljs-attr">k0</span>: v0, <span class="hljs-attr">k1</span>: v1}}}, {<span class="hljs-attr">deleteMany</span>: {<span class="hljs-attr">filter</span>: {<span class="hljs-attr">k0</span>: {<span class="hljs-attr">$lt</span>: v}}}}])
-collection.<span class="hljs-title function_">watch</span>([{<span class="hljs-attr">$match</span>: {<span class="hljs-attr">year</span>: {<span class="hljs-attr">$gtd</span>: v}}}]) <span class="hljs-comment">// 监听变化</span>
-<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">countDocuments</span>({<span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span>})
-<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">distinct</span>({<span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span>}) <span class="hljs-comment">// 列出这个字段的所有值组成的数组</span>
+<pre><code class="language-js"><span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">findOne</span>({ <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span> }) <span class="hljs-comment">// result</span>
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">find</span>({ <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span> }) <span class="hljs-comment">// result[]</span>
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">insertOne</span>({ <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span> })
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">insertMany</span>([{ <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span> }])
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">updateOne</span>({ <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span> }, { <span class="hljs-attr">$set</span>: { <span class="hljs-attr">newKey</span>: <span class="hljs-number">1</span> } })
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">updateMany</span>({ <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span> }, { <span class="hljs-attr">$inc</span>: { <span class="hljs-attr">newKey</span>: <span class="hljs-number">1</span> } })
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">updateOne</span>({ <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span> }, { <span class="hljs-attr">$push</span>: { <span class="hljs-attr">key</span>: <span class="hljs-number">1</span> } })
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">replaceOne</span>({ <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span> }, { <span class="hljs-attr">nk</span>: nv })
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">deleteOne</span>({ <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span> })
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">deleteMany</span>({ <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span> })
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">bulkWrite</span>([
+  { <span class="hljs-attr">insertOne</span>: {
+     <span class="hljs-attr">document</span>: <span class="hljs-comment">// 固定的字段</span>
+  { <span class="hljs-attr">k0</span>: v0, <span class="hljs-attr">k1</span>: v1 } } },
+  {<span class="hljs-attr">updateOne</span>: {<span class="hljs-attr">filter</span>: &lt;<span class="hljs-variable language_">document</span>&gt;, <span class="hljs-attr">update</span>: &lt;<span class="hljs-variable language_">document</span>&gt;, <span class="hljs-attr">upsert</span>: &lt;boolean&gt;}},
+  {<span class="hljs-attr">updateMany</span>: ...}, <span class="hljs-comment">// 同updateOne</span>
+  {<span class="hljs-attr">replaceOne</span>: {<span class="hljs-attr">filter</span>: &lt;<span class="hljs-variable language_">document</span>&gt;, <span class="hljs-attr">replacement</span>: &lt;<span class="hljs-variable language_">document</span>&gt;, <span class="hljs-attr">upsert</span>: &lt;boolean&gt;}},
+  {<span class="hljs-attr">delteOne</span>: {<span class="hljs-attr">filter</span>:&lt;<span class="hljs-variable language_">document</span>&gt;}},
+  { <span class="hljs-attr">deleteMany</span>: { <span class="hljs-attr">filter</span>: { <span class="hljs-attr">k0</span>: { <span class="hljs-attr">$lt</span>: v } } } },
+], writeConcern, <span class="hljs-attr">ordered</span>: <span class="hljs-literal">false</span>,)
+collection.<span class="hljs-title function_">watch</span>([{ <span class="hljs-attr">$match</span>: { <span class="hljs-attr">year</span>: { <span class="hljs-attr">$gtd</span>: v } } }]) <span class="hljs-comment">// 监听变化</span>
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">countDocuments</span>({ <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span> })
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">distinct</span>({ <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span> }) <span class="hljs-comment">// 列出这个字段的所有值组成的数组</span>
 <span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">find</span>().<span class="hljs-title function_">limit</span>(<span class="hljs-number">2</span>) <span class="hljs-comment">// 最多2个值组成的数组。</span>
-<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">find</span>({<span class="hljs-attr">key</span>: {<span class="hljs-attr">$regex</span>: <span class="hljs-regexp">/^Rocky/</span>}}, {<span class="hljs-attr">skip</span>: <span class="hljs-number">10</span>})
-<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">find</span>().<span class="hljs-title function_">sort</span>({<span class="hljs-attr">year</span>: <span class="hljs-number">1</span>})
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">find</span>({ <span class="hljs-attr">key</span>: { <span class="hljs-attr">$regex</span>: <span class="hljs-regexp">/^Rocky/</span> } }, { <span class="hljs-attr">skip</span>: <span class="hljs-number">10</span> })
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">find</span>().<span class="hljs-title function_">sort</span>({ <span class="hljs-attr">year</span>: <span class="hljs-number">1</span> })
 <span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">find</span>().<span class="hljs-title function_">project</span>()
-<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">createIndex</span>({<span class="hljs-attr">title</span>: <span class="hljs-number">1</span>}) <span class="hljs-comment">// 不会</span>
-<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">find</span>({<span class="hljs-attr">$text</span>: {<span class="hljs-attr">$search</span>: <span class="hljs-string">&#x27;value&#x27;</span>}}) <span class="hljs-comment">// 返回搜索key是字母的值中包括&#x27;value&#x27;的doc组成的数组。</span>
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">createIndex</span>({ <span class="hljs-attr">title</span>: <span class="hljs-number">1</span> }) <span class="hljs-comment">// 不会</span>
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">find</span>({ <span class="hljs-attr">$text</span>: { <span class="hljs-attr">$search</span>: <span class="hljs-string">&#x27;value&#x27;</span> } }) <span class="hljs-comment">// 返回搜索key是字母的值中包括&#x27;value&#x27;的doc组成的数组。</span>
 </code></pre>
-
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bulkWrite([&lt;operation1&gt;, &lt;operation2&gt;, ...], {writeConcern: &lt;document&gt;, ordered: &lt;boolean&gt;})</code></td>
+<td>批量写操作</td>
+<td>operation是已经支持的操作符,insertOne/updateOne/updateMany/deleteOne/deleteMany/replaceOne.writeConcern是否启用write concern,默认为false,ordered是否有序，默认false.</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>find({key: value})</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>find({key: {$gt: value}})</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>find({key: {$lt: value}})</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>find({key: {$gte: value}})</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>find({key: {$lte: value}})</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>update({key: value}, {$inc: {key1: step}})</code></td>
+<td>找到key为value的文档，然后把该文档的key1增加step</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>update({key: value}, {$set: {key1: value1}})</code></td>
+<td>设置为value1</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>update({key: value}, {$unset: {key1: anyValue}})</code></td>
+<td>设置key1为null.anyValue为什么值都不重要。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>update({key: value}, {$push: {key1: value1}})</code></td>
+<td>向数组追加value1</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>update({key: value}, {$push: {key1: {$each:[value1, value2, value3]}}})</code></td>
+<td>向数组追加value1, value2, value3</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>update({key: value}, {$pull: {key1: value1}})</code></td>
+<td>删除key1数组中的value1</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>update({key: value}, {$pull: {key1: {$gt: value1}}})</code></td>
+<td>删除key1数组中的大于value1的值</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>update({key: value}, {$pull: {key1:  {key2: value1}}})</code></td>
+<td>删除key1数组中的key2为value1的对象</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>update({key: value}, {$pop: {key1: &lt;-1, 1&gt;}})</code></td>
+<td>删除key1数组中的第一个值、最后一个值。</td>
+<td>-1表示负方向。1表示正方向。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$ne</code></td>
+<td>不等于</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$addToSet</code></td>
+<td>添加到数组并去重</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$each</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$in</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$nin</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$or</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$not</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$all</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$size</code></td>
+<td>可以用于查询指定长度的数组的文档</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$slice</code></td>
+<td>返回数组的一个子集合</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$elemMatch</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$project</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$match</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$limit</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$skip</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$unwind</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$group</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$sort</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$geoNear</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$sum</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$avg</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$min</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$max</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$push</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$first</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$last</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
         <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
     </body>
