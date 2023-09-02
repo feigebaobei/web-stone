@@ -5,6 +5,14 @@
 - 支持不同的团队、不同的技术栈整合为一个应用。
 - （多团队独立开发前端应用）
 
+## feature
+
+- 支持各团队独立开发
+- 可采用不同技术栈
+- 开发、部署快
+- 易维护
+- 不可解决各微服务之间共享模块的功能
+
 ## 实现方式
 
 - iframe
@@ -18,10 +26,18 @@
   - filename
   - expose
   - shared
+- 根据 url 分别重定向到多个应用
+- 做不同微应用之间的通讯、加载工作
+- 自研
+  - 在 index.html 中创建多个 dom 节点。
+  - 为这些节点分别挂载应用。
+  - 使用 event/passMessage/pull+push 实现多个应用之间的通信。
 
 ## [single-spa](https://www.npmjs.com/package/single-spa)
 
 ## [qiankun](https://www.npmjs.com/package/qiankun)
+
+## [mooa]()
 
 ## 自包含系统 scs
 

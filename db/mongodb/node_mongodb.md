@@ -68,6 +68,8 @@ module.exports = router;
 ```js
 await collection.findOne({ key: 'value' }) // result
 await collection.find({ key: 'value' }) // result[]
+await collection.find({ key: 'value' }).countDocuments() // 返回查询到的数量
+await collection.find({ key: 'value' }).estimatedDocumentCount() // 忽略查询条件，返回所有数据的数量
 await collection.insertOne({ key: 'value' })
 await collection.insertMany([{ key: 'value' }])
 await collection.updateOne({ key: 'value' }, { $set: { newKey: 1 } })
@@ -75,7 +77,7 @@ await collection.updateMany({ key: 'value' }, { $inc: { newKey: 1 } })
 await collection.updateOne({ key: 'value' }, { $push: { key: 1 } })
 await collection.replaceOne({ key: 'value' }, { nk: nv })
 await collection.deleteOne({ key: 'value' })
-await collection.deleteMany({ key: 'value' })
+await collection.deleteMany({ key: {$in: valueArr} }) // 删除多条
 await collection.bulkWrite([
   { insertOne: {
      document: // 固定的字段
@@ -118,15 +120,15 @@ await collection.find({ $text: { $search: 'value' } }) // 返回搜索key是字�
 |`$ne`|不等于|||||
 |`$addToSet`|添加到数组并去重|||||
 |`$each`||||||
-|`$in`||||||
+|`find({key: {$in: [/^str/, /^http/]}})`|查询满足任一值的key的文档|不能在`$in`内使用`$regex`||||
 |`$nin`||||||
-|`$or`||||||
-|`$not`||||||
-|`$all`||||||
+|`find({$of: [{key: v}, {k2: v2}]})`|满足任一|||||
+|`$not`|非|||||
+|`find({key: {$all: [v1, v2, v3]}})`|指定字段同时包含指定的多个值|||||
 |`$size`|可以用于查询指定长度的数组的文档|||||
 |`$slice`|返回数组的一个子集合|||||
-|`$elemMatch`||||||
-|`$project`||||||
+|`find(key: {$elemMatch: {$gt: 8, $lt:10}})`|查询数组中是否有至少一个元素满足|||||
+|`$project`|不会|||||
 |`$match`||||||
 |`$limit`||||||
 |`$skip`||||||
@@ -142,3 +144,13 @@ await collection.find({ $text: { $search: 'value' } }) // 返回搜索key是字�
 |`$first`||||||
 |`$last`||||||
 <!-- prettier-ignore-end -->
+
+## 聚合操作
+
+## title
+
+## title
+
+## title
+
+## title

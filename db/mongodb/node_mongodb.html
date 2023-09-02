@@ -97,6 +97,8 @@ router.<span class="hljs-title function_">route</span>(<span class="hljs-string"
 <h2 id="command">command</h2>
 <pre><code class="language-js"><span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">findOne</span>({ <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span> }) <span class="hljs-comment">// result</span>
 <span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">find</span>({ <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span> }) <span class="hljs-comment">// result[]</span>
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">find</span>({ <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span> }).<span class="hljs-title function_">countDocuments</span>() <span class="hljs-comment">// 返回查询到的数量</span>
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">find</span>({ <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span> }).<span class="hljs-title function_">estimatedDocumentCount</span>() <span class="hljs-comment">// 忽略查询条件，返回所有数据的数量</span>
 <span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">insertOne</span>({ <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span> })
 <span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">insertMany</span>([{ <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span> }])
 <span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">updateOne</span>({ <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span> }, { <span class="hljs-attr">$set</span>: { <span class="hljs-attr">newKey</span>: <span class="hljs-number">1</span> } })
@@ -104,7 +106,7 @@ router.<span class="hljs-title function_">route</span>(<span class="hljs-string"
 <span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">updateOne</span>({ <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span> }, { <span class="hljs-attr">$push</span>: { <span class="hljs-attr">key</span>: <span class="hljs-number">1</span> } })
 <span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">replaceOne</span>({ <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span> }, { <span class="hljs-attr">nk</span>: nv })
 <span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">deleteOne</span>({ <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span> })
-<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">deleteMany</span>({ <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;value&#x27;</span> })
+<span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">deleteMany</span>({ <span class="hljs-attr">key</span>: {<span class="hljs-attr">$in</span>: valueArr} }) <span class="hljs-comment">// 删除多条</span>
 <span class="hljs-keyword">await</span> collection.<span class="hljs-title function_">bulkWrite</span>([
   { <span class="hljs-attr">insertOne</span>: {
      <span class="hljs-attr">document</span>: <span class="hljs-comment">// 固定的字段</span>
@@ -283,9 +285,9 @@ collection.<span class="hljs-title function_">watch</span>([{ <span class="hljs-
 <td></td>
 </tr>
 <tr>
-<td><code>$in</code></td>
-<td></td>
-<td></td>
+<td><code>find({key: {$in: [/^str/, /^http/]}})</code></td>
+<td>查询满足任一值的key的文档</td>
+<td>不能在<code>$in</code>内使用<code>$regex</code></td>
 <td></td>
 <td></td>
 <td></td>
@@ -299,8 +301,8 @@ collection.<span class="hljs-title function_">watch</span>([{ <span class="hljs-
 <td></td>
 </tr>
 <tr>
-<td><code>$or</code></td>
-<td></td>
+<td><code>find({$of: [{key: v}, {k2: v2}]})</code></td>
+<td>满足任一</td>
 <td></td>
 <td></td>
 <td></td>
@@ -308,15 +310,15 @@ collection.<span class="hljs-title function_">watch</span>([{ <span class="hljs-
 </tr>
 <tr>
 <td><code>$not</code></td>
-<td></td>
+<td>非</td>
 <td></td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td><code>$all</code></td>
-<td></td>
+<td><code>find({key: {$all: [v1, v2, v3]}})</code></td>
+<td>指定字段同时包含指定的多个值</td>
 <td></td>
 <td></td>
 <td></td>
@@ -339,8 +341,8 @@ collection.<span class="hljs-title function_">watch</span>([{ <span class="hljs-
 <td></td>
 </tr>
 <tr>
-<td><code>$elemMatch</code></td>
-<td></td>
+<td><code>find(key: {$elemMatch: {$gt: 8, $lt:10}})</code></td>
+<td>查询数组中是否有至少一个元素满足</td>
 <td></td>
 <td></td>
 <td></td>
@@ -348,7 +350,7 @@ collection.<span class="hljs-title function_">watch</span>([{ <span class="hljs-
 </tr>
 <tr>
 <td><code>$project</code></td>
-<td></td>
+<td>不会</td>
 <td></td>
 <td></td>
 <td></td>
@@ -469,6 +471,12 @@ collection.<span class="hljs-title function_">watch</span>([{ <span class="hljs-
 </tbody>
 </table>
 <!-- prettier-ignore-end -->
+<h2 id="聚合操作">聚合操作</h2>
+<h2 id="title">title</h2>
+<h2 id="title-1">title</h2>
+<h2 id="title-2">title</h2>
+<h2 id="title-3">title</h2>
+
         <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
     </body>
