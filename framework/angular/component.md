@@ -1,5 +1,11 @@
 # 组件
 
+- ng 是基于组件的框架
+- 组件是 ng 应用的单元块。无组件无法创建 ng 应用。
+- 编译组件、数据、逻辑
+- 代表一个视图区
+- 必须注册与模块的 decleration 才能使用。
+
 ## 创建组件
 
 `ng g c path/to/comp`
@@ -20,14 +26,12 @@ import { Component } from '@angular/core'
 
 ## 组件之间通信
 
-|            |                          |     |     |
-| ---------- | ------------------------ | --- | --- |
-| @Input     | 输入属性                 |     |     |
-| @Output    | 输出属性                 |     |     |
-| @ViewChild | 从父组件访问子组件的数据 |     |     |
-| 服务       |                          |     |     |
-| @Input     |                          |     |     |
-| @Input     |                          |     |     |
+|            |                                |     |     |
+| ---------- | ------------------------------ | --- | --- |
+| @Input     | 输入属性                       |     |     |
+| @Output    | 输出事件                       |     |     |
+| @ViewChild | 从父组件访问子组件的数据、方法 |     |     |
+| 服务       |                                |     |     |
 
 ```js
 // 子组件
@@ -50,7 +54,7 @@ export default class A {
     }
 }
 // 在父组件中使用子组件
-<app-a (childEmmitter)="fn"></app-a>
+<app-a (childEmmitter)="fn" [k]="kVar" [G]="GVar"></app-a>
 ```
 
 ```js

@@ -41,6 +41,22 @@ ng serve
 ng g component product-list
 ```
 
+### 项目结构
+
+```
+<root>
+|-- angular.json    angular应用的配置文件
+|-- src             源代码
+  |-- main.ts       入口文件
+  |-- index.html    单页面应用的入口html文件。
+  |-- assets        资源文件
+  |-- app/app.component.ts    根组件的类文件
+  |-- style.scss    样式入口文件
+|-- tsconfig.json   ts的配置文件
+|-- tsconfig.app.json   应用的ts的配置文件
+|-- tsconfig.spec.json   应用的测试的ts的配置文件
+```
+
 ## [组件](/framework/angular/component.html)
 
 ## [模板](/framework/angular/template.html)
@@ -52,6 +68,8 @@ ng g component product-list
 ## [生命周期](/framework/angular/lifeCircle.html)
 
 ## [表单](/framework/angular/form.html)
+
+## [字段说明](/framework/angular/decorator.md)
 
 ## [principle](/framework/angular/principle/index.html)
 
@@ -71,6 +89,20 @@ ng g component product-list
 - directive
 - module
 - xxx
+
+```ts
+// 全写
+class A {
+  private foo: T
+  constructor(_foo: T) {
+    this.foo = _foo
+  }
+}
+// 简写
+class A {
+  constructor(private foo: T) {}
+}
+```
 
 ## title
 

@@ -4,6 +4,7 @@
 
 > node v10.9.0+
 > npm 8.5.0+
+> cli 入口
 > develop  
 > scaffold  
 > maintain  
