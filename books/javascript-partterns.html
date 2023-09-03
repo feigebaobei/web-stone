@@ -15,41 +15,6 @@
 	display: none;
 }
 
-/* From extension ms-toolsai.jupyter */
-/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
-
-.alert {
-    width: auto;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-.alert > *:last-child {
-    margin-bottom: 0;
-}
-#preview > .alert:last-child {
-    /* Prevent this being set to zero by the default notebook stylesheet */
-    padding-bottom: 1em;
-}
-
-.alert-success {
-    /* Note there is no suitable color available, so we just copy "info" */
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-info {
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-warning {
-    background-color: var(--theme-warning-background);
-    color: var(--theme-warning-foreground);
-}
-.alert-danger {
-    background-color: var(--theme-error-background);
-    color: var(--theme-error-foreground);
-}
-
 </style>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
@@ -80,17 +45,13 @@
 <p>作者 stoyan stefanow
 译者 陈新</p>
 <h1 id="no1-简介">no.1 简介</h1>
-<p>js是一门动态性较强的语言，面向对象的语言。
+<p>js 是一门动态性较强的语言，面向对象的语言。
 模式是指一个通用问题的解决方案。
-对象有2类：</p>
+对象有 2 类：</p>
 <ul>
 <li>原生的</li>
-<li>宿主环境的
-<ul>
-<li>console
-jslint: 检测js代码质量的工具</li>
-</ul>
-</li>
+<li>宿主环境的 + console
+jslint: 检测 js 代码质量的工具</li>
 </ul>
 <h1 id="no2-基本技巧">no.2 基本技巧</h1>
 <p>易维护的代码：</p>
@@ -101,13 +62,13 @@ jslint: 检测js代码质量的工具</li>
 <li>如一人写成</li>
 <li>有文档
 少用全局变量</li>
-<li>使用var创建的全局变量不能被删除</li>
-<li>未使用var创建的全局变量能被删除
+<li>使用 var 创建的全局变量不能被删除</li>
+<li>未使用 var 创建的全局变量能被删除
 不要修改内置原型
 避免使用隐式类型转换
-避免使用eval
+避免使用 eval
 大写构造函数首字母
-编写api文档</li>
+编写 api 文档</li>
 </ul>
 <pre><code>/*
 * @tag value {type} description
@@ -125,19 +86,19 @@ jslint: 检测js代码质量的工具</li>
 <table>
 <thead>
 <tr>
-<th>返回this</th>
-<th>返回非this的对象</th>
+<th>返回 this</th>
+<th>返回非 this 的对象</th>
 <th>other</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>返回this</td>
+<td>返回 this</td>
 <td>返回该对象</td>
-<td>返回this</td>
+<td>返回 this</td>
 </tr>
 <tr>
-<td>严格模式中，this指向undefined</td>
+<td>严格模式中，this 指向 undefined</td>
 <td></td>
 <td></td>
 </tr>
@@ -224,7 +185,7 @@ fn.call(obj, p) // 应用函数
 </code></pre>
 <ul>
 <li>柯理化是一个转换过程。</li>
-<li>有大多数参数相同时，可使用curry化。
+<li>有大多数参数相同时，可使用 curry 化。
 回调模式</li>
 </ul>
 <h1 id="no5-对象创建模式">no.5 对象创建模式</h1>
@@ -303,7 +264,7 @@ Sandbox.modules.a = function() {/*实现模块a的功能*/}
 Sandbox.modules.b = function() {/*实现模块b的功能*/}
 Sandbox.modules.c = function() {/*实现模块c的功能*/}
 // usage
-let box = {} // 
+let box = {} //
 new Sandbox('a', 'b', function (box) {
 	// ...
 })
@@ -332,8 +293,8 @@ obj.increment().add(2).shout
 console.log(obj.v)
 </code></pre>
 <h1 id="no6-代码复用模式">no.6 代码复用模式</h1>
-<p>es5中的方法。<br>
-推荐此方法。因为此方法更遵守js语言的原型链（有对象/无类）的实际情况。</p>
+<p>es5 中的方法。<br>
+推荐此方法。因为此方法更遵守 js 语言的原型链（有对象/无类）的实际情况。</p>
 <pre><code>Object.create(prot: object, attr: object)
 </code></pre>
 <p>利用复制实现继承</p>
@@ -391,7 +352,7 @@ if (typeof Function.prototype.bind === 'undefined') {
 }
 </code></pre>
 <h2 id="继承">继承</h2>
-<p>这种思想是受到<code>java</code>等语言的影响。非在js语言中使用类。不建议使用此方法。</p>
+<p>这种思想是受到<code>java</code>等语言的影响。非在 js 语言中使用类。不建议使用此方法。</p>
 <pre><code>function inherit(c, p) {
 	c.prototype = new p()
 }
@@ -493,7 +454,7 @@ Class Cn {
 </code></pre>
 <h2 id="策略模式">策略模式</h2>
 <p>定义关键字与方法的对应关系。运行时选择相应算法。（表单验证）
-可看作为if/else判断的另一种表现形式，在达到相同目的的同时，极大的减少了代码量以及代码维护成本。
+可看作为 if/else 判断的另一种表现形式，在达到相同目的的同时，极大的减少了代码量以及代码维护成本。
 分离算法的使用、算法的实现。</p>
 <pre><code>// demo0
 var realize = {
@@ -551,7 +512,8 @@ Validator.prototype.test = (rules) =&gt; {
 </code></pre>
 <h2 id="外观模式">外观模式</h2>
 <p>统一对外接口</p>
-<pre><code></code></pre>
+<pre><code>
+</code></pre>
 <h2 id="代理模式">代理模式</h2>
 <h2 id="中介模式">中介模式</h2>
 <p>为了促进松耦合。</p>
@@ -590,7 +552,7 @@ a.subscribe('t', b1.f)
 a.subscribe('t', b2.f)
 a.publish('t')
 </code></pre>
-<h1 id="no8-dom和浏览器模式">no.8 DOM和浏览器模式</h1>
+<h1 id="no8-dom-和浏览器模式">no.8 DOM 和浏览器模式</h1>
 <h2 id="关注点分离">关注点分离</h2>
 <ul>
 <li>内容 html</li>
@@ -602,29 +564,29 @@ a.publish('t')
 	document.attachEvent('onclick', console.log)
 }
 </code></pre>
-<h2 id="访问dom">访问dom</h2>
-<p>访问dom的代价是昂贵的。</p>
+<h2 id="访问-dom">访问 dom</h2>
+<p>访问 dom 的代价是昂贵的。</p>
 <ul>
-<li>避免在循环中使用dom访问。</li>
-<li>将dom引用分配给局部变量，并使用这些局部变量。</li>
-<li>在可能的情况下使用selector api.</li>
-<li>当在html容器中重复使用时，缓存重复的次数。</li>
+<li>避免在循环中使用 dom 访问。</li>
+<li>将 dom 引用分配给局部变量，并使用这些局部变量。</li>
+<li>在可能的情况下使用 selector api.</li>
+<li>当在 html 容器中重复使用时，缓存重复的次数。</li>
 </ul>
-<h2 id="操作dom">操作dom</h2>
+<h2 id="操作-dom">操作 dom</h2>
 <ul>
 <li>先整理文档碎片，</li>
 <li>再一次插入到合适的父节点。</li>
 </ul>
 <h2 id="事件">事件</h2>
 <ul>
-<li>应该在js中附加监听器。</li>
+<li>应该在 js 中附加监听器。</li>
 <li>事件委托</li>
 </ul>
 <h2 id="temp">temp</h2>
 <ul>
 <li>setTimeout</li>
 <li>web worker</li>
-<li>xhr</li>
+<li><a href="/language/javascript/xhr.html">xhr</a></li>
 </ul>
 <pre><code>var xhr = new XMLHttpRequest()
 xhr.onreadystatechange = handler
@@ -646,18 +608,18 @@ xhr.send() // 发送请求
 <ul>
 <li>合并</li>
 <li>分为不可改变的，和可改变的。</li>
-<li>使用时间戳/hash为后缀</li>
+<li>使用时间戳/hash 为后缀</li>
 <li>精简（压缩）</li>
-<li>expires报头</li>
-<li>使用cdn</li>
+<li>expires 报头</li>
+<li>使用 cdn</li>
 </ul>
 <h2 id="载入策略">载入策略</h2>
 <ul>
-<li>加载时遇到script标签会停止其他工作，直到加载完。</li>
-<li>可用defer/async属性于script标签上。</li>
-<li>可把注入脚本增加到一个数组中，当主脚本文件加载完后再执行该数组中的脚本。（有点像umd/amd）</li>
-<li>增加script元素</li>
-<li>建议在header中使用script标签</li>
+<li>加载时遇到 script 标签会停止其他工作，直到加载完。</li>
+<li>可用 defer/async 属性于 script 标签上。</li>
+<li>可把注入脚本增加到一个数组中，当主脚本文件加载完后再执行该数组中的脚本。（有点像 umd/amd）</li>
+<li>增加 script 元素</li>
+<li>建议在 header 中使用 script 标签</li>
 <li>延迟加载。后来发展成为渐进式页面。
 <ul>
 <li>第一部分代码用于初始化页面。</li>

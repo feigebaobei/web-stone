@@ -49,43 +49,6 @@
 <li>代表一个视图区</li>
 <li>必须注册与模块的 decleration 才能使用。</li>
 </ul>
-<h3 id="组件之间共享数据">组件之间共享数据</h3>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>父组件中使用<code>@Input</code>声明数据。</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>子组件中使用<code>@Output</code>声明数据</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>使用<code>Emitter</code>处理子组件到父组件的数据</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>使用<code>@ViewChild</code>修饰子组件。</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
 <h3 id="module--component">module &amp; component</h3>
 <table>
 <thead>
@@ -128,27 +91,6 @@
 </tr>
 </tbody>
 </table>
-<h2 id="service">service</h2>
-<p>可以从任何地方获取数据，比如：Web 服务、本地存储（LocalStorage）或一个模拟的数据源。
-由 Injectabl 装饰器装饰的类。
-提倡把与视图无关的逻辑抽取到服务中。</p>
-<pre><code class="language-shell">ng generate service heros/hero
-ng g s services/&lt;serviceName&gt;
-</code></pre>
-<pre><code class="language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Injectable</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/core&#x27;</span>
-<span class="hljs-meta">@Injectable</span>({
-  <span class="hljs-comment">// 标记为可以被注入的服务器</span>
-  <span class="hljs-attr">provided</span>: <span class="hljs-string">&#x27;root&#x27;</span>, <span class="hljs-comment">// 表示当前服务在root注入器中提供。可在整个应用中单例使用。</span>
-})
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Asdf</span> {
-  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {}
-  <span class="hljs-title function_">fn</span>(<span class="hljs-params"></span>) {}
-}
-</code></pre>
-<p>在<code>app.module.ts</code>中引入</p>
-<pre><code class="language-ts">...
-<span class="hljs-attr">providers</span>: [<span class="hljs-title class_">Asdf</span>]
-</code></pre>
 <h2 id="interface">interface</h2>
 <p><code>ng g i models/interfaceName</code>
 就是 ts 的<code>interface</code></p>
@@ -196,79 +138,6 @@ ng g s services/&lt;serviceName&gt;
 <span class="hljs-tag">&lt;<span class="hljs-name">router-outlet</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">router-outlet</span>&gt;</span>
 </code></pre>
 <h3 id="单文件">单文件</h3>
-<h2 id="module">module</h2>
-<p>我在它中设置了路由映射。</p>
-<h2 id="message">message</h2>
-<h2 id="模块-日后迁移走">模块 【日后迁移走】</h2>
-<p>NgModule.它是 Angular 模块。Angular 应用由一个一个模块组成。
-不是 esm/cjs 中的模块。
-是一系统相关功能的集合。
-它是由 NgModule 装饰的类。
-每一个模块就是一个打包块。</p>
-<ul>
-<li>一个应用至少一个模块。</li>
-<li>模块之间可引用。</li>
-<li>指令、组件、管道必须属于一个模块。（有且只有一个）</li>
-</ul>
-<h3 id="字段说明"><a href="/framework/angular/decorator.html">字段说明</a></h3>
-<h3 id="模块--esm--cjs">模块 &amp; esm &amp; cjs</h3>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>NgModule</th>
-<th>模块</th>
-<th>module</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td>angular</td>
-<td>esm</td>
-<td>cjs</td>
-</tr>
-<tr>
-<td></td>
-<td>使用@NgModule 修饰的类</td>
-<td>每个文件都是一个模块。</td>
-<td>每个文件都是一个模块</td>
-</tr>
-<tr>
-<td></td>
-<td>-</td>
-<td>import / export</td>
-<td>require / module.exports/exports</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h3 id="根模块">根模块</h3>
-<p>一个 angular 应用至少有一个。用于启动应用。</p>
-<h2 id="项目结构">项目结构</h2>
-<pre><code>&lt;root&gt;
-|-- angular.json    angular应用的配置文件
-|-- src             源代码
-  |-- main.ts       入口文件
-  |-- index.html    单页面应用的入口html文件。
-  |-- assets        资源文件
-  |-- app/app.component.ts    根组件的类文件
-  |-- style.scss    样式入口文件
-|-- tsconfig.json   ts的配置文件
-|-- tsconfig.app.json   应用的ts的配置文件
-|-- tsconfig.spec.json   应用的测试的ts的配置文件
-</code></pre>
 <h2 id="生命周期">生命周期</h2>
 <h2 id="dependency-injection-di-依赖注入">dependency injection di 依赖注入</h2>
 <p>angular 会创建一个注入器<code>Injector</code>来促进“依赖消费者”和“依赖提供者”之间的互动。当有请求依赖项时，注入器会检查其注册表中是否有可用的实例。若无，则创建一个新实例，存储在注册表中，再返回实例。若有，则返回实例。
@@ -307,18 +176,6 @@ ng g s services/&lt;serviceName&gt;
 <pre><code class="language-ts"><span class="hljs-meta">@Component</span>({...})
 <span class="hljs-keyword">class</span> <span class="hljs-title class_">HeroComponent</span> {
   <span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> service: HeroService</span>) {}
-}
-</code></pre>
-<pre><code class="language-ts"><span class="hljs-comment">// 全写</span>
-<span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> {
-  <span class="hljs-keyword">private</span> <span class="hljs-attr">foo</span>: T
-  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">_foo: T</span>) {
-    <span class="hljs-variable language_">this</span>.<span class="hljs-property">foo</span> = _foo
-  }
-}
-<span class="hljs-comment">// 简写</span>
-<span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> {
-  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> foo: T</span>) {}
 }
 </code></pre>
 

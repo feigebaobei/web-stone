@@ -642,7 +642,7 @@ if (document.attachEvent) {
 
 - setTimeout
 - web worker
-- xhr
+- [xhr](/language/javascript/xhr.html)
 
 ```
 var xhr = new XMLHttpRequest()
