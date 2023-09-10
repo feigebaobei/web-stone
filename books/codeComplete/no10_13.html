@@ -601,7 +601,7 @@
 <li>在相同作用域层级上分配和释放指针</li>
 <li>在使用前先检查指针</li>
 <li>在使用前先检查指针所引用的变量</li>
-<li>使用tag检查损坏的内存</li>
+<li>使用 tag 检查损坏的内存</li>
 <li>只在删除变量是做一次标记字段的检查</li>
 <li>增加显式冗余</li>
 <li>使用更多的指针变量以提高清晰度</li>
@@ -625,7 +625,7 @@
 </ul>
 <h3 id="没必要不用全局数据">没必要，不用全局数据</h3>
 <ul>
-<li>使用访问器子程序替代全局数据（就是数据store，单例模式）
+<li>使用访问器子程序替代全局数据（就是数据 store，单例模式）
 <ul>
 <li>集中管理数据</li>
 <li>所有对变量的引用都被隔离</li>
@@ -634,6 +634,30 @@
 </ul>
 </li>
 </ul>
+<pre><code class="language-ts"><span class="hljs-keyword">let</span> <span class="hljs-attr">p</span>: A = {}
+s.<span class="hljs-property">locked</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">LockBox</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">p: T, locked = <span class="hljs-literal">false</span></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">locked</span> = locked
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">origin</span> = p
+  }
+  <span class="hljs-title function_">lock</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">locked</span> = <span class="hljs-literal">true</span>
+  }
+  <span class="hljs-title function_">unlock</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">locked</span> = <span class="hljs-literal">false</span>
+  }
+  <span class="hljs-title function_">get</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">locked</span> ? <span class="hljs-literal">null</span> : <span class="hljs-variable language_">this</span>.<span class="hljs-property">origin</span>
+  }
+}
+<span class="hljs-keyword">let</span> s = <span class="hljs-keyword">new</span> <span class="hljs-title class_">LockBox</span>(p)
+s.<span class="hljs-title function_">get</span>()
+s.<span class="hljs-title function_">lock</span>()
+s.<span class="hljs-title function_">get</span>()
+s.<span class="hljs-title function_">unlock</span>()
+s.<span class="hljs-title function_">get</span>()
+</code></pre>
 <table>
 <thead>
 <tr>
