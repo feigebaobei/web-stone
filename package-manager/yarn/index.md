@@ -352,6 +352,14 @@ YN0077 - GHOST_ARCHITECTURE
 与 npx 类似，是 download and execute 的简称。  
 只能执行远端的可执行文件。（不能执行本地的可执行文件）
 
+## 缓存
+
+```
+yarn cache list // 列出缓存的文件
+yarn cache dir  // 列出缓存目录
+yarn cache clean [<module_name>] // 清除缓存
+```
+
 ## principle
 
 可基于插件、模块化与作者共同开发 yarn。  

@@ -99,7 +99,7 @@
 <li>pnpm run cmd &lt;=&gt; pnpm cmd. 若找到具名脚本则执行引脚本，否则当作 shell 执行。</li>
 <li>pnpm 使用 npm 的配置。</li>
 <li>有自己的锁文件。</li>
-<li>管理node环境。</li>
+<li>管理 node 环境。</li>
 </ul>
 <h2 id="install">install</h2>
 <h3 id="非-nodejs-环境">非 node.js 环境</h3>
@@ -199,7 +199,14 @@ pnpm --filter ./packages/&lt;name&gt; add &lt;package&gt;
 </table>
 <h3 id="packagejson">package.json</h3>
 <p>详见 <a href="/package-manager/npm/index.html">npm</a> 的 package.json 各字段说明</p>
-<h3 id="npmrc">.npmrc</h3>
+<h3 id="npmrc"><a href="/package-manager/pnpm/npmrc.html">.npmrc</a></h3>
+<p>pnpm 会加载配置项、环境变量。</p>
+<ul>
+<li>当前项目中的 <code>/path/to/my/project/.npmrc</code></li>
+<li>当前工作空间的<code>pnpm-workspace.yaml</code></li>
+<li>当前用户的<code>~/.npmrc</code></li>
+<li>当前设备的<code>/etc/npmrc</code></li>
+</ul>
 <h3 id="pnpm-workspaceyaml">pnpm-workspace.yaml</h3>
 <p>示例</p>
 <pre><code class="language-yaml"><span class="hljs-attr">packages:</span>
@@ -604,6 +611,10 @@ user-agent=pnpm/8.2.0 npm/? node/v16.16.0 win32 x64
 pnpm config set store-dir D:\\node\\global # 设置全局地址
 pnpm config set cache-dir D:\\node\\cache # 设置缓存地址
 
+</code></pre>
+<h2 id="缓存">缓存</h2>
+<pre><code>pnpm store path
+pnpm store prune
 </code></pre>
 <h2 id="api">api</h2>
 <h2 id="principle">principle</h2>

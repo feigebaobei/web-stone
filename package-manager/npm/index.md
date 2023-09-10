@@ -376,7 +376,12 @@ npm install esbuild -- registry=https://registry.npmjs.org
 - 在项目根目录下的 package.json 中指定`workspaces`字段。
 - 然后包管理工具会把该字段下的所有子包创建软链接。就像执行了`npm link`一样。这样就可以在其他子包中使用该子包了。
 
-## title
+## 缓存
+
+```
+npm config get cache // 列出缓存目录
+npm cache clean --force // 清空缓存
+```
 
 ## title
 
