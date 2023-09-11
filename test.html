@@ -12,76 +12,62 @@
   </head>
   <body>
     <button onclick="btClickHandler()">click button</button>
-    <script src="https://unpkg.com/rxjs@7.8.1/dist/bundles/rxjs.umd.min.js"></script>
-    <script>
+    <!-- <script src="https://unpkg.com/rxjs@7.8.1/dist/bundles/rxjs.umd.min.js"></script> -->
+    <script type="module" src="http://localhost:3000/test.js"></script>
+    <script type="module">
+      // import MySql from './test.js'
       let clog = console.log
-      // class Observable {
-      //   constructor(fn) {
-      //     this.fn = fn
-      //     this.subscriber = new Subscriber(this)
-      //   }
-      //   subscribe(cb) {
-      //     this.cb = cb
-      //     this.fn(this.subscriber)
-      //     return {
-      //       unsubscribe: () => {
-      //         this.subscriber.unsubscribe()
-      //         // this.fn = () => {}
-      //       }
-      //     }
-      //   }
-      // }
-      // class Subscriber {
-      //   constructor(observable) {
-      //     this.observable = observable
-      //     this.status = 1
-      //     // 1 订阅
-      //     // 10 出错
-      //     // 20 完成
-      //   }
-      //   next(x) {
-      //     switch(this.status) {
-      //       case 1:
-      //         this.observable.cb(x)
-      //     }
-      //   }
-      //   error() {
-      //     this.status = 10
-      //   }
-      //   complete() {
-      //     this.status = 20
-      //   }
-      //   unsubscribe() {
-      //     this.complete()
-      //   }
-      // }
-      // let ob = new Observable((sub) => {
-      //   sub.next('hi')
-      //   sub.next('hi1')
-      //   sub.next('hi2')
-      //   sub.next('hi3')
-      //   setTimeout(() => {
-      //     sub.next('hi4')
-      //   }, 1000)
+      // 请保留到写完rxjs
+      // let observable = new Observable((subscribe) => {
+      //   subscribe.next('boy')
       // })
-      // let obj = ob.subscribe((x) => {
-      //   clog(x)
+      // observable.subscribe((x) => {
+      //   clog('x', x)
       // })
-      // obj.unsubscribe()
-      // let btClickHandler = () => {
-      //   clog('lss')
-      //   ob.subscribe((x) => {
-      //     clog(x)
-      //   })
-      // }
 
+      // mysql
+      let mysql = new MySql(['id'], {id: Number, name: String, identity: String})
+      let arr = [
+        {
+          id: 0,
+          name: 'tom',
+          identity: '23673'
+        },
+        {
+          id: 1,
+          name: 'html',
+          identity: '25674'
+        },
+        {
+          id: 1,
+          name: 'js',
+          identity: '53125'
+        },
+        {
+          id: 2,
+          name: 'css',
+          identity: '85335'
+        },
+        {
+          id: 3,
+          name: 'go',
+          identity: '64256'
+        },
+        {
+          id: 4,
+          name: 'java',
+          identity: '36258'
+        },
+      ]
+      mysql.add(arr[0])
+      mysql.add(arr[1])
+      mysql.add(arr[2])
+      mysql.add(arr[3])
+      clog(mysql)
+      clog(mysql.get('id', 2))
 
-      let observable = new Observable((subscribe) => {
-        subscribe.next('boy')
-      })
-      observable.subscribe((x) => {
-        clog('x', x)
-      })
+      
+
     </script>
   </body>
 </html>

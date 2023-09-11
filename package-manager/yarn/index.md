@@ -71,6 +71,7 @@ yarn add [package]@[version]
 yarn add [package]@[tag]
 yarn add [package] --dev
 yarn add [package] --peer
+yarn global add [package]
 yarn up [package] # 更新指定的包
 yarn up [package]@[version] # 更新指定的包到指定版本
 yarn up [package]@[tag]
