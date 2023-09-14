@@ -27,7 +27,7 @@
 - [uri](/browser/uri.html)
 - [几种跳转](/browser/goto.html)
 - [c&s 的通信方式](/browser/c&sCommunication.html)
-  - [title](/browser/c&s.html)
+- [title](/browser/c&s.html)
 - [title](/browser/title.html)
 - [title](/browser/title.html)
 

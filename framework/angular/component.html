@@ -49,18 +49,55 @@
 <li>必须注册与模块的 decleration 才能使用。</li>
 </ul>
 <h2 id="创建组件">创建组件</h2>
-<p><code>ng g c path/to/comp</code></p>
+<pre><code class="language-shell">ng g c path/to/comp
+ng generate component home # 不需要使用app开头。
+</code></pre>
 <h2 id="装饰器">装饰器</h2>
 <pre><code class="language-js"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Component</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/core&#x27;</span>
 @<span class="hljs-title class_">Component</span>({
     <span class="hljs-comment">// 选择器</span>
     <span class="hljs-attr">selector</span>: <span class="hljs-string">&#x27;app-product-list&#x27;</span>,
     <span class="hljs-comment">// 模板文件</span>
+    <span class="hljs-comment">// template</span>
+    <span class="hljs-comment">// template/templateUrl不能同时存在</span>
     <span class="hljs-attr">templateUrl</span>: <span class="hljs-string">&#x27;./product-list.component.html&#x27;</span>,
+    <span class="hljs-comment">// standalone // 是否需要NgModule</span>
+    <span class="hljs-comment">// imports // 当前组件的依赖</span>
     <span class="hljs-comment">// 样式文件</span>
+    <span class="hljs-comment">// styles</span>
     <span class="hljs-attr">styleUrls</span>: [<span class="hljs-string">&#x27;./product-list.component.scss&#x27;</span>]
+    <span class="hljs-comment">// ViewEncapsulation: </span>
 })
 </code></pre>
+<h3 id="selector">selector</h3>
+<p>为gn指定要渲染的内容。标签会存在于html中，如：<code>&lt;app-hello-word&gt;</code></p>
+<h3 id="viewencapsulation">ViewEncapsulation</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ShadowDom</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Emulated</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>None</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h2 id="组件之间通信">组件之间通信</h2>
 <table>
 <thead>
@@ -91,6 +128,12 @@
 <td></td>
 </tr>
 <tr>
+<td>模板变量</td>
+<td>从父组件访问子组件的数据、方法</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
 <td>服务</td>
 <td></td>
 <td></td>
@@ -102,7 +145,7 @@
 <span class="hljs-keyword">import</span> { <span class="hljs-title class_">Input</span>, <span class="hljs-title class_">Output</span>, <span class="hljs-title class_">EventEmmiter</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/core&#x27;</span>
 @<span class="hljs-title class_">Component</span>({....})
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> {
-    @<span class="hljs-title class_">Input</span> <span class="hljs-attr">k</span>: string
+    @<span class="hljs-title class_">Input</span> k!: string <span class="hljs-comment">// !表示必须传递</span>
     @<span class="hljs-title class_">Input</span>
     <span class="hljs-keyword">set</span> <span class="hljs-title function_">G</span>(<span class="hljs-params">p: string</span>) {
         <span class="hljs-variable language_">this</span>.<span class="hljs-property">_p</span> = p
@@ -119,6 +162,13 @@
 }
 <span class="hljs-comment">// 在父组件中使用子组件</span>
 &lt;app-a (childEmmitter)=<span class="hljs-string">&quot;fn&quot;</span> [k]=<span class="hljs-string">&quot;kVar&quot;</span> [G]=<span class="hljs-string">&quot;GVar&quot;</span>&gt;&lt;/app-a&gt;
+
+{<span class="hljs-comment">/* 父组件 */</span>}
+&lt;child #child /&gt;
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> (<span class="hljs-attr">click</span>)=<span class="hljs-string">&quot;child.fn&quot;</span>&gt;</span>bt<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span>
+{<span class="hljs-comment">/* 子组件 */</span>}
+&lt;button (click)=<span class="hljs-string">&quot;fn()&quot;</span>&gt;str&lt;/button&gt;
+<span class="hljs-title function_">fn</span>(<span class="hljs-params"></span>) {...}
 </code></pre>
 <pre><code class="language-js"><span class="hljs-comment">// - 在根模块中提供</span>
 <span class="hljs-comment">// - 服务挂在根模块中</span>
@@ -132,6 +182,99 @@
     <span class="hljs-keyword">let</span> v = <span class="hljs-variable language_">this</span>.<span class="hljs-property">s</span>.<span class="hljs-title function_">getValue</span>()
     <span class="hljs-comment">// ...</span>
 }
+</code></pre>
+<h2 id="生命周期">生命周期</h2>
+<p>每一个接口有一个生命周期方法。若要使用多个生命周期方法，则实例多个接口。</p>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>钩子函数</th>
+<th>触发时机</th>
+<th>接口</th>
+<th>一般用于做什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ngOnChanges</td>
+<td>被绑定的输入属性值发生变化时触发，会调用多次；如果没有使用到父子组件传值，则不会触发</td>
+<td>OnChanges</td>
+<td></td>
+</tr>
+<tr>
+<td>ngOnInit</td>
+<td>初始化组件时会调用一次，一般是用来在构造函数之后执行组件复杂的初始化逻辑</td>
+<td>OnInit</td>
+<td>执行constructor外的、复杂的初始化工作。启动组件后设置输入值。</td>
+</tr>
+<tr>
+<td>ngDoCheck</td>
+<td>只要数据发生改变就会被调用</td>
+<td>DoCheck</td>
+<td></td>
+</tr>
+<tr>
+<td>ngAfterContentInit</td>
+<td>组件内容渲染完成后调用一次</td>
+<td>AfterContentInit</td>
+<td></td>
+</tr>
+<tr>
+<td>ngAfterContentChecked</td>
+<td>只要组件的内容发生改变就会被调用</td>
+<td>AfterContentChecked</td>
+<td></td>
+</tr>
+<tr>
+<td>ngAfterViewInit</td>
+<td>视图加载完成后触发一次，一般用来对视图的 dom 元素进行操作</td>
+<td>AfterViewInit</td>
+<td></td>
+</tr>
+<tr>
+<td>ngAfterViewChecked</td>
+<td>视图发生变化时调用，在组件的生命周期中会调用多次</td>
+<td>AfterViewChecked</td>
+<td></td>
+</tr>
+<tr>
+<td>ngOnDestroy</td>
+<td>只在销毁组件时调用一次，一般用来在组件销毁前执行某些操作</td>
+<td>OnDestroy</td>
+<td>自动防止内存溢出：取消订阅observable/dom event.停止interval.注销全局的、服务的所有回调。</td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h2 id="form">form</h2>
+<h3 id="formbuilder">formBuilder</h3>
+<pre><code class="language-ts"><span class="hljs-number">1.</span> 创建一组form的数据
+<span class="hljs-number">2.</span> 为form的元素绑定name值与form的数据
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CompName</span> {
+    checkoutForm = <span class="hljs-variable language_">this</span>.<span class="hljs-property">formBuilder</span>.<span class="hljs-title function_">group</span>({
+        <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;&#x27;</span>,
+        <span class="hljs-attr">address</span>: <span class="hljs-string">&#x27;&#x27;</span>,
+    })
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {...}
+    <span class="hljs-title function_">onSubmit</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-title function_">clog</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">checkoutForm</span>.<span class="hljs-property">vlaue</span>)
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">checkoutForm</span>.<span class="hljs-title function_">reset</span>()
+    }
+}
+
+&lt;form [formGroup]=<span class="hljs-string">&quot;checkoutForm&quot;</span> (ngSubmit)=<span class="hljs-string">&quot;onSubmit()&quot;</span>&gt;
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;name&quot;</span>&gt;</span>name<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;name&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">formControlName</span>=<span class="hljs-string">&quot;name&quot;</span> /&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;address&quot;</span>&gt;</span>address<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;address&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">formControlName</span>=<span class="hljs-string">&quot;address&quot;</span> /&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span>&gt;</span>sss<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span>
+&lt;/form&gt;
 </code></pre>
 
         
