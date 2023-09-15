@@ -27,7 +27,7 @@ import { Component } from '@angular/core'
     // standalone // 是否需要NgModule
     // imports // 当前组件的依赖
     // 样式文件
-    // styles
+    // styles: ['h1 {color: red;}']
     styleUrls: ['./product-list.component.scss']
     // ViewEncapsulation:
 })
@@ -44,6 +44,11 @@ import { Component } from '@angular/core'
 | ShadowDom |     |     |
 | Emulated  |     |     |
 | None      |     |     |
+
+### styles
+
+`:host`代表当前组件的根元素。  
+`:host-context`代表当前组件所在文档的根元素。
 
 ## 组件之间通信
 
@@ -63,7 +68,7 @@ export default class A {
     @Input k!: string // !表示必须传递
     @Input
     set G(p: string) {
-        this._p = p
+        this._p = p // 有个缓冲，可打断。
     }
     get G() {
         return this._p
@@ -149,4 +154,41 @@ export class CompName {
     </div>
     <button type="submit">sss</button>
 </form>
+```
+
+## content project
+
+与 slot、children 类似
+
+```
+@Component({
+    ...
+    template: `
+        ...
+        <ng-content></ng-content>
+        <ng-content select="[sk]"></ng-content>
+    `
+})
+<app-comp-name>
+    <p>str</p>
+    <p sk>sss</p>
+</app-comp-name>
+```
+
+## dynamic component
+
+```
+import { Directive, ViewContainerRef } from '@angular/core'
+@Directive({
+    selector: '[adHost]', // 有[]
+})
+export class AdDirective {
+    constructor(public viewContainerRef: ViewContainerRef) {}
+}
+
+template: `
+    <div>
+        <ng-template adHost></ng-template>
+    </div>
+`
 ```

@@ -64,13 +64,13 @@ ng generate component home # 不需要使用app开头。
     <span class="hljs-comment">// standalone // 是否需要NgModule</span>
     <span class="hljs-comment">// imports // 当前组件的依赖</span>
     <span class="hljs-comment">// 样式文件</span>
-    <span class="hljs-comment">// styles</span>
+    <span class="hljs-comment">// styles: [&#x27;h1 {color: red;}&#x27;]</span>
     <span class="hljs-attr">styleUrls</span>: [<span class="hljs-string">&#x27;./product-list.component.scss&#x27;</span>]
-    <span class="hljs-comment">// ViewEncapsulation: </span>
+    <span class="hljs-comment">// ViewEncapsulation:</span>
 })
 </code></pre>
 <h3 id="selector">selector</h3>
-<p>为gn指定要渲染的内容。标签会存在于html中，如：<code>&lt;app-hello-word&gt;</code></p>
+<p>为 gn 指定要渲染的内容。标签会存在于 html 中，如：<code>&lt;app-hello-word&gt;</code></p>
 <h3 id="viewencapsulation">ViewEncapsulation</h3>
 <table>
 <thead>
@@ -98,6 +98,9 @@ ng generate component home # 不需要使用app开头。
 </tr>
 </tbody>
 </table>
+<h3 id="styles">styles</h3>
+<p><code>:host</code>代表当前组件的根元素。<br>
+<code>:host-context</code>代表当前组件所在文档的根元素。</p>
 <h2 id="组件之间通信">组件之间通信</h2>
 <table>
 <thead>
@@ -148,7 +151,7 @@ ng generate component home # 不需要使用app开头。
     @<span class="hljs-title class_">Input</span> k!: string <span class="hljs-comment">// !表示必须传递</span>
     @<span class="hljs-title class_">Input</span>
     <span class="hljs-keyword">set</span> <span class="hljs-title function_">G</span>(<span class="hljs-params">p: string</span>) {
-        <span class="hljs-variable language_">this</span>.<span class="hljs-property">_p</span> = p
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">_p</span> = p <span class="hljs-comment">// 有个缓冲，可打断。</span>
     }
     <span class="hljs-keyword">get</span> <span class="hljs-title function_">G</span>() {
         <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">_p</span>
@@ -275,6 +278,36 @@ ng generate component home # 不需要使用app开头。
     <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
     <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span>&gt;</span>sss<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span>
 &lt;/form&gt;
+</code></pre>
+<h2 id="content-project">content project</h2>
+<p>与slot、children类似</p>
+<pre><code>@Component({
+    ...
+    template: `
+        ...
+        &lt;ng-content&gt;&lt;/ng-content&gt;
+        &lt;ng-content select=&quot;[sk]&quot;&gt;&lt;/ng-content&gt;
+    `
+})
+&lt;app-comp-name&gt;
+    &lt;p&gt;str&lt;/p&gt;
+    &lt;p sk&gt;sss&lt;/p&gt;
+&lt;/app-comp-name&gt;
+</code></pre>
+<h2 id="dynamic-component">dynamic component</h2>
+<pre><code>import { Directive, ViewContainerRef } from '@angular/core'
+@Directive({
+    selector: '[adHost]', // 有[]
+})
+export class AdDirective {
+    constructor(public viewContainerRef: ViewContainerRef) {}
+}
+
+template: `
+    &lt;div&gt;
+        &lt;ng-template adHost&gt;&lt;/ng-template&gt;
+    &lt;/div&gt;
+`
 </code></pre>
 
         
