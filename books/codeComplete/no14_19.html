@@ -125,7 +125,7 @@ switch case
 <li>长循环写有子程序中</li>
 </ul>
 <h1 id="no17-不常见的控制结构">no.17 不常见的控制结构</h1>
-<p>一个方法中少写几个return<br>
+<p>一个方法中少写几个 return<br>
 递归：</p>
 <ul>
 <li>确保可以停止</li>
@@ -135,7 +135,7 @@ switch case
 <li></li>
 </ul>
 <h1 id="no18-表驱动法">no.18 表驱动法</h1>
-<p>写一个mysql</p>
+<p>写一个 mysql</p>
 <pre><code>          数据存在的空间&lt;Map&gt;
     |-----------------|           索引表1         索引表的索引表
     |                 |          |------|      |--------|
@@ -167,7 +167,138 @@ switch case
 </li>
 </ul>
 <p>与其试图找到最佳方案，不如努力找到一个好的方案后尽量并避免灾难 ---- Butler Lampson</p>
-<h1 id="no19-title">no.19 title</h1>
+<h1 id="no19-常规控制问题">no.19 常规控制问题</h1>
+<p>简化复杂的表达式</p>
+<ul>
+<li>使用新的布尔变量将复杂的测试拆分为部分测试</li>
+<li>将复杂的表达式转移到返回布尔值的函数</li>
+<li>使用决策表替代复杂条件</li>
+<li>使用德摩根定理简化否定形式的布尔判断</li>
+<li>使用圆括号澄清布尔表达式</li>
+</ul>
+<p>简化深层嵌套</p>
+<ul>
+<li>使用break块简化嵌套if</li>
+<li>将嵌套if转换为一组if-then-else</li>
+<li>将嵌套if转换为case语句</li>
+<li>将深层嵌套的代码纳入子程序中</li>
+<li>使用更面向对象的方法</li>
+<li>重新设计深层嵌套的代码
+<ul>
+<li>从case变为多态对象</li>
+</ul>
+</li>
+</ul>
+<h2 id="德摩根定理">德摩根定理</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>!a &amp;&amp; !b</td>
+<td>!(a</td>
+<td></td>
+</tr>
+<tr>
+<td>!a &amp;&amp; b</td>
+<td>!(a</td>
+<td></td>
+</tr>
+<tr>
+<td>a &amp;&amp; !b</td>
+<td>!(!a</td>
+<td></td>
+</tr>
+<tr>
+<td>a &amp;&amp; b</td>
+<td>!(!a</td>
+<td></td>
+</tr>
+<tr>
+<td>!a</td>
+<td></td>
+<td>!b</td>
+</tr>
+<tr>
+<td>!a</td>
+<td></td>
+<td>b</td>
+</tr>
+<tr>
+<td>a</td>
+<td></td>
+<td>!b</td>
+</tr>
+<tr>
+<td>a</td>
+<td></td>
+<td>b</td>
+</tr>
+</tbody>
+</table>
+<p>提取非在前
+ab各取反
+与变或，或变与</p>
+<h2 id="结构化编程">结构化编程</h2>
+<p>来自Edsger W. Dijkstra 1969的论文。<br>
+结构化一词火了以后，产生了结构化分析、结构化设计、结构代偷懒。<br>
+结构化程序以一种有序的、有规律的方式进行。不会不可预测地跳转。<br>
+由三部分组成：</p>
+<ul>
+<li>顺序</li>
+<li>分支</li>
+<li>循环<br>
+它们也是任何编程语言的基本组成部分。</li>
+</ul>
+<h2 id="复杂度">复杂度</h2>
+<p>Tom McCabe的论文中提出程序的复杂度由其控制流程决定。其实还包括循环等。</p>
+<ul>
+<li>增加程序员的脑容量</li>
+<li>降低复杂度</li>
+</ul>
+<p>复杂度由计算子程序的决策点的数量决定。</p>
+<ol>
+<li>从头开始，沿子程序常规路径开始计数。</li>
+<li>遇到以下每个关键字或其等价表示都递增1</li>
+<li>为每个case递增1</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0-5</td>
+<td>子程序可能还行</td>
+</tr>
+<tr>
+<td>6-10</td>
+<td>开始考虑如何简化这个子程序</td>
+</tr>
+<tr>
+<td>11+</td>
+<td>将子程序的一部分分解到子程序，并在该方法中调用子程序。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="其他类型的复杂度">其他类型的复杂度</h3>
+<ul>
+<li>使用的数据量</li>
+<li>控制结构的嵌套层数</li>
+<li>代码行数</li>
+<li>以变量的连续引用之间的行数</li>
+<li>变量被使用的行数</li>
+<li>输入量</li>
+<li>输出量</li>
+</ul>
 
         
         
