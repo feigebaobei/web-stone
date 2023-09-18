@@ -41,6 +41,81 @@
     </head>
     <body class="vscode-body vscode-light">
         <h1 id="常用的统计指标">常用的统计指标</h1>
+<p>连续型数据有以下4个特征：</p>
+<ul>
+<li>集中趋势
+<ul>
+<li>平均数 miu</li>
+<li>中位数 最中间的一个数值</li>
+<li>众数 出现次数最多的数值</li>
+</ul>
+</li>
+<li>分散或变异趋势
+<ul>
+<li>全距 R 分散程度 max - min</li>
+<li>变异数 sigma^2</li>
+<li>标准差 sigmab</li>
+<li>变异系数</li>
+</ul>
+</li>
+<li>偏态</li>
+<li>峰度</li>
+</ul>
+<pre><code class="language-ts"><span class="hljs-keyword">let</span> <span class="hljs-title function_">getMean</span> = (<span class="hljs-params">arr: N[]</span>) =&gt; {
+    <span class="hljs-keyword">if</span> (arr.<span class="hljs-property">length</span>) {
+        <span class="hljs-keyword">return</span> arr.<span class="hljs-title function_">reduce</span>(<span class="hljs-function">(<span class="hljs-params">r, c</span>) =&gt;</span> {
+            r += c
+            <span class="hljs-keyword">return</span> r
+        }, <span class="hljs-number">0</span>) / arr.<span class="hljs-property">length</span>
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">undefined</span>
+    }
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">getMedian</span> = (<span class="hljs-params">arr: N[]</span>) =&gt; {
+    <span class="hljs-keyword">let</span> len = arr.<span class="hljs-property">length</span>
+    <span class="hljs-keyword">let</span> res
+    <span class="hljs-keyword">if</span> (len) {
+        <span class="hljs-keyword">if</span> (len % <span class="hljs-number">2</span>) {
+            res = arr[len / <span class="hljs-number">2</span>]
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">let</span> l = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">floor</span>(len / <span class="hljs-number">2</span>)
+        <span class="hljs-keyword">let</span> r = l + <span class="hljs-number">1</span>
+        res = (arr[l] + arr[r]) / <span class="hljs-number">2</span>
+    }
+    } <span class="hljs-keyword">else</span> {
+        res = <span class="hljs-literal">undefined</span>
+    }
+    <span class="hljs-keyword">return</span> res
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">getMode</span> = (<span class="hljs-params">arr: N[]</span>) =&gt; {
+    <span class="hljs-keyword">if</span> (arr.<span class="hljs-property">length</span>) {
+        <span class="hljs-keyword">let</span> map = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>()
+        arr.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> {
+            <span class="hljs-keyword">let</span> n = map.<span class="hljs-title function_">get</span>(item)
+            <span class="hljs-keyword">if</span> (n) {
+                map.<span class="hljs-title function_">set</span>(item, n+<span class="hljs-number">1</span>)
+            } <span class="hljs-keyword">else</span> {
+                map.<span class="hljs-title function_">set</span>(item, <span class="hljs-number">1</span>)
+            }
+        })
+        <span class="hljs-keyword">let</span> max = -<span class="hljs-number">1</span>
+        <span class="hljs-keyword">let</span> num = <span class="hljs-literal">undefined</span>
+        <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">from</span>(map.<span class="hljs-title function_">entries</span>()).<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">[k, v]</span>) =&gt;</span> {
+            <span class="hljs-keyword">if</span> (v &gt; max) {
+                max = v
+                num = k
+            }
+        })
+        <span class="hljs-keyword">return</span> {
+            <span class="hljs-attr">number</span>: num,
+            <span class="hljs-attr">count</span>: max,
+        }
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">undefined</span>
+    }
+}
+
+</code></pre>
 <h1 id="title">title</h1>
 <h1 id="title-1">title</h1>
 <h1 id="title-2">title</h1>

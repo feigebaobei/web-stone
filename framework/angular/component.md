@@ -192,3 +192,41 @@ template: `
     </div>
 `
 ```
+
+## class & style
+
+```
+[class.sale]="onSale"
+[class]="classExpression"
+string
+
+[class]="classExpression"
+{key: boolean}
+
+[class]="classExpression"
+['key']
+```
+
+```
+[style.background-color]="exp"
+[style.backgroundColor]="exp"
+[style.width.px]="w"
+[style]="exp"
+"height: 17px;width: 16px"
+
+[style]="exp"
+{width: 6px, heigth: 8px}
+```
+
+## event
+
+```
+<!--  -->
+<button (click)="onEvent()">st</button>
+
+<!-- 绑定键盘事件 -->
+<input (keydown.shift.t)="onKeydown($event)" />
+<input (keydown.code.shiftleft.altleft.keyt)="onKeydown($event)" />
+```
+
+## 双向绑定 two-way binding

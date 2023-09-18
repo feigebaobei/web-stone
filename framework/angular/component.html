@@ -16,7 +16,8 @@
 }
 
 </style>
-        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -280,7 +281,7 @@ ng generate component home # 不需要使用app开头。
 &lt;/form&gt;
 </code></pre>
 <h2 id="content-project">content project</h2>
-<p>与slot、children类似</p>
+<p>与 slot、children 类似</p>
 <pre><code>@Component({
     ...
     template: `
@@ -309,8 +310,37 @@ template: `
     &lt;/div&gt;
 `
 </code></pre>
+<h2 id="class--style">class &amp; style</h2>
+<pre><code>[class.sale]=&quot;onSale&quot;
+[class]=&quot;classExpression&quot;
+string
 
-        
+[class]=&quot;classExpression&quot;
+{key: boolean}
+
+[class]=&quot;classExpression&quot;
+['key']
+</code></pre>
+<pre><code>[style.background-color]=&quot;exp&quot;
+[style.backgroundColor]=&quot;exp&quot;
+[style.width.px]=&quot;w&quot;
+[style]=&quot;exp&quot;
+&quot;height: 17px;width: 16px&quot;
+
+[style]=&quot;exp&quot;
+{width: 6px, heigth: 8px}
+</code></pre>
+<h2 id="event">event</h2>
+<pre><code>&lt;!--  --&gt;
+&lt;button (click)=&quot;onEvent()&quot;&gt;st&lt;/button&gt;
+
+&lt;!-- 绑定键盘事件 --&gt;
+&lt;input (keydown.shift.t)=&quot;onKeydown($event)&quot; /&gt;
+&lt;input (keydown.code.shiftleft.altleft.keyt)=&quot;onKeydown($event)&quot; /&gt;
+</code></pre>
+<h2 id="双向绑定-two-way-binding">双向绑定 two-way binding</h2>
+
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
     </body>
     </html>
