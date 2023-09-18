@@ -230,3 +230,17 @@ string
 ```
 
 ## 双向绑定 two-way binding
+
+## 模板变量
+
+```
+<input #phone />
+<!-- phone引用的是dom -->
+<button (click)="fn(phone.value)">str</button>
+```
+
+模板变量的引用值
+
+- 组件实例
+- dom
+- TemplateRef
