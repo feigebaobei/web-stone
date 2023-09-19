@@ -10,3 +10,11 @@ bind-attr="var"
 on-eventName="eventHandler"
 bindon-ngModel="var"
 ```
+
+## empower
+
+不能使用的标签` <html>``<body>``<base> `
+
+## 篡写
+
+`<p>{{$var}}</p>`

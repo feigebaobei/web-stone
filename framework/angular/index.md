@@ -17,7 +17,11 @@ npm 8.5.0+
 - 任意扩展
 - 打包工具好。还是基于 webpack 搞的。
 
+## [概念](/framework/angular/concept/index.html)
+
 ## install
+
+`npm i -g @angular/cli`
 
 ## setup
 
@@ -59,17 +63,21 @@ ng g component product-list
 
 ## [组件](/framework/angular/component.html)
 
+### 生命周期
+
 ## [模板](/framework/angular/template.html)
 
 ## [指令](/framework/angular/directive.html)
 
 ## [管道](/framework/angular/pipe.html)
 
-## [生命周期](/framework/angular/lifeCircle.html)
-
 ## [表单](/framework/angular/form.html)
 
-## [字段说明](/framework/angular/decorator.md)
+## [字段说明](/framework/angular/decorator.html)
+
+## [interface](/framework/angular/interface.html)
+
+## [依赖注入](/framework/angular/dependencyInjection.html)
 
 ## [principle](/framework/angular/principle/index.html)
 

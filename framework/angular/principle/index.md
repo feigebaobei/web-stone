@@ -4,7 +4,9 @@
 
 ## @Component
 
-## @Component
+## angular elements
+
+angular 处理类为自定义标签。然后浏览器处理自定义标签。
 
 ## @Component
 

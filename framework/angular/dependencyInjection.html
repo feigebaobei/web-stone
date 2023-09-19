@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>&#x4f9d;&#x8d56;&#x6ce8;&#x5165;</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="依赖注入">依赖注入</h1>
+<p>让class可以使用angular的修饰函数，如Components/Directives/Pipes/...</p>
+<p>依赖消费者、依赖提供者</p>
+<p>angular创建一个Injector，里面放着所有依赖提供者类的实例（每一个类只有一个实例）。在全应用范围内有效。当有依赖消费者需要使用时，angular会判断Injector中是否存在相应实例，若存在则返回该实例，否则创建一个实例放入Injector并返回该实例。</p>
+<h2 id="依赖提供者-providing-dependency">依赖提供者 Providing dependency</h2>
+<pre><code class="language-ts"><span class="hljs-comment">// 在组件访问依赖提供者</span>
+<span class="hljs-meta">@Component</span>({
+    <span class="hljs-attr">selector</span>: <span class="hljs-string">&#x27;hero-list&#x27;</span>,
+    <span class="hljs-attr">template</span>: <span class="hljs-string">&#x27;...&#x27;</span>,
+    <span class="hljs-comment">// 可以使用providers指定作用的级别。</span>
+    <span class="hljs-comment">// 该示例作用于</span>
+    <span class="hljs-attr">providers</span>: [<span class="hljs-title class_">HeroService</span>]
+})
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">HerorService</span> {}
+
+<span class="hljs-comment">// 注册到指定模块</span>
+<span class="hljs-comment">// 可以使本模块内的所有组件、指令、pipes都可访问。</span>
+<span class="hljs-meta">@NgModule</span>({
+    <span class="hljs-attr">declarations</span>: [<span class="hljs-title class_">HeroListComponent</span>],
+    <span class="hljs-attr">providers</span>: [<span class="hljs-title class_">HeroService</span>],
+})
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">HeroListModule</span> {}
+
+<span class="hljs-comment">// 注册到全局</span>
+<span class="hljs-meta">@Injectable</span>({
+    <span class="hljs-attr">providedIn</span>: <span class="hljs-string">&#x27;root&#x27;</span>
+})
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">HeroService</span> {}
+</code></pre>
+<h2 id="依赖消费者-injecting-a-dependency">依赖消费者 injecting a dependency</h2>
+<pre><code class="language-ts"><span class="hljs-comment">// no.1写法</span>
+<span class="hljs-meta">@Component</span>({...})
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">HeroListComponent</span> {
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> service: HeroService</span>) {}
+}
+
+<span class="hljs-comment">// no.2写法</span>
+<span class="hljs-meta">@Component</span>({...})
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">HeroListComponent</span> {
+    <span class="hljs-keyword">private</span> service = <span class="hljs-title function_">inject</span>(<span class="hljs-title class_">HeroService</span>)
+}
+</code></pre>
+
+        
+        
+    </body>
+    </html>
