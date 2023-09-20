@@ -49,3 +49,56 @@ class HeroListComponent {
     private service = inject(HeroService)
 }
 ```
+
+## 服务
+
+服务包括很多东西。它可以是方法、应用的功能。常用使用它完成 di.
+它可以让组件变轻薄、高效。
+处于视图层和逻辑层之间。  
+可以被组件、其他服务使用。
+
+```
+let {
+    log:clog,
+    error:cer,
+    warn:cw,
+} = console
+export class Logger {
+    log(msg: S) {clog(msg)}
+    error(msg: S) {cer(msg)}
+    warn(msg: S) {cw(msg)}
+}
+
+export class HeroService {
+    constructor(
+        private backend: BackendService,
+        private logger: Logger
+    ) {...}
+}
+```
+
+### 创建一个 injectable service
+
+```shell
+ng generate service heroes/hero
+# ng g s heroes/hero
+```
+
+```ts
+// src/app/heroes/hero.service.ts
+import { Injectable} from '@angular/core'
+@Injectable({ // 指明该类用于di系统
+    providedIn: 'root', // 表示可以在该应用范围内使用该服务
+})
+export class HeroService
+```
+
+### 注入
+
+在组件的类中使用
+
+```
+constructor(heroService: HeroService) {...}
+```
+
+在其他类中使用，同理。

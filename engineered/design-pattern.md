@@ -86,6 +86,8 @@ var b = Singleton.getInstance()
 a === b
 ```
 
+store(redux/vuex/pinia)/injector
+
 ## 原型模式
 
 ```
