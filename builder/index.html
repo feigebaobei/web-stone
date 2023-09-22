@@ -15,41 +15,6 @@
 	display: none;
 }
 
-/* From extension ms-toolsai.jupyter */
-/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
-
-.alert {
-    width: auto;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-.alert > *:last-child {
-    margin-bottom: 0;
-}
-#preview > .alert:last-child {
-    /* Prevent this being set to zero by the default notebook stylesheet */
-    padding-bottom: 1em;
-}
-
-.alert-success {
-    /* Note there is no suitable color available, so we just copy "info" */
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-info {
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-warning {
-    background-color: var(--theme-warning-background);
-    color: var(--theme-warning-foreground);
-}
-.alert-danger {
-    background-color: var(--theme-error-background);
-    color: var(--theme-error-foreground);
-}
-
 </style>
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
@@ -78,7 +43,7 @@
         <ul>
 <li><a href="/builder/webpack5/index.html">webpack5</a>
 <ul>
-<li><a href="/jsPackages/webpackCli.html">webpack-cli</a> 在命令行中运行webpack 待完成</li>
+<li><a href="/jsPackages/webpackCli.html">webpack-cli</a> 在命令行中运行 webpack 待完成</li>
 </ul>
 </li>
 <li><a href="/builder/rollup/index.html">rollup</a></li>
@@ -90,7 +55,7 @@
 </li>
 <li><a href="/builder/snowpack/index.html">snowpack</a>
 <ul>
-<li>打包为esm。需要运行器支持esm.</li>
+<li>打包为 esm。需要运行器支持 esm.</li>
 <li>基于<code>esbuild</code>/<code>rollup</code>开发。</li>
 <li>快。</li>
 </ul>
@@ -107,7 +72,7 @@
 <li><a href="/builder/RequireJS.html">RequireJS</a></li>
 <li><a href="/builder/SystemJS.html">SystemJS</a></li>
 <li><a href="/builder/turbopack/index.html">turbopack</a></li>
-<li><a href="/builder/other.html">other</a></li>
+<li><a href="/builder/tsup/index.html">tsup</a></li>
 <li><a href="/builder/other.html">other</a></li>
 <li><a href="/builder/other.html">other</a></li>
 <li><a href="/builder/other.html">other</a></li>
@@ -146,7 +111,7 @@
 </tr>
 <tr>
 <td>基础包</td>
-<td>无。基于自研的esbuild家族开发</td>
+<td>无。基于自研的 esbuild 家族开发</td>
 <td>esbuild</td>
 <td></td>
 <td></td>
@@ -225,9 +190,9 @@
 <tr>
 <td>tree-shaking</td>
 <td>esm</td>
-<td>使用静态分析支持tree-shaking</td>
+<td>使用静态分析支持 tree-shaking</td>
 <td></td>
-<td>使用静态分析支持tree-shaking</td>
+<td>使用静态分析支持 tree-shaking</td>
 <td></td>
 <td></td>
 <td></td>
@@ -276,7 +241,7 @@
 </tr>
 <tr>
 <td></td>
-<td>可从cli中得到自定义选项</td>
+<td>可从 cli 中得到自定义选项</td>
 <td></td>
 <td></td>
 <td>写法宽泛</td>
@@ -329,7 +294,7 @@
 <tr>
 <td>loader</td>
 <td>有</td>
-<td>没有loader。使用plugin实现。</td>
+<td>没有 loader。使用 plugin 实现。</td>
 <td></td>
 <td>有很多</td>
 <td></td>
@@ -357,7 +322,7 @@
 <td></td>
 <td>动态引入时</td>
 <td></td>
-<td>1.多入口。2.入口中明确依赖或使用splitchunkplugin插件 3.动态引入时</td>
+<td>1.多入口。2.入口中明确依赖或使用 splitchunkplugin 插件 3.动态引入时</td>
 <td></td>
 <td></td>
 <td></td>
@@ -420,7 +385,7 @@
 <tr>
 <td>输出</td>
 <td>iife/cjs/esm，也可按平台输出</td>
-<td>指定规范，支持6种。</td>
+<td>指定规范，支持 6 种。</td>
 <td></td>
 <td>面向运行环境输出。打库包时有丰富的输出选项。</td>
 <td></td>
@@ -431,7 +396,7 @@
 <td></td>
 </tr>
 <tr>
-<td>控制package.json字段</td>
+<td>控制 package.json 字段</td>
 <td>有一些</td>
 <td></td>
 <td></td>
@@ -445,7 +410,7 @@
 </tr>
 <tr>
 <td>不足</td>
-<td>但一些针对构建应用的重要功能仍然还在持续开发中 —— 特别是代码分割和 CSS处理方面。esbuild vs rollup。Rollup 在应用打包方面, 更加成熟和灵活。</td>
+<td>但一些针对构建应用的重要功能仍然还在持续开发中 —— 特别是代码分割和 CSS 处理方面。esbuild vs rollup。Rollup 在应用打包方面, 更加成熟和灵活。</td>
 <td></td>
 <td></td>
 <td></td>
@@ -471,7 +436,7 @@
 </tr>
 <tr>
 <td></td>
-<td>有观察模式，不支持hmr</td>
+<td>有观察模式，不支持 hmr</td>
 <td></td>
 <td></td>
 <td></td>
@@ -510,9 +475,9 @@
 </tr>
 <tr>
 <td>api</td>
-<td>5个api就够用了</td>
-<td>只有一个api，不能一次打包多个。</td>
-<td>2个api.可以一次打包多个。</td>
+<td>5 个 api 就够用了</td>
+<td>只有一个 api，不能一次打包多个。</td>
+<td>2 个 api.可以一次打包多个。</td>
 <td></td>
 <td></td>
 <td></td>
@@ -563,12 +528,12 @@
 </tbody>
 </table>
 <h1 id="todo">todo</h1>
-<h2 id="对builder的理解">对builder的理解</h2>
+<h2 id="对-builder-的理解">对 builder 的理解</h2>
 <p>把代码输入进去。它把代码输出出来。不改变运行逻辑，可以改变代码结构。
-esbuild直接支持stdin输入。
-rollup直接build.generater() // stdout输出。</p>
+esbuild 直接支持 stdin 输入。
+rollup 直接 build.generater() // stdout 输出。</p>
 <h2 id="代码分割">代码分割</h2>
-<p>动态引入时使用import/require。import()返回一个promise.当在满足条件时才加载相关代码。即相关代码需要异步加载。builder使用代码分割懒加载代码。代码分割是为懒加载服务的。可以用于减小包体积、减小首屏加载时长、分成若干小包。</p>
+<p>动态引入时使用 import/require。import()返回一个 promise.当在满足条件时才加载相关代码。即相关代码需要异步加载。builder 使用代码分割懒加载代码。代码分割是为懒加载服务的。可以用于减小包体积、减小首屏加载时长、分成若干小包。</p>
 <h2 id="title">title</h2>
 <p>读完这几个打包工具后，发现它们对项目结构、框架没有影响。即：在项目开发中期是发现早期选择的打包工具不好用了，再换也来得及，没有多大影响。</p>
 <h2 id="打包器的基本功能">打包器的基本功能</h2>

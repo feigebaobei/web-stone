@@ -269,15 +269,23 @@ yarn help
 
 ## 配置文件
 
-默认配置文件：`<root>/.yarnrc`。  
-|key|description|default|enum|demo|||
-|-|-|-|-|-|-|-|
-|yarn-offline-mirror|"./packages-cache"||||||
-|yarn-offline-mirror-pruning|true||||||
-|yarn-path|"./bin/yarn"||||||
-|disable-self-update-check|true||||||
-|child-concurrency|#number#||||||
-|unsafe-disable-integrity-migration|false||||||
+默认配置文件：`<root>/.yarnrc`。
+
+| key                                | description        | default | enum | demo |     |     |
+| ---------------------------------- | ------------------ | ------- | ---- | ---- | --- | --- |
+| yarn-offline-mirror                | "./packages-cache" |         |      |      |     |     |
+| yarn-offline-mirror-pruning        | true               |         |      |      |     |     |
+| yarn-path                          | "./bin/yarn"       |         |      |      |     |     |
+| disable-self-update-check          | true               |         |      |      |     |     |
+| child-concurrency                  | #number#           |         |      |      |     |     |
+| unsafe-disable-integrity-migration | false              |         |      |      |     |     |
+
+- key/value 都用`""`包裹。
+- key/value 之间使用` `空格间隔
+
+```
+"registry" "https://registry.npmjs.org"
+```
 
 ## [pnp](/package-manager/yarn/pnp.html)
 
@@ -360,6 +368,8 @@ yarn cache list // 列出缓存的文件
 yarn cache dir  // 列出缓存目录
 yarn cache clean [<module_name>] // 清除缓存
 ```
+
+缓存目录：`cache-folder`
 
 ## principle
 
