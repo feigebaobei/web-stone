@@ -70,6 +70,7 @@ git diff # 查看被修改的地方
 git add readme.txt # 在提交前添加需要提交的文件
 git status
 git commit -m "message of resolve" # 提交
+git commit -m "message of resolve" --no-verify # 提交并忽略代码校验
 git commit --amend  # 修改git commit i 进入编辑状态 修改注释 esc :wq
 
 # 取消跟踪文件
@@ -110,7 +111,7 @@ git checkout -- <file>
 rm <file> # git知道删除了文件，但是工作区和版本库不一致。这时需要下面这一步。
 git rm --cached file.ext # 删除file.ext的跟踪,并保留本地文件.
 git rm --f file.ext # 删除file.ext的跟踪,并删除本地文件.
-git commit -m 'note' # 一定要有这
+git commit -m 'note' # 一定要有
 # 如果在`$ rm <file>`误删了。使用下行代码恢复回来。
 git checkout -- <file>
 git clean -f # 删除untracked file
