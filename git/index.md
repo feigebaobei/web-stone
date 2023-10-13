@@ -367,6 +367,8 @@ merge 前保证当前工作区干净
 3. 提交（commit）保存版本库中和每一次变化的元数据（作者、提交者、提交日期、日志消息）。
 4. 标签（tag）
 
+## [submodule](/git/submodul.html)
+
 ## 同一台电脑配置多个 git 账号
 
 这是参考的文档：`https://www.cnblogs.com/popfisher/p/5731232.html`  

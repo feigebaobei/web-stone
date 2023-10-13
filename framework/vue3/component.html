@@ -90,8 +90,12 @@
 <li>必须使用<code>&lt;component&gt;</code>标签</li>
 </ul>
 <pre><code class="language-js">&lt;keep-alive&gt; <span class="hljs-comment">// 会使用组件保存在内存中</span>
-    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">component</span> <span class="hljs-attr">:is</span>=<span class="hljs-string">&quot;currentTabComponent&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">component</span>&gt;</span></span>
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">component</span> <span class="hljs-attr">:is</span>=<span class="hljs-string">&quot;dropIndex&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">component</span>&gt;</span></span>
 &lt;/keep-alive&gt;
+
+<span class="hljs-keyword">import</span> <span class="hljs-title class_">OneComp</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./OneComp.vue&#x27;</span>
+<span class="hljs-keyword">let</span> dynamicComp = ref&lt;any&gt;(<span class="hljs-literal">null</span>) <span class="hljs-comment">// 或者reactive</span>
+dynamicComp.<span class="hljs-property">value</span> = <span class="hljs-title class_">OneComp</span>
 </code></pre>
 <h2 id="异步组件">异步组件</h2>
 <pre><code class="language-js"><span class="hljs-comment">// 局部注册</span>
@@ -347,7 +351,7 @@ v-bind=<span class="hljs-string">&quot;$attrs&quot;</span>
 <ul>
 <li>它们是祖先组件向后代组件传递数据的方式之一。</li>
 <li>使用 symbol 类型为 key 可以减少变量名冲突。</li>
-<li>可以与ref/reactive/readonly/var/symbol/function结合使用。</li>
+<li>可以与 ref/reactive/readonly/var/symbol/function 结合使用。</li>
 </ul>
 <p><a href="/framework/dataTrasmit/index.html">组件间传递数据</a></p>
 <!-- prettier-ignore-start -->
