@@ -372,7 +372,23 @@ class MySql {
 // export default MySql;
 window.MySql = MySql
 
-
+// 可控制的promise
+class ControlablePromise {
+  constructor() {
+    this.promise = new Promise((s, j) => {
+      this.resolve = s
+      this.reject = j
+    })
+    this.resolve = () => {}
+    this.reject = () => {}
+  }
+  recast() {
+    this.promise = new Promise((s, j) => {
+      this.resolve = s
+      this.reject = j
+    })
+  }
+}
 
 
 
