@@ -151,4 +151,28 @@ let iqr = (a: N[]) => {
     return undefined
   }
 }
+// 阶乘
+let factorial = (n: N) => {
+  if (n < 0 || !Number.isInteger(n)) {
+    return new Error('参数不合法')
+  } else if (n > 0) {
+    let res: N
+    let i = 1
+    while (i <= n) {
+      res *= i
+      i++
+    }
+    return res
+  } else {
+    return 1
+  }
+}
+// 排列
+let arrange = (n: N, m: N) => {
+  return factorial(n) / factorial(n - m)
+}
+// 组合
+let combination = (n: N, m: N) => {
+  return factorial(n, m) / factorial(m)
+}
 ```

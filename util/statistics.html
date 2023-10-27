@@ -46,7 +46,7 @@
 
 <span class="hljs-comment">// let subtract = (a: N, b: N): N =&gt; (a - b)</span>
 <span class="hljs-keyword">let</span> subtractMap = (<span class="hljs-attr">a</span>: N[], b): <span class="hljs-function"><span class="hljs-params">N</span> =&gt;</span> {
-  <span class="hljs-keyword">return</span> a.<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">n</span> =&gt;</span> {
+  <span class="hljs-keyword">return</span> a.<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">n</span>) =&gt;</span> {
     <span class="hljs-keyword">return</span> a - b
   })
 }
@@ -106,7 +106,7 @@
   } <span class="hljs-keyword">else</span> {
     <span class="hljs-keyword">let</span> m = <span class="hljs-title function_">miu</span>(a)
     <span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">a</span>) =&gt; {
-      <span class="hljs-keyword">return</span> a.<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">n</span> =&gt;</span> {
+      <span class="hljs-keyword">return</span> a.<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">n</span>) =&gt;</span> {
         <span class="hljs-keyword">return</span> <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">pow</span>(n - m, <span class="hljs-number">2</span>)
       })
     }
@@ -139,27 +139,29 @@
   <span class="hljs-keyword">let</span> m = <span class="hljs-title function_">miu</span>(a)
   <span class="hljs-keyword">let</span> len = a.<span class="hljs-property">length</span>
   <span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">a</span>) =&gt; {
-    <span class="hljs-keyword">return</span> a.<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">n</span> =&gt;</span> {
+    <span class="hljs-keyword">return</span> a.<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">n</span>) =&gt;</span> {
       <span class="hljs-keyword">return</span> <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">pow</span>(n - m, <span class="hljs-number">3</span>)
     })
   }
-  <span class="hljs-keyword">return</span> (<span class="hljs-title function_">compose</span>(f, sum)(a)) / (len - <span class="hljs-number">1</span>) / <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">pow</span>(<span class="hljs-title function_">standardDeviation</span>(a), <span class="hljs-number">3</span>)
+  <span class="hljs-keyword">return</span> <span class="hljs-title function_">compose</span>(f, sum)(a) / (len - <span class="hljs-number">1</span>) / <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">pow</span>(<span class="hljs-title function_">standardDeviation</span>(a), <span class="hljs-number">3</span>)
 }
 <span class="hljs-comment">// 峰度系数</span>
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">g2</span> = (<span class="hljs-params">a: N[]</span>) =&gt; {
   <span class="hljs-keyword">let</span> m = <span class="hljs-title function_">miu</span>(a)
   <span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">a</span>) =&gt; {
-    <span class="hljs-keyword">return</span> a.<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">n</span> =&gt;</span> {
+    <span class="hljs-keyword">return</span> a.<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">n</span>) =&gt;</span> {
       <span class="hljs-keyword">return</span> <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">pow</span>(n - m, <span class="hljs-number">4</span>)
     })
   }
   <span class="hljs-keyword">let</span> len = a.<span class="hljs-property">length</span>
-  <span class="hljs-keyword">return</span> (<span class="hljs-title function_">compose</span>(f)(a)) / ((len - <span class="hljs-number">1</span>) * <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">pow</span>(<span class="hljs-title function_">standardDeviation</span>(a), <span class="hljs-number">4</span>)) - <span class="hljs-number">3</span>
+  <span class="hljs-keyword">return</span> <span class="hljs-title function_">compose</span>(f)(a) / ((len - <span class="hljs-number">1</span>) * <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">pow</span>(<span class="hljs-title function_">standardDeviation</span>(a), <span class="hljs-number">4</span>)) - <span class="hljs-number">3</span>
 }
 <span class="hljs-comment">// 分位</span>
 <span class="hljs-comment">// n 几分</span>
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">part</span> = (<span class="hljs-params">a: N[], n = <span class="hljs-number">4</span></span>) =&gt; {
-  <span class="hljs-keyword">if</span> (a.<span class="hljs-property">length</span> &lt; n) {<span class="hljs-keyword">return</span>}
+  <span class="hljs-keyword">if</span> (a.<span class="hljs-property">length</span> &lt; n) {
+    <span class="hljs-keyword">return</span>
+  }
   <span class="hljs-comment">// 整理得所有下标值</span>
   <span class="hljs-keyword">let</span> indexArr = []
   <span class="hljs-keyword">let</span> i = <span class="hljs-number">1</span>
@@ -190,7 +192,30 @@
     <span class="hljs-keyword">return</span> <span class="hljs-literal">undefined</span>
   }
 }
-
+<span class="hljs-comment">// 阶乘</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">factorial</span> = (<span class="hljs-params">n: N</span>) =&gt; {
+  <span class="hljs-keyword">if</span> (n &lt; <span class="hljs-number">0</span> || !<span class="hljs-title class_">Number</span>.<span class="hljs-title function_">isInteger</span>(n)) {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&#x27;参数不合法&#x27;</span>)
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (n &gt; <span class="hljs-number">0</span>) {
+    <span class="hljs-keyword">let</span> <span class="hljs-attr">res</span>: N
+    <span class="hljs-keyword">let</span> i = <span class="hljs-number">1</span>
+    <span class="hljs-keyword">while</span> (i &lt;= n) {
+      res *= i
+      i++
+    }
+    <span class="hljs-keyword">return</span> res
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>
+  }
+}
+<span class="hljs-comment">// 排列</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">arrange</span> = (<span class="hljs-params">n: N, m: N</span>) =&gt; {
+  <span class="hljs-keyword">return</span> <span class="hljs-title function_">factorial</span>(n) / <span class="hljs-title function_">factorial</span>(n - m)
+}
+<span class="hljs-comment">// 组合</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">combination</span> = (<span class="hljs-params">n: N, m: N</span>) =&gt; {
+  <span class="hljs-keyword">return</span> <span class="hljs-title function_">factorial</span>(n, m) / <span class="hljs-title function_">factorial</span>(m)
+}
 </code></pre>
 
         

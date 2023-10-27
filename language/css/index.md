@@ -26,6 +26,8 @@
 
 ## [:root](/language/css/root.html)
 
+## [font](/language/css/font.html)
+
 ## 响应式布局 rwd
 
 # 预处理器

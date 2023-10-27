@@ -373,6 +373,7 @@ class MySql {
 window.MySql = MySql
 
 // 可控制的promise
+// 只能用一次。若想用多次请使用rxjs
 class ControlablePromise {
   constructor() {
     this.promise = new Promise((s, j) => {
@@ -381,12 +382,6 @@ class ControlablePromise {
     })
     this.resolve = () => {}
     this.reject = () => {}
-  }
-  recast() {
-    this.promise = new Promise((s, j) => {
-      this.resolve = s
-      this.reject = j
-    })
   }
 }
 

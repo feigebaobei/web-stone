@@ -1,7 +1,9 @@
 # description
+
 - css 预处理工具
 
 # 基本知识
+
 ```
 // 变量
 @with: 10px;
@@ -66,23 +68,29 @@ width: calc(50% + (@op0- 20px));
 // import
 @import "./file.less"
 @import "./file.css"
+
+// deep
+:deep(.class-name) {...}
 ```
 
 # quick start
+
 常用方式有三种：
 
 - cli
 - 引入包
 - cdn
 
-## cli用法
+## cli 用法
+
 ```
 npm i -g less
 lessc [option option=parameter ...] <source> [destination]
 lessc styles.less styles.css
 ```
 
-## package用法
+## package 用法
+
 ```
 npm i -g less
 let less = require('less')
@@ -98,32 +106,34 @@ less.render(less, options, (e, output) => {...})
 ```
 
 ## 浏览器端使用
+
 不推荐此用法。详见[官网说明](https://lesscss.org/usage/#using-less-in-the-browser)  
 建议只在开发环境使用。
 
 - 先设置配置项，再引入`<script src="less.js"></script>`
 
 # cli options
-|option|缩写|说明|value|
-|-|-|-|-|
-|--include-path||||
-|--rootpath|-rp|||
-|--rewrite-url|-ru||off不重写，all全重写，local重写相对路径|
-|--math|-m|如何计算|always全计算，parent-division不执行除法，parens/stric计算括号内的表态式，strict-legacy不计算|
-|--strict-units|-su|||
-|--ie-compat||||
-|--global-var||定义全局变量||
-|--modify-var||修改全局变量||
-|--url-args||||
-|--lint||是否执行lint||
-|--insecure||是否只允许https hosts||
-|--source-map||是否生成source map,指定source map的文件名。||
-|--source-map-rootpath||source map的rootpath||
-|--source-map-basepach||source map的basepath||
-|--source-map-include-source||||
-|--source-map-inline||是否使用行内source map||
-|--source-map-url||||
-|--plugin||指定预加载插件||
+
+| option                      | 缩写 | 说明                                           | value                                                                                            |
+| --------------------------- | ---- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| --include-path              |      |                                                |                                                                                                  |
+| --rootpath                  | -rp  |                                                |                                                                                                  |
+| --rewrite-url               | -ru  |                                                | off 不重写，all 全重写，local 重写相对路径                                                       |
+| --math                      | -m   | 如何计算                                       | always 全计算，parent-division 不执行除法，parens/stric 计算括号内的表态式，strict-legacy 不计算 |
+| --strict-units              | -su  |                                                |                                                                                                  |
+| --ie-compat                 |      |                                                |                                                                                                  |
+| --global-var                |      | 定义全局变量                                   |                                                                                                  |
+| --modify-var                |      | 修改全局变量                                   |                                                                                                  |
+| --url-args                  |      |                                                |                                                                                                  |
+| --lint                      |      | 是否执行 lint                                  |                                                                                                  |
+| --insecure                  |      | 是否只允许 https hosts                         |                                                                                                  |
+| --source-map                |      | 是否生成 source map,指定 source map 的文件名。 |                                                                                                  |
+| --source-map-rootpath       |      | source map 的 rootpath                         |                                                                                                  |
+| --source-map-basepach       |      | source map 的 basepath                         |                                                                                                  |
+| --source-map-include-source |      |                                                |                                                                                                  |
+| --source-map-inline         |      | 是否使用行内 source map                        |                                                                                                  |
+| --source-map-url            |      |                                                |                                                                                                  |
+| --plugin                    |      | 指定预加载插件                                 |                                                                                                  |
 
 # [内置方法](/less/function.html)
 
@@ -132,6 +142,7 @@ less.render(less, options, (e, output) => {...})
 # plugin
 
 # principle
+
 ```
 "bin": {
     "lessc": "./bin/lessc"
@@ -140,7 +151,8 @@ less.render(less, options, (e, output) => {...})
 "module": "./lib/less-node/index",
 "browser": "./dist/less.js",
 ```
+
 默认从`index`引入。  
-cjs环境从`./lib/less-node/index`引入。`lib`在git仓库中没有。需要打包后生成。  
+cjs 环境从`./lib/less-node/index`引入。`lib`在 git 仓库中没有。需要打包后生成。  
 浏览器环境从`./dist/less.js`引入。`dist`也需要打包后生成。  
-命令行在`./bin/lessc`运行。  
+命令行在`./bin/lessc`运行。
