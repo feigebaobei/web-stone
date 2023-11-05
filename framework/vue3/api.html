@@ -15,41 +15,6 @@
 	display: none;
 }
 
-/* From extension ms-toolsai.jupyter */
-/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
-
-.alert {
-    width: auto;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-.alert > *:last-child {
-    margin-bottom: 0;
-}
-#preview > .alert:last-child {
-    /* Prevent this being set to zero by the default notebook stylesheet */
-    padding-bottom: 1em;
-}
-
-.alert-success {
-    /* Note there is no suitable color available, so we just copy "info" */
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-info {
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-warning {
-    background-color: var(--theme-warning-background);
-    color: var(--theme-warning-foreground);
-}
-.alert-danger {
-    background-color: var(--theme-error-background);
-    color: var(--theme-error-foreground);
-}
-
 </style>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
@@ -588,7 +553,7 @@
 </tr>
 <tr>
 <td><code>isProxy()</code></td>
-<td></td>
+<td>返回是否ref/reactive</td>
 <td></td>
 <td></td>
 <td></td>
@@ -598,7 +563,17 @@
 </tr>
 <tr>
 <td><code>isReactive()</code></td>
+<td>是否是reactive对象</td>
 <td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>isRef()</code></td>
+<td>是否是ref对象</td>
 <td></td>
 <td></td>
 <td></td>
@@ -608,7 +583,7 @@
 </tr>
 <tr>
 <td><code>isReadonly()</code></td>
-<td></td>
+<td>是否是readonly对象</td>
 <td></td>
 <td></td>
 <td></td>
@@ -668,8 +643,8 @@
 </tr>
 <tr>
 <td><code>toRaw()</code></td>
-<td></td>
-<td></td>
+<td>返回去掉响应式（代理）后的数据。不会改变参数。</td>
+<td>可提长性能</td>
 <td></td>
 <td></td>
 <td></td>
@@ -678,7 +653,7 @@
 </tr>
 <tr>
 <td><code>markRaw()</code></td>
-<td></td>
+<td>标记参数改变时不触发视图更新。</td>
 <td></td>
 <td></td>
 <td></td>

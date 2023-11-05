@@ -33,6 +33,28 @@ ng g s path/service # 创建服务
 ng g module moduleName # 创建module
 ng serve # 运行项目
 
+
+ng generate component <name> [options]：生成一个组件
+ng generate module <name> [options]：生成一个模块
+ng generate directive <name> [options]：生成一个指令
+ng generate class <name> [options]：生成一个类
+ng generate guard <name> [options]：生成一个守卫
+ng generate interface <name> [options]：生成一个接口
+ng generate enum <name> [options]：生成一个枚举
+ng generate pipe <name> [options]：生成一个管道
+ng generate service <name> [options]：生成一个服务
+
+ng g c <name> [options]：生成一个组件
+ng g m <name> [options]：生成一个模块
+ng g d <name> [options]：生成一个指令
+ng g cl <name> [options]：生成一个类
+ng g g <name> [options]：生成一个守卫
+ng g i <name> [options]：生成一个接口
+ng g e <name> [options]：生成一个枚举
+ng g p <name> [options]：生成一个管道
+ng g s <name> [options]：生成一个服务
+
+option其他大同小异，接下来就来罗列一下，备查
 ```
 
 ### title
