@@ -73,6 +73,8 @@
 
 ## [Rework](https://github.com/reworkcss/rework)
 
+## [样式穿透](language/css/deep.html)
+
 # [css-modules](language/css/css-modules/index.html)
 
 - 支持局部作用域、模块依赖。
@@ -113,3 +115,5 @@ css in js
 | 内联 | `<style>.c{color: red;}</style>`                         |     |     |     |     |     |
 | 行内 | `<tag style="color: red;"> </tag>`                       |     |     |     |     |     |
 | 引入 | `<style>@import url(./link.css)</style>`                 |     |     |     |     |     |
+
+#

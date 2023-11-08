@@ -16,7 +16,8 @@
 }
 
 </style>
-        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -199,8 +200,15 @@ prevNode        上一次沉浸的vnode
 </code></pre>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">Comp</span> <span class="hljs-attr">v-teleport</span>&gt;</span>&lt;/<span class="hljs-tag">&lt;<span class="hljs-name">Comp</span>&gt;</span>
 </code></pre>
+<h2 id="v-if--ref-的冲突">v-if &amp; ref 的冲突</h2>
+<p>1.v-if：
+如果在初始渲染时条件为假，则什么也不做，直到条件第一次变为真时，才会开始渲染条件块。</p>
+<p>2.参考：
+<code>ref</code>被用来给元素或子组件注册引用信息。 引用信息将会注册在父组件的 对象上。<code>$refs</code></p>
+<p>3.冲突
+ref只有在组件渲染完成才注册引用信息，v-if首次为false没有把元素或子组件渲染，所以没有注册引用信息。</p>
 
-        
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
     </body>
     </html>
