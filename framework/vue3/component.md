@@ -49,7 +49,7 @@ is 的属性值：
 
 ```js
 <keep-alive> // 会使用组件保存在内存中
-    <component :is="dropIndex"></component>
+    <component :is="dropIndex" @event="eh" :data="ddd"></component>
 </keep-alive>
 
 import OneComp from './OneComp.vue'
