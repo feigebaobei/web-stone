@@ -18,6 +18,6 @@
 - [如何写一个脚本](/confuse/writeScript.html)
 - [promise 的工具方法](/confuse/promise.html)
 - [单位](/confuse/unit.html)
-- [title](/confuse/title.html)
+- [execCommand](/confuse/execCommand.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)

@@ -29,8 +29,12 @@
 
 ## install
 
-一般不用明确安装。  
-`npm i vite -g`
+一般不用明确安装。
+
+```shell
+npm i vite -g
+pnpm install -g create-vite
+```
 
 ## usage
 
@@ -40,7 +44,10 @@ npm init vite@latest
 npm create vite@latest # cteate 是 init 的别名
 yarn create vite
 pnpm create vite
+create-vite my-project
 # 然后会提示选择什么模板。
+
+vite # 启动
 ```
 
 ## 功能
