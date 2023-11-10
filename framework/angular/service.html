@@ -41,12 +41,18 @@
     </head>
     <body class="vscode-body vscode-light">
         <h1 id="服务">服务</h1>
-<p>可以从任何地方获取数据，比如：Web 服务、本地存储（LocalStorage）或一个模拟的数据源。
+<blockquote>
+<p>为组件们提供单例服务
+提供数据、方法。
+规范： <code>name.service.ts</code><br>
+可以从任何地方获取数据，比如：Web 服务、本地存储（LocalStorage）或一个模拟的数据源。
 由 Injectabl 装饰器装饰的类。
 提倡把与视图无关的逻辑抽取到服务中。</p>
+</blockquote>
 <pre><code class="language-shell">ng generate service heros/hero
 ng g s services/&lt;serviceName&gt;
 </code></pre>
+<p>定义</p>
 <pre><code class="language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Injectable</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/core&#x27;</span>
 <span class="hljs-meta">@Injectable</span>({
   <span class="hljs-comment">// 标记为可以被注入的服务器</span>
@@ -55,6 +61,16 @@ ng g s services/&lt;serviceName&gt;
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Asdf</span> {
   <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {}
   <span class="hljs-title function_">fn</span>(<span class="hljs-params"></span>) {}
+}
+</code></pre>
+<p>使用</p>
+<pre><code>import { Component } from '@angular/core'
+import { Asdf } from './asdf.service.ts'
+@Component({...})
+export class Abc {
+  constructor(private asdf: Asdf) {
+    // this.asdf...
+  }
 }
 </code></pre>
 <p>在<code>app.module.ts</code>中引入</p>

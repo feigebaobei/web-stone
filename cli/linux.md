@@ -1,89 +1,101 @@
 ## which
+
 `which [options] file_name...`  
-显示在哪个目录下寻找可执行文件。  
+显示在哪个目录下寻找可执行文件。
 
 ## netstat
-命令用于显示与IP、TCP、UDP和ICMP协议相关的统计数据，一般用于检验本机各端口的网络连接情况。netstat是在内核中访问网络及相关信息的程序，它能提供TCP连接，TCP和UDP监听，进程内存管理的相关报告。  
+
+命令用于显示与 IP、TCP、UDP 和 ICMP 协议相关的统计数据，一般用于检验本机各端口的网络连接情况。netstat 是在内核中访问网络及相关信息的程序，它能提供 TCP 连接，TCP 和 UDP 监听，进程内存管理的相关报告。
 
 ```shell
 netstat [-acCeFghilMnNoprstuvVwx][-A<网络类型>][--ip]
 netstat -lunpt
 ```
 
--a或–all 显示所有连线中的Socket。  
+-a 或–all 显示所有连线中的 Socket。  
 -A<网络类型>或–<网络类型> 列出该网络类型连线中的相关地址。  
--c或–continuous 持续列出网络状态。  
--C或–cache 显示路由器配置的快取信息。  
--e或–extend 显示网络其他相关信息。  
--F或–fib 显示FIB。  
--g或–groups 显示多重广播功能群组组员名单。  
--h或–help 在线帮助。  
--i或–interfaces 显示网络界面信息表单。  
--l或–listening 显示监控中的服务器的Socket。  
--M或–masquerade 显示伪装的网络连线。  
--n或–numeric 直接使用IP地址，而不通过域名服务器。  
--N或–netlink或–symbolic 显示网络硬件外围设备的符号连接名称。  
--o或–timers 显示计时器。  
--p或–programs 显示正在使用Socket的程序识别码和程序名称。  
--r或–route 显示Routing Table。  
--s或–statistice 显示网络工作信息统计表。  
--t或–tcp 显示TCP传输协议的连线状况。  
--u或–udp 显示UDP传输协议的连线状况。  
--v或–verbose 显示指令执行过程。  
--V或–version 显示版本信息。  
--w或–raw 显示RAW传输协议的连线状况。  
--x或–unix 此参数的效果和指定”-A unix”参数相同。  
-–ip或–inet 此参数的效果和指定”-A inet”参数相同。  
+-c 或–continuous 持续列出网络状态。  
+-C 或–cache 显示路由器配置的快取信息。  
+-e 或–extend 显示网络其他相关信息。  
+-F 或–fib 显示 FIB。  
+-g 或–groups 显示多重广播功能群组组员名单。  
+-h 或–help 在线帮助。  
+-i 或–interfaces 显示网络界面信息表单。  
+-l 或–listening 显示监控中的服务器的 Socket。  
+-M 或–masquerade 显示伪装的网络连线。  
+-n 或–numeric 直接使用 IP 地址，而不通过域名服务器。  
+-N 或–netlink 或–symbolic 显示网络硬件外围设备的符号连接名称。  
+-o 或–timers 显示计时器。  
+-p 或–programs 显示正在使用 Socket 的程序识别码和程序名称。  
+-r 或–route 显示 Routing Table。  
+-s 或–statistice 显示网络工作信息统计表。  
+-t 或–tcp 显示 TCP 传输协议的连线状况。  
+-u 或–udp 显示 UDP 传输协议的连线状况。  
+-v 或–verbose 显示指令执行过程。  
+-V 或–version 显示版本信息。  
+-w 或–raw 显示 RAW 传输协议的连线状况。  
+-x 或–unix 此参数的效果和指定”-A unix”参数相同。  
+–ip 或–inet 此参数的效果和指定”-A inet”参数相同。
 
 ## rm
 
 （英文全拼：remove）命令用于删除一个文件或者目录。
+
 ```
 rm [options] name...
-rm test.txt 
-rm -r * 
+rm test.txt
+rm -r *
 ```
 
 -i 删除前逐一询问确认。  
 -f 即使原档案属性设为唯读，亦直接删除，无需逐一确认。  
--r 将目录及以下之档案亦逐一删除。  
+-r 将目录及以下之档案亦逐一删除。
 
-## curl
-url的轮换器。client url的缩写。  
+## [curl](/cli/curl.html)
+
+url 的轮换器。client url 的缩写。
+
 ## usage
+
 ```
 curl [options / urls]
 ```
+
 ### feature
-- 转换发送给、来自服务器的数据。  
-- 支持的协议：DICT, FILE, FTP, FTPS, GOPHER, GOPHERS, HTTP, HTTPS, IMAP, IMAPS, LDAP, LDAPS, MQTT, POP3, POP3S, RTMP, RTMPS, RTSP, SCP, SFTP, SMB, SMBS, SMTP, SMTPS, TELNET or TFTP.   
-- 发送请求。user authentication, FTP upload, HTTP post, SSL connections, cookies, file transfer resume and more。  
+
+- 转换发送给、来自服务器的数据。
+- 支持的协议：DICT, FILE, FTP, FTPS, GOPHER, GOPHERS, HTTP, HTTPS, IMAP, IMAPS, LDAP, LDAPS, MQTT, POP3, POP3S, RTMP, RTMPS, RTSP, SCP, SFTP, SMB, SMBS, SMTP, SMTPS, TELNET or TFTP.
+- 发送请求。user authentication, FTP upload, HTTP post, SSL connections, cookies, file transfer resume and more。
 
 ### output
-默认列出接收的数据。可以使用`--output`指定输出文件。  
+
+默认列出接收的数据。可以使用`--output`指定输出文件。
 
 ### protocals
-### options
-太多了，此处列出一些常用的。  
-选项一般是肯定的。若使用否定的，需要明确指定。如`--no-options`.  
 
-|全称|简写|||
-|-|-|-|-|
-|--abstract-unix-socket||||
-|||||
-|||||
-|||||
-|||||
-|||||
-|||||
-|||||
+### options
+
+太多了，此处列出一些常用的。  
+选项一般是肯定的。若使用否定的，需要明确指定。如`--no-options`.
+
+| 全称                   | 简写 |     |     |
+| ---------------------- | ---- | --- | --- |
+| --abstract-unix-socket |      |     |     |
+|                        |      |     |     |
+|                        |      |     |     |
+|                        |      |     |     |
+|                        |      |     |     |
+|                        |      |     |     |
+|                        |      |     |     |
+|                        |      |     |     |
+
 --abstract-unix-socket <path>
 
 (HTTP) Connect through an abstract Unix domain socket, instead of using the network. Note: netstat shows the path of an abstract socket prefixed with '@', however the <path> argument should not have this leading character.
 
 Example:
 
- curl --abstract-unix-socket socketpath https://example.com
+curl --abstract-unix-socket socketpath https://example.com
 See also --unix-socket. Added in 7.53.0.
 
 --alt-svc <file name>
@@ -96,7 +108,7 @@ If this option is used several times, curl will load contents from all the files
 
 Example:
 
- curl --alt-svc svc.txt https://example.com
+curl --alt-svc svc.txt https://example.com
 See also --resolve and --connect-to. Added in 7.64.1.
 
 --anyauth
@@ -109,7 +121,7 @@ Used together with -u, --user.
 
 Example:
 
- curl --anyauth --user me:pwd https://example.com
+curl --anyauth --user me:pwd https://example.com
 See also --proxy-anyauth, --basic and --digest.
 
 -a, --append
@@ -118,7 +130,7 @@ See also --proxy-anyauth, --basic and --digest.
 
 Example:
 
- curl --upload-file local --append ftp://example.com/
+curl --upload-file local --append ftp://example.com/
 See also -r, --range and -C, --continue-at.
 
 --aws-sigv4 <provider1[:provider2[:region[:service]]]>
@@ -133,7 +145,7 @@ The service argument is a string that points to a function provided by a cloud (
 
 Example:
 
- curl --aws-sigv4 "aws:amz:east-2:es" --user "key:secret" https://example.com
+curl --aws-sigv4 "aws:amz:east-2:es" --user "key:secret" https://example.com
 See also --basic and -u, --user. Added in 7.75.0.
 
 --basic
@@ -144,7 +156,7 @@ Used together with -u, --user.
 
 Example:
 
- curl -u name:password --basic https://example.com
+curl -u name:password --basic https://example.com
 See also --proxy-basic.
 
 --cacert <file>
@@ -165,7 +177,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --cacert CA-file.txt https://example.com
+curl --cacert CA-file.txt https://example.com
 See also --capath and -k, --insecure.
 
 --capath <dir>
@@ -176,7 +188,7 @@ If this option is set, the default capath value will be ignored, and if it is us
 
 Example:
 
- curl --capath /local/directory https://example.com
+curl --capath /local/directory https://example.com
 See also --cacert and -k, --insecure.
 
 --cert-status
@@ -189,7 +201,7 @@ This is currently only implemented in the OpenSSL, GnuTLS and NSS backends.
 
 Example:
 
- curl --cert-status https://example.com
+curl --cert-status https://example.com
 See also --pinnedpubkey. Added in 7.41.0.
 
 --cert-type <type>
@@ -202,7 +214,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --cert-type PEM --cert file https://example.com
+curl --cert-type PEM --cert file https://example.com
 See also -E, --cert, --key and --key-type.
 
 -E, --cert <certificate[:password]>
@@ -221,19 +233,19 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --cert certfile --key keyfile https://example.com
+curl --cert certfile --key keyfile https://example.com
 See also --cert-type, --key and --key-type.
 
 --ciphers <list of ciphers>
 
 (TLS) Specifies which ciphers to use in the connection. The list of ciphers must specify valid ciphers. Read up on SSL cipher list details on this URL:
 
- https://curl.se/docs/ssl-ciphers.html
+https://curl.se/docs/ssl-ciphers.html
 If this option is used several times, the last one will be used.
 
 Example:
 
- curl --ciphers ECDHE-ECDSA-AES256-CCM8 https://example.com
+curl --ciphers ECDHE-ECDSA-AES256-CCM8 https://example.com
 See also --tlsv1.3.
 
 --compressed-ssh
@@ -242,7 +254,7 @@ See also --tlsv1.3.
 
 Example:
 
- curl --compressed-ssh sftp://example.com/
+curl --compressed-ssh sftp://example.com/
 See also --compressed. Added in 7.56.0.
 
 --compressed
@@ -253,7 +265,7 @@ If this option is used and the server sends an unsupported encoding, curl will r
 
 Example:
 
- curl --compressed https://example.com
+curl --compressed https://example.com
 See also --compressed-ssh.
 
 -K, --config <file>
@@ -274,41 +286,47 @@ Note that to be able to specify a URL in the config file, you need to specify it
 
 url = "https://curl.se/docs/"
 
- # --- Example file ---
- # this is a comment
- url = "example.com"
- output = "curlhere.html"
- user-agent = "superagent/1.0"
- # and fetch another URL too
- url = "example.com/docs/manpage.html"
- -O
- referer = "http://nowhereatall.example.com/"
- # --- End of example file ---
+# --- Example file ---
+
+# this is a comment
+
+url = "example.com"
+output = "curlhere.html"
+user-agent = "superagent/1.0"
+
+# and fetch another URL too
+
+url = "example.com/docs/manpage.html"
+-O
+referer = "http://nowhereatall.example.com/"
+
+# --- End of example file ---
+
 When curl is invoked, it (unless --disable is used) checks for a default config file and uses it if found, even when --config is used. The default config file is checked for in the following places in this order:
 
-1) "$CURL_HOME/.curlrc"
+1. "$CURL_HOME/.curlrc"
 
-2) "$XDG_CONFIG_HOME/.curlrc" (Added in 7.73.0)
+2. "$XDG_CONFIG_HOME/.curlrc" (Added in 7.73.0)
 
-3) "$HOME/.curlrc"
+3. "$HOME/.curlrc"
 
-4) Windows: "%USERPROFILE%\.curlrc"
+4. Windows: "%USERPROFILE%\.curlrc"
 
-5) Windows: "%APPDATA%\.curlrc"
+5. Windows: "%APPDATA%\.curlrc"
 
-6) Windows: "%USERPROFILE%\Application Data\.curlrc"
+6. Windows: "%USERPROFILE%\Application Data\.curlrc"
 
-7) Non-Windows: use getpwuid to find the home directory
+7. Non-Windows: use getpwuid to find the home directory
 
-8) On Windows, if it finds no .curlrc file in the sequence described above, it checks for one in the same dir the curl executable is placed.
+8. On Windows, if it finds no .curlrc file in the sequence described above, it checks for one in the same dir the curl executable is placed.
 
-On Windows two filenames are checked per location: .curlrc and _curlrc, preferring the former. Older versions on Windows checked for _curlrc only.
+On Windows two filenames are checked per location: .curlrc and \_curlrc, preferring the former. Older versions on Windows checked for \_curlrc only.
 
 This option can be used multiple times to load multiple config files.
 
 Example:
 
- curl --config file.txt https://example.com
+curl --config file.txt https://example.com
 See also -q, --disable.
 
 --connect-timeout <fractional seconds>
@@ -319,8 +337,8 @@ If this option is used several times, the last one will be used.
 
 Examples:
 
- curl --connect-timeout 20 https://example.com
- curl --connect-timeout 3.14 https://example.com
+curl --connect-timeout 20 https://example.com
+curl --connect-timeout 3.14 https://example.com
 See also -m, --max-time.
 
 --connect-to <HOST1:PORT1:HOST2:PORT2>
@@ -333,7 +351,7 @@ This option can be used many times to add many connect rules.
 
 Example:
 
- curl --connect-to example.com:443:example.net:8443 https://example.com
+curl --connect-to example.com:443:example.net:8443 https://example.com
 See also --resolve and -H, --header. Added in 7.49.0.
 
 -C, --continue-at <offset>
@@ -346,8 +364,8 @@ If this option is used several times, the last one will be used.
 
 Examples:
 
- curl -C - https://example.com
- curl -C 400 https://example.com
+curl -C - https://example.com
+curl -C 400 https://example.com
 See also -r, --range.
 
 -c, --cookie-jar <filename>
@@ -362,8 +380,8 @@ If this option is used several times, the last specified file name will be used.
 
 Examples:
 
- curl -c store-here.txt https://example.com
- curl -c store-here.txt -b read-these https://example.com
+curl -c store-here.txt https://example.com
+curl -c store-here.txt -b read-these https://example.com
 See also -b, --cookie.
 
 -b, --cookie <data|filename>
@@ -384,8 +402,8 @@ Users often want to both read cookies from a file and write updated cookies back
 
 Examples:
 
- curl -b cookiefile https://example.com
- curl -b cookiefile -c cookiefile https://example.com
+curl -b cookiefile https://example.com
+curl -b cookiefile -c cookiefile https://example.com
 See also -c, --cookie-jar and -j, --junk-session-cookies.
 
 --create-dirs
@@ -398,7 +416,7 @@ To create remote directories when using FTP or SFTP, try --ftp-create-dirs.
 
 Example:
 
- curl --create-dirs --output local/dir/file https://example.com
+curl --create-dirs --output local/dir/file https://example.com
 See also --ftp-create-dirs and --output-dir.
 
 --create-file-mode <mode>
@@ -411,7 +429,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --create-file-mode 0777 -T localfile sftp://example.com/new
+curl --create-file-mode 0777 -T localfile sftp://example.com/new
 See also --ftp-create-dirs. Added in 7.75.0.
 
 --crlf
@@ -422,7 +440,7 @@ See also --ftp-create-dirs. Added in 7.75.0.
 
 Example:
 
- curl --crlf -T file ftp://example.com/
+curl --crlf -T file ftp://example.com/
 See also -B, --use-ascii.
 
 --crlfile <file>
@@ -433,7 +451,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --crlfile rejects.txt https://example.com
+curl --crlfile rejects.txt https://example.com
 See also --cacert and --capath.
 
 --curves <algorithm list>
@@ -446,7 +464,7 @@ If this option is set, the default curves list built into openssl will be ignore
 
 Example:
 
- curl --curves X25519 https://example.com
+curl --curves X25519 https://example.com
 See also --ciphers. Added in 7.73.0.
 
 --data-ascii <data>
@@ -455,7 +473,7 @@ See also --ciphers. Added in 7.73.0.
 
 Example:
 
- curl --data-ascii @file https://example.com
+curl --data-ascii @file https://example.com
 See also --data-binary, --data-raw and --data-urlencode.
 
 --data-binary <data>
@@ -470,7 +488,7 @@ If this option is used several times, the ones following the first will append d
 
 Example:
 
- curl --data-binary @filename https://example.com
+curl --data-binary @filename https://example.com
 See also --data-ascii.
 
 --data-raw <data>
@@ -479,8 +497,8 @@ See also --data-ascii.
 
 Examples:
 
- curl --data-raw "hello" https://example.com
- curl --data-raw "@at@at@" https://example.com
+curl --data-raw "hello" https://example.com
+curl --data-raw "@at@at@" https://example.com
 See also -d, --data. Added in 7.43.0.
 
 --data-urlencode <data>
@@ -511,10 +529,10 @@ This will make curl load data from the given file (including any newlines), URL-
 
 Examples:
 
- curl --data-urlencode name=val https://example.com
- curl --data-urlencode =encodethis https://example.com
- curl --data-urlencode name@file https://example.com
- curl --data-urlencode @fileonly https://example.com
+curl --data-urlencode name=val https://example.com
+curl --data-urlencode =encodethis https://example.com
+curl --data-urlencode name@file https://example.com
+curl --data-urlencode @fileonly https://example.com
 See also -d, --data and --data-raw.
 
 -d, --data <data>
@@ -529,9 +547,9 @@ If you start the data with the letter @, the rest should be a file name to read 
 
 Examples:
 
- curl -d "name=curl" https://example.com
- curl -d "name=curl" -d "tool=cmdline" https://example.com
- curl -d @filename https://example.com
+curl -d "name=curl" https://example.com
+curl -d "name=curl" -d "tool=cmdline" https://example.com
+curl -d @filename https://example.com
 See also --data-binary, --data-urlencode and --data-raw. This option is mutually exclusive to -F, --form and -I, --head and -T, --upload-file.
 
 --delegation <LEVEL>
@@ -554,7 +572,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --delegation "none" https://example.com
+curl --delegation "none" https://example.com
 See also -k, --insecure and --ssl.
 
 --digest
@@ -565,7 +583,7 @@ If this option is used several times, only the first one is used.
 
 Example:
 
- curl -u name:password --digest https://example.com
+curl -u name:password --digest https://example.com
 See also -u, --user, --proxy-digest and --anyauth. This option is mutually exclusive to --basic and --ntlm and --negotiate.
 
 --disable-eprt
@@ -580,7 +598,7 @@ Disabling EPRT only changes the active behavior. If you want to switch to passiv
 
 Example:
 
- curl --disable-eprt ftp://example.com/
+curl --disable-eprt ftp://example.com/
 See also --disable-epsv and -P, --ftp-port.
 
 --disable-epsv
@@ -595,7 +613,7 @@ Disabling EPSV only changes the passive behavior. If you want to switch to activ
 
 Example:
 
- curl --disable-epsv ftp://example.com/
+curl --disable-epsv ftp://example.com/
 See also --disable-eprt and -P, --ftp-port.
 
 -q, --disable
@@ -604,7 +622,7 @@ If used as the first parameter on the command line, the curlrc config file will 
 
 Example:
 
- curl -q https://example.com
+curl -q https://example.com
 See also -K, --config.
 
 --disallow-username-in-url
@@ -613,7 +631,7 @@ See also -K, --config.
 
 Example:
 
- curl --disallow-username-in-url https://example.com
+curl --disallow-username-in-url https://example.com
 See also --proto. Added in 7.61.0.
 
 --dns-interface <interface>
@@ -622,7 +640,7 @@ See also --proto. Added in 7.61.0.
 
 Example:
 
- curl --dns-interface eth0 https://example.com
+curl --dns-interface eth0 https://example.com
 See also --dns-ipv4-addr and --dns-ipv6-addr. --dns-interface requires that the underlying libcurl was built to support c-ares. Added in 7.33.0.
 
 --dns-ipv4-addr <address>
@@ -633,7 +651,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --dns-ipv4-addr 10.1.2.3 https://example.com
+curl --dns-ipv4-addr 10.1.2.3 https://example.com
 See also --dns-interface and --dns-ipv6-addr. --dns-ipv4-addr requires that the underlying libcurl was built to support c-ares. Added in 7.33.0.
 
 --dns-ipv6-addr <address>
@@ -644,7 +662,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --dns-ipv6-addr 2a04:4e42::561 https://example.com
+curl --dns-ipv6-addr 2a04:4e42::561 https://example.com
 See also --dns-interface and --dns-ipv4-addr. --dns-ipv6-addr requires that the underlying libcurl was built to support c-ares. Added in 7.33.0.
 
 --dns-servers <addresses>
@@ -655,7 +673,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --dns-servers 192.168.0.1,192.168.0.2 https://example.com
+curl --dns-servers 192.168.0.1,192.168.0.2 https://example.com
 See also --dns-interface and --dns-ipv4-addr. --dns-servers requires that the underlying libcurl was built to support c-ares. Added in 7.33.0.
 
 --doh-cert-status
@@ -664,7 +682,7 @@ Same as --cert-status but used for DoH (DNS-over-HTTPS).
 
 Example:
 
- curl --doh-cert-status --doh-url https://doh.example https://example.com
+curl --doh-cert-status --doh-url https://doh.example https://example.com
 See also --doh-insecure. Added in 7.76.0.
 
 --doh-insecure
@@ -673,7 +691,7 @@ Same as --insecure but used for DoH (DNS-over-HTTPS).
 
 Example:
 
- curl --doh-insecure --doh-url https://doh.example https://example.com
+curl --doh-insecure --doh-url https://doh.example https://example.com
 See also --doh-url. Added in 7.76.0.
 
 --doh-url <URL>
@@ -686,7 +704,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --doh-url https://doh.example https://example.com
+curl --doh-url https://doh.example https://example.com
 See also --doh-insecure. Added in 7.62.0.
 
 -D, --dump-header <filename>
@@ -699,7 +717,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --dump-header store.txt https://example.com
+curl --dump-header store.txt https://example.com
 See also -o, --output.
 
 --egd-file <file>
@@ -708,7 +726,7 @@ See also -o, --output.
 
 Example:
 
- curl --egd-file /random/here https://example.com
+curl --egd-file /random/here https://example.com
 See also --random-file.
 
 --engine <name>
@@ -717,7 +735,7 @@ See also --random-file.
 
 Example:
 
- curl --engine flavor https://example.com
+curl --engine flavor https://example.com
 See also --ciphers and --curves.
 
 --etag-compare <file>
@@ -730,7 +748,7 @@ Use the option --etag-save to first save the ETag from a response, and then use 
 
 Example:
 
- curl --etag-compare etag.txt https://example.com
+curl --etag-compare etag.txt https://example.com
 See also --etag-save and -z, --time-cond. Added in 7.68.0.
 
 --etag-save <file>
@@ -741,7 +759,7 @@ If no ETag is sent by the server, an empty file is created.
 
 Example:
 
- curl --etag-save storetag.txt https://example.com
+curl --etag-save storetag.txt https://example.com
 See also --etag-compare. Added in 7.68.0.
 
 --expect100-timeout <seconds>
@@ -750,7 +768,7 @@ See also --etag-compare. Added in 7.68.0.
 
 Example:
 
- curl --expect100-timeout 2.5 -T file https://example.com
+curl --expect100-timeout 2.5 -T file https://example.com
 See also --connect-timeout. Added in 7.47.0.
 
 --fail-early
@@ -767,7 +785,7 @@ This option does not imply -f, --fail, which causes transfers to fail due to the
 
 Example:
 
- curl --fail-early https://example.com https://two.example
+curl --fail-early https://example.com https://two.example
 See also -f, --fail and --fail-with-body. Added in 7.52.0.
 
 --fail-with-body
@@ -778,7 +796,7 @@ This is an alternative option to --fail which makes curl fail for the same circu
 
 Example:
 
- curl --fail-with-body https://example.com
+curl --fail-with-body https://example.com
 See also -f, --fail. Added in 7.76.0.
 
 -f, --fail
@@ -789,7 +807,7 @@ This method is not fail-safe and there are occasions where non-successful respon
 
 Example:
 
- curl --fail https://example.com
+curl --fail https://example.com
 See also --fail-with-body.
 
 --false-start
@@ -800,7 +818,7 @@ This is currently only implemented in the NSS and Secure Transport (on iOS 7.0 o
 
 Example:
 
- curl --false-start https://example.com
+curl --false-start https://example.com
 See also --tcp-fastopen. Added in 7.42.0.
 
 --form-escape
@@ -809,7 +827,7 @@ See also --tcp-fastopen. Added in 7.42.0.
 
 Example:
 
- curl --form-escape --form 'field\name=curl' 'file=@load"this' https://example.com
+curl --form-escape --form 'field\name=curl' 'file=@load"this' https://example.com
 See also -F, --form. Added in 7.81.0.
 
 --form-string <name=string>
@@ -818,7 +836,7 @@ See also -F, --form. Added in 7.81.0.
 
 Example:
 
- curl --form-string "data" https://example.com
+curl --form-string "data" https://example.com
 See also -F, --form.
 
 -F, --form <name=content>
@@ -833,70 +851,74 @@ Tell curl to read content from stdin instead of a file by using - as filename. T
 
 Example: send an image to an HTTP server, where 'profile' is the name of the form-field to which the file portrait.jpg will be the input:
 
- curl -F profile=@portrait.jpg https://example.com/upload.cgi
+curl -F profile=@portrait.jpg https://example.com/upload.cgi
 Example: send your name and shoe size in two text fields to the server:
 
- curl -F name=John -F shoesize=11 https://example.com/
+curl -F name=John -F shoesize=11 https://example.com/
 Example: send your essay in a text field to the server. Send it as a plain text field, but get the contents for it from a local file:
 
- curl -F "story=<hugefile.txt" https://example.com/
+curl -F "story=<hugefile.txt" https://example.com/
 You can also tell curl what Content-Type to use by using 'type=', in a manner similar to:
 
- curl -F "web=@index.html;type=text/html" example.com
+curl -F "web=@index.html;type=text/html" example.com
 or
 
- curl -F "name=daniel;type=text/foo" example.com
+curl -F "name=daniel;type=text/foo" example.com
 You can also explicitly change the name field of a file upload part by setting filename=, like this:
 
- curl -F "file=@localfile;filename=nameinpost" example.com
+curl -F "file=@localfile;filename=nameinpost" example.com
 If filename/path contains ',' or ';', it must be quoted by double-quotes like:
 
- curl -F "file=@\"local,file\";filename=\"name;in;post\"" example.com
+curl -F "file=@\"local,file\";filename=\"name;in;post\"" example.com
 or
 
- curl -F 'file=@"local,file";filename="name;in;post"' example.com
+curl -F 'file=@"local,file";filename="name;in;post"' example.com
 Note that if a filename/path is quoted by double-quotes, any double-quote or backslash within the filename must be escaped by backslash.
 
 Quoting must also be applied to non-file data if it contains semicolons, leading/trailing spaces or leading double quotes:
 
- curl -F 'colors="red; green; blue";type=text/x-myapp' example.com
+curl -F 'colors="red; green; blue";type=text/x-myapp' example.com
 You can add custom headers to the field by setting headers=, like
 
-  curl -F "submit=OK;headers=\"X-submit-type: OK\"" example.com
+curl -F "submit=OK;headers=\"X-submit-type: OK\"" example.com
 or
 
-  curl -F "submit=OK;headers=@headerfile" example.com
+curl -F "submit=OK;headers=@headerfile" example.com
 The headers= keyword may appear more that once and above notes about quoting apply. When headers are read from a file, Empty lines and lines starting with '#' are comments and ignored; each header can be folded by splitting between two words and starting the continuation line with a space; embedded carriage-returns and trailing spaces are stripped. Here is an example of a header file contents:
 
-  # This file contain two headers.
-  X-header-1: this is a header
-  # The following header is folded.
-  X-header-2: this is
-   another header
+# This file contain two headers.
+
+X-header-1: this is a header
+
+# The following header is folded.
+
+X-header-2: this is
+another header
 To support sending multipart mail messages, the syntax is extended as follows:
+
 - name can be omitted: the equal sign is the first character of the argument,
 - if data starts with '(', this signals to start a new multipart: it can be followed by a content type specification.
 - a multipart can be terminated with a '=)' argument.
 
 Example: the following command sends an SMTP mime email consisting in an inline part in two alternative formats: plain text and HTML. It attaches a text file:
 
- curl -F '=(;type=multipart/alternative' \
-      -F '=plain text message' \
-      -F '= <body>HTML message</body>;type=text/html' \
-      -F '=)' -F '=@textfile.txt' ...  smtp://example.com
+curl -F '=(;type=multipart/alternative' \
+ -F '=plain text message' \
+ -F '= <body>HTML message</body>;type=text/html' \
+ -F '=)' -F '=@textfile.txt' ... smtp://example.com
 Data can be encoded for transfer using encoder=. Available encodings are binary and 8bit that do nothing else than adding the corresponding Content-Transfer-Encoding header, 7bit that only rejects 8-bit characters with a transfer error, quoted-printable and base64 that encodes data according to the corresponding schemes, limiting lines length to 76 characters.
 
 Example: send multipart mail with a quoted-printable text message and a base64 attached file:
 
- curl -F '=text message;encoder=quoted-printable' \
-      -F '=@localfile;encoder=base64' ... smtp://example.com
+curl -F '=text message;encoder=quoted-printable' \
+ -F '=@localfile;encoder=base64' ... smtp://example.com
 See further examples and details in the MANUAL.
 
 This option can be used multiple times.
 
 Example:
 
- curl --form "name=curl" --form "file=@loadthis" https://example.com
+curl --form "name=curl" --form "file=@loadthis" https://example.com
 See also -d, --data, --form-string and --form-escape. This option is mutually exclusive to -d, --data and -I, --head and -T, --upload-file.
 
 --ftp-account <data>
@@ -907,7 +929,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --ftp-account "mr.robot" ftp://example.com/
+curl --ftp-account "mr.robot" ftp://example.com/
 See also -u, --user.
 
 --ftp-alternative-to-user <command>
@@ -916,7 +938,7 @@ See also -u, --user.
 
 Example:
 
- curl --ftp-alternative-to-user "U53r" ftp://example.com
+curl --ftp-alternative-to-user "U53r" ftp://example.com
 See also --ftp-account and -u, --user.
 
 --ftp-create-dirs
@@ -925,7 +947,7 @@ See also --ftp-account and -u, --user.
 
 Example:
 
- curl --ftp-create-dirs -T file ftp://example.com/remote/path/file
+curl --ftp-create-dirs -T file ftp://example.com/remote/path/file
 See also --create-dirs.
 
 --ftp-method <method>
@@ -946,9 +968,9 @@ curl does one CWD with the full target directory and then operates on the file "
 
 Examples:
 
- curl --ftp-method multicwd ftp://example.com/dir1/dir2/file
- curl --ftp-method nocwd ftp://example.com/dir1/dir2/file
- curl --ftp-method singlecwd ftp://example.com/dir1/dir2/file
+curl --ftp-method multicwd ftp://example.com/dir1/dir2/file
+curl --ftp-method nocwd ftp://example.com/dir1/dir2/file
+curl --ftp-method singlecwd ftp://example.com/dir1/dir2/file
 See also -l, --list-only.
 
 --ftp-pasv
@@ -961,7 +983,7 @@ Passive mode means that curl will try the EPSV command first and then PASV, unle
 
 Example:
 
- curl --ftp-pasv ftp://example.com/
+curl --ftp-pasv ftp://example.com/
 See also --disable-epsv.
 
 -P, --ftp-port <address>
@@ -990,9 +1012,9 @@ You can also append ":[start]-[end]" to the right of the address, to tell curl w
 
 Examples:
 
- curl -P - ftp:/example.com
- curl -P eth0 ftp:/example.com
- curl -P 192.168.0.2 ftp:/example.com
+curl -P - ftp:/example.com
+curl -P eth0 ftp:/example.com
+curl -P 192.168.0.2 ftp:/example.com
 See also --ftp-pasv and --disable-eprt.
 
 --ftp-pret
@@ -1001,7 +1023,7 @@ See also --ftp-pasv and --disable-eprt.
 
 Example:
 
- curl --ftp-pret ftp://example.com/
+curl --ftp-pret ftp://example.com/
 See also -P, --ftp-port and --ftp-pasv.
 
 --ftp-skip-pasv-ip
@@ -1014,7 +1036,7 @@ This option has no effect if PORT, EPRT or EPSV is used instead of PASV.
 
 Example:
 
- curl --ftp-skip-pasv-ip ftp://example.com/
+curl --ftp-skip-pasv-ip ftp://example.com/
 See also --ftp-pasv.
 
 --ftp-ssl-ccc-mode <active/passive>
@@ -1023,7 +1045,7 @@ See also --ftp-pasv.
 
 Example:
 
- curl --ftp-ssl-ccc-mode active --ftp-ssl-ccc ftps://example.com/
+curl --ftp-ssl-ccc-mode active --ftp-ssl-ccc ftps://example.com/
 See also --ftp-ssl-ccc.
 
 --ftp-ssl-ccc
@@ -1032,7 +1054,7 @@ See also --ftp-ssl-ccc.
 
 Example:
 
- curl --ftp-ssl-ccc ftps://example.com/
+curl --ftp-ssl-ccc ftps://example.com/
 See also --ssl and --ftp-ssl-ccc-mode.
 
 --ftp-ssl-control
@@ -1041,7 +1063,7 @@ See also --ssl and --ftp-ssl-ccc-mode.
 
 Example:
 
- curl --ftp-ssl-control ftp://example.com
+curl --ftp-ssl-control ftp://example.com
 See also --ssl.
 
 -G, --get
@@ -1054,9 +1076,9 @@ If this option is used several times, only the first one is used. This is becaus
 
 Examples:
 
- curl --get https://example.com
- curl --get -d "tool=curl" -d "age=old" https://example.com
- curl --get -I -d "tool=curl" https://example.com
+curl --get https://example.com
+curl --get -d "tool=curl" -d "age=old" https://example.com
+curl --get -I -d "tool=curl" https://example.com
 See also -d, --data and -X, --request.
 
 -g, --globoff
@@ -1065,7 +1087,7 @@ This option switches off the "URL globbing parser". When you set this option, yo
 
 Example:
 
- curl -g "https://example.com/{[]}}}}"
+curl -g "https://example.com/{[]}}}}"
 See also -K, --config and -q, --disable.
 
 --happy-eyeballs-timeout-ms <milliseconds>
@@ -1078,7 +1100,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --happy-eyeballs-timeout-ms 500 https://example.com
+curl --happy-eyeballs-timeout-ms 500 https://example.com
 See also -m, --max-time and --connect-timeout. Added in 7.59.0.
 
 --haproxy-protocol
@@ -1089,7 +1111,7 @@ This option is primarily useful when sending test requests to a service that exp
 
 Example:
 
- curl --haproxy-protocol https://example.com
+curl --haproxy-protocol https://example.com
 See also -x, --proxy. Added in 7.60.0.
 
 -I, --head
@@ -1098,7 +1120,7 @@ See also -x, --proxy. Added in 7.60.0.
 
 Example:
 
- curl -I https://example.com
+curl -I https://example.com
 See also -G, --get, -v, --verbose and --trace-ascii.
 
 -H, --header <header/@file>
@@ -1119,9 +1141,9 @@ This option can be used multiple times to add/replace/remove multiple headers.
 
 Examples:
 
- curl -H "X-First-Name: Joe" https://example.com
- curl -H "User-Agent: yes-please/2000" https://example.com
- curl -H "Host:" https://example.com
+curl -H "X-First-Name: Joe" https://example.com
+curl -H "User-Agent: yes-please/2000" https://example.com
+curl -H "Host:" https://example.com
 See also -A, --user-agent and -e, --referer.
 
 -h, --help <category>
@@ -1130,7 +1152,7 @@ Usage help. This lists all commands of the <category>. If no arg was provided, c
 
 Example:
 
- curl --help all
+curl --help all
 See also -v, --verbose.
 
 --hostpubmd5 <md5>
@@ -1139,7 +1161,7 @@ See also -v, --verbose.
 
 Example:
 
- curl --hostpubmd5 e5c1c49020640a5ab0f2034854c321a8 sftp://example.com/
+curl --hostpubmd5 e5c1c49020640a5ab0f2034854c321a8 sftp://example.com/
 See also --hostpubsha256.
 
 --hostpubsha256 <sha256>
@@ -1148,7 +1170,7 @@ See also --hostpubsha256.
 
 Example:
 
- curl --hostpubsha256 NDVkMTQxMGQ1ODdmMjQ3MjczYjAyOTY5MmRkMjVmNDQ= sftp://example.com/
+curl --hostpubsha256 NDVkMTQxMGQ1ODdmMjQ3MjczYjAyOTY5MmRkMjVmNDQ= sftp://example.com/
 See also --hostpubmd5. Added in 7.80.0.
 
 --hsts <file name>
@@ -1161,7 +1183,7 @@ If this option is used several times, curl will load contents from all the files
 
 Example:
 
- curl --hsts cache.txt https://example.com
+curl --hsts cache.txt https://example.com
 See also --proto. Added in 7.74.0.
 
 --http0.9
@@ -1174,7 +1196,7 @@ Since curl 7.66.0, HTTP/0.9 is disabled by default.
 
 Example:
 
- curl --http0.9 https://example.com
+curl --http0.9 https://example.com
 See also --http1.1, --http2 and --http3. Added in 7.64.0.
 
 -0, --http1.0
@@ -1183,7 +1205,7 @@ See also --http1.1, --http2 and --http3. Added in 7.64.0.
 
 Example:
 
- curl --http1.0 https://example.com
+curl --http1.0 https://example.com
 See also --http0.9 and --http1.1. This option is mutually exclusive to --http1.1 and --http2 and --http2-prior-knowledge and --http3.
 
 --http1.1
@@ -1192,7 +1214,7 @@ See also --http0.9 and --http1.1. This option is mutually exclusive to --http1.1
 
 Example:
 
- curl --http1.1 https://example.com
+curl --http1.1 https://example.com
 See also -0, --http1.0 and --http0.9. This option is mutually exclusive to -0, --http1.0 and --http2 and --http2-prior-knowledge and --http3. Added in 7.33.0.
 
 --http2-prior-knowledge
@@ -1201,7 +1223,7 @@ See also -0, --http1.0 and --http0.9. This option is mutually exclusive to -0, -
 
 Example:
 
- curl --http2-prior-knowledge https://example.com
+curl --http2-prior-knowledge https://example.com
 See also --http2 and --http3. --http2-prior-knowledge requires that the underlying libcurl was built to support HTTP/2. This option is mutually exclusive to --http1.1 and -0, --http1.0 and --http2 and --http3. Added in 7.49.0.
 
 --http2
@@ -1216,7 +1238,7 @@ When curl uses HTTP/2 over HTTPS, it does not itself insist on TLS 1.2 or higher
 
 Example:
 
- curl --http2 https://example.com
+curl --http2 https://example.com
 See also --http1.1 and --http3. --http2 requires that the underlying libcurl was built to support HTTP/2. This option is mutually exclusive to --http1.1 and -0, --http1.0 and --http2-prior-knowledge and --http3. Added in 7.33.0.
 
 --http3
@@ -1229,7 +1251,7 @@ This option will make curl fail if a QUIC connection cannot be established, it c
 
 Example:
 
- curl --http3 https://example.com
+curl --http3 https://example.com
 See also --http1.1 and --http2. --http3 requires that the underlying libcurl was built to support HTTP/3. This option is mutually exclusive to --http1.1 and -0, --http1.0 and --http2 and --http2-prior-knowledge. Added in 7.66.0.
 
 --ignore-content-length
@@ -1242,7 +1264,7 @@ This option does not work for HTTP if libcurl was built to use hyper.
 
 Example:
 
- curl --ignore-content-length https://example.com
+curl --ignore-content-length https://example.com
 See also --ftp-skip-pasv-ip.
 
 -i, --include
@@ -1253,7 +1275,7 @@ To view the request headers, consider the --verbose option.
 
 Example:
 
- curl -i https://example.com
+curl -i https://example.com
 See also -v, --verbose.
 
 -k, --insecure
@@ -1262,28 +1284,28 @@ See also -v, --verbose.
 
 When this option is not used for protocols using TLS, curl verifies the server's TLS certificate before it continues: that the certificate contains the right name which matches the host name used in the URL and that the certificate has been signed by a CA certificate present in the cert store. See this online resource for further details:
 
- https://curl.se/docs/sslcerts.html
+https://curl.se/docs/sslcerts.html
 For SFTP and SCP, this option makes curl skip the known_hosts verification. known_hosts is a file normally stored in the user's home directory in the .ssh subdirectory, which contains host names and their public keys.
 
 WARNING: using this option makes the transfer insecure.
 
 Example:
 
- curl --insecure https://example.com
+curl --insecure https://example.com
 See also --proxy-insecure, --cacert and --capath.
 
 --interface <name>
 
 Perform an operation using a specified interface. You can enter interface name, IP address or host name. An example could look like:
 
- curl --interface eth0:1 https://www.example.com/
+curl --interface eth0:1 https://www.example.com/
 If this option is used several times, the last one will be used.
 
 On Linux it can be used to specify a VRF, but the binary needs to either have CAP_NET_RAW or to be run as root. More information about Linux VRF: https://www.kernel.org/doc/Documentation/networking/vrf.txt
 
 Example:
 
- curl --interface eth0 https://example.com
+curl --interface eth0 https://example.com
 See also --dns-interface.
 
 -4, --ipv4
@@ -1292,7 +1314,7 @@ This option tells curl to use IPv4 addresses only, and not for example try IPv6.
 
 Example:
 
- curl --ipv4 https://example.com
+curl --ipv4 https://example.com
 See also --http1.1 and --http2. This option is mutually exclusive to -6, --ipv6.
 
 -6, --ipv6
@@ -1301,16 +1323,16 @@ This option tells curl to use IPv6 addresses only, and not for example try IPv4.
 
 Example:
 
- curl --ipv6 https://example.com
+curl --ipv6 https://example.com
 See also --http1.1 and --http2. This option is mutually exclusive to -4, --ipv4.
 
 --json <data>
 
 (HTTP) Sends the specified JSON data in a POST request to the HTTP server. --json works as a shortcut for passing on these three options:
 
- --data [arg]
- --header "Content-Type: application/json"
- --header "Accept: application/json"
+--data [arg]
+--header "Content-Type: application/json"
+--header "Accept: application/json"
 There is no verification that the passed in data is actual JSON or that the syntax is correct.
 
 If you start the data with the letter @, the rest should be a file name to read the data from, or a single dash (-) if you want curl to read the data from stdin. Posting data from a file named 'foobar' would thus be done with --json @foobar and to instead read the data from stdin, use --json @-.
@@ -1321,10 +1343,10 @@ The headers this option sets can be overridden with --header as usual.
 
 Examples:
 
- curl --json '{ "drink": "coffe" }' https://example.com
- curl --json '{ "drink":' --json ' "coffe" }' https://example.com
- curl --json @prepared https://example.com
- curl --json @- https://example.com < json.txt
+curl --json '{ "drink": "coffe" }' https://example.com
+curl --json '{ "drink":' --json ' "coffe" }' https://example.com
+curl --json @prepared https://example.com
+curl --json @- https://example.com < json.txt
 See also --data-binary and --data-raw. This option is mutually exclusive to -F, --form and -I, --head and -T, --upload-file. Added in 7.82.0.
 
 -j, --junk-session-cookies
@@ -1333,7 +1355,7 @@ See also --data-binary and --data-raw. This option is mutually exclusive to -F, 
 
 Example:
 
- curl --junk-session-cookies -b cookies.txt https://example.com
+curl --junk-session-cookies -b cookies.txt https://example.com
 See also -b, --cookie and -c, --cookie-jar.
 
 --keepalive-time <seconds>
@@ -1344,7 +1366,7 @@ If this option is used several times, the last one will be used. If unspecified,
 
 Example:
 
- curl --keepalive-time 20 https://example.com
+curl --keepalive-time 20 https://example.com
 See also --no-keepalive and -m, --max-time.
 
 --key-type <type>
@@ -1355,7 +1377,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --key-type DER --key here https://example.com
+curl --key-type DER --key here https://example.com
 See also --key.
 
 --key <key>
@@ -1370,7 +1392,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --cert certificate --key here https://example.com
+curl --cert certificate --key here https://example.com
 See also --key-type and -E, --cert.
 
 --krb <level>
@@ -1381,7 +1403,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --krb clear ftp://example.com/
+curl --krb clear ftp://example.com/
 See also --delegation and --ssl. --krb requires that the underlying libcurl was built to support Kerberos.
 
 --libcurl <file>
@@ -1394,7 +1416,7 @@ If this option is used several times, the last given file name will be used.
 
 Example:
 
- curl --libcurl client.c https://example.com
+curl --libcurl client.c https://example.com
 See also -v, --verbose.
 
 --limit-rate <speed>
@@ -1411,9 +1433,9 @@ If this option is used several times, the last one will be used.
 
 Examples:
 
- curl --limit-rate 100K https://example.com
- curl --limit-rate 1000 https://example.com
- curl --limit-rate 10M https://example.com
+curl --limit-rate 100K https://example.com
+curl --limit-rate 1000 https://example.com
+curl --limit-rate 10M https://example.com
 See also -Y, --speed-limit and -y, --speed-time.
 
 -l, --list-only
@@ -1428,7 +1450,7 @@ Note: When combined with -X, --request, this option can be used to send a UIDL c
 
 Example:
 
- curl --list-only ftp://example.com/dir/
+curl --list-only ftp://example.com/dir/
 See also -Q, --quote and -X, --request.
 
 --local-port <num/range>
@@ -1437,7 +1459,7 @@ Set a preferred single number or range (FROM-TO) of local port numbers to use fo
 
 Example:
 
- curl --local-port 1000-3000 https://example.com
+curl --local-port 1000-3000 https://example.com
 See also -g, --globoff.
 
 --location-trusted
@@ -1446,7 +1468,7 @@ See also -g, --globoff.
 
 Example:
 
- curl --location-trusted -u user:password https://example.com
+curl --location-trusted -u user:password https://example.com
 See also -u, --user.
 
 -L, --location
@@ -1461,7 +1483,7 @@ The method set with --request overrides the method curl would otherwise select t
 
 Example:
 
- curl -L https://example.com
+curl -L https://example.com
 See also --resolve and --alt-svc.
 
 --login-options <options>
@@ -1474,7 +1496,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --login-options 'AUTH=*' imap://example.com
+curl --login-options 'AUTH=\*' imap://example.com
 See also -u, --user. Added in 7.34.0.
 
 --mail-auth <address>
@@ -1483,7 +1505,7 @@ See also -u, --user. Added in 7.34.0.
 
 Example:
 
- curl --mail-auth user@example.come -T mail smtp://example.com/
+curl --mail-auth user@example.come -T mail smtp://example.com/
 See also --mail-rcpt and --mail-from.
 
 --mail-from <address>
@@ -1492,7 +1514,7 @@ See also --mail-rcpt and --mail-from.
 
 Example:
 
- curl --mail-from user@example.com -T mail smtp://example.com/
+curl --mail-from user@example.com -T mail smtp://example.com/
 See also --mail-rcpt and --mail-auth.
 
 --mail-rcpt-allowfails
@@ -1505,7 +1527,7 @@ If all recipients trigger RCPT TO failures and this flag is specified, curl will
 
 Example:
 
- curl --mail-rcpt-allowfails --mail-rcpt dest@example.com smtp://example.com
+curl --mail-rcpt-allowfails --mail-rcpt dest@example.com smtp://example.com
 See also --mail-rcpt. Added in 7.69.0.
 
 --mail-rcpt <address>
@@ -1518,7 +1540,7 @@ When performing a mailing list expand (EXPN command), the recipient should be sp
 
 Example:
 
- curl --mail-rcpt user@example.net smtp://example.com
+curl --mail-rcpt user@example.net smtp://example.com
 See also --mail-rcpt-allowfails.
 
 -M, --manual
@@ -1527,7 +1549,7 @@ Manual. Display the huge help text.
 
 Example:
 
- curl --manual
+curl --manual
 See also -v, --verbose, --libcurl and --trace.
 
 --max-filesize <bytes>
@@ -1538,7 +1560,7 @@ A size modifier may be used. For example, Appending 'k' or 'K' will count the nu
 
 NOTE: The file size is not always known prior to download, and for such files this option has no effect even if the file transfer ends up being larger than this given limit. Example:
 
- curl --max-filesize 100K https://example.com
+curl --max-filesize 100K https://example.com
 See also --limit-rate.
 
 --max-redirs <num>
@@ -1549,7 +1571,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --max-redirs 3 --location https://example.com
+curl --max-redirs 3 --location https://example.com
 See also -L, --location.
 
 -m, --max-time <fractional seconds>
@@ -1560,8 +1582,8 @@ If this option is used several times, the last one will be used.
 
 Examples:
 
- curl --max-time 10 https://example.com
- curl --max-time 2.92 https://example.com
+curl --max-time 10 https://example.com
+curl --max-time 2.92 https://example.com
 See also --connect-timeout.
 
 --metalink
@@ -1570,7 +1592,7 @@ This option was previously used to specify a metalink resource. Metalink support
 
 Example:
 
- curl --metalink file https://example.com
+curl --metalink file https://example.com
 See also -Z, --parallel.
 
 --negotiate
@@ -1585,7 +1607,7 @@ If this option is used several times, only the first one is used.
 
 Example:
 
- curl --negotiate -u : https://example.com
+curl --negotiate -u : https://example.com
 See also --basic, --ntlm, --anyauth and --proxy-negotiate.
 
 --netrc-file <filename>
@@ -1596,7 +1618,7 @@ It will abide by --netrc-optional if specified.
 
 Example:
 
- curl --netrc-file netrc https://example.com
+curl --netrc-file netrc https://example.com
 See also -n, --netrc, -u, --user and -K, --config. This option is mutually exclusive to -n, --netrc.
 
 --netrc-optional
@@ -1605,21 +1627,21 @@ Similar to -n, --netrc, but this option makes the .netrc usage optional and not 
 
 Example:
 
- curl --netrc-optional https://example.com
+curl --netrc-optional https://example.com
 See also --netrc-file. This option is mutually exclusive to -n, --netrc.
 
 -n, --netrc
 
-Makes curl scan the .netrc (_netrc on Windows) file in the user's home directory for login name and password. This is typically used for FTP on Unix. If used with HTTP, curl will enable user authentication. See netrc(5) and ftp(1) for details on the file format. Curl will not complain if that file does not have the right permissions (it should be neither world- nor group-readable). The environment variable "HOME" is used to find the home directory.
+Makes curl scan the .netrc (\_netrc on Windows) file in the user's home directory for login name and password. This is typically used for FTP on Unix. If used with HTTP, curl will enable user authentication. See netrc(5) and ftp(1) for details on the file format. Curl will not complain if that file does not have the right permissions (it should be neither world- nor group-readable). The environment variable "HOME" is used to find the home directory.
 
 A quick and simple example of how to setup a .netrc to allow curl to FTP to the machine host.domain.com with user name 'myself' and password 'secret' could look similar to:
 
- machine host.domain.com
- login myself
- password secret"
+machine host.domain.com
+login myself
+password secret"
 Example:
 
- curl --netrc https://example.com
+curl --netrc https://example.com
 See also --netrc-file, -K, --config and -u, --user.
 
 -:, --next
@@ -1630,11 +1652,11 @@ Tells curl to use a separate operation for the following URL and associated opti
 
 For example, you can do both a GET and a POST in a single command line:
 
- curl www1.example.com --next -d postthis www2.example.com
+curl www1.example.com --next -d postthis www2.example.com
 Examples:
 
- curl https://example.com --next -d postthis www2.example.com
- curl -I https://example.com --next https://example.net/
+curl https://example.com --next -d postthis www2.example.com
+curl -I https://example.com --next https://example.net/
 See also -Z, --parallel and -K, --config. Added in 7.36.0.
 
 --no-alpn
@@ -1643,7 +1665,7 @@ See also -Z, --parallel and -K, --config. Added in 7.36.0.
 
 Example:
 
- curl --no-alpn https://example.com
+curl --no-alpn https://example.com
 See also --no-npn and --http2. --no-alpn requires that the underlying libcurl was built to support TLS. Added in 7.36.0.
 
 -N, --no-buffer
@@ -1654,7 +1676,7 @@ Note that this is the negated option name documented. You can thus use --buffer 
 
 Example:
 
- curl --no-buffer https://example.com
+curl --no-buffer https://example.com
 See also -#, --progress-bar.
 
 --no-clobber
@@ -1665,7 +1687,7 @@ Note that this is the negated option name documented. You can thus use --clobber
 
 Example:
 
- curl --no-clobber --output local/dir/file https://example.com
+curl --no-clobber --output local/dir/file https://example.com
 See also -o, --output and -O, --remote-name. Added in 7.83.0.
 
 --no-keepalive
@@ -1676,7 +1698,7 @@ Note that this is the negated option name documented. You can thus use --keepali
 
 Example:
 
- curl --no-keepalive https://example.com
+curl --no-keepalive https://example.com
 See also --keepalive-time.
 
 --no-npn
@@ -1685,7 +1707,7 @@ See also --keepalive-time.
 
 Example:
 
- curl --no-npn https://example.com
+curl --no-npn https://example.com
 See also --no-alpn and --http2. --no-npn requires that the underlying libcurl was built to support TLS. Added in 7.36.0.
 
 --no-progress-meter
@@ -1696,7 +1718,7 @@ Note that this is the negated option name documented. You can thus use --progres
 
 Example:
 
- curl --no-progress-meter -o store https://example.com
+curl --no-progress-meter -o store https://example.com
 See also -v, --verbose and -s, --silent. Added in 7.67.0.
 
 --no-sessionid
@@ -1707,18 +1729,18 @@ Note that this is the negated option name documented. You can thus use --session
 
 Example:
 
- curl --no-sessionid https://example.com
+curl --no-sessionid https://example.com
 See also -k, --insecure.
 
 --noproxy <no-proxy-list>
 
-Comma-separated list of hosts for which not to use a proxy, if one is specified. The only wildcard is a single * character, which matches all hosts, and effectively disables the proxy. Each name in this list is matched as either a domain which contains the hostname, or the hostname itself. For example, local.com would match local.com, local.com:80, and www.local.com, but not www.notlocal.com.
+Comma-separated list of hosts for which not to use a proxy, if one is specified. The only wildcard is a single \* character, which matches all hosts, and effectively disables the proxy. Each name in this list is matched as either a domain which contains the hostname, or the hostname itself. For example, local.com would match local.com, local.com:80, and www.local.com, but not www.notlocal.com.
 
 Since 7.53.0, This option overrides the environment variables that disable the proxy ('no_proxy' and 'NO_PROXY'). If there's an environment variable disabling a proxy, you can set the noproxy list to "" to override it.
 
 Example:
 
- curl --noproxy "www.example" https://example.com
+curl --noproxy "www.example" https://example.com
 See also -x, --proxy.
 
 --ntlm-wb
@@ -1727,7 +1749,7 @@ See also -x, --proxy.
 
 Example:
 
- curl --ntlm-wb -u user:password https://example.com
+curl --ntlm-wb -u user:password https://example.com
 See also --ntlm and --proxy-ntlm.
 
 --ntlm
@@ -1740,7 +1762,7 @@ If this option is used several times, only the first one is used.
 
 Example:
 
- curl --ntlm -u user:password https://example.com
+curl --ntlm -u user:password https://example.com
 See also --proxy-ntlm. --ntlm requires that the underlying libcurl was built to support TLS. This option is mutually exclusive to --basic and --negotiate and --digest and --anyauth.
 
 --oauth2-bearer <token>
@@ -1753,7 +1775,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --oauth2-bearer "mF_9.B5f-4.1JqM" https://example.com
+curl --oauth2-bearer "mF_9.B5f-4.1JqM" https://example.com
 See also --basic, --ntlm and --digest. Added in 7.33.0.
 
 --output-dir <dir>
@@ -1768,37 +1790,37 @@ If this option is used multiple times, the last specified directory will be used
 
 Example:
 
- curl --output-dir "tmp" -O https://example.com
+curl --output-dir "tmp" -O https://example.com
 See also -O, --remote-name and -J, --remote-header-name. Added in 7.73.0.
 
 -o, --output <file>
 
 Write output to <file> instead of stdout. If you are using {} or [] to fetch multiple documents, you should quote the URL and you can use '#' followed by a number in the <file> specifier. That variable will be replaced with the current string for the URL being fetched. Like in:
 
- curl "http://{one,two}.example.com" -o "file_#1.txt"
+curl "http://{one,two}.example.com" -o "file\_#1.txt"
 or use several variables like:
 
- curl "http://{site,host}.host[1-5].com" -o "#1_#2"
+curl "http://{site,host}.host[1-5].com" -o "#1\_#2"
 You may use this option as many times as the number of URLs you have. For example, if you specify two URLs on the same command line, you can use it like this:
 
-  curl -o aa example.com -o bb example.net
+curl -o aa example.com -o bb example.net
 and the order of the -o options and the URLs does not matter, just that the first -o is for the first URL and so on, so the above command line can also be written as
 
-  curl example.com example.net -o aa -o bb
+curl example.com example.net -o aa -o bb
 See also the --create-dirs option to create the local directories dynamically. Specifying the output as '-' (a single dash) will force the output to be done to stdout.
 
 To suppress response bodies, you can redirect output to /dev/null:
 
-  curl example.com -o /dev/null
+curl example.com -o /dev/null
 Or for Windows use nul:
 
-  curl example.com -o nul
+curl example.com -o nul
 Examples:
 
- curl -o file https://example.com
- curl "http://{one,two}.example.com" -o "file_#1.txt"
- curl "http://{site,host}.host[1-5].com" -o "#1_#2"
- curl -o file https://example.com -o file2 https://example.net
+curl -o file https://example.com
+curl "http://{one,two}.example.com" -o "file*#1.txt"
+curl "http://{site,host}.host[1-5].com" -o "#1*#2"
+curl -o file https://example.com -o file2 https://example.net
 See also -O, --remote-name, --remote-name-all and -J, --remote-header-name.
 
 --parallel-immediate
@@ -1809,7 +1831,7 @@ This option is global and does not need to be specified for each use of -:, --ne
 
 Example:
 
- curl --parallel-immediate -Z https://example.com -o file1 https://example.com -o file2
+curl --parallel-immediate -Z https://example.com -o file1 https://example.com -o file2
 See also -Z, --parallel and --parallel-max. Added in 7.68.0.
 
 --parallel-max <num>
@@ -1822,7 +1844,7 @@ The default is 50.
 
 Example:
 
- curl --parallel-max 100 -Z https://example.com ftp://example.com/
+curl --parallel-max 100 -Z https://example.com ftp://example.com/
 See also -Z, --parallel. Added in 7.66.0.
 
 -Z, --parallel
@@ -1833,7 +1855,7 @@ This option is global and does not need to be specified for each use of -:, --ne
 
 Example:
 
- curl --parallel https://example.com -o file1 https://example.com -o file2
+curl --parallel https://example.com -o file1 https://example.com -o file2
 See also -:, --next and -v, --verbose. Added in 7.66.0.
 
 --pass <phrase>
@@ -1844,7 +1866,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --pass secret --key file https://example.com
+curl --pass secret --key file https://example.com
 See also --key and -u, --user.
 
 --path-as-is
@@ -1853,7 +1875,7 @@ Tell curl to not handle sequences of /../ or /./ in the given URL path. Normally
 
 Example:
 
- curl --path-as-is https://example.com/../../etc/passwd
+curl --path-as-is https://example.com/../../etc/passwd
 See also --request-target. Added in 7.42.0.
 
 --pinnedpubkey <hashes>
@@ -1882,8 +1904,8 @@ If this option is used several times, the last one will be used.
 
 Examples:
 
- curl --pinnedpubkey keyfile https://example.com
- curl --pinnedpubkey 'sha256//ce118b51897f4452dc' https://example.com
+curl --pinnedpubkey keyfile https://example.com
+curl --pinnedpubkey 'sha256//ce118b51897f4452dc' https://example.com
 See also --hostpubsha256. Added in 7.39.0.
 
 --post301
@@ -1892,7 +1914,7 @@ See also --hostpubsha256. Added in 7.39.0.
 
 Example:
 
- curl --post301 --location -d "data" https://example.com
+curl --post301 --location -d "data" https://example.com
 See also --post302, --post303 and -L, --location.
 
 --post302
@@ -1901,7 +1923,7 @@ See also --post302, --post303 and -L, --location.
 
 Example:
 
- curl --post302 --location -d "data" https://example.com
+curl --post302 --location -d "data" https://example.com
 See also --post301, --post303 and -L, --location.
 
 --post303
@@ -1910,7 +1932,7 @@ See also --post301, --post303 and -L, --location.
 
 Example:
 
- curl --post303 --location -d "data" https://example.com
+curl --post303 --location -d "data" https://example.com
 See also --post302, --post301 and -L, --location.
 
 --preproxy [protocol://]host[:port]
@@ -1927,7 +1949,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --preproxy socks5://proxy.example -x http://http.example https://example.com
+curl --preproxy socks5://proxy.example -x http://http.example https://example.com
 See also -x, --proxy and --socks5. Added in 7.52.0.
 
 -#, --progress-bar
@@ -1940,7 +1962,7 @@ This option is global and does not need to be specified for each use of -:, --ne
 
 Example:
 
- curl -# -O https://example.com
+curl -# -O https://example.com
 See also --styled-output.
 
 --proto-default <protocol>
@@ -1955,7 +1977,7 @@ Without this option set, curl guesses protocol based on the host name, see --url
 
 Example:
 
- curl --proto-default https ftp.example.com
+curl --proto-default https ftp.example.com
 See also --proto and --proto-redir. Added in 7.45.0.
 
 --proto-redir <protocols>
@@ -1964,24 +1986,23 @@ Tells curl to limit what protocols it may use on redirect. Protocols denied by -
 
 Example, allow only HTTP and HTTPS on redirect:
 
- curl --proto-redir -all,http,https http://example.com
+curl --proto-redir -all,http,https http://example.com
 By default curl will only allow HTTP, HTTPS, FTP and FTPS on redirect (since 7.65.2). Specifying all or +all enables all protocols on redirects, which is not good for security.
 
 Example:
 
- curl --proto-redir =http,https https://example.com
+curl --proto-redir =http,https https://example.com
 See also --proto.
 
 --proto <protocols>
 
 Tells curl to limit what protocols it may use for transfers. Protocols are evaluated left to right, are comma separated, and are each a protocol name or 'all', optionally prefixed by zero or more modifiers. Available modifiers are:
 
-+ Permit this protocol in addition to protocols already permitted (this is the default if no modifier is used).
+- Permit this protocol in addition to protocols already permitted (this is the default if no modifier is used).
 
-- Deny this protocol, removing it from the list of protocols already permitted.
+* Deny this protocol, removing it from the list of protocols already permitted.
 
 = Permit only this protocol (ignoring the list already permitted), though subject to later modification by subsequent entries in the comma separated list.
-
 
 For example:
 
@@ -1991,14 +2012,13 @@ For example:
 
 --proto =http,https also only enables http and https
 
-
 Unknown protocols produce a warning. This allows scripts to safely rely on being able to disable potentially dangerous protocols, without relying upon support for that protocol being built into curl to avoid an error.
 
 This option can be used multiple times, in which case the effect is the same as concatenating the protocols into one instance of the option.
 
 Example:
 
- curl --proto =http,https,sftp https://example.com
+curl --proto =http,https,sftp https://example.com
 See also --proto-redir and --proto-default.
 
 --proxy-anyauth
@@ -2007,7 +2027,7 @@ Tells curl to pick a suitable authentication method when communicating with the 
 
 Example:
 
- curl --proxy-anyauth --proxy-user user:passwd -x proxy https://example.com
+curl --proxy-anyauth --proxy-user user:passwd -x proxy https://example.com
 See also -x, --proxy, --proxy-basic and --proxy-digest.
 
 --proxy-basic
@@ -2016,7 +2036,7 @@ Tells curl to use HTTP Basic authentication when communicating with the given pr
 
 Example:
 
- curl --proxy-basic --proxy-user user:passwd -x proxy https://example.com
+curl --proxy-basic --proxy-user user:passwd -x proxy https://example.com
 See also -x, --proxy, --proxy-anyauth and --proxy-digest.
 
 --proxy-cacert <file>
@@ -2025,7 +2045,7 @@ Same as --cacert but used in HTTPS proxy context.
 
 Example:
 
- curl --proxy-cacert CA-file.txt -x https://proxy https://example.com
+curl --proxy-cacert CA-file.txt -x https://proxy https://example.com
 See also --proxy-capath, --cacert, --capath and -x, --proxy. Added in 7.52.0.
 
 --proxy-capath <dir>
@@ -2034,7 +2054,7 @@ Same as --capath but used in HTTPS proxy context.
 
 Example:
 
- curl --proxy-capath /local/directory -x https://proxy https://example.com
+curl --proxy-capath /local/directory -x https://proxy https://example.com
 See also --proxy-cacert, -x, --proxy and --capath. Added in 7.52.0.
 
 --proxy-cert-type <type>
@@ -2043,7 +2063,7 @@ Same as --cert-type but used in HTTPS proxy context.
 
 Example:
 
- curl --proxy-cert-type PEM --proxy-cert file -x https://proxy https://example.com
+curl --proxy-cert-type PEM --proxy-cert file -x https://proxy https://example.com
 See also --proxy-cert. Added in 7.52.0.
 
 --proxy-cert <cert[:passwd]>
@@ -2052,7 +2072,7 @@ Same as --cert but used in HTTPS proxy context.
 
 Example:
 
- curl --proxy-cert file -x https://proxy https://example.com
+curl --proxy-cert file -x https://proxy https://example.com
 See also --proxy-cert-type. Added in 7.52.0.
 
 --proxy-ciphers <list>
@@ -2061,7 +2081,7 @@ Same as --ciphers but used in HTTPS proxy context.
 
 Example:
 
- curl --proxy-ciphers ECDHE-ECDSA-AES256-CCM8 -x https://proxy https://example.com
+curl --proxy-ciphers ECDHE-ECDSA-AES256-CCM8 -x https://proxy https://example.com
 See also --ciphers, --curves and -x, --proxy. Added in 7.52.0.
 
 --proxy-crlfile <file>
@@ -2070,7 +2090,7 @@ Same as --crlfile but used in HTTPS proxy context.
 
 Example:
 
- curl --proxy-crlfile rejects.txt -x https://proxy https://example.com
+curl --proxy-crlfile rejects.txt -x https://proxy https://example.com
 See also --crlfile and -x, --proxy. Added in 7.52.0.
 
 --proxy-digest
@@ -2079,7 +2099,7 @@ Tells curl to use HTTP Digest authentication when communicating with the given p
 
 Example:
 
- curl --proxy-digest --proxy-user user:passwd -x proxy https://example.com
+curl --proxy-digest --proxy-user user:passwd -x proxy https://example.com
 See also -x, --proxy, --proxy-anyauth and --proxy-basic.
 
 --proxy-header <header/@file>
@@ -2096,9 +2116,9 @@ This option can be used multiple times to add/replace/remove multiple headers.
 
 Examples:
 
- curl --proxy-header "X-First-Name: Joe" -x http://proxy https://example.com
- curl --proxy-header "User-Agent: surprise" -x http://proxy https://example.com
- curl --proxy-header "Host:" -x http://proxy https://example.com
+curl --proxy-header "X-First-Name: Joe" -x http://proxy https://example.com
+curl --proxy-header "User-Agent: surprise" -x http://proxy https://example.com
+curl --proxy-header "Host:" -x http://proxy https://example.com
 See also -x, --proxy. Added in 7.37.0.
 
 --proxy-insecure
@@ -2107,7 +2127,7 @@ Same as --insecure but used in HTTPS proxy context.
 
 Example:
 
- curl --proxy-insecure -x https://proxy https://example.com
+curl --proxy-insecure -x https://proxy https://example.com
 See also -x, --proxy and -k, --insecure. Added in 7.52.0.
 
 --proxy-key-type <type>
@@ -2116,7 +2136,7 @@ Same as --key-type but used in HTTPS proxy context.
 
 Example:
 
- curl --proxy-key-type DER --proxy-key here -x https://proxy https://example.com
+curl --proxy-key-type DER --proxy-key here -x https://proxy https://example.com
 See also --proxy-key and -x, --proxy. Added in 7.52.0.
 
 --proxy-key <key>
@@ -2125,7 +2145,7 @@ Same as --key but used in HTTPS proxy context.
 
 Example:
 
- curl --proxy-key here -x https://proxy https://example.com
+curl --proxy-key here -x https://proxy https://example.com
 See also --proxy-key-type and -x, --proxy. Added in 7.52.0.
 
 --proxy-negotiate
@@ -2134,7 +2154,7 @@ Tells curl to use HTTP Negotiate (SPNEGO) authentication when communicating with
 
 Example:
 
- curl --proxy-negotiate --proxy-user user:passwd -x proxy https://example.com
+curl --proxy-negotiate --proxy-user user:passwd -x proxy https://example.com
 See also --proxy-anyauth and --proxy-basic.
 
 --proxy-ntlm
@@ -2143,7 +2163,7 @@ Tells curl to use HTTP NTLM authentication when communicating with the given pro
 
 Example:
 
- curl --proxy-ntlm --proxy-user user:passwd -x http://proxy https://example.com
+curl --proxy-ntlm --proxy-user user:passwd -x http://proxy https://example.com
 See also --proxy-negotiate and --proxy-anyauth.
 
 --proxy-pass <phrase>
@@ -2152,7 +2172,7 @@ Same as --pass but used in HTTPS proxy context.
 
 Example:
 
- curl --proxy-pass secret --proxy-key here -x https://proxy https://example.com
+curl --proxy-pass secret --proxy-key here -x https://proxy https://example.com
 See also -x, --proxy and --proxy-key. Added in 7.52.0.
 
 --proxy-pinnedpubkey <hashes>
@@ -2165,8 +2185,8 @@ If this option is used several times, the last one will be used.
 
 Examples:
 
- curl --proxy-pinnedpubkey keyfile https://example.com
- curl --proxy-pinnedpubkey 'sha256//ce118b51897f4452dc' https://example.com
+curl --proxy-pinnedpubkey keyfile https://example.com
+curl --proxy-pinnedpubkey 'sha256//ce118b51897f4452dc' https://example.com
 See also --pinnedpubkey and -x, --proxy. Added in 7.59.0.
 
 --proxy-service-name <name>
@@ -2175,7 +2195,7 @@ This option allows you to change the service name for proxy negotiation.
 
 Example:
 
- curl --proxy-service-name "shrubbery" -x proxy https://example.com
+curl --proxy-service-name "shrubbery" -x proxy https://example.com
 See also --service-name and -x, --proxy. Added in 7.43.0.
 
 --proxy-ssl-allow-beast
@@ -2184,7 +2204,7 @@ Same as --ssl-allow-beast but used in HTTPS proxy context.
 
 Example:
 
- curl --proxy-ssl-allow-beast -x https://proxy https://example.com
+curl --proxy-ssl-allow-beast -x https://proxy https://example.com
 See also --ssl-allow-beast and -x, --proxy. Added in 7.52.0.
 
 --proxy-ssl-auto-client-cert
@@ -2193,21 +2213,21 @@ Same as --ssl-auto-client-cert but used in HTTPS proxy context.
 
 Example:
 
- curl --proxy-ssl-auto-client-cert -x https://proxy https://example.com
+curl --proxy-ssl-auto-client-cert -x https://proxy https://example.com
 See also --ssl-auto-client-cert and -x, --proxy. Added in 7.77.0.
 
 --proxy-tls13-ciphers <ciphersuite list>
 
 (TLS) Specifies which cipher suites to use in the connection to your HTTPS proxy when it negotiates TLS 1.3. The list of ciphers suites must specify valid ciphers. Read up on TLS 1.3 cipher suite details on this URL:
 
- https://curl.se/docs/ssl-ciphers.html
+https://curl.se/docs/ssl-ciphers.html
 This option is currently used only when curl is built to use OpenSSL 1.1.1 or later. If you are using a different SSL backend you can try setting TLS 1.3 cipher suites by using the --proxy-ciphers option.
 
 If this option is used several times, the last one will be used.
 
 Example:
 
- curl --proxy-tls13-ciphers TLS_AES_128_GCM_SHA256 -x proxy https://example.com
+curl --proxy-tls13-ciphers TLS_AES_128_GCM_SHA256 -x proxy https://example.com
 See also --tls13-ciphers and --curves. Added in 7.61.0.
 
 --proxy-tlsauthtype <type>
@@ -2216,7 +2236,7 @@ Same as --tlsauthtype but used in HTTPS proxy context.
 
 Example:
 
- curl --proxy-tlsauthtype SRP -x https://proxy https://example.com
+curl --proxy-tlsauthtype SRP -x https://proxy https://example.com
 See also -x, --proxy and --proxy-tlsuser. Added in 7.52.0.
 
 --proxy-tlspassword <string>
@@ -2225,7 +2245,7 @@ Same as --tlspassword but used in HTTPS proxy context.
 
 Example:
 
- curl --proxy-tlspassword passwd -x https://proxy https://example.com
+curl --proxy-tlspassword passwd -x https://proxy https://example.com
 See also -x, --proxy and --proxy-tlsuser. Added in 7.52.0.
 
 --proxy-tlsuser <name>
@@ -2234,7 +2254,7 @@ Same as --tlsuser but used in HTTPS proxy context.
 
 Example:
 
- curl --proxy-tlsuser smith -x https://proxy https://example.com
+curl --proxy-tlsuser smith -x https://proxy https://example.com
 See also -x, --proxy and --proxy-tlspassword. Added in 7.52.0.
 
 --proxy-tlsv1
@@ -2243,7 +2263,7 @@ Same as --tlsv1 but used in HTTPS proxy context.
 
 Example:
 
- curl --proxy-tlsv1 -x https://proxy https://example.com
+curl --proxy-tlsv1 -x https://proxy https://example.com
 See also -x, --proxy. Added in 7.52.0.
 
 -U, --proxy-user <user:password>
@@ -2258,7 +2278,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --proxy-user name:pwd -x proxy https://example.com
+curl --proxy-user name:pwd -x proxy https://example.com
 See also --proxy-pass.
 
 -x, --proxy [protocol://]host[:port]
@@ -2285,7 +2305,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --proxy http://proxy.example https://example.com
+curl --proxy http://proxy.example https://example.com
 See also --socks5 and --proxy-basic.
 
 --proxy1.0 <host[:port]>
@@ -2296,7 +2316,7 @@ The only difference between this and the HTTP proxy option -x, --proxy, is that 
 
 Example:
 
- curl --proxy1.0 -x http://proxy https://example.com
+curl --proxy1.0 -x http://proxy https://example.com
 See also -x, --proxy, --socks5 and --preproxy.
 
 -p, --proxytunnel
@@ -2307,7 +2327,7 @@ To suppress proxy CONNECT response headers when curl is set to output headers us
 
 Example:
 
- curl --proxytunnel -x http://proxy https://example.com
+curl --proxytunnel -x http://proxy https://example.com
 See also -x, --proxy.
 
 --pubkey <key>
@@ -2320,7 +2340,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --pubkey file.pub sftp://example.com/
+curl --pubkey file.pub sftp://example.com/
 See also --pass.
 
 -Q, --quote <command>
@@ -2331,7 +2351,7 @@ See also --pass.
 
 You may specify any number of commands.
 
-By default curl will stop at first failure. To make curl continue even if the command fails, prefix the command with an asterisk (*). Otherwise, if the server returns failure for one of the commands, the entire operation will be aborted.
+By default curl will stop at first failure. To make curl continue even if the command fails, prefix the command with an asterisk (\*). Otherwise, if the server returns failure for one of the commands, the entire operation will be aborted.
 
 You must send syntactically correct FTP commands as RFC 959 defines to FTP servers, or one of the commands listed below to SFTP servers.
 
@@ -2389,7 +2409,7 @@ See ln.
 
 Example:
 
- curl --quote "DELE file" ftp://example.com/foo
+curl --quote "DELE file" ftp://example.com/foo
 See also -X, --request.
 
 --random-file <file>
@@ -2398,7 +2418,7 @@ Specify the path name to file containing what will be considered as random data.
 
 Example:
 
- curl --random-file rubbish https://example.com
+curl --random-file rubbish https://example.com
 See also --egd-file.
 
 -r, --range <range>
@@ -2413,12 +2433,11 @@ See also --egd-file.
 
 9500- specifies the bytes from offset 9500 and forward
 
-0-0,-1 specifies the first and last byte only(*)(HTTP)
+0-0,-1 specifies the first and last byte only(\*)(HTTP)
 
-100-199,500-599 specifies two separate 100-byte ranges(*) (HTTP)
+100-199,500-599 specifies two separate 100-byte ranges(\*) (HTTP)
 
-
-(*) = NOTE that this will cause the server to reply with a multipart response, which will be returned as-is by curl! Parsing or otherwise transforming this response is the responsibility of the caller.
+(\*) = NOTE that this will cause the server to reply with a multipart response, which will be returned as-is by curl! Parsing or otherwise transforming this response is the responsibility of the caller.
 
 Only digit characters (0-9) are valid in the 'start' and 'stop' fields of the 'start-stop' range syntax. If a non-digit character is given in the range, the server's response will be unspecified, depending on the server's configuration.
 
@@ -2430,7 +2449,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --range 22-44 https://example.com
+curl --range 22-44 https://example.com
 See also -C, --continue-at and -a, --append.
 
 --raw
@@ -2439,7 +2458,7 @@ See also -C, --continue-at and -a, --append.
 
 Example:
 
- curl --raw https://example.com
+curl --raw https://example.com
 See also --tr-encoding.
 
 -e, --referer <URL>
@@ -2450,9 +2469,9 @@ If this option is used several times, the last one will be used.
 
 Examples:
 
- curl --referer "https://fake.example" https://example.com
- curl --referer "https://fake.example;auto" -L https://example.com
- curl --referer ";auto" -L https://example.com
+curl --referer "https://fake.example" https://example.com
+curl --referer "https://fake.example;auto" -L https://example.com
+curl --referer ";auto" -L https://example.com
 See also -A, --user-agent and -H, --header.
 
 -J, --remote-header-name
@@ -2469,7 +2488,7 @@ WARNING: Exercise judicious use of this option, especially on Windows. A rogue s
 
 Example:
 
- curl -OJ https://example.com/file
+curl -OJ https://example.com/file
 See also -O, --remote-name.
 
 --remote-name-all
@@ -2478,7 +2497,7 @@ This option changes the default action for all given URLs to be dealt with as if
 
 Example:
 
- curl --remote-name-all ftp://example.com/file1 ftp://example.com/file2
+curl --remote-name-all ftp://example.com/file1 ftp://example.com/file2
 See also -O, --remote-name.
 
 -O, --remote-name
@@ -2495,7 +2514,7 @@ You may use this option as many times as the number of URLs you have.
 
 Example:
 
- curl -O https://example.com/filename
+curl -O https://example.com/filename
 See also --remote-name-all.
 
 -R, --remote-time
@@ -2504,7 +2523,7 @@ When used, this will make curl attempt to figure out the timestamp of the remote
 
 Example:
 
- curl --remote-time -o foo https://example.com
+curl --remote-time -o foo https://example.com
 See also -O, --remote-name and -z, --time-cond.
 
 --remove-on-error
@@ -2515,16 +2534,16 @@ If the output is not a file, this option has no effect.
 
 Example:
 
- curl --remove-on-error -o output https://example.com
+curl --remove-on-error -o output https://example.com
 See also -f, --fail. Added in 7.83.0.
 
 --request-target <path>
 
-(HTTP) Tells curl to use an alternative "target" (path) instead of using the path as provided in the URL. Particularly useful when wanting to issue HTTP requests without leading slash or other data that does not follow the regular URL pattern, like "OPTIONS *".
+(HTTP) Tells curl to use an alternative "target" (path) instead of using the path as provided in the URL. Particularly useful when wanting to issue HTTP requests without leading slash or other data that does not follow the regular URL pattern, like "OPTIONS \*".
 
 Example:
 
- curl --request-target "*" -X OPTIONS https://example.com
+curl --request-target "\*" -X OPTIONS https://example.com
 See also -X, --request. Added in 7.55.0.
 
 -X, --request <method>
@@ -2549,15 +2568,15 @@ If this option is used several times, the last one will be used.
 
 Examples:
 
- curl -X "DELETE" https://example.com
- curl -X NLST ftp://example.com/
+curl -X "DELETE" https://example.com
+curl -X NLST ftp://example.com/
 See also --request-target.
 
 --resolve <[+]host:port:addr[,addr]...>
 
 Provide a custom address for a specific host and port pair. Using this, you can make the curl requests(s) use a specified address and prevent the otherwise normally resolved address to be used. Consider it a sort of /etc/hosts alternative provided on the command line. The port number should be the number used for the specific protocol the host will be used for. It means you need several entries if you want to provide address for the same host but different ports.
 
-By specifying '*' as host you can tell curl to resolve any host and specific port pair to the specified address. Wildcard is resolved last so any --resolve with a specific host and port will be used first.
+By specifying '\*' as host you can tell curl to resolve any host and specific port pair to the specified address. Wildcard is resolved last so any --resolve with a specific host and port will be used first.
 
 The provided address set by this option will be used even if --ipv4 or --ipv6 is set to make curl use another IP version.
 
@@ -2575,7 +2594,7 @@ This option can be used many times to add many host names to resolve.
 
 Example:
 
- curl --resolve example.com:443:127.0.0.1 https://example.com
+curl --resolve example.com:443:127.0.0.1 https://example.com
 See also --connect-to and --alt-svc.
 
 --retry-all-errors
@@ -2590,7 +2609,7 @@ By default curl will not error on an HTTP response code that indicates an HTTP e
 
 Example:
 
- curl --retry 5 --retry-all-errors https://example.com
+curl --retry 5 --retry-all-errors https://example.com
 See also --retry. Added in 7.71.0.
 
 --retry-connrefused
@@ -2599,7 +2618,7 @@ In addition to the other conditions, consider ECONNREFUSED as a transient error 
 
 Example:
 
- curl --retry-connrefused --retry https://example.com
+curl --retry-connrefused --retry https://example.com
 See also --retry and --retry-all-errors. Added in 7.52.0.
 
 --retry-delay <seconds>
@@ -2610,7 +2629,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --retry-delay 5 --retry https://example.com
+curl --retry-delay 5 --retry https://example.com
 See also --retry.
 
 --retry-max-time <seconds>
@@ -2621,7 +2640,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --retry-max-time 30 --retry 10 https://example.com
+curl --retry-max-time 30 --retry 10 https://example.com
 See also --retry.
 
 --retry <num>
@@ -2636,7 +2655,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --retry 7 https://example.com
+curl --retry 7 https://example.com
 See also --retry-max-time.
 
 --sasl-authzid <identity>
@@ -2647,7 +2666,7 @@ If the option is not specified, the server will derive the authzid from the auth
 
 Example:
 
- curl --sasl-authzid zid imap://example.com/
+curl --sasl-authzid zid imap://example.com/
 See also --login-options. Added in 7.66.0.
 
 --sasl-ir
@@ -2656,7 +2675,7 @@ Enable initial response in SASL authentication.
 
 Example:
 
- curl --sasl-ir imap://example.com/
+curl --sasl-ir imap://example.com/
 See also --sasl-authzid. Added in 7.31.0.
 
 --service-name <name>
@@ -2667,7 +2686,7 @@ Examples: --negotiate --service-name sockd would use sockd/server-name.
 
 Example:
 
- curl --service-name sockd/server https://example.com
+curl --service-name sockd/server https://example.com
 See also --negotiate and --proxy-service-name. Added in 7.43.0.
 
 -S, --show-error
@@ -2678,7 +2697,7 @@ This option is global and does not need to be specified for each use of -:, --ne
 
 Example:
 
- curl --show-error --silent https://example.com
+curl --show-error --silent https://example.com
 See also --no-progress-meter.
 
 -s, --silent
@@ -2689,7 +2708,7 @@ Use --show-error in addition to this option to disable progress meter but still 
 
 Example:
 
- curl -s https://example.com
+curl -s https://example.com
 See also -v, --verbose, --stderr and --no-progress-meter.
 
 --socks4 <host[:port]>
@@ -2706,7 +2725,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --socks4 hostname:4096 https://example.com
+curl --socks4 hostname:4096 https://example.com
 See also --socks4a, --socks5 and --socks5-hostname.
 
 --socks4a <host[:port]>
@@ -2723,7 +2742,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --socks4a hostname:4096 https://example.com
+curl --socks4a hostname:4096 https://example.com
 See also --socks4, --socks5 and --socks5-hostname.
 
 --socks5-basic
@@ -2732,7 +2751,7 @@ Tells curl to use username/password authentication when connecting to a SOCKS5 p
 
 Example:
 
- curl --socks5-basic --socks5 hostname:4096 https://example.com
+curl --socks5-basic --socks5 hostname:4096 https://example.com
 See also --socks5. Added in 7.55.0.
 
 --socks5-gssapi-nec
@@ -2741,7 +2760,7 @@ As part of the GSS-API negotiation a protection mode is negotiated. RFC 1961 say
 
 Example:
 
- curl --socks5-gssapi-nec --socks5 hostname:4096 https://example.com
+curl --socks5-gssapi-nec --socks5 hostname:4096 https://example.com
 See also --socks5.
 
 --socks5-gssapi-service <name>
@@ -2752,7 +2771,7 @@ Examples: --socks5 proxy-name --socks5-gssapi-service sockd would use sockd/prox
 
 Example:
 
- curl --socks5-gssapi-service sockd --socks5 hostname:4096 https://example.com
+curl --socks5-gssapi-service sockd --socks5 hostname:4096 https://example.com
 See also --socks5.
 
 --socks5-gssapi
@@ -2761,7 +2780,7 @@ Tells curl to use GSS-API authentication when connecting to a SOCKS5 proxy. The 
 
 Example:
 
- curl --socks5-gssapi --socks5 hostname:4096 https://example.com
+curl --socks5-gssapi --socks5 hostname:4096 https://example.com
 See also --socks5. Added in 7.55.0.
 
 --socks5-hostname <host[:port]>
@@ -2778,7 +2797,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --socks5-hostname proxy.example:7000 https://example.com
+curl --socks5-hostname proxy.example:7000 https://example.com
 See also --socks5 and --socks4a.
 
 --socks5 <host[:port]>
@@ -2797,7 +2816,7 @@ This option (as well as --socks4) does not work with IPV6, FTPS or LDAP.
 
 Example:
 
- curl --socks5 proxy.example:7000 https://example.com
+curl --socks5 proxy.example:7000 https://example.com
 See also --socks5-hostname and --socks4a.
 
 -Y, --speed-limit <speed>
@@ -2808,7 +2827,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --speed-limit 300 --speed-time 10 https://example.com
+curl --speed-limit 300 --speed-time 10 https://example.com
 See also -y, --speed-time, --limit-rate and -m, --max-time.
 
 -y, --speed-time <seconds>
@@ -2821,7 +2840,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --speed-limit 300 --speed-time 10 https://example.com
+curl --speed-limit 300 --speed-time 10 https://example.com
 See also -Y, --speed-limit and --limit-rate.
 
 --ssl-allow-beast
@@ -2832,7 +2851,7 @@ WARNING: this option loosens the SSL security, and by using this flag you ask fo
 
 Example:
 
- curl --ssl-allow-beast https://example.com
+curl --ssl-allow-beast https://example.com
 See also --proxy-ssl-allow-beast and -k, --insecure.
 
 --ssl-auto-client-cert
@@ -2841,7 +2860,7 @@ Tell libcurl to automatically locate and use a client certificate for authentica
 
 Example:
 
- curl --ssl-auto-client-cert https://example.com
+curl --ssl-auto-client-cert https://example.com
 See also --proxy-ssl-auto-client-cert. Added in 7.77.0.
 
 --ssl-no-revoke
@@ -2850,7 +2869,7 @@ See also --proxy-ssl-auto-client-cert. Added in 7.77.0.
 
 Example:
 
- curl --ssl-no-revoke https://example.com
+curl --ssl-no-revoke https://example.com
 See also --crlfile. Added in 7.44.0.
 
 --ssl-reqd
@@ -2863,7 +2882,7 @@ This option was formerly known as --ftp-ssl-reqd.
 
 Example:
 
- curl --ssl-reqd ftp://example.com
+curl --ssl-reqd ftp://example.com
 See also --ssl and -k, --insecure.
 
 --ssl-revoke-best-effort
@@ -2872,7 +2891,7 @@ See also --ssl and -k, --insecure.
 
 Example:
 
- curl --ssl-revoke-best-effort https://example.com
+curl --ssl-revoke-best-effort https://example.com
 See also --crlfile and -k, --insecure. Added in 7.70.0.
 
 --ssl
@@ -2887,7 +2906,7 @@ This option was formerly known as --ftp-ssl. That option name can still be used 
 
 Example:
 
- curl --ssl pop3://example.com/
+curl --ssl pop3://example.com/
 See also -k, --insecure and --ciphers.
 
 -2, --sslv2
@@ -2896,7 +2915,7 @@ See also -k, --insecure and --ciphers.
 
 Example:
 
- curl --sslv2 https://example.com
+curl --sslv2 https://example.com
 See also --http1.1 and --http2. -2, --sslv2 requires that the underlying libcurl was built to support TLS. This option is mutually exclusive to -3, --sslv3 and -1, --tlsv1 and --tlsv1.1 and --tlsv1.2.
 
 -3, --sslv3
@@ -2905,7 +2924,7 @@ See also --http1.1 and --http2. -2, --sslv2 requires that the underlying libcurl
 
 Example:
 
- curl --sslv3 https://example.com
+curl --sslv3 https://example.com
 See also --http1.1 and --http2. -3, --sslv3 requires that the underlying libcurl was built to support TLS. This option is mutually exclusive to -2, --sslv2 and -1, --tlsv1 and --tlsv1.1 and --tlsv1.2.
 
 --stderr <file>
@@ -2918,7 +2937,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --stderr output.txt https://example.com
+curl --stderr output.txt https://example.com
 See also -v, --verbose and -s, --silent.
 
 --styled-output
@@ -2929,7 +2948,7 @@ This option is global and does not need to be specified for each use of -:, --ne
 
 Example:
 
- curl --styled-output -I https://example.com
+curl --styled-output -I https://example.com
 See also -I, --head and -v, --verbose. Added in 7.61.0.
 
 --suppress-connect-headers
@@ -2938,7 +2957,7 @@ When --proxytunnel is used and a CONNECT request is made do not output proxy CON
 
 Example:
 
- curl --suppress-connect-headers --include -x proxy https://example.com
+curl --suppress-connect-headers --include -x proxy https://example.com
 See also -D, --dump-header, -i, --include and -p, --proxytunnel. Added in 7.54.0.
 
 --tcp-fastopen
@@ -2947,7 +2966,7 @@ Enable use of TCP Fast Open (RFC7413).
 
 Example:
 
- curl --tcp-fastopen https://example.com
+curl --tcp-fastopen https://example.com
 See also --false-start. Added in 7.49.0.
 
 --tcp-nodelay
@@ -2958,7 +2977,7 @@ Since 7.50.2, curl sets this option by default and you need to explicitly switch
 
 Example:
 
- curl --tcp-nodelay https://example.com
+curl --tcp-nodelay https://example.com
 See also -N, --no-buffer.
 
 -t, --telnet-option <opt=val>
@@ -2973,7 +2992,7 @@ NEW_ENV=<var,val> Sets an environment variable.
 
 Example:
 
- curl -t TTYPE=vt100 telnet://example.com/
+curl -t TTYPE=vt100 telnet://example.com/
 See also -K, --config.
 
 --tftp-blksize <value>
@@ -2984,7 +3003,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --tftp-blksize 1024 tftp://example.com/file
+curl --tftp-blksize 1024 tftp://example.com/file
 See also --tftp-no-options.
 
 --tftp-no-options
@@ -2995,7 +3014,7 @@ This option improves interop with some legacy servers that do not acknowledge or
 
 Example:
 
- curl --tftp-no-options tftp://192.168.0.1/
+curl --tftp-no-options tftp://192.168.0.1/
 See also --tftp-blksize. Added in 7.48.0.
 
 -z, --time-cond <time>
@@ -3008,9 +3027,9 @@ If this option is used several times, the last one will be used.
 
 Examples:
 
- curl -z "Wed 01 Sep 2021 12:18:00" https://example.com
- curl -z "-Wed 01 Sep 2021 12:18:00" https://example.com
- curl -z file https://example.com
+curl -z "Wed 01 Sep 2021 12:18:00" https://example.com
+curl -z "-Wed 01 Sep 2021 12:18:00" https://example.com
+curl -z file https://example.com
 See also --etag-compare and -R, --remote-time.
 
 --tls-max <VERSION>
@@ -3041,22 +3060,22 @@ Use up to TLSv1.3.
 
 Examples:
 
- curl --tls-max 1.2 https://example.com
- curl --tls-max 1.3 --tlsv1.2 https://example.com
+curl --tls-max 1.2 https://example.com
+curl --tls-max 1.3 --tlsv1.2 https://example.com
 See also --tlsv1.0, --tlsv1.1, --tlsv1.2 and --tlsv1.3. --tls-max requires that the underlying libcurl was built to support TLS. Added in 7.54.0.
 
 --tls13-ciphers <ciphersuite list>
 
 (TLS) Specifies which cipher suites to use in the connection if it negotiates TLS 1.3. The list of ciphers suites must specify valid ciphers. Read up on TLS 1.3 cipher suite details on this URL:
 
- https://curl.se/docs/ssl-ciphers.html
+https://curl.se/docs/ssl-ciphers.html
 This option is currently used only when curl is built to use OpenSSL 1.1.1 or later. If you are using a different SSL backend you can try setting TLS 1.3 cipher suites by using the --ciphers option.
 
 If this option is used several times, the last one will be used.
 
 Example:
 
- curl --tls13-ciphers TLS_AES_128_GCM_SHA256 https://example.com
+curl --tls13-ciphers TLS_AES_128_GCM_SHA256 https://example.com
 See also --ciphers and --curves. Added in 7.61.0.
 
 --tlsauthtype <type>
@@ -3065,7 +3084,7 @@ Set TLS authentication type. Currently, the only supported option is "SRP", for 
 
 Example:
 
- curl --tlsauthtype SRP https://example.com
+curl --tlsauthtype SRP https://example.com
 See also --tlsuser.
 
 --tlspassword <string>
@@ -3076,7 +3095,7 @@ This option does not work with TLS 1.3.
 
 Example:
 
- curl --tlspassword pwd --tlsuser user https://example.com
+curl --tlspassword pwd --tlsuser user https://example.com
 See also --tlsuser.
 
 --tlsuser <name>
@@ -3087,7 +3106,7 @@ This option does not work with TLS 1.3.
 
 Example:
 
- curl --tlspassword pwd --tlsuser user https://example.com
+curl --tlspassword pwd --tlsuser user https://example.com
 See also --tlspassword.
 
 --tlsv1.0
@@ -3098,7 +3117,7 @@ In old versions of curl this option was documented to allow _only_ TLS 1.0. That
 
 Example:
 
- curl --tlsv1.0 https://example.com
+curl --tlsv1.0 https://example.com
 See also --tlsv1.3. Added in 7.34.0.
 
 --tlsv1.1
@@ -3109,7 +3128,7 @@ In old versions of curl this option was documented to allow _only_ TLS 1.1. That
 
 Example:
 
- curl --tlsv1.1 https://example.com
+curl --tlsv1.1 https://example.com
 See also --tlsv1.3. Added in 7.34.0.
 
 --tlsv1.2
@@ -3120,7 +3139,7 @@ In old versions of curl this option was documented to allow _only_ TLS 1.2. That
 
 Example:
 
- curl --tlsv1.2 https://example.com
+curl --tlsv1.2 https://example.com
 See also --tlsv1.3. Added in 7.34.0.
 
 --tlsv1.3
@@ -3133,7 +3152,7 @@ Note that TLS 1.3 is not supported by all TLS backends.
 
 Example:
 
- curl --tlsv1.3 https://example.com
+curl --tlsv1.3 https://example.com
 See also --tlsv1.2. Added in 7.52.0.
 
 -1, --tlsv1
@@ -3142,7 +3161,7 @@ See also --tlsv1.2. Added in 7.52.0.
 
 Example:
 
- curl --tlsv1 https://example.com
+curl --tlsv1 https://example.com
 See also --http1.1 and --http2. -1, --tlsv1 requires that the underlying libcurl was built to support TLS. This option is mutually exclusive to --tlsv1.1 and --tlsv1.2 and --tlsv1.3.
 
 --tr-encoding
@@ -3151,7 +3170,7 @@ See also --http1.1 and --http2. -1, --tlsv1 requires that the underlying libcurl
 
 Example:
 
- curl --tr-encoding https://example.com
+curl --tr-encoding https://example.com
 See also --compressed.
 
 --trace-ascii <file>
@@ -3166,7 +3185,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --trace-ascii log.txt https://example.com
+curl --trace-ascii log.txt https://example.com
 See also -v, --verbose and --trace. This option is mutually exclusive to --trace and -v, --verbose.
 
 --trace-time
@@ -3177,7 +3196,7 @@ This option is global and does not need to be specified for each use of -:, --ne
 
 Example:
 
- curl --trace-time --trace-ascii output https://example.com
+curl --trace-time --trace-ascii output https://example.com
 See also --trace and -v, --verbose.
 
 --trace <file>
@@ -3190,7 +3209,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl --trace log.txt https://example.com
+curl --trace log.txt https://example.com
 See also --trace-ascii and --trace-time. This option is mutually exclusive to -v, --verbose and --trace-ascii.
 
 --unix-socket <path>
@@ -3199,7 +3218,7 @@ See also --trace-ascii and --trace-time. This option is mutually exclusive to -v
 
 Example:
 
- curl --unix-socket socket-path https://example.com
+curl --unix-socket socket-path https://example.com
 See also --abstract-unix-socket. Added in 7.40.0.
 
 -T, --upload-file <file>
@@ -3214,9 +3233,9 @@ When uploading to an SMTP server: the uploaded data is assumed to be RFC 5322 fo
 
 Examples:
 
- curl -T file https://example.com
- curl -T "img[1-1000].png" ftp://ftp.example.com/
- curl --upload-file "{file1,file2}" https://example.com
+curl -T file https://example.com
+curl -T "img[1-1000].png" ftp://ftp.example.com/
+curl --upload-file "{file1,file2}" https://example.com
 See also -G, --get and -I, --head.
 
 --url <url>
@@ -3231,7 +3250,7 @@ WARNING: On Windows, particular file:// accesses can be converted to network acc
 
 Example:
 
- curl --url https://example.com
+curl --url https://example.com
 See also -:, --next and -K, --config.
 
 -B, --use-ascii
@@ -3240,7 +3259,7 @@ See also -:, --next and -K, --config.
 
 Example:
 
- curl -B ftp://example.com/README
+curl -B ftp://example.com/README
 See also --crlf and --data-ascii.
 
 -A, --user-agent <name>
@@ -3253,7 +3272,7 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl -A "Agent 007" https://example.com
+curl -A "Agent 007" https://example.com
 See also -H, --header and --proxy-header.
 
 -u, --user <user:password>
@@ -3278,12 +3297,12 @@ If this option is used several times, the last one will be used.
 
 Example:
 
- curl -u user:secret https://example.com
+curl -u user:secret https://example.com
 See also -n, --netrc and -K, --config.
 
 -v, --verbose
 
-Makes curl verbose during the operation. Useful for debugging and seeing what's going on "under the hood". A line starting with '>' means "header data" sent by curl, '<' means "header data" received by curl that is hidden in normal cases, and a line starting with '*' means additional info provided by curl.
+Makes curl verbose during the operation. Useful for debugging and seeing what's going on "under the hood". A line starting with '>' means "header data" sent by curl, '<' means "header data" received by curl that is hidden in normal cases, and a line starting with '\*' means additional info provided by curl.
 
 If you only want HTTP headers in the output, --include might be the option you are looking for.
 
@@ -3295,7 +3314,7 @@ Use --silent to make curl really quiet.
 
 Example:
 
- curl --verbose https://example.com
+curl --verbose https://example.com
 See also -i, --include. This option is mutually exclusive to --trace and --trace-ascii.
 
 -V, --version
@@ -3422,7 +3441,7 @@ Automatic decompression (via zstd) of compressed files over HTTP is supported.
 
 Example:
 
- curl --version
+curl --version
 See also -h, --help and -M, --manual.
 
 -w, --write-out <format>
@@ -3529,12 +3548,11 @@ urlnum The URL index number of this transfer, 0-indexed. De-globbed URLs share t
 
 url_effective The URL that was fetched last. This is most meaningful if you have told curl to follow location: headers.
 
-
 If this option is used several times, the last one will be used.
 
 Example:
 
- curl -w '%{http_code}\n' https://example.com
+curl -w '%{http_code}\n' https://example.com
 See also -v, --verbose and -I, --head.
 
 --xattr
@@ -3543,45 +3561,54 @@ When saving output to a file, this option tells curl to store certain file metad
 
 Example:
 
- curl --xattr -o storage https://example.com
+curl --xattr -o storage https://example.com
 See also -R, --remote-time, -w, --write-out and -v, --verbose.
+
 ### 配置文件
-`~/.curlrc`  
+
+`~/.curlrc`
 
 ### 环境变量
+
 ### Proxy protocol prefixes
+
 ### Exit codes
-|code|说明|
-|-|-|
-|0|成功|
-|1|不支持的协议|
-|1|不支持的协议|
-|1|不支持的协议|
-|1|不支持的协议|
-|1|不支持的协议|
-|1|不支持的协议|
-|1|不支持的协议|
-|1|不支持的协议|
-|1|不支持的协议|
-|1|不支持的协议|
-|1|不支持的协议|
-|1|不支持的协议|
-|1|不支持的协议|
-|1|不支持的协议|
-|1|不支持的协议|
-|1|不支持的协议|
-|1|不支持的协议|
-|1|不支持的协议|
-|1|不支持的协议|
+
+| code | 说明         |
+| ---- | ------------ |
+| 0    | 成功         |
+| 1    | 不支持的协议 |
+| 1    | 不支持的协议 |
+| 1    | 不支持的协议 |
+| 1    | 不支持的协议 |
+| 1    | 不支持的协议 |
+| 1    | 不支持的协议 |
+| 1    | 不支持的协议 |
+| 1    | 不支持的协议 |
+| 1    | 不支持的协议 |
+| 1    | 不支持的协议 |
+| 1    | 不支持的协议 |
+| 1    | 不支持的协议 |
+| 1    | 不支持的协议 |
+| 1    | 不支持的协议 |
+| 1    | 不支持的协议 |
+| 1    | 不支持的协议 |
+| 1    | 不支持的协议 |
+| 1    | 不支持的协议 |
+| 1    | 不支持的协议 |
 
 ### title
+
 ### title
 
 ## whereis
+
 用于查找文件
+
 ```
 whereis [-bfmsu][-B <目录>...][-M <目录>...][-S <目录>...][文件...]
 ```
+
 -b 　只查找二进制文件。  
 -B<目录> 　只在设置的目录下查找二进制文件。  
 -f 　不显示文件名前的路径名称。  
@@ -3589,6 +3616,4 @@ whereis [-bfmsu][-B <目录>...][-M <目录>...][-S <目录>...][文件...]
 -M<目录> 　只在设置的目录下查找说明文件。  
 -s 　只查找原始代码文件。  
 -S<目录> 　只在设置的目录下查找原始代码文件。  
--u 　查找不包含指定类型的文件。  
-
-
+-u 　查找不包含指定类型的文件。
