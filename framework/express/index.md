@@ -67,6 +67,8 @@ express.Router() // 返回一个路由中间件
 app.use(express.static('static', './public'))
 ```
 
+### [express&typescript](/framework/express/typescript.html)
+
 ## 中间件
 
 功能：

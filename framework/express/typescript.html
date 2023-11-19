@@ -16,8 +16,7 @@
 }
 
 </style>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
-<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -48,36 +47,108 @@
 npm / yarn / pnpm
 express</p>
 </blockquote>
-<h2 id="setup">setup</h2>
-<pre><code class="language-shell">mkdir dir
-cd dir
-npm init --yes # 创建package.json
-npm i express dotenv
+<h2 id="前方">前方</h2>
+<p>有三种方法</p>
+<ul>
+<li>tsc编译<code>*.ts</code>文件为<code>*.js</code>，然后运行js文件。</li>
+<li>ts-node</li>
+<li></li>
+</ul>
+<h2 id="tsc方法">tsc方法</h2>
+<pre><code class="language-shell"><span class="hljs-meta prompt_"># </span><span class="language-bash"><span class="hljs-built_in">mkdir</span> <span class="hljs-built_in">dir</span></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash"><span class="hljs-built_in">cd</span> <span class="hljs-built_in">dir</span></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">npm init --<span class="hljs-built_in">yes</span> <span class="hljs-comment"># 创建package.json</span></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">npm i express dotenv</span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">以上4步等效于以下1步</span>
+express project-name
+cd project-name
 <span class="hljs-meta prompt_"># </span><span class="language-bash">express node的一个框架</span>
 <span class="hljs-meta prompt_"># </span><span class="language-bash">dotenv  管理环境变量</span>
-npm i -D typescript @types/express @types/node # 安装类型
+yarn # 安装依赖
+yarn add --dev typescript @types/express @types/node concurrently nodemon
+<span class="hljs-meta prompt_"># </span><span class="language-bash">或者</span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">npm i -D typescript @types/express @types/node <span class="hljs-comment"># 安装类型</span></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">npm i -D concurrently nodemon</span>
 npx tsc --init # 创建tsconfig.json
-npm i -D concurrently nodemon
-npm pkg set scripts.dev=&quot;concurrently \&quot;npx tsc --watch\&quot; \&quot;nodemon -q dist/index.js\&quot;&quot; 
+npm pkg set scripts.dev=&quot;concurrently \&quot;npx tsc --watch\&quot; \&quot;nodemon -q dist/index.js\&quot;&quot;
 </code></pre>
-<p><code>&lt;root&gt;/src/index.js =&gt; &lt;root&gt;/src/index.ts</code></p>
+<p>把<code>&lt;root&gt;/app.js</code>复制到<code>&lt;root&gt;/src/index.ts</code>中，即：<code>&lt;root&gt;/app.js =&gt; &lt;root&gt;/src/index.ts</code>。代码如下：</p>
 <pre><code class="language-ts"><span class="hljs-comment">// &lt;root&gt;/src/index.ts</span>
-<span class="hljs-keyword">import</span> express, { <span class="hljs-title class_">Express</span>, <span class="hljs-title class_">Request</span>, <span class="hljs-title class_">Response</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;express&#x27;</span>;
-<span class="hljs-keyword">import</span> dotenv <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;dotenv&#x27;</span>;
+#!<span class="hljs-regexp">/usr/</span>bin/env node
+<span class="hljs-meta">&quot;use strict&quot;</span>;
+<span class="hljs-comment">/**
+ * Module dependencies.
+ */</span>
+<span class="hljs-keyword">var</span> app = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;../app&#x27;</span>);
+<span class="hljs-keyword">var</span> debug = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;debug&#x27;</span>)(<span class="hljs-string">&#x27;sso:server&#x27;</span>);
+<span class="hljs-keyword">var</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;http&#x27;</span>);
+<span class="hljs-comment">/**
+ * Get port from environment and store in Express.
+ */</span>
+<span class="hljs-keyword">var</span> port = <span class="hljs-title function_">normalizePort</span>(process.<span class="hljs-property">env</span>.<span class="hljs-property">PORT</span> || <span class="hljs-string">&#x27;3000&#x27;</span>);
+app.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;port&#x27;</span>, port);
+<span class="hljs-comment">/**
+ * Create HTTP server.
+ */</span>
+<span class="hljs-keyword">var</span> server = http.<span class="hljs-title function_">createServer</span>(app);
+<span class="hljs-comment">/**
+ * Listen on provided port, on all network interfaces.
+ */</span>
+server.<span class="hljs-title function_">listen</span>(port);
+server.<span class="hljs-title function_">on</span>(<span class="hljs-string">&#x27;error&#x27;</span>, onError);
+server.<span class="hljs-title function_">on</span>(<span class="hljs-string">&#x27;listening&#x27;</span>, onListening);
+<span class="hljs-comment">/**
+ * Normalize a port into a number, string, or false.
+ */</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">normalizePort</span>(<span class="hljs-params">val</span>) {
+    <span class="hljs-keyword">var</span> port = <span class="hljs-built_in">parseInt</span>(val, <span class="hljs-number">10</span>);
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">isNaN</span>(port)) {
+        <span class="hljs-comment">// named pipe</span>
+        <span class="hljs-keyword">return</span> val;
+    }
+    <span class="hljs-keyword">if</span> (port &gt;= <span class="hljs-number">0</span>) {
+        <span class="hljs-comment">// port number</span>
+        <span class="hljs-keyword">return</span> port;
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+}
+<span class="hljs-comment">/**
+ * Event listener for HTTP server &quot;error&quot; event.
+ */</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">onError</span>(<span class="hljs-params">error</span>) {
+    <span class="hljs-keyword">if</span> (error.<span class="hljs-property">syscall</span> !== <span class="hljs-string">&#x27;listen&#x27;</span>) {
+        <span class="hljs-keyword">throw</span> error;
+    }
+    <span class="hljs-keyword">var</span> bind = <span class="hljs-keyword">typeof</span> port === <span class="hljs-string">&#x27;string&#x27;</span>
+        ? <span class="hljs-string">&#x27;Pipe &#x27;</span> + port
+        : <span class="hljs-string">&#x27;Port &#x27;</span> + port;
+    <span class="hljs-comment">// handle specific listen errors with friendly messages</span>
+    <span class="hljs-keyword">switch</span> (error.<span class="hljs-property">code</span>) {
+        <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;EACCES&#x27;</span>:
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(bind + <span class="hljs-string">&#x27; requires elevated privileges&#x27;</span>);
+            process.<span class="hljs-title function_">exit</span>(<span class="hljs-number">1</span>);
+            <span class="hljs-keyword">break</span>;
+        <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;EADDRINUSE&#x27;</span>:
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(bind + <span class="hljs-string">&#x27; is already in use&#x27;</span>);
+            process.<span class="hljs-title function_">exit</span>(<span class="hljs-number">1</span>);
+            <span class="hljs-keyword">break</span>;
+        <span class="hljs-attr">default</span>:
+            <span class="hljs-keyword">throw</span> error;
+    }
+}
+<span class="hljs-comment">/**
+ * Event listener for HTTP server &quot;listening&quot; event.
+ */</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">onListening</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">var</span> addr = server.<span class="hljs-title function_">address</span>();
+    <span class="hljs-keyword">var</span> bind = <span class="hljs-keyword">typeof</span> addr === <span class="hljs-string">&#x27;string&#x27;</span>
+        ? <span class="hljs-string">&#x27;pipe &#x27;</span> + addr
+        : <span class="hljs-string">&#x27;port &#x27;</span> + addr.<span class="hljs-property">port</span>;
+    <span class="hljs-title function_">debug</span>(<span class="hljs-string">&#x27;Listening on &#x27;</span> + bind);
+}
 
-dotenv.<span class="hljs-title function_">config</span>();
-
-<span class="hljs-keyword">const</span> <span class="hljs-attr">app</span>: <span class="hljs-title class_">Express</span> = <span class="hljs-title function_">express</span>();
-<span class="hljs-keyword">const</span> port = process.<span class="hljs-property">env</span>.<span class="hljs-property">PORT</span>;
-
-app.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;/&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">req: Request, res: Response</span>) =&gt;</span> {
-  res.<span class="hljs-title function_">send</span>(<span class="hljs-string">&#x27;Express + TypeScript Server&#x27;</span>);
-});
-
-app.<span class="hljs-title function_">listen</span>(port, <span class="hljs-function">() =&gt;</span> {
-  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`⚡️[server]: Server is running at http://localhost:<span class="hljs-subst">${port}</span>`</span>);
-});
 </code></pre>
+<p>修改<code>&lt;root&gt;/tsconfig.json</code>文件内容如下：</p>
 <pre><code>{
   &quot;compilerOptions&quot;: {
     &quot;target&quot;: &quot;es2016&quot;,
@@ -92,14 +163,197 @@ app.<span class="hljs-title function_">listen</span>(port, <span class="hljs-fun
   &quot;exclude&quot;: [&quot;node_modules&quot;]
 }
 </code></pre>
-<h2 id="title">title</h2>
-<h2 id="title-1">title</h2>
-<h2 id="title-2">title</h2>
-<h2 id="title-3">title</h2>
-<h2 id="参考文献">参考文献</h2>
-<p><a href="https://blog.logrocket.com/how-to-set-up-node-typescript-express/">https://blog.logrocket.com/how-to-set-up-node-typescript-express/</a></p>
+<p>运行<code>npm run dev</code>
+在浏览器中打开<code>localhost:3000</code>，若看到页面则运行正确。</p>
+<h3 id="示例片段">示例片段</h3>
+<pre><code class="language-ts"><span class="hljs-comment">// &lt;root&gt;/src/index.ts</span>
+#!<span class="hljs-regexp">/usr/</span>bin/env node
 
-        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+<span class="hljs-comment">/**
+ * Module dependencies.
+ */</span>
+
+<span class="hljs-keyword">import</span> app <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./app&#x27;</span>
+<span class="hljs-keyword">var</span> debug = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;debug&#x27;</span>)(<span class="hljs-string">&#x27;sso:server&#x27;</span>);
+<span class="hljs-keyword">var</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;http&#x27;</span>);
+
+<span class="hljs-comment">/**
+ * Get port from environment and store in Express.
+ */</span>
+
+<span class="hljs-keyword">var</span> port = <span class="hljs-title function_">normalizePort</span>(process.<span class="hljs-property">env</span>.<span class="hljs-property">PORT</span> || <span class="hljs-string">&#x27;3000&#x27;</span>);
+app.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;port&#x27;</span>, port);
+
+<span class="hljs-comment">/**
+ * Create HTTP server.
+ */</span>
+
+<span class="hljs-keyword">var</span> server = http.<span class="hljs-title function_">createServer</span>(app);
+
+<span class="hljs-comment">/**
+ * Listen on provided port, on all network interfaces.
+ */</span>
+
+server.<span class="hljs-title function_">listen</span>(port);
+server.<span class="hljs-title function_">on</span>(<span class="hljs-string">&#x27;error&#x27;</span>, onError);
+server.<span class="hljs-title function_">on</span>(<span class="hljs-string">&#x27;listening&#x27;</span>, onListening);
+
+<span class="hljs-comment">/**
+ * Normalize a port into a number, string, or false.
+ */</span>
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">normalizePort</span>(<span class="hljs-params">val: <span class="hljs-built_in">any</span></span>) {
+  <span class="hljs-keyword">var</span> port = <span class="hljs-built_in">parseInt</span>(val, <span class="hljs-number">10</span>);
+
+  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">isNaN</span>(port)) {
+    <span class="hljs-comment">// named pipe</span>
+    <span class="hljs-keyword">return</span> val;
+  }
+
+  <span class="hljs-keyword">if</span> (port &gt;= <span class="hljs-number">0</span>) {
+    <span class="hljs-comment">// port number</span>
+    <span class="hljs-keyword">return</span> port;
+  }
+
+  <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+}
+
+<span class="hljs-comment">/**
+ * Event listener for HTTP server &quot;error&quot; event.
+ */</span>
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">onError</span>(<span class="hljs-params">error: <span class="hljs-built_in">any</span></span>) {
+  <span class="hljs-keyword">if</span> (error.<span class="hljs-property">syscall</span> !== <span class="hljs-string">&#x27;listen&#x27;</span>) {
+    <span class="hljs-keyword">throw</span> error;
+  }
+
+  <span class="hljs-keyword">var</span> bind = <span class="hljs-keyword">typeof</span> port === <span class="hljs-string">&#x27;string&#x27;</span>
+    ? <span class="hljs-string">&#x27;Pipe &#x27;</span> + port
+    : <span class="hljs-string">&#x27;Port &#x27;</span> + port;
+
+  <span class="hljs-comment">// handle specific listen errors with friendly messages</span>
+  <span class="hljs-keyword">switch</span> (error.<span class="hljs-property">code</span>) {
+    <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;EACCES&#x27;</span>:
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(bind + <span class="hljs-string">&#x27; requires elevated privileges&#x27;</span>);
+      process.<span class="hljs-title function_">exit</span>(<span class="hljs-number">1</span>);
+      <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;EADDRINUSE&#x27;</span>:
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(bind + <span class="hljs-string">&#x27; is already in use&#x27;</span>);
+      process.<span class="hljs-title function_">exit</span>(<span class="hljs-number">1</span>);
+      <span class="hljs-keyword">break</span>;
+    <span class="hljs-attr">default</span>:
+      <span class="hljs-keyword">throw</span> error;
+  }
+}
+
+<span class="hljs-comment">/**
+ * Event listener for HTTP server &quot;listening&quot; event.
+ */</span>
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">onListening</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">var</span> addr = server.<span class="hljs-title function_">address</span>();
+  <span class="hljs-keyword">var</span> bind = <span class="hljs-keyword">typeof</span> addr === <span class="hljs-string">&#x27;string&#x27;</span>
+    ? <span class="hljs-string">&#x27;pipe &#x27;</span> + addr
+    : <span class="hljs-string">&#x27;port &#x27;</span> + addr.<span class="hljs-property">port</span>;
+  <span class="hljs-title function_">debug</span>(<span class="hljs-string">&#x27;Listening on &#x27;</span> + bind);
+}
+
+</code></pre>
+<pre><code class="language-ts"><span class="hljs-comment">// &lt;root&gt;/src/app.ts</span>
+<span class="hljs-comment">// var createError = require(&#x27;http-errors&#x27;);</span>
+<span class="hljs-comment">// var express = require(&#x27;express&#x27;);</span>
+<span class="hljs-comment">// var path = require(&#x27;path&#x27;);</span>
+<span class="hljs-comment">// var cookieParser = require(&#x27;cookie-parser&#x27;);</span>
+<span class="hljs-comment">// var logger = require(&#x27;morgan&#x27;);</span>
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> createError <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;http-errors&#x27;</span>
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> express <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;express&#x27;</span>
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> path <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;path&#x27;</span>
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> cookieParser <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;cookie-parser&#x27;</span>
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> logger <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;morgan&#x27;</span>
+
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { <span class="hljs-title class_">Request</span>, <span class="hljs-title class_">Response</span>, <span class="hljs-title class_">Express</span>, <span class="hljs-title class_">NextFunction</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;express&quot;</span>;
+
+<span class="hljs-keyword">var</span> indexRouter = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;../routes/index&#x27;</span>);
+<span class="hljs-keyword">var</span> usersRouter = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;../routes/users&#x27;</span>);
+
+<span class="hljs-keyword">var</span> <span class="hljs-attr">app</span>: <span class="hljs-title class_">Express</span> = express.<span class="hljs-title function_">default</span>();
+
+<span class="hljs-comment">// view engine setup</span>
+app.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;views&#x27;</span>, path.<span class="hljs-title function_">join</span>(__dirname, <span class="hljs-string">&#x27;../views&#x27;</span>));
+app.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;view engine&#x27;</span>, <span class="hljs-string">&#x27;jade&#x27;</span>);
+
+app.<span class="hljs-title function_">use</span>(logger.<span class="hljs-title function_">default</span>(<span class="hljs-string">&#x27;dev&#x27;</span>));
+app.<span class="hljs-title function_">use</span>(express.<span class="hljs-title function_">json</span>());
+app.<span class="hljs-title function_">use</span>(express.<span class="hljs-title function_">urlencoded</span>({ <span class="hljs-attr">extended</span>: <span class="hljs-literal">false</span> }));
+app.<span class="hljs-title function_">use</span>(cookieParser.<span class="hljs-title function_">default</span>());
+app.<span class="hljs-title function_">use</span>(express.<span class="hljs-title function_">static</span>(path.<span class="hljs-title function_">join</span>(__dirname, <span class="hljs-string">&#x27;public&#x27;</span>)));
+
+app.<span class="hljs-title function_">use</span>(<span class="hljs-string">&#x27;/&#x27;</span>, indexRouter);
+app.<span class="hljs-title function_">use</span>(<span class="hljs-string">&#x27;/users&#x27;</span>, usersRouter);
+
+<span class="hljs-comment">// catch 404 and forward to error handler</span>
+app.<span class="hljs-title function_">use</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">req: Request, res: Response, next: NextFunction</span>) {
+  <span class="hljs-title function_">next</span>(createError.<span class="hljs-title function_">default</span>(<span class="hljs-number">404</span>));
+});
+
+<span class="hljs-comment">// error handler</span>
+app.<span class="hljs-title function_">use</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">err: <span class="hljs-built_in">any</span>, req: Request, res: Response, next: NextFunction</span>) {
+  <span class="hljs-comment">// set locals, only providing error in development</span>
+  res.<span class="hljs-property">locals</span>.<span class="hljs-property">message</span> = err.<span class="hljs-property">message</span>;
+  res.<span class="hljs-property">locals</span>.<span class="hljs-property">error</span> = req.<span class="hljs-property">app</span>.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;env&#x27;</span>) === <span class="hljs-string">&#x27;development&#x27;</span> ? err : {};
+
+  <span class="hljs-comment">// render the error page</span>
+  res.<span class="hljs-title function_">status</span>(err.<span class="hljs-property">status</span> || <span class="hljs-number">500</span>);
+  res.<span class="hljs-title function_">render</span>(<span class="hljs-string">&#x27;error&#x27;</span>);
+});
+
+<span class="hljs-comment">// module.exports = app;</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> app
+
+</code></pre>
+<h3 id="注意事项">注意事项</h3>
+<ul>
+<li>先运行tsc命令，完成编译ts文件为js文件后再启动项目。</li>
+<li>tsconfig.json
+<ul>
+<li>中指定outDir并与项目启动的入口文件相匹配（不是相同）。</li>
+<li>include 指定需要编译的目录</li>
+<li>exclude 指定不需要编译的目录</li>
+<li>esModuleInterop 会处理非esm规范（即：cjs/amd/umd）的包的用法为esm规范的用法。使用非esm规范包的默认方法时需要使用<code>default</code>调用，即：
+<ul>
+<li><code>import * as express from express;</code> 引入</li>
+<li><code>let app = express.default();</code> 使用</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>xxxx</li>
+</ul>
+<h3 id="建议">建议</h3>
+<p>我使用<code>express-generator</code>创建express项目后。此时项目的根目录作为src目录。当使用ts后，就需要编译、打包。这时就需求dist目录。然后再明确定义一个src目录与dist目录分开。所以建议:
+<code>&lt;root&gt;/bin/www</code> =&gt; <code>&lt;root&gt;/src/index.ts</code>
+<code>&lt;root&gt;/app.js</code> =&gt; <code>&lt;root&gt;/src/app.ts</code>
+<code>&lt;root&gt;/routes/index.js</code> =&gt; <code>&lt;root&gt;/src/routes/index.ts</code>
+<code>&lt;root&gt;/routes/users.js</code> =&gt; <code>&lt;root&gt;/src/routes/users.ts</code>
+<code>&lt;root&gt;/dist</code>放打包后的结果。</p>
+<h2 id="一键生成expressts项目">一键生成express&amp;ts项目</h2>
+<pre><code class="language-shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">crtp initFile vue3.vue --file ./first.vue</span>
+crtp initProject expressTs
+</code></pre>
+<h2 id="ts-node方法">ts-node方法</h2>
+<p>文件操作同tsc方法。
+定义脚本</p>
+<pre><code class="language-shell">npm pkg set scripts.start-ts-node=&quot;ts-node src/index.ts&quot;
+</code></pre>
+<p>然后运行脚本命令</p>
+<pre><code class="language-shell">npm run start-ts-node
+</code></pre>
+<h2 id="title">title</h2>
+<h2 id="参考文献">参考文献</h2>
+<p><a href="https://blog.logrocket.com/how-to-set-up-node-typescript-express/">https://blog.logrocket.com/how-to-set-up-node-typescript-express/</a>
+<a href="https://reffect.co.jp/en/node-js/express-typescript/">https://reffect.co.jp/en/node-js/express-typescript/</a></p>
+
+        
         
     </body>
     </html>
