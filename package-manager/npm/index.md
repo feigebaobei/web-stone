@@ -91,7 +91,7 @@ npm cache clean --force
 | access     | 在发布的包上设置访问级别                                                              |                                                                                                                                                                                       |
 | rebuild    | 使用新版本的 node 时，重新编译所有 c++插件。它会运行在与`npm build`相匹配的文件夹下。 |                                                                                                                                                                                       |
 | init       | 把初始化信息写入`package.json`                                                        | `npm init -y`会使用默认值                                                                                                                                                             |
-| set-script | 设置脚本                                                                              | `npm set-script build 'node ./index.js'`                                                                                                                                              |
+| set-script | 设置脚本                                                                              | `npm set-script build 'node ./index.js'`旧写法 `npm pkg set scripts.dev="concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\""`新写法                                        |
 
 ### intall 命令
 

@@ -83,9 +83,16 @@ npx cowsay[@version] hi
 使用`-y` / `--yes` 跳过所有询问。
 使用`--scope` 设置作用空间。
 
+# link
+
 # unlink
 
 取消软链接
+
+```
+cd package-name-dir
+npm unlink
+```
 
 # rm
 
@@ -174,9 +181,18 @@ npm deprecate test '不再维护了'
 npm deprecate test@0.0.1 '不再维护了'
 ```
 
-# title
+# uninstall
 
-# title
+```shell
+npm uninstall --global package-name
+```
+
+# ls
+
+```shell
+npm ls --global package-name
+# 是否全局安装指定包
+```
 
 # title
 

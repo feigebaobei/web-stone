@@ -15,41 +15,6 @@
 	display: none;
 }
 
-/* From extension ms-toolsai.jupyter */
-/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
-
-.alert {
-    width: auto;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-.alert > *:last-child {
-    margin-bottom: 0;
-}
-#preview > .alert:last-child {
-    /* Prevent this being set to zero by the default notebook stylesheet */
-    padding-bottom: 1em;
-}
-
-.alert-success {
-    /* Note there is no suitable color available, so we just copy "info" */
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-info {
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-warning {
-    background-color: var(--theme-warning-background);
-    color: var(--theme-warning-foreground);
-}
-.alert-danger {
-    background-color: var(--theme-error-background);
-    color: var(--theme-error-foreground);
-}
-
 </style>
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
@@ -121,7 +86,7 @@ alias: npm x, npx
 <li>执行脚本<br>
 <code>npm run package-name</code></li>
 </ol>
-<h3 id="npx">npx</h3>
+<h3 id="npx-1">npx</h3>
 <p>npx 是包执行器。在 npm v5.2.0 时内置于 npm 中。可直接执行可执行文件，不必先安装。
 demo for npx:</p>
 <pre><code class="language-shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">1</span>
@@ -144,8 +109,12 @@ npx cowsay[@version] hi
 相当于执行<code>npm exec</code>命令 <code>npm exec create-&lt;initializer&gt;</code>
 使用<code>-y</code> / <code>--yes</code> 跳过所有询问。
 使用<code>--scope</code> 设置作用空间。</p>
+<h1 id="link">link</h1>
 <h1 id="unlink">unlink</h1>
 <p>取消软链接</p>
+<pre><code>cd package-name-dir
+npm unlink
+</code></pre>
 <h1 id="rm">rm</h1>
 <p>删除（<code>package.json</code>中）指定的包。</p>
 <h1 id="ci">ci</h1>
@@ -383,10 +352,15 @@ npm unpublish test --force
 npm deprecate test &#x27;不再维护了&#x27;
 npm deprecate test@0.0.1 &#x27;不再维护了&#x27;
 </code></pre>
+<h1 id="uninstall">uninstall</h1>
+<pre><code class="language-shell">npm uninstall --global package-name
+</code></pre>
+<h1 id="ls">ls</h1>
+<pre><code class="language-shell">npm ls --global package-name
+<span class="hljs-meta prompt_"># </span><span class="language-bash">是否全局安装指定包</span>
+</code></pre>
 <h1 id="title">title</h1>
-<h1 id="title">title</h1>
-<h1 id="title">title</h1>
-<h1 id="title">title</h1>
+<h1 id="title-1">title</h1>
 
         
         

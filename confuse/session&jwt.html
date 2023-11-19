@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>session &amp; jsonwebtoken</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="session--jsonwebtoken">session &amp; jsonwebtoken</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>session</th>
+<th>jsonwebtoken</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>后端存</td>
+<td>前端存</td>
+</tr>
+<tr>
+<td></td>
+<td>种cookie，前端不处理</td>
+<td>前端得到后，在之后的请求header.authentication字段使用</td>
+</tr>
+<tr>
+<td></td>
+<td>需求定义有效时长，及时更新。</td>
+<td>access_token与refresh_token结合使用</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="access_token--refresh_token">access_token &amp; refresh_token</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>access_token</th>
+<th>refresh_token</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>用途</td>
+<td>控制访问权限，标记用户。</td>
+<td>用于刷新access_token</td>
+</tr>
+<tr>
+<td>有效时长</td>
+<td>短</td>
+<td>长</td>
+</tr>
+<tr>
+<td>生成模式</td>
+<td>jwt</td>
+<td>jwt</td>
+</tr>
+</tbody>
+</table>
+<h3 id="demo">demo</h3>
+<pre><code class="language-js"><span class="hljs-comment">// no.1 登录时生成2个token</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">login</span>(<span class="hljs-params">req: Request, res: Response</span>) {
+  <span class="hljs-keyword">const</span> { username, password } = req.<span class="hljs-property">body</span>;
+  <span class="hljs-keyword">const</span> user = <span class="hljs-title function_">getUserById</span>(username);
+  <span class="hljs-keyword">if</span> (!user || user.<span class="hljs-property">password</span> != password) {
+    <span class="hljs-keyword">return</span> res.<span class="hljs-title function_">status</span>(<span class="hljs-number">401</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&quot;Incorrect username or password&quot;</span>);
+  }
+  <span class="hljs-keyword">const</span> session = <span class="hljs-title function_">createSession</span>(username, user.<span class="hljs-property">displayName</span>);
+  <span class="hljs-keyword">const</span> accessToken = <span class="hljs-title function_">signToken</span>(
+    {
+      <span class="hljs-attr">username</span>: user.<span class="hljs-property">user</span>.<span class="hljs-property">username</span>,
+      <span class="hljs-attr">name</span>: user.<span class="hljs-property">displayName</span>,
+      <span class="hljs-attr">sessionId</span>: session.<span class="hljs-property">sessionId</span>,
+    },
+    <span class="hljs-string">&quot;300s&quot;</span>
+  );
+  <span class="hljs-keyword">const</span> refreshToken = <span class="hljs-title function_">signToken</span>({ <span class="hljs-attr">sessionId</span>: session.<span class="hljs-property">sessionId</span> }, <span class="hljs-string">&quot;1y&quot;</span>);
+  session.<span class="hljs-property">access_token</span> = accessToken;
+  session.<span class="hljs-property">refresh_token</span> = refreshToken;
+  <span class="hljs-keyword">return</span> res.<span class="hljs-title function_">send</span>(session);
+}
+<span class="hljs-comment">// no.2 前端使用token访问资源</span>
+<span class="hljs-comment">// no.3 刷新token</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">refreshAccessToken</span>(<span class="hljs-params">req: Request, res: Response</span>) {
+  <span class="hljs-keyword">const</span> refreshToken = req.<span class="hljs-property">body</span>.<span class="hljs-property">refresh_token</span>;
+  <span class="hljs-keyword">if</span> (!refreshToken) {
+    <span class="hljs-keyword">return</span> res.<span class="hljs-title function_">status</span>(<span class="hljs-number">401</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&quot;No refresh token&quot;</span>);
+  }
+  <span class="hljs-keyword">const</span> refresh = <span class="hljs-title function_">verifyToken</span>(refreshToken);
+  <span class="hljs-keyword">const</span> session = <span class="hljs-title function_">getSession</span>(refresh.<span class="hljs-property">sessionId</span>);
+  <span class="hljs-keyword">const</span> newAccessToken = <span class="hljs-title function_">signToken</span>(session, <span class="hljs-string">&quot;300s&quot;</span>);
+  <span class="hljs-keyword">if</span> (!newAccessToken) {
+    <span class="hljs-keyword">return</span> res.<span class="hljs-title function_">status</span>(<span class="hljs-number">401</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&quot;Unable to generate access token&quot;</span>);
+  }
+  <span class="hljs-keyword">const</span> newRefreshToken = <span class="hljs-title function_">signToken</span>(session.<span class="hljs-property">sessionId</span>, <span class="hljs-string">&quot;1y&quot;</span>);
+  <span class="hljs-keyword">return</span> res.<span class="hljs-title function_">send</span>({
+    <span class="hljs-attr">access_token</span>: newAccessToken,
+    <span class="hljs-attr">refresh_token</span>: newRefreshToken,
+  });
+}
+</code></pre>
+<h2 id="刷新token的逻辑">刷新token的逻辑</h2>
+<pre><code>    client              server
+    输入用户信息
+    请求登录 ------------》 验证用户信息
+                        若成功生成2个token+过期时刻
+           《------------- 返回2个token
+    在ls中保存token*2
+    在请求的header中添加access_token
+    
+    当快过期时
+    请求刷新token -----&gt; 验证是否有效
+        《-------------- 返回新token
+    在ls中保存token*2
+</code></pre>
+<p>不推荐在后端提示access_token过期后再刷新token,再请求指定接口。</p>
+<h2 id="前端发起刷新token">前端发起刷新token</h2>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">refreshTokenFn</span> = (<span class="hljs-params"></span>) =&gt; {
+    <span class="hljs-title function_">req</span>({url, method, data,}).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+        <span class="hljs-variable language_">localStorage</span>.<span class="hljs-title function_">setItem</span>(<span class="hljs-string">&#x27;token&#x27;</span>, {
+            <span class="hljs-attr">access_token</span>: res.<span class="hljs-property">access_token</span>,
+            <span class="hljs-attr">refresh_token</span>: res.<span class="hljs-property">refresh_token</span>,
+            <span class="hljs-attr">expireTime</span>: res.<span class="hljs-property">expireTime</span>,
+        })
+    }).<span class="hljs-title function_">catch</span>(<span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+            <span class="hljs-title function_">refreshTokenFn</span>()
+        }, <span class="hljs-number">500</span>)
+    })
+}
+<span class="hljs-built_in">setInterval</span>(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-title function_">refreshTokenFn</span>()
+}, <span class="hljs-number">5</span> * <span class="hljs-number">60</span> * <span class="hljs-number">1000</span>)
+
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">refreshTokenFn2</span> = (<span class="hljs-params"></span>) =&gt; {
+    <span class="hljs-keyword">return</span> <span class="hljs-title function_">req</span>({url, method, data})
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">delayedRefreshToken</span> = (<span class="hljs-params">delay: <span class="hljs-number">300000</span></span>) =&gt; {
+    <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">s, j</span>) =&gt;</span> {
+        <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+            <span class="hljs-title function_">refreshTokenFn2</span>().<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> <span class="hljs-title function_">s</span>(res)).<span class="hljs-title function_">catch</span>(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> <span class="hljs-title function_">j</span>(err))
+        }, delay)
+    }).<span class="hljs-title function_">then</span>(<span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-comment">// 同refreshTokenFn.then</span>
+        <span class="hljs-title function_">delayedRefreshToken</span>()
+    }).<span class="hljs-title function_">catch</span>(<span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-keyword">let</span> t = delay / <span class="hljs-number">10</span>
+        t = t &gt; <span class="hljs-number">10</span> ? t : <span class="hljs-number">10</span>
+        <span class="hljs-title function_">delayedRefreshToken</span>(t)
+    })
+}
+<span class="hljs-title function_">delayedRefreshToken</span>()
+</code></pre>
+<h2 id="title">title</h2>
+<h2 id="title-1">title</h2>
+
+        
+        
+    </body>
+    </html>

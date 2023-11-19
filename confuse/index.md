@@ -19,5 +19,6 @@
 - [promise 的工具方法](/confuse/promise.html)
 - [单位](/confuse/unit.html)
 - [execCommand](/confuse/execCommand.html)
+- [session&jwt](/confuse/session&jwt.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
