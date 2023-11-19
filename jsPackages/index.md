@@ -27,6 +27,7 @@
 - [md5](/jsPackages/md5.html)
 - [build-scripts](/jsPackages/build-scripts.html)
 - [rxjs](/jsPackages/rxjs/rxjs.html)
+- [jsonwebtoken](/jsPackages/jsonwebtoken.html)
 
 ## 编写 cli 的工具
 
