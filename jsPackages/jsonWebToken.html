@@ -54,7 +54,7 @@
 <h2 id="install">install</h2>
 <p><code>npm i jsonwebtoken</code></p>
 <h2 id="usage">usage</h2>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> jwt = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;jsonwebtoken&#x27;</span>);
+<pre><code class="language-js"><span class="hljs-keyword">const</span> jwt = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;jsonwebtoken&#x27;</span>)
 <span class="hljs-keyword">let</span> token = jwt.<span class="hljs-title function_">sign</span>(payload, secret)
 <span class="hljs-keyword">let</span> o = jwt.<span class="hljs-title function_">verify</span>(token, secret)
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;o&#x27;</span>, o)
@@ -117,10 +117,10 @@
 </table>
 <!-- prettier-ignore-end -->
 <p><code>jwt.sign(payload, secretOrPrivateKey, [options, cb])</code>
-payload： object | buffer | string.若不是buffer/string，则使用<code>JSON.stringify()</code>处理。
+payload： object | buffer | string.若不是 buffer/string，则使用<code>JSON.stringify()</code>处理。
 secretOrPrivateKey: string | buffer | object | xxx
 options: {
-algorithm: 默认HS256
+algorithm: 默认 HS256
 expiresIn: vercel/ms
 notBefore: vercel/ms
 audience
@@ -155,8 +155,14 @@ nonce
 allowInvalidAsymmetricKeyTypes
 </code></pre>
 <p>}
-得到token的解码结果</p>
-<h2 id="jsonwebtokenerror对象">JsonWebTokenError对象</h2>
+得到 token 的解码结果</p>
+<h2 id="tokenexpirederror">TokenExpiredError</h2>
+<p>{
+name: 'TokenExpiredError'
+message: 'jwt expired'
+expiredAt: [ExpDate]
+}</p>
+<h2 id="jsonwebtokenerror-对象">JsonWebTokenError 对象</h2>
 <p>{
 name: 'JsonWebTokenError',
 message: 'invalid token'
@@ -240,7 +246,8 @@ date: 2018-10-04T16:10:44.000Z
 <h2 id="principle">principle</h2>
 <p>此包的处理逻辑。</p>
 <h3 id="uml">uml</h3>
-<pre><code></code></pre>
+<pre><code>
+</code></pre>
 <h2 id="todo">todo</h2>
 <blockquote>
 <p>未来迭代计划。

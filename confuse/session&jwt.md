@@ -1,11 +1,20 @@
 # session & jsonwebtoken
 
-|     | session                      | jsonwebtoken                                            |
-| --- | ---------------------------- | ------------------------------------------------------- |
-|     | 后端存                       | 前端存                                                  |
+<!-- prettier-ignore-start -->
+|     | session            | jsonwebtoken    |
+| --- | ----------------- | ---------------- |
+|     | 占用后端内存                       | 前端存                    |
 |     | 种 cookie，前端不处理        | 前端得到后，在之后的请求 header.authentication 字段使用 |
 |     | 需求定义有效时长，及时更新。 | access_token 与 refresh_token 结合使用                  |
-|     |                              |                                                         |
+|     | 使用cookie传递sessionId      | 使用header的指定字段传递access_token           |
+|     |  | 不是密文，它是编码后的值。payload中不应该放敏感数据，要放也得放密文。|
+|     |  | 服务端生成|
+|     |  | 可扩展性好     |
+|     |  |      |
+|     |  |      |
+|     |  |      |
+|     |  |      |
+<!-- prettier-ignore-end -->
 
 ## access_token & refresh_token
 
@@ -125,6 +134,38 @@ let delayedRefreshToken = (delay: 300000) => {
 delayedRefreshToken()
 ```
 
-## title
+# jsonwebtoken
 
-## title
+> 用途：认证身份来源。
+> (hash 只能用于验证数据完整，不能加密)  
+> 一般在 payload 中放与用户相关的数据。如 userId  
+> 因 jwt 不能保证数据安全，所以必须使用 https
+> 在 payload 中设置 expire,原理同 cookie 的过期时间。  
+> 不依赖 cookie，所以可避免[csrf 攻击](/safety&hacker/csrf&xsrf.html)
+
+```
+header.payload.signature
+```
+
+三部分的 demo:
+
+```
+header: {
+  typ: "JWT",   // 类型是jwt
+  alg: "HS256", // 算法是 HMAC-SHA256
+}
+payload: {
+  userId: 'xxxxx'
+}
+signature:
+let data = base64UrlEncode(header) + '.' + base64UrlEncode(payload)
+let hashedData = hash(data, secret)
+let signature = base64UrlEncode(hashedData)
+```
+
+## 原理
+
+## 登出
+
+- 创建一个列表，存放 token 有效且已经主动倒出的 token。
+- 达到过期时刻

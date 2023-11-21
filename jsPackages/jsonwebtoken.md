@@ -78,6 +78,14 @@ audience
 }
 得到 token 的解码结果
 
+## TokenExpiredError
+
+{
+name: 'TokenExpiredError'
+message: 'jwt expired'
+expiredAt: [ExpDate]
+}
+
 ## JsonWebTokenError 对象
 
 {
