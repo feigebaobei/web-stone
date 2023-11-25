@@ -52,6 +52,7 @@ allowInsecureKeySizes
 allowInvalidAsymmetricKeyTypes
 }
 签名
+当使用 options 时 payload 必须是 object
 
 ```
 let jwt = require('jsonwebtoken')
