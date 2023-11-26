@@ -28,6 +28,7 @@
 - [build-scripts](/jsPackages/build-scripts.html)
 - [rxjs](/jsPackages/rxjs/rxjs.html)
 - [jsonwebtoken](/jsPackages/jsonwebtoken.html)
+- [morgan](/jsPackages/morgan.html)
 
 ## 编写 cli 的工具
 
