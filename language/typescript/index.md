@@ -133,6 +133,7 @@ tsc hello.ts
 
 ```ts
 let a: string = 'a'
+type A = `start${string}`// 指定字符串开头的类型。指定结尾，同理。
 let d = 'a'         // literal types
 let b: number = 0
 let c: any = null

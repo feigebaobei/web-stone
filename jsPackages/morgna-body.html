@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>morgan-body</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="morgan-body">morgan-body</h1>
+<h2 id="overview">overview</h2>
+<blockquote>
+<p>TODO: description</p>
+</blockquote>
+<h3 id="feature">feature</h3>
+<ul>
+<li>支持ts</li>
+<li>记录请求体、回馈体</li>
+<li>支持stdout/file</li>
+<li>可执行多个实例</li>
+</ul>
+<h2 id="install">install</h2>
+<p><code>npm i morgan-body</code></p>
+<h2 id="usage">usage</h2>
+<p>不同于express的中间件用法</p>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> morganBody = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;morgan-body&#x27;</span>);
+<span class="hljs-keyword">let</span> bodyParser = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;body-parser&#x27;</span>)
+<span class="hljs-comment">// ...</span>
+<span class="hljs-keyword">let</span> app = <span class="hljs-title function_">express</span>()
+<span class="hljs-comment">// ...</span>
+app.<span class="hljs-title function_">use</span>(bodyParser.<span class="hljs-title function_">json</span>())
+<span class="hljs-comment">// ...</span>
+<span class="hljs-title function_">morganBody</span>(app)
+</code></pre>
+<pre><code>morganBody(app, {
+    noColors: true,
+    stream: fs.createWriteStream(
+        path.join(__dirname, 'logs', 'access.log'), {flags: 'a'}
+    )
+})
+</code></pre>
+<h2 id="configuration">configuration</h2>
+<p>默认配置文件：<code>path/to/file.json</code>。</p>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h2 id="api">api</h2>
+<p><code>morganBody(app: Express, options: object) =&gt; void</code></p>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>options key</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>noColors</td>
+<td>是否使用颜色</td>
+<td>B</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>maxBodyLength</td>
+<td>一次日志中的请求体或回馈体的最大值</td>
+<td>N</td>
+<td>1000</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>prettify</td>
+<td>是否格式化请求、回馈</td>
+<td>B</td>
+<td>true</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>includeNewLine</td>
+<td>新旧记录之间是否间隔空行</td>
+<td>B</td>
+<td>true</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>logReqDateTime</td>
+<td>是否记录请求时间</td>
+<td>B</td>
+<td>true</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>dateTimeFormat</td>
+<td>时间格式</td>
+<td>S</td>
+<td>'utc'</td>
+<td>'edt'/'clf'/'iso'/'utc'</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>timezone</td>
+<td>时区</td>
+<td>S</td>
+<td>服务所在的时间</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>logReqUserAgent</td>
+<td>是否记录userAgent</td>
+<td>B</td>
+<td>true</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>logRequestBody</td>
+<td>是否记录请求体</td>
+<td>B</td>
+<td>true</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>logReqHeaderList</td>
+<td>设置记录的请求头字段</td>
+<td>-</td>
+<td>true</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>logAllReqHeader</td>
+<td>是否记录请求头</td>
+<td>B</td>
+<td>true</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>logResponseBody</td>
+<td>是否记录回馈体</td>
+<td>B</td>
+<td>true</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>logRequestId</td>
+<td>是否以req.id开头本次记录</td>
+<td>B</td>
+<td>true</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>logIP</td>
+<td>是否记录ip</td>
+<td>B</td>
+<td>true</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>logResHeaderList</td>
+<td>列出记录的回馈头</td>
+<td>-</td>
+<td>true</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>logAllResHeader</td>
+<td>是否记录回馈头</td>
+<td>B</td>
+<td>true</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>skip</td>
+<td>当方法返回true时记录</td>
+<td>function</td>
+<td>null</td>
+<td></td>
+<td><code>(req, res) = &gt; true</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>stream</td>
+<td>用于stdout的流</td>
+<td>-</td>
+<td>null</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>theme</td>
+<td>日志中高亮的颜色主题</td>
+<td>S</td>
+<td>'defaultTheme'</td>
+<td>'defaultTheme'/'dracula'/'usa'/'inverted'/'darkened'/'lightened'/'dimmend'</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>filterParameters</td>
+<td>指定不记录的字段</td>
+<td><code>S[]</code></td>
+<td><code>[]</code></td>
+<td></td>
+<td><code>['password', 'credit']</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>immediateReqLog</td>
+<td>是否在收到请求时记录，反之在回馈后记录</td>
+<td>B</td>
+<td>true</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h2 id="principle">principle</h2>
+<p>此包的处理逻辑。</p>
+<h3 id="uml">uml</h3>
+<pre><code></code></pre>
+<h2 id="todo">todo</h2>
+<blockquote>
+<p>未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote>
+
+        
+        
+    </body>
+    </html>

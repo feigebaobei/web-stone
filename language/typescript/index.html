@@ -334,6 +334,7 @@ ts 的类型可以用于防御式编程</p>
 <!-- prettier-ignore-end -->
 <h3 id="使用示例">使用示例</h3>
 <pre><code class="language-ts"><span class="hljs-keyword">let</span> <span class="hljs-attr">a</span>: <span class="hljs-built_in">string</span> = <span class="hljs-string">&#x27;a&#x27;</span>
+<span class="hljs-keyword">type</span> A = <span class="hljs-string">`start<span class="hljs-subst">${<span class="hljs-built_in">string</span>}</span>`</span><span class="hljs-comment">// 指定字符串开头的类型。指定结尾，同理。</span>
 <span class="hljs-keyword">let</span> d = <span class="hljs-string">&#x27;a&#x27;</span>         <span class="hljs-comment">// literal types</span>
 <span class="hljs-keyword">let</span> <span class="hljs-attr">b</span>: <span class="hljs-built_in">number</span> = <span class="hljs-number">0</span>
 <span class="hljs-keyword">let</span> <span class="hljs-attr">c</span>: <span class="hljs-built_in">any</span> = <span class="hljs-literal">null</span>
@@ -561,7 +562,7 @@ ts 的类型可以用于防御式编程</p>
 <tr>
 <td></td>
 <td>可以赋值给明确且匹配类型的变量</td>
-<td>不可直接赋值给非unknown变量的值，加上类型断言才可以。</td>
+<td>不可直接赋值给非 unknown 变量的值，加上类型断言才可以。</td>
 <td></td>
 </tr>
 </tbody>
@@ -1231,9 +1232,9 @@ init 后不能改变。<br>
 <h2 id="init-ts--react-project"><a href="/language/typescript/initTsReactProject.html">init ts &amp; react project</a></h2>
 <h2 id="ts--rollup"><a href="/builder/rollup/ts&amp;rollup.html">ts &amp; rollup</a></h2>
 <h2 id="类型断言的不足">类型断言的不足</h2>
-<p>或称为ts的不足。</p>
+<p>或称为 ts 的不足。</p>
 <ul>
-<li>不能明确定义所有变量的类型。(ts允许存在any/unknown/never就是佐证。)</li>
+<li>不能明确定义所有变量的类型。(ts 允许存在 any/unknown/never 就是佐证。)</li>
 <li>然后有类型断言。类型断言只能做到代码静态检测时类型是否满足运行逻辑，不能防止实际运行时具体的值不满足运行逻辑的情况。</li>
 </ul>
 <h2 id="todo">todo</h2>
