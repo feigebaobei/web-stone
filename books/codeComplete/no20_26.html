@@ -1326,15 +1326,217 @@ x &gt; 5</p>
 <ol>
 <li>保存一个能正常工作的版本，以便能回到“最后已知良好状态”</li>
 <li>度量系统以找到热点</li>
-<li>确定性能低下是否来自于设计、数据类型或算法的不足，以及是否适合代码调优。如果不适合代码调优，返回步骤1.</li>
-<li>对步骤2.3中确定的瓶颈进行调优</li>
+<li>确定性能低下是否来自于设计、数据类型或算法的不足，以及是否适合代码调优。如果不适合代码调优，返回步骤 1.</li>
+<li>对步骤 2.3 中确定的瓶颈进行调优</li>
 <li>逐一度量每一项改进</li>
-<li>如果一项改进没有提升性能，就恢复步骤2.1</li>
+<li>如果一项改进没有提升性能，就恢复步骤 2.1</li>
 </ol>
 </li>
-<li>重复步骤2</li>
+<li>重复步骤 2</li>
 </ol>
 <h1 id="no26-代码调优技术">no.26 代码调优技术</h1>
+<p>代码调优是小幅改变，而不是对设计的大幅改变。</p>
+<h2 id="逻辑">逻辑</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>知道答案后就停止测试</td>
+<td>if/confinue/break/return</td>
+<td></td>
+</tr>
+<tr>
+<td>按频率调整测试顺序</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>相似逻辑结构之间的性能比较</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>查表代替复杂的表达式</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>使用惰性过值</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="循环">循环</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>循环判断外提</td>
+<td>for+if/else =&gt; if+for+else+for</td>
+<td></td>
+</tr>
+<tr>
+<td>合并</td>
+<td>多个循环体放在一个循环体中</td>
+<td></td>
+</tr>
+<tr>
+<td>展开</td>
+<td>减小循环体重</td>
+<td></td>
+</tr>
+<tr>
+<td>最小化循环内部的工作</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>哨兵值</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>最忙的循环放在最内层</td>
+<td>就是循环次数大的放在外面</td>
+<td></td>
+</tr>
+<tr>
+<td>降低强度</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="数据变换">数据变换</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>float =&gt; int</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>数组维度尽可能少</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>最小化数组引用</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>使用辅助索引</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>使用缓存</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="表达式">表达式</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>利用代数恒等式</td>
+<td>如<code>!a &amp;&amp; !b</code>=&gt;`!(a</td>
+<td></td>
+</tr>
+<tr>
+<td>降低强度</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>乘法 =》 加法</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>幂 =》 乘法</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>三角函数 =》 三角恒等式</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>float/long =》 int</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>乘2、除2 =》 移位</td>
+<td></td>
+</tr>
+<tr>
+<td>在编译时初始化</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>小心系统子程序</td>
+<td>一般精度都很快。当不需要太精确时可重写系统子程序。</td>
+<td></td>
+</tr>
+<tr>
+<td>预计算结果</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>在程序执行前计算出结果</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>循环前使用算好的结果</td>
+<td></td>
+</tr>
+<tr>
+<td>消除公共子表达式</td>
+<td>就是缓存子表达式的结果</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="子程序">子程序</h2>
+<p>代码调优最强大的工具之一是好的子程序分解。</p>
+<h2 id="用低层语言重新编码">用低层语言重新编码</h2>
 
         
         
