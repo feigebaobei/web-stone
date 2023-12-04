@@ -668,8 +668,18 @@ html5 以后 html 很重视语义。提倡使用正常语义编写代码。兼�
 <input>
   type=text / radio / submit / password / checkbox / button
         / color / date / datetime / datetime-local / email / month
-        / number / range / search / tel / time / url / week
+        / number / range / search / tel / time / url / week / file（上传功能）
   name   服务端使用该属性的值去获取表单中相应的数据。该属性在前端用处较少。
+  value  文本框的内容
+  checked 这是独立属性，没有值，表示是否选中。
+  multiple 是否多选
+  cols   文本域可见列数
+  rows   文本域可见行数
+  loop   是否循环播放
+  control 是否允许用户自己控制播放
+  autoplay 是否自动播放
+  preload  页面加载时是否同时加载
+
 <select>
   <options>
 <textarea>
