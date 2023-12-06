@@ -28,13 +28,33 @@ let myR = new Request(new Blob(), {
 })
 ```
 
-## request 对象
+## response 对象
 
-|      |     |     |     |     |     |
-| ---- | --- | --- | --- | --- | --- |
-| 属性 |     |     |     |     |     |
-| 方法 |     |     |     |     |     |
-|      |     |     |     |     |     |
+实现了[Body](/language/javascript/body.html)的接口
+
+|      |               |                                                                  |     |     |     |
+| ---- | ------------- | ---------------------------------------------------------------- | --- | --- | --- |
+| 属性 | 都是只读      |                                                                  |     |     |     |
+|      | headers       | 回馈头                                                           |     |     |     |
+|      | ok            | 状态码是否在[200, 299]内                                         |     |     |     |
+|      | redirected    | 是否来自重定向。若为 true，则 url 属性值为数组。                 |     |     |     |
+|      | status        | 状态码                                                           |     |     |     |
+|      | statusText    | 状态信息                                                         |     |     |     |
+|      | type          | response 的类型。如 basic/cors                                   |     |     |     |
+|      | url           | response 的 url                                                  |     |     |     |
+|      | useFinalURL   | 是否是该 response 的最终 url                                     |     |     |     |
+|      | body          | 返回 ReadableStream 类型的 body 内容                             |     |     |     |
+|      | bodyUsed      | 该 response 是否读取过 body                                      |     |     |     |
+| 方法 |               |                                                                  |     |     |     |
+|      | clone()       | 返回一个 response 对象的克隆                                     |     |     |     |
+|      | error()       | 返回一个绑定了网络错误的新的 response 对象                       |     |     |     |
+|      | redirect()    | 用另一个 url 创建一个 response                                   |     |     |     |
+|      | arrayBuffer() | 读取并设计为已读。返回一个解决为 ArrayBuffer 格式的 Promise 对象 |     |     |     |
+|      | blob()        | 读取并设计为已读。返回一个解决为 Blob 格式的 Promise 对象        |     |     |     |
+|      | formData()    | 读取并设计为已读。返回一个解决为 FormData 格式的 Promise 对象    |     |     |     |
+|      | json()        | 读取并设计为已读。返回一个解决为 json 格式的 Promise 对象        |     |     |     |
+|      | text()        | 读取并设计为已读。返回一个解决为 USVString 格式的 Promise 对象   |     |     |     |
+|      |               |                                                                  |     |     |     |
 
 ## todo
 
