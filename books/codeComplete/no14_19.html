@@ -178,18 +178,19 @@ switch case
 </ul>
 <p>简化深层嵌套</p>
 <ul>
-<li>使用break块简化嵌套if</li>
-<li>将嵌套if转换为一组if-then-else</li>
-<li>将嵌套if转换为case语句</li>
+<li>使用 break 块简化嵌套 if</li>
+<li>将嵌套 if 转换为一组 if-then-else</li>
+<li>将嵌套 if 转换为 case 语句</li>
 <li>将深层嵌套的代码纳入子程序中</li>
 <li>使用更面向对象的方法</li>
 <li>重新设计深层嵌套的代码
 <ul>
-<li>从case变为多态对象</li>
+<li>从 case 变为多态对象</li>
 </ul>
 </li>
 </ul>
 <h2 id="德摩根定理">德摩根定理</h2>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -200,52 +201,53 @@ switch case
 </thead>
 <tbody>
 <tr>
-<td>!a &amp;&amp; !b</td>
-<td>!(a</td>
+<td><code>!a &amp;&amp; !b</code></td>
+<td><code>!(a || b) </code></td>
 <td></td>
 </tr>
 <tr>
-<td>!a &amp;&amp; b</td>
-<td>!(a</td>
+<td><code>!a &amp;&amp; b</code></td>
+<td><code>!(a || !b)</code></td>
 <td></td>
 </tr>
 <tr>
-<td>a &amp;&amp; !b</td>
-<td>!(!a</td>
+<td><code>a &amp;&amp; !b</code></td>
+<td><code>!(!a || b) </code></td>
 <td></td>
 </tr>
 <tr>
-<td>a &amp;&amp; b</td>
-<td>!(!a</td>
+<td><code>a &amp;&amp; b</code></td>
+<td><code>!(!a || !b)</code></td>
 <td></td>
 </tr>
 <tr>
-<td>!a</td>
+<td><code>!a || !b</code></td>
+<td><code>!(a &amp;&amp; b)</code></td>
 <td></td>
-<td>!b</td>
 </tr>
 <tr>
-<td>!a</td>
+<td><code>!a || b </code></td>
+<td><code>!(a &amp;&amp; !b)</code></td>
 <td></td>
-<td>b</td>
 </tr>
 <tr>
-<td>a</td>
+<td><code>a || !b</code></td>
+<td><code>!(!a &amp;&amp; b)</code></td>
 <td></td>
-<td>!b</td>
 </tr>
 <tr>
-<td>a</td>
+<td><code>a || b </code></td>
+<td><code>!(!a &amp;&amp; !b)</code></td>
 <td></td>
-<td>b</td>
 </tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
 <p>提取非在前
-ab各取反
+ab 各取反
 与变或，或变与</p>
 <h2 id="结构化编程">结构化编程</h2>
-<p>来自Edsger W. Dijkstra 1969的论文。<br>
+<p>来自 Edsger W. Dijkstra 1969 的论文。<br>
 结构化一词火了以后，产生了结构化分析、结构化设计、结构代偷懒。<br>
 结构化程序以一种有序的、有规律的方式进行。不会不可预测地跳转。<br>
 由三部分组成：</p>
@@ -256,7 +258,7 @@ ab各取反
 它们也是任何编程语言的基本组成部分。</li>
 </ul>
 <h2 id="复杂度">复杂度</h2>
-<p>Tom McCabe的论文中提出程序的复杂度由其控制流程决定。其实还包括循环等。</p>
+<p>Tom McCabe 的论文中提出程序的复杂度由其控制流程决定。其实还包括循环等。</p>
 <ul>
 <li>增加程序员的脑容量</li>
 <li>降低复杂度</li>
@@ -264,8 +266,8 @@ ab各取反
 <p>复杂度由计算子程序的决策点的数量决定。</p>
 <ol>
 <li>从头开始，沿子程序常规路径开始计数。</li>
-<li>遇到以下每个关键字或其等价表示都递增1</li>
-<li>为每个case递增1</li>
+<li>遇到以下每个关键字或其等价表示都递增 1</li>
+<li>为每个 case 递增 1</li>
 </ol>
 <table>
 <thead>
