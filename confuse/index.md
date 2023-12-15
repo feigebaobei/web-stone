@@ -21,7 +21,7 @@
 - [execCommand](/confuse/execCommand.html)
 - [session&jwt](/confuse/session&jwt.html)
 - [计算属性](/confuse/getComputedStyle.html)
-- [title](/confuse/title.html)
+- [从 html 中提取纯文本](/confuse/extractText.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
