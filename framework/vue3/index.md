@@ -183,15 +183,17 @@ watch: { question(nv, ov) { ... } }
 
 <!-- prettier-ignore-start -->
 为什么计算执行同步，watch 执行异步？
-||computed|watch|methods|
-|-|-|-|-|
-|适用场景|包含响应式数据的复杂逻辑|watch|methods|
-||会缓存结果|不缓存结果|-|
-||会缓存结果|当需要变化时执行异步或开销较大的操作|-|
-|结合使用|computed + methods|watch + methods|methods + methods|
-||-|侦听器|方法（可复用）|
-|相同|都是对象|都是对象|都是对象|
+|          | computed                 | watch                                | methods           |
+| -------- | ------------------------ | ------------------------------------ | ----------------- |
+| 适用场景 | 包含响应式数据的复杂逻辑 | watch                                | methods           |
+|          | 会缓存结果               | 不缓存结果                           | -                 |
+|          | 会缓存结果               | 当需要变化时执行异步或开销较大的操作 | -                 |
+| 结合使用 | computed + methods       | watch + methods                      | methods + methods |
+|          | -                        | 侦听器                               | 方法（可复用）    |
+| 相同     | 都是对象                 | 都是对象                             | 都是对象          |
 <!-- prettier-ignore-end -->
+
+## [生命周期](/framework/vue3/lifeCircle.html)
 
 ## 处理边界情况
 
@@ -261,6 +263,12 @@ export default {
 </script>
 ```
 
+当 ref 值为 ref 类型时不使用`:`
+当 ref 值为函数类型时使用`:`
+函数的参数是引用的 do 元素
+在 v-for 中使用时 ref 的值是数组。  
+也可以透传给子元素。
+
 ### ref & :ref & toRefs & $refs & $Ref
 
 它们都是来自`reference`.  
@@ -291,27 +299,34 @@ app.mixin({
 
 ```
 
-## teleport
+## teleport 应该移入 template
 
 将模板的这一部分移动到 DOM 中 Vue app 之外的其他位置。  
 挂载到目标元素的内部后面。
 
+- to： 移到的目标元素 值是 css 选择器
+- disabled:是否禁用 teleport 功能。
+
 ```js
 app.component('comp-name', {
   template: `
-<button />
-<teleport to="body">
-            ...
-        </teleport>
-`,
+    <button />
+    <teleport to="body">
+        ...
+    </teleport>
+  `,
 })
 ```
 
 ## 渲染函数
 
-使用 js 方法（`h / createVNode`）编写组件。与 sfc 功能等价。  
-官网举了一个“动态 dom 标签”的例子。  
-一般用于在组件模版需要更灵活时
+- 使用 js 方法（`h / createVNode`）编写组件。与 sfc 功能等价。
+- 官网举了一个“动态 dom 标签”的例子。
+- 一般用于在组件模版需要更灵活时
+- h()可创建一个 vnode.render()渲染此 vnode 为真实 html.
+- h()返回 vnode.多个 vnode 组成 vdom.
+- template 中的 html 会经过渲染函数生成 vnode
+- h()是 createVNodo()的别名
 
 ```js
 const { createApp, h } = Vue
@@ -329,37 +344,65 @@ app.component('comp-name', {
 ```js
 h(
   tag, // String | Object | Function  一个html标签名、一个组件、一个异步组件、一个函数式组件
-  props, // Object
+  props, // Object 为防止歧义，可以设置为null
   children // String | Array | Object  需要唯一
 )
 ```
 
 ```js
-// 所有事件名都是on+大驼峰命名，可以再加大驼峰的事件修饰符。 const {h,
-resolveDomponent, resolveDynamicComponent, resolveDirective, withDirectives} =
-Vue app.component('comp-name', { fn() {...}, // 在插槽函数外面调用 let CompNameA
-= resolveComponent('comp-name-a') // 解构全局组件 let CompNameB =
-resolveDynamicComponent('comp-name-b') // 解构全局动态组件 //
-<comp-name-b :is="xxx" />
-// keep-alive transition transition-group teleport
-不需要使用resolveComponent处理。直接从Vue中取出后使用。 render() { return
-h('a-name', { // v-model modelValue: xxx, 'onUpdate:modelValue': v =>
-this.$emit('update:modelValue', v), // 事件 'onClickCapture': this.fn, }, { //
-设置插槽 this.$slots.default(), this.$slots.slotName({k: v}), // 作用域插槽 //
-使用插槽 slotName: (props) => h(...) }) } render() { let pin =
-resolveDirective('pin') return withDirectives(h('div', [ [pin, 200, 'top',
-{animate: true}] ])) } })
+// 所有事件名都是on+大驼峰命名，可以再加大驼峰的事件修饰符。
+const {
+  h,
+  resolveDomponent, resolveDynamicComponent, resolveDirective, withDirectives
+} = Vue
+app.component('comp-name', {
+  fn() {...}, // 在插槽函数外面调用
+  let CompNameA = resolveComponent('comp-name-a') // 解构全局组件
+  let CompNameB = resolveDynamicComponent('comp-name-b') // 解构全局动态组件 // <comp-name-b :is="xxx" />
+// keep-alive transition transition-group teleport 不需要使用resolveComponent处理。直接从Vue中取出后使用。
+  render() {
+    return h('a-name', {
+      modelValue: xxx,  // v-model
+      'onUpdate:modelValue': v => this.$emit('update:modelValue', v), // 事件
+      'onClickCapture': this.fn,
+      }, {
+         //设置插槽
+        this.$slots.default(),
+        // 具名插槽
+        this.$slots.slotName({k: v}),
+        // 作用域插槽
+        slotName: (props) => h(...)
+    })
+  }
+  render() {
+    let pin =resolveDirective('pin')
+    return withDirectives(h('div', [
+      [pin, 200, 'top', {animate: true}]
+    ]))
+  }
+})
 ```
 
-当使用`@vue/babel-plugin-jsx`时，可以在 vue 文件中使用 jsx 语法。
+## jsx
+
+使用 jsx 写法时需要`@vue/babel-plugin-jsx`插件。
 
 ```js
-import CompName from './CompName.vue' const app = createApp({ render() { return
-(
-<CompName>
-        ...
-        </CompName>
-) } }) app.mount('#root')
+// babel.config.js
+module.exports = {
+  presets: ['@vue/cli-plugin-babel/preset'],
+  plugins: ['@vue/babel-plugin-jsx'],
+}
+```
+
+```js
+import CompName from './CompName.vue'
+const app = createApp({
+  render() {
+    return <CompName>...</CompName>
+  },
+})
+app.mount('#root')
 ```
 
 ## [插件](/framework/vue3/plugin.html)
@@ -451,6 +494,15 @@ import CompName from './CompName.vue' const app = createApp({ render() { return
 - [title]()
 - [title]()
 - [title]()
+
+## 缺点
+
+- 编写方式不统一
+  - template / render/h / jsx/tsx
+- api 不统一
+  - composition api
+  - options api (为兼容 vue2,可以不算它)
+  - setup 语法糖（一点都不甜）
 
 ## todo
 

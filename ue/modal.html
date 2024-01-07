@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>&#x5f39;&#x5c42;&#x7c7b;&#x8bbe;&#x8ba1;</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="弹层类设计">弹层类设计</h1>
+<blockquote>
+<p>在主要结构框架上的窗口。以子窗口的形式出现在主界面上方。用户必须完成子窗口的内容、或主动关闭，才能回到主界面。<br>
+包括：模态、抽屉、对话框、确认框。</p>
+</blockquote>
+<h2 id="特点">特点</h2>
+<ul>
+<li>视觉优雅</li>
+<li>简化视觉</li>
+<li>节省屏幕空间</li>
+<li>获取用户的注意</li>
+<li>需要用户输入</li>
+<li>展示额外信息</li>
+</ul>
+<h2 id="组成">组成</h2>
+<pre><code>
+    mask(或无)
+        |--------------------------------------------------|
+        |                      title                 close |
+        |-                                                 |
+        ||         |------------------------------------|  |
+        ||         |                                    |  |
+        |size      |                                    |  |
+        ||         |             content                |  |
+        ||         |                                    |  |
+        ||         |                                    |  |
+        ||         |------------------------------------|  |
+        |-                                                 |
+        |                 footer(一般包括cancel&amp;ok button)  |
+        |--------------------------------------------------|
+
+
+</code></pre>
+<h2 id="关闭时机">关闭时机</h2>
+<ul>
+<li>click mask</li>
+<li>click close</li>
+<li>click cancel</li>
+<li>click ok &amp; success</li>
+</ul>
+<h3 id="实现方式">实现方式</h3>
+<ul>
+<li>有半透明mask。点击mask时关闭。</li>
+<li>有全透明mask。点击mask时关闭。</li>
+<li>无mask。打开时<code>window.addEventListener('click', closeFn, false)</code>. 在组件销毁时或closeFn执行时<code>window.removeEventListener('click', closeFn, false)</code>.</li>
+</ul>
+
+        
+        
+    </body>
+    </html>

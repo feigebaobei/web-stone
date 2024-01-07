@@ -110,3 +110,14 @@ createApp(App).directive('teleport', teleport)
 ```html
 <Comp v-teleport></<Comp>
 ```
+
+## v-if & ref 的冲突
+
+1.v-if：
+如果在初始渲染时条件为假，则什么也不做，直到条件第一次变为真时，才会开始渲染条件块。
+
+2.参考：
+<code>ref</code>被用来给元素或子组件注册引用信息。 引用信息将会注册在父组件的 对象上。<code>$refs</code>
+
+3.冲突
+ref 只有在组件渲染完成才注册引用信息，v-if 首次为 false 没有把元素或子组件渲染，所以没有注册引用信息。

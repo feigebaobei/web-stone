@@ -42,16 +42,29 @@ h('div', ['hello', h('span', 'hello')])
 ```
 
 ```js
+// Comp.vue
+<script lang="ts">
 import { ref, h } from 'vue'
 export default {
     props: {...},
     // setup只会执行一次。它返回的方法可以被使用很多次。
     setup() {
         // template写法是返回data，为了让template可以使用data.
-        // render方法返回的是一个render方法。
-        return () => {}
+        // render方法可以返回一个render方法，
+        // return () => {
+        //     return h('div', {class: 'hi'}, ['str'])
+        // }
+        // 也可以返回一个为render使用的对象。需要与render方法结合使用。
+        // todo 调研哪种方法更合适
+        return () => {
+            k: 'str'
+        }
+    },
+    render() {
+        h('div', {class: 'hi'}, [this.k])
     }
 }
+</script>
 ```
 
 ## render function 的语法
@@ -215,8 +228,10 @@ I think this sort of confusion largely comes from React hooks users, but in Vue 
 
 # 比较三种写法
 
-|     | template                            | render / h                        | jsx                                                                |
-| --- | ----------------------------------- | --------------------------------- | ------------------------------------------------------------------ |
-|     | 首选。vue-loader 会优化此写法的组件 |                                   | 需要安装`@vitejs/plugin-vue-jsx`插件。然后在`vite.config.ts`中使用 |
-|     |                                     | 需要使用 defineComponent          | 需要使用 defineComponent                                           |
-|     |                                     | render()中写模板。返回的是 vnode. | render()中使用 jsx 代码。                                          |
+<!-- prettier-ignore-start -->
+|     | template     | render / h      | jsx                |
+| --- | ------------------ | ---------------- | --------------- |
+|     | 首选。vue-loader 会优化此写法的组件 |           | 需要安装`@vitejs/plugin-vue-jsx`插件。然后在`vite.config.ts`中使用 |
+|     |             | 需要使用 defineComponent          | 需要使用 defineComponent                   |
+|     |             | render()中写模板。返回的是 vnode. | render()中使用 jsx 代码。                  |
+<!-- prettier-ignore-end -->
