@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>Event&#x5bf9;&#x8c61;</title>
+        <title>Event &#x5bf9;&#x8c61;</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -13,41 +13,6 @@
 .vscode-dark img[src$=\#gh-light-mode-only],
 .vscode-light img[src$=\#gh-dark-mode-only] {
 	display: none;
-}
-
-/* From extension ms-toolsai.jupyter */
-/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
-
-.alert {
-    width: auto;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-.alert > *:last-child {
-    margin-bottom: 0;
-}
-#preview > .alert:last-child {
-    /* Prevent this being set to zero by the default notebook stylesheet */
-    padding-bottom: 1em;
-}
-
-.alert-success {
-    /* Note there is no suitable color available, so we just copy "info" */
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-info {
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-warning {
-    background-color: var(--theme-warning-background);
-    color: var(--theme-warning-foreground);
-}
-.alert-danger {
-    background-color: var(--theme-error-background);
-    color: var(--theme-error-foreground);
 }
 
 </style>
@@ -75,7 +40,7 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="event对象">Event对象</h1>
+        <h1 id="event-对象">Event 对象</h1>
 <p>创建一个新的事件对象 Event。<br>
 这是合成事件。</p>
 <pre><code class="language-js">event = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Event</span>(typeArg, eventInit);
@@ -87,72 +52,54 @@ eventInit {
 }
 </code></pre>
 <pre><code class="language-js"><span class="hljs-comment">// demo</span>
-<span class="hljs-keyword">let</span> ev = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Event</span>(<span class="hljs-string">&#x27;look&#x27;</span>, { <span class="hljs-comment">// 定义</span>
-    <span class="hljs-attr">bubbles</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-attr">cancelable</span>: <span class="hljs-literal">false</span>
+<span class="hljs-keyword">let</span> ev = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Event</span>(<span class="hljs-string">&#x27;look&#x27;</span>, {
+  <span class="hljs-comment">// 定义</span>
+  <span class="hljs-attr">bubbles</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">cancelable</span>: <span class="hljs-literal">false</span>,
 })
-<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;first&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> { <span class="hljs-comment">// 绑定</span>
-    <span class="hljs-title function_">clog</span>(e)
+<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;first&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+  <span class="hljs-comment">// 绑定</span>
+  <span class="hljs-title function_">clog</span>(e)
 })
 <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">dispatchEvent</span>(ev) <span class="hljs-comment">// 触发</span>
 </code></pre>
 <pre><code class="language-js"><span class="hljs-title class_">Event</span>: {
-    <span class="hljs-attr">bubbles</span>: boolean
-    <span class="hljs-attr">cancelBubble</span>: boolean
-    <span class="hljs-attr">cancelable</span>: boolean
-    <span class="hljs-attr">composed</span>: boolean
-    <span class="hljs-attr">currentTarget</span>: boolean
-    <span class="hljs-attr">deepPath</span>: boolean           <span class="hljs-comment">// 一个由事件流所经过的 DOM 节点组成的数组。</span>
-    <span class="hljs-attr">defaultPrevented</span>: boolean   <span class="hljs-comment">// 是否取消了事件的默认行为</span>
-    <span class="hljs-attr">eventPhase</span>:                 <span class="hljs-comment">// 事件流正被处理到了哪个阶段。</span>
-    <span class="hljs-attr">explicitOriginalTarget</span>:     <span class="hljs-comment">// 事件的明确（explicit）原始目标（Mozilla 专有属性）。</span>
-    <span class="hljs-attr">originalTarget</span>:             <span class="hljs-comment">// 重设目标前的事件原始目标（Mozilla 专有属性）。</span>
-    <span class="hljs-attr">returnValue</span>: 
-    <span class="hljs-attr">srcElement</span>: 
-    <span class="hljs-attr">target</span>: 
-    <span class="hljs-attr">timeStamp</span>: ms
-    <span class="hljs-attr">type</span>: 事件的类型
-    <span class="hljs-attr">isTrusted</span>: 是否由浏览器发起
-    <span class="hljs-title function_">createEvent</span>()
-    <span class="hljs-title function_">composedPath</span>()
-    <span class="hljs-title function_">initEvent</span>()
-    <span class="hljs-title function_">preventDefault</span>()
-    <span class="hljs-title function_">stopImmediatePropagation</span>()
-    <span class="hljs-title function_">stopPropagation</span>()
+  <span class="hljs-attr">bubbles</span>: boolean
+  <span class="hljs-attr">cancelBubble</span>: boolean
+  <span class="hljs-attr">cancelable</span>: boolean
+  <span class="hljs-attr">composed</span>: boolean
+  <span class="hljs-attr">currentTarget</span>: boolean
+  <span class="hljs-attr">deepPath</span>: boolean <span class="hljs-comment">// 一个由事件流所经过的 DOM 节点组成的数组。</span>
+  <span class="hljs-attr">defaultPrevented</span>: boolean <span class="hljs-comment">// 是否取消了事件的默认行为</span>
+  <span class="hljs-comment">// 事件流正被处理到了哪个阶段。</span>
+  <span class="hljs-attr">eventPhase</span>: <span class="hljs-comment">// 事件的明确（explicit）原始目标（Mozilla 专有属性）。</span>
+  <span class="hljs-attr">explicitOriginalTarget</span>: <span class="hljs-comment">// 重设目标前的事件原始目标（Mozilla 专有属性）。</span>
+  <span class="hljs-attr">originalTarget</span>: <span class="hljs-attr">returnValue</span>: <span class="hljs-attr">srcElement</span>: <span class="hljs-attr">target</span>: <span class="hljs-attr">timeStamp</span>: ms
+  <span class="hljs-attr">type</span>: 事件的类型
+  <span class="hljs-attr">isTrusted</span>: 是否由浏览器发起
+  <span class="hljs-title function_">createEvent</span>()
+  <span class="hljs-title function_">composedPath</span>()
+  <span class="hljs-title function_">initEvent</span>()
+  <span class="hljs-title function_">preventDefault</span>()
+  <span class="hljs-title function_">stopImmediatePropagation</span>()
+  <span class="hljs-title function_">stopPropagation</span>()
 }
 </code></pre>
-<h1 id="customevent对象">CustomEvent对象</h1>
-<pre><code class="language-js"><span class="hljs-keyword">let</span> ev = <span class="hljs-keyword">new</span> <span class="hljs-title class_">CustomEvent</span>(<span class="hljs-string">&#x27;second&#x27;</span>, {<span class="hljs-attr">detail</span>: <span class="hljs-string">&#x27;params&#x27;</span>})
+<h1 id="customevent-对象">CustomEvent 对象</h1>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> ev = <span class="hljs-keyword">new</span> <span class="hljs-title class_">CustomEvent</span>(<span class="hljs-string">&#x27;second&#x27;</span>, { <span class="hljs-attr">detail</span>: <span class="hljs-string">&#x27;params&#x27;</span> })
 <span class="hljs-comment">// detail 可以是任务数据、方法</span>
-<span class="hljs-keyword">function</span> <span class="hljs-title function_">eventHandler</span> (e) {
-    <span class="hljs-title function_">clog</span>(e.<span class="hljs-property">detail</span>)
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">eventHandler</span>(<span class="hljs-params">e</span>) {
+  <span class="hljs-title function_">clog</span>(e.<span class="hljs-property">detail</span>)
 }
 <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;second&#x27;</span>, eventHandler)
 <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">dispatchEvent</span>(ev) <span class="hljs-comment">// 触发事件</span>
 </code></pre>
 <h1 id="绑定--解绑">绑定 &amp; 解绑</h1>
-<table>
-<thead>
-<tr>
-<th>绑定</th>
-<th>解绑</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>dom.onclick = fn</code></td>
-<td><code>dom.onclick = null</code></td>
-</tr>
-<tr>
-<td><code>dom.addEventListener(eventName, fn)</code></td>
-<td><code>dom.removeEventListener(eventName, fn)</code></td>
-</tr>
-<tr>
-<td><code>dom.attachEvent(eventName, fn)</code></td>
-<td><code>dom.detachEvent(eventName, fn)</code></td>
-</tr>
-</tbody>
-</table>
+<p>| 绑定                                  | 解绑                                     |
+| ------------------------------------- | ---------------------------------------- | ------- |
+| <code>dom.onclick = fn</code>                    | <code>dom.onclick = null</code>                     | 带 on   |
+| <code>dom.addEventListener(eventName, fn)</code> | <code>dom.removeEventListener(eventName, fn)</code> | 不带 on |
+| <code>dom.attachEvent(eventName, fn)</code>      | <code>dom.detachEvent(eventName, fn)</code>         | 带 on   |</p>
 <h1 id="事件流">事件流</h1>
 <ul>
 <li>捕获阶段</li>
@@ -160,7 +107,7 @@ eventInit {
 <li>冒泡阶段</li>
 </ul>
 <p>ie 使用事件冒泡<br>
-非ie 使用事件捕获<br>
+非 ie 使用事件捕获<br>
 现代浏览器 先使用执行捕获阶段，再执行冒泡阶段。</p>
 <h1 id="addeventlistener">addEventListener</h1>
 <pre><code class="language-js">dom.<span class="hljs-title function_">addEventListener</span>(type, listener[, <span class="hljs-attr">options</span>: {
@@ -170,7 +117,7 @@ eventInit {
     <span class="hljs-attr">signal</span>: <span class="hljs-title class_">AbortSignal</span> <span class="hljs-comment">// 当AbortSignal的abort()方法被调用时，监听器被移除。</span>
 } | useCapture])
 </code></pre>
-<p>listener是EventListener对象。</p>
+<p>listener 是 EventListener 对象。</p>
 <table>
 <thead>
 <tr>
@@ -196,14 +143,14 @@ eventInit {
     <span class="hljs-attr">capture</span>: <span class="hljs-literal">false</span>
 } | useCapture]) -&gt; <span class="hljs-literal">undefined</span>
 </code></pre>
-<p>drag事件</p>
+<p>drag 事件</p>
 <p>keydown：当用户按下键盘上的任意键时触发，而且如果按住不放的话，会重复触发此事件。</p>
-<p>keypress：当用户按下键盘上的字符键时触发，而且如果按住不放的话，会重复触发此事件。 按下Esc 键也会触发这个事件。Safari 3.1 之前的版本也会在用户按下非字符键时触发keypress 事件。</p>
+<p>keypress：当用户按下键盘上的字符键时触发，而且如果按住不放的话，会重复触发此事件。 按下 Esc 键也会触发这个事件。Safari 3.1 之前的版本也会在用户按下非字符键时触发 keypress 事件。</p>
 <p>keyup：当用户释放键盘上的键时触发。</p>
 <table>
 <thead>
 <tr>
-<th>dom的事件属性名（因html不区分大小写，所以全是小写）</th>
+<th>dom 的事件属性名（因 html 不区分大小写，所以全是小写）</th>
 <th>说明</th>
 <th></th>
 <th></th>
@@ -291,17 +238,104 @@ eventInit {
 <pre><code class="language-js">dom.<span class="hljs-property">onclick</span> = fn
 <span class="hljs-comment">// 这里是方法     无()</span>
 </code></pre>
+<h1 id="onclick--addeventlistener">onclick &amp; addEventListener</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>以onclick为例</th>
+<th>addEventListener</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>由click事件触发</td>
+<td>由指定事件触发</td>
+</tr>
+<tr>
+<td>多次绑定</td>
+<td>同一时间指向唯一的对象。若多次绑定，则覆盖以前绑定的。</td>
+<td>若多次绑定，则不覆盖。</td>
+</tr>
+<tr>
+<td>事件触发时</td>
+<td>最后一次绑定的方法生效</td>
+<td>所有绑定的方法都生效</td>
+</tr>
+<tr>
+<td>触发阶段</td>
+<td>不知道</td>
+<td>可以指定</td>
+</tr>
+</tbody>
+</table>
 <h1 id="extendableevent">ExtendableEvent</h1>
-<p>创建一个ExtendableEvent对象。
-service workers中使用到了它。</p>
+<p>创建一个 ExtendableEvent 对象。
+service workers 中使用到了它。</p>
 <pre><code class="language-js"><span class="hljs-keyword">new</span> <span class="hljs-title class_">ExtendableEvent</span>(<span class="hljs-attr">type</span>: string[, <span class="hljs-attr">options</span>: object])
 </code></pre>
-<p>type事件名
-options 定义在ExtendableEvent对象上的自定义属性。</p>
+<p>type 事件名
+options 定义在 ExtendableEvent 对象上的自定义属性。</p>
 <h2 id="extendableeventwaituntilpromise">ExtendableEvent.waitUntil(promise)</h2>
 <p>方法告诉事件分发器该事件仍在进行。这个方法也可以用于检测进行的任务是否成功。在服务工作线程中，这个方法告诉浏览器事件一直进行，直至 promise 解决，浏览器不应该在事件中的异步操作完成之前终止服务工作线程。<br>
 <strong>无返回</strong><br>
-在install事件、actives事件中使用，会让工作线程保持在installing / activing阶段。</p>
+在 install 事件、actives 事件中使用，会让工作线程保持在 installing / activing 阶段。</p>
+<h1 id="mouseover--mouseout--mouseenter--mouseleave">mouseover &amp; mouseout &amp; mouseenter &amp; mouseleave</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>mouseover</th>
+<th>mouseout</th>
+<th>mouseenter</th>
+<th>mouseleave</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>悬浮上</td>
+<td>移出</td>
+<td>进入</td>
+<td>移出</td>
+<td></td>
+</tr>
+<tr>
+<td>冒泡</td>
+<td>v 当前元素及其子元素触发</td>
+<td>v</td>
+<td>x, 当前元素触发</td>
+<td>x</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 
         
         

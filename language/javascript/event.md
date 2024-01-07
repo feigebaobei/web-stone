@@ -37,9 +37,9 @@ Event: {
   deepPath: boolean // 一个由事件流所经过的 DOM 节点组成的数组。
   defaultPrevented: boolean // 是否取消了事件的默认行为
   // 事件流正被处理到了哪个阶段。
-  eventPhase: // 事件的明确（explicit）原始目标（Mozilla 专有属性）。
-  explicitOriginalTarget: // 重设目标前的事件原始目标（Mozilla 专有属性）。
-  originalTarget: returnValue: srcElement: target: timeStamp: ms
+  // 事件的明确（explicit）原始目标（Mozilla 专有属性）。
+  eventPhase: // 重设目标前的事件原始目标（Mozilla 专有属性）。
+  explicitOriginalTarget: originalTarget: returnValue: srcElement: target: timeStamp: ms
   type: 事件的类型
   isTrusted: 是否由浏览器发起
   createEvent()
@@ -141,6 +141,15 @@ dom.onclick = fn
 // 这里是方法     无()
 ```
 
+# onclick & addEventListener
+
+|            | 以 onclick 为例                                        | addEventListener       |
+| ---------- | ------------------------------------------------------ | ---------------------- |
+|            | 由 click 事件触发                                      | 由指定事件触发         |
+| 多次绑定   | 同一时间指向唯一的对象。若多次绑定，则覆盖以前绑定的。 | 若多次绑定，则不覆盖。 |
+| 事件触发时 | 最后一次绑定的方法生效                                 | 所有绑定的方法都生效   |
+| 触发阶段   | 不知道                                                 | 可以指定               |
+
 # ExtendableEvent
 
 创建一个 ExtendableEvent 对象。
@@ -158,3 +167,13 @@ options 定义在 ExtendableEvent 对象上的自定义属性。
 方法告诉事件分发器该事件仍在进行。这个方法也可以用于检测进行的任务是否成功。在服务工作线程中，这个方法告诉浏览器事件一直进行，直至 promise 解决，浏览器不应该在事件中的异步操作完成之前终止服务工作线程。  
 **无返回**  
 在 install 事件、actives 事件中使用，会让工作线程保持在 installing / activing 阶段。
+
+# mouseover & mouseout & mouseenter & mouseleave
+
+|      | mouseover                | mouseout | mouseenter      | mouseleave |     |
+| ---- | ------------------------ | -------- | --------------- | ---------- | --- |
+|      | 悬浮上                   | 移出     | 进入            | 移出       |     |
+| 冒泡 | v 当前元素及其子元素触发 | v        | x, 当前元素触发 | x          |     |
+|      |                          |          |                 |            |     |
+|      |                          |          |                 |            |     |
+|      |                          |          |                 |            |     |
