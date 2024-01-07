@@ -22,7 +22,7 @@
 - [session&jwt](/confuse/session&jwt.html)
 - [计算属性](/confuse/getComputedStyle.html)
 - [从 html 中提取纯文本](/confuse/extractText.html)
-- [title](/confuse/title.html)
+- [vue3 的 class 失效的解决方案](/confuse/vue3Class.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)

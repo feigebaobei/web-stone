@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>vue3&#x9879;&#x76ee;&#x4e2d;class&#x4e0d;&#x751f;&#x6548;</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="vue3项目中class不生效">vue3项目中class不生效</h1>
+<p>由<code>v-if</code>&amp;<code>class</code></p>
+<h2 id="原因">原因</h2>
+<p>vue渲染组件时会为其他设置一个hash值为属性（如：<code>data-v-3e879a65</code>）。
+class生效的类名为<code>.class_name[data-v-3e879a65] {...}</code>。意为有<code>data-v-3e879a65</code>属性的<code>class_name</code>类的样式为<code>...</code><br>
+当v-if值为真时，渲染出的元素有hash值。样式无hash属性。所以样式不会生效。</p>
+<h2 id="解决方案">解决方案</h2>
+<ul>
+<li>把有v-if指令的dom元素上的v-if指令向外提一层。</li>
+</ul>
+<pre><code>&lt;div v-if=&quot;b&quot;&gt;
+    &lt;div class=&quot;k&quot;&gt;
+        ...
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<ul>
+<li>使用style代替class</li>
+<li><code>&lt;style&gt;</code>标签中删除scoped属性。缺点是污染全局样式。</li>
+<li><code>v-if</code>改为<code>v-show</code></li>
+</ul>
+
+        
+        
+    </body>
+    </html>

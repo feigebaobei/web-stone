@@ -503,6 +503,9 @@ app.mount('#root')
   - composition api
   - options api (为兼容 vue2,可以不算它)
   - setup 语法糖（一点都不甜）
+- 抢占社区工作。好多东西应该由社区贡献，非要“官方出品”。
+- 为了简便，破坏一些东西。
+  - unplugin-auto-import 自动引入。破坏了模块化，\*.vue 文件中未引入指定组件、方法等，但是可以使用。遇到 h 写法&vscode 时又要求必须明确引入相关组件。
 
 ## todo
 

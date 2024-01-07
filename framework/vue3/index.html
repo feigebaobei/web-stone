@@ -331,10 +331,10 @@ export default {
 }
 &lt;/script&gt;
 </code></pre>
-<p>当ref值为ref类型时不使用<code>:</code>
-当ref值为函数类型时使用<code>:</code>
-函数的参数是引用的do元素
-在v-for中使用时ref的值是数组。<br>
+<p>当 ref 值为 ref 类型时不使用<code>:</code>
+当 ref 值为函数类型时使用<code>:</code>
+函数的参数是引用的 do 元素
+在 v-for 中使用时 ref 的值是数组。<br>
 也可以透传给子元素。</p>
 <h3 id="ref--ref--torefs--refs--ref">ref &amp; :ref &amp; toRefs &amp; $refs &amp; $Ref</h3>
 <p>它们都是来自<code>reference</code>.<br>
@@ -385,12 +385,12 @@ app.<span class="hljs-title function_">mixin</span>({
 <span class="hljs-comment">// 定义局部 组件内</span>
 
 </code></pre>
-<h2 id="teleport-应该移入template">teleport 应该移入template</h2>
+<h2 id="teleport-应该移入-template">teleport 应该移入 template</h2>
 <p>将模板的这一部分移动到 DOM 中 Vue app 之外的其他位置。<br>
 挂载到目标元素的内部后面。</p>
 <ul>
-<li>to：     移到的目标元素          值是css选择器</li>
-<li>disabled:是否禁用teleport功能。</li>
+<li>to： 移到的目标元素 值是 css 选择器</li>
+<li>disabled:是否禁用 teleport 功能。</li>
 </ul>
 <pre><code class="language-js">app.<span class="hljs-title function_">component</span>(<span class="hljs-string">&#x27;comp-name&#x27;</span>, {
   <span class="hljs-attr">template</span>: <span class="hljs-string">`
@@ -406,10 +406,10 @@ app.<span class="hljs-title function_">mixin</span>({
 <li>使用 js 方法（<code>h / createVNode</code>）编写组件。与 sfc 功能等价。</li>
 <li>官网举了一个“动态 dom 标签”的例子。</li>
 <li>一般用于在组件模版需要更灵活时</li>
-<li>h()可创建一个vnode.render()渲染此vnode为真实html.</li>
-<li>h()返回vnode.多个vnode组成vdom.</li>
-<li>template中的html会经过渲染函数生成vnode</li>
-<li>h()是createVNodo()的别名</li>
+<li>h()可创建一个 vnode.render()渲染此 vnode 为真实 html.</li>
+<li>h()返回 vnode.多个 vnode 组成 vdom.</li>
+<li>template 中的 html 会经过渲染函数生成 vnode</li>
+<li>h()是 createVNodo()的别名</li>
 </ul>
 <pre><code class="language-js"><span class="hljs-keyword">const</span> { createApp, h } = <span class="hljs-title class_">Vue</span>
 <span class="hljs-keyword">const</span> app = <span class="hljs-title function_">createApp</span>()
@@ -428,57 +428,51 @@ app.<span class="hljs-title function_">component</span>(<span class="hljs-string
   children <span class="hljs-comment">// String | Array | Object  需要唯一</span>
 )
 </code></pre>
-<pre><code class="language-js"><span class="hljs-comment">// 所有事件名都是on+大驼峰命名，可以再加大驼峰的事件修饰符。 </span>
+<pre><code class="language-js"><span class="hljs-comment">// 所有事件名都是on+大驼峰命名，可以再加大驼峰的事件修饰符。</span>
 <span class="hljs-keyword">const</span> {
   h,
   resolveDomponent, resolveDynamicComponent, resolveDirective, withDirectives
 } = <span class="hljs-title class_">Vue</span>
-app.<span class="hljs-title function_">component</span>(<span class="hljs-string">&#x27;comp-name&#x27;</span>, { 
+app.<span class="hljs-title function_">component</span>(<span class="hljs-string">&#x27;comp-name&#x27;</span>, {
   <span class="hljs-title function_">fn</span>(<span class="hljs-params"></span>) {...}, <span class="hljs-comment">// 在插槽函数外面调用</span>
   <span class="hljs-keyword">let</span> <span class="hljs-title class_">CompNameA</span> = <span class="hljs-title function_">resolveComponent</span>(<span class="hljs-string">&#x27;comp-name-a&#x27;</span>) <span class="hljs-comment">// 解构全局组件</span>
   <span class="hljs-keyword">let</span> <span class="hljs-title class_">CompNameB</span> = <span class="hljs-title function_">resolveDynamicComponent</span>(<span class="hljs-string">&#x27;comp-name-b&#x27;</span>) <span class="hljs-comment">// 解构全局动态组件 // &lt;comp-name-b :is=&quot;xxx&quot; /&gt;</span>
-<span class="hljs-comment">// keep-alive transition transition-group teleport 不需要使用resolveComponent处理。直接从Vue中取出后使用。 </span>
+<span class="hljs-comment">// keep-alive transition transition-group teleport 不需要使用resolveComponent处理。直接从Vue中取出后使用。</span>
   <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>) {
     <span class="hljs-keyword">return</span> <span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;a-name&#x27;</span>, {
-      <span class="hljs-attr">modelValue</span>: xxx,  <span class="hljs-comment">// v-model </span>
-      <span class="hljs-string">&#x27;onUpdate:modelValue&#x27;</span>: <span class="hljs-function"><span class="hljs-params">v</span> =&gt;</span> <span class="hljs-variable language_">this</span>.$emit(<span class="hljs-string">&#x27;update:modelValue&#x27;</span>, v), <span class="hljs-comment">// 事件 </span>
+      <span class="hljs-attr">modelValue</span>: xxx,  <span class="hljs-comment">// v-model</span>
+      <span class="hljs-string">&#x27;onUpdate:modelValue&#x27;</span>: <span class="hljs-function"><span class="hljs-params">v</span> =&gt;</span> <span class="hljs-variable language_">this</span>.$emit(<span class="hljs-string">&#x27;update:modelValue&#x27;</span>, v), <span class="hljs-comment">// 事件</span>
       <span class="hljs-string">&#x27;onClickCapture&#x27;</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">fn</span>,
       }, {
-         <span class="hljs-comment">//设置插槽 </span>
-        <span class="hljs-variable language_">this</span>.<span class="hljs-property">$slots</span>.<span class="hljs-title function_">default</span>(), 
-        <span class="hljs-comment">// 具名插槽 </span>
+         <span class="hljs-comment">//设置插槽</span>
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">$slots</span>.<span class="hljs-title function_">default</span>(),
+        <span class="hljs-comment">// 具名插槽</span>
         <span class="hljs-variable language_">this</span>.<span class="hljs-property">$slots</span>.<span class="hljs-title function_">slotName</span>({<span class="hljs-attr">k</span>: v}),
         <span class="hljs-comment">// 作用域插槽</span>
-        <span class="hljs-attr">slotName</span>: <span class="hljs-function">(<span class="hljs-params">props</span>) =&gt;</span> <span class="hljs-title function_">h</span>(...) 
-    }) 
-  } 
-  <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>) { 
-    <span class="hljs-keyword">let</span> pin =<span class="hljs-title function_">resolveDirective</span>(<span class="hljs-string">&#x27;pin&#x27;</span>) 
+        <span class="hljs-attr">slotName</span>: <span class="hljs-function">(<span class="hljs-params">props</span>) =&gt;</span> <span class="hljs-title function_">h</span>(...)
+    })
+  }
+  <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">let</span> pin =<span class="hljs-title function_">resolveDirective</span>(<span class="hljs-string">&#x27;pin&#x27;</span>)
     <span class="hljs-keyword">return</span> <span class="hljs-title function_">withDirectives</span>(<span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;div&#x27;</span>, [
-      [pin, <span class="hljs-number">200</span>, <span class="hljs-string">&#x27;top&#x27;</span>, {<span class="hljs-attr">animate</span>: <span class="hljs-literal">true</span>}] 
+      [pin, <span class="hljs-number">200</span>, <span class="hljs-string">&#x27;top&#x27;</span>, {<span class="hljs-attr">animate</span>: <span class="hljs-literal">true</span>}]
     ]))
-  } 
+  }
 })
 </code></pre>
 <h2 id="jsx">jsx</h2>
-<p>使用jsx写法时需要<code>@vue/babel-plugin-jsx</code>插件。</p>
+<p>使用 jsx 写法时需要<code>@vue/babel-plugin-jsx</code>插件。</p>
 <pre><code class="language-js"><span class="hljs-comment">// babel.config.js</span>
 <span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = {
-  <span class="hljs-attr">presets</span>: [
-    <span class="hljs-string">&#x27;@vue/cli-plugin-babel/preset&#x27;</span>
-  ],
-  <span class="hljs-attr">plugins</span>: [<span class="hljs-string">&#x27;@vue/babel-plugin-jsx&#x27;</span>]
+  <span class="hljs-attr">presets</span>: [<span class="hljs-string">&#x27;@vue/cli-plugin-babel/preset&#x27;</span>],
+  <span class="hljs-attr">plugins</span>: [<span class="hljs-string">&#x27;@vue/babel-plugin-jsx&#x27;</span>],
 }
 </code></pre>
 <pre><code class="language-js"><span class="hljs-keyword">import</span> <span class="hljs-title class_">CompName</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./CompName.vue&#x27;</span>
 <span class="hljs-keyword">const</span> app = <span class="hljs-title function_">createApp</span>({
   <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-keyword">return</span> (
-      <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">CompName</span>&gt;</span>
-        ...
-      <span class="hljs-tag">&lt;/<span class="hljs-name">CompName</span>&gt;</span></span>
-    )
-  } 
+    <span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">CompName</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">CompName</span>&gt;</span></span>
+  },
 })
 app.<span class="hljs-title function_">mount</span>(<span class="hljs-string">&#x27;#root&#x27;</span>)
 </code></pre>
@@ -593,6 +587,22 @@ app.<span class="hljs-title function_">mount</span>(<span class="hljs-string">&#
 <li><a href="">title</a></li>
 <li><a href="">title</a></li>
 <li><a href="">title</a></li>
+</ul>
+<h2 id="缺点">缺点</h2>
+<ul>
+<li>编写方式不统一
+<ul>
+<li>template / render/h / jsx/tsx</li>
+</ul>
+</li>
+<li>api 不统一
+<ul>
+<li>composition api</li>
+<li>options api (为兼容 vue2,可以不算它)</li>
+<li>setup 语法糖（一点都不甜）</li>
+</ul>
+</li>
+<li>抢占社区工作。好多东西应该由社区贡献，非要“官方出品”。</li>
 </ul>
 <h2 id="todo">todo</h2>
 <blockquote>

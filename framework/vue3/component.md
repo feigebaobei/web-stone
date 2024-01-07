@@ -617,7 +617,7 @@ count.value++
 
 ### Transition
 
-- **只是过滤，不是动画。**
+- **它是过滤，不是动画。**
 - 可以为过滤期设置动画。
 - 设置一个元素进入、离开 dom 时的动画。
 
@@ -788,7 +788,7 @@ count.value++
 
 vue 团队非要搞“语法糖”，结果搞乱了。
 
-### title
+## [class 不生效](/confuse/vue3Class.html)
 
 ### title
 
