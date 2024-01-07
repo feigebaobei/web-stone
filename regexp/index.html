@@ -56,6 +56,110 @@ pattern 包括普通字符（eg:a-z。包括可打印字符、不可打印字符
 <pre><code>let reg0 = new RegExp('\\d{5}', 'g') // 正则表达式中有\时需要替换成\\  多用于动态创建正则表达式。
 let reg1 = /\d{5}/g
 </code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>new RegExp</th>
+<th>字面量</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>demo</td>
+<td><code>new RegExp('^\\d{3}', 'g')</code></td>
+<td><code>let reg = /^\d{3}/g</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>可以使用变量</td>
+<td>不可以</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>\</code>需要转义，即：<code>\\</code></td>
+<td>不需要</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="modifier">modifier</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>i</td>
+<td>不区分大小写</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>g</td>
+<td>在全局范围内匹配</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>m</td>
+<td>多行模式</td>
+<td>会影响<code>^$</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>s</td>
+<td>启用'dotall'模式。</td>
+<td>允许<code>.</code>匹配<code>\n</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>u</td>
+<td>支持完整的unicode。</td>
+<td>能够正确处理代理以</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>y</td>
+<td>粘滞sticky模式</td>
+<td>在文本中确切位置搜索</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h3 id="属性">属性</h3>
 <table>
 <thead>
@@ -90,6 +194,36 @@ let reg1 = /\d{5}/g
 <td>读写</td>
 <td>若设置了 g.这个属性存储整个字符串中下一次检索的开始位置。</td>
 <td>reg.lastIndex reg.lastIndex = 3</td>
+</tr>
+<tr>
+<td>RegExp.dotall</td>
+<td>-</td>
+<td>是否多行检索</td>
+<td></td>
+</tr>
+<tr>
+<td>RegExp.hasIndices</td>
+<td>-</td>
+<td>不会</td>
+<td></td>
+</tr>
+<tr>
+<td>RegExp.flags</td>
+<td>-</td>
+<td>返回修饰符</td>
+<td></td>
+</tr>
+<tr>
+<td>RegExp.source</td>
+<td>-</td>
+<td>不会</td>
+<td></td>
+</tr>
+<tr>
+<td>RegExp.sticky</td>
+<td>-</td>
+<td>不会</td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -157,7 +291,7 @@ string.match(/*/</span>)  <span class="hljs-comment">// 非全局检索时返回
 </thead>
 <tbody>
 <tr>
-<td>$1, $2, $3, ...</td>
+<td>$1, $2, $3, ..., $9</td>
 <td>引用匹配到的第 n 个子串。</td>
 <td></td>
 <td></td>
@@ -207,15 +341,15 @@ string.match(/*/</span>)  <span class="hljs-comment">// 非全局检索时返回
 <details>
   <summary>匹配符</summary>
   <code>
-|字符|描述|  
-|-|-|  
-|\w|匹配字母或数字或下划线或汉字，等价于[a-zA-Z0-9_]|  
-|\W|匹配不是ASCII字符组成的单词，等价于[^a-zA-Z0-9_]|  
-|\s|匹配任意的Unicode空白符|  
-|\S|匹配非任意的Unicode空白符|  
-|\d|数字[0-9]|  
-|.|非换行符(\n)外的任意字符|  
-|[\b]|退格直接量（特例）|  
+|字符|描述|-|
+|-|-|-|
+|\w|匹配字母或数字或下划线或汉字，等价于[a-zA-Z0-9_]||
+|\W|匹配不是ASCII字符组成的单词，等价于[^a-zA-Z0-9_]||
+|\s|匹配任意的Unicode空白符||
+|\S|匹配非任意的Unicode空白符||
+|\d|数字[0-9]||
+|.|非换行符(\n)外的任意字符|修饰符s分影响它匹配`\n`|
+|[\b]|退格直接量（特例）||
   </code>
 </details>
 <details>
@@ -297,8 +431,8 @@ string.match(/*/</span>)  <span class="hljs-comment">// 非全局检索时返回
 |-|-|
 |^|开头位置|
 |$|结尾位置|
-|\b|匹配一个字边界，即字与空格间的位置|
-|\B|非字边界|
+|\b|匹配一个单词边界，即单词与空格间的位置|
+|\B|非单词边界|
     </code>
 </details>
 <details>
@@ -324,26 +458,93 @@ string.match(/*/</span>)  <span class="hljs-comment">// 非全局检索时返回
     </code>
 </details>
 <h2 id="贪婪匹配">贪婪匹配</h2>
-<p>尽可能多的匹配内容。<code>.*</code><br>
-使用<code>*</code>匹配。</p>
-<h2 id="惰性匹配">惰性匹配</h2>
-<p>尽可能少的匹配内容。<code>.*?</code><br>
-在量词后面加<code>?</code>。</p>
+<p>尽可能多的匹配内容。如：<code>.*</code><br>
+使用<code>*</code>匹配。
+默认贪婪</p>
+<h2 id="惰性匹配非贪婪匹配">惰性匹配（非贪婪匹配）</h2>
+<p>从头开始最早匹配的。（不是尽可能少的匹配内容。）如：<code>.*?</code><br>
+在量词后面加<code>?</code>。
+一旦发现匹配符合要求，立马就匹配成功，而不会继续匹配下去(除非有g，开启下一组匹配)</p>
 <pre><code>{m, n}?
 {m,}?
 +?
 ??
 *?
 </code></pre>
-<h2 id="选择分组引用">选择、分组、引用</h2>
+<h2 id="回溯">回溯</h2>
+<p>正则会从头开始匹配。若匹配成功部分文本，则定义为正则取得这部分文本的控制权。回溯是把已经取得控制权的文本交出去。它是浪费性能的。回溯越少，性能越高。</p>
+<h2 id="选择分组引用环视缓存子表达式">选择、分组、引用、环视、缓存（子表达式）</h2>
 <pre><code>/a|ab/ // 只匹配a。因为选择项的匹配匹配次序是从左到右。
 ()     // 表示捕获分组。匹配会被缓存起来。使用n访问缓存。
 (?:  ) // 仅用于分组，不用到子表达式引用。
 (?=  ) // 仅用于分组，不用到子表达式引用。正向先行断言
 (?!  ) // 仅用于分组，不用到子表达式引用。负向先行断言
-\1 // 第一个缓存的匹配内容
-\2 // 第二个缓存的匹配内容
+\1 // 第一个缓存的匹配内容，即第一个子表达式。
+\2 // 第二个缓存的匹配内容，即第一个子表达式。
 </code></pre>
+<h3 id="分组">分组</h3>
+<p>当正则表达式中有分组且分组的名字时，匹配成功时，groups为对象。</p>
+<pre><code class="language-js"><span class="hljs-comment">// demo</span>
+<span class="hljs-keyword">var</span> s = <span class="hljs-string">&#x27;abc123&#x27;</span>
+<span class="hljs-keyword">var</span> reg = <span class="hljs-regexp">/(?&lt;k&gt;\d+)/</span>
+reg.<span class="hljs-title function_">exec</span>(s) <span class="hljs-comment">// [&#x27;123&#x27;, &#x27;123&#x27;, index: 3, input: &#x27;abc123&#x27;, groups: {k: &#x27;123&#x27;}]</span>
+</code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th>demo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>`</td>
+<td>`</td>
+<td>左右为或的关系</td>
+</tr>
+<tr>
+<td><code>(。。。)</code></td>
+<td>分组</td>
+<td><code>/(a)/</code></td>
+</tr>
+<tr>
+<td><code>(?&lt;name&gt;)</code></td>
+<td>命名的分组</td>
+<td><code>/(?&lt;id&gt;\d)/</code></td>
+</tr>
+<tr>
+<td><code>(?&lt;p=name&gt;)</code></td>
+<td>引用命名的分组</td>
+<td><code>/(?&lt;id&gt;\d)abc(?p=id)/</code></td>
+</tr>
+<tr>
+<td><code>/(?#)/</code></td>
+<td>不会。好像是注解。</td>
+<td></td>
+</tr>
+<tr>
+<td><code>(?:)</code></td>
+<td>不记入分组</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <p><strong><code>?=</code>和<code>?:</code>的区别</strong></p>
 <table>
 <thead>
@@ -372,6 +573,8 @@ string.match(/*/</span>)  <span class="hljs-comment">// 非全局检索时返回
 <code>(?&lt;!exp2)exp1</code> 查找前面不是 exp2 的 exp1</p>
 <p>使用分组时组的内容必须一样。（不可以匹配相同的正则就使用分组）<br>
 分组是匹配相同内容，不是相同正则。</p>
+<h2 id="">[]</h2>
+<p><code>[]</code>内的不需要转义</p>
 <h2 id="优先级">优先级</h2>
 <p>|                          |     |     |
 | ------------------------ | --- | --- | --- |
@@ -380,6 +583,101 @@ string.match(/*/</span>)  <span class="hljs-comment">// 非全局检索时返回
 | <code>*,+,?,{n},{n,},{n,m}</code>   |     |     |
 | <code>^,$,\任何字符,任何字符</code> |     |     |
 | <code>                       |</code>   |     |     |</p>
+<h2 id="match--exec">match &amp; exec</h2>
+<table>
+<thead>
+<tr>
+<th>条件</th>
+<th>match的结果</th>
+<th>exec的结果</th>
+<th>j是否相同</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>字符串的方法</td>
+<td>正则表达式的方法</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>无子表达式+无全局匹配</td>
+<td><code>[subString, index: N, input: S, groups: undefined]</code></td>
+<td><code>[subString, index: N, input: S, groups: undefined]</code></td>
+<td>相同</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>有子表达式+无全局匹配</td>
+<td><code>[正则表达式的匹配文本, ...各子表达式的匹配文本, index: N, input: S, groups: undefined]</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>无子表达式+全局匹配</td>
+<td><code>[...所有正则表达式的匹配文本]</code></td>
+<td><code>[第一个匹配结果, index: N, input: S, group: undefined]</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>有子表达式+全局匹配</td>
+<td>同上</td>
+<td>同上</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>-</td>
+<td>适用于循环匹配</td>
+<td></td>
+<td><code>while (result = reg.exec(s)) {...}</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="不再提倡使用的">不再提倡使用的</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>功能</th>
+<th>替代品</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>RegExp.leftContext</code></td>
+<td>匹配的子串的左侧文本。</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="性能">性能</h2>
+<ul>
+<li>减小回溯</li>
+<li>粘性模式。</li>
+</ul>
 <h2 id="积累">积累</h2>
 <p><strong>匹配时间</strong></p>
 <pre><code>23:49
@@ -401,6 +699,26 @@ string =&gt; date
 
 // 数字格式化 1,123,000
 &quot;1234567890&quot;.replace(/\B(?=(?:\d{3})+(?!\d))/g,&quot;,&quot;) // 结果：1,234,567,890，匹配的是后面是3*n个数字的非单词边界(\B)
+</code></pre>
+<p>懒惰匹配，也就是匹配尽可能少的字符。在能使整个匹配成功的前提下使用最少的重复，只要在它后面加上一个问号?即可。现在看看懒惰版的例子吧：
+a.*?b匹配最短的，以a开始，以b结束的字符串。如果把它应用于aabab的话，它会匹配aab（第一到第三个字符）和ab（第四到第五个字符）
+为什么第一个匹配是aab（第一到第三个字符）而不是ab（第二到第三个字符）？简单地说，因为正则表达式有一条比懒惰／贪婪规则优先级更高的规则，就是：最先开始的匹配拥有最高的优先权
+一旦发现匹配符合要求，立马就匹配成功
+<code>[]</code>内的不转义</p>
+<h2 id="判断2个正则是否相等">判断2个正则是否相等</h2>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">r1, r2</span>) =&gt; {
+    <span class="hljs-keyword">if</span> (r1.<span class="hljs-property">source</span> === r2.<span class="hljs-property">source</span>) {
+        <span class="hljs-keyword">let</span> a1 = r1.<span class="hljs-property">flags</span>
+        <span class="hljs-keyword">let</span> a2 = r2.<span class="hljs-property">flags</span>
+        <span class="hljs-keyword">if</span> (a1.<span class="hljs-property">length</span> === a2.<span class="hljs-property">length</span>) {
+            <span class="hljs-keyword">return</span> a1.<span class="hljs-title function_">every</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> s2.<span class="hljs-title function_">includes</span>(item))
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>
+        }
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>
+    }
+}
 </code></pre>
 
         <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>

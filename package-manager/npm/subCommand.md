@@ -190,8 +190,8 @@ npm uninstall --global package-name
 # ls
 
 ```shell
-npm ls --global package-name
-# 是否全局安装指定包
+npm ls --global # 查看全局安装的包
+npm ls --global package-name # 是否全局安装指定包
 ```
 
 # title

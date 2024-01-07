@@ -39,3 +39,14 @@ HTMLElement.offsetLeft: 只读，返回一个 double 值，即从此元素的左
 |      | click()                       | 向元素发送鼠标单击事件。                                                                                                            |     |     |
 |      | HTMLOrForeignElement.focus()  | 使元素成为当前键盘焦点。                                                                                                            |     |     |
 |      | forceSpellCheck()             | 对元素的内容运行拼写检查程序。                                                                                                      |     |     |
+
+## innerText & textContent
+
+| innerText      | textContent                  |     |     |
+| -------------- | ---------------------------- | --- | --- |
+| 可用于文本替换 | 可用于文本替换               |     |     |
+| 不会           | 会取得 script/style 中的内容 |     |     |
+| 不返回         | 会返回隐藏元素的文本         |     |     |
+| 会触发 reflow  | 不会                         |     |     |
+| ie 搞出来的    | ie8+和其他浏览器。           |     |     |
+| 非标准 api     | 标准 api                     |     |     |

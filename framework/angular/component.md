@@ -4,13 +4,14 @@
 - 组件是 ng 应用的单元块。无组件无法创建 ng 应用。
 - 编译组件、数据、逻辑
 - 代表一个视图区
-- 必须注册与模块的 decleration 才能使用。
+- 必须注册到模块的 decleration 才能使用。
 
 ## 创建组件
 
 ```shell
 ng g c path/to/comp
 ng generate component home # 不需要使用app开头。
+# 相对于<root>/src/app创建组件
 ```
 
 ## 装饰器
@@ -35,7 +36,7 @@ import { Component } from '@angular/core'
 
 ### selector
 
-为 gn 指定要渲染的内容。标签会存在于 html 中，如：`<app-hello-word>`
+为 ng 指定要渲染的内容。标签会存在于 html 中，如：`<app-hello-word>`
 
 ### ViewEncapsulation
 
@@ -65,8 +66,8 @@ import { Component } from '@angular/core'
 import { Input, Output, EventEmmiter } from '@angular/core'
 @Component({....})
 export default class A {
-    @Input k!: string // !表示必须传递
-    @Input
+    @Input() k!: string // !表示必须传递
+    @Input()
     set G(p: string) {
         this._p = p // 有个缓冲，可打断。
     }
@@ -85,7 +86,7 @@ export default class A {
 
 {/* 父组件 */}
 <child #child />
-<button (click)="child.fn">bt</button>
+<button (click)="child.fn()">bt</button>
 {/* 子组件 */}
 <button (click)="fn()">str</button>
 fn() {...}
@@ -220,13 +221,17 @@ string
 
 ## event
 
-```
+```html
 <!--  -->
 <button (click)="onEvent()">st</button>
 
 <!-- 绑定键盘事件 -->
 <input (keydown.shift.t)="onKeydown($event)" />
 <input (keydown.code.shiftleft.altleft.keyt)="onKeydown($event)" />
+
+<!-- 判断是否当前对象 -->
+onEvent($event) { if ($event.target.classList.includes('class-name')) { // ... }
+}
 ```
 
 ## 双向绑定 two-way binding

@@ -72,12 +72,15 @@ yarn add [package]@[tag]
 yarn add [package] --dev
 yarn add [package] --peer
 yarn global add [package]
-yarn up [package] # 更新指定的包
-yarn up [package]@[version] # 更新指定的包到指定版本
-yarn up [package]@[tag]
+yarn upgrade [package] # 更新指定的包
+yarn upgrade [package]@[version] # 更新指定的包到指定版本
+yarn upgrade [package]@[tag]
 yarn remove [package] # 移除依赖包
+yarn global remove [package] # 移除全局依赖包
 yarn set version latest # 更新yarn
 yarn set version from sources
+yarn global list # 查看全局安装的包
+yarn glabal bin # 查看全局安装的目录
 ```
 
 ## command
