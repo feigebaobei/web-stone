@@ -23,7 +23,7 @@
 - [计算属性](/confuse/getComputedStyle.html)
 - [从 html 中提取纯文本](/confuse/extractText.html)
 - [vue3 的 class 失效的解决方案](/confuse/vue3Class.html)
-- [title](/confuse/title.html)
+- [复制](/confuse/copy.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>&#x590d;&#x5236;</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="复制">复制</h1>
+<p>前端脚本复制。</p>
+<h2 id="推荐解决方案">推荐解决方案</h2>
+<pre><code class="language-js">navigator.<span class="hljs-property">clipboard</span>.<span class="hljs-title function_">writeText</span>(<span class="hljs-string">&#x27;str&#x27;</span>).<span class="hljs-title function_">then</span>(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;then&#x27;</span>)
+}).<span class="hljs-title function_">catch</span>(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;catch&#x27;</span>)
+}).<span class="hljs-title function_">finally</span>(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;finally&#x27;</span>)
+})
+</code></pre>
+<p><a href="/language/javascript/clipboard.html">Clipboard</a>
+<a href="">ClipboardData</a>
+<a href="">DataTransfer</a></p>
+<pre><code>navigator.clipboard.writeText()
+navigator.clipboard.readText()
+navigator.clipboard.write()
+navigator.clipboard.read()
+event.clipboardData.setData(format, data)
+event.clipboardData.getData(format)
+event.clipboardData.clearData()
+</code></pre>
+<h2 id="可选解决方案">可选解决方案</h2>
+<ul>
+<li>clipboard
+<ul>
+<li><a href="https://www.npmjs.com/package/clipboard">npm</a></li>
+<li><a href="https://clipboardjs.com/">官网</a></li>
+</ul>
+</li>
+<li><a href="https://www.npmjs.com/package/vue-clipboard2">vue-clipboard2</a></li>
+<li><a href="https://vueuse.org/core/useClipboard/">useClipboard</a></li>
+<li><a href="https://www.npmjs.com/package/v-clipboard">v-clipboard</a></li>
+</ul>
+<h2 id="反对解决方案">反对解决方案</h2>
+<ul>
+<li>document.execCommand('copy') // 'cut' / 'paste'
+<ul>
+<li>存在安全问题：可以修改浏览器设置、运行脚本，容易被恶意攻击。</li>
+<li>浏览器兼容问题：很多特性在不同浏览器操作不一致。</li>
+</ul>
+</li>
+<li></li>
+</ul>
+
+        
+        
+    </body>
+    </html>

@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>&#x6a21;&#x677f;</title>
+        <title>Clipboard</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -16,8 +16,7 @@
 }
 
 </style>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
-<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -41,21 +40,50 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="模板">模板</h1>
-<p>即<code>@Component()</code>的 template 的内容/templateUrl 对应的文件内容。</p>
-<pre><code class="language-js">{{ <span class="hljs-keyword">var</span> }}
-[attr]=<span class="hljs-string">&quot;var&quot;</span>
-bind-attr=<span class="hljs-string">&quot;var&quot;</span>
-(eventName)=<span class="hljs-string">&quot;eventHandler()&quot;</span>
-on-eventName=<span class="hljs-string">&quot;eventHandler()&quot;</span>
-bindon-ngModel=<span class="hljs-string">&quot;var&quot;</span>
+        <h1 id="clipboard">Clipboard</h1>
+<blockquote>
+<p>提供响应剪贴板命令<br>
+用来取代document.execCommand()</p>
+</blockquote>
+<pre><code>navigator.clipboard.writeText('str')
+navigator.clipboard.readText().then((str) =&gt; {
+    clog('then', str)
+})
 </code></pre>
-<h2 id="empower">empower</h2>
-<p>不能使用的标签<code>&lt;html&gt;``&lt;body&gt;``&lt;base&gt;</code></p>
-<h2 id="篡写">篡写</h2>
-<p><code>&lt;p&gt;{{$var}}&lt;/p&gt;</code></p>
+<h2 id="api">api</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>read() =&gt; Promise&lt;ClipboardItem&gt;</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>readText() =&gt; Promise&lt;DOMString&gt;</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>write() =&gt; Promise</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>writeText() =&gt; Promise</code></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 
-        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
         
     </body>
     </html>
