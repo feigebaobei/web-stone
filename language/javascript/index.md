@@ -1017,6 +1017,9 @@ dom.classList.toggle(s) // 若存在则删除，否不存在则添加。
   - BOM
     - [fetch](/language/javascript/fetch.html)
   - DOM
+- xxxxx
+  - [permission](/language/javascript/permission.html)
+  - [clipboard](/language/javascript/clipboard.html)
 
 # [模块化](/language/javascript/modularity.html)
 
