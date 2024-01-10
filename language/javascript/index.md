@@ -1020,6 +1020,8 @@ dom.classList.toggle(s) // 若存在则删除，否不存在则添加。
 - xxxxx
   - [permission](/language/javascript/permission.html)
   - [clipboard](/language/javascript/clipboard.html)
+  - [dataTransfer](/language/javascript/dataTransfer.html)
+  - [event](/language/javascript/event.html)
 
 # [模块化](/language/javascript/modularity.html)
 
