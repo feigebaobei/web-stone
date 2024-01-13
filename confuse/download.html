@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>&#x4e0b;&#x8f7d;</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="下载">下载</h1>
+<h2 id="windowopen"><code>window.open()</code></h2>
+<pre><code class="language-js"><span class="hljs-variable language_">window</span>.<span class="hljs-title function_">open</span>(<span class="hljs-string">&#x27;http://xxx.com/file&#x27;</span>, <span class="hljs-string">&#x27;_blank&#x27;</span>)
+</code></pre>
+<h2 id="a">a</h2>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> link = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&#x27;a&#x27;</span>)
+link.<span class="hljs-property">href</span> = <span class="hljs-string">&#x27;urlForFile&#x27;</span>
+link.<span class="hljs-property">download</span> = <span class="hljs-string">&#x27;filename.ext&#x27;</span> <span class="hljs-comment">// 文件的名称</span>
+link.<span class="hljs-title function_">click</span>()
+
+<span class="hljs-keyword">let</span> link = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&#x27;a&#x27;</span>)
+link.<span class="hljs-property">href</span> = <span class="hljs-string">&#x27;urlForFile&#x27;</span>
+link.<span class="hljs-property">download</span> = <span class="hljs-string">&#x27;filename.ext&#x27;</span> <span class="hljs-comment">// 文件的名称</span>
+docuement.<span class="hljs-property">body</span>.<span class="hljs-title function_">appendChild</span>(link)
+link.<span class="hljs-title function_">click</span>()
+docuement.<span class="hljs-property">body</span>.<span class="hljs-title function_">removeChild</span>(link)
+</code></pre>
+<h2 id="fetch--xhr">fetch / xhr</h2>
+<pre><code class="language-js"><span class="hljs-title function_">fetch</span>(<span class="hljs-string">&#x27;url&#x27;</span>)
+.<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> res.<span class="hljs-title function_">blob</span>()) <span class="hljs-comment">// 获取后端返回的文件流</span>
+.<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">blob</span> =&gt;</span> {
+    <span class="hljs-keyword">let</span> url = <span class="hljs-variable constant_">URL</span>.<span class="hljs-title function_">createObjectURL</span>(blob)
+    <span class="hljs-keyword">let</span> link = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&#x27;a&#x27;</span>)
+    link.<span class="hljs-property">href</span> = url
+    link.<span class="hljs-property">download</span> = <span class="hljs-string">&#x27;filename.ext&#x27;</span>
+    link.<span class="hljs-title function_">click</span>()
+})
+</code></pre>
+<h2 id="axios">axios</h2>
+<pre><code>import axios from 'axios'
+axios.get('url', {responseType: 'blob'}).then(res =&gt; {
+    let blob = new Blob([res.data])
+    let url = URL.createObjectURL(blob)
+    let link = document.createElement('a')
+    link.href = url
+    link.download = 'filename.ext'
+    link.click()
+})
+</code></pre>
+<h2 id="file-saverjs">file-saver.js</h2>
+<pre><code>import { saveAs } from 'file-saver'
+fetch('url')
+.then(res =&gt; res.blob())
+.then(blob =&gt; {
+    saveAs(blob, 'filename.ext')
+})
+</code></pre>
+<h2 id="iframe">iframe</h2>
+<p>let iframe = document.createElement('iframe')
+iframe.style.display = 'none'
+iframe.src = 'url'
+document.body.appendChild(iframe)</p>
+<h2 id="title">title</h2>
+<h2 id="title-1">title</h2>
+<h2 id="title-2">title</h2>
+<h2 id="title-3">title</h2>
+
+        
+        
+    </body>
+    </html>

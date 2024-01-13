@@ -25,7 +25,7 @@
 - [vue3 的 class 失效的解决方案](/confuse/vue3Class.html)
 - [复制](/confuse/copy.html)
 - [编辑](/confuse/edit.html)
-- [title](/confuse/title.html)
+- [下载](/confuse/download.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
