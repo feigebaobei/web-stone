@@ -14,6 +14,53 @@ ng generate component home # 不需要使用app开头。
 # 相对于<root>/src/app创建组件
 ```
 
+## demo
+
+### 定义一个最小的组件
+
+```js
+import { Component } from '@angular/core'
+@Component({
+  selector: 'app-hello-world',
+  template: `<h2>title</h2>
+    <p>string</p>`,
+})
+export class HelloWorldComponent {
+  // ...
+}
+```
+
+### usage
+
+```html
+<app-hello-world></app-hello-world>
+```
+
+### angular 的渲染结果
+
+```html
+<app-hello-world>
+  <h2>title</h2>
+  <p>string</p>
+</app-hello-world>
+```
+
+## 属性&事件
+
+```html
+<button type="button" [disabled]="canClick" (click)="sayMessage()">
+  Trigger alert message
+</button>
+```
+
+### 属性
+
+`[key]="value"`
+
+### 事件
+
+`(eventName)="fn"`
+
 ## 装饰器
 
 ```js
@@ -67,6 +114,7 @@ import { Input, Output, EventEmmiter } from '@angular/core'
 @Component({....})
 export default class A {
     @Input() k!: string // !表示必须传递
+    @Input() B: T[] = []
     @Input()
     set G(p: string) {
         this._p = p // 有个缓冲，可打断。
@@ -82,7 +130,7 @@ export default class A {
     }
 }
 // 在父组件中使用子组件
-<app-a (childEmmitter)="fn" [k]="kVar" [G]="GVar"></app-a>
+<app-a (childEmmitter)="fn()" [k]="kVar" [G]="GVar"></app-a>
 
 {/* 父组件 */}
 <child #child />
