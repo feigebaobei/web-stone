@@ -16,7 +16,8 @@
 }
 
 </style>
-        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -72,9 +73,9 @@ eventInit {
   <span class="hljs-attr">deepPath</span>: boolean <span class="hljs-comment">// 一个由事件流所经过的 DOM 节点组成的数组。</span>
   <span class="hljs-attr">defaultPrevented</span>: boolean <span class="hljs-comment">// 是否取消了事件的默认行为</span>
   <span class="hljs-comment">// 事件流正被处理到了哪个阶段。</span>
-  <span class="hljs-attr">eventPhase</span>: <span class="hljs-comment">// 事件的明确（explicit）原始目标（Mozilla 专有属性）。</span>
-  <span class="hljs-attr">explicitOriginalTarget</span>: <span class="hljs-comment">// 重设目标前的事件原始目标（Mozilla 专有属性）。</span>
-  <span class="hljs-attr">originalTarget</span>: <span class="hljs-attr">returnValue</span>: <span class="hljs-attr">srcElement</span>: <span class="hljs-attr">target</span>: <span class="hljs-attr">timeStamp</span>: ms
+  <span class="hljs-comment">// 事件的明确（explicit）原始目标（Mozilla 专有属性）。</span>
+  <span class="hljs-attr">eventPhase</span>: <span class="hljs-comment">// 重设目标前的事件原始目标（Mozilla 专有属性）。</span>
+  <span class="hljs-attr">explicitOriginalTarget</span>: <span class="hljs-attr">originalTarget</span>: <span class="hljs-attr">returnValue</span>: <span class="hljs-attr">srcElement</span>: <span class="hljs-attr">target</span>: <span class="hljs-attr">timeStamp</span>: ms
   <span class="hljs-attr">type</span>: 事件的类型
   <span class="hljs-attr">isTrusted</span>: 是否由浏览器发起
   <span class="hljs-title function_">createEvent</span>()
@@ -243,14 +244,14 @@ eventInit {
 <thead>
 <tr>
 <th></th>
-<th>以onclick为例</th>
+<th>以 onclick 为例</th>
 <th>addEventListener</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td></td>
-<td>由click事件触发</td>
+<td>由 click 事件触发</td>
 <td>由指定事件触发</td>
 </tr>
 <tr>
@@ -336,8 +337,78 @@ options 定义在 ExtendableEvent 对象上的自定义属性。</p>
 </tr>
 </tbody>
 </table>
+<h1 id="书写形式">书写形式</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>demo</th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>html</td>
+<td><code>&lt;button onclick=&quot;clickH(...p)&quot;&gt;str&lt;/button&gt;</code></td>
+<td>onclick全是小写，因html是不区分大小写的语言。</td>
+<td>其值写<code>()</code></td>
+<td></td>
+</tr>
+<tr>
+<td>js</td>
+<td><code>dom.onclick=clickH(...p)</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>js</td>
+<td><code>dom.addEventListener('click', clickH, false)</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>jq</td>
+<td><code>${'#bt'}.click(() =&gt; {...})</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>vue</td>
+<td><code>&lt;button @click=&quot;clickH(...p)&quot;&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>vue</td>
+<td><code>h('button', {onClick: clickH})</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>react</td>
+<td><code>&lt;button onClick={btClickHandler}&gt; string &lt;/button&gt;</code></td>
+<td>驼峰命名法</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>angular</td>
+<td><code>&lt;button (click)=&quot;clickH(...p)&quot;&gt;str&lt;/button&gt;</code></td>
+<td></td>
+<td></td>
+<td>angular的写法与html的写法很接近。</td>
+</tr>
+</tbody>
+</table>
 
-        
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         
     </body>
     </html>

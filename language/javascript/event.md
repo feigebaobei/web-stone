@@ -38,8 +38,8 @@ Event: {
   defaultPrevented: boolean // 是否取消了事件的默认行为
   // 事件流正被处理到了哪个阶段。
   // 事件的明确（explicit）原始目标（Mozilla 专有属性）。
-  eventPhase: // 重设目标前的事件原始目标（Mozilla 专有属性）。
-  explicitOriginalTarget: originalTarget: returnValue: srcElement: target: timeStamp: ms
+  // 重设目标前的事件原始目标（Mozilla 专有属性）。
+  eventPhase: explicitOriginalTarget: originalTarget: returnValue: srcElement: target: timeStamp: ms
   type: 事件的类型
   isTrusted: 是否由浏览器发起
   createEvent()
@@ -177,3 +177,16 @@ options 定义在 ExtendableEvent 对象上的自定义属性。
 |      |                          |          |                 |            |     |
 |      |                          |          |                 |            |     |
 |      |                          |          |                 |            |     |
+
+# 书写形式
+
+|         | demo                                                 |                                                  |            |                                      |
+| ------- | ---------------------------------------------------- | ------------------------------------------------ | ---------- | ------------------------------------ |
+| html    | `<button onclick="clickH(...p)">str</button>`        | onclick 全是小写，因 html 是不区分大小写的语言。 | 其值写`()` |                                      |
+| js      | `dom.onclick=clickH(...p)`                           |                                                  |            |                                      |
+| js      | `dom.addEventListener('click', clickH, false)`       |                                                  |            |                                      |
+| jq      | `${'#bt'}.click(() => {...})`                        |                                                  |            |                                      |
+| vue     | `<button @click="clickH(...p)">`                     |                                                  |            |                                      |
+| vue     | `h('button', {onClick: clickH})`                     |                                                  |            |                                      |
+| react   | `<button onClick={btClickHandler}> string </button>` | 驼峰命名法                                       |            |                                      |
+| angular | `<button (click)="clickH(...p)">str</button>`        |                                                  |            | angular 的写法与 html 的写法很接近。 |
