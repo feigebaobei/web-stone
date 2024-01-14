@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>&#x64cd;&#x4f5c;dom</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="操作dom">操作dom</h1>
+<pre><code class="language-js"><span class="hljs-comment">// 创建</span>
+<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&#x27;tag&#x27;</span>)
+<span class="hljs-comment">// 查</span>
+<span class="hljs-comment">// 节点的访问关系都是属性。而节点的操作都是函数（方法）。</span>
+<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(p)
+<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(id)
+<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementByClassName</span>(className)
+<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementByTagName</span>(tagName) <span class="hljs-comment">// eg h1</span>
+dom.<span class="hljs-property">parentElement</span> <span class="hljs-comment">// 获取父节点</span>
+dom.<span class="hljs-property">children</span>[index] <span class="hljs-comment">// 获取指定下标的子节点</span>
+dom.<span class="hljs-property">childNodes</span> <span class="hljs-comment">// 包括纯文本等节点</span>
+dom.<span class="hljs-property">firstElementChild</span>
+dom.<span class="hljs-property">lastElementChild</span>
+dom.<span class="hljs-property">nextElementSibling</span> <span class="hljs-comment">// 获取下一个兄弟节点</span>
+dom.<span class="hljs-property">previousElementSibling</span> <span class="hljs-comment">// 获取上一个兄弟节点</span>
+formFieldDom.<span class="hljs-property">value</span>
+<span class="hljs-comment">// 改</span>
+dom.<span class="hljs-property">innerText</span> = <span class="hljs-string">&#x27;sss&#x27;</span>
+dom.<span class="hljs-property">innerHTML</span> = <span class="hljs-string">&#x27;html代码&#x27;</span> <span class="hljs-comment">// 会覆盖</span>
+dom.<span class="hljs-property">style</span>[cssKey] = <span class="hljs-string">&#x27;value&#x27;</span>
+dom.<span class="hljs-title function_">setAttribute</span>(key, value) <span class="hljs-comment">// 如input设置了disable属性后，与其值无关，都是不可使用</span>
+dom.<span class="hljs-title function_">getAttribute</span>(key) <span class="hljs-comment">// 取属性。 dom.getAttribute(&#x27;data-key&#x27;)</span>
+dom[attrKey] = value
+<span class="hljs-comment">// 删</span>
+dom.<span class="hljs-title function_">removeChild</span>(childDom)
+dom.<span class="hljs-title function_">removeAttribute</span>(key)
+<span class="hljs-comment">// 增</span>
+dom.<span class="hljs-title function_">appendChild</span>(childDom)
+dom.<span class="hljs-title function_">insertBefore</span>(newDom, matterDom)
+<span class="hljs-comment">// 复制</span>
+dom.<span class="hljs-title function_">cloneNode</span>(bool <span class="hljs-comment">/*是否复制其子节点*/</span>)
+<span class="hljs-comment">// 替换</span>
+dom.<span class="hljs-title function_">replaceChild</span>(newDom, oldDom)
+<span class="hljs-comment">// class</span>
+dom.<span class="hljs-property">classList</span>.<span class="hljs-title function_">remove</span>(s)
+dom.<span class="hljs-property">classList</span>.<span class="hljs-title function_">add</span>(s)
+dom.<span class="hljs-property">classList</span>.<span class="hljs-title function_">contain</span>(s)
+dom.<span class="hljs-property">classList</span>.<span class="hljs-title function_">toggle</span>(s) <span class="hljs-comment">// 若存在则删除，否不存在则添加。</span>
+</code></pre>
+<h2 id="innerhtml--innertext--outerhtml--outertext">innerHTML &amp; innerText &amp; outerHTML &amp; outerText</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>innerHTML</th>
+<th>innerText</th>
+<th>outerHTML</th>
+<th>outerText</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>返回string</td>
+<td>取得此dom内的html</td>
+<td>取得此dom内的文本</td>
+<td>取得此dom的html</td>
+<td>取得此dom的文本。与innerText返回值相同。</td>
+</tr>
+</tbody>
+</table>
+
+        
+        
+    </body>
+    </html>

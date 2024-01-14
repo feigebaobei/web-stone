@@ -180,7 +180,7 @@ let uploadFile = (filePath) => {
 }
 
 // 上传多个文件
-// 待测试
+// 测试完成
 // 目前只能上传目录已存在的。
 let uploadFiles = (fileArr) => {
   // let dirArr = new Set()
@@ -250,17 +250,12 @@ c.on('ready', () => {
       throw err
     }
 
-    // let p = 'framework/vue2'
+    // let p = 'confuse/image',
     let p = [
-      // 'index.html',
-      // 'test.html',
-      // 'util/index.html',
-      // 'db/mongodb/index.html',
-      'db/mongodb/node_mongodb.html',
-      // 'framework/angular/decorator.html',
-      // 'framework/angular/usage/index.html',
-      // 'framework/angular/index.html',
-      // 'framework/angular/family/angularCommon.html',
+      // 'confuse/edit.html',
+      // 'confuse/download.html',
+      // 'confuse/index.html',
+      // 'language/javascript/index.html',
     ]
     // 检测指定目录是否存在
     // checkDir(p)
