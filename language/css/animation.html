@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>css3&#x52a8;&#x753b;</title>
+        <title>css3 &#x52a8;&#x753b;</title>
         <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -41,15 +41,15 @@
         
     </head>
     <body class="vscode-body vscode-light">
-        <h1 id="css3动画">css3动画</h1>
+        <h1 id="css3-动画">css3 动画</h1>
 <h2 id="animation">animation</h2>
-<p>使用css3动画需要2步</p>
+<p>使用 css3 动画需要 2 步</p>
 <ol>
 <li>为指定元素添加<code>animation</code>属性及属性值。各浏览器私有属性在前，通用属性在最后。</li>
 <li>使用<code>@keyframes</code>定义动画过程名称。各浏览器私有属性在前，通用属性在最后。</li>
 </ol>
-<p>animation定义动画的属性值。<br>
-@keyframes规则内指定一个CSS样式和动画将逐步从目前的样式更改为新的样式。</p>
+<p>animation 定义动画的属性值。<br>
+@keyframes 规则内指定一个 CSS 样式和动画将逐步从目前的样式更改为新的样式。</p>
 <pre><code>div
 {
     -webkit-animation: myfirst 5s; /* Safari Chrome opera */
@@ -57,7 +57,7 @@
     -moz-animation: myfirst 5s; /* ff */
     animation: myfirst 5s;
 }
- 
+
 @-webkit-keyframes myfirst /* Safari Chrome opera */
 {
     0%   {background: red;}
@@ -90,36 +90,36 @@
 <p><strong>功能</strong></p>
 <ul>
 <li>可以改变任意多的样式，任意多的次数。</li>
-<li>使用<code>from</code>,<code>to</code>等同于0%，100%</li>
-<li>最好使用0% 100%（对浏览器好）</li>
+<li>使用<code>from</code>,<code>to</code>等同于 0%，100%</li>
+<li>最好使用 0% 100%（对浏览器好）</li>
 </ul>
 <p><strong>属性</strong></p>
 <ul>
 <li>@keyframes 规定动画</li>
 <li>animation 简写属性 name duration timing-function delay iteration-count direction fill-mode play-state</li>
-<li>animation-name 规定@keyframes的名称</li>
-<li>animation-duration 一次动画需要花费的时间，单位是s/ms.默认为0.</li>
-<li>animation-timing-function 动画的速度曲线 linear|ease|ease-in|ease-out|cubic-bezier 默认为ease</li>
-<li>animation-delay 延迟时间。默认为0</li>
-<li>animation-iteration-count 动画重复播放的次数。 n|infinite 默认为1.</li>
+<li>animation-name 规定@keyframes 的名称</li>
+<li>animation-duration 一次动画需要花费的时间，单位是 s/ms.默认为 0.</li>
+<li>animation-timing-function 动画的速度曲线 linear|ease|ease-in|ease-out|cubic-bezier 默认为 ease</li>
+<li>animation-delay 延迟时间。默认为 0</li>
+<li>animation-iteration-count 动画重复播放的次数。 n|infinite 默认为 1.</li>
 <li>animation-direction 定义动画在下一周期是否逆向播放 normal|reverse|alternate|alternate-reverse|initial|inherit</li>
 <li>animation-fill-mode 动画不播放时的样式（动画结束时的状态） none|forwards|backwards|both</li>
 <li>animation-play-state 定义动画是否运行或停止 paused|runing</li>
-<li>今天发现一个新属性<code>steps()</code>。还不知道它的明确属性是什么。知道animation的缩写中如何使用它：<code>animation: &lt;animationName&gt; &lt;duration&gt; steps(time | fn)</code></li>
+<li>今天发现一个新属性<code>steps()</code>。还不知道它的明确属性是什么。知道 animation 的缩写中如何使用它：<code>animation: &lt;animationName&gt; &lt;duration&gt; steps(time | fn)</code></li>
 </ul>
-<p><img src="/Users/cat/Documents/code/personal/web-stone/language/css/image/animation.png" alt=""></p>
+<p><img src="file:////Users/cat/Documents/code/personal/web-stone/language/css/image/animation.png" alt=""></p>
 <h2 id="transition">transition</h2>
 <ol>
 <li>
-<p>ie9及以下不支持。</p>
+<p>ie9 及以下不支持。</p>
 </li>
 <li>
 <p>各浏览器私有属性在前，通用属性在最后。</p>
 <p>// css
 div {
--webkit-transition: width 2s; /* safari chrome <em>/
+-webkit-transition: width 2s; /_ safari chrome <em>/
 -moz-transition: width 2s; /</em> ff <em>/
--o-transition: width 2s; /</em> opera */
+-o-transition: width 2s; /</em> opera _/
 transition: width 2s;
 width: 200px;
 height: 200px;
@@ -128,11 +128,11 @@ height: 200px;
 width: 300px;
 }
 // html</p>
- <div></div>
- // js
- $('div').on('click', function () {
- 	$('div').addClass('w')
- })
+<div></div>
+// js
+$('div').on('click', function () {
+	$('div').addClass('w')
+})
 </li>
 </ol>
 <p><strong>功能</strong></p>
@@ -141,7 +141,7 @@ width: 300px;
 </ul>
 <p><strong>属性</strong></p>
 <ul>
-<li>transition-property 设置过渡动画的css属性名称。 none | all | property,property1,property2</li>
+<li>transition-property 设置过渡动画的 css 属性名称。 none | all | property,property1,property2</li>
 <li>transition-duration 完成过渡动画的时长。 time</li>
 <li>transition-time-function 过渡动画的速度曲线。linear | ease | ease-in | ease-out | ease-in-out | cublic-bezier(n,n,n,n)</li>
 <li>transition-delay 过渡动画的延迟时间。 time</li>
@@ -163,34 +163,34 @@ width: 300px;
 <ul>
 <li>none</li>
 <li>matrix(n, n, n, n, n, n)</li>
-<li>translate(x, y) 2d移动</li>
-<li>translate3d(x, y, z) 3d移动</li>
+<li>translate(x, y) 2d 移动</li>
+<li>translate3d(x, y, z) 3d 移动</li>
 <li>translateX(x)</li>
 <li>translateY(y)</li>
 <li>translateZ(z)</li>
-<li>scale(x, y) 2d缩放</li>
-<li>scale3d(x, y, z) 3d缩放</li>
+<li>scale(x, y) 2d 缩放</li>
+<li>scale3d(x, y, z) 3d 缩放</li>
 <li>scaleX(x)</li>
 <li>scaleY(y)</li>
 <li>scaleZ(z)</li>
-<li>rotate(a)  2d旋转</li>
+<li>rotate(a) 2d 旋转</li>
 <li>rotate3d(x, y, z, a) 3d 旋转</li>
 <li>rotateX(a)</li>
 <li>rotateY(a)</li>
 <li>rotateZ(a)</li>
-<li>skew(xa, ya) 2d倾斜</li>
+<li>skew(xa, ya) 2d 倾斜</li>
 <li>skewX(a)</li>
 <li>skewY(a)</li>
-<li>perspective(n) 3d透视视图</li>
+<li>perspective(n) 3d 透视视图</li>
 </ul>
 <p>|transform-origin|变形时的原点位置|center center|x-axis y-axis z-axis; // top left right bottom x% xpx|
 |transform-box|定义排版盒子|border-box|fill-box, view-box, inherit, initial, unset|
 |transform-type|嵌套元素是怎样在三维空间中呈现的|flat 二维| preserve-3d 三维|</p>
-<p><em><code>transform</code>是变换（若不理解变换就理解为变形）。<code>translate</code>是移动。是transform的一种属性值。没有动画。<code>transition</code>是过渡。有动画。</em></p>
+<p><em><code>transform</code>是变换（若不理解变换就理解为变形）。<code>translate</code>是移动。是 transform 的一种属性值。没有动画。<code>transition</code>是过渡。有动画。</em></p>
 <h2 id="flip">flip</h2>
 <p>first last invert play
 动画将用户界面带入生活。
-任何触发布局变化的属性（比如height），浏览器都会递归检查布局中的其他元素是否也因此改变，这样的一个过程花销是很贵的。如果这个计算所费的时间比一个动画帧（大约16.7ms）更长，那么动画就会丢帧，从而导致动画迟滞。</p>
+任何触发布局变化的属性（比如 height），浏览器都会递归检查布局中的其他元素是否也因此改变，这样的一个过程花销是很贵的。如果这个计算所费的时间比一个动画帧（大约 16.7ms）更长，那么动画就会丢帧，从而导致动画迟滞。</p>
 <p>flipping.js @Davidkpiano</p>
 <p>@Nick Babich
 @harrisfreddy
@@ -200,6 +200,18 @@ width: 300px;
 @David Khourshid</p>
 <h2 id="动画库">动画库</h2>
 <p>animate.css</p>
+<h2 id="延迟若干时间后生效的样式">延迟若干时间后生效的样式</h2>
+<pre><code>@keyframes change-color {
+    100% {
+        background-color: red;
+    }
+}
+.class {
+    &amp;:hover {
+        animation: change-color 0.1s linear 0.2s forwards;
+    }
+}
+</code></pre>
 
         <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
         

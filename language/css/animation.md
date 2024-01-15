@@ -167,3 +167,18 @@ flipping.js @Davidkpiano
 ## 动画库
 
 animate.css
+
+## 延迟若干时间后生效的样式
+
+```
+@keyframes change-color {
+    100% {
+        background-color: red;
+    }
+}
+.class {
+    &:hover {
+        animation: change-color 0.1s linear 0.2s forwards;
+    }
+}
+```
