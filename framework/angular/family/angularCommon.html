@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>&commat;angular&sol;common</title>
-        <style>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&commat;angular&sol;common</title>
+            <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -16,7 +16,7 @@
 }
 
 </style>
-        
+            
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -37,13 +37,109 @@
     pointer-events: none;
 }
 </style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
         
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="angularcommon">@angular/common</h1>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="angularcommon">@angular/common</h1>
 <h2 id="overview">overview</h2>
 <blockquote>
-<p>TODO: description</p>
+<p>内部由多个功能块组成。</p>
 </blockquote>
 <h3 id="feature">feature</h3>
 <ul>
@@ -57,10 +153,11 @@
 <h2 id="usage">usage</h2>
 <pre><code class="language-js">
 </code></pre>
-<h3 id="http">http</h3>
+<h2 id="http">http</h2>
 <ul>
+<li>可执行http请求</li>
 <li>一般把请求功能封装在一个<a href="/framework/angular//service.html">服务</a>中。</li>
-<li>返回值是Observable对象</li>
+<li>返回值是 Observable 对象</li>
 </ul>
 <pre><code class="language-ts"><span class="hljs-comment">// app.module.ts</span>
 <span class="hljs-keyword">import</span> { <span class="hljs-title class_">HttpClientModule</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/common/http&#x27;</span>
@@ -118,7 +215,7 @@
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">service</span>.<span class="hljs-title function_">getUser</span>().<span class="hljs-title function_">subscribe</span>({
         <span class="hljs-attr">next</span>: <span class="hljs-function">(<span class="hljs-params">response</span>) =&gt;</span> {
         <span class="hljs-variable language_">this</span>.<span class="hljs-property">user</span> = response
-    }, 
+    },
     <span class="hljs-attr">error</span>: <span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> {
         <span class="hljs-title function_">clog</span>(error)
     }})
@@ -263,7 +360,7 @@ description</p>
 未来迭代计划。</p>
 </blockquote>
 
-        
-        
-    </body>
-    </html>
+            
+            
+        </body>
+        </html>

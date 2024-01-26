@@ -26,7 +26,7 @@
 - [复制](/confuse/copy.html)
 - [编辑](/confuse/edit.html)
 - [下载](/confuse/download.html)
-- [title](/confuse/title.html)
+- [contenteditable](/confuse/contenteditable.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
