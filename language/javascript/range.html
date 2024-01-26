@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>range</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="range">range</h1>
+<p>它是一个接口
+Range 接口表示一个包含节点与文本节点的一部分的文档片段。</p>
+<pre><code>let range1 = Document.createRange()
+let range2 = selection.getRangeAt(0)
+let range3 = Document.caretRangeFromPoint()
+</code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>属性</td>
+<td>都是只读</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>collapsed</td>
+<td>起点终点是否相同</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>commonAncestorContainer</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>endContainer</td>
+<td>包含终点的节点</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>endOffset</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>startContainer</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>startOffset</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>方法</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>collapse()</td>
+<td>折叠到边界的端点</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>compareBoundaryPoints()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>compareNode()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>comparePoint()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>cloneContents()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>cloneRange()</td>
+<td>克隆</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>createContextualFragment()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>deleteContents()</td>
+<td>从document中移除range内容</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>detach()</td>
+<td>从使用状态释放</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>extractContents()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>getBoundingClientRect()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>getClientRects()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>isPointInRange()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>insertNode()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>intersectsNode()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>selectNode()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>selectNodeContents()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>setEnd()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>setStart(node, index)</td>
+<td>第一个参数必须是node.</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>setEndAfter()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>setEndBefore()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>setStartAfter()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>setStartBefore()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>surroundContents()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>toString()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="setstartnode-index">setStart(node, index)</h2>
+<p>表示设置光标到node元素的index下标。
+当node是HTMLElement时。index为0表示在该HTMLElement前面。
+当node是HTMLElement时。index为1表示在该HTMLElement后面。（没有中间的情况）
+当node是Text时。index可以是[0, Text.length - 1]之间的整数。光标可以在中间。</p>
+<h2 id="一个很好的示例">一个很好的示例</h2>
+<pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;en&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;UTF-8&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css"><span class="hljs-selector-id">#edit</span>{<span class="hljs-attribute">height</span>:<span class="hljs-number">200px</span>;<span class="hljs-attribute">width</span>:<span class="hljs-number">500px</span>;<span class="hljs-attribute">border</span>:<span class="hljs-number">1px</span> solid red;}</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;edit&quot;</span> <span class="hljs-attr">contenteditable</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>one<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>two<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>three<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>four<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;emojiInput&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;sendEmoji&quot;</span>&gt;</span>发送表情<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+        <span class="hljs-keyword">let</span> clog = <span class="hljs-variable language_">console</span>.<span class="hljs-property">log</span>
+        <span class="hljs-keyword">var</span> sendEmoji = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;sendEmoji&#x27;</span>)
+
+        <span class="hljs-comment">// 定义最后光标对象</span>
+        <span class="hljs-keyword">var</span> lastEditRange;
+
+        <span class="hljs-comment">// 编辑框点击事件</span>
+        <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;edit&#x27;</span>).<span class="hljs-property">onclick</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+            <span class="hljs-comment">// 获取选定对象</span>
+            <span class="hljs-keyword">var</span> selection = <span class="hljs-title function_">getSelection</span>()
+            <span class="hljs-comment">// 设置最后光标对象</span>
+            lastEditRange = selection.<span class="hljs-title function_">getRangeAt</span>(<span class="hljs-number">0</span>)
+        }
+
+        <span class="hljs-comment">// 编辑框按键弹起事件</span>
+        <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;edit&#x27;</span>).<span class="hljs-property">onkeyup</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+            <span class="hljs-comment">// 获取选定对象</span>
+            <span class="hljs-keyword">var</span> selection = <span class="hljs-title function_">getSelection</span>()
+            <span class="hljs-comment">// 设置最后光标对象</span>
+            lastEditRange = selection.<span class="hljs-title function_">getRangeAt</span>(<span class="hljs-number">0</span>)
+        }
+
+        <span class="hljs-comment">// 表情点击事件</span>
+        <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;sendEmoji&#x27;</span>).<span class="hljs-property">onclick</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+            <span class="hljs-comment">// 获取编辑框对象</span>
+            <span class="hljs-keyword">var</span> edit = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;edit&#x27;</span>)
+            <span class="hljs-comment">// 获取输入框对象</span>
+            <span class="hljs-keyword">var</span> emojiInput = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;emojiInput&#x27;</span>)
+            <span class="hljs-comment">// 编辑框设置焦点</span>
+            edit.<span class="hljs-title function_">focus</span>()
+            <span class="hljs-comment">// 获取选定对象</span>
+            <span class="hljs-keyword">var</span> selection = <span class="hljs-title function_">getSelection</span>()
+            <span class="hljs-comment">// 判断是否有最后光标对象存在</span>
+            <span class="hljs-keyword">if</span> (lastEditRange) {
+                <span class="hljs-comment">// 存在最后光标对象，选定对象清除所有光标并添加最后光标还原之前的状态</span>
+                selection.<span class="hljs-title function_">removeAllRanges</span>()
+                selection.<span class="hljs-title function_">addRange</span>(lastEditRange)
+            }
+            <span class="hljs-comment">// 判断选定对象范围是编辑框还是文本节点</span>
+            <span class="hljs-keyword">if</span> (selection.<span class="hljs-property">anchorNode</span>.<span class="hljs-property">nodeName</span> != <span class="hljs-string">&#x27;#text&#x27;</span>) {
+                <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">1</span>)
+                <span class="hljs-comment">// 如果是编辑框范围。则创建表情文本节点进行插入</span>
+                <span class="hljs-keyword">var</span> emojiText = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createTextNode</span>(emojiInput.<span class="hljs-property">value</span>)
+                
+                <span class="hljs-keyword">if</span> (edit.<span class="hljs-property">childNodes</span>.<span class="hljs-property">length</span> &gt; <span class="hljs-number">0</span>) {
+                    <span class="hljs-comment">// 如果文本框的子元素大于0，则表示有其他元素，则按照位置插入表情节点</span>
+                    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; edit.<span class="hljs-property">childNodes</span>.<span class="hljs-property">length</span>; i++) {
+                        <span class="hljs-keyword">if</span> (i == selection.<span class="hljs-property">anchorOffset</span>) {
+                            edit.<span class="hljs-title function_">insertBefore</span>(emojiText, edit.<span class="hljs-property">childNodes</span>[i])
+                        }
+                    }
+                } <span class="hljs-keyword">else</span> {
+                    <span class="hljs-comment">// 否则直接插入一个表情元素</span>
+                    edit.<span class="hljs-title function_">appendChild</span>(emojiText)
+                }
+                <span class="hljs-comment">// 创建新的光标对象</span>
+                <span class="hljs-keyword">var</span> range = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createRange</span>()
+                <span class="hljs-comment">// 光标对象的范围界定为新建的表情节点</span>
+                range.<span class="hljs-title function_">selectNodeContents</span>(emojiText)
+                <span class="hljs-comment">// 光标位置定位在表情节点的最大长度</span>
+                range.<span class="hljs-title function_">setStart</span>(emojiText, emojiText.<span class="hljs-property">length</span>)
+                <span class="hljs-comment">// 使光标开始和光标结束重叠</span>
+                range.<span class="hljs-title function_">collapse</span>(<span class="hljs-literal">true</span>)
+                <span class="hljs-comment">// 清除选定对象的所有光标对象</span>
+                selection.<span class="hljs-title function_">removeAllRanges</span>()
+                <span class="hljs-comment">// 插入新的光标对象</span>
+                selection.<span class="hljs-title function_">addRange</span>(range)
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">13</span>)
+                <span class="hljs-comment">// 如果是文本节点则先获取光标对象</span>
+                <span class="hljs-keyword">var</span> range = selection.<span class="hljs-title function_">getRangeAt</span>(<span class="hljs-number">0</span>)
+                <span class="hljs-comment">// 获取光标对象的范围界定对象，一般就是textNode对象</span>
+                <span class="hljs-keyword">var</span> textNode = range.<span class="hljs-property">startContainer</span>;
+                <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;textNode&#x27;</span>, textNode)
+                <span class="hljs-comment">// 获取光标位置</span>
+                <span class="hljs-keyword">var</span> rangeStartOffset = range.<span class="hljs-property">startOffset</span>;
+                <span class="hljs-comment">// 文本节点在光标位置处插入新的表情内容</span>
+                textNode.<span class="hljs-title function_">insertData</span>(rangeStartOffset, emojiInput.<span class="hljs-property">value</span>)
+                <span class="hljs-comment">// 光标移动到到原来的位置加上新内容的长度</span>
+                range.<span class="hljs-title function_">setStart</span>(textNode, rangeStartOffset + emojiInput.<span class="hljs-property">value</span>.<span class="hljs-property">length</span>)
+                <span class="hljs-comment">// 光标开始和光标结束重叠</span>
+                range.<span class="hljs-title function_">collapse</span>(<span class="hljs-literal">true</span>)
+                <span class="hljs-comment">// 清除选定对象的所有光标对象</span>
+                selection.<span class="hljs-title function_">removeAllRanges</span>()
+                <span class="hljs-comment">// 插入新的光标对象</span>
+                selection.<span class="hljs-title function_">addRange</span>(range)
+            }
+            <span class="hljs-comment">// 无论如何都要记录最后光标对象</span>
+            lastEditRange = selection.<span class="hljs-title function_">getRangeAt</span>(<span class="hljs-number">0</span>)
+        }
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
+</code></pre>
+
+            
+            
+        </body>
+        </html>

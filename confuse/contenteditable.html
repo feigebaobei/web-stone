@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>issue</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <p>var p = document.getElementById('contentEditableElementId'),
+s = window.getSelection(),
+r = document.createRange();
+r.setStart(p, 0);
+r.setEnd(p, 0);
+s.removeAllRanges();
+s.addRange(r);</p>
+<div contenteditable=true placeholder="添加描述符">
+</div>
+<p>div[contenteditable]:empty:not(:focus):before {
+content: attr(placeholder);
+color: #aaa ;
+}</p>
+<div contenteditable="true" v-text="content" @input="handleInput">
+</div>
+<p>export default {
+data() {
+return {
+content: ''
+}
+},
+methods: {
+handleInput($event){
+this.content = $event.target.innerText;</p>
+<pre><code>  // 拓展 如果想要只需要前100位数据
+  this.content = this.content.substring(0,100)
+}
+</code></pre>
+<p>}
+}</p>
+<h1 id="issue">issue</h1>
+<p>当vue3 contenteditable时父组件的点击事件会让可编辑区focus。</p>
+<h2 id="解决方案">解决方案</h2>
+<p>使用div包裹可编辑区。
+再为可编辑区增加兄弟元素包裹它。
+目的是阻止被父元素被点击。</p>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>

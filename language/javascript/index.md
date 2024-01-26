@@ -931,9 +931,14 @@ IdleDeadline {
 - [URL](/language/javascript/url.html)
 - [blob](/language/javascript/blob.html)
 - [file](/language/javascript/file.html)
-- [title](/language/javascript/title.html)
-- [title](/language/javascript/title.html)
-- [title](/language/javascript/title.html)
+- [node](/language/javascript/node.html)
+- [range](/language/javascript/range.html)
+- [selection](/language/javascript/selection.html)
+- [selection](/language/javascript/selection.html)
+- [selection](/language/javascript/selection.html)
+- [selection](/language/javascript/selection.html)
+- [selection](/language/javascript/selection.html)
+- [selection](/language/javascript/selection.html)
 
 # BOM & js
 
