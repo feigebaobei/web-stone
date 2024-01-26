@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>HTMLElement</title>
-        <style>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>HTMLElement</title>
+            <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -16,7 +16,7 @@
 }
 
 </style>
-        
+            
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -37,14 +37,112 @@
     pointer-events: none;
 }
 </style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
         
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="htmlelement">HTMLElement</h1>
-<p>从其父元素 Element 继承属性，并从 DocumentAndElementEventHandlers、ElementCSSInlineStyle、GlobalEventHandlers、HTMLOrForeignElement 和 TouchEventHandlers 实现这些属性。</p>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="htmlelement">HTMLElement</h1>
+<p>所有html元素都实现了此接口。
+从其父元素 Element 继承属性，并从 DocumentAndElementEventHandlers、ElementCSSInlineStyle、GlobalEventHandlers、HTMLOrForeignElement 和 TouchEventHandlers 实现这些属性。</p>
 <p>HTMLOrForeignElement.nonce: 返回内容安全策略用于确定是否允许进行给定提取的一次使用的密码。<br>
 HTMLElement.offsetHeight: 只读，返回一个 double 值，其中包含元素相对于布局的高度。<br>
 HTMLElement.offsetLeft: 只读，返回一个 double 值，即从此元素的左边界到 offsetParent 的左边界的距离。</p>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -275,6 +373,7 @@ HTMLElement.offsetLeft: 只读，返回一个 double 值，即从此元素的左
 </tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
 <h2 id="innertext--textcontent">innerText &amp; textContent</h2>
 <table>
 <thead>
@@ -294,7 +393,7 @@ HTMLElement.offsetLeft: 只读，返回一个 double 值，即从此元素的左
 </tr>
 <tr>
 <td>不会</td>
-<td>会取得script/style中的内容</td>
+<td>会取得 script/style 中的内容</td>
 <td></td>
 <td></td>
 </tr>
@@ -305,27 +404,27 @@ HTMLElement.offsetLeft: 只读，返回一个 double 值，即从此元素的左
 <td></td>
 </tr>
 <tr>
-<td>会触发reflow</td>
+<td>会触发 reflow</td>
 <td>不会</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td>ie搞出来的</td>
+<td>ie 搞出来的</td>
 <td>ie8+和其他浏览器。</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td>非标准api</td>
-<td>标准api</td>
+<td>非标准 api</td>
+<td>标准 api</td>
 <td></td>
 <td></td>
 </tr>
 </tbody>
 </table>
 
-        
-        
-    </body>
-    </html>
+            
+            
+        </body>
+        </html>

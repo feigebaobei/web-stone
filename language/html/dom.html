@@ -2,7 +2,7 @@
         <html>
         <head>
             <meta charset="UTF-8">
-            <title>&#x670d;&#x52a1;</title>
+            <title>dom</title>
             <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -136,43 +136,207 @@
         
         </head>
         <body class="vscode-body vscode-light">
-            <h1 id="服务">服务</h1>
-<blockquote>
-<p>为组件们提供单例服务
-提供数据、方法。
-规范： <code>name.service.ts</code><br>
-可以从任何地方获取数据，比如：Web 服务、本地存储（LocalStorage）或一个模拟的数据源。
-由 Injectabl 装饰器装饰的类。
-提倡把与视图无关的逻辑抽取到服务中。</p>
-</blockquote>
-<pre><code class="language-shell">ng generate service heros/hero
-ng g s services/&lt;serviceName&gt;
+            <h1 id="dom">dom</h1>
+<h2 id="分类">分类</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>一个文档就是一个文档节点，按层次组成dom树。</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>每个html都是一个元素节点</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>每个文本都是一个文本节点</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>每个html属性都是一个属性节点</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>每个注释都是一个注释节点</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th>nodeType</th>
+<th>nodeName</th>
+<th>nodeValue</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>元素节点</td>
+<td><code>getElementById('xxx')</code></td>
+<td>1</td>
+<td>大写标签名</td>
+<td>null</td>
+<td></td>
+</tr>
+<tr>
+<td>属性节点</td>
+<td><code>getAttribute(xxx)</code></td>
+<td>2</td>
+<td>属性名</td>
+<td>属性值</td>
+<td></td>
+</tr>
+<tr>
+<td>文本节点</td>
+<td><code>dom.innerText</code></td>
+<td>3</td>
+<td>#text</td>
+<td>文本内容</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="文本节点">文本节点</h3>
+<p>parentNode是元素节点
+不包含子节点
+<code>document.createTextNode(str)</code></p>
+<pre><code>innerHTML
+outerHTML
+innerText
+outerText
+textContent
+
+beforebegin 当前元素前，同辈元素
+afterend    当前元素后，同辈元素
+afterbegin  插入一个第一子元素
+beforeend   插入一个最后子元素
+
+操作文本类
+appendData(str)
+deleteDatal(star, length)
+insertData(start, string)
+replaceData(start, length, str)
+splitText(offset)     在下标为offset处分割为2个节点
+substring(start, length)
 </code></pre>
-<p>定义</p>
-<pre><code class="language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Injectable</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/core&#x27;</span>
-<span class="hljs-meta">@Injectable</span>({
-  <span class="hljs-comment">// 标记为可以被注入的服务器</span>
-  <span class="hljs-attr">provided</span>: <span class="hljs-string">&#x27;root&#x27;</span>, <span class="hljs-comment">// 表示当前服务在root注入器中提供。可在整个应用中单例使用。</span>
-})
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Asdf</span> {
-  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {}
-  <span class="hljs-title function_">fn</span>(<span class="hljs-params"></span>) {}
-}
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>根节点</td>
+<td>html</td>
+<td></td>
+</tr>
+<tr>
+<td>父节点</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>子节点</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>兄弟节点</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="取元素节点">取元素节点</h2>
+<p>getElementById('xxx')
+getElementsByClass('xxx')
+querySelector('xxx')</p>
+<h2 id="层次">层次</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>parentNode</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>childNodes</td>
+<td>子节点的集合</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>firstChild</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>lastSibling</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>previousSibling</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>children</td>
+<td>子级元素节点</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="操作">操作</h2>
+<pre><code>let dom1 = document.createElement('div')
+let idAttr = document.createAttribute('id')
+idAttr.value = 'a'
+dom1.setAttributeNode(idAttr)
+let dom2 ....
+dom2.id = 'a'
+dom2.type = 'xx'
+dom2.value = 'xxx'
+let text = document.createTextNode('str')
+dom3.appendChild(text)
+dom4.insertBefore(ele, op) // ele插入到dom4内的op前
+dom5.removeChild(op) // 删除dom5的子元素op
+dom6.remove() // 删除dom6节点
+dom7.replaceChild(newDom, oldDom) // 使用newDom替换dom7中的oldDom
+dom8.clodeNode(b) // 复制dom8节点。b为true时复制其所有子节点，反之复制当前节点。
 </code></pre>
-<p>使用</p>
-<pre><code class="language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Component</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/core&#x27;</span>
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Asdf</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./asdf.service.ts&#x27;</span>
-<span class="hljs-meta">@Component</span>({...})
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Abc</span> {
-  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> asdf: Asdf</span>) {
-    <span class="hljs-comment">// this.asdf...</span>
-  }
-}
-</code></pre>
-<p>在<code>app.module.ts</code>中引入</p>
-<pre><code class="language-ts">...
-<span class="hljs-attr">providers</span>: [<span class="hljs-title class_">Asdf</span>]
-</code></pre>
+<h2 id=""></h2>
 
             
             

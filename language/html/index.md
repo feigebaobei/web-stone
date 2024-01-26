@@ -26,11 +26,25 @@ html 为 js 支持很多前提条件。如：
 
 # 浏览器处理 html 文件的过程
 
+# [Dom](/language/html/dom.html)
+
 # [Element](/language/html/element.html)
 
 # [webComponent](/language/html/webComponents/index.html)
 
 # [HTMLElement](/language/html/HTMLElement.html)
+
+## Document & HTMLElement & Node &
+
+|          | Document     | HTMLElement                  | Node     | Text                           |     |     |
+| -------- | ------------ | ---------------------------- | -------- | ------------------------------ | --- | --- |
+|          | 特指文档元素 | 所有 html 元素都实现了此接口 | -        |                                |     |     |
+|          | -            | 一种接口                     | 一种接口 | 继承自 Node                    |     |     |
+| 创建方法 |              |                              |          | `document.createTextNode(str)` |     |     |
+|          |              |                              |          |                                |     |     |
+|          |              |                              |          |                                |     |     |
+|          |              |                              |          |                                |     |     |
+|          |              |                              |          |                                |     |     |
 
 # [shadow dom](/language/html/shadowDom.html)
 
