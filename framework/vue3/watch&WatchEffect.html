@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>watch &amp; watchEffect</title>
-        <style>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>watch &amp; watchEffect</title>
+            <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -15,43 +15,8 @@
 	display: none;
 }
 
-/* From extension ms-toolsai.jupyter */
-/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
-
-.alert {
-    width: auto;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-.alert > *:last-child {
-    margin-bottom: 0;
-}
-#preview > .alert:last-child {
-    /* Prevent this being set to zero by the default notebook stylesheet */
-    padding-bottom: 1em;
-}
-
-.alert-success {
-    /* Note there is no suitable color available, so we just copy "info" */
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-info {
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-warning {
-    background-color: var(--theme-warning-background);
-    color: var(--theme-warning-foreground);
-}
-.alert-danger {
-    background-color: var(--theme-error-background);
-    color: var(--theme-error-foreground);
-}
-
 </style>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
@@ -73,15 +38,112 @@
     pointer-events: none;
 }
 </style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
         
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="watch--watcheffect">watch &amp; watchEffect</h1>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="watch--watcheffect">watch &amp; watchEffect</h1>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
 <th></th>
-<th>监听器watch</th>
+<th>监听器 watch</th>
 <th>api watch</th>
 <th>watchEffect</th>
 <th></th>
@@ -155,9 +217,10 @@
 </tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
 <ul>
 <li>一般在它们中执行用时间长的、异步的操作。</li>
-<li>可以调用methods里的数据。</li>
+<li>可以调用 methods 里的数据。</li>
 <li>api watch &amp; watchEffect 的写法注定不能一次监听多个。需要写多个去监听多个数据。</li>
 <li>监听器 watch 可以一次监听多个</li>
 </ul>
@@ -167,38 +230,30 @@
 <li>执行一次才能知道依赖是什么。</li>
 <li>该方法返回一个停止监听的方法。执行此方法会停止监听。</li>
 <li>一般执行异步的副作用。</li>
-<li>参数是function
+<li>参数是 function
 <ul>
 <li>若传参数<code>onInvalidate</code>，用于注册清理失效时的回调。</li>
 </ul>
 </li>
-<li>默认在所有的组件update前执行</li>
+<li>默认在所有的组件 update 前执行</li>
 </ul>
-<pre><code class="language-vue">const stop = watchEffect(() =&gt; {....})
-stop() // 停止监听
-
-watchEffect(
-  () =&gt; {
-    /* 副作用 */
-  },
+<pre><code class="language-js"><span class="hljs-keyword">const</span> stop = <span class="hljs-title function_">watchEffect</span>(<span class="hljs-function">() =&gt;</span> {....})
+<span class="hljs-title function_">stop</span>() <span class="hljs-comment">// 停止监听 </span>
+<span class="hljs-title function_">watchEffect</span>(
+  <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-comment">/* 副作用 */</span> 
+  }, 
   {
-    onTrack(e) {...}, // 被跟踪时执行
-    onTrigger(e) {
-      debugger
-    } // 被更新时执行
-    flush: 'pre' | 'post' | 'sync'
+    <span class="hljs-title function_">onTrack</span>(<span class="hljs-params">e</span>) {...}, <span class="hljs-comment">// 被跟踪时执行 </span>
+    <span class="hljs-title function_">onTrigger</span>(<span class="hljs-params">e</span>) { <span class="hljs-keyword">debugger</span> } <span class="hljs-comment">//被更新时执行 flush: &#x27;pre&#x27; | &#x27;post&#x27; | &#x27;sync&#x27; </span>
   }
-)
-watchEffect(onInvalidate =&gt; {
-    
-})
+) 
+<span class="hljs-title function_">watchEffect</span>(<span class="hljs-function"><span class="hljs-params">onInvalidate</span> =&gt;</span> { })
 </code></pre>
 <h2 id="watch">watch</h2>
-<p>与watchEffect相对</p>
-<h3 id="选项式watch">选项式watch</h3>
-<pre><code class="language-vue">watch: {
-    k: (nv, ov) {...}
-}
+<p>与 watchEffect 相对</p>
+<h3 id="选项式-watch">选项式 watch</h3>
+<pre><code class="language-vue">watch: { k: (nv, ov) {...} }
 </code></pre>
 <h3 id="api-watch">api watch</h3>
 <pre><code class="language-js"><span class="hljs-attr">$watch</span>: <span class="hljs-function">(<span class="hljs-params">
@@ -211,24 +266,22 @@ watchEffect(onInvalidate =&gt; {
     }
 </span>) =&gt;</span> <span class="hljs-attr">unwatch</span>: <span class="hljs-keyword">function</span>
 </code></pre>
-<pre><code class="language-vue">import {watch} from 'vue'
-let state = reactive({count: 0})
-watch(
-    () =&gt; state.count,
-    (nv, ov) =&gt; {...}
+<pre><code class="language-js"><span class="hljs-keyword">import</span> {watch} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span> 
+<span class="hljs-keyword">let</span> state = <span class="hljs-title function_">reactive</span>({<span class="hljs-attr">count</span>: <span class="hljs-number">0</span>}) 
+<span class="hljs-title function_">watch</span>( <span class="hljs-function">() =&gt;</span>
+state.<span class="hljs-property">count</span>, <span class="hljs-function">(<span class="hljs-params">nv, ov</span>) =&gt;</span> {...} ) 
+<span class="hljs-keyword">let</span> count = <span class="hljs-title function_">ref</span>(<span class="hljs-number">0</span>) 
+<span class="hljs-title function_">watch</span>(
+  <span class="hljs-function">() =&gt;</span> count, 
+  <span class="hljs-function">(<span class="hljs-params">nv, ov</span>) =&gt;</span> {...}
 )
-let count = ref(0)
-watch(
-    count,
-    (nv, ov) =&gt; {...}
-)
-// 同时监听多个数据源
-// 若同时改变多个数据源，则watch只执行一次。
-watch([one, two], (one, two) =&gt; {...})
+<span class="hljs-comment">// 同时监听多个数据源</span>
+<span class="hljs-comment">// 若同时改变多个数据源，则watch只执行一次。</span>
+<span class="hljs-title function_">watch</span>(<span class="hljs-function">() =&gt;</span> [one, two], <span class="hljs-function">(<span class="hljs-params">one, two</span>) =&gt;</span> {...})
 </code></pre>
-<p><strong>测试使用deep: true能否监听到对象变化</strong></p>
+<p><strong>测试使用 deep: true 能否监听到对象变化</strong></p>
 
-        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
-        
-    </body>
-    </html>
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>

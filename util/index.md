@@ -3,12 +3,15 @@
 ```js
 // 去抖
 let createDebounceFn = (fn, t = 250) => {
-    let id
+    var timer
     return (...rest) => {
-        clearTimeout(id)
-        id = setTimeout(() => {
-            fn(...rest)
-        }, t)
+      var context = this
+      if (timer) {
+        clearTimeout(timer)
+      }
+      timer = setTimeout(() => {
+        fn.apply(context, ...rest),
+      }, t)
     }
 }
 // 节流

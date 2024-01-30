@@ -2,7 +2,7 @@
         <html>
         <head>
             <meta charset="UTF-8">
-            <title></title>
+            <title>compositionstart &amp; compsitionend</title>
             <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -136,40 +136,62 @@
         
         </head>
         <body class="vscode-body vscode-light">
-            <ul>
-<li><a href="/confuse/clone.html">浅、深复制</a></li>
-<li><a href="/confuse/async.html">异步</a></li>
-<li><a href="/confuse/jsPrototypeChain.pptx">原型链 pptx</a></li>
-<li><a href="/confuse/pagePosition.html">pagePosition</a></li>
-<li><a href="/confuse/upload.html">upload</a></li>
-<li><a href="/confuse/bit.html">二进制</a></li>
-<li><a href="/browser/console.html">console</a></li>
-<li><a href="/language/javascript/json-transfer.html">json 格式化</a></li>
-<li><a href="/confuse/throttleDebouncd.html">节流、去抖</a></li>
-<li><a href="/confuse/takeOverProject.html">如何接手老项目</a></li>
-<li><a href="/confuse/htmlEncodeDecode.html">html encode &amp; decode</a></li>
-<li><a href="/confuse/shortCircuitOperator.html">|| &amp;&amp; ??</a></li>
-<li><a href="/confuse/reactFnComp%26Ref.html">react 方法式组件使用 ref </a></li>
-<li><a href="/confuse/title.html">性能优先的设计哲学</a></li>
-<li><a href="/confuse/cdn.html">cdn</a></li>
-<li><a href="/confuse/tsQuestionMarkExclamationPoint.html">ts 里的?!</a></li>
-<li><a href="/confuse/front&amp;end.html">前后端交互常识</a></li>
-<li><a href="/confuse/writeScript.html">如何写一个脚本</a></li>
-<li><a href="/confuse/promise.html">promise 的工具方法</a></li>
-<li><a href="/confuse/unit.html">单位</a></li>
-<li><a href="/confuse/execCommand.html">execCommand</a></li>
-<li><a href="/confuse/session&amp;jwt.html">session&amp;jwt</a></li>
-<li><a href="/confuse/getComputedStyle.html">计算属性</a></li>
-<li><a href="/confuse/extractText.html">从 html 中提取纯文本</a></li>
-<li><a href="/confuse/vue3Class.html">vue3 的 class 失效的解决方案</a></li>
-<li><a href="/confuse/copy.html">复制</a></li>
-<li><a href="/confuse/edit.html">编辑</a></li>
-<li><a href="/confuse/download.html">下载</a></li>
-<li><a href="/confuse/contenteditable.html">contenteditable</a></li>
-<li><a href="/confuse/compositionstartCompsitionend.html">compositionstart &amp; compositionend</a></li>
-<li><a href="/confuse/title.html">title</a></li>
-<li><a href="/confuse/title.html">title</a></li>
-</ul>
+            <h1 id="compositionstart--compsitionend">compositionstart &amp; compsitionend</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th>compositionstart</th>
+<th>compsitionend</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>触发时机</td>
+<td></td>
+<td>开始输入拼音时</td>
+<td>输入拼音结束时</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>时间顺序
+onCompositionStart -&gt; onInput -&gt; onCompositionEnd</p>
+<p>常用于输入中文过程中时防止input，输入完中文时触发input</p>
+<h2 id="dome">dome</h2>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> compositioning = <span class="hljs-literal">false</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">compositionStartH</span> = (<span class="hljs-params"></span>) =&gt; {
+    compositioning = <span class="hljs-literal">true</span>
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">compositionEndH</span> = (<span class="hljs-params"></span>) =&gt; {
+    compositioning = <span class="hljs-literal">false</span>
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">inputH</span> = (<span class="hljs-params">...rest</span>) =&gt; {
+    <span class="hljs-keyword">if</span> (!compositioning) {
+        <span class="hljs-title function_">fn</span>(...rest)
+    }
+}
+</code></pre>
 
             
             

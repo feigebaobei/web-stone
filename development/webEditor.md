@@ -29,3 +29,16 @@ Page --------------- EditableAreaCore --------------- 可编辑区
 ```
 
 EditableAreaCore 提供 api。
+
+## 竞品
+
+- [CKEditor]()
+- [KissyEditor]()
+- [Quill]()
+- [ProseMirror]()
+- [Draftjs]()
+- [Slatejs]()
+- [BlockSuite]()
+- [CKEditor]()
+- [CKEditor]()
+- [CKEditor]()

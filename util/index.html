@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>2022 &#x5e74;&#x4e86;&#x8fd8;&#x60f3;&#x5f00;&#x53d1;&#x5de5;&#x5177;&#x65b9;&#x6cd5;&#x5305;&#x3002;&#x8d76;&#x7d27;&#x53d6;&#x6d88;&#x8fd9;&#x4e2a;&#x60f3;&#x6cd5;&#x5427;&#x3002;</title>
-        <style>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>2022 &#x5e74;&#x4e86;&#x8fd8;&#x60f3;&#x5f00;&#x53d1;&#x5de5;&#x5177;&#x65b9;&#x6cd5;&#x5305;&#x3002;&#x8d76;&#x7d27;&#x53d6;&#x6d88;&#x8fd9;&#x4e2a;&#x60f3;&#x6cd5;&#x5427;&#x3002;</title>
+            <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -16,7 +16,7 @@
 }
 
 </style>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
@@ -38,18 +38,117 @@
     pointer-events: none;
 }
 </style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
         
-    </head>
-    <body class="vscode-body vscode-light">
-        <h2 id="2022-年了还想开发工具方法包赶紧取消这个想法吧">2022 年了还想开发工具方法包。赶紧取消这个想法吧。</h2>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h2 id="2022-年了还想开发工具方法包赶紧取消这个想法吧">2022 年了还想开发工具方法包。赶紧取消这个想法吧。</h2>
 <pre><code class="language-js"><span class="hljs-comment">// 去抖</span>
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">createDebounceFn</span> = (<span class="hljs-params">fn, t = <span class="hljs-number">250</span></span>) =&gt; {
-    <span class="hljs-keyword">let</span> id
+    <span class="hljs-keyword">var</span> timer
     <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">...rest</span>) =&gt;</span> {
-        <span class="hljs-built_in">clearTimeout</span>(id)
-        id = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
-            <span class="hljs-title function_">fn</span>(...rest)
-        }, t)
+      <span class="hljs-keyword">var</span> context = <span class="hljs-variable language_">this</span>
+      <span class="hljs-keyword">if</span> (timer) {
+        <span class="hljs-built_in">clearTimeout</span>(timer)
+      }
+      timer = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+        fn.<span class="hljs-title function_">apply</span>(context, ...rest),
+      }, t)
     }
 }
 <span class="hljs-comment">// 节流</span>
@@ -442,7 +541,7 @@
 <li><a href="/util/title.html">title</a></li>
 </ul>
 
-        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
-        
-    </body>
-    </html>
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>

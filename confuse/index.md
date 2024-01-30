@@ -27,6 +27,6 @@
 - [编辑](/confuse/edit.html)
 - [下载](/confuse/download.html)
 - [contenteditable](/confuse/contenteditable.html)
-- [title](/confuse/title.html)
+- [compositionstart & compositionend](/confuse/compositionstartCompsitionend.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
