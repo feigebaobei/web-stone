@@ -28,6 +28,11 @@
 - [build-scripts](/jsPackages/build-scripts.html)
 - [rxjs](/jsPackages/rxjs/rxjs.html)
 - [jsonwebtoken](/jsPackages/jsonwebtoken.html)
+- [pretty-ms](/jsPackages/pretty-ms.html)
+- [culori](/jsPackages/culori.html)
+- [title](/jsPackages/title.html)
+- [title](/jsPackages/title.html)
+- [title](/jsPackages/title.html)
 
 ## 编写 cli 的工具
 
@@ -87,5 +92,21 @@
 ## 工程化的
 
 - [emberjs](/jsPackages/emberjs/index.html)
+- [title](/jsPackages/title.html)
+- [title](/jsPackages/title.html)
+
+## 数据可视化
+
+- [visx](/jsPackages/visx.html)
+
+## worker
+
+- [workerpool](/jsPackages/workerpool.html)
+- [@builder.io/partytown](/jsPackages/partytown.html)
+
+## 多媒体
+
+- [wavesurfer.js](/jsPackages/wavesurfer.html)
+- [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
