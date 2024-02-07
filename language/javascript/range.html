@@ -278,7 +278,7 @@ let range3 = Document.caretRangeFromPoint()
 <tr>
 <td></td>
 <td>deleteContents()</td>
-<td>从document中移除range内容</td>
+<td>从 document 中移除 range 内容</td>
 <td></td>
 <td></td>
 <td></td>
@@ -366,7 +366,7 @@ let range3 = Document.caretRangeFromPoint()
 <tr>
 <td></td>
 <td>setStart(node, index)</td>
-<td>第一个参数必须是node.</td>
+<td>第一个参数必须是 node.</td>
 <td></td>
 <td></td>
 <td></td>
@@ -422,123 +422,130 @@ let range3 = Document.caretRangeFromPoint()
 </tbody>
 </table>
 <h2 id="setstartnode-index">setStart(node, index)</h2>
-<p>表示设置光标到node元素的index下标。
-当node是HTMLElement时。index为0表示在该HTMLElement前面。
-当node是HTMLElement时。index为1表示在该HTMLElement后面。（没有中间的情况）
-当node是Text时。index可以是[0, Text.length - 1]之间的整数。光标可以在中间。</p>
+<p>表示设置光标到 node 元素的 index 下标。
+当 node 是 HTMLElement 时。index 为 0 表示在该 HTMLElement 前面。
+当 node 是 HTMLElement 时。index 为 1 表示在该 HTMLElement 后面。（没有中间的情况）
+当 node 是 Text 时。index 可以是[0, Text.length - 1]之间的整数。光标可以在中间。</p>
 <h2 id="一个很好的示例">一个很好的示例</h2>
 <pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;en&quot;</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;UTF-8&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;UTF-8&quot;</span> /&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css"><span class="hljs-selector-id">#edit</span>{<span class="hljs-attribute">height</span>:<span class="hljs-number">200px</span>;<span class="hljs-attribute">width</span>:<span class="hljs-number">500px</span>;<span class="hljs-attribute">border</span>:<span class="hljs-number">1px</span> solid red;}</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+      <span class="hljs-selector-id">#edit</span> {
+        <span class="hljs-attribute">height</span>: <span class="hljs-number">200px</span>;
+        <span class="hljs-attribute">width</span>: <span class="hljs-number">500px</span>;
+        <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid red;
+      }
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;edit&quot;</span> <span class="hljs-attr">contenteditable</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>one<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>two<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>three<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>four<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>one<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>two<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>three<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>four<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;emojiInput&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;emojiInput&quot;</span> /&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;sendEmoji&quot;</span>&gt;</span>发送表情<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
 
     <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-        <span class="hljs-keyword">let</span> clog = <span class="hljs-variable language_">console</span>.<span class="hljs-property">log</span>
-        <span class="hljs-keyword">var</span> sendEmoji = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;sendEmoji&#x27;</span>)
+      <span class="hljs-keyword">let</span> clog = <span class="hljs-variable language_">console</span>.<span class="hljs-property">log</span>
+      <span class="hljs-keyword">var</span> sendEmoji = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;sendEmoji&#x27;</span>)
 
-        <span class="hljs-comment">// 定义最后光标对象</span>
-        <span class="hljs-keyword">var</span> lastEditRange;
+      <span class="hljs-comment">// 定义最后光标对象</span>
+      <span class="hljs-keyword">var</span> lastEditRange
 
-        <span class="hljs-comment">// 编辑框点击事件</span>
-        <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;edit&#x27;</span>).<span class="hljs-property">onclick</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
-            <span class="hljs-comment">// 获取选定对象</span>
-            <span class="hljs-keyword">var</span> selection = <span class="hljs-title function_">getSelection</span>()
-            <span class="hljs-comment">// 设置最后光标对象</span>
-            lastEditRange = selection.<span class="hljs-title function_">getRangeAt</span>(<span class="hljs-number">0</span>)
+      <span class="hljs-comment">// 编辑框点击事件</span>
+      <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;edit&#x27;</span>).<span class="hljs-property">onclick</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+        <span class="hljs-comment">// 获取选定对象</span>
+        <span class="hljs-keyword">var</span> selection = <span class="hljs-title function_">getSelection</span>()
+        <span class="hljs-comment">// 设置最后光标对象</span>
+        lastEditRange = selection.<span class="hljs-title function_">getRangeAt</span>(<span class="hljs-number">0</span>)
+      }
+
+      <span class="hljs-comment">// 编辑框按键弹起事件</span>
+      <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;edit&#x27;</span>).<span class="hljs-property">onkeyup</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+        <span class="hljs-comment">// 获取选定对象</span>
+        <span class="hljs-keyword">var</span> selection = <span class="hljs-title function_">getSelection</span>()
+        <span class="hljs-comment">// 设置最后光标对象</span>
+        lastEditRange = selection.<span class="hljs-title function_">getRangeAt</span>(<span class="hljs-number">0</span>)
+      }
+
+      <span class="hljs-comment">// 表情点击事件</span>
+      <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;sendEmoji&#x27;</span>).<span class="hljs-property">onclick</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+        <span class="hljs-comment">// 获取编辑框对象</span>
+        <span class="hljs-keyword">var</span> edit = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;edit&#x27;</span>)
+        <span class="hljs-comment">// 获取输入框对象</span>
+        <span class="hljs-keyword">var</span> emojiInput = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;emojiInput&#x27;</span>)
+        <span class="hljs-comment">// 编辑框设置焦点</span>
+        edit.<span class="hljs-title function_">focus</span>()
+        <span class="hljs-comment">// 获取选定对象</span>
+        <span class="hljs-keyword">var</span> selection = <span class="hljs-title function_">getSelection</span>()
+        <span class="hljs-comment">// 判断是否有最后光标对象存在</span>
+        <span class="hljs-keyword">if</span> (lastEditRange) {
+          <span class="hljs-comment">// 存在最后光标对象，选定对象清除所有光标并添加最后光标还原之前的状态</span>
+          selection.<span class="hljs-title function_">removeAllRanges</span>()
+          selection.<span class="hljs-title function_">addRange</span>(lastEditRange)
         }
+        <span class="hljs-comment">// 判断选定对象范围是编辑框还是文本节点</span>
+        <span class="hljs-keyword">if</span> (selection.<span class="hljs-property">anchorNode</span>.<span class="hljs-property">nodeName</span> != <span class="hljs-string">&#x27;#text&#x27;</span>) {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">1</span>)
+          <span class="hljs-comment">// 如果是编辑框范围。则创建表情文本节点进行插入</span>
+          <span class="hljs-keyword">var</span> emojiText = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createTextNode</span>(emojiInput.<span class="hljs-property">value</span>)
 
-        <span class="hljs-comment">// 编辑框按键弹起事件</span>
-        <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;edit&#x27;</span>).<span class="hljs-property">onkeyup</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
-            <span class="hljs-comment">// 获取选定对象</span>
-            <span class="hljs-keyword">var</span> selection = <span class="hljs-title function_">getSelection</span>()
-            <span class="hljs-comment">// 设置最后光标对象</span>
-            lastEditRange = selection.<span class="hljs-title function_">getRangeAt</span>(<span class="hljs-number">0</span>)
-        }
-
-        <span class="hljs-comment">// 表情点击事件</span>
-        <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;sendEmoji&#x27;</span>).<span class="hljs-property">onclick</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
-            <span class="hljs-comment">// 获取编辑框对象</span>
-            <span class="hljs-keyword">var</span> edit = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;edit&#x27;</span>)
-            <span class="hljs-comment">// 获取输入框对象</span>
-            <span class="hljs-keyword">var</span> emojiInput = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;emojiInput&#x27;</span>)
-            <span class="hljs-comment">// 编辑框设置焦点</span>
-            edit.<span class="hljs-title function_">focus</span>()
-            <span class="hljs-comment">// 获取选定对象</span>
-            <span class="hljs-keyword">var</span> selection = <span class="hljs-title function_">getSelection</span>()
-            <span class="hljs-comment">// 判断是否有最后光标对象存在</span>
-            <span class="hljs-keyword">if</span> (lastEditRange) {
-                <span class="hljs-comment">// 存在最后光标对象，选定对象清除所有光标并添加最后光标还原之前的状态</span>
-                selection.<span class="hljs-title function_">removeAllRanges</span>()
-                selection.<span class="hljs-title function_">addRange</span>(lastEditRange)
+          <span class="hljs-keyword">if</span> (edit.<span class="hljs-property">childNodes</span>.<span class="hljs-property">length</span> &gt; <span class="hljs-number">0</span>) {
+            <span class="hljs-comment">// 如果文本框的子元素大于0，则表示有其他元素，则按照位置插入表情节点</span>
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; edit.<span class="hljs-property">childNodes</span>.<span class="hljs-property">length</span>; i++) {
+              <span class="hljs-keyword">if</span> (i == selection.<span class="hljs-property">anchorOffset</span>) {
+                edit.<span class="hljs-title function_">insertBefore</span>(emojiText, edit.<span class="hljs-property">childNodes</span>[i])
+              }
             }
-            <span class="hljs-comment">// 判断选定对象范围是编辑框还是文本节点</span>
-            <span class="hljs-keyword">if</span> (selection.<span class="hljs-property">anchorNode</span>.<span class="hljs-property">nodeName</span> != <span class="hljs-string">&#x27;#text&#x27;</span>) {
-                <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">1</span>)
-                <span class="hljs-comment">// 如果是编辑框范围。则创建表情文本节点进行插入</span>
-                <span class="hljs-keyword">var</span> emojiText = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createTextNode</span>(emojiInput.<span class="hljs-property">value</span>)
-                
-                <span class="hljs-keyword">if</span> (edit.<span class="hljs-property">childNodes</span>.<span class="hljs-property">length</span> &gt; <span class="hljs-number">0</span>) {
-                    <span class="hljs-comment">// 如果文本框的子元素大于0，则表示有其他元素，则按照位置插入表情节点</span>
-                    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; edit.<span class="hljs-property">childNodes</span>.<span class="hljs-property">length</span>; i++) {
-                        <span class="hljs-keyword">if</span> (i == selection.<span class="hljs-property">anchorOffset</span>) {
-                            edit.<span class="hljs-title function_">insertBefore</span>(emojiText, edit.<span class="hljs-property">childNodes</span>[i])
-                        }
-                    }
-                } <span class="hljs-keyword">else</span> {
-                    <span class="hljs-comment">// 否则直接插入一个表情元素</span>
-                    edit.<span class="hljs-title function_">appendChild</span>(emojiText)
-                }
-                <span class="hljs-comment">// 创建新的光标对象</span>
-                <span class="hljs-keyword">var</span> range = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createRange</span>()
-                <span class="hljs-comment">// 光标对象的范围界定为新建的表情节点</span>
-                range.<span class="hljs-title function_">selectNodeContents</span>(emojiText)
-                <span class="hljs-comment">// 光标位置定位在表情节点的最大长度</span>
-                range.<span class="hljs-title function_">setStart</span>(emojiText, emojiText.<span class="hljs-property">length</span>)
-                <span class="hljs-comment">// 使光标开始和光标结束重叠</span>
-                range.<span class="hljs-title function_">collapse</span>(<span class="hljs-literal">true</span>)
-                <span class="hljs-comment">// 清除选定对象的所有光标对象</span>
-                selection.<span class="hljs-title function_">removeAllRanges</span>()
-                <span class="hljs-comment">// 插入新的光标对象</span>
-                selection.<span class="hljs-title function_">addRange</span>(range)
-            } <span class="hljs-keyword">else</span> {
-                <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">13</span>)
-                <span class="hljs-comment">// 如果是文本节点则先获取光标对象</span>
-                <span class="hljs-keyword">var</span> range = selection.<span class="hljs-title function_">getRangeAt</span>(<span class="hljs-number">0</span>)
-                <span class="hljs-comment">// 获取光标对象的范围界定对象，一般就是textNode对象</span>
-                <span class="hljs-keyword">var</span> textNode = range.<span class="hljs-property">startContainer</span>;
-                <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;textNode&#x27;</span>, textNode)
-                <span class="hljs-comment">// 获取光标位置</span>
-                <span class="hljs-keyword">var</span> rangeStartOffset = range.<span class="hljs-property">startOffset</span>;
-                <span class="hljs-comment">// 文本节点在光标位置处插入新的表情内容</span>
-                textNode.<span class="hljs-title function_">insertData</span>(rangeStartOffset, emojiInput.<span class="hljs-property">value</span>)
-                <span class="hljs-comment">// 光标移动到到原来的位置加上新内容的长度</span>
-                range.<span class="hljs-title function_">setStart</span>(textNode, rangeStartOffset + emojiInput.<span class="hljs-property">value</span>.<span class="hljs-property">length</span>)
-                <span class="hljs-comment">// 光标开始和光标结束重叠</span>
-                range.<span class="hljs-title function_">collapse</span>(<span class="hljs-literal">true</span>)
-                <span class="hljs-comment">// 清除选定对象的所有光标对象</span>
-                selection.<span class="hljs-title function_">removeAllRanges</span>()
-                <span class="hljs-comment">// 插入新的光标对象</span>
-                selection.<span class="hljs-title function_">addRange</span>(range)
-            }
-            <span class="hljs-comment">// 无论如何都要记录最后光标对象</span>
-            lastEditRange = selection.<span class="hljs-title function_">getRangeAt</span>(<span class="hljs-number">0</span>)
+          } <span class="hljs-keyword">else</span> {
+            <span class="hljs-comment">// 否则直接插入一个表情元素</span>
+            edit.<span class="hljs-title function_">appendChild</span>(emojiText)
+          }
+          <span class="hljs-comment">// 创建新的光标对象</span>
+          <span class="hljs-keyword">var</span> range = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createRange</span>()
+          <span class="hljs-comment">// 光标对象的范围界定为新建的表情节点</span>
+          range.<span class="hljs-title function_">selectNodeContents</span>(emojiText)
+          <span class="hljs-comment">// 光标位置定位在表情节点的最大长度</span>
+          range.<span class="hljs-title function_">setStart</span>(emojiText, emojiText.<span class="hljs-property">length</span>)
+          <span class="hljs-comment">// 使光标开始和光标结束重叠</span>
+          range.<span class="hljs-title function_">collapse</span>(<span class="hljs-literal">true</span>)
+          <span class="hljs-comment">// 清除选定对象的所有光标对象</span>
+          selection.<span class="hljs-title function_">removeAllRanges</span>()
+          <span class="hljs-comment">// 插入新的光标对象</span>
+          selection.<span class="hljs-title function_">addRange</span>(range)
+        } <span class="hljs-keyword">else</span> {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">13</span>)
+          <span class="hljs-comment">// 如果是文本节点则先获取光标对象</span>
+          <span class="hljs-keyword">var</span> range = selection.<span class="hljs-title function_">getRangeAt</span>(<span class="hljs-number">0</span>)
+          <span class="hljs-comment">// 获取光标对象的范围界定对象，一般就是textNode对象</span>
+          <span class="hljs-keyword">var</span> textNode = range.<span class="hljs-property">startContainer</span>
+          <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;textNode&#x27;</span>, textNode)
+          <span class="hljs-comment">// 获取光标位置</span>
+          <span class="hljs-keyword">var</span> rangeStartOffset = range.<span class="hljs-property">startOffset</span>
+          <span class="hljs-comment">// 文本节点在光标位置处插入新的表情内容</span>
+          textNode.<span class="hljs-title function_">insertData</span>(rangeStartOffset, emojiInput.<span class="hljs-property">value</span>)
+          <span class="hljs-comment">// 光标移动到到原来的位置加上新内容的长度</span>
+          range.<span class="hljs-title function_">setStart</span>(textNode, rangeStartOffset + emojiInput.<span class="hljs-property">value</span>.<span class="hljs-property">length</span>)
+          <span class="hljs-comment">// 光标开始和光标结束重叠</span>
+          range.<span class="hljs-title function_">collapse</span>(<span class="hljs-literal">true</span>)
+          <span class="hljs-comment">// 清除选定对象的所有光标对象</span>
+          selection.<span class="hljs-title function_">removeAllRanges</span>()
+          <span class="hljs-comment">// 插入新的光标对象</span>
+          selection.<span class="hljs-title function_">addRange</span>(range)
         }
+        <span class="hljs-comment">// 无论如何都要记录最后光标对象</span>
+        lastEditRange = selection.<span class="hljs-title function_">getRangeAt</span>(<span class="hljs-number">0</span>)
+      }
     </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
 </code></pre>
+<h2 id="相关api-selection">相关api <a href="/language/javascript/selection.html">selection</a></h2>
 
             
             

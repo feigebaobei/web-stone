@@ -1,3 +1,4 @@
+```
 var p = document.getElementById('contentEditableElementId'),
 s = window.getSelection(),
 r = document.createRange();
@@ -7,7 +8,7 @@ s.removeAllRanges();
 s.addRange(r);
 
 <div contenteditable=true placeholder="添加描述符">
-  
+
 </div>
 
 div[contenteditable]:empty:not(:focus):before {
@@ -16,7 +17,7 @@ color: #aaa ;
 }
 
 <div contenteditable="true" v-text="content" @input="handleInput">
-  
+
 </div>
 
 export default {
@@ -35,6 +36,7 @@ this.content = $event.target.innerText;
 
 }
 }
+```
 
 # issue
 
