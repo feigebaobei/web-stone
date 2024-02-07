@@ -177,19 +177,19 @@
 </table>
 <p>时间顺序
 onCompositionStart -&gt; onInput -&gt; onCompositionEnd</p>
-<p>常用于输入中文过程中时防止input，输入完中文时触发input</p>
+<p>常用于输入中文过程中时防止 input，输入完中文时触发 input</p>
 <h2 id="dome">dome</h2>
 <pre><code class="language-js"><span class="hljs-keyword">let</span> compositioning = <span class="hljs-literal">false</span>
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">compositionStartH</span> = (<span class="hljs-params"></span>) =&gt; {
-    compositioning = <span class="hljs-literal">true</span>
+  compositioning = <span class="hljs-literal">true</span>
 }
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">compositionEndH</span> = (<span class="hljs-params"></span>) =&gt; {
-    compositioning = <span class="hljs-literal">false</span>
+  compositioning = <span class="hljs-literal">false</span>
 }
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">inputH</span> = (<span class="hljs-params">...rest</span>) =&gt; {
-    <span class="hljs-keyword">if</span> (!compositioning) {
-        <span class="hljs-title function_">fn</span>(...rest)
-    }
+  <span class="hljs-keyword">if</span> (!compositioning) {
+    <span class="hljs-title function_">fn</span>(...rest)
+  }
 }
 </code></pre>
 

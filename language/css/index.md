@@ -16,6 +16,10 @@
 
 # [动画](/language/css/animation.html)
 
+# [伪类](/language/css/pseudo.html)
+
+# [属性](/language/css/props.html)
+
 # title
 
 ## [background](/language/css/background.html)
