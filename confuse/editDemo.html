@@ -6,12 +6,9 @@
     <style>#edit{height:200px;width:500px;border:1px solid red;}</style>
 </head>
 <body>
-    <div id="edit" contenteditable>
-        <span>one</span>
-        <span>two</span>
-        <span>three</span>
-        <strong>four</strong>
-    </div>
+    <div id="edit" contenteditable><span contenteditable="false">one</span><span contenteditable="false">two</span></div>
+    <span>three</span>
+    <strong>four</strong>
     <input type="text" id="emojiInput">
     <button id="sendEmoji">发送表情</button>
 
@@ -106,6 +103,13 @@
             // 无论如何都要记录最后光标对象
             lastEditRange = selection.getRangeAt(0)
         }
+        // let len = 3
+        // 1. 使用len
+        // 2. len--
+        // 3. 使用len
+        // while (len--) {
+        //     clog(len) // 2 1 0
+        // }
     </script>
 </body>
 </html>

@@ -7,7 +7,7 @@
 |          |     |                  |                |     |     |
 
 时间顺序
-onCompositionStart -> onInput -> onCompositionEnd
+onCompositionStart -> onInput -> onCompositionEndw
 
 常用于输入中文过程中时防止 input，输入完中文时触发 input
 
