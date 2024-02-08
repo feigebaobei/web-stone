@@ -2,6 +2,7 @@
 
 ```js
 // 去抖
+// 一段时间内连续调用，只执行一次。维护一个定时器，在定时器结束时执行。
 let createDebounceFn = (fn, t = 250) => {
     var timer
     return (...rest) => {
@@ -15,6 +16,7 @@ let createDebounceFn = (fn, t = 250) => {
     }
 }
 // 节流
+// 一段时间内调用，每隔一段时间执行一次。当大于延迟时执行。
 let createThrottleFn = (fn, t = 250) => {
     let prev = new Date().getTime()
     return (...rest) => {
@@ -386,6 +388,20 @@ class ControlablePromise {
     this.resolve = () => {}
     this.reject = () => {}
   }
+}
+// 去空
+let delEmpty = (str: S) => {
+  let res = ''
+  switch(getType(str)) {
+    case 'String':
+      let reg = /\s*/g
+      res = str.replace(reg, '')
+      break;
+    default:
+      res = ''
+      break;
+  }
+  return res
 }
 
 

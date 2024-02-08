@@ -173,3 +173,5 @@ let range3 = Document.caretRangeFromPoint()
   </body>
 </html>
 ```
+
+## 相关 api [selection](/language/javascript/selection.html)

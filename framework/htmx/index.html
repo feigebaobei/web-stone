@@ -2,7 +2,7 @@
         <html>
         <head>
             <meta charset="UTF-8">
-            <title>Selection</title>
+            <title>htmx</title>
             <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -136,73 +136,56 @@
         
         </head>
         <body class="vscode-body vscode-light">
-            <h1 id="selection">Selection</h1>
-<p>对象所对应的是用户所选择的 ranges（区域），俗称拖蓝。默认情况下，该函数只针对一个区域，我们可以这样使用这个函数：</p>
-<pre><code>var selObj = window.getSelection();
-var range = selObj.getRangeAt(0);
+            <h1 id="htmx">htmx</h1>
+<h2 id="overview">overview</h2>
+<blockquote>
+<p>用法是为指定html标签设置属性。与指令相似。
+入门简单，熟练需求一段时间。有好多属性要记。
+适用于简单的页面。
+对接口要求较高。
+一般于css库结合使用。</p>
+</blockquote>
+<h3 id="feature">feature</h3>
+<ul>
+<li>feature0</li>
+<li>feature1</li>
+<li>feature2</li>
+</ul>
+<h2 id="install">install</h2>
+<p><code>npm i htmx</code></p>
+<h2 id="usage">usage</h2>
+<p>同<code>./demo.md</code></p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> htmx = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;htmx&#x27;</span>);
+<span class="hljs-comment">// or</span>
+<span class="hljs-comment">// import htmx from &#x27;htmx&#x27;;</span>
+<span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> DEMONSTRATE API</span>
 </code></pre>
+<h2 id="configuration">configuration</h2>
+<p>默认配置文件：<code>path/to/file.json</code>。</p>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
-<th></th>
-<th></th>
-<th></th>
+<th>key</th>
+<th>参数</th>
+<th>子参数</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
 <th></th>
 <th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>属性</td>
-<td>都是只读</td>
 <td></td>
 <td></td>
 <td></td>
-</tr>
-<tr>
-<td></td>
-<td>anchorNode</td>
-<td>选区所在的节点</td>
 <td></td>
 <td></td>
-</tr>
-<tr>
 <td></td>
-<td>anchorOffset</td>
-<td>选区起点在 anchorNode 中的位置位移量</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>focusNode</td>
-<td>选区所在的节点</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>focusOffset</td>
-<td>选区终点在 anchorNode 中的位置位移量</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>isCollapsed</td>
-<td>起点、终点是否在同一位置</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>rangeCount</td>
-<td>选区包含的连续范围的数量</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>方法</td>
 <td></td>
 <td></td>
 <td></td>
@@ -210,117 +193,10 @@ var range = selObj.getRangeAt(0);
 </tr>
 <tr>
 <td></td>
-<td>getRangeAt</td>
-<td>返回选区指定区域的引用</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>collapse</td>
-<td>将选区折叠为一个点</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>extend</td>
 <td></td>
 <td></td>
 <td></td>
-</tr>
-<tr>
 <td></td>
-<td>modify</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>collapseToStart</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>collapseToEnd</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>selectAllChildren</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>addRange</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>removeRange</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>removeAllRanges</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>deleteFromDocument</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>toString</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>containsNode</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>deleteFromDocument</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>deleteFromDocument</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>deleteFromDocument</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
 <td></td>
 <td></td>
 <td></td>
@@ -333,8 +209,6 @@ var range = selObj.getRangeAt(0);
 <td></td>
 <td></td>
 <td></td>
-</tr>
-<tr>
 <td></td>
 <td></td>
 <td></td>
@@ -343,8 +217,78 @@ var range = selObj.getRangeAt(0);
 </tr>
 </tbody>
 </table>
-<h2 id="相关api-range">相关api <a href="/language/javascript/range.html">range</a></h2>
-<p>与range有些api是相同作用。</p>
+<!-- prettier-ignore-end -->
+<h2 id="api">api</h2>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>参数</th>
+<th>子参数</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<p><code>htmx.fn(param, first: string, second: boolean = true) =&gt; void</code>
+description</p>
+<p><code>htmx.fn(param, [options: {a: string, b?: number}])</code>
+description</p>
+<h2 id="principle">principle</h2>
+<p>此包的处理逻辑。</p>
+<h3 id="uml">uml</h3>
+<pre><code></code></pre>
+<h2 id="todo">todo</h2>
+<blockquote>
+<p>未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote>
 
             
             

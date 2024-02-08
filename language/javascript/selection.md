@@ -36,3 +36,7 @@ var range = selObj.getRangeAt(0);
 |      |                    |                                      |     |     |
 |      |                    |                                      |     |     |
 |      |                    |                                      |     |     |
+
+## 相关 api [range](/language/javascript/range.html)
+
+与 range 有些 api 是相同作用。
