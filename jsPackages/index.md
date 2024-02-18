@@ -30,6 +30,12 @@
 - [jsonwebtoken](/jsPackages/jsonwebtoken.html)
 - [pretty-ms](/jsPackages/pretty-ms.html)
 - [culori](/jsPackages/culori.html)
+- [swc 基于 rust 的 web 工具库](/jsPackages/title.html)
+- [overlayscrollbars js 自定义滚动条插件](/jsPackages/title.html)
+- [zip.js](/jsPackages/title.html)
+- [remote-storage](/jsPackages/title.html)
+- [title](/jsPackages/title.html)
+- [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
@@ -59,6 +65,7 @@
 - [introjs](/jsPackages/introjs.html)
 - [data-footstone](/jsPackages/data-footstone.html)
 - [vue-router](/jsPackages/vue-router.html)
+- [lowdb 基于 json 的数据库](/jsPackages/vue-router.html)
 
 ## 拖拽
 
@@ -98,6 +105,16 @@
 ## 数据可视化
 
 - [visx](/jsPackages/visx.html)
+- [tabulator](/jsPackages/visx.html)
+- [cytoscape.js](/jsPackages/visx.html)
+- [heat.js](/jsPackages/visx.html)
+- [d3-3d](/jsPackages/visx.html)
+- [vizzu](/jsPackages/visx.html)
+- [visx](/jsPackages/visx.html)
+- [visx](/jsPackages/visx.html)
+- [visx](/jsPackages/visx.html)
+- [visx](/jsPackages/visx.html)
+- [visx](/jsPackages/visx.html)
 
 ## worker
 
@@ -107,6 +124,42 @@
 ## 多媒体
 
 - [wavesurfer.js](/jsPackages/wavesurfer.html)
+
+## 格式化
+
+- [@formkit/tempo 格式化 date](/jsPackages/title.html)
+
+## 运行时
+
+- [llrt low latency runtime](/jsPackages/title.html)
+- [peggy](/jsPackages/title.html)
+- [txiki.js](/jsPackages/title.html)
+
+## 跨平台
+
+- [capacitor 5.7](/jsPackages/title.html)
+
+## 机器学习
+
+- [ml.js](/jsPackages/title.html)
+
+## mock
+
+- [faker](/jsPackages/title.html)
+
+## orm
+
+- [mikroorm](/jsPackages/title.html)
+
+## hotkey
+
+- [@github/hotkey](/jsPackages/title.html)
+- [hotkeys-js 不支持方向键](/jsPackages/title.html)
+- [mousetrap](/jsPackages/title.html)
+- [tinykeys](/jsPackages/title.html)
+- [useHotkeys (react)](/jsPackages/title.html)
+- [cmdk (react)](/jsPackages/title.html)
+- [ninja-keys](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)

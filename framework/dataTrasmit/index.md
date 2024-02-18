@@ -241,6 +241,24 @@ let App = () => {
 
 ### provide/inject
 
+- 无响应式
+
+```
+<!-- 祖先组件 -->
+provide('name', value)
+
+<!-- 后代组件 -->
+let value = inject('name', defaultValue?)
+```
+
+```
+let v1 = reactive({k: 2})
+provide('name', v1)
+provide('name', ref(100))
+provide('changeFn', (p) => {v1.k = p})
+<!-- 后代若需要后代修改响应式的值，则必须使用inject注入changeFn后调用。 -->
+```
+
 ### eventBus
 
 ### vuex/pinia

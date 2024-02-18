@@ -540,6 +540,48 @@
   }
   <span class="hljs-keyword">return</span> res
 }
+<span class="hljs-keyword">let</span> errorCode = {
+  <span class="hljs-number">0</span>: <span class="hljs-string">&#x27;成功&#x27;</span>,
+  <span class="hljs-number">100100</span>: <span class="hljs-string">&#x27;未传递必传参数&#x27;</span>, <span class="hljs-comment">// 要求字段必传</span>
+  <span class="hljs-number">200000</span>: <span class="hljs-string">&#x27;保存数据时出错&#x27;</span>, 
+  <span class="hljs-number">300000</span>: <span class="hljs-string">&#x27;无对应数据&#x27;</span>,
+  <span class="hljs-comment">// ...</span>
+}
+<span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">resolve</span>().<span class="hljs-title function_">then</span>(<span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-comment">// step 0</span>
+  <span class="hljs-comment">// .then(() =&gt; {...})</span>
+  <span class="hljs-comment">// .catch(() =&gt; {return Promise.reject(100100)})</span>
+}).<span class="hljs-title function_">then</span>(<span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-comment">// step 1</span>
+  <span class="hljs-comment">// .then(() =&gt; {...})</span>
+  <span class="hljs-comment">// .catch(() =&gt; {return Promise.reject(200000)})</span>
+}).<span class="hljs-title function_">then</span>(<span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-comment">// step 2</span>
+  <span class="hljs-comment">// .then(() =&gt; {...})</span>
+  <span class="hljs-comment">// .catch(() =&gt; {return Promise.reject(300000)})</span>
+}).<span class="hljs-title function_">catch</span>(<span class="hljs-function">(<span class="hljs-params">code</span>) =&gt;</span> {
+  <span class="hljs-keyword">return</span> res.<span class="hljs-title function_">status</span>(<span class="hljs-number">200</span>).<span class="hljs-title function_">json</span>({
+    code,
+    <span class="hljs-attr">message</span>: errorCode[code],
+    <span class="hljs-attr">data</span>: {}
+  })
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

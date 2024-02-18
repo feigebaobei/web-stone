@@ -80,3 +80,16 @@ WeakSet 中的对象都是弱引用，即垃圾回收机制不考虑 WeakSet 对
 现在 set 对象的操作方法、属性太少。（比如：无法准确地取出指定的值。）所以把他只做为一个仓库对待。操作还要在数组中操作。  
 它出现在数组对象没有这些功能的时期。应该是做为一个数组对象的补充存在。要项目中应当把 set/array 结合起来使用。  
 set 对象用处少。weakset 对象的用处更少。
+
+# 2024 增加的属性
+
+|                            |      |     |     |
+| -------------------------- | ---- | --- | --- |
+| union(other)               | 并集 |     |     |
+| intersection(other)        |      |     |     |
+| difference(other)          |      |     |     |
+| symmetricDifference(other) |      |     |     |
+| isSubsetOf(other)          |      |     |     |
+| isSuppersetOf(other)       |      |     |     |
+| isDisjointFrom(other)      |      |     |     |
+|                            |      |     |     |

@@ -403,6 +403,48 @@ let delEmpty = (str: S) => {
   }
   return res
 }
+let errorCode = {
+  0: '成功',
+  100100: '未传递必传参数', // 要求字段必传
+  200000: '保存数据时出错',
+  300000: '无对应数据',
+  // ...
+}
+Promise.resolve().then(() => {
+  // step 0
+  // .then(() => {...})
+  // .catch(() => {return Promise.reject(100100)})
+}).then(() => {
+  // step 1
+  // .then(() => {...})
+  // .catch(() => {return Promise.reject(200000)})
+}).then(() => {
+  // step 2
+  // .then(() => {...})
+  // .catch(() => {return Promise.reject(300000)})
+}).catch((code) => {
+  return res.status(200).json({
+    code,
+    message: errorCode[code],
+    data: {}
+  })
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
