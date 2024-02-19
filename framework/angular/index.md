@@ -15,6 +15,8 @@ npm 8.5.0+
 ## feature
 
 - 任意扩展
+- 有完美的技术体系
+- 有一套开发工具
 - 打包工具好。还是基于 webpack 搞的。
 
 ## [概念](/framework/angular/concept/index.html)
@@ -27,6 +29,8 @@ npm 8.5.0+
 
 ```shell
 yarn create @angular my-app
+# or
+# npm init @angular my-app
 cd my-app
 yarn start
 # 打开 localhost:4200
@@ -71,7 +75,14 @@ ng g component product-list
 
 ## [管道](/framework/angular/pipe.html)
 
+## [服务](/framework/angular/service.html)
+
 ## [表单](/framework/angular/form.html)
+
+## [组织](/framework/angular/organization.html)
+
+v15 时引入了 standalone 组件（可独立运行的组件）。  
+它是 NgModules 的替代方案。
 
 ## [字段说明](/framework/angular/decorator.html)
 
@@ -119,11 +130,16 @@ class A {
 ## 家族
 
 - [@angular/cli](/framework/angular/family/angularCli.html)
-- [@angular/router](/framework/angular/family/angularRouter.html)
+- [@angular/router 路由器](/framework/angular/family/angularRouter.html)
 - [@angular/common](/framework/angular/family/angularCommon.html)
-- [@angular/core](/framework/angular/family/core.html)
+- [@angular/core](/framework/angular/family/angularCore.html)
 - [@angular/module](/framework/angular/family/module.html)
-- [@angular/cli](/framework/angular/family/angularCli.html)
+- [angular form](/framework/angular/family/angularCli.html)
+- [angular HttpClient](/framework/angular/family/angularCli.html)
+- [angular 动画](/framework/angular/family/angularCli.html)
+- [angular pwa](/framework/angular/family/angularCli.html)
+- [angular 原理图](/framework/angular/family/angularCli.html)
+- [angular HttpClient](/framework/angular/family/angularCli.html)
 - [@angular/cli](/framework/angular/family/angularCli.html)
 - [@angular/cli](/framework/angular/family/angularCli.html)
 

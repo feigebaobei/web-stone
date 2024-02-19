@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>title</title>
-        <style>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>title</title>
+            <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -15,43 +15,8 @@
 	display: none;
 }
 
-/* From extension ms-toolsai.jupyter */
-/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
-
-.alert {
-    width: auto;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-.alert > *:last-child {
-    margin-bottom: 0;
-}
-#preview > .alert:last-child {
-    /* Prevent this being set to zero by the default notebook stylesheet */
-    padding-bottom: 1em;
-}
-
-.alert-success {
-    /* Note there is no suitable color available, so we just copy "info" */
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-info {
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-warning {
-    background-color: var(--theme-warning-background);
-    color: var(--theme-warning-foreground);
-}
-.alert-danger {
-    background-color: var(--theme-error-background);
-    color: var(--theme-error-foreground);
-}
-
 </style>
-        
+            
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -72,27 +37,170 @@
     pointer-events: none;
 }
 </style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
         
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="title">title</h1>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="title">title</h1>
 <h2 id="伸展树-splaytree">伸展树 splayTree</h2>
 <ul>
-<li>比avlt宽松一些</li>
+<li>比 avlt 宽松一些</li>
 <li>局部性
 <ul>
 <li>刚被访问过的数据，可能还会很快被访问。</li>
 </ul>
 </li>
 <li>利用了中序遍历不变的特性。</li>
-<li>一次向上追溯2层  v, p = v.parent, g = p.parent. avlt是每次向上追溯一层。</li>
-<li>对应路径的长度减头。可减少树的高度为原来的一半。因为它每次都会在g节点的左或右增加节点。</li>
+<li>一次向上追溯 2 层 v, p = v.parent, g = p.parent. avlt 是每次向上追溯一层。</li>
+<li>对应路径的长度减头。可减少树的高度为原来的一半。因为它每次都会在 g 节点的左或右增加节点。</li>
 </ul>
 <h2 id="b-tree">b-tree</h2>
-<h2 id="title">title</h2>
-<h2 id="title">title</h2>
+<ul>
+<li>最初为了解决不同存储级别之间在访问速度上的巨大差异。（即高效 io）</li>
+<li>应用的内存虽然的增长，但是实际可应用的内存在减小。</li>
+<li>多个子节点。（多度）</li>
+<li>节点中包括多个元素</li>
+<li>叶子节点的深度一致</li>
+<li>平衡多路搜索树 multi-way</li>
+<li>每向下降一层，则读入一组关键码。</li>
+<li>它是高阶平衡树。m 阶表示：每个节点最多 m 个分支，m-1 个关键码。</li>
+<li>节点的子元素数量：
+<ul>
+<li>非根节点 <code>[m/2] &lt;= n + 1</code></li>
+<li>根节点 <code>2 &lt;= n + 1 </code></li>
+</ul>
+</li>
+<li>也称为 <code>([m/2], m)-树</code></li>
+<li>(2,4)-树地位很重要。与 rb-tree 有关</li>
+<li>超级节点可以使用 2 个线性数据结构表示
+<ul>
+<li>一个放数据</li>
+<li>一个放子元素的链接</li>
+</ul>
+</li>
+<li>查找工作结束与外部节点</li>
+<li>每层的节点为数量
+<ul>
+<li>1</li>
+<li>2</li>
+<li><code>2 * [m/2]^(k-1)</code></li>
+</ul>
+</li>
+<li>m 阶。即：m 个内部节点，m+1 个外部节点，m 种成功可能，m+1 种失败可能。</li>
+<li></li>
+</ul>
+<h3 id="存储分级">存储分级</h3>
+<p>向下为外存，向上为内丰。
+上下传递数据为 io 操作.<br>
+越上层访问速度越快。反之成立。<br>
+io 时操作 1b 与 1kb 几乎一样。</p>
+<pre><code>    cpu
+    ram
+    disk
+    array // 磁盘陈列
+    ...
+</code></pre>
+<h3 id="title-1">title</h3>
+<h2 id="title-2">title</h2>
+<h2 id="todo">todo</h2>
+<p>好多静态结构，是由动态调整来保持的。</p>
 
-        
-        
-    </body>
-    </html>
+            
+            
+        </body>
+        </html>
