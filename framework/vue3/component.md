@@ -321,7 +321,7 @@ v-bind="$attrs"
 - 使用 symbol 类型为 key 可以减少变量名冲突。
 - 可以与 ref/reactive/readonly/var/symbol/function 结合使用。
 
-[组件间传递数据](/framework/dataTrasmit/index.html)
+[组件间传递数据](/framework/dataTransmit/index.html)
 
 <!-- prettier-ignore-start -->
 |            | provide                     | inject                 |                          |

@@ -232,7 +232,7 @@ Vue.createApp({...})
 - 保留了以`_`开头的属性。  
   尽量不要动这样的属性。
 
-## [组件间传递数据](/framework/dataTrasmit/index.html)
+## [组件间传递数据](/framework/dataTransmit/index.html)
 
 ## 模板引用
 
