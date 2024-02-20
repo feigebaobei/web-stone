@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>string</title>
-        <style>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>string</title>
+            <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -15,43 +15,8 @@
 	display: none;
 }
 
-/* From extension ms-toolsai.jupyter */
-/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
-
-.alert {
-    width: auto;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-.alert > *:last-child {
-    margin-bottom: 0;
-}
-#preview > .alert:last-child {
-    /* Prevent this being set to zero by the default notebook stylesheet */
-    padding-bottom: 1em;
-}
-
-.alert-success {
-    /* Note there is no suitable color available, so we just copy "info" */
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-info {
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-warning {
-    background-color: var(--theme-warning-background);
-    color: var(--theme-warning-foreground);
-}
-.alert-danger {
-    background-color: var(--theme-error-background);
-    color: var(--theme-error-foreground);
-}
-
 </style>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
@@ -73,10 +38,106 @@
     pointer-events: none;
 }
 </style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
         
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="string">string</h1>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="string">string</h1>
 <p>处理文本（字符串）</p>
 <h2 id="创建">创建</h2>
 <pre><code>var a = new String();
@@ -90,240 +151,47 @@ var num0 = a.length // 39
 </code></pre>
 <p><strong>prototype</strong> 允许向对象添加属性和方法</p>
 <h2 id="方法">方法</h2>
-<table>
-<thead>
-<tr>
-<th>api</th>
-<th>参数</th>
-<th>说明</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>String#@@iterator()</td>
-<td></td>
-<td>返回新的iterator对象</td>
-<td></td>
-</tr>
-<tr>
-<td>String#charAt(index)</td>
-<td>index: 0 ~ string.length - 1</td>
-<td>返回指定索引的字符</td>
-<td></td>
-</tr>
-<tr>
-<td>String#charCodeAt(index)</td>
-<td>index</td>
-<td>返回指定索引的字符的编码单元表示</td>
-<td></td>
-</tr>
-<tr>
-<td>String#codePointAt(pos)</td>
-<td>pos 编码元素的位置</td>
-<td>返回一个Unicode编码点值的非负整数</td>
-<td></td>
-</tr>
-<tr>
-<td>String#concat(...str)</td>
-<td></td>
-<td>返回把若干str合并后的新字符串</td>
-<td>性能不如<code>+</code>/<code>+=</code></td>
-</tr>
-<tr>
-<td>String#endsWith(searchString[, length])</td>
-<td>searchString 是搜索的字符串。length 指定String的尾部下标</td>
-<td>返回String的指定尾部是否以searchString结束</td>
-<td></td>
-</tr>
-<tr>
-<td>String.fromCharCode(...num)</td>
-<td>num 0~65535(0xffff)之间的代表示utf-16代码单元的数字</td>
-<td>返回该数字对应的字母。</td>
-<td></td>
-</tr>
-<tr>
-<td>String.fromCodePoint(...num)</td>
-<td></td>
-<td>返回使用指定的代码点序列创建的字符串</td>
-<td></td>
-</tr>
-<tr>
-<td>String#includes(searchString[, position])</td>
-<td></td>
-<td>返回boolean。表示String中是否包含searchString。从position开始搜索。</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>String#indexOf(searchString[, index])</td>
-<td></td>
-<td>从指定的下标开始搜索searchString。若存在则返回第一次出现的下标，否则返回-1.</td>
-<td></td>
-</tr>
-<tr>
-<td>String#lastIndexOf(searchString[, index])</td>
-<td></td>
-<td>从指定的下标开始搜索searchString。若存在则返回最后一次出现的下标，否则返回-1.</td>
-<td></td>
-</tr>
-<tr>
-<td>String#localeCompare()</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>String#match(regexp)</td>
-<td></td>
-<td>返回符合regexp的匹配结果。</td>
-<td>若regexp中有<code>g</code>，则返回所有匹配结果组成的数组或null。若regexp中无<code>g</code>，则返回第一个匹配项及相关捕获组或null。<code>[searchString, index: number, group: 一个捕获数组, index: 当前匹配结果的开始位置]</code></td>
-</tr>
-<tr>
-<td>详见<a href="/regexp/index.html">正则表达式</a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>String#matchAll(regexpg)</td>
-<td>regexpg 全局匹配的正则表达式</td>
-<td>返回一个包含所有匹配正则表达式和分组捕获结果的遍历器。</td>
-<td></td>
-</tr>
-<tr>
-<td>String#normalize([form])</td>
-<td>form 正规形式 'NFC' / 'NFD' / 'NFKC' / 'NFKD'</td>
-<td>返回按指定形式正规化的字符串</td>
-<td></td>
-</tr>
-<tr>
-<td>String#padEnd(targetLength, [padString])</td>
-<td></td>
-<td>返回一个新字符串，基于String，添加padString到targetLength</td>
-<td></td>
-</tr>
-<tr>
-<td>String#padStart(targetLength, [padString])</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>String.raw</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>String#repeat(count)</td>
-<td>count 重复次数 0 ~ +infinity</td>
-<td>返回重复指定次数的新字符串</td>
-<td></td>
-</tr>
-<tr>
-<td><code>String#replace(regexp|substr, newSubStr|function)</code></td>
-<td>regexp 正则表达式 substr 字符串 newSubStr 字符串。</td>
-<td>替换</td>
-<td>详见下文</td>
-</tr>
-<tr>
-<td>String#replaceAll(regexp</td>
-<td>substr, newSubStr</td>
-<td>function)</td>
-<td></td>
-</tr>
-<tr>
-<td>String#search(regexp)</td>
-<td></td>
-<td>返回匹配的下标。若无匹配则返回-1.</td>
-<td></td>
-</tr>
-<tr>
-<td><code>String#slice(beginIndex, [endIndex])</code></td>
-<td></td>
-<td>返回指定下标范围内的字符串</td>
-<td></td>
-</tr>
-<tr>
-<td><code>String#split([separator[,limit]])</code></td>
-<td>separator 分割符  limit 数组的长度</td>
-<td>按指定分割符、数组长度分割String为数组。</td>
-<td></td>
-</tr>
-<tr>
-<td>String#startsWith(searchString[, position])</td>
-<td></td>
-<td>是否以searchString开头</td>
-<td></td>
-</tr>
-<tr>
-<td><code>String#substring(startIndex, [endIndex])</code></td>
-<td></td>
-<td>返回指定下标范围的字符串</td>
-<td></td>
-</tr>
-<tr>
-<td><code>String#toLocalLowerCase([locale])</code></td>
-<td></td>
-<td>返回指定语言环境的小写格式的字符串</td>
-<td></td>
-</tr>
-<tr>
-<td><code>String#toLocaleUpperCase([locale])</code></td>
-<td></td>
-<td>返回指定语言环境的大写格式的字符串</td>
-<td></td>
-</tr>
-<tr>
-<td><code>String#toLowerCase([locale])</code></td>
-<td></td>
-<td>返回指定语言环境的小写格式的字符串</td>
-<td></td>
-</tr>
-<tr>
-<td><code>String#toUpperCase([locale])</code></td>
-<td></td>
-<td>返回指定语言环境的小写格式的字符串</td>
-<td></td>
-</tr>
-<tr>
-<td><code>String#toString()</code></td>
-<td></td>
-<td>返回一个表示调用对象的字符串。</td>
-<td>String 对象覆盖了Object 对象的 toString 方法；并没有继承 Object.toString()。</td>
-</tr>
-<tr>
-<td>String#trim()</td>
-<td></td>
-<td>返回去掉两端空字符串后的新字符串。</td>
-<td></td>
-</tr>
-<tr>
-<td>String#trimEnd()</td>
-<td></td>
-<td>返回去掉右端空字符串后的新字符串。</td>
-<td></td>
-</tr>
-<tr>
-<td>String#trimStart()</td>
-<td></td>
-<td>返回去掉左端空字符串后的新字符串。</td>
-<td></td>
-</tr>
-<tr>
-<td>String#valueOf()</td>
-<td></td>
-<td>返回字符串的原始值</td>
-<td></td>
-</tr>
-</tbody>
-</table>
+<!-- prettier-ignore-start -->
+<p>| api                    | 参数   | 说明                       |            |
+| ------- | ------------------- | ---------- | ----------------- | --- | -------- |
+| String#@@iterator() |        | 返回新的 iterator 对象    |            |
+| String#charAt(index)   | index: 0 ~ string.length - 1   | 返回指定索引的字符         |            |
+| String#charCodeAt(index)       | index  | 返回指定索引的字符的编码单元表示                |            |
+| String#codePointAt(pos)        | pos 编码元素的位置          | 返回一个 Unicode 编码点值的非负整数             |            |
+| String#concat(...str)  |        | 返回把若干 str 合并后的新字符串                 | 性能不如<code>+</code>/<code>+=</code>   |
+| String#endsWith(searchString[, length])               | searchString 是搜索的字符串。length 指定 String 的尾部下标 | 返回 String 的指定尾部是否以 searchString 结束  |            |
+| String.fromCharCode(...num)    | num 0~65535(0xffff)之间的代表示 utf-16 代码单元的数字      | 返回该数字对应的字母。     |            |
+| String.fromCodePoint(...num)   |        | 返回使用指定的代码点序列创建的字符串            |            |
+| String#includes(searchString[, position])             |        | 返回 boolean。表示 String 中是否包含 searchString。从 position 开始搜索。      |
+|   |
+| String#indexOf(searchString[, index])                 |        | 从指定的下标开始搜索 searchString。若存在则返回第一次出现的下标，否则返回-1.   |            |
+| String#lastIndexOf(searchString[, index])             |        | 从指定的下标开始搜索 searchString。若存在则返回最后一次出现的下标，否则返回-1. |            |
+| String#localeCompare() |        |     |            |
+| String#match(regexp)   |        | 返回符合 regexp 的匹配结果。                    | 若 regexp 中有<code>g</code>，则返回所有匹配结果组成的数组或 null。若 regexp 中无<code>g</code>，则返回第一个匹配项及相关捕获组或 null。<code>[searchString, index: number, group: 一个捕获数组, index: 当前匹配结果的开始位置]</code> |
+| 详见<a href="/regexp/index.html">正则表达式</a>                  |
+| String#matchAll(regexpg)       | regexpg 全局匹配的正则表达式        | 返回一个包含所有匹配正则表达式和分组捕获结果的遍历器。  |            |
+| String#normalize([form])       | form 正规形式 'NFC' / 'NFD' / 'NFKC' / 'NFKD'              | 返回按指定形式正规化的字符串                    |            |
+| String#padEnd(targetLength, [padString])              |        | 返回一个新字符串，基于 String，添加 padString 到 targetLength                  |            |
+| String#padStart(targetLength, [padString])            |        |     |            |
+| String.raw             |        |     |            |
+| String#repeat(count)   | count 重复次数 0 ~ +infinity        | 返回重复指定次数的新字符串 |            |
+| <code>String#replace(regexp\|substr, newSubStr\|function)</code> | regexp 正则表达式 substr 字符串 newSubStr 字符串。         | 替换                       | 详见下文   |
+| String#replaceAll(regexp       | substr, newSubStr           | function)                  |            |     | 详见下文 |
+| String#search(regexp)  |        | 返回匹配的下标。若无匹配则返回-1.               |            |
+| <code>String#slice(beginIndex, [endIndex])</code>                |        | 返回指定下标范围内的字符串 |            |
+| <code>String#split([separator[,limit]])</code>                   | separator 分割符 limit 数组的长度   | 按指定分割符、数组长度分割 String 为数组。      |            |
+| String#startsWith(searchString[, position])           |        | 是否以 searchString 开头   | 参数不能是正则表达式           |
+| <code>String#substring(startIndex, [endIndex])</code>            |        | 返回指定下标范围的字符串   |            |
+| <code>String#toLocalLowerCase([locale])</code>                   |        | 返回指定语言环境的小写格式的字符串              |            |
+| <code>String#toLocaleUpperCase([locale])</code>                  |        | 返回指定语言环境的大写格式的字符串              |            |
+| <code>String#toLowerCase([locale])</code> |        | 返回指定语言环境的小写格式的字符串              |            |
+| <code>String#toUpperCase([locale])</code> |        | 返回指定语言环境的小写格式的字符串              |            |
+| <code>String#toString()</code>    |        | 返回一个表示调用对象的字符串。                  | String 对象覆盖了 Object 对象的 toString 方法；并没有继承 Object.toString()。                 |
+| String#trim()          |        | 返回去掉两端空字符串后的新字符串。              |            |
+| String#trimEnd()       |        | 返回去掉右端空字符串后的新字符串。              |            |
+| String#trimStart()     |        | 返回去掉左端空字符串后的新字符串。              |            |
+| String#valueOf()       |        | 返回字符串的原始值         |            |</p>
+<!-- prettier-ignore-end -->
 <pre><code class="language-js">
 <span class="hljs-title class_">String</span>#<span class="hljs-title function_">replace</span>(regexp|substr, newSubStr|<span class="hljs-keyword">function</span>)
 regexp 正则表达式
@@ -363,7 +231,7 @@ function (match, p1, p2, p3, ..., offset, string, NamedCaptureGroup) {...}
 
 </span></code></pre>
 
-        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
-        
-    </body>
-    </html>
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>

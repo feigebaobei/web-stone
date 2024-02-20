@@ -543,7 +543,7 @@
 <span class="hljs-keyword">let</span> errorCode = {
   <span class="hljs-number">0</span>: <span class="hljs-string">&#x27;成功&#x27;</span>,
   <span class="hljs-number">100100</span>: <span class="hljs-string">&#x27;未传递必传参数&#x27;</span>, <span class="hljs-comment">// 要求字段必传</span>
-  <span class="hljs-number">200000</span>: <span class="hljs-string">&#x27;保存数据时出错&#x27;</span>, 
+  <span class="hljs-number">200000</span>: <span class="hljs-string">&#x27;保存数据时出错&#x27;</span>,
   <span class="hljs-number">300000</span>: <span class="hljs-string">&#x27;无对应数据&#x27;</span>,
   <span class="hljs-comment">// ...</span>
 }
@@ -566,6 +566,23 @@
     <span class="hljs-attr">data</span>: {}
   })
 })
+<span class="hljs-comment">// 格式化json字符串</span>
+<span class="hljs-comment">// 未测试</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">formatJson</span> = (<span class="hljs-params">a: object | string, indent = <span class="hljs-number">2</span></span>) =&gt; {
+  <span class="hljs-keyword">let</span> ot = a
+  <span class="hljs-keyword">switch</span>(<span class="hljs-title function_">getType</span>(ot)) {
+    <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;String&#x27;</span>:
+      ot = ot.<span class="hljs-title function_">trim</span>()
+      ot = ot.<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/^[&#x27;&quot;]{/</span>, <span class="hljs-string">&#x27;{&#x27;</span>)
+      ot = ot.<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/}[&#x27;&quot;]$/</span>, <span class="hljs-string">&#x27;}&#x27;</span>)
+      ot = ot.<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/\\&quot;/</span>, <span class="hljs-string">&#x27;&quot;&#x27;</span>)
+      ot = <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(ot)
+      <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;Object&#x27;</span>:
+      <span class="hljs-keyword">break</span>;
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(ot, <span class="hljs-function">(<span class="hljs-params">_k, v</span>) =&gt;</span> v, indent)
+}
 
 
 

@@ -429,6 +429,23 @@ Promise.resolve().then(() => {
     data: {}
   })
 })
+// 格式化json字符串
+// 未测试
+let formatJson = (a: object | string, indent = 2) => {
+  let ot = a
+  switch(getType(ot)) {
+    case 'String':
+      ot = ot.trim()
+      ot = ot.replace(/^['"]{/, '{')
+      ot = ot.replace(/}['"]$/, '}')
+      ot = ot.replace(/\\"/, '"')
+      ot = JSON.parse(ot)
+      break;
+    case 'Object':
+      break;
+  }
+  return JSON.stringify(ot, (_k, v) => v, indent)
+}
 
 
 
