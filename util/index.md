@@ -438,7 +438,7 @@ let formatJson = (a: object | string, indent = 2) => {
       ot = ot.trim()
       ot = ot.replace(/^['"]{/, '{')
       ot = ot.replace(/}['"]$/, '}')
-      ot = ot.replace(/\\"/, '"')
+      ot = ot.replace(/\\"/g, '"')
       ot = JSON.parse(ot)
       break;
     case 'Object':
@@ -447,6 +447,20 @@ let formatJson = (a: object | string, indent = 2) => {
   return JSON.stringify(ot, (_k, v) => v, indent)
 }
 
+let djb2HashFn: HashFn = (k: A) => {
+    let h = 5381  let t = String(k)
+    for (let i = 0; i < t.length; i++) {
+      h = h * 33 + t.charCodeAt(i)
+    }
+    return h % 1013
+}
+let loseloseHashFn: HashFn = (k: A) => {
+  let h = 0  let t = String(k)
+  for (let i = 0; i < t.length; i++) {
+    h = h + t.charCodeAt(i)
+  }
+  return h % 37
+}
 
 
 

@@ -575,7 +575,7 @@
       ot = ot.<span class="hljs-title function_">trim</span>()
       ot = ot.<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/^[&#x27;&quot;]{/</span>, <span class="hljs-string">&#x27;{&#x27;</span>)
       ot = ot.<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/}[&#x27;&quot;]$/</span>, <span class="hljs-string">&#x27;}&#x27;</span>)
-      ot = ot.<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/\\&quot;/</span>, <span class="hljs-string">&#x27;&quot;&#x27;</span>)
+      ot = ot.<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/\\&quot;/g</span>, <span class="hljs-string">&#x27;&quot;&#x27;</span>)
       ot = <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(ot)
       <span class="hljs-keyword">break</span>;
     <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;Object&#x27;</span>:
@@ -584,6 +584,20 @@
   <span class="hljs-keyword">return</span> <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(ot, <span class="hljs-function">(<span class="hljs-params">_k, v</span>) =&gt;</span> v, indent)
 }
 
+<span class="hljs-keyword">let</span> <span class="hljs-attr">djb2HashFn</span>: <span class="hljs-title class_">HashFn</span> = <span class="hljs-function">(<span class="hljs-params">k: A</span>) =&gt;</span> {
+    <span class="hljs-keyword">let</span> h = <span class="hljs-number">5381</span>  <span class="hljs-keyword">let</span> t = <span class="hljs-title class_">String</span>(k)  
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; t.<span class="hljs-property">length</span>; i++) {    
+      h = h * <span class="hljs-number">33</span> + t.<span class="hljs-title function_">charCodeAt</span>(i)  
+    }  
+    <span class="hljs-keyword">return</span> h % <span class="hljs-number">1013</span>
+}
+<span class="hljs-keyword">let</span> <span class="hljs-attr">loseloseHashFn</span>: <span class="hljs-title class_">HashFn</span> = <span class="hljs-function">(<span class="hljs-params">k: A</span>) =&gt;</span> {  
+  <span class="hljs-keyword">let</span> h = <span class="hljs-number">0</span>  <span class="hljs-keyword">let</span> t = <span class="hljs-title class_">String</span>(k)  
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; t.<span class="hljs-property">length</span>; i++) {    
+    h = h + t.<span class="hljs-title function_">charCodeAt</span>(i)  
+  }  
+  <span class="hljs-keyword">return</span> h % <span class="hljs-number">37</span>
+}
 
 
 
