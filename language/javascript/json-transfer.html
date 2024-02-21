@@ -56,6 +56,10 @@
         .op-botton {
 
         }
+        .indentInput {
+            width: 200px;
+            height: 24px;
+        }
     </style>
 </head>
     
@@ -64,6 +68,8 @@
         <header class="nav-box">
             <span class="nav-box-item is-active">string => json</span>
             <span class="nav-box-item">json => string</span>
+            <label for="indentInput">缩进</label>
+            <input type="number" value="2" min="0" max="10" class="indentInput" id="indentInput" />
         </header>
         <section class="body">
             <textarea name="" id="" class="enter" cols="30" rows="10"></textarea>
@@ -93,11 +99,17 @@
             c: 2,
         }
         let originText = JSON.stringify(originObj)
+        // originText = '{"a": 2, "b": "{\\"code\\": 3}"}'
+        // originText = '{"a": 2, "b": 3}'
         let enterEle = document.querySelector('.enter')
         enterEle.value = originText
         let opBotton = document.querySelector('#opButton')
+        let indentInputDom = document.querySelector('#indentInput')
         opBotton.addEventListener('click', (e) => {
+            // log(indentInputDom.value)
+            let indent = Number(indentInputDom.value)
             let ot = enterEle.value
+            // log('ot', ot) // {a: 2, sb: "{\"code\": 3}"}
             let nt = ''
             try {
                 switch (activeFunctionIndex) {
@@ -109,7 +121,10 @@
                         nt = JSON.parse(ot)
                         nt = JSON.stringify(nt, (k, v) => {
                             return v
-                        }, 2)
+                        }, 
+                        // 2
+                        indent
+                        )
                     break;
                 }
                 document.querySelector('.output').value = nt
