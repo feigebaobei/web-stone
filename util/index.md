@@ -461,6 +461,15 @@ let loseloseHashFn: HashFn = (k: A) => {
   }
   return h % 37
 }
+let microAsync = (cb: F, delay = 0, ...p: A[]) => {
+  return new Promise((s, _j) => {
+    setTimeout(() => {
+      s(true)
+    }, delay)
+  }).then(() => {
+    return cb(...p)
+  })
+}
 
 
 

@@ -40,7 +40,7 @@
 |       |inline-grid||||||
 |       |subgrid||||||
 |grid-template-columns|每列列宽|repeat(n, value)简单重复value n次|||||
-|                     |       |auto-fill 自动填充|||||
+|                     |       |auto-fill 自动填充，每行尽可能多的排列网格元素。|||||
 |                     |       |minmax() 在这个范围内|||||
 |                     |       |auto 自动|||||
 |                     |       |none|||||
