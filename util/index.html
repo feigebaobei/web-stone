@@ -607,7 +607,20 @@
     <span class="hljs-keyword">return</span> <span class="hljs-title function_">cb</span>(...p)
   })
 }
-
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">cutTail</span> = (<span class="hljs-params">str, threshold = <span class="hljs-number">18</span></span>) =&gt; {
+  <span class="hljs-keyword">return</span> str.<span class="hljs-property">length</span> &gt; threshold ? <span class="hljs-string">`<span class="hljs-subst">${str.slice(<span class="hljs-number">0</span>, threshold)}</span>...`</span> : str
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">cutLength</span> = (<span class="hljs-params">str, pre = <span class="hljs-number">4</span>, post = <span class="hljs-number">6</span></span>) =&gt; {
+  <span class="hljs-keyword">if</span> (str) {
+    <span class="hljs-keyword">if</span> (pre + post &lt; str.<span class="hljs-property">length</span>) {
+      <span class="hljs-keyword">return</span> <span class="hljs-string">`<span class="hljs-subst">${str.slice(<span class="hljs-number">0</span>, pre)}</span>...<span class="hljs-subst">${str.slice(-post)}</span>`</span>
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">return</span> str旧上过不是刉jmh6
+    }
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">return</span> str
+  }
+}
 
 
 

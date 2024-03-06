@@ -180,11 +180,11 @@ demo
 
 ### 史蒂文心理物理强度定律
 
-![](/dataVisual/visualChannel.png)
+![](/dataVisual/image/visualChannel.png)
 
 ### 属性可分离性
 
-![](/dataVisual/WX20220424-072641%402x.png)
+![](/dataVisual/image/WX20220424-072641%402x.png)
 
 ## 可视化任务与分析
 
@@ -211,8 +211,8 @@ demo
     - 对原始数据集进行一系列的变换
     - 输出可视化结果，进行有对应性的绘制
 
-![](/dataVisual/WX20220425-073954%402x.png)
-![](/dataVisual/WX20220425-074013@2x.png)
+![](/dataVisual/image/WX20220425-073954%402x.png)
+![](/dataVisual/image/WX20220425-074013@2x.png)
 
 ### 设计构型
 
@@ -223,16 +223,16 @@ demo
 数据、任务抽象 V
 可视化编码、交互用例 ^
 算法 | 技术导向的工作
-![](/dataVisual/issue%26resolve.png)
+![](/dataVisual/image/issue%26resolve.png)
 
 ## 交互
 
-![](/dataVisual/progress.png)  
+![](/dataVisual/image/progress.png)  
 为了按需求查找相关信息
 
 ### 交互分类
 
-![](/dataVisual/opData.png)
+![](/dataVisual/image/opData.png)
 
 ### 视图操作
 
@@ -290,7 +290,7 @@ demo
   - 文化 预期
   - 时间 金钱
 
-![](/dataVisual/control%26alert.png)
+![](/dataVisual/image/control%26alert.png)
 
 ### colorbrewer
 
@@ -300,7 +300,7 @@ demo
 
 ### 表格数据的比较
 
-![](/dataVisual/basis.png)
+![](/dataVisual/image/basis.png)
 
 ### 表格数据的相关性
 
@@ -308,9 +308,9 @@ demo
 
 ### 表格数据的分布
 
-![](/dataVisual/boxPolt.png)
-![](/dataVisual/heatMap.png)
-![](/dataVisual/smallVilion.png)
+![](/dataVisual/image/boxPolt.png)
+![](/dataVisual/image/heatMap.png)
+![](/dataVisual/image/smallVilion.png)
 
 《Exploring Large Tables With The Table Lens》
 
@@ -320,9 +320,9 @@ demo
 
 ### 几何方法
 
-![](/dataVisual/parcel.png)  
-![](/dataVisual/parcel2.png)  
-![](/dataVisual/star.png)
+![](/dataVisual/image/parcel.png)  
+![](/dataVisual/image/parcel2.png)  
+![](/dataVisual/image/star.png)
 
 ### 降维方法
 
@@ -333,9 +333,9 @@ demo
 
 ### 多方法耦合
 
-[平行坐标+散点图](/dataVisual/parcelMatrix.png)  
-[像素点图](/dataVisual/shapeCode.png)
-[罗旋像素点图](/dataVisual/colorIcon.png)
+[平行坐标+散点图](/dataVisual/image/parcelMatrix.png)  
+[像素点图](/dataVisual/image/shapeCode.png)
+[罗旋像素点图](/dataVisual/image/colorIcon.png)
 
 ### 其他方法
 
@@ -351,18 +351,18 @@ demo
 ### 显示树可视化
 
 层次结构数据
-[树](/dataVisual/tree.png)
-[树](/dataVisual/tree2.png)
+[树](/dataVisual/image/tree.png)
+[树](/dataVisual/image/tree2.png)
 [Degree-of-interest trees: A component of an attention-reactive user interface
 ](https://www.researchgate.net/publication/228685532_Degree-of-interest_trees_A_component_of_an_attention-reactive_user_interface)
 
 ### 隐式树可视化
 
-![显示vs隐式](/dataVisual/tree3.png)
+![显示vs隐式](/dataVisual/image/tree3.png)
 
 ### 树比较可视化
 
-![tree](/dataVisual/tree4.png)
+![tree](/dataVisual/image/tree4.png)
 [树图](http://www.cs.umd.edu/hcil/trs/91-06/91-06.pdf)
 [论文](http://vis.pku.edu.cn/research/publication/infovis19_barcodetree.pdf)
 
@@ -379,8 +379,8 @@ demo
 
 ### 图的理论基础
 
-![常见的几种图](/dataVisual/graph.png)  
-![图测量](/dataVisual/graph2.png)
+![常见的几种图](/dataVisual/image/graph.png)  
+![图测量](/dataVisual/image/graph2.png)
 
 ### 显示式表现形式
 
@@ -404,8 +404,8 @@ demo
 
 ### 矩阵可视化方法
 
-![图测量](/dataVisual/graph3.png)  
-![图测量](/dataVisual/graph4.png)
+![图测量](/dataVisual/image/graph3.png)  
+![图测量](/dataVisual/image/graph4.png)
 
 矩阵形式
 
@@ -421,7 +421,7 @@ demo
 
 ### nodeTrix
 
-![图测量](/dataVisual/graph5.png)  
+![图测量](/dataVisual/image/graph5.png)  
 [论文](https://hal.inria.fr/file/index/docid/689983/filename/Henry-InfoVis2007.pdf)
 
 ### 力导向布局算法
@@ -433,11 +433,11 @@ demo
 - 计算上的花费 O(n^3)
 - 限制（交互式）~1000 个节点
 
-![力导向公式](/dataVisual/force0.png)
+![力导向公式](/dataVisual/image/force0.png)
 
 ### 图可视化要解决的重要问题
 
-![边捆绑](/dataVisual/bind.png)
+![边捆绑](/dataVisual/image/bind.png)
 
 ## 时变数据可视化
 
@@ -453,8 +453,8 @@ demo
 - 嵌套可视化
 - 刷选和链接
 
-![缩略组图](/dataVisual/smallMultiples.png)  
-![缩略组图](/dataVisual/smallMultiples2.png)
+![缩略组图](/dataVisual/image/smallMultiples.png)  
+![缩略组图](/dataVisual/image/smallMultiples2.png)
 
 ### 静态替换
 
@@ -470,7 +470,7 @@ demo
 
 ### 时间序列图
 
-![时间序列图](/dataVisual/time0.png)
+![时间序列图](/dataVisual/image/time0.png)
 
 - 编织线图
 - 水平线图

@@ -470,7 +470,20 @@ let microAsync = (cb: F, delay = 0, ...p: A[]) => {
     return cb(...p)
   })
 }
-
+let cutTail = (str, threshold = 18) => {
+  return str.length > threshold ? `${str.slice(0, threshold)}...` : str
+}
+let cutLength = (str, pre = 4, post = 6) => {
+  if (str) {
+    if (pre + post < str.length) {
+      return `${str.slice(0, pre)}...${str.slice(-post)}`
+    } else {
+      return str旧上过不是刉jmh6
+    }
+  } else {
+    return str
+  }
+}
 
 
 
