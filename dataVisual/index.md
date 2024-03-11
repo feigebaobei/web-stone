@@ -1,2 +1,4 @@
 - [北大的数据可视化课程](./dataVisual/courseOfBK.html)
 - [npm 包](./jsPackages/index.html)
+- [webgl](/dataVisual/webgl.html)
+- [open gl](/dataVisual/opengl.html)
