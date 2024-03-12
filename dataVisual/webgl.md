@@ -2,7 +2,7 @@
 
 ## 它是什么
 
-它是基于 open gl 的 3d 绘图协议(浏览器上的 opengl)。底层是 js api。运行在 gpu.
+它是基于 opengl es2.0 的 3d 绘图协议(浏览器上的 opengl)。底层是 js api。运行在 gpu.
 
 ## 可以做什么
 
