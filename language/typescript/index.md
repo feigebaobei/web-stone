@@ -308,7 +308,7 @@ Util<type>
 ||`Partial<T>`|T类型的所有字段设置为可选字段|||
 ||`Required<T>`|T类型的所有字段设置为必填字段|||
 ||`Readonly<T>`|T类型的所有字段设置为只读字段|||
-||`Record<Keys, T>`|设置Keys的类型为T|`type C = 'ca' | 'cb'; let a: Record(C, T); => a: {ca: T, cb: T}`||
+||`Record<Keys, T>`|设置一个对象类型的key类型为Keys，值的类型为T|`type C = 'ca' | 'cb'; let a: Record(C, T); => a: {ca: T, cb: T}`||
 ||`Pick<T, Keys>`|从T类型中提取Keys的类型|`type T = Pick<A, 'a'|'b'>; => T: {a: xx, b: yy}`|与`T[k]`同效|
 ||`Omit<T, Keys>`|从T类型中删除Keys的类型|||
 ||`Exclude<UnionType, ExcludedMembers>`|从联合类型中删除指定成员|`type A = Exclude<'a' \| 'b' \| 'c', 'a'>; => type A = 'b' \| 'c'`||
@@ -321,6 +321,7 @@ Util<type>
 ||`ThisParameterType<T>`|返回this参数的类型|||
 ||`OmitThisParameter<T>`||||
 ||`ThisType<T>`||||
+||`DeepPartial<T>`|返回深度的t里的所有属性为可选的类型|||
 <!-- prettier-ignore-end -->
 
 ## class
@@ -849,3 +850,35 @@ ts 团队融入了很多强类型语言的东西。如注解(java)、装饰器(j
 ### ts 兼容 js 包
 
 ts 出现以前 js 已经存在好多年了。行业中已经存在好多 js 包。ts 团队为了让 ts/vscode 兼容已经存在的 js 包。创建了在配置文件中设置`*.d.ts`文件的选项。还创建了`@types/*`的私有包，号召大家一起维护。
+
+## todo
+
+修改或覆盖属性的值的类型
+
+```
+type ValueOf<T> = T[keyof T]
+
+interface B extends Omit<A, 'list'> {
+    list: Omit<ValueOf<A['list']>, 'sex'> & {
+        sex: string
+    }[]
+}
+```
+
+### Object & object & {}
+
+|     | Object    | object                                                                                                                   | {}                |
+| --- | --------- | ------------------------------------------------------------------------------------------------------------------------ | ----------------- |
+|     | Object 类 | 网友说无”原始值“（好像是 Object 的原型链上的值），非原始类型（undefined, null, boolean, number, bigint, string, symbol） | 没有属性的 object |
+|     |           | ts 创造了一个与原始类型相当的 object 类型。                                                                              |                   |
+
+## ts 的不足
+
+- 允许出来类型断言。
+- 允许出来 any 类型。
+- 有时过于严格，有时可忽略类型错误。
+  - var as unknown as T
+- 静态类型分析，不知道真实的数据传递。
+  - @input() data: T
+
+基于以上原因，ts 不能使问题在开发阶段暴露。会增加开发阶段的开发者心智负担。

@@ -45,4 +45,4 @@
 ||                 |                               |       |         |        |        |       |
 <!-- prettier-ignore-end -->
 
-## [组件间传递数据](/framework/dataTrasmit/index.html)
+## [组件间传递数据](/framework/dataTransmit/index.html)

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>TypeScript</title>
-        <style>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>TypeScript</title>
+            <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -16,7 +16,7 @@
 }
 
 </style>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
@@ -38,10 +38,106 @@
     pointer-events: none;
 }
 </style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
         
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="typescript">TypeScript</h1>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="typescript">TypeScript</h1>
 <h2 id="overview">overview</h2>
 <blockquote>
 <p>简称 ts<br>
@@ -644,7 +740,7 @@ ts 的类型可以用于防御式编程</p>
 <tr>
 <td></td>
 <td><code>Record&lt;Keys, T&gt;</code></td>
-<td>设置Keys的类型为T</td>
+<td>设置一个对象类型的key类型为Keys，值的类型为T</td>
 <td>`type C = 'ca'</td>
 <td>'cb'; let a: Record(C, T); =&gt; a: {ca: T, cb: T}`</td>
 </tr>
@@ -729,6 +825,13 @@ ts 的类型可以用于防御式编程</p>
 <td></td>
 <td><code>ThisType&lt;T&gt;</code></td>
 <td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>DeepPartial&lt;T&gt;</code></td>
+<td>返回深度的t里的所有属性为可选的类型</td>
 <td></td>
 <td></td>
 </tr>
@@ -1307,8 +1410,54 @@ init 后不能改变。<br>
 </ul>
 <h3 id="ts-兼容-js-包">ts 兼容 js 包</h3>
 <p>ts 出现以前 js 已经存在好多年了。行业中已经存在好多 js 包。ts 团队为了让 ts/vscode 兼容已经存在的 js 包。创建了在配置文件中设置<code>*.d.ts</code>文件的选项。还创建了<code>@types/*</code>的私有包，号召大家一起维护。</p>
+<h2 id="todo-1">todo</h2>
+<p>修改或覆盖属性的值的类型</p>
+<pre><code>type ValueOf&lt;T&gt; = T[keyof T]
 
-        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
-        
-    </body>
-    </html>
+interface B extends Omit&lt;A, 'list'&gt; {
+    list: Omit&lt;ValueOf&lt;A['list']&gt;, 'sex'&gt; &amp; {
+        sex: string
+    }[]
+}
+</code></pre>
+<h3 id="object--object--">Object &amp; object &amp; {}</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Object</th>
+<th>object</th>
+<th>{}</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>Object类</td>
+<td>网友说无”原始值“（好像是Object的原型链上的值），非原始类型（undefined, null, boolean, number, bigint, string, symbol）</td>
+<td>没有属性的object</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>ts创造了一个与原始类型相当的object类型。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="ts的不足">ts的不足</h2>
+<ul>
+<li>允许出来类型断言。</li>
+<li>允许出来any类型。</li>
+<li>有时过于严格，有时可忽略类型错误。
+<ul>
+<li>var as unknown as T</li>
+</ul>
+</li>
+<li>xx</li>
+</ul>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>
