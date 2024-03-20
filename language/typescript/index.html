@@ -684,7 +684,7 @@ ts 的类型可以用于防御式编程</p>
 <tr>
 <td></td>
 <td>keyof ObjT</td>
-<td>得到对象类型的key组成的union</td>
+<td>得到对象类型的key组成的union。没有valueof</td>
 <td></td>
 <td></td>
 </tr>
@@ -1433,29 +1433,35 @@ interface B extends Omit&lt;A, 'list'&gt; {
 <tbody>
 <tr>
 <td></td>
-<td>Object类</td>
-<td>网友说无”原始值“（好像是Object的原型链上的值），非原始类型（undefined, null, boolean, number, bigint, string, symbol）</td>
-<td>没有属性的object</td>
+<td>Object 类</td>
+<td>网友说无”原始值“（好像是 Object 的原型链上的值），非原始类型（undefined, null, boolean, number, bigint, string, symbol）</td>
+<td>没有属性的 object</td>
 </tr>
 <tr>
 <td></td>
 <td></td>
-<td>ts创造了一个与原始类型相当的object类型。</td>
+<td>ts 创造了一个与原始类型相当的 object 类型。</td>
 <td></td>
 </tr>
 </tbody>
 </table>
-<h2 id="ts的不足">ts的不足</h2>
+<h2 id="ts-的不足">ts 的不足</h2>
 <ul>
 <li>允许出来类型断言。</li>
-<li>允许出来any类型。</li>
+<li>允许出来 any 类型。</li>
 <li>有时过于严格，有时可忽略类型错误。
 <ul>
 <li>var as unknown as T</li>
 </ul>
 </li>
-<li>xx</li>
+<li>静态类型分析，不知道真实的数据传递。
+<ul>
+<li>@input() data: T</li>
 </ul>
+</li>
+<li>不能按业务逻辑的数据流处理数据的类型。它以能识别的为起点。有可能起点就是错的。</li>
+</ul>
+<p>基于以上原因，ts 不能使问题在开发阶段暴露。会增加开发阶段的开发者心智负担。</p>
 
             <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
             

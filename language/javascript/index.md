@@ -341,7 +341,7 @@ o.set('k1', 'v1')
 clog(o.get('k'))
 ```
 
-# 宏任务 & 微任务
+# [宏任务 & 微任务](/confuse/macroTask&MicroTask.html)
 
 ## 宏任务，由宿主发起。
 

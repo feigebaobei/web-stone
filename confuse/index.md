@@ -29,4 +29,7 @@
 - [contenteditable](/confuse/contenteditable.html)
 - [compositionstart & compositionend](/confuse/compositionstartCompositionend.html)
 - [坐标](/confuse/position.html)
+- [宏任务&微任务](/confuse/macroTask&MicroTask.html)
+- [title](/confuse/title.html)
+- [title](/confuse/title.html)
 - [title](/confuse/title.html)

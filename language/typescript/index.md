@@ -300,7 +300,7 @@ Util<type>
 <!-- prettier-ignore-start -->
 |说明|简写|说明|demo||
 |-|-|-|-|-|
-||keyof ObjT|得到对象类型的key组成的union|||
+||keyof ObjT|得到对象类型的key组成的union。没有valueof|||
 ||typeof AnyT|得到指定变量的类型|这个好象js里的typeof||
 |indexed access types||从对象类型中获得指定key的类型|`type A = ObjT["key"]`||
 |conditional types||`type A = condition ? B : C`|||
@@ -880,5 +880,6 @@ interface B extends Omit<A, 'list'> {
   - var as unknown as T
 - 静态类型分析，不知道真实的数据传递。
   - @input() data: T
+- 不能按业务逻辑的数据流处理数据的类型。它以能识别的为起点。有可能起点就是错的。
 
 基于以上原因，ts 不能使问题在开发阶段暴露。会增加开发阶段的开发者心智负担。
