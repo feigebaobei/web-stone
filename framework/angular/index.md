@@ -123,7 +123,7 @@ class A {
 }
 ```
 
-## title
+## [数据传递](/framework/angular/dataFlow.html)
 
 ## title
 

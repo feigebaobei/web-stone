@@ -140,15 +140,16 @@
             <h2 id="2022-年了还想开发工具方法包赶紧取消这个想法吧">2022 年了还想开发工具方法包。赶紧取消这个想法吧。</h2>
 <pre><code class="language-js"><span class="hljs-comment">// 去抖</span>
 <span class="hljs-comment">// 一段时间内连续调用，只执行一次。维护一个定时器，在定时器结束时执行。</span>
-<span class="hljs-keyword">let</span> <span class="hljs-title function_">createDebounceFn</span> = (<span class="hljs-params">fn, t = <span class="hljs-number">250</span></span>) =&gt; {
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">createDebounceFn</span> = (<span class="hljs-params">fn, t = <span class="hljs-number">250</span>, self?: A</span>) =&gt; {
     <span class="hljs-keyword">var</span> timer
     <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">...rest</span>) =&gt;</span> {
-      <span class="hljs-keyword">var</span> context = <span class="hljs-variable language_">this</span>
+      <span class="hljs-keyword">var</span> context = self
       <span class="hljs-keyword">if</span> (timer) {
         <span class="hljs-built_in">clearTimeout</span>(timer)
       }
       timer = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
-        fn.<span class="hljs-title function_">apply</span>(context, ...rest),
+        fn.<span class="hljs-title function_">apply</span>(context, rest),
+        <span class="hljs-comment">// fn.call(context, ...rest),</span>
       }, t)
     }
 }

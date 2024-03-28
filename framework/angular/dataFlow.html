@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x6570;&#x636e;&#x4f20;&#x9012;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="数据传递">数据传递</h1>
+<h2 id="input">@Input()</h2>
+<ul>
+<li>只限于父传子。</li>
+<li>在后期迭代中需要严格保持父子关系（树型关系）</li>
+<li>一般应用于小范围使用</li>
+</ul>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">app-child</span> [<span class="hljs-attr">k</span>]=<span class="hljs-string">&quot;v&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">app-child</span>&gt;</span>
+
+@Input() k: string;
+</code></pre>
+<h2 id="output">@Output()</h2>
+<ul>
+<li>只限于子传父</li>
+<li>在后期迭代中需要严格保持父子关系（树型关系）</li>
+<li>需要与自定义事件结合使用。</li>
+<li>一般应用于小范围使用</li>
+<li>只能传递一个参数。（注意参数数量为1）</li>
+</ul>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> (<span class="hljs-attr">click</span>)=<span class="hljs-string">&quot;cH()&quot;</span>&gt;</span>str<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+@Output() messageEvent = new EventEmitter()
+ch(){
+    this.messageEvent.emit(&#x27;str&#x27;)
+}
+<span class="hljs-tag">&lt;<span class="hljs-name">app-child</span> (<span class="hljs-attr">messageEvent</span>)=<span class="hljs-string">&quot;receiveMessage($event)&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">app-child</span>&gt;</span>
+</code></pre>
+<h2 id="service--rxjs">Service &amp; Rxjs</h2>
+<ul>
+<li>service提供共享的数据，管理数据。</li>
+<li><code>Subject</code>类与service管理数据，通知所有订阅数据的组件。当数据改变时通知。</li>
+</ul>
+<pre><code class="language-js"><span class="hljs-comment">// data.service.js</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">DataService</span> {
+    private data = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Subject</span>&lt;string&gt;()
+    <span class="hljs-title function_">setData</span>(<span class="hljs-params">v: strign</span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span>.<span class="hljs-title function_">next</span>(v)
+    }
+}
+<span class="hljs-comment">// sender.component.ts</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SenderComponent</span> {
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params">private dataService: DataService</span>) {
+    }
+    <span class="hljs-title function_">sendData</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">dataService</span>.<span class="hljs-title function_">setData</span>(<span class="hljs-string">&#x27;str&#x27;</span>)
+    }
+}
+<span class="hljs-comment">// receiver.component.ts</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ReceiverComponent</span> implements <span class="hljs-title class_">OnDestroy</span> {
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params">private dataService: DataService</span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">subscription</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">dataService</span>.<span class="hljs-property">data</span>.<span class="hljs-title function_">subscribe</span>(<span class="hljs-function"><span class="hljs-params">data</span> =&gt;</span> {<span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span> = data}) 
+    }
+    <span class="hljs-title function_">ngOnDestroy</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">subscription</span>.<span class="hljs-title function_">unsubscribe</span>()
+    }
+}
+</code></pre>
+<h2 id="service--signal">service &amp; signal</h2>
+<ul>
+<li>中心化方式管理（更新）数据。</li>
+<li>不用学习rxjs</li>
+<li>很像react里的useState</li>
+</ul>
+<pre><code>import { signal} from '@angular/core'
+export class DataSignalService {
+    private data = signal('')
+    setData(v: string) {
+        this.data.set(v)
+    }
+    getData() {
+        return this.data
+    }
+}
+// sender.component.ts
+this.dataService.setData(str)
+// receiver.component.ts
+this.data = this.dataService.getData()
+</code></pre>
+<h2 id="状态管理工具">状态管理工具</h2>
+<ul>
+<li>NgRx（受redux影响的状态管理工具）</li>
+<li>Akita</li>
+<li>Eif</li>
+</ul>
+<h2 id="后端接口">后端接口</h2>
+<h2 id="qs">qs</h2>
+<ul>
+<li>url太长了不好看。</li>
+</ul>
+<pre><code>{path: 'p',
+component: pComponent,
+queryParams: {
+    key: v
+}
+}
+this.route.snapshot.queryParamMap.get('key')
+</code></pre>
+<h2 id="route-params">route params</h2>
+<pre><code>{ path: 'p/:id', component: pC }
+this.route.params.subscribe(p =&gt; {
+    clog(p.id)
+})
+</code></pre>
+<h2 id="navigation">Navigation</h2>
+<pre><code>this.router.navigate(['/a', '/b'], {
+    state: {
+        k: 'v'
+    }
+})
+let state = this.router.getCurrentNavigation().extra.state
+if (state) {clog(state.k)}
+</code></pre>
+<h2 id="ls--ss">ls &amp; ss</h2>
+<h2 id="cookie">cookie</h2>
+<p>反对</p>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>
