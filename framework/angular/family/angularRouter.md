@@ -20,11 +20,38 @@
 - 在模块的类文件引入，并使用`@NgModule({imports: [RouterModule.forRoot(routes)]})`或者`@NgModule({imports: [...AppRoutingModule]})`
 -
 
-```html
-<a [routerLink]="[/home]">home</a>
-<!-- 匹配路由后，组件的出口 -->
-<router-outlet></router-outlet>
+### demo
+
+```ts
+// app-routing.module.ts
+import {NgModule} from '@angular/core'
+import { RouterModule, Routes } from '@angular/router'
+import { HomeComponent } from './home/home.component'
+import { NotFoundComponent } from './not-found/not-found.component'
+const routes: Routes = [
+  {path: '', redirectTo: 'home', pathMatch: 'full'},
+  {path: 'home', component: HomeComponent },
+  {path: '**', component: HomeComponent },
+]
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
+})
+export class AppRoutingModule {}
+
+// app.module.ts
+import { AppRoutingModule } from './app-routing.module'
+...
+@NgModule({
+  ...
+  imports:[
+    ...
+    AppRoutingModule,
+  ]
+})
 ```
+
+### 定义路由
 
 ```ts
 let routes: Routes = [
@@ -54,6 +81,21 @@ let routes: Routes = [
 ]
 ```
 
+### 请求跳转
+
+#### a
+
+```
+<a
+  [title]="title"
+  [routerLink]="['/path', obj.id]"
+>str</a>
+```
+
+[RouterLink](/framework/angular/directive.html)指令
+
+#### navigate
+
 ```ts
 this.router.navigate(['path', 'path2']) // 以根路由为起点跳转
 this.router.navigate(['path', 'path2'], { relativeTo: route }) // 相对于route跳转。route是ActivatedRoute.
@@ -61,17 +103,6 @@ this.router.navigate(['path', 'path2'], { queryParams: { id: 2 } }) // /path/pat
 this.router.navigate(['path', 'path2'], { preserveQueryParams: true }) // 保留现有的qs
 this.router.navigate(['path', 'path2'], { skipLocationChange: true }) // 保持浏览器的url不变。且传入的参数有效。
 this.router.navigate(['path', 'path2'], { replaceUrl: true }) // 是否跳转
-```
-
-### 在组件中使用
-
-```ts
-<a [routerLink]="[/home]" routerLinkActive="active">home</a>
-this.router.navigate(['/news'], {
-  queryParams: {
-    key: 'value'
-  }
-})
 ```
 
 ### 路由守卫
@@ -202,6 +233,8 @@ description
 ```
 
 ```
+
+## []
 
 ## todo
 

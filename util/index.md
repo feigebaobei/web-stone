@@ -3,15 +3,16 @@
 ```js
 // 去抖
 // 一段时间内连续调用，只执行一次。维护一个定时器，在定时器结束时执行。
-let createDebounceFn = (fn, t = 250) => {
+let createDebounceFn = (fn, t = 250, self?: A) => {
     var timer
     return (...rest) => {
-      var context = this
+      var context = self
       if (timer) {
         clearTimeout(timer)
       }
       timer = setTimeout(() => {
-        fn.apply(context, ...rest),
+        fn.apply(context, rest),
+        // fn.call(context, ...rest),
       }, t)
     }
 }

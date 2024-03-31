@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>&#x6a21;&#x5757;&#x5316;</title>
-        <style>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x6a21;&#x5757;&#x5316;</title>
+            <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -15,43 +15,8 @@
 	display: none;
 }
 
-/* From extension ms-toolsai.jupyter */
-/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
-
-.alert {
-    width: auto;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-.alert > *:last-child {
-    margin-bottom: 0;
-}
-#preview > .alert:last-child {
-    /* Prevent this being set to zero by the default notebook stylesheet */
-    padding-bottom: 1em;
-}
-
-.alert-success {
-    /* Note there is no suitable color available, so we just copy "info" */
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-info {
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-warning {
-    background-color: var(--theme-warning-background);
-    color: var(--theme-warning-foreground);
-}
-.alert-danger {
-    background-color: var(--theme-error-background);
-    color: var(--theme-error-foreground);
-}
-
 </style>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
@@ -73,10 +38,106 @@
     pointer-events: none;
 }
 </style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
         
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="模块化">模块化</h1>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="模块化">模块化</h1>
 <p>应该说清这 6 种规范。</p>
 <!-- prettier-ignore-start -->
 <table>
@@ -174,7 +235,7 @@
 <span class="hljs-comment">// 回调函数会在前面的模块都加载成功后再执行。</span>
 </code></pre>
 <pre><code class="language-js"><span class="hljs-built_in">require</span>([<span class="hljs-string">&#x27;module&#x27;</span>], <span class="hljs-keyword">function</span> (<span class="hljs-params"><span class="hljs-variable language_">module</span></span>) {
-    <span class="hljs-variable language_">module</span>.<span class="hljs-title function_">fn</span>(p)
+  <span class="hljs-variable language_">module</span>.<span class="hljs-title function_">fn</span>(p)
 })
 </code></pre>
 <h3 id="usage">usage</h3>
@@ -254,19 +315,19 @@
 <li>使同一个代码块在 commonjs/cmd/amd 中都可运行。即：可以在浏览器端、服务端（node 环境）、app 端运行。</li>
 </ul>
 <pre><code class="language-js"><span class="hljs-comment">// demo 示意</span>
-(<span class="hljs-function">(<span class="hljs-params">root, factory</span>) =&gt;</span> {
-    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> define === <span class="hljs-string">&#x27;function&#x27;</span> &amp;&amp; define.<span class="hljs-property">amd</span>) {
-        <span class="hljs-comment">// amd</span>
-        <span class="hljs-title function_">define</span>([<span class="hljs-string">&#x27;jquery&#x27;</span>], factory)
-    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> <span class="hljs-built_in">exports</span> === <span class="hljs-string">&#x27;objects&#x27;</span>) {
-        <span class="hljs-comment">// commonjs</span>
-        <span class="hljs-keyword">var</span> $ = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;jquery&#x27;</span>)
-        <span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = <span class="hljs-title function_">factory</span>($)
-    } <span class="hljs-keyword">else</span> {
-        root.<span class="hljs-property">testModule</span> = <span class="hljs-title function_">factory</span>(root.<span class="hljs-property">jQuery</span>)
-    }
+;(<span class="hljs-function">(<span class="hljs-params">root, factory</span>) =&gt;</span> {
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> define === <span class="hljs-string">&#x27;function&#x27;</span> &amp;&amp; define.<span class="hljs-property">amd</span>) {
+    <span class="hljs-comment">// amd</span>
+    <span class="hljs-title function_">define</span>([<span class="hljs-string">&#x27;jquery&#x27;</span>], factory)
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> <span class="hljs-built_in">exports</span> === <span class="hljs-string">&#x27;objects&#x27;</span>) {
+    <span class="hljs-comment">// commonjs</span>
+    <span class="hljs-keyword">var</span> $ = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;jquery&#x27;</span>)
+    <span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = <span class="hljs-title function_">factory</span>($)
+  } <span class="hljs-keyword">else</span> {
+    root.<span class="hljs-property">testModule</span> = <span class="hljs-title function_">factory</span>(root.<span class="hljs-property">jQuery</span>)
+  }
 })(<span class="hljs-variable language_">this</span>, <span class="hljs-function">(<span class="hljs-params">$</span>) =&gt;</span> {
-    <span class="hljs-comment">// todo</span>
+  <span class="hljs-comment">// todo</span>
 })
 </code></pre>
 <p>它在定义模块的时候回检测当前使用环境和模块的定义方式，将各种模块化定义方式转化为同样一种写法。
@@ -274,7 +335,7 @@
 <p>有优先 node 环境的（判断 exports 是否存在），也有优先 amd 环境的（判断 define 是否存在），最后都是使用 window/global 兜底。</p>
 <h2 id="commonjs">commonjs</h2>
 <ul>
-<li>node.js模块化的模块方案。在esm出现前出现。</li>
+<li>node.js 模块化的模块方案。在 esm 出现前出现。</li>
 <li>每个文件就是一个模块</li>
 <li>每一个模块都有一个<code>module</code>对象。该对象有个属性是：<code>exports</code>/<code>require</code></li>
 <li>使用这种规范的代表： node。node 把每一个文件都做为一个模块。加载模块使用 require，该方法<strong>读取一个文件并执行</strong>，最后返回这个模块内部的 exports 对象。返回的是值，不是值的地址。</li>
@@ -329,19 +390,23 @@
 <td></td>
 <td></td>
 </tr>
-<tr>
-<td>现代浏览器已经支持<code>esm</code></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
 </tbody>
 </table>
+<p>现代浏览器已经支持<code>esm</code></p>
 <pre><code>&lt;script type=&quot;module&quot;&gt;
 import v from '...'
 // ...
 &lt;/script&gt;
+</code></pre>
+<pre><code class="language-js"><span class="hljs-keyword">import</span> defaultExport <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;mn&#x27;</span>
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> all <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;mn&#x27;</span>
+<span class="hljs-keyword">import</span> {<span class="hljs-keyword">export</span>} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;mn&#x27;</span>
+<span class="hljs-keyword">import</span> {<span class="hljs-keyword">export</span> <span class="hljs-keyword">as</span> alias} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;mn&#x27;</span>
+<span class="hljs-keyword">import</span> {export1, export2} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;mn&#x27;</span>
+<span class="hljs-keyword">import</span> {export1, export2 <span class="hljs-keyword">as</span> alias} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;mn&#x27;</span>
+<span class="hljs-keyword">import</span> defaultExport, {export1, export2} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;mn&#x27;</span>
+<span class="hljs-keyword">import</span> defaultExport, * <span class="hljs-keyword">as</span> all <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;mn&#x27;</span>
+<span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;mn&#x27;</span> <span class="hljs-comment">// 仅加载模块，不导入任何内容。程序中的第一个此类导入将执行模块的主体。</span>
 </code></pre>
 <h2 id="iife">iife</h2>
 <ul>
@@ -364,10 +429,6 @@ import v from '...'
 }
 </code></pre>
 <h2 id="system">system</h2>
-<p>好像写错了。<br>
-在<code>*.html</code>文件中以<code>&lt;script&gt;</code>的方式引入。</p>
-<pre><code>&lt;script src=&quot;./first.js&quot;&gt;&lt;/script&gt;
-</code></pre>
 <h2 id="es-module-和-commonjs">ES module 和 commonJS</h2>
 <p>| | ES module | commonJS | | |
 | - | | | - | - |
@@ -486,7 +547,7 @@ import v from '...'
 <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;commonjs&quot;</span> <span class="hljs-comment">// 默认</span>
 </code></pre>
 
-        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
-        
-    </body>
-    </html>
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>

@@ -143,6 +143,18 @@ import v from '...'
 </script>
 ```
 
+```js
+import defaultExport from 'mn'
+import * as all from 'mn'
+import {export} from 'mn'
+import {export as alias} from 'mn'
+import {export1, export2} from 'mn'
+import {export1, export2 as alias} from 'mn'
+import defaultExport, {export1, export2} from 'mn'
+import defaultExport, * as all from 'mn'
+import 'mn' // 仅加载模块，不导入任何内容。程序中的第一个此类导入将执行模块的主体。
+```
+
 ## iife
 
 - 立即执行函数

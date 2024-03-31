@@ -23,54 +23,19 @@
     <script type="module">
       // import MySql from './test.js'
       let clog = console.log
-      // 请保留到写完rxjs
-      // let observable = new Observable((subscribe) => {
-      //   subscribe.next('boy')
-      // })
-      // observable.subscribe((x) => {
-      //   clog('x', x)
-      // })
-
-      // mysql
-      let mysql = new MySql(['id'], {id: Number, name: String, identity: String})
-      let arr = [
-        {
-          id: 0,
-          name: 'tom',
-          identity: '23673'
-        },
-        {
-          id: 1,
-          name: 'html',
-          identity: '25674'
-        },
-        {
-          id: 1,
-          name: 'js',
-          identity: '53125'
-        },
-        {
-          id: 2,
-          name: 'css',
-          identity: '85335'
-        },
-        {
-          id: 3,
-          name: 'go',
-          identity: '64256'
-        },
-        {
-          id: 4,
-          name: 'java',
-          identity: '36258'
-        },
-      ]
-      mysql.add(arr[0])
-      mysql.add(arr[1])
-      mysql.add(arr[2])
-      mysql.add(arr[3])
-      clog(mysql)
-      clog(mysql.get('id', 2))
+      let oo = {f: function () {
+          return this.k
+        }}
+      let createO = () => {
+        let o = Object.create(oo, {
+          k: {
+            value: 2
+          }
+        })
+        return o
+      }
+      let o = createO()
+      clog('o', o, o.f())
 
       
 
