@@ -485,6 +485,8 @@ let cutLength = (str, pre = 4, post = 6) => {
     return str
   }
 }
+// 兼容的数组，常用于处理脏数据。
+let compatibleArray = (a) => Array.isArray(a) ? a : []
 
 
 

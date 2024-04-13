@@ -3,9 +3,10 @@
 ## overview
 
 > 简称 ts  
-> js 是强类型语言  
-> ts 比 js 更强大。已经有很多前端项目使用此语言了。  
-> ts 是静态类型检测器。比 flow 更强大。  
+> ts 是强类型语言 js 是弱类型语言  
+> ts 比 js 更强大。ts 要求 coder 按 ts 的要求写代码，然后 ts 经过转化为 js。看起来像是 ts 更强大的样子。已经有很多前端项目使用此语言了。  
+> ts 就是 js 加上了类型的语言。
+> ts 是静态类型检测器。静态类型检测能力比 flow 更强大。  
 > 它就是强类型的 js。它的所有功能都是为了类型服务的。  
 > ts 把 interface/type 都叫做类型  
 > 它是编写代码的一种方式。可以使用 js/也可以使用 ts.ts 没有宣传的那么重要。它只是为 js 赋予了强类型。还需要把 ts 文件转换为 js 文件。如果 js 未来支持强类型了。ts 也就无存在的意义了。  
@@ -872,6 +873,45 @@ interface B extends Omit<A, 'list'> {
 |     | Object 类 | 网友说无”原始值“（好像是 Object 的原型链上的值），非原始类型（undefined, null, boolean, number, bigint, string, symbol） | 没有属性的 object |
 |     |           | ts 创造了一个与原始类型相当的 object 类型。                                                                              |                   |
 
+## 重载
+
+```ts
+// 方法重载
+// 先签名，就是定义类型
+function getMessage(value: number, myName: string): Message
+function getMessage(value: MessageType, readRecordCount: number): Message[]
+// 再实现，
+function getMessage(value: any, value2: any) {
+  if (xxx) {
+    return [...]
+  } else {
+    return ...
+  }
+}
+class A {
+  // 构造器重载
+  // 先签名
+  constructor(p1: N, p2: N)
+  constructor(p: O)
+  // 再实现
+  constructor(paramObjOrWidth: A, height: N = 0) {...}
+  // 属性重载
+  // 先签名
+  remove(v: N): N
+  remove(v: O): O
+  // 再实现
+  remove(value: A): A {
+    return ...
+  }
+  // 先签名
+  key: N
+  key: B
+  key: A
+  // 再实现
+  key = 0
+}
+```
+
 ## ts 的不足
 
 - 允许出来类型断言。
@@ -881,5 +921,15 @@ interface B extends Omit<A, 'list'> {
 - 静态类型分析，不知道真实的数据传递。
   - @input() data: T
 - 不能按业务逻辑的数据流处理数据的类型。它以能识别的为起点。有可能起点就是错的。
+- 从“模块”的开头开始定义数据类型。模块之间调用关系有时可以连接起来，有时不行。若正常连接则正常判断数据的类型，否则就成断点。数据类型从断点处再次开始判断类型。
+  - 如方法调用，可以连接起来。
+  - 如 ag 的模块之间传值，不可以连接起来。
+- 很明显的类型相等不能使用，需要经过处理后才能使用。代码的运行逻辑相等，必须要换编写方式才能不报类型错误。
+  - `{params: {...obj}}`
+- 需要 coder 判断。
+  - 若 this.comp?.type 存在，则 this.comp?.props 应该是一定存在。所有写为`this.comp!.props`
+- 无法与`Object.create(prototype,propertiesObject)`正常合作。识别不了这里的属性。
+- ts 只管该对象是否能调用此属性，不管此属性在该对象上还是在该对象的原型链上。
+- 属性的值的类型还不能与原型链上的值的类型不同。class 都能继承了，类型却不能继承。（有解决它的方法）js 支持属性屏蔽，但是 ts 的类型不支持属性屏蔽。还吹牛说 ts 是 js 的超集。ts 就是 js 加上了类型的语言。
 
 基于以上原因，ts 不能使问题在开发阶段暴露。会增加开发阶段的开发者心智负担。

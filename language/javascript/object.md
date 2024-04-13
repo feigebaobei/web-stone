@@ -8,7 +8,7 @@ new Object(any)
 ```
 
 `Object.length`  
-`Object.prototype`  
+`Object.prototype`是原型对象  
 `Object.assign(target, ...source)`  
 把 source 上的属性复制到 target 上，并返回 target.
 

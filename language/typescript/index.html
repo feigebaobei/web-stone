@@ -141,9 +141,10 @@
 <h2 id="overview">overview</h2>
 <blockquote>
 <p>简称 ts<br>
-js 是强类型语言<br>
-ts 比 js 更强大。已经有很多前端项目使用此语言了。<br>
-ts 是静态类型检测器。比 flow 更强大。<br>
+ts 是强类型语言 js 是弱类型语言<br>
+ts 比 js 更强大。ts要求coder按ts的要求写代码，然后ts经过转化为js。看起来像是ts更强大的样子。已经有很多前端项目使用此语言了。<br>
+ts就是js加上了类型的语言。
+ts 是静态类型检测器。静态类型检测能力比 flow 更强大。<br>
 它就是强类型的 js。它的所有功能都是为了类型服务的。<br>
 ts 把 interface/type 都叫做类型<br>
 它是编写代码的一种方式。可以使用 js/也可以使用 ts.ts 没有宣传的那么重要。它只是为 js 赋予了强类型。还需要把 ts 文件转换为 js 文件。如果 js 未来支持强类型了。ts 也就无存在的意义了。<br>
@@ -1445,6 +1446,42 @@ interface B extends Omit&lt;A, 'list'&gt; {
 </tr>
 </tbody>
 </table>
+<h2 id="重载">重载</h2>
+<pre><code class="language-ts"><span class="hljs-comment">// 方法重载</span>
+<span class="hljs-comment">// 先签名，就是定义类型</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">getMessage</span>(<span class="hljs-params">value: <span class="hljs-built_in">number</span>, myName: <span class="hljs-built_in">string</span></span>): <span class="hljs-title class_">Message</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">getMessage</span>(<span class="hljs-params">value: MessageType, readRecordCount: <span class="hljs-built_in">number</span></span>): <span class="hljs-title class_">Message</span>[]
+<span class="hljs-comment">// 再实现，</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">getMessage</span>(<span class="hljs-params">value: <span class="hljs-built_in">any</span>, value2: <span class="hljs-built_in">any</span></span>) {
+  <span class="hljs-keyword">if</span> (xxx) {
+    <span class="hljs-keyword">return</span> [...]
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">return</span> ...
+  }
+}
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> {
+  <span class="hljs-comment">// 构造器重载</span>
+  <span class="hljs-comment">// 先签名</span>
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">p1: N, p2: N</span>)
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">p: O</span>)
+  <span class="hljs-comment">// 再实现</span>
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">paramObjOrWidth: A, height: N = <span class="hljs-number">0</span></span>) {...}
+  <span class="hljs-comment">// 属性重载</span>
+  <span class="hljs-comment">// 先签名</span>
+  <span class="hljs-title function_">remove</span>(<span class="hljs-attr">v</span>: N): N
+  <span class="hljs-title function_">remove</span>(<span class="hljs-attr">v</span>: O): O
+  <span class="hljs-comment">// 再实现</span>
+  <span class="hljs-title function_">remove</span>(<span class="hljs-attr">value</span>: A): A {
+    <span class="hljs-keyword">return</span> ...
+  }
+  <span class="hljs-comment">// 先签名</span>
+  <span class="hljs-attr">key</span>: N
+  <span class="hljs-attr">key</span>: B
+  <span class="hljs-attr">key</span>: A
+  <span class="hljs-comment">// 再实现</span>
+  key = <span class="hljs-number">0</span>
+}
+</code></pre>
 <h2 id="ts-的不足">ts 的不足</h2>
 <ul>
 <li>允许出来类型断言。</li>
@@ -1476,6 +1513,9 @@ interface B extends Omit&lt;A, 'list'&gt; {
 <li>若this.comp?.type存在，则this.comp?.props应该是一定存在。所有写为<code>this.comp!.props</code></li>
 </ul>
 </li>
+<li>无法与<code>Object.create(prototype,propertiesObject)</code>正常合作。识别不了这里的属性。</li>
+<li>ts只管该对象是否能调用此属性，不管此属性在该对象上还是在该对象的原型链上。</li>
+<li>属性的值的类型还不能与原型链上的值的类型不同。class都能继承了，类型却不能继承。（有解决它的方法）js支持属性屏蔽，但是ts的类型不支持属性屏蔽。还吹牛说ts是js的超集。ts就是js加上了类型的语言。</li>
 </ul>
 <p>基于以上原因，ts 不能使问题在开发阶段暴露。会增加开发阶段的开发者心智负担。</p>
 

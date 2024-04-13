@@ -58,6 +58,8 @@ function、var 都会触发变量提升。
 
 # [事件](/language/javascript/event.html)
 
+# [事件总线](/promote/eventHub.html)
+
 # 原型链 [ppt](/confuse/jsPrototypeChain.pptx)
 
 使用对象的`[[prototype]]`属性原型链上源的对象。

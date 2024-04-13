@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Event &#x5bf9;&#x8c61;</title>
-        <style>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Event &#x5bf9;&#x8c61;</title>
+            <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -16,7 +16,7 @@
 }
 
 </style>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
@@ -38,10 +38,106 @@
     pointer-events: none;
 }
 </style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
         
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="event-对象">Event 对象</h1>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="event-对象">Event 对象</h1>
 <p>创建一个新的事件对象 Event。<br>
 这是合成事件。</p>
 <pre><code class="language-js">event = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Event</span>(typeArg, eventInit);
@@ -74,8 +170,8 @@ eventInit {
   <span class="hljs-attr">defaultPrevented</span>: boolean <span class="hljs-comment">// 是否取消了事件的默认行为</span>
   <span class="hljs-comment">// 事件流正被处理到了哪个阶段。</span>
   <span class="hljs-comment">// 事件的明确（explicit）原始目标（Mozilla 专有属性）。</span>
-  <span class="hljs-attr">eventPhase</span>: <span class="hljs-comment">// 重设目标前的事件原始目标（Mozilla 专有属性）。</span>
-  <span class="hljs-attr">explicitOriginalTarget</span>: <span class="hljs-attr">originalTarget</span>: <span class="hljs-attr">returnValue</span>: <span class="hljs-attr">srcElement</span>: <span class="hljs-attr">target</span>: <span class="hljs-attr">timeStamp</span>: ms
+  <span class="hljs-comment">// 重设目标前的事件原始目标（Mozilla 专有属性）。</span>
+  <span class="hljs-attr">eventPhase</span>: <span class="hljs-attr">explicitOriginalTarget</span>: <span class="hljs-attr">originalTarget</span>: <span class="hljs-attr">returnValue</span>: <span class="hljs-attr">srcElement</span>: <span class="hljs-attr">target</span>: <span class="hljs-attr">timeStamp</span>: ms
   <span class="hljs-attr">type</span>: 事件的类型
   <span class="hljs-attr">isTrusted</span>: 是否由浏览器发起
   <span class="hljs-title function_">createEvent</span>()
@@ -352,7 +448,7 @@ options 定义在 ExtendableEvent 对象上的自定义属性。</p>
 <tr>
 <td>html</td>
 <td><code>&lt;button onclick=&quot;clickH(...p)&quot;&gt;str&lt;/button&gt;</code></td>
-<td>onclick全是小写，因html是不区分大小写的语言。</td>
+<td>onclick 全是小写，因 html 是不区分大小写的语言。</td>
 <td>其值写<code>()</code></td>
 <td></td>
 </tr>
@@ -403,12 +499,12 @@ options 定义在 ExtendableEvent 对象上的自定义属性。</p>
 <td><code>&lt;button (click)=&quot;clickH(...p)&quot;&gt;str&lt;/button&gt;</code></td>
 <td></td>
 <td></td>
-<td>angular的写法与html的写法很接近。</td>
+<td>angular 的写法与 html 的写法很接近。</td>
 </tr>
 </tbody>
 </table>
 
-        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
-        
-    </body>
-    </html>
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>

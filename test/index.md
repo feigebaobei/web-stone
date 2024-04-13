@@ -95,3 +95,5 @@
 # 测试运行器 test runner
 
 # 端到端测试工具
+
+# [可观测性](/test/observability.html)
