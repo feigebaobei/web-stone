@@ -16,7 +16,7 @@ netstat -ntlp # 查看端口
 
 # [nano](/linux/nano.html)
 
-# title
+# [export](/linux/export.html)
 
 # title
 

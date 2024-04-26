@@ -142,8 +142,8 @@
 <blockquote>
 <p>简称 ts<br>
 ts 是强类型语言 js 是弱类型语言<br>
-ts 比 js 更强大。ts要求coder按ts的要求写代码，然后ts经过转化为js。看起来像是ts更强大的样子。已经有很多前端项目使用此语言了。<br>
-ts就是js加上了类型的语言。
+ts 比 js 更强大。ts 要求 coder 按 ts 的要求写代码，然后 ts 经过转化为 js。看起来像是 ts 更强大的样子。已经有很多前端项目使用此语言了。<br>
+ts 就是 js 加上了类型的语言。
 ts 是静态类型检测器。静态类型检测能力比 flow 更强大。<br>
 它就是强类型的 js。它的所有功能都是为了类型服务的。<br>
 ts 把 interface/type 都叫做类型<br>
@@ -1482,6 +1482,17 @@ interface B extends Omit&lt;A, 'list'&gt; {
   key = <span class="hljs-number">0</span>
 }
 </code></pre>
+<h2 id="强制转换类型">强制转换类型</h2>
+<pre><code class="language-ts"><span class="hljs-keyword">type</span> T = {
+  <span class="hljs-attr">title</span>: S
+}
+<span class="hljs-keyword">type</span> U = {
+  <span class="hljs-attr">color</span>: S
+}
+<span class="hljs-keyword">let</span> result = &lt;T&amp;U&gt;{}     // 方法一
+let result = &lt;T&gt;{}       // 方法二
+(result as T).title = &#x27;&#x27; // 方法三
+</code></pre>
 <h2 id="ts-的不足">ts 的不足</h2>
 <ul>
 <li>允许出来类型断言。</li>
@@ -1500,7 +1511,7 @@ interface B extends Omit&lt;A, 'list'&gt; {
 <li>从“模块”的开头开始定义数据类型。模块之间调用关系有时可以连接起来，有时不行。若正常连接则正常判断数据的类型，否则就成断点。数据类型从断点处再次开始判断类型。
 <ul>
 <li>如方法调用，可以连接起来。</li>
-<li>如ag的模块之间传值，不可以连接起来。</li>
+<li>如 ag 的模块之间传值，不可以连接起来。</li>
 </ul>
 </li>
 <li>很明显的类型相等不能使用，需要经过处理后才能使用。代码的运行逻辑相等，必须要换编写方式才能不报类型错误。
@@ -1508,14 +1519,15 @@ interface B extends Omit&lt;A, 'list'&gt; {
 <li><code>{params: {...obj}}</code></li>
 </ul>
 </li>
-<li>需要coder判断。
+<li>需要 coder 判断。
 <ul>
-<li>若this.comp?.type存在，则this.comp?.props应该是一定存在。所有写为<code>this.comp!.props</code></li>
+<li>若 this.comp?.type 存在，则 this.comp?.props 应该是一定存在。所有写为<code>this.comp!.props</code></li>
 </ul>
 </li>
 <li>无法与<code>Object.create(prototype,propertiesObject)</code>正常合作。识别不了这里的属性。</li>
-<li>ts只管该对象是否能调用此属性，不管此属性在该对象上还是在该对象的原型链上。</li>
-<li>属性的值的类型还不能与原型链上的值的类型不同。class都能继承了，类型却不能继承。（有解决它的方法）js支持属性屏蔽，但是ts的类型不支持属性屏蔽。还吹牛说ts是js的超集。ts就是js加上了类型的语言。</li>
+<li>ts 只管该对象是否能调用此属性，不管此属性在该对象上还是在该对象的原型链上。</li>
+<li>属性的值的类型还不能与原型链上的值的类型不同。class 都能继承了，类型却不能继承。（有解决它的方法）js 支持属性屏蔽，但是 ts 的类型不支持属性屏蔽。还吹牛说 ts 是 js 的超集。ts 就是 js 加上了类型的语言。</li>
+<li>脏数据无法在处理。在开发时使用严格的类型判断后执行相应逻辑。在生产时遇到脏数据使运行出错。ts是静态类型检测。可以在编辑器中要求代码按照类型编写。ts非运行时类型检测，无法阻止运行时数据流与编写代码时的数据类型不一致的问题发生。当文件是<code>*.ts</code>时有类型检测能力，当被<code>tsc</code>可其他的转换工具转换为<code>*.js</code>时就不具备类型检测能力了。当前的js运行环境都不支持直接运行ts。</li>
 </ul>
 <p>基于以上原因，ts 不能使问题在开发阶段暴露。会增加开发阶段的开发者心智负担。</p>
 
