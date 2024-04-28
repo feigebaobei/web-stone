@@ -154,19 +154,17 @@
 <li>在后期迭代中需要严格保持父子关系（树型关系）</li>
 <li>需要与自定义事件结合使用。</li>
 <li>一般应用于小范围使用</li>
-<li>只能传递一个参数。（注意参数数量为1）</li>
+<li>只能传递一个参数。（注意参数数量为 1）</li>
 </ul>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> (<span class="hljs-attr">click</span>)=<span class="hljs-string">&quot;cH()&quot;</span>&gt;</span>str<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
-@Output() messageEvent = new EventEmitter()
-ch(){
-    this.messageEvent.emit(&#x27;str&#x27;)
+@Output() messageEvent = new EventEmitter() ch(){ this.messageEvent.emit(&#x27;str&#x27;)
 }
 <span class="hljs-tag">&lt;<span class="hljs-name">app-child</span> (<span class="hljs-attr">messageEvent</span>)=<span class="hljs-string">&quot;receiveMessage($event)&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">app-child</span>&gt;</span>
 </code></pre>
 <h2 id="service--rxjs">Service &amp; Rxjs</h2>
 <ul>
-<li>service提供共享的数据，管理数据。</li>
-<li><code>Subject</code>类与service管理数据，通知所有订阅数据的组件。当数据改变时通知。</li>
+<li>service 提供共享的数据，管理数据。</li>
+<li><code>Subject</code>类与 service 管理数据，通知所有订阅数据的组件。当数据改变时通知。</li>
 </ul>
 <pre><code class="language-js"><span class="hljs-comment">// data.service.js</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">DataService</span> {
@@ -186,7 +184,7 @@ ch(){
 <span class="hljs-comment">// receiver.component.ts</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ReceiverComponent</span> implements <span class="hljs-title class_">OnDestroy</span> {
     <span class="hljs-title function_">constructor</span>(<span class="hljs-params">private dataService: DataService</span>) {
-        <span class="hljs-variable language_">this</span>.<span class="hljs-property">subscription</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">dataService</span>.<span class="hljs-property">data</span>.<span class="hljs-title function_">subscribe</span>(<span class="hljs-function"><span class="hljs-params">data</span> =&gt;</span> {<span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span> = data}) 
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">subscription</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">dataService</span>.<span class="hljs-property">data</span>.<span class="hljs-title function_">subscribe</span>(<span class="hljs-function"><span class="hljs-params">data</span> =&gt;</span> {<span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span> = data})
     }
     <span class="hljs-title function_">ngOnDestroy</span>(<span class="hljs-params"></span>) {
         <span class="hljs-variable language_">this</span>.<span class="hljs-property">subscription</span>.<span class="hljs-title function_">unsubscribe</span>()
@@ -196,8 +194,8 @@ ch(){
 <h2 id="service--signal">service &amp; signal</h2>
 <ul>
 <li>中心化方式管理（更新）数据。</li>
-<li>不用学习rxjs</li>
-<li>很像react里的useState</li>
+<li>不用学习 rxjs</li>
+<li>很像 react 里的 useState</li>
 </ul>
 <pre><code>import { signal} from '@angular/core'
 export class DataSignalService {
@@ -214,16 +212,70 @@ this.dataService.setData(str)
 // receiver.component.ts
 this.data = this.dataService.getData()
 </code></pre>
+<h3 id="signal">signal</h3>
+<pre><code>import { Injectable, signal } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class DataSignalService {
+  private data = signal('');
+
+  setData(update: string) {
+    this.data.set(update);
+  }
+
+  getData(){
+    return this.data;
+  }
+}
+
+import { Component } from '@angular/core';
+import { DataSignalService } from '../data.service';
+
+@Component({
+  selector: 'app-sender-signal',
+  template: `
+    &lt;h3&gt;Sender Component&lt;/h3&gt;
+    &lt;button (click)=&quot;sendData()&quot;&gt;Send Data&lt;/button&gt;
+  `,
+})
+export class SenderSignalComponent {
+  constructor(private dataService: DataSignalService) {}
+
+  sendData() {
+    this.dataService.setData('Data from Sender Component');
+  }
+}
+
+import { Component } from '@angular/core';
+import { DataSignalService } from '../data.service';
+
+@Component({
+  selector: 'app-receiver-signal',
+  template: `
+    &lt;h3&gt;Receiver Component&lt;/h3&gt;
+    &lt;p&gt;{{ data() }}&lt;/p&gt;
+  `,
+})
+export class ReceiverSignalComponent {
+  data;
+
+  constructor(private dataService: DataSignalService) {
+    this.data = this.dataService.getData();
+  }
+}
+</code></pre>
 <h2 id="状态管理工具">状态管理工具</h2>
 <ul>
-<li>NgRx（受redux影响的状态管理工具）</li>
+<li>NgRx（受 redux 影响的状态管理工具）</li>
 <li>Akita</li>
 <li>Eif</li>
 </ul>
 <h2 id="后端接口">后端接口</h2>
 <h2 id="qs">qs</h2>
 <ul>
-<li>url太长了不好看。</li>
+<li>url 太长了不好看。</li>
 </ul>
 <pre><code>{path: 'p',
 component: pComponent,

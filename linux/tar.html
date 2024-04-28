@@ -2,7 +2,7 @@
         <html>
         <head>
             <meta charset="UTF-8">
-            <title>export</title>
+            <title>tar</title>
             <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -136,15 +136,13 @@
         
         </head>
         <body class="vscode-body vscode-light">
-            <h1 id="export">export</h1>
-<blockquote>
-<p>用于设置或显示环境变量。
-shell 为在 shell 中执行的程序提供一组环境变量。export 可新增、不提供、修改环境变量。
-export 的作用范围只在该次登录操作。(本进程及其子进程中可以访问)</p>
-</blockquote>
-<h2 id="语法">语法</h2>
-<pre><code>export [-fnp][变量名称]=[变量设置值]
-</code></pre>
+            <h1 id="tar">tar</h1>
+<p>linux系统用于高效处理文件和目录的命令。
+用于归档、打包、压缩、解压缩的命令。
+压缩后的文件可减少空间使用量。</p>
+<p><code>*.tar</code>是压缩文件
+<code>*.tar.gz</code>也是压缩文件</p>
+<h2 id="文件种类">文件种类</h2>
 <table>
 <thead>
 <tr>
@@ -155,26 +153,142 @@ export 的作用范围只在该次登录操作。(本进程及其子进程中可
 </thead>
 <tbody>
 <tr>
-<td>-f</td>
-<td>代表[变量名称]中为函数名称。</td>
-<td>不会</td>
+<td>.tar</td>
+<td>默认模式</td>
+<td>不压缩</td>
 </tr>
 <tr>
-<td>-n</td>
-<td>为该次登录以后不提供变量</td>
+<td>.tar.gz</td>
+<td>常用模式</td>
+<td>使用gzip算法压缩。压缩率一般，时间中等</td>
+</tr>
+<tr>
+<td>.tar.bz2</td>
+<td>不常用</td>
+<td>使用bz2算法压缩。压缩率差，时间短</td>
+</tr>
+<tr>
+<td>.tar.xz</td>
+<td>不常用</td>
+<td>使用xz算法压缩。压缩率好，时间长</td>
+</tr>
+</tbody>
+</table>
+<h2 id="语法">语法</h2>
+<pre><code>tar -cf test.tar file dir
+
+</code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-c</td>
+<td>创建归档文件</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
-<td>-p</td>
-<td>列出所有 shell 赋予程序的环境变量</td>
+<td>-v</td>
+<td>显示归档过程中的详细信息</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>-f</td>
+<td>指定归档文件的名称</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>-x</td>
+<td>从归档文件中解析</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>-t</td>
+<td>列出归档文件中的内容</td>
+<td>t/x/c不能同时使用。</td>
+<td></td>
+</tr>
+<tr>
+<td>--exclude=patter</td>
+<td>排除符合查找模式的文件</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>-r, --append</td>
+<td>添加文件到归档文件后面</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>-u, --update</td>
+<td>只附加比归档中新的文件</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>-z</td>
+<td>使用gzip压缩、解压文件</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>-f</td>
+<td>指定文件名。</td>
+<td>后面跟<code>*.tar</code>文件名</td>
+<td></td>
+</tr>
+<tr>
+<td>-c</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>-c</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>-c</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>-c</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>-c</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>-c</td>
+<td></td>
+<td></td>
 <td></td>
 </tr>
 </tbody>
 </table>
 <h2 id="示例">示例</h2>
-<pre><code>export http_proxy=&quot;http://127.0.0.1:7890&quot;
-export https_proxy=&quot;http://127.0.0.1:7890&quot;
-export -p
+<pre><code>tar -cf archive.tar file dir // 把file dir归档到archive.tar中
+tar -xf archiver.tar -C /path/to/directory 把archiver解析到指定目录
 </code></pre>
 
             
