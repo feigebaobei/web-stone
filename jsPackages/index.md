@@ -14,6 +14,7 @@
 - [history](/jsPackages/history.html)
 - [ftp](/jsPackages/ftp.html)
 - [pm2](/jsPackages/pm2.html)
+- [forever](/jsPackages/forever.html)
 - [redux](/jsPackages/redux.html)
 - [react-redux](/jsPackages/react-redux.html)
 - [pinia](/jsPackages/pinia.html)
@@ -34,6 +35,7 @@
 - [overlayscrollbars js 自定义滚动条插件](/jsPackages/title.html)
 - [zip.js](/jsPackages/title.html)
 - [remote-storage](/jsPackages/title.html)
+- [autocannon 压力测试](/jsPackages/autocannon.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
@@ -172,5 +174,7 @@
 ## 组件库
 
 - [vanjs](/jsPackages/title.html)
+- [title](/jsPackages/title.html)
+- [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
