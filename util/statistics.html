@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title></title>
-        <style>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title></title>
+            <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -16,7 +16,7 @@
 }
 
 </style>
-        
+            
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -37,10 +37,106 @@
     pointer-events: none;
 }
 </style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
         
-    </head>
-    <body class="vscode-body vscode-light">
-        <pre><code class="language-ts"><span class="hljs-comment">// 未测试</span>
+        </head>
+        <body class="vscode-body vscode-light">
+            <pre><code class="language-ts"><span class="hljs-comment">// 未测试</span>
 <span class="hljs-keyword">type</span> N = <span class="hljs-built_in">number</span>
 <span class="hljs-keyword">type</span> F = <span class="hljs-title class_">Function</span>
 
@@ -90,9 +186,13 @@
   })
   <span class="hljs-keyword">return</span> res
 }
+<span class="hljs-comment">// 最小值</span>
+<span class="hljs-keyword">let</span> min = (<span class="hljs-attr">a</span>: N[]): <span class="hljs-function"><span class="hljs-params">N</span> =&gt;</span> <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">min</span>(...a)
+<span class="hljs-comment">// 最大值</span>
+<span class="hljs-keyword">let</span> max = (<span class="hljs-attr">a</span>: N[]): <span class="hljs-function"><span class="hljs-params">N</span> =&gt;</span> <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">max</span>(...a)
 <span class="hljs-comment">// 全距</span>
 <span class="hljs-keyword">let</span> range = (<span class="hljs-attr">a</span>: N[]): <span class="hljs-function"><span class="hljs-params">N</span> =&gt;</span> {
-  <span class="hljs-keyword">return</span> <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">max</span>(...a) - <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">min</span>(...a)
+  <span class="hljs-keyword">return</span> <span class="hljs-title function_">max</span>(a) - <span class="hljs-title function_">min</span>(a)
 }
 <span class="hljs-comment">// 变异数</span>
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">variance</span> = (<span class="hljs-params">a: N[], sample = <span class="hljs-literal">true</span></span>) =&gt; {
@@ -101,8 +201,7 @@
     <span class="hljs-keyword">let</span> <span class="hljs-title function_">square</span> = (<span class="hljs-params">a: N[]</span>) =&gt; {
       <span class="hljs-keyword">return</span> a.<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">n</span>) =&gt;</span> n * n)
     }
-    <span class="hljs-comment">// let</span>
-    <span class="hljs-keyword">return</span> (<span class="hljs-title function_">compose</span>(square, sum)(a) - <span class="hljs-title function_">compose</span>(sum, square) / len) / (len - <span class="hljs-number">1</span>)
+    <span class="hljs-keyword">return</span> (<span class="hljs-title function_">compose</span>(square, sum)(a) - <span class="hljs-title function_">compose</span>(sum, <span class="hljs-function">(<span class="hljs-params">a</span>) =&gt;</span> [a], square)(a) / len) / (len - <span class="hljs-number">1</span>)
   } <span class="hljs-keyword">else</span> {
     <span class="hljs-keyword">let</span> m = <span class="hljs-title function_">miu</span>(a)
     <span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">a</span>) =&gt; {
@@ -125,9 +224,13 @@
 <span class="hljs-comment">// }</span>
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">compose</span> = (<span class="hljs-params">...fn: F[]</span>) =&gt; {
   <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">a: N[]</span>) =&gt;</span> {
-    fn.<span class="hljs-title function_">reduce</span>(<span class="hljs-function">(<span class="hljs-params">r, f</span>) =&gt;</span> {
-      <span class="hljs-keyword">return</span> <span class="hljs-title function_">f</span>(a)
-    })
+    <span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">let</span> r = a
+    <span class="hljs-keyword">while</span> (i &lt; fn.<span class="hljs-property">length</span>) {
+      r = fn[i](r)
+      i++
+    }
+    <span class="hljs-keyword">return</span> r
   }
 }
 <span class="hljs-comment">// 变异系数</span>
@@ -218,7 +321,7 @@
 }
 </code></pre>
 
-        
-        
-    </body>
-    </html>
+            
+            
+        </body>
+        </html>
