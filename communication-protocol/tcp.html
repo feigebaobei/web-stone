@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>overview</title>
-        <style>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>overview</title>
+            <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -15,43 +15,8 @@
 	display: none;
 }
 
-/* From extension ms-toolsai.jupyter */
-/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
-
-.alert {
-    width: auto;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-.alert > *:last-child {
-    margin-bottom: 0;
-}
-#preview > .alert:last-child {
-    /* Prevent this being set to zero by the default notebook stylesheet */
-    padding-bottom: 1em;
-}
-
-.alert-success {
-    /* Note there is no suitable color available, so we just copy "info" */
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-info {
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-warning {
-    background-color: var(--theme-warning-background);
-    color: var(--theme-warning-foreground);
-}
-.alert-danger {
-    background-color: var(--theme-error-background);
-    color: var(--theme-error-foreground);
-}
-
 </style>
-        
+            
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -72,10 +37,106 @@
     pointer-events: none;
 }
 </style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
         
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="overview">overview</h1>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="overview">overview</h1>
 <p>Transmission Control Protocol<br>
 一般基于 ip 协议<br>
 是为了在不可靠的互联网络上提供可靠的端到端字节流而专门设计的一个传输协议。</p>
@@ -178,16 +239,16 @@ URG：判断紧急指针是否有效的命令<br>
 MAC 地址<br>
 数据(Data)：上层协议数据</p>
 <h1 id="工作方式">工作方式</h1>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/3972ebc07c64f3eab67b7a17aab7ff48.png" alt="工作方式"></p>
+<p><img src="/communication-protocol/tcpProcess.png" alt="工作方式"></p>
 <p>建立连接<br>
 三握<br>
 建立连接是由 tcp 建立的。应用程序不需要担心如何建立。
 <img src="file:////communication-protocol/tcp3.png" alt="三次握手"></p>
 <ol>
-<li>客户端发送 syn=1 seq=x 报文给服务器端，进入 SYN_SEND 状态。(SYN报文段不能携带数据，但消耗一个序号)</li>
+<li>客户端发送 syn=1 seq=x 报文给服务器端，进入 SYN_SEND 状态。(SYN 报文段不能携带数据，但消耗一个序号)</li>
 <li>服务端收到 syn 报文后回应一个 syn seq=y ack（ack=x+1）报文，进入 SYN_RECV 状态。</li>
 <li>客户端收到服务器端的 syn 报文，回应一个 ack（ack=y+1）报文，进入 established 状态。
-（ack码是前一次的seq码+1）</li>
+（ack 码是前一次的 seq 码+1）</li>
 </ol>
 <p>开始传输数据。</p>
 <p>终止连接<br>
@@ -199,7 +260,7 @@ MAC 地址<br>
 <li>一段时间后，接收到这个文件结束符的应用进程将调用 close 关闭它的套接字。这使得它的 tcp 也发送一个 fin.</li>
 <li>接收这个最终 fin 的原发送端 tcp 确认这个 fin.</li>
 </ol>
-<p><img src="https://img-blog.csdn.net/20180719110841774?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpYW9taW5nMTAwMDAx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="四挥"></p>
+<p><img src="file:////communication-protocol/4bye.png" alt="四挥"></p>
 <h2 id="tcpip-的工作过程">tcp/ip 的工作过程</h2>
 <ol>
 <li>在源主机上，应用层将一串应用数据流传送给传输层。</li>
@@ -314,7 +375,7 @@ MAC 地址<br>
 </table>
 <!-- prettier-ignore-end -->
 
-        
-        
-    </body>
-    </html>
+            
+            
+        </body>
+        </html>
