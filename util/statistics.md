@@ -49,9 +49,13 @@ let mode = (a: N[]): N[] | undefined => {
   })
   return res
 }
+// 最小值
+let min = (a: N[]): N => Math.min(...a)
+// 最大值
+let max = (a: N[]): N => Math.max(...a)
 // 全距
 let range = (a: N[]): N => {
-  return Math.max(...a) - Math.min(...a)
+  return max(a) - min(a)
 }
 // 变异数
 let variance = (a: N[], sample = true) => {
@@ -60,8 +64,10 @@ let variance = (a: N[], sample = true) => {
     let square = (a: N[]) => {
       return a.map((n) => n * n)
     }
-    // let
-    return (compose(square, sum)(a) - compose(sum, square) / len) / (len - 1)
+    return (
+      (compose(square, sum)(a) - compose(sum, (a) => [a], square)(a) / len) /
+      (len - 1)
+    )
   } else {
     let m = miu(a)
     let f = (a) => {
@@ -84,9 +90,13 @@ let standardDeviation = (a: N[]) => Math.sqrt(variance(a))
 // }
 let compose = (...fn: F[]) => {
   return (a: N[]) => {
-    fn.reduce((r, f) => {
-      return f(a)
-    })
+    let i = 0
+    let r = a
+    while (i < fn.length) {
+      r = fn[i](r)
+      i++
+    }
+    return r
   }
 }
 // 变异系数

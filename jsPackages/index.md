@@ -46,6 +46,7 @@
 
 - [commander](/jsPackages/commander/index.html)
 - [zx](/jsPackages/zx/index.html) 是 node+commander 的竞品
+- [boxen](/jsPackages/title.html) 在终端中创建一个盒子
 
 ## 数据库的工具
 
@@ -174,6 +175,11 @@
 ## 组件库
 
 - [vanjs](/jsPackages/title.html)
+
+## 打日志
+
+- [pino](/jsPackages/title.html) + [express-pino-logger](/jsPackages/title.html)
+- [debug](/jsPackages/title.html) + [pino-debug](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
