@@ -95,34 +95,35 @@ async function foo() {
 
 #### opts
 
-|                           | 是否必填     | 默认值 | 说明               |     |
+<!-- prettier-ignore-start -->
+|                           | 是否必填     | 默认值 | 说明               | 类型    |
 | ------------------------- | ------------ | ------ | ------------------ | --- |
 | url                       | 必填         |        |                    |     |
 | socketPath                |              |        |                    |     |
 | workers                   |              |        | 线程数             |     |
 | connections               |              | 10     | 连接数             |     |
-| duration                  |              | 10     | 连接秒数           |     |
-| amount                    |              |        | 请求次数           |     |
+| duration                  |              | 10     | 持续秒数           |     |
+| amount                    |              |        | 请求总次数，有它会忽略duration          |     |
 | sampleInt                 |              |        |                    |     |
-| timeout                   |              |        |                    |     |
+| timeout                   |              | 10      | 请求的超时时间，单位s                   |     |
 | pipelining                |              |        |                    |     |
 | bailout                   |              |        |                    |     |
-| method                    |              |        |                    |     |
+| method                    |              |        | 请求方式，大写。                   |     |
 | title                     |              |        |                    |     |
-| body                      |              |        |                    |     |
+| body                      |              |        |                    | string    |
 | form                      |              |        |                    |     |
 | headers                   |              |        |                    |     |
 | initialContext            |              |        |                    |     |
 | setupClient               |              |        |                    |     |
-| verifyBody                |              |        |                    |     |
-| maxConnectionRequest      |              |        |                    |     |
+| verifyBody                |              |        | 验证返回体是否正确。会记入result.mismatches                   | function 或 js（ts）文件路径    |
+| maxConnectionRequest      |              |        | 每个连接的最大请求数量。                   |     |
 | maxOverallRequests        |              |        |                    |     |
-| connectionRate            |              |        |                    |     |
+| connectionRate            |              |        |  每个连接最大qps                  |     |
 | overallRate               |              |        |                    |     |
 | ignoreCoordinatedOmission |              |        |                    |     |
 | reconnectRate             |              |        |                    |     |
-| requests                  |              |        | object 或 object[] |     |
-|                           | body         |        |                    |     |
+| requests                  |              |        | object[] |     |
+|                           | body         |        | 请求体，(同时设置headers中的'Content-Type': 'application/json')                   |     |
 |                           | headers      |        |                    |     |
 |                           | method       |        |                    |     |
 |                           | path         |        |                    |     |
@@ -136,9 +137,11 @@ async function foo() {
 | expectBody                |              |        |                    |     |
 | tlsOptions                |              |        |                    |     |
 | skipAggregateResult       |              |        |                    |     |
+<!-- prettier-ignore-end -->
 
 ## 解读结果
 
+<!-- prettier-ignore-start -->
 | stat    | 2.5%   | 50%    | 97.5%  | 99.5%  | Avg    | Stdev  | Max    |
 | ------- | ------ | ------ | ------ | ------ | ------ | ------ | ------ |
 | Latency | 极小值 | 平常值 | 极大值 | 极大值 | 平均值 | 标准差 | 最大值 |
@@ -148,6 +151,7 @@ async function foo() {
 | Req/Sec 每秒的请求数       |     | 极小值 | 平常值 | 极大值 | 极大值 | 平均值 | 标准差 | 最大值 |
 | Bytes/Sec 每秒的下载字节数 |     | 极小值 | 平常值 | 极大值 | 极大值 | 平均值 | 标准差 | 最大值 |
 |                            |     |        |
+<!-- prettier-ignore-end -->
 
 ## configuration
 
@@ -200,9 +204,9 @@ async function foo() {
 |result.title||||||||||
 |result.url||||||||||
 |result.socketPath||||||||||
-|result.requests||||||||||
-|result.latency||||||||||
-|result.throughput||||||||||
+|result.requests|||每秒的请求次数直方图。|||||||
+|result.latency|||回馈时长的详情的直方图。单位是ms。|||||||
+|result.throughput|||回馈体大小的直方图。每秒一次。单位是B|||||||
 |result.duration||||||||||
 |result.errors||||||||||
 |result.timeouts||||||||||
@@ -212,7 +216,8 @@ async function foo() {
 |result.connections||||||||||
 |result.pipelining||||||||||
 |result.non2xx||||||||||
-|result.statusCodeStats||||||||||
+|result.resets||||当setupRequest返回false时，该请求管道被重置的次数。||||||
+|result.statusCodeStats||||每个状态码的回馈次数||||||
 |result.min||||||||||
 |result.max||||||||||
 |result.average||||||||||
@@ -246,6 +251,40 @@ description
 
 `autocannon.fn(param, [options: {a: string, b?: number}])`
 description
+
+## demo
+
+```
+autocannon -c 1 -a 1 -d 1 -m POST  --header 'Content-Type: application/json' -b  '{"username": "USER_NAME","pass": "PASS_123"}' -j http://localhost:3000/users
+
+let autocannon = require('autocannon')
+let clog = console.log
+autocannon({
+    url: 'http://localhost:3000',
+    connections: 1,
+    amount: 1,
+    duration: 1,
+    requests: [
+        {
+            method: 'POST',
+            path: '/users',
+            headers: {
+                'x-k': 'x-v',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({krsdfg: 212345}),
+            setupRequest: (request, context) => {
+                clog(request, context)
+                return request
+            },
+            onResponse: (...rest) => {
+                clog('rest', rest)
+            }
+        }
+    ]
+}, clog)
+
+```
 
 ## principle
 

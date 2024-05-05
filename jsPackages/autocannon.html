@@ -140,8 +140,10 @@
             <h1 id="autocannon">autocannon</h1>
 <h2 id="overview">overview</h2>
 <blockquote>
-<p>node环境的压力测试工具。
-支持cli &amp; js</p>
+<p>node 环境的压力测试工具。
+支持 cli &amp; js
+基于 worker 工作。可以为 worker 传入 js 文件的路径。
+autocannon 实例是基于 EventEmitter 的。</p>
 </blockquote>
 <h3 id="feature">feature</h3>
 <ul>
@@ -162,9 +164,9 @@ opts:
 -p/--pipelining  N 在每个管道中的语境数量
 -d/--duration    秒 运行时间
 -a/--amount      N 请求总数。优先级大于duration
--L               N 
--S/--socketPaht
--w/--workers
+-L               N
+-S/--socketPath
+-w/--workers     N workers线程的数量
 -W/--warmup
 --on-port
 -m/--method      METHOD 请求方式。默认'GET'
@@ -172,15 +174,418 @@ opts:
 -b/--body        BODY 请求体。
 -F/--form        FORM 用于上传form (multipart/form-data)
 -i/--input       FILE 与请求体有关
-
-
+-H/--headers     k=v
+--har            FILE http archive (har) format
+-B/--bailout     N
+-M/--maxConnectionRequest N 每个连接的最大请求数量
+-O/--maxOverallRequest    N 所有请求的总数
+-r/--connectionRate       N 每秒最大请求数
+-R/--overallRate          N 每秒最大请求数
+-C/--ignoreCoordinatedOmission
+-D/--reconnectRate        N 最大重新连接次数
+-n/--no-progress B 是否不显示进度条 默认false
+-l/--latency     B 是否列出潜在数据 默认false
+-I/--idReplacement
+-j/--json        B 是否以json格式输出内容。内容是进度条和不渲染的结果。默认false
+-f/--forever
+-s/--servername
+-x/--excludeErrroStats
+-E/--expectBody  EXPECTED
+--renderStatusCodes   渲染回馈状态
+--cert           cert chain的路径。pem格式
+--key            pem的私钥路径
+--ca             ca证书的路径
+--debug          输出连接失败和错误
+-v/--version
+-V/--verbose
+-h/--help
 </code></pre>
 <h3 id="js">js</h3>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> autocannon = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;autocannon&#x27;</span>);
-<span class="hljs-comment">// or</span>
-<span class="hljs-comment">// import autocannon from &#x27;autocannon&#x27;;</span>
-<span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> DEMONSTRATE API</span>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> autocannon = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;autocannon&#x27;</span>)
+<span class="hljs-title function_">autocannon</span>(
+  {
+    <span class="hljs-attr">url</span>: <span class="hljs-string">&#x27;http://localhost:3000&#x27;</span>,
+    <span class="hljs-attr">connections</span>: <span class="hljs-number">10</span>,
+    <span class="hljs-attr">pipelining</span>: <span class="hljs-number">10</span>,
+    <span class="hljs-attr">duration</span>: <span class="hljs-number">10</span>,
+  },
+  <span class="hljs-variable language_">console</span>.<span class="hljs-property">log</span>
+)
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">foo</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">let</span> result = <span class="hljs-keyword">await</span> <span class="hljs-title function_">autocannon</span>({
+    <span class="hljs-attr">url</span>: <span class="hljs-string">&#x27;http://localhost:3000&#x27;</span>,
+    <span class="hljs-attr">connections</span>: <span class="hljs-number">10</span>,
+    <span class="hljs-attr">pipelining</span>: <span class="hljs-number">10</span>,
+    <span class="hljs-attr">duration</span>: <span class="hljs-number">10</span>,
+  })
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result)
+}
+<span class="hljs-comment">// 若有第二个参数，则使用回调方式处理。否则返回promise对象。</span>
 </code></pre>
+<h4 id="opts">opts</h4>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>是否必填</th>
+<th>默认值</th>
+<th>说明</th>
+<th>类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>url</td>
+<td>必填</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>socketPath</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>workers</td>
+<td></td>
+<td></td>
+<td>线程数</td>
+<td></td>
+</tr>
+<tr>
+<td>connections</td>
+<td></td>
+<td>10</td>
+<td>连接数</td>
+<td></td>
+</tr>
+<tr>
+<td>duration</td>
+<td></td>
+<td>10</td>
+<td>持续秒数</td>
+<td></td>
+</tr>
+<tr>
+<td>amount</td>
+<td></td>
+<td></td>
+<td>请求总次数，有它会忽略duration</td>
+<td></td>
+</tr>
+<tr>
+<td>sampleInt</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>timeout</td>
+<td></td>
+<td>10</td>
+<td>请求的超时时间，单位s</td>
+<td></td>
+</tr>
+<tr>
+<td>pipelining</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>bailout</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>method</td>
+<td></td>
+<td></td>
+<td>请求方式，大写。</td>
+<td></td>
+</tr>
+<tr>
+<td>title</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>body</td>
+<td></td>
+<td></td>
+<td></td>
+<td>string</td>
+</tr>
+<tr>
+<td>form</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>headers</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>initialContext</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>setupClient</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>verifyBody</td>
+<td></td>
+<td></td>
+<td>验证返回体是否正确。会记入result.mismatches</td>
+<td>function 或 js（ts）文件路径</td>
+</tr>
+<tr>
+<td>maxConnectionRequest</td>
+<td></td>
+<td></td>
+<td>每个连接的最大请求数量。</td>
+<td></td>
+</tr>
+<tr>
+<td>maxOverallRequests</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>connectionRate</td>
+<td></td>
+<td></td>
+<td>每个连接最大qps</td>
+<td></td>
+</tr>
+<tr>
+<td>overallRate</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ignoreCoordinatedOmission</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>reconnectRate</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>requests</td>
+<td></td>
+<td></td>
+<td>object[]</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>body</td>
+<td></td>
+<td>请求体，(同时设置headers中的'Content-Type': 'application/json')</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>headers</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>method</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>path</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>setupRequest</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>onResponse</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>har</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>idReplacement</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>forever</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>servername</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>excludeErrorStats</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>expectBody</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>tlsOptions</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>skipAggregateResult</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="解读结果">解读结果</h2>
+<table>
+<thead>
+<tr>
+<th>stat</th>
+<th>2.5%</th>
+<th>50%</th>
+<th>97.5%</th>
+<th>99.5%</th>
+<th>Avg</th>
+<th>Stdev</th>
+<th>Max</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Latency</td>
+<td>极小值</td>
+<td>平常值</td>
+<td>极大值</td>
+<td>极大值</td>
+<td>平均值</td>
+<td>标准差</td>
+<td>最大值</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>stat</th>
+<th>1%</th>
+<th>2.5%</th>
+<th>50%</th>
+<th>97.5%</th>
+<th>99.5%</th>
+<th>Avg</th>
+<th>Stdev</th>
+<th>Max</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Req/Sec 每秒的请求数</td>
+<td></td>
+<td>极小值</td>
+<td>平常值</td>
+<td>极大值</td>
+<td>极大值</td>
+<td>平均值</td>
+<td>标准差</td>
+<td>最大值</td>
+</tr>
+<tr>
+<td>Bytes/Sec 每秒的下载字节数</td>
+<td></td>
+<td>极小值</td>
+<td>平常值</td>
+<td>极大值</td>
+<td>极大值</td>
+<td>平均值</td>
+<td>标准差</td>
+<td>最大值</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h2 id="configuration">configuration</h2>
 <p>默认配置文件：<code>path/to/file.json</code>。</p>
 <!-- prettier-ignore-start -->
@@ -258,7 +663,127 @@ opts:
 </thead>
 <tbody>
 <tr>
+<td>autocannon.track(instance[, opts])</td>
+<td>instance</td>
 <td></td>
+<td>跟踪进程</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>opts.outputStream</td>
+<td>输入流</td>
+<td></td>
+<td>process.stderr</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>opts.renderProgressBar</td>
+<td>是否渲染进度条</td>
+<td>true</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>opts.renderResultsTable</td>
+<td>是否以表格方式显示结果</td>
+<td>true</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>opts.renderLatencyTable</td>
+<td>是否渲染潜在数据</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>opts.progressBarString</td>
+<td>进度条的文本模板</td>
+<td><code>'running [:bar] :percent'</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>autocannon.printResult(resultObject[, opts])</td>
+<td></td>
+<td></td>
+<td>列出结果</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>opt.outputStream</td>
+<td></td>
+<td></td>
+<td>process.stderr</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>opt.renderResultsTable</td>
+<td></td>
+<td></td>
+<td>true</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>opt.renderLatencyTable</td>
+<td></td>
+<td></td>
+<td>true</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>autocannon.aggregateResult(reuslts[, opts])</td>
 <td></td>
 <td></td>
 <td></td>
@@ -271,7 +796,31 @@ opts:
 </tr>
 <tr>
 <td></td>
+<td>opts.url</td>
 <td></td>
+<td>url必填</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>opts.title</td>
+<td></td>
+<td></td>
+<td></td>
+<td>undefined</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>opts.socketPath</td>
 <td></td>
 <td></td>
 <td></td>
@@ -283,11 +832,47 @@ opts:
 </tr>
 <tr>
 <td></td>
+<td>opts.connections</td>
+<td></td>
+<td></td>
+<td></td>
+<td>10</td>
 <td></td>
 <td></td>
 <td></td>
 <td></td>
+</tr>
+<tr>
 <td></td>
+<td>opts.sampleInt</td>
+<td></td>
+<td></td>
+<td></td>
+<td>1</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>opts.pipelining</td>
+<td></td>
+<td></td>
+<td></td>
+<td>1</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>opts.workers</td>
+<td></td>
+<td></td>
+<td></td>
+<td>undefined</td>
 <td></td>
 <td></td>
 <td></td>
@@ -295,15 +880,101 @@ opts:
 </tr>
 </tbody>
 </table>
+<p>|事件||||||||||
+|autocannon.start||||||||||
+|autocannon.tick||||||||||
+|autocannon.done||||||||||
+|autocannon.response||||||||||
+||response.client||||||||||
+||response.statusCode||||||||||
+||response.resBytes||||||||||
+||response.responseTime||||||||||
+|autocannon.reqError||||||||||
+|autocannon.error||||||||||
+|result|autocannon方法的返回值|||||||||
+|result.title||||||||||
+|result.url||||||||||
+|result.socketPath||||||||||
+|result.requests|||每秒的请求次数直方图。|||||||
+|result.latency|||回馈时长的详情的直方图。单位是ms。|||||||
+|result.throughput|||回馈体大小的直方图。每秒一次。单位是B|||||||
+|result.duration||||||||||
+|result.errors||||||||||
+|result.timeouts||||||||||
+|result.mismatches||||||||||
+|result.start||||||||||
+|result.finish||||||||||
+|result.connections||||||||||
+|result.pipelining||||||||||
+|result.non2xx||||||||||
+|result.resets||||当setupRequest返回false时，该请求管道被重置的次数。||||||
+|result.statusCodeStats||||||||||
+|result.min||||||||||
+|result.max||||||||||
+|result.average||||||||||
+|result.stddev||||||||||
+|result.p*|p2-5/p50/p75/p90/p97_5/p99/p99_9/p99_99/p99_999|||||||||
+|client||||||||||
+|client.setHeaders(headers)||||||||||
+|client.setBody(body)||||||||||
+|client.setHeadersAndBody(headers, body)||||||||||
+|client.setRequest(request)||||||||||
+|client.setRequest(newRequests)||||||||||
+|client的event||||||||||
+|client.headers||||||||||
+|client.body||||||||||
+|client.response||||||||||
+||response.statusCode|||||||||
+||response.resBytes|||||||||
+||response.responseTime|||||||||
+|client.reset||||||||||</p>
 <!-- prettier-ignore-end -->
+<pre><code>let autocannon = require('autocannon')
+let instance = autocannon({url: 'xxx'}, console.log)
+process.once('SIGINT', () =&gt; {instance.stop})
+autocannon.track(instance, {renderProgressBar: false})
+</code></pre>
 <p><code>autocannon.fn(param, first: string, second: boolean = true) =&gt; void</code>
 description</p>
 <p><code>autocannon.fn(param, [options: {a: string, b?: number}])</code>
 description</p>
+<h2 id="demo">demo</h2>
+<pre><code>autocannon -c 1 -a 1 -d 1 -m POST  --header 'Content-Type: application/json' -b  '{&quot;username&quot;: &quot;USER_NAME&quot;,&quot;pass&quot;: &quot;PASS_123&quot;}' -j http://localhost:3000/users
+
+let autocannon = require('autocannon')
+let clog = console.log
+autocannon({
+    url: 'http://localhost:3000',
+    connections: 1,
+    amount: 1,
+    duration: 1,
+    requests: [
+        {
+            method: 'POST',
+            path: '/users',
+            headers: {
+                'x-k': 'x-v', 
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({krsdfg: 212345}),
+            setupRequest: (request, context) =&gt; {
+                clog(request, context)
+                return request
+            },
+            onResponse: (...rest) =&gt; {
+                clog('rest', rest)
+            }
+        }
+    ]
+}, clog)
+
+</code></pre>
 <h2 id="principle">principle</h2>
-<p>此包的处理逻辑。</p>
+<p>此包的处理逻辑。
+autocannon 方法支持回调和 promise。</p>
 <h3 id="uml">uml</h3>
-<pre><code></code></pre>
+<pre><code>
+</code></pre>
 <h2 id="todo">todo</h2>
 <blockquote>
 <p>未来迭代计划。
