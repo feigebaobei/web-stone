@@ -369,6 +369,8 @@ merge 前保证当前工作区干净
 
 ## [submodule](/git/submodul.html)
 
+## [issue](/git/issue.html)
+
 ## 同一台电脑配置多个 git 账号
 
 这是参考的文档：`https://www.cnblogs.com/popfisher/p/5731232.html`  
