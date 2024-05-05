@@ -178,9 +178,10 @@
 
 ## 打日志
 
-- [pino](/jsPackages/title.html) + [express-pino-logger](/jsPackages/title.html)
+- [pino](/jsPackages/pino.html) + [express-pino-logger](/jsPackages/title.html)
 - [debug](/jsPackages/title.html) + [pino-debug](/jsPackages/title.html)
-- [title](/jsPackages/title.html)
-- [title](/jsPackages/title.html)
+- [winston](/jsPackages/title.html)
+- [roarr](/jsPackages/title.html)
+- [log4js](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
