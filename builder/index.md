@@ -20,7 +20,7 @@
 - [RequireJS](/builder/RequireJS.html)
 - [SystemJS](/builder/SystemJS.html)
 - [turbopack](/builder/turbopack/index.html)
-- [other](/builder/other.html)
+- [tsup](/builder/tsup/index.html)
 - [other](/builder/other.html)
 - [other](/builder/other.html)
 - [other](/builder/other.html)

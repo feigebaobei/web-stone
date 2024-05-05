@@ -32,7 +32,7 @@
 - [宏任务 & 微任务](/confuse/macroTask&MicroTask.html)
 - [ts 类型 积累](/confuse/tsTypeAccumulate.html)
 - [class & Object.create](/confuse/classObjectCreate.html)
-- [title](/confuse/title.html)
+- [mac](/confuse/mac.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
