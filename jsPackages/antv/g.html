@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>g</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="g">g</h1>
+<h2 id="overview">overview</h2>
+<blockquote>
+<p>antv家族的低层库</p>
+</blockquote>
+<h3 id="feature">feature</h3>
+<ul>
+<li>feature0</li>
+<li>feature1</li>
+<li>feature2</li>
+</ul>
+<h2 id="install">install</h2>
+<p><code>npm i g</code></p>
+<h2 id="usage">usage</h2>
+<pre><code class="language-js"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Circle</span>, <span class="hljs-title class_">Text</span>, <span class="hljs-title class_">Line</span>, } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@antv/g&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Renderer</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@antv/g-canvas&#x27;</span>;
+<span class="hljs-keyword">import</span> interact <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;interactjs&#x27;</span>;
+
+<span class="hljs-keyword">const</span> renderer = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Renderer</span>();
+<span class="hljs-comment">// 节点1</span>
+<span class="hljs-keyword">const</span> node1 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Circle</span>({
+    <span class="hljs-attr">style</span>: {
+        <span class="hljs-attr">r</span>: <span class="hljs-number">100</span>, <span class="hljs-comment">// 半径</span>
+        <span class="hljs-attr">fill</span>: <span class="hljs-string">&#x27;#1890FF&#x27;</span>, <span class="hljs-comment">// 填充色</span>
+        <span class="hljs-attr">stroke</span>: <span class="hljs-string">&#x27;#F04864&#x27;</span>, <span class="hljs-comment">// 描边颜色</span>
+        <span class="hljs-attr">lineWidth</span>: <span class="hljs-number">4</span>, <span class="hljs-comment">// 描边宽度</span>
+        <span class="hljs-attr">cursor</span>: <span class="hljs-string">&#x27;pointer&#x27;</span>,
+    },
+});
+<span class="hljs-keyword">const</span> text1 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Text</span>({
+    <span class="hljs-attr">style</span>: {
+        <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;Node1&#x27;</span>, <span class="hljs-comment">// 文本内容</span>
+        <span class="hljs-attr">fontFamily</span>: <span class="hljs-string">&#x27;Avenir&#x27;</span>, <span class="hljs-comment">// 字体</span>
+        <span class="hljs-attr">fontSize</span>: <span class="hljs-number">22</span>, <span class="hljs-comment">// 字号</span>
+        <span class="hljs-attr">fill</span>: <span class="hljs-string">&#x27;#fff&#x27;</span>, <span class="hljs-comment">// 文本颜色</span>
+        <span class="hljs-attr">textAlign</span>: <span class="hljs-string">&#x27;center&#x27;</span>, <span class="hljs-comment">// 水平居中</span>
+        <span class="hljs-attr">textBaseline</span>: <span class="hljs-string">&#x27;middle&#x27;</span>, <span class="hljs-comment">// 垂直居中</span>
+    },
+});
+node1.<span class="hljs-title function_">appendChild</span>(text1); <span class="hljs-comment">// 设置node的子节点text1</span>
+node1.<span class="hljs-title function_">setPosition</span>(<span class="hljs-number">200</span>, <span class="hljs-number">200</span>); <span class="hljs-comment">// node的位置改变时其子节点也会改变。</span>
+<span class="hljs-keyword">const</span> edge = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Line</span>({
+    <span class="hljs-attr">style</span>: {
+        <span class="hljs-attr">x1</span>: <span class="hljs-number">200</span>,
+        <span class="hljs-attr">y1</span>: <span class="hljs-number">200</span>,
+        <span class="hljs-attr">x2</span>: <span class="hljs-number">400</span>,
+        <span class="hljs-attr">y2</span>: <span class="hljs-number">200</span>,
+        <span class="hljs-attr">stroke</span>: <span class="hljs-string">&#x27;#1890FF&#x27;</span>,
+        <span class="hljs-attr">lineWidth</span>: <span class="hljs-number">2</span>,
+    },
+});
+<span class="hljs-keyword">const</span> canvas = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Canvas</span>({
+    <span class="hljs-attr">container</span>: <span class="hljs-string">&#x27;container&#x27;</span>, <span class="hljs-comment">// DOM 节点id</span>
+    <span class="hljs-attr">width</span>: <span class="hljs-number">600</span>, <span class="hljs-comment">// 画布宽度</span>
+    <span class="hljs-attr">height</span>: <span class="hljs-number">500</span>, <span class="hljs-comment">// 画布高度</span>
+    renderer,
+});
+canvas.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-title class_">CanvasEvent</span>.<span class="hljs-property">READY</span>, <span class="hljs-function">() =&gt;</span> {
+    canvas.<span class="hljs-title function_">appendChild</span>(edge);
+    canvas.<span class="hljs-title function_">appendChild</span>(node1);
+    canvas.<span class="hljs-title function_">appendChild</span>(node2);
+});
+<span class="hljs-comment">// 或者</span>
+<span class="hljs-comment">// await canvas.ready;</span>
+<span class="hljs-comment">// canvas.appendChild(node1);</span>
+<span class="hljs-comment">// canvas.appendChild(node2);</span>
+<span class="hljs-comment">// canvas.appendChild(edge);</span>
+node1.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;mouseenter&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-comment">// 修改图形样式属性</span>
+    node1.<span class="hljs-property">style</span>.<span class="hljs-property">fill</span> = <span class="hljs-string">&#x27;red&#x27;</span>;
+});
+node1.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;mouseleave&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-comment">// 修改图形样式属性</span>
+    node1.<span class="hljs-property">style</span>.<span class="hljs-property">fill</span> = <span class="hljs-string">&#x27;#1890FF&#x27;</span>;
+});
+<span class="hljs-comment">// 拖拽事件</span>
+<span class="hljs-comment">// 使用 interact.js 实现拖拽</span>
+<span class="hljs-title function_">interact</span>(node1, {
+    <span class="hljs-comment">// 直接传入节点1</span>
+    <span class="hljs-attr">context</span>: canvas.<span class="hljs-property">document</span>, <span class="hljs-comment">// 传入上下文</span>
+}).<span class="hljs-title function_">draggable</span>({
+    <span class="hljs-attr">onmove</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params">event</span>) {
+        <span class="hljs-comment">// interact.js 告诉我们的偏移量</span>
+        <span class="hljs-keyword">const</span> { dx, dy } = event;
+        <span class="hljs-comment">// 改变节点1位置</span>
+        node1.<span class="hljs-title function_">translateLocal</span>(dx, dy);
+        <span class="hljs-comment">// 获取节点1位置</span>
+        <span class="hljs-keyword">const</span> [nx, ny] = node1.<span class="hljs-title function_">getLocalPosition</span>();
+        <span class="hljs-comment">// 改变边的端点位置</span>
+        edge.<span class="hljs-property">style</span>.<span class="hljs-property">x1</span> = nx;
+        edge.<span class="hljs-property">style</span>.<span class="hljs-property">y1</span> = ny;
+    },
+});
+</code></pre>
+<h2 id="title">title</h2>
+<h3 id="场景图">场景图</h3>
+<p>是一个有向无环图。用于组织和管理二维/三维虚拟场景的一种数据结构。</p>
+<ul>
+<li>描述父子关系</li>
+<li>自动完成基于父子关系的某些复杂级联计算
+场景图是一种抽象的数据结构，只有在渲染时才需要与 Canvas 交互。</li>
+</ul>
+<h4 id="平移">平移</h4>
+<p>平移
+对于平移操作，我们提供了局部/世界坐标系下，移动绝对/相对距离的 API：</p>
+<p>名称	参数	返回值	备注
+translate	[number, number]	无	在 世界坐标系 下，相对当前位置移动
+translateLocal	[number, number]	无	在 局部坐标系 下，相对当前位置移动
+setPosition	[number, number]	无	设置 世界坐标系 下的位置
+setLocalPosition	[number, number]	无	设置 局部坐标系 下的位置
+getPosition	无	[number, number]	获取 世界坐标系 下的位置
+getLocalPosition	无	[number, number]	获取 局部坐标系 下的位置</p>
+<h3 id="相机">相机</h3>
+<p>整个画布中的图形都需要重绘。具体到内部实现，每个图形在世界坐标系下的变换矩阵都需要重新计算。把矩阵计算过程放在 Shader 中交给 GPU 完成能带来明显的性能提升，显然只有配合 g-webgl 才能发挥效果。而如果只改变相机矩阵，将极大程度减少 CPU 的运算量</p>
+<h3 id="动画">动画</h3>
+<p>可以把g元素当作dom元素。即使用animate实现动画。</p>
+<h2 id="渲染器">渲染器</h2>
+<p>场景图描述待渲染对象后，我们需要将它们交给渲染器。使用何种渲染器由用户按需引入，并且可以在运行时切换。</p>
+<pre><code class="language-js"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Renderer</span> <span class="hljs-keyword">as</span> <span class="hljs-title class_">CanvasRenderer</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@antv/g-canvas&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Renderer</span> <span class="hljs-keyword">as</span> <span class="hljs-title class_">WebGLRenderer</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@antv/g-webgl&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Canvas</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@antv/g&#x27;</span>;
+<span class="hljs-keyword">const</span> canvas = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Canvas</span>({
+    <span class="hljs-attr">container</span>: <span class="hljs-string">&#x27;container&#x27;</span>,
+    <span class="hljs-attr">width</span>: <span class="hljs-number">600</span>,
+    <span class="hljs-attr">height</span>: <span class="hljs-number">500</span>,
+    <span class="hljs-comment">// renderer: new CanvasRenderer(),</span>
+    <span class="hljs-attr">renderer</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">WebGLRenderer</span>(),
+});
+</code></pre>
+<h2 id="configuration">configuration</h2>
+<p>默认配置文件：<code>path/to/file.json</code>。</p>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>参数</th>
+<th>子参数</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h2 id="api">api</h2>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>参数</th>
+<th>子参数</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<p><code>g.fn(param, first: string, second: boolean = true) =&gt; void</code>
+description</p>
+<p><code>g.fn(param, [options: {a: string, b?: number}])</code>
+description</p>
+<h2 id="插件">插件</h2>
+<ul>
+<li><a href="">g-plugin-3d 3d图形</a></li>
+<li><a href="">title</a></li>
+<li><a href="">title</a></li>
+<li><a href="">title</a></li>
+</ul>
+<h2 id="principle">principle</h2>
+<p>大部分基于g-lite包开发的。</p>
+<h3 id="uml">uml</h3>
+<pre><code></code></pre>
+<h2 id="todo">todo</h2>
+<blockquote>
+<p>我对数据结构感兴趣。
+使用什么样的数据结构对实现元素建立模型。
+欧拉角是由18世纪的瑞士数学家莱昂哈德·欧拉提出的，用来描述刚体在三维空间中的取向。欧拉角是一组用来表示刚体坐标系和参考系之间夹角的三个独立角参量，通常由章动角、旋进角（即进动角）和自转角组成。
+可插件机制。
+未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote>
+
+            
+            
+        </body>
+        </html>
