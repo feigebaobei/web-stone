@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>&#x57fa;&#x672c;&#x7528;&#x6cd5;</title>
-        <style>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x57fa;&#x672c;&#x7528;&#x6cd5;</title>
+            <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -15,43 +15,8 @@
 	display: none;
 }
 
-/* From extension ms-toolsai.jupyter */
-/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
-
-.alert {
-    width: auto;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-.alert > *:last-child {
-    margin-bottom: 0;
-}
-#preview > .alert:last-child {
-    /* Prevent this being set to zero by the default notebook stylesheet */
-    padding-bottom: 1em;
-}
-
-.alert-success {
-    /* Note there is no suitable color available, so we just copy "info" */
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-info {
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-warning {
-    background-color: var(--theme-warning-background);
-    color: var(--theme-warning-foreground);
-}
-.alert-danger {
-    background-color: var(--theme-error-background);
-    color: var(--theme-error-foreground);
-}
-
 </style>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
@@ -73,10 +38,106 @@
     pointer-events: none;
 }
 </style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
         
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="基本用法">基本用法</h1>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="基本用法">基本用法</h1>
 <h2 id="创建一个-vue-应用"><a href="/framework/vue3/demo/createVueApp.html">创建一个 vue 应用</a></h2>
 <h2 id="模板语法">模板语法</h2>
 <pre><code>文本插值
@@ -112,9 +173,9 @@ v-xx:arg.modify=&quot;value&quot;
 <li><code>&lt;script setup&gt;</code>语法糖会避免手动暴露大量状态、方法的繁索工作。</li>
 <li>更改响应式状态后更新组件</li>
 <li>默认深层响应式</li>
-<li>ref嵌套在reactive里时，会不具有响应性。在浅层响应式对象里时不会解包。</li>
-<li>ref与数组、set/map结合使用时不会解包。</li>
-<li>js中需要使用refObj.value访问。在template中可以使用refObj访问，这是vue做的语法糖。</li>
+<li>ref 嵌套在 reactive 里时，会不具有响应性。在浅层响应式对象里时不会解包。</li>
+<li>ref 与数组、set/map 结合使用时不会解包。</li>
+<li>js 中需要使用 refObj.value 访问。在 template 中可以使用 refObj 访问，这是 vue 做的语法糖。</li>
 </ul>
 <h3 id="reactive--ref">reactive &amp; ref</h3>
 <table>
@@ -162,25 +223,25 @@ v-xx:arg.modify=&quot;value&quot;
 <p>用途：</p>
 <ul>
 <li>处理复杂响应式逻辑。</li>
-<li>getter不应该有副作用</li>
+<li>getter 不应该有副作用</li>
 </ul>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">setup</span>&gt;</span><span class="language-javascript">
-<span class="hljs-keyword">import</span> { ref, computed } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
+  <span class="hljs-keyword">import</span> { ref, computed } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
 
-<span class="hljs-keyword">const</span> firstName = <span class="hljs-title function_">ref</span>(<span class="hljs-string">&#x27;John&#x27;</span>)
-<span class="hljs-keyword">const</span> lastName = <span class="hljs-title function_">ref</span>(<span class="hljs-string">&#x27;Doe&#x27;</span>)
+  <span class="hljs-keyword">const</span> firstName = <span class="hljs-title function_">ref</span>(<span class="hljs-string">&#x27;John&#x27;</span>)
+  <span class="hljs-keyword">const</span> lastName = <span class="hljs-title function_">ref</span>(<span class="hljs-string">&#x27;Doe&#x27;</span>)
 
-<span class="hljs-keyword">const</span> fullName = <span class="hljs-title function_">computed</span>({
-  <span class="hljs-comment">// getter</span>
-  <span class="hljs-title function_">get</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-keyword">return</span> firstName.<span class="hljs-property">value</span> + <span class="hljs-string">&#x27; &#x27;</span> + lastName.<span class="hljs-property">value</span>
-  },
-  <span class="hljs-comment">// setter</span>
-  <span class="hljs-title function_">set</span>(<span class="hljs-params">newValue</span>) {
-    <span class="hljs-comment">// 注意：我们这里使用的是解构赋值语法</span>
-    [firstName.<span class="hljs-property">value</span>, lastName.<span class="hljs-property">value</span>] = newValue.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27; &#x27;</span>)
-  }
-})
+  <span class="hljs-keyword">const</span> fullName = <span class="hljs-title function_">computed</span>({
+    <span class="hljs-comment">// getter</span>
+    <span class="hljs-title function_">get</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-keyword">return</span> firstName.<span class="hljs-property">value</span> + <span class="hljs-string">&#x27; &#x27;</span> + lastName.<span class="hljs-property">value</span>
+    },
+    <span class="hljs-comment">// setter</span>
+    <span class="hljs-title function_">set</span>(<span class="hljs-params">newValue</span>) {
+      <span class="hljs-comment">// 注意：我们这里使用的是解构赋值语法</span>
+      ;[firstName.<span class="hljs-property">value</span>, lastName.<span class="hljs-property">value</span>] = newValue.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27; &#x27;</span>)
+    },
+  })
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 </code></pre>
 <h3 id="computed--methods--wetch--wetcheffect">computed &amp; methods &amp; wetch &amp; wetchEffect</h3>
@@ -216,7 +277,7 @@ v-xx:arg.modify=&quot;value&quot;
 <td></td>
 <td></td>
 <td></td>
-<td>触发的时机：默认在组件更新前。设置flush:post，可以在组件更新后执行回调。</td>
+<td>触发的时机：默认在组件更新前。设置 flush:post，可以在组件更新后执行回调。</td>
 <td></td>
 <td></td>
 </tr>
@@ -313,7 +374,7 @@ v-xx:arg.modify=&quot;value&quot;
 <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">:class</span>=<span class="hljs-string">&quot;[isActive ? activeClass : &#x27;&#x27;, errorClass]&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">:class</span>=<span class="hljs-string">&quot;[{ active: isActive }, errorClass]&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;foo bar active&quot;</span>&gt;</span>Hi<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-
+<span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">:class</span>=<span class="hljs-string">&quot;$attrs.class&quot;</span>&gt;</span>当组件内有多个直接子元素时需要明确指定哪个子元素使用props里的class<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">:style</span>=<span class="hljs-string">&quot;{ color: activeColor, fontSize: fontSize + &#x27;px&#x27; }&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">:style</span>=<span class="hljs-string">&quot;styleObject&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">:style</span>=<span class="hljs-string">&quot;[baseStyles, overridingStyles]&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
@@ -346,7 +407,7 @@ v-xx:arg.modify=&quot;value&quot;
 </tr>
 <tr>
 <td></td>
-<td>true时真实渲染出现，否则不渲染。</td>
+<td>true 时真实渲染出现，否则不渲染。</td>
 <td>问题渲染。</td>
 <td></td>
 </tr>
@@ -358,7 +419,7 @@ v-xx:arg.modify=&quot;value&quot;
 </tr>
 <tr>
 <td></td>
-<td>若false，则不渲染。</td>
+<td>若 false，则不渲染。</td>
 <td>不能减少初次渲染的工作量</td>
 <td></td>
 </tr>
@@ -389,17 +450,13 @@ v-xx:arg.modify=&quot;value&quot;
 <li>也可用<code>v-for=&quot;(item, index) of arr&quot;</code></li>
 <li>可能是 vue 出生是<code>for...of</code>还未出生。vue 使用 for...in 处理循环。后来 for...of 出生了。vue 使用了与其相同的写法，也兼容了以前的写法。</li>
 </ul>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;item in items&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;item.id&quot;</span>&gt;</span>
-  {{ item.message }}
-<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;item in items&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;item.id&quot;</span>&gt;</span>{{ item.message }}<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;(item, index) in items&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;item.id&quot;</span>&gt;</span>
   {{ parentMessage }} - {{ index }} - {{ item.message }}
 <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;{ message } in items&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;item.id&quot;</span>&gt;</span>
-  {{ message }}
-<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;{ message } in items&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;item.id&quot;</span>&gt;</span>{{ message }}<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;({ message }, index) in items&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;item.id&quot;</span>&gt;</span>
   {{ message }} {{ index }}
@@ -418,7 +475,7 @@ v-xx:arg.modify=&quot;value&quot;
   <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
 </code></pre>
-<p>封装array的方法。</p>
+<p>封装 array 的方法。</p>
 <ul>
 <li>push</li>
 <li>pop</li>
@@ -483,7 +540,7 @@ v-xx:arg.modify=&quot;value&quot;
 </tr>
 <tr>
 <td>.self</td>
-<td>仅当event.target是当前dom元素时触发</td>
+<td>仅当 event.target 是当前 dom 元素时触发</td>
 <td></td>
 <td></td>
 </tr>
@@ -502,7 +559,7 @@ v-xx:arg.modify=&quot;value&quot;
 <tr>
 <td>.passive</td>
 <td>不阻止默认事件</td>
-<td>passive为true时，不会触发preventDefault()</td>
+<td>passive 为 true 时，不会触发 preventDefault()</td>
 <td></td>
 </tr>
 </tbody>
@@ -896,7 +953,7 @@ v-xx:arg.modify=&quot;value&quot;
 </table>
 <h2 id="监听器">监听器</h2>
 <ul>
-<li>默认深层监听响应式对象。可以使用getter方法设置为只改变特定值时触发回调。</li>
+<li>默认深层监听响应式对象。可以使用 getter 方法设置为只改变特定值时触发回调。</li>
 <li>必是同步语句创建。</li>
 <li>watch &amp; watchEffect</li>
 </ul>
@@ -939,12 +996,12 @@ v-xx:arg.modify=&quot;value&quot;
 </code></pre>
 <h2 id="模板引用">模板引用</h2>
 <ul>
-<li>需要考虑ref对象为null的情况。初次渲染时指定元素还不存在。</li>
-<li>ref与v-for结合使用时ref对象的值是列表元素组成的数组。</li>
+<li>需要考虑 ref 对象为 null 的情况。初次渲染时指定元素还不存在。</li>
+<li>ref 与 v-for 结合使用时 ref 对象的值是列表元素组成的数组。</li>
 </ul>
 <h2 id="组件"><a href="/framework/vue3/component.html">组件</a></h2>
 
-        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
-        
-    </body>
-    </html>
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>ts &plus; axios</title>
-        <style>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>ts &plus; axios</title>
+            <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -16,7 +16,7 @@
 }
 
 </style>
-        
+            
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -37,32 +37,195 @@
     pointer-events: none;
 }
 </style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
         
-    </head>
-    <body class="vscode-body vscode-light">
-        <h2 id="ts--axios">ts + axios</h2>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h2 id="ts--axios">ts + axios</h2>
 <pre><code class="language-ts"><span class="hljs-keyword">import</span> axios <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;axios&#x27;</span>
 
 <span class="hljs-keyword">let</span> instance = axios.<span class="hljs-title function_">create</span>({
-    <span class="hljs-attr">baseURL</span>: <span class="hljs-string">&#x27;...&#x27;</span>,
-    <span class="hljs-attr">timeout</span>: <span class="hljs-number">5000</span>
+  <span class="hljs-attr">baseURL</span>: <span class="hljs-string">&#x27;...&#x27;</span>,
+  <span class="hljs-attr">timeout</span>: <span class="hljs-number">5000</span>,
 })
 
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">req</span> = (<span class="hljs-params">params</span>) =&gt; {
-    <span class="hljs-keyword">return</span> <span class="hljs-title function_">instance</span>(params).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
-        <span class="hljs-keyword">return</span> res.<span class="hljs-property">data</span>
-    }).<span class="hljs-title function_">catch</span>(<span class="hljs-function"><span class="hljs-params">error</span> =&gt;</span> {
-        <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">reject</span>(error)
+  <span class="hljs-keyword">return</span> <span class="hljs-title function_">instance</span>(params)
+    .<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+      <span class="hljs-keyword">return</span> res.<span class="hljs-property">data</span>
+    })
+    .<span class="hljs-title function_">catch</span>(<span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> {
+      <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">reject</span>(error)
     })
 }
-<span class="hljs-keyword">export</span> {
-    instance,
-    req,
+<span class="hljs-keyword">export</span> { instance, req }
+</code></pre>
+<pre><code class="language-ts"><span class="hljs-keyword">import</span> axios <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;axios&#x27;</span>
+<span class="hljs-comment">// type</span>
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { A, <span class="hljs-title class_">Ao</span>, N, S } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;src/types/base&quot;</span>
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> {
+    <span class="hljs-title class_">AxiosInstance</span>,
+    <span class="hljs-title class_">AxiosRequestConfig</span>,
+    <span class="hljs-title class_">AxiosPromise</span>,
+    <span class="hljs-title class_">AxiosInterceptorManager</span>,
+    <span class="hljs-title class_">InternalAxiosRequestConfig</span>,
+    <span class="hljs-title class_">AxiosResponse</span>,
+} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;axios&#x27;</span>
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Method</span> = <span class="hljs-string">&#x27;option&#x27;</span> | <span class="hljs-string">&#x27;get&#x27;</span> | <span class="hljs-string">&#x27;post&#x27;</span> | <span class="hljs-string">&#x27;put&#x27;</span> | <span class="hljs-string">&#x27;delete&#x27;</span>
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">RequestData</span> {
+    baseURL?: S
+    <span class="hljs-attr">url</span>: S
+    <span class="hljs-attr">method</span>: <span class="hljs-title class_">Method</span>
+    params?: <span class="hljs-title class_">Ao</span>
+    data?: <span class="hljs-title class_">Ao</span>
+
+}
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">ResponseData</span> {
+    <span class="hljs-attr">code</span>: N
+    <span class="hljs-attr">message</span>: S
+    <span class="hljs-attr">data</span>: A
+}
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">NewAxiosInstance</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AxiosInstance</span> {
+    &lt;T = A&gt;(<span class="hljs-attr">config</span>: <span class="hljs-title class_">AxiosRequestConfig</span>): <span class="hljs-title class_">AxiosPromise</span>&lt;T&gt;
+    <span class="hljs-attr">interceptors</span>: {
+        <span class="hljs-attr">request</span>: <span class="hljs-title class_">AxiosInterceptorManager</span>&lt;<span class="hljs-title class_">InternalAxiosRequestConfig</span>&gt;
+        <span class="hljs-attr">response</span>: <span class="hljs-title class_">AxiosInterceptorManager</span>&lt;<span class="hljs-title class_">AxiosResponse</span>&lt;<span class="hljs-title class_">ResponseData</span>&gt;&gt;
+    }
+}
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Req</span> = <span class="hljs-function">(<span class="hljs-params">p: RequestData</span>) =&gt;</span> <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-title class_">ResponseData</span>&gt;
+
+<span class="hljs-keyword">let</span> <span class="hljs-attr">instance</span>: <span class="hljs-title class_">NewAxiosInstance</span> = axios.<span class="hljs-title function_">create</span>({
+    <span class="hljs-attr">timeout</span>: <span class="hljs-number">5000</span>,
+    <span class="hljs-attr">headers</span>: {},
+})
+instance.<span class="hljs-property">interceptors</span>.<span class="hljs-property">request</span>.<span class="hljs-title function_">use</span>(<span class="hljs-function">(<span class="hljs-params">config: A</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> config
+}, <span class="hljs-function">(<span class="hljs-params">error: A</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">reject</span>(error)
+})
+instance.<span class="hljs-property">interceptors</span>.<span class="hljs-property">response</span>.<span class="hljs-title function_">use</span>(<span class="hljs-function">(<span class="hljs-params">res: A</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> res.<span class="hljs-property">data</span>
+}, <span class="hljs-function">(<span class="hljs-params">error: A</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">reject</span>(error)
+})
+<span class="hljs-keyword">let</span> <span class="hljs-attr">req</span>: <span class="hljs-title class_">Req</span> = <span class="hljs-function">(<span class="hljs-params">p: RequestData</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-title function_">instance</span>(p).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+        <span class="hljs-keyword">if</span> (res.<span class="hljs-property">data</span>.<span class="hljs-property">code</span> === <span class="hljs-number">0</span>) {
+            <span class="hljs-keyword">return</span> res.<span class="hljs-property">data</span>
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">reject</span>(res.<span class="hljs-property">data</span>)
+        }
+    })
 }
 
+<span class="hljs-keyword">export</span> {
+    req,
+    instance,
+}
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> {
+    <span class="hljs-title class_">Req</span>,
+    <span class="hljs-title class_">Method</span>,
+    <span class="hljs-title class_">RequestData</span>,
+    <span class="hljs-title class_">ResponseData</span>,
+}
 </code></pre>
 
-        
-        
-    </body>
-    </html>
+            
+            
+        </body>
+        </html>
