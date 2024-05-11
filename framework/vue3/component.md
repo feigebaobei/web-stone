@@ -557,6 +557,8 @@ const fn = () => {
 </script>
 ```
 
+参考[编码方式](/framework/vue3/codeMethod.html)
+
 ## computed
 
 可以从 Vue 导入的 computed 函数**在 Vue 组件外**创建计算属性。  

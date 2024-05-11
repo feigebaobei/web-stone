@@ -146,12 +146,171 @@
 </li>
 <li><a href="">jsx/tsx</a></li>
 <li><a href="">h</a></li>
+<li><a href="">option</a></li>
+<li><a href="">composition</a></li>
 </ul>
 <h2 id="template">template</h2>
 <h3 id="setup">setup</h3>
+<p><code>&lt;script setup&gt;</code>
+setup属性使vue在编译时做若干优化。优化点：<strong>import、顶级方法、顶级属性可以在template中直接使用。</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>defineProps&lt;propType&gt;()</code></td>
+<td></td>
+<td>可在setup语法中直接使用</td>
+<td>3.3+</td>
+</tr>
+<tr>
+<td><code>defineEmits()</code></td>
+<td></td>
+<td>可在setup语法中直接使用</td>
+<td>3.3+</td>
+</tr>
+<tr>
+<td><code>defineModel()</code></td>
+<td></td>
+<td></td>
+<td>3.4+</td>
+</tr>
+<tr>
+<td><code>defineOptions({inheritAttrs: false})</code> &lt;=&gt; <code>inheritAttrs: false</code></td>
+<td></td>
+<td>声明组件的选项</td>
+<td>3.3+</td>
+</tr>
+<tr>
+<td><code>defineExpose()</code></td>
+<td></td>
+<td>指定该组件外可访问的数据</td>
+<td></td>
+</tr>
+<tr>
+<td><code>defineSlots()</code></td>
+<td></td>
+<td>等价于setup方法中context中的slots、useSlots的返回值。</td>
+<td>3.3+</td>
+</tr>
+<tr>
+<td><code>useSlots()</code></td>
+<td><code>import { useSlots, useAttrs } from 'vue' const slots = useSlots()</code></td>
+<td></td>
+<td>3.4+</td>
+</tr>
+<tr>
+<td><code>useAttrs()</code></td>
+<td></td>
+<td></td>
+<td>3.4+</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">component</span> <span class="hljs-attr">:is</span>=<span class="hljs-string">&quot;condi ? Foo : Bar&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">setup</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;ts&quot;</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">import</span> <span class="hljs-title class_">Ca</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./Ca.vue&#x27;</span> <span class="hljs-comment">// 组件</span>
+    <span class="hljs-comment">// props</span>
+    <span class="hljs-keyword">const</span> props = <span class="hljs-title function_">defineProps</span>({
+        <span class="hljs-attr">foo</span>: {
+            <span class="hljs-attr">type</span>: <span class="hljs-title class_">String</span>,
+            <span class="hljs-attr">requried</span>: <span class="hljs-literal">true</span>,
+        },
+        <span class="hljs-attr">bar</span>: <span class="hljs-title class_">Number</span>,
+    })
+    props.<span class="hljs-property">foo</span>
+    props.<span class="hljs-property">bar</span>
+    <span class="hljs-keyword">const</span> prosp = <span class="hljs-title function_">withDefaults</span>(defineProps&lt;<span class="hljs-title class_">PropType</span>&gt;(), {
+        <span class="hljs-attr">foo</span>: <span class="hljs-string">&#x27;str&#x27;</span>,
+        <span class="hljs-attr">bar</span>: <span class="hljs-number">2</span>,
+    })
+
+    <span class="hljs-comment">// emit</span>
+    <span class="hljs-keyword">const</span> emit = <span class="hljs-title function_">defineEmits</span>([<span class="hljs-string">&#x27;change&#x27;</span>, <span class="hljs-string">&#x27;update&#x27;</span>])
+
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+<h4 id="definemodel">defineModel</h4>
+<pre><code>&lt;=&gt;
+:modelValue
+@update:modelValue
+
+let m = defineModel()
+let m = defineModel({type: String})
+m.value = 'str'
+let m = defineModel('count') // v-model:count
+let m = defineModel('count', {type: String, default: 'hi'})
+m.value = 'str' // 会触发update:count事件
+
+const [modelValue, modelModifiers] = defineModel()
+if (modelModifiers.trim) {...}
+</code></pre>
+<h4 id="defineoptions">defineOptions</h4>
+<pre><code>defineOptions({
+    inheritAttrs: false,
+    customOptions: {...}
+})
+</code></pre>
+<h4 id="defineslots">defineSlots</h4>
+<pre><code>
+</code></pre>
+<h4 id="title">title</h4>
+<h4 id="title-1">title</h4>
+<h4 id="title-2">title</h4>
 <h3 id="setup-1">!setup</h3>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+<span class="hljs-keyword">import</span> { defineComponent } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
+<span class="hljs-keyword">import</span> type { <span class="hljs-title class_">PropType</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
+<span class="hljs-keyword">import</span> <span class="hljs-title class_">Ca</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./Ca.vue&#x27;</span> <span class="hljs-comment">// 组件</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">defineComponent</span>({
+    <span class="hljs-attr">props</span>: {
+        <span class="hljs-attr">message</span>: <span class="hljs-title class_">String</span>
+    },
+    <span class="hljs-comment">// 与ts结合使用的</span>
+    <span class="hljs-attr">props</span>: {
+        <span class="hljs-attr">book</span>: <span class="hljs-title class_">Object</span> <span class="hljs-keyword">as</span> <span class="hljs-title class_">PropType</span>&lt;<span class="hljs-title class_">Book</span>&gt;
+    },
+    <span class="hljs-attr">components</span>: {
+        <span class="hljs-title class_">Ca</span>,
+    },
+    <span class="hljs-comment">// emits</span>
+    <span class="hljs-attr">emits</span>: [<span class="hljs-string">&#x27;change&#x27;</span>],
+    <span class="hljs-title function_">setup</span>(<span class="hljs-params">props</span>) {
+        <span class="hljs-comment">// props.message</span>
+    }
+})
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
 <h2 id="jsx--tsx">jsx / tsx</h2>
 <h2 id="h">h</h2>
+<h2 id="option">option</h2>
+<h2 id="composition">composition</h2>
 
             
             

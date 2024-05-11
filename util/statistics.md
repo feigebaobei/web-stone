@@ -21,7 +21,7 @@ let miu = (a: N[]): N => {
   return sum(a) / a.length
 }
 // 中位数
-let eta = (a: N[]): N => {
+let eta = (arr: N[]): N => {
   let len = arr.length
   if (len % 2) {
     return arr[(len + 1) / 2]

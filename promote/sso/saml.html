@@ -2,7 +2,7 @@
         <html>
         <head>
             <meta charset="UTF-8">
-            <title>&#x72b6;&#x6001;&#x7ba1;&#x7406;</title>
+            <title>saml</title>
             <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -136,52 +136,12 @@
         
         </head>
         <body class="vscode-body vscode-light">
-            <h1 id="状态管理">状态管理</h1>
-<ul>
-<li>vue 中常用 vuex、pinia 做状态管理工作。</li>
-<li>从项目级的角度看，状态管理就是单例模式。</li>
-</ul>
-<h2 id="vuex已经落伍了"><a href="/jsPackages/vuex.html">vuex</a>已经落伍了</h2>
-<h1 id="pinia"><a href="/jsPackages/pinia.html">pinia</a></h1>
-<h1 id="自制状态管理">自制状态管理</h1>
-<p>利用 vue3 中 reactive 做状态管理。
-好像单例模式。</p>
-<pre><code class="language-js"><span class="hljs-keyword">import</span> { createApp, reactive } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
-<span class="hljs-keyword">const</span> obj = <span class="hljs-title function_">reactive</span>({
-  <span class="hljs-attr">msg</span>: <span class="hljs-string">&#x27;string&#x27;</span>,
-})
-<span class="hljs-keyword">const</span> appA = <span class="hljs-title function_">createApp</span>({
-  <span class="hljs-title function_">data</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-keyword">return</span> obj
-  },
-}).<span class="hljs-title function_">mount</span>(<span class="hljs-string">&#x27;#a&#x27;</span>)
-<span class="hljs-keyword">const</span> appB = <span class="hljs-title function_">createApp</span>({
-  <span class="hljs-title function_">data</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-keyword">return</span> obj
-  },
-}).<span class="hljs-title function_">mount</span>(<span class="hljs-string">&#x27;#b&#x27;</span>)
-</code></pre>
-<pre><code class="language-js"><span class="hljs-keyword">import</span> {reactive} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">let</span> store = {
-    <span class="hljs-attr">debug</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-attr">state</span>: <span class="hljs-title function_">reactive</span>({
-        <span class="hljs-attr">msg</span>: <span class="hljs-string">&#x27;str&#x27;</span>
-    }),
-    <span class="hljs-title function_">setMsgAction</span>(<span class="hljs-params">nv</span>) {
-        <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">debug</span>) {
-            <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;...&#x27;</span>)
-        }
-        <span class="hljs-variable language_">this</span>.<span class="hljs-property">state</span>.<span class="hljs-property">msg</span> = nv
-    }
-    <span class="hljs-title function_">clearMsgAction</span>(<span class="hljs-params"></span>) {
-        <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">debug</span>) {
-            <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;...&#x27;</span>)
-        }
-        <span class="hljs-variable language_">this</span>.<span class="hljs-property">state</span>.<span class="hljs-property">msg</span> = <span class="hljs-string">&#x27;&#x27;</span>
-    }
-}
-<span class="hljs-comment">// 然后在组件中引入并使用。</span>
-</code></pre>
+            <h1 id="saml">saml</h1>
+<blockquote>
+<p>security assertion markup language 安全断言标记语言
+由idp生成。为sp使用。
+常用于sso</p>
+</blockquote>
 
             
             
