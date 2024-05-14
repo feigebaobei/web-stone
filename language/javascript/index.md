@@ -497,6 +497,34 @@ window.onunhandledrejection = (event) => {
 let p = new Promise<T>((s, j) => {...})
 ```
 
+### promise & cb
+
+```
+let f = (p, cb) => {
+  if (cb) {
+    return new Promise((s, j) => {
+      if (condition) {
+        return s(true)
+      } else {
+        return j(new Error())
+      }
+    })
+  } else {
+    new Promise((s, j) => {
+      if (condition) {
+        return s(true)
+      } else {
+        return j(new Error())
+      }
+    }).then((r) => {
+      cb(null, r)
+    }).catch((e) => {
+      cb(e, null)
+    })
+  }
+}
+```
+
 ## eventLoop (异步 & 同步)
 
 所有 js 代码按执行时序可分为三部分：同步代码/宏任务/微任务。  

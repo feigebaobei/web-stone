@@ -1,6 +1,6 @@
 # 状态管理
 
-- vue 中常用 vuex、piona 做状态管理工作。
+- vue 中常用 vuex、pinia 做状态管理工作。
 - 从项目级的角度看，状态管理就是单例模式。
 
 ## [vuex](/jsPackages/vuex.html)已经落伍了

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>cookie</title>
-        <style>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>cookie</title>
+            <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -15,43 +15,8 @@
 	display: none;
 }
 
-/* From extension ms-toolsai.jupyter */
-/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
-
-.alert {
-    width: auto;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-.alert > *:last-child {
-    margin-bottom: 0;
-}
-#preview > .alert:last-child {
-    /* Prevent this being set to zero by the default notebook stylesheet */
-    padding-bottom: 1em;
-}
-
-.alert-success {
-    /* Note there is no suitable color available, so we just copy "info" */
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-info {
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-warning {
-    background-color: var(--theme-warning-background);
-    color: var(--theme-warning-foreground);
-}
-.alert-danger {
-    background-color: var(--theme-error-background);
-    color: var(--theme-error-foreground);
-}
-
 </style>
-        
+            
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -72,13 +37,109 @@
     pointer-events: none;
 }
 </style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
         
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="cookie">cookie</h1>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="cookie">cookie</h1>
 <h2 id="overview">overview</h2>
 <ul>
-<li>参与通信。弥补http(s)无状态的特点。</li>
+<li>参与通信。弥补 http(s)无状态的特点。</li>
 <li>&lt;4k</li>
 <li>只能保存字符串。</li>
 </ul>
@@ -125,7 +186,7 @@
 </tr>
 <tr>
 <td>path</td>
-<td>指定路径下都可以使用该cookie。最后一个字符必须是<code>/</code></td>
+<td>指定路径下都可以使用该cookie。最后一个字符必须是<code>/</code>浏览器会发送对应路径及祖先路径的cookie</td>
 <td></td>
 <td></td>
 </tr>
@@ -148,16 +209,16 @@
 <td></td>
 </tr>
 <tr>
-<td></td>
-<td></td>
+<td>expire</td>
+<td>有效时间</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
+<td>httponly</td>
+<td>只能通过http协议访问。（不能使用js脚本访问。可减少xss攻击）</td>
 <td></td>
-<td></td>
-<td></td>
-<td></td>
+<td>不是所有浏览器支持</td>
 </tr>
 <tr>
 <td></td>
@@ -168,7 +229,7 @@
 </tbody>
 </table>
 <!-- prettier-ignore-end -->
-<h2 id="操作cookie">操作cookie</h2>
+<h2 id="操作-cookie">操作 cookie</h2>
 <pre><code class="language-js"><span class="hljs-comment">// 获取cookie</span>
 <span class="hljs-variable language_">document</span>.<span class="hljs-property">cookie</span>
 <span class="hljs-comment">// 设置 &amp; 修改cookie</span>
@@ -230,8 +291,12 @@
 <h2 id="前端存储"><a href="/browser/frontStorage/index.html">前端存储</a></h2>
 <h2 id="跨域"><a href="/browser/crossDomain.html">跨域</a></h2>
 <h2 id="同源策略"><a href="/browser/origin&amp;cors.html">同源策略</a></h2>
+<h2 id="issue">issue</h2>
+<p>接口已经提供了Set-Cookie.但是浏览器不设置cookie。
+解决方案：
+axios设置withCredentials: true</p>
 
-        
-        
-    </body>
-    </html>
+            
+            
+        </body>
+        </html>

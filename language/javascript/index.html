@@ -666,6 +666,31 @@ o.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;
 <h3 id="promise--ts">promise &amp; ts</h3>
 <pre><code>let p = new Promise&lt;T&gt;((s, j) =&gt; {...})
 </code></pre>
+<h3 id="promise--cb">promise &amp; cb</h3>
+<pre><code>let f = (p, cb) =&gt; {
+  if (cb) {
+    return new Promise((s, j) =&gt; {
+      if (condition) {
+        return s(true)
+      } else {
+        return j(new Error())
+      }
+    })
+  } else {
+    new Promise((s, j) =&gt; {
+      if (condition) {
+        return s(true)
+      } else {
+        return j(new Error())
+      }
+    }).then((r) =&gt; {
+      cb(null, r)
+    }).catch((e) =&gt; {
+      cb(e, null)
+    })
+  }
+}
+</code></pre>
 <h2 id="eventloop-异步--同步">eventLoop (异步 &amp; 同步)</h2>
 <p>所有 js 代码按执行时序可分为三部分：同步代码/宏任务/微任务。<br>
 代码从上到下执行。遇到同步代码则依次序执行。遇到宏任务不执行，放入宏任务队列。遇到微任务不执行，入入微任务队列。执行完所有同步代码后执行一个宏任务队列中的宏任务，然后执行完所有微任务。再执行宏任务队列中的一个宏任务，再执行所有微任务。直到宏任务队列为空/微任务队列为空。<br>

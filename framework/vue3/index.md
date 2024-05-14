@@ -105,6 +105,18 @@ $ pnpm dev
 
 ## [vue2 & vue3](/framework/vue3/vue2&vue3.html)
 
+## [编写方式](/framework/vue3/codeMethod.html)
+
+- [template]()
+  - [setup 语法糖]()
+  - [非 setup 语法糖（defineComponent……）]()
+- [jsx/tsx]()
+- [h]()
+
+## title
+
+## title
+
 ## title
 
 ## title
@@ -498,7 +510,7 @@ app.mount('#root')
 ## 缺点
 
 - 编写方式不统一
-  - template / render/h / jsx/tsx
+  - template / render/h / jsx/tsx / 语法糖 / 非语法糖（二者越来越不像是否是语法糖的关系了，起来越像一套写法与另一套写法的区别了。）
 - api 不统一
   - composition api
   - options api (为兼容 vue2,可以不算它)

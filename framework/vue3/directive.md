@@ -30,6 +30,19 @@ v-memo
 v-cloak
 ```
 
+## usage
+
+```
+<!-- v-if与template结合，同时处理多个元素的显隐。 -->
+<template v-if="condition">
+...
+</template>
+
+v-model.lazy="k"    change后触发
+v-model.number="k"  转换为number
+v-model.trim="k"    去空格
+```
+
 ## 自定义指令
 
 `v-name-directtive:[arg][.modify]="value"`

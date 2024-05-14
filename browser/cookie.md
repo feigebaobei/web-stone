@@ -20,12 +20,12 @@
 |  value   |  若为Uniconde则需要编码，若为二进制，则需要base64编码   |     |     |
 |  maxAge   |  失效时间。若为正数，则maxAge秒后失效。若为负数，则该cookie为临时cookie，在关闭浏览器后失效。若为0，则删除该cookie.   |  -1   |     |
 |  secure   |  是否仅被安全协议使用。   | false   |     |
-|  path   |  指定路径下都可以使用该cookie。最后一个字符必须是`/`   |     |     |
+|  path   |  指定路径下都可以使用该cookie。最后一个字符必须是`/`浏览器会发送对应路径及祖先路径的cookie   |     |     |
 |  domain   |  域名。若为`.abc.com`，则以`abc.com`结尾的域名都可以访问此cookie   |     |     |
 |  comment   |  用处说明。   |     |     |
 |  version   |  版本号。0：Netscape的cookie规范。1：w3c遵循的rfc 2109规范   |     |     |
-|     |     |     |     |
-|     |     |     |     |
+|  expire   | 有效时间    |     |     |
+| httponly | 只能通过http协议访问。（不能使用js脚本访问。可减少xss攻击）    |     | 不是所有浏览器支持    |
 |     |     |     |     |
 <!-- prettier-ignore-end -->
 
@@ -59,3 +59,9 @@ document.cookie = 'k=; expires=Thu, 18 Dec 1970 12:00:00 GMT; path=/'
 ## [跨域](/browser/crossDomain.html)
 
 ## [同源策略](/browser/origin&cors.html)
+
+## issue
+
+接口已经提供了 Set-Cookie.但是浏览器不设置 cookie。
+解决方案：
+axios 设置 withCredentials: true

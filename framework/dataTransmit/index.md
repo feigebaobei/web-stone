@@ -225,7 +225,10 @@ let App = () => {
 ```html
 <!-- 父组件 -->
 <child-comp v-model:title="value"></child-comp>
-<child-comp :title="value" @update:title="handler"></child-comp>
+<child-comp
+  :title="value"
+  @update:title="$event => value = $event"
+></child-comp>
 <!-- 子组件 -->
 <script>
   import { defineEmits } from 'vue'
