@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>overview</title>
-        <style>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>overview</title>
+            <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -15,43 +15,8 @@
 	display: none;
 }
 
-/* From extension ms-toolsai.jupyter */
-/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
-
-.alert {
-    width: auto;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-.alert > *:last-child {
-    margin-bottom: 0;
-}
-#preview > .alert:last-child {
-    /* Prevent this being set to zero by the default notebook stylesheet */
-    padding-bottom: 1em;
-}
-
-.alert-success {
-    /* Note there is no suitable color available, so we just copy "info" */
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-info {
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-warning {
-    background-color: var(--theme-warning-background);
-    color: var(--theme-warning-foreground);
-}
-.alert-danger {
-    background-color: var(--theme-error-background);
-    color: var(--theme-error-foreground);
-}
-
 </style>
-        
+            
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -72,10 +37,106 @@
     pointer-events: none;
 }
 </style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
         
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="overview">overview</h1>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="overview">overview</h1>
 <p>通信协议是指双方实体完成<strong>通信或服务所必须遵循的规则和约定</strong>。协议定义了<strong>数据单元使用的格式</strong>，信息单元应该包含的信息与含义，连接方式，信息发送和接收的时序，从而确保网络中数据顺利地传送到确定的地方。<br>
 是一层套一层的<br>
 由某一运行在用户空间的应用程序来实现其功能。</p>
@@ -127,8 +188,8 @@
 TFTP 文件传输协议（较快，但是不可靠）<br>
 FTP 文件传输协议（提供文件上传，文件下载服务，较慢但是可靠）<br>
 NFS 网络文件系统（Unix 和 Linux 系统之间共享文件）<br>
-SMTP 简单邮件传输协议（邮件的发送和转发）<br>
-POP3 接收邮件（由服务器下载到本地）<br>
+<a href="/communication-protocol/smtp.html">SMTP 简单邮件传输协议（邮件的发送和转发）</a><br>
+<a href="/communication-protocol/pop3.html">POP3 接收邮件（由服务器下载到本地）</a><br>
 Talnet (远程登录功能（配置交换机、路由器）)<br>
 SNMP 简单网络管理协议（通过网管软件来管理网络）<br>
 DNS 域名系统，将域名解析为 IP 地址（将百度的域名转换为服务器的 IP 地址）</p>
@@ -192,8 +253,15 @@ PPP <a href="/communication-protocol/etherent.html">Etherent</a></p>
 <p>MAC 地址也叫物理地址、硬件地址，由网络设备制造商生产时烧录在网卡(Network lnterface Card)的 EPROM(一种闪存芯片，通常可以通过程序擦写)。IP 地址与 MAC 地址在计算机里都是以二进制表示的，IP 地址是 32 位的，而 MAC 地址则是 48 位的。</p>
 <h1 id="流-streaming"><a href="/communication-protocol/streaming.html">流 streaming</a></h1>
 <h1 id="从输入-url-到看到页面效果"><a href="/communication-protocol/urlRenderer.html">从输入 url 到看到页面效果</a></h1>
+<h1 id="imap-internet-mail-access-protocol互联网邮件存取协议">imap Internet Mail Access Protocol(互联网邮件存取协议)，</h1>
+<blockquote>
+<p>该协议用于邮件的接收，与POP3类似。它允许客户端通过远程的方式（不需要下载邮件到本地）直接在服务器上管理邮件，支持增删改、搜索、文件夹/文件管理等。由于是online的模式，可以再多个设备间同步。</p>
+</blockquote>
+<h1 id="webmail">webmail</h1>
+<p>用户通过UA来完成邮件相关的操作。而WebMail则更简单，不需要安装UA，直接浏览器打开（163邮箱、QQ邮箱），web端可以通过http与服务器进行通讯，当然邮件服务器之间还是通过SMTP来传递邮件。</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7c39dc23da354a2188a21e1206f68df5~tplv-k3u1fbpfcp-jj-mark:3024:0:0:0:q75.awebp#?w=868&amp;h=102&amp;s=22237&amp;e=png&amp;b=ffffff" alt=""></p>
 
-        
-        
-    </body>
-    </html>
+            
+            
+        </body>
+        </html>

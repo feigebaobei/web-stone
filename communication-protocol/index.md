@@ -19,8 +19,8 @@ HTTP 超文本传输协议（浏览网页服务）
 TFTP 文件传输协议（较快，但是不可靠）  
 FTP 文件传输协议（提供文件上传，文件下载服务，较慢但是可靠）  
 NFS 网络文件系统（Unix 和 Linux 系统之间共享文件）  
-SMTP 简单邮件传输协议（邮件的发送和转发）  
-POP3 接收邮件（由服务器下载到本地）  
+[SMTP 简单邮件传输协议（邮件的发送和转发）](/communication-protocol/smtp.html)  
+[POP3 接收邮件（由服务器下载到本地）](/communication-protocol/pop3.html)  
 Talnet (远程登录功能（配置交换机、路由器）)  
 SNMP 简单网络管理协议（通过网管软件来管理网络）  
 DNS 域名系统，将域名解析为 IP 地址（将百度的域名转换为服务器的 IP 地址）
@@ -78,3 +78,13 @@ MAC 地址也叫物理地址、硬件地址，由网络设备制造商生产时�
 # [流 streaming](/communication-protocol/streaming.md)
 
 # [从输入 url 到看到页面效果](/communication-protocol/urlRenderer.html)
+
+# imap Internet Mail Access Protocol(互联网邮件存取协议)，
+
+> 该协议用于邮件的接收，与 POP3 类似。它允许客户端通过远程的方式（不需要下载邮件到本地）直接在服务器上管理邮件，支持增删改、搜索、文件夹/文件管理等。由于是 online 的模式，可以再多个设备间同步。
+
+# webmail
+
+用户通过 UA 来完成邮件相关的操作。而 WebMail 则更简单，不需要安装 UA，直接浏览器打开（163 邮箱、QQ 邮箱），web 端可以通过 http 与服务器进行通讯，当然邮件服务器之间还是通过 SMTP 来传递邮件。
+
+![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7c39dc23da354a2188a21e1206f68df5~tplv-k3u1fbpfcp-jj-mark:3024:0:0:0:q75.awebp#?w=868&h=102&s=22237&e=png&b=ffffff)
