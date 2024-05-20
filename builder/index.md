@@ -21,7 +21,7 @@
 - [SystemJS](/builder/SystemJS.html)
 - [turbopack](/builder/turbopack/index.html)
 - [tsup](/builder/tsup/index.html)
-- [other](/builder/other.html)
+- [microbundle](/builder/microbundle.html)
 - [other](/builder/other.html)
 - [other](/builder/other.html)
 - [other](/builder/other.html)

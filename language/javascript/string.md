@@ -21,7 +21,7 @@
 ## 方法
 
 <!-- prettier-ignore-start -->
-| api                    | 参数   | 说明                       |            |
+| api       | 参数       | 说明                |            |||
 | ------- | ------------------- | ---------- | ----------------- | --- | -------- |
 | String#@@iterator() |        | 返回新的 iterator 对象    |            |
 | String#charAt(index)   | index: 0 ~ string.length - 1   | 返回指定索引的字符         |            |

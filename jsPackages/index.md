@@ -36,7 +36,7 @@
 - [zip.js](/jsPackages/title.html)
 - [remote-storage](/jsPackages/title.html)
 - [autocannon 压力测试](/jsPackages/autocannon.html)
-- [title](/jsPackages/title.html)
+- [mitt](/jsPackages/mitt.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
