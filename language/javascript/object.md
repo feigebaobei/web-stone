@@ -15,6 +15,18 @@ new Object(any)
 `Object.create(proto, [propertiesObject])`  
 按指定的原型对象 proto、新对象的属性返回新对象。
 新对象的`__proto__`属性指向原型对象。
+默认情况下，属性是不可写、可枚举和可配置的。即：
+
+```js
+Object.create(proto, {
+  key: {
+    value: xxx,
+    writable: false,
+    enumerable: true,
+    configurable: true,
+  },
+})
+```
 
 `Object.defineProperty(obj, prop, descriptor)`  
 obj 目标对象

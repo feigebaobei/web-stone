@@ -149,7 +149,17 @@ new Object(any)
 把 source 上的属性复制到 target 上，并返回 target.</p>
 <p><code>Object.create(proto, [propertiesObject])</code><br>
 按指定的原型对象 proto、新对象的属性返回新对象。
-新对象的<code>__proto__</code>属性指向原型对象。</p>
+新对象的<code>__proto__</code>属性指向原型对象。
+默认情况下，属性是不可写、可枚举和可配置的。即：</p>
+<pre><code class="language-js"><span class="hljs-title class_">Object</span>.<span class="hljs-title function_">create</span>(proto, {
+    <span class="hljs-attr">key</span>: {
+        <span class="hljs-attr">value</span>: xxx,
+        <span class="hljs-attr">writable</span>: <span class="hljs-literal">false</span>,
+        <span class="hljs-attr">enumerable</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">configurable</span>: <span class="hljs-literal">true</span>,
+    }
+})
+</code></pre>
 <p><code>Object.defineProperty(obj, prop, descriptor)</code><br>
 obj 目标对象
 prop 目标对象的属性
