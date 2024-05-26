@@ -41,9 +41,9 @@
 
 ---
 
-- 从 idp 开始登录的情况![1](/promote/sso/1.png)
-- 从 sp 开始登录的情况![2](/promote/sso/2.png)
-- 以上 2 种情况都是把数据从 idp 经过前端传给 sp![3](/promote/sso/3.png)
+- 从 idp 开始登录的情况 ![1](/promote/sso/1.png)
+- 从 sp 开始登录的情况 ![2](/promote/sso/2.png)
+- 以上 2 种情况都是把数据从 idp 经过前端传给 sp ![3](/promote/sso/3.png)
 
 ## 难点
 
@@ -56,8 +56,4 @@
 - [Setting up a Single Sign-On (SSO) SAML Test Environment with NX Workspace, Express.js, Passport, @node-saml/passport-saml, and TypeScript: A Guide with SimpleSAMLphp and a Working Repository](https://medium.com/@joshuawright_63564/setting-up-a-single-sign-on-sso-saml-test-environment-nx-express-js-and-passportjs-e08e0742c120)
 - [Setup a Single Sign On SAML Test Environment with Docker and NodeJS](https://medium.com/disney-streaming/setup-a-single-sign-on-saml-test-environment-with-docker-and-nodejs-c53fc1a984c9)
 - [How To Implement Node.js SAML Authentication In Your Application](https://marketsplash.com/node-js-saml/)
-- [saml](/promote/sso/saml.html)
-- [saml](/promote/sso/saml.html)
-- [saml](/promote/sso/saml.html)
-- [saml](/promote/sso/saml.html)
 - [saml](/promote/sso/saml.html)

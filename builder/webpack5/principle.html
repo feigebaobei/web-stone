@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>webpack&#x8fd0;&#x884c;&#x539f;&#x7406;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="webpack运行原理">webpack运行原理</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. 初始化参数</td>
+<td>结合cli与配置文件得到最终的参数</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2. 开始编译</td>
+<td>使用no.1的参数初始化compiler对象。加载所有插件。开始编译。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>3. 确定入口</td>
+<td>从no.1中取出入口文件</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>4. 编译模块</td>
+<td>从入口文件开始，理出所有文件的依赖关系，生成依赖图谱。再使用对应的loader翻译模块。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>5. 输出资源</td>
+<td>根据依赖图谱，生成若干chunk(每个chunk包括若干模块)。列出输出列表。</td>
+<td>这是修改内容的最后机会。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>6. 完成输出</td>
+<td>根据文件列表（文件名、路径）把文件写入到文件系统中。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>由三个阶段组成</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. 初始化</td>
+<td>整理参数，加载插件，实例化compiler</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2. 编译</td>
+<td>从入口开始，使用loader翻译对应的模块。生成依赖图谱。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>3. 输出</td>
+<td>把翻译后的模块组合成chunk，再写入文件系统。</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>若</p>
+<h2 id="目的">目的</h2>
+<p>搞清webpack为什么这么设计。</p>
+<h2 id="出生">出生</h2>
+<ul>
+<li>大型应用中前端必是独立的项目。独立的项目要有足够的效率，必须进行工程化。</li>
+<li>具有复杂数据状态的应用开发过程必须要有合适的框架，采用数据驱动开发的方式增强可维护性。</li>
+<li>复杂项目必须模块化管理。
+<ul>
+<li>可提高公共内容的可复用性。</li>
+<li>增强团队协作能力。</li>
+</ul>
+</li>
+<li>重复性工作必须由自动化工具完成。
+<ul>
+<li>提高工作效率。</li>
+<li>避免人为出错。</li>
+</ul>
+</li>
+</ul>
+<p>webpack的功能：</p>
+<ul>
+<li>支持模块化</li>
+<li>解决重复性工作</li>
+<li>支持前端项目工程化</li>
+<li>解决代码兼容问题</li>
+<li>兼容多种模块类型</li>
+<li>打包、分块。</li>
+</ul>
+<p>为了实践前端方向的模块化开发。</p>
+<h2 id="模块化"><a href="http://lixiaodan.org/language/javascript/modularity.html">模块化</a></h2>
+<p><img src="" alt="6种规范"></p>
+<h3 id="模块化历史">模块化历史</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th>缺点</th>
+<th>优点</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>文件划分方式</td>
+<td>script标签</td>
+<td>污染全局作用域。没有私有空间，所有模块内的成员都可以在模块外部访问或修改。容易命名冲突。无法管理模块间的依赖关系。难分辨成员所属关系。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>命名空间方式</td>
+<td>-</td>
+<td>-</td>
+<td>解决了命名冲突问题</td>
+<td></td>
+</tr>
+<tr>
+<td>iife+依赖参数</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="模块化的期望结果">模块化的期望结果</h3>
+<ol>
+<li>页面中引入一个js入口文件</li>
+<li>其余模块内它控制。</li>
+<li>按需加载。</li>
+</ol>
+<h3 id="遍及后的结果">遍及后的结果</h3>
+<p>证明了：模块化思想是伟大的。可以帮你“统治”前端整个项目。</p>
+<h2 id="核心特性">核心特性</h2>
+<p>loader
+plugin</p>
+<h2 id="知识储备">知识储备</h2>
+<ul>
+<li>js</li>
+<li>node.js</li>
+<li>vue或竞品</li>
+</ul>
+<h2 id="基本特性">基本特性</h2>
+<h2 id="配置方式">配置方式</h2>
+<h2 id="工作模式">工作模式</h2>
+<h2 id="基本工作原理">基本工作原理</h2>
+<h2 id="loader机制">loader机制</h2>
+<h2 id="插件机制">插件机制</h2>
+<h2 id="高阶内容">高阶内容</h2>
+<ul>
+<li>source map</li>
+<li>hmr</li>
+<li>proxy</li>
+<li>webpack-dev-server</li>
+<li>tree-shaking</li>
+<li>sideEffects</li>
+<li>code spliting</li>
+<li>常用优化插件</li>
+<li>三种hash</li>
+<li>打包速度优化</li>
+</ul>
+<h2 id="竞品分析">竞品分析</h2>
+<ul>
+<li>rollup</li>
+<li>parcel</li>
+</ul>
+<h2 id="如何模块化打包">如何模块化打包</h2>
+<h3 id="demo">demo</h3>
+<pre><code>npm init --yes
+npm i webpack webpack-cli -D
+npx webpack --version # 若看到版本号，则安装成功。
+# 创建示例代码
+npx webpack
+# 在script中写
+&quot;build&quot;: &quot;webpack&quot;
+</code></pre>
+<p>在mode后分析打包结果。</p>
+<h3 id="配置文件">配置文件</h3>
+<pre><code>const path = require('path')
+module.export = {
+    entry: './src/main.js',
+    output: {
+        filename: 'bundle.js',
+        path: path.join(__dirname, 'output'),
+    }
+}
+</code></pre>
+<blockquote>
+<p><code>import { Configuration } from 'webpack'</code>可以在编写配置项时有类型提示。写完再注释它。</p>
+</blockquote>
+<h3 id="三种工作模式">三种工作模式</h3>
+<ul>
+<li>production   打包慢。优化打包结果。</li>
+<li>development  打包快。方便调试错误。</li>
+<li>none         无额外处理。在分析打包结果时使用。</li>
+</ul>
+<pre><code>npx webpack --mode xxx
+</code></pre>
+<p>配置文件中设置mode选项。</p>
+<h2 id="loader">loader</h2>
+<p>有了加载器才支撑前端项目模块化。
+webpack对待所有资源都认为是一种模块。“万物皆模块”。
+webpack对待前端纷杂的资源都认为它是模块。然后由一个逻辑分支（js）控制它。每一类模块由一种loader加载。</p>
+<pre><code>module.exports = {
+    entry: '',
+    output: {
+        filename: '',
+    },
+    module: {
+        rules: [
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader']
+            }
+        ]
+    }
+}
+</code></pre>
+<p>css ==&gt; css-loader ===&gt; webpack ===&gt; bundle.js</p>
+<h3 id="为什么由js载入css">为什么由js载入css</h3>
+<p>不是整个应该需要该资源，是当前模块需要该资源。
+由一个逻辑分支管理资源。方便迭代。</p>
+<h3 id="常用的加载器">常用的加载器</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>file-loader</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>url-loader</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>babel-loader</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>style-loader</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>css-loader</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>sass-loader</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>url-loader</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>url-loader</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>url-loader</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>url-loader</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="写一个加载器">写一个加载器</h3>
+<p>markdown ===&gt; webpack ===&gt; html</p>
+<pre><code># about
+hi
+</code></pre>
+<pre><code>import about from './about.md'
+clog('about', about)
+</code></pre>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> marked = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;marked&#x27;</span>)
+<span class="hljs-variable language_">module</span>.<span class="hljs-property">export</span> = <span class="hljs-function"><span class="hljs-params">source</span> =&gt;</span> {
+    <span class="hljs-comment">// clog(source)</span>
+    <span class="hljs-comment">// return &#x27;hi&#x27;</span>
+    <span class="hljs-keyword">const</span> html = <span class="hljs-title function_">marked</span>(source)
+    <span class="hljs-comment">// const code = `module.exports = ${JSON.stringify(html)}`</span>
+    <span class="hljs-keyword">const</span> code = <span class="hljs-string">`export default <span class="hljs-subst">${<span class="hljs-built_in">JSON</span>.stringify(html)}</span>`</span>
+    <span class="hljs-keyword">return</span> code
+}
+</code></pre>
+<pre><code>...
+module: {
+    rules: [
+        {
+            test: /\.md$/,
+            use: './markdown-loader',
+        }
+    ]
+}
+</code></pre>
+<pre><code>npx webpack
+# or 
+npm run build
+</code></pre>
+<p>source ===&gt; loader0 ===&gt; loader1 ===&gt; ... ===&gt; jscode</p>
+<p>或者 markdown-loader + html-loader</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> marked = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;marked&#x27;</span>)
+<span class="hljs-variable language_">module</span>.<span class="hljs-property">export</span> = <span class="hljs-function"><span class="hljs-params">source</span> =&gt;</span> {
+    <span class="hljs-keyword">const</span> html = <span class="hljs-title function_">marked</span>(source)
+    <span class="hljs-keyword">return</span> html
+}
+</code></pre>
+<pre><code>...
+rules: [
+    {
+        test: /\.md$/,
+        use: ['html-loader', './markdown-loader'],
+    }
+]
+</code></pre>
+<h2 id="plugin">plugin</h2>
+<p>目的：增强webpack的<strong>自动化</strong>构建。</p>
+<h3 id="使用示例">使用示例</h3>
+<p>清空上次打包结果
+在html文件中自动引入打包结果（的入口文件）。
+复制文件</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> { <span class="hljs-title class_">CleanWebpackPlugin</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;clean-webpack-plugin&#x27;</span>)
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">HtmlWebpackPlugin</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;html-webpack-plugin&#x27;</span>)
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">CopyWebpackPlugin</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;copy-webpack-plugin&#x27;</span>)
+<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = {
+    <span class="hljs-attr">entry</span>: <span class="hljs-string">&#x27;&#x27;</span>,
+    <span class="hljs-attr">output</span>: {
+        <span class="hljs-attr">filename</span>: <span class="hljs-string">&#x27;&#x27;</span>
+    },
+    <span class="hljs-attr">plugins</span>: [
+        <span class="hljs-keyword">new</span> <span class="hljs-title class_">CleanWebpackPlugin</span>(),
+        <span class="hljs-keyword">new</span> <span class="hljs-title class_">HtmlWebpackPlugin</span>({
+            <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;hi&#x27;</span>,
+            <span class="hljs-comment">// meta: {</span>
+            <span class="hljs-comment">//     viewport: &#x27;width=device-width&#x27;</span>
+            <span class="hljs-comment">// },</span>
+            <span class="hljs-attr">template</span>: <span class="hljs-string">&#x27;./src/index.html&#x27;</span>, <span class="hljs-comment">// 指定模板</span>
+        }),
+        <span class="hljs-keyword">new</span> <span class="hljs-title class_">HtmlWebpackPlugin</span>({
+            <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;hi&#x27;</span>,
+            <span class="hljs-attr">template</span>: <span class="hljs-string">&#x27;./src/about.html&#x27;</span>, <span class="hljs-comment">// 指定模板</span>
+        }),
+        <span class="hljs-keyword">new</span> <span class="hljs-title class_">CopyWebpackPlugin</span>([<span class="hljs-string">&#x27;public&#x27;</span>]) <span class="hljs-comment">// 把指定目录中的内容复制到打包目录中</span>
+    ]
+}
+
+&lt;!<span class="hljs-variable constant_">DOCTYPE</span> html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1.0&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;
+    &lt;title&gt;&lt;%= htmlWebpackPlugin.options.title %&gt;&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class=&quot;container&quot;&gt;
+        &lt;h1&gt;title&lt;/h1&gt;
+        &lt;div id=&quot;root&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h3 id="原理">原理</h3>
+<p>钩子</p>
+<pre><code>                        P0                  P1   P3        P2
+                       |---|               |---||---|     |---|                
+                       |   |               |   ||   |     |   |                
+        |---|     |---||   ||---|     |---||   ||   ||---||   ||---|     |---|    
+        |   |     |   ||---||   |     |   ||---||---||   ||---||   |     |   |    
+    ----|   |-----|   |-----|   |-----|   |----------|   |-----|   |-----|   |----
+</code></pre>
+<p><a href="https://webpack.docschina.org/api/compiler-hooks/#hooks">hooks list</a></p>
+<h3 id="开发一个插件">开发一个插件</h3>
+<pre><code class="language-js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">RemoveCommentsPlugin</span> {
+    <span class="hljs-title function_">apply</span>(<span class="hljs-params">compiler</span>) {
+        compiler.<span class="hljs-property">hooks</span>.<span class="hljs-property">emit</span>.<span class="hljs-title function_">tap</span>(<span class="hljs-string">&#x27;RemoveCommentsPlugin&#x27;</span>, <span class="hljs-function"><span class="hljs-params">compilation</span> =&gt;</span> {
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> name <span class="hljs-keyword">in</span> compilation.<span class="hljs-property">assets</span>) {
+                <span class="hljs-comment">// clog(&#x27;name&#x27;, name)</span>
+                <span class="hljs-keyword">if</span> (name.<span class="hljs-title function_">endsWith</span>(<span class="hljs-string">&#x27;.js&#x27;</span>)) {
+                    <span class="hljs-keyword">let</span> contents = compilation.<span class="hljs-property">assets</span>[name].<span class="hljs-title function_">source</span>()
+                    <span class="hljs-keyword">let</span> noComments = contents.<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/\/\*{2,}\/\s?/g</span>, <span class="hljs-string">&#x27;&#x27;</span>)
+                    compilation.<span class="hljs-property">assets</span>[name] = {
+                        <span class="hljs-attr">source</span>: <span class="hljs-function">() =&gt;</span> noComments,
+                        <span class="hljs-attr">size</span>: <span class="hljs-function">() =&gt;</span> noComments.<span class="hljs-property">length</span>,
+                    }
+                }
+            }
+        })
+    }
+}
+</code></pre>
+<ul>
+<li>了解常用插件。</li>
+<li>面向切面编程 aop</li>
+</ul>
+<h2 id="简述原理">简述原理</h2>
+<ul>
+<li>各种loader加载各种资源。</li>
+<li>plugin完成各种自动化构建任务。</li>
+<li>从入口文件开始根据<code>import``require</code>找到依赖的模块。递归寻找。得到依赖关系树。由loader加载这些资源，由plugin打包。输出到指定目录。</li>
+</ul>
+<h2 id="出生-1">出生</h2>
+<h2 id="出生-2">出生</h2>
+<h2 id="出生-3">出生</h2>
+<h2 id="出生-4">出生</h2>
+<h2 id="参考文献">参考文献</h2>
+<p><a href="https://www.youtube.com/watch?v=E7evJYK_kLw&amp;list=WL&amp;index=4">Webpack教程 现代化前端应用的基石 共13讲</a></p>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>
