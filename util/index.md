@@ -62,20 +62,46 @@ let clogj = (p) => {
 }
 
 let randomNum = (n = 10000) => (String(Math.floor(Math.random() * n)))
-// 深复制对象
-let cloneDeep = (p, c = {}) => {
-  for (let k in p) {
-    if (p.hasOwnProperty(k)) {
-      if (typeof p[k] === 'object') {
-        // c[k] = getType(p[k]) === 'Array' ? [] : {}
-        c[k] = Array.isArray(p[k]) ? [] : {}s
-        cloneDeep(p[k], c[k])
-      } else {
-        c[k] = p[k]
-      }
+// 深复制
+function deepClone(v) {
+    let baseType = ['string', 'number', 'boolean', 'undefined', 'bigint', 'symbol']
+    let res
+    if (baseType.includes(typeof v)) {
+        res = v
+    } else { // null array object
+        if (!v) {
+            res = v
+        } else {
+            if (Array.isArray(v)) {
+                res = v.map(item => deepClone(item))
+            } else {
+                Object.entries(v).forEach(([k, v]) => {
+                    res[k] = deepClone(v)
+                })
+            }
+        }
     }
+    return res
+}
+let cloneDeep = (v: A) => {
+  let baseType = ['string', 'number', 'boolean', 'undefined', 'bigint', 'symbol']
+  let res: A
+  if (baseType.includes(typeof v)) {
+      res = v
+  } else { // null array object
+      if (!v) {
+          res = v
+      } else {
+          if (Array.isArray(v)) {
+              res = v.map(item => cloneDeep(item))
+          } else {
+              Object.entries(v).forEach(([k, v]) => {
+                  res[k] = cloneDeep(v)
+              })
+          }
+      }
   }
-  return c
+  return res
 }
 // promise封装ajax
 let fetchData = (url, method) => {
