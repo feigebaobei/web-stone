@@ -62,26 +62,99 @@ let clogj = (p) => {
 }
 
 let randomNum = (n = 10000) => (String(Math.floor(Math.random() * n)))
-// 深复制
-function deepClone(v) {
-    let baseType = ['string', 'number', 'boolean', 'undefined', 'bigint', 'symbol']
-    let res
-    if (baseType.includes(typeof v)) {
-        res = v
-    } else { // null array object
-        if (!v) {
-            res = v
-        } else {
-            if (Array.isArray(v)) {
-                res = v.map(item => deepClone(item))
-            } else {
-                Object.entries(v).forEach(([k, v]) => {
-                    res[k] = deepClone(v)
-                })
-            }
-        }
-    }
-    return res
+// 深复制。
+// 有引用的情况。
+// 无法处理循环引用
+let cloneDeep = (v) => {
+  let baseType = ['string', 'number', 'boolean', 'undefined', 'bigint', 'symbol']
+  let res
+  if (baseType.includes(typeof v)) {
+      res = v
+  } else { // null array object date set map function
+      if (!v) {
+          res = v
+      } else {
+          if (Array.isArray(v)) {
+              res = v.map(item => cloneDeep(item))
+          } else {
+              let t = {}
+              Object.entries(v).forEach(([k, v]) => {
+                let type = getType(v)
+                switch (type) {
+                  case 'Function':
+                    t[k] = v
+                    break;
+                  case 'Set':
+                    t[k] = new Set(Array.from(v).map(item => {
+                      return cloneDeep(item)
+                    }))
+                    break;
+                  case 'Map':
+                    t[k] = new Map(Array.from(v).map(([k, v]) => ([cloneDeep(k), cloneDeep(v)])))
+                    break;
+                  case 'Date':
+                    t[k] = new Date(v)
+                    break;
+                  case 'Object':
+                    t[k] = cloneDeep(v)
+                    break;
+                  case 'RegExp': // 未测试
+                    t[k] = new RegExp(v.source, v.flags)
+                    break;
+                  default:
+                    t[k] = v // 当发现新类型里再添加，先用引用处理。
+                    break;
+                }
+              })
+              res = t
+          }
+      }
+  }
+  return res
+}
+let cloneDeepTs = (v: A): A => {
+  let baseType = ['string', 'number', 'boolean', 'undefined', 'bigint', 'symbol']
+  let res
+  if (baseType.includes(typeof v)) {
+      res = v
+  } else { // null array object date set map function
+      if (!v) {
+          res = v
+      } else {
+          if (Array.isArray(v)) {
+              res = v.map((item: A) => cloneDeep(item))
+          } else {
+              let t: A = {}
+              Object.entries(v).forEach(([k, v]) => {
+                let type = getType(v)
+                switch (type) {
+                  case 'Function':
+                    t[k] = v
+                    break;
+                  case 'Set':
+                    t[k] = new Set(Array.from(v as Set<A>).map(item => {
+                      return cloneDeep(item)
+                    }))
+                    break;
+                  case 'Map':
+                    t[k] = new Map(Array.from(v as Map<A, A>).map(([k, v]) => ([cloneDeep(k), cloneDeep(v)])))
+                    break;
+                  case 'Date':
+                    t[k] = new Date(v as unknown as Date)
+                    break;
+                  case 'Object':
+                    t[k] = cloneDeep(v)
+                    break;
+                  default:
+                    t[k] = v // 当发现新类型里再添加，先用引用处理。
+                    break;
+                }
+              })
+              res = t
+          }
+      }
+  }
+  return res
 }
 let cloneDeep = (v: A) => {
   let baseType = ['string', 'number', 'boolean', 'undefined', 'bigint', 'symbol']

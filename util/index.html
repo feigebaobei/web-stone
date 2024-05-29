@@ -199,26 +199,99 @@
 }
 
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">randomNum</span> = (<span class="hljs-params">n = <span class="hljs-number">10000</span></span>) =&gt; (<span class="hljs-title class_">String</span>(<span class="hljs-title class_">Math</span>.<span class="hljs-title function_">floor</span>(<span class="hljs-title class_">Math</span>.<span class="hljs-title function_">random</span>() * n)))
-<span class="hljs-comment">// 深复制</span>
-<span class="hljs-keyword">function</span> <span class="hljs-title function_">deepClone</span>(<span class="hljs-params">v</span>) {
-    <span class="hljs-keyword">let</span> baseType = [<span class="hljs-string">&#x27;string&#x27;</span>, <span class="hljs-string">&#x27;number&#x27;</span>, <span class="hljs-string">&#x27;boolean&#x27;</span>, <span class="hljs-string">&#x27;undefined&#x27;</span>, <span class="hljs-string">&#x27;bigint&#x27;</span>, <span class="hljs-string">&#x27;symbol&#x27;</span>]
-    <span class="hljs-keyword">let</span> res
-    <span class="hljs-keyword">if</span> (baseType.<span class="hljs-title function_">includes</span>(<span class="hljs-keyword">typeof</span> v)) {
-        res = v
-    } <span class="hljs-keyword">else</span> { <span class="hljs-comment">// null array object</span>
-        <span class="hljs-keyword">if</span> (!v) {
-            res = v
-        } <span class="hljs-keyword">else</span> {
-            <span class="hljs-keyword">if</span> (<span class="hljs-title class_">Array</span>.<span class="hljs-title function_">isArray</span>(v)) {
-                res = v.<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> <span class="hljs-title function_">deepClone</span>(item))
-            } <span class="hljs-keyword">else</span> {
-                <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">entries</span>(v).<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">[k, v]</span>) =&gt;</span> {
-                    res[k] = <span class="hljs-title function_">deepClone</span>(v)
-                })
-            }
-        }
-    }
-    <span class="hljs-keyword">return</span> res
+<span class="hljs-comment">// 深复制。</span>
+<span class="hljs-comment">// 有引用的情况。</span>
+<span class="hljs-comment">// 无法处理循环引用</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">cloneDeep</span> = (<span class="hljs-params">v</span>) =&gt; {
+  <span class="hljs-keyword">let</span> baseType = [<span class="hljs-string">&#x27;string&#x27;</span>, <span class="hljs-string">&#x27;number&#x27;</span>, <span class="hljs-string">&#x27;boolean&#x27;</span>, <span class="hljs-string">&#x27;undefined&#x27;</span>, <span class="hljs-string">&#x27;bigint&#x27;</span>, <span class="hljs-string">&#x27;symbol&#x27;</span>]
+  <span class="hljs-keyword">let</span> res
+  <span class="hljs-keyword">if</span> (baseType.<span class="hljs-title function_">includes</span>(<span class="hljs-keyword">typeof</span> v)) {
+      res = v
+  } <span class="hljs-keyword">else</span> { <span class="hljs-comment">// null array object date set map function</span>
+      <span class="hljs-keyword">if</span> (!v) {
+          res = v
+      } <span class="hljs-keyword">else</span> {
+          <span class="hljs-keyword">if</span> (<span class="hljs-title class_">Array</span>.<span class="hljs-title function_">isArray</span>(v)) {
+              res = v.<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> <span class="hljs-title function_">cloneDeep</span>(item))
+          } <span class="hljs-keyword">else</span> {
+              <span class="hljs-keyword">let</span> t = {}
+              <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">entries</span>(v).<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">[k, v]</span>) =&gt;</span> {
+                <span class="hljs-keyword">let</span> type = <span class="hljs-title function_">getType</span>(v)
+                <span class="hljs-keyword">switch</span> (type) {
+                  <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;Function&#x27;</span>:
+                    t[k] = v
+                    <span class="hljs-keyword">break</span>;
+                  <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;Set&#x27;</span>:
+                    t[k] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>(<span class="hljs-title class_">Array</span>.<span class="hljs-title function_">from</span>(v).<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> {
+                      <span class="hljs-keyword">return</span> <span class="hljs-title function_">cloneDeep</span>(item)
+                    }))
+                    <span class="hljs-keyword">break</span>;
+                  <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;Map&#x27;</span>:
+                    t[k] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>(<span class="hljs-title class_">Array</span>.<span class="hljs-title function_">from</span>(v).<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">[k, v]</span>) =&gt;</span> ([<span class="hljs-title function_">cloneDeep</span>(k), <span class="hljs-title function_">cloneDeep</span>(v)])))
+                    <span class="hljs-keyword">break</span>;
+                  <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;Date&#x27;</span>:
+                    t[k] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>(v)
+                    <span class="hljs-keyword">break</span>;
+                  <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;Object&#x27;</span>:
+                    t[k] = <span class="hljs-title function_">cloneDeep</span>(v)
+                    <span class="hljs-keyword">break</span>;
+                  <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;RegExp&#x27;</span>: <span class="hljs-comment">// 未测试</span>
+                    t[k] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">RegExp</span>(v.<span class="hljs-property">source</span>, v.<span class="hljs-property">flags</span>)
+                    <span class="hljs-keyword">break</span>;
+                  <span class="hljs-attr">default</span>:
+                    t[k] = v <span class="hljs-comment">// 当发现新类型里再添加，先用引用处理。</span>
+                    <span class="hljs-keyword">break</span>;
+                }
+              })
+              res = t
+          }
+      }
+  }
+  <span class="hljs-keyword">return</span> res
+}
+<span class="hljs-keyword">let</span> cloneDeepTs = (<span class="hljs-attr">v</span>: A): <span class="hljs-function"><span class="hljs-params">A</span> =&gt;</span> {
+  <span class="hljs-keyword">let</span> baseType = [<span class="hljs-string">&#x27;string&#x27;</span>, <span class="hljs-string">&#x27;number&#x27;</span>, <span class="hljs-string">&#x27;boolean&#x27;</span>, <span class="hljs-string">&#x27;undefined&#x27;</span>, <span class="hljs-string">&#x27;bigint&#x27;</span>, <span class="hljs-string">&#x27;symbol&#x27;</span>]
+  <span class="hljs-keyword">let</span> res
+  <span class="hljs-keyword">if</span> (baseType.<span class="hljs-title function_">includes</span>(<span class="hljs-keyword">typeof</span> v)) {
+      res = v
+  } <span class="hljs-keyword">else</span> { <span class="hljs-comment">// null array object date set map function</span>
+      <span class="hljs-keyword">if</span> (!v) {
+          res = v
+      } <span class="hljs-keyword">else</span> {
+          <span class="hljs-keyword">if</span> (<span class="hljs-title class_">Array</span>.<span class="hljs-title function_">isArray</span>(v)) {
+              res = v.<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">item: A</span>) =&gt;</span> <span class="hljs-title function_">cloneDeep</span>(item))
+          } <span class="hljs-keyword">else</span> {
+              <span class="hljs-keyword">let</span> <span class="hljs-attr">t</span>: A = {}
+              <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">entries</span>(v).<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">[k, v]</span>) =&gt;</span> {
+                <span class="hljs-keyword">let</span> type = <span class="hljs-title function_">getType</span>(v)
+                <span class="hljs-keyword">switch</span> (type) {
+                  <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;Function&#x27;</span>:
+                    t[k] = v
+                    <span class="hljs-keyword">break</span>;
+                  <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;Set&#x27;</span>:
+                    t[k] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>(<span class="hljs-title class_">Array</span>.<span class="hljs-title function_">from</span>(v <span class="hljs-keyword">as</span> <span class="hljs-title class_">Set</span>&lt;A&gt;).<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> {
+                      <span class="hljs-keyword">return</span> <span class="hljs-title function_">cloneDeep</span>(item)
+                    }))
+                    <span class="hljs-keyword">break</span>;
+                  <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;Map&#x27;</span>:
+                    t[k] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>(<span class="hljs-title class_">Array</span>.<span class="hljs-title function_">from</span>(v <span class="hljs-keyword">as</span> <span class="hljs-title class_">Map</span>&lt;A, A&gt;).<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">[k, v]</span>) =&gt;</span> ([<span class="hljs-title function_">cloneDeep</span>(k), <span class="hljs-title function_">cloneDeep</span>(v)])))
+                    <span class="hljs-keyword">break</span>;
+                  <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;Date&#x27;</span>:
+                    t[k] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>(v <span class="hljs-keyword">as</span> unknown <span class="hljs-keyword">as</span> <span class="hljs-title class_">Date</span>)
+                    <span class="hljs-keyword">break</span>;
+                  <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;Object&#x27;</span>:
+                    t[k] = <span class="hljs-title function_">cloneDeep</span>(v)
+                    <span class="hljs-keyword">break</span>;
+                  <span class="hljs-attr">default</span>:
+                    t[k] = v <span class="hljs-comment">// 当发现新类型里再添加，先用引用处理。</span>
+                    <span class="hljs-keyword">break</span>;
+                }
+              })
+              res = t
+          }
+      }
+  }
+  <span class="hljs-keyword">return</span> res
 }
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">cloneDeep</span> = (<span class="hljs-params">v: A</span>) =&gt; {
   <span class="hljs-keyword">let</span> baseType = [<span class="hljs-string">&#x27;string&#x27;</span>, <span class="hljs-string">&#x27;number&#x27;</span>, <span class="hljs-string">&#x27;boolean&#x27;</span>, <span class="hljs-string">&#x27;undefined&#x27;</span>, <span class="hljs-string">&#x27;bigint&#x27;</span>, <span class="hljs-string">&#x27;symbol&#x27;</span>]

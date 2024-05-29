@@ -1,14 +1,17 @@
 # 复制
-js的类型可分为简单类型、引用（复杂）类型。  
-简单类型被赋值时：创建一个相等值的数据再赋值给变量。  
-引用类型被赋值时：把该对象的内存地址赋值给变量。  
 
-因js的（对象引用）特点。可分为  
-- 浅复制，只复制对象的内存地址。  
+js 的类型可分为简单类型、引用（复杂）类型。  
+简单类型被赋值时：创建一个相等值的数据再赋值给变量。  
+引用类型被赋值时：把该对象的内存地址赋值给变量。
+
+因 js 的（对象引用）特点。可分为
+
+- 浅复制，只复制对象的内存地址。
 - 深复制，创建一个相等值的对象后再赋值给人变量。  
-复制引用类型时才会出现浅、深复制。  
+  复制引用类型时才会出现浅、深复制。
 
 # 浅复制
+
 `...`  
 `Object.create()`  
 `Object.assign()`  
@@ -16,36 +19,46 @@ js的类型可分为简单类型、引用（复杂）类型。
 `arr.slice()`
 
 # 深复制
-## `JSON.stringify() / JSON.parse()`  
-缺点：  
-- 忽略function/undefined字段。  
-- 不能处理循环引用的对象。  
+
+## `JSON.stringify() / JSON.parse()`
+
+缺点：
+
+- 忽略 function/undefined/正则/symbol 字段。
+- 不能处理循环引用的对象。
 
 ## 循环+递归
-``` js
-function deepClone(v) {
-    let baseType = ['string', 'number', 'boolean', 'undefined', 'bigint', 'symbol']
-    let res
-    if (baseType.includes(typeof v)) {
-        res = v
-    } else { // null array object
-        if (!v) {
-            res = v
-        } else {
-            if (Array.isArray(v)) {
-                res = v.map(item => deepClone(item))
-            } else {
-                Object.entries(v).forEach(([k, v]) => {
-                    res[k] = deepClone(v)
-                })
-            }
-        }
-    }
-    return res
+
+见[util](/util/index.html)
+
+## structureClone(value, [transfer])
+
+- 新 api，有兼容性
+- transfer： transfer 对象组成的数组
+- 返回克隆后的对象
+- 不是 js 语言提供的能力，js 语言的运行环境提供的能力。
+
+## MessageChannel
+
+```
+let f = (o) => {
+    return new Promise((s, _j) => {
+        let { port1, port2 } = nwe MessageChannel()
+        port1.postMessage(o)
+        port2.onmessage = e => s(e.data)
+    })
 }
 ```
 
-## structureClone(value, [transfer])
-- 新api，有兼容性
-- transfer： transfer对象组成的数组
-- 返回克隆后的对象
+## jQuery.extend()
+
+```
+$.extend(deepCopy, target, object1, [objectN])
+$.extend(true, {}, o)
+```
+
+## title
+
+## title
+
+想做到极致也不好做。
