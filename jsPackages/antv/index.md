@@ -8,6 +8,7 @@
 
 - [g 图表引擎](/jsPackages/antv/g.html)
 - [g2 统计图表](/jsPackages/antv/g.html)
+- [g2plot](/jsPackages/antv/g2plot.html)
 - [s2 多维图表](/jsPackages/antv/g.html)
 - [g6 关系图](/jsPackages/antv/g.html)
 - [x6 流程图](/jsPackages/antv/g.html)
