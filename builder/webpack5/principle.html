@@ -11,7 +11,9 @@
  *--------------------------------------------------------------------------------------------*/
 
 .vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
 	display: none;
 }
 
@@ -538,6 +540,7 @@ rules: [
             <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;hi&#x27;</span>,
             <span class="hljs-attr">template</span>: <span class="hljs-string">&#x27;./src/about.html&#x27;</span>, <span class="hljs-comment">// 指定模板</span>
         }),
+        <span class="hljs-comment">// 这个好像不能使用。应该是使用方法不对。</span>
         <span class="hljs-keyword">new</span> <span class="hljs-title class_">CopyWebpackPlugin</span>([<span class="hljs-string">&#x27;public&#x27;</span>]) <span class="hljs-comment">// 把指定目录中的内容复制到打包目录中</span>
     ]
 }
