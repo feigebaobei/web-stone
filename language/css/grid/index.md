@@ -10,6 +10,13 @@
 > 网格单元是最小单位。
 > 网格区域都是矩形的。非矩形不成立。
 
+## usage
+
+1. 为容器定义一个网格。
+2. 把网格项指定到占用的网格。
+   网格决定网格项的排列方式。
+   网格项决定在单元格内的位置。
+
 ## demo
 
 [demo0](/css/grid/demo0.html)
@@ -39,7 +46,7 @@
 |display|grid||||||
 |       |inline-grid||||||
 |       |subgrid||||||
-|grid-template-columns|每列列宽|repeat(n, value)简单重复value n次|||||
+|grid-template-columns|每列列宽|repeat(n, value)简单重复value n次。网格线名与空间值相间排列。网络线名是用`[]`包裹的。|||||
 |                     |       |auto-fill 自动填充，每行尽可能多的排列网格元素。|||||
 |                     |       |minmax() 在这个范围内|||||
 |                     |       |auto 自动|||||
@@ -57,7 +64,8 @@
 |row-gap   |行间距,旧写法是grid-row-gap|normal / length / percentage|||||
 |column-gap|列间距,旧写法是grid-column-gap|normal / length / percentage|||||
 |grid-gap|grid-row-gap + grid-column-gap||||||
-|grid-template-areas|定义区域||||||
+|grid-template-areas|定义区域。使用网格区域名称定义网格模板。一个`.`表示一个空网格单元。`none`不定义网格区域。||||||
+|grid-template|是`grid-template-rows grid-template-columns grid-template-areas`的缩写。||||||
 |grid-auto-flow|子元素顺序|row|先行后列||||
 |||column|先列后行||||
 |||row dense|先行后列,尽量填满空格||||
@@ -65,13 +73,13 @@
 |justify-items|设置元素的水平位置|start|对齐单元格的起始边缘||||
 |||end|对齐单元格的结束边缘||||
 |||center|居中||||
-|||stretch|拉伸（占满）||||
-|align-items||start|||||
+|||stretch|拉伸（占满）|它是默认值|||
+|align-items|设置元素的竖直位置|start|||||
 |||end|||||
 |||center|||||
 |||stretch|||||
 |place-items|align-item + justify-items||||||
-|justify-content|start||||||
+|justify-content|start|网格在网格容器的水平对齐方式|||||
 ||end||||||
 ||center||||||
 ||stretch||||||
@@ -86,13 +94,11 @@
 ||space-between||||||
 ||space-evently||||||
 |place-content|align-content + justify-content||||||
-||||||||
-||||||||
-||||||||
-||||||||
-||||||||
-||||||||
-||||||||
+|grid-auto-columns|当网格中的网格项多于单元格时，或者当网格项位于显式网格之外时，就会创建隐式轨道。（参见显式网格和隐式网格之间的区别）||||||
+|grid-auto-rows|||||||
+|grid-auto-flow|排列方式。|默认row|||||
+||dense|尝试填充网格中较早的空缺。|||||
+|grid|是grid-template-rows, grid-template-columns, grid-template-areas, grid-auto-rows, grid-auto-columns, 和 grid-auto-flow的缩写||||||
 <!-- prettier-ignore-end -->
 
 定义网格容器：`display: grid`/`display: inline-grid`
@@ -180,13 +186,17 @@ length / percentage
 <!-- prettier-ignore-start -->
 ||||||||
 |-|-|-|-|-|-|-|
-|grid-column-start|左边框所在的垂直网格线||||||
-|grid-column-end|右边框所在的垂直网格线||||||
-|grid-row-start|上边框所在的水平网格线||||||
-|grid-row-end|下边框所在的水平网格线||||||
+|grid-column-start|左边框所在的**垂直网格线**。从0开始数。|通过引用特定网格线(grid lines) 来确定 网格项(grid item) 在网格内的位置。|||||
+||`<line>`可以是数字也可以是命名的网格线。||||||
+||`span <number>`||||||
+||`span <name>`||||||
+||`auto`||||||
+|grid-column-end|右边框所在的**垂直网格线**。从0开始数。||||||
+|grid-row-start|上边框所在的**水平网格线**|通过引用特定网格线(grid lines) 来确定 网格项(grid item) 在网格内的位置。|||||
+|grid-row-end|下边框所在的**水平网格线**||||||
 |grid-culumn|grid-column-start + grid-column-end||||||
 |grid-row|grid-row-start + grid-row-end||||||
-|grid-area|在的区域||||||
+|grid-area|在的区域。为网格项提供一个名称，以便可以 被使用网格容器。||||||
 |justify-self|start||||||
 ||end||||||
 ||center||||||
@@ -195,7 +205,7 @@ length / percentage
 ||end||||||
 ||center||||||
 ||stretch||||||
-||||||||
+|place-self|||||||
 ||||||||
 ||||||||
 ||||||||

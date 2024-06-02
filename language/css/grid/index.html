@@ -11,7 +11,9 @@
  *--------------------------------------------------------------------------------------------*/
 
 .vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
 	display: none;
 }
 
@@ -147,6 +149,13 @@ google 在 flex 布局出现后，开发了该布局方式。
 网格单元是最小单位。
 网格区域都是矩形的。非矩形不成立。</p>
 </blockquote>
+<h2 id="usage">usage</h2>
+<ol>
+<li>为容器定义一个网格。</li>
+<li>把网格项指定到占用的网格。
+网格决定网格项的排列方式。
+网格项决定在单元格内的位置。</li>
+</ol>
 <h2 id="demo">demo</h2>
 <p><a href="/css/grid/demo0.html">demo0</a></p>
 <h2 id="名词说明">名词说明</h2>
@@ -267,7 +276,7 @@ google 在 flex 布局出现后，开发了该布局方式。
 <tr>
 <td>grid-template-columns</td>
 <td>每列列宽</td>
-<td>repeat(n, value)简单重复value n次</td>
+<td>repeat(n, value)简单重复value n次。网格线名与空间值相间排列。网络线名是用<code>[]</code>包裹的。</td>
 <td></td>
 <td></td>
 <td></td>
@@ -428,7 +437,16 @@ google 在 flex 布局出现后，开发了该布局方式。
 </tr>
 <tr>
 <td>grid-template-areas</td>
-<td>定义区域</td>
+<td>定义区域。使用网格区域名称定义网格模板。一个<code>.</code>表示一个空网格单元。<code>none</code>不定义网格区域。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>grid-template</td>
+<td>是<code>grid-template-rows grid-template-columns grid-template-areas</code>的缩写。</td>
 <td></td>
 <td></td>
 <td></td>
@@ -503,13 +521,13 @@ google 在 flex 布局出现后，开发了该布局方式。
 <td></td>
 <td>stretch</td>
 <td>拉伸（占满）</td>
-<td></td>
+<td>它是默认值</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td>align-items</td>
-<td></td>
+<td>设置元素的竖直位置</td>
 <td>start</td>
 <td></td>
 <td></td>
@@ -555,7 +573,7 @@ google 在 flex 布局出现后，开发了该布局方式。
 <tr>
 <td>justify-content</td>
 <td>start</td>
-<td></td>
+<td>网格在网格容器的水平对齐方式</td>
 <td></td>
 <td></td>
 <td></td>
@@ -688,7 +706,16 @@ google 在 flex 布局出现后，开发了该布局方式。
 <td></td>
 </tr>
 <tr>
+<td>grid-auto-columns</td>
+<td>当网格中的网格项多于单元格时，或者当网格项位于显式网格之外时，就会创建隐式轨道。（参见显式网格和隐式网格之间的区别）</td>
 <td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>grid-auto-rows</td>
 <td></td>
 <td></td>
 <td></td>
@@ -697,18 +724,9 @@ google 在 flex 布局出现后，开发了该布局方式。
 <td></td>
 </tr>
 <tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
+<td>grid-auto-flow</td>
+<td>排列方式。</td>
+<td>默认row</td>
 <td></td>
 <td></td>
 <td></td>
@@ -716,34 +734,16 @@ google 在 flex 布局出现后，开发了该布局方式。
 </tr>
 <tr>
 <td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
+<td>dense</td>
+<td>尝试填充网格中较早的空缺。</td>
 <td></td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
+<td>grid</td>
+<td>是grid-template-rows, grid-template-columns, grid-template-areas, grid-auto-rows, grid-auto-columns, 和 grid-auto-flow的缩写</td>
 <td></td>
 <td></td>
 <td></td>
@@ -821,7 +821,43 @@ length / percentage</p>
 <tbody>
 <tr>
 <td>grid-column-start</td>
-<td>左边框所在的垂直网格线</td>
+<td>左边框所在的<strong>垂直网格线</strong>。从0开始数。</td>
+<td>通过引用特定网格线(grid lines) 来确定 网格项(grid item) 在网格内的位置。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>&lt;line&gt;</code>可以是数字也可以是命名的网格线。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>span &lt;number&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>span &lt;name&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>auto</code></td>
 <td></td>
 <td></td>
 <td></td>
@@ -830,7 +866,7 @@ length / percentage</p>
 </tr>
 <tr>
 <td>grid-column-end</td>
-<td>右边框所在的垂直网格线</td>
+<td>右边框所在的<strong>垂直网格线</strong>。从0开始数。</td>
 <td></td>
 <td></td>
 <td></td>
@@ -839,8 +875,8 @@ length / percentage</p>
 </tr>
 <tr>
 <td>grid-row-start</td>
-<td>上边框所在的水平网格线</td>
-<td></td>
+<td>上边框所在的<strong>水平网格线</strong></td>
+<td>通过引用特定网格线(grid lines) 来确定 网格项(grid item) 在网格内的位置。</td>
 <td></td>
 <td></td>
 <td></td>
@@ -848,7 +884,7 @@ length / percentage</p>
 </tr>
 <tr>
 <td>grid-row-end</td>
-<td>下边框所在的水平网格线</td>
+<td>下边框所在的<strong>水平网格线</strong></td>
 <td></td>
 <td></td>
 <td></td>
@@ -875,7 +911,7 @@ length / percentage</p>
 </tr>
 <tr>
 <td>grid-area</td>
-<td>在的区域</td>
+<td>在的区域。为网格项提供一个名称，以便可以 被使用网格容器。</td>
 <td></td>
 <td></td>
 <td></td>
@@ -955,7 +991,7 @@ length / percentage</p>
 <td></td>
 </tr>
 <tr>
-<td></td>
+<td>place-self</td>
 <td></td>
 <td></td>
 <td></td>
