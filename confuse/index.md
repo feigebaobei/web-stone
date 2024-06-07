@@ -33,7 +33,7 @@
 - [ts 类型 积累](/confuse/tsTypeAccumulate.html)
 - [class & Object.create](/confuse/classObjectCreate.html)
 - [mac](/confuse/mac.html)
-- [title](/confuse/title.html)
+- [time 转换](/confuse/timeTransfer.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)

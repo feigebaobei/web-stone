@@ -11,7 +11,9 @@
  *--------------------------------------------------------------------------------------------*/
 
 .vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
 	display: none;
 }
 
@@ -722,7 +724,7 @@
   }
 }
 <span class="hljs-comment">// 兼容的数组，常用于处理脏数据。</span>
-<span class="hljs-keyword">let</span> <span class="hljs-title function_">compatibleArray</span> = (<span class="hljs-params">a</span>) =&gt; <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">isArray</span>(a) ? a : []
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">compatibleArray</span> = (<span class="hljs-params">a</span>) =&gt; <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">isArray</span>(a) ? <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">from</span>(a) : []
 
 
 

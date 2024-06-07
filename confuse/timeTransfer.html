@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <label for="">ms值</label>
+  <input id="transferBefore" type="number"/>
+  <br>
+  <br>
+  <button id="transferButton">转换</button>
+  <br>
+  <br>
+  <input id="transferAfter"/>
+  <script>
+    let clog = console.log
+    let msDom = document.querySelector('#transferBefore')
+    let strDom = document.querySelector('#transferAfter')
+    let btDom = document.querySelector('#transferButton')
+    btDom.addEventListener('click', () => {
+      let date = new Date(Number(msDom.value))
+      let [y, m, d, h, mn, s] = [date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()]
+      strDom.value = `${y}年${m+1}月${d}日 ${h}:${m}:${s}`
+    })
+  </script>
+</body>
+</html>
