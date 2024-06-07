@@ -52,7 +52,7 @@ MAC 地址
 
 # 工作方式
 
-![工作方式](https://img-blog.csdnimg.cn/img_convert/3972ebc07c64f3eab67b7a17aab7ff48.png)
+![工作方式](/communication-protocol/tcpProcess.png)
 
 建立连接  
 三握  
@@ -75,7 +75,7 @@ MAC 地址
 3. 一段时间后，接收到这个文件结束符的应用进程将调用 close 关闭它的套接字。这使得它的 tcp 也发送一个 fin.
 4. 接收这个最终 fin 的原发送端 tcp 确认这个 fin.
 
-![四挥](https://img-blog.csdn.net/20180719110841774?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpYW9taW5nMTAwMDAx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+![四挥](/communication-protocol/4bye.png)
 
 ## tcp/ip 的工作过程
 

@@ -82,6 +82,63 @@ this.dataService.setData(str)
 this.data = this.dataService.getData()
 ```
 
+### signal
+
+```
+import { Injectable, signal } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class DataSignalService {
+  private data = signal('');
+
+  setData(update: string) {
+    this.data.set(update);
+  }
+
+  getData(){
+    return this.data;
+  }
+}
+
+import { Component } from '@angular/core';
+import { DataSignalService } from '../data.service';
+
+@Component({
+  selector: 'app-sender-signal',
+  template: `
+    <h3>Sender Component</h3>
+    <button (click)="sendData()">Send Data</button>
+  `,
+})
+export class SenderSignalComponent {
+  constructor(private dataService: DataSignalService) {}
+
+  sendData() {
+    this.dataService.setData('Data from Sender Component');
+  }
+}
+
+import { Component } from '@angular/core';
+import { DataSignalService } from '../data.service';
+
+@Component({
+  selector: 'app-receiver-signal',
+  template: `
+    <h3>Receiver Component</h3>
+    <p>{{ data() }}</p>
+  `,
+})
+export class ReceiverSignalComponent {
+  data;
+
+  constructor(private dataService: DataSignalService) {
+    this.data = this.dataService.getData();
+  }
+}
+```
+
 ## 状态管理工具
 
 - NgRx（受 redux 影响的状态管理工具）

@@ -143,6 +143,7 @@ await collection.find({ $text: { $search: 'value' } }) // 返回搜索key是字�
 |`$push`||||||
 |`$first`||||||
 |`$last`||||||
+|`$setOnInsert`|若不存在则创建，否则无操作。|||||
 <!-- prettier-ignore-end -->
 
 ## 聚合操作
