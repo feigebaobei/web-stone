@@ -114,7 +114,9 @@ v-xx:arg.modify="value"
 <div :class="[isActive ? activeClass : '', errorClass]"></div>
 <div :class="[{ active: isActive }, errorClass]"></div>
 <p class="foo bar active">Hi</p>
-
+<p :class="$attrs.class">
+  当组件内有多个直接子元素时需要明确指定哪个子元素使用props里的class
+</p>
 <div :style="{ color: activeColor, fontSize: fontSize + 'px' }"></div>
 <div :style="styleObject"></div>
 <div :style="[baseStyles, overridingStyles]"></div>

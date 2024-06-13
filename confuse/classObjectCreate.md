@@ -12,5 +12,5 @@
 ||可以实现静态属性、方法。|直接在该对象上使用。||
 |||等价于`let o = {__proto__: no}`||
 |与ts的关系|class的出生是js创建的，与ts无关。是ts要包含class.|Object.create()处理当前属性与原型对象的关系。与ts结合时也要按2个对象的思路思考||
-|||||
+|||[示例](https://github.com/feigebaobei/HeShiJade/blob/master/packages/constructor/src/helper/tree.ts)||
 ```

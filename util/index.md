@@ -586,6 +586,41 @@ let cutLength = (str, pre = 4, post = 6) => {
 }
 // 兼容的数组，常用于处理脏数据。
 let compatibleArray = (a) => Array.isArray(a) ? Array.from(a) : []
+// 轮询promise
+let sleep = (n: N = 0) => {
+  return new Promise((s) => {
+    setTimeout(() => {s(true)}, n)
+  })
+}
+// todo 迁移到web-stone
+let loopPropotype = Object.create({}, {
+  launch: {
+    value: function (...p: A[]) {
+      return this.pFn(...p).then((r: A) => {
+        if (this.bFn(r)) { // 若满足条件则继承，否则返回结果。
+          return sleep(this.interval).then(() => {
+            return this.launch(...p)
+          })
+        } else {
+          return r
+        }
+      })
+    }
+  }
+})
+let createLoop = (pFn: F, bFn: F, i: N = 0): CreateLoop => {
+  return Object.create(loopPropotype, {
+    pFn: {
+      value: pFn
+    },
+    bFn: {
+      value: bFn
+    },
+    interval: {
+      value: i
+    },
+  })
+}
 
 
 

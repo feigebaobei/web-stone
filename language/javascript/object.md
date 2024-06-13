@@ -13,9 +13,9 @@ new Object(any)
 把 source 上的属性复制到 target 上，并返回 target.
 
 `Object.create(proto, [propertiesObject])`  
-按指定的原型对象 proto、新对象的属性返回新对象。
-新对象的`__proto__`属性指向原型对象。
-默认情况下，属性是不可写、可枚举和可配置的。即：
+按指定的原型对象 proto、新对象的属性返回新对象。  
+新对象的`__proto__`属性指向原型对象。  
+默认情况下，属性是不可写（即不可重新赋值，若其值为引用类型数据，则可以修改引用类型数据的值）、可枚举和可配置的。即：
 
 ```js
 Object.create(proto, {

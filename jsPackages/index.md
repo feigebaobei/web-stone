@@ -118,7 +118,7 @@
 - [antv](/jsPackages/antv/index.html)
 - [jsPlumb](/jsPackages/visx.html)
 - [vis.js](/jsPackages/visx.html)
-- [antv 系列](/jsPackages/visx.html)
+- [antv 系列](/jsPackages/antv/index.html)
 - [jointjs](/jsPackages/visx.html)
 - [echarts](/jsPackages/visx.html)
 - [hightopo](/jsPackages/visx.html)

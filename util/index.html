@@ -725,6 +725,41 @@
 }
 <span class="hljs-comment">// 兼容的数组，常用于处理脏数据。</span>
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">compatibleArray</span> = (<span class="hljs-params">a</span>) =&gt; <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">isArray</span>(a) ? <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">from</span>(a) : []
+<span class="hljs-comment">// 轮询promise</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">sleep</span> = (<span class="hljs-params">n: N = <span class="hljs-number">0</span></span>) =&gt; {
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">s</span>) =&gt;</span> {
+    <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {<span class="hljs-title function_">s</span>(<span class="hljs-literal">true</span>)}, n)
+  })
+}
+<span class="hljs-comment">// todo 迁移到web-stone</span>
+<span class="hljs-keyword">let</span> loopPropotype = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">create</span>({}, {
+  <span class="hljs-attr">launch</span>: {
+    <span class="hljs-attr">value</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params">...p: A[]</span>) {
+      <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">pFn</span>(...p).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">r: A</span>) =&gt;</span> {
+        <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">bFn</span>(r)) { <span class="hljs-comment">// 若满足条件则继承，否则返回结果。</span>
+          <span class="hljs-keyword">return</span> <span class="hljs-title function_">sleep</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">interval</span>).<span class="hljs-title function_">then</span>(<span class="hljs-function">() =&gt;</span> {
+            <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">launch</span>(...p)
+          })
+        } <span class="hljs-keyword">else</span> {
+          <span class="hljs-keyword">return</span> r
+        }
+      })
+    }
+  }
+})
+<span class="hljs-keyword">let</span> createLoop = (<span class="hljs-attr">pFn</span>: F, <span class="hljs-attr">bFn</span>: F, <span class="hljs-attr">i</span>: N = <span class="hljs-number">0</span>): <span class="hljs-function"><span class="hljs-params">CreateLoop</span> =&gt;</span> {
+  <span class="hljs-keyword">return</span> <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">create</span>(loopPropotype, {
+    <span class="hljs-attr">pFn</span>: {
+      <span class="hljs-attr">value</span>: pFn
+    },
+    <span class="hljs-attr">bFn</span>: {
+      <span class="hljs-attr">value</span>: bFn
+    },
+    <span class="hljs-attr">interval</span>: {
+      <span class="hljs-attr">value</span>: i
+    },
+  })
+}
 
 
 
