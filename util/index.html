@@ -731,7 +731,15 @@
     <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {<span class="hljs-title function_">s</span>(<span class="hljs-literal">true</span>)}, n)
   })
 }
-<span class="hljs-comment">// todo 迁移到web-stone</span>
+
+interface <span class="hljs-title class_">LoopPropotype</span> {
+  <span class="hljs-attr">launch</span>: <span class="hljs-function">(<span class="hljs-params">...p: A[]</span>) =&gt;</span> <span class="hljs-title class_">Promise</span>&lt;A&gt;
+}
+interface <span class="hljs-title class_">Loop</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">LoopPropotype</span> {
+  <span class="hljs-attr">pFn</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-title class_">Promise</span>&lt;A&gt;
+  <span class="hljs-attr">bFn</span>: <span class="hljs-function">(<span class="hljs-params">p: A</span>) =&gt;</span> B
+  <span class="hljs-attr">interval</span>: N
+}
 <span class="hljs-keyword">let</span> loopPropotype = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">create</span>({}, {
   <span class="hljs-attr">launch</span>: {
     <span class="hljs-attr">value</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params">...p: A[]</span>) {
@@ -747,7 +755,7 @@
     }
   }
 })
-<span class="hljs-keyword">let</span> createLoop = (<span class="hljs-attr">pFn</span>: F, <span class="hljs-attr">bFn</span>: F, <span class="hljs-attr">i</span>: N = <span class="hljs-number">0</span>): <span class="hljs-function"><span class="hljs-params">CreateLoop</span> =&gt;</span> {
+<span class="hljs-keyword">let</span> createLoop = (<span class="hljs-attr">pFn</span>: F, <span class="hljs-attr">bFn</span>: F, <span class="hljs-attr">i</span>: N = <span class="hljs-number">0</span>): <span class="hljs-function"><span class="hljs-params">Loop</span> =&gt;</span> {
   <span class="hljs-keyword">return</span> <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">create</span>(loopPropotype, {
     <span class="hljs-attr">pFn</span>: {
       <span class="hljs-attr">value</span>: pFn

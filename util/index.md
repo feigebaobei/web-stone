@@ -592,7 +592,15 @@ let sleep = (n: N = 0) => {
     setTimeout(() => {s(true)}, n)
   })
 }
-// todo 迁移到web-stone
+
+interface LoopPropotype {
+  launch: (...p: A[]) => Promise<A>
+}
+interface Loop extends LoopPropotype {
+  pFn: () => Promise<A>
+  bFn: (p: A) => B
+  interval: N
+}
 let loopPropotype = Object.create({}, {
   launch: {
     value: function (...p: A[]) {
@@ -608,7 +616,7 @@ let loopPropotype = Object.create({}, {
     }
   }
 })
-let createLoop = (pFn: F, bFn: F, i: N = 0): CreateLoop => {
+let createLoop = (pFn: F, bFn: F, i: N = 0): Loop => {
   return Object.create(loopPropotype, {
     pFn: {
       value: pFn

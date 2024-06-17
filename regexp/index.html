@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>&#x6b63;&#x5219;&#x8868;&#x8fbe;&#x5f0f;</title>
-        <style>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x6b63;&#x5219;&#x8868;&#x8fbe;&#x5f0f;</title>
+            <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -11,12 +11,14 @@
  *--------------------------------------------------------------------------------------------*/
 
 .vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
 	display: none;
 }
 
 </style>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
@@ -38,10 +40,106 @@
     pointer-events: none;
 }
 </style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
         
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="正则表达式">正则表达式</h1>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="正则表达式">正则表达式</h1>
 <h2 id="简介">简介</h2>
 <ol>
 <li>字符序列形成的搜索模式</li>
@@ -146,14 +244,14 @@ let reg1 = /\d{5}/g
 </tr>
 <tr>
 <td>u</td>
-<td>支持完整的unicode。</td>
+<td>支持完整的 unicode。</td>
 <td>能够正确处理代理以</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td>y</td>
-<td>粘滞sticky模式</td>
+<td>粘滞 sticky 模式</td>
 <td>在文本中确切位置搜索</td>
 <td></td>
 <td></td>
@@ -332,7 +430,7 @@ string.match(/*/</span>)  <span class="hljs-comment">// 非全局检索时返回
 |\f|换页符|  
 |\n|换行符|  
 |\r|回车符|  
-|\s|空白字符。包括空格、制表符、换页符等|  
+|\s|空白字符。包括空格、制表符、换页符、换行符等|  
 |\S|非空白字符|  
 |\t|制表符|  
 |\v|垂直制表符|  
@@ -431,7 +529,7 @@ string.match(/*/</span>)  <span class="hljs-comment">// 非全局检索时返回
 |-|-|
 |^|开头位置|
 |$|结尾位置|
-|\b|匹配一个单词边界，即单词与空格间的位置|
+|\b|匹配一个单词边界，即单词与空格间、符号等的位置|
 |\B|非单词边界|
     </code>
 </details>
@@ -464,7 +562,7 @@ string.match(/*/</span>)  <span class="hljs-comment">// 非全局检索时返回
 <h2 id="惰性匹配非贪婪匹配">惰性匹配（非贪婪匹配）</h2>
 <p>从头开始最早匹配的。（不是尽可能少的匹配内容。）如：<code>.*?</code><br>
 在量词后面加<code>?</code>。
-一旦发现匹配符合要求，立马就匹配成功，而不会继续匹配下去(除非有g，开启下一组匹配)</p>
+一旦发现匹配符合要求，立马就匹配成功，而不会继续匹配下去(除非有 g，开启下一组匹配)</p>
 <pre><code>{m, n}?
 {m,}?
 +?
@@ -483,68 +581,23 @@ string.match(/*/</span>)  <span class="hljs-comment">// 非全局检索时返回
 \2 // 第二个缓存的匹配内容，即第一个子表达式。
 </code></pre>
 <h3 id="分组">分组</h3>
-<p>当正则表达式中有分组且分组的名字时，匹配成功时，groups为对象。</p>
+<p>当正则表达式中有分组且分组的名字时，匹配成功时，groups 为对象。</p>
 <pre><code class="language-js"><span class="hljs-comment">// demo</span>
 <span class="hljs-keyword">var</span> s = <span class="hljs-string">&#x27;abc123&#x27;</span>
 <span class="hljs-keyword">var</span> reg = <span class="hljs-regexp">/(?&lt;k&gt;\d+)/</span>
 reg.<span class="hljs-title function_">exec</span>(s) <span class="hljs-comment">// [&#x27;123&#x27;, &#x27;123&#x27;, index: 3, input: &#x27;abc123&#x27;, groups: {k: &#x27;123&#x27;}]</span>
 </code></pre>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th>demo</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>`</td>
-<td>`</td>
-<td>左右为或的关系</td>
-</tr>
-<tr>
-<td><code>(。。。)</code></td>
-<td>分组</td>
-<td><code>/(a)/</code></td>
-</tr>
-<tr>
-<td><code>(?&lt;name&gt;)</code></td>
-<td>命名的分组</td>
-<td><code>/(?&lt;id&gt;\d)/</code></td>
-</tr>
-<tr>
-<td><code>(?&lt;p=name&gt;)</code></td>
-<td>引用命名的分组</td>
-<td><code>/(?&lt;id&gt;\d)abc(?p=id)/</code></td>
-</tr>
-<tr>
-<td><code>/(?#)/</code></td>
-<td>不会。好像是注解。</td>
-<td></td>
-</tr>
-<tr>
-<td><code>(?:)</code></td>
-<td>不记入分组</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
+<p>|               |                    | demo                    |
+| ------------- | ------------------ | ----------------------- | --- | --- |
+| <code>            |</code>                  | 左右为或的关系          | <code>/a | b/</code> |
+| <code>(。。。)</code>    | 分组               | <code>/(a)/</code>                 |
+| <code>(?&lt;name&gt;)</code>   | 命名的分组         | <code>/(?&lt;id&gt;\d)/</code>           |
+| <code>(?&lt;p=name&gt;)</code> | 引用命名的分组     | <code>/(?&lt;id&gt;\d)abc(?p=id)/</code> |
+| <code>/(?#)/</code>      | 不会。好像是注解。 |                         |
+| <code>(?:)</code>        | 不记入分组         |                         |
+|               |                    |                         |
+|               |                    |                         |
+|               |                    |                         |</p>
 <p><strong><code>?=</code>和<code>?:</code>的区别</strong></p>
 <table>
 <thead>
@@ -588,9 +641,9 @@ reg.<span class="hljs-title function_">exec</span>(s) <span class="hljs-comment"
 <thead>
 <tr>
 <th>条件</th>
-<th>match的结果</th>
-<th>exec的结果</th>
-<th>j是否相同</th>
+<th>match 的结果</th>
+<th>exec 的结果</th>
+<th>j 是否相同</th>
 <th></th>
 <th></th>
 </tr>
@@ -701,27 +754,27 @@ string =&gt; date
 &quot;1234567890&quot;.replace(/\B(?=(?:\d{3})+(?!\d))/g,&quot;,&quot;) // 结果：1,234,567,890，匹配的是后面是3*n个数字的非单词边界(\B)
 </code></pre>
 <p>懒惰匹配，也就是匹配尽可能少的字符。在能使整个匹配成功的前提下使用最少的重复，只要在它后面加上一个问号?即可。现在看看懒惰版的例子吧：
-a.*?b匹配最短的，以a开始，以b结束的字符串。如果把它应用于aabab的话，它会匹配aab（第一到第三个字符）和ab（第四到第五个字符）
-为什么第一个匹配是aab（第一到第三个字符）而不是ab（第二到第三个字符）？简单地说，因为正则表达式有一条比懒惰／贪婪规则优先级更高的规则，就是：最先开始的匹配拥有最高的优先权
+a.*?b 匹配最短的，以 a 开始，以 b 结束的字符串。如果把它应用于 aabab 的话，它会匹配 aab（第一到第三个字符）和 ab（第四到第五个字符）
+为什么第一个匹配是 aab（第一到第三个字符）而不是 ab（第二到第三个字符）？简单地说，因为正则表达式有一条比懒惰／贪婪规则优先级更高的规则，就是：最先开始的匹配拥有最高的优先权
 一旦发现匹配符合要求，立马就匹配成功
 <code>[]</code>内的不转义</p>
-<h2 id="判断2个正则是否相等">判断2个正则是否相等</h2>
+<h2 id="判断-2-个正则是否相等">判断 2 个正则是否相等</h2>
 <pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">r1, r2</span>) =&gt; {
-    <span class="hljs-keyword">if</span> (r1.<span class="hljs-property">source</span> === r2.<span class="hljs-property">source</span>) {
-        <span class="hljs-keyword">let</span> a1 = r1.<span class="hljs-property">flags</span>
-        <span class="hljs-keyword">let</span> a2 = r2.<span class="hljs-property">flags</span>
-        <span class="hljs-keyword">if</span> (a1.<span class="hljs-property">length</span> === a2.<span class="hljs-property">length</span>) {
-            <span class="hljs-keyword">return</span> a1.<span class="hljs-title function_">every</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> s2.<span class="hljs-title function_">includes</span>(item))
-        } <span class="hljs-keyword">else</span> {
-            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>
-        }
+  <span class="hljs-keyword">if</span> (r1.<span class="hljs-property">source</span> === r2.<span class="hljs-property">source</span>) {
+    <span class="hljs-keyword">let</span> a1 = r1.<span class="hljs-property">flags</span>
+    <span class="hljs-keyword">let</span> a2 = r2.<span class="hljs-property">flags</span>
+    <span class="hljs-keyword">if</span> (a1.<span class="hljs-property">length</span> === a2.<span class="hljs-property">length</span>) {
+      <span class="hljs-keyword">return</span> a1.<span class="hljs-title function_">every</span>(<span class="hljs-function">(<span class="hljs-params">item</span>) =&gt;</span> s2.<span class="hljs-title function_">includes</span>(item))
     } <span class="hljs-keyword">else</span> {
-        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>
     }
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>
+  }
 }
 </code></pre>
 
-        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
-        
-    </body>
-    </html>
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>

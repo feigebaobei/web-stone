@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>overview</title>
-        <style>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>overview</title>
+            <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -11,12 +11,14 @@
  *--------------------------------------------------------------------------------------------*/
 
 .vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
 	display: none;
 }
 
 </style>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
@@ -38,10 +40,106 @@
     pointer-events: none;
 }
 </style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
         
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="overview">overview</h1>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="overview">overview</h1>
 <blockquote>
 <p>高版本 npm 与 yarn 1+无明显差异。用哪个都可以。</p>
 </blockquote>
@@ -90,7 +188,7 @@
 <tr>
 <td>config</td>
 <td>设置配置</td>
-<td>npm config set proxy=http://xxx.com:8080(设置代理)npm config set registry=&quot;<a href="http://r.cnpmjs.org">http://r.cnpmjs.org</a>&quot;(设置镜像)npm install -g cnpm --registry=https://registry.npm.taobao.org(设置淘宝镜像)</td>
+<td>npm config set proxy=<a href="http://xxx.com:8080">http://xxx.com:8080</a>(设置代理)npm config set registry=&quot;<a href="http://r.cnpmjs.org">http://r.cnpmjs.org</a>&quot;(设置镜像)npm install -g cnpm --registry=<a href="https://registry.npm.taobao.org">https://registry.npm.taobao.org</a>(设置淘宝镜像)</td>
 </tr>
 <tr>
 <td>cache</td>
@@ -229,7 +327,7 @@ npm cache clean --force
 <tr>
 <td>config</td>
 <td>设置配置</td>
-<td>npm config set proxy=http://xxx.com:8080(设置代理)npm config set registry=&quot;<a href="http://r.cnpmjs.org">http://r.cnpmjs.org</a>&quot;(设置镜像)npm install -g cnpm --registry=https://registry.npm.taobao.org(设置淘宝镜像)</td>
+<td>npm config set proxy=<a href="http://xxx.com:8080">http://xxx.com:8080</a>(设置代理)npm config set registry=&quot;<a href="http://r.cnpmjs.org">http://r.cnpmjs.org</a>&quot;(设置镜像)npm install -g cnpm --registry=<a href="https://registry.npm.taobao.org">https://registry.npm.taobao.org</a>(设置淘宝镜像)</td>
 </tr>
 <tr>
 <td>cache</td>
@@ -294,7 +392,7 @@ npm cache clean --force
 <tr>
 <td>set-script</td>
 <td>设置脚本</td>
-<td><code>npm set-script build 'node ./index.js'</code>旧写法  <code>npm pkg set scripts.dev=&quot;concurrently \&quot;npx tsc --watch\&quot; \&quot;nodemon -q dist/index.js\&quot;&quot;</code>新写法</td>
+<td><code>npm set-script build 'node ./index.js'</code>旧写法 <code>npm pkg set scripts.dev=&quot;concurrently \&quot;npx tsc --watch\&quot; \&quot;nodemon -q dist/index.js\&quot;&quot;</code>新写法</td>
 </tr>
 </tbody>
 </table>
@@ -631,11 +729,14 @@ process.env.npm_config_registry # 读取
 <pre><code>npm config get cache // 列出缓存目录
 npm cache clean --force // 清空缓存
 </code></pre>
+<h2 id="发布"><a href="/package-manager/npm/publish.html">发布</a></h2>
 <h2 id="title">title</h2>
 <h2 id="title-1">title</h2>
-<h3 id="title-2">title</h3>
+<h2 id="title-2">title</h2>
+<h2 id="title-3">title</h2>
+<h3 id="title-4">title</h3>
 
-        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
-        
-    </body>
-    </html>
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>

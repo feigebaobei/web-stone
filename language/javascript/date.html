@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>overview</title>
-        <style>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>overview</title>
+            <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -11,47 +11,14 @@
  *--------------------------------------------------------------------------------------------*/
 
 .vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
 	display: none;
 }
 
-/* From extension ms-toolsai.jupyter */
-/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
-
-.alert {
-    width: auto;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-.alert > *:last-child {
-    margin-bottom: 0;
-}
-#preview > .alert:last-child {
-    /* Prevent this being set to zero by the default notebook stylesheet */
-    padding-bottom: 1em;
-}
-
-.alert-success {
-    /* Note there is no suitable color available, so we just copy "info" */
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-info {
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-warning {
-    background-color: var(--theme-warning-background);
-    color: var(--theme-warning-foreground);
-}
-.alert-danger {
-    background-color: var(--theme-error-background);
-    color: var(--theme-error-foreground);
-}
-
 </style>
-        
+            
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -72,10 +39,106 @@
     pointer-events: none;
 }
 </style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
         
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="overview">overview</h1>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="overview">overview</h1>
 <p>时间</p>
 <h1 id="usage">usage</h1>
 <pre><code class="language-js"><span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>()
@@ -87,17 +150,17 @@
 <pre><code class="language-js"><span class="hljs-attr">date</span>: {
     constructor,
     prototype,
-    <span class="hljs-title function_">getDate</span>(), <span class="hljs-comment">// 返回一个月中的当前日期。  </span>
-    <span class="hljs-title function_">getDay</span>(), <span class="hljs-comment">// 返回星期几。星期日是第一个星期。  </span>
+    <span class="hljs-title function_">getDate</span>(), <span class="hljs-comment">// 返回一个月中的当前日期。</span>
+    <span class="hljs-title function_">getDay</span>(), <span class="hljs-comment">// 返回星期几。星期日是第一个星期。</span>
     <span class="hljs-title function_">getMonth</span>(), <span class="hljs-comment">// 返回第几个月份。从0开始数。</span>
     <span class="hljs-title function_">getFullYear</span>(), <span class="hljs-comment">// 返回4位数字的年份。</span>
-    <span class="hljs-title function_">getHours</span>(),  <span class="hljs-comment">// 返回小时数（0-23）  </span>
-    <span class="hljs-title function_">getMinutes</span>(), <span class="hljs-comment">// 返回分钟数（0-59）  </span>
+    <span class="hljs-title function_">getHours</span>(),  <span class="hljs-comment">// 返回小时数（0-23）</span>
+    <span class="hljs-title function_">getMinutes</span>(), <span class="hljs-comment">// 返回分钟数（0-59）</span>
     <span class="hljs-title function_">getSeconds</span>(), <span class="hljs-comment">// 返回秒数（0-59）</span>
     <span class="hljs-title function_">getTime</span>(), <span class="hljs-comment">// 得到ms值</span>
     <span class="hljs-title function_">now</span>(),返回从<span class="hljs-number">1970.01</span><span class="hljs-number">.01</span>至今的毫秒数。
-    <span class="hljs-title function_">getTimezoneOffset</span>(),返回本地时间与格林威治标准时间（<span class="hljs-variable constant_">GMT</span>）的分钟差。  
-    <span class="hljs-title function_">getUTCDate</span>(),根据世界时从<span class="hljs-title class_">Date</span>对象中返回月的当前日期。  
+    <span class="hljs-title function_">getTimezoneOffset</span>(),返回本地时间与格林威治标准时间（<span class="hljs-variable constant_">GMT</span>）的分钟差。
+    <span class="hljs-title function_">getUTCDate</span>(),根据世界时从<span class="hljs-title class_">Date</span>对象中返回月的当前日期。
     <span class="hljs-title function_">getUTCDay</span>(),
     <span class="hljs-title function_">getUTCMonth</span>(),
     <span class="hljs-title function_">getUTCFullYear</span>(),
@@ -106,14 +169,14 @@
     <span class="hljs-title function_">getUTCSeconds</span>(),
     <span class="hljs-title function_">getUTCMilliseconds</span>(),
     <span class="hljs-title function_">parse</span>(dateString)(),
-    <span class="hljs-title function_">setDate</span>(number), <span class="hljs-comment">// number 数字 必填  设置date对象中的日期。 </span>
+    <span class="hljs-title function_">setDate</span>(number), <span class="hljs-comment">// number 数字 必填  设置date对象中的日期。</span>
     <span class="hljs-title function_">setMonth</span>(number),
     <span class="hljs-title function_">setFullYear</span>(number),
     <span class="hljs-title function_">setHours</span>(number), <span class="hljs-comment">// [0, 23]</span>
     <span class="hljs-title function_">setMinutes</span>(number), <span class="hljs-comment">// [0, 59]</span>
     <span class="hljs-title function_">setSeconds</span>(number), <span class="hljs-comment">// [0, 59]</span>
     <span class="hljs-title function_">setMilliseconds</span>(number), <span class="hljs-comment">// [0, 999]</span>
-    <span class="hljs-title function_">setTime</span>(number), <span class="hljs-comment">// 以毫秒设置date对象。  </span>
+    <span class="hljs-title function_">setTime</span>(number), <span class="hljs-comment">// 以毫秒设置date对象。</span>
     <span class="hljs-title function_">setUTCDate</span>(number), <span class="hljs-comment">// [1, 31]</span>
     <span class="hljs-title function_">setUTCMonth</span>(number), <span class="hljs-comment">// [0, 11]</span>
     <span class="hljs-title function_">setUTCFullYear</span>(number), <span class="hljs-comment">// 4位数字</span>
@@ -121,15 +184,15 @@
     <span class="hljs-title function_">setUTCMinutes</span>(number), <span class="hljs-comment">// [0， 59]</span>
     <span class="hljs-title function_">setUTCSeconds</span>(number), <span class="hljs-comment">// [0， 59]</span>
     <span class="hljs-title function_">setUTCMilliseconds</span>(number), <span class="hljs-comment">// [0， 999]</span>
-    <span class="hljs-title function_">toSource</span>(), <span class="hljs-comment">// </span>
+    <span class="hljs-title function_">toSource</span>(), <span class="hljs-comment">//</span>
     <span class="hljs-title function_">toString</span>(),
-    <span class="hljs-title function_">toTimeString</span>(), <span class="hljs-comment">// 将time部分（时、分、秒、及后面的）转换为字符串。 </span>
-    <span class="hljs-title function_">toDateString</span>(), <span class="hljs-comment">// 将date部分（星期、月、日、年）转换为字符串。  </span>
+    <span class="hljs-title function_">toTimeString</span>(), <span class="hljs-comment">// 将time部分（时、分、秒、及后面的）转换为字符串。</span>
+    <span class="hljs-title function_">toDateString</span>(), <span class="hljs-comment">// 将date部分（星期、月、日、年）转换为字符串。</span>
     <span class="hljs-title function_">toUTCString</span>(),
     <span class="hljs-title function_">toLocalString</span>(),
     <span class="hljs-title function_">toLocalTimeString</span>(),
     <span class="hljs-title function_">toLocalDateString</span>(),
-    <span class="hljs-title function_">UTC</span>(<span class="hljs-title function_">year</span>(<span class="hljs-number">4</span>位), mounth, day, hours, minutes, seconds, ms), <span class="hljs-comment">// 返回1970.01.01到指定时间的毫秒数。  </span>
+    <span class="hljs-title function_">UTC</span>(<span class="hljs-title function_">year</span>(<span class="hljs-number">4</span>位), mounth, day, hours, minutes, seconds, ms), <span class="hljs-comment">// 返回1970.01.01到指定时间的毫秒数。</span>
     <span class="hljs-title function_">valueOf</span>(),
 }
 </code></pre>
@@ -183,60 +246,26 @@
 </table>
 <h1 id="时间">时间</h1>
 <h2 id="gmt--utc">GMT / UTC</h2>
-<p>GMT是格林尼治时间。从本初子午线开始计算的时间。就是实际的时间。因地球自转不均匀，导致不能推广使用。
-UTC是协调时间。是在GMT上加减闰秒，它与gmt相差不超过0.9s.它是以原子时秒长为基础的。
-只要你不是搞导弹的。2种时间就可以等效使用。</p>
+<p>GMT 是格林尼治时间。从本初子午线开始计算的时间。就是实际的时间。因地球自转不均匀，导致不能推广使用。
+UTC 是协调时间。是在 GMT 上加减闰秒，它与 gmt 相差不超过 0.9s.它是以原子时秒长为基础的。
+只要你不是搞导弹的。2 种时间就可以等效使用。</p>
 <h2 id="时区">时区</h2>
-<p>从英国的格林尼治天文台旧址为零时区。把地球分为24个时区。北京处于东8区（GMT+8）。</p>
-<h2 id="unix时间戳unix-timestamp">unix时间戳(unix timestamp)</h2>
-<p>单位是s.
-从1940-01-01T00:00:00为起点。
+<p>从英国的格林尼治天文台旧址为零时区。把地球分为 24 个时区。北京处于东 8 区（GMT+8）。
+UTC + 8H = 北京时间</p>
+<h2 id="unix-时间戳unix-timestamp">unix 时间戳(unix timestamp)</h2>
+<p>单位是 s.
+从 1940-01-01T00:00:00 为起点。
 Math.round(Date.now() / 1000)</p>
 <h2 id="时间格式">时间格式</h2>
-<table>
-<thead>
-<tr>
-<th>格式</th>
-<th>说明</th>
-<th>示例</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>CST</td>
-<td>北京时间</td>
-<td></td>
-<td>Sun Aug 30 2020 23:07:43 GMT+0800 (中国标准时间)</td>
-</tr>
-<tr>
-<td>GMT</td>
-<td>格林尼治时间</td>
-<td></td>
-<td>Sun, 30 Aug 2020 15:09:23 GMT</td>
-</tr>
-<tr>
-<td>UTC</td>
-<td>国际协调时间</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>ISO</td>
-<td>标准时间</td>
-<td></td>
-<td>2020-08-30T15:09:23.786Z</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
+<p>| 格式 | 说明         | 示例 |                                                  | |
+| ---- | ------------ | ---- | ------------------------------------------------ | |
+| CST  | 北京时间     |      | Sun Aug 30 2020 23:07:43 GMT+0800 (中国标准时间) | |
+| GMT  | 格林尼治时间 |      | Sun, 30 Aug 2020 15:09:23 GMT                    | |
+| UTC  | 国际协调时间 |      |                                                  | |
+| ISO  | 标准时间     |      | 2020-08-30T15:09:23.786Z                         | <code>T</code>是分隔符，<code>Z</code>表示UTC时间. |
+|      |              |      |                                                  | |</p>
 
-        
-        
-    </body>
-    </html>
+            
+            
+        </body>
+        </html>
