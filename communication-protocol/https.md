@@ -88,7 +88,7 @@ rsa/dsa
 
 # [HTTP](/communication-protocol/http.html) & HTTPS
 
-# [ssl secure socket layer](/communication-protocol/ssl.html) & [tls transport layer security](/communication-protocol/tls.html)
+# [ssl (secure socket layer)](/communication-protocol/ssl.html) & [tls (transport layer security)](/communication-protocol/tls.html)
 
 被称为安全层。二者运行在 tcp 上。
 

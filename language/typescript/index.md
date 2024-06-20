@@ -405,6 +405,16 @@ abstract class A {
 ||||||
 <!-- prettier-ignore-end -->
 
+## ts class & Object.create
+
+|     | ts class                                   | Object.create                    |
+| --- | ------------------------------------------ | -------------------------------- |
+|     | 使用 public/protected/private 控制可访问性 | 使用 writable 控制可写性。       |
+|     |                                            | 使用 enumerable 控制可枚举性。   |
+|     |                                            | 使用 configurable 控制可配置性。 |
+|     |                                            |                                  |
+|     |                                            |                                  |
+
 ## modules
 
 ```ts

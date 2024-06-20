@@ -250,14 +250,18 @@ c.on('ready', () => {
       throw err
     }
 
-    // let p = 'confuse/image',
+    // let p = 'development/idea'
     let p = [
-      // 'confuse/edit.html',
-      // 'confuse/download.html',
-      // 'confuse/index.html',
-      // 'language/javascript/index.html',
+      'communication-protocol/4bye.png',
+      'communication-protocol/https.html',
+      // 'framework/vue3/basic.html',
+      // 'language/javascript/date.html',
+      // 'package-manager/npm/index.html',
+      // 'package-manager/npm/publish.html',
+      // 'regexp/index.html',
+      // 'util/index.html',
     ]
-    // 检测指定目录是否存在
+    // 检测指定目录是否存在 flex
     // checkDir(p)
     // 检测删除目录
     // removeDir(p).then(() => {c.end()})

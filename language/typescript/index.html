@@ -11,7 +11,9 @@
  *--------------------------------------------------------------------------------------------*/
 
 .vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
 	display: none;
 }
 
@@ -970,6 +972,43 @@ ts 的类型可以用于防御式编程</p>
 </tbody>
 </table>
 <!-- prettier-ignore-end -->
+<h2 id="ts-class--objectcreate">ts class &amp; Object.create</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>ts class</th>
+<th>Object.create</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>使用public/protected/private控制可访问性</td>
+<td>使用writable控制可写性。</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>使用enumerable控制可枚举性。</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>使用configurable控制可配置性。</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h2 id="modules">modules</h2>
 <pre><code class="language-ts"><span class="hljs-keyword">type</span> S = <span class="hljs-built_in">string</span>
 <span class="hljs-keyword">interface</span> A {

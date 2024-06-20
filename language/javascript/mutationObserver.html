@@ -2,7 +2,7 @@
         <html>
         <head>
             <meta charset="UTF-8">
-            <title>overview</title>
+            <title>MutationObserver</title>
             <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -138,16 +138,15 @@
         
         </head>
         <body class="vscode-body vscode-light">
-            <h1 id="overview">overview</h1>
-<p>https 协议：超文本传输协议
-url:统一资源定位符，在网络中唯一定义一份资源。<br>
-protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
-一般基于 tcp 协议</p>
-<h1 id="特点">特点</h1>
-<!-- prettier-ignore-start -->
+            <h1 id="mutationobserver">MutationObserver</h1>
+<p>提供了监视对 DOM 树所做更改的能力</p>
+<h2 id="api">api</h2>
 <table>
 <thead>
 <tr>
+<th></th>
+<th></th>
+<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -156,30 +155,72 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 </thead>
 <tbody>
 <tr>
-<td>内容加密</td>
+<td>构造函数</td>
+<td>MutationObserver((MutationRecord, MutationObserver) =&gt; void))</td>
+<td>创建并返回MutationObserver对象。用于监听dom发生变化。</td>
 <td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>验证身份</td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td>保护数据完整性</td>
+<td>方法</td>
+<td>disconnect() =&gt; void</td>
+<td>不再接收dom变化通知</td>
 <td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>内容加密</td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
+<td></td>
+<td>observe(dom, options?) =&gt;</td>
+<td>开始监听dom变化</td>
+<td>options: {subtree?是否监听以该dom为根节点的子树,childList?是否监听该节点内的的增加删除,attributes?是否监听该节点的属性变化,attributeFilter?指定监听的属性组成的数组。若不指定，则监听全部属性,attributeOldValue?默认为false,characterData?监听所有字符变化，默认为false,characterDataOldValue?监听文本变化，默认为false.}</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>takeRecords()</td>
+<td>从 MutationObserver 的通知队列中删除所有待处理的通知，并将它们返回到 MutationRecord 对象的新 Array 中。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
 <td></td>
 <td></td>
 <td></td>
@@ -187,109 +228,34 @@ protocol://userName:password@serverAddress:port/path?queryString#fragment<br>
 </tr>
 </tbody>
 </table>
-<!-- prettier-ignore-end -->
-<h1 id="status"><a href="/communication-protocol/status.html">status</a></h1>
-<h1 id="实现原理">实现原理</h1>
-<h2 id="加解密算法">加解密算法</h2>
-<h3 id="对称加密">对称加密</h3>
-<p>des / aes</p>
-<h3 id="非对称加密">非对称加密</h3>
-<p>rsa/dsa</p>
-<h2 id="通信过程">通信过程</h2>
-<p><img src="/communication-protocol/https.png" alt="https通信过程"></p>
-<pre><code>
-        client                  server
-           |     先建立tcp连接      |
-           |     请求https连接      |
-           |----------------------&gt;|
-           |                       |
-           |     返回证书（公钥）     |
-           |&lt;----------------------|
-           |                       |
-    验证证书是否有效                  |
-    产生随机（对称）密钥              |
-    使用公钥对对称密钥加密             |
-           |                       |
-           |    发送加密后的对称密钥   |
-           |----------------------&gt;|
-           |                       |
-           |             使用私钥解密，得到对称密钥
-           |        ok             |
-           |&lt;----------------------|
-           |                       |
-           |        发送请求        |
-           | （通过对称密钥加密的密文）|
-           |----------------------&gt;|
-           |                       |
-           |              使用对称密钥解密，得到明文
-           |              处理请求后生成回馈
-           |              使用对称密钥加密回馈
-           |                       |
-           |        返回回馈        |
-           |&lt;----------------------|
-           |                       |
-       使用对称密钥解密，             |
-       得到明文后渲染                |
-           |                       |
-           |        多路复用        |
-           |      断开tcp连接        |
+<p>##dom</p>
+<pre><code class="language-js"><span class="hljs-comment">// 选择需要观察变动的节点</span>
+<span class="hljs-keyword">const</span> targetNode = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&quot;some-id&quot;</span>);
+
+<span class="hljs-comment">// 观察器的配置（需要观察什么变动）</span>
+<span class="hljs-keyword">const</span> config = { <span class="hljs-attr">attributes</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">childList</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">subtree</span>: <span class="hljs-literal">true</span> };
+
+<span class="hljs-comment">// 当观察到变动时执行的回调函数</span>
+<span class="hljs-keyword">const</span> callback = <span class="hljs-keyword">function</span> (<span class="hljs-params">mutationsList, observer</span>) {
+  <span class="hljs-comment">// Use traditional &#x27;for loops&#x27; for IE 11</span>
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> mutation <span class="hljs-keyword">of</span> mutationsList) {
+    <span class="hljs-keyword">if</span> (mutation.<span class="hljs-property">type</span> === <span class="hljs-string">&quot;childList&quot;</span>) {
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;A child node has been added or removed.&quot;</span>);
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (mutation.<span class="hljs-property">type</span> === <span class="hljs-string">&quot;attributes&quot;</span>) {
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;The &quot;</span> + mutation.<span class="hljs-property">attributeName</span> + <span class="hljs-string">&quot; attribute was modified.&quot;</span>);
+    }
+  }
+};
+
+<span class="hljs-comment">// 创建一个观察器实例并传入回调函数</span>
+<span class="hljs-keyword">const</span> observer = <span class="hljs-keyword">new</span> <span class="hljs-title class_">MutationObserver</span>(callback);
+
+<span class="hljs-comment">// 以上述配置开始观察目标节点</span>
+observer.<span class="hljs-title function_">observe</span>(targetNode, config);
+
+<span class="hljs-comment">// 之后，可停止观察</span>
+observer.<span class="hljs-title function_">disconnect</span>();
 </code></pre>
-<ol>
-<li>建立 tcp 连接</li>
-<li>初始化安全层</li>
-<li>发送 http 请求</li>
-</ol>
-<h1 id="优点">优点</h1>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>客户端生成的密钥只有当前客户端与服务端能得到</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>客户端生成的密文只有当前客户端和服务端能够解密</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>客户端与服务端的通信是安全的</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h1 id="http--https"><a href="/communication-protocol/http.html">HTTP</a> &amp; HTTPS</h1>
-<h1 id="ssl-secure-socket-layer--tls-transport-layer-security"><a href="/communication-protocol/ssl.html">ssl (secure socket layer)</a> &amp; <a href="/communication-protocol/tls.html">tls (transport layer security)</a></h1>
-<p>被称为安全层。二者运行在 tcp 上。</p>
-<pre><code>       -------------
-       |    http   |
-       -------------
-       -------------
-       | ssl / tls |
-       -------------
-       -------------
-       |    tcp    |
-       -------------
-       -------------
-       |    ip     |
-       -------------
-       -------------
-       |  网络接口   |
-       -------------
-</code></pre>
-<h1 id="ca-证书"><a href="/browser/caCert.html">ca 证书</a></h1>
 
             
             

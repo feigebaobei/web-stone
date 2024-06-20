@@ -358,7 +358,7 @@ script 可理解为外层代码触发
 ## 微任务，由 js 引擎发起。
 
 - Promise
-- MutationObserver
+- [MutationObserver](/language/javascript/mutationObserver.html)
 - process.nextTick （node 环境）
 
 ## promise
