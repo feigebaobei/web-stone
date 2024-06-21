@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>archiver</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="archiver">archiver</h1>
+<h2 id="overview">overview</h2>
+<blockquote>
+<p>TODO: description</p>
+</blockquote>
+<h3 id="feature">feature</h3>
+<ul>
+<li>feature0</li>
+<li>feature1</li>
+<li>feature2</li>
+</ul>
+<h2 id="install">install</h2>
+<p><code>npm i archiver</code></p>
+<h2 id="usage">usage</h2>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;fs&#x27;</span>)
+<span class="hljs-keyword">const</span> archiver = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;archiver&#x27;</span>);
+
+<span class="hljs-keyword">const</span> output = fs.<span class="hljs-title function_">createWriteStream</span>(__dirname + <span class="hljs-string">&#x27;/example.zip&#x27;</span>)
+<span class="hljs-keyword">const</span> archive = <span class="hljs-title function_">archiver</span>(<span class="hljs-string">&#x27;zip&#x27;</span>, {
+    <span class="hljs-attr">zlib</span>: {<span class="hljs-attr">level</span>: <span class="hljs-number">9</span>} <span class="hljs-comment">// 设置压缩级别</span>
+})
+output.<span class="hljs-title function_">on</span>(<span class="hljs-string">&#x27;close&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;close&#x27;</span>)
+})
+output.<span class="hljs-title function_">on</span>(<span class="hljs-string">&#x27;end&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;end&#x27;</span>)
+})
+archive.<span class="hljs-title function_">on</span>(<span class="hljs-string">&#x27;warning&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;warning&#x27;</span>)
+})
+archive.<span class="hljs-title function_">on</span>(<span class="hljs-string">&#x27;error&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;error&#x27;</span>)
+})
+archive.<span class="hljs-title function_">pipe</span>(output) <span class="hljs-comment">// 对接管道</span>
+<span class="hljs-keyword">let</span> file1 = __dirname + <span class="hljs-string">&#x27;/file1.txt&#x27;</span>
+archive.<span class="hljs-title function_">append</span>(fs.<span class="hljs-title function_">createReadStream</span>(file1), {<span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;file1.txt&#x27;</span>})
+archive.<span class="hljs-title function_">append</span>(<span class="hljs-string">&#x27;string cheese&#x27;</span>, {<span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;file2.txt&#x27;</span>})
+archive.<span class="hljs-title function_">append</span>(<span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(<span class="hljs-string">&#x27;buff it!&#x27;</span>), {<span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;file3.txt&#x27;</span>})
+archive.<span class="hljs-title function_">file</span>(<span class="hljs-string">&#x27;string&#x27;</span>, {<span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;file4.txt&#x27;</span>}) <span class="hljs-comment">// .file &amp; .append 都是添加文件</span>
+archive.<span class="hljs-title function_">directory</span>(<span class="hljs-string">&#x27;subdir/&#x27;</span>, <span class="hljs-string">&#x27;new-subdir&#x27;</span>) <span class="hljs-comment">// 把subdir目录添加到压缩文件的new-subdir目录中</span>
+archive.<span class="hljs-title function_">directory</span>(<span class="hljs-string">&#x27;subdir/&#x27;</span>, flase) <span class="hljs-comment">// 把subdir目录下的文件添加到压缩文件的根目录。</span>
+archive.<span class="hljs-title function_">glob</span>(<span class="hljs-string">&#x27;file*.txt&#x27;</span>, {<span class="hljs-attr">cwd</span>: __dirname}) <span class="hljs-comment">// 添加符合glob pattern的文件。</span>
+archive.<span class="hljs-title function_">finalize</span>()
+</code></pre>
+<h2 id="configuration">configuration</h2>
+<p>默认配置文件：<code>path/to/file.json</code>。</p>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>参数</th>
+<th>子参数</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h2 id="api">api</h2>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>参数</th>
+<th>子参数</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<p><code>archiver.fn(param, first: string, second: boolean = true) =&gt; void</code>
+description</p>
+<p><code>archiver.fn(param, [options: {a: string, b?: number}])</code>
+description</p>
+<h2 id="principle">principle</h2>
+<p>此包的处理逻辑。</p>
+<h3 id="uml">uml</h3>
+<pre><code></code></pre>
+<h2 id="todo">todo</h2>
+<blockquote>
+<p>未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote>
+
+            
+            
+        </body>
+        </html>

@@ -88,6 +88,7 @@
 
 - [rimraf](/jsPackages/rimraf.html)
 - [mkdirp](/jsPackages/mkdirp.html)
+- [archiver](/jsPackages/archiver.html)
 
 ## express 中间件
 
