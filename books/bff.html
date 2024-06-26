@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>pattern&colon; backends for frontend</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="pattern-backends-for-frontend">pattern: backends for frontend</h1>
+<p><a href="https://samnewman.io/patterns/architectural/bff/">原文链接</a>
+2015.11.18写
+为ui的单一目的服务侧扩展模式</p>
+<h2 id="介绍">介绍</h2>
+<p>通常应用从厚客户端应用到厚服务端变化，趋向于类saas的解决方案。
+作者把前端应用分为desktop-web和mobile.服务为这些前端应用提供统一的接口。经常web应用与服务紧耦合。程序员要常面对新增前端操作界面的问题。</p>
+<h2 id="后端的通用接口">后端的通用接口</h2>
+<p>常用的解决方案是一个接口为多个前端界面提供服务。
+多个前端界面之间有些相似。但是移动端与web端有好多差异。1. mobile屏幕小，显示的数据少。2. mobile的交互差异很大。3. web可查看卖信息，添加到购物车。4. modile可扫码。
+为了支持不同的ui界面，接口需要做重载。
+这样的接口会成为瓶颈。
+把一个接口分成多个接口，每个接口做各自的工作。</p>
+<h2 id="介绍bff">介绍bff</h2>
+<p>有一个已经在REA和SoundClound使用的解决方案。每种前端界面都有自己的服务，这种服务叫做bff。
+bff与用户操作行为紧耦合。由对应前端界面的团队负责。定义简单适用的api。简化流程。bff与single ui紧耦合。</p>
+<h2 id="how-many-bffs">how many bffs</h2>
+<p>为每一种前端界面提供一个专用的bff。称这种模式为REA.
+android/ios的前端界面相近。可以使用同一个bff.若不相近，就使用不同的bff。
+创建几个bff.复用服务端的功能。可避免太多重复。</p>
+<h2 id="微服务">微服务</h2>
+<p>bff对于后端微服务数量有益。合并若干相近的微服务。
+（原文列出3个微服务的功能）
+bff会并行处理。</p>
+<h2 id="复用bff">复用bff</h2>
+<p>若每种前端界面都有一个专用的bff，则会出现重复代码。
+抽象合适的代码。
+抽取出一个公用的新服务。</p>
+<h2 id="web--bff">web &amp; bff</h2>
+<p>bff可提供观测功能。可实现简单的缓存。</p>
+<h2 id="自治">自治</h2>
+<ol>
+<li>尽量不跨团队。2. 好的使用体验需要技术深度。</li>
+</ol>
+<h2 id="常用的分模块方式">常用的分模块方式</h2>
+<h2 id="何时使用">何时使用</h2>
+<h2 id="功能">功能</h2>
+<h2 id="总结">总结</h2>
+<h2 id="读后感">读后感</h2>
+<p>都已经开发一个服务了。才只能实现简单的缓存、反向代理。
+声明大于实力。
+没必要使用bff.</p>
+<h2 id="title">title</h2>
+<p>有多少种前端界面？
+有多少个bff.
+如何抽象bff的相似或重复代码？
+何时使用bff？
+用后数据是什么？</p>
+
+            
+            
+        </body>
+        </html>
