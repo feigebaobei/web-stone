@@ -685,7 +685,26 @@
   }
   <span class="hljs-keyword">return</span> <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(ot, <span class="hljs-function">(<span class="hljs-params">_k, v</span>) =&gt;</span> v, indent)
 }
-
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">formatDate</span> = (<span class="hljs-params">ms: N</span>) =&gt; {
+  <span class="hljs-keyword">if</span> (<span class="hljs-title class_">Number</span>.<span class="hljs-title function_">isInteger</span>(ms)) {
+    <span class="hljs-keyword">return</span>
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">let</span> date = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>(ms)
+    <span class="hljs-keyword">let</span> [y, m, d] = [date.<span class="hljs-title function_">getFullYear</span>(), date.<span class="hljs-title function_">getMonth</span>(), date.<span class="hljs-title function_">getDate</span>()]
+    <span class="hljs-keyword">let</span> <span class="hljs-attr">h</span>: S | N, <span class="hljs-attr">mm</span>: S | N, <span class="hljs-attr">s</span>: S | N
+    [h, mm, s] = [date.<span class="hljs-title function_">getHours</span>(), date.<span class="hljs-title function_">getMinutes</span>(), date.<span class="hljs-title function_">getSeconds</span>()]
+    <span class="hljs-keyword">if</span> (h &lt; <span class="hljs-number">10</span>) {
+      h = <span class="hljs-string">`0{h}`</span>
+    }
+    <span class="hljs-keyword">if</span> (mm &lt; <span class="hljs-number">10</span>) {
+      mm = <span class="hljs-string">`0{mm}`</span>
+    }
+    <span class="hljs-keyword">if</span> (s &lt; <span class="hljs-number">10</span>) {
+      s = <span class="hljs-string">`0{s}`</span>
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`<span class="hljs-subst">${y}</span>-<span class="hljs-subst">${m + <span class="hljs-number">1</span>}</span>-<span class="hljs-subst">${d}</span> <span class="hljs-subst">${h}</span>:<span class="hljs-subst">${mm}</span>:<span class="hljs-subst">${s}</span>`</span>
+  }
+}
 <span class="hljs-keyword">let</span> <span class="hljs-attr">djb2HashFn</span>: <span class="hljs-title class_">HashFn</span> = <span class="hljs-function">(<span class="hljs-params">k: A</span>) =&gt;</span> {
     <span class="hljs-keyword">let</span> h = <span class="hljs-number">5381</span>  <span class="hljs-keyword">let</span> t = <span class="hljs-title class_">String</span>(k)
     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; t.<span class="hljs-property">length</span>; i++) {

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>&#x590d;&#x5236;</title>
-        <style>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x590d;&#x5236;</title>
+            <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -11,12 +11,14 @@
  *--------------------------------------------------------------------------------------------*/
 
 .vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
 	display: none;
 }
 
 </style>
-        
+            
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -37,30 +39,129 @@
     pointer-events: none;
 }
 </style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
         
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="复制">复制</h1>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="复制">复制</h1>
 <p>前端脚本复制。</p>
 <h2 id="推荐解决方案">推荐解决方案</h2>
-<pre><code class="language-js">navigator.<span class="hljs-property">clipboard</span>.<span class="hljs-title function_">writeText</span>(<span class="hljs-string">&#x27;str&#x27;</span>).<span class="hljs-title function_">then</span>(<span class="hljs-function">() =&gt;</span> {
-    <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;then&#x27;</span>)
-}).<span class="hljs-title function_">catch</span>(<span class="hljs-function">() =&gt;</span> {
-    <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;catch&#x27;</span>)
-}).<span class="hljs-title function_">finally</span>(<span class="hljs-function">() =&gt;</span> {
-    <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;finally&#x27;</span>)
-})
-</code></pre>
-<p><a href="/language/javascript/clipboard.html">Clipboard</a>
-<a href="">ClipboardData</a>
-<a href="">DataTransfer</a></p>
-<pre><code>navigator.clipboard.writeText()
-navigator.clipboard.readText()
-navigator.clipboard.write()
-navigator.clipboard.read()
-event.clipboardData.setData(format, data)
-event.clipboardData.getData(format)
-event.clipboardData.clearData()
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">copy</span> = (<span class="hljs-params">str</span>) =&gt; {
+  <span class="hljs-keyword">let</span> p
+  <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">window</span>.<span class="hljs-property">isSecureContext</span> &amp;&amp; navigator.<span class="hljs-property">clipboard</span>) {
+    p = navigator.<span class="hljs-property">clipboard</span>.<span class="hljs-title function_">writeText</span>(str)
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">let</span> ele = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&#x27;textarea&#x27;</span>)
+    <span class="hljs-keyword">let</span> styles = ele.<span class="hljs-property">style</span>
+    styles.<span class="hljs-property">position</span> = <span class="hljs-string">&#x27;fixed&#x27;</span>
+    styles.<span class="hljs-property">zIndex</span> = <span class="hljs-string">&#x27;0&#x27;</span>
+    styles.<span class="hljs-property">left</span> = <span class="hljs-string">&#x27;-500px&#x27;</span>
+    styles.<span class="hljs-property">top</span> = <span class="hljs-string">&#x27;-500px&#x27;</span>
+    ele.<span class="hljs-property">value</span> = str
+    <span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-title function_">appendChild</span>(ele)
+    ele.<span class="hljs-title function_">focus</span>()
+    ele.<span class="hljs-title function_">select</span>()
+    <span class="hljs-keyword">let</span> result = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">execCommand</span>(<span class="hljs-string">&#x27;copy&#x27;</span>)
+    ele.<span class="hljs-title function_">remove</span>()
+    p = <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">resolve</span>(<span class="hljs-literal">true</span>)
+  }
+  <span class="hljs-keyword">return</span> p
+}
 </code></pre>
 <h2 id="可选解决方案">可选解决方案</h2>
 <ul>
@@ -71,9 +172,34 @@ event.clipboardData.clearData()
 </ul>
 </li>
 <li><a href="https://www.npmjs.com/package/vue-clipboard2">vue-clipboard2</a></li>
+<li><a href="">vue3-clipboard</a></li>
 <li><a href="https://vueuse.org/core/useClipboard/">useClipboard</a></li>
 <li><a href="https://www.npmjs.com/package/v-clipboard">v-clipboard</a></li>
 </ul>
+<p><a href="/language/javascript/clipboard.html">Clipboard</a> 有兼容性问题
+<a href="">ClipboardData</a>
+<a href="">DataTransfer</a></p>
+<h3 id="clipboard">clipboard</h3>
+<pre><code class="language-js">navigator.<span class="hljs-property">clipboard</span>
+  .<span class="hljs-title function_">writeText</span>(<span class="hljs-string">&#x27;str&#x27;</span>)
+  .<span class="hljs-title function_">then</span>(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;then&#x27;</span>)
+  })
+  .<span class="hljs-title function_">catch</span>(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;catch&#x27;</span>)
+  })
+  .<span class="hljs-title function_">finally</span>(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;finally&#x27;</span>)
+  })
+</code></pre>
+<pre><code>navigator.clipboard.writeText()
+navigator.clipboard.readText()
+navigator.clipboard.write()
+navigator.clipboard.read()
+event.clipboardData.setData(format, data)
+event.clipboardData.getData(format)
+event.clipboardData.clearData()
+</code></pre>
 <h2 id="反对解决方案">反对解决方案</h2>
 <ul>
 <li>document.execCommand('copy') // 'cut' / 'paste'
@@ -85,7 +211,7 @@ event.clipboardData.clearData()
 <li></li>
 </ul>
 
-        
-        
-    </body>
-    </html>
+            
+            
+        </body>
+        </html>

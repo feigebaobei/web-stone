@@ -546,7 +546,26 @@ let formatJson = (a: object | string, indent = 2) => {
   }
   return JSON.stringify(ot, (_k, v) => v, indent)
 }
-
+let formatDate = (ms: N) => {
+  if (Number.isInteger(ms)) {
+    return
+  } else {
+    let date = new Date(ms)
+    let [y, m, d] = [date.getFullYear(), date.getMonth(), date.getDate()]
+    let h: S | N, mm: S | N, s: S | N
+    [h, mm, s] = [date.getHours(), date.getMinutes(), date.getSeconds()]
+    if (h < 10) {
+      h = `0{h}`
+    }
+    if (mm < 10) {
+      mm = `0{mm}`
+    }
+    if (s < 10) {
+      s = `0{s}`
+    }
+    return `${y}-${m + 1}-${d} ${h}:${mm}:${s}`
+  }
+}
 let djb2HashFn: HashFn = (k: A) => {
     let h = 5381  let t = String(k)
     for (let i = 0; i < t.length; i++) {
