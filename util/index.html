@@ -142,15 +142,15 @@
             <h2 id="2022-年了还想开发工具方法包赶紧取消这个想法吧">2022 年了还想开发工具方法包。赶紧取消这个想法吧。</h2>
 <pre><code class="language-js"><span class="hljs-comment">// 去抖</span>
 <span class="hljs-comment">// 一段时间内连续调用，只执行一次。维护一个定时器，在定时器结束时执行。</span>
-<span class="hljs-keyword">let</span> <span class="hljs-title function_">createDebounceFn</span> = (<span class="hljs-params">fn, t = <span class="hljs-number">250</span>, self?: A</span>) =&gt; {
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">createDebounceFn</span> = (<span class="hljs-params">fn: F, t = <span class="hljs-number">250</span>, self?: A</span>) =&gt; {
     <span class="hljs-keyword">var</span> timer
-    <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">...rest</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">...rest: A[]</span>) =&gt;</span> {
       <span class="hljs-keyword">var</span> context = self
       <span class="hljs-keyword">if</span> (timer) {
         <span class="hljs-built_in">clearTimeout</span>(timer)
       }
       timer = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
-        fn.<span class="hljs-title function_">apply</span>(context, rest),
+        fn.<span class="hljs-title function_">apply</span>(context, rest)
         <span class="hljs-comment">// fn.call(context, ...rest),</span>
       }, t)
     }
@@ -787,10 +787,31 @@ interface <span class="hljs-title class_">Loop</span> <span class="hljs-keyword"
     },
   })
 }
-
-
-
-
+<span class="hljs-comment">// 基本类型</span>
+type S = string
+type N = number
+type A = any
+type B = boolean
+type <span class="hljs-variable constant_">ULID</span> = S
+type F = <span class="hljs-title class_">Function</span>
+type O = object
+type D = <span class="hljs-title class_">Date</span>
+<span class="hljs-comment">// type At = &#x27;@&#x27;</span>
+<span class="hljs-comment">// type Email </span>
+<span class="hljs-comment">// todo rename OA</span>
+interface <span class="hljs-title class_">Oa</span> {
+    [<span class="hljs-attr">k</span>: S]: A
+}
+type <span class="hljs-variable constant_">FT</span>&lt;T = A&gt; = <span class="hljs-function">(<span class="hljs-params">...p: A[]</span>) =&gt;</span> T
+type <span class="hljs-title class_">Email</span> = <span class="hljs-string">`<span class="hljs-subst">${S}</span>@<span class="hljs-subst">${S}</span>`</span>
+interface <span class="hljs-title class_">Options</span>&lt;T, G&gt; {
+    <span class="hljs-attr">label</span>: T,
+    <span class="hljs-attr">value</span>: G,
+}
+<span class="hljs-keyword">export</span> type {
+  S, N, A, B, <span class="hljs-variable constant_">ULID</span>, F, O, D
+  <span class="hljs-title class_">Oa</span>, <span class="hljs-variable constant_">FT</span>, <span class="hljs-title class_">Email</span>, <span class="hljs-title class_">Options</span>,
+}
 
 
 

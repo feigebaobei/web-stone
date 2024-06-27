@@ -3,15 +3,15 @@
 ```js
 // 去抖
 // 一段时间内连续调用，只执行一次。维护一个定时器，在定时器结束时执行。
-let createDebounceFn = (fn, t = 250, self?: A) => {
+let createDebounceFn = (fn: F, t = 250, self?: A) => {
     var timer
-    return (...rest) => {
+    return (...rest: A[]) => {
       var context = self
       if (timer) {
         clearTimeout(timer)
       }
       timer = setTimeout(() => {
-        fn.apply(context, rest),
+        fn.apply(context, rest)
         // fn.call(context, ...rest),
       }, t)
     }
@@ -648,10 +648,31 @@ let createLoop = (pFn: F, bFn: F, i: N = 0): Loop => {
     },
   })
 }
-
-
-
-
+// 基本类型
+type S = string
+type N = number
+type A = any
+type B = boolean
+type ULID = S
+type F = Function
+type O = object
+type D = Date
+// type At = '@'
+// type Email
+// todo rename OA
+interface Oa {
+    [k: S]: A
+}
+type FT<T = A> = (...p: A[]) => T
+type Email = `${S}@${S}`
+interface Options<T, G> {
+    label: T,
+    value: G,
+}
+export type {
+  S, N, A, B, ULID, F, O, D
+  Oa, FT, Email, Options,
+}
 
 
 
