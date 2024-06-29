@@ -4,6 +4,7 @@
 - 反对使用`Element.getBoundingClientRect()`处理与视口的位置关系后再做若干回调。
 - 当从任意方向越过阈值时，运行回调函数。
 - 异步监听目标元素与祖先元素的相交面积改变。
+- 它是异步的，不阻塞主线程。
 
 ## demo
 
@@ -74,7 +75,8 @@ function handleIntersect(entries, observer) {
 }
 ```
 
-cb 会在主线程中执行，所以该函数要尽可能快。若需要执行耗时操作，请使用[Window.requestIdelCallback](/language/javascript/requestIdleCallback.html)
+cb 会在主线程中执行，所以该函数要尽可能快。若需要执行耗时操作，请使用
+[Window.requestIdleCallback](/promote/performance/requestIdleCallback.html)
 
 ## api
 
@@ -103,6 +105,12 @@ cb 会在主线程中执行，所以该函数要尽可能快。若需要执行�
 ## 计算交集
 
 按可见部分的占据的最小矩形。
+
+## 用例
+
+- 图片懒加载。为图片设置低质量图片或不设置。当图片出现在视口时，再设置高质量图片。
+- 元素吸顶、吸底。没理清逻辑。
+- 加载更多。在指定元素的后面增加一个“加载更多”的元素，当视口出现“加载更多”时请求更多的数据。
 
 # IntersectionObserverEntry
 

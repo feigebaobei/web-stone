@@ -155,3 +155,11 @@ function C(props) {
 # 测试性能
 
 - `<Profiler/>`
+
+# performance
+
+- [requestIdleCallback](/promote/performance/requestIdleCallback.html)
+- [requestIdleCallback](/promote/performance/requestIdleCallback.html)
+- [requestIdleCallback](/promote/performance/requestIdleCallback.html)
+- [requestIdleCallback](/promote/performance/requestIdleCallback.html)
+- [requestIdleCallback](/promote/performance/requestIdleCallback.html)

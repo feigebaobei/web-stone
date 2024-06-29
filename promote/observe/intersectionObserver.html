@@ -144,75 +144,76 @@
 <li>反对使用<code>Element.getBoundingClientRect()</code>处理与视口的位置关系后再做若干回调。</li>
 <li>当从任意方向越过阈值时，运行回调函数。</li>
 <li>异步监听目标元素与祖先元素的相交面积改变。</li>
+<li>它是异步的，不阻塞主线程。</li>
 </ul>
 <h2 id="demo">demo</h2>
 <pre><code class="language-js"><span class="hljs-comment">// demo1</span>
 <span class="hljs-comment">// 1. 定义一个观察器</span>
 <span class="hljs-comment">// 2. 去观察一个目标元素</span>
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">cb</span> = (<span class="hljs-params">entries, observer</span>) =&gt; {
-    <span class="hljs-comment">// 若需要执行任何耗时的操作，请使用 Window.requestIdleCallback()。</span>
+  <span class="hljs-comment">// 若需要执行任何耗时的操作，请使用 Window.requestIdleCallback()。</span>
 }
 <span class="hljs-keyword">let</span> options = {
-    <span class="hljs-attr">root</span>: <span class="hljs-literal">null</span>,
-    <span class="hljs-attr">rootMargin</span>: <span class="hljs-number">0</span>,
-    <span class="hljs-attr">threshold</span>: <span class="hljs-number">0.7</span>,
+  <span class="hljs-attr">root</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-attr">rootMargin</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-attr">threshold</span>: <span class="hljs-number">0.7</span>,
 }
 <span class="hljs-keyword">let</span> observer = <span class="hljs-keyword">new</span> <span class="hljs-title class_">IntersetionObserver</span>(cb, options)
 observer.<span class="hljs-title function_">observe</span>(<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#id&#x27;</span>)) <span class="hljs-comment">// 若指定的root,则目标必须是根元素的后代。</span>
 
 <span class="hljs-comment">// demo2</span>
-<span class="hljs-keyword">const</span> numSteps = <span class="hljs-number">20.0</span>;
-<span class="hljs-keyword">let</span> boxElement;
-<span class="hljs-keyword">let</span> prevRatio = <span class="hljs-number">0.0</span>;
-<span class="hljs-keyword">let</span> increasingColor = <span class="hljs-string">&quot;rgba(40, 40, 190, ratio)&quot;</span>;
-<span class="hljs-keyword">let</span> decreasingColor = <span class="hljs-string">&quot;rgba(190, 40, 40, ratio)&quot;</span>;
+<span class="hljs-keyword">const</span> numSteps = <span class="hljs-number">20.0</span>
+<span class="hljs-keyword">let</span> boxElement
+<span class="hljs-keyword">let</span> prevRatio = <span class="hljs-number">0.0</span>
+<span class="hljs-keyword">let</span> increasingColor = <span class="hljs-string">&#x27;rgba(40, 40, 190, ratio)&#x27;</span>
+<span class="hljs-keyword">let</span> decreasingColor = <span class="hljs-string">&#x27;rgba(190, 40, 40, ratio)&#x27;</span>
 <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">addEventListener</span>(
-  <span class="hljs-string">&quot;load&quot;</span>,
+  <span class="hljs-string">&#x27;load&#x27;</span>,
   <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {
-    boxElement = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&quot;#box&quot;</span>);
-    <span class="hljs-title function_">createObserver</span>();
+    boxElement = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#box&#x27;</span>)
+    <span class="hljs-title function_">createObserver</span>()
   },
-  <span class="hljs-literal">false</span>,
+  <span class="hljs-literal">false</span>
 )
 <span class="hljs-keyword">function</span> <span class="hljs-title function_">createObserver</span>(<span class="hljs-params"></span>) {
-  <span class="hljs-keyword">let</span> observer;
+  <span class="hljs-keyword">let</span> observer
   <span class="hljs-keyword">let</span> options = {
     <span class="hljs-attr">root</span>: <span class="hljs-literal">null</span>,
-    <span class="hljs-attr">rootMargin</span>: <span class="hljs-string">&quot;0px&quot;</span>,
+    <span class="hljs-attr">rootMargin</span>: <span class="hljs-string">&#x27;0px&#x27;</span>,
     <span class="hljs-attr">threshold</span>: <span class="hljs-title function_">buildThresholdList</span>(),
-  };
-  observer = <span class="hljs-keyword">new</span> <span class="hljs-title class_">IntersectionObserver</span>(handleIntersect, options);
-  observer.<span class="hljs-title function_">observe</span>(boxElement);
+  }
+  observer = <span class="hljs-keyword">new</span> <span class="hljs-title class_">IntersectionObserver</span>(handleIntersect, options)
+  observer.<span class="hljs-title function_">observe</span>(boxElement)
 }
 <span class="hljs-keyword">function</span> <span class="hljs-title function_">buildThresholdList</span>(<span class="hljs-params"></span>) {
-  <span class="hljs-keyword">let</span> thresholds = [];
-  <span class="hljs-keyword">let</span> numSteps = <span class="hljs-number">20</span>;
+  <span class="hljs-keyword">let</span> thresholds = []
+  <span class="hljs-keyword">let</span> numSteps = <span class="hljs-number">20</span>
   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">1.0</span>; i &lt;= numSteps; i++) {
-    <span class="hljs-keyword">let</span> ratio = i / numSteps;
-    thresholds.<span class="hljs-title function_">push</span>(ratio);
+    <span class="hljs-keyword">let</span> ratio = i / numSteps
+    thresholds.<span class="hljs-title function_">push</span>(ratio)
   }
-  thresholds.<span class="hljs-title function_">push</span>(<span class="hljs-number">0</span>);
-  <span class="hljs-keyword">return</span> thresholds;
+  thresholds.<span class="hljs-title function_">push</span>(<span class="hljs-number">0</span>)
+  <span class="hljs-keyword">return</span> thresholds
 }
 <span class="hljs-keyword">function</span> <span class="hljs-title function_">handleIntersect</span>(<span class="hljs-params">entries, observer</span>) {
   entries.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">entry</span>) =&gt;</span> {
     <span class="hljs-keyword">if</span> (entry.<span class="hljs-property">intersectionRatio</span> &gt; prevRatio) {
       entry.<span class="hljs-property">target</span>.<span class="hljs-property">style</span>.<span class="hljs-property">backgroundColor</span> = increasingColor.<span class="hljs-title function_">replace</span>(
-        <span class="hljs-string">&quot;ratio&quot;</span>,
-        entry.<span class="hljs-property">intersectionRatio</span>,
-      );
+        <span class="hljs-string">&#x27;ratio&#x27;</span>,
+        entry.<span class="hljs-property">intersectionRatio</span>
+      )
     } <span class="hljs-keyword">else</span> {
       entry.<span class="hljs-property">target</span>.<span class="hljs-property">style</span>.<span class="hljs-property">backgroundColor</span> = decreasingColor.<span class="hljs-title function_">replace</span>(
-        <span class="hljs-string">&quot;ratio&quot;</span>,
-        entry.<span class="hljs-property">intersectionRatio</span>,
-      );
+        <span class="hljs-string">&#x27;ratio&#x27;</span>,
+        entry.<span class="hljs-property">intersectionRatio</span>
+      )
     }
-    prevRatio = entry.<span class="hljs-property">intersectionRatio</span>;
-  });
+    prevRatio = entry.<span class="hljs-property">intersectionRatio</span>
+  })
 }
-
 </code></pre>
-<p>cb会在主线程中执行，所以该函数要尽可能快。若需要执行耗时操作，请使用<a href="/language/javascript/requestIdleCallback.html">Window.requestIdelCallback</a></p>
+<p>cb 会在主线程中执行，所以该函数要尽可能快。若需要执行耗时操作，请使用
+<a href="/promote/performance/requestIdleCallback.html">Window.requestIdleCallback</a></p>
 <h2 id="api">api</h2>
 <!-- prettier-ignore-start -->
 <table>
@@ -316,9 +317,15 @@ observer.<span class="hljs-title function_">observe</span>(<span class="hljs-var
 <!-- prettier-ignore-end -->
 <h2 id="计算交集">计算交集</h2>
 <p>按可见部分的占据的最小矩形。</p>
+<h2 id="用例">用例</h2>
+<ul>
+<li>图片懒加载。为图片设置低质量图片或不设置。当图片出现在视口时，再设置高质量图片。</li>
+<li>元素吸顶、吸底。没理清逻辑。</li>
+<li>加载更多。在指定元素的后面增加一个“加载更多”的元素，当视口出现“加载更多”时请求更多的数据。</li>
+</ul>
 <h1 id="intersectionobserverentry">IntersectionObserverEntry</h1>
-<p>用于IntersectionObserver的回调方法中。
-只能通过调用IntersectionObserver.takeRecords()获取。</p>
+<p>用于 IntersectionObserver 的回调方法中。
+只能通过调用 IntersectionObserver.takeRecords()获取。</p>
 <h2 id="api-1">api</h2>
 <!-- prettier-ignore-start -->
 <table>
@@ -614,6 +621,7 @@ observer.<span class="hljs-title function_">observe</span>(<span class="hljs-var
 </tbody>
 </table>
 <!-- prettier-ignore-end -->
+
             
             
         </body>

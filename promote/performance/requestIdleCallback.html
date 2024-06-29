@@ -2,7 +2,7 @@
         <html>
         <head>
             <meta charset="UTF-8">
-            <title></title>
+            <title>requestIdleCallback</title>
             <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -138,48 +138,82 @@
         
         </head>
         <body class="vscode-body vscode-light">
-            <ul>
-<li><a href="/confuse/clone.html">浅、深复制</a></li>
-<li><a href="/confuse/async.html">异步</a></li>
-<li><a href="/confuse/jsPrototypeChain.pptx">原型链 pptx</a></li>
-<li><a href="/confuse/pagePosition.html">pagePosition</a></li>
-<li><a href="/confuse/upload.html">upload</a></li>
-<li><a href="/confuse/bit.html">二进制</a></li>
-<li><a href="/browser/console.html">console</a></li>
-<li><a href="/language/javascript/json-transfer.html">json 格式化</a></li>
-<li><a href="/confuse/throttleDebouncd.html">节流、去抖</a></li>
-<li><a href="/confuse/takeOverProject.html">如何接手老项目</a></li>
-<li><a href="/confuse/htmlEncodeDecode.html">html encode &amp; decode</a></li>
-<li><a href="/confuse/shortCircuitOperator.html">|| &amp;&amp; ??</a></li>
-<li><a href="/confuse/reactFnComp%26Ref.html">react 方法式组件使用 ref </a></li>
-<li><a href="/confuse/title.html">性能优先的设计哲学</a></li>
-<li><a href="/confuse/cdn.html">cdn</a></li>
-<li><a href="/confuse/tsQuestionMarkExclamationPoint.html">ts 里的?!</a></li>
-<li><a href="/confuse/front&amp;end.html">前后端交互常识</a></li>
-<li><a href="/confuse/writeScript.html">如何写一个脚本</a></li>
-<li><a href="/confuse/promise.html">promise 的工具方法</a></li>
-<li><a href="/confuse/unit.html">单位</a></li>
-<li><a href="/confuse/execCommand.html">execCommand</a></li>
-<li><a href="/confuse/session&amp;jwt.html">session&amp;jwt</a></li>
-<li><a href="/confuse/getComputedStyle.html">计算属性</a></li>
-<li><a href="/confuse/extractText.html">从 html 中提取纯文本</a></li>
-<li><a href="/confuse/vue3Class.html">vue3 的 class 失效的解决方案</a></li>
-<li><a href="/confuse/copy.html">复制</a></li>
-<li><a href="/confuse/edit.html">编辑</a></li>
-<li><a href="/confuse/download.html">下载</a></li>
-<li><a href="/confuse/contenteditable.html">contenteditable</a></li>
-<li><a href="/confuse/compositionstartCompositionend.html">compositionstart &amp; compositionend</a></li>
-<li><a href="/confuse/position.html">坐标</a></li>
-<li><a href="/confuse/macroTask&amp;MicroTask.html">宏任务 &amp; 微任务</a></li>
-<li><a href="/confuse/tsTypeAccumulate.html">ts 类型 积累</a></li>
-<li><a href="/confuse/classObjectCreate.html">class &amp; Object.create</a></li>
-<li><a href="/confuse/mac.html">mac</a></li>
-<li><a href="/confuse/timeTransfer.html">time 转换</a></li>
-<li><a href="/confuse/bug0.html">代码趋于0bug</a></li>
-<li><a href="/confuse/title.html">title</a></li>
-<li><a href="/confuse/title.html">title</a></li>
-<li><a href="/confuse/title.html">title</a></li>
-</ul>
+            <h1 id="requestidlecallback">requestIdleCallback</h1>
+<p>尽量在不影响延迟关键操作（如主事件循环）。一般会按先进先调用的顺序执行，但是至少在超时前执行（这时会打乱执行顺序）。</p>
+<pre><code>window.requestIdleCallback(cb, options)
+</code></pre>
+<h2 id="api">api</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h1 id="idledeadline">IdleDeadline</h1>
+<p>window.requestIdleCallback的cb方法的参数。</p>
+<h2 id="api-1">api</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>属性</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>didTimeout</td>
+<td>是否因超时而执行</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>方法</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>timeRemaining()</td>
+<td>返回预估的当前闲置周期的剩余毫秒数</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 
             
             

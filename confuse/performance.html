@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>performance</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="performance">performance</h1>
+<h2 id="网络">网络</h2>
+<p>http2 多路复用
+头部压缩</p>
+<h2 id="css">css</h2>
+<p>首次有效绘制。
+非首次有关css,使用prefetch.
+压缩css文件。
+选择器的写法
+- 少使用复杂的选择器
+- 通配符和属性选择器效率最低，需要匹配的元素最多，尽量避免使用。
+- 不要使用类选择器和ID选择器修饰元素标签，如h3#markdown-content，这样多此一举，还会降低效率。
+- 不要为了追求速度而放弃可读性与可维护性。</p>
+<h3 id="昂贵的属性">昂贵的属性</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>box-shadow</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>border-radius</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>filter</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>透明度</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>:nth-child</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="减少重排">减少重排</h3>
+<ul>
+<li>改变font-size和font-family</li>
+<li>改变元素的内外边距</li>
+<li>通过js改变css类</li>
+<li>通过js获取dom元素的位置相关属性（如width/height/left）</li>
+<li>css伪类激活</li>
+<li>滚动滚动条或者改变窗口大小。</li>
+<li>使用Flex时，比使用inline-block和float时重排更快</li>
+<li>硬件加速 style.left transtorm: translate</li>
+<li>不要使用 @ import</li>
+</ul>
+<h3 id="图片">图片</h3>
+<ul>
+<li>渐进式图片。先使用压缩图，再使用高清图。</li>
+<li>响应式图片</li>
+</ul>
+<pre><code>&lt;!-- 解决了兼容性问题 --&gt;
+@media  screen and (min-width: 1200px) {
+   img {     background-image: url('1.png');   } 
+} 
+@media  screen and (min-width: 992px) {   
+   img {     background-image: url('2.png');   } 
+}
+</code></pre>
+<ul>
+<li>图片预加载</li>
+</ul>
+<pre><code>function preloader() {
+  if (document.images) {
+    var img1 = new Image()
+    var img2 = new Image()
+    var img3 = new Image()
+    img1.src = 'http://domain.tld/path/to/image-001.gif'
+    img2.src = 'http://domain.tld/path/to/image-002.gif'
+    img3.src = 'http://domain.tld/path/to/image-003.gif'
+  }
+}
+function addLoadEvent(func) {
+  var oldonload = window.onload
+  if (typeof window.onload != 'function') {
+    window.onload = func
+  } else {
+    window.onload = function () {
+      if (oldonload) {
+        oldonload()
+      }
+      func()
+    }
+  }
+}
+addLoadEvent(preloader)
+</code></pre>
+<ul>
+<li>图片懒加载</li>
+</ul>
+<pre><code>const imgs = document.querySelectorAll('img[data-src]')
+const config = {
+  rootMargin: '0px',
+  threshold: 0,
+}
+let observer = new IntersectionObserver((entries, self) =&gt; {
+  entries.forEach((entry) =&gt; {
+    if (entry.isIntersecting) {
+      let img = entry.target
+      let src = img.dataset.src
+      if (src) {
+        img.src = src
+        img.removeAttribute('data-src')
+      }
+      // 解除观察
+      self.unobserve(entry.target)
+    }
+  })
+}, config)
+
+imgs.forEach((image) =&gt; {
+  observer.observe(image)
+})
+</code></pre>
+<ul>
+<li>压缩图片
+tinypng 免费、批量、速度块
+智图压缩 百度很难搜到官网了，免费、批量、好用
+squoosh 在线图片压缩工具
+compressor 支持 JPG、PNG、SVG、GIF</li>
+</ul>
+<h3 id="字体">字体</h3>
+<ul>
+<li>preload字段防止fout</li>
+</ul>
+<pre><code>&lt;head&gt; ... &lt;link rel=&quot;preload&quot; as=&quot;font&quot; href=&quot;/assets/fonts/AvenirNextLTPro-Demi.otf&quot; crossorigin&gt; &lt;link rel=&quot;preload&quot; as=&quot;font&quot; href=&quot;/assets/fonts/AvenirNextLTPro-Regular.otf&quot; crossorigin&gt; ... &lt;/head&gt;
+</code></pre>
+<ul>
+<li>font-spider
+字蛛是一个智能 WebFont 压缩工具，它能自动分析出页面使用的 WebFont 并进行按需压缩。</li>
+</ul>
+<pre><code>@font-face {
+    font-family: &quot;pinghei&quot;;
+    src: url(&quot;./font/苹方特粗体.ttf&quot;);
+    font-weight: normal;
+    font-style: normal;
+}
+
+div {
+    font-family: &quot;pinghei&quot;;
+}
+</code></pre>
+<ul>
+<li>fastdom</li>
+<li>react-window
+不用全部加载出所有的DOM节点。默认只渲染可视区域及可视区域外的一个节点，此属性可自定义设置。
+可用于处理大型数据列表。当使用在大型数据列表中，可避免因为数据的更新而导致大量的重新渲染。</li>
+<li>requestIdeCallback</li>
+<li>防抖</li>
+<li>节流</li>
+</ul>
+
+            
+            
+        </body>
+        </html>

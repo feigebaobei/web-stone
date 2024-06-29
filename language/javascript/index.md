@@ -982,7 +982,7 @@ IdleDeadline {
     - [history](/browser/history.html)
     - location
     - screen
-    - [requestIdleCallback](/language/javascript/requestIdleCallback.html) 应该放在性能 、 异步中
+    - [requestIdleCallback](/promote/performance/requestIdleCallback.html)
   - xxx
   - xxx
   - xxx
