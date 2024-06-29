@@ -358,7 +358,7 @@ script 可理解为外层代码触发
 ## 微任务，由 js 引擎发起。
 
 - Promise
-- [MutationObserver](/language/javascript/mutationObserver.html)
+- [MutationObserver](/promote/observe/mutationObserver.html)
 - process.nextTick （node 环境）
 
 ## promise
@@ -982,6 +982,7 @@ IdleDeadline {
     - [history](/browser/history.html)
     - location
     - screen
+    - [requestIdleCallback](/language/javascript/requestIdleCallback.html) 应该放在性能 、 异步中
   - xxx
   - xxx
   - xxx
@@ -1016,6 +1017,7 @@ IdleDeadline {
   - [clipboard](/language/javascript/clipboard.html)
   - [dataTransfer](/language/javascript/dataTransfer.html)
   - [event](/language/javascript/event.html)
+  - [交叉观察器](/language/javascript/intersectionObserver.html)
 
 # [模块化](/language/javascript/modularity.html)
 

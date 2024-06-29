@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>intersectionObserver</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="intersectionobserver">intersectionObserver</h1>
+<ul>
+<li>用于异步检测目标元素与祖先元素（或视口）（下文称为根，或根元素。）相交情况。</li>
+<li>反对使用<code>Element.getBoundingClientRect()</code>处理与视口的位置关系后再做若干回调。</li>
+<li>当从任意方向越过阈值时，运行回调函数。</li>
+<li>异步监听目标元素与祖先元素的相交面积改变。</li>
+</ul>
+<h2 id="demo">demo</h2>
+<pre><code class="language-js"><span class="hljs-comment">// demo1</span>
+<span class="hljs-comment">// 1. 定义一个观察器</span>
+<span class="hljs-comment">// 2. 去观察一个目标元素</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">cb</span> = (<span class="hljs-params">entries, observer</span>) =&gt; {
+    <span class="hljs-comment">// 若需要执行任何耗时的操作，请使用 Window.requestIdleCallback()。</span>
+}
+<span class="hljs-keyword">let</span> options = {
+    <span class="hljs-attr">root</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">rootMargin</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">threshold</span>: <span class="hljs-number">0.7</span>,
+}
+<span class="hljs-keyword">let</span> observer = <span class="hljs-keyword">new</span> <span class="hljs-title class_">IntersetionObserver</span>(cb, options)
+observer.<span class="hljs-title function_">observe</span>(<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#id&#x27;</span>)) <span class="hljs-comment">// 若指定的root,则目标必须是根元素的后代。</span>
+
+<span class="hljs-comment">// demo2</span>
+<span class="hljs-keyword">const</span> numSteps = <span class="hljs-number">20.0</span>;
+<span class="hljs-keyword">let</span> boxElement;
+<span class="hljs-keyword">let</span> prevRatio = <span class="hljs-number">0.0</span>;
+<span class="hljs-keyword">let</span> increasingColor = <span class="hljs-string">&quot;rgba(40, 40, 190, ratio)&quot;</span>;
+<span class="hljs-keyword">let</span> decreasingColor = <span class="hljs-string">&quot;rgba(190, 40, 40, ratio)&quot;</span>;
+<span class="hljs-variable language_">window</span>.<span class="hljs-title function_">addEventListener</span>(
+  <span class="hljs-string">&quot;load&quot;</span>,
+  <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {
+    boxElement = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&quot;#box&quot;</span>);
+    <span class="hljs-title function_">createObserver</span>();
+  },
+  <span class="hljs-literal">false</span>,
+)
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">createObserver</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">let</span> observer;
+  <span class="hljs-keyword">let</span> options = {
+    <span class="hljs-attr">root</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">rootMargin</span>: <span class="hljs-string">&quot;0px&quot;</span>,
+    <span class="hljs-attr">threshold</span>: <span class="hljs-title function_">buildThresholdList</span>(),
+  };
+  observer = <span class="hljs-keyword">new</span> <span class="hljs-title class_">IntersectionObserver</span>(handleIntersect, options);
+  observer.<span class="hljs-title function_">observe</span>(boxElement);
+}
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">buildThresholdList</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">let</span> thresholds = [];
+  <span class="hljs-keyword">let</span> numSteps = <span class="hljs-number">20</span>;
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">1.0</span>; i &lt;= numSteps; i++) {
+    <span class="hljs-keyword">let</span> ratio = i / numSteps;
+    thresholds.<span class="hljs-title function_">push</span>(ratio);
+  }
+  thresholds.<span class="hljs-title function_">push</span>(<span class="hljs-number">0</span>);
+  <span class="hljs-keyword">return</span> thresholds;
+}
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">handleIntersect</span>(<span class="hljs-params">entries, observer</span>) {
+  entries.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">entry</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (entry.<span class="hljs-property">intersectionRatio</span> &gt; prevRatio) {
+      entry.<span class="hljs-property">target</span>.<span class="hljs-property">style</span>.<span class="hljs-property">backgroundColor</span> = increasingColor.<span class="hljs-title function_">replace</span>(
+        <span class="hljs-string">&quot;ratio&quot;</span>,
+        entry.<span class="hljs-property">intersectionRatio</span>,
+      );
+    } <span class="hljs-keyword">else</span> {
+      entry.<span class="hljs-property">target</span>.<span class="hljs-property">style</span>.<span class="hljs-property">backgroundColor</span> = decreasingColor.<span class="hljs-title function_">replace</span>(
+        <span class="hljs-string">&quot;ratio&quot;</span>,
+        entry.<span class="hljs-property">intersectionRatio</span>,
+      );
+    }
+    prevRatio = entry.<span class="hljs-property">intersectionRatio</span>;
+  });
+}
+
+</code></pre>
+<p>cb会在主线程中执行，所以该函数要尽可能快。若需要执行耗时操作，请使用<a href="/language/javascript/requestIdleCallback.html">Window.requestIdelCallback</a></p>
+<h2 id="api">api</h2>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th>default</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IntersectionObserver(cb: ( entry: IntersectionObserverEntry, observer) =&gt;  void, options)</td>
+<td></td>
+<td></td>
+<td>别的方法都是先写options再写cb</td>
+</tr>
+<tr>
+<td>options</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>root</td>
+<td>null。默认为浏览器视口。</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>rootMargin</td>
+<td>0 0 0 0</td>
+<td>用于增大或缩水根元素边框的每一侧，然后计算交叉点。</td>
+</tr>
+<tr>
+<td></td>
+<td>threshold</td>
+<td>`number</td>
+<td>number[]`默认为0</td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>observer</th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>属性</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>方法</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>disconnect()</td>
+<td>终止对所有目标元素可见性变化的观察</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>observe(target)</td>
+<td>异步观察指定target与root的相交关系。</td>
+<td>可以在一个观察器上添加多个目标元素。</td>
+</tr>
+<tr>
+<td></td>
+<td>takeRecords()</td>
+<td>返回IntersectionObserverEntry对象</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>unobserve(target)</td>
+<td>终止对指定元素的观察</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h2 id="计算交集">计算交集</h2>
+<p>按可见部分的占据的最小矩形。</p>
+<h1 id="intersectionobserverentry">IntersectionObserverEntry</h1>
+<p>用于IntersectionObserver的回调方法中。
+只能通过调用IntersectionObserver.takeRecords()获取。</p>
+<h2 id="api-1">api</h2>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>属性</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>boundingClientRect</td>
+<td>目标边界信息。与<code>Element.getBoundingClientRect()</code>相同</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>intersectionRatio</td>
+<td>intersectionRect / boundingClientRect的比值</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>intersectionRect</td>
+<td>返回一个domrectreadonly对象，用来描述根与目标元素的相交区域的矩形。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>isIntersecting</td>
+<td>是否交叉</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>rootBounds</td>
+<td>返回观察者的根</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>target</td>
+<td>返回target</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>time</td>
+<td>返回从IntersectionObserver的时间 原点到交叉被触发的时间</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>方法</td>
+<td>没有方法</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h1 id="domrectreadonly">DOMRectReadOnly</h1>
+<p>详细列出 DOMRect 所使用的标准属性来定义一个属性不可变的矩形。</p>
+<h2 id="api-2">api</h2>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>构造函数</td>
+<td>DOMRectReadOnly()</td>
+<td>不能由第三方js调用</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>属性</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>x</td>
+<td>domrect原点的x坐标</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>y</td>
+<td>domrect原点的x坐标</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>width</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>height</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>top</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>right</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>bottom</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>left</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>方法</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>静态方法</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>DOMRectReadOnly.fromRect()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+            
+            
+        </body>
+        </html>
