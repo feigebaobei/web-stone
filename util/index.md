@@ -18,6 +18,7 @@ let createDebounceFn = (fn: F, t = 250, self?: A) => {
 }
 // 节流
 // 一段时间内调用，每隔一段时间执行一次。当大于延迟时执行。
+// 指定时间外的方法才执行
 let createThrottleFn = (fn, t = 250) => {
     let prev = new Date().getTime()
     return (...rest) => {
@@ -27,6 +28,21 @@ let createThrottleFn = (fn, t = 250) => {
             prev = now
         }
     }
+}
+// 指定连续时长范围内的事件，只有最后一次才在指定时长后触发。
+let createThrottleFn = (fn: F, t = 250) => {
+  let timer: N
+  return (...rest) => {
+    if (timer) {
+      clearTimeout(timer)
+    } else {
+      timer = setTimeout(() => {
+        fn(...rest)
+        clearTimeout(timer)
+        timer = 0
+      }, t)
+    }
+  }
 }
 // 解释查询字符串
 let parseUrlQS = (url = window.location.href, useCode = true) => {

@@ -11,7 +11,9 @@
  *--------------------------------------------------------------------------------------------*/
 
 .vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
 	display: none;
 }
 
@@ -143,7 +145,8 @@
 规范： <code>name.service.ts</code><br>
 可以从任何地方获取数据，比如：Web 服务、本地存储（LocalStorage）或一个模拟的数据源。
 由 Injectabl 装饰器装饰的类。
-提倡把与视图无关的逻辑抽取到服务中。</p>
+提倡把与视图无关的逻辑抽取到服务中。
+不能循环引用。</p>
 </blockquote>
 <pre><code class="language-shell">ng generate service heros/hero
 ng g s services/&lt;serviceName&gt;

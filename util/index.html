@@ -157,6 +157,7 @@
 }
 <span class="hljs-comment">// 节流</span>
 <span class="hljs-comment">// 一段时间内调用，每隔一段时间执行一次。当大于延迟时执行。</span>
+<span class="hljs-comment">// 指定时间外的方法才执行</span>
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">createThrottleFn</span> = (<span class="hljs-params">fn, t = <span class="hljs-number">250</span></span>) =&gt; {
     <span class="hljs-keyword">let</span> prev = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>().<span class="hljs-title function_">getTime</span>()
     <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">...rest</span>) =&gt;</span> {
@@ -166,6 +167,21 @@
             prev = now
         }
     }
+}
+<span class="hljs-comment">// 指定连续时长范围内的事件，只有最后一次才在指定时长后触发。</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">createThrottleFn</span> = (<span class="hljs-params">fn: F, t = <span class="hljs-number">250</span></span>) =&gt; {
+  <span class="hljs-keyword">let</span> <span class="hljs-attr">timer</span>: N
+  <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">...rest</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (timer) {
+      <span class="hljs-built_in">clearTimeout</span>(timer)
+    } <span class="hljs-keyword">else</span> {
+      timer = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-title function_">fn</span>(...rest)
+        <span class="hljs-built_in">clearTimeout</span>(timer)
+        timer = <span class="hljs-number">0</span>
+      }, t)
+    }
+  }
 }
 <span class="hljs-comment">// 解释查询字符串</span>
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">parseUrlQS</span> = (<span class="hljs-params">url = <span class="hljs-variable language_">window</span>.location.href, useCode = <span class="hljs-literal">true</span></span>) =&gt; {
