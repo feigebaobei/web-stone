@@ -163,3 +163,7 @@ function C(props) {
 - [requestIdleCallback](/promote/performance/requestIdleCallback.html)
 - [requestIdleCallback](/promote/performance/requestIdleCallback.html)
 - [requestIdleCallback](/promote/performance/requestIdleCallback.html)
+
+# [可观测性](/promote/observe/index.html)
+
+# [日志](/promote/log/index.html)

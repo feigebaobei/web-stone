@@ -139,16 +139,148 @@
         </head>
         <body class="vscode-body vscode-light">
             <h1 id="可观测性">可观测性</h1>
+<h2 id="实现方式">实现方式</h2>
+<ul>
+<li>监控</li>
+<li>apm 应用性能管理</li>
+<li>可观测度</li>
+</ul>
+<h2 id="可观测性的三大支柱">可观测性的三大支柱</h2>
+<ul>
+<li>日志</li>
+<li>指标</li>
+<li>追踪</li>
+</ul>
+<p>三者结合可得到全面的系统视图。</p>
+<h3 id="结合方式">结合方式</h3>
+<ul>
+<li>关联id。整个过程中使用同一个id。</li>
+<li>上下文信息。使用相同的用户id/请求url/服务名等。</li>
+<li>联合查询。</li>
+<li>链接。</li>
+<li>可视化</li>
+</ul>
+<h2 id="前端可观测性的挑战">前端可观测性的挑战</h2>
+<ul>
+<li>数据采集的复杂性。需要处理跨域请求、安全策略、设备、网络环境等。</li>
+<li>用户隐私和数据保护。</li>
+<li>性能影响。</li>
+<li>数据分析和可视化</li>
+<li>分布式追踪</li>
+<li>实时监控和报警。</li>
+</ul>
+<h2 id="前端可观测性的重要性">前端可观测性的重要性</h2>
+<ul>
+<li>系统透明度</li>
+<li>故障检测和排查</li>
+<li>性能优化。针对特定点优化。</li>
+<li>业务决策支持</li>
+<li>持续改进</li>
+</ul>
+<h2 id="前端性能指标">前端性能指标</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fcp</td>
+<td>first contentful paint 首次内容绘制</td>
+<td>从页面开始到绘制在屏幕上。</td>
+<td>performance.getEntriesByType('paint') fp / fcp</td>
+<td>performance.timing可获取各阶段的时间</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>fmp</td>
+<td>first meaningful paint 首次有效绘制</td>
+<td>从页面开始加载主要内容到绘制完主要内容</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>fid</td>
+<td>first input delay 首次输入延迟</td>
+<td>用户首次与页面互动与浏览器响应该互动的时间</td>
+<td>performance.getEntriesByType('event')</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>lcp</td>
+<td>largest contentful paint 最大内容绘制</td>
+<td>从页面开始到加载完最大的可见元素的时间</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cls</td>
+<td>cumulative layout shift 累积布局偏移</td>
+<td>页面中可见元素的位置变化的总和。</td>
+<td>performance.getEntriesByType('layout-shift')</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>js执行时间</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>网络请求时间</td>
+<td>从发出请求到收到回馈的时间</td>
+<td>navigation timing api</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>内存使用</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="如何收集性能指标">如何收集性能指标</h2>
+<ul>
+<li>performance</li>
+<li>event timing</li>
+<li>layout instability api</li>
+</ul>
+<h2 id="划分trace--span">划分trace / span</h2>
+<ul>
+<li>页面加载</li>
+<li>用户操作</li>
+<li>单页面应用的路由切换</li>
+</ul>
+<h2 id="相关api">相关api</h2>
 <ul>
 <li><a href="/promote/observe/intersectionObserver.html">IntersectionObserverEntry</a></li>
 <li><a href="/promote/observe/mutationObserver.html">MutationObserver</a></li>
-<li><a href="/promote/observe/mutationobserver.html">mutationobserver</a></li>
-<li><a href="/language/javascript/mutationObserver.html">MutationObserver</a></li>
-<li><a href="/language/javascript/mutationObserver.html">MutationObserver</a></li>
-<li><a href="/language/javascript/mutationObserver.html">MutationObserver</a></li>
-<li><a href="/language/javascript/mutationObserver.html">MutationObserver</a></li>
-<li><a href="/language/javascript/mutationObserver.html">MutationObserver</a></li>
-<li><a href="/language/javascript/mutationObserver.html">MutationObserver</a></li>
 </ul>
 
             
