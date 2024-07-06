@@ -2,23 +2,27 @@
 
 ```js
 // 去抖
+// 在最后一次触发后指定时长执行回调方法
 // 一段时间内连续调用，只执行一次。维护一个定时器，在定时器结束时执行。
 let createDebounceFn = (fn: F, t = 250, self?: A) => {
-    var timer
-    return (...rest: A[]) => {
-      var context = self
+    let timer: N
+    return (...rest) => {
+      let context = self
       if (timer) {
         clearTimeout(timer)
+      } else {
+        timer = setTimeout(() => {
+          fn.apply(context, ...rest)
+          clearTimeout(timer)
+          timer = 0
+        }, t)
       }
-      timer = setTimeout(() => {
-        fn.apply(context, rest)
-        // fn.call(context, ...rest),
-      }, t)
     }
 }
 // 节流
-// 一段时间内调用，每隔一段时间执行一次。当大于延迟时执行。
+// 当事件持续触发时，在每隔指定时长执行一次回调方法。
 // 指定时间外的方法才执行
+// 一段时间内调用，每隔一段时间执行一次。当大于延迟时执行。
 let createThrottleFn = (fn, t = 250) => {
     let prev = new Date().getTime()
     return (...rest) => {
@@ -28,21 +32,6 @@ let createThrottleFn = (fn, t = 250) => {
             prev = now
         }
     }
-}
-// 指定连续时长范围内的事件，只有最后一次才在指定时长后触发。
-let createThrottleFn = (fn: F, t = 250) => {
-  let timer: N
-  return (...rest) => {
-    if (timer) {
-      clearTimeout(timer)
-    } else {
-      timer = setTimeout(() => {
-        fn(...rest)
-        clearTimeout(timer)
-        timer = 0
-      }, t)
-    }
-  }
 }
 // 解释查询字符串
 let parseUrlQS = (url = window.location.href, useCode = true) => {
