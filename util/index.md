@@ -6,17 +6,17 @@
 // 一段时间内连续调用，只执行一次。维护一个定时器，在定时器结束时执行。
 let createDebounceFn = (fn: F, t = 250, self?: A) => {
     let timer: N
-    return (...rest) => {
+    return (...rest: A[]) => {
       let context = self
       if (timer) {
         clearTimeout(timer)
-      } else {
-        timer = setTimeout(() => {
-          fn.apply(context, ...rest)
-          clearTimeout(timer)
-          timer = 0
-        }, t)
+        timer = 0
       }
+      timer = window.setTimeout(() => {
+        fn.apply(context, rest)
+        clearTimeout(timer)
+        timer = 0
+      }, t)
     }
 }
 // 节流

@@ -145,17 +145,17 @@
 <span class="hljs-comment">// 一段时间内连续调用，只执行一次。维护一个定时器，在定时器结束时执行。</span>
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">createDebounceFn</span> = (<span class="hljs-params">fn: F, t = <span class="hljs-number">250</span>, self?: A</span>) =&gt; {
     <span class="hljs-keyword">let</span> <span class="hljs-attr">timer</span>: N
-    <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">...rest</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">...rest: A[]</span>) =&gt;</span> {
       <span class="hljs-keyword">let</span> context = self
       <span class="hljs-keyword">if</span> (timer) {
         <span class="hljs-built_in">clearTimeout</span>(timer)
-      } <span class="hljs-keyword">else</span> {
-        timer = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
-          fn.<span class="hljs-title function_">apply</span>(context, ...rest)
-          <span class="hljs-built_in">clearTimeout</span>(timer)
-          timer = <span class="hljs-number">0</span>
-        }, t)
+        timer = <span class="hljs-number">0</span>
       }
+      timer = <span class="hljs-variable language_">window</span>.<span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+        fn.<span class="hljs-title function_">apply</span>(context, rest)
+        <span class="hljs-built_in">clearTimeout</span>(timer)
+        timer = <span class="hljs-number">0</span>
+      }, t)
     }
 }
 <span class="hljs-comment">// 节流</span>
