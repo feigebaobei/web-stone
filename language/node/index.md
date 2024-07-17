@@ -49,4 +49,4 @@ img.onload = function () {
 img.src = url
 ```
 
-# [node 16.19.0 & node 18.20.0](/language/node/compare16_18.md)
+# [node 16.19.0 & node 18.20.4](/language/node/compare16_18.md)

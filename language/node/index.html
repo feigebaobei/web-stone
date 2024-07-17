@@ -154,36 +154,37 @@
 </ul>
 <h1 id="window--node--npm--cli"><a href="/language/node/window%26node%26npm%26cli.html">window &amp; node &amp; npm &amp; cli</a></h1>
 <h1 id="服务端生成图片">服务端生成图片</h1>
-<pre><code class="language-js"><span class="hljs-keyword">var</span> canvas = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;canvas&#x27;</span>);
-<span class="hljs-keyword">var</span> ctx = canvas.<span class="hljs-title function_">getContext</span>(<span class="hljs-string">&#x27;2d&#x27;</span>);
+<pre><code class="language-js"><span class="hljs-keyword">var</span> canvas = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;canvas&#x27;</span>)
+<span class="hljs-keyword">var</span> ctx = canvas.<span class="hljs-title function_">getContext</span>(<span class="hljs-string">&#x27;2d&#x27;</span>)
 
-<span class="hljs-keyword">var</span> data = <span class="hljs-string">&#x27;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;200&quot; height=&quot;200&quot;&gt;&#x27;</span> +
-<span class="hljs-string">&#x27;&lt;foreignObject width=&quot;100%&quot; height=&quot;100%&quot;&gt;&#x27;</span> +
-<span class="hljs-string">&#x27;&lt;div xmlns=&quot;http://www.w3.org/1999/xhtml&quot; style=&quot;font-size:40px&quot;&gt;&#x27;</span> +
-<span class="hljs-string">&#x27;&lt;em&gt;I&lt;/em&gt; like &#x27;</span> +
-<span class="hljs-string">&#x27;&lt;span style=&quot;color:white; text-shadow:0 0 2px blue;&quot;&gt;&#x27;</span> +
-<span class="hljs-string">&#x27;cheese&lt;/span&gt;&#x27;</span> +
-<span class="hljs-string">&#x27;&lt;table&gt;&lt;tr&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&#x27;</span> +
-<span class="hljs-string">&#x27;&lt;/div&gt;&#x27;</span> +
-<span class="hljs-string">&#x27;&lt;/foreignObject&gt;&#x27;</span> +
-<span class="hljs-string">&#x27;&lt;/svg&gt;&#x27;</span>;
+<span class="hljs-keyword">var</span> data =
+  <span class="hljs-string">&#x27;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;200&quot; height=&quot;200&quot;&gt;&#x27;</span> +
+  <span class="hljs-string">&#x27;&lt;foreignObject width=&quot;100%&quot; height=&quot;100%&quot;&gt;&#x27;</span> +
+  <span class="hljs-string">&#x27;&lt;div xmlns=&quot;http://www.w3.org/1999/xhtml&quot; style=&quot;font-size:40px&quot;&gt;&#x27;</span> +
+  <span class="hljs-string">&#x27;&lt;em&gt;I&lt;/em&gt; like &#x27;</span> +
+  <span class="hljs-string">&#x27;&lt;span style=&quot;color:white; text-shadow:0 0 2px blue;&quot;&gt;&#x27;</span> +
+  <span class="hljs-string">&#x27;cheese&lt;/span&gt;&#x27;</span> +
+  <span class="hljs-string">&#x27;&lt;table&gt;&lt;tr&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&#x27;</span> +
+  <span class="hljs-string">&#x27;&lt;/div&gt;&#x27;</span> +
+  <span class="hljs-string">&#x27;&lt;/foreignObject&gt;&#x27;</span> +
+  <span class="hljs-string">&#x27;&lt;/svg&gt;&#x27;</span>
 
-<span class="hljs-keyword">var</span> <span class="hljs-variable constant_">DOMURL</span> = <span class="hljs-variable language_">window</span>.<span class="hljs-property">URL</span> || <span class="hljs-variable language_">window</span>.<span class="hljs-property">webkitURL</span> || <span class="hljs-variable language_">window</span>;
+<span class="hljs-keyword">var</span> <span class="hljs-variable constant_">DOMURL</span> = <span class="hljs-variable language_">window</span>.<span class="hljs-property">URL</span> || <span class="hljs-variable language_">window</span>.<span class="hljs-property">webkitURL</span> || <span class="hljs-variable language_">window</span>
 
-<span class="hljs-keyword">var</span> img = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Image</span>();
+<span class="hljs-keyword">var</span> img = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Image</span>()
 <span class="hljs-keyword">var</span> svg = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Blob</span>([data], {
-<span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;image/svg+xml;charset=utf-8&#x27;</span>
-});
-<span class="hljs-keyword">var</span> url = <span class="hljs-variable constant_">DOMURL</span>.<span class="hljs-title function_">createObjectURL</span>(svg);
+  <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;image/svg+xml;charset=utf-8&#x27;</span>,
+})
+<span class="hljs-keyword">var</span> url = <span class="hljs-variable constant_">DOMURL</span>.<span class="hljs-title function_">createObjectURL</span>(svg)
 
-img.<span class="hljs-property">onload</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
-ctx.<span class="hljs-title function_">drawImage</span>(img, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
-<span class="hljs-variable constant_">DOMURL</span>.<span class="hljs-title function_">revokeObjectURL</span>(url);
+img.<span class="hljs-property">onload</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+  ctx.<span class="hljs-title function_">drawImage</span>(img, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>)
+  <span class="hljs-variable constant_">DOMURL</span>.<span class="hljs-title function_">revokeObjectURL</span>(url)
 }
 
-img.<span class="hljs-property">src</span> = url;
+img.<span class="hljs-property">src</span> = url
 </code></pre>
-<h1 id="node-16190--node-18200"><a href="/language/node/compare16_18.html">node 16.19.0 &amp; node 18.20.0</a></h1>
+<h1 id="node-16190--node-18204"><a href="/language/node/compare16_18.html">node 16.19.0 &amp; node 18.20.4</a></h1>
 
             
             
