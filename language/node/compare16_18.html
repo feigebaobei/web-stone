@@ -141,12 +141,12 @@
         <body class="vscode-body vscode-light">
             <h1 id="比较-node-16190--node-18204">比较 node 16.19.0 &amp; node 18.20.4</h1>
 <h1 id="git-diff"><a href="/language/node/gitDiff.html">git diff</a></h1>
-<p>申请使用node v18.20.4版本（它是18版本的最后一个版本）。</p>
+<p>申请使用 node v18.20.4 版本（它是 18 版本的最后一个版本）。</p>
 <h1 id="版本">版本</h1>
-<p><img src="/language/node/images/release.png" alt="release"></p>
+<p><img src="file:////language/node/images/release.png" alt="release"></p>
 <h2 id="升级的必要性-是否要写">升级的必要性 （是否要写？）</h2>
 <ul>
-<li>v16在2023.09.11不再维护。</li>
+<li>v16 在 2023.09.11 不再维护。</li>
 <li></li>
 </ul>
 <h2 id="应该选择什么样的版本">应该选择什么样的版本</h2>
@@ -164,7 +164,7 @@
 </tr>
 <tr>
 <td>TLS（偶数）</td>
-<td>非TLS（奇数）</td>
+<td>非 TLS（奇数）</td>
 </tr>
 <tr>
 <td></td>
@@ -180,23 +180,23 @@
 </tr>
 </tbody>
 </table>
-<h2 id="谨申请使用node-v18204版本它是18版本的最后一个版本">谨申请使用node v18.20.4版本（它是18版本的最后一个版本）。</h2>
+<h2 id="谨申请使用-node-v18204-版本它是-18-版本的最后一个版本">谨申请使用 node v18.20.4 版本（它是 18 版本的最后一个版本）。</h2>
 <h1 id="安全性">安全性</h1>
-<p>解决了 18.18.2- || 20.8.1- 的6个问题。（升级到18.18.2+或18.18.2+）</p>
+<p>解决了 18.18.2- || 20.8.1- 的 6 个问题。（升级到 18.18.2+或 18.18.2+）</p>
 <ul>
-<li>node依赖的undici不能清除跨域+重定向的cookie.风险点是：使cookie泄漏给第三方。</li>
+<li>node 依赖的 undici 不能清除跨域+重定向的 cookie.风险点是：使 cookie 泄漏给第三方。</li>
 <li>在无边界的情况下快速建立和取消数据库连接会造成拒绝服务。</li>
 <li>当产生新路径时实例不被保护，程序员可以使用操作此实例的属性、方法等。</li>
-<li>fs包无法使用 Buffer Unit8Array防止路由。</li>
+<li>fs 包无法使用 Buffer Unit8Array 防止路由。</li>
 <li>程序员要拦截并伪造总和检查码。风险点是：影响完整性检查。</li>
-<li>已经插入到WebAssemble的代码可以插入js代码，这部分js代码可以存取WebAssemble对象无权限存取的数据、调用无权访问的函数。</li>
+<li>已经插入到 WebAssemble 的代码可以插入 js 代码，这部分 js 代码可以存取 WebAssemble 对象无权限存取的数据、调用无权访问的函数。</li>
 </ul>
 <p>增加了测试能力。使用<code>node:test</code>实现了类似<code>mocha</code>/<code>jest</code>的功能。
-Node.js已经宣布成为OpenSSF Alpha-Omega项目支持的第一个试点开源社区。
-首次在node家族中升级openssl到3.0
+Node.js 已经宣布成为 OpenSSF Alpha-Omega 项目支持的第一个试点开源社区。
+首次在 node 家族中升级 openssl 到 3.0
 <img src="file:////language/node/images/opensslsecurity.png" alt="openssl security">
-这是第一个将随着OpenSSL 3.0升级到LTS的版本。OpenSSL 3.0是流行且广泛使用的加密库的一个主要的新稳定版本。OpenSSL包含SSL和TLS协议的开源实现，它们提供了跨网络安全通信的能力。在其他关键特性中，OpenSSL 3.0包含一个已提交验证的FIPS模块。联邦信息处理标准(FIPS)是由美国政府执行的一组要求，用于管理公共部门的加密使用。
-Node.js团队对安全很重视。精心规划了安全发布过程，有定期的出站通信等等。从2021年开始，该公司承诺在安全发布管理员轮值，以确保担任安全管理员的个人能够优先考虑安全发布。</p>
+这是第一个将随着 OpenSSL 3.0 升级到 LTS 的版本。OpenSSL 3.0 是流行且广泛使用的加密库的一个主要的新稳定版本。OpenSSL 包含 SSL 和 TLS 协议的开源实现，它们提供了跨网络安全通信的能力。在其他关键特性中，OpenSSL 3.0 包含一个已提交验证的 FIPS 模块。联邦信息处理标准(FIPS)是由美国政府执行的一组要求，用于管理公共部门的加密使用。
+Node.js 团队对安全很重视。精心规划了安全发布过程，有定期的出站通信等等。从 2021 年开始，该公司承诺在安全发布管理员轮值，以确保担任安全管理员的个人能够优先考虑安全发布。</p>
 <h2 id="为安全的必要库">为安全的必要库</h2>
 <table>
 <thead>
@@ -245,7 +245,7 @@ Node.js团队对安全很重视。精心规划了安全发布过程，有定期�
 <tr>
 <td>helmet</td>
 <td></td>
-<td>可以设置多个安全相关的http头部的中间件</td>
+<td>可以设置多个安全相关的 http 头部的中间件</td>
 <td></td>
 <td></td>
 <td></td>
@@ -253,7 +253,7 @@ Node.js团队对安全很重视。精心规划了安全发布过程，有定期�
 <tr>
 <td>rate-limiter-flexible</td>
 <td></td>
-<td>限制请求频率。防止暴力破解、ddos攻击。</td>
+<td>限制请求频率。防止暴力破解、ddos 攻击。</td>
 <td></td>
 <td></td>
 <td></td>
@@ -276,14 +276,6 @@ Node.js团队对安全很重视。精心规划了安全发布过程，有定期�
 </tr>
 <tr>
 <td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>为了防御CSRF攻击，我们可以使用CSRF令牌。</td>
 <td></td>
 <td></td>
 <td></td>
@@ -292,30 +284,36 @@ Node.js团队对安全很重视。精心规划了安全发布过程，有定期�
 </tr>
 </tbody>
 </table>
+<p>为了防御 CSRF 攻击，我们可以使用 CSRF 令牌。</p>
+<h2 id="常见的安全处理方法">常见的安全处理方法</h2>
+<ul>
+<li>使用<code>mysql</code>库的<code>escape</code>方法处理敏感数据。</li>
+<li>使用<code>xss</code>库把攻击性js代码转换为字符串。</li>
+<li>使用<code>crypto</code>库加密敏感数据。</li>
+</ul>
 <h2 id="title">title</h2>
 <h2 id="title-1">title</h2>
 <h2 id="title-2">title</h2>
 <h2 id="title-3">title</h2>
-<h2 id="title-4">title</h2>
 <h1 id="稳定性">稳定性</h1>
 <p>一句话点评：std lib 在标准化，user lib 在精细化。
-v18.20.0是LTS版本。</p>
+v18.20.0 是 LTS 版本。</p>
 <h1 id="规范">规范</h1>
 <ul>
-<li>放弃xhr（及相关依赖:http.request()），改为支持fetch.</li>
-<li>不久后又推出<a href="https://undici.nodejs.org/#/">undici</a>,可支持mock功能。</li>
-<li>升级后的v8支持intl规范。v16.19.0可能使用9.9版本v8。v18.20.0使用10.2</li>
-<li><a href="https://fetch.spec.whatwg.org/">fetch规范</a></li>
+<li>放弃 xhr（及相关依赖:http.request()），改为支持 fetch.</li>
+<li>不久后又推出<a href="https://undici.nodejs.org/#/">undici</a>,可支持 mock 功能。</li>
+<li>升级后的 v8 支持 intl 规范。v16.19.0 可能使用 9.9 版本 v8。v18.20.0 使用 10.2</li>
+<li><a href="https://fetch.spec.whatwg.org/">fetch 规范</a></li>
 <li>在推进的规范
 <ul>
 <li><a href="https://github.com/tc39/proposal-import-attributes">json import assertions</a></li>
-<li>继续开发esm模块加载器实现。</li>
+<li>继续开发 esm 模块加载器实现。</li>
 </ul>
 </li>
-<li>制定了未来10年的目标。fetch代替xhr就是此目标的一个表现。</li>
-<li>升级到es2023</li>
+<li>制定了未来 10 年的目标。fetch 代替 xhr 就是此目标的一个表现。</li>
+<li>升级到 es2023</li>
 </ul>
-<p>推荐的tsconfig规范</p>
+<p>推荐的 tsconfig 规范</p>
 <pre><code>{
   &quot;$schema&quot;: &quot;https://json.schemastore.org/tsconfig&quot;,
   &quot;display&quot;: &quot;Node 18&quot;,
@@ -334,7 +332,7 @@ v18.20.0是LTS版本。</p>
   }
 }
 </code></pre>
-<p>较严格的tsconfig规范</p>
+<p>较严格的 tsconfig 规范</p>
 <pre><code>{
   &quot;compilerOptions&quot;: {
     &quot;strict&quot;: true,
@@ -362,7 +360,7 @@ v18.20.0是LTS版本。</p>
 }
 </code></pre>
 <h1 id="使用上差异">使用上差异</h1>
-<p>node已经发展很多年，使用规范无变动。使用上无差异。</p>
+<p>node 已经发展很多年，使用规范无变动。使用上无差异。</p>
 <table>
 <thead>
 <tr>
@@ -419,28 +417,51 @@ v18.20.0是LTS版本。</p>
 </tbody>
 </table>
 <h1 id="性能上">性能上</h1>
-<p>在V8引擎方面，Node.js 18采用了最新的V8版本，这意味着更快的JavaScript执行速度和更好的内存管理。</p>
+<p>在 V8 引擎方面，Node.js 18 采用了最新的 V8 版本，这意味着更快的 JavaScript 执行速度和更好的内存管理。</p>
+<h2 id="优化-class-fields--private-class-methods-的性能">优化 class fields &amp; private class methods 的性能。</h2>
+<h3 id="优化class-fields">优化class fields</h3>
+<p><img src="file:////language/node/images/classFields.png" alt="classFields">
+<img src="file:////language/node/images/classFields2.png" alt="classFields2"></p>
+<h3 id="优化private-methods">优化private methods</h3>
+<p><img src="file:////language/node/images/privateMethod.png" alt="privateMethod">
+<img src="file:////language/node/images/privateMethod2.png" alt="privateMethod2"></p>
+<h3 id="优化方法的性能">优化方法的性能</h3>
+<p><img src="file:////language/node/images/performanceOfMethod.png" alt="performanceOfMethod"></p>
+<h2 id="maglev---v8s-fastest-optimizing-jit-优化jit">Maglev - V8’s Fastest Optimizing JIT （优化jit）</h2>
+<p>使用了Maglev（它是一个js编辑器。竞品是Sparkplug/TurboFan）
+在稳定性与速度之间选择了平衡的Maglev.
+（Sparkplug太慢了。TurboFan的依赖不稳定。）
+<img src="file:////language/node/images/performanceOfMethod.png" alt="performanceOfMethod"></p>
+<h2 id="v8-is-faster-and-safer-than-ever">V8 is Faster and Safer than Ever!</h2>
 <ul>
-<li>优化class fields &amp; private class methods的性能。</li>
-<li></li>
+<li>解决html更快</li>
+<li>dom分配更快</li>
+<li>支持更多的js功能</li>
+<li>更新了webAssembly</li>
+<li>使用沙箱处理安全问题</li>
 </ul>
 <h1 id="功能上">功能上</h1>
 <ul>
-<li>可以使用es2023的新功能。如：数组支持findLast() / findLastIndex()等。</li>
+<li>可以使用 es2023 的新功能。如：数组支持 findLast() / findLastIndex()等。</li>
 <li>可能是为了遵循规范， undici 的很多能力如 Mock，Proxy，Pool 等都没有提供出来。</li>
-<li>支持json模块</li>
+<li>支持 json 模块</li>
 <li>对 HTTPS 和 HTTP 导入的实验性支持</li>
 <li>增强安全</li>
+<li>全局范围内支持<code>Blob</code>/<code>BroadcastChannel</code></li>
+<li></li>
 </ul>
 <h2 id="增加">增加</h2>
 <ul>
-<li>增加了fetch api(以前使用xhr)可以全局可用。fetch方法返回的是promise对象。抹平了浏览器与服务器的差异，可以快速、简单地发http请求。</li>
-<li>增加了 Event / EventTarget的实例</li>
-<li>预设会设定服务的Timeout。如：headersTimeout:读取http header超过60s时会中断连接。requestTimeout：处理请求超过5min后会中断连接。</li>
-<li>增加Blob对象</li>
-<li>增加BroadcastChannel类（基于EventTarget），可用于线程间通信。</li>
+<li>增加了 fetch api(以前使用 xhr)可以全局可用。fetch 方法返回的是 promise 对象。抹平了浏览器与服务器的差异，可以快速、简单地发 http 请求。fetch 是基于Undici的。</li>
+<li>增加了 Event / EventTarget 的实例</li>
+<li>预设会设定服务的 Timeout。如：headersTimeout:读取 http header 超过 60s 时会中断连接。requestTimeout：处理请求超过 5min 后会中断连接。</li>
+<li>增加 Blob 对象</li>
+<li>增加 BroadcastChannel 类（基于 EventTarget），可用于线程间通信。</li>
 <li>增加 Web Crypo api.</li>
-<li>增加 <code>node:test</code></li>
+<li>增加 <code>node:test</code>。有它就可以写测试代码了。</li>
+<li>全局范围内可以使用web stream api<code>ReadableStream, ReadableStreamDefaultReader, ReadableStreamBYOBReader, ReadableStreamBYOBRequest, ReadableByteStreamController, ReadableStreamDefaultController, TransformStream, TransformStreamDefaultController, WritableStream, WritableStreamDefaultWriter, WritableStreamDefaultController, ByteLengthQueuingStrategy, CountQueuingStrategy, TextEncoderStream, TextDecoderStream, CompressionStream, DecompressionStream</code></li>
+<li>支持自定义加载程序。<a href="https://nodejs.org/docs/latest-v18.x/api/esm.html">参考此文档</a></li>
+<li>watch模式。当文件改变时，重启进程。</li>
 </ul>
 <h2 id="弃用">弃用</h2>
 <pre><code>fs.write()
@@ -448,11 +469,14 @@ fs.writeFile()
 fs.appendFile()
 fs.writeFileSync()
 fs.appendFileSync()
+运行时的multipleResolves()
+在流实现方法中（如`Writable()`）不应该使用thenable，应该使用回调方法。
+tls.parseCertString()
 </code></pre>
-<h1 id="被npm包依赖的统计结果">被npm包依赖的统计结果</h1>
+<h1 id="被-npm-包依赖的统计结果">被 npm 包依赖的统计结果</h1>
 <h1 id="可扩展性">可扩展性</h1>
-<h1 id="相关生态要求18">相关生态要求18+</h1>
-<h1 id="对node所在环境的要求">对node所在环境的要求</h1>
+<h1 id="相关生态要求-18">相关生态要求 18+</h1>
+<h1 id="对-node-所在环境的要求">对 node 所在环境的要求</h1>
 <ul>
 <li>linux 版是在 RHEL8 上构建的，要求 glibc 2.28 以上版本。</li>
 <li>macOS 要求 10.15 以上版本。</li>
@@ -462,9 +486,9 @@ fs.appendFileSync()
 <h1 id="参考文献">参考文献</h1>
 <ul>
 <li><a href="https://zhuanlan.zhihu.com/p/502951532">Node.js 18 新特性解读</a></li>
-<li><a href="https://fetch.spec.whatwg.org/">fetch规范</a></li>
+<li><a href="https://fetch.spec.whatwg.org/">fetch 规范</a></li>
 <li><a href="https://v8.dev/blog/faster-class-features">faster-class-features</a></li>
-<li><a href="https://v8.dev/docs/version-numbers">v8引擎</a></li>
+<li><a href="https://v8.dev/docs/version-numbers">v8 引擎</a></li>
 <li><a href="https://openjsf.org/blog/nodejs-18-released">Node.js 18 Released With Improved Security, Fetch API, and Next-10 Strategic Initiatives</a></li>
 <li><a href="https://github.com/nodejs/next-10">node next-10</a></li>
 <li><a href="https://openssf.org/about/">openssf</a></li>
@@ -473,14 +497,14 @@ fs.appendFileSync()
 <li><a href="https://github.com/tsconfig/bases">Centralized Recommendations for TSConfig bases</a></li>
 <li><a href="https://nodejs.org/docs/latest-v18.x/api/deprecations.html">node v18 deprecated api</a></li>
 <li><a href="https://nodejs.org/docs/latest-v17.x/api/deprecations.html">node v18 deprecated api</a></li>
-<li><a href="https://docs.redhat.com/zh_hans/documentation/red_hat_build_of_node.js/18/html-single/release_notes_for_node.js_18/index#idm140606201696848">Node.js 18  发行注记</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/502951532">Node.js 18 新特性解读</a></li>
+<li><a href="https://docs.redhat.com/zh_hans/documentation/red_hat_build_of_node.js/18/html-single/release_notes_for_node.js_18/index#idm140606201696848">Node.js 18 发行注记</a></li>
+<li><a href="https://undici.nodejs.org/#/">undici</a></li>
 <li><a href="https://zhuanlan.zhihu.com/p/502951532">Node.js 18 新特性解读</a></li>
 <li><a href="https://zhuanlan.zhihu.com/p/502951532">Node.js 18 新特性解读</a></li>
 </ul>
 <h1 id="附录">附录</h1>
 <ul>
-<li>超市里原来有v18.12.0 v19.0.0</li>
+<li>超市里原来有 v18.12.0 v19.0.0</li>
 <li>16 版將於 2023-09-11 過期</li>
 <li><a href="/language/node/opensshopensslopenssf.html">openssh &amp; openssl &amp; openssf</a></li>
 </ul>
@@ -519,7 +543,7 @@ fs.appendFileSync()
 </tr>
 </tbody>
 </table>
-<p>(只列出TLS版本)</p>
+<p>(只列出 TLS 版本)</p>
 <table>
 <thead>
 <tr>
@@ -583,7 +607,7 @@ fs.appendFileSync()
 <tr>
 <td>v18.20.0</td>
 <td>2024.03.26</td>
-<td>支持import</td>
+<td>支持 import</td>
 <td></td>
 <td></td>
 </tr>
@@ -618,14 +642,14 @@ fs.appendFileSync()
 <tr>
 <td></td>
 <td></td>
-<td>升级undici、npm</td>
+<td>升级 undici、npm</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td>v18.19.0</td>
 <td>2023.11.29</td>
-<td>升级npm到v10</td>
+<td>升级 npm 到 v10</td>
 <td></td>
 <td></td>
 </tr>
@@ -681,7 +705,7 @@ fs.appendFileSync()
 <tr>
 <td></td>
 <td></td>
-<td>升级libuv</td>
+<td>升级 libuv</td>
 <td></td>
 <td></td>
 </tr>
@@ -720,1002 +744,150 @@ fs.appendFileSync()
 <td></td>
 <td></td>
 </tr>
-<tr>
-<td>dns: (SEMVER-MINOR) expose getDefaultResultOrder (btea) #46973</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>doc: add ovflowd to collaborators (Claudio Wunder) #47844</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>add KhafraDev to collaborators (Matthew Aitken) #47510</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>events: (SEMVER-MINOR) add getMaxListeners method (Matthew Aitken) #47039</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>fs: (SEMVER-MINOR) add support for mode flag to specify the copy behavior (Tetsuharu Ohzeki) #47084</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>(SEMVER-MINOR) add recursive option to readdir and opendir (Ethan Arrowood) #41439</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>(SEMVER-MINOR) add support for mode flag to specify the copy behavior (Tetsuharu Ohzeki) #47084</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>(SEMVER-MINOR) implement byob mode for readableWebStream() (Debadree Chatterjee) #46933</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>http: (SEMVER-MINOR) prevent writing to the body when not allowed by HTTP spec (Gerrard Lindsay) #47732</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>(SEMVER-MINOR) remove internal error in assignSocket (Matteo Collina) #47723</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>(SEMVER-MINOR) add highWaterMark opt in http.createServer (HinataKah0) #47405</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>lib: (SEMVER-MINOR) add webstreams to Duplex.from() (Debadree Chatterjee) #46190</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>(SEMVER-MINOR) implement AbortSignal.any() (Chemi Atlow) #47821</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>module: change default resolver to not throw on unknown scheme (Gil Tayar) #47824</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>node-api: (SEMVER-MINOR) define version 9 (Chengzhong Wu) #48151</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>(SEMVER-MINOR) deprecate napi_module_register (Vladimir Morozov) #46319</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>stream: (SEMVER-MINOR) preserve object mode in compose (Raz Luvaton) #47413</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>(SEMVER-MINOR) add setter &amp; getter for default highWaterMark (#46929) (Robert Nagy) #46929</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>test: unflake test-vm-timeout-escape-nexttick (Santiago Gimeno) #48078</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>test_runner: (SEMVER-MINOR) add shorthands to test (Chemi Atlow) #47909</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>(SEMVER-MINOR) support combining coverage reports (Colin Ihrig) #47686</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>(SEMVER-MINOR) execute before hook on test (Chemi Atlow) #47586</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>(SEMVER-MINOR) expose reporter for use in run api (Chemi Atlow) #47238</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>tools: update LICENSE and <a href="http://license-builder.sh">license-builder.sh</a> (Santiago Gimeno) #48078</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>url: (SEMVER-MINOR) implement URL.canParse (Matthew Aitken) #47179</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>wasi: (SEMVER-MINOR) no longer require flag to enable wasi (Michael Dawson) #47286</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>v18.16.1</td>
-<td>2023.06.20</td>
-<td>CVE-2023-30581: mainModule.<strong>proto</strong> Bypass Experimental Policy Mechanism (High)</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>CVE-2023-30585: Privilege escalation via Malicious Registry Key manipulation during Node.js installer repair process (Medium)</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>CVE-2023-30588: Process interuption due to invalid Public Key information in x509 certificates (Medium)</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>CVE-2023-30589: HTTP Request Smuggling via Empty headers separated by CR (Medium)</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>CVE-2023-30590: DiffieHellman does not generate keys after setting a private key (Medium)</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>OpenSSL Security Releases</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>OpenSSL security advisory 28th March.</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>OpenSSL security advisory 20th April.</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>OpenSSL security advisory 30th May</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>c-ares vulnerabilities:</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>GHSA-9g78-jv2r-p7vc</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>GHSA-8r8p-23f3-64c2</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>GHSA-54xr-f67r-4pc4</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>GHSA-x6mf-cxr9-8q6v</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>v18.16.0</td>
-<td>2023.04.12</td>
-<td>Add initial support for single executable applications</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>Replace url parser with Ada</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>buffer:</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>(SEMVER-MINOR) add Buffer.copyBytesFrom(...) (James M Snell) #46500</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>doc:</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>add marco-ippolito to collaborators (Marco Ippolito) #46816</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>add debadree25 to collaborators (Debadree Chatterjee) #46716</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>add deokjinkim to collaborators (Deokjin Kim) #46444</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>events:</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>(SEMVER-MINOR) add listener argument to listenerCount (Paolo Insogna) #46523</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>lib:</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>(SEMVER-MINOR) add AsyncLocalStorage.bind() and .snapshot() (flakey5) #46387</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>(SEMVER-MINOR) add aborted() utility function (Debadree Chatterjee) #46494</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>src:</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>(SEMVER-MINOR) allow optional Isolate termination in node::Stop() (Shelley Vohr) #46583</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>(SEMVER-MINOR) allow embedder control of code generation policy (Shelley Vohr) #46368</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>stream:</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>(SEMVER-MINOR) add abort signal for ReadableStream and WritableStream (Debadree Chatterjee) #46273</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>tls:</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>(SEMVER-MINOR) support automatic DHE (Tobias Nießen) #46978</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>url:</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>(SEMVER-MINOR) implement URLSearchParams size getter (James M Snell) #46308</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>worker:</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>(SEMVER-MINOR) add support for worker name in inspector and trace_events (Debadree Chatterjee) #46832</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>v18.15.0</td>
-<td>2023.03.07</td>
-<td>--</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>v18.14.2</td>
-<td>2023.02.21</td>
-<td>升级npm到9.5.0</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>v18.14.1</td>
-<td>2023.02.16</td>
-<td>CVE-2023-23918: Node.js Permissions policies can be bypassed via process.mainModule (High)</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>CVE-2023-23919: Node.js OpenSSL error handling issues in nodejs crypto library (Medium)</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>CVE-2023-23936: Fetch API in Node.js did not protect against CRLF injection in host headers (Medium)</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>CVE-2023-24807: Regular Expression Denial of Service in Headers in Node.js fetch API (Low)</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>CVE-2023-23920: Node.js insecure loading of ICU data through ICU_DATA environment variable (Low)</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>v18.14.0</td>
-<td>2023.02.02</td>
-<td>升级npm到9.3.1</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>doc:</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>add parallelism note to os.cpus() (Colin Ihrig) #45895</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>http:</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>join authorization headers (Marco Ippolito) #45982</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>improved timeout defaults handling (Paolo Insogna) #45778</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>stream:</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>implement finished() for ReadableStream and WritableStream (Debadree Chatterjee) #46205</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>v18.13.0</td>
-<td>2023.01.05</td>
-<td>Add support for externally shared js builtins</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>Introduce File</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>Support function mocking on Node.js test runner</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>build:</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>disable v8 snapshot compression by default (Joyee Cheung) #45716</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>crypto:</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>update root certificates (Luigi Pinca) #45490</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>deps:</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>update ICU to 72.1 (Michaël Zasso) #45068</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>doc:</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>add doc-only deprecation for headers/trailers setters (Rich Trott) #45697</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>add Rafael to the tsc (Michael Dawson) #45691</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>deprecate use of invalid ports in url.parse (Antoine du Hamel) #45576</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>add lukekarrys to collaborators (Luke Karrys) #45180</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>add anonrig to collaborators (Yagiz Nizipli) #45002</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>deprecate url.parse() (Rich Trott) #44919</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>lib:</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>drop fetch experimental warning (Matteo Collina) #45287</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>net:</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>(SEMVER-MINOR) add autoSelectFamily and autoSelectFamilyAttemptTimeout options (Paolo Insogna) #44731</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>src:</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>(SEMVER-MINOR) add uvwasi version (Jithil P Ponnan) #45639</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>(SEMVER-MINOR) add initial shadow realm support (Chengzhong Wu) #42869</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>test_runner:</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>(SEMVER-MINOR) add t.after() hook (Colin Ihrig) #45792</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>(SEMVER-MINOR) don't use a symbol for runHook() (Colin Ihrig) #45792</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>tls:</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>(SEMVER-MINOR) add &quot;ca&quot; property to certificate object (Ben Noordhuis) #44935</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>remove trustcor root ca certificates (Ben Noordhuis) #45776</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>tools:</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>update certdata.txt (Luigi Pinca) #45490</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>util:</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>add fast path for utf8 encoding (Yagiz Nizipli) #45412</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>improve textdecoder decode performance (Yagiz Nizipli) #45294</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>(SEMVER-MINOR) add MIME utilities (#21128) (Bradley Farias) #21128</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>v18.12.1</td>
-<td>2022.11.03</td>
-<td>CVE-2022-3602: X.509 Email Address 4-byte Buffer Overflow (High)</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>CVE-2022-3786: X.509 Email Address Variable Length Buffer Overflow (High)</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>CVE-2022-43548: DNS rebinding in --inspect via invalid octal IP address (Medium)</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>v18.12.0</td>
-<td>2022.10.25</td>
-<td>进入TLS版本，命名为Hydrogen</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>v18.0.0 - v18.11.0</td>
-<td>是current版本，不统计。</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>v17.x.x</td>
-<td>不是TLS版本，不统计。</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>v16.20.2</td>
-<td>2023.08.09</td>
-<td>CVE-2023-32002: Policies can be bypassed via Module._load (High)</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>CVE-2023-32006: Policies can be bypassed by module.constructor.createRequire (Medium)</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>CVE-2023-32559: Policies can be bypassed via process.binding (Medium)</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>v16.20.1</td>
-<td>2023.06.20</td>
-<td>CVE-2023-30581: mainModule.<strong>proto</strong> Bypass Experimental Policy Mechanism (High)</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>CVE-2023-30585: Privilege escalation via Malicious Registry Key manipulation during Node.js installer repair process (Medium)</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>CVE-2023-30588: Process interuption due to invalid Public Key information in x509 certificates (Medium)</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>CVE-2023-30589: HTTP Request Smuggling via Empty headers separated by CR (Medium)</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>CVE-2023-30590: DiffieHellman does not generate keys after setting a private key (Medium)</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>v16.20.0</td>
-<td>2023.03.29</td>
-<td>更新依赖</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>v16.19.1</td>
-<td>2023.02.16</td>
-<td>CVE-2023-23918: Node.js Permissions policies can be bypassed via process.mainModule (High)</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>CVE-2023-23919: Node.js OpenSSL error handling issues in nodejs crypto library (Medium)</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>CVE-2023-23920: Node.js insecure loading of ICU data through ICU_DATA environment variable (Low)</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
 </tbody>
 </table>
+<p>dns: (SEMVER-MINOR) expose getDefaultResultOrder (btea) #46973
+doc: add ovflowd to collaborators (Claudio Wunder) #47844
+add KhafraDev to collaborators (Matthew Aitken) #47510
+events: (SEMVER-MINOR) add getMaxListeners method (Matthew Aitken) #47039
+fs: (SEMVER-MINOR) add support for mode flag to specify the copy behavior (Tetsuharu Ohzeki) #47084
+(SEMVER-MINOR) add recursive option to readdir and opendir (Ethan Arrowood) #41439
+(SEMVER-MINOR) add support for mode flag to specify the copy behavior (Tetsuharu Ohzeki) #47084
+(SEMVER-MINOR) implement byob mode for readableWebStream() (Debadree Chatterjee) #46933
+http: (SEMVER-MINOR) prevent writing to the body when not allowed by HTTP spec (Gerrard Lindsay) #47732
+(SEMVER-MINOR) remove internal error in assignSocket (Matteo Collina) #47723
+(SEMVER-MINOR) add highWaterMark opt in http.createServer (HinataKah0) #47405
+lib: (SEMVER-MINOR) add webstreams to Duplex.from() (Debadree Chatterjee) #46190
+(SEMVER-MINOR) implement AbortSignal.any() (Chemi Atlow) #47821
+module: change default resolver to not throw on unknown scheme (Gil Tayar) #47824
+node-api: (SEMVER-MINOR) define version 9 (Chengzhong Wu) #48151
+(SEMVER-MINOR) deprecate napi_module_register (Vladimir Morozov) #46319
+stream: (SEMVER-MINOR) preserve object mode in compose (Raz Luvaton) #47413
+(SEMVER-MINOR) add setter &amp; getter for default highWaterMark (#46929) (Robert Nagy) #46929
+test: unflake test-vm-timeout-escape-nexttick (Santiago Gimeno) #48078
+test_runner: (SEMVER-MINOR) add shorthands to test (Chemi Atlow) #47909
+(SEMVER-MINOR) support combining coverage reports (Colin Ihrig) #47686
+(SEMVER-MINOR) execute before hook on test (Chemi Atlow) #47586
+(SEMVER-MINOR) expose reporter for use in run api (Chemi Atlow) #47238
+tools: update LICENSE and <a href="http://license-builder.sh">license-builder.sh</a> (Santiago Gimeno) #48078
+url: (SEMVER-MINOR) implement URL.canParse (Matthew Aitken) #47179
+wasi: (SEMVER-MINOR) no longer require flag to enable wasi (Michael Dawson) #47286|||
+|v18.16.1|2023.06.20|CVE-2023-30581: mainModule.<strong>proto</strong> Bypass Experimental Policy Mechanism (High)
+CVE-2023-30585: Privilege escalation via Malicious Registry Key manipulation during Node.js installer repair process (Medium)
+CVE-2023-30588: Process interuption due to invalid Public Key information in x509 certificates (Medium)
+CVE-2023-30589: HTTP Request Smuggling via Empty headers separated by CR (Medium)
+CVE-2023-30590: DiffieHellman does not generate keys after setting a private key (Medium)
+OpenSSL Security Releases
+OpenSSL security advisory 28th March.
+OpenSSL security advisory 20th April.
+OpenSSL security advisory 30th May
+c-ares vulnerabilities:
+GHSA-9g78-jv2r-p7vc
+GHSA-8r8p-23f3-64c2
+GHSA-54xr-f67r-4pc4
+GHSA-x6mf-cxr9-8q6v|||
+|v18.16.0|2023.04.12|Add initial support for single executable applications|||
+|||Replace url parser with Ada|||
+|||buffer:
+(SEMVER-MINOR) add Buffer.copyBytesFrom(...) (James M Snell) #46500
+doc:
+add marco-ippolito to collaborators (Marco Ippolito) #46816
+add debadree25 to collaborators (Debadree Chatterjee) #46716
+add deokjinkim to collaborators (Deokjin Kim) #46444
+events:
+(SEMVER-MINOR) add listener argument to listenerCount (Paolo Insogna) #46523
+lib:
+(SEMVER-MINOR) add AsyncLocalStorage.bind() and .snapshot() (flakey5) #46387
+(SEMVER-MINOR) add aborted() utility function (Debadree Chatterjee) #46494
+src:
+(SEMVER-MINOR) allow optional Isolate termination in node::Stop() (Shelley Vohr) #46583
+(SEMVER-MINOR) allow embedder control of code generation policy (Shelley Vohr) #46368
+stream:
+(SEMVER-MINOR) add abort signal for ReadableStream and WritableStream (Debadree Chatterjee) #46273
+tls:
+(SEMVER-MINOR) support automatic DHE (Tobias Nießen) #46978
+url:
+(SEMVER-MINOR) implement URLSearchParams size getter (James M Snell) #46308
+worker:
+(SEMVER-MINOR) add support for worker name in inspector and trace_events (Debadree Chatterjee) #46832|||
+|v18.15.0|2023.03.07|--|||
+|v18.14.2|2023.02.21|升级 npm 到 9.5.0|||
+|v18.14.1|2023.02.16|CVE-2023-23918: Node.js Permissions policies can be bypassed via process.mainModule (High)|||
+|||CVE-2023-23919: Node.js OpenSSL error handling issues in nodejs crypto library (Medium)|||
+|||CVE-2023-23936: Fetch API in Node.js did not protect against CRLF injection in host headers (Medium)|||
+|||CVE-2023-24807: Regular Expression Denial of Service in Headers in Node.js fetch API (Low)|||
+|||CVE-2023-23920: Node.js insecure loading of ICU data through ICU_DATA environment variable (Low)|||
+|v18.14.0|2023.02.02|升级 npm 到 9.3.1|||
+|||doc:
+add parallelism note to os.cpus() (Colin Ihrig) #45895
+http:
+join authorization headers (Marco Ippolito) #45982
+improved timeout defaults handling (Paolo Insogna) #45778
+stream:
+implement finished() for ReadableStream and WritableStream (Debadree Chatterjee) #46205|||
+|v18.13.0|2023.01.05|Add support for externally shared js builtins|||
+|||Introduce File|||
+|||Support function mocking on Node.js test runner|||
+|||build:
+disable v8 snapshot compression by default (Joyee Cheung) #45716
+crypto:
+update root certificates (Luigi Pinca) #45490
+deps:
+update ICU to 72.1 (Michaël Zasso) #45068
+doc:
+add doc-only deprecation for headers/trailers setters (Rich Trott) #45697
+add Rafael to the tsc (Michael Dawson) #45691
+deprecate use of invalid ports in url.parse (Antoine du Hamel) #45576
+add lukekarrys to collaborators (Luke Karrys) #45180
+add anonrig to collaborators (Yagiz Nizipli) #45002
+deprecate url.parse() (Rich Trott) #44919
+lib:
+drop fetch experimental warning (Matteo Collina) #45287
+net:
+(SEMVER-MINOR) add autoSelectFamily and autoSelectFamilyAttemptTimeout options (Paolo Insogna) #44731
+src:
+(SEMVER-MINOR) add uvwasi version (Jithil P Ponnan) #45639
+(SEMVER-MINOR) add initial shadow realm support (Chengzhong Wu) #42869
+test_runner:
+(SEMVER-MINOR) add t.after() hook (Colin Ihrig) #45792
+(SEMVER-MINOR) don't use a symbol for runHook() (Colin Ihrig) #45792
+tls:
+(SEMVER-MINOR) add &quot;ca&quot; property to certificate object (Ben Noordhuis) #44935
+remove trustcor root ca certificates (Ben Noordhuis) #45776
+tools:
+update certdata.txt (Luigi Pinca) #45490
+util:
+add fast path for utf8 encoding (Yagiz Nizipli) #45412
+improve textdecoder decode performance (Yagiz Nizipli) #45294
+(SEMVER-MINOR) add MIME utilities (#21128) (Bradley Farias) #21128|||
+|v18.12.1|2022.11.03|CVE-2022-3602: X.509 Email Address 4-byte Buffer Overflow (High)|||
+|||CVE-2022-3786: X.509 Email Address Variable Length Buffer Overflow (High)|||
+|||CVE-2022-43548: DNS rebinding in --inspect via invalid octal IP address (Medium)|||
+|v18.12.0|2022.10.25|进入 TLS 版本，命名为 Hydrogen|||
+|v18.0.0 - v18.11.0|是 current 版本，不统计。||||
+|v17.x.x|不是 TLS 版本，不统计。||||
+|v16.20.2|2023.08.09|CVE-2023-32002: Policies can be bypassed via Module._load (High)|||
+|||CVE-2023-32006: Policies can be bypassed by module.constructor.createRequire (Medium)|||
+|||CVE-2023-32559: Policies can be bypassed via process.binding (Medium)|||
+|v16.20.1|2023.06.20|CVE-2023-30581: mainModule.<strong>proto</strong> Bypass Experimental Policy Mechanism (High)|||
+|||CVE-2023-30585: Privilege escalation via Malicious Registry Key manipulation during Node.js installer repair process (Medium)|||
+|||CVE-2023-30588: Process interuption due to invalid Public Key information in x509 certificates (Medium)|||
+|||CVE-2023-30589: HTTP Request Smuggling via Empty headers separated by CR (Medium)|||
+|||CVE-2023-30590: DiffieHellman does not generate keys after setting a private key (Medium)|||
+|v16.20.0|2023.03.29|更新依赖|||
+|v16.19.1|2023.02.16|CVE-2023-23918: Node.js Permissions policies can be bypassed via process.mainModule (High)|||
+|||CVE-2023-23919: Node.js OpenSSL error handling issues in nodejs crypto library (Medium)|||
+|||CVE-2023-23920: Node.js insecure loading of ICU data through ICU_DATA environment variable (Low)|||
+||||||
+||||||
+||||||
+||||||
+||||||
+||||||
+||||||
+||||||
+||||||
+||||||</p>
 
             <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
             

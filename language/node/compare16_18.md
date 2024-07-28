@@ -59,7 +59,11 @@ Node.js 团队对安全很重视。精心规划了安全发布过程，有定期
 
 为了防御 CSRF 攻击，我们可以使用 CSRF 令牌。
 
-## title
+## 常见的安全处理方法
+
+- 使用`mysql`库的`escape`方法处理敏感数据。
+- 使用`xss`库把攻击性 js 代码转换为字符串。
+- 使用`crypto`库加密敏感数据。
 
 ## title
 
@@ -155,8 +159,36 @@ node 已经发展很多年，使用规范无变动。使用上无差异。
 
 在 V8 引擎方面，Node.js 18 采用了最新的 V8 版本，这意味着更快的 JavaScript 执行速度和更好的内存管理。
 
-- 优化 class fields & private class methods 的性能。
--
+## 优化 class fields & private class methods 的性能。
+
+### 优化 class fields
+
+![classFields](/language/node/images/classFields.png)
+![classFields2](/language/node/images/classFields2.png)
+
+### 优化 private methods
+
+![privateMethod](/language/node/images/privateMethod.png)
+![privateMethod2](/language/node/images/privateMethod2.png)
+
+### 优化方法的性能
+
+![performanceOfMethod](/language/node/images/performanceOfMethod.png)
+
+## Maglev - V8’s Fastest Optimizing JIT （优化 jit）
+
+使用了 Maglev（它是一个 js 编辑器。竞品是 Sparkplug/TurboFan）
+在稳定性与速度之间选择了平衡的 Maglev.
+（Sparkplug 太慢了。TurboFan 的依赖不稳定。）
+![performanceOfMethod](/language/node/images/performanceOfMethod.png)
+
+## V8 is Faster and Safer than Ever!
+
+- 解决 html 更快
+- dom 分配更快
+- 支持更多的 js 功能
+- 更新了 webAssembly
+- 使用沙箱处理安全问题
 
 # 功能上
 
@@ -165,16 +197,21 @@ node 已经发展很多年，使用规范无变动。使用上无差异。
 - 支持 json 模块
 - 对 HTTPS 和 HTTP 导入的实验性支持
 - 增强安全
+- 全局范围内支持`Blob`/`BroadcastChannel`
+-
 
 ## 增加
 
-- 增加了 fetch api(以前使用 xhr)可以全局可用。fetch 方法返回的是 promise 对象。抹平了浏览器与服务器的差异，可以快速、简单地发 http 请求。
+- 增加了 fetch api(以前使用 xhr)可以全局可用。fetch 方法返回的是 promise 对象。抹平了浏览器与服务器的差异，可以快速、简单地发 http 请求。fetch 是基于 Undici 的。
 - 增加了 Event / EventTarget 的实例
 - 预设会设定服务的 Timeout。如：headersTimeout:读取 http header 超过 60s 时会中断连接。requestTimeout：处理请求超过 5min 后会中断连接。
 - 增加 Blob 对象
 - 增加 BroadcastChannel 类（基于 EventTarget），可用于线程间通信。
 - 增加 Web Crypo api.
-- 增加 `node:test`
+- 增加 `node:test`。有它就可以写测试代码了。
+- 全局范围内可以使用 web stream api`ReadableStream, ReadableStreamDefaultReader, ReadableStreamBYOBReader, ReadableStreamBYOBRequest, ReadableByteStreamController, ReadableStreamDefaultController, TransformStream, TransformStreamDefaultController, WritableStream, WritableStreamDefaultWriter, WritableStreamDefaultController, ByteLengthQueuingStrategy, CountQueuingStrategy, TextEncoderStream, TextDecoderStream, CompressionStream, DecompressionStream`
+- 支持自定义加载程序。[参考此文档](https://nodejs.org/docs/latest-v18.x/api/esm.html)
+- watch 模式。当文件改变时，重启进程。
 
 ## 弃用
 
@@ -184,6 +221,9 @@ fs.writeFile()
 fs.appendFile()
 fs.writeFileSync()
 fs.appendFileSync()
+运行时的multipleResolves()
+在流实现方法中（如`Writable()`）不应该使用thenable，应该使用回调方法。
+tls.parseCertString()
 ```
 
 # 被 npm 包依赖的统计结果
@@ -215,7 +255,7 @@ fs.appendFileSync()
 - [node v18 deprecated api](https://nodejs.org/docs/latest-v18.x/api/deprecations.html)
 - [node v18 deprecated api](https://nodejs.org/docs/latest-v17.x/api/deprecations.html)
 - [Node.js 18 发行注记](https://docs.redhat.com/zh_hans/documentation/red_hat_build_of_node.js/18/html-single/release_notes_for_node.js_18/index#idm140606201696848)
-- [Node.js 18 新特性解读](https://zhuanlan.zhihu.com/p/502951532)
+- [undici](https://undici.nodejs.org/#/)
 - [Node.js 18 新特性解读](https://zhuanlan.zhihu.com/p/502951532)
 - [Node.js 18 新特性解读](https://zhuanlan.zhihu.com/p/502951532)
 
