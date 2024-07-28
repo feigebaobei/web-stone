@@ -465,6 +465,8 @@ app.mount('#root')
 
 ## [样式](/framework/vue3/style.html)
 
+## [confuse](/framework/vue3/confuse.html)
+
 ## title
 
 ## [principle](/framework/vue3/principle.html)
