@@ -141,14 +141,14 @@
         <body class="vscode-body vscode-light">
             <h1 id="介绍">介绍</h1>
 <ul>
-<li>一台高性能web服务器</li>
-<li>最初是为解决c10k问题（同时连接处理10000连接数的web服务器）。可以支持5w个并发连接。</li>
+<li>一台高性能 web 服务器</li>
+<li>最初是为解决 c10k 问题（同时连接处理 10000 连接数的 web 服务器）。可以支持 5w 个并发连接。</li>
 <li>开源</li>
-<li>为静态资源提供高效web服务。</li>
-<li>当初是为http web服务的，现在为HTTP, HTTPS, SMTP, IMAP, POP3做反向代理。</li>
+<li>为静态资源提供高效 web 服务。</li>
+<li>当初是为 http web 服务的，现在为 HTTP, HTTPS, SMTP, IMAP, POP3 做反向代理。</li>
 <li>模块化设计的。</li>
-<li>可以配置成web加速器、web服务器、邮件代理。</li>
-<li>默认监听8080端口</li>
+<li>可以配置成 web 加速器、web 服务器、邮件代理。</li>
+<li>默认监听 8080 端口</li>
 </ul>
 <h1 id="服务启停">服务启停</h1>
 <pre><code class="language-shell">nginx # 启动服务
@@ -254,7 +254,8 @@ nginx -t -c &lt;path-to-nginx.conf&gt; # 配置检查
 <pre><code># 引入
 include /opt/local/etc/nginx/mime.types;
 </code></pre>
-<h2 id="虚拟服务器部分">虚拟服务器部分</h2>
+<h2 id="负载均衡"><a href="/nginx/config.html">负载均衡</a></h2>
+<h2 id="虚拟主机"><a href="/nginx/config.html">虚拟主机</a></h2>
 <p>以关键字<code>server</code>开始的部分被称为“虚拟服务器”。它根据不同的<code>server_name</code>指令逻辑分割资源。</p>
 <pre><code>server {
     listen   80;
@@ -318,15 +319,13 @@ location @name {...}
 </tr>
 </tbody>
 </table>
-<h1 id="学习网站"><a href="https://www.javatpoint.com/installing-nginx-on-mac">学习网站</a></h1>
-<h1 id="网友笔记"><a href="https://juejin.cn/post/6844904131161784333">网友笔记</a></h1>
 <h1 id="title">title</h1>
 <h1 id="title-1">title</h1>
 <h1 id="title-2">title</h1>
 <h1 id="title-3">title</h1>
 <h1 id="todo">todo</h1>
 <ul>
-<li>OpenSSL是什么</li>
+<li>OpenSSL 是什么</li>
 <li></li>
 </ul>
 <h1 id="confuse">confuse</h1>
@@ -344,16 +343,16 @@ location @name {...}
 <tbody>
 <tr>
 <td></td>
-<td>此变量保存了请求头中的host</td>
-<td>此变量保存了请求头中的host</td>
-<td>此变量保存了与当前请求相匹配的server name</td>
+<td>此变量保存了请求头中的 host</td>
+<td>此变量保存了请求头中的 host</td>
+<td>此变量保存了与当前请求相匹配的 server name</td>
 <td></td>
 </tr>
 <tr>
 <td></td>
-<td>它可以被client、中间系统修改。</td>
-<td>在nginx中以<code>$http_</code>开头的变量都是请求头中的某个字段。</td>
-<td>经常用于匹配server块，用于要匹配请求。</td>
+<td>它可以被 client、中间系统修改。</td>
+<td>在 nginx 中以<code>$http_</code>开头的变量都是请求头中的某个字段。</td>
+<td>经常用于匹配 server 块，用于要匹配请求。</td>
 <td></td>
 </tr>
 <tr>
@@ -372,16 +371,6 @@ location @name {...}
 </tr>
 </tbody>
 </table>
-<pre><code>server {
-    listen 80;
-    server_name heshijade.com;
-    location / {
-        root /dist;
-        index index.html;
-        try_files index.html;
-    }
-}
-</code></pre>
 
             <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
             

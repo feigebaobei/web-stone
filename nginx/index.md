@@ -79,7 +79,9 @@ directive 都是使用下划线分隔命名的。
 include /opt/local/etc/nginx/mime.types;
 ```
 
-## 虚拟服务器部分
+## [负载均衡](/nginx/config.html)
+
+## [虚拟主机](/nginx/config.html)
 
 以关键字`server`开始的部分被称为“虚拟服务器”。它根据不同的`server_name`指令逻辑分割资源。
 
@@ -115,10 +117,6 @@ location @name {...}
 | --with-http_realip_module     |     |     |     |     |     |     |
 | --without-http_charset_module |     |     |     |     |     |     |
 
-# [学习网站](https://www.javatpoint.com/installing-nginx-on-mac)
-
-# [网友笔记](https://juejin.cn/post/6844904131161784333)
-
 # title
 
 # title
@@ -142,15 +140,3 @@ location @name {...}
 |     | 它可以被 client、中间系统修改。 | 在 nginx 中以`$http_`开头的变量都是请求头中的某个字段。 | 经常用于匹配 server 块，用于要匹配请求。   |     |
 |     |                                 |                                                         |                                            |     |
 |     |                                 |                                                         |                                            |     |
-
-```
-server {
-    listen 80;
-    server_name heshijade.com;
-    location / {
-        root /dist;
-        index index.html;
-        try_files index.html;
-    }
-}
-```

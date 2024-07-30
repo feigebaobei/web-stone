@@ -250,15 +250,19 @@ c.on('ready', () => {
       throw err
     }
 
-    // let p = 'optimizing'
+    // let p = 'language/node/images'
     let p = [
       'index.html',
-      'confuse/index.html',
-      'confuse/performance.html',
-      'language/javascript/index.html',
-      'promote/observe/intersectionObserver.html',
-      'promote/observe/index.html',
-      'promote/observe/requestIdleCallback.html',
+      'language/node/compare16_18.html',
+      'nginx/config.html',
+      'nginx/index.html',
+      'nginx/install.html',
+      // 'language/node/images/classFields.png',
+      // 'language/node/images/classFields2.png',
+      // 'language/node/images/jit.png',
+      // 'language/node/images/performanceOfMethod.png',
+      // 'language/node/images/privateMethod.png',
+      // 'language/node/images/privateMethod2.png',
     ]
     // 检测指定目录是否存在 flex
     // checkDir(p)
