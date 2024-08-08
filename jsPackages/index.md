@@ -37,7 +37,7 @@
 - [remote-storage](/jsPackages/title.html)
 - [autocannon 压力测试](/jsPackages/autocannon.html)
 - [mitt](/jsPackages/mitt.html)
-- [title](/jsPackages/title.html)
+- [@vscode/vsce](/jsPackages/vscodeVsce.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
 - [title](/jsPackages/title.html)
