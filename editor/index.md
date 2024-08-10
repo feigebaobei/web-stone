@@ -1,6 +1,6 @@
 - [sublime](/editor/sublime.html)
 - [notepad++](/editor/notepad++.html)
-- [vscode](/editor/vscode.html)
+- [vscode](/editor/vscode/index.html)
 - [sublime](/editor/sublime.html)
 - [sublime](/editor/sublime.html)
 - [sublime](/editor/sublime.html)

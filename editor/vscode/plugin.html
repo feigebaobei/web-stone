@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x63d2;&#x4ef6;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="插件">插件</h1>
+<p>特指vscode的插件。</p>
+<h1 id="初始化项目">初始化项目</h1>
+<pre><code class="language-shell">npm i -g yo generator-code # 为什么都使用它们init项目呢
+<span class="hljs-meta prompt_"># </span><span class="language-bash">因它是ms官方的脚手架。</span>
+yo code
+
+</code></pre>
+<h1 id="项目结构">项目结构</h1>
+<pre><code>&lt;root&gt;
+|-- package.json
+|-- src
+    |-- extensions.ts # vscode插件的入口文件
+|-- tsconfig.json
+</code></pre>
+<h2 id="packagejson">package.json</h2>
+<pre><code class="language-js"><span class="hljs-comment">// 常用，非全部。</span>
+{
+    <span class="hljs-string">&quot;keywords&quot;</span>: [<span class="hljs-string">&quot;one&quot;</span>, <span class="hljs-string">&quot;two&quot;</span>], <span class="hljs-comment">// 关键字，用于插件市场搜索。</span>
+    <span class="hljs-string">&quot;version&quot;</span>: <span class="hljs-string">&quot;1.1.1&quot;</span>, <span class="hljs-comment">// 版本号</span>
+    <span class="hljs-string">&quot;engines&quot;</span>: {
+        <span class="hljs-string">&quot;vscode&quot;</span>: <span class="hljs-string">&quot;^1.27.0&quot;</span>,
+    },
+    <span class="hljs-string">&quot;publisher&quot;</span>: <span class="hljs-string">&quot;value&quot;</span>, <span class="hljs-comment">// 若要发布到插件市场，则必须与发布者一致。</span>
+    <span class="hljs-string">&quot;categoris&quot;</span>: [<span class="hljs-string">&quot;value&quot;</span>], <span class="hljs-comment">// 在插件市场的分类，可选值： [Programming Languages, Snippets, Linters, Themes, Debuggers, Formatters, Keymaps, SCM Providers, Other, Extension Packs, Language Packs]</span>
+    <span class="hljs-string">&quot;icon&quot;</span>: <span class="hljs-string">&quot;images/icon.png&quot;</span>, <span class="hljs-comment">// 至少128*128px</span>
+    <span class="hljs-comment">// 扩展的激活事件</span>
+    <span class="hljs-string">&quot;activationEvents&quot;</span>: [
+        <span class="hljs-string">&quot;onCommand:extension.sayHello&quot;</span>
+    ],
+    <span class="hljs-comment">// 入口</span>
+    <span class="hljs-string">&quot;main&quot;</span>: <span class="hljs-string">&quot;./src/extension&quot;</span>,
+    <span class="hljs-comment">// 贡献点，vscode的插件大部分功能配置都在这里。</span>
+    <span class="hljs-string">&quot;contributes&quot;</span>: {
+        <span class="hljs-string">&quot;configuration&quot;</span>: {
+            <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;object&quot;</span>,
+            <span class="hljs-string">&quot;title&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+            <span class="hljs-string">&quot;title&quot;</span>: {
+                <span class="hljs-comment">// </span>
+                <span class="hljs-string">&quot;vscodePluginDemo.yourName&quot;</span>: {
+                    <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+                    <span class="hljs-string">&quot;default&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+                    <span class="hljs-string">&quot;description&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+                },
+                <span class="hljs-comment">// 启动时的提示</span>
+                <span class="hljs-string">&quot;vscodePluginDemo.showTip&quot;</span>: {
+                    <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+                    <span class="hljs-string">&quot;default&quot;</span>: <span class="hljs-literal">true</span>,
+                    <span class="hljs-string">&quot;description&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+                },
+            },
+        },
+        <span class="hljs-comment">// 命令</span>
+        <span class="hljs-string">&quot;commands&quot;</span>: [
+            {
+                <span class="hljs-string">&quot;command&quot;</span>: <span class="hljs-string">&quot;extension.sayHello&quot;</span>,
+                <span class="hljs-string">&quot;title&quot;</span>: <span class="hljs-string">&quot;hello world&quot;</span>
+            }
+        ],
+        <span class="hljs-comment">// 绑定快捷键</span>
+        <span class="hljs-string">&quot;commands&quot;</span>: [
+            {
+                <span class="hljs-string">&quot;command&quot;</span>: <span class="hljs-string">&quot;extension.sayHello&quot;</span>,
+                <span class="hljs-string">&quot;key&quot;</span>: <span class="hljs-string">&quot;ctrl+f10&quot;</span>,
+                <span class="hljs-string">&quot;mac&quot;</span>: <span class="hljs-string">&quot;cmd+f10&quot;</span>,
+                <span class="hljs-string">&quot;when&quot;</span>: <span class="hljs-string">&quot;editorTextFocus&quot;</span>,
+            }
+        ],
+        <span class="hljs-comment">// 菜单</span>
+        <span class="hljs-string">&quot;menus&quot;</span>: {
+			<span class="hljs-comment">// 编辑器右键菜单</span>
+			<span class="hljs-string">&quot;editor/context&quot;</span>: [
+				{
+					<span class="hljs-comment">// 表示只有编辑器具有焦点时才会在菜单中出现</span>
+					<span class="hljs-string">&quot;when&quot;</span>: <span class="hljs-string">&quot;editorFocus&quot;</span>,
+					<span class="hljs-string">&quot;command&quot;</span>: <span class="hljs-string">&quot;extension.sayHello&quot;</span>,
+					<span class="hljs-comment">// navigation是一个永远置顶的分组，后面的@6是人工进行组内排序</span>
+					<span class="hljs-string">&quot;group&quot;</span>: <span class="hljs-string">&quot;navigation@6&quot;</span>
+				},
+				{
+					<span class="hljs-string">&quot;when&quot;</span>: <span class="hljs-string">&quot;editorFocus&quot;</span>,
+					<span class="hljs-string">&quot;command&quot;</span>: <span class="hljs-string">&quot;extension.demo.getCurrentFilePath&quot;</span>,
+					<span class="hljs-string">&quot;group&quot;</span>: <span class="hljs-string">&quot;navigation@5&quot;</span>
+				},
+				{
+					<span class="hljs-comment">// 只有编辑器具有焦点，并且打开的是JS文件才会出现</span>
+					<span class="hljs-string">&quot;when&quot;</span>: <span class="hljs-string">&quot;editorFocus &amp;&amp; resourceLangId == javascript&quot;</span>,
+					<span class="hljs-string">&quot;command&quot;</span>: <span class="hljs-string">&quot;extension.demo.testMenuShow&quot;</span>,
+					<span class="hljs-string">&quot;group&quot;</span>: <span class="hljs-string">&quot;z_commands&quot;</span>
+				},
+				{
+					<span class="hljs-string">&quot;command&quot;</span>: <span class="hljs-string">&quot;extension.demo.openWebview&quot;</span>,
+					<span class="hljs-string">&quot;group&quot;</span>: <span class="hljs-string">&quot;navigation&quot;</span>
+				}
+			],
+			<span class="hljs-comment">// 编辑器右上角图标，不配置图片就显示文字</span>
+			<span class="hljs-string">&quot;editor/title&quot;</span>: [
+				{
+					<span class="hljs-string">&quot;when&quot;</span>: <span class="hljs-string">&quot;editorFocus &amp;&amp; resourceLangId == javascript&quot;</span>,
+					<span class="hljs-string">&quot;command&quot;</span>: <span class="hljs-string">&quot;extension.demo.testMenuShow&quot;</span>,
+					<span class="hljs-string">&quot;group&quot;</span>: <span class="hljs-string">&quot;navigation&quot;</span>
+				}
+			],
+			<span class="hljs-comment">// 编辑器标题右键菜单</span>
+			<span class="hljs-string">&quot;editor/title/context&quot;</span>: [
+				{
+					<span class="hljs-string">&quot;when&quot;</span>: <span class="hljs-string">&quot;resourceLangId == javascript&quot;</span>,
+					<span class="hljs-string">&quot;command&quot;</span>: <span class="hljs-string">&quot;extension.demo.testMenuShow&quot;</span>,
+					<span class="hljs-string">&quot;group&quot;</span>: <span class="hljs-string">&quot;navigation&quot;</span>
+				}
+			],
+        }
+		<span class="hljs-comment">// 代码片段</span>
+		<span class="hljs-string">&quot;snippets&quot;</span>: [
+			{
+				<span class="hljs-string">&quot;language&quot;</span>: <span class="hljs-string">&quot;javascript&quot;</span>,
+				<span class="hljs-string">&quot;path&quot;</span>: <span class="hljs-string">&quot;./snippets/javascript.json&quot;</span>
+			},
+			{
+				<span class="hljs-string">&quot;language&quot;</span>: <span class="hljs-string">&quot;html&quot;</span>,
+				<span class="hljs-string">&quot;path&quot;</span>: <span class="hljs-string">&quot;./snippets/html.json&quot;</span>
+			}
+		],
+		<span class="hljs-comment">// 自定义新的activitybar图标，也就是左侧侧边栏大的图标</span>
+		<span class="hljs-string">&quot;viewsContainers&quot;</span>: {
+			<span class="hljs-string">&quot;activitybar&quot;</span>: [
+				{
+					<span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-string">&quot;beautifulGirl&quot;</span>,
+					<span class="hljs-string">&quot;title&quot;</span>: <span class="hljs-string">&quot;美女&quot;</span>,
+					<span class="hljs-string">&quot;icon&quot;</span>: <span class="hljs-string">&quot;images/beautifulGirl.svg&quot;</span>
+				}
+			]
+		},
+		<span class="hljs-comment">// 自定义侧边栏内view的实现</span>
+		<span class="hljs-string">&quot;views&quot;</span>: {
+			<span class="hljs-comment">// 和 viewsContainers 的id对应</span>
+			<span class="hljs-string">&quot;beautifulGirl&quot;</span>: [
+				{
+					<span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-string">&quot;beautifulGirl1&quot;</span>,
+					<span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;国内美女&quot;</span>
+				},
+				{
+					<span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-string">&quot;beautifulGirl2&quot;</span>,
+					<span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;国外美女&quot;</span>
+				},
+				{
+					<span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-string">&quot;beautifulGirl3&quot;</span>,
+					<span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;人妖&quot;</span>
+				}
+			]
+		},
+		<span class="hljs-comment">// 图标主题</span>
+		<span class="hljs-string">&quot;iconThemes&quot;</span>: [
+			{
+				<span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-string">&quot;testIconTheme&quot;</span>,
+				<span class="hljs-string">&quot;label&quot;</span>: <span class="hljs-string">&quot;测试图标主题&quot;</span>,
+				<span class="hljs-string">&quot;path&quot;</span>: <span class="hljs-string">&quot;./theme/icon-theme.json&quot;</span>
+			}
+		]
+    },
+    <span class="hljs-comment">// 主页</span>
+    <span class="hljs-string">&quot;homepage&quot;</span>: <span class="hljs-string">&quot;http://www.sss.com&quot;</span>
+}
+</code></pre>
+<h2 id="入口文件">入口文件</h2>
+<pre><code class="language-js"><span class="hljs-comment">// src/extension.ts</span>
+<span class="hljs-keyword">const</span> vscode = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;vscode&#x27;</span>)
+<span class="hljs-comment">// 插件被激活时触发，所有代码总入口。</span>
+<span class="hljs-built_in">exports</span>.<span class="hljs-property">activate</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params">context</span>) {
+    <span class="hljs-comment">// 注册命令 与package.json中的contributs.commands中的相呼应</span>
+    context.<span class="hljs-property">subscriptions</span>.<span class="hljs-title function_">push</span>(vscode.<span class="hljs-property">commands</span>.<span class="hljs-title function_">registerCommand</span>(<span class="hljs-string">&#x27;extension.sayHello&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+        vscode.<span class="hljs-property">window</span>.<span class="hljs-title function_">showInformationMessage</span>(<span class="hljs-string">&#x27;hello world&#x27;</span>)
+    }))
+}
+<span class="hljs-comment">// 插件被释放时触发</span>
+<span class="hljs-built_in">exports</span>.<span class="hljs-property">deactivate</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {}
+</code></pre>
+<h1 id="字段说明">字段说明</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th>demo</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>activationEvents</td>
+<td>所有插件都是默认不激活的。只有在这里配置才能激活。</td>
+<td><code>[]</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>onLanguage:${language}</td>
+<td></td>
+<td>onLanguage:javascript，只要打开js类型的文件就激活该插件</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>onCommand:${command}</td>
+<td>使用onCommand注册激活事件</td>
+<td><code>[]</code></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>onDebug</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>workspaceContains:${toplevelfilename}</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>onFileSystem:${scheme}</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>onView:${viewId}</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>onUri</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>*</td>
+<td>一启动vscode就激活</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>contributes</td>
+<td>可以配置扩展vscode各种能力</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>configuration</td>
+<td>设置</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>command</td>
+<td>中的command需要在extension.ts中注册</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>menus</td>
+<td>设置菜单</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>keybindings</td>
+<td>绑定快捷键</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>languages</td>
+<td>新语言支持</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>debuggers</td>
+<td>调试</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>breakpoints</td>
+<td>断点</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>grammars</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>themes</td>
+<td>主题</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>snippets</td>
+<td>代码片段</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>jsonValidation</td>
+<td>自定义json校验</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>views</td>
+<td>侧边栏视图</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>viewsContainers</td>
+<td>自定义activitybar</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>problemMatchers</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>problemPatterns</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>taskDefinitions</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>colors</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>contributes</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>contributes</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>contributes</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>contributes</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h1 id="调试">调试</h1>
+<p><code>F5</code></p>
+<pre><code class="language-js"><span class="hljs-comment">// .vscode/launch.json</span>
+
+</code></pre>
+<h2 id="重新加载">重新加载</h2>
+<ul>
+<li>先停止，再按F5,</li>
+<li>ctrl+R</li>
+</ul>
+<h1 id="开发语言">开发语言</h1>
+<p>推荐ts，可以使用js.</p>
+<h1 id="title">title</h1>
+<h1 id="title-1">title</h1>
+<h1 id="title-2">title</h1>
+<h1 id="title-3">title</h1>
+<h1 id="title-4">title</h1>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>
