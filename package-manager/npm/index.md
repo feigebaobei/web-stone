@@ -213,6 +213,18 @@ npm unlink <package-name> # 取消链接依赖项
 | exports              | 可以根据不同的引用方式或者模块化类型，来指定 npm 包引用不同的入口文件。              | 如`"exports": {"import": "./main-module.js","require": "./main-require.cjs"`}import 为 esm 的导入方式，require 为 cjs 的导入方式 | 优先级高于 brower/module/main.比 file 好用。                   |               |
 <!-- prettier-ignore-end -->
 
+<!-- prettier-ignore-start -->
+| 版本前的符号         |       |                  |    |               |
+|   -| -      |  -    |  -  |    -           |
+|~|允许匹配最近的小版本。||||
+|^|最近的大版本||||
+|无|精确版本号||||
+|latest|最新的版本||||
+|> >= < <=|具体的版本范围||||
+|`-`|2个版本号之间的任意版本||||
+|`&&`|指定多个版本范围，安装满足多个版本范围的版本。||||
+<!-- prettier-ignore-end -->
+
 ### 注册 cli 的逻辑
 
 在 package.json 中定义`bin`字段。npm 会根据该字段创建一个软链接。若使用全局安装，则安装在`/home/turbo/.nvm/versions/node/v14.16.1/bin/`。若使用局部安装，则安装在`./node_modules/.bin/`

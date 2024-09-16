@@ -372,14 +372,14 @@ promise 的参数是一个接收`resolve`/`reject`方法的方法。
 ```js
 Promise#then((reslt) => {})
 Promise#catch((error) => {})
-Promise#finally(() => {})    // 不返回东西。即使写了返回东西的代码也不返回。回调方法中无参数。
+Promise#finally(() => {})    // 返回Promise<undefined>。它是promise对象，且解析为fulfilled状态。解析后的值是undefined。即使写了返回值也会解析为undefined。
 Promise.all(arrP)    // 这种写法的都是静态属性。若arrP都是fulfilled状态则执行then方法，参数是一个数组。若arrP中有一个rejected状态则立即执行catch，参数是一个值。
 Promise.race(arrP)   // 返回最先改变状态的promise对象，状态由该对象决定。
 Promise.allSettled(arrP) // 当arrP都改变状态后返回结果。结果是由{status: 'fulfilled' | 'rejected', value / reason}组成的数组。总是触发then方法。
 Promise.any(arrP)        // arrP中只要有一个状态为fulfilled则返回该值，触发then()。若全为rejected则返回AggregateError对象，触发catch()。
 Promise.resolve()
 Promise.reject()
-Promise.try()            // 正在开发。
+Promise.try()
 ```
 
 ### 模拟 allSettled
@@ -523,6 +523,60 @@ let f = (p, cb) => {
     })
   }
 }
+```
+
+### title
+
+```js
+// 串行执行promise数组
+let ps = [...]
+for (let pi of ps) {
+  await pi()
+}
+  // or
+ps.reduce((curP, nextP) => curP.then(() => nextP()), Promise.resolve())
+
+// 在promise作用域外改变状态
+// todo封装为一个类
+let resolveFn
+new Promise((s, j) => {
+  resolveFn = s
+  rejectFn = j
+})
+let fn = () => {
+  resolveFn && resolveFn()
+}
+
+// 多次请求共享一次请求
+let box = new Map()
+let reqFn = (method, url, data) => {
+  let key = f(method, url, data) // 取得惟一key
+  if (box[key]) {
+    return box.get(key)
+  } else {
+    let f = fetch(url, {method, data}).then(...).finally(() => {
+      box.delete(key)
+    })
+    return f
+  }
+}
+
+
+
+
+```
+
+### promise & async
+
+async 返回 promise
+await 可以处理 fulfilled 状态的值。不能处理 rejected 状态的值。
+await 修饰非 promise 的值时，总是返回`Promise.resolve(value)`。
+即：await 后的代码总是异步执行的。
+
+```
+let fn1 = async () => 1
+<=>
+let fn2 = () => Promise.resolve(1)
 ```
 
 ## eventLoop (异步 & 同步)

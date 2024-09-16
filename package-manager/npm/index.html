@@ -539,6 +539,70 @@ npm unlink &lt;package-name&gt; # 取消链接依赖项
 | type                 | 指定规范                 | &quot;module&quot; / &quot;commonjs&quot;             | 默认为&quot;commonjs&quot;       |               |
 | exports              | 可以根据不同的引用方式或者模块化类型，来指定 npm 包引用不同的入口文件。              | 如<code>&quot;exports&quot;: {&quot;import&quot;: &quot;./main-module.js&quot;,&quot;require&quot;: &quot;./main-require.cjs&quot;</code>}import 为 esm 的导入方式，require 为 cjs 的导入方式 | 优先级高于 brower/module/main.比 file 好用。                   |               |</p>
 <!-- prettier-ignore-end -->
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>版本前的符号</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>~</td>
+<td>允许匹配最近的小版本。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>^</td>
+<td>最近的大版本</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>无</td>
+<td>精确版本号</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>latest</td>
+<td>最新的版本</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>&gt; &gt;= &lt; &lt;=</td>
+<td>具体的版本范围</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>-</code></td>
+<td>2个版本号之间的任意版本</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>&amp;&amp;</code></td>
+<td>指定多个版本范围，安装满足多个版本范围的版本。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
 <h3 id="注册-cli-的逻辑">注册 cli 的逻辑</h3>
 <p>在 package.json 中定义<code>bin</code>字段。npm 会根据该字段创建一个软链接。若使用全局安装，则安装在<code>/home/turbo/.nvm/versions/node/v14.16.1/bin/</code>。若使用局部安装，则安装在<code>./node_modules/.bin/</code></p>
 <h2 id="scope">scope</h2>
