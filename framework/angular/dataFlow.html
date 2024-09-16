@@ -199,72 +199,103 @@
 <li>不用学习 rxjs</li>
 <li>很像 react 里的 useState</li>
 </ul>
-<pre><code>import { signal} from '@angular/core'
-export class DataSignalService {
-    private data = signal('')
-    setData(v: string) {
-        this.data.set(v)
+<pre><code class="language-js"><span class="hljs-keyword">import</span> { signal} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/core&#x27;</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">DataSignalService</span> {
+    private data = <span class="hljs-title function_">signal</span>(<span class="hljs-string">&#x27;&#x27;</span>)
+    <span class="hljs-title function_">setData</span>(<span class="hljs-params">v: string</span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span>.<span class="hljs-title function_">set</span>(v)
     }
-    getData() {
-        return this.data
+    <span class="hljs-comment">// update(cb) {</span>
+    <span class="hljs-comment">//   this.data.update(cb)</span>
+    <span class="hljs-comment">// }</span>
+    <span class="hljs-title function_">add</span>(<span class="hljs-params">n</span>) {
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span>.<span class="hljs-title function_">update</span>(<span class="hljs-function">(<span class="hljs-params">value</span>) =&gt;</span> value + n)
+      <span class="hljs-comment">// &lt;=&gt;</span>
+      <span class="hljs-comment">// this.data.set(this.data() + n)</span>
+    }
+    <span class="hljs-comment">// effect(() =&gt; {</span>
+    <span class="hljs-comment">//   this.data()</span>
+    <span class="hljs-comment">// })</span>
+    <span class="hljs-title function_">getData</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">data</span>()
     }
 }
-// sender.component.ts
-this.dataService.setData(str)
-// receiver.component.ts
-this.data = this.dataService.getData()
+<span class="hljs-comment">// sender.component.ts</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-property">dataService</span>.<span class="hljs-title function_">setData</span>(str)
+<span class="hljs-comment">// receiver.component.ts</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">dataService</span>.<span class="hljs-title function_">getData</span>()
 </code></pre>
 <h3 id="signal">signal</h3>
-<pre><code>import { Injectable, signal } from '@angular/core';
+<p>是一个值的包装器。可以在该值变化时通知相关消费者。可以包含任何值。</p>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-attr">count</span>: <span class="hljs-title class_">WritableSignal</span>&lt;N&gt; = <span class="hljs-title function_">signal</span>(<span class="hljs-number">0</span>)
+<span class="hljs-keyword">let</span> <span class="hljs-attr">doubleCount</span>: <span class="hljs-title class_">Signal</span>&lt;N&gt; = <span class="hljs-title function_">computed</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">count</span>() * <span class="hljs-number">2</span>)
+</code></pre>
+<p>doubleCount 信号取决于 count。每当 count 更新时，Angular 知道任何依赖于 count 或 doubleCount 东西也需要更新。
+计算信号的依赖性是动态的
+副作用是一种操作，只要一个或多个信号值发生变化就会运行。你可以使用 effect 函数创建副作用</p>
+<ul>
+<li>记录正在显示的数据及其更改时间，用于分析或作为调试工具</li>
+<li>在数据与 window.localStorage 之间保持同步</li>
+<li>添加无法用模板语法表达的自定义 DOM 行为</li>
+<li>对 <canvas>、图表库或其他第三方 UI 库执行自定义渲染</li>
+<li>需要一个注入上下文。在组件、指令、服务的constructor中调用effect。或者赋给一个变量。</li>
+<li>为effect的设置injector选项可以在constructor外创建副作用。</li>
+<li>调用副作用返回的EffectRef.destroy()可以手动销毁它。</li>
+<li>当副作用的上下文被销毁时它会自动销毁。即当组件、指令、服务被销毁时副作用也会被销毁。</li>
+</ul>
+<pre><code class="language-js"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Injectable</span>, signal } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/core&#x27;</span>;
 
-@Injectable({
-  providedIn: 'root',
+@<span class="hljs-title class_">Injectable</span>({
+  <span class="hljs-attr">providedIn</span>: <span class="hljs-string">&#x27;root&#x27;</span>,
 })
-export class DataSignalService {
-  private data = signal('');
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">DataSignalService</span> {
+  private data = <span class="hljs-title function_">signal</span>(<span class="hljs-string">&#x27;&#x27;</span>);
 
-  setData(update: string) {
-    this.data.set(update);
+  <span class="hljs-title function_">setData</span>(<span class="hljs-params">update: string</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span>.<span class="hljs-title function_">set</span>(update);
   }
 
-  getData(){
-    return this.data;
+  <span class="hljs-title function_">getData</span>(<span class="hljs-params"></span>){
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span>;
   }
 }
 
-import { Component } from '@angular/core';
-import { DataSignalService } from '../data.service';
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Component</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/core&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">DataSignalService</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../data.service&#x27;</span>;
 
-@Component({
-  selector: 'app-sender-signal',
-  template: `
+@<span class="hljs-title class_">Component</span>({
+  <span class="hljs-attr">selector</span>: <span class="hljs-string">&#x27;app-sender-signal&#x27;</span>,
+  <span class="hljs-attr">template</span>: <span class="hljs-string">`
     &lt;h3&gt;Sender Component&lt;/h3&gt;
     &lt;button (click)=&quot;sendData()&quot;&gt;Send Data&lt;/button&gt;
-  `,
+  `</span>,
 })
-export class SenderSignalComponent {
-  constructor(private dataService: DataSignalService) {}
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SenderSignalComponent</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">private dataService: DataSignalService</span>) {}
 
-  sendData() {
-    this.dataService.setData('Data from Sender Component');
+  <span class="hljs-title function_">sendData</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">dataService</span>.<span class="hljs-title function_">setData</span>(<span class="hljs-string">&#x27;Data from Sender Component&#x27;</span>);
   }
 }
 
-import { Component } from '@angular/core';
-import { DataSignalService } from '../data.service';
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Component</span>, effect } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/core&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">DataSignalService</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../data.service&#x27;</span>;
 
-@Component({
-  selector: 'app-receiver-signal',
-  template: `
+@<span class="hljs-title class_">Component</span>({
+  <span class="hljs-attr">selector</span>: <span class="hljs-string">&#x27;app-receiver-signal&#x27;</span>,
+  <span class="hljs-attr">template</span>: <span class="hljs-string">`
     &lt;h3&gt;Receiver Component&lt;/h3&gt;
     &lt;p&gt;{{ data() }}&lt;/p&gt;
-  `,
+  `</span>,
 })
-export class ReceiverSignalComponent {
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ReceiverSignalComponent</span> {
   data;
 
-  constructor(private dataService: DataSignalService) {
-    this.data = this.dataService.getData();
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">private dataService: DataSignalService</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">dataService</span>.<span class="hljs-title function_">getData</span>();
+    <span class="hljs-comment">// effect(() =&gt; {</span>
+    <span class="hljs-comment">//   this.data()</span>
+    <span class="hljs-comment">// })</span>
   }
 }
 </code></pre>

@@ -65,15 +65,26 @@ export class ReceiverComponent implements OnDestroy {
 - 不用学习 rxjs
 - 很像 react 里的 useState
 
-```
+```js
 import { signal} from '@angular/core'
 export class DataSignalService {
     private data = signal('')
     setData(v: string) {
         this.data.set(v)
     }
+    // update(cb) {
+    //   this.data.update(cb)
+    // }
+    add(n) {
+      this.data.update((value) => value + n)
+      // <=>
+      // this.data.set(this.data() + n)
+    }
+    // effect(() => {
+    //   this.data()
+    // })
     getData() {
-        return this.data
+        return this.data()
     }
 }
 // sender.component.ts
@@ -84,7 +95,27 @@ this.data = this.dataService.getData()
 
 ### signal
 
+是一个值的包装器。可以在该值变化时通知相关消费者。可以包含任何值。
+
+```js
+let count: WritableSignal<N> = signal(0)
+let doubleCount: Signal<N> = computed(() => count() * 2)
 ```
+
+doubleCount 信号取决于 count。每当 count 更新时，Angular 知道任何依赖于 count 或 doubleCount 东西也需要更新。
+计算信号的依赖性是动态的
+副作用是一种操作，只要一个或多个信号值发生变化就会运行。你可以使用 effect 函数创建副作用
+
+- 记录正在显示的数据及其更改时间，用于分析或作为调试工具
+- 在数据与 window.localStorage 之间保持同步
+- 添加无法用模板语法表达的自定义 DOM 行为
+- 对 <canvas>、图表库或其他第三方 UI 库执行自定义渲染
+- 需要一个注入上下文。在组件、指令、服务的 constructor 中调用 effect。或者赋给一个变量。
+- 为 effect 的设置 injector 选项可以在 constructor 外创建副作用。
+- 调用副作用返回的 EffectRef.destroy()可以手动销毁它。
+- 当副作用的上下文被销毁时它会自动销毁。即当组件、指令、服务被销毁时副作用也会被销毁。
+
+```js
 import { Injectable, signal } from '@angular/core';
 
 @Injectable({
@@ -120,7 +151,7 @@ export class SenderSignalComponent {
   }
 }
 
-import { Component } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import { DataSignalService } from '../data.service';
 
 @Component({
@@ -135,6 +166,9 @@ export class ReceiverSignalComponent {
 
   constructor(private dataService: DataSignalService) {
     this.data = this.dataService.getData();
+    // effect(() => {
+    //   this.data()
+    // })
   }
 }
 ```

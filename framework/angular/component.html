@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>&#x7ec4;&#x4ef6;</title>
-        <style>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x7ec4;&#x4ef6;</title>
+            <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -11,12 +11,14 @@
  *--------------------------------------------------------------------------------------------*/
 
 .vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
 	display: none;
 }
 
 </style>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
@@ -38,10 +40,106 @@
     pointer-events: none;
 }
 </style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
         
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="组件">组件</h1>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="组件">组件</h1>
 <ul>
 <li>ng 是基于组件的框架</li>
 <li>组件是 ng 应用的单元块。无组件无法创建 ng 应用。</li>
@@ -56,30 +154,27 @@ ng generate component home # 不需要使用app开头。
 </code></pre>
 <h2 id="demo">demo</h2>
 <h3 id="定义一个最小的组件">定义一个最小的组件</h3>
-<pre><code class="language-js"><span class="hljs-keyword">import</span> {<span class="hljs-title class_">Component</span>} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/core&#x27;</span>
+<pre><code class="language-js"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Component</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/core&#x27;</span>
 @<span class="hljs-title class_">Component</span>({
-    <span class="hljs-attr">selector</span>: <span class="hljs-string">&#x27;app-hello-world&#x27;</span>,
-    <span class="hljs-attr">template</span>: <span class="hljs-string">`&lt;h2&gt;title&lt;/h2&gt;
-    &lt;p&gt;string&lt;/p&gt;`</span>
+  <span class="hljs-attr">selector</span>: <span class="hljs-string">&#x27;app-hello-world&#x27;</span>,
+  <span class="hljs-attr">template</span>: <span class="hljs-string">`&lt;h2&gt;title&lt;/h2&gt;
+    &lt;p&gt;string&lt;/p&gt;`</span>,
 })
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HelloWorldComponent</span> {
-    <span class="hljs-comment">// ...</span>
+  <span class="hljs-comment">// ...</span>
 }
 </code></pre>
 <h3 id="usage">usage</h3>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">app-hello-world</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">app-hello-world</span>&gt;</span>
 </code></pre>
-<h3 id="angular的渲染结果">angular的渲染结果</h3>
+<h3 id="angular-的渲染结果">angular 的渲染结果</h3>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">app-hello-world</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>title<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>string<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>title<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>string<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">app-hello-world</span>&gt;</span>
 </code></pre>
 <h2 id="属性事件">属性&amp;事件</h2>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">button</span>
-  <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;button&quot;</span>
-  [<span class="hljs-attr">disabled</span>]=<span class="hljs-string">&quot;canClick&quot;</span>
-  (<span class="hljs-attr">click</span>)=<span class="hljs-string">&quot;sayMessage()&quot;</span>&gt;</span>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;button&quot;</span> [<span class="hljs-attr">disabled</span>]=<span class="hljs-string">&quot;canClick&quot;</span> (<span class="hljs-attr">click</span>)=<span class="hljs-string">&quot;sayMessage()&quot;</span>&gt;</span>
   Trigger alert message
 <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
 </code></pre>
@@ -222,8 +317,21 @@ ng generate component home # 不需要使用app开头。
     <span class="hljs-comment">// ...</span>
 }
 </code></pre>
+<h3 id="在父组件调用子组件的方法">在父组件调用子组件的方法</h3>
+<pre><code class="language-ts"><span class="hljs-comment">// 父组件</span>
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { <span class="hljs-title class_">ChildComp</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./childComp.component&#x27;</span>
+...
+#<span class="hljs-title class_">ViewChild</span>(<span class="hljs-string">&#x27;child&#x27;</span>) <span class="hljs-attr">child</span>: <span class="hljs-title class_">ChildComp</span> <span class="hljs-comment">// 把具有child属性的元素赋值给child变量</span>
+<span class="hljs-title function_">ngOnInit</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">child</span>.<span class="hljs-title function_">fn</span>(<span class="hljs-string">&#x27;xxx&#x27;</span>)
+}
+
+&lt;app-child #child&gt;&lt;/app-child&gt;
+
+<span class="hljs-comment">// 子组件</span>
+</code></pre>
 <h2 id="生命周期">生命周期</h2>
-<p>每一个接口有一个生命周期方法。若要使用多个生命周期方法，则实例多个接口。</p>
+<p>每一个接口有一个生命周期方法。若要使用多个生命周期方法，则实现多个接口。</p>
 <!-- prettier-ignore-start -->
 <table>
 <thead>
@@ -390,7 +498,7 @@ onEvent($event) { if ($event.target.classList.includes(&#x27;class-name&#x27;)) 
 <li>TemplateRef</li>
 </ul>
 
-        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
-        
-    </body>
-    </html>
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>
