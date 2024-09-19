@@ -11,7 +11,9 @@
  *--------------------------------------------------------------------------------------------*/
 
 .vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
 	display: none;
 }
 
@@ -344,6 +346,19 @@
     })
   ]
 })
+</code></pre>
+<h2 id="从url取数据">从url取数据</h2>
+<pre><code class="language-ts"><span class="hljs-keyword">import</span> {<span class="hljs-title class_">ActivatedRoute</span>} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/router&#x27;</span>
+...
+<span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> activatedRoute: ActivatedRoute</span>) {
+
+}
+<span class="hljs-title function_">ngOnInit</span>(): <span class="hljs-built_in">void</span> {
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">activatedRoute</span>.<span class="hljs-property">queryParams</span>.<span class="hljs-title function_">subscribe</span>(<span class="hljs-function"><span class="hljs-params">param</span> =&gt;</span> {
+    <span class="hljs-comment">// params.id</span>
+  })
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">activatedRoute</span>.<span class="hljs-property">snapshot</span>.<span class="hljs-property">queryParams</span>
+}
 </code></pre>
 <h2 id="configuration">configuration</h2>
 <p>默认配置文件：<code>path/to/file.json</code>。</p>

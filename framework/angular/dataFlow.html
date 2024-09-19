@@ -228,19 +228,19 @@
 <h3 id="signal">signal</h3>
 <p>是一个值的包装器。可以在该值变化时通知相关消费者。可以包含任何值。</p>
 <pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-attr">count</span>: <span class="hljs-title class_">WritableSignal</span>&lt;N&gt; = <span class="hljs-title function_">signal</span>(<span class="hljs-number">0</span>)
-<span class="hljs-keyword">let</span> <span class="hljs-attr">doubleCount</span>: <span class="hljs-title class_">Signal</span>&lt;N&gt; = <span class="hljs-title function_">computed</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">count</span>() * <span class="hljs-number">2</span>)
+<span class="hljs-keyword">let</span> <span class="hljs-attr">doubleCount</span>: <span class="hljs-title class_">Signal</span>&lt;N&gt; = <span class="hljs-title function_">computed</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">count</span>() * <span class="hljs-number">2</span>) <span class="hljs-comment">// 计算信号不可写</span>
 </code></pre>
 <p>doubleCount 信号取决于 count。每当 count 更新时，Angular 知道任何依赖于 count 或 doubleCount 东西也需要更新。
-计算信号的依赖性是动态的
+计算信号的依赖性是动态的。只有逻辑分支中使用到了信号才会触发副作用。
 副作用是一种操作，只要一个或多个信号值发生变化就会运行。你可以使用 effect 函数创建副作用</p>
 <ul>
 <li>记录正在显示的数据及其更改时间，用于分析或作为调试工具</li>
 <li>在数据与 window.localStorage 之间保持同步</li>
 <li>添加无法用模板语法表达的自定义 DOM 行为</li>
 <li>对 <canvas>、图表库或其他第三方 UI 库执行自定义渲染</li>
-<li>需要一个注入上下文。在组件、指令、服务的constructor中调用effect。或者赋给一个变量。</li>
-<li>为effect的设置injector选项可以在constructor外创建副作用。</li>
-<li>调用副作用返回的EffectRef.destroy()可以手动销毁它。</li>
+<li>需要一个注入上下文。在组件、指令、服务的 constructor 中调用 effect。或者赋给一个变量。</li>
+<li>为 effect 的设置 injector 选项可以在 constructor 外创建副作用。</li>
+<li>调用副作用返回的 EffectRef.destroy()可以手动销毁它。</li>
 <li>当副作用的上下文被销毁时它会自动销毁。即当组件、指令、服务被销毁时副作用也会被销毁。</li>
 </ul>
 <pre><code class="language-js"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Injectable</span>, signal } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/core&#x27;</span>;
@@ -298,6 +298,32 @@
     <span class="hljs-comment">// })</span>
   }
 }
+</code></pre>
+<h4 id="共享信号">共享信号</h4>
+<pre><code class="language-ts"><span class="hljs-comment">// utils</span>
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Injectable</span>, signal, <span class="hljs-title class_">Inject</span>, } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/core&#x27;</span>;
+<span class="hljs-comment">// type</span>
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { <span class="hljs-title class_">WritableSignal</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/core&#x27;</span>;
+<span class="hljs-keyword">type</span> a = <span class="hljs-built_in">any</span>
+
+<span class="hljs-comment">// @Injectable({</span>
+<span class="hljs-comment">//   providedIn: &#x27;root&#x27;</span>
+<span class="hljs-comment">// })</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ShareSignal</span>&lt;T&gt; {
+  <span class="hljs-keyword">private</span> <span class="hljs-attr">data</span>: <span class="hljs-title class_">WritableSignal</span>&lt;T&gt;
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">
+    <span class="hljs-comment">// @Inject(Object) </span>
+  initValue: T</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span> = signal&lt;T&gt;(initValue)
+  }
+  <span class="hljs-title function_">set</span>(<span class="hljs-params">value: T</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span>.<span class="hljs-title function_">set</span>(value)
+  }
+  <span class="hljs-title function_">get</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">data</span>()
+  }
+}
+
 </code></pre>
 <h2 id="状态管理工具">状态管理工具</h2>
 <ul>

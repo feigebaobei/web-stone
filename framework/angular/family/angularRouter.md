@@ -196,6 +196,22 @@ const routes: Routes = [
 })
 ```
 
+## 从 url 取数据
+
+```ts
+import {ActivatedRoute} from '@angular/router'
+...
+constructor(private activatedRoute: ActivatedRoute) {
+
+}
+ngOnInit(): void {
+  this.activatedRoute.queryParams.subscribe(param => {
+    // params.id
+  })
+  this.activatedRoute.snapshot.queryParams
+}
+```
+
 ## configuration
 
 默认配置文件：`path/to/file.json`。
