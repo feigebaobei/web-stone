@@ -370,7 +370,7 @@ promise 的参数是一个接收`resolve`/`reject`方法的方法。
 ### promise 的属性
 
 ```js
-Promise#then((reslt) => {})
+Promise#then((reslt) => {}) // then的第二个方法，无法接收第一个方法抛出的错误。catch可以。
 Promise#catch((error) => {})
 Promise#finally(() => {})    // 返回Promise<undefined>。它是promise对象，且解析为fulfilled状态。解析后的值是undefined。即使写了返回值也会解析为undefined。
 Promise.all(arrP)    // 这种写法的都是静态属性。若arrP都是fulfilled状态则执行then方法，参数是一个数组。若arrP中有一个rejected状态则立即执行catch，参数是一个值。

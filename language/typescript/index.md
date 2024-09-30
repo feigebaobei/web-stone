@@ -567,6 +567,10 @@ tuple
 type A = [string, number, ...boolean[]]
 type B = [string, ...boolean[], number]
 type C = [...boolean[], number, string]
+interface D extends Array<S | B> {
+  0: S
+  1: B
+}
 ```
 
 ### [泛型](/language/typescript/genericType.html)

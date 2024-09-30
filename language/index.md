@@ -4,6 +4,7 @@
 - [xml](/language/xml/index.html)
 - [css](/language/css/index.html)
 - [javascript](/language/javascript/index.html)
+- [json](/language/json/index.html)
 - [node](/language/node/index.html)
 - [typescript](/language/typescript/index.html)
 - [flow](/language/flow/index.html)

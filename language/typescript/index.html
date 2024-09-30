@@ -984,18 +984,18 @@ ts 的类型可以用于防御式编程</p>
 <tbody>
 <tr>
 <td></td>
-<td>使用public/protected/private控制可访问性</td>
-<td>使用writable控制可写性。</td>
+<td>使用 public/protected/private 控制可访问性</td>
+<td>使用 writable 控制可写性。</td>
 </tr>
 <tr>
 <td></td>
 <td></td>
-<td>使用enumerable控制可枚举性。</td>
+<td>使用 enumerable 控制可枚举性。</td>
 </tr>
 <tr>
 <td></td>
 <td></td>
-<td>使用configurable控制可配置性。</td>
+<td>使用 configurable 控制可配置性。</td>
 </tr>
 <tr>
 <td></td>
@@ -1120,6 +1120,10 @@ function f(o: O) {...}
 <pre><code class="language-ts"><span class="hljs-keyword">type</span> A = [<span class="hljs-built_in">string</span>, <span class="hljs-built_in">number</span>, ...<span class="hljs-built_in">boolean</span>[]]
 <span class="hljs-keyword">type</span> B = [<span class="hljs-built_in">string</span>, ...<span class="hljs-built_in">boolean</span>[], <span class="hljs-built_in">number</span>]
 <span class="hljs-keyword">type</span> C = [...<span class="hljs-built_in">boolean</span>[], <span class="hljs-built_in">number</span>, <span class="hljs-built_in">string</span>]
+<span class="hljs-keyword">interface</span> D <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Array</span>&lt;S | B&gt; {
+  <span class="hljs-number">0</span>: S
+  <span class="hljs-number">1</span>: B
+}
 </code></pre>
 <h3 id="泛型-1"><a href="/language/typescript/genericType.html">泛型</a></h3>
 <h3 id="从类型创建类型">从类型创建类型</h3>
