@@ -351,7 +351,7 @@ script 可理解为外层代码触发
 
 - setTimeout
 - setInterval
-- postMessage
+- [postMessage](/language/javascript/postMessage.html)
 - MessageChannel
 - setImmediate (node 环境)
 

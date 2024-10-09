@@ -2,7 +2,7 @@
         <html>
         <head>
             <meta charset="UTF-8">
-            <title>&#x8bfb;&#x4e66;&#x7b14;&#x8bb0;</title>
+            <title>postMessage</title>
             <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -138,27 +138,37 @@
         
         </head>
         <body class="vscode-body vscode-light">
-            <h1 id="读书笔记">读书笔记</h1>
+            <h1 id="postmessage">postMessage</h1>
+<blockquote>
+<p>html5引入的api.
+允许不同源脚本采用异步方式通信。
+可以跨文档、窗口、跨域。
+window.postMessage()</p>
+</blockquote>
+<h2 id="api">api</h2>
+<p><code>window.postMessage(message, targetOrigin, [transfer: boolean])</code>
+message:        要发送到其它窗口的数据。被结构克隆算法序列化。
+targetOrigin:   指定哪些窗口可接收消息。
+*  任意窗口
+/  同源窗口
+transfer        是否转移数据的所有权</p>
+<pre><code class="language-js"><span class="hljs-variable language_">window</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;message&#x27;</span>, receiveMessage, <span class="hljs-literal">false</span>)
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">receiveMessage</span>(<span class="hljs-params">event</span>) {
+    <span class="hljs-keyword">let</span> origin = event.<span class="hljs-property">origin</span>
+    ....
+    <span class="hljs-comment">// event: {</span>
+    <span class="hljs-comment">//     data: 发送来的数据</span>
+    <span class="hljs-comment">//     type: 消息的类型</span>
+    <span class="hljs-comment">//     source: 发消息的窗口对象</span>
+    <span class="hljs-comment">//     origin: 发消息的窗口的源</span>
+    <span class="hljs-comment">// }</span>
+}
+</code></pre>
+<h2 id="用例">用例</h2>
 <ul>
-<li><a href="/books/highPerformanceWeb.html">《高性能网站》</a></li>
-<li><a href="/books/youDontKnowJs.html">《你不知道的 js》</a></li>
-<li><a href="/books/javascript-partterns.html">《js 设计模式》</a>与我整理的设计模式不同</li>
-<li><a href="/books/codeComplete/index.html">《代码大全 code complete》</a></li>
-<li><a href="/books/title.html">java 编程思想</a></li>
-<li><a href="/books/lcEbook.html">《低代码引擎技术白皮书》</a></li>
-<li><a href="/books/bff.html">《pattern: backends for frontend》</a></li>
-<li><a href="/books/logic.html">《logic》</a></li>
-<li><a href="/books/title.html">《盐铁论》</a></li>
-<li><a href="/books/title.html">《高王观世音经》</a></li>
-<li><a href="/books/title.html">《法华经》</a></li>
-<li><a href="/books/zhixue.html">《止学》</a></li>
-<li><a href="/books/huangdiyinfujing.html">黄帝阴符经</a></li>
-<li><a href="https://book.bfnn.org/books/0016.htm">《地藏菩萨本愿经》</a></li>
-<li><a href="https://www.drbachinese.org/online_reading/sutra_explanation/SixthPat/sixthpatSutra.htm">《六祖坛经》</a></li>
-<li><a href="/books/title.html">《title》</a></li>
-<li><a href="/books/title.html">《title》</a></li>
-<li><a href="/books/title.html">《title》</a></li>
-<li><a href="/books/title.html">《title》</a></li>
+<li>跨域请求数据</li>
+<li>webWorker</li>
+<li>serviceWorker</li>
 </ul>
 
             
