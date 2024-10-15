@@ -140,7 +140,7 @@
         </head>
         <body class="vscode-body vscode-light">
             <h1 id="插件">插件</h1>
-<p>特指vscode的插件。</p>
+<p>特指 vscode 的插件。</p>
 <h1 id="初始化项目">初始化项目</h1>
 <pre><code class="language-shell">npm i -g yo generator-code # 为什么都使用它们init项目呢
 <span class="hljs-meta prompt_"># </span><span class="language-bash">因它是ms官方的脚手架。</span>
@@ -177,34 +177,34 @@ yo code
             <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;object&quot;</span>,
             <span class="hljs-string">&quot;title&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
             <span class="hljs-string">&quot;title&quot;</span>: {
-                <span class="hljs-comment">// </span>
-                <span class="hljs-string">&quot;vscodePluginDemo.yourName&quot;</span>: {
-                    <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
-                    <span class="hljs-string">&quot;default&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
-                    <span class="hljs-string">&quot;description&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
-                },
-                <span class="hljs-comment">// 启动时的提示</span>
-                <span class="hljs-string">&quot;vscodePluginDemo.showTip&quot;</span>: {
-                    <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
-                    <span class="hljs-string">&quot;default&quot;</span>: <span class="hljs-literal">true</span>,
-                    <span class="hljs-string">&quot;description&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
-                },
+				<span class="hljs-comment">//</span>
+				<span class="hljs-string">&quot;vscodePluginDemo.yourName&quot;</span>: {
+					<span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+					<span class="hljs-string">&quot;default&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+					<span class="hljs-string">&quot;description&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+				},
+				<span class="hljs-comment">// 启动时的提示</span>
+				<span class="hljs-string">&quot;vscodePluginDemo.showTip&quot;</span>: {
+					<span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+					<span class="hljs-string">&quot;default&quot;</span>: <span class="hljs-literal">true</span>,
+					<span class="hljs-string">&quot;description&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+				},
             },
         },
         <span class="hljs-comment">// 命令</span>
         <span class="hljs-string">&quot;commands&quot;</span>: [
             {
-                <span class="hljs-string">&quot;command&quot;</span>: <span class="hljs-string">&quot;extension.sayHello&quot;</span>,
-                <span class="hljs-string">&quot;title&quot;</span>: <span class="hljs-string">&quot;hello world&quot;</span>
+				<span class="hljs-string">&quot;command&quot;</span>: <span class="hljs-string">&quot;extension.sayHello&quot;</span>,
+				<span class="hljs-string">&quot;title&quot;</span>: <span class="hljs-string">&quot;hello world&quot;</span>
             }
         ],
         <span class="hljs-comment">// 绑定快捷键</span>
         <span class="hljs-string">&quot;commands&quot;</span>: [
             {
-                <span class="hljs-string">&quot;command&quot;</span>: <span class="hljs-string">&quot;extension.sayHello&quot;</span>,
-                <span class="hljs-string">&quot;key&quot;</span>: <span class="hljs-string">&quot;ctrl+f10&quot;</span>,
-                <span class="hljs-string">&quot;mac&quot;</span>: <span class="hljs-string">&quot;cmd+f10&quot;</span>,
-                <span class="hljs-string">&quot;when&quot;</span>: <span class="hljs-string">&quot;editorTextFocus&quot;</span>,
+				<span class="hljs-string">&quot;command&quot;</span>: <span class="hljs-string">&quot;extension.sayHello&quot;</span>,
+				<span class="hljs-string">&quot;key&quot;</span>: <span class="hljs-string">&quot;ctrl+f10&quot;</span>,
+				<span class="hljs-string">&quot;mac&quot;</span>: <span class="hljs-string">&quot;cmd+f10&quot;</span>,
+				<span class="hljs-string">&quot;when&quot;</span>: <span class="hljs-string">&quot;editorTextFocus&quot;</span>,
             }
         ],
         <span class="hljs-comment">// 菜单</span>
@@ -307,16 +307,19 @@ yo code
 <pre><code class="language-js"><span class="hljs-comment">// src/extension.ts</span>
 <span class="hljs-keyword">const</span> vscode = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;vscode&#x27;</span>)
 <span class="hljs-comment">// 插件被激活时触发，所有代码总入口。</span>
-<span class="hljs-built_in">exports</span>.<span class="hljs-property">activate</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params">context</span>) {
-    <span class="hljs-comment">// 注册命令 与package.json中的contributs.commands中的相呼应</span>
-    context.<span class="hljs-property">subscriptions</span>.<span class="hljs-title function_">push</span>(vscode.<span class="hljs-property">commands</span>.<span class="hljs-title function_">registerCommand</span>(<span class="hljs-string">&#x27;extension.sayHello&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
-        vscode.<span class="hljs-property">window</span>.<span class="hljs-title function_">showInformationMessage</span>(<span class="hljs-string">&#x27;hello world&#x27;</span>)
-    }))
+<span class="hljs-built_in">exports</span>.<span class="hljs-property">activate</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params">context</span>) {
+  <span class="hljs-comment">// 注册命令 与package.json中的contributs.commands中的相呼应</span>
+  context.<span class="hljs-property">subscriptions</span>.<span class="hljs-title function_">push</span>(
+    vscode.<span class="hljs-property">commands</span>.<span class="hljs-title function_">registerCommand</span>(<span class="hljs-string">&#x27;extension.sayHello&#x27;</span>, <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+      vscode.<span class="hljs-property">window</span>.<span class="hljs-title function_">showInformationMessage</span>(<span class="hljs-string">&#x27;hello world&#x27;</span>)
+    })
+  )
 }
 <span class="hljs-comment">// 插件被释放时触发</span>
 <span class="hljs-built_in">exports</span>.<span class="hljs-property">deactivate</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {}
 </code></pre>
 <h1 id="字段说明">字段说明</h1>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -339,13 +342,13 @@ yo code
 <td></td>
 <td>onLanguage:${language}</td>
 <td></td>
-<td>onLanguage:javascript，只要打开js类型的文件就激活该插件</td>
+<td>onLanguage:javascript，只要打开 js 类型的文件就激活该插件</td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td>onCommand:${command}</td>
-<td>使用onCommand注册激活事件</td>
+<td>使用 onCommand 注册激活事件</td>
 <td><code>[]</code></td>
 <td></td>
 </tr>
@@ -387,13 +390,13 @@ yo code
 <tr>
 <td></td>
 <td>*</td>
-<td>一启动vscode就激活</td>
+<td>一启动 vscode 就激活</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td>contributes</td>
-<td>可以配置扩展vscode各种能力</td>
+<td>可以配置扩展 vscode 各种能力</td>
 <td></td>
 <td></td>
 <td></td>
@@ -408,7 +411,7 @@ yo code
 <tr>
 <td></td>
 <td>command</td>
-<td>中的command需要在extension.ts中注册</td>
+<td>中的 command 需要在 extension.ts 中注册</td>
 <td></td>
 <td></td>
 </tr>
@@ -471,7 +474,7 @@ yo code
 <tr>
 <td></td>
 <td>jsonValidation</td>
-<td>自定义json校验</td>
+<td>自定义 json 校验</td>
 <td></td>
 <td></td>
 </tr>
@@ -485,7 +488,7 @@ yo code
 <tr>
 <td></td>
 <td>viewsContainers</td>
-<td>自定义activitybar</td>
+<td>自定义 activitybar</td>
 <td></td>
 <td></td>
 </tr>
@@ -547,18 +550,18 @@ yo code
 </tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
 <h1 id="调试">调试</h1>
 <p><code>F5</code></p>
 <pre><code class="language-js"><span class="hljs-comment">// .vscode/launch.json</span>
-
 </code></pre>
 <h2 id="重新加载">重新加载</h2>
 <ul>
-<li>先停止，再按F5,</li>
+<li>先停止，再按 F5,</li>
 <li>ctrl+R</li>
 </ul>
 <h1 id="开发语言">开发语言</h1>
-<p>推荐ts，可以使用js.</p>
+<p>推荐 ts，可以使用 js.</p>
 <h1 id="title">title</h1>
 <h1 id="title-1">title</h1>
 <h1 id="title-2">title</h1>
