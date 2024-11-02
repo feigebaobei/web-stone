@@ -2,7 +2,7 @@
 
 - [写一个干净的代码](/code/codeRule.html)
 - [ascii](/code/ascii.html)
-- [base64]()
+- [base64](/code/base64.html)
 - [base32]()
 - [base16]()
 - [encodeURI/decodeURI/encodeURIComponent/decodeURIComponent](/code/encode&decode.html)

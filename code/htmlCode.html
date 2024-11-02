@@ -2,7 +2,7 @@
         <html>
         <head>
             <meta charset="UTF-8">
-            <title></title>
+            <title>&#x7f16;&#x7801;vs&#x8f6c;&#x4e49;</title>
             <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -18,7 +18,8 @@
 }
 
 </style>
-            
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -138,48 +139,31 @@
         
         </head>
         <body class="vscode-body vscode-light">
-            <table>
+            <h1 id="编码vs转义">编码vs转义</h1>
+<table>
 <thead>
 <tr>
 <th></th>
-<th></th>
-<th></th>
+<th>编码</th>
+<th>转义</th>
 <th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>{</code></td>
-<td>{</td>
+<td>包含内容</td>
+<td>URL编码和Base64编码</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td><code>}</code></td>
-<td>}</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
+<td>英文</td>
+<td>encode / decode</td>
+<td>escapse / unescape</td>
 <td></td>
 </tr>
 <tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
+<td>逻辑</td>
 <td></td>
 <td></td>
 <td></td>
@@ -198,8 +182,57 @@
 </tr>
 </tbody>
 </table>
+<h2 id="url编码">url编码</h2>
+<p>防止不的操作系统、不同浏览器、不的网页字符集等对url处理结果影响。所以由js处理url编码。
+<a href="http://www.ruanyifeng.com/blog/2010/02/url_encoding.html">http://www.ruanyifeng.com/blog/2010/02/url_encoding.html</a></p>
+<h2 id="base64编码">base64编码</h2>
+<p>分为实体名称、实体编号。都是以<code>&amp;</code>开头，以<code>;</code>结尾。</p>
+<p>显示结果	实体名称	实体编号
+ 	 
+!	!	!
+&quot;	&quot;	&quot;</p>
+<h1 id="">#	#</h1>
+<p>$	$	$
+%	%	%·
+&amp;	&amp;	&amp;
+'	'	'
+(	(	(
+)	)	)</p>
+<ul>
+<li>*	*</li>
+</ul>
+<ul>
+<li>+	+
+,	,	,</li>
+</ul>
+<ul>
+<li>‐	-
+.	.	.
+/	/	/
+:	:	:
+;	;	;
+&lt;	&lt;	&lt;
+=	=	=</li>
+</ul>
+<blockquote>
+<p>&gt;	&gt;
+?	?	?
+@	@	@
+[	[	[
+\	\	\
+]	]	]
+^	ˆ	^
+_	_	_
+`	`	`
+{	{	{
+|	|	|
+}	}	}
+~	˜	~</p>
+</blockquote>
+<p>特殊符号命名实体十进制编码特殊符号命名实体十进制编码   ! !&quot;&quot;&quot;# #$ $% %&amp;&amp;&amp;' '( () )* *+ +, ,- -. ./ /0 01 12 23 34 45 56 67 78 89 9: :; ;&lt;&lt;&lt;= =&gt;&gt;&gt;? ?@ @A AB BC CD DE EF FG GH HI IJ JK KL LM MN NO OP PQ QR RS ST TU UV VW WX XY YZ Z[ [\ \] ]^ ^_ _` `a ab bc cd de ef fg gh hi ij jk kl lm mn no op pq qr rs st tu uv vw wx xy yz z{ {| |} }~ ~ �€ �� �‚ �ƒ �„ �… �† �‡ �ˆ �‰ �Š �‹ �Œ �� �� �� �� �‘ �’ �“ �” �• �– �— �˜ �™ �š �› �œ �� �� �Ÿ �   ¡¡¡¢¢¢£££¤¤¤¥¥¥¦¦¦§§§¨¨¨©©©ªªª«««¬¬¬ ­­®®®¯¯¯°°°±±±²²²³³³´´´µµµ¶¶¶···¸¸¸¹¹¹ººº»»»¼¼¼½½½¾¾¾¿¿¿ÀÀÀÁÁÁÂÂÂÃÃÃÄÄÄÅÅÅÆÆÆÇÇÇÈÈÈÉÉÉÊÊÊËËËÌÌÌÍÍÍÎÎÎÏÏÏÐÐÐÑÑÑÒÒÒÓÓÓÔÔÔÕÕÕÖÖÖ×××ØØØÙÙÙÚÚÚÛÛÛÜÜÜÝÝÝÞÞÞßßßàààáááâââãããäääåååæææçççèèèéééêêêëëëìììíííîîîïïïðððñññòòòóóóôôôõõõööö÷÷÷øøøùùùúúúûûûüüüýýýþþþÿÿÿŒŒŒœœœŠŠŠšššŸŸŸƒƒƒˆˆˆ˜˜˜ΑΑΑΒΒΒΓΓΓΔΔΔΕΕΕΖΖΖΗΗΗΘΘΘΙΙΙΚΚΚΛΛΛΜΜΜΝΝΝΞΞΞΟΟΟΠΠΠΡΡΡΣΣΣΤΤΤΥΥΥΦΦΦΧΧΧΨΨΨΩΩΩαααβββγγγδδδεεεζζζηηηθθθιιικκκλλλμμμνννξξξοοοπππρρρςςςσσστττυυυφφφχχχψψψωωωϑϑϑϒϒϒϖϖϖ         ‌‌‌‍‍‍‎‎‎‏‏‏–––———‘‘‘’’’‚‚‚“““”””„„„†††‡‡‡•••………‰‰‰′′′″″″‹‹‹›››‾‾‾⁄⁄⁄€ €₱ ₱₹ ₹℃ ℃℅ ℅℉ ℉ℑℑℑ№ №℗ ℗℘℘℘ℜℜℜ℞ ℞℗ ℗™™™ℵℵℵ⅓ ⅓⅔ ⅔⅛ ⅛⅜ ⅜⅝ ⅝←←←↑↑↑→→→↓↓↓↔↔↔↕ ↕↚ ↚↛ ↛↞ ↞↟ ↟↠ ↠↡ ↡↢ ↢↣ ↣↫ ↫   ↬ ↬↭ ↭↮ ↮↯ ↯↵↵↵⇄ ⇄↶ ↶↷ ↷↺ ↺↻ ↻⇅ ⇅⇐⇐⇐⇑⇑⇑⇒⇒⇒⇓⇓⇓⇔⇔⇔⇜ ⇜⇝ ⇝⇞ ⇞⇟ ⇟⇠ ⇠⇡ ⇡⇢ ⇢⇣ ⇣⇦ ⇦⇧ ⇧⇨ ⇨⇩ ⇩⇵ ⇵   ∀∀∀∂∂∂∃∃∃∅∅∅∇∇∇∈∈∈∉∉∉∋∋∋∏∏∏∑∑−−−−∗∗∗√√√∝∝∝∞∞∞∠∠∠∼ ∼≠ ≠∧∧⊥∨∨⊦∩∩∩∪∪∪∫∫∫∴∴∴∼∼∼≅≅≅≈≈≅≠≠≠≡≡≡≤≤≤≥≥≥⊂⊂⊂⊃⊃⊃⊄⊄⊄⊆⊆⊆⊇⊇⊇⊕⊕⊕⊗⊗⊗⊥⊥⊥⋅⋅⋅⌈⌈⌈⌉⌉⌉⌊⌊⌊⌋⌋⌋◊◊◊♠♠♠♣♣♣♥♥♥
+特殊符号命名实体十进制编码特殊符号命名实体十进制编码▣ ▣▲ ▲► ►▼ ▼◄ ◄◆ ◆◈ ◈◦ ◦☀ ☀☁ ☁☂ ☂☃ ☃☄ ☄★ ★☆ ☆☎ ☎☏ ☏☐ ☐☑ ☑☒ ☒☜ ☜☝ ☝☞ ☞☟ ☟☠ ☠☢ ☢☣ ☣☤ ☤☥ ☥☨ ☨☩ ☩☪ ☪☮ ☮☯ ☯☸ ☸☹ ☹☺ ☺☻ ☻☽ ☽☾ ☾☿ ☿♀ ♀♁ ♁♂ ♂♃ ♃♄ ♄♅ ♅♆ ♆♇ ♇&amp;#; &amp;#;♈ ♈♉ ♉♊ ♊♋ ♋♌ ♌♍ ♍♎ ♎♏ ♏♑ ♑♒ ♒♓ ♓♔ ♔♕ ♕♖ ♖♗ ♗♘ ♘♙ ♙♚ ♚♛ ♛♜ ♜♝ ♝♞ ♞♟ ♟♡ ♡♢ ♢♤ ♤♦ ♦♧ ♧♩ ♩♪ ♪♫ ♫♬ ♬♭ ♭♯ ♯⚠ ⚠✂ ✂✄ ✄✆ ✆✈ ✈✉ ✉✌ ✌✍ ✍✎ ✎✏ ✏✐ ✐✑ ✑✒ ✒✓ ✓✔ ✔✕ ✕✖ ✖✗ ✗✘ ✘✙ ✙✚ ✚✛ ✛✝ ✝✞ ✞✟ ✟✠ ✠✡ ✡✢ ✢✣ ✣✤ ✤✣ ✣✤ ✤✥ ✥✦ ✦✪ ✪✭ ✭✮ ✮✯ ✯✱ ✱✲ ✲✳ ✳✴ ✴✵ ✵✶ ✶✸ ✸✹ ✹✺ ✺✻ ✻✽ ✽✿ ✿❀ ❀❁ ❁❂ ❂❄ ❄❅ ❅❆ ❆❈ ❈❋ ❋❤ ❤❦ ❦➔ ➔➙ ➙➜ ➜➞ ➞➟ ➟➠ ➠➤ ➤➥ ➥➦ ➦➧ ➧➨ ➨➲ ➲➳ ➳➵ ➵➸ ➸➺ ➺➼ ➼➽ ➽➾ ➾⟰ ⟰⟱ ⟱⟲ ⟲⟳ ⟳</p>
 
-            
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
             
         </body>
         </html>
