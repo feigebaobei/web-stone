@@ -616,6 +616,27 @@ let sleep = (n: N = 0) => {
     setTimeout(() => {s(true)}, n)
   })
 }
+let getQs = (url = window.location.href) => {
+  let i = url.indexOf('?')
+  let s = url.slice(i + 1)
+  if (s.length) {
+    let arr = s.split('&')
+    let obj = {}
+    arr.forEach(item => {
+      let [k, v] = item.split('=')
+      if (obj.hasOwnProperty(k)) {
+        if (Array.isArray(obj[k])) {
+          obj[k].push(v)
+        } else {
+          obj[k] = [obj[k], v]
+        }
+      } else {
+        obj[k] = v
+      }
+    })
+    return obj
+  }
+}
 
 interface LoopPropotype {
   launch: (...p: A[]) => Promise<A>

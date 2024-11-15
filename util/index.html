@@ -755,6 +755,27 @@
     <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {<span class="hljs-title function_">s</span>(<span class="hljs-literal">true</span>)}, n)
   })
 }
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">getQs</span> = (<span class="hljs-params">url = <span class="hljs-variable language_">window</span>.location.href</span>) =&gt; {
+  <span class="hljs-keyword">let</span> i = url.<span class="hljs-title function_">indexOf</span>(<span class="hljs-string">&#x27;?&#x27;</span>)
+  <span class="hljs-keyword">let</span> s = url.<span class="hljs-title function_">slice</span>(i + <span class="hljs-number">1</span>)
+  <span class="hljs-keyword">if</span> (s.<span class="hljs-property">length</span>) {
+    <span class="hljs-keyword">let</span> arr = s.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;&amp;&#x27;</span>)
+    <span class="hljs-keyword">let</span> obj = {}
+    arr.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> {
+      <span class="hljs-keyword">let</span> [k, v] = item.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;=&#x27;</span>)
+      <span class="hljs-keyword">if</span> (obj.<span class="hljs-title function_">hasOwnProperty</span>(k)) {
+        <span class="hljs-keyword">if</span> (<span class="hljs-title class_">Array</span>.<span class="hljs-title function_">isArray</span>(obj[k])) {
+          obj[k].<span class="hljs-title function_">push</span>(v)
+        } <span class="hljs-keyword">else</span> {
+          obj[k] = [obj[k], v]
+        }
+      } <span class="hljs-keyword">else</span> {
+        obj[k] = v
+      }
+    })
+    <span class="hljs-keyword">return</span> obj
+  }
+}
 
 interface <span class="hljs-title class_">LoopPropotype</span> {
   <span class="hljs-attr">launch</span>: <span class="hljs-function">(<span class="hljs-params">...p: A[]</span>) =&gt;</span> <span class="hljs-title class_">Promise</span>&lt;A&gt;

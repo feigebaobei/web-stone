@@ -39,7 +39,7 @@ var joinStr = d.join('ok'); // "1ok2ok3ok4"
 
     var newd = d.pop(); // 4
 
-**push()** 在数组的末尾添加新元素并返回数组的新长度
+**push(p: ele | ele[])** 在数组的末尾添加新元素并返回数组的新长度
 
     newd.push('a'); // 5
 
