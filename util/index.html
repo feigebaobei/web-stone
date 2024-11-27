@@ -776,6 +776,68 @@
     <span class="hljs-keyword">return</span> obj
   }
 }
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">asyncMacroP</span> = (<span class="hljs-params">fn: F, timing: N = <span class="hljs-number">0</span>, ...p: A[]</span>) =&gt; {
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">s, j</span>) =&gt;</span> {
+    <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+      <span class="hljs-comment">// fn(...p)</span>
+      <span class="hljs-title function_">s</span>(p)
+    }, timing)
+  }).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">p: A</span>) =&gt;</span> {
+    <span class="hljs-title function_">fn</span>(...p)
+  })
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">asyncMicroP</span> = (<span class="hljs-params">fn: F, ...p: A[]</span>) =&gt; {
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">s</span>) =&gt;</span> {
+    <span class="hljs-title function_">s</span>(<span class="hljs-literal">true</span>)
+  }).<span class="hljs-title function_">then</span>(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-title function_">fn</span>(...p)
+  })
+}
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">PromiseControllable</span>&lt;T&gt; {
+    <span class="hljs-attr">resolve</span>: <span class="hljs-function">(<span class="hljs-params">value: T</span>) =&gt;</span> <span class="hljs-keyword">void</span>
+    <span class="hljs-attr">reject</span>: <span class="hljs-function">(<span class="hljs-params">value?: T</span>) =&gt;</span> <span class="hljs-keyword">void</span>
+    <span class="hljs-attr">promise</span>: <span class="hljs-title class_">Promise</span>&lt;T&gt;
+    <span class="hljs-title function_">constructor</span> () {
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">resolve</span> = <span class="hljs-function">() =&gt;</span> {}
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">reject</span> = <span class="hljs-function">() =&gt;</span> {}
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">promise</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">s, j</span>) =&gt;</span> {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">resolve</span> = s
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">reject</span> = j
+      })
+    }
+}
+<span class="hljs-keyword">let</span> o = {
+  <span class="hljs-attr">a</span>: {<span class="hljs-attr">b</span>: <span class="hljs-string">&#x27;s&#x27;</span>},
+  <span class="hljs-attr">b</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">c</span>: <span class="hljs-literal">false</span>,
+  <span class="hljs-attr">d</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>(),
+  <span class="hljs-attr">e</span>: <span class="hljs-regexp">/\d{3}/</span>,
+  <span class="hljs-attr">f</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {<span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;f&#x27;</span>},
+  <span class="hljs-attr">g</span>: <span class="hljs-literal">undefined</span>,
+  <span class="hljs-attr">h</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-attr">i</span>: <span class="hljs-number">1n</span>,
+  <span class="hljs-attr">j</span>: <span class="hljs-title class_">Symbol</span>(<span class="hljs-string">&#x27;a&#x27;</span>),
+}
+<span class="hljs-comment">// 待测试</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">serialize</span> = (<span class="hljs-params">p: object</span>) =&gt; {
+  <span class="hljs-keyword">let</span> str = <span class="hljs-string">&#x27;{&#x27;</span>
+  <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">from</span>(<span class="hljs-title class_">Object</span>.<span class="hljs-title function_">entries</span>(p)).<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">[k, v]</span>) =&gt;</span> {
+    <span class="hljs-keyword">switch</span> (<span class="hljs-keyword">typeof</span> v) {
+      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;object&#x27;</span>:
+        str += <span class="hljs-string">`&quot;<span class="hljs-subst">${k}</span>&quot;:<span class="hljs-subst">${serialize(v)}</span>,`</span>
+        <span class="hljs-keyword">break</span>;
+      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;number&#x27;</span>:
+      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;boolean&#x27;</span>:
+        str += <span class="hljs-string">`&quot;<span class="hljs-subst">${k}</span>&quot;:<span class="hljs-subst">${v}</span>,`</span>
+        <span class="hljs-keyword">break</span>;
+      <span class="hljs-attr">default</span>:
+        str += <span class="hljs-string">`&quot;<span class="hljs-subst">${k}</span>&quot;:&quot;<span class="hljs-subst">${v}</span>&quot;,`</span>
+        <span class="hljs-keyword">break</span>;
+    }
+  })
+  <span class="hljs-keyword">return</span> str.<span class="hljs-title function_">slice</span>(<span class="hljs-number">0</span>, -<span class="hljs-number">1</span>) + <span class="hljs-string">&#x27;}&#x27;</span>
+}
+
 
 interface <span class="hljs-title class_">LoopPropotype</span> {
   <span class="hljs-attr">launch</span>: <span class="hljs-function">(<span class="hljs-params">...p: A[]</span>) =&gt;</span> <span class="hljs-title class_">Promise</span>&lt;A&gt;
@@ -858,7 +920,7 @@ interface <span class="hljs-title class_">Options</span>&lt;T, G&gt; {
 <li><a href="/util/axios.html">axios 项目中使用工具方法</a></li>
 <li><a href="/util/statistics.html">统计学 statistics 常用的方法</a></li>
 <li><a href="/promote/visibleProgress.html">项目进度可视化工具</a></li>
-<li><a href="/util/title.html">title</a></li>
+<li><a href="/util/eventPivot.html">eventPivot</a></li>
 <li><a href="/util/title.html">title</a></li>
 <li><a href="/util/title.html">title</a></li>
 <li><a href="/util/title.html">title</a></li>

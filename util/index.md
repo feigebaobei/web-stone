@@ -637,6 +637,68 @@ let getQs = (url = window.location.href) => {
     return obj
   }
 }
+let asyncMacroP = (fn: F, timing: N = 0, ...p: A[]) => {
+  return new Promise((s, j) => {
+    setTimeout(() => {
+      // fn(...p)
+      s(p)
+    }, timing)
+  }).then((p: A) => {
+    fn(...p)
+  })
+}
+let asyncMicroP = (fn: F, ...p: A[]) => {
+  return new Promise((s) => {
+    s(true)
+  }).then(() => {
+    fn(...p)
+  })
+}
+class PromiseControllable<T> {
+    resolve: (value: T) => void
+    reject: (value?: T) => void
+    promise: Promise<T>
+    constructor () {
+      this.resolve = () => {}
+      this.reject = () => {}
+      this.promise = new Promise((s, j) => {
+        this.resolve = s
+        this.reject = j
+      })
+    }
+}
+let o = {
+  a: {b: 's'},
+  b: true,
+  c: false,
+  d: new Date(),
+  e: /\d{3}/,
+  f: function () {return 'f'},
+  g: undefined,
+  h: null,
+  i: 1n,
+  j: Symbol('a'),
+}
+// 待测试
+let serialize = (p: object) => {
+  let str = '{'
+  Array.from(Object.entries(p)).forEach(([k, v]) => {
+    switch (typeof v) {
+      case 'object':
+        str += `"${k}":${serialize(v)},`
+        break;
+      case 'number':
+      case 'boolean':
+        str += `"${k}":${v},`
+        break;
+      default:
+        str += `"${k}":"${v}",`
+        break;
+    }
+  })
+  return str.slice(0, -1) + '}'
+}
+
 
 interface LoopPropotype {
   launch: (...p: A[]) => Promise<A>
@@ -719,7 +781,7 @@ export type {
 - [axios 项目中使用工具方法](/util/axios.html)
 - [统计学 statistics 常用的方法](/util/statistics.html)
 - [项目进度可视化工具](/promote/visibleProgress.html)
-- [title](/util/title.html)
+- [eventPivot](/util/eventPivot.html)
 - [title](/util/title.html)
 - [title](/util/title.html)
 - [title](/util/title.html)

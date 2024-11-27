@@ -47,32 +47,41 @@
     </div>
     <script type="module">
       let clog = console.log
-      // let a = new Url()
-      // clog(a)
-      let url = 'http://lixiaodan.org/?k=1&k=2&a=b'
-      let getQs = (url = window.location.href) => {
-        let i = url.indexOf('?')
-        let s = url.slice(i + 1)
-        if (s.length) {
-          let arr = s.split('&')
-          let obj = {}
-          arr.forEach(item => {
-            let [k, v] = item.split('=')
-            if (obj.hasOwnProperty(k)) {
-              if (Array.isArray(obj[k])) {
-                obj[k].push(v)
-              } else {
-                obj[k] = [obj[k], v]
-              }
-            } else {
-              obj[k] = v
-            }
-          })
-          return obj
-        }
-      }
-      clog(getQs(url))
 
+      // class PromiseControllable {
+      //   constructor () {
+      //     this.resolve
+      //     this.reject
+      //     this.p = new Promise((s, j) => {
+      //       this.resolve = s
+      //       this.reject = j
+      //     })
+      //   }
+      // }
+      // let pc = new PromiseControllable()
+      // pc.p.then(() => {
+      //   clog('then')
+      // }).catch(() => {
+      //   clog('catch')
+      // })
+      // setTimeout(() => {
+      //   pc.resolve()
+      //   pc.reject()
+      // }, 2000)
+
+      let p0 = Promise.resolve()
+      let p1 = Promise.resolve()
+      setTimeout(() => {
+
+        Promise.all([p0, p1]).then(() => {
+          clog('this')
+        })
+      }, 2000)
+      
+
+
+
+      
 
     </script>
   </body>
