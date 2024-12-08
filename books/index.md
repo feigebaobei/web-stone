@@ -1,9 +1,9 @@
 # 读书笔记
 
-- [《【PMI-中文版】敏捷实践指南》](/books/【PMI-中文版】敏捷实践指南.html)
-- [《【PMI-中文版】PMBOK 第六版（项目管理知识体系）》](/books/【PMI-中文版】PMBOK第六版（项目管理知识体系）.html)
-- [《【PMI-中文版】PMBOK 第七版（项目管理知识体系）》](/books/【PMI-中文版】PMBOK第七版（项目管理知识体系）.html)
-- [《【PMI-中文版】PMP 过程组：实践指南教材》](/books/【PMI-中文版】PMP过程组：实践指南教材.html)
+- [《【PMI-中文版】敏捷实践指南》](/books/pmp-cn-jiaocaidabao-4/【PMI-中文版】敏捷实践指南.html)
+- [《【PMI-中文版】PMBOK 第六版（项目管理知识体系）》](/books/pmp-cn-jiaocaidabao-4/【PMI-中文版】PMBOK第六版（项目管理知识体系）.html)
+- [《【PMI-中文版】PMBOK 第七版（项目管理知识体系）》](/books/pmp-cn-jiaocaidabao-4/【PMI-中文版】PMBOK第七版（项目管理知识体系）.html)
+- [《【PMI-中文版】PMP 过程组：实践指南教材》](/books/pmp-cn-jiaocaidabao-4/【PMI-中文版】PMP过程组：实践指南教材.html)
 - [《高性能网站》](/books/highPerformanceWeb.html)
 - [《你不知道的 js》](/books/youDontKnowJs.html)
 - [《js 设计模式》](/books/javascript-partterns.html)与我整理的设计模式不同
@@ -24,5 +24,7 @@
   - [《僧伽吒经》](https://zh.wikisource.org/zh-hans/%E5%A4%A7%E4%B9%98%E9%9B%A2%E6%96%87%E5%AD%97%E6%99%AE%E5%85%89%E6%98%8E%E8%97%8F%E7%B6%93)
 - [《三字经》](/books/sanZiJin.html)
 - [《韬晦术》](/books/taoHuiShu.html)
+- [《了凡四训》](/books/liaofansixun.html)
+- [《俞净意公遇灶神记》](/books/yujingyigongyuzaoshenji.html)
 - [《title》](/books/title.html)
 - [《title》](/books/title.html)
