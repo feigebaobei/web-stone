@@ -1,5 +1,9 @@
 # 读书笔记
 
+- [《【PMI-中文版】敏捷实践指南》](/books/【PMI-中文版】敏捷实践指南.html)
+- [《【PMI-中文版】PMBOK 第六版（项目管理知识体系）》](/books/【PMI-中文版】PMBOK第六版（项目管理知识体系）.html)
+- [《【PMI-中文版】PMBOK 第七版（项目管理知识体系）》](/books/【PMI-中文版】PMBOK第七版（项目管理知识体系）.html)
+- [《【PMI-中文版】PMP 过程组：实践指南教材》](/books/【PMI-中文版】PMP过程组：实践指南教材.html)
 - [《高性能网站》](/books/highPerformanceWeb.html)
 - [《你不知道的 js》](/books/youDontKnowJs.html)
 - [《js 设计模式》](/books/javascript-partterns.html)与我整理的设计模式不同
@@ -13,10 +17,12 @@
 - [黄帝阴符经](/books/huangdiyinfujing.html)
 - 佛学
   - [《高王观世音经》](/books/title.html)
-  - [《法华经》](/books/title.html)
+  - [《法华经》](/books/faHuaJing.html)
   - [《地藏菩萨本愿经》](https://book.bfnn.org/books/0016.htm)
   - [《六祖坛经》](https://www.drbachinese.org/online_reading/sutra_explanation/SixthPat/sixthpatSutra.htm)
   - [《大乘离文字普光明藏经》](https://zh.wikisource.org/zh-hans/%E5%A4%A7%E4%B9%98%E9%9B%A2%E6%96%87%E5%AD%97%E6%99%AE%E5%85%89%E6%98%8E%E8%97%8F%E7%B6%93)
+  - [《僧伽吒经》](https://zh.wikisource.org/zh-hans/%E5%A4%A7%E4%B9%98%E9%9B%A2%E6%96%87%E5%AD%97%E6%99%AE%E5%85%89%E6%98%8E%E8%97%8F%E7%B6%93)
 - [《三字经》](/books/sanZiJin.html)
 - [《韬晦术》](/books/taoHuiShu.html)
+- [《title》](/books/title.html)
 - [《title》](/books/title.html)
