@@ -143,7 +143,9 @@
 <h2 id="overview">overview</h2>
 <blockquote>
 <p>简称 ts<br>
+not reinventing
 ts 是强类型语言 js 是弱类型语言<br>
+为了类型安全。
 ts 比 js 更强大。ts 要求 coder 按 ts 的要求写代码，然后 ts 经过转化为 js。看起来像是 ts 更强大的样子。已经有很多前端项目使用此语言了。<br>
 ts 就是 js 加上了类型的语言。
 ts 是静态类型检测器。静态类型检测能力比 flow 更强大。<br>
@@ -151,7 +153,12 @@ ts 是静态类型检测器。静态类型检测能力比 flow 更强大。<br>
 ts 把 interface/type 都叫做类型<br>
 它是编写代码的一种方式。可以使用 js/也可以使用 ts.ts 没有宣传的那么重要。它只是为 js 赋予了强类型。还需要把 ts 文件转换为 js 文件。如果 js 未来支持强类型了。ts 也就无存在的意义了。<br>
 从设计 （uml） 到代码比 js 平滑。<br>
-ts 的类型可以用于防御式编程</p>
+ts 的类型可以用于防御式编程
+ts变成js才能运行。
+ts做了什么？</p>
+<blockquote>
+<p>静态检测</p>
+</blockquote>
 </blockquote>
 <h3 id="feature">feature</h3>
 <ul>
@@ -169,7 +176,8 @@ ts 的类型可以用于防御式编程</p>
 安装后可在命令行中使用<code>tsc</code>。</p>
 <h2 id="usage">usage</h2>
 <p>dome 详见<a href="https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html">官网</a></p>
-<pre><code class="language-ts"><span class="hljs-comment">// 单例模式</span>
+<pre><code class="language-ts"><span class="hljs-keyword">let</span> <span class="hljs-attr">variableName</span>: <span class="hljs-keyword">type</span> = value
+<span class="hljs-comment">// 单例模式</span>
 <span class="hljs-comment">// define</span>
 <span class="hljs-keyword">class</span> <span class="hljs-title class_">Demo</span> {
   <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-attr">instance</span>: <span class="hljs-title class_">Demo</span>
@@ -183,6 +191,23 @@ ts 的类型可以用于防御式编程</p>
 }
 <span class="hljs-comment">// usage</span>
 <span class="hljs-title class_">Demo</span>.<span class="hljs-title function_">getInstance</span>() <span class="hljs-comment">// instance</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">f</span>(<span class="hljs-params"></span>):{}{
+  <span class="hljs-keyword">return</span> {}
+}
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">f</span>(<span class="hljs-params"></span>):{<span class="hljs-attr">k</span>: S}{
+  <span class="hljs-keyword">return</span> {<span class="hljs-attr">k</span>: <span class="hljs-string">&#x27;v&#x27;</span>}
+}
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">User</span> {
+  <span class="hljs-attr">k</span>: S,
+  <span class="hljs-attr">f</span>: <span class="hljs-function">() =&gt;</span> B,
+  <span class="hljs-title function_">f2</span>(): N,
+  <span class="hljs-title function_">f3</span>(<span class="hljs-attr">p</span>: N): F, <span class="hljs-comment">// 返回一个方法</span>
+}
+<span class="hljs-keyword">function</span> f&lt;T, U <span class="hljs-keyword">extends</span> <span class="hljs-built_in">number</span>&gt;(<span class="hljs-attr">a</span>: T, <span class="hljs-attr">b</span>: U) {}
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span>&lt;T&gt; {
+  <span class="hljs-keyword">public</span> <span class="hljs-attr">k</span>: T[] = []
+  <span class="hljs-title function_">a</span>(<span class="hljs-params">p: T</span>) {}
+}
 </code></pre>
 <p>使用示例：</p>
 <pre><code class="language-ts"><span class="hljs-comment">// 使用interface</span>
@@ -624,6 +649,7 @@ ts 的类型可以用于防御式编程</p>
 </code></pre>
 <h3 id="union--enum"><a href="/language/typescript/union&amp;enum.html">union &amp; enum</a></h3>
 <h3 id="any--unknown--never">any &amp; unknown &amp; never</h3>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -666,6 +692,7 @@ ts 的类型可以用于防御式编程</p>
 </tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
 <h3 id="type--interface-不同"><a href="/language/typescript/type&amp;interface.html">type &amp; interface 不同</a></h3>
 <h2 id="操作类型">操作类型</h2>
 <p>都是大写开头。</p>
@@ -1329,6 +1356,10 @@ init 后不能改变。<br>
 <pre><code class="language-ts">modules.<span class="hljs-property">export</span> {...}
 <span class="hljs-keyword">let</span> {a} = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;...&#x27;</span>)
 </code></pre>
+<h2 id="类型断言">类型断言</h2>
+<pre><code class="language-ts">a <span class="hljs-keyword">as</span> T
+&lt;T&gt;a
+</code></pre>
 <h2 id="命名空间内部模块">命名空间（内部模块）</h2>
 <p>把类型放在一个文件中统一管理。<br>
 把类型全部放在一个文件中。使用时从这个文件中取出。
@@ -1542,7 +1573,7 @@ let result = &lt;T&gt;{}       // 方法二
 </code></pre>
 <h2 id="ts-的不足">ts 的不足</h2>
 <ul>
-<li>允许出来类型断言。</li>
+<li>允许出现类型断言。</li>
 <li>允许出来 any 类型。</li>
 <li>有时过于严格，有时可忽略类型错误。
 <ul>
@@ -1577,6 +1608,18 @@ let result = &lt;T&gt;{}       // 方法二
 <li>脏数据无法在处理。在开发时使用严格的类型判断后执行相应逻辑。在生产时遇到脏数据使运行出错。ts 是静态类型检测。可以在编辑器中要求代码按照类型编写。ts 非运行时类型检测，无法阻止运行时数据流与编写代码时的数据类型不一致的问题发生。当文件是<code>*.ts</code>时有类型检测能力，当被<code>tsc</code>可其他的转换工具转换为<code>*.js</code>时就不具备类型检测能力了。当前的 js 运行环境都不支持直接运行 ts。</li>
 </ul>
 <p>基于以上原因，ts 不能使问题在开发阶段暴露。会增加开发阶段的开发者心智负担。</p>
+<h2 id="todo-2">todo</h2>
+<p>ts的使用技巧
+配置文件
+类型保护等与修饰符（readonly）等的结合时的用法。
+readonly
+可选
+泛型
+三个修饰符的作用范围（public/private/protect）
+类型推断
+类型范围缩小
+类型兼容性：成员少的兼容成员多的。
+可以由精确的类型赋值给模糊的类型</p>
 
             <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
             
