@@ -37,7 +37,7 @@
 - [代码趋于 0bug](/confuse/bug0.html)
 - [performance](/confuse/performance.html)
 - [import meta](/confuse/importMeta.html)
-- [title](/confuse/title.html)
+<!-- - [ors指标](/confuse/ors.html) -->
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
