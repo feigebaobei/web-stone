@@ -139,6 +139,7 @@
         </head>
         <body class="vscode-body vscode-light">
             <h1 id="环境变量">环境变量</h1>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -230,6 +231,56 @@
 </tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
+<h1 id="链接">链接</h1>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>英文名称</th>
+<th>存在方式</th>
+<th>适用范围</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>硬链接</td>
+<td>hard link</td>
+<td>-</td>
+<td>只适用于文件。只能使用绝对路径。</td>
+<td></td>
+</tr>
+<tr>
+<td>符号链接</td>
+<td>symbolic link</td>
+<td>.SYMLINK</td>
+<td>文件、目录。文件大小为0字节，不占用空间。</td>
+<td></td>
+</tr>
+<tr>
+<td>软链接（目录链接）</td>
+<td>junction point</td>
+<td>-</td>
+<td>只适用于目录。只能使用绝对路径。</td>
+<td></td>
+</tr>
+<tr>
+<td>快捷方式</td>
+<td>shortcut</td>
+<td>.lnk文件</td>
+<td>文件、目录。只能和绝对路径</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-shell">mklink [[/D]|[/H]|[/J]] Link Target
+<span class="hljs-meta prompt_"># </span><span class="language-bash">/D 创建目录的符号链接</span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">/H 创建硬链接</span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">/J 创建目录的软链接</span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">Link   链接名称</span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">Target 源目录（相对或绝对）</span>
+</code></pre>
 
             
             

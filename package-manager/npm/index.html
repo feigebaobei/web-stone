@@ -667,7 +667,8 @@ npm 脚本支持<code>pre</code>/<code>post</code>2 种钩子。每个脚本都�
 </li>
 </ul>
 <p><code>npm restart</code>是<code>npm stop &amp;&amp; npm restart &amp;&amp; npm stop</code>的简写。
-简写：<code>npm start</code>.忽略了<code>run</code></p>
+简写：<code>npm start</code>.忽略了<code>run</code><br>
+双重pre/post无效，比如：prepretest/postposttest是无效的。</p>
 <h3 id="变量">变量</h3>
 <p>通过<code>npm_package_</code>前缀可得到<code>package.json</code>中的字段。 如：<code>process.env.npm_package_version</code> / <code>process.env.npm_package_script_install</code>
 通过<code>npm_config</code>前缀可得到<code>package.json</code>中<code>config</code>里的变量。如：<code>npm_config_tag</code>。<code>npm config get xxx</code></p>
