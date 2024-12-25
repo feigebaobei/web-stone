@@ -31,7 +31,8 @@
 - [《韬晦术》](/books/taoHuiShu.html)
 - [《了凡四训》](/books/liaofansixun.html)
 - [《俞净意公遇灶神记》](/books/yujingyigongyuzaoshenji.html)
-- [《title》](/books/title.html)
+- it
+- [《Eloquent_JavaScript》](/books/Eloquent_JavaScript.pdf)
 - [《title》](/books/title.html)
 - [《title》](/books/title.html)
 - [《title》](/books/title.html)
