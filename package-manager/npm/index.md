@@ -285,7 +285,8 @@ npm 脚本支持`pre`/`post`2 种钩子。每个脚本都可以如此处理。�
   - 当执行 npm install （无参数） 时执行
 
 `npm restart`是`npm stop && npm restart && npm stop`的简写。
-简写：`npm start`.忽略了`run`
+简写：`npm start`.忽略了`run`  
+双重 pre/post 无效，比如：prepretest/postposttest 是无效的。
 
 ### 变量
 

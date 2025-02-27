@@ -182,7 +182,7 @@ fn，必填，返回 boolean 值。
     Array.from(objArr)
     [].slice.call(objArr)
 
-**find(fn(item, index, arr) {}, obj)** 返回第一个符合条件的元素。
+**find(fn(item, index, arr) {}, obj)** 返回第一个符合条件的元素（的引用）。
 
     [3, 3, 5, -6, 12].find((item, index, arr) => {
         return item < 0

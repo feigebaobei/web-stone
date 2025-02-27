@@ -373,7 +373,7 @@ promise 的参数是一个接收`resolve`/`reject`方法的方法。
 Promise#then((reslt) => {}) // then的第二个方法，无法接收第一个方法抛出的错误。catch可以。
 Promise#catch((error) => {})
 Promise#finally(() => {})    // 返回Promise<undefined>。它是promise对象，且解析为fulfilled状态。解析后的值是undefined。即使写了返回值也会解析为undefined。
-Promise.all(arrP)    // 这种写法的都是静态属性。若arrP都是fulfilled状态则执行then方法，参数是一个数组。若arrP中有一个rejected状态则立即执行catch，参数是一个值。
+Promise.all(arrP)    // 这种写法的都是静态属性。若arrP都是fulfilled状态则执行then方法，参数是由arrP内各Promise对象返回的数据组成的数组。若arrP中有一个rejected状态则立即执行catch，参数是第一个成为rejected状态的Promise对象返回的值。
 Promise.race(arrP)   // 返回最先改变状态的promise对象，状态由该对象决定。
 Promise.allSettled(arrP) // 当arrP都改变状态后返回结果。结果是由{status: 'fulfilled' | 'rejected', value / reason}组成的数组。总是触发then方法。
 Promise.any(arrP)        // arrP中只要有一个状态为fulfilled则返回该值，触发then()。若全为rejected则返回AggregateError对象，触发catch()。

@@ -4,6 +4,7 @@
 - [《【PMI-中文版】PMBOK 第六版（项目管理知识体系）》](/books/pmp-cn-jiaocaidabao-4/【PMI-中文版】PMBOK第六版（项目管理知识体系）.pdf)
 - [《【PMI-中文版】PMBOK 第七版（项目管理知识体系）》](/books/pmp-cn-jiaocaidabao-4/【PMI-中文版】PMBOK第七版（项目管理知识体系）.pdf)
 - [《【PMI-中文版】PMP 过程组：实践指南教材》](/books/pmp-cn-jiaocaidabao-4/【PMI-中文版】PMP过程组：实践指南教材.pdf)
+- [《pmi》](/books/pmi.html)
 - [《高性能网站》](/books/highPerformanceWeb.html)
 - [《你不知道的 js》](/books/youDontKnowJs.html)
 - [《js 设计模式》](/books/javascript-partterns.html)与我整理的设计模式不同
@@ -33,7 +34,7 @@
 - [《俞净意公遇灶神记》](/books/yujingyigongyuzaoshenji.html)
 - it
 - [《Eloquent_JavaScript》](/books/Eloquent_JavaScript.pdf)
-- [《title》](/books/title.html)
+- [《妙法莲华经文句》](/books/title.html)
 - [《title》](/books/title.html)
 - [《title》](/books/title.html)
 - [《title》](/books/title.html)

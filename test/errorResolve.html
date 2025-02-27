@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x9519;&#x8bef; &amp; &#x89e3;&#x51b3;&#x65b9;&#x6848;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="错误--解决方案">错误 &amp; 解决方案</h1>
+<h2 id="js错误">js错误</h2>
+<ul>
+<li>TypeError        以错误的数据类型执行逻辑</li>
+<li>ReferenceError   引用未声明变量</li>
+<li>SyntaxError      js语法错误</li>
+<li>RangeError       数值超出允许的范围</li>
+<li>URIError         encodeURI/decodeURI方法使用不当</li>
+</ul>
+<pre><code class="language-js"><span class="hljs-comment">// 使用try...catch解决</span>
+<span class="hljs-comment">// window.onerror</span>
+</code></pre>
+<h2 id="网络错误">网络错误</h2>
+<ul>
+<li>404 not found</li>
+<li>500 internal server error</li>
+<li>连接超时或网络中断</li>
+</ul>
+<pre><code class="language-js"><span class="hljs-comment">// 使用promiseObj.catch解决</span>
+一般在axios.<span class="hljs-property">interceptors</span>、fetch.<span class="hljs-property">catch</span>中处理。
+</code></pre>
+<h2 id="资源加载错误">资源加载错误</h2>
+<ul>
+<li>图片加载失败</li>
+<li>样式表加载失败</li>
+<li>脚本加载失败</li>
+</ul>
+<pre><code class="language-js"><span class="hljs-comment">// 使用window.onerror解决</span>
+<span class="hljs-comment">// dom节点.addEventListener(&#x27;error&#x27;, () =&gt; {...})</span>
+</code></pre>
+<h2 id="promise异步错误">Promise异步错误</h2>
+<pre><code class="language-js">.<span class="hljs-property">catch</span>
+或
+<span class="hljs-variable language_">window</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;unhandledrejection&#x27;</span>, <span class="hljs-keyword">function</span> (<span class="hljs-params">ev</span>) {})
+</code></pre>
+<h2 id="用户界面错误-ui-errors">用户界面错误 （ui errors）</h2>
+<ul>
+<li>用户在表单中输入无效数据</li>
+<li>用户尝试执行不允许的操作</li>
+</ul>
+<h2 id="三方库框架错误">三方库、框架错误</h2>
+<ul>
+<li>通常库、框架会内部处理此错误。</li>
+</ul>
+<h1 id="解决方案">解决方案</h1>
+<p>window.onerror &lt;=&gt; window.addEventListener('error', fn)
+window.onerror会捕获未被try...catch捕获的错误。不能捕获SyntaxError 和 异步错误(含网络错误)
+event.preventDefault()会防止默认处理。（例如在控制台中输出）
+try...catch不能捕获SyntaxError 和 异步错误
+语法错误在编辑时就能发现。
+js运行时错误会触发window.onerror</p>
+<h1 id="vue">vue</h1>
+<pre><code class="language-js"><span class="hljs-title class_">Vue</span>.<span class="hljs-property">config</span>.<span class="hljs-property">errorHanddler</span> = <span class="hljs-function">(<span class="hljs-params">err, vm, info</span>) =&gt;</span> {
+    ...
+}
+</code></pre>
+<h1 id="react">react</h1>
+<pre><code class="language-js"><span class="hljs-comment">// react@16+</span>
+<span class="hljs-title function_">componentDidCatch</span>(<span class="hljs-params">error, info</span>) {
+    ...
+}
+</code></pre>
+<p>在哪个类组件中使用此方法，就把错误拦截到哪个组件内，不再冒泡上去。</p>
+
+            
+            
+        </body>
+        </html>

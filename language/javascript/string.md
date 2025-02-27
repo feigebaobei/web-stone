@@ -56,7 +56,7 @@
 | `String#toLowerCase([locale])` |        | 返回指定语言环境的小写格式的字符串              |            |
 | `String#toUpperCase([locale])` |        | 返回指定语言环境的小写格式的字符串              |            |
 | `String#toString()`    |        | 返回一个表示调用对象的字符串。                  | String 对象覆盖了 Object 对象的 toString 方法；并没有继承 Object.toString()。                 |
-| String#trim()          |        | 返回去掉两端空字符串后的新字符串。              |            |
+| String#trim()          |        | 返回去掉两端空字符串后的新字符串。不改变原字符串。              |            |
 | String#trimEnd()       |        | 返回去掉右端空字符串后的新字符串。              |            |
 | String#trimStart()     |        | 返回去掉左端空字符串后的新字符串。              |            |
 | String#valueOf()       |        | 返回字符串的原始值         |            |
