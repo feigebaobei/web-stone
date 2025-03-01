@@ -285,6 +285,14 @@ git config http.postBuffer 314572800
 
 ## [常用子命令](/git/command.html)
 
+- status
+- branch
+- checkout
+- xxxxx
+- xxxxx
+- xxxxx
+- xxxxx
+
 ## 查看 git 配置信息
 
 ```shell

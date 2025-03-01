@@ -57,7 +57,7 @@ var joinStr = d.join('ok'); // "1ok2ok3ok4"
 
     newd.reverse(); // ['a', 4, 3, 2, 1]
 
-**slice(start, end)** 返回指定数组的选定部分  
+**slice(start, end)** 返回指定数组的选定部分。不改变原数组。  
 start，必填。
 end，非必填。
 浅复制。
