@@ -19,7 +19,7 @@
 - 佛学
   - [《高王观世音经》](/books/title.html)
   - [《法华经》](/books/faHuaJing.html)
-  - [《地藏菩萨本愿经》](https://book.bfnn.org/books/0016.htm)
+  - [《地藏菩萨本愿经》](/books/dizangpusabenyuanjing.html)
   - [《六祖坛经》](https://www.drbachinese.org/online_reading/sutra_explanation/SixthPat/sixthpatSutra.htm)
   - [《大乘离文字普光明藏经》](https://zh.wikisource.org/zh-hans/%E5%A4%A7%E4%B9%98%E9%9B%A2%E6%96%87%E5%AD%97%E6%99%AE%E5%85%89%E6%98%8E%E8%97%8F%E7%B6%93)
   - [《僧伽吒经》](https://www.gushiwen.cn/guwen/book_94d99dce64d8.aspx)
@@ -28,6 +28,7 @@
   - [《文昌帝君阴骘文》](/books/wenchangdijunyinzhiwen.html)
   - [《太清中黄真经》](/books/taiqingzhonghuangzhenjing.html)
   - [《太乙金华宗旨》](/books/taiyijinhuazongzhi.html)
+  - [《百字经》](/books/baizijing.html)
 - [《三字经》](/books/sanZiJin.html)
 - [《韬晦术》](/books/taoHuiShu.html)
 - [《了凡四训》](/books/liaofansixun.html)
