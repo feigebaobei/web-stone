@@ -27,7 +27,11 @@
 - [uri](/browser/uri.html)
 - [几种跳转](/browser/goto.html)
 - [c&s 的通信方式](/browser/c&sCommunication.html)
-- [title](/browser/c&s.html)
+- [开发者工具](/browser/devTool.html)
+- [dom](/browser/dom.html)
+- [bom](/browser/bom.html)
+- [title](/browser/title.html)
+- [title](/browser/title.html)
 - [title](/browser/title.html)
 - [title](/browser/title.html)
 
