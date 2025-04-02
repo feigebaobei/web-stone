@@ -237,3 +237,24 @@ npm 还有一些不足。eg:1.协作者不能删除 package.2.多个协作者不
 ---
 
 2018/11/06 by stone
+
+发布到指定源。方法有多种：
+
+```
+方法一
+npm config set registry http://nexus.dsv.myhost/nexus/repository/npmjs
+方法二
+npm config set @<your scope here>:registry http://nexus.dsv.myhost/nexus/repository/npmjs
+方法三
+package.json
+{
+  ...
+  "publishConfig": {
+    "registry": "http://nexus.dsv.myhost/nexus/repository/npmjs"
+  },
+  ...
+}
+方法四
+.npmrc
+registry=http://nexus.dsv.myhost/nexus/repository/npmjs
+```

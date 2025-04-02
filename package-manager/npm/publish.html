@@ -138,14 +138,14 @@
         
         </head>
         <body class="vscode-body vscode-light">
-            <p>在npm维护package可以方便版本更新、使用、复用。<br>
-这篇文章里会聊从零开始在npm上创建发布package.<br>
+            <p>在 npm 维护 package 可以方便版本更新、使用、复用。<br>
+这篇文章里会聊从零开始在 npm 上创建发布 package.<br>
 简单来说就是：</p>
 <ol>
 <li>在本地初始化包。（npm init）</li>
 <li>创建内容。（最后规范）</li>
 <li>在<a href="https://www.npmjs.xn--com-x28dk4ne8d7w1dzkxfoi3z8a">https://www.npmjs.com网站上注册账号</a>。</li>
-<li>在本地用这个账号登录。（npm login, 再输name,password,email）</li>
+<li>在本地用这个账号登录。（npm login, 再输 name,password,email）</li>
 <li>发布（npm publish）</li>
 </ol>
 <p>以下是详细步骤。</p>
@@ -153,7 +153,7 @@
 <p>初装必要环境。<br>
 node, npm</p>
 <p>###2. register</p>
-<p>在npm网站创建一个账号。<br>
+<p>在 npm 网站创建一个账号。<br>
 进入官网-进入注册页面-验证邮箱地址。</p>
 <p>###3. create</p>
 <p>在本地创建一个目录，并进入。</p>
@@ -172,9 +172,9 @@ cd ...
 </code></pre>
 <h4 id="报错">报错</h4>
 <p><code>409 Conflict - PUT https://registry.npm.taobao.org/-/user/org.couchdb.user:feigebaobei - [conflict] User feigebaobei already exists</code>
-意思是：xxx用户已经存在了。
+意思是：xxx 用户已经存在了。
 我们想要登录和用户是否存在没有关系。登录都是登录已经存在的用户的，不存在的用户都登录不上去。
-原因在于使用的npm注册者不对。这行报错信息中提示npm注册者是淘宝的代理。应该使用npm官方作为注册者。
+原因在于使用的 npm 注册者不对。这行报错信息中提示 npm 注册者是淘宝的代理。应该使用 npm 官方作为注册者。
 解决方法：执行<code>npm config set registry https://registry.npmjs.org/</code></p>
 <h4 id="tip">tip</h4>
 <p>建议使用<code>nrm</code>管理注册者</p>
@@ -183,11 +183,11 @@ nrm ls // 显示可选注册者与当前使用的注册者
 nrm use npm // 使用指定的注册者
 </code></pre>
 <p>###6. 创建基本内容</p>
-<p><a href="http://README.html">README.md</a> // 介绍当前package，可以不创建。<br>
-npm init // 根据readme生成package.json文件。<br>
-index.js // 与package.json里的main值一样。它是作为入口文件的。<br>
-再创建package的内容。包文档结构如下：</p>
-<p><img src="/Users/cat/Documents/code/personal/web-stone/image/npm/docuConstruct.jpg" alt=""></p>
+<p><a href="http://README.html">README.md</a> // 介绍当前 package，可以不创建。<br>
+npm init // 根据 readme 生成 package.json 文件。<br>
+index.js // 与 package.json 里的 main 值一样。它是作为入口文件的。<br>
+再创建 package 的内容。包文档结构如下：</p>
+<p><img src="file:////Users/cat/Documents/code/personal/web-stone/image/npm/docuConstruct.jpg" alt=""></p>
 <p><code>src/assets</code> 是用来放置资源。<br>
 <code>src/assets/basic</code> 我个人习惯用来放置基本内容。可以不管。<br>
 <code>src/assets/img</code> 是用来放置图片。<br>
@@ -195,11 +195,11 @@ index.js // 与package.json里的main值一样。它是作为入口文件的。<
 <code>src/conponents/vueName</code> 是用来放置当前组件需要的子组件。<br>
 <code>src/conponents/vueName/index</code> 一般是该子组件的主体。<br>
 <code>src/lib</code> 所有组件需要的数据资源。<br>
-<code>.gitignore</code> 指定需要git忽略的内容。<br>
+<code>.gitignore</code> 指定需要 git 忽略的内容。<br>
 <code>index</code> 当前包的入口文件。<br>
 <code>package</code> 当前包的信息。<br>
 <code>README.md</code> 介绍当前包。</p>
-<p>当前包的入口文件中index.js文件。在该文件中输出各个组件。</p>
+<p>当前包的入口文件中 index.js 文件。在该文件中输出各个组件。</p>
 <pre><code>// package/index.js
 import first from './src/components/first'
 import second from './src/components/second'
@@ -209,7 +209,7 @@ export {
 }
 </code></pre>
 <p>###7. 测试</p>
-<p>分为npm模块、项目。
+<p>分为 npm 模块、项目。
 若模块、项目不在同一个目录下，可以使用相对路径。</p>
 <pre><code>npm link ../module
 </code></pre>
@@ -223,7 +223,7 @@ cd 项目目录
 npm link module_name
 // /Users/feige/Documents/code/github/mockvue/node_modules/token_sdk_client -&gt; /Users/feige/.nvm/versions/node/v12.13.0/lib/node_modules/token_sdk_client -&gt; /Users/feige/Documents/code/github/tokenSDKClient
 </code></pre>
-<p>解除link</p>
+<p>解除 link</p>
 <pre><code>cd 模块目录
 npm unlink
 
@@ -297,7 +297,7 @@ npm ERR!   isOperational: true,
 npm ERR!   stack: 'Error: EPERM: operation not permitted, unlink \'C:\\Users\\Admin\\AppData\\Local\\Temp\\npm-12284-cd09bc74\\tmp\\fromDir-8703ef80\\package.tgz\'',
 </code></pre>
 <p>大概意思是说没有登录.需要使用<code>npm login</code>登录。</p>
-<p>使用<code>npm login</code>登录时，输入Username/Password/Email后，提示：</p>
+<p>使用<code>npm login</code>登录时，输入 Username/Password/Email 后，提示：</p>
 <h5 id="3">3</h5>
 <pre><code>npm ERR! code E409
 npm ERR! Registry returned 409 for PUT on http://registry.npm.taobao.org/-/user/org.couchdb.user:feigebaobei: [conflict] User feigebaobei already exists
@@ -307,20 +307,38 @@ npm ERR! Registry returned 409 for PUT on http://registry.npm.taobao.org/-/user/
 <p>npm config [set | get | delete | list | edit]</p>
 <h5 id="4">4</h5>
 <p>执行<code>npm publish</code>后，提示发布的版本号（说明已经发布成功）。
-去npm网站上查询，结果是没有该包。在作者的packages里没有找到相应的包。不会中因为缓存的问题。
+去 npm 网站上查询，结果是没有该包。在作者的 packages 里没有找到相应的包。不会中因为缓存的问题。
 再执行<code>npm publish</code>后，仍提示发布的版本号。（没有升级版本号）。应该提示“因版本号冲突，发布失败”的消息。
-再去npm网站上查询仍没有结果。
+再去 npm 网站上查询仍没有结果。
 原因是执行<code>npm publish</code>时使用非<code>https://registry.npmjs.org/</code>。
 使用淘宝等代理都会发布失败。</p>
 <p>###9. 删除</p>
-<p>当前包的作者可以删除。admin角色（24 小时内可删除）</p>
+<p>当前包的作者可以删除。admin 角色（24 小时内可删除）</p>
 <pre><code>npm unpublish packagename --force
 </code></pre>
-<p>当前团队的拥有者或owner角色。点击删除按钮可把该package从team中删除。</p>
+<p>当前团队的拥有者或 owner 角色。点击删除按钮可把该 package 从 team 中删除。</p>
 <p>###10. 不足</p>
-<p>npm还有一些不足。eg:1.协作者不能删除package.2.多个协作者不能同时编辑同一个package.3.无法删除org。4.24h后不可删除该包。</p>
+<p>npm 还有一些不足。eg:1.协作者不能删除 package.2.多个协作者不能同时编辑同一个 package.3.无法删除 org。4.24h 后不可删除该包。</p>
 <hr>
 <p>2018/11/06 by stone</p>
+<p>发布到指定源。方法有多种：</p>
+<pre><code>方法一
+npm config set registry http://nexus.dsv.myhost/nexus/repository/npmjs
+方法二
+npm config set @&lt;your scope here&gt;:registry http://nexus.dsv.myhost/nexus/repository/npmjs
+方法三
+package.json
+{
+  ...
+  &quot;publishConfig&quot;: {
+    &quot;registry&quot;: &quot;http://nexus.dsv.myhost/nexus/repository/npmjs&quot;
+  },
+  ...
+}
+方法四
+.npmrc
+registry=http://nexus.dsv.myhost/nexus/repository/npmjs
+</code></pre>
 
             
             
