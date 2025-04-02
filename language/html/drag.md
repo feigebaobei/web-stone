@@ -19,8 +19,8 @@
 ></div>
 ```
 
-```
-let ondragoverHandler = ($event) => {
+```js
+let dragoverHandler = ($event) => {
  $event.preventDefault()
 }
 let dropHandler = ($event) => {
@@ -43,9 +43,9 @@ dragstart -> dragenter -> dragover -> drop -> dragend
 
 ### dragstart 开始拖元素时触发
 
-### dragenter 拖进 drop 元素时触发
+### dragenter 拖进 drag 元素时触发
 
-### dragover 拖到 drop 元素上时触发
+### dragover 拖到 drag 元素内的某元素上时触发
 
 ### drop 放入到 drop 元素时触发
 

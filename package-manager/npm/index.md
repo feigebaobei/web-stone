@@ -8,28 +8,30 @@
 
 # use
 
-|           |                                                                                       |                                                                                                                                                                                       |
-| --------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| uninstall | 卸载模块                                                                              |                                                                                                                                                                                       |
-| update    | 更新模块                                                                              | 按照 package.js 里标注的版本号进行更新                                                                                                                                                |
-| outdated  | 检查模块是否已经过时                                                                  |                                                                                                                                                                                       |
-| ls        | 查看安装的模块                                                                        |                                                                                                                                                                                       |
-| help      | 查看详细信息                                                                          |                                                                                                                                                                                       |
-| root      | 查看安装路径                                                                          |                                                                                                                                                                                       |
-| config    | 设置配置                                                                              | npm config set proxy=http://xxx.com:8080(设置代理)npm config set registry="http://r.cnpmjs.org"(设置镜像)npm install -g cnpm --registry=https://registry.npm.taobao.org(设置淘宝镜像) |
-| cache     | 管理模块的缓存                                                                        |                                                                                                                                                                                       |
-| start     | 启动模块                                                                              |                                                                                                                                                                                       |
-| stop      |                                                                                       |                                                                                                                                                                                       |
-| restart   |                                                                                       |                                                                                                                                                                                       |
-| test      |                                                                                       |                                                                                                                                                                                       |
-| version   |                                                                                       |                                                                                                                                                                                       |
-| view      | 查看模块的注册信息                                                                    |                                                                                                                                                                                       |
-| adduer    | 用户登录                                                                              |                                                                                                                                                                                       |
-| publish   | 发布模块                                                                              |                                                                                                                                                                                       |
-| access    | 在发布的包上设置访问级别                                                              |                                                                                                                                                                                       |
-| rebuild   | 使用新版本的 node 时，重新编译所有 c++插件。它会运行在与`npm build`相匹配的文件夹下。 |                                                                                                                                                                                       |
-| init      | 把初始化信息写入`package.json`                                                        | `npm init -y`会使用默认值                                                                                                                                                             |
-|           |                                                                                       |                                                                                                                                                                                       |
+<!-- prettier-ignore-start -->
+|           |          |      |
+| --------- | -------------------------- | ------------- |
+| uninstall | 卸载模块   |      |
+| update    | 更新模块   | 按照 package.js 里标注的版本号进行更新                  |
+| outdated  | 检查模块是否已经过时               |      |
+| ls        | 查看安装的模块                     |      |
+| help      | 查看详细信息                       |      |
+| root      | 查看安装路径                       |      |
+| config    | 设置配置   | npm config set proxy=http://xxx.com:8080(设置代理)npm config set registry="http://r.cnpmjs.org"(设置镜像)npm install -g cnpm --registry=https://registry.npm.taobao.org(设置淘宝镜像) |
+| cache     | 管理模块的缓存                     |      |
+| start     | 启动模块   |      |
+| stop      |            |      |
+| restart   |            |      |
+| test      |            |      |
+| version   |            |      |
+| view      | 查看模块的注册信息                 |      |
+| adduer    | 用户登录   |      |
+| publish   | 发布模块   |      |
+| access    | 在发布的包上设置访问级别           |      |
+| rebuild   | 使用新版本的 node 时，重新编译所有 c++插件。它会运行在与`npm build`相匹配的文件夹下。 |      |
+| init      | 把初始化信息写入`package.json`     | `npm init -y`会使用默认值    |
+|           |            |      |
+<!-- prettier-ignore-end -->
 
 ## 全局安装和局部安装的区别
 
@@ -70,28 +72,30 @@ npm cache clean --force
 
 ## [子命令](/package-manager/npm/subCommand.html)
 
-|            |                                                                                       |                                                                                                                                                                                       |
-| ---------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| uninstall  | 卸载模块                                                                              |                                                                                                                                                                                       |
-| update     | 更新模块                                                                              | 按照 package.js 里标注的版本号进行更新                                                                                                                                                |
-| outdated   | 检查模块是否已经过时                                                                  |                                                                                                                                                                                       |
-| ls         | 查看安装的模块                                                                        |                                                                                                                                                                                       |
-| help       | 查看详细信息                                                                          |                                                                                                                                                                                       |
-| root       | 查看安装路径                                                                          |                                                                                                                                                                                       |
-| config     | 设置配置                                                                              | npm config set proxy=http://xxx.com:8080(设置代理)npm config set registry="http://r.cnpmjs.org"(设置镜像)npm install -g cnpm --registry=https://registry.npm.taobao.org(设置淘宝镜像) |
-| cache      | 管理模块的缓存                                                                        |                                                                                                                                                                                       |
-| start      | 启动模块                                                                              |                                                                                                                                                                                       |
-| stop       |                                                                                       |                                                                                                                                                                                       |
-| restart    |                                                                                       |                                                                                                                                                                                       |
-| test       |                                                                                       |                                                                                                                                                                                       |
-| version    |                                                                                       |                                                                                                                                                                                       |
-| view       | 查看模块的注册信息                                                                    |                                                                                                                                                                                       |
-| adduer     | 用户登录                                                                              |                                                                                                                                                                                       |
-| publish    | 发布模块                                                                              |                                                                                                                                                                                       |
-| access     | 在发布的包上设置访问级别                                                              |                                                                                                                                                                                       |
-| rebuild    | 使用新版本的 node 时，重新编译所有 c++插件。它会运行在与`npm build`相匹配的文件夹下。 |                                                                                                                                                                                       |
-| init       | 把初始化信息写入`package.json`                                                        | `npm init -y`会使用默认值                                                                                                                                                             |
-| set-script | 设置脚本                                                                              | `npm set-script build 'node ./index.js'`旧写法 `npm pkg set scripts.dev="concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\""`新写法                                        |
+<!-- prettier-ignore-start -->
+|            |            |      |
+| ---------- | ----------------------------- | ------------- |
+| uninstall  | 卸载模块   |      |
+| update     | 更新模块   | 按照 package.js 里标注的版本号进行更新                  |
+| outdated   | 检查模块是否已经过时               |      |
+| ls         | 查看安装的模块                     |      |
+| help       | 查看详细信息                       |      |
+| root       | 查看安装路径                       |      |
+| config     | 设置配置   | npm config set proxy=http://xxx.com:8080(设置代理)npm config set registry="http://r.cnpmjs.org"(设置镜像)npm install -g cnpm --registry=https://registry.npm.taobao.org(设置淘宝镜像) |
+| cache      | 管理模块的缓存                     |      |
+| start      | 启动模块   |      |
+| stop       |            |      |
+| restart    |            |      |
+| test       |            |      |
+| version    |            |      |
+| view       | 查看模块的注册信息                 |      |
+| adduer     | 用户登录   |      |
+| publish    | 发布模块   |      |
+| access     | 在发布的包上设置访问级别           |      |
+| rebuild    | 使用新版本的 node 时，重新编译所有 c++插件。它会运行在与`npm build`相匹配的文件夹下。 |      |
+| init       | 把初始化信息写入`package.json`     | `npm init -y`会使用默认值    |
+| set-script | 设置脚本   | `npm set-script build 'node ./index.js'`旧写法 `npm pkg set scripts.dev="concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\""`新写法                |
+<!-- prettier-ignore-end -->
 
 ### intall 命令
 
@@ -110,15 +114,17 @@ npm cache clean --force
 
     npm i
 
-| 缩写 | 全写            |                                                       |
+<!-- prettier-ignore-start -->
+| 缩写 | 全写            |    |
 | ---- | --------------- | ----------------------------------------------------- |
 | -S   | --save          | 安装包信息将加入 dependencies(生产阶段的依赖)（默认） |
 | -D   | --save-dev      | 安装包信息将加入到 devdependencies(开发阶段的依赖)    |
 | -O   | --save-optional | optionalDependencies(可选阶段的依赖)                  |
-| -E   | --save-exact    | 精确安装指定模块版本                                  |
-|      | --dry-run       |                                                       |
-|      | local           | 本地安装                                              |
-| -g   | --global        | 全局安装                                              |
+| -E   | --save-exact    | 精确安装指定模块版本          |
+|      | --dry-run       |    |
+|      | local           | 本地安装                      |
+| -g   | --global        | 全局安装                      |
+<!-- prettier-ignore-end -->
 
 - 他项目里没有引入你所需的依赖包，那么你插件所依赖的包会被安装
 - 他项目里引入了你所需的依赖包：
@@ -164,7 +170,7 @@ npm unlink <package-name> # 取消链接依赖项
 有些项目中会在此文件中添加自定义字段。可以是该项目需要。
 
 <!-- prettier-ignore-start -->
-| key   | description                             | optional                | type              | demo     |
+| key   | description     | optional                | type              | demo     |
 | ---- | ------------- |  | ------ | ----- |
 | name  | 包的名字。可以使用作用域前缀`@myorg/mypackage`    | n        | string            |          |
 | version              | 版本号                   | n        | string            |          |

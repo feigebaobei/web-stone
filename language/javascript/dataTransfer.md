@@ -4,7 +4,7 @@
 > 它为拖动事件之间担任数据传递的角色。  
 > 在 dragover/dragleave 事件对象中无 dataTransfer 属性。
 
-```
+```js
 new DataTransfer() // 返回一个DataTransfer对象
 ```
 
@@ -30,9 +30,8 @@ new DataTransfer() // 返回一个DataTransfer对象
 
 <!-- prettier-ignore-start -->
 
-```
+```js
 let img = new Image()
 img.src = './path/to/file.png'
 $event.dataTransfer.setDragImage(img, x, y)
-
 ```

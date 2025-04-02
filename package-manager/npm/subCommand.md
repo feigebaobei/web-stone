@@ -107,6 +107,7 @@ npm ci
 
 与`npm install`类似。
 
+<!-- prettier-ignore-start -->
 | install | ci                                                 |     |     |
 | ------- | -------------------------------------------------- | --- | --- |
 |         | 必须存在`package-lock.json`、`npm-shrinkwrap.json` |     |     |
@@ -114,9 +115,11 @@ npm ci
 |         | 只能安装全部依赖                                   |     |     |
 |         | 若 node_modules 已经存在，则先删除，再创建。       |     |     |
 |         | 不会修改 package.json 和锁文件。                   |     |     |
+<!-- prettier-ignore-end -->
 
 ## configuration
 
+<!-- prettier-ignore-start -->
 |                        | 说明 | ult   |     |
 | ---------------------- | ---- | ----- | --- |
 | save                   |      |       |     |
@@ -137,6 +140,7 @@ npm ci
 | workspaces             |      |       |     |
 | include-workspace-root |      |       |     |
 | install-links          |      | false |     |
+<!-- prettier-ignore-end -->
 
 # pack
 
@@ -151,6 +155,7 @@ npm ci
 npm pack [[<@scope>/]<pkg>...] [--dry-run] [--json]
 ```
 
+<!-- prettier-ignore-start -->
 |                     |                                                                                |         |       |
 | ------------------- | ------------------------------------------------------------------------------ | ------- | ----- |
 | `--dry-run`         | 不会                                                                           |         |       |
@@ -158,6 +163,7 @@ npm pack [[<@scope>/]<pkg>...] [--dry-run] [--json]
 | `--pack-detination` | 打包的目录                                                                     | string  | `.`   |
 | `--workspace`       | 工作空间。不会。可选值：- 工作空间的名字。- 工作空间的目录。- 父工作空间的路径 | string  | -     |
 | `--workspaces`      |                                                                                | boolean | false |
+<!-- prettier-ignore-end -->
 
 # unpublish
 
@@ -193,6 +199,18 @@ npm uninstall --global package-name
 npm ls --global # 查看全局安装的包
 npm ls --global package-name # 是否全局安装指定包
 ```
+
+# search
+
+```shell
+npm search esbuild --registry http://npmjs.com
+```
+
+# title
+
+# title
+
+# title
 
 # title
 

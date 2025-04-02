@@ -1024,7 +1024,7 @@ IdleDeadline {
 - [selection](/language/javascript/selection.html)
 - [selection](/language/javascript/selection.html)
 
-# BOM & js
+# [BOM](/browser/bom.html) & js
 
 - BOM Broser Object Model 浏览器对象模型
 
