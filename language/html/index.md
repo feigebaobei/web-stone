@@ -355,18 +355,16 @@ Array.from(dom.classList).includes('nc')
 
 # 内联框架
 
-```
-<iframe src="demo_iframe.htm" width="200" height="200"></iframe>
-```
+## iframe
 
-frameborder 属性规定是否显示 iframe 周围的边框。
+[iframe](/language/html/iframe.html)
 
 # javascript
 
 常用于操作 dom.
 可根据 class/id/tag 等得到 dom.
 可修改样式。
-详见[javascript](/javascript/index.html)
+详见[javascript](/language/javascript/index.html)
 
 # 路径
 

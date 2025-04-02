@@ -146,6 +146,9 @@ await collection.find({ $text: { $search: 'value' } }) // 返回搜索key是字�
 |`$setOnInsert`|若不存在则创建，否则无操作。|||||
 <!-- prettier-ignore-end -->
 
+使用$set、upsert 存在则更新，不存在则新增
+使用$setOnInsert、upsert 存在则不操作，不存在则新增
+
 ## 聚合操作
 
 ## title
