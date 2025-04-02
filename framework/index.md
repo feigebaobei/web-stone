@@ -17,7 +17,7 @@
 - [single-spa](/framework/single-spa/index.html)
 - [express](/framework/express/index.html)
 - [htmx](/framework/htmx/index.html)
-- [jQuery 4.0](/framework/htmx/index.html)
+- [jQuery 4.0](/framework/jquery.html)
 
 # title
 
