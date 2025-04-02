@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul>
+        <li draggable="true">one</li>
+        <li draggable="true">two</li>
+        <li draggable="true">three</li>
+        <li draggable="true">four</li>
+        <li draggable="true">five</li>
+        <li draggable="true">six</li>
+    </ul>
+    <img src="./webui.png" />
+    <script>
+        let clog = console.log
+        let ul = document.querySelector('ul')
+        let img = new Image()
+        img.src = './webui.png'
+        ul.addEventListener('dragstart', (event) => {
+            event.dataTransfer.setData('dragCont', event.target.innerHTML)
+            // $event.dataTransfer.setDragImage(img, x, y)
+            // event.dataTransfer.effectAllowed = 'link'
+            event.dataTransfer.setDragImage(img, 1, 1)
+        })
+        ul.addEventListener('dragover', (event) => {
+            event.preventDefault()
+        })
+        ul.addEventListener('drop', (event) => {
+            event.preventDefault()
+            let dragCont = event.dataTransfer.getData('dragCont')
+
+            clog('dragCont', dragCont)
+            event.target.innerHTML = dragCont
+        })
+    </script>
+</body>
+</html>
