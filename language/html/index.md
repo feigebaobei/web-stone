@@ -948,7 +948,7 @@ source.onmessage = function(event) {
 
 # 富文本编辑
 
-详见[富文本编辑](/404.html)
+详见[富文本编辑](/confuse/edit.html)
 
 # 音频
 
