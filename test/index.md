@@ -82,6 +82,7 @@
 - [mocha](/test/mocha.html)
 - [cypress](/test/cypress.html)
 - [testing-library](/test/test-library.html)
+- [playwrigth](/test/playwrigth.html)
 - Enzyme
 
 # 常用测试框架结构：
@@ -97,3 +98,5 @@
 # 端到端测试工具
 
 # [可观测性](/test/observability.html)
+
+# [错误&解决方案](/test/errorResolve.html)

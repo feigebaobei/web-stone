@@ -47,47 +47,73 @@
     </div>
     <script type="module">
       let clog = console.log
-
-      // class PromiseControllable {
-      //   constructor () {
-      //     this.resolve
-      //     this.reject
-      //     this.p = new Promise((s, j) => {
-      //       this.resolve = s
-      //       this.reject = j
-      //     })
-      //   }
-      // }
-      // let pc = new PromiseControllable()
-      // pc.p.then(() => {
-      //   clog('then')
-      // }).catch(() => {
-      //   clog('catch')
-      // })
-      // setTimeout(() => {
-      //   pc.resolve()
-      //   pc.reject()
-      // }, 2000)
-
-      let p0 = Promise.resolve()
-      let p1 = Promise.resolve()
-      setTimeout(() => {
-
-        Promise.all([p0, p1]).then(() => {
-          clog('this')
-        })
-      }, 2000)
-      
-      let a = [1,2,3,4,5,6,7,8,9]
-      for (let i = 0; i < a.length; i++) {
-        // if ()
-        let [t] = a.splice(i, 1)
-        clog('i', i, t)
+      class ControllablePromise {
+        constructor(timeout = -1) {
+          this.s = null
+          this.j = null
+          this.promise = new Promise((s, j) => {
+            this.s = s
+            this.j = j
+          })
+          this.timeout = timeout
+          if (this.timeout > -1) {
+            let self = this
+            setTimeout(() => {
+              self.reject('timeout')
+            }, this.timeout)
+          }
+        }
+        resolve(p) {
+          this.s(p)
+        }
+        reject(p) {
+          this.j(p)
+        }
       }
 
 
 
-      
+      let cp = new ControllablePromise()
+      cp.promise.then((p) => {
+        clog('then', p)
+      })
+      cp.promise.catch((p) => {
+        clog('catch', p)
+      })
+      let cp1 = new ControllablePromise(2)
+      cp1.promise.then((p) => {
+        clog('then', p)
+      })
+      cp1.promise.catch((p) => {
+        clog('catch', p)
+      })
+      let cp2 = new ControllablePromise()
+      cp2.promise.then((p) => {
+        clog('then', p)
+      })
+      cp2.promise.catch((p) => {
+        clog('catch', p)
+      })
+      setTimeout(() => {
+        // cp.resolve('1234')
+        cp.reject('1234')
+        cp2.resolve('1234')
+      }, 5000)
+
+      let pr = new Promise((s, j) => {
+        setTimeout(() => {
+          s('s')
+        }, 0)
+      })
+      let fn = async () => {
+        let a = await pr
+        clog('a', a)
+      }
+      setTimeout(() => {
+        fn()
+      }, 2000)
+
+
 
     </script>
   </body>

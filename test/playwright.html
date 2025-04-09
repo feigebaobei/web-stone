@@ -2,7 +2,7 @@
         <html>
         <head>
             <meta charset="UTF-8">
-            <title>bom</title>
+            <title></title>
             <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -138,37 +138,39 @@
         
         </head>
         <body class="vscode-body vscode-light">
-            <h1 id="bom">bom</h1>
-<p>iframe.contentWindow 来获取 <iframe> 中的 window。
-iframe.contentDocument 来获取 <iframe> 中的 document，是 iframe.contentWindow.document 的简写形式。</p>
-<p>通过索引获取：window.frames[0] —— 文档中的第一个 iframe 的 window 对象。
-通过名称获取：window.frames.iframeName —— 获取 name=&quot;iframeName&quot; 的 iframe 的 window 对象。</p>
-<h2 id="window">window</h2>
-<pre><code>window.open(url, name, feature)
-window.location.href
-window.history.back()
-window.navigator.userAgent
-window.close()
-window.setTimeout(...)
-window.setInterval(...)
-window.postMessage(...)
-window.top 顶层窗口。当已经是顶层窗口时，返回自身的引用。
-window.parent 父层窗口。当已经是顶层窗口时，返回自身的引用。
-
-</code></pre>
-<h2 id="父子页面通信">父子页面通信</h2>
-<pre><code class="language-js"><span class="hljs-comment">// 子页面</span>
-<span class="hljs-keyword">let</span> buttonDom = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;button&#x27;</span>)
-buttonDom.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {
-    <span class="hljs-keyword">let</span> iframeWin = iframeDom.<span class="hljs-property">contentWindow</span>
-    <span class="hljs-keyword">let</span> msg = <span class="hljs-string">&#x27;sss&#x27;</span>
-    <span class="hljs-keyword">let</span> targetOrigin = <span class="hljs-string">&#x27;http://localhost:3002&#x27;</span>
-    iframeWin.<span class="hljs-title function_">postMessage</span>(msg, targetOrigin)
-}, <span class="hljs-literal">false</span>)
-
-<span class="hljs-comment">// 父页面</span>
-<span class="hljs-variable language_">window</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;message&#x27;</span>, handle, <span class="hljs-literal">false</span>)
-</code></pre>
+            <p>要将内容脚本注入到没有 src 属性的 iframe 中，您需要采用特定方法，因为浏览器扩展对这类 iframe 的处理有一些限制。以下是一些可能的解决方案：</p>
+<ol>
+<li>使用 executeScript 方法，通过指定 frameId：</li>
+</ol>
+<p>javascriptCopychrome.scripting.executeScript({
+target: {tabId: tabId, frameIds: [frameId]},
+function: yourFunction
+});</p>
+<ol start="2">
+<li>对于没有 src 的 iframe（空白 iframe），您可能需要先获取所有 frame 的 ID：</li>
+</ol>
+<p>javascriptCopychrome.webNavigation.getAllFrames({tabId: tabId}, function(frames) {
+// 处理查找到的所有 frames，包括无 src 的 iframe
+});</p>
+<ol start="3">
+<li>如果是动态创建的无 src iframe，您可以考虑使用 MutationObserver 来监听 DOM 变化，然后在检测到新 iframe 时进行脚本注入。</li>
+<li>另一种方法是从父页面脚本访问 iframe 的 contentWindow，然后通过它注入脚本：</li>
+</ol>
+<p>javascriptCopyfunction injectToBlankIframes() {
+const iframes = document.querySelectorAll('iframe:not([src])');
+iframes.forEach(iframe =&gt; {
+try {
+const doc = iframe.contentDocument || iframe.contentWindow.document;
+const script = doc.createElement('script');
+script.textContent = '/* 您的脚本内容 */';
+doc.head.appendChild(script);
+} catch(e) {
+console.error('无法访问 iframe:', e);
+}
+});
+}
+需要注意的是，如果 iframe 和主页面不同源，由于同源策略的限制，直接访问可能会失败。这种情况下，您需要使用浏览器扩展的特权 API。
+您具体是在开发什么类型的浏览器扩展？有什么特定的应用场景吗？</p>
 
             
             
