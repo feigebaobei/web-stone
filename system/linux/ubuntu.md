@@ -20,3 +20,67 @@
 | ctrl + l         | 清除屏幕内容               |        |
 | ctrl + c         | 终止当前任务               |        |
 | ctrl + r         | 反向搜索历史命令           | 不会用 |
+
+# 更新
+
+```
+sudo apt update
+sudo apt upgrade
+```
+
+# 安装软件
+## 安装.tar.xz
+1. 解压
+```shell
+tar -xJvf filename.tar.xz
+# -x 表示解压
+# -J 表示使用xz解压
+# -v 表示解压过程中显示详细信息
+# -f 表示解压的文件
+```
+2. 进入解压后的目录
+```
+cd filename
+# filename 是解压后的目录名称
+```
+3. 配置软件包
+大多数.tar.xz软件包都包含一个名为configure或autogen.sh的脚本文件，用于配置软件包。以下是一个示例命令。
+```
+./configure
+// 或
+./autogen.sh
+```
+
+4. 编译软件包
+```
+make
+```
+5. 安装软件包
+编译完成后，需要安装软件包。
+```
+sudo make install
+```
+6. 验证安装
+```
+which <软件名>
+```
+
+# title
+# title
+# title
+# title
+# title
+# title
+# title
+# title
+# title
+# title
+# title
+# title
+# title
+# title
+# title
+# title
+# title
+# title
+# title
