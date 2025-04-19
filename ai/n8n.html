@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>n8n</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="n8n">n8n</h1>
+<blockquote>
+<p>工作流自动化平台
+支持成流水线工作。</p>
+</blockquote>
+<p>你是一名AI新闻编辑，负责筛选、翻译和整理最新的AI行业动态，并确保信息清晰、美观地呈现给读者。</p>
+<p>任务要求：</p>
+<ol>
+<li>从中XXX筛选1条仅与AI技术进展和应用相关的新闻，忽略无关信息。</li>
+<li>精准翻译为中文，并保留业内常见的英文术语（如Neural Networks、Reinforcement Learning等，不必强制翻译）。</li>
+<li>确保每条新闻附带原始URL，方便读者获取详细信息。</li>
+<li>在开头注明当天日期，例如：“早上好，今天是2025年3月26日，以下是最新的AI行业新闻。”</li>
+<li>对输出内容进行排版美化，使用适当的换行、编号、粗体等格式，使信息更易阅读。例如：<br>
+📌 1. AI突破：新型Transformer架构提升文本理解能力<br>
+🔗 <a href="URL">原文链接</a><br>
+研究人员开发了一种改进版的 Transformer 结构，相比传统模型，在文本分类和摘要生成方面提升了20%的准确率……</li>
+</ol>
+<p>📌 2. OpenAI 发布 GPT-5，参数量达 2 万亿<br>
+🔗 <a href="URL">原文链接</a><br>
+最新的 GPT-5 具备更强的推理能力，能够更自然地处理多轮对话，并支持实时检索……</p>
+<p>请确保最终输出内容清晰、美观，方便读者快速获取关键信息。</p>
+<h2 id="编辑流水线的教程">编辑流水线的教程</h2>
+<p>操作文档：使用n8n搭建新闻聚合频道的工作流</p>
+<ol>
+<li>准备工作
+目的：了解n8n的特点并准备部署环境。
+说明：
+n8n 是一个开源、高度灵活的自动化工作流工具，支持本地部署和强大的自定义能力，适用于复杂工作流编排。
+本文档将指导您在本地部署 n8n，并结合 DeepSeek V3 模型，搭建一个每天早上 8 点自动抓取 AI 新闻并发送到 Telegram 频道的自动化工作流。</li>
+<li>本地部署n8n
+目的：在本地安装并运行 n8n 服务。
+操作步骤：
+访问n8n官网：
+打开 n8n 官网，了解其在线平台（可免费试用 14 天，之后需付费）。
+本地部署无需付费，可参考其 GitHub 项目(<a href="https://github.com/n8n-io/n8n">https://github.com/n8n-io/n8n</a>)。
+选择部署方式：
+n8n 支持 Node.js 和 Docker 两种部署方式。
+使用Node.js部署：
+访问 Node.js 官网 下载并安装 Node.js。
+安装完成后，打开命令行，输入以下命令启动 n8n：
+npx n8n
+服务启动后，命令行会输出本地服务地址（如 <a href="http://localhost:5678">http://localhost:5678</a>）。
+按 o 键自动打开浏览器，或手动复制地址在浏览器中访问。
+使用Docker部署：
+访问 Docker 官网 下载并安装 Docker。
+国内用户需配置国内源（可搜索相关教程）。
+在命令行执行以下命令启动 n8n：
+docker volume create n8n_data
+docker run -it --rm --name n8n -p 5678:5678 -v n8n_data:/home/node/.n8n <a href="http://docker.n8n.io/n8nio/n8n">docker.n8n.io/n8nio/n8n</a>
+服务启动后，手动打开浏览器访问 <a href="http://localhost:5678">http://localhost:5678</a>。
+注册账号：
+首次访问时，输入注册信息并完善个人信息，完成 n8n 账号创建。
+注意：Node.js 和 Docker 部署的 n8n 是独立实例，数据互不共享，需分别注册。</li>
+<li>搭建AI工作流
+目的：创建一个自动化工作流，定时抓取 AI 新闻并发送到 Telegram 频道。
+操作步骤：
+创建新工作流：
+登录 n8n 后，点击“创建一个空白项目”进入工作流编辑页面。
+添加触发节点：
+点击“+”添加节点，选择“定时触发”。
+设置触发时间为每天早上 8 点：
+在“时间间隔”中选择“每天”。
+设置具体时间为“08:00”。
+调整时区为“Asia/Shanghai”（上海时间）：点击节点右上角“设置” &gt; “时区” &gt; 选择“Shanghai”。
+点击“测试”验证，确保触发时间正确。
+添加HTTP请求节点（新闻API）：
+添加第一个 HTTP 请求节点：
+选择“HTTP 请求”，方法为“GET”。
+使用 News API（官网）：
+注册并获取 API Key（每天 100 次免费调用）。
+URL 示例：<a href="https://newsapi.org/v2/everything?q=AI&amp;apiKey=%E4%BD%A0%E7%9A%84APIKey%E3%80%82">https://newsapi.org/v2/everything?q=AI&amp;apiKey=你的APIKey。</a>
+修改查询参数 q=AI，测试返回 AI 相关新闻。
+添加第二个 HTTP 请求节点：
+使用 GNews API（官网）：
+注册并获取 API Key（每天 100 次免费调用）。
+URL 示例：<a href="https://gnews.io/api/v4/search?q=AI&amp;lang=en&amp;token=%E4%BD%A0%E7%9A%84APIKey%E3%80%82">https://gnews.io/api/v4/search?q=AI&amp;lang=en&amp;token=你的APIKey。</a>
+添加参数 lang=en 确保返回英文新闻，测试节点。
+数据转换：
+添加“字段编辑”节点（数据转换 &gt; 字段编辑）：
+将两个 HTTP 节点的 articles 字段拖入，转换为字符串类型，测试输出。
+添加“合并”节点（数据转换 &gt; 合并）：
+连接两个字段编辑节点的输出，合并新闻数据，测试输出合并后的字符串。
+添加AI Agent节点：
+点击“+”添加“AI Agent”节点，选择“自定义AI提示词”。
+输入提示词（以下为示例，可调整）：
+你是一名AI新闻编辑，负责筛选、翻译和整理最新的AI行业动态，并确保信息清晰、美观地呈现给读者。</li>
+</ol>
+<p>任务要求：</p>
+<ol>
+<li>从中XXX筛选1条仅与AI技术进展和应用相关的新闻，忽略无关信息。</li>
+<li>精准翻译为中文，并保留业内常见的英文术语（如Neural Networks、Reinforcement Learning等，不必强制翻译）。</li>
+<li>确保每条新闻附带原始URL，方便读者获取详细信息。</li>
+<li>在开头注明当天日期，例如：“早上好，今天是2025年3月26日，以下是最新的AI行业新闻。”</li>
+<li>对输出内容进行排版美化，使用适当的换行、编号、粗体等格式，使信息更易阅读。例如：<br>
+📌 1. AI突破：新型Transformer架构提升文本理解能力<br>
+🔗 <a href="URL">原文链接</a><br>
+研究人员开发了一种改进版的 Transformer 结构，相比传统模型，在文本分类和摘要生成方面提升了20%的准确率……</li>
+</ol>
+<p>📌 2. OpenAI 发布 GPT-5，参数量达 2 万亿<br>
+🔗 <a href="URL">原文链接</a><br>
+最新的 GPT-5 具备更强的推理能力，能够更自然地处理多轮对话，并支持实时检索……</p>
+<p>请确保最终输出内容清晰、美观，方便读者快速获取关键信息。
+将合并节点的输出拖入提示词中替换输入数据。
+配置 AI 模型：
+点击左下角“+”添加 AI 服务，选择“DeepSeek”。
+输入 DeepSeek API Key（在 DeepSeek 官网 注册获取）。
+选择模型 deepseek-chat（V3 版本），测试节点，确保返回翻译后的新闻。
+添加Telegram节点：
+点击“+”添加“Telegram”节点，选择“发送纯文本消息”。
+配置 Telegram Bot：
+在 Telegram 中搜索 @BotFather，创建 Bot（例如“桃渊小明-AI新闻聚合”），获取 Token。
+搜索 @get_id_bot，输入 /my_id 获取 Chat ID。
+在节点中输入 Token 和 Chat ID，将 AI Agent 的输出拖入“消息内容”字段。
+测试节点，确保新闻发送到指定 Telegram 频道。
+4. 测试与优化
+目的：验证工作流并优化细节。
+操作步骤：
+测试工作流：
+点击“测试工作流”，检查新闻抓取、翻译和发送是否正常。
+优化：
+根据测试结果调整 API 参数、提示词或节点配置（如筛选更多新闻）。
+启用工作流：
+测试无误后，点击工作流开关启用定时执行。
+5. 使用本地AI模型（可选）
+目的：使用本地 AI 模型实现零成本运营。
+操作步骤：
+安装Ollama：
+访问 Ollama 官网 下载并安装。
+打开 Ollama，搜索并部署模型（如 DeepSeek R1 7B）：
+ollama run deepseek-r1-7b
+配置AI Agent节点：
+编辑 AI Agent 节点，删除 DeepSeek 配置。
+添加新 AI 服务，选择“Ollama”。
+设置地址：
+Node.js 部署：127.0.0.1:11434。
+Docker 部署：host.docker.internal:11434。
+选择本地模型 deepseek-r1-7b，测试并保存。
+测试工作流：
+重新测试，确保本地模型正常处理新闻并发送到 Telegram。
+6. 注意事项
+时区设置：确保触发器时区为“Asia/Shanghai”，避免时间错误。
+API Key管理：妥善保存 News API、GNews API 和 DeepSeek API Key。
+本地部署限制：本地 n8n 无公网 IP，无法使用 Webhook 功能，需云部署支持。
+成本说明：
+使用 DeepSeek V3：每次约 0.06 元，0:30-8:30 间五折优惠（约 0.03 元）。
+使用本地模型（如 Ollama）：完全免费。
+使用指南
+步骤概览：
+完成准备工作，选择 Node.js 或 Docker 部署。
+部署n8n并注册账号。
+搭建工作流，按步骤配置节点。
+测试与优化，确保功能正常。
+启用工作流，实现自动化。
+个性化调整：可根据需求调整新闻来源、提示词或模型。
+常见问题解答
+Q：如何获取Telegram Bot Token和Chat ID？
+A：在 Telegram 中通过 @BotFather 创建 Bot 获取 Token，通过 @get_id_bot 获取 Chat ID。
+Q：工作流执行失败怎么办？
+A：检查 API Key、网络连接和节点配置，查看错误日志定位问题。
+Q：如何切换到本地AI模型？
+A：安装 Ollama，部署模型后在 AI Agent 节点中配置本地地址和模型名称。
+总结
+通过本地部署 n8n 并结合 DeepSeek V3 或本地模型（如 DeepSeek R1 7B），您可以低成本甚至零成本运营一个 Telegram AI 新闻聚合频道。本文档基于视频文案整理，涵盖完整操作流程，适合初学者使用。如需相关网址或资料，可参考视频描述。</p>
+
+            
+            
+        </body>
+        </html>

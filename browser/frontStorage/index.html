@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>&#x524d;&#x7aef;&#x5b58;&#x50a8;</title>
-        <style>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x524d;&#x7aef;&#x5b58;&#x50a8;</title>
+            <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -11,12 +11,14 @@
  *--------------------------------------------------------------------------------------------*/
 
 .vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
 	display: none;
 }
 
 </style>
-        
+            
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -37,10 +39,106 @@
     pointer-events: none;
 }
 </style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
         
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="前端存储">前端存储</h1>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="前端存储">前端存储</h1>
 <h2 id="简介">简介</h2>
 <p>一种在前端保存数据的思想。第一次在页面中的保存数据，那么从第二次开始就可以使用了。可以使用的方法有：</p>
 <ol>
@@ -67,7 +165,7 @@
 </ol>
 <p><img src="/Users/cat/Documents/code/personal/web-stone/browser/frontStorage/image/cookie0.png" alt=""></p>
 <h3 id="使用">使用</h3>
-<p><img src="file:////Users/cat/Documents/code/personal/web-stone/browser/frontStorage/image/cookie1.png" alt=""></p>
+<p><img src="/Users/cat/Documents/code/personal/web-stone/browser/frontStorage/image/cookie1.png" alt=""></p>
 <h3 id="总结">总结</h3>
 <p><strong>设置 cookie 的值</strong></p>
 <pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">setCookie</span>(<span class="hljs-params">key, value, duration</span>) {
@@ -147,7 +245,7 @@ localStorage.clear();
 <th>sessionStorage</th>
 <th>userData</th>
 <th>web sql</th>
-<th>indexedDB</th>
+<th>- <a href="/frontStore/indexedDB.html">indexedDB</a></th>
 <th>storage</th>
 </tr>
 </thead>
@@ -196,8 +294,8 @@ localStorage.clear();
 </table>
 <h2 id="前端存储用户信息">前端存储用户信息</h2>
 <p>前端一般不存储用户信息。但不排除老项目中存储用户信息的。
-用户信息不宜长期、明文保存在前端。一般保存在后端，然后在前端存储一个指向该用户信息的key.如：token/cookie.
-前端常用的保存方式：ls/ss/store。因不能长期保存，不使用ls.因不能关闭页面后再打开还需要登录，不使用ss.store可以实现不直白保存在浏览器。最后选择store。接下来不要频繁请求用户信息。</p>
+用户信息不宜长期、明文保存在前端。一般保存在后端，然后在前端存储一个指向该用户信息的 key.如：token/cookie.
+前端常用的保存方式：ls/ss/store。因不能长期保存，不使用 ls.因不能关闭页面后再打开还需要登录，不使用 ss.store 可以实现不直白保存在浏览器。最后选择 store。接下来不要频繁请求用户信息。</p>
 <pre><code class="language-js"><span class="hljs-comment">// 请求并保存用户信息。</span>
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">reqASave</span>() = <span class="hljs-function">() =&gt;</span> {
   <span class="hljs-keyword">return</span> <span class="hljs-title function_">reqUserInfo</span>().<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
@@ -272,7 +370,7 @@ axiosInstance.<span class="hljs-property">intercepters</span>.<span class="hljs-
 })
 </code></pre>
 
-        
-        
-    </body>
-    </html>
+            
+            
+        </body>
+        </html>

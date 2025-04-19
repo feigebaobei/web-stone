@@ -46,34 +46,34 @@ yo code
             "type": "object",
             "title": "string",
             "title": {
-                //
-                "vscodePluginDemo.yourName": {
-                    "type": "string",
-                    "default": "string",
-                    "description": "string",
-                },
-                // 启动时的提示
-                "vscodePluginDemo.showTip": {
-                    "type": "string",
-                    "default": true,
-                    "description": "string",
-                },
+				//
+				"vscodePluginDemo.yourName": {
+					"type": "string",
+					"default": "string",
+					"description": "string",
+				},
+				// 启动时的提示
+				"vscodePluginDemo.showTip": {
+					"type": "string",
+					"default": true,
+					"description": "string",
+				},
             },
         },
         // 命令
         "commands": [
             {
-                "command": "extension.sayHello",
-                "title": "hello world"
+				"command": "extension.sayHello",
+				"title": "hello world"
             }
         ],
         // 绑定快捷键
         "commands": [
             {
-                "command": "extension.sayHello",
-                "key": "ctrl+f10",
-                "mac": "cmd+f10",
-                "when": "editorTextFocus",
+				"command": "extension.sayHello",
+				"key": "ctrl+f10",
+				"mac": "cmd+f10",
+				"when": "editorTextFocus",
             }
         ],
         // 菜单
@@ -193,39 +193,41 @@ exports.deactivate = function () {}
 
 # 字段说明
 
-|                  |                                                    |                                         | demo                                                      |     |
-| ---------------- | -------------------------------------------------- | --------------------------------------- | --------------------------------------------------------- | --- |
-| activationEvents | 所有插件都是默认不激活的。只有在这里配置才能激活。 | `[]`                                    |                                                           |     |
-|                  | onLanguage:${language}                             |                                         | onLanguage:javascript，只要打开 js 类型的文件就激活该插件 |     |
-|                  | onCommand:${command}                               | 使用 onCommand 注册激活事件             | `[]`                                                      |     |
-|                  | onDebug                                            |                                         |                                                           |     |
-|                  | workspaceContains:${toplevelfilename}              |                                         |                                                           |     |
-|                  | onFileSystem:${scheme}                             |                                         |                                                           |     |
-|                  | onView:${viewId}                                   |                                         |                                                           |     |
-|                  | onUri                                              |                                         |                                                           |     |
-|                  | \*                                                 | 一启动 vscode 就激活                    |                                                           |     |
-| contributes      | 可以配置扩展 vscode 各种能力                       |                                         |                                                           |     |
-|                  | configuration                                      | 设置                                    |                                                           |     |
-|                  | command                                            | 中的 command 需要在 extension.ts 中注册 |                                                           |     |
-|                  | menus                                              | 设置菜单                                |                                                           |     |
-|                  | keybindings                                        | 绑定快捷键                              |                                                           |     |
-|                  | languages                                          | 新语言支持                              |                                                           |     |
-|                  | debuggers                                          | 调试                                    |                                                           |     |
-|                  | breakpoints                                        | 断点                                    |                                                           |     |
-|                  | grammars                                           |                                         |                                                           |     |
-|                  | themes                                             | 主题                                    |                                                           |     |
-|                  | snippets                                           | 代码片段                                |                                                           |     |
-|                  | jsonValidation                                     | 自定义 json 校验                        |                                                           |     |
-|                  | views                                              | 侧边栏视图                              |                                                           |     |
-|                  | viewsContainers                                    | 自定义 activitybar                      |                                                           |     |
-|                  | problemMatchers                                    |                                         |                                                           |     |
-|                  | problemPatterns                                    |                                         |                                                           |     |
-|                  | taskDefinitions                                    |                                         |                                                           |     |
-|                  | colors                                             |                                         |                                                           |     |
-| contributes      |                                                    |                                         |                                                           |     |
-| contributes      |                                                    |                                         |                                                           |     |
-| contributes      |                                                    |                                         |                                                           |     |
-| contributes      |                                                    |                                         |                                                           |     |
+<!-- prettier-ignore-start -->
+| |       |        | demo            |     |
+| ---------------- | ------------- | ------ | ------------------------ | --- |
+| activationEvents | 所有插件都是默认不激活的。只有在这里配置才能激活。 | `[]`    |   |     |
+|    | onLanguage:${language}               |         | onLanguage:javascript，只要打开 js 类型的文件就激活该插件 |     |
+|    | onCommand:${command}   | 使用 onCommand 注册激活事件             | `[]`            |     |
+|    | onDebug  |         |   |     |
+|    | workspaceContains:${toplevelfilename}              |         |   |     |
+|    | onFileSystem:${scheme}               |         |   |     |
+|    | onView:${viewId}   |         |   |     |
+|    | onUri    |         |   |     |
+|    | \*       | 一启动 vscode 就激活      |   |     |
+| contributes      | 可以配置扩展 vscode 各种能力         |         |   |     |
+|    | configuration      | 设置    |   |     |
+|    | command  | 中的 command 需要在 extension.ts 中注册 |   |     |
+|    | menus    | 设置菜单    |   |     |
+|    | keybindings        | 绑定快捷键  |   |     |
+|    | languages          | 新语言支持  |   |     |
+|    | debuggers          | 调试    |   |     |
+|    | breakpoints        | 断点    |   |     |
+|    | grammars |         |   |     |
+|    | themes   | 主题    |   |     |
+|    | snippets | 代码片段    |   |     |
+|    | jsonValidation     | 自定义 json 校验          |   |     |
+|    | views    | 侧边栏视图  |   |     |
+|    | viewsContainers    | 自定义 activitybar        |   |     |
+|    | problemMatchers    |         |   |     |
+|    | problemPatterns    |         |   |     |
+|    | taskDefinitions    |         |   |     |
+|    | colors   |         |   |     |
+| contributes      |          |         |   |     |
+| contributes      |          |         |   |     |
+| contributes      |          |         |   |     |
+| contributes      |          |         |   |     |
+<!-- prettier-ignore-end -->
 
 # 调试
 
