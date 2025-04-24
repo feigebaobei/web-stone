@@ -773,7 +773,6 @@ export type {
 
 
 
-
 ```
 
 - [rxjs](/util/rxjs.html)
