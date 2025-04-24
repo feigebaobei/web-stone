@@ -54,6 +54,7 @@ npm 是包管理命令行工具。可以下载、删除……依赖包。若该�
 
 ### npx
 
+npx execute 
 npx 是包执行器。在 npm v5.2.0 时内置于 npm 中。可直接执行可执行文件，不必先安装。
 demo for npx:
 

@@ -65,7 +65,12 @@ sudo make install
 which <软件名>
 ```
 
-# title
+## 安装.deb
+```
+sudo dpkg -i packagename.deb # install
+sudo dpkg -r packagename.deb # remove
+sudo dpkg-reconfigure packagename # Reconfigure/Repair 
+```
 # title
 # title
 # title
