@@ -18,3 +18,4 @@
 - [WebAssembly](/language/WebAssembly/index.html)
 - [java](/language/java/index.html)
 - [markdown](/language/markdown/index.html)
+- [rust](/language/rust/index.html)
