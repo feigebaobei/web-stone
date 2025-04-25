@@ -110,11 +110,13 @@ npm ci
 <!-- prettier-ignore-start -->
 | install | ci                                                 |     |     |
 | ------- | -------------------------------------------------- | --- | --- |
+| 根据package.json安装依赖 | 根据 `package-lock.json`、`npm-shrinkwrap.json` 安装依赖   |     |     |
 |         | 必须存在`package-lock.json`、`npm-shrinkwrap.json` |     |     |
 |         | 当锁文件与 package.json 的依赖不相同时，抛出错误。 |     |     |
 |         | 只能安装全部依赖                                   |     |     |
 |         | 若 node_modules 已经存在，则先删除，再创建。       |     |     |
 |         | 不会修改 package.json 和锁文件。                   |     |     |
+|   慢      | 快                   |     |     |
 <!-- prettier-ignore-end -->
 
 ## configuration
