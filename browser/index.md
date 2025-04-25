@@ -30,7 +30,7 @@
 - [开发者工具](/browser/devTool.html)
 - [dom](/browser/dom.html)
 - [bom](/browser/bom.html)
-- [title](/browser/title.html)
+- [extensions](/browser/extensions/index.html)
 - [title](/browser/title.html)
 - [title](/browser/title.html)
 - [title](/browser/title.html)

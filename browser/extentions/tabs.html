@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>chrome&period;tabs</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="chrometabs">chrome.tabs</h1>
+<blockquote>
+<p>chrome.tabs 可与浏览器的标签页系统交互。可创建、修改、重排标签页。
+可检测标签页的语言、截取屏幕截图，与内容脚本通信。
+在当前聚集的窗口检索活跃标签页，被视为用户的当前标签页。</p>
+</blockquote>
+<h2 id="权限">权限</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>tabs</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>activeTab</td>
+<td>会在响应用户调用时向扩展程序授予当前标签页的临时主机权限。</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="demo">demo</h2>
+<pre><code class="language-js"><span class="hljs-comment">// background.js</span>
+chrome.<span class="hljs-property">runtime</span>.<span class="hljs-property">onInstalled</span>.<span class="hljs-title function_">addListener</span>(<span class="hljs-function">(<span class="hljs-params">{reason}</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (reason === <span class="hljs-string">&#x27;install&#x27;</span>) {
+        <span class="hljs-attr">url</span>: <span class="hljs-string">&#x27;onboarding.html&#x27;</span>
+    }
+})
+
+<span class="hljs-comment">// 获取当前tab页面</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">getCurrentTab</span>(<span class="hljs-params">cb</span>) {
+    <span class="hljs-keyword">let</span> q = {<span class="hljs-attr">active</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">lastFocusedWindow</span>: <span class="hljs-literal">true</span>}
+    chrome.<span class="hljs-property">tabs</span>.<span class="hljs-title function_">query</span>(q, <span class="hljs-function">(<span class="hljs-params">[tab]</span>) =&gt;</span> {
+        <span class="hljs-keyword">if</span> (chrome.<span class="hljs-property">runtime</span>.<span class="hljs-property">lastError</span>) {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(chrome.<span class="hljs-property">runtime</span>.<span class="hljs-property">lastError</span>)
+            <span class="hljs-title function_">cb</span>(tab)
+        }
+    })
+}
+<span class="hljs-comment">// 设置指定tab页静音</span>
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">toggleMuteState</span>(<span class="hljs-params">tabId</span>) {
+    <span class="hljs-keyword">let</span> tab = <span class="hljs-keyword">await</span> chrome.<span class="hljs-property">tabs</span>.<span class="hljs-title function_">get</span>(tabId)
+    <span class="hljs-keyword">let</span> muted = !tab.<span class="hljs-property">mutedInfo</span>.<span class="hljs-property">muted</span>
+    <span class="hljs-keyword">await</span> chrome.<span class="hljs-property">tabs</span>.<span class="hljs-title function_">update</span>(tabId, {muted})
+}
+
+chrome.<span class="hljs-property">tabs</span>.<span class="hljs-title function_">move</span>(tabId, {<span class="hljs-attr">index</span>: <span class="hljs-number">0</span>}) <span class="hljs-comment">// 移到第一个位置。返回promise对象</span>
+
+<span class="hljs-keyword">await</span> chrome.<span class="hljs-property">tabs</span>.<span class="hljs-title function_">sendMessage</span>(tabId, message) <span class="hljs-comment">// 与特定标签页通信</span>
+</code></pre>
+<h2 id="type">type</h2>
+<pre><code class="language-ts"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">MutedInfo</span> {
+    <span class="hljs-attr">extensionId</span>: S <span class="hljs-comment">// 改变了静音状态的扩展程序id</span>
+    <span class="hljs-attr">muted</span>: B <span class="hljs-comment">// 是否静音状态</span>
+    reason?: <span class="hljs-title class_">MutedInfoReason</span> <span class="hljs-comment">// 改变静音状态的原因</span>
+}
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">MutedInfoReason</span> {
+    <span class="hljs-comment">// enum</span>
+    <span class="hljs-comment">// ...</span>
+}
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">Tab</span> {
+    <span class="hljs-attr">active</span>: B <span class="hljs-comment">// 是否是激活状态</span>
+    audible?: B <span class="hljs-comment">// </span>
+    <span class="hljs-attr">autoDiscardable</span>: B
+    <span class="hljs-attr">discarded</span>: B
+    favIconUrl?: S
+    <span class="hljs-attr">frozen</span>: B
+    <span class="hljs-attr">groupId</span>: N
+    height?: N
+    <span class="hljs-attr">highlighted</span>: B
+    id?: N
+    <span class="hljs-attr">incognito</span>: B
+    <span class="hljs-attr">index</span>: N <span class="hljs-comment">// 在当前window中的序号。从0开始。</span>
+    <span class="hljs-attr">lastAccessed</span>: N
+    mutedInfo?: <span class="hljs-title class_">MutedInfo</span>
+    openerTabId?: N
+    pendingUrl?: S
+    <span class="hljs-attr">pinned</span>: B
+    <span class="hljs-attr">selected</span>: B <span class="hljs-comment">// deprecated</span>
+    sessionId?: S
+    status?: <span class="hljs-title class_">TabStatus</span>
+    title?: S
+    url?: S
+    width?: N
+    <span class="hljs-attr">windowId</span>: N
+}
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">TabStatus</span> = <span class="hljs-string">&#x27;unloaded&#x27;</span> | <span class="hljs-string">&#x27;loading&#x27;</span> | <span class="hljs-string">&#x27;complete&#x27;</span>
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">WindowType</span> = <span class="hljs-string">&#x27;normal&#x27;</span> | <span class="hljs-string">&#x27;popup&#x27;</span> | <span class="hljs-string">&#x27;panel&#x27;</span> | <span class="hljs-string">&#x27;app&#x27;</span> | <span class="hljs-string">&#x27;devtools&#x27;</span>
+<span class="hljs-title class_">ZoomSettings</span>
+</code></pre>
+<h2 id="api">api</h2>
+<pre><code class="language-ts"><span class="hljs-title function_">captureVisibleTab</span>(windowId?: N, options?: <span class="hljs-title class_">ImageDetails</span>, cb?: <span class="hljs-function">(<span class="hljs-params">dataUrl: S</span>) =&gt;</span> <span class="hljs-built_in">void</span>) =&gt; P <span class="hljs-comment">// 获取显示区域</span>
+<span class="hljs-title function_">connect</span>(<span class="hljs-attr">tabId</span>: N, connectInfo?: {<span class="hljs-attr">documentId</span>: S, <span class="hljs-attr">frameId</span>: N, <span class="hljs-attr">name</span>: S}) =&gt; runtime.<span class="hljs-property">port</span> <span class="hljs-comment">// 与指定tab页的内容脚本通信</span>
+<span class="hljs-title function_">create</span>(<span class="hljs-attr">createProperties</span>: {xxxx}, cb?: <span class="hljs-function">(<span class="hljs-params">tab: Tab</span>) =&gt;</span> <span class="hljs-built_in">void</span>) <span class="hljs-comment">// 创建新tab页面</span>
+<span class="hljs-title function_">detectLanguage</span>(tabId?: N, cb?: <span class="hljs-function">(<span class="hljs-params">language: S</span>) =&gt;</span> <span class="hljs-built_in">void</span>) <span class="hljs-comment">// 检测tab页面的内容的主要语言</span>
+<span class="hljs-title function_">discard</span>(tabId?: N, cb?: <span class="hljs-function">(<span class="hljs-params">tab: Tab</span>) =&gt;</span> <span class="hljs-built_in">void</span>) <span class="hljs-comment">// 舍弃标签页。舍弃的标签页仍会显示在标签栏中，并会在激活后重新加载。</span>
+<span class="hljs-title function_">duplicate</span>(<span class="hljs-attr">tabId</span>: N, cb?: <span class="hljs-function">(<span class="hljs-params">tab: Tab</span>) =&gt;</span> <span class="hljs-built_in">void</span>) <span class="hljs-comment">// 复制标签页</span>
+<span class="hljs-title function_">get</span>(<span class="hljs-attr">tabId</span>: N, cb?: <span class="hljs-function">(<span class="hljs-params">tab: Tab</span>) =&gt;</span> <span class="hljs-built_in">void</span>) =&gt; P&lt;<span class="hljs-title class_">Tab</span>&gt; <span class="hljs-comment">// 复制标签页</span>
+<span class="hljs-title function_">getCurrent</span>(cb?: <span class="hljs-function">(<span class="hljs-params">tab: Tab</span>) =&gt;</span> <span class="hljs-built_in">void</span>) =&gt; P&lt;<span class="hljs-title class_">Tab</span> | <span class="hljs-literal">undefined</span>&gt; <span class="hljs-comment">// 获取发出此脚本调用的标签页。如果从非标签页上下文（例如背景页面或弹出式窗口视图）调用，则返回 undefined。</span>
+<span class="hljs-title function_">getZoom</span>(tabId?: N, cb?: <span class="hljs-function">(<span class="hljs-params">zoomFactor: N</span>) =&gt;</span> <span class="hljs-built_in">void</span>) =&gt; P&lt;N&gt; <span class="hljs-comment">// 获取当前缩放比例</span>
+<span class="hljs-title function_">getZoomSettings</span>(tabId?: N, cb?: <span class="hljs-function">(<span class="hljs-params">zoomSettings: ZoomSettings</span>) =&gt;</span> <span class="hljs-built_in">void</span>) =&gt; P&lt;<span class="hljs-title class_">ZoomSettings</span>&gt; <span class="hljs-comment">// 获取当前缩放比例</span>
+<span class="hljs-title function_">goBack</span>(tabId?: N, cb?: <span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">void</span>) =&gt; P&lt;<span class="hljs-built_in">void</span>&gt; <span class="hljs-comment">// 返回上一页（如果有） </span>
+<span class="hljs-title function_">goForward</span>(<span class="hljs-attr">options</span>: {<span class="hljs-attr">createProperties</span>: {<span class="hljs-attr">windowId</span>: N}, <span class="hljs-attr">groupId</span>: N, <span class="hljs-attr">tabIds</span>: N[]}, cb?: <span class="hljs-function">(<span class="hljs-params">groupId: N</span>) =&gt;</span> <span class="hljs-built_in">void</span>) =&gt; P&lt;N&gt; <span class="hljs-comment">// 将一个或多个标签页添加到指定的组；如果未指定组，则将给定标签页添加到新创建的组。</span>
+<span class="hljs-title function_">highlight</span>(<span class="hljs-attr">highlightInfo</span>: {
+    ...
+    <span class="hljs-attr">windowId</span>: N
+}, cb?: <span class="hljs-function">(<span class="hljs-params"><span class="hljs-variable language_">window</span>: Window</span>) =&gt;</span> <span class="hljs-built_in">void</span>) =&gt; P&lt;windows.<span class="hljs-property">Window</span>&gt; <span class="hljs-comment">// 返回上一页（如果有） </span>
+<span class="hljs-title function_">move</span>(<span class="hljs-attr">tabIds</span>: N | N[], <span class="hljs-attr">moveProperties</span>: {<span class="hljs-attr">index</span>: N, <span class="hljs-attr">windowId</span>: N}, cb?: <span class="hljs-function">(<span class="hljs-params">tabs: Tab | Tab[]</span>) =&gt;</span> <span class="hljs-built_in">void</span>) =&gt; P&lt;<span class="hljs-title class_">Tab</span> | <span class="hljs-title class_">Tab</span>[]&gt; <span class="hljs-comment">// 将一个或多个标签页移至其窗口中的新位置，或移至新窗口。请注意，标签页只能在普通窗口（window.type === &quot;normal&quot;）之间移动。</span>
+<span class="hljs-title function_">query</span>(<span class="hljs-attr">queryInfo</span>: {
+    <span class="hljs-attr">active</span>: B
+    <span class="hljs-attr">audible</span>: B <span class="hljs-comment">// 标签页是否可听。</span>
+    <span class="hljs-attr">autoDiscardable</span>: B <span class="hljs-comment">// 浏览器在资源不足时是否可以自动舍弃标签页。</span>
+    <span class="hljs-attr">currentWindow</span>: B
+    <span class="hljs-attr">groupId</span>: N
+    <span class="hljs-attr">index</span>: N
+    lastFocusedWindow?: B
+    status?: <span class="hljs-title class_">TabStatus</span>
+    <span class="hljs-attr">title</span>: S
+    url?: S
+    <span class="hljs-attr">window</span>: N
+    windowType?: <span class="hljs-title class_">WindowType</span>
+}, cb?: <span class="hljs-function">(<span class="hljs-params">result: Tab[]</span>) =&gt;</span> <span class="hljs-built_in">void</span>) =&gt; P&lt;<span class="hljs-title class_">Tab</span>[]&gt; <span class="hljs-comment">// 获取具有指定属性的所有标签页，如果未指定任何属性，则获取所有标签页。</span>
+<span class="hljs-title function_">reload</span>(tabId?: N, reloadProperties?: {bypassCache}, cb?: <span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">void</span>) =&gt; P&lt;<span class="hljs-built_in">void</span>&gt; <span class="hljs-comment">// 重新加载标签页。</span>
+<span class="hljs-title function_">remove</span>(tabIds?: N | N[], cb?: <span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">void</span>) =&gt; P&lt;<span class="hljs-built_in">void</span>&gt; <span class="hljs-comment">// 关闭一个或多个标签页。</span>
+<span class="hljs-title function_">sendMessage</span>(<span class="hljs-attr">tabId</span>: N, <span class="hljs-attr">message</span>: <span class="hljs-built_in">any</span>, option?: {documentId?: S, frameId?: N}, cb?: <span class="hljs-function">(<span class="hljs-params">response: A</span>) =&gt;</span> <span class="hljs-built_in">void</span>) =&gt; P&lt;A&gt; <span class="hljs-comment">// 返回上一页（如果有） </span>
+<span class="hljs-title function_">setZoom</span>(tabId?: N, 
+<span class="hljs-attr">zoomFactor</span>: N, <span class="hljs-comment">// 值为 0 会将标签页设为其当前的默认缩放比例。大于 0 的值用于为标签页指定（可能非默认的）缩放比例。 </span>
+cb?: <span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">void</span>) =&gt; P&lt;<span class="hljs-built_in">void</span>&gt; <span class="hljs-comment">// 缩放指定标签页。</span>
+<span class="hljs-title function_">setZoomSettings</span>(tabId?: N, <span class="hljs-attr">zoomSettings</span>: <span class="hljs-title class_">ZoomSettins</span>, cb?: <span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">void</span>) =&gt; P&lt;<span class="hljs-built_in">void</span>&gt; <span class="hljs-comment">// 为指定标签页设置缩放设置，这些设置用于定义如何处理缩放更改。在浏览标签页时，这些设置会重置为默认设置。</span>
+<span class="hljs-title function_">ungroup</span>(<span class="hljs-attr">tabIds</span>: N | N[], cb?: <span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">void</span>) =&gt; P&lt;<span class="hljs-built_in">void</span>&gt; <span class="hljs-comment">// 从相应分组中移除一个或多个标签页。如果任何组变为空组，系统都会将其删除。</span>
+<span class="hljs-title function_">update</span>(tabId?: N, <span class="hljs-attr">updateProperties</span>: {...}, cb?: <span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">void</span>) =&gt; P&lt;<span class="hljs-built_in">void</span>&gt; <span class="hljs-comment">//修改标签页的属性。系统不会修改未在 updateProperties 中指定的属性。</span>
+</code></pre>
+<h2 id="事件">事件</h2>
+<pre><code class="language-ts"><span class="hljs-title function_">onActivated</span>(<span class="hljs-attr">cb</span>: <span class="hljs-function">(<span class="hljs-params">activeInfo: {tabId: N, windowId: N}</span>) =&gt;</span> <span class="hljs-built_in">void</span>) <span class="hljs-comment">// 当窗口中的活动标签页发生变化时触发。</span>
+<span class="hljs-title function_">onAttached</span>(<span class="hljs-attr">cb</span>: <span class="hljs-function">(<span class="hljs-params">tabId: N, attachInfo: {newPosition: N, newWindowId}</span>) =&gt;</span> <span class="hljs-built_in">void</span>) <span class="hljs-comment">// 在标签页附加到窗口时触发；例如，由于标签页在窗口之间移动。</span>
+<span class="hljs-title function_">onCreated</span>(<span class="hljs-attr">cb</span>: <span class="hljs-function">(<span class="hljs-params">tab: Tab</span>) =&gt;</span> <span class="hljs-built_in">void</span>) <span class="hljs-comment">// 在创建标签页时触发。</span>
+<span class="hljs-title function_">onDetached</span>(<span class="hljs-attr">cb</span>: <span class="hljs-function">(<span class="hljs-params">tabId: N, detachInfo: {oldPosition: N, oldWindowId: N}</span>) =&gt;</span> <span class="hljs-built_in">void</span>) <span class="hljs-comment">// 在标签页与窗口分离时触发；例如，由于标签页在窗口之间移动。</span>
+<span class="hljs-title function_">onHighlighted</span>(<span class="hljs-attr">cb</span>: <span class="hljs-function">(<span class="hljs-params">highlightInfo: {tabIds: N[], windowId: N}</span>) =&gt;</span> <span class="hljs-built_in">void</span>) <span class="hljs-comment">// 当窗口中的突出显示或选定的标签页发生变化时触发。</span>
+<span class="hljs-title function_">onMoved</span>(<span class="hljs-attr">cb</span>: <span class="hljs-function">(<span class="hljs-params">tabId: N, moveInfo: {fromIndex: N, toIndex: N, windowId: N}</span>) =&gt;</span> <span class="hljs-built_in">void</span>) <span class="hljs-comment">// 当标签页在窗口中移动时触发。</span>
+<span class="hljs-title function_">onRemoved</span>(<span class="hljs-attr">cb</span>: <span class="hljs-function">(<span class="hljs-params">tabId: N, removeInfo: {isWindowClosing: B, windowId: N}</span>) =&gt;</span> <span class="hljs-built_in">void</span>) <span class="hljs-comment">// 在标签页关闭时触发。</span>
+<span class="hljs-title function_">onReplaced</span>(<span class="hljs-attr">cb</span>: <span class="hljs-function">(<span class="hljs-params">addedTabId: N, removedTabId: N</span>) =&gt;</span> <span class="hljs-built_in">void</span>) <span class="hljs-comment">// 当标签页因预渲染或即时呈现而被替换为其他标签页时触发。 </span>
+<span class="hljs-title function_">onUpdated</span>(<span class="hljs-attr">cb</span>: <span class="hljs-function">(<span class="hljs-params">tabId: N, changeInfo: O, tab: Tab</span>) =&gt;</span> <span class="hljs-built_in">void</span>) <span class="hljs-comment">// 在标签页更新时触发。</span>
+<span class="hljs-title function_">onZoomChange</span>(cb?: <span class="hljs-function">(<span class="hljs-params">ZoomChangeInfo: O</span>) =&gt;</span> <span class="hljs-built_in">void</span>) <span class="hljs-comment">// 在放大标签页时触发。</span>
+</code></pre>
+
+            
+            
+        </body>
+        </html>

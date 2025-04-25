@@ -17,4 +17,33 @@ window.close()
 window.setTimeout(...)
 window.setInterval(...)
 window.postMessage(...)
+window.top 顶层窗口。当已经是顶层窗口时，返回自身的引用。
+window.parent 父层窗口。当已经是顶层窗口时，返回自身的引用。
+
+```
+
+## window & document
+
+```
+window.document // document
+```
+
+## 父子页面通信
+
+```js
+// 子页面
+let buttonDom = document.querySelector('button')
+buttonDom.addEventListener(
+  'click',
+  (event) => {
+    let iframeWin = iframeDom.contentWindow
+    let msg = 'sss'
+    let targetOrigin = 'http://localhost:3002'
+    iframeWin.postMessage(msg, targetOrigin)
+  },
+  false
+)
+
+// 父页面
+window.addEventListener('message', handle, false)
 ```

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x6d4f;&#x89c8;&#x5668;&#x6269;&#x5c55;&#x63d2;&#x4ef6;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="浏览器扩展插件">浏览器扩展插件</h1>
+<p>Content Script API 的运行方式是注入到特定的网页中执行。</p>
+<p>需要在插件清单文件（manifest.json）中声明 Content Script。</p>
+<p>需要在插件清单文件（manifest.json）中声明 Content Script。</p>
+<p>通过 run_at 字段，可以指定 Content Script 的注入时机。可以选择在文档开始加载时注入（document_start）、文档结束加载前注入（document_end）或默认情况下在文档加载完成后注入（document_idle）。
+json 体验 AI 代码助手 代码解读复制代码</p>
+<p>权限：需要在插件的 manifest.json 文件中声明权限，才能访问网页的内容。
+跨域访问：由于 Content Script 是在网页的上下文中运行的，所以需要注意跨域访问的问题。
+异步调用：由于它是异步调用的，所以需要使用 Promise 和回调函数处理异步操作。
+页面状态：由于它是在网页的上下文中运行的，所以需要注意页面的状态，避免在页面未加载完成时进行操作。</p>
+<p>字段名描述
+chrome.runtime.onMessage.addListener()用于监听来自扩展程序的后台页面或其他
+content script 发送的消息
+chrome.extension.getURL()用于获取扩展程序中指定文件的
+URLdocument.createElement()用于在当前页面中创建新的
+HTML 元素 window.addEventListener()用于监听当前页面中的事件，如点击、滚动、键盘按键等
+chrome.runtime.executeScript()在指定的标签页中执行
+JavaScript 代码 chrome.runtime.insertCSS()向指定的标签页动态注入 CSS 样式
+chrome.tabs.sendMessage()向指定标签页发送消息并接收响应</p>
+<p>你不能将代码注入浏览器的任何内置页面，例如：about:debugging、about:addons 或打开新空白标签页时打开的页面。</p>
+<h2 id="内容脚本">内容脚本</h2>
+<p>在每一个 extension 的每一个 frame 中，只有一个全局作用域。所以在一个 content script 中的变量可以被另外的 content script 访问到，而与 content script 如何被加载无关。</p>
+<h3 id="向页面注入-js-代码">向页面注入 js 代码</h3>
+<p>Manifest V2 使用
+tabs.executeScript()
+Manifest V3 使用
+scripting.executeScript()
+将脚本注入目标上下文。默认情况下脚本将在 document_idle 时运行。</p>
+<h3 id="后台脚本通信">后台脚本通信</h3>
+<p>尽管 content scripts 不能直接使用大部分 WebExtension APIS，但他们可以通过使用 messaging APIS 与扩展的后台脚本通信，然后便能够间接地调用所有的后台脚本能够调用的 APIS。</p>
+<h2 id="js">js</h2>
+<p>JS 种类 可访问的 API DOM 访问情况 JS 访问情况 直接跨域
+injected script 和普通 JS 无任何差别，不能访问任何扩展 API 可以访问 可以访问 不可以
+content script 只能访问 extension、runtime 等部分 API 可以访问 不可以 不可以
+popup js 可访问绝大部分 API，除了 devtools 系列 不可直接访问 不可以 可以
+background js 可访问绝大部分 API，除了 devtools 系列 不可直接访问 不可以 可以
+devtools js 只能访问 devtools、extension、runtime 等部分 API 可以 可以 不可以</p>
+<h2 id="backgroundjs">background.js</h2>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> bg = chrome.<span class="hljs-property">extension</span>.<span class="hljs-title function_">getBackgroundPage</span>()
+bg.<span class="hljs-title function_">fn</span>() <span class="hljs-comment">// 使用指定方法</span>
+</code></pre>
+<h2 id="title">title</h2>
+<h2 id="title-1">title</h2>
+<h2 id="title-2">title</h2>
+
+            
+            
+        </body>
+        </html>
