@@ -2,7 +2,7 @@
 
 ## overview
 
-> TODO: description
+> 内部由多个功能块组成。
 
 ### feature
 
@@ -21,8 +21,9 @@
 
 ```
 
-### http
+## http
 
+- 可执行 http 请求
 - 一般把请求功能封装在一个[服务](/framework/angular//service.html)中。
 - 返回值是 Observable 对象
 

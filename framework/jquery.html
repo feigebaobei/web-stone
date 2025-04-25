@@ -18,7 +18,8 @@
 }
 
 </style>
-            
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -139,8 +140,17 @@
         </head>
         <body class="vscode-body vscode-light">
             <h1 id="jquery">jquery</h1>
+<pre><code>on() bind() click() one() 等方法绑定的事件，都在冒泡阶段触发。
+</code></pre>
+<pre><code class="language-js"><span class="hljs-comment">// 获取该dom的所有事件</span>
+<span class="hljs-keyword">let</span> element = $(<span class="hljs-string">&#x27;#id&#x27;</span>)
+<span class="hljs-keyword">let</span> events = element.<span class="hljs-title function_">data</span>(<span class="hljs-string">&#x27;events&#x27;</span>)
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> e <span class="hljs-keyword">in</span> events) {
+    <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;e&#x27;</span>, e)
+}
+</code></pre>
 
-            
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
             
         </body>
         </html>

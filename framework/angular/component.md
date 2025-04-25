@@ -155,9 +155,25 @@ fn2() {
 }
 ```
 
+### 在父组件调用子组件的方法
+
+```ts
+// 父组件
+import type { ChildComp } from './childComp.component'
+...
+#ViewChild('child') child: ChildComp // 把具有child属性的元素赋值给child变量
+ngOnInit() {
+    this.child.fn('xxx')
+}
+
+<app-child #child></app-child>
+
+// 子组件
+```
+
 ## 生命周期
 
-每一个接口有一个生命周期方法。若要使用多个生命周期方法，则实例多个接口。
+每一个接口有一个生命周期方法。若要使用多个生命周期方法，则实现多个接口。
 
 <!-- prettier-ignore-start -->
 | 钩子函数 | 触发时机   |  接口   |一般用于做什么|

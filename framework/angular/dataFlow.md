@@ -99,11 +99,11 @@ this.data = this.dataService.getData()
 
 ```js
 let count: WritableSignal<N> = signal(0)
-let doubleCount: Signal<N> = computed(() => count() * 2)
+let doubleCount: Signal<N> = computed(() => count() * 2) // 计算信号不可写
 ```
 
 doubleCount 信号取决于 count。每当 count 更新时，Angular 知道任何依赖于 count 或 doubleCount 东西也需要更新。
-计算信号的依赖性是动态的
+计算信号的依赖性是动态的。只有逻辑分支中使用到了信号才会触发副作用。
 副作用是一种操作，只要一个或多个信号值发生变化就会运行。你可以使用 effect 函数创建副作用
 
 - 记录正在显示的数据及其更改时间，用于分析或作为调试工具
@@ -169,6 +169,35 @@ export class ReceiverSignalComponent {
     // effect(() => {
     //   this.data()
     // })
+  }
+}
+```
+
+#### 共享信号
+
+```ts
+// utils
+import { Injectable, signal, Inject } from '@angular/core'
+// type
+import type { WritableSignal } from '@angular/core'
+type a = any
+
+// @Injectable({
+//   providedIn: 'root'
+// })
+export class ShareSignal<T> {
+  private data: WritableSignal<T>
+  constructor(
+    // @Inject(Object)
+    initValue: T
+  ) {
+    this.data = signal<T>(initValue)
+  }
+  set(value: T) {
+    this.data.set(value)
+  }
+  get() {
+    return this.data()
   }
 }
 ```

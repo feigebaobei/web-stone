@@ -17,8 +17,26 @@
     <div [data]="item">
 </div>
 
+```
+
+## ngFor
 
 ```
+<div *ngFor="let item of list; trackBy: userByName">
+    <div [data]="item">
+</div>
+userByName(index, user) {
+    return user.name
+}
+```
+
+使用 trackBy 比较不同。默认值
+
+```
+const identify = (index: number, item: any) => item;
+```
+
+## ngIf
 
 ## ngModelChange
 
