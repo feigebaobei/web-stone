@@ -143,32 +143,29 @@
 </code></pre>
 <p>frameborder 属性规定是否显示 iframe 周围的边框。</p>
 <p>不能加载回馈头含有<code>X-Frame-Options: SAMEORIGIN</code>的页面。
-易受到xss攻击。</p>
+易受到 xss 攻击。</p>
 <h2 id="套娃">套娃</h2>
 <p>任何想要使用其祖先页面的 url 作为他的 src 的话，都会被当做一个 src 为空的 iframe （防止无循环套娃）
-当成url后加上qs(不重复的值)时，可以实现循环套娃。</p>
+当成 url 后加上 qs(不重复的值)时，可以实现循环套娃。</p>
 <h3 id="防嵌套网页">防嵌套网页</h3>
-<p>因为iframe享有着click的最优先权，</p>
+<p>因为 iframe 享有着 click 的最优先权，</p>
 <pre><code class="language-js"><span class="hljs-comment">//iframe2.html</span>
-<span class="hljs-keyword">if</span>(<span class="hljs-variable language_">window</span> != <span class="hljs-variable language_">window</span>.<span class="hljs-property">top</span>){
-    <span class="hljs-variable language_">window</span>.<span class="hljs-property">top</span>.<span class="hljs-property">location</span>.<span class="hljs-property">href</span> = correctURL;
+<span class="hljs-keyword">if</span> (<span class="hljs-variable language_">window</span> != <span class="hljs-variable language_">window</span>.<span class="hljs-property">top</span>) {
+  <span class="hljs-variable language_">window</span>.<span class="hljs-property">top</span>.<span class="hljs-property">location</span>.<span class="hljs-property">href</span> = correctURL
 }
 
 <span class="hljs-keyword">if</span> (top.<span class="hljs-property">location</span>.<span class="hljs-property">host</span> != <span class="hljs-variable language_">window</span>.<span class="hljs-property">location</span>.<span class="hljs-property">host</span>) {
-　　top.<span class="hljs-property">location</span>.<span class="hljs-property">href</span> = <span class="hljs-variable language_">window</span>.<span class="hljs-property">location</span>.<span class="hljs-property">href</span>;
+  top.<span class="hljs-property">location</span>.<span class="hljs-property">href</span> = <span class="hljs-variable language_">window</span>.<span class="hljs-property">location</span>.<span class="hljs-property">href</span>
 }
 
-<span class="hljs-keyword">try</span>{
-　　top.<span class="hljs-property">location</span>.<span class="hljs-property">hostname</span>;  <span class="hljs-comment">//检测是否出错</span>
-　　<span class="hljs-comment">//如果没有出错，则降级处理</span>
-　　<span class="hljs-keyword">if</span> (top.<span class="hljs-property">location</span>.<span class="hljs-property">hostname</span> != <span class="hljs-variable language_">window</span>.<span class="hljs-property">location</span>.<span class="hljs-property">hostname</span>) { 
-　　　　top.<span class="hljs-property">location</span>.<span class="hljs-property">href</span> =<span class="hljs-variable language_">window</span>.<span class="hljs-property">location</span>.<span class="hljs-property">href</span>;
-　　}
+<span class="hljs-keyword">try</span> {
+  top.<span class="hljs-property">location</span>.<span class="hljs-property">hostname</span> <span class="hljs-comment">//检测是否出错 //如果没有出错，则降级处理</span>
+  <span class="hljs-keyword">if</span> (top.<span class="hljs-property">location</span>.<span class="hljs-property">hostname</span> != <span class="hljs-variable language_">window</span>.<span class="hljs-property">location</span>.<span class="hljs-property">hostname</span>) {
+    top.<span class="hljs-property">location</span>.<span class="hljs-property">href</span> = <span class="hljs-variable language_">window</span>.<span class="hljs-property">location</span>.<span class="hljs-property">href</span>
+  }
+} <span class="hljs-keyword">catch</span> (e) {
+  top.<span class="hljs-property">location</span>.<span class="hljs-property">href</span> = <span class="hljs-variable language_">window</span>.<span class="hljs-property">location</span>.<span class="hljs-property">href</span>
 }
-<span class="hljs-keyword">catch</span>(e){
-　　top.<span class="hljs-property">location</span>.<span class="hljs-property">href</span> = <span class="hljs-variable language_">window</span>.<span class="hljs-property">location</span>.<span class="hljs-property">href</span>;
-}
- 
 </code></pre>
 <h2 id="csp-内容安全策略">csp 内容安全策略</h2>
 <p>可以对 iframe 的嵌套进行一定的控制，保证一定的安全性；</p>
@@ -181,29 +178,63 @@ DENY
 ALLOR-FROM uri
 允许指定特定域名的父级进行嵌套，不过目前基本都被浏览器废弃了</p>
 <h2 id="属性">属性</h2>
+<h3 id="width">width</h3>
+<h3 id="height">height</h3>
+<h3 id="name">name</h3>
+<p>iframe的名称</p>
+<h3 id="frameborder">frameborder</h3>
+<p>是否有边框。值为0/1。</p>
+<h3 id="src">src</h3>
+<h3 id="srcdoc">srcdoc</h3>
+<h3 id="scrolling">scrolling</h3>
+<p>scrolling=&quot;no&quot; 去滚动条</p>
+<h3 id="width-1">width</h3>
+<h3 id="width-2">width</h3>
 <h3 id="sandbox">sandbox</h3>
+<p>ie10+</p>
 <p>iframe 提供了一个 sandbox 模式，这个模式可以对 iframe 的内容进行一系列限制.如果 sandbox 的值是空字符串的话，那么会启动所有的限制；
 allow-scripts：允许嵌入的浏览上下文运行脚本
 allow-downloads-without-user-activation：允许在没有征求用户同意的情况下下载文件
 allow-forms：允许嵌入的浏览上下文提交表单
 allow-modals：允许嵌入的浏览上下文打开 Modal
 allow-popups：允许弹窗，打开新窗口
-allow-same-origin：不设置该属性，任何与该网站的资源交互会被同源策略拦截</p>
+allow-same-origin：不设置该属性，任何与该网站的资源交互会被同源策略拦截
+allow-top-navigation：允许 iframe 能够主导 window.top 进行页面跳转
+allow-pointer-lock：在 iframe 中可以锁定鼠标，主要和鼠标锁定有关</p>
 <pre><code class="language-js"><span class="hljs-comment">// 可以设置多个值</span>
-&lt;iframe sandbox=<span class="hljs-string">&quot;allow-forms allow-same-origin allow-scripts&quot;</span> src=<span class="hljs-string">&quot;...&quot;</span>&gt;&lt;/iframe&gt;
+&lt;iframe
+  sandbox=<span class="hljs-string">&quot;allow-forms allow-same-origin allow-scripts&quot;</span>
+  src=<span class="hljs-string">&quot;...&quot;</span>
+&gt;&lt;/iframe&gt;
 </code></pre>
 <h3 id="allow">allow</h3>
 <p>fullscreen</p>
+<h1 id="iframe中的内容">iframe中的内容</h1>
+<pre><code>iframe.contentWindow
+iframe.contentDocument
+window.frames['name']
+window.parent
+window.top
+iframe.contentWindow
+
+</code></pre>
 <h1 id="frameset">frameset</h1>
-<p>html frameset标签已弃用。用于包含frame,</p>
+<p>html frameset 标签已弃用。用于包含 frame,</p>
 <h1 id="frame">frame</h1>
 <p>已弃用。</p>
 <h1 id="portal">portal</h1>
 <p>浏览器都不支持</p>
+<h1 id="iframe的局限">iframe的局限</h1>
+<ul>
+<li>创建比一般的dom元素慢1-2个数量级</li>
+<li>阻塞页面加载</li>
+<li>唯一的连接池</li>
+<li>不利于seo</li>
+</ul>
 <h1 id="todo">todo</h1>
-<p>iframe的优缺点
-iframe的原理
-iframe能做什么，不能做什么</p>
+<p>iframe 的优缺点
+iframe 的原理
+iframe 能做什么，不能做什么</p>
 
             
             

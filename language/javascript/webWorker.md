@@ -79,15 +79,17 @@ EventTarget <--- Worker
 消息对象  
 继承自 Event 对象
 
-| MessageEvent |             |                                                      |     |     |     |
-| ------------ | ----------- | ---------------------------------------------------- | --- | --- | --- |
-| 属性         |             |                                                      |     |     |     |
-|              | data        |                                                      |     |     |     |
-|              | origin      |                                                      |     |     |     |
-|              | lastEventId |                                                      |     |     |     |
-|              | source      | 代表消息发送者                                       |     |     |     |
+<!-- prettier-ignore-start -->
+| MessageEvent |             |    |     |     |     |
+| ------------ | ----------- | ----------- | --- | --- | --- |
+| 属性         |             |    |     |     |     |
+|              | data        |    |     |     |     |
+|              | origin      |    |     |     |     |
+|              | lastEventId |    |     |     |     |
+|              | source      | 代表消息发送者              |     |     |     |
 |              | ports       | MessagePort 对象数组，表示消息下在通过特定通道传输。 |     |     |     |
-| 方法         |             |                                                      |     |     |     |
+| 方法         |             |    |     |     |     |
+<!-- prettier-ignore-end -->
 
 # 加载 worker 脚本
 

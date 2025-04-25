@@ -54,7 +54,33 @@ ALLOR-FROM uri
 
 ## 属性
 
+### width
+
+### height
+
+### name
+
+iframe 的名称
+
+### frameborder
+
+是否有边框。值为 0/1。
+
+### src
+
+### srcdoc
+
+### scrolling
+
+scrolling="no" 去滚动条
+
+### width
+
+### width
+
 ### sandbox
+
+ie10+
 
 iframe 提供了一个 sandbox 模式，这个模式可以对 iframe 的内容进行一系列限制.如果 sandbox 的值是空字符串的话，那么会启动所有的限制；
 allow-scripts：允许嵌入的浏览上下文运行脚本
@@ -63,6 +89,8 @@ allow-forms：允许嵌入的浏览上下文提交表单
 allow-modals：允许嵌入的浏览上下文打开 Modal
 allow-popups：允许弹窗，打开新窗口
 allow-same-origin：不设置该属性，任何与该网站的资源交互会被同源策略拦截
+allow-top-navigation：允许 iframe 能够主导 window.top 进行页面跳转
+allow-pointer-lock：在 iframe 中可以锁定鼠标，主要和鼠标锁定有关
 
 ```js
 // 可以设置多个值
@@ -76,6 +104,18 @@ allow-same-origin：不设置该属性，任何与该网站的资源交互会被
 
 fullscreen
 
+# iframe 中的内容
+
+```
+iframe.contentWindow
+iframe.contentDocument
+window.frames['name']
+window.parent
+window.top
+iframe.contentWindow
+
+```
+
 # frameset
 
 html frameset 标签已弃用。用于包含 frame,
@@ -87,6 +127,13 @@ html frameset 标签已弃用。用于包含 frame,
 # portal
 
 浏览器都不支持
+
+# iframe 的局限
+
+- 创建比一般的 dom 元素慢 1-2 个数量级
+- 阻塞页面加载
+- 唯一的连接池
+- 不利于 seo
 
 # todo
 
