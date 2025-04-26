@@ -189,3 +189,5 @@ A：安装 Ollama，部署模型后在 AI Agent 节点中配置本地地址和�
 通过本地部署 n8n 并结合 DeepSeek V3 或本地模型（如 DeepSeek R1 7B），您可以低成本甚至零成本运营一个 Telegram AI 新闻聚合频道。本文档基于视频文案整理，涵盖完整操作流程，适合初学者使用。如需相关网址或资料，可参考视频描述。
 
 # [常用的 node 说明](/ai/n8n/node.html)
+
+# [setup](/ai/n8n/setup.html)
