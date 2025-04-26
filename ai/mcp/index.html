@@ -2,7 +2,7 @@
         <html>
         <head>
             <meta charset="UTF-8">
-            <title>&#x5982;&#x4f55;&#x8ba9;&#x673a;&#x5668;&#x7406;&#x89e3;&#x7269;&#x7406;&#x4e16;&#x754c;</title>
+            <title>mcp</title>
             <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -138,50 +138,92 @@
         
         </head>
         <body class="vscode-body vscode-light">
-            <ul>
-<li>
-<p><a href="/ai/ollama.html">ollama</a></p>
-</li>
-<li>
-<p><a href="/ai/mcp/index.html">mcp</a></p>
-</li>
-<li>
-<p><a href="/ai/n8n/index.html">n8n</a></p>
-</li>
-<li>
-<p><a href="/ai/title.html">title</a></p>
-</li>
-<li>
-<p><a href="/ai/title.html">title</a></p>
-</li>
-<li>
-<p><a href="/ai/title.html">title</a></p>
-</li>
-<li>
-<p><a href="/ai/title.html">title</a></p>
-</li>
-<li>
-<p><a href="/ai/title.html">title</a></p>
-</li>
-<li>
-<p><a href="/ai/title.html">title</a></p>
-</li>
-<li>
-<p><a href="/ai/title.html">title</a></p>
-</li>
-<li>
-<p>rag</p>
-</li>
-<li>
-<p>n8n 自动化工作流</p>
-</li>
+            <h1 id="mcp">mcp</h1>
+<blockquote>
+<p>model context protocol
+让llm使用工具的协议。</p>
+</blockquote>
+<h2 id="概念">概念</h2>
+<p>mcp host 本质是支持mcp的软件。如：claude desktop / cursor / cline / cherry studio
+mcp server: mcp服务器。只是一个程序。一般使用node/py编写。可联网，可不联网。内置若干个tool.</p>
+<p>mcp host 与 mcp server的沟通方式：</p>
+<ul>
+<li>stdio 标准输入输出</li>
+<li>sse   server-sent events</li>
 </ul>
-<p>嵌入式模型：
-把文本轮换为向量</p>
-<h1 id="如何让机器理解物理世界">如何让机器理解物理世界</h1>
-<h1 id="如何让机器拥有持久记忆">如何让机器拥有持久记忆</h1>
-<h1 id="如何让机器具备推理能力并学会规划">如何让机器具备推理能力并学会规划</h1>
-<p>用大模型去推理是非常简化的推理方式</p>
+<h2 id="uml">uml</h2>
+<pre><code>	user		mcp server 			cline			llm
+					|				  |
+					|   			  |
+					|   启动 mcp server|
+					| &lt;-------------- |
+					|				  |
+					|   你是谁？能做什么？|
+					| &lt;-------------- |
+					|				  |
+					|				  |
+					|	我是weather	  |
+					|	可以根据经度纬度 |
+					|	查询天气		  |
+					| --------------&gt; |
+	 |  			|				  |
+	 |  	纽约明天的天气怎么样？  	  |
+	 | -----------------------------&gt; |
+	 |  			|				  |  纽约明天的天气怎么样？
+	 |  			|				  |  (还有这些工具可以使用)
+	 |  			|				  | --------------&gt; |
+	 |  			|				  |                 |
+	 |  			|				  |  请调用xx,参数是yy.
+	 |  			|				  | &lt;-------------- |
+	 |  			|				  | 
+	 |  			|请调用xx,参数是yy. |
+	 |				| &lt;-------------- |
+	 |  			|				  |
+	 |  			|	返回结果		  |
+	 |  			| --------------&gt; |
+	 |  			|				  |
+	 |  			|				  |  返回结果
+	 |  			|				  | --------------&gt; |
+	 |  			|				  |
+	 |  			|				  | 纽约明天的天气是xx
+	 |  			|				  | &lt;-------------- |
+	 |  			|				  |
+	 |  	纽约明天的天气是xx     	  |
+	 | &lt;----------------------------- |
+	 |  			|				  |
+	 |  			|				  |
+	 |  			|				  |
+</code></pre>
+<h2 id="常用的mcp">常用的mcp</h2>
+<h3 id="tavily">tavily</h3>
+<h4 id="功能">功能</h4>
+<ul>
+<li>搜索</li>
+<li>提取
+常用于解决信息的问题。</li>
+</ul>
+<h3 id="sequential-thinking">sequential thinking</h3>
+<p>强制多步骤分析推理
+常用于解决逻辑的问题。</p>
+<h3 id="filesystem">filesystem</h3>
+<ul>
+<li>读/写文件</li>
+<li>创建/列出/删除目录</li>
+<li>移动文件/目录</li>
+<li>搜索文件</li>
+<li>取得文件的元数据</li>
+</ul>
+<h3 id="markitdown">markitdown</h3>
+<p><code>*.pdf =》 *.md</code></p>
+<h3 id="title">title</h3>
+<p>milvus本地向量数据库。
+pinecone云端向量数据库。</p>
+<h2 id="mcp-市场">mcp 市场</h2>
+<ul>
+<li><a href="http://mcp.so">mcp.so</a></li>
+<li><a href="http://mcpmarket.com">mcpmarket.com</a></li>
+<li><a href="http://smithery.ai">smithery.ai</a></li>
+</ul>
 
             
             
