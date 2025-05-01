@@ -22,8 +22,8 @@
 ```
 
 - 文档。一个页面只有一个文档。在 dom 中是 document。
-- 元素。即 html 标签。在 dom 中使用 element 表示。
-- 节点。页面中所有内容都是节点。（标签、属性、文本、注释）。在 dom 中使用 node 表示。
+- 元素。即 html 标签。在 dom 中使用 [element](/language/html/element.html) 表示。
+- 节点。页面中所有内容都是节点。（标签、属性、文本、注释）。在 dom 中使用 [node](/language/html/node.html) 表示。
 
 ```
     |---节点-----------------|

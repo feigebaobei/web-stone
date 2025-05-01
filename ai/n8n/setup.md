@@ -51,3 +51,9 @@ N8N_SECURE_COOKIE=false
 ```
 
 在浏览器中打开 http://localhost:5678。
+
+在阿里云这样启动
+
+```
+n8n start --tunnel
+```

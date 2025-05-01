@@ -139,6 +139,87 @@
         </head>
         <body class="vscode-body vscode-light">
             <h1 id="dom">dom</h1>
+<p>文档对象模型 document object model</p>
+<h2 id="dom-树">dom 树</h2>
+<pre><code>    文档
+     |
+     V
+    根元素 &lt;html&gt;
+     |
+     |----------------------------------------|
+     V                                        V
+    元素 &lt;header&gt;                            元素 &lt;body&gt;
+     |                                        |------------------|
+     V                                        V                  V
+    元素 &lt;title&gt;               属性 href ---- 元素 &lt;a&gt;             元素 &lt;h1&gt;
+     |                                        |                  |
+     V                                        V                  V
+    文本 str                                 文本 str             文本 str
+</code></pre>
+<ul>
+<li>文档。一个页面只有一个文档。在 dom 中是 document。</li>
+<li>元素。即 html 标签。在 dom 中使用 <a href="/language/html/element.html">element</a> 表示。</li>
+<li>节点。页面中所有内容都是节点。（标签、属性、文本、注释）。在 dom 中使用 <a href="/language/html/node.html">node</a> 表示。</li>
+</ul>
+<pre><code>    |---节点-----------------|
+    |                空白    |
+    |  |-元素------|  文本   |
+    |  |  html    |  注释    |
+    |  |----------|  属性    |
+    |                       |
+    |-----------------------|
+</code></pre>
+<h2 id="获取-dom">获取 dom</h2>
+<pre><code class="language-js"><span class="hljs-title function_">getElementById</span>(str) <span class="hljs-comment">// 返回一个元素。</span>
+<span class="hljs-title function_">getElementsByTagName</span>(str) <span class="hljs-comment">// 返回一个由元素组成的类数组。</span>
+<span class="hljs-title function_">getElementsByName</span>(str) <span class="hljs-comment">// 根据元素的name属性取得一个由元素组成的类数组。</span>
+<span class="hljs-title function_">getElementsByClassName</span>(str) <span class="hljs-comment">// 返回一个由元素组成的类数组。</span>
+
+childNodes <span class="hljs-comment">// 子节点。含标签间的空白等</span>
+children <span class="hljs-comment">// 子元素。</span>
+firstChild <span class="hljs-comment">// 第一个子节点</span>
+firstElementChild <span class="hljs-comment">// 第一个子元素</span>
+parentNode <span class="hljs-comment">// 父节点</span>
+previousSibling <span class="hljs-comment">// 前兄弟节点</span>
+previousElementSibling <span class="hljs-comment">// 前兄弟元素</span>
+nextSibling <span class="hljs-comment">// 后兄弟节点</span>
+nextElementSibling <span class="hljs-comment">// 后兄弟元素</span>
+
+<span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span> <span class="hljs-comment">// body元素</span>
+<span class="hljs-variable language_">document</span>.<span class="hljs-property">all</span> <span class="hljs-comment">// 所有元素</span>
+<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementsByTagName</span>(<span class="hljs-string">&#x27;*&#x27;</span>) <span class="hljs-comment">// 所有元素</span>
+
+<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>()
+<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelectorAll</span>()
+
+iframeDom.<span class="hljs-property">contentWindow</span> <span class="hljs-comment">// iframeDom中的window对象</span>
+iframeDom.<span class="hljs-property">contentDocument</span> <span class="hljs-comment">// iframeDom中的document对象</span>
+</code></pre>
+<h2 id="document">document</h2>
+<pre><code class="language-js"><span class="hljs-variable language_">document</span> dom树的根节点
+<span class="hljs-variable language_">document</span>.<span class="hljs-property">documentElement</span> dom树的根元素
+<span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>
+<span class="hljs-variable language_">document</span>.<span class="hljs-property">header</span>
+<span class="hljs-variable language_">document</span>.<span class="hljs-property">title</span>
+<span class="hljs-variable language_">document</span>.<span class="hljs-property">cookie</span>
+<span class="hljs-variable language_">document</span>.<span class="hljs-property">defaultView</span>    <span class="hljs-comment">// 当前document的window对象</span>
+<span class="hljs-variable language_">document</span>.<span class="hljs-property">innerHTML</span>
+<span class="hljs-variable language_">document</span>.<span class="hljs-property">cookie</span>
+
+</code></pre>
+<h2 id="操作-dom">操作 dom</h2>
+<pre><code class="language-js">element.<span class="hljs-title function_">querySelector</span>(str)
+element.<span class="hljs-title function_">appendChild</span>(ele)
+element.<span class="hljs-title function_">setAttribute</span>(name, value)
+element.<span class="hljs-property">innerText</span>
+element.<span class="hljs-property">innerHTML</span>
+</code></pre>
+<h2 id="node">node</h2>
+<pre><code class="language-js">node.<span class="hljs-property">ownerDocument</span> <span class="hljs-comment">// 该node的document对象</span>
+</code></pre>
+<h2 id="title">title</h2>
+<h2 id="title-1">title</h2>
+<h2 id="title-2">title</h2>
 
             
             

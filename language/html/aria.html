@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>aria</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="aria">aria</h1>
+<p>ARIA（Accessible Rich Internet Applications）角色‌是指一组属性，用于提高网页的可访问性，帮助屏幕阅读器等辅助技术理解网页内容。ARIA角色定义了网页元素的类型，帮助辅助技术正确解释这些元素的功能和用途。
+<a href="/jsPackages/playwright.html">playwright</a></p>
+<table>
+<thead>
+<tr>
+<th>html元素</th>
+<th>aria</th>
+<th>示例</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a有href</td>
+<td>link</td>
+<td>role=link</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>a无href</td>
+<td>generic</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>abbr</td>
+<td>-</td>
+<td>-表示无明确role</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>area有href</td>
+<td>link</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>area无href</td>
+<td>generic</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>article</td>
+<td>article</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>aside</td>
+<td>complementary</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>audio</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>自定义标签</td>
+<td>若作者已定义，则ElementInternals。否则generic</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>b</td>
+<td>generic</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>base</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>bdi</td>
+<td>generic</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>bdo</td>
+<td>generic</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>blockquote</td>
+<td>blockquote</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>body</td>
+<td>generic</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>br</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>button</td>
+<td>button</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>canvas</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>caption</td>
+<td>caption</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>city</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>code</td>
+<td>code</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>col</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>colgroup</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>data</td>
+<td>generic</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>datalist</td>
+<td>listbox</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>dd</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>del</td>
+<td>deletion</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>details</td>
+<td>group</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>dfn</td>
+<td>term</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>dialog</td>
+<td>dialog</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>dl</td>
+<td>generic</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>dl</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>dt</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>em</td>
+<td>emphasis</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>embed</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>fieldset</td>
+<td>groupd</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>figcaption</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>figure</td>
+<td>figure</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>footer</td>
+<td>当xxx情况时，contentinfo,否则generic</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>form</td>
+<td>form</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>form-associated custom element</td>
+<td>当xxx情况下ElementInternals,否则generic</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>h1 to h6</td>
+<td>heading</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>head</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>header</td>
+<td>当xxx时banner,否则generic</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hgroup</td>
+<td>group</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hr</td>
+<td>separator</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>html</td>
+<td>document</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>i</td>
+<td>generic</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>iframe</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>img</td>
+<td>xxx img或image</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>img无name</td>
+<td>xxx img或image</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>input type=button</td>
+<td>button</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>input type=checkbox</td>
+<td>checkbox</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>input type=color</td>
+<td>-c</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>input type=date</td>
+<td>-c</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>input type=datetime-local</td>
+<td>-c</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>input type=email无list</td>
+<td>textbox</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>input type=file</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>input type=hidden</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>input type=image</td>
+<td>button</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>input type=month</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>input type=number</td>
+<td>spinbutton</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>input type=password</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>input type=radio</td>
+<td>radio</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>input type=range</td>
+<td>slider</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>input type=reset</td>
+<td>button</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>input type=search无list</td>
+<td>search</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>input type=submit</td>
+<td>button</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>input type=tel无type或无list</td>
+<td>textbox</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>input type=text/search/tel/url/email无type有list</td>
+<td>combobox</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>input type=time</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>input type=url无list</td>
+<td>textbox</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>input type=week</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ins</td>
+<td>insertion</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>kbd</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>label</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>legend</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>li</td>
+<td>若是ul、ol、menu的子元素，listitem,否则generic</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>link</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>main</td>
+<td>main</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>map</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>mark</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>math</td>
+<td>math</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>menu</td>
+<td>list</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>meta</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>meter</td>
+<td>meter</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>nav</td>
+<td>navigation</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>noscript</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>object</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ol</td>
+<td>list</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>optgroup</td>
+<td>group</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>当xxxx时的option</td>
+<td>option</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>output</td>
+<td>status</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>p</td>
+<td>paragraph</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>param</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>picture</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>pre</td>
+<td>generic</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>progress</td>
+<td>grogressbar</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>q</td>
+<td>generic</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>rp</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>rt</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ruby</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>s</td>
+<td>deletion</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>samp</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>search</td>
+<td>search</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>section</td>
+<td>当有可访问的name时region。否则generic.</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>select无multiple无size有多value</td>
+<td>combobox</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>select有multiple无size有多value</td>
+<td>listbox</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>slot</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>small</td>
+<td>generic</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>source</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>span</td>
+<td>generic</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>strong</td>
+<td>strong</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>style</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>sub</td>
+<td>subscript</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>summary</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>sup</td>
+<td>superscript</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>SVG</td>
+<td>graphics-document</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>table</td>
+<td>table</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>tbody</td>
+<td>rowgroup</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>td</td>
+<td>cell/gridcell/-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>template</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>textarea</td>
+<td>textbox</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>tfoot</td>
+<td>rowgroup</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>th</td>
+<td>columnheader/rowheader/cell/gridcell/-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>thead</td>
+<td>rowgroup</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>time</td>
+<td>tiem</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>title</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>tr</td>
+<td>row</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>track</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>u</td>
+<td>generic</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ul</td>
+<td>list</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>var</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>video</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>wbr</td>
+<td>-</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+            
+            
+        </body>
+        </html>
