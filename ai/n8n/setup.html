@@ -159,6 +159,10 @@ npm i
 npm run build
 npm run start
 </code></pre>
+<blockquote>
+<p>在npm root -g中n8n的目录下创建.env文件
+list命令默认不列出.env文件</p>
+</blockquote>
 <p>配置.env 文件</p>
 <pre><code>N8N_PORT=5678
 N8N_HOST=localhost
@@ -178,9 +182,34 @@ N8N_JWKS_URI=https://your-domain.com/.well-known/jwks.json
 N8N_SECURE_COOKIE=false
 </code></pre>
 <p>在浏览器中打开 <a href="http://localhost:5678">http://localhost:5678</a>。</p>
-<p>在阿里云这样启动</p>
+<h2 id="issue">issue</h2>
+<h3 id="在阿里云启动">在阿里云启动</h3>
 <pre><code>n8n start --tunnel
 </code></pre>
+<h3 id="在阿里云与pm2结合启动">在阿里云与pm2结合启动</h3>
+<p>找到pm2的安装目录。执行这三个命令，分别查看是否有pm2。</p>
+<pre><code>npm root -g
+pnpm root -g
+yarn global bin
+</code></pre>
+<p>若有，则说明pm2是使用该包管理工具安装的。
+然后在pm2包的目录下执行 pm2 init simple。</p>
+<blockquote>
+<p>比如：我是使用yarn全局安装的pm2。找到的目录是 /usr/local/bin
+则在 /usr/local/bin/ 目录下执行 pm2 init simple</p>
+</blockquote>
+<p>默认会生成<code>ecosystem.config.js</code>。
+编辑该文件为</p>
+<pre><code class="language-js"><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = {
+    <span class="hljs-attr">app</span>: [{ <span class="hljs-comment">// 这个可以运行</span>
+        <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;n8n&quot;</span>,
+        <span class="hljs-attr">script</span>: <span class="hljs-string">&quot;n8n&quot;</span>,
+        <span class="hljs-attr">cwd</span>: <span class="hljs-string">&quot;/root/.nvm/versions/node/v20.14.0/lib/node_modules/n8n&quot;</span>, <span class="hljs-comment">// 这是全局安装 n8n 的目录。必须是这个目录下。因为此目录下有 .env 文件。</span>
+        <span class="hljs-attr">args</span>: <span class="hljs-string">&quot;start --tunnel&quot;</span>, <span class="hljs-comment">//</span>
+    },]
+}
+</code></pre>
+<p>执行 pm2 start ecosystem.config.js</p>
 
             
             
