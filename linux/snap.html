@@ -2,7 +2,7 @@
         <html>
         <head>
             <meta charset="UTF-8">
-            <title>&#x4ecb;&#x7ecd; linux</title>
+            <title>snap</title>
             <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -138,31 +138,46 @@
         
         </head>
         <body class="vscode-body vscode-light">
-            <pre><code>netstat -ntlp # 查看端口
+            <h1 id="snap">snap</h1>
+<p>包管理工具</p>
+<blockquote>
+<p><a href="https://www.baeldung.com/linux/snaps-intro">https://www.baeldung.com/linux/snaps-intro</a></p>
+</blockquote>
+<h2 id="install">install</h2>
+<pre><code># debian / ubuntu
+sudo apt update
+sudo apt install snapd
+snap version
+
+# fedora
+dnf install snapd
+
+# centos / other
+yum install epel-release
+yum install snapd
+
+# manjaro
+pacman -S snapd
+
 </code></pre>
-<h1 id="介绍-linux">介绍 linux</h1>
-<h1 id="环境变量"><a href="/linux/path.html">环境变量</a></h1>
-<h1 id="nvm-node-的版本管理工具"><a href="/linux/nvm.html">nvm node 的版本管理工具</a></h1>
-<h1 id="cp"><a href="/linux/cp.html">cp</a></h1>
-<h1 id="cat"><a href="/linux/cat.html">cat</a></h1>
-<h1 id="systemctl"><a href="/linux/systemctl.html">systemctl</a></h1>
-<h1 id="nano"><a href="/linux/nano.html">nano</a></h1>
-<h1 id="export"><a href="/linux/export.html">export</a></h1>
-<h1 id="tar"><a href="/linux/tar.html">tar</a></h1>
-<h1 id="snap-包管理工具"><a href="/linux/snap.html">snap 包管理工具</a></h1>
-<h1 id="title">title</h1>
-<h1 id="title-1">title</h1>
-<h1 id="title-2">title</h1>
-<h1 id="title-3">title</h1>
-<h1 id="title-4">title</h1>
-<h1 id="title-5">title</h1>
-<h1 id="title-6">title</h1>
-<h1 id="title-7">title</h1>
-<h1 id="title-8">title</h1>
-<h1 id="title-9">title</h1>
-<h1 id="title-10">title</h1>
-<h1 id="title-11">title</h1>
-<h1 id="title-12">title</h1>
+<h2 id="usage">usage</h2>
+<pre><code>snap install xxx
+snap list # 列出已安装的包
+snap refresh xxx # 更新指定包
+snap refresh # 更新所有snap安装的包
+snap revert xxx # 使用更新前的旧包
+snap disable xxx # 禁用指定包
+snap enable xxx # 启用指定包
+snap remove xxx # 删除指定包
+snap remove --revision-2344 xxx # 删除指定版本的包
+</code></pre>
+<h2 id="组成部分">组成部分</h2>
+<p>There are five main components in the Snap ecosystem:</p>
+<p>Snapd: The snap daemon; it’s the background service that manages and maintains the snaps on a Linux system
+Snap: The command-line interface tool used to install and manage snaps on a Linux system
+Channels: A channel determines which release of a snap is installed and checked for updates
+Snap Store: It’s where developers publish their snap packages and Linux users install them
+Snapcraft: The framework tool for building snaps</p>
 
             
             

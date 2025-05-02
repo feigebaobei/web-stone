@@ -20,6 +20,8 @@ netstat -ntlp # 查看端口
 
 # [tar](/linux/tar.html)
 
+# [snap 包管理工具](/linux/snap.html)
+
 # title
 
 # title
