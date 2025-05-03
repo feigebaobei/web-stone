@@ -65,7 +65,9 @@
 - [小云搜索](/books/title.html)
 - [skrbt](/books/title.html)
 - [海洋听书网](/books/title.html)
-- [502book  小说](/books/title.html)
+- [502book 小说](/books/title.html)
+- [gutenberg 古典电子书](https://gutenberg.org/)
+- [archive](https://archive.org/)
 - [中国科谱博览](/books/title.html)
 - [pubscholar 公益学习平台](/books/title.html)
 - [中国纪录片网](/books/title.html)
@@ -74,7 +76,7 @@
 - [yesicon icon](/books/title.html)
 - [暖糖 高清壁纸](/books/title.html)
 - [软件自学网](/books/title.html)
-- [斩六将cpa 注册会计师](/books/title.html)
+- [斩六将 cpa 注册会计师](/books/title.html)
 - [lingohut 学习语言](/books/title.html)
 - [doyoudo 学习软件](/books/title.html)
 - 1.SkrBT https://skrbtdzh.top/
@@ -89,7 +91,7 @@
 - 10.磁力狗 https://磁力狗狗.com
 - 11.磁力百科 https://磁力百科.com
 - 12.磁力蜘蛛 https://磁力蜘蛛.com/
-- 13.BT蚂蚁 https://bt蚂蚁.com/
+- 13.BT 蚂蚁 https://bt 蚂蚁.com/
 - 14.磁力猫 https://clm.la1
 - 15.磁力狗 https://clg.im
 - [skrbt](/books/title.html)
@@ -107,10 +109,16 @@
 - [数学公式手册](/books/title.html)
 - [丹尼每日听力](/books/title.html)
 - [remove.photos](/books/title.html)
-ai
+  ai
 - [the bitter lesson](/books/theBitterLesson.html)
-- [title](/books/title.html)
-- [title](/books/title.html)
+- [snopes.com 事实核查](/books/title.html)
+- [wikipedia 英文版本](/books/title.html)
+- [foreignaffairs](https://www.foreignaffairs.com/)
+- [brookings](https://www.brookings.edu/)
+- [yale](https://oyc.yale.edu/)
+- [可汗学院](https://www.khanacademy.org/)
+- [pixabay](https://pixabay.com/)
+- [fdfd](https://www.canva.com/zh_cn/)
 - [title](/books/title.html)
 - [title](/books/title.html)
 - [title](/books/title.html)
