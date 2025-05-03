@@ -90,10 +90,19 @@ module.exports = {
       name: 'n8n',
       script: 'n8n',
       cwd: '/root/.nvm/versions/node/v20.14.0/lib/node_modules/n8n', // 这是全局安装 n8n 的目录。必须是这个目录下。因为此目录下有 .env 文件。
-      args: 'start --tunnel', //
+      args: 'start --tunnel', // github trigger节点必须要使用此选项
     },
   ],
 }
 ```
 
 执行 pm2 start ecosystem.config.js
+
+### 无法触发 webhook
+
+配置环境变量
+
+WEBHOOK_URL=http://heshijade.com/
+或
+N8N_PROTOCOL=https
+N8N_HOST=n8n.example.com
