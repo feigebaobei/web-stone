@@ -106,3 +106,5 @@ WEBHOOK_URL=http://heshijade.com/
 或
 N8N_PROTOCOL=https
 N8N_HOST=n8n.example.com
+
+在指定的 git 仓库中执行`git push`。再去流水线中查看执行记录。
