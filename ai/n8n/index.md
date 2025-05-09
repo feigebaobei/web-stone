@@ -46,6 +46,8 @@ webhook & http request 是它的通用法宝
 
 # [词汇表](/ai/n8n/glossary.html)
 
+# [prd](/ai/n8n/prd.html)
+
 # 使用方法
 
 - n8n cloud

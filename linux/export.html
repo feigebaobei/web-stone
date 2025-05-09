@@ -11,7 +11,9 @@
  *--------------------------------------------------------------------------------------------*/
 
 .vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
 	display: none;
 }
 
@@ -176,6 +178,9 @@ export 的作用范围只在该次登录操作。(本进程及其子进程中可
 export https_proxy=&quot;http://127.0.0.1:7890&quot;
 export -p
 </code></pre>
+<p>当在终端中无法访问外网时，
+如：nvm install 22.14.0 等很长时间无反应。
+请使用在终端中这样设置代理。</p>
 
             
             

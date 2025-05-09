@@ -7,7 +7,7 @@ web 内容与服务器发送事件通信的接口。
 ## 构造函数
 
 ```js
-let pc = new EventSource(url, configuration)
+let sse = new EventSource(url, configuration)
 configuration: {
   withCredentials: Boolean // default false
   // cors是否包含credentials
@@ -30,3 +30,11 @@ configuration: {
 | error   |                |     |     |
 | message | 收到数据时触发 |     |     |
 | open    | 打开连接时触发 |     |     |
+
+## 设置自定义事件
+
+```
+sse.addEventListener('notice', (e) => {
+  clog('e', e)
+})
+```
