@@ -18,7 +18,8 @@
 }
 
 </style>
-            
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -181,8 +182,36 @@ export -p
 <p>当在终端中无法访问外网时，
 如：nvm install 22.14.0 等很长时间无反应。
 请使用在终端中这样设置代理。</p>
+<h2 id="设置代理">设置代理</h2>
+<pre><code>// 临时设置
+export http_proxy=http://127.0.0.1:8087
+export https_proxy=$http_proxy
+export socks5_proxy=&quot;socks5://127.0.0.1:60879&quot;
 
-            
+// 永久设置
+$ vim ~/.zshrc
+# proxy
+proxy () {
+  export http_proxy=&quot;http://127.0.0.1:60879&quot;
+  export https_proxy=$http_proxy
+  export socks5_proxy=&quot;socks5://127.0.0.1:60879&quot;
+  echo &quot;HTTP Proxy on&quot;
+}
+
+# noproxy
+noproxy () {
+  unset http_proxy
+  unset https_proxy
+  echo &quot;HTTP Proxy off&quot;
+}
+
+$ source ~/.zshrc
+</code></pre>
+<p>通过在当前的终端窗口输入**proxy 、noproxy **命令，就是打开 或 关闭代理。
+需要在每个终端窗口都打开一次。
+如果用bash，可以直接上面命令的 ~/.zshrc 换成 ~/.bashrc。</p>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
             
         </body>
         </html>
