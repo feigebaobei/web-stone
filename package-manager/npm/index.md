@@ -231,6 +231,39 @@ npm unlink <package-name> # 取消链接依赖项
 |`&&`|指定多个版本范围，安装满足多个版本范围的版本。||||
 <!-- prettier-ignore-end -->
 
+### 依赖的引用方式
+
+file
+
+```
+"dependencies": {
+  "pn": "file:../pn-path"
+}
+```
+
+link
+会创建一个链接，可以实时同步依赖包的变化。不推荐中开发环境中使用。
+
+```
+"dependencies": {
+  "pn": "link:../pn-path"
+}
+```
+
+link
+在本地包中运行 npm link
+再在项目中执行 npm link.pn
+npm install .pn-path
+or
+yarn add pn-path
+相对路径
+
+```
+"dependencies": {
+  "pn": "../pn-path"
+}
+```
+
 ### 注册 cli 的逻辑
 
 在 package.json 中定义`bin`字段。npm 会根据该字段创建一个软链接。若使用全局安装，则安装在`/home/turbo/.nvm/versions/node/v14.16.1/bin/`。若使用局部安装，则安装在`./node_modules/.bin/`
@@ -401,6 +434,8 @@ npm install esbuild -- registry=https://registry.npmjs.org
 npm config get cache // 列出缓存目录
 npm cache clean --force // 清空缓存
 ```
+
+## [config](/package-manager/npm/config.html)
 
 ## [发布](/package-manager/npm/publish.html)
 

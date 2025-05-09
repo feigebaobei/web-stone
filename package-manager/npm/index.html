@@ -146,6 +146,7 @@
 <h1 id="install">install</h1>
 <p>不需要专门安装。npm 已经内置于 node。</p>
 <h1 id="use">use</h1>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -257,6 +258,7 @@
 </tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
 <h2 id="全局安装和局部安装的区别">全局安装和局部安装的区别</h2>
 <h3 id="全局安装">全局安装</h3>
 <p>在任何地方都可以调用。<br>
@@ -285,6 +287,7 @@
 npm cache clean --force
 </code></pre>
 <h2 id="子命令"><a href="/package-manager/npm/subCommand.html">子命令</a></h2>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -396,6 +399,7 @@ npm cache clean --force
 </tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
 <h3 id="intall-命令">intall 命令</h3>
 <pre><code>npm install (with no args, in package dir)
 npm install [&lt;@scope&gt;/]&lt;name&gt;
@@ -412,6 +416,7 @@ npm uninstall -g xxx
 
 npm i
 </code></pre>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -458,6 +463,7 @@ npm i
 </tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
 <ul>
 <li>他项目里没有引入你所需的依赖包，那么你插件所依赖的包会被安装</li>
 <li>他项目里引入了你所需的依赖包：
@@ -491,7 +497,7 @@ npm unlink &lt;package-name&gt; # 取消链接依赖项
 <h2 id="packagejson-各字段说明">package.json 各字段说明</h2>
 <p>有些项目中会在此文件中添加自定义字段。可以是该项目需要。</p>
 <!-- prettier-ignore-start -->
-<p>| key   | description                             | optional                | type              | demo     |
+<p>| key   | description     | optional                | type              | demo     |
 | ---- | ------------- |  | ------ | ----- |
 | name  | 包的名字。可以使用作用域前缀<code>@myorg/mypackage</code>    | n        | string            |          |
 | version              | 版本号                   | n        | string            |          |
@@ -603,6 +609,29 @@ npm unlink &lt;package-name&gt; # 取消链接依赖项
 </tbody>
 </table>
 <!-- prettier-ignore-end -->
+<h3 id="依赖的引用方式">依赖的引用方式</h3>
+<p>file</p>
+<pre><code>&quot;dependencies&quot;: {
+  &quot;pn&quot;: &quot;file:../pn-path&quot;
+}
+</code></pre>
+<p>link
+会创建一个链接，可以实时同步依赖包的变化。不推荐中开发环境中使用。</p>
+<pre><code>&quot;dependencies&quot;: {
+  &quot;pn&quot;: &quot;link:../pn-path&quot;
+}
+</code></pre>
+<p>link
+在本地包中运行npm link
+再在项目中执行 npm <a href="http://link.pn">link.pn</a>
+npm install .pn-path
+or
+yarn add pn-path
+相对路径</p>
+<pre><code>&quot;dependencies&quot;: {
+  &quot;pn&quot;: &quot;../pn-path&quot;
+}
+</code></pre>
 <h3 id="注册-cli-的逻辑">注册 cli 的逻辑</h3>
 <p>在 package.json 中定义<code>bin</code>字段。npm 会根据该字段创建一个软链接。若使用全局安装，则安装在<code>/home/turbo/.nvm/versions/node/v14.16.1/bin/</code>。若使用局部安装，则安装在<code>./node_modules/.bin/</code></p>
 <h2 id="scope">scope</h2>
@@ -668,7 +697,7 @@ npm 脚本支持<code>pre</code>/<code>post</code>2 种钩子。每个脚本都�
 </ul>
 <p><code>npm restart</code>是<code>npm stop &amp;&amp; npm restart &amp;&amp; npm stop</code>的简写。
 简写：<code>npm start</code>.忽略了<code>run</code><br>
-双重pre/post无效，比如：prepretest/postposttest是无效的。</p>
+双重 pre/post 无效，比如：prepretest/postposttest 是无效的。</p>
 <h3 id="变量">变量</h3>
 <p>通过<code>npm_package_</code>前缀可得到<code>package.json</code>中的字段。 如：<code>process.env.npm_package_version</code> / <code>process.env.npm_package_script_install</code>
 通过<code>npm_config</code>前缀可得到<code>package.json</code>中<code>config</code>里的变量。如：<code>npm_config_tag</code>。<code>npm config get xxx</code></p>
@@ -794,6 +823,7 @@ process.env.npm_config_registry # 读取
 <pre><code>npm config get cache // 列出缓存目录
 npm cache clean --force // 清空缓存
 </code></pre>
+<h2 id="config"><a href="/package-manager/npm/config.html">config</a></h2>
 <h2 id="发布"><a href="/package-manager/npm/publish.html">发布</a></h2>
 <h2 id="title">title</h2>
 <h2 id="title-1">title</h2>
