@@ -1,6 +1,8 @@
 # mcp
 > model context protocol
 > 让llm使用工具的协议。
+> 统一所有api的调用方式
+
 ## 概念
 mcp host 本质是支持mcp的软件。如：claude desktop / cursor / cline / cherry studio
 mcp server: mcp服务器。只是一个程序。一般使用node/py编写。可联网，可不联网。内置若干个tool.
