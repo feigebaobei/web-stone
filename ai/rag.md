@@ -1,5 +1,9 @@
 # rag
 
+> ai 现在的使用场景
+> 生成代码。
+> 客服。（ai 智能知识库）。它就是 rag 的使用场景。认 ai 具体独立的、自有的知识库。
+
 retrieval(检索)
 augmentation(增强)
 generation(生成)
