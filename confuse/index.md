@@ -1,3 +1,6 @@
+> 精英：在某领域特别牛的人，有一技之长的人。或者在社会上有很高地位和影响力的人。这些人比普通人更容易接受到隐秘的知识。
+> 可视化是强大的工具，可以帮助你的思想和情感与想要的实现的事物保持一致。
+
 - [浅、深复制](/confuse/clone.html)
 - [异步](/confuse/async.html)
 - [原型链 pptx](/confuse/jsPrototypeChain.pptx)
