@@ -231,8 +231,8 @@ pnpm config set cache-dir D:\\node\\cache # 设置缓存地址
 ## 缓存
 
 ```
-pnpm store path
-pnpm store prune
+pnpm store path # 查看缓存路径
+pnpm store prune # 清空缓存
 ```
 
 ## api
