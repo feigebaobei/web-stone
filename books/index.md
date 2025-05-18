@@ -119,6 +119,7 @@
 - [可汗学院](https://www.khanacademy.org/)
 - [pixabay](https://pixabay.com/)
 - [fdfd](https://www.canva.com/zh_cn/)
+- [生活](https://www.gapminder.org/dollar-street)
 - [title](/books/title.html)
 - [title](/books/title.html)
 - [title](/books/title.html)
