@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>husky</title>
-        <style>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>husky</title>
+            <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -11,47 +11,14 @@
  *--------------------------------------------------------------------------------------------*/
 
 .vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
 	display: none;
 }
 
-/* From extension ms-toolsai.jupyter */
-/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
-
-.alert {
-    width: auto;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-.alert > *:last-child {
-    margin-bottom: 0;
-}
-#preview > .alert:last-child {
-    /* Prevent this being set to zero by the default notebook stylesheet */
-    padding-bottom: 1em;
-}
-
-.alert-success {
-    /* Note there is no suitable color available, so we just copy "info" */
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-info {
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-warning {
-    background-color: var(--theme-warning-background);
-    color: var(--theme-warning-foreground);
-}
-.alert-danger {
-    background-color: var(--theme-error-background);
-    color: var(--theme-error-foreground);
-}
-
 </style>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
@@ -73,14 +40,110 @@
     pointer-events: none;
 }
 </style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
         
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="husky">husky</h1>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="husky">husky</h1>
 <h2 id="overview">overview</h2>
 <blockquote>
 <p>让 git hooks 使用简单。<br>
-常用于格式化代码等。<br>
+常用于格式化代码、触发webhook等。<br>
 有很多包在使用它开发。</p>
 </blockquote>
 <h3 id="feature">feature</h3>
@@ -96,9 +159,9 @@
 <pre><code class="language-shell">npm set-script test &quot;echo hi&quot; # 用于测试。
 <span class="hljs-meta prompt_"># </span><span class="language-bash">npm set-script prepare <span class="hljs-string">&quot;husky install&quot;</span>  <span class="hljs-comment"># 旧写法</span></span>
 npm pkg set scripts.prepare=&quot;husky install&quot;     # 新写法
-npm run prepare
+npm run prepare # 本质是执行了husky install
 <span class="hljs-meta prompt_"># </span><span class="language-bash">会在根目录下生成 .husky/.gitignore .husky/husky.sh</span>
-npx husky add .husky/pre-commit &quot;npm run test&quot;
+npx husky add .husky/pre-commit &quot;npm run test&quot; # 注意这里使用的npx
 </code></pre>
 <h2 id="usage">usage</h2>
 <pre><code class="language-shell">npm set-script prepare &quot;husky install&quot; # prepare在执行npm run install / npm publish / npm pack / 打包前执行。
@@ -129,7 +192,8 @@ husky 是与 git hooks 一起工作，当然要与.git 在一起呀。<br>
 <pre><code class="language-shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">脚本</span>
 &quot;prepare&quot;: &quot;husky install .config/husky&quot;
 </code></pre>
-<h3 id="bypass-hooks-路过-hooks">bypass hooks 路过 hooks</h3>
+<h3 id="bypass-hooks">bypass hooks</h3>
+<p>路过 hooks</p>
 <pre><code class="language-shell">git commit -m &#x27;string&#x27; --no-verify
 <span class="hljs-meta prompt_"># </span><span class="language-bash">or</span>
 HUSKY=0 git push
@@ -151,6 +215,97 @@ npm ci --omit=dev
 }
 </code></pre>
 <h3 id="只支持客户端-git-hooks">只支持客户端 git hooks</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pre-commit</td>
+<td>git commit生效前触发</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>prepare-commit-msg</td>
+<td>提交对象创建完之后、在提交信息编辑器显示之前触发。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>commit-msg</td>
+<td>在提交信息编辑器关闭后、提交对象生成之前触发。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>post-commit</td>
+<td>在提交完后触发</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>pre-rebase</td>
+<td>在git rebase前触发</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>post-checkout</td>
+<td>在git checkout或git switch之后触发</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>post-merge</td>
+<td>在git merge后触发</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>pre-push</td>
+<td>在git push前触发</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>服务器的钩子</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pre-receive</td>
+<td>在收到数据前触发。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>update</td>
+<td>在每个引用更新前触发</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>post-receive</td>
+<td>在收到数据后触发。</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h2 id="环境变量">环境变量</h2>
 <p>HUSKY_SKIP_HOOKS is replaced by HUSKY.
 HUSKY_SKIP_INSTALL is replaced by HUSKY.
@@ -279,7 +434,7 @@ husky
 未来迭代计划。</p>
 </blockquote>
 
-        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
-        
-    </body>
-    </html>
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>
