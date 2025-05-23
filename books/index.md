@@ -1,17 +1,20 @@
 # 读书笔记
 
-- [《【PMI-中文版】敏捷实践指南》](/books/pmp-cn-jiaocaidabao-4/【PMI-中文版】敏捷实践指南.pdf)
-- [《【PMI-中文版】PMBOK 第六版（项目管理知识体系）》](/books/pmp-cn-jiaocaidabao-4/【PMI-中文版】PMBOK第六版（项目管理知识体系）.pdf)
-- [《【PMI-中文版】PMBOK 第七版（项目管理知识体系）》](/books/pmp-cn-jiaocaidabao-4/【PMI-中文版】PMBOK第七版（项目管理知识体系）.pdf)
-- [《【PMI-中文版】PMP 过程组：实践指南教材》](/books/pmp-cn-jiaocaidabao-4/【PMI-中文版】PMP过程组：实践指南教材.pdf)
-- [《pmi》](/books/pmi.html)
-- [《高性能网站》](/books/highPerformanceWeb.html)
-- [《你不知道的 js》](/books/youDontKnowJs.html)
-- [《js 设计模式》](/books/javascript-partterns.html)与我整理的设计模式不同
-- [《代码大全 code complete》](/books/codeComplete/index.html)
-- [java 编程思想](/books/title.html)
-- [《低代码引擎技术白皮书》](/books/lcEbook.html)
-- [《pattern: backends for frontend》](/books/bff.html)
+- 项目管理
+  - [《【PMI-中文版】敏捷实践指南》](/books/pmp-cn-jiaocaidabao-4/【PMI-中文版】敏捷实践指南.pdf)
+  - [《【PMI-中文版】PMBOK 第六版（项目管理知识体系）》](/books/pmp-cn-jiaocaidabao-4/【PMI-中文版】PMBOK第六版（项目管理知识体系）.pdf)
+  - [《【PMI-中文版】PMBOK 第七版（项目管理知识体系）》](/books/pmp-cn-jiaocaidabao-4/【PMI-中文版】PMBOK第七版（项目管理知识体系）.pdf)
+  - [《【PMI-中文版】PMP 过程组：实践指南教材》](/books/pmp-cn-jiaocaidabao-4/【PMI-中文版】PMP过程组：实践指南教材.pdf)
+  - [《pmi》](/books/pmi.html)
+- it
+  - [《高性能网站》](/books/highPerformanceWeb.html)
+  - [《你不知道的 js》](/books/youDontKnowJs.html)
+  - [《js 设计模式》](/books/javascript-partterns.html)与我整理的设计模式不同
+  - [《代码大全 code complete》](/books/codeComplete/index.html)
+  - [java 编程思想](/books/title.html)
+  - [《低代码引擎技术白皮书》](/books/lcEbook.html)
+  - [《pattern: backends for frontend》](/books/bff.html)
+  - [《编写可维护的 javascript》](/books/maintainableJavascript.html)
 - [《logic》](/books/logic.html)
 - [《盐铁论》](/books/title.html)
 - [《止学》](/books/zhixue.html)
