@@ -45,14 +45,13 @@
 - [webhook](/confuse/webhook.html)
 - [import.meta](/confuse/importMata.html)
 - [基础设施即代码 iac](/confuse/iac.html)
+- [页面生命周期](/confuse/pageLife.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
-- [title](/confuse/title.html)
-
 
 > 最好的奴隶是那个认为自己是自由的人
 > 最完善的奴隶就是自称自己根本不是奴隶的人
@@ -62,21 +61,3 @@
 > 他认为一件事情即使在当下看起来是在负面的也可能对灵魂的整体发展有好处。
 > 这里就是一个因果之地。每个人必须完成自己的功课。
 > 在线人看来：如果一人人抱怨没有自由意志，那只是因为他没能真正理解自己何时应该做什么事情狱中犯人仍可以自己决定如何度过狱中的时光，可以思考，可以行动。只是有限制罢了。在地球上也是一样。人类拥有自由意志，所以更能够感受到痛苦的存在和束缚。
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
