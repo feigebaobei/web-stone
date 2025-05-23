@@ -4,8 +4,8 @@
 
 - [fs](/language/node/fs.html)
 - [crypt](/language/node/crypt.html)
-- [title](/language/node/title.html)
-- [title](/language/node/title.html)
+- [node-gyp](/language/node/nodeGyp.html)
+- [process](/language/node/process.html)
 - [title](/language/node/title.html)
 - [title](/language/node/title.html)
 - [title](/language/node/title.html)
