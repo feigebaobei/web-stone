@@ -11,7 +11,9 @@
  *--------------------------------------------------------------------------------------------*/
 
 .vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
 	display: none;
 }
 
@@ -500,6 +502,172 @@ options 定义在 ExtendableEvent 对象上的自定义属性。</p>
 <td></td>
 <td></td>
 <td>angular 的写法与 html 的写法很接近。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="selectionchange">selectionchange</h2>
+<p>在当前 Document 的 Selection 改变时触发。</p>
+<pre><code>addEventListener(&quot;selectionchange&quot;, (event) =&gt; {});
+onselectionchange = (event) =&gt; {};
+
+// addEventListener 版本
+document.addEventListener(&quot;selectionchange&quot;, () =&gt; {
+  console.log(document.getSelection());
+});
+// onselectionchange 版本
+document.onselectionchange = () =&gt; {
+  console.log(document.getSelection());
+};
+</code></pre>
+<p>我发现在focus时也会触发此事件。</p>
+<p><code>window.getSelection()</code>可以得到Selection对象。</p>
+<pre><code>var selObj = window.getSelection();
+var range = selObj.getRangeAt(0); // Range对象。
+</code></pre>
+<p>api</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>anchorNode</td>
+<td>选区起点所在节点</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>anchorOffset</td>
+<td>选区起点在anchorNode的偏移量</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>focusNode</td>
+<td>选区终点所在的节点</td>
+<td>只读</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>focusOffset</td>
+<td>选区终点在focusNode的偏移量</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>isCollapsed</td>
+<td>选区的起点、终点，是否在同一个位置</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>rangeCount</td>
+<td>选区包含的连续范围的数量</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>getRangeAt()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>collapse()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>extend()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>modify()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>collapseToStart()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>collapseToEnd()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>selectAllChildren()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>addRange()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>removeRange()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>removeAllRanges()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>deleteFromDocument()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>toString()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>containsNode()</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 </tbody>
 </table>

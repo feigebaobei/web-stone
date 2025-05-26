@@ -190,3 +190,53 @@ options 定义在 ExtendableEvent 对象上的自定义属性。
 | vue     | `h('button', {onClick: clickH})`                     |                                                  |            |                                      |
 | react   | `<button onClick={btClickHandler}> string </button>` | 驼峰命名法                                       |            |                                      |
 | angular | `<button (click)="clickH(...p)">str</button>`        |                                                  |            | angular 的写法与 html 的写法很接近。 |
+
+## selectionchange
+
+在当前 Document 的 Selection 改变时触发。
+
+```
+addEventListener("selectionchange", (event) => {});
+onselectionchange = (event) => {};
+
+// addEventListener 版本
+document.addEventListener("selectionchange", () => {
+  console.log(document.getSelection());
+});
+// onselectionchange 版本
+document.onselectionchange = () => {
+  console.log(document.getSelection());
+};
+```
+
+我发现在 focus 时也会触发此事件。
+
+`window.getSelection()`可以得到 Selection 对象。
+
+```
+var selObj = window.getSelection();
+var range = selObj.getRangeAt(0); // Range对象。
+```
+
+api
+||||||
+|-|-|-|-|-|
+|anchorNode|选区起点所在节点||||
+|anchorOffset|选区起点在 anchorNode 的偏移量||||
+|focusNode|选区终点所在的节点|只读|||
+|focusOffset|选区终点在 focusNode 的偏移量||||
+|isCollapsed|选区的起点、终点，是否在同一个位置||||
+|rangeCount|选区包含的连续范围的数量||||
+|getRangeAt()|||||
+|collapse()|||||
+|extend()|||||
+|modify()|||||
+|collapseToStart()|||||
+|collapseToEnd()|||||
+|selectAllChildren()|||||
+|addRange()|||||
+|removeRange()|||||
+|removeAllRanges()|||||
+|deleteFromDocument()|||||
+|toString()|||||
+|containsNode()|||||
