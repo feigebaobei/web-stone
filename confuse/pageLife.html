@@ -139,6 +139,7 @@
         </head>
         <body class="vscode-body vscode-light">
             <h1 id="页面生命周期">页面生命周期</h1>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -152,14 +153,14 @@
 <tbody>
 <tr>
 <td>DOMContentLoaded</td>
-<td>加载完html,并构建DOM树。外部资源（如img）可能未加载。</td>
-<td>DOM已经就绪，可以查找DOM节点，并初始化接口。</td>
-<td>vue等框架渲染完DOM后再触发事件。</td>
-<td>有async属性的脚本（script）不会阻塞此事件。使用document.createElement('script')动态生成并添加到网页的脚本不会阻塞此事件。</td>
+<td>加载完 html,并构建 DOM 树。外部资源（如 img）可能未加载。</td>
+<td>DOM 已经就绪，可以查找 DOM 节点，并初始化接口。</td>
+<td>vue 等框架渲染完 DOM 后再触发事件。</td>
+<td>有 async 属性的脚本（script）不会阻塞此事件。使用 document.createElement('script')动态生成并添加到网页的脚本不会阻塞此事件。</td>
 </tr>
 <tr>
 <td>load</td>
-<td>不仅加载完html，还加载完所有外部资源：图片、样式等</td>
+<td>不仅加载完 html，还加载完所有外部资源：图片、样式等</td>
 <td>外部资源已经加载完成，样式已经被应用，图片大小也已知</td>
 <td></td>
 <td></td>
@@ -180,6 +181,7 @@
 </tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
 <pre><code>触发顺序
 app setup start
 子组件 setup start
@@ -196,6 +198,7 @@ method: post
 data &lt; 64k</p>
 <h3 id="documentreadystate">document.readyState</h3>
 <p>用于标识文档当前状态</p>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -226,7 +229,8 @@ data &lt; 64k</p>
 </tr>
 </tbody>
 </table>
-<p>readystatechange事件在状态改变时触发。</p>
+<!-- prettier-ignore-end -->
+<p>readystatechange 事件在状态改变时触发。</p>
 <h3 id="执行顺序">执行顺序</h3>
 <pre><code>&lt;script&gt;
   log('initial readyState:' + document.readyState);
