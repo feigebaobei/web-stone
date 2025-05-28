@@ -2,7 +2,7 @@
         <html>
         <head>
             <meta charset="UTF-8">
-            <title>&#x7f16;&#x5199;&#x53ef;&#x7ef4;&#x62a4;&#x7684;javascript</title>
+            <title>&#x7f16;&#x5199;&#x53ef;&#x7ef4;&#x62a4;&#x7684; javascript</title>
             <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -18,7 +18,8 @@
 }
 
 </style>
-            
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -138,11 +139,11 @@
         
         </head>
         <body class="vscode-body vscode-light">
-            <h1 id="编写可维护的javascript">编写可维护的javascript</h1>
+            <h1 id="编写可维护的-javascript">编写可维护的 javascript</h1>
 <blockquote>
 <p>原著：Maintainable Javascritp
 这是在一次与同事合作时，从代码可规范聊到了这本书。他的前老大是译者。
-中文版本只有200+页。一会儿就看完了。
+中文版本只有 200+页。一会儿就看完了。
 作者: Nicbolas C.Zakas
 译者：李晶 郭凯 张散集
 你的团队编程可以从狭义的个人偏好的阴霾中走出来，走向真正的高效能和高水准。</p>
@@ -163,17 +164,17 @@
 </ul>
 <h2 id="基本的格式化">基本的格式化</h2>
 <ul>
-<li>缩进层级。在2个空格、4个空格、8个空格中选择了了4个空格。</li>
-<li>语句结尾是否有;。ASI（Automatic Semicolon Insertion）可以使js省略分号也能正常工作。作者推荐有分号。</li>
-<li>行的长度。最长不过80个字符。（源于很久前的文本编辑器）。有几个选项。&lt;=70/&lt;=100/&lt;=80/&lt;=79</li>
+<li>缩进层级。在 2 个空格、4 个空格、8 个空格中选择了了 4 个空格。</li>
+<li>语句结尾是否有;。ASI（Automatic Semicolon Insertion）可以使 js 省略分号也能正常工作。作者推荐有分号。</li>
+<li>行的长度。最长不过 80 个字符。（源于很久前的文本编辑器）。有几个选项。&lt;=70/&lt;=100/&lt;=80/&lt;=79</li>
 <li>空行。用空行分隔不相关的代码。方法之间、局部变量与第一条语句之间、多行或单行注释之间、方法与注释之间</li>
 <li>命名。驼峰式。匈牙利命名法。
 <ul>
 <li>动词
 <ul>
-<li>can 返回一个boolean</li>
-<li>has 返回一个boolean</li>
-<li>is 返回一个boolean</li>
+<li>can 返回一个 boolean</li>
+<li>has 返回一个 boolean</li>
+<li>is 返回一个 boolean</li>
 <li>get 取一个值</li>
 <li>set 存一个值</li>
 </ul>
@@ -193,8 +194,8 @@ null 使用场景如下：</p>
 <li>当函数的参数期望是对象时，用作参数传入。</li>
 <li>当函数的返回值期望是对象时，用作返回值返回。
 不使用场景如下：</li>
-<li>不使用null检测是否传入指定参数。</li>
-<li>不使用null检测是否初始化变量。
+<li>不使用 null 检测是否传入指定参数。</li>
+<li>不使用 null 检测是否初始化变量。
 undefined
 对象直接量（直接写出对象的所有属性）</li>
 </ul>
@@ -226,7 +227,7 @@ let arr = new Array(1, 2, 3, 4)
 <ul>
 <li>难于理解的代码</li>
 <li>可能被误认为错误的代码</li>
-<li>浏览器特性hack
+<li>浏览器特性 hack
 文档注释</li>
 </ul>
 <pre><code>/** 该方法的功能
@@ -239,8 +240,8 @@ let arr = new Array(1, 2, 3, 4)
 <h2 id="语句和表达式">语句和表达式</h2>
 <p>编程分格:</p>
 <ul>
-<li>Dojo编程风格</li>
-<li>Crockford编程风格</li>
+<li>Dojo 编程风格</li>
+<li>Crockford 编程风格</li>
 <li></li>
 <li></li>
 </ul>
@@ -257,8 +258,8 @@ if ( condition ) {
     ....
 }
 </code></pre>
-<p>with语句
-可以改变包含上下文解析变量的方式。通过with可以直接使用局部变量和函数的形式来访问特定对象内的属性和方法。如下：</p>
+<p>with 语句
+可以改变包含上下文解析变量的方式。通过 with 可以直接使用局部变量和函数的形式来访问特定对象内的属性和方法。如下：</p>
 <pre><code>let book = {
     title: 'str',
     author: 'str',
@@ -277,19 +278,230 @@ for (let k in obj) { // k包含了从原型对象上的属性。
 }
 </code></pre>
 <h2 id="变量函数和运算符">变量、函数和运算符</h2>
-<p>js编程的本质是编写一个个的函数来完成任务，在函数内部，变量和运算符可以通过移动操作字节来使某件事发生。因此在讨论过基本的js书写格式后，接下来关注如何使用函数、变量和运算符来减少复杂度各增强可读性就显得十分重要了。
+<p>js 编程的本质是编写一个个的函数来完成任务，在函数内部，变量和运算符可以通过移动操作字节来使某件事发生。因此在讨论过基本的 js 书写格式后，接下来关注如何使用函数、变量和运算符来减少复杂度各增强可读性就显得十分重要了。
 变量声明：
-var可使变量提升
+var 可使变量提升
 总是将局部变量定义放在函数内第一条语句。</p>
+<p>三种规范：</p>
+<ul>
+<li>Crockford 编程规范</li>
+<li>SproutCore 编程规范</li>
+<li>Dojo 编程规范</li>
+</ul>
+<p>推荐函数声明先于函数使用。</p>
+<pre><code class="language-js"><span class="hljs-title function_">fn</span>(param) <span class="hljs-comment">// 推荐写法</span>
+<span class="hljs-keyword">var</span> value = (<span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+    ...
+}())
+</code></pre>
+<p>严格模式，就是在开头写上&quot;use strict&quot;字符串。
+若在文件的开头写，则此文件是严格模式。
+若在方法的开头写，则此方法是严格模式。</p>
+<pre><code>&quot;use strict&quot;
+...
+</code></pre>
+<p>推荐在局部使用严格模式，在全局不使用严格模式。
+boolean值与数字比较时，先办的为数字，再比较。
+两个对象比较时，先调用对象的valueOf()方法（若无valueOf(),则调用toString()）。再比较。
+eval()把参数当作代码。</p>
+<p>可以执行字符串的函数：</p>
+<pre><code>eval('alert(&quot;hi&quot;)')
+var f = new Function('alert(&quot;hi&quot;)')
+setTimeout('document.body.style.background=&quot;red&quot;', 50)
+setInterval('document.title=&quot;hi&quot;', 1000)
+</code></pre>
 <h1 id="第二部分-编程实践">第二部分 编程实践</h1>
-<h2 id="ui层的松耦合">UI层的松耦合</h2>
+<p>“构建软件设计的方法有两种：一种是把软件做得很简单以至于明显找不一缺陷，另一种是把它做得很复杂以至于找不到明显的缺陷。”————C.A.R. Hoare</p>
+<p>代码风格规范的目的是在多人协作时使用代码具有一致性。</p>
+<h2 id="ui-层的松耦合">UI 层的松耦合</h2>
+<p>作者说了js/css/html的关系。
+无耦合 (no coupling)</p>
+<pre><code>将js从css中抽离
+反例
+.box {
+    width: express(document.body.offsetWidth + 'px')
+}
+将css从js中抽离
+反例
+element.style.color = 'red'
+将js从html中抽离
+反例
+&lt;script&gt;fn()&lt;/script&gt;
+将html从js中抽离
+反例
+var div = document.getElementById('id')
+div.innerHTML = '&lt;h1&gt;title&lt;/h1&gt;'
+
+正例
+element.className += 'reveal'
+element.classList.add('reveal')
+Y.one(element).addClass('reveal')
+$(element).addClass('reveal')
+dojo.addClass(element, 'reveal')
+</code></pre>
+<p>低耦合的方法：</p>
+<ul>
+<li>从服务器加载到dom树中。</li>
+<li>在客户端使用模板，再使用适时的数据替换模板。</li>
+</ul>
 <h2 id="避免使用全局变量">避免使用全局变量</h2>
+<ul>
+<li>应遵守最小权限原则。</li>
+<li>命名冲突(api冲突)</li>
+<li>代码的脆弱性</li>
+<li>难以单元测试</li>
+<li>意外的全局变量</li>
+<li>单全局变量方式，即只创建一个全局变量。
+<ul>
+<li>YUI YUI</li>
+<li>jQuery有2个全局变量 $ jQuery</li>
+<li>Dojo dojo</li>
+<li>Closure goog</li>
+</ul>
+</li>
+<li>使用命名空间</li>
+<li>模块。它是基于单全局变量理论产生的。
+<ul>
+<li>amd</li>
+</ul>
+</li>
+<li>零全局变量。一定不要修改win属性。</li>
+</ul>
+<pre><code class="language-js">(<span class="hljs-keyword">function</span>(<span class="hljs-params">win</span>) {
+    <span class="hljs-string">&quot;use strict&quot;</span>
+    <span class="hljs-keyword">var</span> doc = win.<span class="hljs-property">docuemnt</span>
+    <span class="hljs-comment">// 定义变量</span>
+    <span class="hljs-comment">// 执行逻辑</span>
+    <span class="hljs-comment">// 一定不要修改win属性。</span>
+}(<span class="hljs-variable language_">window</span>))
+</code></pre>
 <h2 id="事件处理">事件处理</h2>
+<ul>
+<li>规则一：隔离应用逻辑</li>
+<li>规则二：不要分发事件对象。只传递需要的属性，而不是一整个对象。</li>
+</ul>
 <h2 id="避免空比较">避免“空比较”</h2>
+<ul>
+<li>检测原始值。typeof variable 或 typeof(variable)</li>
+<li>检测引用值 value instanceof constructor</li>
+<li>检测函数。typeof fn === 'function'</li>
+<li>检测数组。鸭式辨型(关注对象能做什么，不关注对象是什么。)。Array.isArray(p)</li>
+<li>检测属性 'key' in object  hasOwnProperty()</li>
+</ul>
 <h2 id="将配置数据从代码中分离出来">将配置数据从代码中分离出来</h2>
+<p>配置数据是应用中写死的值。
+抽离配置数据</p>
 <h2 id="抛出自定义错误">抛出自定义错误</h2>
+<p>错误可以（原话中无“可以”）是开发者的朋友，而不是敌人。</p>
+<pre><code class="language-js"><span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&#x27;string&#x27;</span>) <span class="hljs-comment">// 正例</span>
+<span class="hljs-keyword">throw</span> <span class="hljs-string">&#x27;string&#x27;</span> <span class="hljs-comment">// 反例</span>
+</code></pre>
+<p>自定义错误可以包含自定义内容。</p>
+<ul>
+<li>一旦修复一个很难调试的错误，尝试增加一两个自定义错误。当再次发生错误时，这将有助于更容易地解决问题。</li>
+<li>在关键点出错时抛出自定义错误。</li>
+<li>修改别人的代码。
+try-catch-finally coder一定知道这里可能出错。那么应该处理错误，而不是忽略它。
+错误类型</li>
+<li>Error 这是所有错误的基本类型，实际上引擎从来不会抛出该类错误</li>
+<li>EvalError eval()方法执行时发生错误。</li>
+<li>ReferenceError 引用超出边界。</li>
+<li>SyntaxError 语法错误</li>
+<li>TypeError 变量不是期望的类型</li>
+<li>URIError encodeURI()/encodeURIComponent()/decodeURI()/decodeURIComponent()等方法的参数中有非法的URI字符时抛出。</li>
+</ul>
+<pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">MyError</span>(<span class="hljs-params">msg</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">message</span> = msg
+}
+<span class="hljs-title class_">MyError</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>()
+<span class="hljs-comment">// or</span>
+<span class="hljs-title class_">Object</span>.<span class="hljs-title function_">create</span>(<span class="hljs-title class_">Error</span>, {
+    <span class="hljs-attr">message</span>: {
+        <span class="hljs-attr">value</span>: msg,
+        <span class="hljs-attr">writable</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">enumerable</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">configurable</span>: <span class="hljs-literal">true</span>,
+    }
+})
+<span class="hljs-keyword">try</span> {
+    <span class="hljs-comment">// ...</span>
+} <span class="hljs-keyword">catch</span> (ex) {
+    <span class="hljs-keyword">if</span> (ex <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">MyError</span>) {
+        <span class="hljs-comment">// 处理自己的错误</span>
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-comment">// 处理其他错误</span>
+    }
+}
+</code></pre>
 <h2 id="不是你的对象不要动">不是你的对象不要动</h2>
+<ul>
+<li>原生对象。Object/Array等。</li>
+<li>DOM对象 document等</li>
+<li>BOM对象 window等</li>
+<li>类库的对象
+修改原则</li>
+<li>不覆盖方法</li>
+<li>不新增方法</li>
+<li>不删除方法
+修改的方法（推荐）</li>
+<li>基于此对象做继承</li>
+<li>基于类型的继承</li>
+<li>门面模式
+阻止修改</li>
+<li>防止扩展。禁止为对象添加属性，可以修改、删除已有属性。（属性包含方法。方法是一种属性值。）
+<ul>
+<li>为禁止扩展的对象添加属性时不报错且失败。</li>
+</ul>
+</li>
+<li>密封。禁止为对象删除、添加属性。可以修改属性值。
+<ul>
+<li>为已密封的对象删除属性时不报错且失败。</li>
+</ul>
+</li>
+<li>冻结。禁止为对象修改已有属性。不可以删除、修改、增加属性。
+<ul>
+<li>为已密封的对象修改属性时不报错且失败。</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>修改</th>
+<th>增加</th>
+<th>删除</th>
+<th>访问</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>防止扩展</td>
+<td>y</td>
+<td>x</td>
+<td>y</td>
+<td>y</td>
+</tr>
+<tr>
+<td>密封</td>
+<td>y</td>
+<td>x</td>
+<td>x</td>
+<td>y</td>
+</tr>
+<tr>
+<td>冻结</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>y</td>
+</tr>
+</tbody>
+</table>
 <h2 id="浏览器嗅探">浏览器嗅探</h2>
+<p>user-agent
+特性检测 <code>if (document.getElementById) {...}</code>
+避免浏览器推断</p>
 <h1 id="第三部分-自动化">第三部分 自动化</h1>
 <h2 id="文件和目录结构">文件和目录结构</h2>
 <h2 id="ant">Ant</h2>
@@ -299,10 +511,10 @@ var可使变量提升
 <h2 id="文档化">文档化</h2>
 <h2 id="自动化测试">自动化测试</h2>
 <h2 id="组装在一起">组装在一起</h2>
-<h1 id="附录a-javascript编程风格指南">附录A Javascript编程风格指南</h1>
-<h1 id="附录b-javascript工具集">附录B Javascript工具集</h1>
+<h1 id="附录-a-javascript-编程风格指南">附录 A Javascript 编程风格指南</h1>
+<h1 id="附录-b-javascript-工具集">附录 B Javascript 工具集</h1>
 
-            
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
             
         </body>
         </html>

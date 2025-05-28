@@ -157,23 +157,211 @@ js 编程的本质是编写一个个的函数来完成任务，在函数内部�
 var 可使变量提升
 总是将局部变量定义放在函数内第一条语句。
 
+三种规范：
+
+- Crockford 编程规范
+- SproutCore 编程规范
+- Dojo 编程规范
+
+推荐函数声明先于函数使用。
+
+```js
+fn(param) // 推荐写法
+var value = (function() {
+    ...
+}())
+```
+
+严格模式，就是在开头写上"use strict"字符串。
+若在文件的开头写，则此文件是严格模式。
+若在方法的开头写，则此方法是严格模式。
+
+```
+"use strict"
+...
+```
+
+推荐在局部使用严格模式，在全局不使用严格模式。
+boolean 值与数字比较时，先办的为数字，再比较。
+两个对象比较时，先调用对象的 valueOf()方法（若无 valueOf(),则调用 toString()）。再比较。
+eval()把参数当作代码。
+
+可以执行字符串的函数：
+
+```
+eval('alert("hi")')
+var f = new Function('alert("hi")')
+setTimeout('document.body.style.background="red"', 50)
+setInterval('document.title="hi"', 1000)
+```
+
 # 第二部分 编程实践
+
+“构建软件设计的方法有两种：一种是把软件做得很简单以至于明显找不一缺陷，另一种是把它做得很复杂以至于找不到明显的缺陷。”————C.A.R. Hoare
+
+代码风格规范的目的是在多人协作时使用代码具有一致性。
 
 ## UI 层的松耦合
 
+作者说了 js/css/html 的关系。
+无耦合 (no coupling)
+
+```
+将js从css中抽离
+反例
+.box {
+    width: express(document.body.offsetWidth + 'px')
+}
+将css从js中抽离
+反例
+element.style.color = 'red'
+将js从html中抽离
+反例
+<script>fn()</script>
+将html从js中抽离
+反例
+var div = document.getElementById('id')
+div.innerHTML = '<h1>title</h1>'
+
+正例
+element.className += 'reveal'
+element.classList.add('reveal')
+Y.one(element).addClass('reveal')
+$(element).addClass('reveal')
+dojo.addClass(element, 'reveal')
+```
+
+低耦合的方法：
+
+- 从服务器加载到 dom 树中。
+- 在客户端使用模板，再使用适时的数据替换模板。
+
 ## 避免使用全局变量
+
+- 应遵守最小权限原则。
+- 命名冲突(api 冲突)
+- 代码的脆弱性
+- 难以单元测试
+- 意外的全局变量
+- 单全局变量方式，即只创建一个全局变量。
+  - YUI YUI
+  - jQuery 有 2 个全局变量 $ jQuery
+  - Dojo dojo
+  - Closure goog
+- 使用命名空间
+- 模块。它是基于单全局变量理论产生的。
+  - amd
+- 零全局变量。一定不要修改 win 属性。
+
+```js
+;(function (win) {
+  'use strict'
+  var doc = win.docuemnt
+  // 定义变量
+  // 执行逻辑
+  // 一定不要修改win属性。
+})(window)
+```
 
 ## 事件处理
 
+- 规则一：隔离应用逻辑
+- 规则二：不要分发事件对象。只传递需要的属性，而不是一整个对象。
+
 ## 避免“空比较”
+
+- 检测原始值。typeof variable 或 typeof(variable)
+- 检测引用值 value instanceof constructor
+- 检测函数。typeof fn === 'function'
+- 检测数组。鸭式辨型(关注对象能做什么，不关注对象是什么。)。Array.isArray(p)
+- 检测属性 'key' in object hasOwnProperty()
 
 ## 将配置数据从代码中分离出来
 
+配置数据是应用中写死的值。
+抽离配置数据
+
 ## 抛出自定义错误
+
+错误可以（原话中无“可以”）是开发者的朋友，而不是敌人。
+
+```js
+throw new Error('string') // 正例
+throw 'string' // 反例
+```
+
+自定义错误可以包含自定义内容。
+
+- 一旦修复一个很难调试的错误，尝试增加一两个自定义错误。当再次发生错误时，这将有助于更容易地解决问题。
+- 在关键点出错时抛出自定义错误。
+- 修改别人的代码。
+  try-catch-finally coder 一定知道这里可能出错。那么应该处理错误，而不是忽略它。
+  错误类型
+- Error 这是所有错误的基本类型，实际上引擎从来不会抛出该类错误
+- EvalError eval()方法执行时发生错误。
+- ReferenceError 引用超出边界。
+- SyntaxError 语法错误
+- TypeError 变量不是期望的类型
+- URIError encodeURI()/encodeURIComponent()/decodeURI()/decodeURIComponent()等方法的参数中有非法的 URI 字符时抛出。
+
+```js
+function MyError(msg) {
+  this.message = msg
+}
+MyError.prototype = new Error()
+// or
+Object.create(Error, {
+  message: {
+    value: msg,
+    writable: true,
+    enumerable: true,
+    configurable: true,
+  },
+})
+try {
+  // ...
+} catch (ex) {
+  if (ex instanceof MyError) {
+    // 处理自己的错误
+  } else {
+    // 处理其他错误
+  }
+}
+```
 
 ## 不是你的对象不要动
 
+- 原生对象。Object/Array 等。
+- DOM 对象 document 等
+- BOM 对象 window 等
+- 类库的对象
+  修改原则
+- 不覆盖方法
+- 不新增方法
+- 不删除方法
+  修改的方法（推荐）
+- 基于此对象做继承
+- 基于类型的继承
+- 门面模式
+  阻止修改
+- 防止扩展。禁止为对象添加属性，可以修改、删除已有属性。（属性包含方法。方法是一种属性值。）
+  - 为禁止扩展的对象添加属性时不报错且失败。
+- 密封。禁止为对象删除、添加属性。可以修改属性值。
+  - 为已密封的对象删除属性时不报错且失败。
+- 冻结。禁止为对象修改已有属性。不可以删除、修改、增加属性。
+  - 为已密封的对象修改属性时不报错且失败。
+
+|          | 修改 | 增加 | 删除 | 访问 |
+| -------- | ---- | ---- | ---- | ---- |
+| 防止扩展 | y    | x    | y    | y    |
+| 密封     | y    | x    | x    | y    |
+| 冻结     | x    | x    | x    | y    |
+
 ## 浏览器嗅探
+
+user-agent
+特性检测 `if (document.getElementById) {...}`
+避免浏览器推断
 
 # 第三部分 自动化
 
