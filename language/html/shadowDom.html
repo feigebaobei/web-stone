@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>shadow DOM</title>
-        <style>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>shadow DOM</title>
+            <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -11,47 +11,14 @@
  *--------------------------------------------------------------------------------------------*/
 
 .vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
 	display: none;
 }
 
-/* From extension ms-toolsai.jupyter */
-/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
-
-.alert {
-    width: auto;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-.alert > *:last-child {
-    margin-bottom: 0;
-}
-#preview > .alert:last-child {
-    /* Prevent this being set to zero by the default notebook stylesheet */
-    padding-bottom: 1em;
-}
-
-.alert-success {
-    /* Note there is no suitable color available, so we just copy "info" */
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-info {
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-warning {
-    background-color: var(--theme-warning-background);
-    color: var(--theme-warning-foreground);
-}
-.alert-danger {
-    background-color: var(--theme-error-background);
-    color: var(--theme-error-foreground);
-}
-
 </style>
-        
+            
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -72,14 +39,123 @@
     pointer-events: none;
 }
 </style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
         
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="shadow-dom">shadow DOM</h1>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="shadow-dom">shadow DOM</h1>
+<h2 id="前提准备">前提准备</h2>
 <ul>
 <li>只能挂载到允许的元素上。不能单独存在。</li>
 <li>使用它与使用 html 元素相同。</li>
 <li>需要熟练 js 操作 dom 的 api.</li>
+</ul>
+<h2 id="简介">简介</h2>
+<p>shadow dom允许将一个dom树附加到一个dom元素上。该树内部的js/css是隐藏的。
+对页面上的js来说基本上是隐藏的。
+你不应将这视为一个强大的安全机制，因为它可以被绕过，比如通过在页面中运行的浏览器扩展。这更多地是一个指示页面不应访问影子 DOM 树内部的一种提示。
+页面中的js、css不会影响影子dom内的节点。即使mode:open也不影响。</p>
+<h2 id="概念">概念</h2>
+<ul>
+<li>影子宿主 shadow host 影子dom附加到的常规dom节点</li>
+<li>影子树 shadow tree 影子dom内部的dom树</li>
+<li>影子边界 shadow boundary 影子dom终止，常规dom开始的地方</li>
+<li>影子树 shadow root 影子树的根节点</li>
 </ul>
 <h2 id="demo">demo</h2>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
@@ -102,7 +178,82 @@
   </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
 </code></pre>
-<h2 id="shadowroot">ShadowRoot</h2>
+<h2 id="模式">模式</h2>
+<p><code>hostDom.attachShadow({mode: 'open'})</code>  破坏影子dom的封装。
+<code>hostDom.attachShadow({mode: 'close'})</code> 影子宿主的shadowRoot为null</p>
+<pre><code>hostDom.shadowRoot.querySelectoAll('id') // 影子元素中的指定dom元素
+</code></pre>
+<h2 id="为shadow-dom设置样式">为shadow dom设置样式</h2>
+<ul>
+<li>编程式，通过构建一个 CSSStyleSheet 对象并将其附加到影子根。
+<ul>
+<li>允许创建单一样式表并将其与多个 DOM 树共享。</li>
+<li>可以对样式表进行动态更改，并将更改传播到使用表的所有组件。</li>
+</ul>
+</li>
+<li>声明式，通过在一个 <template> 元素的声明中添加一个 <style> 元素。
+<ul>
+<li>声明式的、需要较少的样式并且不需要在不同组件之间共享样式的时候</li>
+</ul>
+</li>
+</ul>
+<h3 id="使用css样式">使用css样式</h3>
+<pre><code>let sheet = new CSSStyleSheet()
+sheet.replaceSync(&quot;span {color: red;}&quot;)
+let shadow = host.attachShadow({mode: 'open'})
+shadow.adoptedStyleSheets = [sheet]
+let span = document.createElement('span')
+span.textContent = 'str'
+shadow.appendChild(span)
+</code></pre>
+<p>影子元素内的样式应用于影子元素，不应用到影子元素外。</p>
+<h3 id="使用template添加样式">使用template添加样式</h3>
+<pre><code>&lt;template id=&quot;id&quot;&gt;
+  &lt;style&gt;
+    span {
+      color: red;
+    }
+  &lt;/style&gt;
+  &lt;span&gt;str&lt;/span&gt;
+&lt;/template&gt;
+&lt;div id=&quot;host&quot;&gt;&lt;/div&gt;
+
+let host = ...
+let shadow = host.attachShadow({mode: 'open'})
+let template = document.getElementById('id')
+shadow.appendChild(template.content)
+</code></pre>
+<h2 id="shadow-dom--自定义元素">shadow dom &amp; 自定义元素</h2>
+<pre><code>class FilledCircle extends HTMLElement {
+  constructor() {
+    super();
+  }
+  connectedCallback() {
+    // 创建一个影子根
+    // 自定义元素自身是影子宿主
+    const shadow = this.attachShadow({ mode: &quot;open&quot; });
+
+    // 创建内部实现
+    const svg = document.createElementNS(&quot;http://www.w3.org/2000/svg&quot;, &quot;svg&quot;);
+    const circle = document.createElementNS(
+      &quot;http://www.w3.org/2000/svg&quot;,
+      &quot;circle&quot;,
+    );
+    circle.setAttribute(&quot;cx&quot;, &quot;50&quot;);
+    circle.setAttribute(&quot;cy&quot;, &quot;50&quot;);
+    circle.setAttribute(&quot;r&quot;, &quot;50&quot;);
+    circle.setAttribute(&quot;fill&quot;, this.getAttribute(&quot;color&quot;));
+    svg.appendChild(circle);
+
+    shadow.appendChild(svg);
+  }
+}
+customElements.define(&quot;filled-circle&quot;, FilledCircle);
+
+
+&lt;filled-circle color=&quot;blue&quot;&gt;&lt;/filled-circle&gt;
+</code></pre>
+<h2 id="shadowroot-api">ShadowRoot api</h2>
 <table>
 <thead>
 <tr>
@@ -200,7 +351,7 @@
                 host
 </code></pre>
 
-        
-        
-    </body>
-    </html>
+            
+            
+        </body>
+        </html>

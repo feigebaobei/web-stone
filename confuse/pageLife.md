@@ -70,7 +70,12 @@ readystatechange 事件在状态改变时触发。
 [4] window onload
 ```
 
-### title
+### load
+
+```
+window.addEventListener('load', (e) => {})
+window.onload = (e) => {}
+```
 
 ### title
 
