@@ -2,7 +2,7 @@
         <html>
         <head>
             <meta charset="UTF-8">
-            <title>dom&#x7684;&#x5750;&#x6807;</title>
+            <title>dom &#x7684;&#x5750;&#x6807;</title>
             <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -11,7 +11,9 @@
  *--------------------------------------------------------------------------------------------*/
 
 .vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
 	display: none;
 }
 
@@ -136,7 +138,7 @@
         
         </head>
         <body class="vscode-body vscode-light">
-            <h1 id="dom的坐标">dom的坐标</h1>
+            <h1 id="dom-的坐标">dom 的坐标</h1>
 <p><img src="https://images.cnblogs.com/cnblogs_com/yoyiorlee/DOM.gif" alt="pic"></p>
 <table>
 <thead>
@@ -240,7 +242,89 @@
 </tr>
 </tbody>
 </table>
-<h1 id="event的坐标">event的坐标</h1>
+<pre><code class="language-js"><span class="hljs-comment">// 得到dom元素的坐标</span>
+<span class="hljs-keyword">let</span> rect = dom.<span class="hljs-title function_">getBoundingClientRect</span>()
+<span class="hljs-attr">rect</span>: {
+  <span class="hljs-attr">bottom</span>: number
+  <span class="hljs-attr">height</span>: number
+  <span class="hljs-attr">left</span>: number
+  <span class="hljs-attr">right</span>: number
+  <span class="hljs-attr">top</span>: number
+  <span class="hljs-attr">width</span>: number
+  <span class="hljs-attr">x</span>: number
+  <span class="hljs-attr">y</span>: number
+}
+</code></pre>
+<h1 id="event-的坐标">event 的坐标</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>原点</th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>clientX</td>
+<td>窗口左上角</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>clientY</td>
+<td>窗口左上角</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>pageX</td>
+<td>页面左上角</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>pageY</td>
+<td>页面左上角</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>screenX</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>screenY</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>offsetX</td>
+<td>事件元素的的左上角</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>offsetY</td>
+<td>事件元素的的左上角</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 
             
             

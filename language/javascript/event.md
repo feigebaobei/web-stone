@@ -43,7 +43,7 @@ Event: {
   type: 事件的类型
   isTrusted: 是否由浏览器发起
   createEvent()
-  composedPath()
+  composedPath() // 原始事件目标的完整路径。由事件目标到根元素的路径上的元素组成的数组。
   initEvent()
   preventDefault()
   stopImmediatePropagation()
@@ -149,6 +149,24 @@ dom.onclick = fn
 | 多次绑定   | 同一时间指向唯一的对象。若多次绑定，则覆盖以前绑定的。 | 若多次绑定，则不覆盖。 |
 | 事件触发时 | 最后一次绑定的方法生效                                 | 所有绑定的方法都生效   |
 | 触发阶段   | 不知道                                                 | 可以指定               |
+
+# event.composed
+
+composed 是 true，那么事件就能穿过边界。否则它仅能在 shadow DOM 内部捕获。
+大部分事件都是 composed: true：
+blur，focus，focusin，focusout，
+click，dblclick，
+mousedown，mouseup mousemove，mouseout，mouseover，
+wheel，
+beforeinput，input，keydown，keyup。
+所有触摸事件（touch events）及指针事件（pointer events）都是 composed: true。
+
+但也有些事件是 composed: false 的：
+mouseenter，mouseleave（它们根本不会冒泡），
+load，unload，abort，error，
+select，
+slotchange。
+这些事件仅能在事件目标所在的同一 DOM 中的元素上捕获，
 
 # ExtendableEvent
 

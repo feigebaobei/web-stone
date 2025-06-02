@@ -146,15 +146,16 @@
 <li>需要熟练 js 操作 dom 的 api.</li>
 </ul>
 <h2 id="简介">简介</h2>
-<p>shadow dom允许将一个dom树附加到一个dom元素上。该树内部的js/css是隐藏的。
-对页面上的js来说基本上是隐藏的。
+<p>shadow dom 允许将一个 dom 树附加到一个 dom 元素上。该树内部的 js/css 是隐藏的。
+对页面上的 js 来说基本上是隐藏的。
 你不应将这视为一个强大的安全机制，因为它可以被绕过，比如通过在页面中运行的浏览器扩展。这更多地是一个指示页面不应访问影子 DOM 树内部的一种提示。
-页面中的js、css不会影响影子dom内的节点。即使mode:open也不影响。</p>
+页面中的 js、css 不会影响影子 dom 内的节点。即使 mode:open 也不影响。
+composedPath() 是 Event 接口的一个方法，当对象数组调用该侦听器时返回事件路径。如果影子根节点被创建并且ShadowRoot.mode是关闭的，那么该路径不包括影子树中的节点。</p>
 <h2 id="概念">概念</h2>
 <ul>
-<li>影子宿主 shadow host 影子dom附加到的常规dom节点</li>
-<li>影子树 shadow tree 影子dom内部的dom树</li>
-<li>影子边界 shadow boundary 影子dom终止，常规dom开始的地方</li>
+<li>影子宿主 shadow host 影子 dom 附加到的常规 dom 节点</li>
+<li>影子树 shadow tree 影子 dom 内部的 dom 树</li>
+<li>影子边界 shadow boundary 影子 dom 终止，常规 dom 开始的地方</li>
 <li>影子树 shadow root 影子树的根节点</li>
 </ul>
 <h2 id="demo">demo</h2>
@@ -179,11 +180,11 @@
 <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
 </code></pre>
 <h2 id="模式">模式</h2>
-<p><code>hostDom.attachShadow({mode: 'open'})</code>  破坏影子dom的封装。
-<code>hostDom.attachShadow({mode: 'close'})</code> 影子宿主的shadowRoot为null</p>
+<p><code>hostDom.attachShadow({mode: 'open'})</code> 破坏影子 dom 的封装。
+<code>hostDom.attachShadow({mode: 'close'})</code> 影子宿主的 shadowRoot 为 null</p>
 <pre><code>hostDom.shadowRoot.querySelectoAll('id') // 影子元素中的指定dom元素
 </code></pre>
-<h2 id="为shadow-dom设置样式">为shadow dom设置样式</h2>
+<h2 id="为-shadow-dom-设置样式">为 shadow dom 设置样式</h2>
 <ul>
 <li>编程式，通过构建一个 CSSStyleSheet 对象并将其附加到影子根。
 <ul>
@@ -197,7 +198,7 @@
 </ul>
 </li>
 </ul>
-<h3 id="使用css样式">使用css样式</h3>
+<h3 id="使用-css-样式">使用 css 样式</h3>
 <pre><code>let sheet = new CSSStyleSheet()
 sheet.replaceSync(&quot;span {color: red;}&quot;)
 let shadow = host.attachShadow({mode: 'open'})
@@ -207,7 +208,7 @@ span.textContent = 'str'
 shadow.appendChild(span)
 </code></pre>
 <p>影子元素内的样式应用于影子元素，不应用到影子元素外。</p>
-<h3 id="使用template添加样式">使用template添加样式</h3>
+<h3 id="使用-template-添加样式">使用 template 添加样式</h3>
 <pre><code>&lt;template id=&quot;id&quot;&gt;
   &lt;style&gt;
     span {

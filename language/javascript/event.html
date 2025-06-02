@@ -177,7 +177,7 @@ eventInit {
   <span class="hljs-attr">type</span>: 事件的类型
   <span class="hljs-attr">isTrusted</span>: 是否由浏览器发起
   <span class="hljs-title function_">createEvent</span>()
-  <span class="hljs-title function_">composedPath</span>()
+  <span class="hljs-title function_">composedPath</span>() <span class="hljs-comment">// 原始事件目标的完整路径。由事件目标到根元素的路径上的元素组成的数组。</span>
   <span class="hljs-title function_">initEvent</span>()
   <span class="hljs-title function_">preventDefault</span>()
   <span class="hljs-title function_">stopImmediatePropagation</span>()
@@ -369,6 +369,21 @@ eventInit {
 </tr>
 </tbody>
 </table>
+<h1 id="eventcomposed">event.composed</h1>
+<p>composed 是 true，那么事件就能穿过边界。否则它仅能在 shadow DOM 内部捕获。
+大部分事件都是 composed: true：
+blur，focus，focusin，focusout，
+click，dblclick，
+mousedown，mouseup mousemove，mouseout，mouseover，
+wheel，
+beforeinput，input，keydown，keyup。
+所有触摸事件（touch events）及指针事件（pointer events）都是 composed: true。</p>
+<p>但也有些事件是 composed: false 的：
+mouseenter，mouseleave（它们根本不会冒泡），
+load，unload，abort，error，
+select，
+slotchange。
+这些事件仅能在事件目标所在的同一 DOM 中的元素上捕获，</p>
 <h1 id="extendableevent">ExtendableEvent</h1>
 <p>创建一个 ExtendableEvent 对象。
 service workers 中使用到了它。</p>
@@ -519,8 +534,8 @@ document.onselectionchange = () =&gt; {
   console.log(document.getSelection());
 };
 </code></pre>
-<p>我发现在focus时也会触发此事件。</p>
-<p><code>window.getSelection()</code>可以得到Selection对象。</p>
+<p>我发现在 focus 时也会触发此事件。</p>
+<p><code>window.getSelection()</code>可以得到 Selection 对象。</p>
 <pre><code>var selObj = window.getSelection();
 var range = selObj.getRangeAt(0); // Range对象。
 </code></pre>
@@ -545,7 +560,7 @@ var range = selObj.getRangeAt(0); // Range对象。
 </tr>
 <tr>
 <td>anchorOffset</td>
-<td>选区起点在anchorNode的偏移量</td>
+<td>选区起点在 anchorNode 的偏移量</td>
 <td></td>
 <td></td>
 <td></td>
@@ -559,7 +574,7 @@ var range = selObj.getRangeAt(0); // Range对象。
 </tr>
 <tr>
 <td>focusOffset</td>
-<td>选区终点在focusNode的偏移量</td>
+<td>选区终点在 focusNode 的偏移量</td>
 <td></td>
 <td></td>
 <td></td>
