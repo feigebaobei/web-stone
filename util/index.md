@@ -762,6 +762,56 @@ export type {
   Oa, FT, Email, Options,
 }
 
+//jQueryなし
+function querySelectorAllShadow(selector, context){
+	context = context || document;
+	var docs = [context];
+	dig(context);
+	var result = [];
+	docs.forEach(function(doc){
+		Array.apply(null, doc.querySelectorAll(selector)).forEach(function(dom){
+			result.push(dom);
+		});
+	});
+	return result;
+	function dig(doc){
+		Array.apply(null, doc.querySelectorAll('*')).forEach(function(dom){
+			if(dom.shadowRoot!=null){
+				docs.push(dom.shadowRoot);
+				dig(dom.shadowRoot);
+			}
+		})
+	}
+}
+//要素の配列を返す
+querySelectorAllShadow('.footer div');
+//jQueryあり
+$.shadowDom = function(selector, context){
+	context = context || document;
+	var docs = [context];
+	dig(context);
+	var result = $();
+	docs.forEach(function(doc){
+		Array.apply(null, doc.querySelectorAll(selector)).forEach(function(dom){
+			result = result.add(dom);
+		});
+	});
+	return result;
+	function dig(doc){
+		Array.apply(null, doc.querySelectorAll('*')).forEach(function(dom){
+			if(dom.shadowRoot!=null){
+				docs.push(dom.shadowRoot);
+				dig(dom.shadowRoot);
+			}
+		})
+	}
+};
+//jQueryオブジェクトを返す
+$.shadowDom('a');
+//実DOMとshadowDomを股がる走査はできない。
+//絞り込みたい場合は第2引数にコンテキストを指定する。
+$.shadowDom('.footer div', $('.text')[0]);
+
 
 
 

@@ -901,6 +901,55 @@ interface <span class="hljs-title class_">Options</span>&lt;T, G&gt; {
   <span class="hljs-title class_">Oa</span>, <span class="hljs-variable constant_">FT</span>, <span class="hljs-title class_">Email</span>, <span class="hljs-title class_">Options</span>,
 }
 
+<span class="hljs-comment">//jQueryなし</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">querySelectorAllShadow</span>(<span class="hljs-params">selector, context</span>){
+	context = context || <span class="hljs-variable language_">document</span>;
+	<span class="hljs-keyword">var</span> docs = [context];
+	<span class="hljs-title function_">dig</span>(context);
+	<span class="hljs-keyword">var</span> result = [];
+	docs.<span class="hljs-title function_">forEach</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">doc</span>){
+		<span class="hljs-title class_">Array</span>.<span class="hljs-title function_">apply</span>(<span class="hljs-literal">null</span>, doc.<span class="hljs-title function_">querySelectorAll</span>(selector)).<span class="hljs-title function_">forEach</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">dom</span>){
+			result.<span class="hljs-title function_">push</span>(dom);
+		});
+	});
+	<span class="hljs-keyword">return</span> result;
+	<span class="hljs-keyword">function</span> <span class="hljs-title function_">dig</span>(<span class="hljs-params">doc</span>){
+		<span class="hljs-title class_">Array</span>.<span class="hljs-title function_">apply</span>(<span class="hljs-literal">null</span>, doc.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">&#x27;*&#x27;</span>)).<span class="hljs-title function_">forEach</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">dom</span>){
+			<span class="hljs-keyword">if</span>(dom.<span class="hljs-property">shadowRoot</span>!=<span class="hljs-literal">null</span>){
+				docs.<span class="hljs-title function_">push</span>(dom.<span class="hljs-property">shadowRoot</span>);
+				<span class="hljs-title function_">dig</span>(dom.<span class="hljs-property">shadowRoot</span>);
+			}
+		})
+	}
+}
+<span class="hljs-comment">//要素の配列を返す</span>
+<span class="hljs-title function_">querySelectorAllShadow</span>(<span class="hljs-string">&#x27;.footer div&#x27;</span>);
+<span class="hljs-comment">//jQueryあり</span>
+$.shadowDom = <span class="hljs-keyword">function</span>(<span class="hljs-params">selector, context</span>){
+	context = context || <span class="hljs-variable language_">document</span>;
+	<span class="hljs-keyword">var</span> docs = [context];
+	<span class="hljs-title function_">dig</span>(context);
+	<span class="hljs-keyword">var</span> result = $();
+	docs.<span class="hljs-title function_">forEach</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">doc</span>){
+		<span class="hljs-title class_">Array</span>.<span class="hljs-title function_">apply</span>(<span class="hljs-literal">null</span>, doc.<span class="hljs-title function_">querySelectorAll</span>(selector)).<span class="hljs-title function_">forEach</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">dom</span>){
+			result = result.<span class="hljs-title function_">add</span>(dom);
+		});
+	});
+	<span class="hljs-keyword">return</span> result;
+	<span class="hljs-keyword">function</span> <span class="hljs-title function_">dig</span>(<span class="hljs-params">doc</span>){
+		<span class="hljs-title class_">Array</span>.<span class="hljs-title function_">apply</span>(<span class="hljs-literal">null</span>, doc.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">&#x27;*&#x27;</span>)).<span class="hljs-title function_">forEach</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">dom</span>){
+			<span class="hljs-keyword">if</span>(dom.<span class="hljs-property">shadowRoot</span>!=<span class="hljs-literal">null</span>){
+				docs.<span class="hljs-title function_">push</span>(dom.<span class="hljs-property">shadowRoot</span>);
+				<span class="hljs-title function_">dig</span>(dom.<span class="hljs-property">shadowRoot</span>);
+			}
+		})
+	}
+};
+<span class="hljs-comment">//jQueryオブジェクトを返す</span>
+$.<span class="hljs-title function_">shadowDom</span>(<span class="hljs-string">&#x27;a&#x27;</span>);
+<span class="hljs-comment">//実DOMとshadowDomを股がる走査はできない。</span>
+<span class="hljs-comment">//絞り込みたい場合は第2引数にコンテキストを指定する。</span>
+$.<span class="hljs-title function_">shadowDom</span>(<span class="hljs-string">&#x27;.footer div&#x27;</span>, $(<span class="hljs-string">&#x27;.text&#x27;</span>)[<span class="hljs-number">0</span>]);
 
 
 
