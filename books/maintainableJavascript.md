@@ -299,6 +299,7 @@ throw 'string' // 反例
   错误类型
 - Error 这是所有错误的基本类型，实际上引擎从来不会抛出该类错误
 - EvalError eval()方法执行时发生错误。
+- RangeError 超出边界
 - ReferenceError 引用超出边界。
 - SyntaxError 语法错误
 - TypeError 变量不是期望的类型
@@ -351,11 +352,12 @@ try {
 - 冻结。禁止为对象修改已有属性。不可以删除、修改、增加属性。
   - 为已密封的对象修改属性时不报错且失败。
 
-|          | 修改 | 增加 | 删除 | 访问 |
-| -------- | ---- | ---- | ---- | ---- |
-| 防止扩展 | y    | x    | y    | y    |
-| 密封     | y    | x    | x    | y    |
-| 冻结     | x    | x    | x    | y    |
+|             | 增加           | 删除 | 修改 | 访问 | 判断                   | 设置                        |     |
+| ----------- | -------------- | ---- | ---- | ---- | ---------------------- | --------------------------- | --- |
+| 防止扩展    | x              | y    | y    | y    | Object.isExtensible(o) | Object.preventExtensions(o) |     |
+| 密封        | x              | x    | y    | y    | Object.isSealed        |
+| isSealed(o) | Object.seal(o) |      |
+| 冻结        | x              | x    | x    | y    | Object.isFrozen(o)     | Object.freeze(o)            |     |
 
 ## 浏览器嗅探
 
@@ -363,24 +365,192 @@ user-agent
 特性检测 `if (document.getElementById) {...}`
 避免浏览器推断
 
+### 特性检测
+
+```js
+// 正例
+if (document.getElementById) {
+  ...
+}
+// 反例
+if (navigator.userAgent.indexOf('MSIE 7') > -1) {
+  ...
+}
+```
+
+```js
+function setAnimation(cb) {
+  if (window.requestAnimationFrame) {
+    // 标准
+    return window.requestAnimationFrame(cb)
+  } else if (window.mozRequestAnimationFrame) {
+    // firefox
+    return window.mozRequestAnimationFrame(cb)
+  } else if (window.webkitRequestAnimationFrame) {
+    // webkit
+    return window.webkitRequestAnimationFrame(cb)
+  } else if (window.oRequestAnimationFrame) {
+    // opera
+    return window.oRequestAnimationFrame(cb)
+  } else if (window.msRequestAnimationFrame) {
+    // ie
+    return window.msRequestAnimationFrame(cb)
+  } else {
+    return setTimeout(cb, 0)
+  }
+}
+```
+
+### 避免特性推断
+
+特性推断：判断若有 a 属性时，则有 b 属性。然后使用 b 属性。
+
+### 避免浏览器推断
+
+### 取舍
+
+1. 尽可能地使用特性检测
+2. 用户代理检测
+3. 特性推断、浏览器推断
+
 # 第三部分 自动化
+
+> 我相当乐意花一整天的时间通过编程把一个任务实现自动化，除非这个任务手动只需要 10s 就能完成。
+> ——Douglas Adams, Last Chance to See
 
 ## 文件和目录结构
 
+- 一个文件只包含一个对象
+- 相关的文件用目录分组
+- 保持第三方代码的独立
+- 确定创建位置
+- 保持测试代码的完整性
+
+### 基本结构
+
+```
+|- build           构建后的代码
+|- src             源代码
+|- test 或 tests   测试文件
+|- docs            文档目录
+|- js              js源代码
+|- meta            模块元信息
+```
+
 ## Ant
+
+它是一种构建工具。现在已经不常用它了。常用的有 webpack/esbuild/rollup/vite 等。
+需要 java 环境。
+配置文件是 build.xml
 
 ## 校验
 
+书中推荐了 JSLint 和 JSHint
+
 ## 文件合并和加工
+
+把多个文件合并到一个文件中。
 
 ## 文件精简和压缩
 
+为了使文件变小。
+压缩工具：
+
+- YUI Compressor
+- Closure Compiler
+- UglifyJS
+  运行时压缩：在 http 头中设置` Accept-Encoding: gzip, deflate``Content-Encoding: gzip `
+
 ## 文档化
+
+基于 js 代码（含注释）生成文档。的工具：
+
+- JSDoc Toolkit
+- YUI Doc
 
 ## 自动化测试
 
+- YUI Test
+- seleniumi
+- Ant
+- Yeti
+- PhantomJS (Jasmine / QUnit)
+- JsTestDriver
+
 ## 组装在一起
+
+与 ci 系统结合工作
+
+- Jenkins
+- Continuum
+- BuildBot
+- Cruise Control
+- Gradle
 
 # 附录 A Javascript 编程风格指南
 
+缩进，使用 4 个空格。
+每行最多 80 个字符。
+字符串使用双引号且保持一行。
+数字使用十进制整数，科学计数法表示整数，小数点前后至少保留一位数字。避免使用八进制直接量。
+二元运算符前后使用一个空格来保持表达式的整洁。
+紧接左括号之后，紧接右括号之前不使用空格。
+右花括号独占一行。
+单行注释独占一行。
+多行注释，应该是一个代码块。
+注释声明：TODO / HACK / XXX / FIXME / REVIEW
+严格模式在函数内部使用，不在全局使用。
+语句示例
+
+```js
+cont++;
+a = b;
+return;
+return a;
+if (condition) { // 不在if语句中省略花括号
+  ...
+} else {
+  ...
+}
+for (initialization; condition; update) {
+  ...
+}
+for (v in obj) {
+  ...
+}
+var i,
+    len;
+while (condition) {
+  ...
+}
+do {
+  ...
+} while (condition)
+switch (expression) {
+  case expression:
+    ...
+    break;
+  default:
+    ...
+    break;
+}
+try {
+  ...
+} catch (variable) {
+  ...
+} finally {
+  ...
+}
+```
+
+不使用像 String 一类的原始包装类型创建新的对象。
+避免使用 eval()
+避免使用 with 语句。
+
 # 附录 B Javascript 工具集
+
+构建工具：Ant / Buildy / Gmake / Grant / Jammit / Jasy / Rake / Sprockets
+文档生成器：Docco / Dojo Ducumentation Tools / JoDoc / JS Doc ToolKit / Natural Docs / NDoc / PDoc / YUI Doc
+代码检查工具: JSLint / JSHint
+压缩工具：Closure Compiler / UglifyJS / YUI Compressor
+测试工具：Jasmine / JsTestDriver / PhantomJS / Qunit / Selenium / Yeti / YUI Test
