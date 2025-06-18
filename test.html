@@ -14,10 +14,31 @@
     </div>
     <script>
         let clog = console.log
-        let bt = document.querySelector('#button')
-        bt.addEventListener('click', (event) => {
-            clog('event', event, event.composedPath())
-        })
+        let o = {
+            k: 1
+        }
+        // clog(Object.isExtensible(o))
+        // o.a = 's'
+        // Object.preventExtensions(o)
+        // clog(Object.isExtensible(o))
+        // o.b = true
+        // clog(o)
+
+        // clog(Object.isSealed(o))
+        // Object.seal(o)
+        // delete o.k
+        // o.a = 3
+        // o.k = 2
+        // clog(Object.isSealed(o))
+        // clog(o)
+
+        clog(Object.isFrozen(o))
+        Object.freeze(o)
+        o.k = 2
+        o.a = 3
+        delete o.k
+        clog(Object.isFrozen(o))
+        clog(o)
     </script>
 </body>
 </html>

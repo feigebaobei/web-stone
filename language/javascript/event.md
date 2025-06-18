@@ -43,7 +43,7 @@ Event: {
   type: 事件的类型
   isTrusted: 是否由浏览器发起
   createEvent()
-  composedPath()
+  composedPath() // 原始事件目标的完整路径。由事件目标到根元素的路径上的元素组成的数组。
   initEvent()
   preventDefault()
   stopImmediatePropagation()
@@ -150,6 +150,24 @@ dom.onclick = fn
 | 事件触发时 | 最后一次绑定的方法生效                                 | 所有绑定的方法都生效   |
 | 触发阶段   | 不知道                                                 | 可以指定               |
 
+# event.composed
+
+composed 是 true，那么事件就能穿过边界。否则它仅能在 shadow DOM 内部捕获。
+大部分事件都是 composed: true：
+blur，focus，focusin，focusout，
+click，dblclick，
+mousedown，mouseup mousemove，mouseout，mouseover，
+wheel，
+beforeinput，input，keydown，keyup。
+所有触摸事件（touch events）及指针事件（pointer events）都是 composed: true。
+
+但也有些事件是 composed: false 的：
+mouseenter，mouseleave（它们根本不会冒泡），
+load，unload，abort，error，
+select，
+slotchange。
+这些事件仅能在事件目标所在的同一 DOM 中的元素上捕获，
+
 # ExtendableEvent
 
 创建一个 ExtendableEvent 对象。
@@ -190,3 +208,53 @@ options 定义在 ExtendableEvent 对象上的自定义属性。
 | vue     | `h('button', {onClick: clickH})`                     |                                                  |            |                                      |
 | react   | `<button onClick={btClickHandler}> string </button>` | 驼峰命名法                                       |            |                                      |
 | angular | `<button (click)="clickH(...p)">str</button>`        |                                                  |            | angular 的写法与 html 的写法很接近。 |
+
+## selectionchange
+
+在当前 Document 的 Selection 改变时触发。
+
+```
+addEventListener("selectionchange", (event) => {});
+onselectionchange = (event) => {};
+
+// addEventListener 版本
+document.addEventListener("selectionchange", () => {
+  console.log(document.getSelection());
+});
+// onselectionchange 版本
+document.onselectionchange = () => {
+  console.log(document.getSelection());
+};
+```
+
+我发现在 focus 时也会触发此事件。
+
+`window.getSelection()`可以得到 Selection 对象。
+
+```
+var selObj = window.getSelection();
+var range = selObj.getRangeAt(0); // Range对象。
+```
+
+api
+||||||
+|-|-|-|-|-|
+|anchorNode|选区起点所在节点||||
+|anchorOffset|选区起点在 anchorNode 的偏移量||||
+|focusNode|选区终点所在的节点|只读|||
+|focusOffset|选区终点在 focusNode 的偏移量||||
+|isCollapsed|选区的起点、终点，是否在同一个位置||||
+|rangeCount|选区包含的连续范围的数量||||
+|getRangeAt()|||||
+|collapse()|||||
+|extend()|||||
+|modify()|||||
+|collapseToStart()|||||
+|collapseToEnd()|||||
+|selectAllChildren()|||||
+|addRange()|||||
+|removeRange()|||||
+|removeAllRanges()|||||
+|deleteFromDocument()|||||
+|toString()|||||
+|containsNode()|||||

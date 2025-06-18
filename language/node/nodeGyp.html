@@ -2,7 +2,7 @@
         <html>
         <head>
             <meta charset="UTF-8">
-            <title>jquery</title>
+            <title>node-gyp</title>
             <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -18,8 +18,7 @@
 }
 
 </style>
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
-<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+            
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -139,50 +138,12 @@
         
         </head>
         <body class="vscode-body vscode-light">
-            <h1 id="jquery">jquery</h1>
-<pre><code>on() bind() click() one() 等方法绑定的事件，都在冒泡阶段触发。
-</code></pre>
-<pre><code class="language-js"><span class="hljs-comment">// 获取该dom的所有事件</span>
-<span class="hljs-keyword">let</span> element = $(<span class="hljs-string">&#x27;#id&#x27;</span>)
-<span class="hljs-keyword">let</span> events = element.<span class="hljs-title function_">data</span>(<span class="hljs-string">&#x27;events&#x27;</span>)
-<span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> e <span class="hljs-keyword">in</span> events) {
-  <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;e&#x27;</span>, e)
-}
-</code></pre>
-<h2 id="issue">issue</h2>
-<h3 id="jquery对象--dom对象">jQuery对象 &lt;=&gt; DOM对象</h3>
-<p>jQuery对象: jQuery框架生成的对象。</p>
-<pre><code>let $v = $('#id') // jQuery对象
-$v[0] // DOM对象
-let d = $v.get(0) // DOM对象
+            <h1 id="node-gyp">node-gyp</h1>
+<blockquote>
+<p>是一个nodejs工具，用于编译node.js插件。这些插件通常是使用 C++ 编写的，需要编译成本地二进制文件才能在 Node.js 环境中运行。</p>
+</blockquote>
 
-$(d) // jQuery对象
-</code></pre>
-<h3 id="绑定与解绑">绑定与解绑</h3>
-<pre><code>$('p').off() // 解绑所有事件
-$('p').off('click', '**') // 解绑委托事件
-$('p').on('click', 'p', fn) // 绑定click事件的fn回调方法
-$('p').off('click', 'p', fn) // 解绑click事件的fn回调方法
-// 委托事件到命名空间 &quot;.validator&quot;
-$( &quot;form&quot; ).on( &quot;click.validator&quot;, &quot;button&quot;, validate );
-$( &quot;form&quot; ).on( &quot;keypress.validator&quot;, &quot;input[type='text']&quot;, validate );
-// Remove event handlers in the &quot;.validator&quot; namespace
-$( &quot;form&quot; ).off( &quot;.validator&quot; ); // 解绑指定命名空间的所有事件
-</code></pre>
-<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">fn</span> = (<span class="hljs-params">jqObj, eventName, cb</span>) =&gt; {
-  jqObj.<span class="hljs-title function_">off</span>(eventName, cb).<span class="hljs-title function_">on</span>(eventName, cb)
-}
-</code></pre>
-<h3 id="取得dom元素绑定的事件">取得dom元素绑定的事件</h3>
-<pre><code>$._data(domElement, 'events') // array
-</code></pre>
-<h3 id="function-与documentreadyfunction--"><code>$(function() {})</code>与<code>$(document).ready(function () {})</code></h3>
-<p><code>$(function() {})</code>是<code>$(document).ready(function () {})</code>的简写。
-在dom加载完成后触发。</p>
-<h3 id="title">title</h3>
-<h3 id="title-1">title</h3>
-
-            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
             
         </body>
         </html>

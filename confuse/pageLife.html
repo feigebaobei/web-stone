@@ -2,7 +2,7 @@
         <html>
         <head>
             <meta charset="UTF-8">
-            <title>jquery</title>
+            <title>&#x9875;&#x9762;&#x751f;&#x547d;&#x5468;&#x671f;</title>
             <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -18,8 +18,7 @@
 }
 
 </style>
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
-<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+            
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -139,50 +138,133 @@
         
         </head>
         <body class="vscode-body vscode-light">
-            <h1 id="jquery">jquery</h1>
-<pre><code>on() bind() click() one() 等方法绑定的事件，都在冒泡阶段触发。
-</code></pre>
-<pre><code class="language-js"><span class="hljs-comment">// 获取该dom的所有事件</span>
-<span class="hljs-keyword">let</span> element = $(<span class="hljs-string">&#x27;#id&#x27;</span>)
-<span class="hljs-keyword">let</span> events = element.<span class="hljs-title function_">data</span>(<span class="hljs-string">&#x27;events&#x27;</span>)
-<span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> e <span class="hljs-keyword">in</span> events) {
-  <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;e&#x27;</span>, e)
-}
+            <h1 id="页面生命周期">页面生命周期</h1>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DOMContentLoaded</td>
+<td>加载完 html,并构建 DOM 树。外部资源（如 img）可能未加载。</td>
+<td>DOM 已经就绪，可以查找 DOM 节点，并初始化接口。</td>
+<td>vue 等框架渲染完 DOM 后再触发事件。</td>
+<td>有 async 属性的脚本（script）不会阻塞此事件。使用 document.createElement('script')动态生成并添加到网页的脚本不会阻塞此事件。</td>
+</tr>
+<tr>
+<td>load</td>
+<td>不仅加载完 html，还加载完所有外部资源：图片、样式等</td>
+<td>外部资源已经加载完成，样式已经被应用，图片大小也已知</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>beforeunload</td>
+<td>用户正在离开页面</td>
+<td>可以用于检查用户是否保存，并询问是否要离开。</td>
+<td>event.preventDefault()在此事件中不生效。</td>
+<td></td>
+</tr>
+<tr>
+<td>unload</td>
+<td>用户几乎已经离开页面</td>
+<td>还可以启动一些操作，如发送统计数据。</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<pre><code>触发顺序
+app setup start
+子组件 setup start
+子组件 mounted
+app mounted
+DOMContentLoaded
 </code></pre>
 <h2 id="issue">issue</h2>
-<h3 id="jquery对象--dom对象">jQuery对象 &lt;=&gt; DOM对象</h3>
-<p>jQuery对象: jQuery框架生成的对象。</p>
-<pre><code>let $v = $('#id') // jQuery对象
-$v[0] // DOM对象
-let d = $v.get(0) // DOM对象
+<h3 id="关闭页面前发送埋点信息">关闭页面前发送埋点信息</h3>
+<p>window.addEventListener('unload', () =&gt; {
+navigator.sendBeacon(url, data)
+})
+method: post
+data &lt; 64k</p>
+<h3 id="documentreadystate">document.readyState</h3>
+<p>用于标识文档当前状态</p>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>loading</td>
+<td>文档正在被加载</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>interactive</td>
+<td>文档已经加载完</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>complete</td>
+<td>外部资源（图片、样式等）已经加载完</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<p>readystatechange 事件在状态改变时触发。</p>
+<h3 id="执行顺序">执行顺序</h3>
+<pre><code>&lt;script&gt;
+  log('initial readyState:' + document.readyState);
 
-$(d) // jQuery对象
+  document.addEventListener('readystatechange', () =&gt; log('readyState:' + document.readyState));
+  document.addEventListener('DOMContentLoaded', () =&gt; log('DOMContentLoaded'));
+
+  window.onload = () =&gt; log('window onload');
+&lt;/script&gt;
+
+&lt;iframe src=&quot;iframe.html&quot; onload=&quot;log('iframe onload')&quot;&gt;&lt;/iframe&gt;
+
+&lt;img src=&quot;http://en.js.cx/clipart/train.gif&quot; id=&quot;img&quot;&gt;
+&lt;script&gt;
+  img.onload = () =&gt; log('img onload');
+&lt;/script&gt;
+
+[1] initial readyState:loading
+[2] readyState:interactive
+[2] DOMContentLoaded
+[3] iframe onload
+[4] img onload
+[4] readyState:complete
+[4] window onload
 </code></pre>
-<h3 id="绑定与解绑">绑定与解绑</h3>
-<pre><code>$('p').off() // 解绑所有事件
-$('p').off('click', '**') // 解绑委托事件
-$('p').on('click', 'p', fn) // 绑定click事件的fn回调方法
-$('p').off('click', 'p', fn) // 解绑click事件的fn回调方法
-// 委托事件到命名空间 &quot;.validator&quot;
-$( &quot;form&quot; ).on( &quot;click.validator&quot;, &quot;button&quot;, validate );
-$( &quot;form&quot; ).on( &quot;keypress.validator&quot;, &quot;input[type='text']&quot;, validate );
-// Remove event handlers in the &quot;.validator&quot; namespace
-$( &quot;form&quot; ).off( &quot;.validator&quot; ); // 解绑指定命名空间的所有事件
+<h3 id="load">load</h3>
+<pre><code>window.addEventListener('load', (e) =&gt; {})
+window.onload = (e) =&gt; {}
 </code></pre>
-<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">fn</span> = (<span class="hljs-params">jqObj, eventName, cb</span>) =&gt; {
-  jqObj.<span class="hljs-title function_">off</span>(eventName, cb).<span class="hljs-title function_">on</span>(eventName, cb)
-}
-</code></pre>
-<h3 id="取得dom元素绑定的事件">取得dom元素绑定的事件</h3>
-<pre><code>$._data(domElement, 'events') // array
-</code></pre>
-<h3 id="function-与documentreadyfunction--"><code>$(function() {})</code>与<code>$(document).ready(function () {})</code></h3>
-<p><code>$(function() {})</code>是<code>$(document).ready(function () {})</code>的简写。
-在dom加载完成后触发。</p>
 <h3 id="title">title</h3>
 <h3 id="title-1">title</h3>
+<h3 id="title-2">title</h3>
 
-            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
             
         </body>
         </html>

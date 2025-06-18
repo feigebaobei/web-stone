@@ -3,7 +3,7 @@
 ## overview
 
 > 让 git hooks 使用简单。  
-> 常用于格式化代码等。  
+> 常用于格式化代码、触发 webhook 等。  
 > 有很多包在使用它开发。
 
 ### feature
@@ -24,9 +24,9 @@
 npm set-script test "echo hi" # 用于测试。
 # npm set-script prepare "husky install"  # 旧写法
 npm pkg set scripts.prepare="husky install"     # 新写法
-npm run prepare
+npm run prepare # 本质是执行了husky install
 # 会在根目录下生成 .husky/.gitignore .husky/husky.sh
-npx husky add .husky/pre-commit "npm run test"
+npx husky add .husky/pre-commit "npm run test" # 注意这里使用的npx
 ```
 
 ## usage
@@ -70,7 +70,9 @@ husky 是与 git hooks 一起工作，当然要与.git 在一起呀。
 "prepare": "husky install .config/husky"
 ```
 
-### bypass hooks 路过 hooks
+### bypass hooks
+
+路过 hooks
 
 ```shell
 git commit -m 'string' --no-verify
@@ -103,6 +105,24 @@ if (!isCi) {
 ```
 
 ### 只支持客户端 git hooks
+
+|                    |                                                    |     |     |
+| ------------------ | -------------------------------------------------- | --- | --- |
+| pre-commit         | git commit 生效前触发                              |     |     |
+| prepare-commit-msg | 提交对象创建完之后、在提交信息编辑器显示之前触发。 |     |     |
+| commit-msg         | 在提交信息编辑器关闭后、提交对象生成之前触发。     |     |     |
+| post-commit        | 在提交完后触发                                     |     |     |
+| pre-rebase         | 在 git rebase 前触发                               |     |     |
+| post-checkout      | 在 git checkout 或 git switch 之后触发             |     |     |
+| post-merge         | 在 git merge 后触发                                |     |     |
+| pre-push           | 在 git push 前触发                                 |     |     |
+
+服务器的钩子
+|||||
+|-|-|-|-|
+|pre-receive|在收到数据前触发。|||
+|update|在每个引用更新前触发|||
+|post-receive|在收到数据后触发。|||
 
 ## 环境变量
 

@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x7f16;&#x5199;&#x53ef;&#x7ef4;&#x62a4;&#x7684; javascript</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="编写可维护的-javascript">编写可维护的 javascript</h1>
+<blockquote>
+<p>原著：Maintainable Javascritp
+这是在一次与同事合作时，从代码可规范聊到了这本书。他的前老大是译者。
+中文版本只有 200+页。一会儿就看完了。
+作者: Nicbolas C.Zakas
+译者：李晶 郭凯 张散集
+你的团队编程可以从狭义的个人偏好的阴霾中走出来，走向真正的高效能和高水准。</p>
+</blockquote>
+<h1 id="第一部分-编程风格">第一部分 编程风格</h1>
+<blockquote>
+<p>程序是写给人读的，只是偶尔让计算机执行一下。————Donald Knuth</p>
+</blockquote>
+<p>风格一致的重要性：</p>
+<ul>
+<li>减少理解代码逻辑的成本。</li>
+<li>减少重新排版。</li>
+</ul>
+<p>格式化工具：</p>
+<ul>
+<li>JSLint 可发现代码的潜在错误。</li>
+<li>JSHint</li>
+</ul>
+<h2 id="基本的格式化">基本的格式化</h2>
+<ul>
+<li>缩进层级。在 2 个空格、4 个空格、8 个空格中选择了了 4 个空格。</li>
+<li>语句结尾是否有;。ASI（Automatic Semicolon Insertion）可以使 js 省略分号也能正常工作。作者推荐有分号。</li>
+<li>行的长度。最长不过 80 个字符。（源于很久前的文本编辑器）。有几个选项。&lt;=70/&lt;=100/&lt;=80/&lt;=79</li>
+<li>空行。用空行分隔不相关的代码。方法之间、局部变量与第一条语句之间、多行或单行注释之间、方法与注释之间</li>
+<li>命名。驼峰式。匈牙利命名法。
+<ul>
+<li>动词
+<ul>
+<li>can 返回一个 boolean</li>
+<li>has 返回一个 boolean</li>
+<li>is 返回一个 boolean</li>
+<li>get 取一个值</li>
+<li>set 存一个值</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>常量。全大写。</li>
+<li>构造函数。大驼峰命名。</li>
+</ul>
+<h3 id="直接量">直接量</h3>
+<p>字符串
+数字
+null 使用场景如下：</p>
+<ul>
+<li>初始化一个变量。</li>
+<li>与已经初始化的变量比较。</li>
+<li>当函数的参数期望是对象时，用作参数传入。</li>
+<li>当函数的返回值期望是对象时，用作返回值返回。
+不使用场景如下：</li>
+<li>不使用 null 检测是否传入指定参数。</li>
+<li>不使用 null 检测是否初始化变量。
+undefined
+对象直接量（直接写出对象的所有属性）</li>
+</ul>
+<pre><code>let book = {
+    title: 'str',
+    author: 'str',
+}
+// 反对使用下面的写法
+let book = new Object()
+book.title = 'str'
+book.author = 'str'
+</code></pre>
+<p>数组直接量</p>
+<pre><code>let arr = [1, 2, 3]
+// 反对使用下面的写法
+let arr = new Array(1, 2, 3, 4)
+</code></pre>
+<h2 id="注释">注释</h2>
+<p>单行注释
+多行注释</p>
+<pre><code>// 单行注释
+/*
+多行注释
+*/
+</code></pre>
+<p>单行注释不应当以连续多行注释的形式出现，注释多行时应该使用多行注释。
+注释前要有空行
+使用注释的场景：</p>
+<ul>
+<li>难于理解的代码</li>
+<li>可能被误认为错误的代码</li>
+<li>浏览器特性 hack
+文档注释</li>
+</ul>
+<pre><code>/** 该方法的功能
+@method fn         方法的说明
+@param  one string 参数一的说明
+@param  two number 参数二的说明
+@return     object 返回值的说明
+**/
+</code></pre>
+<h2 id="语句和表达式">语句和表达式</h2>
+<p>编程分格:</p>
+<ul>
+<li>Dojo 编程风格</li>
+<li>Crockford 编程风格</li>
+<li></li>
+<li></li>
+</ul>
+<pre><code>// Dojo编程风格
+if(condition){
+    ....
+}
+// Crockford编程风格
+if (condition) {
+    ....
+}
+// jQuery采用此风格编程
+if ( condition ) {
+    ....
+}
+</code></pre>
+<p>with 语句
+可以改变包含上下文解析变量的方式。通过 with 可以直接使用局部变量和函数的形式来访问特定对象内的属性和方法。如下：</p>
+<pre><code>let book = {
+    title: 'str',
+    author: 'str',
+}
+let msg = 'str'
+with (book) {
+    msg += title
+    msg += author
+}
+</code></pre>
+<pre><code>// for-in
+for (let k in obj) { // k包含了从原型对象上的属性。
+    if (obj.hasOwnProperty(k)) { // 只取当前对象的属性
+        ...
+    }
+}
+</code></pre>
+<h2 id="变量函数和运算符">变量、函数和运算符</h2>
+<p>js 编程的本质是编写一个个的函数来完成任务，在函数内部，变量和运算符可以通过移动操作字节来使某件事发生。因此在讨论过基本的 js 书写格式后，接下来关注如何使用函数、变量和运算符来减少复杂度各增强可读性就显得十分重要了。
+变量声明：
+var 可使变量提升
+总是将局部变量定义放在函数内第一条语句。</p>
+<p>三种规范：</p>
+<ul>
+<li>Crockford 编程规范</li>
+<li>SproutCore 编程规范</li>
+<li>Dojo 编程规范</li>
+</ul>
+<p>推荐函数声明先于函数使用。</p>
+<pre><code class="language-js"><span class="hljs-title function_">fn</span>(param) <span class="hljs-comment">// 推荐写法</span>
+<span class="hljs-keyword">var</span> value = (<span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+    ...
+}())
+</code></pre>
+<p>严格模式，就是在开头写上&quot;use strict&quot;字符串。
+若在文件的开头写，则此文件是严格模式。
+若在方法的开头写，则此方法是严格模式。</p>
+<pre><code>&quot;use strict&quot;
+...
+</code></pre>
+<p>推荐在局部使用严格模式，在全局不使用严格模式。
+boolean 值与数字比较时，先办的为数字，再比较。
+两个对象比较时，先调用对象的 valueOf()方法（若无 valueOf(),则调用 toString()）。再比较。
+eval()把参数当作代码。</p>
+<p>可以执行字符串的函数：</p>
+<pre><code>eval('alert(&quot;hi&quot;)')
+var f = new Function('alert(&quot;hi&quot;)')
+setTimeout('document.body.style.background=&quot;red&quot;', 50)
+setInterval('document.title=&quot;hi&quot;', 1000)
+</code></pre>
+<h1 id="第二部分-编程实践">第二部分 编程实践</h1>
+<p>“构建软件设计的方法有两种：一种是把软件做得很简单以至于明显找不一缺陷，另一种是把它做得很复杂以至于找不到明显的缺陷。”————C.A.R. Hoare</p>
+<p>代码风格规范的目的是在多人协作时使用代码具有一致性。</p>
+<h2 id="ui-层的松耦合">UI 层的松耦合</h2>
+<p>作者说了 js/css/html 的关系。
+无耦合 (no coupling)</p>
+<pre><code>将js从css中抽离
+反例
+.box {
+    width: express(document.body.offsetWidth + 'px')
+}
+将css从js中抽离
+反例
+element.style.color = 'red'
+将js从html中抽离
+反例
+&lt;script&gt;fn()&lt;/script&gt;
+将html从js中抽离
+反例
+var div = document.getElementById('id')
+div.innerHTML = '&lt;h1&gt;title&lt;/h1&gt;'
+
+正例
+element.className += 'reveal'
+element.classList.add('reveal')
+Y.one(element).addClass('reveal')
+$(element).addClass('reveal')
+dojo.addClass(element, 'reveal')
+</code></pre>
+<p>低耦合的方法：</p>
+<ul>
+<li>从服务器加载到 dom 树中。</li>
+<li>在客户端使用模板，再使用适时的数据替换模板。</li>
+</ul>
+<h2 id="避免使用全局变量">避免使用全局变量</h2>
+<ul>
+<li>应遵守最小权限原则。</li>
+<li>命名冲突(api 冲突)</li>
+<li>代码的脆弱性</li>
+<li>难以单元测试</li>
+<li>意外的全局变量</li>
+<li>单全局变量方式，即只创建一个全局变量。
+<ul>
+<li>YUI YUI</li>
+<li>jQuery 有 2 个全局变量 $ jQuery</li>
+<li>Dojo dojo</li>
+<li>Closure goog</li>
+</ul>
+</li>
+<li>使用命名空间</li>
+<li>模块。它是基于单全局变量理论产生的。
+<ul>
+<li>amd</li>
+</ul>
+</li>
+<li>零全局变量。一定不要修改 win 属性。</li>
+</ul>
+<pre><code class="language-js">;(<span class="hljs-keyword">function</span> (<span class="hljs-params">win</span>) {
+  <span class="hljs-string">&#x27;use strict&#x27;</span>
+  <span class="hljs-keyword">var</span> doc = win.<span class="hljs-property">docuemnt</span>
+  <span class="hljs-comment">// 定义变量</span>
+  <span class="hljs-comment">// 执行逻辑</span>
+  <span class="hljs-comment">// 一定不要修改win属性。</span>
+})(<span class="hljs-variable language_">window</span>)
+</code></pre>
+<h2 id="事件处理">事件处理</h2>
+<ul>
+<li>规则一：隔离应用逻辑</li>
+<li>规则二：不要分发事件对象。只传递需要的属性，而不是一整个对象。</li>
+</ul>
+<h2 id="避免空比较">避免“空比较”</h2>
+<ul>
+<li>检测原始值。typeof variable 或 typeof(variable)</li>
+<li>检测引用值 value instanceof constructor</li>
+<li>检测函数。typeof fn === 'function'</li>
+<li>检测数组。鸭式辨型(关注对象能做什么，不关注对象是什么。)。Array.isArray(p)</li>
+<li>检测属性 'key' in object hasOwnProperty()</li>
+</ul>
+<h2 id="将配置数据从代码中分离出来">将配置数据从代码中分离出来</h2>
+<p>配置数据是应用中写死的值。
+抽离配置数据</p>
+<h2 id="抛出自定义错误">抛出自定义错误</h2>
+<p>错误可以（原话中无“可以”）是开发者的朋友，而不是敌人。</p>
+<pre><code class="language-js"><span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&#x27;string&#x27;</span>) <span class="hljs-comment">// 正例</span>
+<span class="hljs-keyword">throw</span> <span class="hljs-string">&#x27;string&#x27;</span> <span class="hljs-comment">// 反例</span>
+</code></pre>
+<p>自定义错误可以包含自定义内容。</p>
+<ul>
+<li>一旦修复一个很难调试的错误，尝试增加一两个自定义错误。当再次发生错误时，这将有助于更容易地解决问题。</li>
+<li>在关键点出错时抛出自定义错误。</li>
+<li>修改别人的代码。
+try-catch-finally coder 一定知道这里可能出错。那么应该处理错误，而不是忽略它。
+错误类型</li>
+<li>Error 这是所有错误的基本类型，实际上引擎从来不会抛出该类错误</li>
+<li>EvalError eval()方法执行时发生错误。</li>
+<li>RangeError 超出边界</li>
+<li>ReferenceError 引用超出边界。</li>
+<li>SyntaxError 语法错误</li>
+<li>TypeError 变量不是期望的类型</li>
+<li>URIError encodeURI()/encodeURIComponent()/decodeURI()/decodeURIComponent()等方法的参数中有非法的 URI 字符时抛出。</li>
+</ul>
+<pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">MyError</span>(<span class="hljs-params">msg</span>) {
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">message</span> = msg
+}
+<span class="hljs-title class_">MyError</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>()
+<span class="hljs-comment">// or</span>
+<span class="hljs-title class_">Object</span>.<span class="hljs-title function_">create</span>(<span class="hljs-title class_">Error</span>, {
+  <span class="hljs-attr">message</span>: {
+    <span class="hljs-attr">value</span>: msg,
+    <span class="hljs-attr">writable</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">enumerable</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">configurable</span>: <span class="hljs-literal">true</span>,
+  },
+})
+<span class="hljs-keyword">try</span> {
+  <span class="hljs-comment">// ...</span>
+} <span class="hljs-keyword">catch</span> (ex) {
+  <span class="hljs-keyword">if</span> (ex <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">MyError</span>) {
+    <span class="hljs-comment">// 处理自己的错误</span>
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-comment">// 处理其他错误</span>
+  }
+}
+</code></pre>
+<h2 id="不是你的对象不要动">不是你的对象不要动</h2>
+<ul>
+<li>原生对象。Object/Array 等。</li>
+<li>DOM 对象 document 等</li>
+<li>BOM 对象 window 等</li>
+<li>类库的对象
+修改原则</li>
+<li>不覆盖方法</li>
+<li>不新增方法</li>
+<li>不删除方法
+修改的方法（推荐）</li>
+<li>基于此对象做继承</li>
+<li>基于类型的继承</li>
+<li>门面模式
+阻止修改</li>
+<li>防止扩展。禁止为对象添加属性，可以修改、删除已有属性。（属性包含方法。方法是一种属性值。）
+<ul>
+<li>为禁止扩展的对象添加属性时不报错且失败。</li>
+</ul>
+</li>
+<li>密封。禁止为对象删除、添加属性。可以修改属性值。
+<ul>
+<li>为已密封的对象删除属性时不报错且失败。</li>
+</ul>
+</li>
+<li>冻结。禁止为对象修改已有属性。不可以删除、修改、增加属性。
+<ul>
+<li>为已密封的对象修改属性时不报错且失败。</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>增加</th>
+<th>删除</th>
+<th>修改</th>
+<th>访问</th>
+<th>判断</th>
+<th>设置</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>防止扩展</td>
+<td>x</td>
+<td>y</td>
+<td>y</td>
+<td>y</td>
+<td>Object.isExtensible(o)</td>
+<td>Object.preventExtensions(o)</td>
+<td></td>
+</tr>
+<tr>
+<td>密封</td>
+<td>x</td>
+<td>x</td>
+<td>y</td>
+<td>y</td>
+<td>Object.isSealed</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>isSealed(o)</td>
+<td>Object.seal(o)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>冻结</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>y</td>
+<td>Object.isFrozen(o)</td>
+<td>Object.freeze(o)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="浏览器嗅探">浏览器嗅探</h2>
+<p>user-agent
+特性检测 <code>if (document.getElementById) {...}</code>
+避免浏览器推断</p>
+<h3 id="特性检测">特性检测</h3>
+<pre><code class="language-js"><span class="hljs-comment">// 正例</span>
+<span class="hljs-keyword">if</span> (<span class="hljs-variable language_">document</span>.<span class="hljs-property">getElementById</span>) {
+  ...
+}
+<span class="hljs-comment">// 反例</span>
+<span class="hljs-keyword">if</span> (navigator.<span class="hljs-property">userAgent</span>.<span class="hljs-title function_">indexOf</span>(<span class="hljs-string">&#x27;MSIE 7&#x27;</span>) &gt; -<span class="hljs-number">1</span>) {
+  ...
+}
+</code></pre>
+<pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">setAnimation</span>(<span class="hljs-params">cb</span>) {
+  <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">window</span>.<span class="hljs-property">requestAnimationFrame</span>) { <span class="hljs-comment">// 标准</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">requestAnimationFrame</span>(cb)
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">window</span>.<span class="hljs-property">mozRequestAnimationFrame</span>) { <span class="hljs-comment">// firefox</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">mozRequestAnimationFrame</span>(cb)
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">window</span>.<span class="hljs-property">webkitRequestAnimationFrame</span>) { <span class="hljs-comment">// webkit</span>
+    <span class="hljs-keyword">return</span> (<span class="hljs-variable language_">window</span>.<span class="hljs-title function_">webkitRequestAnimationFrame</span>(cb))
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">window</span>.<span class="hljs-property">oRequestAnimationFrame</span>) { <span class="hljs-comment">// opera</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">oRequestAnimationFrame</span>(cb)
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">window</span>.<span class="hljs-property">msRequestAnimationFrame</span>) { <span class="hljs-comment">// ie</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">msRequestAnimationFrame</span>(cb)
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">setTimeout</span>(cb, <span class="hljs-number">0</span>)
+  }
+}
+</code></pre>
+<h3 id="避免特性推断">避免特性推断</h3>
+<p>特性推断：判断若有a属性时，则有b属性。然后使用b属性。</p>
+<h3 id="避免浏览器推断">避免浏览器推断</h3>
+<h3 id="取舍">取舍</h3>
+<ol>
+<li>尽可能地使用特性检测</li>
+<li>用户代理检测</li>
+<li>特性推断、浏览器推断</li>
+</ol>
+<h1 id="第三部分-自动化">第三部分 自动化</h1>
+<blockquote>
+<p>我相当乐意花一整天的时间通过编程把一个任务实现自动化，除非这个任务手动只需要10s就能完成。
+——Douglas Adams, Last Chance to See</p>
+</blockquote>
+<h2 id="文件和目录结构">文件和目录结构</h2>
+<ul>
+<li>一个文件只包含一个对象</li>
+<li>相关的文件用目录分组</li>
+<li>保持第三方代码的独立</li>
+<li>确定创建位置</li>
+<li>保持测试代码的完整性</li>
+</ul>
+<h3 id="基本结构">基本结构</h3>
+<pre><code>|- build           构建后的代码
+|- src             源代码
+|- test 或 tests   测试文件
+|- docs            文档目录
+|- js              js源代码
+|- meta            模块元信息
+</code></pre>
+<h2 id="ant">Ant</h2>
+<p>它是一种构建工具。现在已经不常用它了。常用的有webpack/esbuild/rollup/vite等。
+需要java环境。
+配置文件是build.xml</p>
+<h2 id="校验">校验</h2>
+<p>书中推荐了JSLint和JSHint</p>
+<h2 id="文件合并和加工">文件合并和加工</h2>
+<p>把多个文件合并到一个文件中。</p>
+<h2 id="文件精简和压缩">文件精简和压缩</h2>
+<p>为了使文件变小。
+压缩工具：</p>
+<ul>
+<li>YUI Compressor</li>
+<li>Closure Compiler</li>
+<li>UglifyJS
+运行时压缩：在http头中设置<code>Accept-Encoding: gzip, deflate``Content-Encoding: gzip</code></li>
+</ul>
+<h2 id="文档化">文档化</h2>
+<p>基于js代码（含注释）生成文档。的工具：</p>
+<ul>
+<li>JSDoc Toolkit</li>
+<li>YUI Doc</li>
+</ul>
+<h2 id="自动化测试">自动化测试</h2>
+<ul>
+<li>YUI Test</li>
+<li>seleniumi</li>
+<li>Ant</li>
+<li>Yeti</li>
+<li>PhantomJS  (Jasmine / QUnit)</li>
+<li>JsTestDriver</li>
+</ul>
+<h2 id="组装在一起">组装在一起</h2>
+<p>与ci系统结合工作</p>
+<ul>
+<li>Jenkins</li>
+<li>Continuum</li>
+<li>BuildBot</li>
+<li>Cruise Control</li>
+<li>Gradle</li>
+</ul>
+<h1 id="附录-a-javascript-编程风格指南">附录 A Javascript 编程风格指南</h1>
+<p>缩进，使用4个空格。
+每行最多80个字符。
+字符串使用双引号且保持一行。
+数字使用十进制整数，科学计数法表示整数，小数点前后至少保留一位数字。避免使用八进制直接量。
+二元运算符前后使用一个空格来保持表达式的整洁。
+紧接左括号之后，紧接右括号之前不使用空格。
+右花括号独占一行。
+单行注释独占一行。
+多行注释，应该是一个代码块。
+注释声明：TODO / HACK / XXX / FIXME / REVIEW
+严格模式在函数内部使用，不在全局使用。
+语句示例</p>
+<pre><code class="language-js">cont++;
+a = b;
+<span class="hljs-keyword">return</span>;
+<span class="hljs-keyword">return</span> a;
+<span class="hljs-keyword">if</span> (condition) { <span class="hljs-comment">// 不在if语句中省略花括号</span>
+  ...
+} <span class="hljs-keyword">else</span> {
+  ...
+}
+<span class="hljs-keyword">for</span> (initialization; condition; update) {
+  ...
+}
+<span class="hljs-keyword">for</span> (v <span class="hljs-keyword">in</span> obj) {
+  ...
+}
+<span class="hljs-keyword">var</span> i,
+    len;
+<span class="hljs-keyword">while</span> (condition) {
+  ...
+}
+<span class="hljs-keyword">do</span> {
+  ...
+} <span class="hljs-keyword">while</span> (condition)
+<span class="hljs-keyword">switch</span> (expression) {
+  <span class="hljs-keyword">case</span> <span class="hljs-attr">expression</span>:
+    ...
+    <span class="hljs-keyword">break</span>;
+  <span class="hljs-attr">default</span>:
+    ...
+    <span class="hljs-keyword">break</span>;
+}
+<span class="hljs-keyword">try</span> {
+  ...
+} <span class="hljs-keyword">catch</span> (variable) {
+  ...
+} <span class="hljs-keyword">finally</span> {
+  ...
+}
+</code></pre>
+<p>不使用像String一类的原始包装类型创建新的对象。
+避免使用eval()
+避免使用with语句。</p>
+<h1 id="附录-b-javascript-工具集">附录 B Javascript 工具集</h1>
+<p>构建工具：Ant / Buildy / Gmake / Grant / Jammit / Jasy / Rake / Sprockets
+文档生成器：Docco / Dojo Ducumentation Tools / JoDoc / JS Doc ToolKit / Natural Docs / NDoc / PDoc / YUI Doc
+代码检查工具: JSLint / JSHint
+压缩工具：Closure Compiler / UglifyJS / YUI Compressor
+测试工具：Jasmine / JsTestDriver / PhantomJS / Qunit / Selenium / Yeti / YUI Test</p>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>

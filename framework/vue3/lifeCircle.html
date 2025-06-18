@@ -2,7 +2,7 @@
         <html>
         <head>
             <meta charset="UTF-8">
-            <title>jquery</title>
+            <title>&#x751f;&#x547d;&#x5468;&#x671f;</title>
             <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -18,8 +18,7 @@
 }
 
 </style>
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
-<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+            
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -139,50 +138,118 @@
         
         </head>
         <body class="vscode-body vscode-light">
-            <h1 id="jquery">jquery</h1>
-<pre><code>on() bind() click() one() 等方法绑定的事件，都在冒泡阶段触发。
-</code></pre>
-<pre><code class="language-js"><span class="hljs-comment">// 获取该dom的所有事件</span>
-<span class="hljs-keyword">let</span> element = $(<span class="hljs-string">&#x27;#id&#x27;</span>)
-<span class="hljs-keyword">let</span> events = element.<span class="hljs-title function_">data</span>(<span class="hljs-string">&#x27;events&#x27;</span>)
-<span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> e <span class="hljs-keyword">in</span> events) {
-  <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;e&#x27;</span>, e)
-}
-</code></pre>
-<h2 id="issue">issue</h2>
-<h3 id="jquery对象--dom对象">jQuery对象 &lt;=&gt; DOM对象</h3>
-<p>jQuery对象: jQuery框架生成的对象。</p>
-<pre><code>let $v = $('#id') // jQuery对象
-$v[0] // DOM对象
-let d = $v.get(0) // DOM对象
+            <h1 id="生命周期">生命周期</h1>
+<ul>
+<li>setup 可替代 data/method/computed/watch/xxx</li>
+</ul>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th></th>
+<th>选项式</th>
+<th>hook inside setup （composition api 组合式api）</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>创建阶段</td>
+<td>beforeCreate</td>
+<td>-(setup)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>创建阶段</td>
+<td>created</td>
+<td>-(setup)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>挂载阶段</td>
+<td>beforeMount</td>
+<td>onBeforeMount</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>挂载阶段</td>
+<td>mounted</td>
+<td>onMounted</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>更新阶段</td>
+<td>beforeUpdate</td>
+<td>onBeforeUpdate</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>更新阶段</td>
+<td>updated</td>
+<td>onUpdated</td>
+<td>不要修改状态，防止无限循环。</td>
+<td></td>
+</tr>
+<tr>
+<td>卸载阶段</td>
+<td>beforeUnmount</td>
+<td>onBeforeUnmount</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>卸载阶段</td>
+<td>unMounted</td>
+<td>onUnmounted</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>activated</td>
+<td>onActivated</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>deactivated</td>
+<td>onDeactivated</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>errorCaptured</td>
+<td>onErrorCaptured</td>
+<td>(err, instance, info) =&gt; {...} 捕获后代组件的错误</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>无</td>
+<td>onRenderTracked</td>
+<td>跟踪虚拟dom重新渲染时依赖的响应式数据</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>无</td>
+<td>onRenderTriggered</td>
+<td>跟踪触发虚拟dom重新渲染的响应式数据</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
 
-$(d) // jQuery对象
-</code></pre>
-<h3 id="绑定与解绑">绑定与解绑</h3>
-<pre><code>$('p').off() // 解绑所有事件
-$('p').off('click', '**') // 解绑委托事件
-$('p').on('click', 'p', fn) // 绑定click事件的fn回调方法
-$('p').off('click', 'p', fn) // 解绑click事件的fn回调方法
-// 委托事件到命名空间 &quot;.validator&quot;
-$( &quot;form&quot; ).on( &quot;click.validator&quot;, &quot;button&quot;, validate );
-$( &quot;form&quot; ).on( &quot;keypress.validator&quot;, &quot;input[type='text']&quot;, validate );
-// Remove event handlers in the &quot;.validator&quot; namespace
-$( &quot;form&quot; ).off( &quot;.validator&quot; ); // 解绑指定命名空间的所有事件
-</code></pre>
-<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">fn</span> = (<span class="hljs-params">jqObj, eventName, cb</span>) =&gt; {
-  jqObj.<span class="hljs-title function_">off</span>(eventName, cb).<span class="hljs-title function_">on</span>(eventName, cb)
-}
-</code></pre>
-<h3 id="取得dom元素绑定的事件">取得dom元素绑定的事件</h3>
-<pre><code>$._data(domElement, 'events') // array
-</code></pre>
-<h3 id="function-与documentreadyfunction--"><code>$(function() {})</code>与<code>$(document).ready(function () {})</code></h3>
-<p><code>$(function() {})</code>是<code>$(document).ready(function () {})</code>的简写。
-在dom加载完成后触发。</p>
-<h3 id="title">title</h3>
-<h3 id="title-1">title</h3>
-
-            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
             
         </body>
         </html>
