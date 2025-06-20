@@ -63,3 +63,76 @@
 > 在线人看来：如果一个人抱怨没有自由意志，那只是因为他没能真正理解自己何时应该做什么事情。狱中犯人仍可以自己决定如何度过狱中的时光，可以思考，可以行动。只是有限制罢了。在地球上也是一样。人类拥有自由意志，所以更能够感受到痛苦的存在和束缚。
 
 已婚男人梦见蛇钻进衣服里，这个孩子日后会成为一个远近闻名的学者。
+
+
+
+
+
+# ubuntu 安装 docker
+sudo apt update 
+sudo apt install snapd # 先安装snapd
+sudo snap install docker # 使用snap安装docker
+sudo snap start docker # 启动docker
+docker --version # 验证是否安装成功
+
+# issue
+
+## Failed to restart docker.service: Unit docker.service not found.
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+## Error response from daemon: Get "https://registry-1.docker.io/v2/": context deadline exceeded
+
+sudo vi /etc/docker/daemon.json
+添加已下内容
+```
+{
+　　"registry-mirrors":
+　　　　[
+　　　　　　"https://docker.m.daocloud.io/",
+　　　　　　"https://huecker.io/",
+　　　　　　"https://dockerhub.timeweb.cloud",
+　　　　　　"https://noohub.ru/",
+　　　　　　"https://dockerproxy.com",
+　　　　　　"https://docker.mirrors.ustc.edu.cn",
+　　　　　　"https://docker.nju.edu.cn",
+　　　　　　"https://xx4bwyg2.mirror.aliyuncs.com",
+　　　　　　"http://f1361db2.m.daocloud.io",
+　　　　　　"https://registry.docker-cn.com",
+　　　　　　"http://hub-mirror.c.163.com",
+　　　　　　"https://docker.mirrors.ustc.edu.cn"
+　　　　]
+}
+```
+修改完成后，重启 Docker 服务：
+sudo systemctl restart docker
+增加请求超时时间
+export COMPOSE_HTTP_TIMEOUT=120
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+
+# snap
+是linux的包管理工具。以自容模式（self-contained format）安装/管理应用。兼容不同分支的linux系统。可以安装更新必要的依赖。
+
+
+## install snap on ubuntu
+```
+sudo apt update
+sudo apt install snapd
+```
+安装示例：  
+$ sudo snap install hello-world
+hello-world 6.4 from Canonical✓ installed
+$ hello-world
+Hello World!
+
+## 常用命令
+```
+snap find app_name # 根据应用名查询
+snap info app_name # 列出此应用的信息
+snap list # 列出所有安装的应用
+snap refresh app_name # 更新
+snap revert app_name # 反向更新
+snap disable app_name # 禁用
+snap enable app_name # 启用
+snap remove app_name # 删除
+```
