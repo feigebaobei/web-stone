@@ -6,9 +6,9 @@
     <title>Documenddt</title>
 </head>
 <body>
-    <p title="str abhsdf s d se dsfesefsf" >ssss</p>
+    <p title="str abhsdf s d se dsfesefsf">ssss</p>
     <div class="one">
-        <div class="two">
+        <div class="two" onclick="clickTwoH">
             <button id="button">button</button>
         </div>
     </div>
@@ -17,6 +17,14 @@
         let o = {
             k: 1
         }
+        clickTwoH = (e) => {
+            e.stopPropagation()
+            clog('two click')
+        }
+
+        document.addEventListener('click', (e) => {
+            clog('e', e)
+        }, false)
         // clog(Object.isExtensible(o))
         // o.a = 's'
         // Object.preventExtensions(o)
@@ -32,13 +40,13 @@
         // clog(Object.isSealed(o))
         // clog(o)
 
-        clog(Object.isFrozen(o))
-        Object.freeze(o)
-        o.k = 2
-        o.a = 3
-        delete o.k
-        clog(Object.isFrozen(o))
-        clog(o)
+        // clog(Object.isFrozen(o))
+        // Object.freeze(o)
+        // o.k = 2
+        // o.a = 3
+        // delete o.k
+        // clog(Object.isFrozen(o))
+        // clog(o)
     </script>
 </body>
 </html>

@@ -33,7 +33,7 @@ let fileChangeHandler = (event) => {
 js 也有一个构造函数 URL
 
 ```js
-let url = new URL(urlStr)
+let url = new URL(urlStr, baseUrl?)
 ```
 
 ## api

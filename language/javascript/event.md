@@ -236,7 +236,7 @@ var selObj = window.getSelection();
 var range = selObj.getRangeAt(0); // Range对象。
 ```
 
-api
+Selection api
 ||||||
 |-|-|-|-|-|
 |anchorNode|选区起点所在节点||||
