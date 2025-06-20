@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>vite plugin</title>
-        <style>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>vite plugin</title>
+            <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -11,12 +11,14 @@
  *--------------------------------------------------------------------------------------------*/
 
 .vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
 	display: none;
 }
 
 </style>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
@@ -38,10 +40,106 @@
     pointer-events: none;
 }
 </style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
         
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="vite-plugin">vite plugin</h1>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="vite-plugin">vite plugin</h1>
 <p>vite 的插件是基于 rollup 的插件，只是增加一个 vite 的特有配置项。可以用于服务器。</p>
 <h2 id="使用方法">使用方法</h2>
 <pre><code class="language-js"><span class="hljs-comment">// 添加插件</span>
@@ -52,7 +150,7 @@ pnpm add -D @vitejs/plugin-legacy
 <span class="hljs-keyword">import</span> image <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@rollup/plugin-image&#x27;</span>
 <span class="hljs-keyword">import</span> {defineConfig} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vite&#x27;</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">defineConfig</span>({
-    <span class="hljs-attr">plugins</span>: [ <span class="hljs-comment">// 可以接受多个插件。若无效则不使用。</span>
+    <span class="hljs-attr">plugins</span>: [ <span class="hljs-comment">// 可以接受多个插件。若插件无效则不使用它。</span>
         <span class="hljs-title function_">legacy</span>({
             <span class="hljs-attr">targets</span>: [<span class="hljs-string">&#x27;defaults&#x27;</span>, <span class="hljs-string">&#x27;not IE 11&#x27;</span>]
         }),
@@ -60,8 +158,8 @@ pnpm add -D @vitejs/plugin-legacy
             ...<span class="hljs-title function_">image</span>(),
             <span class="hljs-attr">enforce</span>: <span class="hljs-string">&#x27;pre&#x27;</span> <span class="hljs-comment">// 使用此字段明确指定本插件与vite core plugins的执行顺序。</span>
             <span class="hljs-comment">// pre</span>
-            <span class="hljs-comment">// default 默认post</span>
             <span class="hljs-comment">// post</span>
+            <span class="hljs-comment">// default 默认post</span>
             <span class="hljs-attr">apply</span>: <span class="hljs-string">&#x27;build&#x27;</span> <span class="hljs-comment">// 明确在哪个期间执行，默认2个期间都执行。</span>
             <span class="hljs-comment">// build</span>
             <span class="hljs-comment">// serve</span>
@@ -144,19 +242,19 @@ pnpm add -D @vitejs/plugin-legacy
 </tr>
 <tr>
 <td>resolveId</td>
-<td>每交进入模块时调用</td>
+<td>每次进入模块时调用</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td>load</td>
-<td>每交进入模块时调用</td>
+<td>每次进入模块时调用</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td>transform</td>
-<td>每交进入模块时调用</td>
+<td>每次进入模块时调用</td>
 <td></td>
 <td></td>
 </tr>
@@ -232,7 +330,7 @@ pnpm add -D @vitejs/plugin-legacy
 </tbody>
 </table>
 <h3 id="插件的顺序">插件的顺序</h3>
-<ul>
+<ol>
 <li>alias</li>
 <li>使用 enforce: 'pre'的插件</li>
 <li>vite core 插件</li>
@@ -240,8 +338,8 @@ pnpm add -D @vitejs/plugin-legacy
 <li>vite build 插件</li>
 <li>使用 enforce: 'post'的插件</li>
 <li>打包后的插件（minify / manifest / reporting）</li>
-</ul>
-<p>这7个顺序是所有插件的执行顺序。插件作者能控制的只有三个。即：enforce控制的三个执行节点。</p>
+</ol>
+<p>这 7 个顺序是所有插件的执行顺序。插件作者能控制的只有三个。即：enforce 控制的三个执行节点。</p>
 <h2 id="demo">demo</h2>
 <pre><code class="language-js"><span class="hljs-comment">// 列出已经使用的插件</span>
 <span class="hljs-keyword">let</span> clog = <span class="hljs-variable language_">console</span>.<span class="hljs-property">log</span>
@@ -273,7 +371,7 @@ pnpm add -D @vitejs/plugin-legacy
   <span class="hljs-keyword">return</span> {
     <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;vite-plugin-hot-update-report&#x27;</span>,
     <span class="hljs-title function_">handleHotUpdate</span>(<span class="hljs-params">{file, timestamp, modules}</span>) {
-      <span class="hljs-keyword">let</span> date = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>(timestamp)  
+      <span class="hljs-keyword">let</span> date = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>(timestamp)
       <span class="hljs-keyword">let</span> [y, m, d, h, mn, s] = [
         date.<span class="hljs-title function_">getFullYear</span>(),
         date.<span class="hljs-title function_">getMonth</span>(),
@@ -311,11 +409,8 @@ pnpm add -D @vitejs/plugin-legacy
   }
 }
 </code></pre>
-<h2 id="title">title</h2>
-<h2 id="title-1">title</h2>
-<h2 id="title-2">title</h2>
 
-        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
-        
-    </body>
-    </html>
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>

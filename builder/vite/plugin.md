@@ -13,7 +13,7 @@ import legacy from '@vitejs/plugin-legacy'
 import image from '@rollup/plugin-image'
 import {defineConfig} from 'vite'
 export default defineConfig({
-    plugins: [ // 可以接受多个插件。若无效则不使用。
+    plugins: [ // 可以接受多个插件。若插件无效则不使用它。
         legacy({
             targets: ['defaults', 'not IE 11']
         }),
@@ -21,8 +21,8 @@ export default defineConfig({
             ...image(),
             enforce: 'pre' // 使用此字段明确指定本插件与vite core plugins的执行顺序。
             // pre
-            // default 默认post
             // post
+            // default 默认post
             apply: 'build' // 明确在哪个期间执行，默认2个期间都执行。
             // build
             // serve
@@ -96,9 +96,9 @@ export default function myPlugin() {
 | ----------- | ------------------ | --- | --- |
 | options     | 在服务端调用一次   |     |     |
 | buildStart  | 在服务端调用一次   |     |     |
-| resolveId   | 每交进入模块时调用 |     |     |
-| load        | 每交进入模块时调用 |     |     |
-| transform   | 每交进入模块时调用 |     |     |
+| resolveId   | 每次进入模块时调用 |     |     |
+| load        | 每次进入模块时调用 |     |     |
+| transform   | 每次进入模块时调用 |     |     |
 | buildEnd    | 当服务器关闭时调用 |     |     |
 | closeBundle | 当服务器关闭时调用 |     |     |
 
@@ -116,13 +116,13 @@ export default function myPlugin() {
 
 ### 插件的顺序
 
-- alias
-- 使用 enforce: 'pre'的插件
-- vite core 插件
-- 未设置 enforce 的插件
-- vite build 插件
-- 使用 enforce: 'post'的插件
-- 打包后的插件（minify / manifest / reporting）
+1. alias
+1. 使用 enforce: 'pre'的插件
+1. vite core 插件
+1. 未设置 enforce 的插件
+1. vite build 插件
+1. 使用 enforce: 'post'的插件
+1. 打包后的插件（minify / manifest / reporting）
 
 这 7 个顺序是所有插件的执行顺序。插件作者能控制的只有三个。即：enforce 控制的三个执行节点。
 
@@ -197,9 +197,3 @@ export default () => {
   }
 }
 ```
-
-## title
-
-## title
-
-## title

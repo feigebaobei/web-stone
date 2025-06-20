@@ -34,6 +34,8 @@ npm run start
 
 配置.env 文件
 
+网友给的配置项：
+
 ```
 N8N_PORT=5678
 N8N_HOST=localhost
@@ -51,6 +53,15 @@ N8N_JWT_AUTH_HEADER_VALUE_PREFIX=Bearer
 N8N_JWKS_URI=https://your-domain.com/.well-known/jwks.json
 
 N8N_SECURE_COOKIE=false
+```
+
+聃实际的配置项
+
+```
+N8N_PORT=5678
+N8N_SECURE_COOKIE=false
+N8N_PROTOCOL=http
+N8N_HOST=heshijade.com
 ```
 
 在浏览器中打开 http://localhost:5678。

@@ -2,7 +2,7 @@
         <html>
         <head>
             <meta charset="UTF-8">
-            <title>setup</title>
+            <title>mode&amp;NODE&lowbar;ENV</title>
             <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -138,95 +138,9 @@
         
         </head>
         <body class="vscode-body vscode-light">
-            <h1 id="setup">setup</h1>
-<p>方法一</p>
-<pre><code>npm i n8n -g
-# or
-yarn global add n8n
-n8n
-</code></pre>
-<p>方法二</p>
-<pre><code>docker run -it --rm \
-    --name n8n \
-    -p 5678:5678 \
-    -v ~/.n8n:/home/node/.n8n \
-    n8nio/n8n
-</code></pre>
-<p>方法三</p>
-<pre><code>git clone https://github.com/n8n-io/n8n.git
-cd n8n
-npm i
-npm run build
-npm run start
-</code></pre>
-<blockquote>
-<p>在 npm root -g 中 n8n 的目录下创建.env 文件
-list 命令默认不列出.env 文件</p>
-</blockquote>
-<p>配置.env 文件</p>
-<p>网友给的配置项：</p>
-<pre><code>N8N_PORT=5678
-N8N_HOST=localhost
-N8N_PROTOCOL=http
-N8N_EDITOR_BASE_URL=http://localhost:5678
-
-# 安全
-N8N_BASIC_AUTH_ACTIVE=true
-N8N_BASIC_AUTH_USER=XXXX
-N8N_BASIC_AUTH_PASSWORD=XXX
-
-N8N_JWT_AUTH_ACTIVE=true
-N8N_JWT_AUTH_HEADER=Authorization
-N8N_JWT_AUTH_HEADER_VALUE_PREFIX=Bearer
-N8N_JWKS_URI=https://your-domain.com/.well-known/jwks.json
-
-N8N_SECURE_COOKIE=false
-</code></pre>
-<p>聃实际的配置项</p>
-<pre><code>N8N_PORT=5678
-N8N_SECURE_COOKIE=false
-N8N_PROTOCOL=http
-N8N_HOST=heshijade.com
-</code></pre>
-<p>在浏览器中打开 <a href="http://localhost:5678">http://localhost:5678</a>。</p>
-<h2 id="issue">issue</h2>
-<h3 id="在阿里云启动">在阿里云启动</h3>
-<pre><code>n8n start --tunnel
-</code></pre>
-<h3 id="在阿里云与-pm2-结合启动">在阿里云与 pm2 结合启动</h3>
-<p>找到 pm2 的安装目录。执行这三个命令，分别查看是否有 pm2。</p>
-<pre><code>npm root -g
-pnpm root -g
-yarn global bin
-</code></pre>
-<p>若有，则说明 pm2 是使用该包管理工具安装的。
-然后在 pm2 包的目录下执行 pm2 init simple。</p>
-<blockquote>
-<p>比如：我是使用 yarn 全局安装的 pm2。找到的目录是 /usr/local/bin
-则在 /usr/local/bin/ 目录下执行 pm2 init simple</p>
-</blockquote>
-<p>默认会生成<code>ecosystem.config.js</code>。
-编辑该文件为</p>
-<pre><code class="language-js"><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = {
-  <span class="hljs-attr">app</span>: [
-    {
-      <span class="hljs-comment">// 这个可以运行</span>
-      <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;n8n&#x27;</span>,
-      <span class="hljs-attr">script</span>: <span class="hljs-string">&#x27;n8n&#x27;</span>,
-      <span class="hljs-attr">cwd</span>: <span class="hljs-string">&#x27;/root/.nvm/versions/node/v20.14.0/lib/node_modules/n8n&#x27;</span>, <span class="hljs-comment">// 这是全局安装 n8n 的目录。必须是这个目录下。因为此目录下有 .env 文件。</span>
-      <span class="hljs-attr">args</span>: <span class="hljs-string">&#x27;start --tunnel&#x27;</span>, <span class="hljs-comment">// github trigger节点必须要使用此选项</span>
-    },
-  ],
-}
-</code></pre>
-<p>执行 pm2 start ecosystem.config.js</p>
-<h3 id="无法触发-webhook">无法触发 webhook</h3>
-<p>配置环境变量</p>
-<p>WEBHOOK_URL=<a href="http://heshijade.com/">http://heshijade.com/</a>
-或
-N8N_PROTOCOL=https
-N8N_HOST=<a href="http://n8n.example.com">n8n.example.com</a></p>
-<p>在指定的 git 仓库中执行<code>git push</code>。再去流水线中查看执行记录。</p>
+            <h1 id="modenode_env">mode&amp;NODE_ENV</h1>
+<p>NODE_ENV（process.env.NODE_ENV）和模式是两个不同的概念。以下是不同命令如何影响 NODE_ENV 和模式：</p>
+<p>我在开发中遇到了.env文件中的NODE_ENV不生效的问题。在重新学习这块知识时无法复现问题。即在.env文件中设置的值都能通过<code>import.meta.env.xxx</code>正常访问。</p>
 
             
             
