@@ -436,30 +436,53 @@ try-catch-finally coder 一定知道这里可能出错。那么应该处理错�
 </code></pre>
 <h2 id="不是你的对象不要动">不是你的对象不要动</h2>
 <ul>
-<li>原生对象。Object/Array 等。</li>
-<li>DOM 对象 document 等</li>
-<li>BOM 对象 window 等</li>
-<li>类库的对象
-修改原则</li>
-<li>不覆盖方法</li>
-<li>不新增方法</li>
-<li>不删除方法
-修改的方法（推荐）</li>
-<li>基于此对象做继承</li>
-<li>基于类型的继承</li>
-<li>门面模式
-阻止修改</li>
-<li>防止扩展。禁止为对象添加属性，可以修改、删除已有属性。（属性包含方法。方法是一种属性值。）
+<li>
+<p>原生对象。Object/Array 等。</p>
+</li>
+<li>
+<p>DOM 对象 document 等</p>
+</li>
+<li>
+<p>BOM 对象 window 等</p>
+</li>
+<li>
+<p>类库的对象</p>
+<p>修改原则</p>
+</li>
+<li>
+<p>不覆盖方法</p>
+</li>
+<li>
+<p>不新增方法</p>
+</li>
+<li>
+<p>不删除方法</p>
+<p>修改的方法（推荐）</p>
+</li>
+<li>
+<p>基于此对象做继承</p>
+</li>
+<li>
+<p>基于类型的继承</p>
+</li>
+<li>
+<p>门面模式
+阻止修改</p>
+</li>
+<li>
+<p>防止扩展。禁止为对象添加属性，可以修改、删除已有属性。（属性包含方法。方法是一种属性值。）</p>
 <ul>
 <li>为禁止扩展的对象添加属性时不报错且失败。</li>
 </ul>
 </li>
-<li>密封。禁止为对象删除、添加属性。可以修改属性值。
+<li>
+<p>密封。禁止为对象删除、添加属性。可以修改属性值。</p>
 <ul>
 <li>为已密封的对象删除属性时不报错且失败。</li>
 </ul>
 </li>
-<li>冻结。禁止为对象修改已有属性。不可以删除、修改、增加属性。
+<li>
+<p>冻结。禁止为对象修改已有属性。不可以删除、修改、增加属性。</p>
 <ul>
 <li>为已密封的对象修改属性时不报错且失败。</li>
 </ul>
@@ -495,18 +518,8 @@ try-catch-finally coder 一定知道这里可能出错。那么应该处理错�
 <td>x</td>
 <td>y</td>
 <td>y</td>
-<td>Object.isSealed</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>isSealed(o)</td>
+<td>Object.isSealed(o)</td>
 <td>Object.seal(o)</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
 <td></td>
 </tr>
 <tr>
@@ -536,15 +549,20 @@ try-catch-finally coder 一定知道这里可能出错。那么应该处理错�
 }
 </code></pre>
 <pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">setAnimation</span>(<span class="hljs-params">cb</span>) {
-  <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">window</span>.<span class="hljs-property">requestAnimationFrame</span>) { <span class="hljs-comment">// 标准</span>
+  <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">window</span>.<span class="hljs-property">requestAnimationFrame</span>) {
+    <span class="hljs-comment">// 标准</span>
     <span class="hljs-keyword">return</span> <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">requestAnimationFrame</span>(cb)
-  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">window</span>.<span class="hljs-property">mozRequestAnimationFrame</span>) { <span class="hljs-comment">// firefox</span>
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">window</span>.<span class="hljs-property">mozRequestAnimationFrame</span>) {
+    <span class="hljs-comment">// firefox</span>
     <span class="hljs-keyword">return</span> <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">mozRequestAnimationFrame</span>(cb)
-  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">window</span>.<span class="hljs-property">webkitRequestAnimationFrame</span>) { <span class="hljs-comment">// webkit</span>
-    <span class="hljs-keyword">return</span> (<span class="hljs-variable language_">window</span>.<span class="hljs-title function_">webkitRequestAnimationFrame</span>(cb))
-  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">window</span>.<span class="hljs-property">oRequestAnimationFrame</span>) { <span class="hljs-comment">// opera</span>
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">window</span>.<span class="hljs-property">webkitRequestAnimationFrame</span>) {
+    <span class="hljs-comment">// webkit</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">webkitRequestAnimationFrame</span>(cb)
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">window</span>.<span class="hljs-property">oRequestAnimationFrame</span>) {
+    <span class="hljs-comment">// opera</span>
     <span class="hljs-keyword">return</span> <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">oRequestAnimationFrame</span>(cb)
-  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">window</span>.<span class="hljs-property">msRequestAnimationFrame</span>) { <span class="hljs-comment">// ie</span>
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">window</span>.<span class="hljs-property">msRequestAnimationFrame</span>) {
+    <span class="hljs-comment">// ie</span>
     <span class="hljs-keyword">return</span> <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">msRequestAnimationFrame</span>(cb)
   } <span class="hljs-keyword">else</span> {
     <span class="hljs-keyword">return</span> <span class="hljs-built_in">setTimeout</span>(cb, <span class="hljs-number">0</span>)
@@ -552,7 +570,7 @@ try-catch-finally coder 一定知道这里可能出错。那么应该处理错�
 }
 </code></pre>
 <h3 id="避免特性推断">避免特性推断</h3>
-<p>特性推断：判断若有a属性时，则有b属性。然后使用b属性。</p>
+<p>特性推断：判断若有 a 属性时，则有 b 属性。然后使用 b 属性。</p>
 <h3 id="避免浏览器推断">避免浏览器推断</h3>
 <h3 id="取舍">取舍</h3>
 <ol>
@@ -562,7 +580,7 @@ try-catch-finally coder 一定知道这里可能出错。那么应该处理错�
 </ol>
 <h1 id="第三部分-自动化">第三部分 自动化</h1>
 <blockquote>
-<p>我相当乐意花一整天的时间通过编程把一个任务实现自动化，除非这个任务手动只需要10s就能完成。
+<p>我相当乐意花一整天的时间通过编程把一个任务实现自动化，除非这个任务手动只需要 10s 就能完成。
 ——Douglas Adams, Last Chance to See</p>
 </blockquote>
 <h2 id="文件和目录结构">文件和目录结构</h2>
@@ -582,11 +600,11 @@ try-catch-finally coder 一定知道这里可能出错。那么应该处理错�
 |- meta            模块元信息
 </code></pre>
 <h2 id="ant">Ant</h2>
-<p>它是一种构建工具。现在已经不常用它了。常用的有webpack/esbuild/rollup/vite等。
-需要java环境。
-配置文件是build.xml</p>
+<p>它是一种构建工具。现在已经不常用它了。常用的有 webpack/esbuild/rollup/vite 等。
+需要 java 环境。
+配置文件是 build.xml</p>
 <h2 id="校验">校验</h2>
-<p>书中推荐了JSLint和JSHint</p>
+<p>书中推荐了 JSLint 和 JSHint</p>
 <h2 id="文件合并和加工">文件合并和加工</h2>
 <p>把多个文件合并到一个文件中。</p>
 <h2 id="文件精简和压缩">文件精简和压缩</h2>
@@ -596,10 +614,10 @@ try-catch-finally coder 一定知道这里可能出错。那么应该处理错�
 <li>YUI Compressor</li>
 <li>Closure Compiler</li>
 <li>UglifyJS
-运行时压缩：在http头中设置<code>Accept-Encoding: gzip, deflate``Content-Encoding: gzip</code></li>
+运行时压缩：在 http 头中设置<code>Accept-Encoding: gzip, deflate``Content-Encoding: gzip</code></li>
 </ul>
 <h2 id="文档化">文档化</h2>
-<p>基于js代码（含注释）生成文档。的工具：</p>
+<p>基于 js 代码（含注释）生成文档。的工具：</p>
 <ul>
 <li>JSDoc Toolkit</li>
 <li>YUI Doc</li>
@@ -610,11 +628,11 @@ try-catch-finally coder 一定知道这里可能出错。那么应该处理错�
 <li>seleniumi</li>
 <li>Ant</li>
 <li>Yeti</li>
-<li>PhantomJS  (Jasmine / QUnit)</li>
+<li>PhantomJS (Jasmine / QUnit)</li>
 <li>JsTestDriver</li>
 </ul>
 <h2 id="组装在一起">组装在一起</h2>
-<p>与ci系统结合工作</p>
+<p>与 ci 系统结合工作</p>
 <ul>
 <li>Jenkins</li>
 <li>Continuum</li>
@@ -623,8 +641,8 @@ try-catch-finally coder 一定知道这里可能出错。那么应该处理错�
 <li>Gradle</li>
 </ul>
 <h1 id="附录-a-javascript-编程风格指南">附录 A Javascript 编程风格指南</h1>
-<p>缩进，使用4个空格。
-每行最多80个字符。
+<p>缩进，使用 4 个空格。
+每行最多 80 个字符。
 字符串使用双引号且保持一行。
 数字使用十进制整数，科学计数法表示整数，小数点前后至少保留一位数字。避免使用八进制直接量。
 二元运算符前后使用一个空格来保持表达式的整洁。
@@ -674,14 +692,14 @@ a = b;
   ...
 }
 </code></pre>
-<p>不使用像String一类的原始包装类型创建新的对象。
-避免使用eval()
-避免使用with语句。</p>
+<p>不使用像 String 一类的原始包装类型创建新的对象。
+避免使用 eval()
+避免使用 with 语句。</p>
 <h1 id="附录-b-javascript-工具集">附录 B Javascript 工具集</h1>
-<p>构建工具：Ant / Buildy / Gmake / Grant / Jammit / Jasy / Rake / Sprockets
-文档生成器：Docco / Dojo Ducumentation Tools / JoDoc / JS Doc ToolKit / Natural Docs / NDoc / PDoc / YUI Doc
-代码检查工具: JSLint / JSHint
-压缩工具：Closure Compiler / UglifyJS / YUI Compressor
+<p>构建工具：Ant / Buildy / Gmake / Grant / Jammit / Jasy / Rake / Sprockets<br>
+文档生成器：Docco / Dojo Ducumentation Tools / JoDoc / JS Doc ToolKit / Natural Docs / NDoc / PDoc / YUI Doc<br>
+代码检查工具: JSLint / JSHint<br>
+压缩工具：Closure Compiler / UglifyJS / YUI Compressor<br>
 测试工具：Jasmine / JsTestDriver / PhantomJS / Qunit / Selenium / Yeti / YUI Test</p>
 
             <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>

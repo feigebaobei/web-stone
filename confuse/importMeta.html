@@ -140,7 +140,10 @@
         <body class="vscode-body vscode-light">
             <h1 id="importmeta">import.meta</h1>
 <blockquote>
-<p>它是esm语法。
+<p>它是 esm 语法。访问特定上下文的元数据给js模块。<br>
+<code>import.meta</code>的原型是<code>null</code><br>
+只能在 JavaScript 模块中可用<br>
+es 模块除了 import.meta 之外没有上下文变量。因此，要解析相对路径的文件，可以使用 import.meta.url。注意这个属性使用的是 URL 而非文件系统的路径。<br>
 由宿主环境提供以下属性</p>
 <blockquote>
 <p>url
@@ -161,14 +164,14 @@ resolve</p>
 <tbody>
 <tr>
 <td>url</td>
-<td>返回此模块的完整url。（包括qs、碎片等）</td>
+<td>返回此模块的完整 url。注意是运行时的完整url,不是在源代码中目录结构的url.（包括 qs、碎片等）</td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td>resolve</td>
-<td>将一个模块的标识符解析为当前模块的url</td>
+<td>将一个模块的标识符解析为相对当前模块的 url</td>
 <td></td>
 <td></td>
 <td></td>

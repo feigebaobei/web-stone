@@ -336,11 +336,15 @@ try {
 - DOM 对象 document 等
 - BOM 对象 window 等
 - 类库的对象
+
   修改原则
+
 - 不覆盖方法
 - 不新增方法
 - 不删除方法
+
   修改的方法（推荐）
+
 - 基于此对象做继承
 - 基于类型的继承
 - 门面模式
@@ -352,12 +356,11 @@ try {
 - 冻结。禁止为对象修改已有属性。不可以删除、修改、增加属性。
   - 为已密封的对象修改属性时不报错且失败。
 
-|             | 增加           | 删除 | 修改 | 访问 | 判断                   | 设置                        |     |
-| ----------- | -------------- | ---- | ---- | ---- | ---------------------- | --------------------------- | --- |
-| 防止扩展    | x              | y    | y    | y    | Object.isExtensible(o) | Object.preventExtensions(o) |     |
-| 密封        | x              | x    | y    | y    | Object.isSealed        |
-| isSealed(o) | Object.seal(o) |      |
-| 冻结        | x              | x    | x    | y    | Object.isFrozen(o)     | Object.freeze(o)            |     |
+|          | 增加 | 删除 | 修改 | 访问 | 判断                   | 设置                        |     |
+| -------- | ---- | ---- | ---- | ---- | ---------------------- | --------------------------- | --- |
+| 防止扩展 | x    | y    | y    | y    | Object.isExtensible(o) | Object.preventExtensions(o) |     |
+| 密封     | x    | x    | y    | y    | Object.isSealed(o)     | Object.seal(o)              |     |
+| 冻结     | x    | x    | x    | y    | Object.isFrozen(o)     | Object.freeze(o)            |     |
 
 ## 浏览器嗅探
 
@@ -549,8 +552,8 @@ try {
 
 # 附录 B Javascript 工具集
 
-构建工具：Ant / Buildy / Gmake / Grant / Jammit / Jasy / Rake / Sprockets
-文档生成器：Docco / Dojo Ducumentation Tools / JoDoc / JS Doc ToolKit / Natural Docs / NDoc / PDoc / YUI Doc
-代码检查工具: JSLint / JSHint
-压缩工具：Closure Compiler / UglifyJS / YUI Compressor
+构建工具：Ant / Buildy / Gmake / Grant / Jammit / Jasy / Rake / Sprockets  
+文档生成器：Docco / Dojo Ducumentation Tools / JoDoc / JS Doc ToolKit / Natural Docs / NDoc / PDoc / YUI Doc  
+代码检查工具: JSLint / JSHint  
+压缩工具：Closure Compiler / UglifyJS / YUI Compressor  
 测试工具：Jasmine / JsTestDriver / PhantomJS / Qunit / Selenium / Yeti / YUI Test
