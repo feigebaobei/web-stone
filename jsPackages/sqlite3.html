@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>sqlit3</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="sqlit3">sqlit3</h1>
+<h2 id="overview">overview</h2>
+<blockquote>
+<p>为node.js开发的轻量数据库。<br>
+它是预构建的包（prebuild）。<br>
+需要node@10+<br>
+动态数据类型数据库</p>
+</blockquote>
+<h3 id="feature">feature</h3>
+<ul>
+<li>feature0</li>
+<li>feature1</li>
+<li>feature2</li>
+</ul>
+<h2 id="install">install</h2>
+<p><code>npm i sqlit3</code></p>
+<h2 id="usage">usage</h2>
+<p>同<code>./demo.md</code></p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> sqlite3 = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;sqlite3&#x27;</span>).<span class="hljs-title function_">verbose</span>();
+<span class="hljs-keyword">const</span> db = <span class="hljs-keyword">new</span> sqlite3.<span class="hljs-title class_">Database</span>(<span class="hljs-string">&#x27;:memory:&#x27;</span>);
+
+db.<span class="hljs-title function_">serialize</span>(<span class="hljs-function">() =&gt;</span> {
+    db.<span class="hljs-title function_">run</span>(<span class="hljs-string">&quot;CREATE TABLE lorem (info TEXT)&quot;</span>);
+
+    <span class="hljs-keyword">const</span> stmt = db.<span class="hljs-title function_">prepare</span>(<span class="hljs-string">&quot;INSERT INTO lorem VALUES (?)&quot;</span>);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) {
+        stmt.<span class="hljs-title function_">run</span>(<span class="hljs-string">&quot;Ipsum &quot;</span> + i);
+    }
+    stmt.<span class="hljs-title function_">finalize</span>();
+
+    db.<span class="hljs-title function_">each</span>(<span class="hljs-string">&quot;SELECT rowid AS id, info FROM lorem&quot;</span>, <span class="hljs-function">(<span class="hljs-params">err, row</span>) =&gt;</span> {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(row.<span class="hljs-property">id</span> + <span class="hljs-string">&quot;: &quot;</span> + row.<span class="hljs-property">info</span>);
+    });
+});
+
+db.<span class="hljs-title function_">close</span>();
+</code></pre>
+<h2 id="configuration">configuration</h2>
+<p>默认配置文件：<code>path/to/file.json</code>。</p>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>参数</th>
+<th>子参数</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<h2 id="api">api</h2>
+<!-- prettier-ignore-start -->
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>参数</th>
+<th>子参数</th>
+<th>description</th>
+<th>type</th>
+<th>default</th>
+<th>enum</th>
+<th>demo</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<!-- prettier-ignore-end -->
+<p><code>sqlit3.fn(param, first: string, second: boolean = true) =&gt; void</code>
+description</p>
+<p><code>sqlit3.fn(param, [options: {a: string, b?: number}])</code>
+description</p>
+<pre><code class="language-js">filename 合法文件名
+mode <span class="hljs-title class_">One</span> or more <span class="hljs-keyword">of</span> sqlite3.<span class="hljs-property">OPEN_READONLY</span>, sqlite3.<span class="hljs-property">OPEN_READWRITE</span>, sqlite3.<span class="hljs-property">OPEN_CREATE</span>, sqlite3.<span class="hljs-property">OPEN_FULLMUTEX</span>, sqlite3.<span class="hljs-property">OPEN_URI</span>, sqlite3.<span class="hljs-property">OPEN_SHAREDCACHE</span>, sqlite3.<span class="hljs-property">OPEN_PRIVATECACHE</span>. <span class="hljs-title class_">The</span> <span class="hljs-keyword">default</span> value is <span class="hljs-variable constant_">OPEN_READWRITE</span> | <span class="hljs-variable constant_">OPEN_CREATE</span> | <span class="hljs-variable constant_">OPEN_FULLMUTEX</span>.
+cb 回调方法
+<span class="hljs-keyword">new</span> sqlite3.<span class="hljs-title class_">Database</span>(filename, mode?, cb?) =&gt; <span class="hljs-title class_">Database</span>
+
+sqlite3.<span class="hljs-title function_">verbose</span>() <span class="hljs-comment">// 当出错是报出错误栈。方便debugger</span>
+
+<span class="hljs-title class_">Database</span>.<span class="hljs-title function_">close</span>(cb?) <span class="hljs-comment">// 关闭db</span>
+
+<span class="hljs-comment">// opt: {</span>
+<span class="hljs-comment">// trance: F,  每次调用sql时触发。</span>
+<span class="hljs-comment">// profile: F, 每次调用sql时触发。</span>
+<span class="hljs-comment">// busyTimeout: N 超时时间</span>
+<span class="hljs-comment">// }</span>
+<span class="hljs-title class_">Database</span>.<span class="hljs-title function_">configure</span>(opt, value) <span class="hljs-comment">// 配置合法的数据选项</span>
+
+<span class="hljs-comment">// sql 可以使用?也可以使用@或$开头</span>
+<span class="hljs-comment">// param 用于替代sql中的?</span>
+<span class="hljs-comment">// 可链式调用</span>
+<span class="hljs-comment">// 建表、插入、更新、删除</span>
+<span class="hljs-title class_">Database</span>.<span class="hljs-title function_">run</span>(sql, parma?, cb?) =&gt; <span class="hljs-title class_">Database</span> <span class="hljs-comment">// 关闭db</span>
+<span class="hljs-comment">// Directly in the function arguments.</span>
+db.<span class="hljs-title function_">run</span>(<span class="hljs-string">&quot;UPDATE tbl SET name = ? WHERE id = ?&quot;</span>, <span class="hljs-string">&quot;bar&quot;</span>, <span class="hljs-number">2</span>);
+<span class="hljs-comment">// As an array.</span>
+db.<span class="hljs-title function_">run</span>(<span class="hljs-string">&quot;UPDATE tbl SET name = ? WHERE id = ?&quot;</span>, [ <span class="hljs-string">&quot;bar&quot;</span>, <span class="hljs-number">2</span> ]);
+<span class="hljs-comment">// As an object with named parameters.</span>
+db.<span class="hljs-title function_">run</span>(<span class="hljs-string">&quot;UPDATE tbl SET name = $name WHERE id = $id&quot;</span>, {
+    <span class="hljs-attr">$id</span>: <span class="hljs-number">2</span>,
+    <span class="hljs-attr">$name</span>: <span class="hljs-string">&quot;bar&quot;</span>
+});
+
+<span class="hljs-comment">// 查询一条数据</span>
+<span class="hljs-title class_">Database</span>.<span class="hljs-title function_">get</span>(sql, param?, cb?: <span class="hljs-function">(<span class="hljs-params">err, row?</span>) =&gt;</span> {}) =&gt; <span class="hljs-title class_">Database</span>
+
+<span class="hljs-comment">// 查询所有数据</span>
+<span class="hljs-comment">// rows 查询的到所有数据组成的数据。当无数据时，返回[]</span>
+<span class="hljs-comment">// 当查询很大时，请使用Database.each/Database.prepare代替。</span>
+<span class="hljs-title class_">Database</span>.<span class="hljs-title function_">all</span>(sql, param?, cb?: <span class="hljs-function">(<span class="hljs-params">err, rows: []</span>) =&gt;</span> {}) =&gt; <span class="hljs-title class_">Database</span>
+
+<span class="hljs-comment">// 每个查询结果都调用一次回调。</span>
+<span class="hljs-comment">// 若运行成功且无结果，则不调用cb.</span>
+<span class="hljs-comment">// 无法中止</span>
+<span class="hljs-comment">// 查询多条数据</span>
+<span class="hljs-title class_">Database</span>.<span class="hljs-title function_">each</span>(sql, param?, 
+cb?: <span class="hljs-function">(<span class="hljs-params">err, row</span>) =&gt;</span> {},
+complete?: <span class="hljs-function">() =&gt;</span> {}, <span class="hljs-comment">// 所有行完成后的回调方法</span>
+) =&gt; <span class="hljs-title class_">Database</span>
+
+<span class="hljs-comment">// 执行sql语句</span>
+<span class="hljs-comment">// 可以执行多条语句。</span>
+<span class="hljs-comment">// 当失败时不会执行后续语句。</span>
+<span class="hljs-title class_">Database</span>.<span class="hljs-title function_">exec</span>(sql, cb?: <span class="hljs-function">(<span class="hljs-params">err: <span class="hljs-built_in">Error</span> | <span class="hljs-literal">null</span></span>) =&gt;</span> {}) =&gt; <span class="hljs-title class_">Database</span>
+database.<span class="hljs-title function_">run</span>(<span class="hljs-string">&quot;CREATE TABLE foo (id INT)&quot;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) {
+  <span class="hljs-keyword">if</span> (e !== <span class="hljs-literal">null</span>) {
+    <span class="hljs-keyword">throw</span> e;
+  }
+  <span class="hljs-comment">//循环生成 sql 语句，批次插入多条数据</span>
+  <span class="hljs-keyword">var</span> sql = <span class="hljs-string">&quot;&quot;</span>;
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">500</span>; i++) {
+    sql += <span class="hljs-string">&quot;INSERT INTO foo VALUES(&quot;</span> + i + <span class="hljs-string">&quot;);&quot;</span>;
+  }
+  database.<span class="hljs-title function_">exec</span>(sql, done);
+});
+
+<span class="hljs-comment">// 执行后，会返回一个命令对象，这个命令对象可以反复执行。下面看看这个命令对象（statement ）的 api：</span>
+<span class="hljs-title class_">Database</span>.<span class="hljs-title function_">prapare</span>(sql, param?, cb?: <span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {}) =&gt; <span class="hljs-title class_">Statement</span> <span class="hljs-comment">// 这里的 Statement 对象是可以复用的，避免了重复编译 sql 语句，因此项目中更推荐使用上述方法。</span>
+<span class="hljs-title class_">Statement</span>#<span class="hljs-title function_">run</span>([param, ...], [callback])
+<span class="hljs-title class_">Statement</span>#<span class="hljs-title function_">get</span>([param, ...], [callback])
+<span class="hljs-title class_">Statement</span>#<span class="hljs-title function_">all</span>([param, ...], [callback])
+<span class="hljs-title class_">Statement</span>#<span class="hljs-title function_">each</span>([param, ...], [callback], [complete])
+
+<span class="hljs-comment">// Statement#map的快捷方式</span>
+<span class="hljs-title class_">Database</span>.<span class="hljs-title function_">map</span>(sql, cb?)
+
+<span class="hljs-comment">// 将已编译的 SQLite 扩展加载到数据库连接对象中。</span>
+<span class="hljs-title class_">Database</span>.<span class="hljs-title function_">loadExtension</span>(path, cb?)
+
+<span class="hljs-comment">// 允许用户中断长时间运行的查询。</span>
+<span class="hljs-title class_">Database</span>.<span class="hljs-title function_">interrupt</span>()
+<span class="hljs-title class_">Database</span>.<span class="hljs-title function_">serialize</span>(cb?)
+<span class="hljs-title class_">Database</span>.<span class="hljs-title function_">parallelize</span>(cb?)
+
+<span class="hljs-title class_">Statement</span>.<span class="hljs-title function_">bind</span>(param?, cb?)
+<span class="hljs-title class_">Statement</span>.<span class="hljs-title function_">bind</span>(cb?)
+<span class="hljs-title class_">Statement</span>.<span class="hljs-title function_">bind</span>(cb?)
+<span class="hljs-title class_">Statement</span>.<span class="hljs-title function_">bind</span>(cb?)
+<span class="hljs-title class_">Statement</span>.<span class="hljs-title function_">bind</span>(cb?)
+<span class="hljs-title class_">Statement</span>.<span class="hljs-title function_">bind</span>(cb?)
+<span class="hljs-title class_">Statement</span>.<span class="hljs-title function_">bind</span>(cb?)
+<span class="hljs-title class_">Statement</span>.<span class="hljs-title function_">bind</span>(cb?)
+<span class="hljs-title class_">Statement</span>.<span class="hljs-title function_">bind</span>(cb?)
+
+
+</code></pre>
+<h2 id="数据结构">数据结构</h2>
+<p>NULL:表示空值。
+INTEGER:表示带符号的整型，具体大小取决于存储值的范围。
+REAL:表示浮点数字，存储为IEEE 8字节浮点数。官方不推荐此数据类型。
+TEXT:表示字符串文本。
+BLOB:表示二进制对象，用于存储图像、音频等二进制数据。</p>
+<h2 id="常用操作">常用操作</h2>
+<h2 id="principle">principle</h2>
+<p>此包的处理逻辑。</p>
+<h3 id="uml">uml</h3>
+<pre><code>
+</code></pre>
+<h2 id="todo">todo</h2>
+<blockquote>
+<p>未来迭代计划。
+未来迭代计划。
+未来迭代计划。</p>
+</blockquote>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>
