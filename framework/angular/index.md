@@ -90,6 +90,8 @@ v15 时引入了 standalone 组件（可独立运行的组件）。
 
 ## [依赖注入](/framework/angular/dependencyInjection.html)
 
+## [路由与导航](/framework/angular/route/index.html)
+
 ## [principle](/framework/angular/principle/index.html)
 
 ## angular js & angular
