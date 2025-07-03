@@ -9,6 +9,8 @@ event.screenX // 相对显示器在水平偏移量
 
 event.x/event.layerX 有兼容性问题，不建议使用。
 
+![](./eventPosition.png)
+
 # pageXOffset
 
 # dom.getBoundingClientRect =>
