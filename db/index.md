@@ -78,3 +78,10 @@ not only sql 不仅仅是 sql
 |     |       |       |     |     |
 |     |       |       |     |     |
 |     |       |       |     |     |
+
+## ddl & dml
+
+- DDL(数据定义语言,Data Definition Language)建库、建表、设置约束等：create\drop\alter
+- DML (数据操纵语言，Data Manipulation Language )主要指数据的增删查改:Select\delete\update\insert\call
+- DCL（Data Control Language）数据库控制语言 授权，角色控制等 GRANT 授权 REVOKE 取消授权
+- TCL（Transaction Control Language）事务控制语言 SAVEPOINT 设置保存点 ROLLBACK 回滚 SET TRANSACTION
