@@ -153,17 +153,33 @@ Database.interrupt()
 Database.serialize(cb?)
 Database.parallelize(cb?)
 
-Statement.bind(param?, cb?)
-Statement.bind(cb?)
-Statement.bind(cb?)
-Statement.bind(cb?)
-Statement.bind(cb?)
-Statement.bind(cb?)
-Statement.bind(cb?)
-Statement.bind(cb?)
-Statement.bind(cb?)
+// 为准备好的语句绑定参数。不执行sql语句。
+Statement.bind(param?, cb?: (err: Error | null) => {}) => Statement
 
+// 重置以前的绑定的参数
+Statement.reset(cb?) => Statement
 
+// 明确结束一个sql语句。该语句后续的函数都抛出错误
+Statement.finalize(cb?)
+
+// 绑定并执行sql语句。
+// 若已经使用bind绑定，则可以直接执行。
+Statement.run(param?, cb?) => Statement
+
+// 绑定参数并执行sql语句
+Statement.get(param?, cb?: (err: Error | null, row) => {}) => Statement
+
+// 绑定参数并执行sql语句
+Statement.all(param?, cb?: (err: Error | null, rows) => {}) => Statement
+
+//
+Statement.each(param?, cb?: (err, row) => {})
+
+// 以对象形式返回结果
+Statement.map(sql, cb?)
+
+let statement = db.prepare('insert into user (username) values ("one")')
+statement.run()
 ```
 
 ## 数据结构
@@ -173,6 +189,13 @@ INTEGER:表示带符号的整型，具体大小取决于存储值的范围。
 REAL:表示浮点数字，存储为 IEEE 8 字节浮点数。官方不推荐此数据类型。
 TEXT:表示字符串文本。
 BLOB:表示二进制对象，用于存储图像、音频等二进制数据。
+
+## 何时关闭
+
+- 退出应用
+- 关闭服务
+
+当多个线程操作时，其中有关闭数据库的，则其他线程再操作就出错了。所以不需要关闭。
 
 ## 常用操作
 

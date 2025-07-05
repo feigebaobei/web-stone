@@ -377,17 +377,33 @@ database.<span class="hljs-title function_">run</span>(<span class="hljs-string"
 <span class="hljs-title class_">Database</span>.<span class="hljs-title function_">serialize</span>(cb?)
 <span class="hljs-title class_">Database</span>.<span class="hljs-title function_">parallelize</span>(cb?)
 
-<span class="hljs-title class_">Statement</span>.<span class="hljs-title function_">bind</span>(param?, cb?)
-<span class="hljs-title class_">Statement</span>.<span class="hljs-title function_">bind</span>(cb?)
-<span class="hljs-title class_">Statement</span>.<span class="hljs-title function_">bind</span>(cb?)
-<span class="hljs-title class_">Statement</span>.<span class="hljs-title function_">bind</span>(cb?)
-<span class="hljs-title class_">Statement</span>.<span class="hljs-title function_">bind</span>(cb?)
-<span class="hljs-title class_">Statement</span>.<span class="hljs-title function_">bind</span>(cb?)
-<span class="hljs-title class_">Statement</span>.<span class="hljs-title function_">bind</span>(cb?)
-<span class="hljs-title class_">Statement</span>.<span class="hljs-title function_">bind</span>(cb?)
-<span class="hljs-title class_">Statement</span>.<span class="hljs-title function_">bind</span>(cb?)
+<span class="hljs-comment">// 为准备好的语句绑定参数。不执行sql语句。</span>
+<span class="hljs-title class_">Statement</span>.<span class="hljs-title function_">bind</span>(param?, cb?: <span class="hljs-function">(<span class="hljs-params">err: <span class="hljs-built_in">Error</span> | <span class="hljs-literal">null</span></span>) =&gt;</span> {}) =&gt; <span class="hljs-title class_">Statement</span>
 
+<span class="hljs-comment">// 重置以前的绑定的参数</span>
+<span class="hljs-title class_">Statement</span>.<span class="hljs-title function_">reset</span>(cb?) =&gt; <span class="hljs-title class_">Statement</span>
 
+<span class="hljs-comment">// 明确结束一个sql语句。该语句后续的函数都抛出错误</span>
+<span class="hljs-title class_">Statement</span>.<span class="hljs-title function_">finalize</span>(cb?)
+
+<span class="hljs-comment">// 绑定并执行sql语句。</span>
+<span class="hljs-comment">// 若已经使用bind绑定，则可以直接执行。</span>
+<span class="hljs-title class_">Statement</span>.<span class="hljs-title function_">run</span>(param?, cb?) =&gt; <span class="hljs-title class_">Statement</span>
+
+<span class="hljs-comment">// 绑定参数并执行sql语句</span>
+<span class="hljs-title class_">Statement</span>.<span class="hljs-title function_">get</span>(param?, cb?: <span class="hljs-function">(<span class="hljs-params">err: <span class="hljs-built_in">Error</span> | <span class="hljs-literal">null</span>, row</span>) =&gt;</span> {}) =&gt; <span class="hljs-title class_">Statement</span>
+
+<span class="hljs-comment">// 绑定参数并执行sql语句</span>
+<span class="hljs-title class_">Statement</span>.<span class="hljs-title function_">all</span>(param?, cb?: <span class="hljs-function">(<span class="hljs-params">err: <span class="hljs-built_in">Error</span> | <span class="hljs-literal">null</span>, rows</span>) =&gt;</span> {}) =&gt; <span class="hljs-title class_">Statement</span>
+
+<span class="hljs-comment">// </span>
+<span class="hljs-title class_">Statement</span>.<span class="hljs-title function_">each</span>(param?, cb?: <span class="hljs-function">(<span class="hljs-params">err, row</span>) =&gt;</span> {})
+
+<span class="hljs-comment">// 以对象形式返回结果</span>
+<span class="hljs-title class_">Statement</span>.<span class="hljs-title function_">map</span>(sql, cb?)
+
+<span class="hljs-keyword">let</span> statement = db.<span class="hljs-title function_">prepare</span>(<span class="hljs-string">&#x27;insert into user (username) values (&quot;one&quot;)&#x27;</span>)
+statement.<span class="hljs-title function_">run</span>()
 </code></pre>
 <h2 id="数据结构">数据结构</h2>
 <p>NULL:表示空值。
@@ -395,6 +411,12 @@ INTEGER:表示带符号的整型，具体大小取决于存储值的范围。
 REAL:表示浮点数字，存储为 IEEE 8 字节浮点数。官方不推荐此数据类型。
 TEXT:表示字符串文本。
 BLOB:表示二进制对象，用于存储图像、音频等二进制数据。</p>
+<h2 id="何时关闭">何时关闭</h2>
+<ul>
+<li>退出应用</li>
+<li>关闭服务</li>
+</ul>
+<p>当多个线程操作时，其中有关闭数据库的，则其他线程再操作就出错了。所以不需要关闭。</p>
 <h2 id="常用操作">常用操作</h2>
 <h2 id="principle">principle</h2>
 <p>此包的处理逻辑。</p>
