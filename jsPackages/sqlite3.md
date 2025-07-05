@@ -186,6 +186,34 @@ BLOB:表示二进制对象，用于存储图像、音频等二进制数据。
 
 ```
 
+## issue
+
+### 安装失败
+
+解决方案一：
+
+```
+npm i --unsafe-perm
+```
+
+解决方案二：
+
+```
+"node-pre-gyp": "0.12.0"
+```
+
+解决方案三：
+
+```
+npm i sqlite3 --build-from-source
+```
+
+解决方案四：
+
+```
+yarn add sqlite3
+```
+
 ## todo
 
 > 未来迭代计划。

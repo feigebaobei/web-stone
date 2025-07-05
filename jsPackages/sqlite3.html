@@ -142,9 +142,9 @@
             <h1 id="sqlit3">sqlit3</h1>
 <h2 id="overview">overview</h2>
 <blockquote>
-<p>为node.js开发的轻量数据库。<br>
+<p>为 node.js 开发的轻量数据库。<br>
 它是预构建的包（prebuild）。<br>
-需要node@10+<br>
+需要 node@10+<br>
 动态数据类型数据库</p>
 </blockquote>
 <h3 id="feature">feature</h3>
@@ -157,24 +157,24 @@
 <p><code>npm i sqlit3</code></p>
 <h2 id="usage">usage</h2>
 <p>同<code>./demo.md</code></p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> sqlite3 = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;sqlite3&#x27;</span>).<span class="hljs-title function_">verbose</span>();
-<span class="hljs-keyword">const</span> db = <span class="hljs-keyword">new</span> sqlite3.<span class="hljs-title class_">Database</span>(<span class="hljs-string">&#x27;:memory:&#x27;</span>);
+<pre><code class="language-js"><span class="hljs-keyword">const</span> sqlite3 = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;sqlite3&#x27;</span>).<span class="hljs-title function_">verbose</span>()
+<span class="hljs-keyword">const</span> db = <span class="hljs-keyword">new</span> sqlite3.<span class="hljs-title class_">Database</span>(<span class="hljs-string">&#x27;:memory:&#x27;</span>)
 
 db.<span class="hljs-title function_">serialize</span>(<span class="hljs-function">() =&gt;</span> {
-    db.<span class="hljs-title function_">run</span>(<span class="hljs-string">&quot;CREATE TABLE lorem (info TEXT)&quot;</span>);
+  db.<span class="hljs-title function_">run</span>(<span class="hljs-string">&#x27;CREATE TABLE lorem (info TEXT)&#x27;</span>)
 
-    <span class="hljs-keyword">const</span> stmt = db.<span class="hljs-title function_">prepare</span>(<span class="hljs-string">&quot;INSERT INTO lorem VALUES (?)&quot;</span>);
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) {
-        stmt.<span class="hljs-title function_">run</span>(<span class="hljs-string">&quot;Ipsum &quot;</span> + i);
-    }
-    stmt.<span class="hljs-title function_">finalize</span>();
+  <span class="hljs-keyword">const</span> stmt = db.<span class="hljs-title function_">prepare</span>(<span class="hljs-string">&#x27;INSERT INTO lorem VALUES (?)&#x27;</span>)
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) {
+    stmt.<span class="hljs-title function_">run</span>(<span class="hljs-string">&#x27;Ipsum &#x27;</span> + i)
+  }
+  stmt.<span class="hljs-title function_">finalize</span>()
 
-    db.<span class="hljs-title function_">each</span>(<span class="hljs-string">&quot;SELECT rowid AS id, info FROM lorem&quot;</span>, <span class="hljs-function">(<span class="hljs-params">err, row</span>) =&gt;</span> {
-        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(row.<span class="hljs-property">id</span> + <span class="hljs-string">&quot;: &quot;</span> + row.<span class="hljs-property">info</span>);
-    });
-});
+  db.<span class="hljs-title function_">each</span>(<span class="hljs-string">&#x27;SELECT rowid AS id, info FROM lorem&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">err, row</span>) =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(row.<span class="hljs-property">id</span> + <span class="hljs-string">&#x27;: &#x27;</span> + row.<span class="hljs-property">info</span>)
+  })
+})
 
-db.<span class="hljs-title function_">close</span>();
+db.<span class="hljs-title function_">close</span>()
 </code></pre>
 <h2 id="configuration">configuration</h2>
 <p>默认配置文件：<code>path/to/file.json</code>。</p>
@@ -338,7 +338,7 @@ db.<span class="hljs-title function_">run</span>(<span class="hljs-string">&quot
 <span class="hljs-comment">// 若运行成功且无结果，则不调用cb.</span>
 <span class="hljs-comment">// 无法中止</span>
 <span class="hljs-comment">// 查询多条数据</span>
-<span class="hljs-title class_">Database</span>.<span class="hljs-title function_">each</span>(sql, param?, 
+<span class="hljs-title class_">Database</span>.<span class="hljs-title function_">each</span>(sql, param?,
 cb?: <span class="hljs-function">(<span class="hljs-params">err, row</span>) =&gt;</span> {},
 complete?: <span class="hljs-function">() =&gt;</span> {}, <span class="hljs-comment">// 所有行完成后的回调方法</span>
 ) =&gt; <span class="hljs-title class_">Database</span>
@@ -392,7 +392,7 @@ database.<span class="hljs-title function_">run</span>(<span class="hljs-string"
 <h2 id="数据结构">数据结构</h2>
 <p>NULL:表示空值。
 INTEGER:表示带符号的整型，具体大小取决于存储值的范围。
-REAL:表示浮点数字，存储为IEEE 8字节浮点数。官方不推荐此数据类型。
+REAL:表示浮点数字，存储为 IEEE 8 字节浮点数。官方不推荐此数据类型。
 TEXT:表示字符串文本。
 BLOB:表示二进制对象，用于存储图像、音频等二进制数据。</p>
 <h2 id="常用操作">常用操作</h2>
@@ -400,6 +400,20 @@ BLOB:表示二进制对象，用于存储图像、音频等二进制数据。</p
 <p>此包的处理逻辑。</p>
 <h3 id="uml">uml</h3>
 <pre><code>
+</code></pre>
+<h2 id="issue">issue</h2>
+<h3 id="安装失败">安装失败</h3>
+<p>解决方案一：</p>
+<pre><code>npm i --unsafe-perm
+</code></pre>
+<p>解决方案二：</p>
+<pre><code>&quot;node-pre-gyp&quot;: &quot;0.12.0&quot;
+</code></pre>
+<p>解决方案三：</p>
+<pre><code>npm i sqlite3 --build-from-source
+</code></pre>
+<p>解决方案四：</p>
+<pre><code>yarn add sqlite3
 </code></pre>
 <h2 id="todo">todo</h2>
 <blockquote>
