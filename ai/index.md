@@ -1,7 +1,7 @@
 - [ollama](/ai/ollama.html)
 - [mcp](/ai/mcp/index.html)
 - [n8n](/ai/n8n/index.html)
-- [title](/ai/title.md)
+- [agent](/ai/agent.md)
 - [title](/ai/title.md)
 - [title](/ai/title.md)
 - [title](/ai/title.md)
