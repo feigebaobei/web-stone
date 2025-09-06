@@ -64,26 +64,29 @@
 
 已婚男人梦见蛇钻进衣服里，这个孩子日后会成为一个远近闻名的学者。
 
-
-
-
+借我运者七日内速速归还。
+好运归位。
+霉运远离八方。
 
 # ubuntu 安装 docker
-sudo apt update 
-sudo apt install snapd # 先安装snapd
-sudo snap install docker # 使用snap安装docker
-sudo snap start docker # 启动docker
+
+sudo apt update
+sudo apt install snapd # 先安装 snapd
+sudo snap install docker # 使用 snap 安装 docker
+sudo snap start docker # 启动 docker
 docker --version # 验证是否安装成功
 
 # issue
 
 ## Failed to restart docker.service: Unit docker.service not found.
+
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
 ## Error response from daemon: Get "https://registry-1.docker.io/v2/": context deadline exceeded
 
 sudo vi /etc/docker/daemon.json
 添加已下内容
+
 ```
 {
 　　"registry-mirrors":
@@ -103,6 +106,7 @@ sudo vi /etc/docker/daemon.json
 　　　　]
 }
 ```
+
 修改完成后，重启 Docker 服务：
 sudo systemctl restart docker
 增加请求超时时间
@@ -111,14 +115,16 @@ sudo systemctl daemon-reload
 sudo systemctl restart docker
 
 # snap
-是linux的包管理工具。以自容模式（self-contained format）安装/管理应用。兼容不同分支的linux系统。可以安装更新必要的依赖。
 
+是 linux 的包管理工具。以自容模式（self-contained format）安装/管理应用。兼容不同分支的 linux 系统。可以安装更新必要的依赖。
 
 ## install snap on ubuntu
+
 ```
 sudo apt update
 sudo apt install snapd
 ```
+
 安装示例：  
 $ sudo snap install hello-world
 hello-world 6.4 from Canonical✓ installed
@@ -126,6 +132,7 @@ $ hello-world
 Hello World!
 
 ## 常用命令
+
 ```
 snap find app_name # 根据应用名查询
 snap info app_name # 列出此应用的信息
@@ -137,18 +144,18 @@ snap enable app_name # 启用
 snap remove app_name # 删除
 ```
 
-Docker的6大优势
+Docker 的 6 大优势
 
-对比传统的运维发布方式，Docker有以下6大优势：
+对比传统的运维发布方式，Docker 有以下 6 大优势：
 
 1、更高效地利用系统资源
 2、更快的启动时间
 3、一致的运行环境开发中常见的问题是环境一致性问题
-4、持续交付和部署对开发和运维（DevOps）来说，最希望的就是一次创建或配置，可以在任意地方正常运行，使用Docker可以通过定制应用镜像来实现持续集成、持续交付、部署。
-5、更轻松迁移Docker确保了执行环境的一致性，使得应用的迁移更加容易，Docker可以在很多平台上运行，无论是物理机、虚拟机、公有云、私有云，甚至是笔记本，其运行结果是一致的。因此用户不用担心运行环境的变化导致应用无法正常运行的情况。
+4、持续交付和部署对开发和运维（DevOps）来说，最希望的就是一次创建或配置，可以在任意地方正常运行，使用 Docker 可以通过定制应用镜像来实现持续集成、持续交付、部署。
+5、更轻松迁移 Docker 确保了执行环境的一致性，使得应用的迁移更加容易，Docker 可以在很多平台上运行，无论是物理机、虚拟机、公有云、私有云，甚至是笔记本，其运行结果是一致的。因此用户不用担心运行环境的变化导致应用无法正常运行的情况。
 6、更轻松地维护和拓展
 
-
-
-
-
+分析出竞品有什么特点、优点、缺点（在公司内不能正确运行的地方。）。基于这些我们应该如何创建我们的产品。
+在达到哪此要求。产品终态是什么。开发完成后，收益是什么？
+如何实现。即画出架构图。
+排期是什么。需要多少人天。

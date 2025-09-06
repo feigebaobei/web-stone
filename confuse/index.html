@@ -2,7 +2,7 @@
         <html>
         <head>
             <meta charset="UTF-8">
-            <title></title>
+            <title>ubuntu &#x5b89;&#x88c5; docker</title>
             <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -18,7 +18,8 @@
 }
 
 </style>
-            
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -208,8 +209,80 @@
 在线人看来：如果一个人抱怨没有自由意志，那只是因为他没能真正理解自己何时应该做什么事情。狱中犯人仍可以自己决定如何度过狱中的时光，可以思考，可以行动。只是有限制罢了。在地球上也是一样。人类拥有自由意志，所以更能够感受到痛苦的存在和束缚。</p>
 </blockquote>
 <p>已婚男人梦见蛇钻进衣服里，这个孩子日后会成为一个远近闻名的学者。</p>
+<p>借我运者七日内速速归还。
+好运归位。
+霉运远离八方。</p>
+<h1 id="ubuntu-安装-docker">ubuntu 安装 docker</h1>
+<p>sudo apt update
+sudo apt install snapd # 先安装snapd
+sudo snap install docker # 使用snap安装docker
+sudo snap start docker # 启动docker
+docker --version # 验证是否安装成功</p>
+<h1 id="issue">issue</h1>
+<h2 id="failed-to-restart-dockerservice-unit-dockerservice-not-found">Failed to restart docker.service: Unit docker.service not found.</h2>
+<p>sudo apt-get install docker-ce docker-ce-cli <a href="http://containerd.io">containerd.io</a> docker-compose-plugin</p>
+<h2 id="error-response-from-daemon-get-httpsregistry-1dockeriov2-context-deadline-exceeded">Error response from daemon: Get &quot;<a href="https://registry-1.docker.io/v2/">https://registry-1.docker.io/v2/</a>&quot;: context deadline exceeded</h2>
+<p>sudo vi /etc/docker/daemon.json
+添加已下内容</p>
+<pre><code>{
+　　&quot;registry-mirrors&quot;:
+　　　　[
+　　　　　　&quot;https://docker.m.daocloud.io/&quot;,
+　　　　　　&quot;https://huecker.io/&quot;,
+　　　　　　&quot;https://dockerhub.timeweb.cloud&quot;,
+　　　　　　&quot;https://noohub.ru/&quot;,
+　　　　　　&quot;https://dockerproxy.com&quot;,
+　　　　　　&quot;https://docker.mirrors.ustc.edu.cn&quot;,
+　　　　　　&quot;https://docker.nju.edu.cn&quot;,
+　　　　　　&quot;https://xx4bwyg2.mirror.aliyuncs.com&quot;,
+　　　　　　&quot;http://f1361db2.m.daocloud.io&quot;,
+　　　　　　&quot;https://registry.docker-cn.com&quot;,
+　　　　　　&quot;http://hub-mirror.c.163.com&quot;,
+　　　　　　&quot;https://docker.mirrors.ustc.edu.cn&quot;
+　　　　]
+}
+</code></pre>
+<p>修改完成后，重启 Docker 服务：
+sudo systemctl restart docker
+增加请求超时时间
+export COMPOSE_HTTP_TIMEOUT=120
+sudo systemctl daemon-reload
+sudo systemctl restart docker</p>
+<h1 id="snap">snap</h1>
+<p>是linux的包管理工具。以自容模式（self-contained format）安装/管理应用。兼容不同分支的linux系统。可以安装更新必要的依赖。</p>
+<h2 id="install-snap-on-ubuntu">install snap on ubuntu</h2>
+<pre><code>sudo apt update
+sudo apt install snapd
+</code></pre>
+<p>安装示例：<br>
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>u</mi><mi>d</mi><mi>o</mi><mi>s</mi><mi>n</mi><mi>a</mi><mi>p</mi><mi>i</mi><mi>n</mi><mi>s</mi><mi>t</mi><mi>a</mi><mi>l</mi><mi>l</mi><mi>h</mi><mi>e</mi><mi>l</mi><mi>l</mi><mi>o</mi><mo>−</mo><mi>w</mi><mi>o</mi><mi>r</mi><mi>l</mi><mi>d</mi><mi>h</mi><mi>e</mi><mi>l</mi><mi>l</mi><mi>o</mi><mo>−</mo><mi>w</mi><mi>o</mi><mi>r</mi><mi>l</mi><mi>d</mi><mn>6.4</mn><mi>f</mi><mi>r</mi><mi>o</mi><mi>m</mi><mi>C</mi><mi>a</mi><mi>n</mi><mi>o</mi><mi>n</mi><mi>i</mi><mi>c</mi><mi>a</mi><mi>l</mi><mi mathvariant="normal">✓</mi><mi>i</mi><mi>n</mi><mi>s</mi><mi>t</mi><mi>a</mi><mi>l</mi><mi>l</mi><mi>e</mi><mi>d</mi></mrow><annotation encoding="application/x-tex"> sudo snap install hello-world
+hello-world 6.4 from Canonical✓ installed
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">s</span><span class="mord mathnormal">u</span><span class="mord mathnormal">d</span><span class="mord mathnormal">os</span><span class="mord mathnormal">na</span><span class="mord mathnormal">p</span><span class="mord mathnormal">in</span><span class="mord mathnormal">s</span><span class="mord mathnormal">t</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.01968em;">ll</span><span class="mord mathnormal">h</span><span class="mord mathnormal">e</span><span class="mord mathnormal" style="margin-right:0.01968em;">ll</span><span class="mord mathnormal">o</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.0833em;"></span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mord mathnormal" style="margin-right:0.02778em;">or</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">d</span><span class="mord mathnormal">h</span><span class="mord mathnormal">e</span><span class="mord mathnormal" style="margin-right:0.01968em;">ll</span><span class="mord mathnormal">o</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mord mathnormal" style="margin-right:0.02778em;">or</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">d</span><span class="mord">6.4</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mord mathnormal">ro</span><span class="mord mathnormal">m</span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="mord mathnormal">an</span><span class="mord mathnormal">o</span><span class="mord mathnormal">ni</span><span class="mord mathnormal">c</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord amsrm">✓</span><span class="mord mathnormal">in</span><span class="mord mathnormal">s</span><span class="mord mathnormal">t</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.01968em;">ll</span><span class="mord mathnormal">e</span><span class="mord mathnormal">d</span></span></span></span> hello-world
+Hello World!</p>
+<h2 id="常用命令">常用命令</h2>
+<pre><code>snap find app_name # 根据应用名查询
+snap info app_name # 列出此应用的信息
+snap list # 列出所有安装的应用
+snap refresh app_name # 更新
+snap revert app_name # 反向更新
+snap disable app_name # 禁用
+snap enable app_name # 启用
+snap remove app_name # 删除
+</code></pre>
+<p>Docker的6大优势</p>
+<p>对比传统的运维发布方式，Docker有以下6大优势：</p>
+<p>1、更高效地利用系统资源
+2、更快的启动时间
+3、一致的运行环境开发中常见的问题是环境一致性问题
+4、持续交付和部署对开发和运维（DevOps）来说，最希望的就是一次创建或配置，可以在任意地方正常运行，使用Docker可以通过定制应用镜像来实现持续集成、持续交付、部署。
+5、更轻松迁移Docker确保了执行环境的一致性，使得应用的迁移更加容易，Docker可以在很多平台上运行，无论是物理机、虚拟机、公有云、私有云，甚至是笔记本，其运行结果是一致的。因此用户不用担心运行环境的变化导致应用无法正常运行的情况。
+6、更轻松地维护和拓展</p>
+<p>分析出竞品有什么特点、优点、缺点（在公司内不能正确运行的地方。）。基于这些我们应该如何创建我们的产品。
+在达到哪此要求。产品终态是什么。开发完成后，收益是什么？
+如何实现。即画出架构图。
+排期是什么。需要多少人天。</p>
 
-            
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
             
         </body>
         </html>
