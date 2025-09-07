@@ -157,3 +157,31 @@ worker:
 docker compose up
 
 ## docker engine
+
+由这三层组成
+
+```
+docker cli
+rest api
+docker deamon
+```
+
+可以这样调用
+laptop -> docker cli -> rest api -> docker deamon
+
+```
+docker -H=192.168.99.100:2376 run nginx -d -p 80:80
+docker -H=remote-docker-engine:2376 run nginx -d -p 80:80
+```
+
+## docker storage
+
+docker 存数据在本地
+
+```
+/var/lib/docker
+|- aufs
+|- containers
+|- images
+|- volumes
+```

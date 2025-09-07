@@ -154,7 +154,7 @@ Run（运行镜像）：运行的镜像就是一个容器，容器就是运行�
 <h3 id="docker-run">docker run</h3>
 <p>Explanation: This command is used to create and start a new Docker container based on a specified image.
 Example: docker run -d --name my_container my_image (Runs a container named &quot;my_container&quot; from the &quot;my_image&quot; image in detached mode)
-创建一个新的container去运行指定的image.</p>
+创建一个新的 container 去运行指定的 image.</p>
 <pre><code class="language-shell">docker run &lt;imageName&gt;:&lt;tag&gt;
 docker run &lt;imageName&gt; # 默认tag是latest
 ``
@@ -246,36 +246,54 @@ history
 <p>docker build . -t my_image_name:tag</p>
 <h2 id="push">push</h2>
 <p>docker push my_image_name:tag
-我尝试了，失败了。可能与docker源有关。</p>
+我尝试了，失败了。可能与 docker 源有关。</p>
 <h2 id="环境变量">环境变量</h2>
 <p>docker run &lt;iamge_name&gt; -e MY_ENV_VAR=my_value</p>
 <p>docker inspect blissful_hopper # 检查环境变量</p>
 <h2 id="docker-compose">docker compose</h2>
 <p>docker-compose.yml</p>
 <pre><code class="language-yml"><span class="hljs-attr">redis:</span>
-    <span class="hljs-attr">image:</span> <span class="hljs-string">redis</span>
+  <span class="hljs-attr">image:</span> <span class="hljs-string">redis</span>
 <span class="hljs-attr">db:</span>
-    <span class="hljs-attr">image:</span> <span class="hljs-string">postgres:9.4</span>
+  <span class="hljs-attr">image:</span> <span class="hljs-string">postgres:9.4</span>
 <span class="hljs-attr">vote:</span>
-    <span class="hljs-attr">image:</span> <span class="hljs-string">voting-app</span>
-    <span class="hljs-attr">ports:</span>
-        <span class="hljs-bullet">-</span> <span class="hljs-number">5000</span><span class="hljs-string">:80</span>
-    <span class="hljs-attr">links:</span>
-        <span class="hljs-bullet">-</span> <span class="hljs-string">redis</span>
+  <span class="hljs-attr">image:</span> <span class="hljs-string">voting-app</span>
+  <span class="hljs-attr">ports:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-number">5000</span><span class="hljs-string">:80</span>
+  <span class="hljs-attr">links:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">redis</span>
 <span class="hljs-attr">result:</span>
-    <span class="hljs-attr">image:</span> <span class="hljs-string">result-app</span>
-    <span class="hljs-attr">ports:</span>
-        <span class="hljs-bullet">-</span> <span class="hljs-number">5001</span><span class="hljs-string">:80</span>
-    <span class="hljs-attr">links:</span>
-        <span class="hljs-bullet">-</span> <span class="hljs-string">db</span>
+  <span class="hljs-attr">image:</span> <span class="hljs-string">result-app</span>
+  <span class="hljs-attr">ports:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-number">5001</span><span class="hljs-string">:80</span>
+  <span class="hljs-attr">links:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">db</span>
 <span class="hljs-attr">worker:</span>
-    <span class="hljs-attr">image:</span> <span class="hljs-string">worker</span>
-    <span class="hljs-attr">links:</span>
-        <span class="hljs-bullet">-</span> <span class="hljs-string">db</span>
-        <span class="hljs-bullet">-</span> <span class="hljs-string">redis</span>
+  <span class="hljs-attr">image:</span> <span class="hljs-string">worker</span>
+  <span class="hljs-attr">links:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">db</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">redis</span>
 </code></pre>
 <p>docker compose up</p>
 <h2 id="docker-engine">docker engine</h2>
+<p>由这三层组成</p>
+<pre><code>docker cli
+rest api
+docker deamon
+</code></pre>
+<p>可以这样调用
+laptop -&gt; docker cli -&gt; rest api -&gt; docker deamon</p>
+<pre><code>docker -H=192.168.99.100:2376 run nginx -d -p 80:80
+docker -H=remote-docker-engine:2376 run nginx -d -p 80:80
+</code></pre>
+<h2 id="docker-storage">docker storage</h2>
+<p>docker存数据在本地</p>
+<pre><code>/var/lib/docker
+|- aufs
+|- containers
+|- images
+|- volumes
+</code></pre>
 
             
             
