@@ -215,6 +215,16 @@ interface Animal {
 }
 ```
 
+## enum(枚举)
+
+ts 已经弃用枚举了。
+
+```java
+enum Color {
+    RED, GREEN, BLUE;
+}
+```
+
 ## Stream
 
 ```java
@@ -286,6 +296,22 @@ try {
 }
 public void readFile() throws IOException {
     // 可能返回IOException的代码
+}
+```
+
+## pagckage(包)
+
+为了更好的组织类。java 提供了包机制，用于区别类名的命名空间。
+
+- 把相似或相关功能的类放在同一个包中。
+-
+
+```java
+package animals; // 一般小写。避免与类、接口名字冲突。
+// 还有一些import语句
+interface Animal {
+    public void eat();
+    public void travel();
 }
 ```
 
