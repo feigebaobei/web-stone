@@ -196,11 +196,24 @@ class 子类名 extends Person {}
 ```
 
 不支持子类一次继承多个类。可以每次继承一个类，达到继承多个类。
-类可以一次继承多个接口（implements）。
+类可以一次继承多个实现（implements）。
 super 指向父类对象。
 this 指向当前对象。
 
 ### 封装
+
+## interface
+
+```java
+[可见度] interface 接口名 [extends 其他接口名] {
+    // 声明变量
+    // 抽象方法
+}
+interface Animal {
+    public void eat();
+    public void travel();
+}
+```
 
 ## Stream
 
