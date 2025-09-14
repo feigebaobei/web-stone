@@ -315,6 +315,63 @@ interface Animal {
 }
 ```
 
+## reflection(反射)
+
+反射提供了一种动态地操作类查询类、修改类的能力。
+
+```java
+java.lang.reflect.Class
+java.lang.reflect.Field
+java.lang.reflect.Method
+java.lang.reflect.Constructor
+
+// 取得Class对象
+Class<?> clazz = Animal.class; // 通过类名取得
+Class<?> clazz = animal.getClass(); // 通过实例取得
+Class<?> clazz = Class.forName("animals.Animal");
+
+// 使用反射创建对象
+Class<?> clazz = Class.forName("animals.Animal");
+Object obj = clazz.getDeclaredConstructors().newInstance();
+
+// 使用反射访问字段
+Field field = clazz.getDeclaredField("name")
+field.setAccessible(true); // 若字段为私有的，则需要设置可访问。
+Object value = field.get(instance)
+field.set(instance, "Tom");
+
+// 使用反射访问方法
+Method method = clazz.getMethod("methodName")
+method.invoke(instance, args);
+
+// 使用反射访问构造函数
+Constructor<?> constructor = clazz.getConstructor(argsTypes);
+
+// 使用反射访问接口、父类
+Class<?> superClass = clazz.getSuperclass();
+Class<?>[] interfaces = clazz.getInterfaces();
+```
+
+Class.getFields()
+Class.getDeclaredFields()
+Class.getMethods()
+Class.getDeclaredMethods()
+Class.getConstructors()
+Class.getDeclaredConstructors()
+Class.getSuperclass()
+Class.getInterfaces()
+Field.get(Object obj)
+Field.set(Object obj, Object value)
+Field.getType()
+Field.getModifiers()
+Method.invoke(Object obj, Object... args)
+Method.getReturnType()
+Method.getParametersTypes()
+Method.getModifiers()
+Constructor.newInstance(Object... args)
+Constructor.getParametersTypes()
+Constructor.getModifiers()
+
 ## configuration
 
 默认配置文件：`path/to/file.json`。

@@ -523,6 +523,58 @@ java.lang.ArrayIndexOutOfBoundsException
     <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">travel</span><span class="hljs-params">()</span>;
 }
 </code></pre>
+<h2 id="reflection反射">reflection(反射)</h2>
+<p>反射提供了一种动态地操作类查询类、修改类的能力。</p>
+<pre><code class="language-java">java.lang.reflect.Class
+java.lang.reflect.Field
+java.lang.reflect.Method
+java.lang.reflect.Constructor
+
+<span class="hljs-comment">// 取得Class对象</span>
+Class&lt;?&gt; clazz = Animal.class; <span class="hljs-comment">// 通过类名取得</span>
+Class&lt;?&gt; clazz = animal.getClass(); <span class="hljs-comment">// 通过实例取得</span>
+Class&lt;?&gt; clazz = Class.forName(<span class="hljs-string">&quot;animals.Animal&quot;</span>);
+
+<span class="hljs-comment">// 使用反射创建对象</span>
+Class&lt;?&gt; clazz = Class.forName(<span class="hljs-string">&quot;animals.Animal&quot;</span>);
+<span class="hljs-type">Object</span> <span class="hljs-variable">obj</span> <span class="hljs-operator">=</span> clazz.getDeclaredConstructors().newInstance();
+
+<span class="hljs-comment">// 使用反射访问字段</span>
+<span class="hljs-type">Field</span> <span class="hljs-variable">field</span> <span class="hljs-operator">=</span> clazz.getDeclaredField(<span class="hljs-string">&quot;name&quot;</span>)
+field.setAccessible(<span class="hljs-literal">true</span>); <span class="hljs-comment">// 若字段为私有的，则需要设置可访问。</span>
+<span class="hljs-type">Object</span> <span class="hljs-variable">value</span> <span class="hljs-operator">=</span> field.get(instance)
+field.set(instance, <span class="hljs-string">&quot;Tom&quot;</span>);
+
+<span class="hljs-comment">// 使用反射访问方法</span>
+<span class="hljs-type">Method</span> <span class="hljs-variable">method</span> <span class="hljs-operator">=</span> clazz.getMethod(<span class="hljs-string">&quot;methodName&quot;</span>)
+method.invoke(instance, args);
+
+<span class="hljs-comment">// 使用反射访问构造函数</span>
+Constructor&lt;?&gt; constructor = clazz.getConstructor(argsTypes);
+
+<span class="hljs-comment">// 使用反射访问接口、父类</span>
+Class&lt;?&gt; superClass = clazz.getSuperclass();
+Class&lt;?&gt;[] interfaces = clazz.getInterfaces();
+</code></pre>
+<p>Class.getFields()
+Class.getDeclaredFields()
+Class.getMethods()
+Class.getDeclaredMethods()
+Class.getConstructors()
+Class.getDeclaredConstructors()
+Class.getSuperclass()
+Class.getInterfaces()
+Field.get(Object obj)
+Field.set(Object obj, Object value)
+Field.getType()
+Field.getModifiers()
+Method.invoke(Object obj, Object... args)
+Method.getReturnType()
+Method.getParametersTypes()
+Method.getModifiers()
+Constructor.newInstance(Object... args)
+Constructor.getParametersTypes()
+Constructor.getModifiers()</p>
 <h2 id="configuration">configuration</h2>
 <p>默认配置文件：<code>path/to/file.json</code>。</p>
 <!-- prettier-ignore-start -->
