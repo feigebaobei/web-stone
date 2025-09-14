@@ -79,7 +79,7 @@ import java.io.File // 特定的File类
 |transient||||
 |volatile||||
 
-### 重写 & 重载
+### 重写 & 重载 & 多态
 
 ```java
 class Dog {
@@ -88,7 +88,7 @@ class Dog {
     }
 }
 class HouseDog extends Dog {
-    public void bark () { // 重写
+    public void bark () { // 重写。覆盖父类中的方法
         System.out.println("woof")
     }
 }
@@ -97,11 +97,52 @@ class Dog {
     public void bark () {
         System.out.println("sss")
     }
-    public void bark (int n) {
+    public void bark (int n) { // 重载。支持多种参数
         for (int i = 0; i < n; i++) {
             System.out.println("sss")
         }
     }
+}
+```
+
+重写
+
+- final 修饰的不能重写
+- static 修饰的不能重写
+- 构造方法不能重写
+- 不继承 A 类，则不能重写 A 类的方法。
+  重载
+- 可以改变参数
+- 可以改变返回的类型
+- 可以改变访问修饰符
+
+### 抽象类
+
+父类一般是抽象的。它用于别的类继承。
+
+```java
+public abstract class A {
+    public void show() {
+        return // ...
+    };
+    public void showA() {
+        return // ...
+    };
+    public void showB() {
+        return // ...
+    };
+}
+public class B extends A {
+    public void show() {
+        // ...
+    };
+    public void showA() {
+        // ...
+    };
+    public void showB() {
+        // ...
+    };
+
 }
 ```
 
@@ -158,6 +199,8 @@ class 子类名 extends Person {}
 类可以一次继承多个接口（implements）。
 super 指向父类对象。
 this 指向当前对象。
+
+### 封装
 
 ## Stream
 
