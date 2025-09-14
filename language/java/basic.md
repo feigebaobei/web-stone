@@ -190,6 +190,37 @@ public class ScannerDemo {
 }
 ```
 
+## 异常处理
+
+```java
+java.lang.Error
+java.lang.ArithmeticException
+NullPointerException
+java.lang.ArrayIndexOutOfBoundsException
+...
+```
+
+异常的原因的分类：（3 个）
+
+- 用户输入非法数据
+- 文件不存在
+- 网络通信时连接中断，或者 jvm 内存溢出
+
+```java
+try {
+    // 可能出异常的代码
+} catch (IOException e) {
+    // 处理异常的代码
+} catch (异常类型1 异常变量名1) { // 多重捕获块
+    // 处理异常的代码
+} catch (异常类型2 | 异常类型3 | 异常类型4 异常变量名2) { // 多异常合并捕获
+    // 处理异常的代码
+}
+public void readFile() throws IOException {
+    // 可能返回IOException的代码
+}
+```
+
 ## configuration
 
 默认配置文件：`path/to/file.json`。

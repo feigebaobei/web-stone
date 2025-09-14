@@ -422,6 +422,32 @@ System.out.write(&quot;H&quot;);</p>
     }
 }
 </code></pre>
+<h2 id="异常处理">异常处理</h2>
+<pre><code class="language-java">java.lang.Error
+java.lang.ArithmeticException
+NullPointerException
+java.lang.ArrayIndexOutOfBoundsException
+...
+</code></pre>
+<p>异常的原因的分类：（3个）</p>
+<ul>
+<li>用户输入非法数据</li>
+<li>文件不存在</li>
+<li>网络通信时连接中断，或者jvm内存溢出</li>
+</ul>
+<pre><code class="language-java"><span class="hljs-keyword">try</span> {
+    <span class="hljs-comment">// 可能出异常的代码</span>
+} <span class="hljs-keyword">catch</span> (IOException e) {
+    <span class="hljs-comment">// 处理异常的代码</span>
+} <span class="hljs-keyword">catch</span> (异常类型<span class="hljs-number">1</span> 异常变量名<span class="hljs-number">1</span>) { <span class="hljs-comment">// 多重捕获块</span>
+    <span class="hljs-comment">// 处理异常的代码</span>
+} <span class="hljs-keyword">catch</span> (异常类型<span class="hljs-number">2</span> | 异常类型<span class="hljs-number">3</span> | 异常类型<span class="hljs-number">4</span> 异常变量名<span class="hljs-number">2</span>) { <span class="hljs-comment">// 多异常合并捕获</span>
+    <span class="hljs-comment">// 处理异常的代码</span>
+}
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">readFile</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException {
+    <span class="hljs-comment">// 可能返回IOException的代码</span>
+}
+</code></pre>
 <h2 id="configuration">configuration</h2>
 <p>默认配置文件：<code>path/to/file.json</code>。</p>
 <!-- prettier-ignore-start -->

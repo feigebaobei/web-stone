@@ -21,39 +21,128 @@
     </div>
     <script>
         let clog = console.log
-        let o = {
-            k: 1
+        // let lock = {
+        //     queue: [],
+        //     get: () => {
+        //         let s, j
+        //         let p = new Promise((_s, _j) => {
+        //             s = _s
+        //             j = _j
+        //         })
+        //         let o = {
+        //             p, s, j
+        //         }
+        //         s(lock._data)
+        //         return p
+        //         // lock.queue.push(o)
+        //         // // if (lock.queue.length > 1) {
+        //         // // } else {
+        //         // //     s(lock._data)
+        //         // // }
+        //         // // 是否锁
+        //         // if () {
+        //         //     return p
+        //         // } else {
+        //         //     s(lock._data)
+        //         //     return p
+        //         // }
+
+        //     },
+        //     _data: {k: 1},
+        //     end: () => {
+
+        //     }
+        // }
+        // lock.get().then((data) => {
+        //     clog('one', data)
+        //     lock.end()
+        // })
+        // setTimeout(() => {
+        //     lock.get().then((data) => {
+        //         data.k++
+        //         clog('two', data)
+        //     })
+        // }, 1000)
+        // setTimeout(() => {
+        //     lock.get().then((data) => {
+        //         // data.k++
+        //         clog('three', data)
+        //     })
+        // }, 2000)
+
+        class Lock {
+            constructor() {
+                this.queue = []
+                this._data = { k: 1 }
+                this.locked = false
+            }
+            get() {
+                let s, j
+                let p = new Promise((_s, _j) => {
+                    s = _s
+                    j = _j
+                })
+                let o = {
+                    p, s, j
+                }
+                // this.queue.push(o)
+                // // this._next()
+                // // return p
+
+                // if (this.queue.length > 1) {
+                //     // this.locked = true
+                //     // this.queue.shift()
+                //     // this.queue[0].s()
+                //     return o.p
+                // } else { // 只有一个
+                //     o.s(this._data)
+                //     return o.p
+                // }
+                if (this.queue.length) {
+                    this.queue.push(o)
+                    return o.p
+                } else {
+                    o.s(this._data)
+                    return o.p
+                }
+            }
+            _next() {
+                if (this.locked) return
+                let o = this.queue.shift()
+                if (!o) return
+                this.locked = true
+                o.s(this._data)
+            }
+            end() {
+                // this.locked = false
+                // this._next()
+                let t = this.queue.shift()
+                t = this.queue.shift()
+                clog('this.queue', this.queue.length)
+                t && t.s(this._data)
+            }
         }
-        clickTwoH = (e) => {
-            e.stopPropagation()
-            clog('two click')
-        }
+        let lock = new Lock()
+        lock.get().then((data) => {
+            data.k++
+            clog('one', data)
+            setTimeout(() => {
+                lock.end()
+            }, 1000)
+        })
+        lock.get().then((data) => {
+            clog('two', data)
+            setTimeout(() => {
+                lock.end()
+            }, 1000)
+        })
+        lock.get().then((data) => {
+            clog('three', data)
+            // setTimeout(() => {
+            //     lock.end()
+            // }, 1000)
+        })
 
-        document.addEventListener('click', (e) => {
-            clog('e', e)
-        }, false)
-        // clog(Object.isExtensible(o))
-        // o.a = 's'
-        // Object.preventExtensions(o)
-        // clog(Object.isExtensible(o))
-        // o.b = true
-        // clog(o)
-
-        // clog(Object.isSealed(o))
-        // Object.seal(o)
-        // delete o.k
-        // o.a = 3
-        // o.k = 2
-        // clog(Object.isSealed(o))
-        // clog(o)
-
-        // clog(Object.isFrozen(o))
-        // Object.freeze(o)
-        // o.k = 2
-        // o.a = 3
-        // delete o.k
-        // clog(Object.isFrozen(o))
-        // clog(o)
     </script>
 </body>
 </html>
