@@ -235,13 +235,13 @@
  */
 </code></pre>
 <h2 id="对象类">对象&amp;类</h2>
-<p>一个java文件只能有一个public类。可以有多个非public类。
-public的类名与文件名一致。
-java文件结构：</p>
+<p>一个 java 文件只能有一个 public 类。可以有多个非 public 类。
+public 的类名与文件名一致。
+java 文件结构：</p>
 <ol>
-<li>package语句</li>
-<li>import语句</li>
-<li>java代码语句</li>
+<li>package 语句</li>
+<li>import 语句</li>
+<li>java 代码语句</li>
 </ol>
 <h3 id="import">import</h3>
 <pre><code class="language-java"><span class="hljs-keyword">import</span> java.io.* <span class="hljs-comment">// 此路径下的所有类</span>
@@ -356,11 +356,72 @@ java文件结构：</p>
 <li>没有返回类型</li>
 <li>自动调用。 不能直接调用。</li>
 <li>支持重载</li>
-<li>可以使用this来引用当前对象的属性、方法。</li>
-<li>当没有构造时java会提供一个无参的构造方法。</li>
+<li>可以使用 this 来引用当前对象的属性、方法。</li>
+<li>当没有构造时 java 会提供一个无参的构造方法。</li>
 <li>不能被继承，但可以被调用。</li>
 </ul>
 <p>作用：在初始化时为属性赋值。</p>
+<pre><code class="language-java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span> {
+    String name;
+    <span class="hljs-type">int</span> age;
+    <span class="hljs-comment">// 定义构造方法</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Person</span><span class="hljs-params">()</span> {
+        <span class="hljs-built_in">this</span>.name = <span class="hljs-string">&#x27;unknown&#x27;</span>;
+        <span class="hljs-built_in">this</span>.age = <span class="hljs-number">0</span>;
+    }
+    <span class="hljs-comment">// 重构构造方法</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Person</span><span class="hljs-params">(String name)</span> {
+        <span class="hljs-built_in">this</span>.name = name;
+        <span class="hljs-built_in">this</span>.age = <span class="hljs-number">0</span>;
+    }
+    <span class="hljs-comment">// 重构构造方法</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Person</span><span class="hljs-params">(String name, <span class="hljs-type">int</span> age)</span> {
+        <span class="hljs-built_in">this</span>.name = name;
+        <span class="hljs-built_in">this</span>.age = age;
+    }
+    <span class="hljs-comment">// 引用属性、方法</span>
+    <span class="hljs-built_in">this</span>.name = name;
+    <span class="hljs-built_in">this</span>.age;
+    <span class="hljs-comment">// 调用另一个构造方法</span>
+    <span class="hljs-built_in">this</span>(name, <span class="hljs-number">3</span>)
+}
+
+<span class="hljs-comment">// 调用</span>
+<span class="hljs-type">Person</span> <span class="hljs-variable">person</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Person</span>(<span class="hljs-string">&quot;张三&quot;</span>);
+</code></pre>
+<h2 id="stream">Stream</h2>
+<pre><code class="language-java">
+</code></pre>
+<h2 id="file">File</h2>
+<pre><code class="language-java"><span class="hljs-keyword">import</span> java.io.File;
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">FileDemo</span> {
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> {
+        <span class="hljs-type">String</span> <span class="hljs-variable">path</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;D:\\test\\test.txt&quot;</span>;
+        <span class="hljs-type">File</span> <span class="hljs-variable">file</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">File</span>(path);
+        d.mkdirs(); <span class="hljs-comment">// 创建一个文件夹和它的所有父文件夹</span>
+        <span class="hljs-comment">// d.mkdir(); // 创建一个文件夹。若成功则返回true，否则返回false。</span>
+    }
+}
+<span class="hljs-comment">// File.isDirectory() // 是否为目录</span>
+<span class="hljs-comment">// File.delete() // 删除文件</span>
+</code></pre>
+<h2 id="io">IO</h2>
+<p>System.out.println(&quot;Hello World&quot;);
+System.out.print(&quot;H&quot;);
+System.out.write(&quot;H&quot;);</p>
+<pre><code class="language-java"><span class="hljs-keyword">import</span> java.util.Scanner;
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ScannerDemo</span> {
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> {
+        <span class="hljs-type">Scanner</span> <span class="hljs-variable">sc</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Scanner</span>(System.in);
+        system.out.println(<span class="hljs-string">&quot;以next方式接收&quot;</span>);
+        <span class="hljs-keyword">if</span>(sc.hasNext()) {
+            <span class="hljs-type">String</span> <span class="hljs-variable">str</span> <span class="hljs-operator">=</span> sc.next();
+            System.out.println(<span class="hljs-string">&quot;你输入的数据是：&quot;</span> + str);
+        }
+        sc.close();
+    }
+}
+</code></pre>
 <h2 id="configuration">configuration</h2>
 <p>默认配置文件：<code>path/to/file.json</code>。</p>
 <!-- prettier-ignore-start -->

@@ -117,6 +117,79 @@ class Dog {
 
 作用：在初始化时为属性赋值。
 
+```java
+public class Person {
+    String name;
+    int age;
+    // 定义构造方法
+    public Person() {
+        this.name = 'unknown';
+        this.age = 0;
+    }
+    // 重构构造方法
+    public Person(String name) {
+        this.name = name;
+        this.age = 0;
+    }
+    // 重构构造方法
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+    // 引用属性、方法
+    this.name = name;
+    this.age;
+    // 调用另一个构造方法
+    this(name, 3)
+}
+
+// 调用
+Person person = new Person("张三");
+```
+
+## Stream
+
+```java
+
+```
+
+## File
+
+```java
+import java.io.File;
+public class FileDemo {
+    public static void main(String[] args) {
+        String path = "D:\\test\\test.txt";
+        File file = new File(path);
+        d.mkdirs(); // 创建一个文件夹和它的所有父文件夹
+        // d.mkdir(); // 创建一个文件夹。若成功则返回true，否则返回false。
+    }
+}
+// File.isDirectory() // 是否为目录
+// File.delete() // 删除文件
+```
+
+## IO
+
+System.out.println("Hello World");
+System.out.print("H");
+System.out.write("H");
+
+```java
+import java.util.Scanner;
+public class ScannerDemo {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        system.out.println("以next方式接收");
+        if(sc.hasNext()) {
+            String str = sc.next();
+            System.out.println("你输入的数据是：" + str);
+        }
+        sc.close();
+    }
+}
+```
+
 ## configuration
 
 默认配置文件：`path/to/file.json`。
