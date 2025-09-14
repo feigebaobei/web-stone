@@ -147,6 +147,18 @@ public class Person {
 Person person = new Person("张三");
 ```
 
+### 继承
+
+```java
+class Person {}
+class 子类名 extends Person {}
+```
+
+不支持子类一次继承多个类。可以每次继承一个类，达到继承多个类。
+类可以一次继承多个接口（implements）。
+super 指向父类对象。
+this 指向当前对象。
+
 ## Stream
 
 ```java
