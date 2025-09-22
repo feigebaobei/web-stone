@@ -957,7 +957,7 @@ $.<span class="hljs-title function_">shadowDom</span>(<span class="hljs-string">
   <span class="hljs-keyword">const</span> decoder = <span class="hljs-keyword">new</span> <span class="hljs-title class_">TextDecoder</span>();
   <span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>) {
     <span class="hljs-comment">// 读取数据流的第一块数据，done表示数据流是否完成，value表示当前的数</span>
-    <span class="hljs-keyword">const</span> {done, 
+    <span class="hljs-keyword">const</span> {done,
       value <span class="hljs-comment">// Uint8Array 类型</span>
     } = <span class="hljs-keyword">await</span> reader.<span class="hljs-title function_">read</span>();
     <span class="hljs-keyword">if</span> (done) <span class="hljs-keyword">break</span>;
@@ -966,15 +966,57 @@ $.<span class="hljs-title function_">shadowDom</span>(<span class="hljs-string">
     <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(text, done);
   }
 }
-流式传输的应用场景
-- 大文件下载
-- 实时数据传输
-- 视频、音频流
-- 处理大量文本数据
+<span class="hljs-comment">// 流式传输的应用场景</span>
+<span class="hljs-comment">// - 大文件下载</span>
+<span class="hljs-comment">// - 实时数据传输</span>
+<span class="hljs-comment">// - 视频、音频流</span>
+<span class="hljs-comment">// - 处理大量文本数据</span>
 
-
-
-
+<span class="hljs-comment">// 禁止打开开发者工具</span>
+<span class="hljs-comment">// 右键</span>
+<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;contextmenu&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) {
+    e.<span class="hljs-title function_">preventDefault</span>();
+    <span class="hljs-title function_">alert</span>(<span class="hljs-string">&#x27;right click detected&#x27;</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+});
+<span class="hljs-comment">// 快捷键</span>
+<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;keydown&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) {
+    <span class="hljs-comment">// f12</span>
+    <span class="hljs-keyword">if</span> (e.<span class="hljs-property">keyCode</span> == <span class="hljs-number">123</span>)   {
+        e.<span class="hljs-title function_">preventDefault</span>();
+        <span class="hljs-title function_">alert</span>(<span class="hljs-string">&#x27;F12 is disabled&#x27;</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    }
+    <span class="hljs-title function_">clog</span>(e, <span class="hljs-string">&#x27;I&#x27;</span>.<span class="hljs-title function_">charCodeAt</span>(<span class="hljs-number">0</span>))
+    <span class="hljs-comment">// windows ctrl+shift+i</span>
+    <span class="hljs-keyword">if</span> (e.<span class="hljs-property">ctrlKey</span> &amp;&amp; e.<span class="hljs-property">shiftKey</span> &amp;&amp; e.<span class="hljs-property">keyCode</span> == <span class="hljs-string">&#x27;I&#x27;</span>.<span class="hljs-title function_">charCodeAt</span>(<span class="hljs-number">0</span>)) {
+        e.<span class="hljs-title function_">preventDefault</span>();
+        <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;Ctrl + Shift + I is disabled&#x27;</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    }
+    <span class="hljs-comment">// mac     command+option+i</span>
+    <span class="hljs-keyword">if</span> (e.<span class="hljs-property">metaKey</span> &amp;&amp; e.<span class="hljs-property">altKey</span> &amp;&amp; e.<span class="hljs-property">keyCode</span> == <span class="hljs-string">&#x27;I&#x27;</span>.<span class="hljs-title function_">charCodeAt</span>(<span class="hljs-number">0</span>)) {
+        e.<span class="hljs-title function_">preventDefault</span>();
+        <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;Ctrl + Shift + I is disabled&#x27;</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    }
+})
+<span class="hljs-comment">// 打开开发者工具时使用debugger</span>
+<span class="hljs-built_in">setInterval</span>(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-keyword">let</span> startTime = performance.<span class="hljs-title function_">now</span>()
+    <span class="hljs-keyword">debugger</span> <span class="hljs-comment">// 只有在打开开发者工具时才会停下来</span>
+    <span class="hljs-keyword">let</span> endTime = performance.<span class="hljs-title function_">now</span>()
+    <span class="hljs-keyword">if</span> (endTime - startTime &gt; <span class="hljs-number">100</span>) {
+        <span class="hljs-comment">// alert(&#x27;DevTools is open&#x27;);</span>
+        <span class="hljs-variable language_">window</span>.<span class="hljs-property">location</span>.<span class="hljs-property">href</span> = <span class="hljs-string">&#x27;about:blank&#x27;</span>;
+    }
+}, <span class="hljs-number">100</span>)
+<span class="hljs-comment">// 使用devtools-detector</span>
+<span class="hljs-keyword">import</span> { addListener, launch } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;devtools-detector&#x27;</span>;
+<span class="hljs-title function_">addListener</span>(<span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-title function_">alert</span>(<span class="hljs-string">&#x27;不能使用开发者工具&#x27;</span>)
+})
+<span class="hljs-title function_">launch</span>();
 
 
 

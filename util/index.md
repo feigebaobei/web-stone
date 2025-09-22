@@ -827,15 +827,57 @@ async function getRes(content) {
     console.log(text, done);
   }
 }
-流式传输的应用场景
-- 大文件下载
-- 实时数据传输
-- 视频、音频流
-- 处理大量文本数据
+// 流式传输的应用场景
+// - 大文件下载
+// - 实时数据传输
+// - 视频、音频流
+// - 处理大量文本数据
 
-
-
-
+// 禁止打开开发者工具
+// 右键
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    alert('right click detected');
+    return false;
+});
+// 快捷键
+document.addEventListener('keydown', function(e) {
+    // f12
+    if (e.keyCode == 123)   {
+        e.preventDefault();
+        alert('F12 is disabled');
+        return false;
+    }
+    clog(e, 'I'.charCodeAt(0))
+    // windows ctrl+shift+i
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+        e.preventDefault();
+        clog('Ctrl + Shift + I is disabled');
+        return false;
+    }
+    // mac     command+option+i
+    if (e.metaKey && e.altKey && e.keyCode == 'I'.charCodeAt(0)) {
+        e.preventDefault();
+        clog('Ctrl + Shift + I is disabled');
+        return false;
+    }
+})
+// 打开开发者工具时使用debugger
+setInterval(() => {
+    let startTime = performance.now()
+    debugger // 只有在打开开发者工具时才会停下来
+    let endTime = performance.now()
+    if (endTime - startTime > 100) {
+        // alert('DevTools is open');
+        window.location.href = 'about:blank';
+    }
+}, 100)
+// 使用devtools-detector
+import { addListener, launch } from 'devtools-detector';
+addListener(() => {
+  alert('不能使用开发者工具')
+})
+launch();
 
 
 

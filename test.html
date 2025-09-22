@@ -21,127 +21,49 @@
     </div>
     <script>
         let clog = console.log
-        // let lock = {
-        //     queue: [],
-        //     get: () => {
-        //         let s, j
-        //         let p = new Promise((_s, _j) => {
-        //             s = _s
-        //             j = _j
-        //         })
-        //         let o = {
-        //             p, s, j
-        //         }
-        //         s(lock._data)
-        //         return p
-        //         // lock.queue.push(o)
-        //         // // if (lock.queue.length > 1) {
-        //         // // } else {
-        //         // //     s(lock._data)
-        //         // // }
-        //         // // 是否锁
-        //         // if () {
-        //         //     return p
-        //         // } else {
-        //         //     s(lock._data)
-        //         //     return p
-        //         // }
+        
 
-        //     },
-        //     _data: {k: 1},
-        //     end: () => {
-
-        //     }
-        // }
-        // lock.get().then((data) => {
-        //     clog('one', data)
-        //     lock.end()
-        // })
-        // setTimeout(() => {
-        //     lock.get().then((data) => {
-        //         data.k++
-        //         clog('two', data)
-        //     })
-        // }, 1000)
-        // setTimeout(() => {
-        //     lock.get().then((data) => {
-        //         // data.k++
-        //         clog('three', data)
-        //     })
-        // }, 2000)
-
-        class Lock {
-            constructor() {
-                this.queue = []
-                this._data = { k: 1 }
-                this.locked = false
+        // 右键
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            alert('right click detected');
+            return false;
+        });
+        document.addEventListener('keydown', function(e) {
+            // f12
+            if (e.keyCode == 123)   {
+                e.preventDefault();
+                alert('F12 is disabled');
+                return false;
             }
-            get() {
-                let s, j
-                let p = new Promise((_s, _j) => {
-                    s = _s
-                    j = _j
-                })
-                let o = {
-                    p, s, j
-                }
-                // this.queue.push(o)
-                // // this._next()
-                // // return p
-
-                // if (this.queue.length > 1) {
-                //     // this.locked = true
-                //     // this.queue.shift()
-                //     // this.queue[0].s()
-                //     return o.p
-                // } else { // 只有一个
-                //     o.s(this._data)
-                //     return o.p
-                // }
-                if (this.queue.length) {
-                    this.queue.push(o)
-                    return o.p
-                } else {
-                    o.s(this._data)
-                    return o.p
-                }
+            clog(e, 'I'.charCodeAt(0))
+            // windows ctrl+shift+i
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+                e.preventDefault();
+                clog('Ctrl + Shift + I is disabled');
+                return false;
             }
-            _next() {
-                if (this.locked) return
-                let o = this.queue.shift()
-                if (!o) return
-                this.locked = true
-                o.s(this._data)
+            // mac     command+option+i
+            if (e.metaKey && e.altKey && e.keyCode == 'I'.charCodeAt(0)) {
+                e.preventDefault();
+                clog('Ctrl + Shift + I is disabled');
+                return false;
             }
-            end() {
-                // this.locked = false
-                // this._next()
-                let t = this.queue.shift()
-                t = this.queue.shift()
-                clog('this.queue', this.queue.length)
-                t && t.s(this._data)
-            }
-        }
-        let lock = new Lock()
-        lock.get().then((data) => {
-            data.k++
-            clog('one', data)
-            setTimeout(() => {
-                lock.end()
-            }, 1000)
         })
-        lock.get().then((data) => {
-            clog('two', data)
-            setTimeout(() => {
-                lock.end()
-            }, 1000)
+        document.addEventListener('click', function(e) {
+            clog(e)
         })
-        lock.get().then((data) => {
-            clog('three', data)
-            // setTimeout(() => {
-            //     lock.end()
-            // }, 1000)
-        })
+        setInterval(() => {
+            let startTime = performance.now()
+            debugger // 只有在打开开发者工具时才会停下来
+            let endTime = performance.now()
+            if (endTime - startTime > 100) {
+                // alert('DevTools is open');
+                window.location.href = 'about:blank';
+            }
+        }, 100)
+
+
 
     </script>
 </body>
