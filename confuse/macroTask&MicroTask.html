@@ -11,7 +11,9 @@
  *--------------------------------------------------------------------------------------------*/
 
 .vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
 	display: none;
 }
 
@@ -137,6 +139,7 @@
         </head>
         <body class="vscode-body vscode-light">
             <h1 id="宏任务--微任务">宏任务 &amp; 微任务</h1>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -155,13 +158,13 @@
 </tr>
 <tr>
 <td></td>
-<td>setTimeout, setInterval, postMessage, MessageChannel, setImmediate (node 环境)</td>
+<td>setTimeout, setInterval, <a href="/language/javascript/postMessage.html">postMessage</a>, MessageChannel, setImmediate (node 环境)</td>
 <td>Promise, MutationObserver, process.nextTick （node 环境）</td>
 <td></td>
 </tr>
 <tr>
 <td></td>
-<td>用户交互，网络请求，定时器setTimeout/setInterval，dom变化（增加、删除、属性改变），跨窗口通信（如postMessage），js脚本</td>
+<td>用户交互，网络请求，定时器 setTimeout/setInterval，dom 变化（增加、删除、属性改变），跨窗口通信（如 postMessage），js 脚本</td>
 <td></td>
 <td></td>
 </tr>
@@ -185,10 +188,11 @@
 </tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
 <h2 id="执行顺序">执行顺序</h2>
 <p><code>[宏任务[微任务]][宏任务[微任务]][宏任务[微任务]]</code></p>
-<p>promise中使用setTimeout会在宏任务队列中增加一项。
-promise会在定义时立即运行。</p>
+<p>promise 中使用 setTimeout 会在宏任务队列中增加一项。
+promise 会在定义时立即运行。</p>
 
             
             

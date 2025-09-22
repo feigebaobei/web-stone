@@ -811,9 +811,27 @@ $.shadowDom('a');
 //実DOMとshadowDomを股がる走査はできない。
 //絞り込みたい場合は第2引数にコンテキストを指定する。
 $.shadowDom('.footer div', $('.text')[0]);
-
-
-
+// 流式接收
+async function getRes(content) {
+  const res = await fetch(url, {...});
+  const reader = res.body.getReader(); // ReadableStreamDefaultReader 类型
+  const decoder = new TextDecoder();
+  while(1) {
+    // 读取数据流的第一块数据，done表示数据流是否完成，value表示当前的数
+    const {done,
+      value // Uint8Array 类型
+    } = await reader.read();
+    if (done) break;
+    const text = decoder.decode(value);
+    // 打印第一块的文本内容
+    console.log(text, done);
+  }
+}
+流式传输的应用场景
+- 大文件下载
+- 实时数据传输
+- 视频、音频流
+- 处理大量文本数据
 
 
 

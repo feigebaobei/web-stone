@@ -140,18 +140,17 @@
         <body class="vscode-body vscode-light">
             <h1 id="postmessage">postMessage</h1>
 <blockquote>
-<p>html5引入的api.
+<p>html5 引入的 api.
 允许不同源脚本采用异步方式通信。
 可以跨文档、窗口、跨域。
 window.postMessage()</p>
 </blockquote>
 <h2 id="api">api</h2>
 <p><code>window.postMessage(message, targetOrigin, [transfer: boolean])</code>
-message:        要发送到其它窗口的数据。被结构克隆算法序列化。
-targetOrigin:   指定哪些窗口可接收消息。
-*  任意窗口
-/  同源窗口
-transfer        是否转移数据的所有权</p>
+message: 要发送到其它窗口的数据。被结构克隆算法序列化。
+targetOrigin: 指定哪些源的窗口可接收消息。 * 任意源的窗口
+/ 同源窗口
+transfer 是否转移数据的所有权</p>
 <pre><code class="language-js"><span class="hljs-variable language_">window</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;message&#x27;</span>, receiveMessage, <span class="hljs-literal">false</span>)
 <span class="hljs-keyword">function</span> <span class="hljs-title function_">receiveMessage</span>(<span class="hljs-params">event</span>) {
     <span class="hljs-keyword">let</span> origin = event.<span class="hljs-property">origin</span>
@@ -160,10 +159,18 @@ transfer        是否转移数据的所有权</p>
     <span class="hljs-comment">//     data: 发送来的数据</span>
     <span class="hljs-comment">//     type: 消息的类型</span>
     <span class="hljs-comment">//     source: 发消息的窗口对象</span>
-    <span class="hljs-comment">//     origin: 发消息的窗口的源</span>
+    <span class="hljs-comment">//     origin: 发消息的窗口的源（协议+域名+端口）</span>
     <span class="hljs-comment">// }</span>
 }
 </code></pre>
+<h2 id="不足">不足</h2>
+<ul>
+<li>因传递的消息。所以只能传递字符串。如果传递对象、数组等数据，需要先JSON.stringify()转换成字符串再传递。</li>
+<li>性能开销大</li>
+<li>不能拒绝指定源的接收消息。有可能在收到很多源的消息。不想收也不行。</li>
+<li>为了安全需要先验证源再使用消息。</li>
+<li>排查问题比较烦索。需要发送者与接收者都排查。</li>
+</ul>
 <h2 id="用例">用例</h2>
 <ul>
 <li>跨域请求数据</li>

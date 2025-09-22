@@ -10,7 +10,7 @@
 
 ### cors
 
-### postMessage
+### [postMessage](/language/javascript/postMessage.html)
 
 ### jsonp
 
