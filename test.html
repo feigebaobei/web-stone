@@ -23,48 +23,6 @@
         let clog = console.log
         
 
-        // 右键
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-            alert('right click detected');
-            return false;
-        });
-        document.addEventListener('keydown', function(e) {
-            // f12
-            if (e.keyCode == 123)   {
-                e.preventDefault();
-                alert('F12 is disabled');
-                return false;
-            }
-            clog(e, 'I'.charCodeAt(0))
-            // windows ctrl+shift+i
-            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
-                e.preventDefault();
-                clog('Ctrl + Shift + I is disabled');
-                return false;
-            }
-            // mac     command+option+i
-            if (e.metaKey && e.altKey && e.keyCode == 'I'.charCodeAt(0)) {
-                e.preventDefault();
-                clog('Ctrl + Shift + I is disabled');
-                return false;
-            }
-        })
-        document.addEventListener('click', function(e) {
-            clog(e)
-        })
-        setInterval(() => {
-            let startTime = performance.now()
-            debugger // 只有在打开开发者工具时才会停下来
-            let endTime = performance.now()
-            if (endTime - startTime > 100) {
-                // alert('DevTools is open');
-                window.location.href = 'about:blank';
-            }
-        }, 100)
-
-
-
     </script>
 </body>
 </html>

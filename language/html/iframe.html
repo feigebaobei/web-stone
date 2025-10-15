@@ -170,20 +170,44 @@
 <h2 id="csp-内容安全策略">csp 内容安全策略</h2>
 <p>可以对 iframe 的嵌套进行一定的控制，保证一定的安全性；</p>
 <h2 id="x-frame-options">x-frame-options</h2>
-<p>头信息中 x-frame-options: SAMEORIGIN
-表明只有祖先页面的域名是同域的才允许嵌入
-chrome61 版本后 SAMEORIGIN 会检测所有上层的节点是否同域
-DENY
-表示该页面不允许在 frame 中展示，即便是在相同域名的页面中嵌套也不允许
-ALLOR-FROM uri
-允许指定特定域名的父级进行嵌套，不过目前基本都被浏览器废弃了</p>
+<p>头信息中 x-frame-options</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SAMEORIGIN</td>
+<td>表明只有祖先页面的域名是同域的才允许嵌入</td>
+<td>chrome61 版本后 SAMEORIGIN 会检测所有上层的节点是否同域</td>
+<td></td>
+</tr>
+<tr>
+<td>DENY</td>
+<td>表示该页面不允许在 frame 中展示，即便是在相同域名的页面中嵌套也不允许</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ALLOR-FROM uri</td>
+<td>允许指定特定域名的父级进行嵌套，不过目前基本都被浏览器废弃了</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h2 id="属性">属性</h2>
 <h3 id="width">width</h3>
 <h3 id="height">height</h3>
 <h3 id="name">name</h3>
-<p>iframe的名称</p>
+<p>iframe 的名称</p>
 <h3 id="frameborder">frameborder</h3>
-<p>是否有边框。值为0/1。</p>
+<p>是否有边框。值为 0/1。</p>
 <h3 id="src">src</h3>
 <h3 id="srcdoc">srcdoc</h3>
 <h3 id="scrolling">scrolling</h3>
@@ -209,7 +233,7 @@ allow-pointer-lock：在 iframe 中可以锁定鼠标，主要和鼠标锁定有
 </code></pre>
 <h3 id="allow">allow</h3>
 <p>fullscreen</p>
-<h1 id="iframe中的内容">iframe中的内容</h1>
+<h1 id="iframe-中的内容">iframe 中的内容</h1>
 <pre><code>iframe.contentWindow
 iframe.contentDocument
 window.frames['name']
@@ -224,12 +248,12 @@ iframe.contentWindow
 <p>已弃用。</p>
 <h1 id="portal">portal</h1>
 <p>浏览器都不支持</p>
-<h1 id="iframe的局限">iframe的局限</h1>
+<h1 id="iframe-的局限">iframe 的局限</h1>
 <ul>
-<li>创建比一般的dom元素慢1-2个数量级</li>
+<li>创建比一般的 dom 元素慢 1-2 个数量级</li>
 <li>阻塞页面加载</li>
 <li>唯一的连接池</li>
-<li>不利于seo</li>
+<li>不利于 seo</li>
 </ul>
 <h1 id="todo">todo</h1>
 <p>iframe 的优缺点
