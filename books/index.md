@@ -33,6 +33,12 @@
   - [《太清中黄真经》](/books/taiqingzhonghuangzhenjing.html)
   - [《太乙金华宗旨》](/books/taiyijinhuazongzhi.html)
   - [《百字经》](/books/baizijing.html)
+  - [《奇门遁甲》](/books/title.html)
+  - [《抱朴子》](/books/title.html)
+  - [《开悟之门》](/books/title.html)
+  - [《李筌的军事智慧 神机制敌太白阴经》](/books/title.html)
+  - [《神奇之门》](/books/title.html)
+  - [《未知之门》](/books/title.html)
 - [《三字经》](/books/sanZiJin.html)
 - [《韬晦术》](/books/taoHuiShu.html)
 - [《了凡四训》](/books/liaofansixun.html)
@@ -40,7 +46,6 @@
 - it
 - [《Eloquent_JavaScript》](/books/Eloquent_JavaScript.pdf)
 - [《妙法莲华经文句》](/books/title.html)
-- [《title》](/books/title.html)
 - [《title》](/books/title.html)
 - 略
   - [《棋经十三篇》](/books/qijingshisanpian.html)
