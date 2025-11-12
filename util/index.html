@@ -1005,6 +1005,7 @@ $.<span class="hljs-title function_">shadowDom</span>(<span class="hljs-string">
 <span class="hljs-built_in">setInterval</span>(<span class="hljs-function">() =&gt;</span> {
     <span class="hljs-keyword">let</span> startTime = performance.<span class="hljs-title function_">now</span>()
     <span class="hljs-keyword">debugger</span> <span class="hljs-comment">// 只有在打开开发者工具时才会停下来</span>
+    <span class="hljs-comment">// 可以被 ctrl+f8 禁用所有断点</span>
     <span class="hljs-keyword">let</span> endTime = performance.<span class="hljs-title function_">now</span>()
     <span class="hljs-keyword">if</span> (endTime - startTime &gt; <span class="hljs-number">100</span>) {
         <span class="hljs-comment">// alert(&#x27;DevTools is open&#x27;);</span>
@@ -1018,6 +1019,18 @@ $.<span class="hljs-title function_">shadowDom</span>(<span class="hljs-string">
 })
 <span class="hljs-title function_">launch</span>();
 
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">ringOpArr</span> = (<span class="hljs-params">arr = [], startIndex = <span class="hljs-number">0</span>, direction = <span class="hljs-literal">true</span>, cb = (current, index, array) =&gt; {}</span>) =&gt; {
+  <span class="hljs-keyword">let</span> k = startIndex + arr.<span class="hljs-property">length</span>
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; arr.<span class="hljs-property">length</span>; i++) {
+    <span class="hljs-keyword">let</span> m = k % arr.<span class="hljs-property">length</span>
+    <span class="hljs-title function_">cb</span>(arr[m], m, arr)
+    <span class="hljs-keyword">if</span> (direction) {
+      k++
+    } <span class="hljs-keyword">else</span> {
+      k--
+    }
+  }
+}
 
 
 

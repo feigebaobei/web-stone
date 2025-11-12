@@ -866,6 +866,7 @@ document.addEventListener('keydown', function(e) {
 setInterval(() => {
     let startTime = performance.now()
     debugger // 只有在打开开发者工具时才会停下来
+    // 可以被 ctrl+f8 禁用所有断点
     let endTime = performance.now()
     if (endTime - startTime > 100) {
         // alert('DevTools is open');
@@ -879,6 +880,18 @@ addListener(() => {
 })
 launch();
 
+let ringOpArr = (arr = [], startIndex = 0, direction = true, cb = (current, index, array) => {}) => {
+  let k = startIndex + arr.length
+  for (let i = 0; i < arr.length; i++) {
+    let m = k % arr.length
+    cb(arr[m], m, arr)
+    if (direction) {
+      k++
+    } else {
+      k--
+    }
+  }
+}
 
 
 

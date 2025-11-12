@@ -21,7 +21,30 @@
     </div>
     <script>
         let clog = console.log
-        
+
+        let baMenList = ['休门', '生门', '伤门', '杜门', '景门', '死门', '惊门', '开门']
+        // let index = 0
+        // let k = index + baMenList.length
+        // for (let i = 0; i < baMenList.length; i++) {
+        //     let t = baMenList[k % baMenList.length]
+        //     clog(t)
+        //     k++
+        // }
+        let f = (arr = [], startIndex = 0, direction = true, cb = (current, index, array) => {}) => {
+            let k = startIndex + arr.length
+            for(let i = 0; i < arr.length; i++) {
+                let m = k % arr.length
+                cb(arr[m], m, arr)
+                if (direction) {
+                    k++
+                } else {
+                    k--
+                }
+            }
+        }
+        f(baMenList, 2, false, (c, i, a) => {
+            clog(c, i, a)
+        })
 
     </script>
 </body>
