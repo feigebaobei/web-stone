@@ -30,19 +30,48 @@
         //     clog(t)
         //     k++
         // }
-        let f = (arr = [], startIndex = 0, direction = true, cb = (current, index, array) => {}) => {
-            let k = startIndex + arr.length
+        let ringOpArr = (arr = [], cb = (current, index, array) => {}, 
+            options = {
+                startIndex: 0, direction: true,
+                returnInAfter: true,
+                breakInAfter: true,
+                continueInAfter: true,
+                returnFn: (current, index, arr) => {return false},
+                breakFn: (current, index, arr) => {return false},
+                continueFn: (current, index, arr) => {return false},
+            }
+        ) => {
+            let k = options.startIndex + arr.length
             for(let i = 0; i < arr.length; i++) {
                 let m = k % arr.length
-                cb(arr[m], m, arr)
-                if (direction) {
+                if (!options.continueInAfter && options.continueFn(arr[m], m, arr)) {
+                    continue
+                }
+                if (!options.returnInAfter && options.returnFn(arr[m], m, arr)) {
+                    break
+                }
+                if (!options.breakInAfter && options.breakFn(arr[m], m, arr)) {
+                    break
+                }
+                let t = cb(arr[m], m, arr)
+                if (options.continueInAfter && options.continueFn(arr[m], m, arr)) {
+                    continue
+                }
+                if (options.returnInAfter && options.returnFn(arr[m], m, arr)) {
+                    break
+                }
+                if (options.breakInAfter && options.breakFn(arr[m], m, arr)) {
+                    break
+                }
+                
+                if (options.direction) {
                     k++
                 } else {
                     k--
                 }
             }
         }
-        f(baMenList, 2, false, (c, i, a) => {
+        ringOpArr(baMenList, 2, false, (c, i, a) => {
             clog(c, i, a)
         })
 

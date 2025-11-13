@@ -46,7 +46,7 @@
 - [import.meta](/confuse/importMata.html)
 - [基础设施即代码 iac](/confuse/iac.html)
 - [页面生命周期](/confuse/pageLife.html)
-- [title](/confuse/title.html)
+- [奇门遁甲起局](/confuse/qiMenDunJiaStart.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
@@ -159,3 +159,6 @@ Docker 的 6 大优势
 在达到哪此要求。产品终态是什么。开发完成后，收益是什么？
 如何实现。即画出架构图。
 排期是什么。需要多少人天。
+
+不界入别人的因果。要做到见死不救。当然大概率不会见死。
+别人不支持我的工作，我也不支持别人的工作。别人回答我的问题，我也只做到回答别人的问题。
