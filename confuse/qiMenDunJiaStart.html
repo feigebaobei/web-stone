@@ -54,6 +54,12 @@
         .gongWai span {
             flex-basis: 100%;
         }
+        .gongWai span:nth-child(1) {
+            flex-basis: 50%;
+        }
+        .gongWai span:nth-child(2) {
+            flex-basis: 50%;
+        }
     </style>
 </head>
 <body>
@@ -65,6 +71,7 @@
         <option value="1">24节气</option>
     </select>
     <button id="startButton">start</button>
+    <button id="turnRightButton">向右转一宫</button>
     <!-- 局 -->
     <div class="jiu_gong_box">
         <div></div>
@@ -249,7 +256,7 @@
                 this.baMen = ''
                 this.jiuXing = ''
                 this.shiErChangSheng = ''
-                this.maXing = ''
+                this.maXing = '' // todo 怎么处理maXing
                 this.jiXing = []
                 this.menPo = ''
                 this.ruMu = []
@@ -265,60 +272,10 @@
                     menPo: menPoLocal,
                 }
             }
+            getInfo() {
+                return []
+            }
         }
-        let kanGong = new Gong('坎', '北', 'yi', '水', 
-            '天蓬星', '休门', 
-            ['子'], [], [], ['生门', '死门'])
-        let kunGong = new Gong('坤', '西南', 'er', '土', 
-            '天内星', '死门', 
-            ['未', '申'], ['己'], ['甲', '乙', '癸'], ['伤门', '杜门']) // 入墓 甲隐遁了，用乙代表甲。
-        let zhengGong = new Gong('震', '东', 'san', '木', 
-            '天冲星', '伤门', 
-            ['卯'], ['戊'], [], ['开门', '惊门'])
-        let xunGong = new Gong('巽', '东南', 'si', '木', 
-            '天辅星', '杜门', 
-            ['辰', '巳'], ['壬', '癸'], ['辛', '壬'], ['开门', '惊门'])
-        let zhongGong = new Gong('中', '中', 'wu', '土', 
-            '天禽星', '', 
-            [''], [], [], [])
-        let qianGong = new Gong('亁', '西北', 'liu', '金', 
-            '天心星', '开门', 
-            ['戌', '亥'], [], [], ['景门'])
-        let duiGong = new Gong('兑', '西', 'qi', '金', 
-            '天柱星', '惊门', 
-            ['酉'], [], [], ['景门'])
-        let genGong = new Gong('艮', '东北', 'ba', '土', 
-            '天任星', '生门', 
-            ['丑', '寅'], ['庚'], ['丁', '己', '庚'], ['伤门', '杜门'])
-        let liGong = new Gong('离', '南', 'jiu', '火', 
-            '天英星', '景门', 
-            ['午'], ['辛'], [], ['休门'])
-        kanGong.clockwiseDirection = genGong
-        genGong.clockwiseDirection = zhengGong
-        zhengGong.clockwiseDirection = xunGong
-        xunGong.clockwiseDirection = liGong
-        liGong.clockwiseDirection = kunGong
-        kunGong.clockwiseDirection = duiGong
-        duiGong.clockwiseDirection = qianGong
-        qianGong.clockwiseDirection = kanGong
-        
-        kanGong.antiClockwiseDirection = qianGong
-        qianGong.antiClockwiseDirection = duiGong
-        duiGong.antiClockwiseDirection = kunGong
-        kunGong.antiClockwiseDirection = liGong
-        liGong.antiClockwiseDirection = xunGong
-        xunGong.antiClockwiseDirection = zhengGong
-        zhengGong.antiClockwiseDirection = genGong
-        genGong.antiClockwiseDirection = kanGong
-
-        kanGong.opposite = liGong
-        genGong.opposite = kunGong
-        zhengGong.opposite = duiGong
-        xunGong.opposite = qianGong
-        liGong.opposite = kanGong
-        kunGong.opposite = genGong
-        duiGong.opposite = zhengGong
-        qianGong.opposite = xunGong
 
         let yinYangJuList = {
             'lichun': {
@@ -727,10 +684,6 @@
             let defaultOptions = {
                 startIndex: 0,
                 direction: true,
-                // returnInAfter: true,
-                // breakInAfter: true,
-                // continueInAfter: true,
-                // returnFn: (current, index, arr) => {return false},
                 breakFn: (current, index, arr) => {return false},
                 continueFn: (current, index, arr) => {return false},
             }
@@ -746,29 +699,183 @@
                 if (options.continueFn(arr[m], m, arr)) {
                     continue
                 }
-                let t = cb(arr[m], m, arr)
+                cb(arr[m], m, arr)
                 if (options.breakFn(arr[m], m, arr)) {
                     break
                 }
             }
         }
+        let draw = () => {
+            clog('draw')
+            let siBoxDom = document.querySelector('#siBox')
+            let wuBoxDom = document.querySelector('#wuBox')
+            let weiBoxDom = document.querySelector('#weiBox')
+            let chenBoxDom = document.querySelector('#chenBox')
+            let shenBoxDom = document.querySelector('#shenBox')
+            let maoBoxDom = document.querySelector('#maoBox')
+            let youBoxDom = document.querySelector('#youBox')
+            let yinBoxDom = document.querySelector('#yinBox')
+            let xuBoxDom = document.querySelector('#xuBox')
+            let couBoxDom = document.querySelector('#couBox')
+            let ziBoxDom = document.querySelector('#ziBox')
+            let haiBoxDom = document.querySelector('#haiBox')
+            let xunGongDom = document.querySelector('#xunGong')
+            let liGongDom = document.querySelector('#liGong')
+            let kunGongDom = document.querySelector('#kunGong')
+            let zhengGongDom = document.querySelector('#zhengGong')
+            let zhongGongDom = document.querySelector('#zhongGong')
+            let duiGongDom = document.querySelector('#duiGong')
+            let genGongDom = document.querySelector('#genGong')
+            let kanGongDom = document.querySelector('#kanGong')
+            let qianGongDom = document.querySelector('#qianGong')
+            let gongMapDom = new Map([
+                [qiMenDunJia.xunGong, xunGongDom],
+                [qiMenDunJia.liGong, liGongDom],
+                [qiMenDunJia.kunGong, kunGongDom],
+                [qiMenDunJia.zhengGong, zhengGongDom],
+                [qiMenDunJia.zhongGong, zhongGongDom],
+                [qiMenDunJia.duiGong, duiGongDom],
+                [qiMenDunJia.genGong, genGongDom],
+                [qiMenDunJia.kanGong, kanGongDom],
+                [qiMenDunJia.qianGong, qianGongDom],
+            ])
+            // let dongClickH = (gong) => {
+            //     clog('dd', gong)
+            //     gong.tianPanTianGan
+            //     gong.diPanTianGan
+            //     // todo 先不做长生了
+            //     // document.querySelector('#siBoxChangSheng').innerHTML = `${gong.diZhi[0]}`
+            // }
+            Array.from(gongMapDom.entries()).forEach(([gong, dom]) => {
+                dom.innerHTML = `
+                <span class="tianPanTianGan">${gong.tianPanTianGan.join(' ')}</span>
+                <span class="baShen">${gong.baShen}</span>
+                <span class="baMen">${gong.baMen}</span>
+                <span class="diPanTianGan">${gong.diPanTianGan.join(' ')}</span>
+                <span class="jiuXing">${gong.jiuXing}</span>
+                `
+                // dom.addEventListener('click', (event => {
+                //     dongClickH(gong)
+                // }))
+            })
+            let summarizeBoxDom = document.querySelector('#summarizeBox')
+            summarizeBoxDom.innerHTML = `
+                <span>旬首${qiMenDunJia.xunShou}</span>
+                <span>值使${qiMenDunJia.xunShouGong.local.baMen}</span>
+                <span>${qiMenDunJia.menFuYin ? '门伏吟' : ''}</span>
+                <span>${qiMenDunJia.menFanYin ? '门反吟' : ''}</span>
+                <span>${qiMenDunJia.ganFuYin ? '干伏吟' : ''}</span>
+                <span>${qiMenDunJia.ganFanYin ? '干反吟' : ''}</span>
+                <span>${qiMenDunJia.xingFuYin ? '星伏吟' : ''}</span>
+                <span>${qiMenDunJia.xingFanYin ? '星反吟' : ''}</span>
+            `
+            // wai
+            // 空亡 五行 方向 马星 长生 击刑 门迫 入墓
+            // 点击宫会变     长生   
+            // 点击宫不会变 空亡 五行 方向 马星  击刑 门迫 入墓
+            document.querySelector('#siBoxWuXing').innerHTML = `${qiMenDunJia.xunGong.wuXing}，`
+            document.querySelector('#siBoxFangXiang').innerHTML = `${qiMenDunJia.xunGong.fangXiang}，`
+            document.querySelector('#siBoxMaXing').innerHTML = `${qiMenDunJia.xunGong.maXing ? (qiMenDunJia.xunGong.maXing + '，') : ''}`
+            document.querySelector('#siBoxJiXing').innerHTML = `${qiMenDunJia.xunGong.jiXing.map(item => `${item}击刑`).join('、')}`
+            document.querySelector('#siBoxRuMu').innerHTML = `${qiMenDunJia.xunGong.ruMu.map(item => `${item}入墓`).join('、')}`
+            document.querySelector('#siBoxMenPo').innerHTML = `${qiMenDunJia.xunGong.menPo ? (qiMenDunJia.xunGong.menPo + '迫') : ''}`
+            document.querySelector('#siBoxKongWang').innerHTML = `${qiMenDunJia.xunGong.kongWang.includes('巳') ? '巳空亡' : ''}`
+            document.querySelector('#wuBoxWuXing').innerHTML = `${qiMenDunJia.liGong.wuXing}，`
+            document.querySelector('#wuBoxFangXiang').innerHTML = `${qiMenDunJia.liGong.fangXiang}，`
+            document.querySelector('#wuBoxMaXing').innerHTML = `${qiMenDunJia.liGong.maXing ? (qiMenDunJia.liGong.maXing + '，') : ''}`
+            document.querySelector('#wuBoxJiXing').innerHTML = `${qiMenDunJia.liGong.jiXing.map(item => `${item}击刑`).join('、')}`
+            document.querySelector('#wuBoxRuMu').innerHTML = `${qiMenDunJia.liGong.ruMu.map(item => `${item}入墓`).join('、')}`
+            document.querySelector('#wuBoxMenPo').innerHTML = `${qiMenDunJia.liGong.menPo ? (qiMenDunJia.liGong.menPo + '迫') : ''}`
+            document.querySelector('#wuBoxKongWang').innerHTML = `${qiMenDunJia.liGong.kongWang.includes('午') ? '午空亡' : ''}`
+            document.querySelector('#weiBoxWuXing').innerHTML = `${qiMenDunJia.kunGong.wuXing}，`
+            document.querySelector('#weiBoxFangXiang').innerHTML = `${qiMenDunJia.kunGong.fangXiang}，`
+            document.querySelector('#weiBoxMaXing').innerHTML = `${qiMenDunJia.kunGong.maXing ? (qiMenDunJia.kunGong.maXing + '，') : ''}`
+            document.querySelector('#weiBoxJiXing').innerHTML = `${qiMenDunJia.kunGong.jiXing.map(item => `${item}击刑`).join('、')}`
+            document.querySelector('#weiBoxRuMu').innerHTML = `${qiMenDunJia.kunGong.ruMu.map(item => `${item}入墓`).join('、')}`
+            document.querySelector('#weiBoxMenPo').innerHTML = `${qiMenDunJia.kunGong.menPo ? (qiMenDunJia.kunGong.menPo + '迫') : ''}`
+            document.querySelector('#weiBoxKongWang').innerHTML = `${qiMenDunJia.kunGong.kongWang.includes('未') ? '未空亡' : ''}`
+            document.querySelector('#chenBoxWuXing').innerHTML = `${qiMenDunJia.xunGong.wuXing}，`
+            document.querySelector('#chenBoxFangXiang').innerHTML = `${qiMenDunJia.xunGong.fangXiang}，`
+            document.querySelector('#chenBoxMaXing').innerHTML = `${qiMenDunJia.xunGong.maXing ? (qiMenDunJia.xunGong.maXing + '，') : ''}`
+            document.querySelector('#chenBoxJiXing').innerHTML = `${qiMenDunJia.xunGong.jiXing.map(item => `${item}击刑`).join('、')}`
+            document.querySelector('#chenBoxRuMu').innerHTML = `${qiMenDunJia.xunGong.ruMu.map(item => `${item}入墓`).join('、')}`
+            document.querySelector('#chenBoxMenPo').innerHTML = `${qiMenDunJia.xunGong.menPo ? (qiMenDunJia.xunGong.menPo + '迫') : ''}`
+            document.querySelector('#chenBoxKongWang').innerHTML = `${qiMenDunJia.xunGong.kongWang.includes('辰') ? '辰空亡' : ''}`
+            document.querySelector('#shenBoxWuXing').innerHTML = `${qiMenDunJia.kunGong.wuXing}，`
+            document.querySelector('#shenBoxFangXiang').innerHTML = `${qiMenDunJia.kunGong.fangXiang}，`
+            document.querySelector('#shenBoxMaXing').innerHTML = `${qiMenDunJia.kunGong.maXing ? (qiMenDunJia.kunGong.maXing + '，') : ''}`
+            document.querySelector('#shenBoxJiXing').innerHTML = `${qiMenDunJia.kunGong.jiXing.map(item => `${item}击刑`).join('、')}`
+            document.querySelector('#shenBoxRuMu').innerHTML = `${qiMenDunJia.kunGong.ruMu.map(item => `${item}入墓`).join('、')}`
+            document.querySelector('#shenBoxMenPo').innerHTML = `${qiMenDunJia.kunGong.menPo ? (qiMenDunJia.kunGong.menPo + '迫') : ''}`
+            document.querySelector('#shenBoxKongWang').innerHTML = `${qiMenDunJia.kunGong.kongWang.includes('申') ? '申空亡' : ''}`
+            document.querySelector('#maoBoxWuXing').innerHTML = `${qiMenDunJia.zhengGong.wuXing}，`
+            document.querySelector('#maoBoxFangXiang').innerHTML = `${qiMenDunJia.zhengGong.fangXiang}，`
+            document.querySelector('#maoBoxMaXing').innerHTML = `${qiMenDunJia.zhengGong.maXing ? (qiMenDunJia.zhengGong.maXing + '，') : ''}`
+            document.querySelector('#maoBoxJiXing').innerHTML = `${qiMenDunJia.zhengGong.jiXing.map(item => `${item}击刑`).join('、')}`
+            document.querySelector('#maoBoxRuMu').innerHTML = `${qiMenDunJia.zhengGong.ruMu.map(item => `${item}入墓`).join('、')}`
+            document.querySelector('#maoBoxMenPo').innerHTML = `${qiMenDunJia.zhengGong.menPo ? (qiMenDunJia.zhengGong.menPo + '迫') : ''}`
+            document.querySelector('#maoBoxKongWang').innerHTML = `${qiMenDunJia.zhengGong.kongWang.includes('卯') ? '卯空亡' : ''}`
+            document.querySelector('#youBoxWuXing').innerHTML = `${qiMenDunJia.duiGong.wuXing}，`
+            document.querySelector('#youBoxFangXiang').innerHTML = `${qiMenDunJia.duiGong.fangXiang}，`
+            document.querySelector('#youBoxMaXing').innerHTML = `${qiMenDunJia.duiGong.maXing ? (qiMenDunJia.duiGong.maXing + '，') : ''}`
+            document.querySelector('#youBoxJiXing').innerHTML = `${qiMenDunJia.duiGong.jiXing.map(item => `${item}击刑`).join('、')}`
+            document.querySelector('#youBoxRuMu').innerHTML = `${qiMenDunJia.duiGong.ruMu.map(item => `${item}入墓`).join('、')}`
+            document.querySelector('#youBoxMenPo').innerHTML = `${qiMenDunJia.duiGong.menPo ? (qiMenDunJia.duiGong.menPo + '迫') : ''}`
+            document.querySelector('#youBoxKongWang').innerHTML = `${qiMenDunJia.duiGong.kongWang.includes('酉') ? '酉空亡' : ''}`
+            document.querySelector('#yinBoxWuXing').innerHTML = `${qiMenDunJia.genGong.wuXing}，`
+            document.querySelector('#yinBoxFangXiang').innerHTML = `${qiMenDunJia.genGong.fangXiang}，`
+            document.querySelector('#yinBoxMaXing').innerHTML = `${qiMenDunJia.genGong.maXing ? (qiMenDunJia.genGong.maXing + '，') : ''}`
+            document.querySelector('#yinBoxJiXing').innerHTML = `${qiMenDunJia.genGong.jiXing.map(item => `${item}击刑`).join('、')}`
+            document.querySelector('#yinBoxRuMu').innerHTML = `${qiMenDunJia.genGong.ruMu.map(item => `${item}入墓`).join('、')}`
+            document.querySelector('#yinBoxMenPo').innerHTML = `${qiMenDunJia.genGong.menPo ? (qiMenDunJia.genGong.menPo + '迫') : ''}`
+            document.querySelector('#yinBoxKongWang').innerHTML = `${qiMenDunJia.genGong.kongWang.includes('寅') ? '寅空亡' : ''}`
+            document.querySelector('#xuBoxWuXing').innerHTML = `${qiMenDunJia.qianGong.wuXing}，`
+            document.querySelector('#xuBoxFangXiang').innerHTML = `${qiMenDunJia.qianGong.fangXiang}，`
+            document.querySelector('#xuBoxMaXing').innerHTML = `${qiMenDunJia.qianGong.maXing ? (qiMenDunJia.qianGong.maXing + '，') : ''}`
+            document.querySelector('#xuBoxJiXing').innerHTML = `${qiMenDunJia.qianGong.jiXing.map(item => `${item}击刑`).join('、')}`
+            document.querySelector('#xuBoxRuMu').innerHTML = `${qiMenDunJia.qianGong.ruMu.map(item => `${item}入墓`).join('、')}`
+            document.querySelector('#xuBoxMenPo').innerHTML = `${qiMenDunJia.qianGong.menPo ? (qiMenDunJia.qianGong.menPo + '迫') : ''}`
+            document.querySelector('#xuBoxKongWang').innerHTML = `${qiMenDunJia.qianGong.kongWang.includes('戌') ? '戌空亡' : ''}`
+            document.querySelector('#couBoxWuXing').innerHTML = `${qiMenDunJia.genGong.wuXing}，`
+            document.querySelector('#couBoxFangXiang').innerHTML = `${qiMenDunJia.genGong.fangXiang}，`
+            document.querySelector('#couBoxMaXing').innerHTML = `${qiMenDunJia.genGong.maXing ? (qiMenDunJia.genGong.maXing + '，') : ''}`
+            document.querySelector('#couBoxJiXing').innerHTML = `${qiMenDunJia.genGong.jiXing.map(item => `${item}击刑`).join('、')}`
+            document.querySelector('#couBoxRuMu').innerHTML = `${qiMenDunJia.genGong.ruMu.map(item => `${item}入墓`).join('、')}`
+            document.querySelector('#couBoxMenPo').innerHTML = `${qiMenDunJia.genGong.menPo ? (qiMenDunJia.genGong.menPo + '迫') : ''}`
+            document.querySelector('#couBoxKongWang').innerHTML = `${qiMenDunJia.genGong.kongWang.includes('丑') ? '丑空亡' : ''}`
+            document.querySelector('#ziBoxWuXing').innerHTML = `${qiMenDunJia.kanGong.wuXing}，`
+            document.querySelector('#ziBoxFangXiang').innerHTML = `${qiMenDunJia.kanGong.fangXiang}，`
+            document.querySelector('#ziBoxMaXing').innerHTML = `${qiMenDunJia.kanGong.maXing ? (qiMenDunJia.kanGong.maXing + '，') : ''}`
+            document.querySelector('#ziBoxJiXing').innerHTML = `${qiMenDunJia.kanGong.jiXing.map(item => `${item}击刑`).join('、')}`
+            document.querySelector('#ziBoxRuMu').innerHTML = `${qiMenDunJia.kanGong.ruMu.map(item => `${item}入墓`).join('、')}`
+            document.querySelector('#ziBoxMenPo').innerHTML = `${qiMenDunJia.kanGong.menPo ? (qiMenDunJia.kanGong.menPo + '迫') : ''}`
+            document.querySelector('#ziBoxKongWang').innerHTML = `${qiMenDunJia.kanGong.kongWang.includes('子') ? '子空亡' : ''}`
+            document.querySelector('#haiBoxWuXing').innerHTML = `${qiMenDunJia.qianGong.wuXing}，`
+            document.querySelector('#haiBoxFangXiang').innerHTML = `${qiMenDunJia.qianGong.fangXiang}，`
+            document.querySelector('#haiBoxMaXing').innerHTML = `${qiMenDunJia.qianGong.maXing ? (qiMenDunJia.qianGong.maXing + '，') : ''}`
+            document.querySelector('#haiBoxJiXing').innerHTML = `${qiMenDunJia.qianGong.jiXing.map(item => `${item}击刑`).join('、')}`
+            document.querySelector('#haiBoxRuMu').innerHTML = `${qiMenDunJia.qianGong.ruMu.map(item => `${item}入墓`).join('、')}`
+            document.querySelector('#haiBoxMenPo').innerHTML = `${qiMenDunJia.qianGong.menPo ? (qiMenDunJia.qianGong.menPo + '迫') : ''}`
+            document.querySelector('#haiBoxKongWang').innerHTML = `${qiMenDunJia.qianGong.kongWang.includes('亥') ? '亥空亡' : ''}`
 
+        }
         // todo 检查全部逻辑
         class QiMenDunJia {
             constructor(baZi, jieQi) { 
                 this.baZi = baZi
                 this.jieQi = jieQi
-                this.kanGong = kanGong
-                this.kunGong = kunGong
-                this.zhengGong = zhengGong
-                this.xunGong = xunGong
-                this.zhongGong = zhongGong
-                this.qianGong = qianGong
-                this.duiGong = duiGong
-                this.genGong = genGong
-                this.liGong = liGong
-                // 按数字顺序来
-                this.gongList = [kanGong, kunGong, zhengGong, xunGong, zhongGong, qianGong, duiGong, genGong, liGong]
+                this.kanGong = null
+                this.kunGong = null
+                this.zhengGong = null
+                this.xunGong = null
+                this.zhongGong = null
+                this.qianGong = null
+                this.duiGong = null
+                this.genGong = null
+                this.liGong = null
+                this.gongList = []
+                this.initJiuGong()
+                this.setGongPoint()
                 this.xunShou = ''
                 this.xun = []
                 this.xunShouGong = null
@@ -788,6 +895,72 @@
                 this.kongWangMap = {}
                 this.jiXing = []
                 this.ruMu = []
+            }
+            initJiuGong() {
+                let kanGong = new Gong('坎', '北', 'yi', '水', 
+                    '天蓬星', '休门', 
+                    ['子'], [], [], ['生门', '死门'])
+                let kunGong = new Gong('坤', '西南', 'er', '土', 
+                    '天内星', '死门', 
+                    ['未', '申'], ['己'], ['甲', '乙', '癸'], ['伤门', '杜门']) // 入墓 甲隐遁了，用乙代表甲。
+                let zhengGong = new Gong('震', '东', 'san', '木', 
+                    '天冲星', '伤门', 
+                    ['卯'], ['戊'], [], ['开门', '惊门'])
+                let xunGong = new Gong('巽', '东南', 'si', '木', 
+                    '天辅星', '杜门', 
+                    ['辰', '巳'], ['壬', '癸'], ['辛', '壬'], ['开门', '惊门'])
+                let zhongGong = new Gong('中', '中', 'wu', '土', 
+                    '天禽星', '', 
+                    [''], [], [], [])
+                let qianGong = new Gong('亁', '西北', 'liu', '金', 
+                    '天心星', '开门', 
+                    ['戌', '亥'], [], [], ['景门'])
+                let duiGong = new Gong('兑', '西', 'qi', '金', 
+                    '天柱星', '惊门', 
+                    ['酉'], [], [], ['景门'])
+                let genGong = new Gong('艮', '东北', 'ba', '土', 
+                    '天任星', '生门', 
+                    ['丑', '寅'], ['庚'], ['丁', '己', '庚'], ['伤门', '杜门'])
+                let liGong = new Gong('离', '南', 'jiu', '火', 
+                    '天英星', '景门', 
+                    ['午'], ['辛'], [], ['休门'])
+                this.kanGong = kanGong
+                this.kunGong = kunGong
+                this.zhengGong = zhengGong
+                this.xunGong = xunGong
+                this.zhongGong = zhongGong
+                this.qianGong = qianGong
+                this.duiGong = duiGong
+                this.genGong = genGong
+                this.liGong = liGong
+                // 按数字顺序来
+                this.gongList = [kanGong, kunGong, zhengGong, xunGong, zhongGong, qianGong, duiGong, genGong, liGong]
+            }
+            setGongPoint() {
+                this.kanGong.clockwiseDirection = this.genGong
+                this.genGong.clockwiseDirection = this.zhengGong
+                this.zhengGong.clockwiseDirection = this.xunGong
+                this.xunGong.clockwiseDirection = this.liGong
+                this.liGong.clockwiseDirection = this.kunGong
+                this.kunGong.clockwiseDirection = this.duiGong
+                this.duiGong.clockwiseDirection = this.qianGong
+                this.qianGong.clockwiseDirection = this.kanGong
+                this.kanGong.antiClockwiseDirection = this.qianGong
+                this.qianGong.antiClockwiseDirection = this.duiGong
+                this.duiGong.antiClockwiseDirection = this.kunGong
+                this.kunGong.antiClockwiseDirection = this.liGong
+                this.liGong.antiClockwiseDirection = this.xunGong
+                this.xunGong.antiClockwiseDirection = this.zhengGong
+                this.zhengGong.antiClockwiseDirection = this.genGong
+                this.genGong.antiClockwiseDirection = this.kanGong
+                this.kanGong.opposite = this.liGong
+                this.genGong.opposite = this.kunGong
+                this.zhengGong.opposite = this.duiGong
+                this.xunGong.opposite = this.qianGong
+                this.liGong.opposite = this.kanGong
+                this.kunGong.opposite = this.genGong
+                this.duiGong.opposite = this.zhengGong
+                this.qianGong.opposite = this.xunGong
             }
             getYinYangJu() {
                 let o = yinYangJuList[this.jieQi]
@@ -836,7 +1009,6 @@
                 this.zhiFuGong = this.gongList.find(gong => gong.diPanTianGan.includes(shiGan))
                 this.zhiFuGongIndex = this.gongList.findIndex(gong => gong.count === this.zhiFuGongIndex.count)
             }
-            // 测试中
             setBaShen() {
                 switch (this.yinYangJu.yinYang) {
                     case 'yin':
@@ -893,7 +1065,6 @@
                         this.zhiShiGong = this.gongList[(this.xunShouGongIndex + this.gongList.length - distance) % this.gongList.length]
                         break;
                     case 'yang':
-                        // todo test
                         this.zhiShiGong = this.gongList[(this.xunShouGongIndex + this.gongList.length + distance) % this.gongList.length]
                         break;
                 }
@@ -1013,13 +1184,15 @@
                 let xunShi = jiaZi60.find(xun => {
                     return xun.find(ganZhi => ganZhi === shi)
                 })
-                clog(kongWangList[xunRi[0]], kongWangList[xunShi[0]])
+                clog('空亡', kongWangList[xunRi[0]], kongWangList[xunShi[0]])
                 kongWangList[xunRi[0]] // arr
                     .find(diZhi => {
                         this.gongList.find(gong => {
                             // gong.kongWang = []
                             if (gong.diZhi.includes(diZhi)) {
+                                // todo 注意去重
                                 gong.kongWang.push(diZhi)
+                                gong.kongWang = [...new Set(gong.kongWang)]
                             }
                         })
                     })
@@ -1032,9 +1205,9 @@
                         })
                     })
                 
-                this.gongList.forEach(gong => {
-                    clog('sss', gong.kongWang)
-                })
+                // this.gongList.forEach(gong => {
+                //     // clog('sss', gong.kongWang)
+                // })
             }
             setMenFuYin() {
                 this.menFuYin = this.kanGong.baMen === '休门'
@@ -1056,180 +1229,88 @@
             setXingFanYin() {
                 this.xingFanYin = this.kanGong.jiuXing === '天英星'
             }
+            turnRight(n) {
+                let temp = this.gongList[0]
+                let tianPanTianGan = temp.tianPanTianGan
+                let diPanTianGan = temp.diPanTianGan
+                let baShen = temp.baShen
+                let baMen = temp.baMen
+                let jiuXing = temp.jiuXing
+                let local = temp.local
+                // let arr = []
+                let cur = temp
+                let next = cur.antiClockwiseDirection
+                for (let i = 0; i < 7; i++) {
+                    // clog('cur', cur.ming, next.ming)
+                    // 宫的 ming/fangXiang/count/wuXing/diZhi 不变
+                    // 宫的5个元素要变
+                    cur.tianPanTianGan = next.tianPanTianGan
+                    cur.diPanTianGan = next.diPanTianGan
+                    cur.baShen = next.baShen
+                    cur.baMen = next.baMen
+                    cur.jiuXing = next.jiuXing
+                    // 清空
+                    cur.shiErChangSheng = ''
+                    cur.maXing = ''
+                    cur.jiXing = []
+                    cur.menPo = ''
+                    cur.ruMu = []
+                    // cur.clockwiseDirection = null
+                    // cur.antiClockwiseDirection = null
+                    // cur.opposite = null
+                    // 宫的本地属性不变
+                    // cur.local = next.local
+                    // 循环起来
+                    cur = next
+                    next = next.antiClockwiseDirection
+                    // arr.push(cur)
+                }
+                clog('cur', cur, next, temp)
+                // // 宫的5个元素要变
+                cur.tianPanTianGan = tianPanTianGan
+                cur.diPanTianGan = diPanTianGan
+                cur.baShen = baShen
+                cur.baMen = baMen
+                cur.jiuXing = jiuXing
+                // 清空
+                cur.shiErChangSheng = ''
+                cur.maXing = ''
+                cur.jiXing = []
+                cur.menPo = ''
+                cur.ruMu = []
+                // cur.clockwiseDirection = null
+                // cur.antiClockwiseDirection = null
+                // cur.opposite = null
+                // 宫的本地属性不变
+                // cur.local = local
+                // this.gongList[0] = temp
+
+                // this.setGongPoint()
+
+                this.setJiXing()
+                this.setRuMu()
+                this.setMenPo()
+                this.sheKongWang()
+                this.setMenFuYin()
+                this.setMenFanYin()
+                this.setGanFuYin()
+                this.setGanFanYin()
+                this.setXingFuYin()
+                this.setXingFanYin()
+
+
+            }
         }
 
         // let qiMenDunJia = new QiMenDunJia('戊子壬戌戊申戊午', 'shuangjiang')
         let qiMenDunJia = new QiMenDunJia('乙巳丁亥辛巳乙未', 'lidong')
         document.querySelector('#startButton').addEventListener('click', () => {
             qiMenDunJia.start()
-            let siBoxDom = document.querySelector('#siBox')
-            let wuBoxDom = document.querySelector('#wuBox')
-            let weiBoxDom = document.querySelector('#weiBox')
-            let chenBoxDom = document.querySelector('#chenBox')
-            let shenBoxDom = document.querySelector('#shenBox')
-            let maoBoxDom = document.querySelector('#maoBox')
-            let youBoxDom = document.querySelector('#youBox')
-            let yinBoxDom = document.querySelector('#yinBox')
-            let xuBoxDom = document.querySelector('#xuBox')
-            let couBoxDom = document.querySelector('#couBox')
-            let ziBoxDom = document.querySelector('#ziBox')
-            let haiBoxDom = document.querySelector('#haiBox')
-
-            let xunGongDom = document.querySelector('#xunGong')
-            let liGongDom = document.querySelector('#liGong')
-            let kunGongDom = document.querySelector('#kunGong')
-            let zhengGongDom = document.querySelector('#zhengGong')
-            let zhongGongDom = document.querySelector('#zhongGong')
-            let duiGongDom = document.querySelector('#duiGong')
-            let genGongDom = document.querySelector('#genGong')
-            let kanGongDom = document.querySelector('#kanGong')
-            let qianGongDom = document.querySelector('#qianGong')
-            let gongMapDom = new Map([
-                [xunGong, xunGongDom],
-                [liGong, liGongDom],
-                [kunGong, kunGongDom],
-                [zhengGong, zhengGongDom],
-                [zhongGong, zhongGongDom],
-                [duiGong, duiGongDom],
-                [genGong, genGongDom],
-                [kanGong, kanGongDom],
-                [qianGong, qianGongDom],
-            ])
-
-            // let dongClickH = (gong) => {
-            //     clog('dd', gong)
-            //     gong.tianPanTianGan
-            //     gong.diPanTianGan
-            //     // todo 先不做长生了
-            //     // document.querySelector('#siBoxChangSheng').innerHTML = `${gong.diZhi[0]}`
-            // }
-            Array.from(gongMapDom.entries()).forEach(([gong, dom]) => {
-                dom.innerHTML = `
-                <span class="tianPanTianGan">${gong.tianPanTianGan.join(' ')}</span>
-                <span class="baShen">${gong.baShen}</span>
-                <span class="baMen">${gong.baMen}</span>
-                <span class="diPanTianGan">${gong.diPanTianGan.join(' ')}</span>
-                <span class="jiuXing">${gong.jiuXing}</span>
-                `
-                // dom.addEventListener('click', (event => {
-                //     dongClickH(gong)
-                // }))
-            })
-
-            let summarizeBoxDom = document.querySelector('#summarizeBox')
-            summarizeBoxDom.innerHTML = `
-            <span>${qiMenDunJia.menFuYin ? '门伏吟' : ''}</span>
-            <span>${qiMenDunJia.menFanYin ? '门反吟' : ''}</span>
-            <span>${qiMenDunJia.ganFuYin ? '干伏吟' : ''}</span>
-            <span>${qiMenDunJia.ganFanYin ? '干反吟' : ''}</span>
-            <span>${qiMenDunJia.xingFuYin ? '星伏吟' : ''}</span>
-            <span>${qiMenDunJia.xingFanYin ? '星反吟' : ''}</span>
-            `
-            // wai
-            // 空亡 五行 方向 马星 长生 击刑 门迫 入墓
-            // 点击宫会变     长生   
-            // 点击宫不会变 空亡 五行 方向 马星  击刑 门迫 入墓
-            document.querySelector('#siBoxWuXing').innerHTML = `${qiMenDunJia.xunGong.wuXing}，`
-            document.querySelector('#siBoxFangXiang').innerHTML = `${qiMenDunJia.xunGong.fangXiang}，`
-            document.querySelector('#siBoxMaXing').innerHTML = `${qiMenDunJia.xunGong.maXing ? (qiMenDunJia.xunGong.maXing + '，') : ''}`
-            document.querySelector('#siBoxJiXing').innerHTML = `${qiMenDunJia.xunGong.jiXing.map(item => `${item}击刑`).join('、')}`
-            document.querySelector('#siBoxRuMu').innerHTML = `${qiMenDunJia.xunGong.ruMu.map(item => `${item}入墓`).join('、')}`
-            document.querySelector('#siBoxMenPo').innerHTML = `${qiMenDunJia.xunGong.menPo ? (qiMenDunJia.xunGong.menPo + '迫') : ''}`
-            document.querySelector('#siBoxKongWang').innerHTML = `${qiMenDunJia.xunGong.kongWang.includes('巳') ? '巳空亡' : ''}`
-
-            document.querySelector('#wuBoxWuXing').innerHTML = `${qiMenDunJia.liGong.wuXing}，`
-            document.querySelector('#wuBoxFangXiang').innerHTML = `${qiMenDunJia.liGong.fangXiang}，`
-            document.querySelector('#wuBoxMaXing').innerHTML = `${qiMenDunJia.liGong.maXing ? (qiMenDunJia.liGong.maXing + '，') : ''}`
-            document.querySelector('#wuBoxJiXing').innerHTML = `${qiMenDunJia.liGong.jiXing.map(item => `${item}击刑`).join('、')}`
-            document.querySelector('#wuBoxRuMu').innerHTML = `${qiMenDunJia.liGong.ruMu.map(item => `${item}入墓`).join('、')}`
-            document.querySelector('#wuBoxMenPo').innerHTML = `${qiMenDunJia.liGong.menPo ? (qiMenDunJia.liGong.menPo + '迫') : ''}`
-            document.querySelector('#wuBoxKongWang').innerHTML = `${qiMenDunJia.liGong.kongWang.includes('午') ? '午空亡' : ''}`
-
-            document.querySelector('#weiBoxWuXing').innerHTML = `${qiMenDunJia.kunGong.wuXing}，`
-            document.querySelector('#weiBoxFangXiang').innerHTML = `${qiMenDunJia.kunGong.fangXiang}，`
-            document.querySelector('#weiBoxMaXing').innerHTML = `${qiMenDunJia.kunGong.maXing ? (qiMenDunJia.kunGong.maXing + '，') : ''}`
-            document.querySelector('#weiBoxJiXing').innerHTML = `${qiMenDunJia.kunGong.jiXing.map(item => `${item}击刑`).join('、')}`
-            document.querySelector('#weiBoxRuMu').innerHTML = `${qiMenDunJia.kunGong.ruMu.map(item => `${item}入墓`).join('、')}`
-            document.querySelector('#weiBoxMenPo').innerHTML = `${qiMenDunJia.kunGong.menPo ? (qiMenDunJia.kunGong.menPo + '迫') : ''}`
-            document.querySelector('#weiBoxKongWang').innerHTML = `${qiMenDunJia.kunGong.kongWang.includes('未') ? '未空亡' : ''}`
-
-
-
-            document.querySelector('#chenBoxWuXing').innerHTML = `${qiMenDunJia.xunGong.wuXing}，`
-            document.querySelector('#chenBoxFangXiang').innerHTML = `${qiMenDunJia.xunGong.fangXiang}，`
-            document.querySelector('#chenBoxMaXing').innerHTML = `${qiMenDunJia.xunGong.maXing ? (qiMenDunJia.xunGong.maXing + '，') : ''}`
-            document.querySelector('#chenBoxJiXing').innerHTML = `${qiMenDunJia.xunGong.jiXing.map(item => `${item}击刑`).join('、')}`
-            document.querySelector('#chenBoxRuMu').innerHTML = `${qiMenDunJia.xunGong.ruMu.map(item => `${item}入墓`).join('、')}`
-            document.querySelector('#chenBoxMenPo').innerHTML = `${qiMenDunJia.xunGong.menPo ? (qiMenDunJia.xunGong.menPo + '迫') : ''}`
-            document.querySelector('#chenBoxKongWang').innerHTML = `${qiMenDunJia.xunGong.kongWang.includes('辰') ? '辰空亡' : ''}`
-
-            document.querySelector('#shenBoxWuXing').innerHTML = `${qiMenDunJia.kunGong.wuXing}，`
-            document.querySelector('#shenBoxFangXiang').innerHTML = `${qiMenDunJia.kunGong.fangXiang}，`
-            document.querySelector('#shenBoxMaXing').innerHTML = `${qiMenDunJia.kunGong.maXing ? (qiMenDunJia.kunGong.maXing + '，') : ''}`
-            document.querySelector('#shenBoxJiXing').innerHTML = `${qiMenDunJia.kunGong.jiXing.map(item => `${item}击刑`).join('、')}`
-            document.querySelector('#shenBoxRuMu').innerHTML = `${qiMenDunJia.kunGong.ruMu.map(item => `${item}入墓`).join('、')}`
-            document.querySelector('#shenBoxMenPo').innerHTML = `${qiMenDunJia.kunGong.menPo ? (qiMenDunJia.kunGong.menPo + '迫') : ''}`
-            document.querySelector('#shenBoxKongWang').innerHTML = `${qiMenDunJia.kunGong.kongWang.includes('申') ? '申空亡' : ''}`
-
-
-            document.querySelector('#maoBoxWuXing').innerHTML = `${qiMenDunJia.zhengGong.wuXing}，`
-            document.querySelector('#maoBoxFangXiang').innerHTML = `${qiMenDunJia.zhengGong.fangXiang}，`
-            document.querySelector('#maoBoxMaXing').innerHTML = `${qiMenDunJia.zhengGong.maXing ? (qiMenDunJia.zhengGong.maXing + '，') : ''}`
-            document.querySelector('#maoBoxJiXing').innerHTML = `${qiMenDunJia.zhengGong.jiXing.map(item => `${item}击刑`).join('、')}`
-            document.querySelector('#maoBoxRuMu').innerHTML = `${qiMenDunJia.zhengGong.ruMu.map(item => `${item}入墓`).join('、')}`
-            document.querySelector('#maoBoxMenPo').innerHTML = `${qiMenDunJia.zhengGong.menPo ? (qiMenDunJia.zhengGong.menPo + '迫') : ''}`
-            document.querySelector('#maoBoxKongWang').innerHTML = `${qiMenDunJia.zhengGong.kongWang.includes('卯') ? '卯空亡' : ''}`
-
-            document.querySelector('#youBoxWuXing').innerHTML = `${qiMenDunJia.duiGong.wuXing}，`
-            document.querySelector('#youBoxFangXiang').innerHTML = `${qiMenDunJia.duiGong.fangXiang}，`
-            document.querySelector('#youBoxMaXing').innerHTML = `${qiMenDunJia.duiGong.maXing ? (qiMenDunJia.duiGong.maXing + '，') : ''}`
-            document.querySelector('#youBoxJiXing').innerHTML = `${qiMenDunJia.duiGong.jiXing.map(item => `${item}击刑`).join('、')}`
-            document.querySelector('#youBoxRuMu').innerHTML = `${qiMenDunJia.duiGong.ruMu.map(item => `${item}入墓`).join('、')}`
-            document.querySelector('#youBoxMenPo').innerHTML = `${qiMenDunJia.duiGong.menPo ? (qiMenDunJia.duiGong.menPo + '迫') : ''}`
-            document.querySelector('#youBoxKongWang').innerHTML = `${qiMenDunJia.duiGong.kongWang.includes('酉') ? '酉空亡' : ''}`
-
-
-            document.querySelector('#yinBoxWuXing').innerHTML = `${qiMenDunJia.genGong.wuXing}，`
-            document.querySelector('#yinBoxFangXiang').innerHTML = `${qiMenDunJia.genGong.fangXiang}，`
-            document.querySelector('#yinBoxMaXing').innerHTML = `${qiMenDunJia.genGong.maXing ? (qiMenDunJia.genGong.maXing + '，') : ''}`
-            document.querySelector('#yinBoxJiXing').innerHTML = `${qiMenDunJia.genGong.jiXing.map(item => `${item}击刑`).join('、')}`
-            document.querySelector('#yinBoxRuMu').innerHTML = `${qiMenDunJia.genGong.ruMu.map(item => `${item}入墓`).join('、')}`
-            document.querySelector('#yinBoxMenPo').innerHTML = `${qiMenDunJia.genGong.menPo ? (qiMenDunJia.genGong.menPo + '迫') : ''}`
-            document.querySelector('#yinBoxKongWang').innerHTML = `${qiMenDunJia.genGong.kongWang.includes('寅') ? '寅空亡' : ''}`
-            
-            document.querySelector('#xuBoxWuXing').innerHTML = `${qiMenDunJia.qianGong.wuXing}，`
-            document.querySelector('#xuBoxFangXiang').innerHTML = `${qiMenDunJia.qianGong.fangXiang}，`
-            document.querySelector('#xuBoxMaXing').innerHTML = `${qiMenDunJia.qianGong.maXing ? (qiMenDunJia.qianGong.maXing + '，') : ''}`
-            document.querySelector('#xuBoxJiXing').innerHTML = `${qiMenDunJia.qianGong.jiXing.map(item => `${item}击刑`).join('、')}`
-            document.querySelector('#xuBoxRuMu').innerHTML = `${qiMenDunJia.qianGong.ruMu.map(item => `${item}入墓`).join('、')}`
-            document.querySelector('#xuBoxMenPo').innerHTML = `${qiMenDunJia.qianGong.menPo ? (qiMenDunJia.qianGong.menPo + '迫') : ''}`
-            document.querySelector('#xuBoxKongWang').innerHTML = `${qiMenDunJia.qianGong.kongWang.includes('戌') ? '戌空亡' : ''}`
-
-
-            document.querySelector('#couBoxWuXing').innerHTML = `${qiMenDunJia.genGong.wuXing}，`
-            document.querySelector('#couBoxFangXiang').innerHTML = `${qiMenDunJia.genGong.fangXiang}，`
-            document.querySelector('#couBoxMaXing').innerHTML = `${qiMenDunJia.genGong.maXing ? (qiMenDunJia.genGong.maXing + '，') : ''}`
-            document.querySelector('#couBoxJiXing').innerHTML = `${qiMenDunJia.genGong.jiXing.map(item => `${item}击刑`).join('、')}`
-            document.querySelector('#couBoxRuMu').innerHTML = `${qiMenDunJia.genGong.ruMu.map(item => `${item}入墓`).join('、')}`
-            document.querySelector('#couBoxMenPo').innerHTML = `${qiMenDunJia.genGong.menPo ? (qiMenDunJia.genGong.menPo + '迫') : ''}`
-            document.querySelector('#couBoxKongWang').innerHTML = `${qiMenDunJia.genGong.kongWang.includes('丑') ? '丑空亡' : ''}`
-            
-            document.querySelector('#ziBoxWuXing').innerHTML = `${qiMenDunJia.kanGong.wuXing}，`
-            document.querySelector('#ziBoxFangXiang').innerHTML = `${qiMenDunJia.kanGong.fangXiang}，`
-            document.querySelector('#ziBoxMaXing').innerHTML = `${qiMenDunJia.kanGong.maXing ? (qiMenDunJia.kanGong.maXing + '，') : ''}`
-            document.querySelector('#ziBoxJiXing').innerHTML = `${qiMenDunJia.kanGong.jiXing.map(item => `${item}击刑`).join('、')}`
-            document.querySelector('#ziBoxRuMu').innerHTML = `${qiMenDunJia.kanGong.ruMu.map(item => `${item}入墓`).join('、')}`
-            document.querySelector('#ziBoxMenPo').innerHTML = `${qiMenDunJia.kanGong.menPo ? (qiMenDunJia.kanGong.menPo + '迫') : ''}`
-            document.querySelector('#ziBoxKongWang').innerHTML = `${qiMenDunJia.kanGong.kongWang.includes('子') ? '子空亡' : ''}`
-
-            document.querySelector('#haiBoxWuXing').innerHTML = `${qiMenDunJia.qianGong.wuXing}，`
-            document.querySelector('#haiBoxFangXiang').innerHTML = `${qiMenDunJia.qianGong.fangXiang}，`
-            document.querySelector('#haiBoxMaXing').innerHTML = `${qiMenDunJia.qianGong.maXing ? (qiMenDunJia.qianGong.maXing + '，') : ''}`
-            document.querySelector('#haiBoxJiXing').innerHTML = `${qiMenDunJia.qianGong.jiXing.map(item => `${item}击刑`).join('、')}`
-            document.querySelector('#haiBoxRuMu').innerHTML = `${qiMenDunJia.qianGong.ruMu.map(item => `${item}入墓`).join('、')}`
-            document.querySelector('#haiBoxMenPo').innerHTML = `${qiMenDunJia.qianGong.menPo ? (qiMenDunJia.qianGong.menPo + '迫') : ''}`
-            document.querySelector('#haiBoxKongWang').innerHTML = `${qiMenDunJia.qianGong.kongWang.includes('亥') ? '亥空亡' : ''}`
-
+            draw()
+        })
+        document.querySelector('#turnRightButton').addEventListener('click', () => {
+            qiMenDunJia.turnRight(1)
+            draw()
         })
 
         
