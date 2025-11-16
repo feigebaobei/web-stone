@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>奇门遁甲起局</title>
     <style>
+        .main {
+            max-width: 700px;
+            margin: 0 auto;
+        }
         .jiu_gong_box {
             display: grid;
             /* row-gap: 2px;
@@ -63,167 +67,169 @@
     </style>
 </head>
 <body>
-    <input type="text" placeholder="年"/>
-    <input type="text" placeholder="月"/>
-    <input type="text" placeholder="日"/>
-    <input type="text" placeholder="时"/>
-    <select>
-        <option value="1">24节气</option>
-    </select>
-    <button id="startButton">start</button>
-    <button id="turnRightButton">向右转一宫</button>
-    <!-- 局 -->
-    <div class="jiu_gong_box">
-        <div></div>
-        <div class="gongWai" id="siBox">
-            <span id="siBoxWuXing"></span>
-            <span id="siBoxFangXiang"></span>
-            <span id="siBoxMaXing"></span>
-            <span id="siBoxJiXing"></span>
-            <span id="siBoxMenPo"></span>
-            <span id="siBoxRuMu"></span>
-            <span id="siBoxKongWang"></span>
-            <span id="siBoxChangSheng"></span>
+    <div class="main">
+        <input type="text" placeholder="年"/>
+        <input type="text" placeholder="月"/>
+        <input type="text" placeholder="日"/>
+        <input type="text" placeholder="时"/>
+        <select>
+            <option value="1">24节气</option>
+        </select>
+        <button id="startButton">start</button>
+        <button id="turnRightButton">向右转一宫</button>
+        <!-- 局 -->
+        <div class="jiu_gong_box">
+            <div></div>
+            <div class="gongWai" id="siBox">
+                <span id="siBoxWuXing"></span>
+                <span id="siBoxFangXiang"></span>
+                <span id="siBoxMaXing"></span>
+                <span id="siBoxJiXing"></span>
+                <span id="siBoxMenPo"></span>
+                <span id="siBoxRuMu"></span>
+                <span id="siBoxKongWang"></span>
+                <span id="siBoxChangSheng"></span>
+            </div>
+            <div class="gongWai" id="wuBox">
+                <span id="wuBoxWuXing"></span>
+                <span id="wuBoxFangXiang"></span>
+                <span id="wuBoxMaXing"></span>
+                <span id="wuBoxJiXing"></span>
+                <span id="wuBoxMenPo"></span>
+                <span id="wuBoxRuMu"></span>
+                <span id="wuBoxKongWang"></span>
+                <span id="wuBoxChangSheng"></span>
+            </div>
+            <div class="gongWai" id="weiBox">
+                <span id="weiBoxWuXing"></span>
+                <span id="weiBoxFangXiang"></span>
+                <span id="weiBoxMaXing"></span>
+                <span id="weiBoxJiXing"></span>
+                <span id="weiBoxMenPo"></span>
+                <span id="weiBoxRuMu"></span>
+                <span id="weiBoxKongWang"></span>
+                <span id="weiBoxChangSheng"></span>
+            </div>
+            <div></div>
+            
+            <div class="gongWai" id="chenBox">
+                <span id="chenBoxWuXing"></span>
+                <span id="chenBoxFangXiang"></span>
+                <span id="chenBoxMaXing"></span>
+                <span id="chenBoxJiXing"></span>
+                <span id="chenBoxMenPo"></span>
+                <span id="chenBoxRuMu"></span>
+                <span id="chenBoxKongWang"></span>
+                <span id="chenBoxChangSheng"></span>
+            </div>
+            <div class="jiu_gong" id="xunGong">
+            </div>
+            <div class="jiu_gong" id="liGong">
+            </div>
+            <div class="jiu_gong" id="kunGong">
+            </div>
+            <div class="gongWai" id="shenBox">
+                <span id="shenBoxWuXing"></span>
+                <span id="shenBoxFangXiang"></span>
+                <span id="shenBoxMaXing"></span>
+                <span id="shenBoxJiXing"></span>
+                <span id="shenBoxMenPo"></span>
+                <span id="shenBoxRuMu"></span>
+                <span id="shenBoxKongWang"></span>
+                <span id="shenBoxChangSheng"></span>
+            </div>
+    
+            <div class="gongWai" id="maoBox">
+                <span id="maoBoxWuXing"></span>
+                <span id="maoBoxFangXiang"></span>
+                <span id="maoBoxMaXing"></span>
+                <span id="maoBoxJiXing"></span>
+                <span id="maoBoxMenPo"></span>
+                <span id="maoBoxRuMu"></span>
+                <span id="maoBoxKongWang"></span>
+                <span id="maoBoxChangSheng"></span>
+            </div>
+            <div class="jiu_gong" id="zhengGong">
+            </div>
+            <div class="jiu_gong" id="zhongGong">
+            </div>
+            <div class="jiu_gong" id="duiGong">
+            </div>
+            <div class="gongWai" id="youBox">
+                <span id="youBoxWuXing"></span>
+                <span id="youBoxFangXiang"></span>
+                <span id="youBoxMaXing"></span>
+                <span id="youBoxJiXing"></span>
+                <span id="youBoxMenPo"></span>
+                <span id="youBoxRuMu"></span>
+                <span id="youBoxKongWang"></span>
+                <span id="youBoxChangSheng"></span>
+            </div>
+    
+            <div class="gongWai" id="yinBox">
+                <span id="yinBoxWuXing"></span>
+                <span id="yinBoxFangXiang"></span>
+                <span id="yinBoxMaXing"></span>
+                <span id="yinBoxJiXing"></span>
+                <span id="yinBoxMenPo"></span>
+                <span id="yinBoxRuMu"></span>
+                <span id="yinBoxKongWang"></span>
+                <span id="yinBoxChangSheng"></span>
+            </div>
+            <div class="jiu_gong" id="genGong">
+            </div>
+            <div class="jiu_gong" id="kanGong">
+            </div>
+            <div class="jiu_gong" id="qianGong">
+            </div>
+            <div class="gongWai" id="xuBox">
+                <span id="xuBoxWuXing"></span>
+                <span id="xuBoxFangXiang"></span>
+                <span id="xuBoxMaXing"></span>
+                <span id="xuBoxJiXing"></span>
+                <span id="xuBoxMenPo"></span>
+                <span id="xuBoxRuMu"></span>
+                <span id="xuBoxKongWang"></span>
+                <span id="xuBoxChangSheng"></span>
+            </div>
+    
+            <div></div>
+            <div class="gongWai" id="couBox">
+                <span id="couBoxWuXing"></span>
+                <span id="couBoxFangXiang"></span>
+                <span id="couBoxMaXing"></span>
+                <span id="couBoxJiXing"></span>
+                <span id="couBoxMenPo"></span>
+                <span id="couBoxRuMu"></span>
+                <span id="couBoxKongWang"></span>
+                <span id="couBoxChangSheng"></span>
+            </div>
+            <div class="gongWai" id="ziBox">
+                <span id="ziBoxWuXing"></span>
+                <span id="ziBoxFangXiang"></span>
+                <span id="ziBoxMaXing"></span>
+                <span id="ziBoxJiXing"></span>
+                <span id="ziBoxMenPo"></span>
+                <span id="ziBoxRuMu"></span>
+                <span id="ziBoxKongWang"></span>
+                <span id="ziBoxChangSheng"></span>
+            </div>
+            <div class="gongWai" id="haiBox">
+                <span id="haiBoxWuXing"></span>
+                <span id="haiBoxFangXiang"></span>
+                <span id="haiBoxMaXing"></span>
+                <span id="haiBoxJiXing"></span>
+                <span id="haiBoxMenPo"></span>
+                <span id="haiBoxRuMu"></span>
+                <span id="haiBoxKongWang"></span>
+                <span id="haiBoxChangSheng"></span>
+            </div>
+            <div></div>
         </div>
-        <div class="gongWai" id="wuBox">
-            <span id="wuBoxWuXing"></span>
-            <span id="wuBoxFangXiang"></span>
-            <span id="wuBoxMaXing"></span>
-            <span id="wuBoxJiXing"></span>
-            <span id="wuBoxMenPo"></span>
-            <span id="wuBoxRuMu"></span>
-            <span id="wuBoxKongWang"></span>
-            <span id="wuBoxChangSheng"></span>
+        <!-- 吟 -->
+        <div id="summarizeBox">
+            xx伏吟
         </div>
-        <div class="gongWai" id="weiBox">
-            <span id="weiBoxWuXing"></span>
-            <span id="weiBoxFangXiang"></span>
-            <span id="weiBoxMaXing"></span>
-            <span id="weiBoxJiXing"></span>
-            <span id="weiBoxMenPo"></span>
-            <span id="weiBoxRuMu"></span>
-            <span id="weiBoxKongWang"></span>
-            <span id="weiBoxChangSheng"></span>
-        </div>
-        <div></div>
-        
-        <div class="gongWai" id="chenBox">
-            <span id="chenBoxWuXing"></span>
-            <span id="chenBoxFangXiang"></span>
-            <span id="chenBoxMaXing"></span>
-            <span id="chenBoxJiXing"></span>
-            <span id="chenBoxMenPo"></span>
-            <span id="chenBoxRuMu"></span>
-            <span id="chenBoxKongWang"></span>
-            <span id="chenBoxChangSheng"></span>
-        </div>
-        <div class="jiu_gong" id="xunGong">
-        </div>
-        <div class="jiu_gong" id="liGong">
-        </div>
-        <div class="jiu_gong" id="kunGong">
-        </div>
-        <div class="gongWai" id="shenBox">
-            <span id="shenBoxWuXing"></span>
-            <span id="shenBoxFangXiang"></span>
-            <span id="shenBoxMaXing"></span>
-            <span id="shenBoxJiXing"></span>
-            <span id="shenBoxMenPo"></span>
-            <span id="shenBoxRuMu"></span>
-            <span id="shenBoxKongWang"></span>
-            <span id="shenBoxChangSheng"></span>
-        </div>
-
-        <div class="gongWai" id="maoBox">
-            <span id="maoBoxWuXing"></span>
-            <span id="maoBoxFangXiang"></span>
-            <span id="maoBoxMaXing"></span>
-            <span id="maoBoxJiXing"></span>
-            <span id="maoBoxMenPo"></span>
-            <span id="maoBoxRuMu"></span>
-            <span id="maoBoxKongWang"></span>
-            <span id="maoBoxChangSheng"></span>
-        </div>
-        <div class="jiu_gong" id="zhengGong">
-        </div>
-        <div class="jiu_gong" id="zhongGong">
-        </div>
-        <div class="jiu_gong" id="duiGong">
-        </div>
-        <div class="gongWai" id="youBox">
-            <span id="youBoxWuXing"></span>
-            <span id="youBoxFangXiang"></span>
-            <span id="youBoxMaXing"></span>
-            <span id="youBoxJiXing"></span>
-            <span id="youBoxMenPo"></span>
-            <span id="youBoxRuMu"></span>
-            <span id="youBoxKongWang"></span>
-            <span id="youBoxChangSheng"></span>
-        </div>
-
-        <div class="gongWai" id="yinBox">
-            <span id="yinBoxWuXing"></span>
-            <span id="yinBoxFangXiang"></span>
-            <span id="yinBoxMaXing"></span>
-            <span id="yinBoxJiXing"></span>
-            <span id="yinBoxMenPo"></span>
-            <span id="yinBoxRuMu"></span>
-            <span id="yinBoxKongWang"></span>
-            <span id="yinBoxChangSheng"></span>
-        </div>
-        <div class="jiu_gong" id="genGong">
-        </div>
-        <div class="jiu_gong" id="kanGong">
-        </div>
-        <div class="jiu_gong" id="qianGong">
-        </div>
-        <div class="gongWai" id="xuBox">
-            <span id="xuBoxWuXing"></span>
-            <span id="xuBoxFangXiang"></span>
-            <span id="xuBoxMaXing"></span>
-            <span id="xuBoxJiXing"></span>
-            <span id="xuBoxMenPo"></span>
-            <span id="xuBoxRuMu"></span>
-            <span id="xuBoxKongWang"></span>
-            <span id="xuBoxChangSheng"></span>
-        </div>
-
-        <div></div>
-        <div class="gongWai" id="couBox">
-            <span id="couBoxWuXing"></span>
-            <span id="couBoxFangXiang"></span>
-            <span id="couBoxMaXing"></span>
-            <span id="couBoxJiXing"></span>
-            <span id="couBoxMenPo"></span>
-            <span id="couBoxRuMu"></span>
-            <span id="couBoxKongWang"></span>
-            <span id="couBoxChangSheng"></span>
-        </div>
-        <div class="gongWai" id="ziBox">
-            <span id="ziBoxWuXing"></span>
-            <span id="ziBoxFangXiang"></span>
-            <span id="ziBoxMaXing"></span>
-            <span id="ziBoxJiXing"></span>
-            <span id="ziBoxMenPo"></span>
-            <span id="ziBoxRuMu"></span>
-            <span id="ziBoxKongWang"></span>
-            <span id="ziBoxChangSheng"></span>
-        </div>
-        <div class="gongWai" id="haiBox">
-            <span id="haiBoxWuXing"></span>
-            <span id="haiBoxFangXiang"></span>
-            <span id="haiBoxMaXing"></span>
-            <span id="haiBoxJiXing"></span>
-            <span id="haiBoxMenPo"></span>
-            <span id="haiBoxRuMu"></span>
-            <span id="haiBoxKongWang"></span>
-            <span id="haiBoxChangSheng"></span>
-        </div>
-        <div></div>
-    </div>
-    <!-- 吟 -->
-    <div id="summarizeBox">
-        xx伏吟
     </div>
     <script>
         let clog = console.log
@@ -914,7 +920,7 @@
                     [''], [], [], [])
                 let qianGong = new Gong('亁', '西北', 'liu', '金', 
                     '天心星', '开门', 
-                    ['戌', '亥'], [], [], ['景门'])
+                    ['戌', '亥'], [], ['乙', '丙', '戊'], ['景门'])
                 let duiGong = new Gong('兑', '西', 'qi', '金', 
                     '天柱星', '惊门', 
                     ['酉'], [], [], ['景门'])
