@@ -11,8 +11,6 @@
         }
         .jiu_gong_box {
             display: grid;
-            /* row-gap: 2px;
-            column-gap: 2px; */
             grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
             grid-template-rows: 120px 120px 120px 120px 120px;
         }
@@ -20,8 +18,6 @@
             display: grid;
             row-gap: 2px;
             column-gap: 2px;
-            /* grid-template-columns: 1fr 1fr 1fr; */
-            /* grid-template-rows: 28px 28px 28px; */
             grid-template-columns: 1fr 1fr 1fr 1fr; /* 4列 */
             grid-template-rows: 28px 28px 28px; /* 3行 */
             grid-template-areas: "a a b b"
@@ -69,11 +65,11 @@
 <body>
     <div class="main">
         <a href="http://m.tw.cn/huangli/" target="_blank">http://m.tw.cn/huangli/</a>
-        <input id="nian" type="text" placeholder="年" value="乙巳"/>
-        <input id="yue" type="text" placeholder="月" value="丙戌"/>
-        <input id="ri" type="text" placeholder="日" value="乙亥"/>
-        <input id="shi" type="text" placeholder="时" value="辛巳"/>
-        <select id="jieQi" value="yushui">
+        <input id="nian" type="text" placeholder="年" />
+        <input id="yue" type="text" placeholder="月" />
+        <input id="ri" type="text" placeholder="日" />
+        <input id="shi" type="text" placeholder="时" />
+        <select id="jieQi">
             <option value="lichun">立春</option>
             <option value="yushui">雨水</option>
             <option value="jingzhe">惊蛰</option>
@@ -92,7 +88,7 @@
             <option value="qiufen">秋分</option>
             <option value="hanlu">寒露</option>
             <option value="shuangjiang">霜降</option>
-            <option value="lidong" selected="selected" >立冬</option>
+            <option value="lidong" >立冬</option>
             <option value="xiaoxue">小雪</option>
             <option value="daxue">大雪</option>
             <option value="dongzhi">冬至</option>
@@ -250,28 +246,11 @@
             </div>
             <div></div>
         </div>
-        <!-- 吟 -->
-        <div id="summarizeBox">
-            xx伏吟
-        </div>
+        <!-- 总结 -->
+        <div id="summarizeBox"></div>
     </div>
     <script>
         let clog = console.log
-
-        // 1. 取得当前环境信息
-        // 2. 设置单位1
-        // 3. 定表
-        // 4. 4个步骤，得到数据结构
-        // 5. 根据数据结构绘制视图
-        // 打开此页面时执行 1,2,3
-        // click start时执行 4,5
-        // let MING = 'ming'
-        // let MING = 'ming'
-        // let MING = 'ming'
-        // let MING = 'ming'
-        // let MING = 'ming'
-        // let MING = 'ming'
-        // let MING = 'ming'
 
         class Gong { 
             constructor(ming, fangXiang, count, wuXing, xingLocal, menLocal, diZhi, jiXingTianGan, ruMuTianGan, menPoLocal) {
@@ -736,7 +715,6 @@
             }
         }
         let draw = (qiMenDunJia) => {
-            clog('draw')
             let siBoxDom = document.querySelector('#siBox')
             let wuBoxDom = document.querySelector('#wuBox')
             let weiBoxDom = document.querySelector('#weiBox')
@@ -924,10 +902,11 @@
                 clog('八字', baZi)
                 this.menPoMap = {}
                 this.kongWangMap = {}
-                this.jiXing = []
-                this.ruMu = []
+                // this.jiXing = []
+                // this.ruMu = []
             }
             initJiuGong() {
+                // 把yi等换成一等
                 let kanGong = new Gong('坎', '北', 'yi', '水', 
                     '天蓬星', '休门', 
                     ['子'], [], [], ['生门', '死门'])
@@ -1003,10 +982,11 @@
                 }
             }
             setDiPanTianGan() {
+                let i = 0
                 switch (this.yinYangJu.yinYang) {
                     case 'yin':
-                        let gong = this.gongList.find(gong => gong.count === this.yinYangJu.count)
-                        let i = 0
+                        // gong = this.gongList.find(gong => gong.count === this.yinYangJu.count)
+                        i = 0
                         ringOpArr(this.gongList, (current, index, arr) => {
                             current.diPanTianGan = [qiMenTianGan[i]]
                             i++
@@ -1016,7 +996,16 @@
                         })
                         break;
                     case 'yang':
-                        // todo
+                        // gong = this.gongList.find(gong => gong.count === this.yinYangJu.count)
+                        i = 0
+                        ringOpArr(this.gongList, (gong, index, arr) => {
+                            gong.diPanTianGan = [qiMenTianGan[i]]
+                            i++
+                        }, {
+                            startIndex: this.gongList.findIndex(gong => gong.count === this.yinYangJu.count),
+                            direction: true,
+                        })
+
                     break;
                 }
                 // 5 => 2
@@ -1036,27 +1025,29 @@
                 this.xunShouGongIndex = this.gongList.findIndex(gong => gong.count === this.xunShouGong.count)
             }
             setZhiFuGong() {
-                let shiGan = this.baZi.slice(6, 7)
+                let shiGan = this.baZi.slice(6, 7) // 时干
                 this.zhiFuGong = this.gongList.find(gong => gong.diPanTianGan.includes(shiGan))
                 this.zhiFuGongIndex = this.gongList.findIndex(gong => gong.count === this.zhiFuGongIndex.count)
             }
             setBaShen() {
+                let gong = this.zhiFuGong
                 switch (this.yinYangJu.yinYang) {
                     case 'yin':
-                        let gong = this.zhiFuGong
                         for (let i = 0; i < baShenList.length; i++) {
                             gong.baShen = baShenList[i]
                             gong = gong.antiClockwiseDirection
                         }
                         break;
                     case 'yang':
-                        // todo
+                        for (let i = 0; i < baShenList.length; i++) {
+                            gong.baShen = baShenList[i]
+                            gong = gong.clockwiseDirection
+                        }
                         break;
                 }
             }
             setJiuXing() {
                 let gong = this.zhiFuGong
-                // let i = 0
                 ringOpArr(baXingList, (xing, index, arr) => {
                     gong.jiuXing = xing
                     gong = gong.clockwiseDirection
@@ -1076,7 +1067,7 @@
                     originGong = originGong.clockwiseDirection
                 }
             }
-            setBaMen() {
+            setZhiShiGong() {
                 let xunShouDiZhi = this.xun[0].slice(1, 2) // 如：寅
                 let shiDiZhi = this.baZi.slice(7, 8) // 如：午
                 // 按 子->午->亥->子->…… 顺序来排。不能反序排。
@@ -1085,7 +1076,7 @@
                     distance++
                 }, {
                     startIndex: diZhiList.findIndex(diZhi => diZhi === xunShouDiZhi),
-                    direction: true, // todo 检查所有使用direction的地方
+                    direction: true,
                     breakFn: (current) => {
                         return current === shiDiZhi
                     }
@@ -1099,8 +1090,10 @@
                         this.zhiShiGong = this.gongList[(this.xunShouGongIndex + this.gongList.length + distance) % this.gongList.length]
                         break;
                 }
-                let gong = this.zhiShiGong
                 this.zhiShiGongIndex = this.gongList.findIndex(gong => gong.count === this.zhiShiGong.count)
+            }
+            setBaMen() {
+                let gong = this.zhiShiGong
                 ringOpArr(baMenList, (men, index, arr) => {
                     gong.baMen = men
                     gong = gong.clockwiseDirection
@@ -1113,22 +1106,16 @@
                 // 确定阴阳几局
                 this.yinYangJu = this.getYinYangJu()
                 clog('yinYangJu', this.yinYangJu)
-                // // this.yinYangJu // 如：阴二局
-                // this.yinYangJu = {
-                //     yinYang: 'yin',
-                //     count: 'er',
-                // }
                 // 排地盘天干
                 this.setDiPanTianGan()
-                clog('九宫', this.gongList)
                 // 确定值符、九星、六仪
                 // 确定旬首
                 this.setXunShou()
-                clog('xunShou', this.xunShou)
+                // clog('xunShou', this.xunShou)
                 // 旬首所在宫
                 // 设置旬首宫
                 this.setXunShouGong() // 可以得到驻地的九星、八门
-                clog('xunShouGong', this.xunShouGong)
+                // clog('xunShouGong', this.xunShouGong)
                 // 设置值符宫
                 this.setZhiFuGong()
                 // 排八神
@@ -1138,6 +1125,7 @@
                 // 排天盘天干
                 this.setTianPanTianGan()
                 // 确定值使落宫
+                this.setZhiShiGong()
                 // 排八门
                 this.setBaMen()
                 // 检查全局
@@ -1156,7 +1144,7 @@
                 this.setGanFanYin()
                 this.setXingFuYin()
                 this.setXingFanYin()
-                // clog('this', this)    
+                clog('this', this)
                 return
             }
             // 
@@ -1201,7 +1189,6 @@
             setMenPo() {
                 this.gongList.forEach(gong => {
                     if (gong.local.menPo.includes(gong.baMen)) {
-                        clog('menPo', gong.baMen)
                         gong.menPo = gong.baMen
                     }
                 })
@@ -1219,9 +1206,7 @@
                 kongWangList[xunRi[0]] // arr
                     .find(diZhi => {
                         this.gongList.find(gong => {
-                            // gong.kongWang = []
                             if (gong.diZhi.includes(diZhi)) {
-                                // todo 注意去重
                                 gong.kongWang.push(diZhi)
                                 gong.kongWang = [...new Set(gong.kongWang)]
                             }
@@ -1235,10 +1220,6 @@
                             }
                         })
                     })
-                
-                // this.gongList.forEach(gong => {
-                //     // clog('sss', gong.kongWang)
-                // })
             }
             setMenFuYin() {
                 this.menFuYin = this.kanGong.baMen === '休门'
@@ -1286,18 +1267,13 @@
                     cur.menPo = ''
                     cur.ruMu = []
                     // 指针不变
-                    // cur.clockwiseDirection = null
-                    // cur.antiClockwiseDirection = null
-                    // cur.opposite = null
                     // 宫的本地属性不变
-                    // cur.local = next.local
                     // 循环起来
                     cur = next
                     next = next.antiClockwiseDirection
                     // arr.push(cur)
                 }
-                clog('cur', cur, next, temp)
-                // // 宫的5个元素要变
+                // 宫的5个元素要变
                 cur.tianPanTianGan = tianPanTianGan
                 cur.diPanTianGan = diPanTianGan
                 cur.baShen = baShen
@@ -1310,15 +1286,7 @@
                 cur.menPo = ''
                 cur.ruMu = []
                 // 指针不变
-                // cur.clockwiseDirection = null
-                // cur.antiClockwiseDirection = null
-                // cur.opposite = null
                 // 宫的本地属性不变
-                // cur.local = local
-                // this.gongList[0] = temp
-
-                // this.setGongPoint()
-
                 this.setJiXing()
                 this.setRuMu()
                 this.setMenPo()
@@ -1334,13 +1302,12 @@
 
         // let qiMenDunJia = new QiMenDunJia('戊子壬戌戊申戊午', 'shuangjiang')
         // let qiMenDunJia = new QiMenDunJia('乙巳丁亥辛巳乙未', 'lidong')
-        let nian = document.querySelector('#nian').value
-        let yue = document.querySelector('#yue').value
-        let ri = document.querySelector('#ri').value
-        let shi = document.querySelector('#shi').value
-        let jieQi = document.querySelector('#jieQi').value
         document.querySelector('#startButton').addEventListener('click', () => {
-            clog('nain', nian, jieQi)
+            let nian = document.querySelector('#nian').value
+            let yue = document.querySelector('#yue').value
+            let ri = document.querySelector('#ri').value
+            let shi = document.querySelector('#shi').value
+            let jieQi = document.querySelector('#jieQi').value
             let baZi = nian + yue + ri + shi
             if (baZi.length !== 8) {
                 alert('时间错误')
@@ -1351,7 +1318,7 @@
                 alert('请选择节气')
                 return
             }
-            let qiMenDunJia = new QiMenDunJia(baZi, 'lidong')
+            let qiMenDunJia = new QiMenDunJia(baZi, jieQi)
             qiMenDunJia.start()
             draw(qiMenDunJia)
             document.querySelector('#turnRightButton').addEventListener('click', () => {
