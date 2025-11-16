@@ -68,12 +68,36 @@
 </head>
 <body>
     <div class="main">
-        <input type="text" placeholder="年"/>
-        <input type="text" placeholder="月"/>
-        <input type="text" placeholder="日"/>
-        <input type="text" placeholder="时"/>
-        <select>
-            <option value="1">24节气</option>
+        <a href="http://m.tw.cn/huangli/" target="_blank">http://m.tw.cn/huangli/</a>
+        <input id="nian" type="text" placeholder="年" value="乙巳"/>
+        <input id="yue" type="text" placeholder="月" value="丙戌"/>
+        <input id="ri" type="text" placeholder="日" value="乙亥"/>
+        <input id="shi" type="text" placeholder="时" value="辛巳"/>
+        <select id="jieQi" value="yushui">
+            <option value="lichun">立春</option>
+            <option value="yushui">雨水</option>
+            <option value="jingzhe">惊蛰</option>
+            <option value="chunfen">春分</option>
+            <option value="qingming">清明</option>
+            <option value="gulu">谷雨</option>
+            <option value="lixia">立夏</option>
+            <option value="xiaoman">小满</option>
+            <option value="mangzhong">芒种</option>
+            <option value="xiazhi">夏至</option>
+            <option value="xiaoshu">小暑</option>
+            <option value="dashu">大暑</option>
+            <option value="liqiu">立秋</option>
+            <option value="chushu">处暑</option>
+            <option value="bailu">白露</option>
+            <option value="qiufen">秋分</option>
+            <option value="hanlu">寒露</option>
+            <option value="shuangjiang">霜降</option>
+            <option value="lidong" selected="selected" >立冬</option>
+            <option value="xiaoxue">小雪</option>
+            <option value="daxue">大雪</option>
+            <option value="dongzhi">冬至</option>
+            <option value="xiaohan">小寒</option>
+            <option value="dahan">大寒</option>
         </select>
         <button id="startButton">start</button>
         <button id="turnRightButton">向右转一宫</button>
@@ -290,7 +314,7 @@
                 'xiaYuan': 'er',
                 'yinYang': 'yang'
             },
-            'lushui': {
+            'yushui': {
                 'shangYuan': 'jiu',
                 'zhongYuan': 'liu',
                 'xiaYuan': 'san',
@@ -711,7 +735,7 @@
                 }
             }
         }
-        let draw = () => {
+        let draw = (qiMenDunJia) => {
             clog('draw')
             let siBoxDom = document.querySelector('#siBox')
             let wuBoxDom = document.querySelector('#wuBox')
@@ -866,6 +890,7 @@
 
         }
         // todo 检查全部逻辑
+        // 时家奇门转盘法
         class QiMenDunJia {
             constructor(baZi, jieQi) { 
                 this.baZi = baZi
@@ -1243,7 +1268,6 @@
                 let baMen = temp.baMen
                 let jiuXing = temp.jiuXing
                 let local = temp.local
-                // let arr = []
                 let cur = temp
                 let next = cur.antiClockwiseDirection
                 for (let i = 0; i < 7; i++) {
@@ -1261,6 +1285,7 @@
                     cur.jiXing = []
                     cur.menPo = ''
                     cur.ruMu = []
+                    // 指针不变
                     // cur.clockwiseDirection = null
                     // cur.antiClockwiseDirection = null
                     // cur.opposite = null
@@ -1284,6 +1309,7 @@
                 cur.jiXing = []
                 cur.menPo = ''
                 cur.ruMu = []
+                // 指针不变
                 // cur.clockwiseDirection = null
                 // cur.antiClockwiseDirection = null
                 // cur.opposite = null
@@ -1303,20 +1329,35 @@
                 this.setGanFanYin()
                 this.setXingFuYin()
                 this.setXingFanYin()
-
-
             }
         }
 
         // let qiMenDunJia = new QiMenDunJia('戊子壬戌戊申戊午', 'shuangjiang')
-        let qiMenDunJia = new QiMenDunJia('乙巳丁亥辛巳乙未', 'lidong')
+        // let qiMenDunJia = new QiMenDunJia('乙巳丁亥辛巳乙未', 'lidong')
+        let nian = document.querySelector('#nian').value
+        let yue = document.querySelector('#yue').value
+        let ri = document.querySelector('#ri').value
+        let shi = document.querySelector('#shi').value
+        let jieQi = document.querySelector('#jieQi').value
         document.querySelector('#startButton').addEventListener('click', () => {
+            clog('nain', nian, jieQi)
+            let baZi = nian + yue + ri + shi
+            if (baZi.length !== 8) {
+                alert('时间错误')
+                return
+            } else {
+            }
+            if (!jieQi) {
+                alert('请选择节气')
+                return
+            }
+            let qiMenDunJia = new QiMenDunJia(baZi, 'lidong')
             qiMenDunJia.start()
-            draw()
-        })
-        document.querySelector('#turnRightButton').addEventListener('click', () => {
-            qiMenDunJia.turnRight(1)
-            draw()
+            draw(qiMenDunJia)
+            document.querySelector('#turnRightButton').addEventListener('click', () => {
+                qiMenDunJia.turnRight(1)
+                draw(qiMenDunJia)
+            })
         })
 
         
