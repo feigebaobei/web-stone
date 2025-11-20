@@ -154,8 +154,8 @@ ts 把 interface/type 都叫做类型<br>
 它是编写代码的一种方式。可以使用 js/也可以使用 ts.ts 没有宣传的那么重要。它只是为 js 赋予了强类型。还需要把 ts 文件转换为 js 文件。如果 js 未来支持强类型了。ts 也就无存在的意义了。<br>
 从设计 （uml） 到代码比 js 平滑。<br>
 ts 的类型可以用于防御式编程
-ts变成js才能运行。
-ts做了什么？</p>
+ts 变成 js 才能运行。
+ts 做了什么？</p>
 <blockquote>
 <p>静态检测</p>
 </blockquote>
@@ -191,17 +191,17 @@ ts做了什么？</p>
 }
 <span class="hljs-comment">// usage</span>
 <span class="hljs-title class_">Demo</span>.<span class="hljs-title function_">getInstance</span>() <span class="hljs-comment">// instance</span>
-<span class="hljs-keyword">function</span> <span class="hljs-title function_">f</span>(<span class="hljs-params"></span>):{}{
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">f</span>(<span class="hljs-params"></span>): {} {
   <span class="hljs-keyword">return</span> {}
 }
-<span class="hljs-keyword">function</span> <span class="hljs-title function_">f</span>(<span class="hljs-params"></span>):{<span class="hljs-attr">k</span>: S}{
-  <span class="hljs-keyword">return</span> {<span class="hljs-attr">k</span>: <span class="hljs-string">&#x27;v&#x27;</span>}
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">f</span>(<span class="hljs-params"></span>): { <span class="hljs-attr">k</span>: S } {
+  <span class="hljs-keyword">return</span> { <span class="hljs-attr">k</span>: <span class="hljs-string">&#x27;v&#x27;</span> }
 }
 <span class="hljs-keyword">interface</span> <span class="hljs-title class_">User</span> {
-  <span class="hljs-attr">k</span>: S,
-  <span class="hljs-attr">f</span>: <span class="hljs-function">() =&gt;</span> B,
-  <span class="hljs-title function_">f2</span>(): N,
-  <span class="hljs-title function_">f3</span>(<span class="hljs-attr">p</span>: N): F, <span class="hljs-comment">// 返回一个方法</span>
+  <span class="hljs-attr">k</span>: S
+  <span class="hljs-attr">f</span>: <span class="hljs-function">() =&gt;</span> B
+  <span class="hljs-title function_">f2</span>(): N
+  <span class="hljs-title function_">f3</span>(<span class="hljs-attr">p</span>: N): F <span class="hljs-comment">// 返回一个方法</span>
 }
 <span class="hljs-keyword">function</span> f&lt;T, U <span class="hljs-keyword">extends</span> <span class="hljs-built_in">number</span>&gt;(<span class="hljs-attr">a</span>: T, <span class="hljs-attr">b</span>: U) {}
 <span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span>&lt;T&gt; {
@@ -1357,8 +1357,7 @@ init 后不能改变。<br>
 <span class="hljs-keyword">let</span> {a} = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;...&#x27;</span>)
 </code></pre>
 <h2 id="类型断言">类型断言</h2>
-<pre><code class="language-ts">a <span class="hljs-keyword">as</span> T
-&lt;T&gt;a
+<pre><code class="language-ts">;(a <span class="hljs-keyword">as</span> T) &lt; T &gt; a
 </code></pre>
 <h2 id="命名空间内部模块">命名空间（内部模块）</h2>
 <p>把类型放在一个文件中统一管理。<br>
@@ -1537,6 +1536,16 @@ interface B extends Omit&lt;A, 'list'&gt; {
     <span class="hljs-keyword">return</span> ...
   }
 }
+<span class="hljs-comment">// 与let结合使用</span>
+<span class="hljs-keyword">let</span> <span class="hljs-attr">fn</span>: {
+  (参数及其类型): 返回值类型
+  (参数及其类型): 返回值类型
+  (参数及其类型): 返回值类型
+} = <span class="hljs-function">(<span class="hljs-params">参数及其联合类型</span>) =&gt;</span> {
+  <span class="hljs-comment">// 逻辑</span>
+  <span class="hljs-comment">// 返回值</span>
+}
+<span class="hljs-comment">// 在类中使用</span>
 <span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> {
   <span class="hljs-comment">// 构造器重载</span>
   <span class="hljs-comment">// 先签名</span>
@@ -1609,7 +1618,7 @@ let result = &lt;T&gt;{}       // 方法二
 </ul>
 <p>基于以上原因，ts 不能使问题在开发阶段暴露。会增加开发阶段的开发者心智负担。</p>
 <h2 id="todo-2">todo</h2>
-<p>ts的使用技巧
+<p>ts 的使用技巧
 配置文件
 类型保护等与修饰符（readonly）等的结合时的用法。
 readonly
