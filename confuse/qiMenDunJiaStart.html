@@ -75,7 +75,7 @@
             <option value="jingzhe">惊蛰</option>
             <option value="chunfen">春分</option>
             <option value="qingming">清明</option>
-            <option value="gulu">谷雨</option>
+            <option value="guyu">谷雨</option>
             <option value="lixia">立夏</option>
             <option value="xiaoman">小满</option>
             <option value="mangzhong">芒种</option>
@@ -320,7 +320,7 @@
                 'xiaYuan': '七',
                 'yinYang': '阳'
             },
-            'gulu': {
+            'guyu': {
                 'shangYuan': '五',
                 'zhongYuan': '二',
                 'xiaYuan': '八',
@@ -793,84 +793,84 @@
             // 点击宫不会变 空亡 五行 方向 马星  击刑 门迫 入墓
             document.querySelector('#siBoxWuXing').innerHTML = `${qiMenDunJia.xunGong.wuXing}${qiMenDunJia.xunGong.yueWang ? '旺' : ''}，`
             document.querySelector('#siBoxFangXiang').innerHTML = `${qiMenDunJia.xunGong.fangXiang}，`
-            document.querySelector('#siBoxMaXing').innerHTML = `${qiMenDunJia.xunGong.maXing ? (qiMenDunJia.xunGong.maXing + '，') : ''}`
+            document.querySelector('#siBoxMaXing').innerHTML = `${qiMenDunJia.xunGong.maXing === '巳' ? ('马星在' + qiMenDunJia.xunGong.maXing) : ''}`
             document.querySelector('#siBoxJiXing').innerHTML = `${qiMenDunJia.xunGong.jiXing.map(item => `${item}击刑`).join('、')}`
             document.querySelector('#siBoxRuMu').innerHTML = `${qiMenDunJia.xunGong.ruMu.map(item => `${item}入墓`).join('、')}`
             document.querySelector('#siBoxMenPo').innerHTML = `${qiMenDunJia.xunGong.menPo ? (qiMenDunJia.xunGong.menPo + '迫') : ''}`
             document.querySelector('#siBoxKongWang').innerHTML = `${qiMenDunJia.xunGong.yueWang ? '' : (qiMenDunJia.xunGong.kongWang.includes('巳') ? '巳空亡' : '')}`
             document.querySelector('#wuBoxWuXing').innerHTML = `${qiMenDunJia.liGong.wuXing}${qiMenDunJia.liGong.yueWang ? '旺' : ''}，`
             document.querySelector('#wuBoxFangXiang').innerHTML = `${qiMenDunJia.liGong.fangXiang}，`
-            document.querySelector('#wuBoxMaXing').innerHTML = `${qiMenDunJia.liGong.maXing ? (qiMenDunJia.liGong.maXing + '，') : ''}`
+            document.querySelector('#wuBoxMaXing').innerHTML = `${qiMenDunJia.liGong.maXing === '午' ? ('马星在' + qiMenDunJia.liGong.maXing) : ''}`
             document.querySelector('#wuBoxJiXing').innerHTML = `${qiMenDunJia.liGong.jiXing.map(item => `${item}击刑`).join('、')}`
             document.querySelector('#wuBoxRuMu').innerHTML = `${qiMenDunJia.liGong.ruMu.map(item => `${item}入墓`).join('、')}`
             document.querySelector('#wuBoxMenPo').innerHTML = `${qiMenDunJia.liGong.menPo ? (qiMenDunJia.liGong.menPo + '迫') : ''}`
             document.querySelector('#wuBoxKongWang').innerHTML = `${qiMenDunJia.liGong.yueWang ? '' : (qiMenDunJia.liGong.kongWang.includes('午') ? '午空亡' : '')}`
             document.querySelector('#weiBoxWuXing').innerHTML = `${qiMenDunJia.kunGong.wuXing}${qiMenDunJia.kunGong.yueWang ? '旺' : ''}，`
             document.querySelector('#weiBoxFangXiang').innerHTML = `${qiMenDunJia.kunGong.fangXiang}，`
-            document.querySelector('#weiBoxMaXing').innerHTML = `${qiMenDunJia.kunGong.maXing ? (qiMenDunJia.kunGong.maXing + '，') : ''}`
+            document.querySelector('#weiBoxMaXing').innerHTML = `${qiMenDunJia.kunGong.maXing === '未' ? ('马星在' + qiMenDunJia.kunGong.maXing) : ''}`
             document.querySelector('#weiBoxJiXing').innerHTML = `${qiMenDunJia.kunGong.jiXing.map(item => `${item}击刑`).join('、')}`
             document.querySelector('#weiBoxRuMu').innerHTML = `${qiMenDunJia.kunGong.ruMu.map(item => `${item}入墓`).join('、')}`
             document.querySelector('#weiBoxMenPo').innerHTML = `${qiMenDunJia.kunGong.menPo ? (qiMenDunJia.kunGong.menPo + '迫') : ''}`
             document.querySelector('#weiBoxKongWang').innerHTML = `${qiMenDunJia.kunGong.yueWang ? '' : (qiMenDunJia.kunGong.kongWang.includes('未') ? '未空亡' : '')}`
             document.querySelector('#chenBoxWuXing').innerHTML = `${qiMenDunJia.xunGong.wuXing}${qiMenDunJia.xunGong.yueWang ? '旺' : ''}，`
             document.querySelector('#chenBoxFangXiang').innerHTML = `${qiMenDunJia.xunGong.fangXiang}，`
-            document.querySelector('#chenBoxMaXing').innerHTML = `${qiMenDunJia.xunGong.maXing ? (qiMenDunJia.xunGong.maXing + '，') : ''}`
+            document.querySelector('#chenBoxMaXing').innerHTML = `${qiMenDunJia.xunGong.maXing === '辰' ? ('马星在' + qiMenDunJia.xunGong.maXing) : ''}`
             document.querySelector('#chenBoxJiXing').innerHTML = `${qiMenDunJia.xunGong.jiXing.map(item => `${item}击刑`).join('、')}`
             document.querySelector('#chenBoxRuMu').innerHTML = `${qiMenDunJia.xunGong.ruMu.map(item => `${item}入墓`).join('、')}`
             document.querySelector('#chenBoxMenPo').innerHTML = `${qiMenDunJia.xunGong.menPo ? (qiMenDunJia.xunGong.menPo + '迫') : ''}`
             document.querySelector('#chenBoxKongWang').innerHTML = `${qiMenDunJia.xunGong.kongWang.includes('辰') ? '辰空亡' : ''}`
             document.querySelector('#shenBoxWuXing').innerHTML = `${qiMenDunJia.kunGong.wuXing}${qiMenDunJia.kunGong.yueWang ? '旺' : ''}，`
             document.querySelector('#shenBoxFangXiang').innerHTML = `${qiMenDunJia.kunGong.fangXiang}，`
-            document.querySelector('#shenBoxMaXing').innerHTML = `${qiMenDunJia.kunGong.maXing ? (qiMenDunJia.kunGong.maXing + '，') : ''}`
+            document.querySelector('#shenBoxMaXing').innerHTML = `${qiMenDunJia.kunGong.maXing === '申' ? ('马星在' + qiMenDunJia.kunGong.maXing) : ''}`
             document.querySelector('#shenBoxJiXing').innerHTML = `${qiMenDunJia.kunGong.jiXing.map(item => `${item}击刑`).join('、')}`
             document.querySelector('#shenBoxRuMu').innerHTML = `${qiMenDunJia.kunGong.ruMu.map(item => `${item}入墓`).join('、')}`
             document.querySelector('#shenBoxMenPo').innerHTML = `${qiMenDunJia.kunGong.menPo ? (qiMenDunJia.kunGong.menPo + '迫') : ''}`
             document.querySelector('#shenBoxKongWang').innerHTML = `${qiMenDunJia.kunGong.yueWang ? '' : (qiMenDunJia.kunGong.kongWang.includes('申') ? '申空亡' : '')}`
             document.querySelector('#maoBoxWuXing').innerHTML = `${qiMenDunJia.zhengGong.wuXing}${qiMenDunJia.zhengGong.yueWang ? '旺' : ''}，`
             document.querySelector('#maoBoxFangXiang').innerHTML = `${qiMenDunJia.zhengGong.fangXiang}，`
-            document.querySelector('#maoBoxMaXing').innerHTML = `${qiMenDunJia.zhengGong.maXing ? (qiMenDunJia.zhengGong.maXing + '，') : ''}`
+            document.querySelector('#maoBoxMaXing').innerHTML = `${qiMenDunJia.zhengGong.maXing === '卯' ? ('马星在' + qiMenDunJia.zhengGong.maXing) : ''}`
             document.querySelector('#maoBoxJiXing').innerHTML = `${qiMenDunJia.zhengGong.jiXing.map(item => `${item}击刑`).join('、')}`
             document.querySelector('#maoBoxRuMu').innerHTML = `${qiMenDunJia.zhengGong.ruMu.map(item => `${item}入墓`).join('、')}`
             document.querySelector('#maoBoxMenPo').innerHTML = `${qiMenDunJia.zhengGong.menPo ? (qiMenDunJia.zhengGong.menPo + '迫') : ''}`
             document.querySelector('#maoBoxKongWang').innerHTML = `${qiMenDunJia.zhengGong.yueWang ? '' : (qiMenDunJia.zhengGong.kongWang.includes('卯') ? '卯空亡' : '')}`
             document.querySelector('#youBoxWuXing').innerHTML = `${qiMenDunJia.duiGong.wuXing}${qiMenDunJia.duiGong.yueWang ? '旺' : ''}，`
             document.querySelector('#youBoxFangXiang').innerHTML = `${qiMenDunJia.duiGong.fangXiang}，`
-            document.querySelector('#youBoxMaXing').innerHTML = `${qiMenDunJia.duiGong.maXing ? (qiMenDunJia.duiGong.maXing + '，') : ''}`
+            document.querySelector('#youBoxMaXing').innerHTML = `${qiMenDunJia.duiGong.maXing === '酉' ? ('马星在' + qiMenDunJia.duiGong.maXing) : ''}`
             document.querySelector('#youBoxJiXing').innerHTML = `${qiMenDunJia.duiGong.jiXing.map(item => `${item}击刑`).join('、')}`
             document.querySelector('#youBoxRuMu').innerHTML = `${qiMenDunJia.duiGong.ruMu.map(item => `${item}入墓`).join('、')}`
             document.querySelector('#youBoxMenPo').innerHTML = `${qiMenDunJia.duiGong.menPo ? (qiMenDunJia.duiGong.menPo + '迫') : ''}`
             document.querySelector('#youBoxKongWang').innerHTML = `${qiMenDunJia.duiGong.yueWang ? '' : (qiMenDunJia.duiGong.kongWang.includes('酉') ? '酉空亡' : '')}`
             document.querySelector('#yinBoxWuXing').innerHTML = `${qiMenDunJia.genGong.wuXing}${qiMenDunJia.genGong.yueWang ? '旺' : ''}，`
             document.querySelector('#yinBoxFangXiang').innerHTML = `${qiMenDunJia.genGong.fangXiang}，`
-            document.querySelector('#yinBoxMaXing').innerHTML = `${qiMenDunJia.genGong.maXing ? (qiMenDunJia.genGong.maXing + '，') : ''}`
+            document.querySelector('#yinBoxMaXing').innerHTML = `${qiMenDunJia.genGong.maXing === '寅' ? ('马星在' + qiMenDunJia.genGong.maXing) : ''}`
             document.querySelector('#yinBoxJiXing').innerHTML = `${qiMenDunJia.genGong.jiXing.map(item => `${item}击刑`).join('、')}`
             document.querySelector('#yinBoxRuMu').innerHTML = `${qiMenDunJia.genGong.ruMu.map(item => `${item}入墓`).join('、')}`
             document.querySelector('#yinBoxMenPo').innerHTML = `${qiMenDunJia.genGong.menPo ? (qiMenDunJia.genGong.menPo + '迫') : ''}`
             document.querySelector('#yinBoxKongWang').innerHTML = `${qiMenDunJia.genGong.yueWang ? '' : (qiMenDunJia.genGong.kongWang.includes('寅') ? '寅空亡' : '')}`
             document.querySelector('#xuBoxWuXing').innerHTML = `${qiMenDunJia.qianGong.wuXing}${qiMenDunJia.qianGong.yueWang ? '旺' : ''}，`
             document.querySelector('#xuBoxFangXiang').innerHTML = `${qiMenDunJia.qianGong.fangXiang}，`
-            document.querySelector('#xuBoxMaXing').innerHTML = `${qiMenDunJia.qianGong.maXing ? (qiMenDunJia.qianGong.maXing + '，') : ''}`
+            document.querySelector('#xuBoxMaXing').innerHTML = `${qiMenDunJia.qianGong.maXing === '戌' ? ('马星在' + qiMenDunJia.qianGong.maXing) : ''}`
             document.querySelector('#xuBoxJiXing').innerHTML = `${qiMenDunJia.qianGong.jiXing.map(item => `${item}击刑`).join('、')}`
             document.querySelector('#xuBoxRuMu').innerHTML = `${qiMenDunJia.qianGong.ruMu.map(item => `${item}入墓`).join('、')}`
             document.querySelector('#xuBoxMenPo').innerHTML = `${qiMenDunJia.qianGong.menPo ? (qiMenDunJia.qianGong.menPo + '迫') : ''}`
             document.querySelector('#xuBoxKongWang').innerHTML = `${qiMenDunJia.qianGong.yueWang ? '' : (qiMenDunJia.qianGong.kongWang.includes('戌') ? '戌空亡' : '')}`
             document.querySelector('#couBoxWuXing').innerHTML = `${qiMenDunJia.genGong.wuXing}${qiMenDunJia.genGong.yueWang ? '旺' : ''}，`
             document.querySelector('#couBoxFangXiang').innerHTML = `${qiMenDunJia.genGong.fangXiang}，`
-            document.querySelector('#couBoxMaXing').innerHTML = `${qiMenDunJia.genGong.maXing ? (qiMenDunJia.genGong.maXing + '，') : ''}`
+            document.querySelector('#couBoxMaXing').innerHTML = `${qiMenDunJia.genGong.maXing === '丑' ? ('马星在' + qiMenDunJia.genGong.maXing) : ''}`
             document.querySelector('#couBoxJiXing').innerHTML = `${qiMenDunJia.genGong.jiXing.map(item => `${item}击刑`).join('、')}`
             document.querySelector('#couBoxRuMu').innerHTML = `${qiMenDunJia.genGong.ruMu.map(item => `${item}入墓`).join('、')}`
             document.querySelector('#couBoxMenPo').innerHTML = `${qiMenDunJia.genGong.menPo ? (qiMenDunJia.genGong.menPo + '迫') : ''}`
             document.querySelector('#couBoxKongWang').innerHTML = `${qiMenDunJia.genGong.yueWang ? '' : (qiMenDunJia.genGong.kongWang.includes('丑') ? '丑空亡' : '')}`
             document.querySelector('#ziBoxWuXing').innerHTML = `${qiMenDunJia.kanGong.wuXing}${qiMenDunJia.kanGong.yueWang ? '旺' : ''}，`
             document.querySelector('#ziBoxFangXiang').innerHTML = `${qiMenDunJia.kanGong.fangXiang}，`
-            document.querySelector('#ziBoxMaXing').innerHTML = `${qiMenDunJia.kanGong.maXing ? (qiMenDunJia.kanGong.maXing + '，') : ''}`
+            document.querySelector('#ziBoxMaXing').innerHTML = `${qiMenDunJia.kanGong.maXing === '子' ? ('马星在' + qiMenDunJia.kanGong.maXing) : ''}`
             document.querySelector('#ziBoxJiXing').innerHTML = `${qiMenDunJia.kanGong.jiXing.map(item => `${item}击刑`).join('、')}`
             document.querySelector('#ziBoxRuMu').innerHTML = `${qiMenDunJia.kanGong.ruMu.map(item => `${item}入墓`).join('、')}`
             document.querySelector('#ziBoxMenPo').innerHTML = `${qiMenDunJia.kanGong.menPo ? (qiMenDunJia.kanGong.menPo + '迫') : ''}`
             document.querySelector('#ziBoxKongWang').innerHTML = `${qiMenDunJia.kanGong.yueWang ? '' : (qiMenDunJia.kanGong.kongWang.includes('子') ? '子空亡' : '')}`
             document.querySelector('#haiBoxWuXing').innerHTML = `${qiMenDunJia.qianGong.wuXing}${qiMenDunJia.qianGong.yueWang ? '旺' : ''}，`
             document.querySelector('#haiBoxFangXiang').innerHTML = `${qiMenDunJia.qianGong.fangXiang}，`
-            document.querySelector('#haiBoxMaXing').innerHTML = `${qiMenDunJia.qianGong.maXing ? (qiMenDunJia.qianGong.maXing + '，') : ''}`
+            document.querySelector('#haiBoxMaXing').innerHTML = `${qiMenDunJia.qianGong.maXing === '亥' ? ('马星在' + qiMenDunJia.qianGong.maXing) : ''}`
             document.querySelector('#haiBoxJiXing').innerHTML = `${qiMenDunJia.qianGong.jiXing.map(item => `${item}击刑`).join('、')}`
             document.querySelector('#haiBoxRuMu').innerHTML = `${qiMenDunJia.qianGong.ruMu.map(item => `${item}入墓`).join('、')}`
             document.querySelector('#haiBoxMenPo').innerHTML = `${qiMenDunJia.qianGong.menPo ? (qiMenDunJia.qianGong.menPo + '迫') : ''}`
@@ -915,6 +915,10 @@
                 this.kongWangMap = {}
                 // this.jiXing = []
                 // this.ruMu = []
+                this.status = 0 // 0 init   1 起盘结束
+                this.default = {
+
+                }
             }
             initJiuGong() {
                 // 把yi等换成一等
@@ -1113,7 +1117,19 @@
                     direction: true
                 })
             }
+            clearGong() {
+                this.initJiuGong()
+                // this.setGongPoint()
+                this.status = 0
+            }
             start() {
+                switch (this.status) {
+                    case 0:
+                        break;
+                    case 1:
+                        this.clearGong()
+                        break;
+                }
                 // 确定阴阳几局
                 this.setYinYangJu()
                 clog('yinYangJu', this.yinYangJu)
@@ -1158,6 +1174,7 @@
                 this.setYueWang()
                 this.setMaXing()
                 clog('this', this)
+                this.status = 1
                 return
             }
             // 
@@ -1266,6 +1283,66 @@
                         return arr.includes(this.baZi.slice(7, 8))
                     })
                 this.maXing = maXingMap.get(arr)
+                clog('dsss', this.maXing)
+                let gong = null
+                switch (this.maXing) {
+                    case '子':
+                        // this.kanGong.maXing = '子'
+                        gong = this.kanGong
+                        break;
+                    case '丑':
+                        // this.genGong.maXing = '丑'
+                        gong = this.genGong
+                        break;
+                    case '寅':
+                        // this.genGong.maXing = '寅'
+                        gong = this.genGong
+                        break;
+                    case '卯':
+                        // this.zhengGong.maXing = '卯'
+                        gong = this.zhengGong
+                        break;
+                    case '辰':
+                        // this.xunGong.maXing = '辰'
+                        gong = this.xunGong
+                        break;
+                    case '巳':
+                        // this.xunGong.maXing = '巳'
+                        gong = this.xunGong
+                        break;
+                    case '午':
+                        // this.liGong.maXing = '午'
+                        gong = this.liGong
+                        break;
+                    case '未':
+                        // this.kunGong.maXing = '未'
+                        gong = this.kunGong
+                        break;
+                    case '申':
+                        // this.kunGong.maXing = '申'
+                        gong = this.kunGong
+                        break;
+                    case '酉':
+                        // this.duiGong.maXing = '酉'
+                        gong = this.duiGong
+                        break;
+                    case '戌':
+                        // this.qianGong.maXing = '戌'
+                        gong = this.qianGong
+                        break;
+                    case '亥':
+                        // this.qianGong.maXing = '亥'
+                        gong = this.qianGong
+                        break;
+                }
+                clog('ddddd', gong)
+                this.gongList.forEach(item => {
+                    if (item.count === gong.count) {
+                        item.maXing = this.maXing
+                    } else {
+                        item.maXing = ''
+                    }
+                })
             }
             turnRight(n) {
                 let temp = this.gongList[0]
@@ -1326,8 +1403,6 @@
             }
         }
 
-        // let qiMenDunJia = new QiMenDunJia('戊子壬戌戊申戊午', 'shuangjiang')
-        // let qiMenDunJia = new QiMenDunJia('乙巳丁亥辛巳乙未', 'lidong')
         document.querySelector('#startButton').addEventListener('click', () => {
             let nian = document.querySelector('#nian').value
             let yue = document.querySelector('#yue').value
