@@ -47,9 +47,9 @@
 - [基础设施即代码 iac](/confuse/iac.html)
 - [页面生命周期](/confuse/pageLife.html)
 - [奇门遁甲起局](/confuse/qiMenDunJiaStart.html)
-- [title](/confuse/title.html)
-- [title](/confuse/title.html)
-- [title](/confuse/title.html)
+- [默沙东](https://www.msdmanuals.cn/)
+- [快捷键备忘录](https://hotkeycheatsheet.com/zh)
+- [麦田艺术](https://www.nbfox.com)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
 
