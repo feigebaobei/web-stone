@@ -60,6 +60,12 @@
         .gongWai span:nth-child(2) {
             flex-basis: 50%;
         }
+        .gongWai span:nth-child(3) {
+            flex-basis: 50%;
+        }
+        .gongWai span:nth-child(4) {
+            flex-basis: 50%;
+        }
     </style>
 </head>
 <body>
@@ -104,6 +110,7 @@
                 <span id="siBoxWuXing"></span>
                 <span id="siBoxFangXiang"></span>
                 <span id="siBoxMaXing"></span>
+                <span id="siBoxYueWang"></span>
                 <span id="siBoxJiXing"></span>
                 <span id="siBoxMenPo"></span>
                 <span id="siBoxRuMu"></span>
@@ -114,6 +121,7 @@
                 <span id="wuBoxWuXing"></span>
                 <span id="wuBoxFangXiang"></span>
                 <span id="wuBoxMaXing"></span>
+                <span id="wuBoxYueWang"></span>
                 <span id="wuBoxJiXing"></span>
                 <span id="wuBoxMenPo"></span>
                 <span id="wuBoxRuMu"></span>
@@ -124,6 +132,7 @@
                 <span id="weiBoxWuXing"></span>
                 <span id="weiBoxFangXiang"></span>
                 <span id="weiBoxMaXing"></span>
+                <span id="weiBoxYueWang"></span>
                 <span id="weiBoxJiXing"></span>
                 <span id="weiBoxMenPo"></span>
                 <span id="weiBoxRuMu"></span>
@@ -136,6 +145,7 @@
                 <span id="chenBoxWuXing"></span>
                 <span id="chenBoxFangXiang"></span>
                 <span id="chenBoxMaXing"></span>
+                <span id="chenBoxYueWang"></span>
                 <span id="chenBoxJiXing"></span>
                 <span id="chenBoxMenPo"></span>
                 <span id="chenBoxRuMu"></span>
@@ -152,6 +162,7 @@
                 <span id="shenBoxWuXing"></span>
                 <span id="shenBoxFangXiang"></span>
                 <span id="shenBoxMaXing"></span>
+                <span id="shenBoxYueWang"></span>
                 <span id="shenBoxJiXing"></span>
                 <span id="shenBoxMenPo"></span>
                 <span id="shenBoxRuMu"></span>
@@ -163,6 +174,7 @@
                 <span id="maoBoxWuXing"></span>
                 <span id="maoBoxFangXiang"></span>
                 <span id="maoBoxMaXing"></span>
+                <span id="maoBoxYueWang"></span>
                 <span id="maoBoxJiXing"></span>
                 <span id="maoBoxMenPo"></span>
                 <span id="maoBoxRuMu"></span>
@@ -179,6 +191,7 @@
                 <span id="youBoxWuXing"></span>
                 <span id="youBoxFangXiang"></span>
                 <span id="youBoxMaXing"></span>
+                <span id="youBoxYueWang"></span>
                 <span id="youBoxJiXing"></span>
                 <span id="youBoxMenPo"></span>
                 <span id="youBoxRuMu"></span>
@@ -190,6 +203,7 @@
                 <span id="yinBoxWuXing"></span>
                 <span id="yinBoxFangXiang"></span>
                 <span id="yinBoxMaXing"></span>
+                <span id="yinBoxYueWang"></span>
                 <span id="yinBoxJiXing"></span>
                 <span id="yinBoxMenPo"></span>
                 <span id="yinBoxRuMu"></span>
@@ -206,6 +220,7 @@
                 <span id="xuBoxWuXing"></span>
                 <span id="xuBoxFangXiang"></span>
                 <span id="xuBoxMaXing"></span>
+                <span id="xuBoxYueWang"></span>
                 <span id="xuBoxJiXing"></span>
                 <span id="xuBoxMenPo"></span>
                 <span id="xuBoxRuMu"></span>
@@ -218,6 +233,7 @@
                 <span id="couBoxWuXing"></span>
                 <span id="couBoxFangXiang"></span>
                 <span id="couBoxMaXing"></span>
+                <span id="couBoxYueWang"></span>
                 <span id="couBoxJiXing"></span>
                 <span id="couBoxMenPo"></span>
                 <span id="couBoxRuMu"></span>
@@ -228,6 +244,7 @@
                 <span id="ziBoxWuXing"></span>
                 <span id="ziBoxFangXiang"></span>
                 <span id="ziBoxMaXing"></span>
+                <span id="ziBoxYueWang"></span>
                 <span id="ziBoxJiXing"></span>
                 <span id="ziBoxMenPo"></span>
                 <span id="ziBoxRuMu"></span>
@@ -238,6 +255,7 @@
                 <span id="haiBoxWuXing"></span>
                 <span id="haiBoxFangXiang"></span>
                 <span id="haiBoxMaXing"></span>
+                <span id="haiBoxYueWang"></span>
                 <span id="haiBoxJiXing"></span>
                 <span id="haiBoxMenPo"></span>
                 <span id="haiBoxRuMu"></span>
@@ -794,6 +812,7 @@
             document.querySelector('#siBoxWuXing').innerHTML = `${qiMenDunJia.xunGong.wuXing}${qiMenDunJia.xunGong.yueWang ? '旺' : ''}，`
             document.querySelector('#siBoxFangXiang').innerHTML = `${qiMenDunJia.xunGong.fangXiang}，`
             document.querySelector('#siBoxMaXing').innerHTML = `${qiMenDunJia.xunGong.maXing === '巳' ? ('马星在' + qiMenDunJia.xunGong.maXing) : ''}`
+            document.querySelector('#siBoxYueWang').innerHTML = `${qiMenDunJia.xunGong.yueWang === '巳' ? '巳月旺' : ''}`
             document.querySelector('#siBoxJiXing').innerHTML = `${qiMenDunJia.xunGong.jiXing.map(item => `${item}击刑`).join('、')}`
             document.querySelector('#siBoxRuMu').innerHTML = `${qiMenDunJia.xunGong.ruMu.map(item => `${item}入墓`).join('、')}`
             document.querySelector('#siBoxMenPo').innerHTML = `${qiMenDunJia.xunGong.menPo ? (qiMenDunJia.xunGong.menPo + '迫') : ''}`
@@ -801,6 +820,7 @@
             document.querySelector('#wuBoxWuXing').innerHTML = `${qiMenDunJia.liGong.wuXing}${qiMenDunJia.liGong.yueWang ? '旺' : ''}，`
             document.querySelector('#wuBoxFangXiang').innerHTML = `${qiMenDunJia.liGong.fangXiang}，`
             document.querySelector('#wuBoxMaXing').innerHTML = `${qiMenDunJia.liGong.maXing === '午' ? ('马星在' + qiMenDunJia.liGong.maXing) : ''}`
+            document.querySelector('#wuBoxYueWang').innerHTML = `${qiMenDunJia.liGong.yueWang === '午' ? '午月旺' : ''}`
             document.querySelector('#wuBoxJiXing').innerHTML = `${qiMenDunJia.liGong.jiXing.map(item => `${item}击刑`).join('、')}`
             document.querySelector('#wuBoxRuMu').innerHTML = `${qiMenDunJia.liGong.ruMu.map(item => `${item}入墓`).join('、')}`
             document.querySelector('#wuBoxMenPo').innerHTML = `${qiMenDunJia.liGong.menPo ? (qiMenDunJia.liGong.menPo + '迫') : ''}`
@@ -808,6 +828,7 @@
             document.querySelector('#weiBoxWuXing').innerHTML = `${qiMenDunJia.kunGong.wuXing}${qiMenDunJia.kunGong.yueWang ? '旺' : ''}，`
             document.querySelector('#weiBoxFangXiang').innerHTML = `${qiMenDunJia.kunGong.fangXiang}，`
             document.querySelector('#weiBoxMaXing').innerHTML = `${qiMenDunJia.kunGong.maXing === '未' ? ('马星在' + qiMenDunJia.kunGong.maXing) : ''}`
+            document.querySelector('#weiBoxYueWang').innerHTML = `${qiMenDunJia.kunGong.yueWang === '未' ? '未月旺' : ''}`
             document.querySelector('#weiBoxJiXing').innerHTML = `${qiMenDunJia.kunGong.jiXing.map(item => `${item}击刑`).join('、')}`
             document.querySelector('#weiBoxRuMu').innerHTML = `${qiMenDunJia.kunGong.ruMu.map(item => `${item}入墓`).join('、')}`
             document.querySelector('#weiBoxMenPo').innerHTML = `${qiMenDunJia.kunGong.menPo ? (qiMenDunJia.kunGong.menPo + '迫') : ''}`
@@ -815,6 +836,7 @@
             document.querySelector('#chenBoxWuXing').innerHTML = `${qiMenDunJia.xunGong.wuXing}${qiMenDunJia.xunGong.yueWang ? '旺' : ''}，`
             document.querySelector('#chenBoxFangXiang').innerHTML = `${qiMenDunJia.xunGong.fangXiang}，`
             document.querySelector('#chenBoxMaXing').innerHTML = `${qiMenDunJia.xunGong.maXing === '辰' ? ('马星在' + qiMenDunJia.xunGong.maXing) : ''}`
+            document.querySelector('#chenBoxYueWang').innerHTML = `${qiMenDunJia.xunGong.yueWang === '辰' ? '辰月旺' : ''}`
             document.querySelector('#chenBoxJiXing').innerHTML = `${qiMenDunJia.xunGong.jiXing.map(item => `${item}击刑`).join('、')}`
             document.querySelector('#chenBoxRuMu').innerHTML = `${qiMenDunJia.xunGong.ruMu.map(item => `${item}入墓`).join('、')}`
             document.querySelector('#chenBoxMenPo').innerHTML = `${qiMenDunJia.xunGong.menPo ? (qiMenDunJia.xunGong.menPo + '迫') : ''}`
@@ -822,6 +844,7 @@
             document.querySelector('#shenBoxWuXing').innerHTML = `${qiMenDunJia.kunGong.wuXing}${qiMenDunJia.kunGong.yueWang ? '旺' : ''}，`
             document.querySelector('#shenBoxFangXiang').innerHTML = `${qiMenDunJia.kunGong.fangXiang}，`
             document.querySelector('#shenBoxMaXing').innerHTML = `${qiMenDunJia.kunGong.maXing === '申' ? ('马星在' + qiMenDunJia.kunGong.maXing) : ''}`
+            document.querySelector('#shenBoxYueWang').innerHTML = `${qiMenDunJia.kunGong.yueWang === '申' ? '申月旺' : ''}`
             document.querySelector('#shenBoxJiXing').innerHTML = `${qiMenDunJia.kunGong.jiXing.map(item => `${item}击刑`).join('、')}`
             document.querySelector('#shenBoxRuMu').innerHTML = `${qiMenDunJia.kunGong.ruMu.map(item => `${item}入墓`).join('、')}`
             document.querySelector('#shenBoxMenPo').innerHTML = `${qiMenDunJia.kunGong.menPo ? (qiMenDunJia.kunGong.menPo + '迫') : ''}`
@@ -829,6 +852,7 @@
             document.querySelector('#maoBoxWuXing').innerHTML = `${qiMenDunJia.zhengGong.wuXing}${qiMenDunJia.zhengGong.yueWang ? '旺' : ''}，`
             document.querySelector('#maoBoxFangXiang').innerHTML = `${qiMenDunJia.zhengGong.fangXiang}，`
             document.querySelector('#maoBoxMaXing').innerHTML = `${qiMenDunJia.zhengGong.maXing === '卯' ? ('马星在' + qiMenDunJia.zhengGong.maXing) : ''}`
+            document.querySelector('#maoBoxYueWang').innerHTML = `${qiMenDunJia.zhengGong.yueWang === '卯' ? '卯月旺' : ''}`
             document.querySelector('#maoBoxJiXing').innerHTML = `${qiMenDunJia.zhengGong.jiXing.map(item => `${item}击刑`).join('、')}`
             document.querySelector('#maoBoxRuMu').innerHTML = `${qiMenDunJia.zhengGong.ruMu.map(item => `${item}入墓`).join('、')}`
             document.querySelector('#maoBoxMenPo').innerHTML = `${qiMenDunJia.zhengGong.menPo ? (qiMenDunJia.zhengGong.menPo + '迫') : ''}`
@@ -836,6 +860,7 @@
             document.querySelector('#youBoxWuXing').innerHTML = `${qiMenDunJia.duiGong.wuXing}${qiMenDunJia.duiGong.yueWang ? '旺' : ''}，`
             document.querySelector('#youBoxFangXiang').innerHTML = `${qiMenDunJia.duiGong.fangXiang}，`
             document.querySelector('#youBoxMaXing').innerHTML = `${qiMenDunJia.duiGong.maXing === '酉' ? ('马星在' + qiMenDunJia.duiGong.maXing) : ''}`
+            document.querySelector('#youBoxYueWang').innerHTML = `${qiMenDunJia.duiGong.yueWang === '酉' ? '酉月旺' : ''}`
             document.querySelector('#youBoxJiXing').innerHTML = `${qiMenDunJia.duiGong.jiXing.map(item => `${item}击刑`).join('、')}`
             document.querySelector('#youBoxRuMu').innerHTML = `${qiMenDunJia.duiGong.ruMu.map(item => `${item}入墓`).join('、')}`
             document.querySelector('#youBoxMenPo').innerHTML = `${qiMenDunJia.duiGong.menPo ? (qiMenDunJia.duiGong.menPo + '迫') : ''}`
@@ -843,6 +868,7 @@
             document.querySelector('#yinBoxWuXing').innerHTML = `${qiMenDunJia.genGong.wuXing}${qiMenDunJia.genGong.yueWang ? '旺' : ''}，`
             document.querySelector('#yinBoxFangXiang').innerHTML = `${qiMenDunJia.genGong.fangXiang}，`
             document.querySelector('#yinBoxMaXing').innerHTML = `${qiMenDunJia.genGong.maXing === '寅' ? ('马星在' + qiMenDunJia.genGong.maXing) : ''}`
+            document.querySelector('#yinBoxYueWang').innerHTML = `${qiMenDunJia.genGong.yueWang === '寅' ? '寅月旺' : ''}`
             document.querySelector('#yinBoxJiXing').innerHTML = `${qiMenDunJia.genGong.jiXing.map(item => `${item}击刑`).join('、')}`
             document.querySelector('#yinBoxRuMu').innerHTML = `${qiMenDunJia.genGong.ruMu.map(item => `${item}入墓`).join('、')}`
             document.querySelector('#yinBoxMenPo').innerHTML = `${qiMenDunJia.genGong.menPo ? (qiMenDunJia.genGong.menPo + '迫') : ''}`
@@ -850,6 +876,7 @@
             document.querySelector('#xuBoxWuXing').innerHTML = `${qiMenDunJia.qianGong.wuXing}${qiMenDunJia.qianGong.yueWang ? '旺' : ''}，`
             document.querySelector('#xuBoxFangXiang').innerHTML = `${qiMenDunJia.qianGong.fangXiang}，`
             document.querySelector('#xuBoxMaXing').innerHTML = `${qiMenDunJia.qianGong.maXing === '戌' ? ('马星在' + qiMenDunJia.qianGong.maXing) : ''}`
+            document.querySelector('#xuBoxYueWang').innerHTML = `${qiMenDunJia.qianGong.yueWang === '戌' ? '戌月旺' : ''}`
             document.querySelector('#xuBoxJiXing').innerHTML = `${qiMenDunJia.qianGong.jiXing.map(item => `${item}击刑`).join('、')}`
             document.querySelector('#xuBoxRuMu').innerHTML = `${qiMenDunJia.qianGong.ruMu.map(item => `${item}入墓`).join('、')}`
             document.querySelector('#xuBoxMenPo').innerHTML = `${qiMenDunJia.qianGong.menPo ? (qiMenDunJia.qianGong.menPo + '迫') : ''}`
@@ -857,6 +884,7 @@
             document.querySelector('#couBoxWuXing').innerHTML = `${qiMenDunJia.genGong.wuXing}${qiMenDunJia.genGong.yueWang ? '旺' : ''}，`
             document.querySelector('#couBoxFangXiang').innerHTML = `${qiMenDunJia.genGong.fangXiang}，`
             document.querySelector('#couBoxMaXing').innerHTML = `${qiMenDunJia.genGong.maXing === '丑' ? ('马星在' + qiMenDunJia.genGong.maXing) : ''}`
+            document.querySelector('#couBoxYueWang').innerHTML = `${qiMenDunJia.genGong.yueWang === '丑' ? '丑月旺' : ''}`
             document.querySelector('#couBoxJiXing').innerHTML = `${qiMenDunJia.genGong.jiXing.map(item => `${item}击刑`).join('、')}`
             document.querySelector('#couBoxRuMu').innerHTML = `${qiMenDunJia.genGong.ruMu.map(item => `${item}入墓`).join('、')}`
             document.querySelector('#couBoxMenPo').innerHTML = `${qiMenDunJia.genGong.menPo ? (qiMenDunJia.genGong.menPo + '迫') : ''}`
@@ -864,6 +892,7 @@
             document.querySelector('#ziBoxWuXing').innerHTML = `${qiMenDunJia.kanGong.wuXing}${qiMenDunJia.kanGong.yueWang ? '旺' : ''}，`
             document.querySelector('#ziBoxFangXiang').innerHTML = `${qiMenDunJia.kanGong.fangXiang}，`
             document.querySelector('#ziBoxMaXing').innerHTML = `${qiMenDunJia.kanGong.maXing === '子' ? ('马星在' + qiMenDunJia.kanGong.maXing) : ''}`
+            document.querySelector('#ziBoxYueWang').innerHTML = `${qiMenDunJia.kanGong.yueWang === '子' ? '子月旺' : ''}`
             document.querySelector('#ziBoxJiXing').innerHTML = `${qiMenDunJia.kanGong.jiXing.map(item => `${item}击刑`).join('、')}`
             document.querySelector('#ziBoxRuMu').innerHTML = `${qiMenDunJia.kanGong.ruMu.map(item => `${item}入墓`).join('、')}`
             document.querySelector('#ziBoxMenPo').innerHTML = `${qiMenDunJia.kanGong.menPo ? (qiMenDunJia.kanGong.menPo + '迫') : ''}`
@@ -871,6 +900,7 @@
             document.querySelector('#haiBoxWuXing').innerHTML = `${qiMenDunJia.qianGong.wuXing}${qiMenDunJia.qianGong.yueWang ? '旺' : ''}，`
             document.querySelector('#haiBoxFangXiang').innerHTML = `${qiMenDunJia.qianGong.fangXiang}，`
             document.querySelector('#haiBoxMaXing').innerHTML = `${qiMenDunJia.qianGong.maXing === '亥' ? ('马星在' + qiMenDunJia.qianGong.maXing) : ''}`
+            document.querySelector('#haiBoxYueWang').innerHTML = `${qiMenDunJia.qianGong.yueWang === '亥' ? '亥月旺' : ''}`
             document.querySelector('#haiBoxJiXing').innerHTML = `${qiMenDunJia.qianGong.jiXing.map(item => `${item}击刑`).join('、')}`
             document.querySelector('#haiBoxRuMu').innerHTML = `${qiMenDunJia.qianGong.ruMu.map(item => `${item}入墓`).join('、')}`
             document.querySelector('#haiBoxMenPo').innerHTML = `${qiMenDunJia.qianGong.menPo ? (qiMenDunJia.qianGong.menPo + '迫') : ''}`
@@ -913,7 +943,7 @@
                 clog('八字', baZi)
                 this.menPoMap = {}
                 this.kongWangMap = {}
-                // this.jiXing = []
+                this.yueWang = []
                 // this.ruMu = []
                 this.status = 0 // 0 init   1 起盘结束
                 this.default = {
@@ -1272,10 +1302,14 @@
                 this.xingFanYin = this.kanGong.jiuXing === '天英星'
             }
             setYueWang() {
-                this.yueWang = this.baZi
-                let yueDiZhi = this.baZi.slice(3, 4)
-                let gong = this.gongList.find(gong => gong.diZhi.includes(yueDiZhi))
-                gong.yueWang = 1
+                this.yueWang = this.baZi.slice(3, 4)
+                this.gongList.forEach(gong => {
+                    if (gong.diZhi.includes(this.yueWang)) {
+                        gong.yueWang = this.yueWang
+                    } else {
+                        gong.yueWang = ''
+                    }
+                })
             }
             setMaXing() {
                 let arr = Array.from(maXingMap.keys())
@@ -1410,7 +1444,7 @@
             let shi = document.querySelector('#shi').value
             let jieQi = document.querySelector('#jieQi').value
             let baZi = nian + yue + ri + shi
-            // baZi = '乙巳丁亥庚寅丙戌'
+            baZi = '乙巳丁亥庚寅丙戌'
             if (baZi.length !== 8) {
                 alert('时间错误')
                 return

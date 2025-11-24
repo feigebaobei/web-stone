@@ -77,7 +77,7 @@ str.match(reg / substr)
 // [匹配结果0, 匹配结果1, 匹配结果2, ...]
 // 返回由匹配元素组成的数组。
 // 若不使用g，则返回如下：
-// ["123abc", index: 0, input: "123abc", groups: undefined]
+// ["123abc", index: 0, input: "123abc", groups: undefined] // 下标是匹配的结果
 // 只返回一个匹配结果，并提供本次匹配的完整信息。
 str.replace(reg / substr, replacement) //
 str.split(reg / substr, howmany) //
@@ -155,7 +155,7 @@ string.match(/*/)  // 非全局检索时返回一个类数组对象。["value", 
             <td></td>
         </tr>
         <tr>
-            <td>{</td>
+            <td>{}</td>
             <td></td>
         </tr>
         <tr>

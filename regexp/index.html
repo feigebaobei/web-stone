@@ -365,7 +365,7 @@ str.<span class="hljs-title function_">match</span>(reg / substr)
 <span class="hljs-comment">// [匹配结果0, 匹配结果1, 匹配结果2, ...]</span>
 <span class="hljs-comment">// 返回由匹配元素组成的数组。</span>
 <span class="hljs-comment">// 若不使用g，则返回如下：</span>
-<span class="hljs-comment">// [&quot;123abc&quot;, index: 0, input: &quot;123abc&quot;, groups: undefined]</span>
+<span class="hljs-comment">// [&quot;123abc&quot;, index: 0, input: &quot;123abc&quot;, groups: undefined] // 下标是匹配的结果</span>
 <span class="hljs-comment">// 只返回一个匹配结果，并提供本次匹配的完整信息。</span>
 str.<span class="hljs-title function_">replace</span>(reg / substr, replacement) <span class="hljs-comment">//</span>
 str.<span class="hljs-title function_">split</span>(reg / substr, howmany) <span class="hljs-comment">//</span>
@@ -470,7 +470,7 @@ string.match(/*/</span>)  <span class="hljs-comment">// 非全局检索时返回
             <td></td>
         </tr>
         <tr>
-            <td>{</td>
+            <td>{}</td>
             <td></td>
         </tr>
         <tr>
@@ -773,10 +773,9 @@ a.*?b 匹配最短的，以 a 开始，以 b 结束的字符串。如果把它�
   }
 }
 </code></pre>
-<p>ascii半角字符 \u0020-\u007E
-全角的正则表达式 ^[^\uFF00-\uFFFF]*<span class="katex-error" title="
-半角的正则表达式 ^[\uFF00-\uFFFF]*">ParseError: KaTeX parse error: Undefined control sequence: \uFF at position 13: 
-半角的正则表达式 ^[\̲u̲F̲F̲00-\uFFFF]*</span></p>
+<p>ascii 半角字符 \u0020-\u007E
+全角的正则表达式 ^[^\uff00-\uffff]<em>$
+半角的正则表达式 ^[\uFF00-\uFFFF]</em>$</p>
 
             <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
             
