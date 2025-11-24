@@ -1019,18 +1019,58 @@ $.<span class="hljs-title function_">shadowDom</span>(<span class="hljs-string">
 })
 <span class="hljs-title function_">launch</span>();
 
-<span class="hljs-keyword">let</span> <span class="hljs-title function_">ringOpArr</span> = (<span class="hljs-params">arr = [], startIndex = <span class="hljs-number">0</span>, direction = <span class="hljs-literal">true</span>, cb = (current, index, array) =&gt; {}</span>) =&gt; {
-  <span class="hljs-keyword">let</span> k = startIndex + arr.<span class="hljs-property">length</span>
-  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; arr.<span class="hljs-property">length</span>; i++) {
-    <span class="hljs-keyword">let</span> m = k % arr.<span class="hljs-property">length</span>
-    <span class="hljs-title function_">cb</span>(arr[m], m, arr)
-    <span class="hljs-keyword">if</span> (direction) {
-      k++
-    } <span class="hljs-keyword">else</span> {
-      k--
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">ringOpArr</span> = (<span class="hljs-params">arr = [], cb = (current, index, array) =&gt; {}, 
+    options = {}
+</span>) =&gt; {
+    <span class="hljs-keyword">let</span> defaultOptions = {
+        <span class="hljs-attr">startIndex</span>: <span class="hljs-number">0</span>,
+        <span class="hljs-attr">direction</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">breakFn</span>: <span class="hljs-function">(<span class="hljs-params">current, index, arr</span>) =&gt;</span> {<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>},
+        <span class="hljs-attr">continueFn</span>: <span class="hljs-function">(<span class="hljs-params">current, index, arr</span>) =&gt;</span> {<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>},
     }
-  }
+    options = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">assign</span>({}, defaultOptions, options)
+    <span class="hljs-keyword">let</span> k = options.<span class="hljs-property">startIndex</span> + arr.<span class="hljs-property">length</span>
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; arr.<span class="hljs-property">length</span>; i++) {
+        <span class="hljs-keyword">let</span> m = k % arr.<span class="hljs-property">length</span>
+        <span class="hljs-keyword">if</span> (options.<span class="hljs-property">direction</span>) {
+            k++
+        } <span class="hljs-keyword">else</span> {
+            k--
+        }
+        <span class="hljs-keyword">if</span> (options.<span class="hljs-title function_">continueFn</span>(arr[m], m, arr)) {
+            <span class="hljs-keyword">continue</span>
+        }
+        <span class="hljs-title function_">cb</span>(arr[m], m, arr)
+        <span class="hljs-keyword">if</span> (options.<span class="hljs-title function_">breakFn</span>(arr[m], m, arr)) {
+            <span class="hljs-keyword">break</span>
+        }
+    }
 }
+<span class="hljs-comment">// 获取dom元素的xPath</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">getXPath</span> = (<span class="hljs-params">domElement</span>) =&gt; {
+  <span class="hljs-keyword">let</span> cur = domElement
+  <span class="hljs-keyword">let</span> parts = []
+  <span class="hljs-keyword">let</span> part
+  <span class="hljs-keyword">while</span> (cur) {
+    part = cur.<span class="hljs-property">tagName</span>.<span class="hljs-title function_">toLowerCase</span>()
+    <span class="hljs-keyword">let</span> parent = cur.<span class="hljs-property">parentElement</span>
+    <span class="hljs-keyword">if</span> (parent) {
+      <span class="hljs-keyword">let</span> siblings = <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">from</span>(parent.<span class="hljs-property">children</span>).<span class="hljs-title function_">filter</span>(<span class="hljs-function"><span class="hljs-params">el</span> =&gt;</span> el.<span class="hljs-property">tagName</span> === cur.<span class="hljs-property">tagName</span>)
+      <span class="hljs-keyword">if</span> (siblings.<span class="hljs-property">length</span>) {
+        <span class="hljs-keyword">let</span> index = siblings.<span class="hljs-title function_">indexOf</span>(cur)
+        part += <span class="hljs-string">`[<span class="hljs-subst">${index + <span class="hljs-number">1</span>}</span>]`</span>
+      }
+    }
+    parts.<span class="hljs-title function_">unshift</span>(part)
+    cur = parent
+  }
+  <span class="hljs-keyword">return</span> parts.<span class="hljs-property">length</span> ? <span class="hljs-string">`//<span class="hljs-subst">${parts.join(<span class="hljs-string">&#x27;/&#x27;</span>)}</span>`</span> : <span class="hljs-string">&#x27;&#x27;</span>
+}
+<span class="hljs-comment">// 简单的数组去重</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">uniqueArr</span> = (<span class="hljs-params">arr</span>) =&gt; {
+  <span class="hljs-keyword">return</span> [...<span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>(arr)]
+}
+
 
 
 

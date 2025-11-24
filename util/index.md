@@ -880,18 +880,58 @@ addListener(() => {
 })
 launch();
 
-let ringOpArr = (arr = [], startIndex = 0, direction = true, cb = (current, index, array) => {}) => {
-  let k = startIndex + arr.length
-  for (let i = 0; i < arr.length; i++) {
-    let m = k % arr.length
-    cb(arr[m], m, arr)
-    if (direction) {
-      k++
-    } else {
-      k--
+let ringOpArr = (arr = [], cb = (current, index, array) => {},
+    options = {}
+) => {
+    let defaultOptions = {
+        startIndex: 0,
+        direction: true,
+        breakFn: (current, index, arr) => {return false},
+        continueFn: (current, index, arr) => {return false},
     }
-  }
+    options = Object.assign({}, defaultOptions, options)
+    let k = options.startIndex + arr.length
+    for(let i = 0; i < arr.length; i++) {
+        let m = k % arr.length
+        if (options.direction) {
+            k++
+        } else {
+            k--
+        }
+        if (options.continueFn(arr[m], m, arr)) {
+            continue
+        }
+        cb(arr[m], m, arr)
+        if (options.breakFn(arr[m], m, arr)) {
+            break
+        }
+    }
 }
+// 获取dom元素的xPath
+let getXPath = (domElement) => {
+  let cur = domElement
+  let parts = []
+  let part
+  while (cur) {
+    part = cur.tagName.toLowerCase()
+    let parent = cur.parentElement
+    if (parent) {
+      let siblings = Array.from(parent.children).filter(el => el.tagName === cur.tagName)
+      if (siblings.length) {
+        let index = siblings.indexOf(cur)
+        part += `[${index + 1}]`
+      }
+    }
+    parts.unshift(part)
+    cur = parent
+  }
+  return parts.length ? `//${parts.join('/')}` : ''
+}
+// 简单的数组去重
+let uniqueArr = (arr) => {
+  return [...new Set(arr)]
+}
+
 
 
 
