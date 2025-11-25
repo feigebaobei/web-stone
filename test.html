@@ -19,61 +19,44 @@
         <input type="radio" name="h" value="three">three
 
     </div>
-    <script>
-        let clog = console.log
+    <!-- include ts-browser -->
+    <script type="text/javascript" src="https://unpkg.com/ts-browser"></script>
 
-        let baMenList = ['休门', '生门', '伤门', '杜门', '景门', '死门', '惊门', '开门']
-        // let index = 0
-        // let k = index + baMenList.length
-        // for (let i = 0; i < baMenList.length; i++) {
-        //     let t = baMenList[k % baMenList.length]
-        //     clog(t)
-        //     k++
-        // }
-        let ringOpArr = (arr = [], cb = (current, index, array) => {}, 
-            options = {
-                startIndex: 0, direction: true,
-                returnInAfter: true,
-                breakInAfter: true,
-                continueInAfter: true,
-                returnFn: (current, index, arr) => {return false},
-                breakFn: (current, index, arr) => {return false},
-                continueFn: (current, index, arr) => {return false},
-            }
-        ) => {
-            let k = options.startIndex + arr.length
-            for(let i = 0; i < arr.length; i++) {
-                let m = k % arr.length
-                if (!options.continueInAfter && options.continueFn(arr[m], m, arr)) {
-                    continue
-                }
-                if (!options.returnInAfter && options.returnFn(arr[m], m, arr)) {
-                    break
-                }
-                if (!options.breakInAfter && options.breakFn(arr[m], m, arr)) {
-                    break
-                }
-                let t = cb(arr[m], m, arr)
-                if (options.continueInAfter && options.continueFn(arr[m], m, arr)) {
-                    continue
-                }
-                if (options.returnInAfter && options.returnFn(arr[m], m, arr)) {
-                    break
-                }
-                if (options.breakInAfter && options.breakFn(arr[m], m, arr)) {
-                    break
-                }
-                
-                if (options.direction) {
-                    k++
-                } else {
-                    k--
-                }
+<!-- include your TypeScript file -->
+<!-- <script type="text/typescript" src="your/typescript/file.ts"></script> -->
+    <script type="text/typescript">
+        let clog = console.log
+        let testable = (target) => {
+            clog('target', target)
+            target.k = 3
+            target.prototype.isTestable = true
+        }
+        let f = (a, b, c, d) => {
+            return (target, name, descriptor) => {
+                clog('target, name, descriptor', target, name, descriptor)
+
             }
         }
-        ringOpArr(baMenList, 2, false, (c, i, a) => {
-            clog(c, i, a)
-        })
+        // @testable
+        // @f(1,2,3,4)
+        class P {
+            constructor() {
+                clog('construct', this)
+                this.k = 'v'
+            }
+            // @f(1,2,3,4)
+            skills() {
+                return 'a'
+            }
+        }
+        // let p = new P()
+        // clog('p', p)
+        
+        @f(1,2,3,4)
+        function f2 () {
+            return 'f2'
+        }
+        clog(f2())
 
     </script>
 </body>

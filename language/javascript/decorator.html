@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>decorator</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="decorator">decorator</h1>
+<ul>
+<li>可以用于装饰类、类的属性。不可用于装饰方法。因为方法会被变量提升。类、类的属性不会提升。</li>
+<li>当前仍再更新。</li>
+<li>装饰器是一个方法。参数有 3 个 target:被装饰的对象（类或类的方法），name:被装饰的属性名，descriptor:属性描述符对象。</li>
+<li>需要增强已有功能时使用。如本地验证用户登录后再执行某项功能。</li>
+<li>有点像高阶函数、代理。</li>
+<li>修饰什么就应该返回一个什么。用于替换目标。如果不返回，则不替换目标。不返回值的装饰器方法常用于副作用方法。</li>
+<li>编译时运行。</li>
+<li>无法取消。若要取消，请使用proxy.</li>
+<li>多个装饰方法作用于一个目标时。由内向外执行。</li>
+<li>装饰器是在编辑阶段运行的。它的本质是编译时执行的函数。</li>
+<li>装饰器方法可以用function定义，也可以用let、var、const定义.</li>
+</ul>
+<h2 id="装饰器的种类也是可以使用要装饰器的地方">装饰器的种类（也是可以使用要装饰器的地方）</h2>
+<ul>
+<li>类</li>
+<li>类的属性（public, private, and static）</li>
+<li>类的方法（public, private, and static）</li>
+<li>属性存取器（accessor）（public, private, and static）</li>
+<li>参数</li>
+</ul>
+<h2 id="demo">demo</h2>
+<pre><code class="language-js">@<span class="hljs-title class_">ClassDecorator</span>() <span class="hljs-comment">// （A）</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> {
+  @<span class="hljs-title class_">PropertyDecorator</span>() <span class="hljs-comment">// （B）</span>
+  <span class="hljs-attr">name</span>: string;
+  @<span class="hljs-title class_">MethodDecorator</span>() <span class="hljs-comment">//（C）</span>
+  <span class="hljs-title function_">fly</span>(<span class="hljs-params">
+    @ParameterDecorator() <span class="hljs-comment">// （D）</span>
+    meters: number
+  </span>) {
+    <span class="hljs-comment">// code</span>
+  }
+  @<span class="hljs-title class_">AccessorDecorator</span>() <span class="hljs-comment">// （E）</span>
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">egg</span>() {
+    <span class="hljs-comment">// code</span>
+  }
+  <span class="hljs-keyword">set</span> <span class="hljs-title function_">egg</span>(<span class="hljs-params">e</span>) {
+    <span class="hljs-comment">// code</span>
+  }
+}
+
+
+<span class="hljs-comment">// no.1</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">testable</span>(<span class="hljs-params">target</span>) {
+    <span class="hljs-comment">// target.isTestable = true</span>
+    target.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">isTestable</span> = <span class="hljs-literal">true</span>
+    <span class="hljs-comment">// 修饰class时，操作的是原型对象。</span>
+}
+@testable
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">C</span> {...}
+<span class="hljs-keyword">let</span> o = <span class="hljs-keyword">new</span> <span class="hljs-title function_">C</span>() <span class="hljs-comment">// 使用被装饰过的类</span>
+<span class="hljs-comment">// no.2</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">readonly</span> (target, name, description) {
+  <span class="hljs-comment">// target     被装饰的目标。 class的constructor方法 、 方法</span>
+  <span class="hljs-comment">// name       </span>
+  <span class="hljs-comment">//            {</span>
+  <span class="hljs-comment">//              access: {has: ƒ, get: ƒ}</span>
+  <span class="hljs-comment">//              addInitializer: ƒ (f)</span>
+  <span class="hljs-comment">//              kind: &quot;method&quot;</span>
+  <span class="hljs-comment">//              metadata: undefined</span>
+  <span class="hljs-comment">//              name: &quot;skills&quot;</span>
+  <span class="hljs-comment">//              private: false</span>
+  <span class="hljs-comment">//              static: false</span>
+  <span class="hljs-comment">//            } 、 </span>
+  <span class="hljs-comment">//            {</span>
+  <span class="hljs-comment">//              addInitializer: ƒ (f)</span>
+  <span class="hljs-comment">//              kind: &quot;class&quot;</span>
+  <span class="hljs-comment">//              metadata: undefined</span>
+  <span class="hljs-comment">//              name: &quot;P&quot;</span>
+  <span class="hljs-comment">//            }</span>
+    <span class="hljs-comment">// description: undefined 、 {</span>
+    <span class="hljs-comment">//     value,</span>
+    <span class="hljs-comment">//     enumerable,</span>
+    <span class="hljs-comment">//     configurable,</span>
+    <span class="hljs-comment">//     writable</span>
+    <span class="hljs-comment">// }</span>
+    description.<span class="hljs-property">wriable</span> = <span class="hljs-literal">false</span>
+}
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">P</span> {
+    @readonly
+    <span class="hljs-title function_">skills</span>(<span class="hljs-params"></span>) {...}
+}
+<span class="hljs-keyword">let</span> p = <span class="hljs-keyword">new</span> <span class="hljs-title function_">P</span>()
+p.<span class="hljs-property">skills</span> = <span class="hljs-function">() =&gt;</span> {...} <span class="hljs-comment">// 不可被重新赋值</span>
+<span class="hljs-comment">// no.3</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">log</span> (target, name, descriptor) {
+    <span class="hljs-keyword">let</span> oldValue = descriptor.<span class="hljs-property">value</span>
+    descriptor.<span class="hljs-property">value</span> = <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`args: <span class="hljs-subst">${args}</span>`</span>)
+        <span class="hljs-keyword">return</span> oldValue.<span class="hljs-title function_">apply</span>(<span class="hljs-literal">null</span>, args)
+    }
+    <span class="hljs-keyword">return</span> descriptor
+}
+<span class="hljs-comment">// 也可以多接收几个参数</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">f</span> (a, b, c, d) {
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span> (<span class="hljs-params">target, name, descriptor</span>) {
+    <span class="hljs-comment">// 使用a,b,c,d</span>
+    <span class="hljs-keyword">return</span> ...
+  }
+}
+@<span class="hljs-title function_">f</span>(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>)
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">C</span> {...}
+</code></pre>
+<p>常用包</p>
+<ul>
+<li>core-decorators.js</li>
+<li>Trait</li>
+</ul>
+<h2 id="类装饰器">类装饰器</h2>
+<p>当装饰器应用于类时，实际上应用于类的构造方法。返回的是类的构造函数。</p>
+<pre><code>type ClassDecorator = &lt;TFunction extends Function&gt;
+  (target: TFunction) =&gt; TFunction | void;
+</code></pre>
+<h2 id="方法装饰器">方法装饰器</h2>
+<p>返回的是descriptor</p>
+<pre><code>type MethodDecorator = &lt;T&gt;(
+  target: Object,
+  propertyKey: string|symbol,
+  descriptor: TypedPropertyDescriptor&lt;T&gt;
+) =&gt; TypedPropertyDescriptor&lt;T&gt; | void;
+</code></pre>
+<h2 id="属性装饰器">属性装饰器</h2>
+<pre><code>type PropertyDecorator =
+  (
+    target: Object,
+    propertyKey: string|symbol
+  ) =&gt; void;
+</code></pre>
+<h2 id="存取器装饰器">存取器装饰器</h2>
+<p>所谓“存取器”指的是某个属性的取值器（getter）和存值器（setter）。
+TypeScript 不允许对同一个属性的存取器（getter 和 setter）使用同一个装饰器，也就是说只能装饰两个存取器里面的一个，且必须是排在前面的那一个，否则报错。</p>
+<pre><code>type AccessorDecorator = &lt;T&gt;(
+  target: Object,
+  propertyKey: string|symbol,
+  descriptor: TypedPropertyDescriptor&lt;T&gt;
+) =&gt; TypedPropertyDescriptor&lt;T&gt; | void;
+</code></pre>
+<pre><code>function validator(
+  target: Object,
+  propertyKey: string,
+  descriptor: PropertyDescriptor
+){
+  const originalGet = descriptor.get;
+  const originalSet = descriptor.set;
+  
+  if (originalSet) {
+    descriptor.set = function (val) {
+      if (val &gt; 100) {
+        throw new Error(`Invalid value for ${propertyKey}`);
+      }
+      originalSet.call(this, val);
+    };
+  }
+}
+
+class C {
+  #foo!: number;
+
+  @validator
+  set foo(v) {
+    this.#foo = v;
+  }
+
+  get foo() {
+    return this.#foo;
+  }
+}
+
+const c = new C();
+c.foo = 150;
+// 报错
+</code></pre>
+<h2 id="参数装饰器">参数装饰器</h2>
+<pre><code>type ParameterDecorator = (
+  target: Object,
+  propertyKey: string|symbol,
+  parameterIndex: number
+) =&gt; void;
+</code></pre>
+<p>该装饰器不需要返回值，如果有的话会被忽略。
+跟其他装饰器不同，参数装饰器主要用于输出信息，没有办法修改类的行为。</p>
+<h2 id="装饰器的执行顺序">装饰器的执行顺序</h2>
+<ol>
+<li>实例相关的装饰器。</li>
+<li>静态相关的装饰器。</li>
+<li>构造方法的参数装饰器。</li>
+<li>类装饰器。</li>
+</ol>
+<pre><code>function f(key:string):any {
+  return function () {
+    console.log('执行：', key);
+  };
+}
+
+@f('类装饰器')
+class C {
+  @f('静态方法')
+  static method() {}
+  
+  @f('实例方法')
+  method() {}
+
+  constructor(@f('构造方法参数') foo:any) {}
+}
+</code></pre>
+<p>输出如下：
+执行： 实例方法
+执行： 静态方法
+执行： 构造方法参数
+执行： 类装饰器</p>
+<p>同一级装饰器的执行顺序，是按照它们的代码顺序。但是，参数装饰器的执行总是早于方法装饰器。</p>
+<pre><code>function f(key:string):any {
+  return function () {
+    console.log('执行：', key);
+  };
+}
+
+class C {
+  @f('方法1')
+  m1(@f('参数1') foo:any) {}
+
+  @f('属性1')
+  p1: number;
+
+  @f('方法2')
+  m2(@f('参数2') foo:any) {}
+
+  @f('属性2')
+  p2: number;
+}
+</code></pre>
+<p>此示例，输出如下：
+执行： 参数1
+执行： 方法1
+执行： 属性1
+执行： 参数2
+执行： 方法2
+执行： 属性2
+实例装饰器的执行顺序，完全是按照代码顺序的。但是，同一个方法的参数装饰器，总是早于该方法的方法装饰器执行。</p>
+<p>如果同一个方法或属性有多个装饰器，那么装饰器将顺序加载、逆序执行。</p>
+<pre><code>function f(key:string):any {
+  console.log('加载：', key);
+  return function () {
+    console.log('执行：', key);
+  };
+}
+
+class C {
+  @f('A')
+  @f('B')
+  @f('C')
+  m1() {}
+}
+// 加载： A
+// 加载： B
+// 加载： C
+// 执行： C
+// 执行： B
+// 执行： A
+</code></pre>
+<p>如果同一个方法有多个参数，那么参数也是顺序加载、逆序执行。</p>
+<pre><code>function f(key:string):any {
+  console.log('加载：', key);
+  return function () {
+    console.log('执行：', key);
+  };
+}
+
+class C {
+  method(
+    @f('A') a:any,
+    @f('B') b:any,
+    @f('C') c:any,
+  ) {}
+}
+// 加载： A
+// 加载： B
+// 加载： C
+// 执行： C
+// 执行： B
+// 执行： A
+</code></pre>
+<h2 id="多个装饰器的合成">多个装饰器的合成</h2>
+<pre><code>@f @g x
+
+@f
+@g
+x
+
+// 就是执行f(g(x))
+</code></pre>
+<h2 id="常用的装饰方法">常用的装饰方法</h2>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> log =&gt; <span class="hljs-function">(<span class="hljs-params">target, name, descriptor</span>) =&gt;</span> {
+  <span class="hljs-keyword">let</span> oldValue = descriptor.<span class="hljs-property">value</span>
+  descriptor.<span class="hljs-property">value</span> = <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> {
+    <span class="hljs-title function_">clog</span>(<span class="hljs-string">`calling <span class="hljs-subst">${name}</span> with`</span>, args)
+    <span class="hljs-keyword">return</span> oldValue.<span class="hljs-title function_">apply</span>(<span class="hljs-variable language_">this</span>, args)
+  }
+  <span class="hljs-keyword">return</span> descriptor
+}
+autobind
+debounce
+time
+mixin
+redux
+</code></pre>
+<h2 id="常用场景">常用场景</h2>
+<ul>
+<li>身份认证</li>
+<li>日志记录</li>
+<li>数据（参数）合理性检查</li>
+<li>缓存装饰器</li>
+</ul>
+<h2 id="常用的修饰器库">常用的修饰器库</h2>
+<ul>
+<li><a href="https://github.com/CocktailJS/traits-decorator">traits-decorator</a></li>
+<li><a href="https://github.com/postaljs/postal.js">postal</a></li>
+<li><a href="https://github.com/jayphelps/core-decorators.js">core-decorator</a></li>
+</ul>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>
