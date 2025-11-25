@@ -141,18 +141,98 @@
             <h1 id="indexdb">indexDB</h1>
 <blockquote>
 <p>IndexedDB 是一种底层 API，用于在客户端存储大量的结构化数据（也包括文件/二进制大型对象（blobs））。
-api很强大。强大到有点复杂。
-现在是异步api.（以前还有同步api）<br>
-indexDB用于缓存数据，service worker用于缓存资源。
+受同源（协议、域名、端口号）限制<br>
+api 很强大。强大到有点复杂。
+现在是异步 api.（以前还有同步 api）<br>
+indexDB 用于缓存数据，service worker 用于缓存资源。
 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/IndexedDB_API">https://developer.mozilla.org/zh-CN/docs/Web/API/IndexedDB_API</a></p>
 </blockquote>
+<p>IndexedDB 是一个浏览器内建的数据库，它比 localStorage 强大得多。</p>
+<ul>
+<li>通过支持多种类型的键，几乎可以存储任何类型的值。（不能存储循环引用的对象）</li>
+<li>支撑事务的可靠性。</li>
+<li>支持键值范围查询、索引。</li>
+<li>和 localStorage 相比，它可以存储更大的数据量。</li>
+<li>键的类型必须是数字、日期、字符串、二进制或数组。可以通过键来搜索、删除、更新值。</li>
+<li></li>
+</ul>
 <h2 id="usage">usage</h2>
+<pre><code class="language-ts"><span class="hljs-keyword">let</span> openRequest = indexedDB.<span class="hljs-title function_">open</span>(name, version); <span class="hljs-comment">// 打开一个数据库</span>
+<span class="hljs-comment">// name    string       数据库的名称</span>
+<span class="hljs-comment">// version 一个正整数版本           默认为1</span>
+</code></pre>
 <h2 id="api">api</h2>
-<h2 id="todo">todo</h2>
+<pre><code class="language-ts"><span class="hljs-attr">openRequest</span>: {
+    <span class="hljs-attr">success</span>: <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {} <span class="hljs-comment">// 数据库准备就绪时</span>
+    <span class="hljs-attr">error</span>: <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {} <span class="hljs-comment">// 打开失败</span>
+    <span class="hljs-attr">upgradeneeded</span>: <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> { <span class="hljs-comment">// 已经准备就绪。</span>
+        <span class="hljs-attr">event</span>: {
+            <span class="hljs-attr">oldVersion</span>: <span class="hljs-built_in">number</span>, <span class="hljs-comment">// 现有的db版本（即数据库版本）</span>
+        }
+    }
+    <span class="hljs-attr">versionchange</span>: <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {} <span class="hljs-comment">// db版本改变时</span>
+    <span class="hljs-attr">close</span>: <span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-comment">// </span>
+    }
+    <span class="hljs-attr">onblocked</span>: <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {} <span class="hljs-comment">// 在其他地方有一个过时的db版本的连接未关闭，造成无法建立新的连接。</span>
+    <span class="hljs-attr">result</span>: xxxx
+}
+<span class="hljs-attr">db</span>: {
+    <span class="hljs-attr">createObjectStore</span>: <span class="hljs-function">(<span class="hljs-params">name: S, keyOptions?: {
+        keyPath,
+        autoIncrement: B
+    }</span>) =&gt;</span> {}
+    <span class="hljs-attr">transaction</span>: <span class="hljs-function">() =&gt;</span> {}
+}
+</code></pre>
+<h2 id="概念">概念</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>对象库</td>
+<td>对应其他数据库中的表或集合</td>
+<td>它是储存数据的地方。一个数据库可能有多个存储区。</td>
+</tr>
+<tr>
+<td>事务</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>对象库</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>对象库</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>对象库</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="生命周期">生命周期</h2>
+<h2 id="事务">事务</h2>
+<p>readonly 事务能同时访问同一存储区。<br>
+readwrite 事务不能够同时访问同一存储区。此事务会“锁定”存储区进行写操作。下一个事务必须等待前一个事务完成，才能访问相同的存储区。</p>
+<p>一个事务可能有多个相关的请求，这些请求必须全部成功或全部失败。那么我们如何将事务标记为已完成，并不再请求呢？
+在下一个版本 3.0 规范中，可能会有一种手动方式来完成事务，但目前在 2.0 中还没有。</p>
+<pre><code>let transaction = db.transaction('books', 'readwrite')
+</code></pre>
 <h3 id="title">title</h3>
 <h3 id="title-1">title</h3>
 <h3 id="title-2">title</h3>
-<h3 id="title-3">title</h3>
 
             
             

@@ -185,3 +185,16 @@ docker 存数据在本地
 |- images
 |- volumes
 ```
+
+## docker networking and registry
+
+```
+docker login docker源
+docker run docker源.注册的用户名.镜像名:tag
+```
+
+## container orchestration
+
+- docker swarm
+- kubernetes
+- mesos

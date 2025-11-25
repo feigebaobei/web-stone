@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>webui</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="webui">webui</h1>
+<h2 id="浏览器扩展程序">浏览器扩展程序</h2>
+<h3 id="recorder">recorder</h3>
+<pre><code class="language-js"><span class="hljs-comment">// 以这样方法绑定多个事件</span>
+<span class="hljs-title function_">addEventListenerFn</span>(<span class="hljs-variable language_">document</span>, <span class="hljs-string">&#x27;input&#x27;</span>, documentInput, <span class="hljs-literal">true</span>) <span class="hljs-comment">// 有捕获阶段触发 </span>
+<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">&#x27;select&#x27;</span>).<span class="hljs-title function_">forEach</span>(<span class="hljs-function">() =&gt;</span> {...})
+$(<span class="hljs-variable language_">document</span>).<span class="hljs-title function_">ready</span>(<span class="hljs-function">() =&gt;</span> {
+    $(<span class="hljs-string">&#x27;body&#x27;</span>).<span class="hljs-title function_">delegate</span>(<span class="hljs-string">&#x27;*&#x27;</span>, <span class="hljs-string">&#x27;mouseenter&#x27;</span>, mouseenterH)
+})
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">mouseenterH</span> = (<span class="hljs-params"></span>) =&gt; {
+    <span class="hljs-keyword">if</span> (!isStop) {
+        <span class="hljs-title function_">cacheDomMapSelector</span>(target, <span class="hljs-function">() =&gt;</span> {
+            <span class="hljs-keyword">if</span> (target.<span class="hljs-property">shadowRoot</span>) { <span class="hljs-comment">// 处理影子元素</span>
+                <span class="hljs-keyword">let</span> domList = <span class="hljs-title function_">querySelectorAllShadow</span>(<span class="hljs-string">&#x27;*&#x27;</span>, target.<span class="hljs-property">shadowRoot</span>)
+                domList.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">dom</span> =&gt;</span> {
+                    <span class="hljs-title function_">bindEvent</span>(dom, <span class="hljs-string">&#x27;mouseenter&#x27;</span>, shadwoDomMouseenter) <span class="hljs-comment">// 为这个元素绑定mouseenter事件</span>
+                    $(dom).<span class="hljs-title function_">delegate</span>(<span class="hljs-string">&#x27;*&#x27;</span>, <span class="hljs-string">&#x27;mouseenter&#x27;</span>, shadwoDomMouseenter) <span class="hljs-comment">// 为这个元素的后代元素绑定mouseenter事件</span>
+                })
+            } <span class="hljs-keyword">else</span> { <span class="hljs-comment">// 处理非影子元素</span>
+                <span class="hljs-title function_">opMouseenter</span>(event.<span class="hljs-property">target</span>)
+                <span class="hljs-title function_">bindEvent</span>(dom, <span class="hljs-string">&#x27;mouseenter&#x27;</span>, shadwoDomMouseenter)
+            }
+        })
+    }
+    <span class="hljs-keyword">if</span> (selectionDom) {}
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">cacheDomMapSelector</span> = (<span class="hljs-params">dom, onceFn</span>) =&gt; {
+    <span class="hljs-keyword">if</span> (!domMapSelector.<span class="hljs-title function_">has</span>(dom)) {
+        domMapSelector.<span class="hljs-title function_">set</span>(dom, <span class="hljs-title function_">getDomSelector</span>(dom))
+        <span class="hljs-keyword">if</span> (onceFn) {
+            <span class="hljs-title function_">onceFn</span>()
+        }
+    }
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">shadwoDomMouseenter</span> = (<span class="hljs-params">event</span>) =&gt; {
+    <span class="hljs-title function_">opMouseenter</span>(event.<span class="hljs-property">target</span>)
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">shadwoDomMouseenter</span> = (<span class="hljs-params">event</span>) =&gt; {
+    <span class="hljs-title function_">cacheDomMapSelector</span>(event.<span class="hljs-property">target</span>, <span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-title function_">opMouseenter</span>(event.<span class="hljs-property">target</span>)
+    })
+}
+
+</code></pre>
+<h3 id="确定framepath">确定framePath</h3>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> loop = <span class="hljs-title function_">createLoop</span>(<span class="hljs-function">(<span class="hljs-params">ud</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> storage.<span class="hljs-title function_">get</span>([ud]).<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
+        <span class="hljs-keyword">return</span> res[ud]
+    })
+}, <span class="hljs-function">(<span class="hljs-params">framePath</span>) =&gt;</span> { <span class="hljs-keyword">return</span> !framePath }, -<span class="hljs-number">1</span>)
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">createLoop</span> = (<span class="hljs-params">promiseFn, isCircleFn, i = <span class="hljs-number">0</span></span>) =&gt; {
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">create</span>(loopPropotype, {
+        <span class="hljs-attr">promiseFn</span>: {
+            <span class="hljs-attr">value</span>: promiseFn,
+        },
+        <span class="hljs-attr">isCircleFn</span>: {
+            <span class="hljs-attr">value</span>: isCircleFn,
+        },
+        <span class="hljs-attr">interval</span>: {
+            <span class="hljs-attr">value</span>: i,
+        },
+    })
+}
+<span class="hljs-keyword">let</span> loopPropotype = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">create</span>({}, {
+    <span class="hljs-attr">launch</span>: {
+        <span class="hljs-attr">value</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params">...p</span>) {
+            <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">promiseFn</span>(...p).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">r</span>) =&gt;</span> {
+                <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">isCircleFn</span>(r)) {
+                    <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">interval</span> &lt; <span class="hljs-number">0</span>) {
+                        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">launch</span>(...p)
+                    } <span class="hljs-keyword">else</span> {
+                        <span class="hljs-keyword">return</span> <span class="hljs-title function_">sleep</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">interval</span>).<span class="hljs-title function_">then</span>(<span class="hljs-function">() =&gt;</span> {
+                            <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">launch</span>(...p)
+                        })
+                    }
+                } <span class="hljs-keyword">else</span> {
+                    <span class="hljs-keyword">return</span> r
+                }
+            })
+        }
+    }
+})
+<span class="hljs-variable language_">window</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;message&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">messageEvent</span>) =&gt;</span> {
+    <span class="hljs-keyword">let</span> iframeList = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">&#x27;iframe&#x27;</span>)
+    <span class="hljs-keyword">let</span> iframeIndex = -<span class="hljs-number">1</span>
+    <span class="hljs-keyword">if</span> (messageEvent.<span class="hljs-property">data</span>.<span class="hljs-property">webUIFramePath</span>) {
+        <span class="hljs-keyword">let</span> ud = messageEvent.<span class="hljs-property">data</span>.<span class="hljs-property">webUIFramePath</span>.<span class="hljs-property">ulid</span>
+        <span class="hljs-keyword">let</span> arr = <span class="hljs-title function_">compatibleArray</span>(messageEvent.<span class="hljs-property">data</span>.<span class="hljs-property">webUIFramePath</span>.<span class="hljs-property">res</span>)
+        <span class="hljs-keyword">let</span> res = [...arr]
+        <span class="hljs-keyword">switch</span> (iframeList.<span class="hljs-property">length</span>) {
+            <span class="hljs-attr">default</span>:
+                <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; iframeList.<span class="hljs-property">length</span>; i++) {
+                    <span class="hljs-keyword">if</span> (iframeList[i].<span class="hljs-property">contentWindow</span> == messageEvent.<span class="hljs-property">source</span> || iframeList[i].<span class="hljs-property">contentWindow</span>.<span class="hljs-property">parent</span> == messageEvent.<span class="hljs-property">source</span>.<span class="hljs-property">top</span>) {
+                        iframeIndex = i
+                    }
+                }
+                <span class="hljs-keyword">if</span> (iframeIndex &gt; -<span class="hljs-number">1</span>) {
+                    res.<span class="hljs-title function_">unshift</span>(<span class="hljs-string">`iframe &gt;&gt; nth=<span class="hljs-subst">${iframeIndex}</span>`</span>)
+                }
+                <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:
+                <span class="hljs-keyword">if</span> (iframeList[i].<span class="hljs-property">contentWindow</span> == messageEvent.<span class="hljs-property">source</span> || iframeList[i].<span class="hljs-property">contentWindow</span>.<span class="hljs-property">parent</span> == messageEvent.<span class="hljs-property">source</span>.<span class="hljs-property">top</span>) {
+                    res.<span class="hljs-title function_">unshift</span>(<span class="hljs-string">&#x27;iframe&#x27;</span>)
+                }
+                <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:
+                <span class="hljs-keyword">break</span>;
+        }
+    }
+    <span class="hljs-keyword">if</span> (res.<span class="hljs-property">length</span> &gt; arr.<span class="hljs-property">length</span>) {
+        <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">window</span>.<span class="hljs-property">parent</span> == <span class="hljs-variable language_">window</span>.<span class="hljs-property">self</span>) {
+            <span class="hljs-keyword">let</span> o = {[<span class="hljs-string">`<span class="hljs-subst">${ud}</span>`</span>]: res}
+            storage.<span class="hljs-title function_">set</span>(o)
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-variable language_">window</span>.<span class="hljs-property">parent</span>.<span class="hljs-title function_">postMessage</span>({
+                <span class="hljs-attr">webUIFramePath</span>: {
+                    <span class="hljs-attr">ulid</span>: ud,
+                    res
+                }
+            }, <span class="hljs-string">&#x27;*&#x27;</span>)
+        }
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">let</span> o = {[<span class="hljs-string">`<span class="hljs-subst">${ud}</span>`</span>]: res}
+        storage.<span class="hljs-title function_">set</span>(o)
+    }
+})
+</code></pre>
+<h3 id="取得xpath">取得xPath</h3>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">getStableXPath</span> = (<span class="hljs-params">element</span>) =&gt; {
+    <span class="hljs-keyword">let</span> cur = element
+    <span class="hljs-keyword">let</span> parts = []
+    <span class="hljs-keyword">let</span> part
+    <span class="hljs-keyword">while</span> (cur &amp;&amp; cur.<span class="hljs-property">nodeType</span> === <span class="hljs-number">1</span>) {
+        part = cur.<span class="hljs-property">tagName</span>.<span class="hljs-title function_">toLowerCase</span>()
+        <span class="hljs-keyword">if</span> (cur.<span class="hljs-property">parentElement</span>) {
+            <span class="hljs-keyword">let</span> siblings = array.<span class="hljs-title function_">from</span>(cur.<span class="hljs-property">parentElement</span>.<span class="hljs-property">children</span>).<span class="hljs-title function_">filter</span>(<span class="hljs-function"><span class="hljs-params">el</span> =&gt;</span> el.<span class="hljs-property">tagName</span> === cur.<span class="hljs-property">tagName</span>)
+            <span class="hljs-keyword">if</span> (sibling.<span class="hljs-property">length</span>) {
+                <span class="hljs-keyword">let</span> index = sibling.<span class="hljs-title function_">indexOf</span>(cur)
+                part += <span class="hljs-string">`[<span class="hljs-subst">${index + <span class="hljs-number">1</span>}</span>]`</span>
+            }
+        }
+        parts.<span class="hljs-title function_">unshift</span>(part)
+        cur = cur.<span class="hljs-property">parentElement</span>
+    }
+    <span class="hljs-keyword">return</span> parts.<span class="hljs-property">length</span> ? <span class="hljs-string">`//<span class="hljs-subst">${parts.join(<span class="hljs-string">&#x27;/&#x27;</span>)}</span>`</span> : <span class="hljs-string">&#x27;&#x27;</span>
+}
+</code></pre>
+<h3 id="取得selector">取得selector</h3>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">getSelectorByDom</span> = (<span class="hljs-params">dom, check = <span class="hljs-literal">false</span></span>) =&gt; {
+    <span class="hljs-title function_">cacheDomMapSelector</span>(dom)
+    <span class="hljs-keyword">let</span> selector = domMapSelector.<span class="hljs-title function_">get</span>(dom)
+    <span class="hljs-keyword">if</span> (check) {
+        <span class="hljs-keyword">let</span> parsedSelector = <span class="hljs-title function_">parseSelector</span>(selector)
+        <span class="hljs-keyword">let</span> result = injectedScript.<span class="hljs-title function_">querySelectorAll</span>(parsedSelector, dom.<span class="hljs-property">ownerDocument</span>)
+        <span class="hljs-keyword">if</span> (result.<span class="hljs-property">length</span> &gt; <span class="hljs-number">1</span>) {
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; result.<span class="hljs-property">length</span>; i++) {
+                <span class="hljs-keyword">if</span> (result[i] === dom) {
+                    selector = injectedScript.<span class="hljs-title function_">generateSelectorSimple</span>(result[i])
+                    <span class="hljs-keyword">break</span>;
+                }
+            }
+        }
+    }
+    <span class="hljs-keyword">return</span> selector
+}
+</code></pre>
+<h3 id="injectedscript">injectedScript</h3>
+<p>这里参考了playwright-crx源码</p>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> injectedSctript = <span class="hljs-keyword">new</span> <span class="hljs-title class_">InjectedScript</span>(<span class="hljs-variable language_">window</span>, <span class="hljs-literal">false</span>, <span class="hljs-string">&#x27;javascript&#x27;</span>, <span class="hljs-variable constant_">TESTIDATTRIBUTENAME</span>, <span class="hljs-number">1</span>, <span class="hljs-string">&#x27;chromium&#x27;</span>, <span class="hljs-literal">true</span>, [])
+</code></pre>
+<h3 id="bgjs">bg.js</h3>
+<pre><code class="language-js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">UniqueEvent</span> {
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params">timeout = <span class="hljs-number">300</span>, sendMessageFn = () =&gt; {}</span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">queue</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PriorityQueue</span>(<span class="hljs-string">&#x27;time&#x27;</span>)
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">timeout</span> = timeout
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">timer</span> = <span class="hljs-number">0</span>
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">sendMessageFn</span> = sendMessageFn
+    }
+    <span class="hljs-title function_">clearTimeoutFn</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">timer</span>) {
+            <span class="hljs-built_in">clearTimeout</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">timer</span>)
+            <span class="hljs-variable language_">this</span>.<span class="hljs-property">timer</span> = <span class="hljs-number">0</span>
+        }
+    }
+    <span class="hljs-title function_">enqueueAndOp</span>(<span class="hljs-params">message</span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">queue</span>.<span class="hljs-title function_">enqueue</span>(message)
+        <span class="hljs-keyword">let</span> length = <span class="hljs-variable language_">this</span>.<span class="hljs-property">queue</span>.<span class="hljs-title function_">size</span>()
+        <span class="hljs-keyword">if</span> (length === <span class="hljs-number">1</span>) {
+            <span class="hljs-variable language_">this</span>.clearTimeoutFn()
+            <span class="hljs-variable language_">this</span>.<span class="hljs-property">timer</span> = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+                <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">opMessage</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">queue</span>.<span class="hljs-title function_">peek</span>(<span class="hljs-number">0</span>), <span class="hljs-number">1</span>)
+                <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">dequeueFromFront</span>(<span class="hljs-number">1</span>)
+            }, <span class="hljs-variable language_">this</span>.<span class="hljs-property">timeout</span>)
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-variable language_">this</span>.clearTimeoutFn()
+            <span class="hljs-variable language_">this</span>.<span class="hljs-property">timer</span> = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+                <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">opMoreAction</span>()
+            }, <span class="hljs-variable language_">this</span>.<span class="hljs-property">timeout</span>)
+        }
+    }
+    <span class="hljs-title function_">opMoreAction</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-keyword">let</span> index = <span class="hljs-number">0</span>
+        <span class="hljs-keyword">let</span> groupLen = <span class="hljs-number">0</span>
+        <span class="hljs-keyword">let</span> length = <span class="hljs-variable language_">this</span>.<span class="hljs-property">queue</span>.<span class="hljs-title function_">size</span>()
+        <span class="hljs-keyword">while</span> (index &lt; length) {
+            <span class="hljs-keyword">let</span> cur = <span class="hljs-variable language_">this</span>.<span class="hljs-property">queue</span>.<span class="hljs-title function_">peek</span>(index)
+            <span class="hljs-keyword">let</span> next = <span class="hljs-variable language_">this</span>.<span class="hljs-property">queue</span>.<span class="hljs-title function_">peek</span>(index + <span class="hljs-number">1</span>)
+            <span class="hljs-keyword">if</span> (!next) {
+                groupLen++
+                <span class="hljs-keyword">break</span>;
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-keyword">if</span> (<span class="hljs-title function_">isSameOriginEvent</span>(cur, next)) {
+                    index++
+                    groupLen++
+                } <span class="hljs-keyword">else</span> {
+                    groupLen++
+                    <span class="hljs-keyword">break</span>;
+                }
+            }
+        }
+        <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">opMessage</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">queue</span>.<span class="hljs-title function_">peek</span>(groupLen - <span class="hljs-number">1</span>), groupLen)
+        <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">dequeueFrontFront</span>(groupLen)
+        length = <span class="hljs-variable language_">this</span>.<span class="hljs-property">queue</span>.<span class="hljs-title function_">size</span>()
+        <span class="hljs-keyword">if</span> (length) {
+            <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">opMoreAction</span>()
+        }
+    }
+    <span class="hljs-title function_">dequeueFromFront</span>(<span class="hljs-params">count</span>) {
+        <span class="hljs-keyword">while</span> (count) {
+            <span class="hljs-variable language_">this</span>.<span class="hljs-property">queue</span>.<span class="hljs-title function_">dequeue</span>()
+            count--
+        }
+    }
+    <span class="hljs-title function_">opMessage</span>(<span class="hljs-params">message, count</span>) {
+        <span class="hljs-keyword">switch</span> (message.<span class="hljs-property">name</span>) {
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;click&#x27;</span>:
+                message.<span class="hljs-property">clickCount</span> = count
+                <span class="hljs-keyword">let</span> next = <span class="hljs-variable language_">this</span>.<span class="hljs-property">queue</span>.<span class="hljs-title function_">peek</span>(count)
+                <span class="hljs-keyword">if</span> (next &amp;&amp; [<span class="hljs-string">&#x27;tabcreate&#x27;</span>].<span class="hljs-title function_">includes</span>(next.<span class="hljs-property">name</span>)) {
+                    <span class="hljs-keyword">let</span> pageStr = <span class="hljs-string">`<span class="hljs-subst">${tabIdPageN.pre}</span><span class="hljs-subst">${tagIdPageN.cur ? tabIdPageN.cur : <span class="hljs-string">&#x27;&#x27;</span>}</span>`</span>
+                    message.<span class="hljs-property">signals</span>.<span class="hljs-title function_">push</span>({
+                        <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;popup&#x27;</span>,
+                        <span class="hljs-attr">popupAlias</span>: pageStr
+                    })
+                }
+                <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">sendMessageFn</span>(message)
+                <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;wheel&#x27;</span>:
+                <span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>, arr = []
+                <span class="hljs-keyword">while</span> (i &lt; count) {
+                    arr.<span class="hljs-title function_">push</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">queue</span>.<span class="hljs-title function_">peek</span>(i))
+                    i++
+                }
+                message.<span class="hljs-property">deltaX</span> = arr.<span class="hljs-title function_">reduce</span>(<span class="hljs-function">(<span class="hljs-params">r, c</span>) =&gt;</span> {
+                    r += c.<span class="hljs-property">deltaX</span>
+                    <span class="hljs-keyword">return</span> r
+                }, <span class="hljs-number">0</span>)
+                message.<span class="hljs-property">deltaY</span> = arr.<span class="hljs-title function_">reduce</span>(<span class="hljs-function">(<span class="hljs-params">r, c</span>) =&gt;</span> {
+                    r += c.<span class="hljs-property">deltaY</span>
+                    <span class="hljs-keyword">return</span> r
+                }, <span class="hljs-number">0</span>)
+                <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">sendMessageFn</span>(message)
+                <span class="hljs-keyword">break</span>;
+            <span class="hljs-attr">default</span>:
+                <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">sendMessageFn</span>(message)
+                <span class="hljs-keyword">break</span>;
+        }
+    }
+}
+<span class="hljs-keyword">let</span> uniqueEvent = <span class="hljs-keyword">new</span> <span class="hljs-title class_">UniqueEvent</span>(<span class="hljs-number">400</span>, <span class="hljs-function">() =&gt;</span> {
+    chrome.<span class="hljs-property">runtime</span>.<span class="hljs-title function_">sendMessage</span>({<span class="hljs-attr">webUILog</span>: message, <span class="hljs-attr">source</span>: <span class="hljs-string">&#x27;background&#x27;</span>})
+})
+chrome.<span class="hljs-property">runtime</span>.<span class="hljs-property">onMessage</span>.<span class="hljs-title function_">addListener</span>(<span class="hljs-function">(<span class="hljs-params">message</span>) =&gt;</span> {
+    <span class="hljs-keyword">switch</span> (message.<span class="hljs-property">action</span>) {
+        <span class="hljs-keyword">case</span> eventType.<span class="hljs-property">RECORDER</span>:
+            autoOverQueue.<span class="hljs-title function_">enqueue</span>(message.<span class="hljs-property">log</span>)
+            <span class="hljs-keyword">let</span> last = autoOverQueue.<span class="hljs-title function_">getTail</span>()
+            <span class="hljs-keyword">if</span> (<span class="hljs-variable constant_">IMPORTANTEVENTLIST</span>.<span class="hljs-title function_">includes</span>(last.<span class="hljs-property">name</span>)) {
+                <span class="hljs-keyword">while</span> (!autoOverQueue.<span class="hljs-title function_">isEmpty</span>()) {
+                    <span class="hljs-keyword">let</span> eventObj = autoOverQueue.<span class="hljs-title function_">dequeue</span>()
+                    uniqueEvent.<span class="hljs-title function_">enqueueAndOp</span>(eventObj)
+                }
+            }
+            <span class="hljs-keyword">break</span>;
+    }
+})
+
+</code></pre>
+<p>xx与后台服务通信</p>
+<pre><code class="language-js">chrome.<span class="hljs-property">runtime</span>.<span class="hljs-property">onMessage</span>.<span class="hljs-title function_">addListener</span>(<span class="hljs-function">() =&gt;</span> {
+    chrome.<span class="hljs-property">runtime</span>.<span class="hljs-title function_">sendMessage</span>({<span class="hljs-attr">log</span>: res, <span class="hljs-attr">action</span>: eventType.<span class="hljs-property">CONFIG</span>})
+})
+</code></pre>
+<h2 id="管理端">管理端</h2>
+<h2 id="执行机">执行机</h2>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> {chromium} = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;playwright&#x27;</span>)
+
+router.<span class="hljs-title function_">route</span>(<span class="hljs-string">&#x27;/&#x27;</span>)
+    .<span class="hljs-title function_">options</span>(<span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {res.<span class="hljs-title function_">sendStatus</span>(<span class="hljs-number">200</span>)})
+    .<span class="hljs-title function_">get</span>(<span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
+        <span class="hljs-title function_">replay</span>(stepList, stepConfig, preConfig).<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> {
+            res.<span class="hljs-title function_">status</span>(<span class="hljs-number">200</span>).<span class="hljs-title function_">join</span>({
+                <span class="hljs-attr">code</span>: <span class="hljs-number">0</span>,
+                <span class="hljs-attr">message</span>: <span class="hljs-string">&#x27;&#x27;</span>,
+                <span class="hljs-attr">data</span>: response,
+            }).<span class="hljs-title function_">catch</span>(...)
+        })
+    })
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">replay</span> = <span class="hljs-keyword">async</span> (<span class="hljs-params">stepList, stepConfig, preConfig</span>) =&gt; {
+    <span class="hljs-keyword">let</span> browser = <span class="hljs-keyword">await</span> chromium.<span class="hljs-title function_">launch</span>({
+        <span class="hljs-attr">headless</span>: <span class="hljs-literal">false</span>,
+        <span class="hljs-attr">slowMo</span>: preConfig.<span class="hljs-property">slowMo</span>,
+        <span class="hljs-attr">timeout</span>: preConfig.<span class="hljs-property">timeout</span>,
+    })
+    <span class="hljs-keyword">let</span> context = <span class="hljs-keyword">await</span> browser.<span class="hljs-title function_">newContext</span>({
+        <span class="hljs-attr">viewport</span>: {<span class="hljs-attr">width</span>: preConfig.<span class="hljs-property">width</span>, <span class="hljs-attr">height</span>: preConfig.<span class="hljs-property">height</span>, }
+    })
+    <span class="hljs-keyword">await</span> context.<span class="hljs-title function_">addCookies</span>(stepConfig.<span class="hljs-property">cookie</span>)
+    <span class="hljs-keyword">let</span> paget = <span class="hljs-keyword">await</span> context.<span class="hljs-title function_">newPage</span>()
+    <span class="hljs-keyword">let</span> box = []
+    <span class="hljs-keyword">let</span> stepListActual = <span class="hljs-title function_">calcVar</span>(<span class="hljs-title function_">cloneDeep</span>(stepList), stepConfig.<span class="hljs-property">varList</span>)
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> <span class="hljs-title function_">runFn</span>(page, stepListActual, browser, box, preConfig.<span class="hljs-property">fullPage</span>, preConfig.<span class="hljs-property">opError</span>)
+}
+<span class="hljs-comment">// 执行全部步骤</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">runFn</span> = (<span class="hljs-params">...</span>) =&gt; {
+    <span class="hljs-keyword">let</span> retryIndexArr = []
+    <span class="hljs-keyword">let</span> pageMap = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>()
+    pageMap.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;page&#x27;</span>, page)
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; stepList.<span class="hljs-property">length</span>; i++) {
+        <span class="hljs-keyword">let</span> step = stepList[i]
+        <span class="hljs-keyword">let</span> pagePromise = <span class="hljs-literal">null</span>
+        <span class="hljs-keyword">if</span> (<span class="hljs-title class_">Array</span>.<span class="hljs-title function_">isArray</span>(step.<span class="hljs-property">signals</span>)) {
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; step.<span class="hljs-property">signals</span>.<span class="hljs-property">length</span>; i++) {
+                <span class="hljs-keyword">switch</span> (step.<span class="hljs-property">signals</span>[i].<span class="hljs-property">name</span>) {
+                    <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;popup&#x27;</span>:
+                        pagePromise = pageMap.<span class="hljs-title function_">get</span>(step.<span class="hljs-property">pageAlias</span>).<span class="hljs-title function_">waitForEvent</span>(<span class="hljs-string">&#x27;popup&#x27;</span>, {})
+                    <span class="hljs-keyword">break</span>;
+                }
+            }
+        }
+        <span class="hljs-keyword">let</span> pageTarget = pageMap.<span class="hljs-title function_">get</span>(step.<span class="hljs-property">pageAlias</span> || <span class="hljs-string">&#x27;page&#x27;</span>)
+        <span class="hljs-keyword">let</span> relationPage
+        <span class="hljs-keyword">switch</span> (step.<span class="hljs-property">name</span>) {
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;tabchange&#x27;</span>:
+                relationPage = <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">from</span>(pageMap.<span class="hljs-title function_">values</span>()).<span class="hljs-title function_">find</span>(<span class="hljs-function"><span class="hljs-params">p</span> =&gt;</span> (p.<span class="hljs-title function_">url</span>() === step.<span class="hljs-property">url</span>))
+                <span class="hljs-keyword">break</span>;
+        }
+        <span class="hljs-keyword">await</span> <span class="hljs-title function_">runStep</span>(...).<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> {
+            box.<span class="hljs-title function_">push</span>(response)
+            <span class="hljs-keyword">return</span> 
+        }).<span class="hljs-title function_">then</span>(<span class="hljs-function">() =&gt;</span> {
+            <span class="hljs-keyword">return</span> <span class="hljs-title function_">screenshotFn</span>(...)
+        }).<span class="hljs-title function_">then</span>(<span class="hljs-function">() =&gt;</span> {
+            <span class="hljs-keyword">if</span> (pagePromise) {
+                <span class="hljs-keyword">return</span> pagePromise
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>
+            }
+        }).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">p</span>) =&gt;</span> {
+            <span class="hljs-keyword">if</span> (p) {
+                pageMap.<span class="hljs-title function_">set</span>(stepList[i].<span class="hljs-property">signals</span>[<span class="hljs-number">0</span>].<span class="hljs-property">popupAlias</span>, p)
+            }
+            pagePromise = <span class="hljs-literal">null</span>
+        }).<span class="hljs-title function_">catch</span>(<span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> {
+            <span class="hljs-keyword">switch</span> (opError) {
+                <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;retry&#x27;</span>:
+                    <span class="hljs-keyword">if</span> (retryIndexArr.<span class="hljs-title function_">includes</span>(i)) {
+                        <span class="hljs-title function_">collectError</span>(box, error) <span class="hljs-comment">// 把error放在box里</span>
+                        <span class="hljs-keyword">return</span> <span class="hljs-title function_">screenshotFn</span>(...)
+                    } <span class="hljs-keyword">else</span> {
+                        retryIndexArr.<span class="hljs-title function_">push</span>(i)
+                        i--
+                    }
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;block&#x27;</span>:
+                    <span class="hljs-title function_">collectError</span>(...)
+                    i = stepList.<span class="hljs-property">length</span>
+                    <span class="hljs-keyword">return</span> <span class="hljs-title function_">screenshotFn</span>(...)
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;ingore&#x27;</span>:
+                    <span class="hljs-title function_">collectError</span>(...)
+                    <span class="hljs-keyword">return</span> <span class="hljs-title function_">screenshotFn</span>(...)
+                    <span class="hljs-keyword">break</span>;
+            }
+        })
+    }
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">calcVar</span> = (<span class="hljs-params"></span>) =&gt; {
+    <span class="hljs-keyword">let</span> regVarList = <span class="hljs-title function_">calcVarConfig</span>(...)
+    <span class="hljs-keyword">return</span> steplist.<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">stepItem</span> =&gt;</span> {
+        <span class="hljs-keyword">switch</span> (stepItem.<span class="hljs-property">name</span>) {
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;click&#x27;</span>:
+                stepItem.<span class="hljs-property">selector</span> = <span class="hljs-title function_">replaceVar</span>(stepItem.<span class="hljs-property">selector</span>, regVarList)
+                stepItem.<span class="hljs-property">locator</span> = <span class="hljs-title function_">genLocator</span>(...)
+                <span class="hljs-keyword">break</span>;
+            ....
+        }
+    })
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">replaceVar</span>  = (<span class="hljs-params">...</span>) =&gt; {
+    <span class="hljs-keyword">return</span> regVarList.<span class="hljs-title function_">reduce</span>(<span class="hljs-function">(<span class="hljs-params">r, c</span>) =&gt;</span> {
+        r = r.<span class="hljs-title function_">replace</span>(c.<span class="hljs-property">reg</span>, c.<span class="hljs-property">value</span>)
+    }, originStr)
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">calcVarConfig</span>  = (<span class="hljs-params">config</span>) =&gt; {
+    <span class="hljs-keyword">return</span> config.<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> {
+        <span class="hljs-keyword">let</span> value = (<span class="hljs-keyword">new</span> <span class="hljs-title class_">Function</span>(<span class="hljs-string">`return <span class="hljs-subst">${item.value}</span>`</span>))()
+        <span class="hljs-keyword">let</span> parttern = <span class="hljs-string">`\\$\\{\\{<span class="hljs-subst">${item.key}</span>\\}\\}`</span>
+        <span class="hljs-keyword">let</span> t = {
+            <span class="hljs-attr">key</span>: item.<span class="hljs-property">key</span>,
+            <span class="hljs-attr">value</span>: value,
+            <span class="hljs-attr">reg</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">RegExp</span>(parttern, <span class="hljs-string">&#x27;g&#x27;</span>)
+        }
+        <span class="hljs-keyword">return</span> t
+    })
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">runStep</span> = (<span class="hljs-params">...</span>) =&gt; {
+    <span class="hljs-keyword">switch</span> (step.<span class="hljs-property">name</span>) {
+        <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;click&#x27;</span>:
+            <span class="hljs-keyword">await</span> <span class="hljs-title function_">getLocator</span>(page, step).<span class="hljs-title function_">then</span>(<span class="hljs-function">() =&gt;</span> {
+                ...
+            })
+            <span class="hljs-keyword">break</span>;
+    }
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">getLocator</span> = <span class="hljs-keyword">async</span> (<span class="hljs-params">....</span>) =&gt; {
+    <span class="hljs-keyword">let</span> obj = <span class="hljs-keyword">await</span> <span class="hljs-title function_">getLocator2</span>(page, ...)
+    <span class="hljs-keyword">let</span> t
+    <span class="hljs-keyword">if</span> (obj.<span class="hljs-property">selectorCount</span> &gt;= <span class="hljs-number">1</span>) {
+        t = obj.<span class="hljs-property">selectorLocator</span>
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (obj.<span class="hljs-property">xPathCount</span> &gt;= <span class="hljs-number">1</span>) {
+        t = obj.<span class="hljs-property">xPathLocator</span>
+    } <span class="hljs-keyword">else</span> {
+        t = <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">reject</span>()
+    }
+    <span class="hljs-keyword">return</span> t
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">getLocator2</span> = (<span class="hljs-params">...</span>) =&gt; {
+    <span class="hljs-keyword">let</span> frameLocator = <span class="hljs-title function_">getFrameLocatorByFramePath</span>(...)
+    <span class="hljs-keyword">let</span> selectorLocator = frameLocator.<span class="hljs-title function_">locator</span>(selector)
+    <span class="hljs-keyword">let</span> xPathLocator = xPath ? frameLocator.<span class="hljs-title function_">locator</span>(<span class="hljs-string">`xpath=<span class="hljs-subst">${xPath}</span>`</span>) : <span class="hljs-literal">undefined</span>
+    <span class="hljs-keyword">let</span> selectorCount = <span class="hljs-keyword">await</span> selectoLocator.<span class="hljs-title function_">count</span>()
+    <span class="hljs-keyword">let</span> xPathCount = xPathLocator ? <span class="hljs-keyword">await</span> xPathLocator.<span class="hljs-title function_">count</span>() : <span class="hljs-number">0</span>
+    <span class="hljs-keyword">return</span> {
+        frameLocator, selectorLocator, xPathLocator, selectorCount, xPathCount
+    }
+}
+</code></pre>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>
