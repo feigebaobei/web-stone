@@ -11,7 +11,9 @@
  *--------------------------------------------------------------------------------------------*/
 
 .vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
 	display: none;
 }
 
@@ -37,6 +39,102 @@
     vertical-align: middle;
     pointer-events: none;
 }
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
 </style>
         
         </head>
@@ -1063,15 +1161,39 @@ o.<span class="hljs-property">origin</span> = o
 o.<span class="hljs-title function_">a</span>().<span class="hljs-title function_">b</span>().<span class="hljs-title function_">c</span>()
 </code></pre>
 <h2 id="依赖注入">依赖注入</h2>
+<p>将创建对象的任务转移给其他 class，并直接使用依赖项的过程，被称为“依赖项注入”。
+有三种类型的依赖注入：</p>
+<ul>
+<li>构造函数注入：依赖关系是通过 class 构造器提供的。</li>
+<li>setter 注入：注入程序用客户端的 setter 方法注入依赖项。</li>
+<li>接口注入：依赖项提供了一个注入方法，该方法将把依赖项注入到传递给它的任何客户端中。客户端必须实现一个接口，该接口的 setter 方法接收依赖。</li>
+</ul>
 <p>它是设计模式，同时又是一种机制：当应用程序的一些部件（即一些依赖）需要另一些部件时，利用依赖注入来创建被请求的部件，并将它们注入到需要它们的部件中。</p>
 <p>在 Angular 中，依赖通常是服务，但是也可以是值，比如字符串或函数。应用的注入器（它是在启动期间自动创建的）会使用该服务或值的配置好的提供者来按需实例化这些依赖。各个不同的提供者可以为同一个服务提供不同的实现。</p>
-<p>我的理解：</p>
-<ol>
-<li>实例化一个类，得到实例。</li>
-<li>把实例作为参数喂入方法。</li>
-<li>文体体中用实例执行逻辑。</li>
-</ol>
 <p>我常用的是高阶方法、回调方法，要么喂入变量。虽然变量包括实例，但是没有把实例作为参数提高认知高度。</p>
+<pre><code class="language-js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Player</span>{  
+    <span class="hljs-title class_">Weapon</span> weapon;  
+    <span class="hljs-comment">// weapon 与 Sword类紧密耦合</span>
+    <span class="hljs-title class_">Player</span>(){  
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">weapon</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Sword</span>();
+    }  
+    <span class="hljs-comment">// weapon 与 sword类紧密耦合. weapon可以是sword、gun等</span>
+    <span class="hljs-title class_">Player</span>(sword){  
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">weapon</span> = sword
+
+    }  
+    public <span class="hljs-keyword">void</span> <span class="hljs-title function_">attack</span>(<span class="hljs-params"></span>) {
+        weapon.<span class="hljs-title function_">attack</span>();
+    }
+}   
+</code></pre>
+<p>使用依赖注入的优势</p>
+<ul>
+<li>帮助进行单元测试。</li>
+<li>由于依赖关系的初始化是由注入器组件完成的，因此减少了样板代码。</li>
+<li>扩展应用程序变得更加容易。</li>
+<li>帮助实现松耦合，这在应用编程中很重要。</li>
+</ul>
 <h2 id="总结">总结</h2>
 <p>在实际运行中常会用于多种设计模式，也会用到设计模式的变种。</p>
 

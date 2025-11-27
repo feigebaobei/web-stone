@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>proxy</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h2 id="proxy">proxy</h2>
+<p>proxy 让代理模式更容易实现。
+常用于做：保护/预检/代理等。
+如果一个属性不可配置（configurable）且不可写（writable），则 Proxy 不能修改该属性，否则通过 Proxy 对象访问该属性会报错。
+如果目标对象自身的某个属性不可写，那么set方法将不起作用。</p>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> o = {
+    <span class="hljs-attr">a</span>: <span class="hljs-string">&#x27;s&#x27;</span>,
+    <span class="hljs-attr">_b</span>: <span class="hljs-number">1</span>
+}
+<span class="hljs-keyword">var</span> p = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Proxy</span>(o, {
+    <span class="hljs-attr">get</span>: <span class="hljs-function">(<span class="hljs-params">target, propKey, receiver</span>) =&gt;</span> {
+        <span class="hljs-keyword">if</span> (propKey.<span class="hljs-title function_">startsWith</span>(<span class="hljs-string">&#x27;_&#x27;</span>)) {
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&#x27;私有方法不能被外部访问&#x27;</span>)
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">return</span> target[propKey]
+        }
+    },
+    <span class="hljs-attr">set</span>: (target, propKey, value, receiver) {
+        target[propKey] = value
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span> <span class="hljs-comment">// 在严格模式下，set时必须返回true，否则会报错。</span>
+    }
+})
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(p.<span class="hljs-property">a</span>)    <span class="hljs-comment">// &#x27;s&#x27;</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(p.<span class="hljs-property">_b</span>)   <span class="hljs-comment">// 报错</span>
+</code></pre>
+<p>this 指向 handler。因为 this 指向运行时上下文环境。</p>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> { proxy, revoke } = <span class="hljs-title class_">Proxy</span>.<span class="hljs-title function_">revocable</span>(target, handler)
+proxy.<span class="hljs-property">key</span> = <span class="hljs-string">&#x27;str&#x27;</span>
+proxy.<span class="hljs-property">key</span> <span class="hljs-comment">// &#x27;str&#x27;</span>
+<span class="hljs-title function_">revoke</span>() <span class="hljs-comment">// 取消代理</span>
+proxy.<span class="hljs-property">key</span> <span class="hljs-comment">// 报错</span>
+</code></pre>
+<pre><code class="language-js"><span class="hljs-keyword">var</span> proxy = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Proxy</span>(target, handler)
+<span class="hljs-attr">target</span>: <span class="hljs-title class_">Object</span>,
+<span class="hljs-attr">handler</span>: 控制对象。
+    {
+        <span class="hljs-comment">// 拦截读取对象的属性</span>
+        <span class="hljs-title function_">get</span>(target, propKey, receiver) <span class="hljs-comment">// receiver 读操作所在的Proxy对象</span>
+        <span class="hljs-comment">// 拦截读取对象的属性</span>
+        <span class="hljs-title function_">set</span>(target, propKey, value, receiver)
+        <span class="hljs-comment">// 拦截 propKey in proxy</span>
+        <span class="hljs-title function_">has</span>(target, propKey) <span class="hljs-comment">// proxy.has()返回false，则该属性不会被in运算符发现。</span>
+        <span class="hljs-comment">// 拦截 delete obj[propKey]</span>
+        <span class="hljs-title function_">deleteProperty</span>(target, propKey)
+        <span class="hljs-comment">// 拦截 Object.getOwnPropertyNames(p) / Object.getOwnPropertySymbols(p) / Object.keys(p) / for...in</span>
+        <span class="hljs-title function_">ownKeys</span>(target)
+        <span class="hljs-comment">// 拦截 Object.getOwnPropertyDescriptor(p, key)</span>
+        <span class="hljs-title function_">getOwnPropertyDescription</span>(target, propKey)
+        <span class="hljs-comment">// 拦截 Object.defineProperty(p, k, descriptor) / Object.defineProperties(p, descriptor)</span>
+        <span class="hljs-title function_">defineProperty</span>(target, propKey, propDesc) <span class="hljs-comment">// 如果目标对象的某个属性不可写（writable）或不可配置（configurable），则defineProperty()方法不得改变这两个设置。</span>
+        <span class="hljs-comment">// 拦截 Object.preventExtensions(p)</span>
+        <span class="hljs-title function_">preventExtensions</span>(target) =&gt; boolean
+        <span class="hljs-comment">// 拦截 Object.prototype.__proto__ / Object.prototype.isPrototypeOf() / Object.getPrototypeOf() / Reflect.getPrototypeOf() / instanceof</span>
+        <span class="hljs-title function_">getPrototypeOf</span>(target)
+        <span class="hljs-comment">// 拦截 Object.isExtensible(p)</span>
+        <span class="hljs-title function_">isExtensible</span>(target) =&gt; boolean
+        <span class="hljs-comment">// 拦截 Object.setPrototypeOf(p, proto)</span>
+        <span class="hljs-title function_">setPrototypeOf</span>(target, proto)
+        <span class="hljs-comment">// 拦截proxy实例作为函数调用的操作。 proxy(...args) / proxy.call(othis, ...args) / proxy.apply(othis, args)</span>
+        <span class="hljs-title function_">apply</span>(target, thisObject, args)
+        <span class="hljs-comment">// 拦截实例化 new proxy(...args)</span>
+        <span class="hljs-title function_">construct</span>(target, args) =&gt; newConstruct
+    }
+</code></pre>
+<h3 id="技巧">技巧</h3>
+<p>在一个object对象上设置一个proxy属性。</p>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> obj = {...originObj, <span class="hljs-attr">proxy</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">Proxy</span>(target, handler)}
+</code></pre>
+<p>嵌套</p>
+<h2 id="reflect">reflect</h2>
+<ul>
+<li>为了操作对象而提供的新 API。</li>
+<li>Reflect更接近语言本质。当前操作<code>Object</code>的方法同时存在于<code>Object</code>、<code>Reflect</code>。未来会只在<code>Reflect</code>上存在。</li>
+<li>修改某些Object方法的返回结果，让其变得更合理。</li>
+<li>让Object操作都变成函数行为。</li>
+<li>Reflect 与 Proxy 的方法一一对应。</li>
+<li>Reflect 可保证原生方法被执行，Proxy 可保证原生方法不被执行，执行的是代理对象的方法。</li>
+</ul>
+<pre><code>Reflect.get(target, propKey, receiver)
+Reflect.set(target, propKey, value, receiver)
+Reflect.apply(func, thisArg, arrArgs)
+Reflect.construct(target, arrArgs)
+Reflect.defineProperty(target, propKey, value, desc)
+Reflect.deleteProperty(target, propKey)
+Reflect.has(target, propKey)
+Reflect.ownKeys(target)
+Reflect.isExtensible(target)
+Reflect.preventExtensions(target)
+Reflect.getOwnPropertyDescriptor(target, propKey)
+Reflect.getPrototypeOf(target)
+Reflect.setPrototypeOf(target, prototype)
+</code></pre>
+<h2 id="积累">积累</h2>
+<h3 id="demo-for-观察者模式">demo for 观察者模式</h3>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> clog = <span class="hljs-variable language_">console</span>.<span class="hljs-property">log</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Observable</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">o</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">proxyObj</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Proxy</span>(o, {
+      <span class="hljs-attr">get</span>: <span class="hljs-function">(<span class="hljs-params">target, key, receiver</span>) =&gt;</span> {
+        <span class="hljs-keyword">return</span> target[key]
+      },
+      <span class="hljs-attr">set</span>: <span class="hljs-function">(<span class="hljs-params">target, key, value, receiver</span>) =&gt;</span> {
+        target[key] = value
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">observerList</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">v, k</span>) =&gt;</span> {
+          <span class="hljs-title function_">k</span>(target)
+        })
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>
+      },
+    })
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">observerList</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>()
+  }
+  <span class="hljs-title function_">addObserver</span>(<span class="hljs-params">fn</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">observerList</span>.<span class="hljs-title function_">set</span>(fn, <span class="hljs-title class_">Symbol</span>())
+  }
+  <span class="hljs-title function_">removeObserver</span>(<span class="hljs-params">fn</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">observerList</span>.<span class="hljs-title function_">delete</span>(fn)
+  }
+  <span class="hljs-title function_">set</span>(<span class="hljs-params">k, v</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">proxyObj</span>[k] = v
+  }
+  <span class="hljs-title function_">get</span>(<span class="hljs-params">k</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">proxyObj</span>[k]
+  }
+}
+<span class="hljs-keyword">let</span> origin = {}
+<span class="hljs-keyword">let</span> o = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Observable</span>(origin)
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">a</span> = (<span class="hljs-params">p</span>) =&gt; {
+  <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;a fn&#x27;</span>, p)
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">b</span> = (<span class="hljs-params">p</span>) =&gt; {
+  <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;b fn&#x27;</span>, p)
+}
+o.<span class="hljs-title function_">addObserver</span>(a)
+o.<span class="hljs-title function_">addObserver</span>(b)
+o.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;k&#x27;</span>, <span class="hljs-string">&#x27;v&#x27;</span>)
+o.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;k1&#x27;</span>, <span class="hljs-string">&#x27;v1&#x27;</span>)
+<span class="hljs-title function_">clog</span>(o.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;k&#x27;</span>))
+</code></pre>
+<h3 id="链式操作">链式操作</h3>
+<pre><code>var pipe = function (value) {
+  var funcStack = [];
+  var oproxy = new Proxy({} , {
+    get : function (pipeObject, fnName) {
+      if (fnName === 'get') {
+        return funcStack.reduce(function (val, fn) {
+          return fn(val);
+        },value);
+      }
+      funcStack.push(window[fnName]);
+      return oproxy;
+    }
+  });
+
+  return oproxy;
+}
+
+var double = n =&gt; n * 2;
+var pow    = n =&gt; n * n;
+var reverseInt = n =&gt; n.toString().split(&quot;&quot;).reverse().join(&quot;&quot;) | 0;
+
+pipe(3).double.pow.reverseInt.get; // 63
+</code></pre>
+<h3 id="生成各种-dom-节点">生成各种 DOM 节点</h3>
+<pre><code>const dom = new Proxy({}, {
+  get(target, property) {
+    return function(attrs = {}, ...children) {
+      const el = document.createElement(property);
+      for (let prop of Object.keys(attrs)) {
+        el.setAttribute(prop, attrs[prop]);
+      }
+      for (let child of children) {
+        if (typeof child === 'string') {
+          child = document.createTextNode(child);
+        }
+        el.appendChild(child);
+      }
+      return el;
+    }
+  }
+});
+
+const el = dom.div({},
+  'Hello, my name is ',
+  dom.a({href: '//example.com'}, 'Mark'),
+  '. I like:',
+  dom.ul({},
+    dom.li({}, 'The web'),
+    dom.li({}, 'Food'),
+    dom.li({}, '…actually that\'s it')
+  )
+);
+
+document.body.appendChild(el);
+</code></pre>
+
+            
+            
+        </body>
+        </html>
