@@ -437,8 +437,6 @@ app.mount('#root')
 |      | 常用于数据对象绑定           | 常用于 dom 绑定            |     |
 |      |                              |                            |     |
 
-### [watchEffect](/framework/vue3/watch&WatchEffect.html)
-
 ## [nextTick]()
 
 ## [路由](/framework/vue3/router.html)

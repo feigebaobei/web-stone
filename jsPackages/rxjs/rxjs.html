@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>&DiacriticalGrave;rxjs&DiacriticalGrave;</title>
-        <style>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&DiacriticalGrave;rxjs&DiacriticalGrave;</title>
+            <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -11,12 +11,14 @@
  *--------------------------------------------------------------------------------------------*/
 
 .vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
 	display: none;
 }
 
 </style>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
@@ -38,10 +40,106 @@
     pointer-events: none;
 }
 </style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
         
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="rxjs"><code>rxjs</code></h1>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="rxjs"><code>rxjs</code></h1>
 <h2 id="overview">overview</h2>
 <blockquote>
 <p>可扩展的响应式 js 库<br>
@@ -53,8 +151,32 @@
 流的本质是一个按时间顺序排列的进行中事件的序列集合。<br>
 observable 是一个可调用的未来值或事件的集合。它能被多个 observer 订阅，每个订阅关系相互独立、互不影响。<br>
 可观察对象一般以<code>$</code>结尾。<br>
-数据的生产者生产出数据以流的形式给消费者（observer）。</p>
+数据的生产者生产出数据以流的形式给消费者（observer）。
+官网介绍了数据流程的二种方式，push:生产者主动，pull:消费者主动。rxjs 是 pull 形式的。
+流式处理数据的思想体现之一。
+响应式编程框架之一。</p>
 </blockquote>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>生产者</th>
+<th>消费者</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>拉</td>
+<td>被动的：当请求时产生数据。</td>
+<td>积极的：决定何时请求数据。</td>
+</tr>
+<tr>
+<td>推</td>
+<td>积极的：按照自己的节奏生成数据。</td>
+<td>被动的：对接收到的数据做出反应。</td>
+</tr>
+</tbody>
+</table>
 <h3 id="feature">feature</h3>
 <ul>
 <li>可观察的</li>
@@ -67,9 +189,64 @@ observable 是一个可调用的未来值或事件的集合。它能被多个 ob
 <h2 id="install">install</h2>
 <p><code>npm i rxjs</code></p>
 <h2 id="usage">usage</h2>
+<p>同下文</p>
 <pre><code class="language-js"><span class="hljs-comment">// 展示一个响应式功能</span>
 </code></pre>
 <h2 id="概念">概念</h2>
+<table>
+<thead>
+<tr>
+<th>英文</th>
+<th>中文</th>
+<th>说明</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>observable</td>
+<td>可观察的对象</td>
+<td>pull 式数据流。产生数据的地方，可使用 next/error/complete 产生数据。能产生该对象的方式很多。</td>
+<td>用于定义消费者可以收到的数据。</td>
+</tr>
+<tr>
+<td>observer</td>
+<td></td>
+<td>数据的消费者。明确如何消费数据，有三种方式：next/error/complete.默认是 next.</td>
+<td></td>
+</tr>
+<tr>
+<td>operator</td>
+<td>处理者</td>
+<td>有管道式和创建式</td>
+<td>处理数据</td>
+</tr>
+<tr>
+<td>observable</td>
+<td>可观察的对象</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>observable</td>
+<td>可观察的对象</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h3 id="observables">observables</h3>
 <pre><code class="language-js"><span class="hljs-keyword">let</span> observable$ =  <span class="hljs-keyword">new</span> <span class="hljs-title class_">Observable</span>(<span class="hljs-function">(<span class="hljs-params">subscriber</span>) =&gt;</span> {
     subscriber.<span class="hljs-title function_">next</span>(<span class="hljs-number">1</span>) <span class="hljs-comment">// 把1传递给订阅者</span>
@@ -100,12 +277,32 @@ subscription.<span class="hljs-title function_">unsubscribe</span>() <span class
 observable$.<span class="hljs-title function_">subscribe</span>(observer) <span class="hljs-comment">// 给可观察者定义一个观察者。</span>
 <span class="hljs-comment">// 观察者使用以上三个方法处理接收到的数据。</span>
 </code></pre>
-<h3 id="operators">operators</h3>
-<p>基于可观察者做要若干操作。</p>
+<h3 id="operators"><a href="/jsPackages/rxjs/operators.html">operators</a></h3>
+<p>基于可观察者做若干操作。<br>
+每个操作符提供的只是一些通用的简单功能，但通过链式调用，这些小功能可以组合在一起，用来解决复杂的问题。</p>
+<p><a href="https://rxjs.dev/guide/operators">官网的 api 列表</a></p>
 <pre><code class="language-js">observable$.<span class="hljs-title function_">pipe</span>($operator())
 <span class="hljs-comment">// 不改变该observable$，返回一个新的observable$</span>
 <span class="hljs-comment">// jQuery的链式调用是改变原jQuery对象。</span>
 </code></pre>
+<h4 id="功能分类">功能分类</h4>
+<ul>
+<li>创建类（creation）</li>
+<li>转化类（transformation）</li>
+<li>过滤类（filtering）</li>
+<li>合并类（combination）</li>
+<li>多播类（multicasting）</li>
+<li>错误处理类（error Handling）</li>
+<li>条件分支类（conditional&amp;boolean）</li>
+<li>数学和合计类（mathmatical&amp;aggregate）</li>
+<li>其他
+<ul>
+<li>背压控制类（backpressure control）</li>
+<li>可连接类（connectable）</li>
+<li>高阶</li>
+</ul>
+</li>
+</ul>
 <h3 id="subscription">subscription</h3>
 <p>通常用于不再使用数据的对象。</p>
 <pre><code class="language-js"><span class="hljs-keyword">let</span> subscription = observable$.<span class="hljs-title function_">subscribe</span>(<span class="hljs-function">() =&gt;</span> {...})
@@ -116,7 +313,7 @@ subscription.<span class="hljs-title function_">unsubscribe</span>() <span class
 <h3 id="scheduler">scheduler</h3>
 <h2 id="configuration">configuration</h2>
 <p>默认配置文件：<code>path/to/file.json</code>。</p>
-<h2 id="api">api</h2>
+<h2 id="api"><a href="/jsPackages/rxjs/api.html">api</a></h2>
 <h2 id="principle"><a href="/jsPackages/rxjs/principle.html">principle</a></h2>
 <p>使用 rollup 打包。打包的配置文件是分层的。
 在<code>&lt;root&gt;/src/index.js</code>中统一输出。</p>
@@ -146,6 +343,7 @@ subscription.<span class="hljs-title function_">unsubscribe</span>() <span class
    提供者 ---&gt;  流          ---&gt; 消费者
              -------------
 </code></pre>
+<h2 id="竞品"><a href="/jsPackages/rxjs/principle.html">竞品</a></h2>
 <h2 id="todo">todo</h2>
 <h3 id="这个库是做什么的">这个库是做什么的？</h3>
 <h3 id="js-中的异步处理">js 中的异步处理</h3>
@@ -164,7 +362,7 @@ subscription.<span class="hljs-title function_">unsubscribe</span>() <span class
 <h3 id="未来迭代计划-2">未来迭代计划。</h3>
 <h3 id="未来迭代计划-3">未来迭代计划。</h3>
 
-        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
-        
-    </body>
-    </html>
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>

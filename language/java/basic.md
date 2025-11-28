@@ -372,6 +372,12 @@ Constructor.newInstance(Object... args)
 Constructor.getParametersTypes()
 Constructor.getModifiers()
 
+## Object
+
+所有类都继承自 Object 类。
+
+## 多线程编程
+
 ## configuration
 
 默认配置文件：`path/to/file.json`。

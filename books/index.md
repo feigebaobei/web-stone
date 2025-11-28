@@ -27,6 +27,7 @@
   - [《大乘离文字普光明藏经》](https://zh.wikisource.org/zh-hans/%E5%A4%A7%E4%B9%98%E9%9B%A2%E6%96%87%E5%AD%97%E6%99%AE%E5%85%89%E6%98%8E%E8%97%8F%E7%B6%93)
   - [《僧伽吒经》](https://www.gushiwen.cn/guwen/book_94d99dce64d8.aspx)
   - [《寿生经》](/books/shoushengjing.html)
+  - [药师琉璃光如来本愿功德经](https://bookgb.bfnn.org/books2/1253.htm)
 - 道学
   - [《文昌帝君开心聪明神咒》](/books/wenchangdijunkaixincongmingshenzou.html)
   - [《文昌帝君阴骘文》](/books/wenchangdijunyinzhiwen.html)

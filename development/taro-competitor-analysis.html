@@ -2,7 +2,7 @@
         <html>
         <head>
             <meta charset="UTF-8">
-            <title>&#x95ee;ai&#x5f97;&#x5230;&#x7684;&#x7b54;&#x6848;</title>
+            <title>Taro &#x7ade;&#x54c1;&#x5206;&#x6790;&#x62a5;&#x544a;</title>
             <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -138,49 +138,115 @@
         
         </head>
         <body class="vscode-body vscode-light">
-            <h1 id="问ai得到的答案">问ai得到的答案</h1>
-<p>Integrating agents, particularly AI agents, with VS Code extensions involves leveraging the Language Model API and potentially the Multi-tool Chat Protocol (MCP) for more advanced interactions.</p>
-<ol>
-<li>Using Agent Mode with Existing AI Agents (e.g., GitHub Copilot Agent):
-Open Chat View: Access the Chat view in VS Code (Ctrl+Alt+I).
-Select Agent Mode: Choose &quot;Agent&quot; from the chat mode selector.
-Interact with the Agent: Enter prompts in the chat input field. The AI agent, like GitHub Copilot, will autonomously determine relevant context and files for edits.</li>
-<li>Integrating Custom AI Agents (Creating a Custom Extension):
-Utilize the Language Model API:
-The VS Code Language Model API allows extensions to interact with language models for AI-powered features.
-Build the Prompt:
-Construct the input for the language model based on the user's request and relevant context.
-Send the Request:
-Send the prompt to the language model using the API.
-Interpret the Response:
-Process the model's output and integrate it into your extension's functionality.</li>
-<li>Advanced Integration with MCP Servers:
-Install MCP Servers:
-Add MCP servers to VS Code, which provide tools for your agent to use.
-Access Tools in Agent Mode:
-Open the Chat view, select Agent mode, and use the &quot;Tools&quot; button to view and select available tools from your MCP servers.
-Reference Tools in Prompts:
-You can directly reference a tool in your prompt by typing # followed by the tool name (e.g., #search_files).
-Confirm Actions:
-Tools invoked by the agent may require confirmation before execution, especially if they modify files or data.</li>
-<li>Developing Tools for Agents (Extension Authors):
-Create an MCP Server: Develop a custom MCP server to contribute tools for your agent.
-Contribute Tools via Extensions: If you are a VS Code extension author, you can contribute tools directly through your extension.
-Key Concepts:
-Agent Mode: A dedicated chat mode in VS Code for interacting with AI agents.
-Language Model API: Enables extensions to interact with language models.
-Multi-tool Chat Protocol (MCP): A protocol for agents to interact with and use various tools.
-Tools: Functions or capabilities provided by MCP servers that agents can utilize.</li>
-</ol>
-<h1 id="参考文献">参考文献</h1>
-<p><a href="https://techsimplifiedbypri.hashnode.dev/creating-a-custom-vs-code-extension-as-a-personal-ai-agent-assistant">https://techsimplifiedbypri.hashnode.dev/creating-a-custom-vs-code-extension-as-a-personal-ai-agent-assistant</a>
-<a href="https://blog.csdn.net/m0_55049655/article/details/147688390">node.js + LangChain.js 整合 DeepSeek LLM、自建 REST 服务，设计一个自定义 Agent，最后通过MCP对外发布并调用</a>
-<a href="https://juejin.cn/post/7478585166497595407">前端学AI：基于Node.js的Langchain开发-简单实战应用</a></p>
-<h1 id="title">title</h1>
-<h1 id="title-1">title</h1>
-<h1 id="title-2">title</h1>
-<h1 id="title-3">title</h1>
-<h1 id="title-4">title</h1>
+            <h1 id="taro-竞品分析报告">Taro 竞品分析报告</h1>
+<h2 id="1-概述">1. 概述</h2>
+<p>Taro 是一个开放式跨端跨框架解决方案，支持使用 React/Vue/Nerv 等框架开发小程序、H5、React Native 等应用。本报告将分析 Taro 与其主要竞品的差异和优劣势。</p>
+<h2 id="2-主要竞品">2. 主要竞品</h2>
+<h3 id="21-uni-app">2.1 uni-app</h3>
+<ul>
+<li><strong>开发框架</strong>：基于 Vue.js</li>
+<li><strong>支持平台</strong>：小程序、H5、App（iOS/Android）、快应用等</li>
+<li><strong>优势</strong>：
+<ul>
+<li>社区活跃，文档完善</li>
+<li>一套代码多端运行</li>
+<li>支持条件编译</li>
+</ul>
+</li>
+<li><strong>劣势</strong>：
+<ul>
+<li>学习成本相对较高</li>
+<li>部分平台兼容性问题</li>
+</ul>
+</li>
+</ul>
+<h3 id="22-wepy">2.2 WePY</h3>
+<ul>
+<li><strong>开发框架</strong>：类 Vue 语法</li>
+<li><strong>支持平台</strong>：微信小程序</li>
+<li><strong>优势</strong>：
+<ul>
+<li>专为微信小程序设计</li>
+<li>组件化开发</li>
+<li>npm 支持</li>
+</ul>
+</li>
+<li><strong>劣势</strong>：
+<ul>
+<li>仅支持微信小程序</li>
+<li>社区相对较小</li>
+</ul>
+</li>
+</ul>
+<h3 id="23-mpvue">2.3 mpvue</h3>
+<ul>
+<li><strong>开发框架</strong>：Vue.js</li>
+<li><strong>支持平台</strong>：微信小程序</li>
+<li><strong>优势</strong>：
+<ul>
+<li>Vue 开发体验</li>
+<li>组件化开发</li>
+</ul>
+</li>
+<li><strong>劣势</strong>：
+<ul>
+<li>维护不活跃</li>
+<li>仅支持微信小程序</li>
+</ul>
+</li>
+</ul>
+<h3 id="24-remax">2.4 Remax</h3>
+<ul>
+<li><strong>开发框架</strong>：React</li>
+<li><strong>支持平台</strong>：多端小程序</li>
+<li><strong>优势</strong>：
+<ul>
+<li>真正的 React 语法</li>
+<li>更好的 TypeScript 支持</li>
+<li>更小的包体积</li>
+</ul>
+</li>
+<li><strong>劣势</strong>：
+<ul>
+<li>社区相对较小</li>
+<li>生态不如 Taro 完善</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-taro-优势分析">3. Taro 优势分析</h2>
+<h3 id="31-多框架支持">3.1 多框架支持</h3>
+<ul>
+<li>支持 React、Vue、Nerv 等多种框架</li>
+<li>开发者可以选择熟悉的框架进行开发</li>
+</ul>
+<h3 id="32-平台支持广泛">3.2 平台支持广泛</h3>
+<ul>
+<li>微信小程序、支付宝小程序、百度小程序等</li>
+<li>H5、React Native、快应用等</li>
+</ul>
+<h3 id="33-生态完善">3.3 生态完善</h3>
+<ul>
+<li>丰富的插件生态</li>
+<li>完善的文档和社区支持</li>
+</ul>
+<h3 id="34-typescript-支持">3.4 TypeScript 支持</h3>
+<ul>
+<li>完善的类型定义</li>
+<li>更好的开发体验</li>
+</ul>
+<h2 id="4-劣势分析">4. 劣势分析</h2>
+<h3 id="41-学习成本">4.1 学习成本</h3>
+<ul>
+<li>需要了解各端差异</li>
+<li>配置相对复杂</li>
+</ul>
+<h3 id="42-性能问题">4.2 性能问题</h3>
+<ul>
+<li>跨端适配可能带来性能损耗</li>
+<li>包体积相对较大</li>
+</ul>
+<h2 id="5-总结">5. 总结</h2>
+<p>Taro 作为跨端开发框架，在多框架支持和平台兼容性方面具有明显优势，但也存在学习成本和性能方面的挑战。与竞品相比，Taro 在生态和社区支持方面表现突出。</p>
 
             
             

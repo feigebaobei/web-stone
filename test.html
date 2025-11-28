@@ -20,43 +20,22 @@
 
     </div>
     <!-- include ts-browser -->
-    <script type="text/javascript" src="https://unpkg.com/ts-browser"></script>
+    <!-- <script type="text/javascript" src="https://unpkg.com/ts-browser"></script> -->
 
 <!-- include your TypeScript file -->
 <!-- <script type="text/typescript" src="your/typescript/file.ts"></script> -->
-    <script type="text/typescript">
+    <!-- <script type="text/typescript"> -->
+    <script>
         let clog = console.log
-        let testable = (target) => {
-            clog('target', target)
-            target.k = 3
-            target.prototype.isTestable = true
-        }
-        let f = (a, b, c, d) => {
-            return (target, name, descriptor) => {
-                clog('target, name, descriptor', target, name, descriptor)
-
-            }
-        }
-        // @testable
-        // @f(1,2,3,4)
-        class P {
-            constructor() {
-                clog('construct', this)
-                this.k = 'v'
-            }
-            // @f(1,2,3,4)
-            skills() {
-                return 'a'
-            }
-        }
-        // let p = new P()
-        // clog('p', p)
+        let map = new Map()
+        map.set('a', 'a')
+        map.set('f', 'f')
+        map.set('d', 'd')
+        map.set('e', 'e')
+        map.set('c', 'c')
+        map.set('b', 'b')
         
-        @f(1,2,3,4)
-        function f2 () {
-            return 'f2'
-        }
-        clog(f2())
+        clog(map, map.keys(), map.values())
 
     </script>
 </body>

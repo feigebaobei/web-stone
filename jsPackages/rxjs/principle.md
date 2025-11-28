@@ -13,7 +13,13 @@ class Observable {
   }
   subscribe(cb) {
     this.cb = cb
-    this.fn(this.subscriber)
+    this.fn(this.subscriber) // 在订阅时执行fn
+    let unsubscribe = () => {
+      this.subscriber = null
+    }
+    return {
+      unsubscribe,
+    }
   }
 }
 class Subscriber {

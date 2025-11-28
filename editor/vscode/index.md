@@ -10,5 +10,9 @@ vscode
 > vscode 中的 webview 本质是一个 iframe.默认禁用 js,需要配置 enableScripts=true.
 
 - [写 vscode 插件](/editor/vscode/plugin.html)
-- [sublime](/editor/sublime.html)
-- [sublime](/editor/sublime.html)
+- [与 agent 结合工作](/editor/vscode/integrationAgent.html)
+- [sublime](/editor/vscode/sublime.html)
+- [sublime](/editor/vscode/sublime.html)
+- [sublime](/editor/vscode/sublime.html)
+- [sublime](/editor/vscode/sublime.html)
+- [sublime](/editor/vscode/sublime.html)

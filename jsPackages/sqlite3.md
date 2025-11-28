@@ -184,6 +184,7 @@ statement.run()
 
 ## 数据结构
 
+SQLite 支持列的亲和类型概念。任何列仍然可以存储任何类型的数据，当数据插入时，该字段的数据将会优先采用亲缘类型作为该值的存储方式。SQLite 目前的版本支持以下五种亲缘类型：
 NULL:表示空值。
 INTEGER:表示带符号的整型，具体大小取决于存储值的范围。
 REAL:表示浮点数字，存储为 IEEE 8 字节浮点数。官方不推荐此数据类型。
@@ -236,6 +237,20 @@ npm i sqlite3 --build-from-source
 ```
 yarn add sqlite3
 ```
+
+## 系统表
+
+sqlite_master 表是只读的。不能对它使用 UPDATE、INSERT 或 DELETE。 它会被 CREATETABLE、CREATE INDEX、DROP TABLE 和 DROP INDEX 命令自动更新。
+表结构：[
+{
+type: 'table',
+name: 'students',
+tbl_name: 'students',
+rootpage: 2,
+sql: 'CREATE TABLE students (name, address)'
+}
+]
+sqlite_sequence 表也是 SQLite 的系统表。该表用来保存其他表的 RowID 的最大值。数据库被创建时，sqlite_sequence 表会被自动创建。该表包括两列。第一列为 name，用来存储表的名称。第二列为 seq，用来保存表对应的 RowID 的最大值。该值最大值为 9223372036854775807。当对应的表增加记录，该表会自动更新。当表删除，该表对应的记录也会自动删除。如果该值超过最大值，会引起 SQL_FULL 错误。所以，一旦发现该错误，用户不仅要检查 SQLite 文件所在的磁盘空间是否不足，还需要检查是否有表的 ROWID 达到最大值。
 
 ## todo
 
