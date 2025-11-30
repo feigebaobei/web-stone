@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>ubuntu&#x79d1;&#x5b66;&#x4e0a;&#x7f51;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="ubuntu科学上网">ubuntu科学上网</h1>
+<blockquote></blockquote>
+<h2 id="具体过程">具体过程</h2>
+<h3 id="安装shadowsocks-electron">安装shadowsocks-electron</h3>
+<p>第一种方法：使用“应用中心”安装。（成功了）
+在“应用中心”中搜索shadowsocks-electron并安装。</p>
+<p>第二种方法：使用pkg+命令安装。（失败了）
+在<a href="https://github.com/nojsja/shadowsocks-electron/releases">github</a>上选择amd64.deb版本的文件。
+<code>sudo dpkg ./xxx文件</code></p>
+<h3 id="在网站上复制ssr的地址">在网站上复制ssr的地址。</h3>
+<p>ssr全称是ShadowsocksR</p>
+<h3 id="在shadowsocks-electron中添加服务器">在shadowsocks-electron中添加服务器</h3>
+<p>在“主页”点击左下角的“+”。选择一种方式去创建服务。</p>
+<h3 id="配置ubuntu的网络代理">配置ubuntu的网络代理</h3>
+<p>在shadowsocks-electron的主页在一个节点或服务上右键，选择“连接”。</p>
+<p>打开ubuntu的“设置”。选择“网络”。代理设置为“手动”。打开“网络代理”。配置设置为“手动”。设置“SOCKS主机”的url为“127.0.0.1”，端口为“1080”（url与端口根据实际情况设置。）然后保存。</p>
+<h3 id="配置firefox的网络代理">配置firefox的网络代理</h3>
+<p>这里不能与&quot;配置ubuntu的网络代理&quot;一起使用。
+在firefox中打开“设置”页面，搜索“proxy”，并进入。
+设置“手动配置代理”的“SOCKS主机”为“127.0.0.1”，端口为“1080”。勾选“SOCKS_v5”
+勾选“使用SOCKS v5时代理DNS查询”。
+点击“确定”。</p>
+<h2 id="验证是否可以科学上网">验证是否可以科学上网</h2>
+<p>在浏览器中打开 <a href="http://youtube.com">youtube.com</a></p>
+<h2 id="在ubuntu终端中设置环境变量">在ubuntu终端中设置环境变量。</h2>
+<p>如果做了上面的，则可以在浏览器中科学上网。
+若在要命令行还中能科学上网，可以这样做：</p>
+<pre><code>export http_proxy=&quot;socks5://127.0.0.1:1080&quot;
+export https_proxy=&quot;socks5://127.0.0.1:1080&quot;
+</code></pre>
+<p>这样当前终端会话中的请求就会通过SOCKS5代理进行传输。</p>
+<h3 id="永久设置">永久设置</h3>
+<p>对于bash，编辑<code>~/.bashrc</code>
+对于zsh，编辑<code>~/.zshrc</code>
+在文件中追加上面的代码。保存后退出编辑。执行<code>source ~/.bashrc</code></p>
+
+            
+            
+        </body>
+        </html>
