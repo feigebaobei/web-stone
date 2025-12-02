@@ -1019,7 +1019,7 @@ $.<span class="hljs-title function_">shadowDom</span>(<span class="hljs-string">
 })
 <span class="hljs-title function_">launch</span>();
 
-<span class="hljs-keyword">let</span> <span class="hljs-title function_">ringOpArr</span> = (<span class="hljs-params">arr = [], cb = (current, index, array) =&gt; {}, 
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">ringOpArr</span> = (<span class="hljs-params">arr = [], cb = (current, index, array) =&gt; {},
     options = {}
 </span>) =&gt; {
     <span class="hljs-keyword">let</span> defaultOptions = {
@@ -1069,6 +1069,29 @@ $.<span class="hljs-title function_">shadowDom</span>(<span class="hljs-string">
 <span class="hljs-comment">// 简单的数组去重</span>
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">uniqueArr</span> = (<span class="hljs-params">arr</span>) =&gt; {
   <span class="hljs-keyword">return</span> [...<span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>(arr)]
+}
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Fibs</span> {
+  <span class="hljs-title function_">constructor</span> (first = <span class="hljs-number">0</span>, second = <span class="hljs-number">1</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">map</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>([[<span class="hljs-number">0</span>, first], [<span class="hljs-number">1</span>, second]]) <span class="hljs-comment">// k: 第几个。 v: 值</span>
+  }
+  fn (n) {
+    <span class="hljs-keyword">if</span> (n &lt;= <span class="hljs-number">1</span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">map</span>.<span class="hljs-title function_">get</span>(n)
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">map</span>.<span class="hljs-title function_">get</span>(n) === <span class="hljs-literal">undefined</span>) {
+            <span class="hljs-keyword">let</span> t = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">fn</span>(n-<span class="hljs-number">1</span>) + <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">fn</span>(n-<span class="hljs-number">2</span>)
+            <span class="hljs-variable language_">this</span>.<span class="hljs-property">map</span>.<span class="hljs-title function_">set</span>(n, t)
+        }
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">map</span>.<span class="hljs-title function_">get</span>(n)
+    }
+  }
+  <span class="hljs-title function_">sum</span>(<span class="hljs-params">start, end</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">fn</span>(end - <span class="hljs-number">1</span>)
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">from</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">map</span>.<span class="hljs-title function_">values</span>()).<span class="hljs-title function_">slice</span>(start, end).<span class="hljs-title function_">reduce</span>(<span class="hljs-function">(<span class="hljs-params">r, c</span>) =&gt;</span> {
+        r += c
+        <span class="hljs-keyword">return</span> r
+    }, <span class="hljs-number">0</span>)
+  }
 }
 
 
