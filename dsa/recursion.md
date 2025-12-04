@@ -20,3 +20,23 @@
 ## 尾递归
 
 调用栈的深度为 1
+
+把所有用到的内部变量改写成函数的参数。（我发现递归就是把当前算出的结构以参数传递）
+
+```
+let f = (n, subTotal) => {
+    if (n === 1) {
+        return subTotal
+    } else {
+        subTotal *= n
+        return f(n - 1, subTotal)
+    }
+}
+let f = (n, a = 0, b = 1) => {
+    if (n === 0) {
+        return a
+    } else {
+        return f(n - 1, b, a + b)
+    }
+}
+```
