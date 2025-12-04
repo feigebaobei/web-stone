@@ -931,7 +931,41 @@ let getXPath = (domElement) => {
 let uniqueArr = (arr) => {
   return [...new Set(arr)]
 }
+// 倒计时
+class CountDown {
+  constructor(timeLength = 1000, timeGrading = 10, cb) {
+    this.timeLength = timeLength
+    this.timeGrading = timeGrading
+    this.cb = cb
+    this.timerId = 0
+    this.restTime = 0 // 剩余时间
+    this.startTime = 0 // 开始时刻
+    this.curTime = 0 // 当前时刻
+  }
+  start() {
+    if (this.timerId) {
+      clearInterval(this.timerId)
+    }
+    this._start()
 
+
+    this.startTime = new Date().getTime()
+  }
+  _start() {
+    this.timerId = setInterval(() => {
+      this.curTime = new Date().getTime()
+      this.restTime = this.timeLength - (this.curTime - this.startTime)
+      if (this.curTime - this.startTime > this.timeLength) {
+        this.cb()
+        this.stop()
+      }
+    }, this.timeGrading)
+  }
+  stop() {
+    clearInterval(this.timerId)
+    this.timerId = 0
+  }
+}
 
 
 

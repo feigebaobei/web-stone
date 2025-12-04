@@ -1019,7 +1019,7 @@ $.<span class="hljs-title function_">shadowDom</span>(<span class="hljs-string">
 })
 <span class="hljs-title function_">launch</span>();
 
-<span class="hljs-keyword">let</span> <span class="hljs-title function_">ringOpArr</span> = (<span class="hljs-params">arr = [], cb = (current, index, array) =&gt; {}, 
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">ringOpArr</span> = (<span class="hljs-params">arr = [], cb = (current, index, array) =&gt; {},
     options = {}
 </span>) =&gt; {
     <span class="hljs-keyword">let</span> defaultOptions = {
@@ -1070,7 +1070,36 @@ $.<span class="hljs-title function_">shadowDom</span>(<span class="hljs-string">
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">uniqueArr</span> = (<span class="hljs-params">arr</span>) =&gt; {
   <span class="hljs-keyword">return</span> [...<span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>(arr)]
 }
-
+<span class="hljs-comment">// 倒计时</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">CountDown</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">timeLength = <span class="hljs-number">1000</span>, timeGrading = <span class="hljs-number">10</span>, cb</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">timeLength</span> = timeLength
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">timeGrading</span> = timeGrading
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">cb</span> = cb
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">timerId</span> = <span class="hljs-number">0</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">restTime</span> = <span class="hljs-number">0</span> <span class="hljs-comment">// 剩余时间</span>
+  }
+  <span class="hljs-title function_">start</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">timerId</span>) {
+      <span class="hljs-built_in">clearInterval</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">timerId</span>)
+    }
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">_start</span>()
+  }
+  <span class="hljs-title function_">_start</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">restTime</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">timeLength</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">timerId</span> = <span class="hljs-built_in">setInterval</span>(<span class="hljs-function">() =&gt;</span> {
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">restTime</span> -= <span class="hljs-variable language_">this</span>.<span class="hljs-property">timeGrading</span>
+      <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">restTime</span> &lt; <span class="hljs-number">0</span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">cb</span>()
+        <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">stop</span>()
+      }
+    }, <span class="hljs-variable language_">this</span>.<span class="hljs-property">timeGrading</span>)
+  }
+  <span class="hljs-title function_">stop</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-built_in">clearInterval</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">timerId</span>)
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">timerId</span> = <span class="hljs-number">0</span>
+  }
+}
 
 
 
