@@ -951,9 +951,6 @@ class CountDown {
       clearInterval(this.timerId)
     }
     this._start()
-
-
-    this.startTime = new Date().getTime()
   }
   _start() {
     this.timerId = setInterval(() => {
@@ -968,6 +965,30 @@ class CountDown {
   stop() {
     clearInterval(this.timerId)
     this.timerId = 0
+  }
+}
+class Fibs {
+  constructor (first = 0, second = 1) {
+    this.map = new Map([[0, first], [1, second]]) // k: 第几个。 v: 值
+  }
+  fn (n) {
+    if (n <= 1) {
+        return this.map.get(n)
+    } else {
+        if (this.map.get(n) === undefined) {
+            let t = this.fn(n-1) + this.fn(n-2)
+            this.map.set(n, t)
+        }
+        return this.map.get(n)
+    }
+  }
+  sum(start, end) {
+    this.fn(end - 1)
+    return Array.from(this.map.values()).slice(start, end).reduce((r, c) => {
+        r += c
+        return r
+    }, 0)
+    this.startTime = new Date().getTime()
   }
 }
 // 重试
