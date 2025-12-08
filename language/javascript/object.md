@@ -5,12 +5,25 @@
 ```
 {...}
 new Object(any)
+let o = {
+  f: function () {...}
+  // 等效于
+  f() {...}
+}
 ```
 
 `Object.length`  
 `Object.prototype`是原型对象  
 `Object.assign(target, ...source)`  
 把 source 上的属性复制到 target 上，并返回 target.
+
+```
+class P {
+  constructor(x, y) {
+    Object.assign(this, {x, y})
+  }
+}
+```
 
 `Object.create(proto, [propertiesObject])`  
 按指定的原型对象 proto、新对象的属性返回新对象。  

@@ -398,17 +398,19 @@ Array.from(dom.classList).includes('nc')
 <!-- prettier-ignore-start -->
 |               | value               | description                 | default                     |    |
 | ------------- | ------------------- | ------------- | ------------ | ----------------- |
-| async         |                     | 浏览器默认同步加载、解析脚本代码。若设置此属性则浏览器异步加载、解析脚本代码。 | 非阻塞方式。在完全 available 后执行。使用 document.createElement 添加的 script 标签，默认 async 为 true. |    |
-| crossorigin   |                     | 解决脚本的 cors 问题        |    |    |
+| async         |                     | 浏览器默认同步加载、解析脚本代码。若设置此属性则浏览器异步加载、解析脚本代码。 | 非阻塞方式。在完全 available 后执行。使用 document.createElement 添加的 script 标签，默认 async 为 true. 指定在获取资源时使用的 CORS 模式。|    |
+| crossOrigin   |                     | 解决脚本的 cors 问题        |    |    |
 | defer         |                     | 通知浏览器在文档解析完成后执行、DOMContentLoaded 事件前执行。                  | 非阻塞方式。在 dom 完整构建后执行。                   |    |
 | integrity     |                     | 是否启用子资源完整性功能。`integrity="${散列算法}-${散列值}"`                  |    |    |
-| nomodule      | boolean             | 脚本是否在支持 es2015 modules 的浏览器中执行         |    |    |
+| noModule      |  boolean (可以不写)  | 脚本是否在支持 es2015 modules 的浏览器中执行。         |    |    |
 | nonce         |                     |   |    |    |
 | referrerpolic |                     | 获取脚本时是否使用 referrer 字段。                   |    | `no-referrer`/`no-referrer-when-downgrade`/`origin`/`origin-when-cross-origin`/`same-origin`/`strict-origin`/`strict-origin-when-cross-origin`/`unsafe-url` |
 | type          | module / text/babel / importmap |   |    |    |
 <!-- prettier-ignore-end -->
 
 ```html
+<!-- type="module" 表示这是一个es6模块 -->
+<!-- 浏览器对于type="module"的js代码是不阻塞加载的。即默认使用defer -->
 <script type="module" src="xxx"></script>
 ```
 

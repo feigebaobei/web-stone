@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>throttleDebouncd</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="throttledebouncd">throttleDebouncd</h1>
+<h2 id="throttle">throttle</h2>
+<pre><code class="language-js"><span class="hljs-comment">// 最基本的。体现节流思想的。</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">createThrottleFn0</span> = (<span class="hljs-params">fn, t = <span class="hljs-number">250</span></span>) =&gt; {
+    <span class="hljs-keyword">let</span> prev = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>().<span class="hljs-title function_">getTime</span>()
+    <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">...rest</span>) =&gt;</span> {
+        <span class="hljs-keyword">let</span> now = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>().<span class="hljs-title function_">getTime</span>()
+        <span class="hljs-keyword">if</span> (now - prev &gt; t) {
+            <span class="hljs-title function_">fn</span>(...rest)
+            prev = now
+        }
+    }
+}
+
+<span class="hljs-comment">// 变种一</span>
+<span class="hljs-comment">// 从第一次触发开始计时。当t时间内无触发，则重置状态。</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">createThrottleFn1</span> = (<span class="hljs-params">fn, t = <span class="hljs-number">250</span></span>) =&gt; {
+    <span class="hljs-keyword">let</span> prev = <span class="hljs-title class_">Number</span>.<span class="hljs-property">MAX_SAFE_INTEGER</span>
+    <span class="hljs-keyword">let</span> doing = <span class="hljs-literal">false</span>
+    <span class="hljs-keyword">let</span> timerId = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">...rest</span>) =&gt;</span> {
+        <span class="hljs-keyword">if</span> (!doing) {
+            doing = <span class="hljs-literal">true</span>
+            prev = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>().<span class="hljs-title function_">getTime</span>()
+        }
+        <span class="hljs-keyword">let</span> now = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>().<span class="hljs-title function_">getTime</span>()
+        <span class="hljs-keyword">if</span> (now - prev &gt; t) {
+            <span class="hljs-title function_">fn</span>(...rest)
+        }
+        <span class="hljs-keyword">if</span> (timerId) {
+            <span class="hljs-built_in">clearTimeout</span>(timerId)
+            timerId = <span class="hljs-number">0</span>
+        }
+        timerId = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+            prev = <span class="hljs-title class_">Number</span>.<span class="hljs-property">MAX_SAFE_INTEGER</span>
+            doing = <span class="hljs-literal">false</span>
+            <span class="hljs-built_in">clearTimeout</span>(timerId)
+            timerId = <span class="hljs-number">0</span>
+        }, t)
+    }
+}
+<span class="hljs-comment">// 变种二</span>
+<span class="hljs-comment">// 在t时间段内触发的事件，只使用第一次触发时的参数。</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">createThrottleFn1</span> = (<span class="hljs-params">fn, t = <span class="hljs-number">250</span></span>) =&gt; {
+    <span class="hljs-keyword">let</span> prev = <span class="hljs-title class_">Number</span>.<span class="hljs-property">MAX_SAFE_INTEGER</span>
+    <span class="hljs-keyword">let</span> doing = <span class="hljs-literal">false</span>
+    <span class="hljs-keyword">let</span> timerId = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">let</span> map = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>()
+    <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">...rest</span>) =&gt;</span> {
+        <span class="hljs-keyword">if</span> (!doing) {
+            doing = <span class="hljs-literal">true</span>
+            prev = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>().<span class="hljs-title function_">getTime</span>()
+            map.<span class="hljs-title function_">set</span>(prev, rest)
+        }
+        <span class="hljs-keyword">let</span> now = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>().<span class="hljs-title function_">getTime</span>()
+        <span class="hljs-keyword">if</span> (now - prev &gt; t) {
+            <span class="hljs-comment">// fn(...rest)</span>
+            <span class="hljs-title function_">fn</span>(map.<span class="hljs-title function_">get</span>(prev))
+        }
+        <span class="hljs-keyword">if</span> (timerId) {
+            <span class="hljs-built_in">clearTimeout</span>(timerId)
+            timerId = <span class="hljs-number">0</span>
+        }
+        timerId = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+            prev = <span class="hljs-title class_">Number</span>.<span class="hljs-property">MAX_SAFE_INTEGER</span>
+            doing = <span class="hljs-literal">false</span>
+            map.<span class="hljs-title function_">clear</span>()
+            <span class="hljs-built_in">clearTimeout</span>(timerId)
+            timerId = <span class="hljs-number">0</span>
+        }, t)
+    }
+}
+</code></pre>
+<p>||休时开始|回调方法的参数|||
+|-|-|-|||
+|createThrottleFn0|在定义时|最后一次的参数|||
+|createThrottleFn1|第一次触发时|最后一次的参数|||
+|createThrottleFn2|第一次触发时|第一次的参数|||
+||||||
+||||||</p>
+<h2 id="debouncd">debouncd</h2>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">createDebounceFn0</span> = (<span class="hljs-params">fn: F, t = <span class="hljs-number">250</span>, self?: A</span>) =&gt; {
+    <span class="hljs-keyword">let</span> <span class="hljs-attr">timer</span>: N
+    <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">...rest: A[]</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (timer) {
+        <span class="hljs-built_in">clearTimeout</span>(timer)
+        timer = <span class="hljs-number">0</span>
+      }
+      timer = <span class="hljs-variable language_">window</span>.<span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+        fn.<span class="hljs-title function_">apply</span>(self, rest)
+        <span class="hljs-built_in">clearTimeout</span>(timer)
+        timer = <span class="hljs-number">0</span>
+      }, t)
+    }
+}
+</code></pre>
+
+            
+            
+        </body>
+        </html>

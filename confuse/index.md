@@ -9,6 +9,7 @@
 - [二进制](/confuse/bit.html)
 - [console](/browser/console.html)
 - [json 格式化](/language/javascript/json-transfer.html)
+- [节流、去抖](/confuse/throttleDebouncd.html)
 - [如何接手老项目](/confuse/takeOverProject.html)
 - [html encode & decode](/confuse/htmlEncodeDecode.html)
 - [|| && ??](/confuse/shortCircuitOperator.html)
