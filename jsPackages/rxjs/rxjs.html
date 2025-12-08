@@ -154,7 +154,11 @@ observable 是一个可调用的未来值或事件的集合。它能被多个 ob
 数据的生产者生产出数据以流的形式给消费者（observer）。
 官网介绍了数据流程的二种方式，push:生产者主动，pull:消费者主动。rxjs 是 pull 形式的。
 流式处理数据的思想体现之一。
-响应式编程框架之一。</p>
+响应式编程框架之一。
+建议小范围使用，或把响应层做的很薄。
+“调用”或“订阅”是独立的操作。不执行subscribe方法就不会执行Observable时的方法
+操作符是Observable类型上的方法
+Rxjs的核心原理是一个基于可观测数据流stream结合参赛者模式和迭代器模式的一种异步编程的应用库。它提供了一组操作符（operators），用于创建和组合可观察对象（observable），并对数据流进行转换、筛选、合并等操作。</p>
 </blockquote>
 <table>
 <thead>
@@ -186,6 +190,11 @@ observable 是一个可调用的未来值或事件的集合。它能被多个 ob
 <li>主题</li>
 <li>时间表</li>
 </ul>
+<h3 id="缺点">缺点</h3>
+<pre><code>不方便调试
+它在本地制定一个“流水线”，数据来了就用此流水线处理。这是一种1 vs n的关系。无法界定的n可能让流水线出错。
+所有操作符都是为了控制流服务的。
+</code></pre>
 <h2 id="install">install</h2>
 <p><code>npm i rxjs</code></p>
 <h2 id="usage">usage</h2>

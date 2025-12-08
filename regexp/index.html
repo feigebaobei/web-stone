@@ -224,7 +224,7 @@ let reg1 = /\d{5}/g
 <tr>
 <td>g</td>
 <td>在全局范围内匹配</td>
-<td></td>
+<td>上一次匹配成功后，在剩余文件中匹配。</td>
 <td></td>
 <td></td>
 </tr>
@@ -245,14 +245,14 @@ let reg1 = /\d{5}/g
 <tr>
 <td>u</td>
 <td>支持完整的 unicode。</td>
-<td>能够正确处理代理以</td>
+<td>能够正确处理大于<code>\uFFFF</code>的Unicode字符</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td>y</td>
 <td>粘滞 sticky 模式</td>
-<td>在文本中确切位置搜索</td>
+<td>在文本中确切位置搜索。后一次匹配都从上一次匹配成功的下一个位置开始。</td>
 <td></td>
 <td></td>
 </tr>
@@ -527,8 +527,8 @@ string.match(/*/</span>)  <span class="hljs-comment">// 非全局检索时返回
     <code>
 |字符|描述|
 |-|-|
-|^|开头位置|
-|$|结尾位置|
+|^|行开头位置|
+|$|行结尾位置|
 |\b|匹配一个单词边界，即单词与空格间、符号等的位置|
 |\B|非单词边界|
     </code>

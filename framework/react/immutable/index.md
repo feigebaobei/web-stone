@@ -2,7 +2,9 @@
 
 ## overview
 
-> TODO: description
+> 不可改变的
+> 适用于代码深复制
+> 原理：
 
 ### feature
 
@@ -55,7 +57,9 @@ description
 
 ## principle
 
-此包的处理逻辑。
+内部创建一个数据结构。
+沉淀一批基础方法。
+每一种操作后都返回不改变原有数据，并且返回一个新对象。
 
 ### uml
 

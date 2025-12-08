@@ -51,7 +51,7 @@
 - [快捷键备忘录](https://hotkeycheatsheet.com/zh)
 - [麦田艺术](https://www.nbfox.com)
 - [ubuntu 科学上网](/confuse/ubuntuKeXueShangWang.html)
-- [title](/confuse/title.html)
+- [沉淀](/confuse/deposit.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
