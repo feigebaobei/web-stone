@@ -11,6 +11,12 @@
 - 多个装饰方法作用于一个目标时。由内向外执行。
 - 装饰器是在编辑阶段运行的。它的本质是编译时执行的函数。
 - 装饰器方法可以用 function 定义，也可以用 let、var、const 定义.
+- 用途
+  - 日志
+  - 鉴权、检查
+  - 前置、后置逻辑
+  - 缓存
+- 面向切片编程的体现之一
 
 ## 装饰器的种类（也是可以使用要装饰器的地方）
 
@@ -48,7 +54,7 @@ class A {
 function testable(target) {
     // target.isTestable = true
     target.prototype.isTestable = true
-    // 修饰class时，操作的是原型对象。
+    // 修饰class时，操作的是原型对象，即构建函数。
 }
 @testable
 class C {...}
@@ -60,7 +66,7 @@ function readonly (target, name, description) {
   //            {
   //              access: {has: ƒ, get: ƒ}
   //              addInitializer: ƒ (f)
-  //              kind: "method"
+  //              kind: "method" // 枚举值 'class', 'method', 'getter', 'setter', 'field', 'accessor'
   //              metadata: undefined
   //              name: "skills"
   //              private: false
@@ -108,7 +114,7 @@ class C {...}
 
 常用包
 
-- core-decorators.js
+- core-decorators.js （作者已经不再维护了）
 - Trait
 
 ## 类装饰器
@@ -134,12 +140,8 @@ type MethodDecorator = <T>(
 
 ## 属性装饰器
 
-```
-type PropertyDecorator =
-  (
-    target: Object,
-    propertyKey: string|symbol
-  ) => void;
+```ts
+type PropertyDecorator = (target: Object, propertyKey: string | symbol) => void
 ```
 
 ## 存取器装饰器
@@ -147,15 +149,15 @@ type PropertyDecorator =
 所谓“存取器”指的是某个属性的取值器（getter）和存值器（setter）。
 TypeScript 不允许对同一个属性的存取器（getter 和 setter）使用同一个装饰器，也就是说只能装饰两个存取器里面的一个，且必须是排在前面的那一个，否则报错。
 
-```
+```js
 type AccessorDecorator = <T>(
   target: Object,
-  propertyKey: string|symbol,
+  propertyKey: string | symbol,
   descriptor: TypedPropertyDescriptor<T>
-) => TypedPropertyDescriptor<T> | void;
+) => TypedPropertyDescriptor<T> | void
 ```
 
-```
+```js
 function validator(
   target: Object,
   propertyKey: string,
@@ -194,12 +196,12 @@ c.foo = 150;
 
 ## 参数装饰器
 
-```
+```js
 type ParameterDecorator = (
   target: Object,
-  propertyKey: string|symbol,
+  propertyKey: string | symbol,
   parameterIndex: number
-) => void;
+) => void
 ```
 
 该装饰器不需要返回值，如果有的话会被忽略。
@@ -343,10 +345,123 @@ let log => (target, name, descriptor) => {
   return descriptor
 }
 autobind
-debounce
+let debounce = (t) => (target, name, descriptor) => {
+  let timerId = 0
+  if (name.kind === 'method') {
+    if (timerId) {
+      clearTimeout(timerId)
+      timerId = 0
+    }
+    timerId = setTimeout(() => {
+      descriptor.value()
+      clearTimeout(timerId)
+      timerId = 0
+    }, t)
+  }
+  return descriptor
+}
+let throttle = (t) => (target, name, descriptor) => {
+  if (name.kind === 'method') {
+    let prev = new Date().getTime()
+    descriptor.value = (...args) => {
+      let now = new Date().getTime()
+      if (now - prev > t) {
+        oldValue.apply(this, args)
+        prev = now
+      }
+    }
+  }
+  return descriptor
+}
+
 time
-mixin
 redux
+
+let trace = (target, name, descriptor) => {
+    let oldValue = descriptor.value
+    // clog(target, name, descriptor)
+    descriptor.value = (...p) => {
+        console.trace()
+        oldValue(...p)
+    }
+    return descriptor
+}
+// 单例
+function singleton(cls) {
+  let instance;
+  let map = new Map()
+  let t = function(...p) {
+    if (map.get(p)) {
+        instance = map.get(p)
+    } else {
+        instance = new cls(...p)
+        map.set(p, instance)
+    }
+    return instance;
+  } as typeof cls;
+  return t
+}
+// 多重继承
+const mixin = (...mixins) => (targetClass) => {
+  mixins = [targetClass, ...mixins];
+  function copyProperties(target, source) {
+    for (let key of Reflect.ownKeys(source)) {
+      if (key !== 'constructor'
+        && key !== 'prototype'
+        && key !== 'name'
+      ) {
+        let desc = Object.getOwnPropertyDescriptor(source, key);
+        Object.defineProperty(target, key, desc);
+      }
+    }
+  }
+  class Mixin {
+    constructor(...args) {
+      for (let mixin of mixins) {
+        copyProperties(this, new mixin(...args)); // 拷贝实例属性
+      }
+    }
+  }
+
+  for (let mixin of mixins) {
+    copyProperties(Mixin, mixin); // 拷贝静态属性
+    copyProperties(Mixin.prototype, mixin.prototype); // 拷贝原型属性
+  }
+  return Mixin;
+}
+export default mixin
+@mixin(B, C, D)
+class A {
+  ...
+}
+// 校验参数
+let rules = {
+  name: 'string',
+  password: 'string',
+  age: 'number',
+}
+// 未测试
+let validator = (rules) => (targetClass) => {
+  let keys = Array.from(Object.keys(rules))
+  return new Proxy(targetClass, {
+    constructor(target, args) {
+      let b = Array.from(Object.entries(args)).every(([k, v]) => {
+        if (keys.includes(k) && rules[k] === typeof v) {
+          return true
+        } else {
+          return true
+        }
+      })
+      if (b) {
+        return new targetClass(...args)
+      }
+    }
+  })
+}
+@validator(rules)
+class A {
+  ...
+}
 ```
 
 ## 常用场景

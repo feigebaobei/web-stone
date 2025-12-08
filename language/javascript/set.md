@@ -67,10 +67,11 @@ console.log(arr[index]) // 'a'
 
 # WeakSet
 
-1. 只能存放对象。
+1. 只能存放对象或 symbol。
 2. 对对象是弱引用。
 3. 不支持遍历
 
+只有 3 个方法
 **WeakSet.prototype.add(obj)** 为 WeakSet 对象指定添加的对象。  
 **WeakSet.prototype.delete(obj)** 返回是否删除指定的对象。  
 **WeakSet.prototype.has(obj)** 返回是否存在指定的对象。  
@@ -83,13 +84,13 @@ set 对象用处少。weakset 对象的用处更少。
 
 # 2024 增加的属性
 
-|                            |      |     |     |
-| -------------------------- | ---- | --- | --- |
-| union(other)               | 并集 |     |     |
-| intersection(other)        |      |     |     |
-| difference(other)          |      |     |     |
-| symmetricDifference(other) |      |     |     |
-| isSubsetOf(other)          |      |     |     |
-| isSuppersetOf(other)       |      |     |     |
-| isDisjointFrom(other)      |      |     |     |
-|                            |      |     |     |
+|                            |              |     |     |
+| -------------------------- | ------------ | --- | --- |
+| union(other)               | 并集         |     |     |
+| intersection(other)        | 交集         |     |     |
+| difference(other)          | 差集         |     |     |
+| symmetricDifference(other) | 对称差集     |     |     |
+| isSubsetOf(other)          | 是否是集     |     |     |
+| isSuppersetOf(other)       | 是否是超集   |     |     |
+| isDisjointFrom(other)      | 是否不相交集 |     |     |
+|                            |              |     |     |

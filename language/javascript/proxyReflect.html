@@ -142,7 +142,7 @@
 <p>proxy 让代理模式更容易实现。
 常用于做：保护/预检/代理等。
 如果一个属性不可配置（configurable）且不可写（writable），则 Proxy 不能修改该属性，否则通过 Proxy 对象访问该属性会报错。
-如果目标对象自身的某个属性不可写，那么set方法将不起作用。</p>
+如果目标对象自身的某个属性不可写，那么 set 方法将不起作用。</p>
 <pre><code class="language-js"><span class="hljs-keyword">let</span> o = {
     <span class="hljs-attr">a</span>: <span class="hljs-string">&#x27;s&#x27;</span>,
     <span class="hljs-attr">_b</span>: <span class="hljs-number">1</span>
@@ -203,16 +203,16 @@ proxy.<span class="hljs-property">key</span> <span class="hljs-comment">// 报�
     }
 </code></pre>
 <h3 id="技巧">技巧</h3>
-<p>在一个object对象上设置一个proxy属性。</p>
-<pre><code class="language-js"><span class="hljs-keyword">let</span> obj = {...originObj, <span class="hljs-attr">proxy</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">Proxy</span>(target, handler)}
+<p>在一个 object 对象上设置一个 proxy 属性。</p>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> obj = { ...originObj, <span class="hljs-attr">proxy</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">Proxy</span>(target, handler) }
 </code></pre>
 <p>嵌套</p>
 <h2 id="reflect">reflect</h2>
 <ul>
 <li>为了操作对象而提供的新 API。</li>
-<li>Reflect更接近语言本质。当前操作<code>Object</code>的方法同时存在于<code>Object</code>、<code>Reflect</code>。未来会只在<code>Reflect</code>上存在。</li>
-<li>修改某些Object方法的返回结果，让其变得更合理。</li>
-<li>让Object操作都变成函数行为。</li>
+<li>Reflect 更接近语言本质。当前操作<code>Object</code>的方法同时存在于<code>Object</code>、<code>Reflect</code>。未来会只在<code>Reflect</code>上存在。</li>
+<li>修改某些 Object 方法的返回结果，让其变得更合理。</li>
+<li>让 Object 操作都变成函数行为。</li>
 <li>Reflect 与 Proxy 的方法一一对应。</li>
 <li>Reflect 可保证原生方法被执行，Proxy 可保证原生方法不被执行，执行的是代理对象的方法。</li>
 </ul>
@@ -237,10 +237,10 @@ Reflect.setPrototypeOf(target, prototype)
   <span class="hljs-title function_">constructor</span>(<span class="hljs-params">o</span>) {
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">proxyObj</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Proxy</span>(o, {
       <span class="hljs-attr">get</span>: <span class="hljs-function">(<span class="hljs-params">target, key, receiver</span>) =&gt;</span> {
-        <span class="hljs-keyword">return</span> target[key]
+        <span class="hljs-keyword">return</span> <span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">get</span>(target, key)
       },
       <span class="hljs-attr">set</span>: <span class="hljs-function">(<span class="hljs-params">target, key, value, receiver</span>) =&gt;</span> {
-        target[key] = value
+        <span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">set</span>(target, key, value)
         <span class="hljs-variable language_">this</span>.<span class="hljs-property">observerList</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">v, k</span>) =&gt;</span> {
           <span class="hljs-title function_">k</span>(target)
         })
@@ -277,61 +277,98 @@ o.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;
 <span class="hljs-title function_">clog</span>(o.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;k&#x27;</span>))
 </code></pre>
 <h3 id="链式操作">链式操作</h3>
-<pre><code>var pipe = function (value) {
-  var funcStack = [];
-  var oproxy = new Proxy({} , {
-    get : function (pipeObject, fnName) {
-      if (fnName === 'get') {
-        return funcStack.reduce(function (val, fn) {
-          return fn(val);
+<pre><code class="language-js"><span class="hljs-keyword">var</span> pipe = <span class="hljs-keyword">function</span> (<span class="hljs-params">value</span>) {
+  <span class="hljs-keyword">var</span> funcStack = [];
+  <span class="hljs-keyword">var</span> oproxy = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Proxy</span>({} , {
+    get : <span class="hljs-keyword">function</span> (<span class="hljs-params">pipeObject, fnName</span>) {
+      <span class="hljs-keyword">if</span> (fnName === <span class="hljs-string">&#x27;get&#x27;</span>) {
+        <span class="hljs-keyword">return</span> funcStack.<span class="hljs-title function_">reduce</span>(<span class="hljs-keyword">function</span> (<span class="hljs-params">val, fn</span>) {
+          <span class="hljs-keyword">return</span> <span class="hljs-title function_">fn</span>(val);
         },value);
       }
-      funcStack.push(window[fnName]);
-      return oproxy;
+      funcStack.<span class="hljs-title function_">push</span>(<span class="hljs-variable language_">window</span>[fnName]);
+      <span class="hljs-keyword">return</span> oproxy;
     }
   });
 
-  return oproxy;
+  <span class="hljs-keyword">return</span> oproxy;
 }
 
-var double = n =&gt; n * 2;
-var pow    = n =&gt; n * n;
-var reverseInt = n =&gt; n.toString().split(&quot;&quot;).reverse().join(&quot;&quot;) | 0;
+<span class="hljs-keyword">var</span> <span class="hljs-title function_">double</span> = n =&gt; n * <span class="hljs-number">2</span>;
+<span class="hljs-keyword">var</span> <span class="hljs-title function_">pow</span>    = n =&gt; n * n;
+<span class="hljs-keyword">var</span> <span class="hljs-title function_">reverseInt</span> = n =&gt; n.<span class="hljs-title function_">toString</span>().<span class="hljs-title function_">split</span>(<span class="hljs-string">&quot;&quot;</span>).<span class="hljs-title function_">reverse</span>().<span class="hljs-title function_">join</span>(<span class="hljs-string">&quot;&quot;</span>) | <span class="hljs-number">0</span>;
 
-pipe(3).double.pow.reverseInt.get; // 63
+<span class="hljs-title function_">pipe</span>(<span class="hljs-number">3</span>).<span class="hljs-property">double</span>.<span class="hljs-property">pow</span>.<span class="hljs-property">reverseInt</span>.<span class="hljs-property">get</span>; <span class="hljs-comment">// 63</span>
 </code></pre>
 <h3 id="生成各种-dom-节点">生成各种 DOM 节点</h3>
-<pre><code>const dom = new Proxy({}, {
-  get(target, property) {
-    return function(attrs = {}, ...children) {
-      const el = document.createElement(property);
-      for (let prop of Object.keys(attrs)) {
-        el.setAttribute(prop, attrs[prop]);
+<pre><code class="language-js"><span class="hljs-keyword">const</span> dom = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Proxy</span>({}, {
+  <span class="hljs-title function_">get</span>(<span class="hljs-params">target, property</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span>(<span class="hljs-params">attrs = {}, ...children</span>) {
+      <span class="hljs-keyword">const</span> el = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(property);
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> prop <span class="hljs-keyword">of</span> <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">keys</span>(attrs)) {
+        el.<span class="hljs-title function_">setAttribute</span>(prop, attrs[prop]);
       }
-      for (let child of children) {
-        if (typeof child === 'string') {
-          child = document.createTextNode(child);
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> child <span class="hljs-keyword">of</span> children) {
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> child === <span class="hljs-string">&#x27;string&#x27;</span>) {
+          child = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createTextNode</span>(child);
         }
-        el.appendChild(child);
+        el.<span class="hljs-title function_">appendChild</span>(child);
       }
-      return el;
+      <span class="hljs-keyword">return</span> el;
     }
   }
 });
 
-const el = dom.div({},
-  'Hello, my name is ',
-  dom.a({href: '//example.com'}, 'Mark'),
-  '. I like:',
-  dom.ul({},
-    dom.li({}, 'The web'),
-    dom.li({}, 'Food'),
-    dom.li({}, '…actually that\'s it')
+<span class="hljs-keyword">const</span> el = dom.<span class="hljs-title function_">div</span>({},
+  <span class="hljs-string">&#x27;Hello, my name is &#x27;</span>,
+  dom.<span class="hljs-title function_">a</span>({<span class="hljs-attr">href</span>: <span class="hljs-string">&#x27;//example.com&#x27;</span>}, <span class="hljs-string">&#x27;Mark&#x27;</span>),
+  <span class="hljs-string">&#x27;. I like:&#x27;</span>,
+  dom.<span class="hljs-title function_">ul</span>({},
+    dom.<span class="hljs-title function_">li</span>({}, <span class="hljs-string">&#x27;The web&#x27;</span>),
+    dom.<span class="hljs-title function_">li</span>({}, <span class="hljs-string">&#x27;Food&#x27;</span>),
+    dom.<span class="hljs-title function_">li</span>({}, <span class="hljs-string">&#x27;…actually that\&#x27;s it&#x27;</span>)
   )
 );
 
-document.body.appendChild(el);
+<span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-title function_">appendChild</span>(el);
 </code></pre>
+<h2 id="proxy--decorator">proxy &amp; decorator</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>proxy</th>
+<th>decorator</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>只逆</td>
+<td>不可逆</td>
+</tr>
+<tr>
+<td></td>
+<td>基于target</td>
+<td>基于target</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 
             
             

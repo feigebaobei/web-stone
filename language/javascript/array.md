@@ -236,7 +236,7 @@ end 结束复制的下标
     arr.includes('3') // true,
     arr.includes(9) // false,
 
-**for of** 遍历数组中每一个元素的方法。
+**for...of** 遍历数组中每一个元素的方法。
 
 可以使用`return`/`break`/`continue`
 
@@ -267,6 +267,21 @@ Array.from(obj, mapFn, thisArg) <=> Array.from(obj).map(mapFn, thisArg)
 
     const arr1 = [0, 1, 2, [3, 4]];
     console.log(arr1.flat()); // [0, 1, 2, 3, 4]
+
+**Array.prototype.toReversed() => Array**
+不改变原数组，返回一个新数组。
+
+**Array.prototype.toSorded(compareFn) => Array**
+不改变原数组，返回一个新数组。
+
+**Array.prototype.toSpliced(start, deleteCount, ...items) => Array**
+不改变原数组，返回一个新数组。
+
+**Array.prototype.with(index, value) => Array**
+不改变原数组，返回一个新数组。
+
+**Array.prototype.group(index, value) => Array**
+把数组内的元素分组
 
 ### 常用操作方法比较
 

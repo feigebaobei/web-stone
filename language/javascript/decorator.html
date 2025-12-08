@@ -148,10 +148,19 @@
 <li>有点像高阶函数、代理。</li>
 <li>修饰什么就应该返回一个什么。用于替换目标。如果不返回，则不替换目标。不返回值的装饰器方法常用于副作用方法。</li>
 <li>编译时运行。</li>
-<li>无法取消。若要取消，请使用proxy.</li>
+<li>无法取消。若要取消，请使用 proxy.</li>
 <li>多个装饰方法作用于一个目标时。由内向外执行。</li>
 <li>装饰器是在编辑阶段运行的。它的本质是编译时执行的函数。</li>
-<li>装饰器方法可以用function定义，也可以用let、var、const定义.</li>
+<li>装饰器方法可以用 function 定义，也可以用 let、var、const 定义.</li>
+<li>用途
+<ul>
+<li>日志</li>
+<li>鉴权、检查</li>
+<li>前置、后置逻辑</li>
+<li>缓存</li>
+</ul>
+</li>
+<li>面向切片编程的体现之一</li>
 </ul>
 <h2 id="装饰器的种类也是可以使用要装饰器的地方">装饰器的种类（也是可以使用要装饰器的地方）</h2>
 <ul>
@@ -187,7 +196,7 @@
 <span class="hljs-keyword">function</span> <span class="hljs-title function_">testable</span>(<span class="hljs-params">target</span>) {
     <span class="hljs-comment">// target.isTestable = true</span>
     target.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">isTestable</span> = <span class="hljs-literal">true</span>
-    <span class="hljs-comment">// 修饰class时，操作的是原型对象。</span>
+    <span class="hljs-comment">// 修饰class时，操作的是原型对象，即构建函数。</span>
 }
 @testable
 <span class="hljs-keyword">class</span> <span class="hljs-title class_">C</span> {...}
@@ -195,16 +204,16 @@
 <span class="hljs-comment">// no.2</span>
 <span class="hljs-keyword">function</span> <span class="hljs-title function_">readonly</span> (target, name, description) {
   <span class="hljs-comment">// target     被装饰的目标。 class的constructor方法 、 方法</span>
-  <span class="hljs-comment">// name       </span>
+  <span class="hljs-comment">// name</span>
   <span class="hljs-comment">//            {</span>
   <span class="hljs-comment">//              access: {has: ƒ, get: ƒ}</span>
   <span class="hljs-comment">//              addInitializer: ƒ (f)</span>
-  <span class="hljs-comment">//              kind: &quot;method&quot;</span>
+  <span class="hljs-comment">//              kind: &quot;method&quot; // 枚举值 &#x27;class&#x27;, &#x27;method&#x27;, &#x27;getter&#x27;, &#x27;setter&#x27;, &#x27;field&#x27;, &#x27;accessor&#x27;</span>
   <span class="hljs-comment">//              metadata: undefined</span>
   <span class="hljs-comment">//              name: &quot;skills&quot;</span>
   <span class="hljs-comment">//              private: false</span>
   <span class="hljs-comment">//              static: false</span>
-  <span class="hljs-comment">//            } 、 </span>
+  <span class="hljs-comment">//            } 、</span>
   <span class="hljs-comment">//            {</span>
   <span class="hljs-comment">//              addInitializer: ƒ (f)</span>
   <span class="hljs-comment">//              kind: &quot;class&quot;</span>
@@ -246,7 +255,7 @@ p.<span class="hljs-property">skills</span> = <span class="hljs-function">() =&g
 </code></pre>
 <p>常用包</p>
 <ul>
-<li>core-decorators.js</li>
+<li>core-decorators.js （作者已经不再维护了）</li>
 <li>Trait</li>
 </ul>
 <h2 id="类装饰器">类装饰器</h2>
@@ -255,7 +264,7 @@ p.<span class="hljs-property">skills</span> = <span class="hljs-function">() =&g
   (target: TFunction) =&gt; TFunction | void;
 </code></pre>
 <h2 id="方法装饰器">方法装饰器</h2>
-<p>返回的是descriptor</p>
+<p>返回的是 descriptor</p>
 <pre><code>type MethodDecorator = &lt;T&gt;(
   target: Object,
   propertyKey: string|symbol,
@@ -263,62 +272,62 @@ p.<span class="hljs-property">skills</span> = <span class="hljs-function">() =&g
 ) =&gt; TypedPropertyDescriptor&lt;T&gt; | void;
 </code></pre>
 <h2 id="属性装饰器">属性装饰器</h2>
-<pre><code>type PropertyDecorator =
-  (
-    target: Object,
-    propertyKey: string|symbol
-  ) =&gt; void;
+<pre><code class="language-ts"><span class="hljs-keyword">type</span> <span class="hljs-title class_">PropertyDecorator</span> =
+  <span class="hljs-function">(<span class="hljs-params">
+    target: <span class="hljs-built_in">Object</span>,
+    propertyKey: <span class="hljs-built_in">string</span>|<span class="hljs-built_in">symbol</span>
+  </span>) =&gt;</span> <span class="hljs-built_in">void</span>;
 </code></pre>
 <h2 id="存取器装饰器">存取器装饰器</h2>
 <p>所谓“存取器”指的是某个属性的取值器（getter）和存值器（setter）。
 TypeScript 不允许对同一个属性的存取器（getter 和 setter）使用同一个装饰器，也就是说只能装饰两个存取器里面的一个，且必须是排在前面的那一个，否则报错。</p>
-<pre><code>type AccessorDecorator = &lt;T&gt;(
-  target: Object,
+<pre><code class="language-js">type <span class="hljs-title class_">AccessorDecorator</span> = &lt;T&gt;<span class="hljs-function">(<span class="hljs-params">
+  target: <span class="hljs-built_in">Object</span>,
   propertyKey: string|symbol,
   descriptor: TypedPropertyDescriptor&lt;T&gt;
-) =&gt; TypedPropertyDescriptor&lt;T&gt; | void;
+</span>) =&gt;</span> <span class="hljs-title class_">TypedPropertyDescriptor</span>&lt;T&gt; | <span class="hljs-keyword">void</span>;
 </code></pre>
-<pre><code>function validator(
-  target: Object,
+<pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">validator</span>(<span class="hljs-params">
+  target: <span class="hljs-built_in">Object</span>,
   propertyKey: string,
   descriptor: PropertyDescriptor
-){
-  const originalGet = descriptor.get;
-  const originalSet = descriptor.set;
-  
-  if (originalSet) {
-    descriptor.set = function (val) {
-      if (val &gt; 100) {
-        throw new Error(`Invalid value for ${propertyKey}`);
+</span>){
+  <span class="hljs-keyword">const</span> originalGet = descriptor.<span class="hljs-property">get</span>;
+  <span class="hljs-keyword">const</span> originalSet = descriptor.<span class="hljs-property">set</span>;
+
+  <span class="hljs-keyword">if</span> (originalSet) {
+    descriptor.<span class="hljs-property">set</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params">val</span>) {
+      <span class="hljs-keyword">if</span> (val &gt; <span class="hljs-number">100</span>) {
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">`Invalid value for <span class="hljs-subst">${propertyKey}</span>`</span>);
       }
-      originalSet.call(this, val);
+      originalSet.<span class="hljs-title function_">call</span>(<span class="hljs-variable language_">this</span>, val);
     };
   }
 }
 
-class C {
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">C</span> {
   #foo!: number;
 
   @validator
-  set foo(v) {
-    this.#foo = v;
+  <span class="hljs-keyword">set</span> <span class="hljs-title function_">foo</span>(<span class="hljs-params">v</span>) {
+    <span class="hljs-variable language_">this</span>.#foo = v;
   }
 
-  get foo() {
-    return this.#foo;
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">foo</span>() {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.#foo;
   }
 }
 
-const c = new C();
-c.foo = 150;
-// 报错
+<span class="hljs-keyword">const</span> c = <span class="hljs-keyword">new</span> <span class="hljs-title function_">C</span>();
+c.<span class="hljs-property">foo</span> = <span class="hljs-number">150</span>;
+<span class="hljs-comment">// 报错</span>
 </code></pre>
 <h2 id="参数装饰器">参数装饰器</h2>
-<pre><code>type ParameterDecorator = (
-  target: Object,
+<pre><code class="language-js">type <span class="hljs-title class_">ParameterDecorator</span> = <span class="hljs-function">(<span class="hljs-params">
+  target: <span class="hljs-built_in">Object</span>,
   propertyKey: string|symbol,
   parameterIndex: number
-) =&gt; void;
+</span>) =&gt;</span> <span class="hljs-keyword">void</span>;
 </code></pre>
 <p>该装饰器不需要返回值，如果有的话会被忽略。
 跟其他装饰器不同，参数装饰器主要用于输出信息，没有办法修改类的行为。</p>
@@ -339,7 +348,7 @@ c.foo = 150;
 class C {
   @f('静态方法')
   static method() {}
-  
+
   @f('实例方法')
   method() {}
 
@@ -373,12 +382,12 @@ class C {
 }
 </code></pre>
 <p>此示例，输出如下：
-执行： 参数1
-执行： 方法1
-执行： 属性1
-执行： 参数2
-执行： 方法2
-执行： 属性2
+执行： 参数 1
+执行： 方法 1
+执行： 属性 1
+执行： 参数 2
+执行： 方法 2
+执行： 属性 2
 实例装饰器的执行顺序，完全是按照代码顺序的。但是，同一个方法的参数装饰器，总是早于该方法的方法装饰器执行。</p>
 <p>如果同一个方法或属性有多个装饰器，那么装饰器将顺序加载、逆序执行。</p>
 <pre><code>function f(key:string):any {
@@ -442,10 +451,123 @@ x
   <span class="hljs-keyword">return</span> descriptor
 }
 autobind
-debounce
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">debounce</span> = (<span class="hljs-params">t</span>) =&gt; <span class="hljs-function">(<span class="hljs-params">target, name, descriptor</span>) =&gt;</span> {
+  <span class="hljs-keyword">let</span> timerId = <span class="hljs-number">0</span>
+  <span class="hljs-keyword">if</span> (name.<span class="hljs-property">kind</span> === <span class="hljs-string">&#x27;method&#x27;</span>) {
+    <span class="hljs-keyword">if</span> (timerId) {
+      <span class="hljs-built_in">clearTimeout</span>(timerId)
+      timerId = <span class="hljs-number">0</span>
+    }
+    timerId = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+      descriptor.<span class="hljs-title function_">value</span>()
+      <span class="hljs-built_in">clearTimeout</span>(timerId)
+      timerId = <span class="hljs-number">0</span>
+    }, t)
+  }
+  <span class="hljs-keyword">return</span> descriptor
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">throttle</span> = (<span class="hljs-params">t</span>) =&gt; <span class="hljs-function">(<span class="hljs-params">target, name, descriptor</span>) =&gt;</span> {
+  <span class="hljs-keyword">if</span> (name.<span class="hljs-property">kind</span> === <span class="hljs-string">&#x27;method&#x27;</span>) {
+    <span class="hljs-keyword">let</span> prev = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>().<span class="hljs-title function_">getTime</span>()
+    descriptor.<span class="hljs-property">value</span> = <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> {
+      <span class="hljs-keyword">let</span> now = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>().<span class="hljs-title function_">getTime</span>()
+      <span class="hljs-keyword">if</span> (now - prev &gt; t) {
+        oldValue.<span class="hljs-title function_">apply</span>(<span class="hljs-variable language_">this</span>, args)
+        prev = now
+      }
+    }
+  }
+  <span class="hljs-keyword">return</span> descriptor
+}
+
 time
-mixin
 redux
+
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">trace</span> = (<span class="hljs-params">target, name, descriptor</span>) =&gt; {
+    <span class="hljs-keyword">let</span> oldValue = descriptor.<span class="hljs-property">value</span>
+    <span class="hljs-comment">// clog(target, name, descriptor)</span>
+    descriptor.<span class="hljs-property">value</span> = <span class="hljs-function">(<span class="hljs-params">...p</span>) =&gt;</span> {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">trace</span>()
+        <span class="hljs-title function_">oldValue</span>(...p)
+    }
+    <span class="hljs-keyword">return</span> descriptor
+}
+<span class="hljs-comment">// 单例</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">singleton</span>(<span class="hljs-params">cls</span>) {
+  <span class="hljs-keyword">let</span> instance;
+  <span class="hljs-keyword">let</span> map = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>()
+  <span class="hljs-keyword">let</span> t = <span class="hljs-keyword">function</span>(<span class="hljs-params">...p</span>) {
+    <span class="hljs-keyword">if</span> (map.<span class="hljs-title function_">get</span>(p)) {
+        instance = map.<span class="hljs-title function_">get</span>(p)
+    } <span class="hljs-keyword">else</span> {
+        instance = <span class="hljs-keyword">new</span> <span class="hljs-title function_">cls</span>(...p)
+        map.<span class="hljs-title function_">set</span>(p, instance)
+    }
+    <span class="hljs-keyword">return</span> instance;
+  } <span class="hljs-keyword">as</span> <span class="hljs-keyword">typeof</span> cls;
+  <span class="hljs-keyword">return</span> t
+}
+<span class="hljs-comment">// 多重继承</span>
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">mixin</span> = (<span class="hljs-params">...mixins</span>) =&gt; <span class="hljs-function">(<span class="hljs-params">targetClass</span>) =&gt;</span> {
+  mixins = [targetClass, ...mixins];
+  <span class="hljs-keyword">function</span> <span class="hljs-title function_">copyProperties</span>(<span class="hljs-params">target, source</span>) {
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> key <span class="hljs-keyword">of</span> <span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">ownKeys</span>(source)) {
+      <span class="hljs-keyword">if</span> (key !== <span class="hljs-string">&#x27;constructor&#x27;</span>
+        &amp;&amp; key !== <span class="hljs-string">&#x27;prototype&#x27;</span>
+        &amp;&amp; key !== <span class="hljs-string">&#x27;name&#x27;</span>
+      ) {
+        <span class="hljs-keyword">let</span> desc = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">getOwnPropertyDescriptor</span>(source, key);
+        <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">defineProperty</span>(target, key, desc);
+      }
+    }
+  }
+  <span class="hljs-keyword">class</span> <span class="hljs-title class_">Mixin</span> {
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params">...args</span>) {
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> mixin <span class="hljs-keyword">of</span> mixins) {
+        <span class="hljs-title function_">copyProperties</span>(<span class="hljs-variable language_">this</span>, <span class="hljs-keyword">new</span> <span class="hljs-title function_">mixin</span>(...args)); <span class="hljs-comment">// 拷贝实例属性</span>
+      }
+    }
+  }
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> mixin <span class="hljs-keyword">of</span> mixins) {
+    <span class="hljs-title function_">copyProperties</span>(<span class="hljs-title class_">Mixin</span>, mixin); <span class="hljs-comment">// 拷贝静态属性</span>
+    <span class="hljs-title function_">copyProperties</span>(<span class="hljs-title class_">Mixin</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>, mixin.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>); <span class="hljs-comment">// 拷贝原型属性</span>
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-title class_">Mixin</span>;
+}
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> mixin
+@<span class="hljs-title function_">mixin</span>(B, C, D)
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> {
+  ...
+}
+<span class="hljs-comment">// 校验参数</span>
+<span class="hljs-keyword">let</span> rules = {
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;string&#x27;</span>,
+  <span class="hljs-attr">password</span>: <span class="hljs-string">&#x27;string&#x27;</span>,
+  <span class="hljs-attr">age</span>: <span class="hljs-string">&#x27;number&#x27;</span>,
+}
+<span class="hljs-comment">// 未测试</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">validator</span> = (<span class="hljs-params">rules</span>) =&gt; <span class="hljs-function">(<span class="hljs-params">targetClass</span>) =&gt;</span> {
+  <span class="hljs-keyword">let</span> keys = <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">from</span>(<span class="hljs-title class_">Object</span>.<span class="hljs-title function_">keys</span>(rules))
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Proxy</span>(targetClass, {
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params">target, args</span>) {
+      <span class="hljs-keyword">let</span> b = <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">from</span>(<span class="hljs-title class_">Object</span>.<span class="hljs-title function_">entries</span>(args)).<span class="hljs-title function_">every</span>(<span class="hljs-function">(<span class="hljs-params">[k, v]</span>) =&gt;</span> {
+        <span class="hljs-keyword">if</span> (keys.<span class="hljs-title function_">includes</span>(k) &amp;&amp; rules[k] === <span class="hljs-keyword">typeof</span> v) {
+          <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>
+        } <span class="hljs-keyword">else</span> {
+          <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>
+        }
+      })
+      <span class="hljs-keyword">if</span> (b) {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title function_">targetClass</span>(...args)
+      }
+    }
+  })
+}
+@<span class="hljs-title function_">validator</span>(rules)
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> {
+  ...
+}
 </code></pre>
 <h2 id="常用场景">常用场景</h2>
 <ul>

@@ -20,3 +20,8 @@ new Function(...args, body)
 - 方法体不会被压缩。
 
 ## [createFunction](/util/index.html)
+
+## 箭头函数
+
+箭头函数里面没有自己的 this.
+不能使用 yield。（也就不能使用 generator）

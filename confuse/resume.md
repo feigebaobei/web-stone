@@ -38,25 +38,62 @@ function ({x = 2, y = 1} = {}) {}
 ([x, y] = [y, x])
 正则
 写一个重试的方法
+写一个记录 class 中方法执行的装饰器方法
 
 2025.12.03
 2025.12.04
+for...of 作用于 iterator 对象
+Array#at(n)
 2025.12.05
+整理《browser-use 解读》的笔记
+写一个排序版本号的方法
+写一个单例的装饰器 x
+2025.12.06
+在一推 promise 中最多同时运行 3 个
+2025.12.07
+写一个红绿灯的方法
+2025.12.08
+es6
+修饰方法的四个方法
+装饰器
+代理
+高阶方法
+柯理化
+cjs & esm
+写一个 trace 装饰器
+写一个单例装饰器
+写一个可以取消的装饰器
 
 # todo
 
-rx 源码
-set & map 循环
-操作 dom
-subscribe
-其他编程范式
-indexDB
-写一个专利
-vue/react 的原理
-前端性能指标，如何提升。
+console 的用法
 ts
-修饰方法的四个方法
+indexDB
+vue/react/angular 的原理
+vue2/vue3 的响应式原理不同
+前端性能指标，如何提升。
 设计模式
 signal
 js 支持的数据类型
 事件总线
+管理状态
+前端工程化
+位运算
+现在的前端发展趋势
+整理 promise
+设计模式
+babel
+ai 组件库
+css 和 预处理器
+export & import
+打包工具
+错误级别
+反转单向链表
+set & map 循环
+操作 dom
+subscribe
+其他编程范式
+常用算法
+多租户是什么意思
+在项目中做了哪些“解决方案”级别的贡献
+dom 的事件

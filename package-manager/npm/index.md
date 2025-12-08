@@ -216,7 +216,7 @@ npm unlink <package-name> # 取消链接依赖项
 | types                | 指定类型文件的目录       |               |    |               |
 | typings                | 指定类型文件的目录       |               |    |               |
 | type                 | 指定规范                 | "module" / "commonjs"             | 默认为"commonjs"       |               |
-| exports              | 可以根据不同的引用方式或者模块化类型，来指定 npm 包引用不同的入口文件。              | 如`"exports": {"import": "./main-module.js","require": "./main-require.cjs"`}import 为 esm 的导入方式，require 为 cjs 的导入方式 | 优先级高于 brower/module/main.比 file 好用。                   |               |
+| exports              | 可以根据不同的引用方式或者模块化类型，来指定 npm 包引用不同的入口文件。              | 如`"exports": {"import": "./main-module.js","require": "./main-require.cjs"}`import 为 esm 的导入方式，require 为 cjs 的导入方式 | 优先级高于 brower/module/main.比 file 好用。                   |               |
 <!-- prettier-ignore-end -->
 
 <!-- prettier-ignore-start -->

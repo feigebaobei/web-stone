@@ -22,7 +22,7 @@ let createDebounceFn = (fn: F, t = 250, self?: A) => {
 // 当事件持续触发时，在每隔指定时长执行一次回调方法。
 // 指定时间外的方法才执行
 // 一段时间内调用，每隔一段时间执行一次。当大于延迟时执行。
-let createThrottleFn = (fn, t = 250) => {
+let createThrottleFn = (fn, t = 250, first = false) => {
     let prev = new Date().getTime()
     return (...rest) => {
         let now = new Date().getTime()

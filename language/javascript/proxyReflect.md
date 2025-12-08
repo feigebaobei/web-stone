@@ -116,10 +116,10 @@ class Observable {
   constructor(o) {
     this.proxyObj = new Proxy(o, {
       get: (target, key, receiver) => {
-        return target[key]
+        return Reflect.get(target, key)
       },
       set: (target, key, value, receiver) => {
-        target[key] = value
+        Reflect.set(target, key, value)
         this.observerList.forEach((v, k) => {
           k(target)
         })
@@ -158,62 +158,80 @@ clog(o.get('k'))
 
 ### 链式操作
 
-```
+```js
 var pipe = function (value) {
-  var funcStack = [];
-  var oproxy = new Proxy({} , {
-    get : function (pipeObject, fnName) {
-      if (fnName === 'get') {
-        return funcStack.reduce(function (val, fn) {
-          return fn(val);
-        },value);
-      }
-      funcStack.push(window[fnName]);
-      return oproxy;
+  var funcStack = []
+  var oproxy = new Proxy(
+    {},
+    {
+      get: function (pipeObject, fnName) {
+        if (fnName === 'get') {
+          return funcStack.reduce(function (val, fn) {
+            return fn(val)
+          }, value)
+        }
+        funcStack.push(window[fnName])
+        return oproxy
+      },
     }
-  });
+  )
 
-  return oproxy;
+  return oproxy
 }
 
-var double = n => n * 2;
-var pow    = n => n * n;
-var reverseInt = n => n.toString().split("").reverse().join("") | 0;
+var double = (n) => n * 2
+var pow = (n) => n * n
+var reverseInt = (n) => n.toString().split('').reverse().join('') | 0
 
-pipe(3).double.pow.reverseInt.get; // 63
+pipe(3).double.pow.reverseInt.get // 63
 ```
 
 ### 生成各种 DOM 节点
 
-```
-const dom = new Proxy({}, {
-  get(target, property) {
-    return function(attrs = {}, ...children) {
-      const el = document.createElement(property);
-      for (let prop of Object.keys(attrs)) {
-        el.setAttribute(prop, attrs[prop]);
-      }
-      for (let child of children) {
-        if (typeof child === 'string') {
-          child = document.createTextNode(child);
+```js
+const dom = new Proxy(
+  {},
+  {
+    get(target, property) {
+      return function (attrs = {}, ...children) {
+        const el = document.createElement(property)
+        for (let prop of Object.keys(attrs)) {
+          el.setAttribute(prop, attrs[prop])
         }
-        el.appendChild(child);
+        for (let child of children) {
+          if (typeof child === 'string') {
+            child = document.createTextNode(child)
+          }
+          el.appendChild(child)
+        }
+        return el
       }
-      return el;
-    }
+    },
   }
-});
+)
 
-const el = dom.div({},
+const el = dom.div(
+  {},
   'Hello, my name is ',
-  dom.a({href: '//example.com'}, 'Mark'),
+  dom.a({ href: '//example.com' }, 'Mark'),
   '. I like:',
-  dom.ul({},
+  dom.ul(
+    {},
     dom.li({}, 'The web'),
     dom.li({}, 'Food'),
-    dom.li({}, '…actually that\'s it')
+    dom.li({}, "…actually that's it")
   )
-);
+)
 
-document.body.appendChild(el);
+document.body.appendChild(el)
 ```
+
+## proxy & decorator
+
+|     | proxy       | decorator   |
+| --- | ----------- | ----------- |
+|     | 只逆        | 不可逆      |
+|     | 基于 target | 基于 target |
+|     |             |             |
+|     |             |             |
+|     |             |             |
