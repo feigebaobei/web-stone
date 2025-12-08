@@ -29,14 +29,25 @@
     <!-- <script nomodule="false"> -->
     <script type="module" >
         let clog = console.log
+        console.profile('str')
+        let f = (n) => {
+            if (n < 2) {
+                return 1
+            } else {
+                return f(n-1) + f(n-2)
+            }
+        }
+        clog(f(25))
         let map = new Map()
         map.set('a', 'a')
         map.set('f', 'f')
         map.set('d', 'd')
         clog('all', map)
+        console.profileEnd('str')
 
-        import * as all from './test.js'
-        clog('all', all)
+        // import * as all from './test.js'
+        // clog('all', all)
+
     </script>
 </body>
 </html>

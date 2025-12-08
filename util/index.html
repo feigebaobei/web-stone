@@ -146,13 +146,12 @@
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">createDebounceFn</span> = (<span class="hljs-params">fn: F, t = <span class="hljs-number">250</span>, self?: A</span>) =&gt; {
     <span class="hljs-keyword">let</span> <span class="hljs-attr">timer</span>: N
     <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">...rest: A[]</span>) =&gt;</span> {
-      <span class="hljs-keyword">let</span> context = self
       <span class="hljs-keyword">if</span> (timer) {
         <span class="hljs-built_in">clearTimeout</span>(timer)
         timer = <span class="hljs-number">0</span>
       }
       timer = <span class="hljs-variable language_">window</span>.<span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
-        fn.<span class="hljs-title function_">apply</span>(context, rest)
+        fn.<span class="hljs-title function_">apply</span>(self, rest)
         <span class="hljs-built_in">clearTimeout</span>(timer)
         timer = <span class="hljs-number">0</span>
       }, t)
@@ -225,9 +224,6 @@
               <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">entries</span>(v).<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">[k, v]</span>) =&gt;</span> {
                 <span class="hljs-keyword">let</span> type = <span class="hljs-title function_">getType</span>(v)
                 <span class="hljs-keyword">switch</span> (type) {
-                  <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;Function&#x27;</span>:
-                    t[k] = v
-                    <span class="hljs-keyword">break</span>;
                   <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;Set&#x27;</span>:
                     t[k] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>(<span class="hljs-title class_">Array</span>.<span class="hljs-title function_">from</span>(v).<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> {
                       <span class="hljs-keyword">return</span> <span class="hljs-title function_">cloneDeep</span>(item)
@@ -242,9 +238,10 @@
                   <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;Object&#x27;</span>:
                     t[k] = <span class="hljs-title function_">cloneDeep</span>(v)
                     <span class="hljs-keyword">break</span>;
-                  <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;RegExp&#x27;</span>: <span class="hljs-comment">// 未测试</span>
+                  <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;RegExp&#x27;</span>:
                     t[k] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">RegExp</span>(v.<span class="hljs-property">source</span>, v.<span class="hljs-property">flags</span>)
                     <span class="hljs-keyword">break</span>;
+                  <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;Function&#x27;</span>:
                   <span class="hljs-attr">default</span>:
                     t[k] = v <span class="hljs-comment">// 当发现新类型里再添加，先用引用处理。</span>
                     <span class="hljs-keyword">break</span>;
@@ -272,9 +269,6 @@
               <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">entries</span>(v).<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">[k, v]</span>) =&gt;</span> {
                 <span class="hljs-keyword">let</span> type = <span class="hljs-title function_">getType</span>(v)
                 <span class="hljs-keyword">switch</span> (type) {
-                  <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;Function&#x27;</span>:
-                    t[k] = v
-                    <span class="hljs-keyword">break</span>;
                   <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;Set&#x27;</span>:
                     t[k] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>(<span class="hljs-title class_">Array</span>.<span class="hljs-title function_">from</span>(v <span class="hljs-keyword">as</span> <span class="hljs-title class_">Set</span>&lt;A&gt;).<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> {
                       <span class="hljs-keyword">return</span> <span class="hljs-title function_">cloneDeep</span>(item)
@@ -289,6 +283,7 @@
                   <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;Object&#x27;</span>:
                     t[k] = <span class="hljs-title function_">cloneDeep</span>(v)
                     <span class="hljs-keyword">break</span>;
+                  <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;Function&#x27;</span>:
                   <span class="hljs-attr">default</span>:
                     t[k] = v <span class="hljs-comment">// 当发现新类型里再添加，先用引用处理。</span>
                     <span class="hljs-keyword">break</span>;
@@ -480,28 +475,37 @@
   <span class="hljs-keyword">return</span> a * b / <span class="hljs-title function_">gcd</span>(a, b)
 }
 <span class="hljs-comment">// 最大并行数量promise</span>
-<span class="hljs-keyword">let</span> <span class="hljs-title function_">parallelMaxPromise</span> = (<span class="hljs-params">cb = <span class="hljs-built_in">Promise</span>.resolve(), capacity = <span class="hljs-number">3</span>, material = []</span>) =&gt; {
-  <span class="hljs-keyword">let</span> mi = <span class="hljs-number">0</span>
-  <span class="hljs-keyword">let</span> pendingCount = capacity
-  <span class="hljs-keyword">let</span> <span class="hljs-title function_">createP</span> = (<span class="hljs-params"></span>) =&gt; {
-    <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">resolve</span>(<span class="hljs-title function_">cb</span>(material[mi]))
-    .<span class="hljs-title function_">finally</span>(<span class="hljs-function">() =&gt;</span> {
-      pendingCount--
-      <span class="hljs-title function_">check</span>()
-    })
-  }
-  <span class="hljs-keyword">let</span> <span class="hljs-title function_">check</span> = (<span class="hljs-params"></span>) =&gt; {
-    <span class="hljs-keyword">if</span> (pendingCount &lt; capacity &amp;&amp; mi &lt; material.<span class="hljs-property">length</span>) {
-      <span class="hljs-title function_">createP</span>()
-      mi++
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">parallelMaxPromise</span> = (<span class="hljs-params">material = [], cb = <span class="hljs-built_in">Promise</span>.resolve(), capacity = <span class="hljs-number">3</span></span>) =&gt; {
+    <span class="hljs-keyword">let</span> mi = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">let</span> <span class="hljs-title function_">createP</span> = (<span class="hljs-params"></span>) =&gt; {
+        <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">resolve</span>(<span class="hljs-title function_">cb</span>(material[mi]))
+        .<span class="hljs-title function_">finally</span>(<span class="hljs-function">() =&gt;</span> {
+            <span class="hljs-keyword">if</span> (mi &lt; material.<span class="hljs-property">length</span>) {
+                <span class="hljs-title function_">createP</span>()
+                mi++
+            }
+        })
     }
-  }
-  <span class="hljs-keyword">if</span> (material.<span class="hljs-property">length</span>) {
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; capacity; i++) {
-      <span class="hljs-title function_">createP</span>()
-      mi++
+    <span class="hljs-keyword">if</span> (material.<span class="hljs-property">length</span>) {
+        <span class="hljs-keyword">while</span> (mi &lt; capacity) {
+            <span class="hljs-title function_">createP</span>()
+            mi++
+        }
     }
-  }
+}
+<span class="hljs-comment">// 环式处理promiseFn</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">rangOpPromiseFn</span> = (<span class="hljs-params">promiseFnArr</span>) =&gt; {
+    <span class="hljs-keyword">let</span> index = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">let</span> <span class="hljs-title function_">_f</span> = (<span class="hljs-params"></span>) =&gt; {
+        promiseFnArr[index]().<span class="hljs-title function_">then</span>(<span class="hljs-function">() =&gt;</span> {
+            <span class="hljs-title function_">_f</span>()
+        })
+        index++
+        <span class="hljs-keyword">if</span> (index &gt;= promiseFnArr.<span class="hljs-property">length</span>) {
+            index %= promiseFnArr.<span class="hljs-property">length</span>
+        }
+    }
+    <span class="hljs-title function_">_f</span>()
 }
 <span class="hljs-comment">// 创建一个worker</span>
 <span class="hljs-keyword">function</span> <span class="hljs-title function_">createWorker</span>(<span class="hljs-params">f</span>) {
@@ -1078,18 +1082,23 @@ $.<span class="hljs-title function_">shadowDom</span>(<span class="hljs-string">
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">cb</span> = cb
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">timerId</span> = <span class="hljs-number">0</span>
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">restTime</span> = <span class="hljs-number">0</span> <span class="hljs-comment">// 剩余时间</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">startTime</span> = <span class="hljs-number">0</span> <span class="hljs-comment">// 开始时刻</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">curTime</span> = <span class="hljs-number">0</span> <span class="hljs-comment">// 当前时刻</span>
   }
   <span class="hljs-title function_">start</span>(<span class="hljs-params"></span>) {
     <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">timerId</span>) {
       <span class="hljs-built_in">clearInterval</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">timerId</span>)
     }
     <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">_start</span>()
+
+
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">startTime</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>().<span class="hljs-title function_">getTime</span>()
   }
   <span class="hljs-title function_">_start</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-variable language_">this</span>.<span class="hljs-property">restTime</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">timeLength</span>
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">timerId</span> = <span class="hljs-built_in">setInterval</span>(<span class="hljs-function">() =&gt;</span> {
-      <span class="hljs-variable language_">this</span>.<span class="hljs-property">restTime</span> -= <span class="hljs-variable language_">this</span>.<span class="hljs-property">timeGrading</span>
-      <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">restTime</span> &lt; <span class="hljs-number">0</span>) {
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">curTime</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>().<span class="hljs-title function_">getTime</span>()
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">restTime</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">timeLength</span> - (<span class="hljs-variable language_">this</span>.<span class="hljs-property">curTime</span> - <span class="hljs-variable language_">this</span>.<span class="hljs-property">startTime</span>)
+      <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">curTime</span> - <span class="hljs-variable language_">this</span>.<span class="hljs-property">startTime</span> &gt; <span class="hljs-variable language_">this</span>.<span class="hljs-property">timeLength</span>) {
         <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">cb</span>()
         <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">stop</span>()
       }
@@ -1100,7 +1109,174 @@ $.<span class="hljs-title function_">shadowDom</span>(<span class="hljs-string">
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">timerId</span> = <span class="hljs-number">0</span>
   }
 }
+<span class="hljs-comment">// 重试</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">retryFn</span> = (<span class="hljs-params">promiseF, retryTime = <span class="hljs-number">3</span>, cur = <span class="hljs-number">0</span></span>) =&gt; {
+  <span class="hljs-keyword">return</span> <span class="hljs-title function_">promiseF</span>().<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> res).<span class="hljs-title function_">catch</span>(<span class="hljs-function"><span class="hljs-params">error</span> =&gt;</span> {
+    <span class="hljs-keyword">if</span> (cur &lt; retryTime) {
+      <span class="hljs-keyword">return</span> <span class="hljs-title function_">retryFn</span>(promiseF, retryTime, ++cur)
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">reject</span>(error)
+    }
+  })
+}
+<span class="hljs-comment">// 处理一段数据的方法</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">capacity, checkFn</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">all</span> = []
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">capacity</span> = capacity
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">checkFn</span> = checkFn
+  }
+  <span class="hljs-title function_">pushItem</span>(<span class="hljs-params">item</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">all</span>.<span class="hljs-title function_">push</span>(item)
+  }
+  <span class="hljs-title function_">checkSlice</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">checkFn</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">all</span>.<span class="hljs-title function_">slice</span>(<span class="hljs-number">0</span> - <span class="hljs-variable language_">this</span>.<span class="hljs-property">capacity</span>))
+  }
+}
+<span class="hljs-comment">// 排序版本号</span>
+<span class="hljs-keyword">let</span> arr = [<span class="hljs-string">&#x27;1.2.3&#x27;</span>, <span class="hljs-string">&#x27;8.54.2&#x27;</span>, <span class="hljs-string">&#x27;5.43.6&#x27;</span>, <span class="hljs-string">&#x27;7.55.3&#x27;</span>, <span class="hljs-string">&#x27;1.5.3&#x27;</span>, <span class="hljs-string">&#x27;1.4.3&#x27;</span>, <span class="hljs-string">&#x27;3.44.6&#x27;</span>, <span class="hljs-string">&#x27;6.5.3&#x27;</span>, <span class="hljs-string">&#x27;2.3.4&#x27;</span>, <span class="hljs-string">&#x27;4.3.2&#x27;</span>]
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">compareArr</span> = (<span class="hljs-params">aArr, bArr, length = aArr.length</span>) =&gt; {
+    <span class="hljs-keyword">let</span> t = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; length; i++) {
+        <span class="hljs-keyword">if</span> (aArr[i] - bArr[<span class="hljs-number">0</span>] === <span class="hljs-number">0</span>) {
+            t = <span class="hljs-number">0</span>
+        } <span class="hljs-keyword">else</span> {
+            t = aArr[i] - bArr[i]
+            <span class="hljs-keyword">break</span>;
+        }
+    }
+    <span class="hljs-keyword">return</span> t
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">sort</span> = (<span class="hljs-params">arr</span>) =&gt; {
+    arr.<span class="hljs-title function_">sort</span>(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> {
+        <span class="hljs-keyword">let</span> aArr = a.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>).<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> <span class="hljs-title class_">Number</span>(item))
+        <span class="hljs-keyword">let</span> bArr = b.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>).<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> <span class="hljs-title class_">Number</span>(item))
+        <span class="hljs-keyword">let</span> t = <span class="hljs-number">0</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-title function_">compareArr</span>(aArr, bArr)
+    })
+}
+<span class="hljs-keyword">let</span> clog = <span class="hljs-variable language_">console</span>.<span class="hljs-property">log</span>
+<span class="hljs-keyword">let</span> helper = {
+  <span class="hljs-attr">deepClone</span>: <span class="hljs-function">(<span class="hljs-params">p</span>) =&gt;</span> p, <span class="hljs-comment">// todo</span>
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">mockUlid</span> = (<span class="hljs-params"></span>) =&gt; {
+  <span class="hljs-keyword">return</span> <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">floor</span>(<span class="hljs-title class_">Math</span>.<span class="hljs-title function_">random</span>() * <span class="hljs-number">100000</span>)
+}
+<span class="hljs-keyword">let</span> ulid = mockUlid
 
+<span class="hljs-comment">// 创建一个空间，用于容纳数据。</span>
+<span class="hljs-comment">// 创建若干索引表，每条索引指向若干数据。</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">MySql</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">
+    indexField = [<span class="hljs-string">&#x27;id&#x27;</span>],
+    schema = {}
+    <span class="hljs-comment">// spaceSize = &#x27;500k&#x27;</span>
+  </span>) {
+    <span class="hljs-comment">// 预检</span>
+    <span class="hljs-comment">// 设置实例属性</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">space</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>()
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">_indexTableBox</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>()
+    <span class="hljs-comment">// this._indexFieldList = Array.isArray(indexField) ? indexField : [indexField]</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">_indexFieldSet</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>()
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">_schema</span> = schema
+    <span class="hljs-comment">// this.genIndexTableMap()</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">init</span>(indexField)
+  }
+  <span class="hljs-title function_">init</span>(<span class="hljs-params">indexField</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getFieldSet</span>(indexField)
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">genIndexTableMap</span>(indexField)
+  }
+  <span class="hljs-title function_">getFieldSet</span>(<span class="hljs-params">indexField</span>) {
+    indexField.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">item</span>) =&gt;</span> {
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">_indexFieldSet</span>.<span class="hljs-title function_">add</span>(item)
+    })
+  }
+  <span class="hljs-comment">// Init 若干索引表</span>
+  <span class="hljs-title function_">genIndexTableMap</span>(<span class="hljs-params">indexField</span>) {
+    indexField.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">indexKey</span>) =&gt;</span> {
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">_indexTableBox</span>.<span class="hljs-title function_">set</span>(indexKey, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>())
+    })
+  }
+  <span class="hljs-title function_">recastIndexTable</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-comment">// this.genIndexTable()</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">_indexTableBox</span> = {}
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">space</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">element</span>) =&gt;</span> {
+      <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">add</span>(element)
+    })
+  }
+  <span class="hljs-title function_">add</span>(<span class="hljs-params">p</span>) {
+    <span class="hljs-comment">// object</span>
+    <span class="hljs-comment">// number</span>
+    <span class="hljs-comment">// string</span>
+    <span class="hljs-comment">// array</span>
+    <span class="hljs-comment">// regexp</span>
+    <span class="hljs-comment">// date</span>
+    <span class="hljs-keyword">let</span> ulid = <span class="hljs-title function_">mockUlid</span>()
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">space</span>.<span class="hljs-title function_">set</span>(ulid, helper.<span class="hljs-title function_">deepClone</span>(p))
+    <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">from</span>(<span class="hljs-title class_">Object</span>.<span class="hljs-title function_">keys</span>(p)).<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">key</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">_indexFieldSet</span>.<span class="hljs-title function_">has</span>(key)) {
+        <span class="hljs-keyword">let</span> value = p[key]
+        <span class="hljs-keyword">let</span> indexTable = <span class="hljs-variable language_">this</span>.<span class="hljs-property">_indexTableBox</span>.<span class="hljs-title function_">get</span>(key)
+        <span class="hljs-keyword">let</span> ulidList = indexTable.<span class="hljs-title function_">get</span>(value)
+        <span class="hljs-keyword">if</span> (ulidList) {
+          ulidList.<span class="hljs-title function_">push</span>(ulid)
+        } <span class="hljs-keyword">else</span> {
+          indexTable.<span class="hljs-title function_">set</span>(value, [ulid])
+        }
+      }
+    })
+  }
+  <span class="hljs-title function_">get</span>(<span class="hljs-params">key, value</span>) {
+    <span class="hljs-comment">// return this._indexTableBox.get(key).get(value)</span>
+    <span class="hljs-comment">// 预检</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">_indexFieldSet</span>.<span class="hljs-title function_">has</span>(key)) {
+      <span class="hljs-comment">// 查询</span>
+      <span class="hljs-keyword">let</span> ulidList = <span class="hljs-variable language_">this</span>.<span class="hljs-property">_indexTableBox</span>.<span class="hljs-title function_">get</span>(key).<span class="hljs-title function_">get</span>(value)
+      <span class="hljs-keyword">let</span> res = []
+      <span class="hljs-keyword">if</span> (ulidList) {
+        ulidList.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">ulid</span>) =&gt;</span> {
+          res.<span class="hljs-title function_">push</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">space</span>.<span class="hljs-title function_">get</span>(ulid))
+        })
+      }
+      <span class="hljs-keyword">return</span> res
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">`此<span class="hljs-subst">${key}</span>不是索引，不能做查询。`</span>)
+    }
+  }
+  <span class="hljs-title function_">delete</span>(<span class="hljs-params">key, value</span>) {
+    <span class="hljs-keyword">let</span> indexTable = <span class="hljs-variable language_">this</span>.<span class="hljs-property">_indexTableBox</span>.<span class="hljs-title function_">get</span>(key)
+    <span class="hljs-keyword">let</span> ulidList = indexTable
+      .<span class="hljs-title function_">get</span>(value)(
+        <span class="hljs-comment">// let remainUlid = [...ulidList]</span>
+        ulidList || []
+      )
+      .<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">ulid</span>) =&gt;</span> {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">space</span>.<span class="hljs-title function_">delete</span>(ulid)
+      })
+    indexTable.<span class="hljs-title function_">set</span>(value, [])
+  }
+  <span class="hljs-comment">// 没有改</span>
+  <span class="hljs-comment">// set(key, value) {}</span>
+}
+<span class="hljs-comment">// export default MySql;</span>
+<span class="hljs-variable language_">window</span>.<span class="hljs-property">MySql</span> = <span class="hljs-title class_">MySql</span>
+<span class="hljs-comment">// 单例模式</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">singleton</span> = (<span class="hljs-params">className, params</span>) =&gt; {
+    <span class="hljs-keyword">let</span> instance = <span class="hljs-literal">null</span>
+    <span class="hljs-keyword">let</span> <span class="hljs-title function_">init</span> = (<span class="hljs-params"></span>) =&gt; {
+        instance = <span class="hljs-keyword">new</span> <span class="hljs-title function_">className</span>(params)
+        <span class="hljs-keyword">return</span> instance
+    }
+    <span class="hljs-keyword">return</span> {
+        <span class="hljs-title function_">getInstance</span>(<span class="hljs-params"></span>) {
+            <span class="hljs-keyword">if</span> (instance) {
+                <span class="hljs-keyword">return</span> instance
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-keyword">return</span> <span class="hljs-title function_">init</span>()
+            }
+        }
+    }
+}
 
 
 

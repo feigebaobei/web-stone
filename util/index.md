@@ -7,13 +7,12 @@
 let createDebounceFn = (fn: F, t = 250, self?: A) => {
     let timer: N
     return (...rest: A[]) => {
-      let context = self
       if (timer) {
         clearTimeout(timer)
         timer = 0
       }
       timer = window.setTimeout(() => {
-        fn.apply(context, rest)
+        fn.apply(self, rest)
         clearTimeout(timer)
         timer = 0
       }, t)
@@ -86,9 +85,6 @@ let cloneDeep = (v) => {
               Object.entries(v).forEach(([k, v]) => {
                 let type = getType(v)
                 switch (type) {
-                  case 'Function':
-                    t[k] = v
-                    break;
                   case 'Set':
                     t[k] = new Set(Array.from(v).map(item => {
                       return cloneDeep(item)
@@ -103,9 +99,10 @@ let cloneDeep = (v) => {
                   case 'Object':
                     t[k] = cloneDeep(v)
                     break;
-                  case 'RegExp': // 未测试
+                  case 'RegExp':
                     t[k] = new RegExp(v.source, v.flags)
                     break;
+                  case 'Function':
                   default:
                     t[k] = v // 当发现新类型里再添加，先用引用处理。
                     break;
@@ -133,9 +130,6 @@ let cloneDeepTs = (v: A): A => {
               Object.entries(v).forEach(([k, v]) => {
                 let type = getType(v)
                 switch (type) {
-                  case 'Function':
-                    t[k] = v
-                    break;
                   case 'Set':
                     t[k] = new Set(Array.from(v as Set<A>).map(item => {
                       return cloneDeep(item)
@@ -150,6 +144,7 @@ let cloneDeepTs = (v: A): A => {
                   case 'Object':
                     t[k] = cloneDeep(v)
                     break;
+                  case 'Function':
                   default:
                     t[k] = v // 当发现新类型里再添加，先用引用处理。
                     break;
@@ -341,28 +336,37 @@ let lcm = (a, b) => {
   return a * b / gcd(a, b)
 }
 // 最大并行数量promise
-let parallelMaxPromise = (cb = Promise.resolve(), capacity = 3, material = []) => {
-  let mi = 0
-  let pendingCount = capacity
-  let createP = () => {
-    Promise.resolve(cb(material[mi]))
-    .finally(() => {
-      pendingCount--
-      check()
-    })
-  }
-  let check = () => {
-    if (pendingCount < capacity && mi < material.length) {
-      createP()
-      mi++
+let parallelMaxPromise = (material = [], cb = Promise.resolve(), capacity = 3) => {
+    let mi = 0
+    let createP = () => {
+        Promise.resolve(cb(material[mi]))
+        .finally(() => {
+            if (mi < material.length) {
+                createP()
+                mi++
+            }
+        })
     }
-  }
-  if (material.length) {
-    for (let i = 0; i < capacity; i++) {
-      createP()
-      mi++
+    if (material.length) {
+        while (mi < capacity) {
+            createP()
+            mi++
+        }
     }
-  }
+}
+// 环式处理promiseFn
+let rangOpPromiseFn = (promiseFnArr) => {
+    let index = 0
+    let _f = () => {
+        promiseFnArr[index]().then(() => {
+            _f()
+        })
+        index++
+        if (index >= promiseFnArr.length) {
+            index %= promiseFnArr.length
+        }
+    }
+    _f()
 }
 // 创建一个worker
 function createWorker(f) {
@@ -966,7 +970,174 @@ class CountDown {
     this.timerId = 0
   }
 }
+// 重试
+let retryFn = (promiseF, retryTime = 3, cur = 0) => {
+  return promiseF().then(res => res).catch(error => {
+    if (cur < retryTime) {
+      return retryFn(promiseF, retryTime, ++cur)
+    } else {
+      return Promise.reject(error)
+    }
+  })
+}
+// 处理一段数据的方法
+class A {
+  constructor(capacity, checkFn) {
+    this.all = []
+    this.capacity = capacity
+    this.checkFn = checkFn
+  }
+  pushItem(item) {
+    this.all.push(item)
+  }
+  checkSlice() {
+    this.checkFn(this.all.slice(0 - this.capacity))
+  }
+}
+// 排序版本号
+let arr = ['1.2.3', '8.54.2', '5.43.6', '7.55.3', '1.5.3', '1.4.3', '3.44.6', '6.5.3', '2.3.4', '4.3.2']
+let compareArr = (aArr, bArr, length = aArr.length) => {
+    let t = 0
+    for(let i = 0; i < length; i++) {
+        if (aArr[i] - bArr[0] === 0) {
+            t = 0
+        } else {
+            t = aArr[i] - bArr[i]
+            break;
+        }
+    }
+    return t
+}
+let sort = (arr) => {
+    arr.sort((a, b) => {
+        let aArr = a.split('.').map(item => Number(item))
+        let bArr = b.split('.').map(item => Number(item))
+        let t = 0
+        return compareArr(aArr, bArr)
+    })
+}
+let clog = console.log
+let helper = {
+  deepClone: (p) => p, // todo
+}
+let mockUlid = () => {
+  return Math.floor(Math.random() * 100000)
+}
+let ulid = mockUlid
 
+// 创建一个空间，用于容纳数据。
+// 创建若干索引表，每条索引指向若干数据。
+class MySql {
+  constructor(
+    indexField = ['id'],
+    schema = {}
+    // spaceSize = '500k'
+  ) {
+    // 预检
+    // 设置实例属性
+    this.space = new Map()
+    this._indexTableBox = new Map()
+    // this._indexFieldList = Array.isArray(indexField) ? indexField : [indexField]
+    this._indexFieldSet = new Set()
+    this._schema = schema
+    // this.genIndexTableMap()
+    this.init(indexField)
+  }
+  init(indexField) {
+    this.getFieldSet(indexField)
+    this.genIndexTableMap(indexField)
+  }
+  getFieldSet(indexField) {
+    indexField.forEach((item) => {
+      this._indexFieldSet.add(item)
+    })
+  }
+  // Init 若干索引表
+  genIndexTableMap(indexField) {
+    indexField.forEach((indexKey) => {
+      this._indexTableBox.set(indexKey, new Map())
+    })
+  }
+  recastIndexTable() {
+    // this.genIndexTable()
+    this._indexTableBox = {}
+    this.space.forEach((element) => {
+      this.add(element)
+    })
+  }
+  add(p) {
+    // object
+    // number
+    // string
+    // array
+    // regexp
+    // date
+    let ulid = mockUlid()
+    this.space.set(ulid, helper.deepClone(p))
+    Array.from(Object.keys(p)).forEach((key) => {
+      if (this._indexFieldSet.has(key)) {
+        let value = p[key]
+        let indexTable = this._indexTableBox.get(key)
+        let ulidList = indexTable.get(value)
+        if (ulidList) {
+          ulidList.push(ulid)
+        } else {
+          indexTable.set(value, [ulid])
+        }
+      }
+    })
+  }
+  get(key, value) {
+    // return this._indexTableBox.get(key).get(value)
+    // 预检
+    if (this._indexFieldSet.has(key)) {
+      // 查询
+      let ulidList = this._indexTableBox.get(key).get(value)
+      let res = []
+      if (ulidList) {
+        ulidList.forEach((ulid) => {
+          res.push(this.space.get(ulid))
+        })
+      }
+      return res
+    } else {
+      return new Error(`此${key}不是索引，不能做查询。`)
+    }
+  }
+  delete(key, value) {
+    let indexTable = this._indexTableBox.get(key)
+    let ulidList = indexTable
+      .get(value)(
+        // let remainUlid = [...ulidList]
+        ulidList || []
+      )
+      .forEach((ulid) => {
+        this.space.delete(ulid)
+      })
+    indexTable.set(value, [])
+  }
+  // 没有改
+  // set(key, value) {}
+}
+// export default MySql;
+window.MySql = MySql
+// 单例模式
+let singleton = (className, params) => {
+    let instance = null
+    let init = () => {
+        instance = new className(params)
+        return instance
+    }
+    return {
+        getInstance() {
+            if (instance) {
+                return instance
+            } else {
+                return init()
+            }
+        }
+    }
+}
 
 
 
