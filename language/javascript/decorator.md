@@ -49,11 +49,11 @@ class A {
   }
 }
 
-
 // no.1
 function testable(target) {
     // target.isTestable = true
     target.prototype.isTestable = true
+    target.prototype.fn = () => {...}
     // 修饰class时，操作的是原型对象，即构建函数。
 }
 @testable
@@ -214,11 +214,11 @@ type ParameterDecorator = (
 3. 构造方法的参数装饰器。
 4. 类装饰器。
 
-```
-function f(key:string):any {
+```js
+function f(key: string): any {
   return function () {
-    console.log('执行：', key);
-  };
+    console.log('执行：', key)
+  }
 }
 
 @f('类装饰器')
@@ -229,7 +229,7 @@ class C {
   @f('实例方法')
   method() {}
 
-  constructor(@f('构造方法参数') foo:any) {}
+  constructor(@f('构造方法参数') foo: any) {}
 }
 ```
 
@@ -376,7 +376,7 @@ let throttle = (t) => (target, name, descriptor) => {
 
 time
 redux
-
+// 列出调用过程
 let trace = (target, name, descriptor) => {
     let oldValue = descriptor.value
     // clog(target, name, descriptor)
