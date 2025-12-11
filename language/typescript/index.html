@@ -167,7 +167,7 @@ ts 做了什么？</p>
 <li>在开发过程中发现潜在问题（根据类型发现的）。</li>
 <li>静态类型检测</li>
 <li>类型提示（在 vscode 中）</li>
-<li>命令行工具 tsc</li>
+<li><a href="/language/typescript/tsc.html">命令行工具 tsc</a></li>
 <li>可以用于类型检测，不能用于编写处理逻辑。</li>
 </ul>
 <h2 id="install">install</h2>
@@ -236,7 +236,7 @@ ts 做了什么？</p>
 }
 <span class="hljs-keyword">let</span> gn = <span class="hljs-keyword">new</span> <span class="hljs-variable constant_">GN</span>&lt;<span class="hljs-built_in">string</span>&gt;()
 </code></pre>
-<h3 id="使用命令行">使用命令行</h3>
+<h3 id="使用命令行"><a href="/language/typescript/tsc.html">使用命令行</a></h3>
 <p>把 ts 转化为 js。</p>
 <pre><code class="language-shell">tsc hello.ts
 </code></pre>
@@ -400,14 +400,14 @@ ts 做了什么？</p>
 <tr>
 <td>unknown</td>
 <td></td>
-<td>代表 any 数据。与 any 类型相似。unknown 比 any 更安全。使用时需要类型断言。</td>
+<td>代表任何数据。与 any 类型相似。unknown 比 any 更安全。使用时需要类型断言。unknown类型的变量做任务事情都是非法的。</td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td>never</td>
-<td></td>
+<td>表示不应该存在的状态</td>
 <td>永远不会执行到的对象类型。当方法返回 never 时表示抛出一个错误、或打断执行方法。</td>
 <td></td>
 <td></td>
@@ -670,7 +670,7 @@ ts 做了什么？</p>
 <td></td>
 <td></td>
 <td>所有基础类型的父类型</td>
-<td></td>
+<td>最叶子的类型</td>
 </tr>
 <tr>
 <td></td>
@@ -693,7 +693,18 @@ ts 做了什么？</p>
 </tbody>
 </table>
 <!-- prettier-ignore-end -->
+<pre><code class="language-ts"><span class="hljs-comment">// 这三种都是never类型</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">c</span> = (<span class="hljs-params"></span>) =&gt; {
+    <span class="hljs-keyword">while</span>(<span class="hljs-literal">true</span>) { <span class="hljs-comment">// 这里永远不会返回</span>
+    }
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">d</span> = (<span class="hljs-params"></span>) =&gt; {
+    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&#x27;sss&#x27;</span>) <span class="hljs-comment">// 不能返回错误</span>
+}
+<span class="hljs-keyword">type</span> t = <span class="hljs-built_in">number</span> &amp; <span class="hljs-built_in">string</span> <span class="hljs-comment">// 这2种类型不能交叉出类型</span>
+</code></pre>
 <h3 id="type--interface-不同"><a href="/language/typescript/type&amp;interface.html">type &amp; interface 不同</a></h3>
+<h3 id="常用数据类型"><a href="/language/typescript/commonType.html">常用数据类型</a></h3>
 <h2 id="操作类型">操作类型</h2>
 <p>都是大写开头。</p>
 <pre><code class="language-ts"><span class="hljs-comment">// 通式</span>
@@ -1122,7 +1133,11 @@ function f(o: O) {...}
   two?: <span class="hljs-built_in">number</span> <span class="hljs-comment">// 可选属性</span>
   <span class="hljs-keyword">readonly</span> <span class="hljs-attr">three</span>: <span class="hljs-built_in">boolean</span> <span class="hljs-comment">// 只读属性</span>
   [<span class="hljs-attr">k</span>: <span class="hljs-built_in">string</span>]: <span class="hljs-title class_">Type</span> <span class="hljs-comment">// index signatures 需要放在最后</span>
+  <span class="hljs-comment">// public</span>
+  <span class="hljs-comment">// private</span>
+  <span class="hljs-comment">// protect</span>
 }
+<span class="hljs-title class_">ReadonlyArray</span>&lt;T&gt; <span class="hljs-comment">// 由T类型组成的只读数组</span>
 </code></pre>
 <p>可以使用<code>extends</code>扩展出新的<code>interface</code></p>
 <pre><code class="language-ts"><span class="hljs-keyword">interface</span> A <span class="hljs-keyword">extends</span> B,C,D {...}
@@ -1397,7 +1412,7 @@ init 后不能改变。<br>
 <h2 id="configuration"><a href="/language/typescript/config.html">configuration</a></h2>
 <p>默认配置文件：<code>path/to/file.json</code>。
 详见<a href="/language/typescript/config.html">配置文件</a></p>
-<h2 id="命令行用法"><a href="/language/typescript/tscCli.html">命令行用法</a></h2>
+<h2 id="命令行"><a href="/language/typescript/tsc.html">命令行</a></h2>
 <h2 id="变量类型">变量类型</h2>
 <p>详见<a href="/typescript/contrast.html">ts&amp;js 比对</a></p>
 <h2 id="principle">principle</h2>

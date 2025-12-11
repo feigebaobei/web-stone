@@ -26,7 +26,7 @@
 - 在开发过程中发现潜在问题（根据类型发现的）。
 - 静态类型检测
 - 类型提示（在 vscode 中）
-- 命令行工具 tsc
+- [命令行工具 tsc](/language/typescript/tsc.html)
 - 可以用于类型检测，不能用于编写处理逻辑。
 
 ## install
@@ -104,7 +104,7 @@ class GN<T> {
 let gn = new GN<string>()
 ```
 
-### 使用命令行
+### [使用命令行](/language/typescript/tsc.html)
 
 把 ts 转化为 js。
 
@@ -145,8 +145,8 @@ tsc hello.ts
 | enums|| 枚举。列出具体的可选的值。它是真实的对象。 || | |
 | bigint|||| | |
 | symbol|||| | |
-| unknown   || 代表 any 数据。与 any 类型相似。unknown 比 any 更安全。使用时需要类型断言。 || | |
-| never|| 永远不会执行到的对象类型。当方法返回 never 时表示抛出一个错误、或打断执行方法。 || | |
+| unknown   || 代表任何数据。与 any 类型相似。unknown 比 any 更安全。使用时需要类型断言。unknown类型的变量做任务事情都是非法的。 || | |
+| never|表示不应该存在的状态| 永远不会执行到的对象类型。当方法返回 never 时表示抛出一个错误、或打断执行方法。 || | |
 | Function  ||它与`() => {}`不同。| ts中数据类型是Funtion.j中的数据类型是function | | |
 | ReadonlyArray   || 使数组只读|| | |
 | tuple|| 明确数组中对应下标的数据的类型|| | |
@@ -307,13 +307,28 @@ class A<T> {
 |     | any            | unknown                 | never      |
 | --- | ------------ | ------------------- | ------ |
 |     | 任意类型       | 不知道类型              | 永不类型   |
-|     |                | 所有基础类型的父类型    |            |
-|     | 可以接收任意类型的值           | 可以接收任意类型的值。（因为父类型的缘故）              | 抛出异常的函数或永远不会返回的函数的返回值 |
+|     |                | 所有基础类型的父类型    | 最叶子的类型           |
+|     | 可以接收任意类型的值 | 可以接收任意类型的值。（因为父类型的缘故）| 抛出异常的函数或永远不会返回的函数的返回值 |
 |     | 不做类型检测   | 断言类型后才能使用      |            |
 |     | 可以赋值给明确且匹配类型的变量 | 不可直接赋值给非 unknown 变量的值，加上类型断言才可以。 |            |
 <!-- prettier-ignore-end -->
 
+```ts
+// 这三种都是never类型
+let c = () => {
+  while (true) {
+    // 这里永远不会返回
+  }
+}
+let d = () => {
+  throw new Error('sss') // 不能返回错误
+}
+type t = number & string // 这2种类型不能交叉出类型
+```
+
 ### [type & interface 不同](/language/typescript/type&interface.html)
+
+### [常用数据类型](/language/typescript/commonType.html)
 
 ## 操作类型
 
@@ -553,7 +568,11 @@ interface P {
   two?: number // 可选属性
   readonly three: boolean // 只读属性
   [k: string]: Type // index signatures 需要放在最后
+  // public
+  // private
+  // protect
 }
+ReadonlyArray<T> // 由T类型组成的只读数组
 ```
 
 可以使用`extends`扩展出新的`interface`
@@ -823,7 +842,7 @@ ts 是一种 js 的方言。以前使用 js 怎么写项目，现在使用 ts �
 默认配置文件：`path/to/file.json`。
 详见[配置文件](/language/typescript/config.html)
 
-## [命令行用法](/language/typescript/tscCli.html)
+## [命令行](/language/typescript/tsc.html)
 
 ## 变量类型
 

@@ -191,11 +191,11 @@
   }
 }
 
-
 <span class="hljs-comment">// no.1</span>
 <span class="hljs-keyword">function</span> <span class="hljs-title function_">testable</span>(<span class="hljs-params">target</span>) {
     <span class="hljs-comment">// target.isTestable = true</span>
     target.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">isTestable</span> = <span class="hljs-literal">true</span>
+    target.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">fn</span> = <span class="hljs-function">() =&gt;</span> {...}
     <span class="hljs-comment">// 修饰class时，操作的是原型对象，即构建函数。</span>
 }
 @testable
@@ -272,20 +272,16 @@ p.<span class="hljs-property">skills</span> = <span class="hljs-function">() =&g
 ) =&gt; TypedPropertyDescriptor&lt;T&gt; | void;
 </code></pre>
 <h2 id="属性装饰器">属性装饰器</h2>
-<pre><code class="language-ts"><span class="hljs-keyword">type</span> <span class="hljs-title class_">PropertyDecorator</span> =
-  <span class="hljs-function">(<span class="hljs-params">
-    target: <span class="hljs-built_in">Object</span>,
-    propertyKey: <span class="hljs-built_in">string</span>|<span class="hljs-built_in">symbol</span>
-  </span>) =&gt;</span> <span class="hljs-built_in">void</span>;
+<pre><code class="language-ts"><span class="hljs-keyword">type</span> <span class="hljs-title class_">PropertyDecorator</span> = <span class="hljs-function">(<span class="hljs-params">target: <span class="hljs-built_in">Object</span>, propertyKey: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">symbol</span></span>) =&gt;</span> <span class="hljs-built_in">void</span>
 </code></pre>
 <h2 id="存取器装饰器">存取器装饰器</h2>
 <p>所谓“存取器”指的是某个属性的取值器（getter）和存值器（setter）。
 TypeScript 不允许对同一个属性的存取器（getter 和 setter）使用同一个装饰器，也就是说只能装饰两个存取器里面的一个，且必须是排在前面的那一个，否则报错。</p>
 <pre><code class="language-js">type <span class="hljs-title class_">AccessorDecorator</span> = &lt;T&gt;<span class="hljs-function">(<span class="hljs-params">
   target: <span class="hljs-built_in">Object</span>,
-  propertyKey: string|symbol,
+  propertyKey: string | symbol,
   descriptor: TypedPropertyDescriptor&lt;T&gt;
-</span>) =&gt;</span> <span class="hljs-title class_">TypedPropertyDescriptor</span>&lt;T&gt; | <span class="hljs-keyword">void</span>;
+</span>) =&gt;</span> <span class="hljs-title class_">TypedPropertyDescriptor</span>&lt;T&gt; | <span class="hljs-keyword">void</span>
 </code></pre>
 <pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">validator</span>(<span class="hljs-params">
   target: <span class="hljs-built_in">Object</span>,
@@ -325,9 +321,9 @@ c.<span class="hljs-property">foo</span> = <span class="hljs-number">150</span>;
 <h2 id="参数装饰器">参数装饰器</h2>
 <pre><code class="language-js">type <span class="hljs-title class_">ParameterDecorator</span> = <span class="hljs-function">(<span class="hljs-params">
   target: <span class="hljs-built_in">Object</span>,
-  propertyKey: string|symbol,
+  propertyKey: string | symbol,
   parameterIndex: number
-</span>) =&gt;</span> <span class="hljs-keyword">void</span>;
+</span>) =&gt;</span> <span class="hljs-keyword">void</span>
 </code></pre>
 <p>该装饰器不需要返回值，如果有的话会被忽略。
 跟其他装饰器不同，参数装饰器主要用于输出信息，没有办法修改类的行为。</p>
@@ -338,21 +334,21 @@ c.<span class="hljs-property">foo</span> = <span class="hljs-number">150</span>;
 <li>构造方法的参数装饰器。</li>
 <li>类装饰器。</li>
 </ol>
-<pre><code>function f(key:string):any {
-  return function () {
-    console.log('执行：', key);
+<pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">f</span>(<span class="hljs-params">key:string</span>):any {
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;执行：&#x27;</span>, key);
   };
 }
 
-@f('类装饰器')
-class C {
-  @f('静态方法')
-  static method() {}
+@<span class="hljs-title function_">f</span>(<span class="hljs-string">&#x27;类装饰器&#x27;</span>)
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">C</span> {
+  @<span class="hljs-title function_">f</span>(<span class="hljs-string">&#x27;静态方法&#x27;</span>)
+  <span class="hljs-keyword">static</span> <span class="hljs-title function_">method</span>(<span class="hljs-params"></span>) {}
 
-  @f('实例方法')
-  method() {}
+  @<span class="hljs-title function_">f</span>(<span class="hljs-string">&#x27;实例方法&#x27;</span>)
+  <span class="hljs-title function_">method</span>(<span class="hljs-params"></span>) {}
 
-  constructor(@f('构造方法参数') foo:any) {}
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">@f(<span class="hljs-string">&#x27;构造方法参数&#x27;</span>) foo:any</span>) {}
 }
 </code></pre>
 <p>输出如下：
@@ -482,7 +478,7 @@ autobind
 
 time
 redux
-
+<span class="hljs-comment">// 列出调用过程</span>
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">trace</span> = (<span class="hljs-params">target, name, descriptor</span>) =&gt; {
     <span class="hljs-keyword">let</span> oldValue = descriptor.<span class="hljs-property">value</span>
     <span class="hljs-comment">// clog(target, name, descriptor)</span>

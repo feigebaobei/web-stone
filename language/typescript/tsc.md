@@ -1,16 +1,20 @@
 # `typescript`
 
 ## overview
-> typescript的包。
-> 在命令行中使用tsc
+
+> typescript 的包。
+> 在命令行中使用 tsc
 
 ### feature
+
 - 根据配置文件转换本地项目。
 
 ## install
-`npm i typescript`
+
+`npm i typescript -g`
 
 ## usage
+
 ```
 tsc
 // 使用配置文件编译
@@ -28,6 +32,7 @@ tsc app.ts utils.ts --target esnext --outfile index.js
 ```
 
 ## compiler options
+
 默认配置文件：`<root>/tsconfig.json`。  
 [官网地址](https://www.typescriptlang.org/docs/handbook/compiler-options.html)  
 |key|description|default|enum|demo|||
@@ -155,6 +160,7 @@ tsc app.ts utils.ts --target esnext --outfile index.js
 |--useUnknownInCatchVariables|||||||
 
 ## todo
+
 > 未来迭代计划。
 > 未来迭代计划。
 > 未来迭代计划。
