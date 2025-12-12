@@ -2,7 +2,7 @@
         <html>
         <head>
             <meta charset="UTF-8">
-            <title>js&#x7f16;&#x7801;&#x89c4;&#x8303;</title>
+            <title>js &#x7f16;&#x7801;&#x89c4;&#x8303;</title>
             <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -138,7 +138,7 @@
         
         </head>
         <body class="vscode-body vscode-light">
-            <h1 id="js编码规范">js编码规范</h1>
+            <h1 id="js-编码规范">js 编码规范</h1>
 <ul>
 <li>模块</li>
 <li>CommonJS (cjs)</li>
@@ -149,24 +149,26 @@
 </ul>
 <h2 id="模块">模块</h2>
 <h2 id="commonjs-cjs">CommonJS (cjs)</h2>
-<p>每一个模块都有一个<code>module</code>对象。该对象有个属性是：<code>exports</code>/<code>require</code><br>
-使用这种规范的代表： node。node把每一个文件都做为一个模块。加载模块使用require，该方法读取一个<strong>文件并执行</strong>，最后返回这个模块内部的exports对象。<br>
+<p>CommonJS，适用于 Node 和 Browserify/Webpack
+每一个模块都有一个<code>module</code>对象。该对象有个属性是：<code>exports</code>/<code>require</code><br>
+使用这种规范的代表： node。node 把每一个文件都做为一个模块。加载模块使用 require，该方法读取一个<strong>文件并执行</strong>，最后返回这个模块内部的 exports 对象。<br>
 使用 <code>module.exports/exports</code> 和 <code>require</code> 抛出和引入。<br>
 <code>module.exports</code>使用方法：<code>module.exports = {k: (p)e =&gt; {...}, var, var2}</code><br>
 <code>exports</code>的使用方法：<code>exports = {v1, v2, v3}</code>
 <code>module.exports</code>是对象。<code>exports</code> 指向 <code>module.exports</code>。所以<code>module.exports</code>可以抛出变量、对象。<code>exports</code>只能抛出对象。<br>
-commonjs是同步加载的。</p>
+commonjs 是同步加载的。</p>
 <h2 id="esm">esm</h2>
-<p>es6在语言标准的层面上实现了模块功能。</p>
+<p>将软件包保存为 ES 模块文件，在现代浏览器中可以通过 <code>&lt;script type=module&gt;</code> 标签引入</p>
+<p>es6 在语言标准的层面上实现了模块功能。</p>
 <p>|-|-|
 |export\export default|import|
-|输出的是对象\输出的是一个叫default的变量或方法|引入|
+|输出的是对象\输出的是一个叫 default 的变量或方法|引入|
 |<code>（import v from 'mn'</code> / <code>import {v as vv} from 'mn'）</code>|c</p>
-<p>在浏览器中使用es6需要使用script标签且指定type属性为module.<br>
+<p>在浏览器中使用 es6 需要使用 script 标签且指定 type 属性为 module.<br>
 <code>&lt;scrip type=&quot;module&quot;&gt;import v from './mn.js'/*other code*/&lt;/script&gt;</code></p>
 <p>export / export default<br>
-它们是es6的规范。<br>
-与export对应的是import.</p>
+它们是 es6 的规范。<br>
+与 export 对应的是 import.</p>
 <table>
 <thead>
 <tr>
@@ -177,7 +179,7 @@ commonjs是同步加载的。</p>
 <tbody>
 <tr>
 <td>只能输出对象</td>
-<td>可以输出变量，对象等。因为输出的是一个叫default的变量或方法。</td>
+<td>可以输出变量，对象等。因为输出的是一个叫 default 的变量或方法。</td>
 </tr>
 <tr>
 <td>可以多次输出</td>
@@ -204,10 +206,12 @@ commonjs是同步加载的。</p>
 <p><code>import()</code> 可以支持动态引入。
 <code>import</code>是在静态分析时引入的。</p>
 <h2 id="asynchronous-module-definition-amd">Asynchronous Module Definition (AMD)</h2>
+<p>异步模块定义，用于像RequireJS这样的模块加载器</p>
 <h2 id="common-module-definition-cmd">Common Module Definition (CMD)</h2>
 <h2 id="universal-module-definition-umd">Universal Module Definition (UMD)</h2>
-<h2 id="es-module和commonjs循环引用问题">ES module和commonJS循环引用问题</h2>
-<p>因esm、commonjs对待文件(模式)的方式不同。</p>
+<p>通用模块定义，以<code>amd / cjs / iife</code>为一体。</p>
+<h2 id="es-module-和-commonjs-循环引用问题">ES module 和 commonJS 循环引用问题</h2>
+<p>因 esm、commonjs 对待文件(模式)的方式不同。</p>
 <table>
 <thead>
 <tr>
@@ -223,7 +227,7 @@ commonjs是同步加载的。</p>
 <td></td>
 </tr>
 <tr>
-<td>进入文件后把文件在Module Map中标记为fetching。解析完成为获取该文件的Module Record.</td>
+<td>进入文件后把文件在 Module Map 中标记为 fetching。解析完成为获取该文件的 Module Record.</td>
 <td>执行了少返回多少</td>
 <td></td>
 </tr>
@@ -247,13 +251,27 @@ commonjs是同步加载的。</p>
 <td></td>
 <td></td>
 </tr>
+<tr>
+<td>*.mjs 只能用 import 引入</td>
+<td>*.cjs</td>
+<td></td>
+</tr>
+<tr>
+<td>多次引入时，使用指向该模块的引用。</td>
+<td>多次引入时，只运行第一次，并缓存在内存中，返回多次第一次运行的结果，除非删除缓存中的结果。</td>
+<td></td>
+</tr>
 </tbody>
 </table>
-<h3 id="解决commonjs的循环引用问题">解决commonjs的循环引用问题</h3>
+<h3 id="解决-commonjs-的循环引用问题">解决 commonjs 的循环引用问题</h3>
 <ol>
-<li>利用变量提升+commonjs的执行顺序。在模块的最后使用<code>var</code>定义引入的模块。</li>
-<li>利用js的异步机制。在setTimeout中使用引入模块。</li>
+<li>利用变量提升+commonjs 的执行顺序。在模块的最后使用<code>var</code>定义引入的模块。</li>
+<li>利用 js 的异步机制。在 setTimeout 中使用引入模块。</li>
 </ol>
+<h2 id="iife">iife</h2>
+<p>个自动执行的功能，适合作为<code>&lt;script&gt;</code>标签。（如果要为应用程序创建一个捆绑包，您可能想要使用它，因为它会使文件大小变小。）</p>
+<h2 id="system">system</h2>
+<p>SystemJS 加载器格式</p>
 
             
             

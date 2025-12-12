@@ -244,6 +244,14 @@ end 结束复制的下标
         //
     }
 
+**for...in** 遍历数组中每一个键的方法。
+
+```js
+for (let k in obj) {
+  clog(k)
+}
+```
+
 **Array.from(arrayLike[, mapFn[, thisArg]])**
 
 arrayLike 必填 数组、伪数组、可迭代对象。  

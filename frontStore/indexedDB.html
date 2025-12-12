@@ -2,7 +2,7 @@
         <html>
         <head>
             <meta charset="UTF-8">
-            <title>indexDB</title>
+            <title>indexedDB</title>
             <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -138,13 +138,13 @@
         
         </head>
         <body class="vscode-body vscode-light">
-            <h1 id="indexdb">indexDB</h1>
+            <h1 id="indexeddb">indexedDB</h1>
 <blockquote>
 <p>IndexedDB 是一种底层 API，用于在客户端存储大量的结构化数据（也包括文件/二进制大型对象（blobs））。
-受同源（协议、域名、端口号）限制<br>
+受同源（协议、域名、端口号）限制  。同源共享一个数据库。<br>
 api 很强大。强大到有点复杂。
 现在是异步 api.（以前还有同步 api）<br>
-indexDB 用于缓存数据，service worker 用于缓存资源。
+indexedDB 用于缓存数据，service worker 用于缓存资源。
 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/IndexedDB_API">https://developer.mozilla.org/zh-CN/docs/Web/API/IndexedDB_API</a></p>
 </blockquote>
 <p>IndexedDB 是一个浏览器内建的数据库，它比 localStorage 强大得多。</p>
@@ -154,38 +154,43 @@ indexDB 用于缓存数据，service worker 用于缓存资源。
 <li>支持键值范围查询、索引。</li>
 <li>和 localStorage 相比，它可以存储更大的数据量。</li>
 <li>键的类型必须是数字、日期、字符串、二进制或数组。可以通过键来搜索、删除、更新值。</li>
-<li></li>
+<li>存储容量大，依据浏览器规则不同在5M-512M之间，并且用户清除浏览器缓存时不会将其清除，在移动端不会受到ios无痕模式的影响，所以在一定程度来说，要比storage好上一些。</li>
 </ul>
 <h2 id="usage">usage</h2>
-<pre><code class="language-ts"><span class="hljs-keyword">let</span> openRequest = indexedDB.<span class="hljs-title function_">open</span>(name, version); <span class="hljs-comment">// 打开一个数据库</span>
-<span class="hljs-comment">// name    string       数据库的名称</span>
-<span class="hljs-comment">// version 一个正整数版本           默认为1</span>
+<pre><code class="language-ts"><span class="hljs-comment">// let indexedDB = window.indexedDB</span>
+<span class="hljs-keyword">let</span> <span class="hljs-attr">openRequest</span>: <span class="hljs-title class_">IDBRequest</span> = indexedDB.<span class="hljs-title function_">open</span>(name, version) <span class="hljs-comment">// 打开一个数据库。这里可以比较版本、升级数据库。</span>
+<span class="hljs-comment">// name    string           数据库的名称</span>
+<span class="hljs-comment">// version 一个正整数版本     默认为1</span>
 </code></pre>
 <h2 id="api">api</h2>
-<pre><code class="language-ts"><span class="hljs-attr">openRequest</span>: {
+<pre><code class="language-ts">indexedDB.<span class="hljs-title function_">open</span>(name, version) <span class="hljs-comment">// 打开数据库</span>
+indexedDB.<span class="hljs-title function_">deleteDatabase</span>(name) <span class="hljs-comment">// 删除数据库</span>
+
+<span class="hljs-title class_">IDBRequest</span>: {
     <span class="hljs-attr">success</span>: <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {} <span class="hljs-comment">// 数据库准备就绪时</span>
     <span class="hljs-attr">error</span>: <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {} <span class="hljs-comment">// 打开失败</span>
-    <span class="hljs-attr">upgradeneeded</span>: <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> { <span class="hljs-comment">// 已经准备就绪。</span>
+    <span class="hljs-attr">upgradeneeded</span>: <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> { <span class="hljs-comment">// 已经准备就绪。现有数据库不存在或小于指定的版本则触发此cb。</span>
         <span class="hljs-attr">event</span>: {
-            <span class="hljs-attr">oldVersion</span>: <span class="hljs-built_in">number</span>, <span class="hljs-comment">// 现有的db版本（即数据库版本）</span>
+            <span class="hljs-attr">oldVersion</span>: <span class="hljs-built_in">number</span>, <span class="hljs-comment">// 现有的db版本（即数据库版本）。0表示客户端没有数据库。</span>
         }
     }
     <span class="hljs-attr">versionchange</span>: <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {} <span class="hljs-comment">// db版本改变时</span>
     <span class="hljs-attr">close</span>: <span class="hljs-function">() =&gt;</span> {
-        <span class="hljs-comment">// </span>
+        <span class="hljs-comment">//</span>
     }
     <span class="hljs-attr">onblocked</span>: <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {} <span class="hljs-comment">// 在其他地方有一个过时的db版本的连接未关闭，造成无法建立新的连接。</span>
-    <span class="hljs-attr">result</span>: xxxx
+    <span class="hljs-attr">result</span>: xxxx <span class="hljs-comment">// 数据库对象</span>
 }
-<span class="hljs-attr">db</span>: {
-    <span class="hljs-attr">createObjectStore</span>: <span class="hljs-function">(<span class="hljs-params">name: S, keyOptions?: {
+<span class="hljs-attr">db</span>: { <span class="hljs-comment">// 就是IDBRequest.result</span>
+    <span class="hljs-attr">createObjectStore</span>: <span class="hljs-function">(<span class="hljs-params">name: S, keyOptions?: { // 创建表
         keyPath,
-        autoIncrement: B
+        autoIncrement: B // <span class="hljs-literal">true</span>表示不断递增。
     }</span>) =&gt;</span> {}
     <span class="hljs-attr">transaction</span>: <span class="hljs-function">() =&gt;</span> {}
 }
 </code></pre>
 <h2 id="概念">概念</h2>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -222,17 +227,182 @@ indexDB 用于缓存数据，service worker 用于缓存资源。
 </tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
 <h2 id="生命周期">生命周期</h2>
-<h2 id="事务">事务</h2>
+<pre><code>    open()
+    onupgradeneeded()
+    onsuccess()
+    在过时的浏览器tab页面触发onversionchange()
+
+
+</code></pre>
+<h2 id="事务-transaction">事务 (transaction)</h2>
 <p>readonly 事务能同时访问同一存储区。<br>
 readwrite 事务不能够同时访问同一存储区。此事务会“锁定”存储区进行写操作。下一个事务必须等待前一个事务完成，才能访问相同的存储区。</p>
 <p>一个事务可能有多个相关的请求，这些请求必须全部成功或全部失败。那么我们如何将事务标记为已完成，并不再请求呢？
 在下一个版本 3.0 规范中，可能会有一种手动方式来完成事务，但目前在 2.0 中还没有。</p>
 <pre><code>let transaction = db.transaction('books', 'readwrite')
 </code></pre>
+<h2 id="示例">示例</h2>
+<pre><code class="language-js"><span class="hljs-comment">/*
+ {
+        dbName: &quot;test&quot;,   //数据库名称
+        objName: &quot;test1&quot;,  // 表名称
+        param: { a: 1 },   // id值
+        response: {        // 存储的value
+          b: 2,
+        },
+ }
+*/</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">db</span> = <span class="hljs-literal">null</span>
+  }
+  <span class="hljs-title function_">getType</span>(<span class="hljs-params">val</span>) {
+    <span class="hljs-keyword">let</span> type = <span class="hljs-keyword">typeof</span> val == <span class="hljs-string">&#x27;object&#x27;</span>
+    <span class="hljs-keyword">return</span> type
+  }
+  <span class="hljs-comment">// 打开数据库</span>
+  <span class="hljs-title function_">open</span>(<span class="hljs-params">parm</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">res, rej</span>) =&gt;</span> {
+      <span class="hljs-keyword">let</span> request = <span class="hljs-variable language_">window</span>.<span class="hljs-property">indexedDB</span>.<span class="hljs-title function_">open</span>(parm.<span class="hljs-property">dbName</span>, parm.<span class="hljs-property">versions</span>)
+      request.<span class="hljs-property">onerror</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params">event</span>) {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(event)
+        <span class="hljs-comment">// 错误处理</span>
+        <span class="hljs-title function_">rej</span>()
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27; 打开数据库报错&#x27;</span>)
+      }
+      request.<span class="hljs-property">onsuccess</span> = <span class="hljs-function"><span class="hljs-params">event</span> =&gt;</span> {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">db</span> = request.<span class="hljs-property">result</span>
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;打开数据库成功&#x27;</span>)
+        <span class="hljs-title function_">res</span>()
+        <span class="hljs-comment">// 成功处理</span>
+      }
+      <span class="hljs-comment">// 数据库更新时的回调</span>
+      request.<span class="hljs-property">onupgradeneeded</span> = <span class="hljs-function"><span class="hljs-params">event</span> =&gt;</span> {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">db</span> = event.<span class="hljs-property">target</span>.<span class="hljs-property">result</span>
+        <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">createdDB</span>(parm)
+      }
+    })
+  }
+  <span class="hljs-comment">// 创建库表</span>
+  <span class="hljs-title function_">createdDB</span>(<span class="hljs-params">parm</span>) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(parm)
+
+    <span class="hljs-keyword">if</span> (!<span class="hljs-variable language_">this</span>.<span class="hljs-property">db</span>.<span class="hljs-property">objectStoreNames</span>.<span class="hljs-title function_">contains</span>(parm.<span class="hljs-property">objName</span>)) {
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">db</span>.<span class="hljs-title function_">createObjectStore</span>(parm.<span class="hljs-property">objName</span>, {
+        <span class="hljs-attr">keyPath</span>: <span class="hljs-string">&#x27;id&#x27;</span>
+      })
+      <span class="hljs-comment">// objectStore.createIndex(&quot;data&quot;, &quot;data&quot;, { unique: false });</span>
+      <span class="hljs-comment">// unique name可能会重复</span>
+    }
+  }
+  <span class="hljs-comment">// 新增（不需要使用）</span>
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">add</span>(<span class="hljs-params">parm = { dbName, objName, param, response }</span>) {
+    <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">open</span>(parm)
+    <span class="hljs-comment">// await this.upgrade(dbName);</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">res, rej</span>) =&gt;</span> {
+      <span class="hljs-keyword">let</span> type = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getType</span>(parm.<span class="hljs-property">param</span>)
+      <span class="hljs-keyword">let</span> type1 = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getType</span>(parm.<span class="hljs-property">response</span>)
+      <span class="hljs-keyword">let</span> transaction = <span class="hljs-variable language_">this</span>.<span class="hljs-property">db</span>.<span class="hljs-title function_">transaction</span>([parm.<span class="hljs-property">objName</span>], <span class="hljs-string">&#x27;readwrite&#x27;</span>)
+      <span class="hljs-keyword">let</span> objectStore = transaction.<span class="hljs-title function_">objectStore</span>(parm.<span class="hljs-property">objName</span>)
+
+      <span class="hljs-comment">// 用户读取数据，参数是主键</span>
+      <span class="hljs-keyword">let</span> request = objectStore.<span class="hljs-title function_">add</span>({
+        <span class="hljs-attr">id</span>: type ? <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(parm.<span class="hljs-property">param</span>) : parm.<span class="hljs-property">param</span>,
+        <span class="hljs-attr">data</span>: type1 ? <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(parm.<span class="hljs-property">response</span>) : parm.<span class="hljs-property">response</span>
+      })
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(request)
+
+      request.<span class="hljs-property">onsuccess</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params">event</span>) {
+        <span class="hljs-title function_">res</span>(event)
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;数据写入成功&#x27;</span>)
+      }
+
+      request.<span class="hljs-property">onerror</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params">event</span>) {
+        <span class="hljs-title function_">rej</span>()
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;数据写入失败&#x27;</span>)
+      }
+    })
+  }
+  <span class="hljs-comment">// 读取库表数据</span>
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">read</span>(<span class="hljs-params">parm = { dbName, objName, param, response }</span>) {
+    <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">open</span>(parm)
+
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">res, rej</span>) =&gt;</span> {
+      <span class="hljs-keyword">let</span> type = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getType</span>(parm.<span class="hljs-property">param</span>)
+
+      <span class="hljs-keyword">var</span> transaction = <span class="hljs-variable language_">this</span>.<span class="hljs-property">db</span>.<span class="hljs-title function_">transaction</span>([parm.<span class="hljs-property">objName</span>])
+      <span class="hljs-keyword">var</span> objectStore = transaction.<span class="hljs-title function_">objectStore</span>(parm.<span class="hljs-property">objName</span>)
+      <span class="hljs-comment">// 用户读取数据，参数是主键</span>
+      <span class="hljs-keyword">var</span> request = objectStore.<span class="hljs-title function_">get</span>(type ? <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(parm.<span class="hljs-property">param</span>) : parm.<span class="hljs-property">param</span>)
+
+      request.<span class="hljs-property">onerror</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params">event</span>) {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;事务失败&#x27;</span>)
+        <span class="hljs-title function_">rej</span>()
+      }
+
+      request.<span class="hljs-property">onsuccess</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params">event</span>) {
+        <span class="hljs-keyword">if</span> (request.<span class="hljs-property">result</span>) {
+          <span class="hljs-keyword">let</span> data = <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(request.<span class="hljs-property">result</span>.<span class="hljs-property">data</span>)
+          <span class="hljs-title function_">res</span>(data)
+        } <span class="hljs-keyword">else</span> {
+          <span class="hljs-title function_">res</span>(request.<span class="hljs-property">result</span>)
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;未获得数据记录&#x27;</span>)
+        }
+      }
+    })
+  }
+  <span class="hljs-comment">// 修改库表数据,但是因为创建数据库时直接创建了库表,所以无论是添加还是修改都掉这个就可以了.</span>
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">update</span>(<span class="hljs-params">parm = { dbName, objName, param, response }</span>) {
+    <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">open</span>(parm)
+
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">res, rej</span>) =&gt;</span> {
+      <span class="hljs-keyword">let</span> type = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getType</span>(parm.<span class="hljs-property">param</span>)
+      <span class="hljs-keyword">let</span> type1 = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getType</span>(parm.<span class="hljs-property">response</span>)
+
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(parm)
+      <span class="hljs-keyword">var</span> request = <span class="hljs-variable language_">this</span>.<span class="hljs-property">db</span>
+        .<span class="hljs-title function_">transaction</span>([parm.<span class="hljs-property">objName</span>], <span class="hljs-string">&#x27;readwrite&#x27;</span>)
+        .<span class="hljs-title function_">objectStore</span>(parm.<span class="hljs-property">objName</span>)
+        .<span class="hljs-title function_">put</span>({
+          <span class="hljs-attr">id</span>: type ? <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(parm.<span class="hljs-property">param</span>) : parm.<span class="hljs-property">param</span>,
+          <span class="hljs-attr">data</span>: type1 ? <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(parm.<span class="hljs-property">response</span>) : parm.<span class="hljs-property">response</span>
+        })
+
+      request.<span class="hljs-property">onsuccess</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params">event</span>) {
+        <span class="hljs-title function_">res</span>()
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;数据更新成功&#x27;</span>)
+      }
+
+      request.<span class="hljs-property">onerror</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params">event</span>) {
+        <span class="hljs-title function_">rej</span>()
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;数据更新失败&#x27;</span>)
+      }
+    })
+  }
+  <span class="hljs-comment">// 删除某个表的数据</span>
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">remove</span>(<span class="hljs-params">parm = { dbName, objName, param, response }</span>) {
+    <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">open</span>(parm)
+
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">res, rej</span>) =&gt;</span> {
+      <span class="hljs-keyword">let</span> type = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getType</span>(parm.<span class="hljs-property">param</span>)
+
+      <span class="hljs-keyword">var</span> request = <span class="hljs-variable language_">this</span>.<span class="hljs-property">db</span>
+        .<span class="hljs-title function_">transaction</span>([parm.<span class="hljs-property">objName</span>], <span class="hljs-string">&#x27;readwrite&#x27;</span>)
+        .<span class="hljs-title function_">objectStore</span>(parm.<span class="hljs-property">objName</span>)
+        .<span class="hljs-title function_">delete</span>(type ? <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(parm.<span class="hljs-property">param</span>) : parm.<span class="hljs-property">param</span>)
+
+      request.<span class="hljs-property">onsuccess</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params">event</span>) {
+        <span class="hljs-title function_">res</span>()
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;数据删除成功&#x27;</span>)
+      }
+    })
+  }
+}
+</code></pre>
 <h3 id="title">title</h3>
 <h3 id="title-1">title</h3>
-<h3 id="title-2">title</h3>
 
             
             
