@@ -53,6 +53,7 @@
 - [ubuntu 科学上网](/confuse/ubuntuKeXueShangWang.html)
 - [沉淀](/confuse/deposit.html)
 - [前端中的 aop](/confuse/aop.html)
+- [错误&解决方案](/confuse/errorResolve.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)

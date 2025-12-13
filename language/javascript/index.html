@@ -323,9 +323,10 @@ class 可以结合<code>decorator</code>使用，构造函数不能使用<code>d
         <span class="hljs-comment">// ...</span>
         <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">a</span>
     }
-    <span class="hljs-comment">// 设置存取描述符会使此属性放在实例对象上。</span>
+    <span class="hljs-comment">// 设置存取描述符会使此属性放在实例对象上。get/set方法在原型对象上。</span>
     get k () {...}
     set k (s) {...}
+    a = <span class="hljs-string">&#x27;s&#x27;</span> <span class="hljs-comment">// 会设置在实例对象上</span>
 }
 </code></pre>
 <p>上述代码可(大致)转换为构造函数代码：</p>
@@ -344,9 +345,9 @@ class 可以结合<code>decorator</code>使用，构造函数不能使用<code>d
     set p (v) {...}
     [methodName] () {}   <span class="hljs-comment">// 使用属性表达式</span>
     <span class="hljs-keyword">static</span> s () {}       <span class="hljs-comment">// 静态属性</span>
-    <span class="hljs-keyword">static</span> sa = <span class="hljs-number">0</span>       <span class="hljs-comment">// 静态属性</span>
+    <span class="hljs-keyword">static</span> sa = <span class="hljs-number">0</span>        <span class="hljs-comment">// 静态属性</span>
 }
-<span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">B</span> {     <span class="hljs-comment">// 类A继承类B</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">B</span> {      <span class="hljs-comment">// 类A继承类B</span>
     <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {
         <span class="hljs-variable language_">super</span>()
         <span class="hljs-comment">// ...</span>
@@ -418,7 +419,8 @@ class 可以结合<code>decorator</code>使用，构造函数不能使用<code>d
 <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">any</span>(arrP)        <span class="hljs-comment">// arrP中只要有一个状态为fulfilled则返回该值，触发then()。若全为rejected则返回AggregateError对象，触发catch()。</span>
 <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">resolve</span>()
 <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">reject</span>()
-<span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">try</span>()
+<span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">try</span>(f, ...args)           <span class="hljs-comment">// 接收一个方法f，根据f的返回值设置为fulfilled状态或rejected状态。</span>
+<span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">withResolvers</span>() <span class="hljs-comment">// {promise, resolve, reject} 在外部设置promise的状态。</span>
 </code></pre>
 <h3 id="模拟-allsettled">模拟 allSettled</h3>
 <pre><code class="language-js"><span class="hljs-title class_">Promise</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">mockAllSettled</span> = <span class="hljs-function">(<span class="hljs-params">arrP</span>) =&gt;</span> {
@@ -567,18 +569,21 @@ class 可以结合<code>decorator</code>使用，构造函数不能使用<code>d
   <span class="hljs-comment">// or</span>
 ps.<span class="hljs-title function_">reduce</span>(<span class="hljs-function">(<span class="hljs-params">curP, nextP</span>) =&gt;</span> curP.<span class="hljs-title function_">then</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">nextP</span>()), <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">resolve</span>())
 
-<span class="hljs-comment">// 在promise作用域外改变状态</span>
-<span class="hljs-comment">// todo封装为一个类</span>
-<span class="hljs-keyword">let</span> resolveFn
-<span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">s, j</span>) =&gt;</span> {
-  resolveFn = s
-  rejectFn = j
-})
-<span class="hljs-keyword">let</span> <span class="hljs-title function_">fn</span> = (<span class="hljs-params"></span>) =&gt; {
-  resolveFn &amp;&amp; <span class="hljs-title function_">resolveFn</span>()
+<span class="hljs-comment">// 支持在promise作用域外改变状态</span>
+<span class="hljs-comment">// 自己写一个withResolvers()</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">ControlablePromise</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">resolve</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">reject</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">promise</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">s, j</span>) =&gt;</span> {
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">resolve</span> = s
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">reject</span> = j
+    })
+  }
 }
 
 <span class="hljs-comment">// 多次请求共享一次请求</span>
+<span class="hljs-comment">// 后来与axios结合做成了请求去重</span>
 <span class="hljs-keyword">let</span> box = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>()
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">reqFn</span> = (<span class="hljs-params">method, url, data</span>) =&gt; {
   <span class="hljs-keyword">let</span> key = <span class="hljs-title function_">f</span>(method, url, data) <span class="hljs-comment">// 取得惟一key</span>
@@ -591,6 +596,41 @@ ps.<span class="hljs-title function_">reduce</span>(<span class="hljs-function">
     <span class="hljs-keyword">return</span> f
   }
 }
+<span class="hljs-comment">// aop思想中使用promise</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">wrapPromise</span> = (<span class="hljs-params">pFn</span>) =&gt; {
+  <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-title function_">pFn</span>(...args).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+      <span class="hljs-comment">// op other</span>
+      <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">resolve</span>(res)
+    }).<span class="hljs-title function_">catch</span>(<span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> {
+      <span class="hljs-comment">// op other</span>
+      <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">reject</span>(error)
+    }).<span class="hljs-title function_">finally</span>(<span class="hljs-function">() =&gt;</span> {
+      <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;xxx&#x27;</span>)
+    })
+  }
+}
+<span class="hljs-comment">// wrapPromise(req)(params)</span>
+<span class="hljs-comment">// 也可以写成class形式</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">WrapPromise</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">pFn</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">pFn</span> = pFn
+  }
+  <span class="hljs-title function_">run</span>(<span class="hljs-params">...args</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">pFn</span>(...args).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+      <span class="hljs-comment">// op other</span>
+      <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">resolve</span>(res)
+    }).<span class="hljs-title function_">catch</span>(<span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> {
+      <span class="hljs-comment">// op other</span>
+      <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">reject</span>(error)
+    }).<span class="hljs-title function_">finally</span>(<span class="hljs-function">() =&gt;</span> {
+      <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;xxx&#x27;</span>)
+    })
+  }
+}
+<span class="hljs-comment">// new WrapPromise(req).run(params)</span>
+<span class="hljs-comment">// 一般类会有多个实例。方法可以运行多次。react团队也发现了这个情况，所以把class组件改为了方法组件。</span>
+
 
 
 

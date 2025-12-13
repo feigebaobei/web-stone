@@ -743,11 +743,15 @@ let createLoop = (pFn: F, bFn: F, i: N = 0): Loop => {
 // 基本类型
 type S = string
 type N = number
-type A = any
 type B = boolean
+type U = undefined
+type Nl = null
+type Bi = bigint
+type Sb = symbol
+type O = object
+type A = any
 type ULID = S
 type F = Function
-type O = object
 type D = Date
 // type At = '@'
 // type Email
@@ -1159,7 +1163,32 @@ let singleton = (className, params) => {
         }
     }
 }
+// 把数据分段，一条龙排列。
+let f = (arr, step = 3, allowEmpty = true) => {
+    let res = [];
+    let i = 0;
+    while (i < arr.length) {
+        let j = 0;
+        let t = [];
+        while (j < step) {
+            if (allowEmpty) {
+                t.push(arr[i]);
+            } else {
+                if (i < arr.length) {
+                    t.push(arr[i]);
+                }
+            }
+            j++;
+            i++;
+        }
+        if (res.length % 2) {
+            t.reverse()
+        }
+        res.push(t);
 
+    }
+    return res;
+};
 
 
 ```

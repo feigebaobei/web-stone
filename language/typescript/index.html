@@ -458,7 +458,7 @@ ts 做了什么？</p>
 <!-- prettier-ignore-end -->
 <h3 id="使用示例">使用示例</h3>
 <pre><code class="language-ts"><span class="hljs-keyword">let</span> <span class="hljs-attr">a</span>: <span class="hljs-built_in">string</span> = <span class="hljs-string">&#x27;a&#x27;</span>
-<span class="hljs-keyword">type</span> A = <span class="hljs-string">`start<span class="hljs-subst">${<span class="hljs-built_in">string</span>}</span>`</span><span class="hljs-comment">// 指定字符串开头的类型。指定结尾，同理。</span>
+<span class="hljs-keyword">type</span> A = <span class="hljs-string">`start<span class="hljs-subst">${<span class="hljs-built_in">string</span>}</span>`</span><span class="hljs-comment">// 指定字符串开头的类型。指定结尾，同理。 // 模板字符类型</span>
 <span class="hljs-keyword">let</span> d = <span class="hljs-string">&#x27;a&#x27;</span>         <span class="hljs-comment">// literal types</span>
 <span class="hljs-keyword">let</span> <span class="hljs-attr">b</span>: <span class="hljs-built_in">number</span> = <span class="hljs-number">0</span>
 <span class="hljs-keyword">let</span> <span class="hljs-attr">c</span>: <span class="hljs-built_in">any</span> = <span class="hljs-literal">null</span>
@@ -492,6 +492,12 @@ ts 做了什么？</p>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td></td>
+<td>is</td>
+<td>运行时判断</td>
+<td></td>
+</tr>
 <tr>
 <td></td>
 <td>等号判断</td>
@@ -528,15 +534,46 @@ ts 做了什么？</p>
 <td>使用switch-case根据数据类型分别处理</td>
 <td></td>
 </tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
 </tbody>
 </table>
 <!-- prettier-ignore-end -->
+<h3 id="is--as">is &amp; as</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>is</th>
+<th>as</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>示例</td>
+<td><code>v is Type</code></td>
+<td><code>v as Type</code></td>
+</tr>
+<tr>
+<td>含义</td>
+<td>判断v是否是Type类型</td>
+<td>告诉ts,v一定Type类型</td>
+</tr>
+<tr>
+<td>运行时间</td>
+<td>运行时</td>
+<td>编译时</td>
+</tr>
+<tr>
+<td>推荐</td>
+<td>推荐</td>
+<td>不推荐</td>
+</tr>
+<tr>
+<td>返回值</td>
+<td>boolean</td>
+<td>不返回</td>
+</tr>
+</tbody>
+</table>
 <h3 id="function">Function</h3>
 <pre><code class="language-ts"><span class="hljs-keyword">type</span> fn = <span class="hljs-function">(<span class="hljs-params">p: <span class="hljs-built_in">string</span></span>) =&gt;</span> <span class="hljs-built_in">number</span>
 <span class="hljs-keyword">type</span> D = {
@@ -587,32 +624,6 @@ ts 做了什么？</p>
 <li>接口可以继承类。<code>interface A extends ClassName {}</code></li>
 <li>可以声明合并。</li>
 </ul>
-<!-- prettier-ignore-start -->
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td>扩展</td>
-<td><code>interface A extends B</code></td>
-<td>基于B扩展A</td>
-</tr>
-<tr>
-<td></td>
-<td>交叉</td>
-<td><code>type A = B &amp; C</code></td>
-<td>A是B、C的交集</td>
-</tr>
-</tbody>
-</table>
-<!-- prettier-ignore-end -->
 <pre><code class="language-ts"><span class="hljs-keyword">interface</span> A <span class="hljs-keyword">extends</span> B {
   <span class="hljs-attr">k</span>: <span class="hljs-built_in">number</span>
 }
@@ -695,17 +706,19 @@ ts 做了什么？</p>
 <!-- prettier-ignore-end -->
 <pre><code class="language-ts"><span class="hljs-comment">// 这三种都是never类型</span>
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">c</span> = (<span class="hljs-params"></span>) =&gt; {
-    <span class="hljs-keyword">while</span>(<span class="hljs-literal">true</span>) { <span class="hljs-comment">// 这里永远不会返回</span>
-    }
+  <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>) {
+    <span class="hljs-comment">// 这里永远不会返回</span>
+  }
 }
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">d</span> = (<span class="hljs-params"></span>) =&gt; {
-    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&#x27;sss&#x27;</span>) <span class="hljs-comment">// 不能返回错误</span>
+  <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&#x27;sss&#x27;</span>) <span class="hljs-comment">// 不能返回错误</span>
 }
 <span class="hljs-keyword">type</span> t = <span class="hljs-built_in">number</span> &amp; <span class="hljs-built_in">string</span> <span class="hljs-comment">// 这2种类型不能交叉出类型</span>
 </code></pre>
 <h3 id="type--interface-不同"><a href="/language/typescript/type&amp;interface.html">type &amp; interface 不同</a></h3>
 <h3 id="常用数据类型"><a href="/language/typescript/commonType.html">常用数据类型</a></h3>
-<h2 id="操作类型">操作类型</h2>
+<h2 id="操作类型的工具方法">操作类型的工具方法</h2>
+<h3 id="内置操作类型的工具方法">内置操作类型的工具方法</h3>
 <p>都是大写开头。</p>
 <pre><code class="language-ts"><span class="hljs-comment">// 通式</span>
 <span class="hljs-title class_">Util</span>&lt;<span class="hljs-keyword">type</span>&gt;
@@ -822,8 +835,8 @@ ts 做了什么？</p>
 </tr>
 <tr>
 <td></td>
-<td><code>Parameters&lt;T&gt;</code></td>
-<td>返回T类型的参数，返回值是tuple类型。T类型是方法的类型</td>
+<td><code>Parameters&lt;FT&gt;</code></td>
+<td>返回FT类型的参数，返回值是tuple类型。FT类型是方法的类型</td>
 <td></td>
 <td></td>
 </tr>
@@ -836,8 +849,8 @@ ts 做了什么？</p>
 </tr>
 <tr>
 <td></td>
-<td><code>ReturnType&lt;T&gt;</code></td>
-<td>返回T类型的返回值的类型</td>
+<td><code>ReturnType&lt;FT&gt;</code></td>
+<td>返回FT类型的返回值的类型</td>
 <td></td>
 <td></td>
 </tr>
@@ -872,13 +885,52 @@ ts 做了什么？</p>
 <tr>
 <td></td>
 <td><code>DeepPartial&lt;T&gt;</code></td>
-<td>返回深度的t里的所有属性为可选的类型</td>
+<td>返回深度的T里的所有属性为可选的类型</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>NoInfer&lt;T&gt;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>Uppercase&lt;T&gt;</code></td>
+<td>返回大写</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>Lowercase&lt;T&gt;</code></td>
+<td>返回小写</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>Capitalize&lt;T&gt;</code></td>
+<td>返回首字母大写</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>Uncapitalize&lt;T&gt;</code></td>
+<td>返回首字母小写</td>
 <td></td>
 <td></td>
 </tr>
 </tbody>
 </table>
 <!-- prettier-ignore-end -->
+<h3 id="自定义的操作类型的工具方法">自定义的操作类型的工具方法</h3>
+<pre><code class="language-ts"><span class="hljs-title class_">Falsy</span>
+
+</code></pre>
 <h2 id="class">class</h2>
 <pre><code class="language-ts"><span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">B</span> {
   <span class="hljs-attr">a</span>: <span class="hljs-built_in">string</span> <span class="hljs-comment">// 先声明类型再使用</span>
@@ -943,43 +995,31 @@ ts 做了什么？</p>
 <thead>
 <tr>
 <th></th>
-<th>种类</th>
-<th></th>
-<th>当前类</th>
-<th>后代类</th>
-<th>实例</th>
+<th>当前类内</th>
+<th>当前类的实例</th>
+<th>后代类内</th>
+<th>后代类的实例</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>公开访问</td>
 <td>public</td>
-<td>公开</td>
-<td>v</td>
-<td>v</td>
-<td>v</td>
+<td>y</td>
+<td>y</td>
+<td>y</td>
+<td>y</td>
 </tr>
 <tr>
-<td>只能在当前类内部访问和其子类内部访问</td>
 <td>protected</td>
-<td>受保护的</td>
-<td>v</td>
-<td>v</td>
+<td>y</td>
+<td>x</td>
+<td>y</td>
 <td>x</td>
 </tr>
 <tr>
-<td>只能在类的内部访问</td>
 <td>private</td>
-<td>私有的</td>
-<td>v</td>
+<td>y</td>
 <td>x</td>
-<td>x</td>
-</tr>
-<tr>
-<td>这是一个js语法。只能被当前类直接访问</td>
-<td>static</td>
-<td>静态的</td>
-<td>-</td>
 <td>x</td>
 <td>x</td>
 </tr>
@@ -1429,53 +1469,10 @@ init 后不能改变。<br>
 <li>不能明确定义所有变量的类型。(ts 允许存在 any/unknown/never 就是佐证。)</li>
 <li>然后有类型断言。类型断言只能做到代码静态检测时类型是否满足运行逻辑，不能防止实际运行时具体的值不满足运行逻辑的情况。</li>
 </ul>
-<h2 id="todo">todo</h2>
-<h3 id="interface--type">interface &amp; type</h3>
-<table>
-<thead>
-<tr>
-<th>interface</th>
-<th>type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>定义数据结构</td>
-<td>定义数据结构</td>
-</tr>
-<tr>
-<td>混合类型<code>I &amp; I</code></td>
-<td>混合类型<code>T &amp; T</code></td>
-</tr>
-<tr>
-<td>可选属性<code>key?: type</code></td>
-<td>可选属性<code>key?: type</code></td>
-</tr>
-<tr>
-<td>索引类型<code>[key: type]</code></td>
-<td>索引类型<code>[key: type]</code></td>
-</tr>
-<tr>
-<td>用于类的 implements</td>
-<td>用于类的 implements</td>
-</tr>
-<tr>
-<td>-</td>
-<td>定义类型的别名</td>
-</tr>
-<tr>
-<td>扩展接口<code>interface A extends B</code></td>
-<td>扩展类型<code>type A = B &amp; C</code></td>
-</tr>
-<tr>
-<td>扩展类<code>interface A extends ClassName {...}</code></td>
-<td>-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dts文件如何工作"><code>*.d.ts</code>文件如何工作？</h3>
+<h2 id="dts文件如何工作"><code>*.d.ts</code>文件如何工作？</h2>
 <ol>
-<li><code>*.d.ts</code>是声明文件。声明 api/代码结构等。一般用于：在引用了外部 js 代码时需要用声明文件描述 api 等。一般由代码生成，不是手动编写的。</li>
+<li><code>*.d.ts</code>是声明文件</li>
+<li>。声明 api/代码结构等。一般用于：在引用了外部 js 代码时需要用声明文件描述 api 等。一般由代码生成，不是手动编写的。</li>
 <li>编写好<code>*.d.ts</code>后发布到<code>@types orgnizatio</code></li>
 <li>使用<code>npm i -s @type/xxx</code>安装。</li>
 <li>在<code>*.js</code>的同级编写<code>*.d.ts</code>。</li>
@@ -1483,6 +1480,13 @@ init 后不能改变。<br>
 <li>有此文件后可在编辑器中进行溯源。</li>
 <li>写<code>*.js / *.d.ts</code>还不如写<code>*.ts</code>.</li>
 </ol>
+<h3 id="声明文件的作用-dts">声明文件的作用 (d.ts)</h3>
+<ul>
+<li>提供类型信息，让 TypeScript 知道 JavaScript 代码的结构和类型。</li>
+<li>在开发时提供代码智能提示和静态类型检查，减少错误。</li>
+<li>不改变原 JavaScript 代码，只做类型描述。</li>
+</ul>
+<h2 id="todo">todo</h2>
 <h3 id="ts--js">ts &amp; js</h3>
 <p>ts 就是为 js 增加了很多类型。但是又不承认，非说 ts 是 js 的超集。</p>
 <ul>
@@ -1501,15 +1505,19 @@ init 后不能改变。<br>
 <p>ts 出现以前 js 已经存在好多年了。行业中已经存在好多 js 包。ts 团队为了让 ts/vscode 兼容已经存在的 js 包。创建了在配置文件中设置<code>*.d.ts</code>文件的选项。还创建了<code>@types/*</code>的私有包，号召大家一起维护。</p>
 <h2 id="todo-1">todo</h2>
 <p>修改或覆盖属性的值的类型</p>
-<pre><code>type ValueOf&lt;T&gt; = T[keyof T]
-
-interface B extends Omit&lt;A, 'list'&gt; {
-    list: Omit&lt;ValueOf&lt;A['list']&gt;, 'sex'&gt; &amp; {
-        sex: string
+<pre><code class="language-ts"><span class="hljs-comment">// ts操作类型的方法中没有valueOf。现在自己写一个。</span>
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">ValueOf</span>&lt;T&gt; = T[keyof T] <span class="hljs-comment">// 工具类方法都是大写开头</span>
+<span class="hljs-comment">// 解决继承时，重写方法。</span>
+<span class="hljs-keyword">interface</span> B <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Omit</span>&lt;A, &#x27;list&#x27;&gt; {
+    <span class="hljs-attr">list</span>: <span class="hljs-title class_">Omit</span>&lt;<span class="hljs-title class_">ValueOf</span>&lt;A[<span class="hljs-string">&#x27;list&#x27;</span>]&gt;, <span class="hljs-string">&#x27;sex&#x27;</span>&gt; &amp; {
+        <span class="hljs-attr">sex</span>: <span class="hljs-built_in">string</span>
     }[]
 }
+<span class="hljs-comment">// 取数组中的类型</span>
+<span class="hljs-keyword">type</span> itemType = <span class="hljs-keyword">typeof</span> arrayVar[<span class="hljs-built_in">number</span>]
 </code></pre>
 <h3 id="object--object--">Object &amp; object &amp; {}</h3>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -1534,6 +1542,7 @@ interface B extends Omit&lt;A, 'list'&gt; {
 </tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
 <h2 id="重载">重载</h2>
 <p>函数名称相同
 每次重载的参数个数不同
@@ -1595,6 +1604,14 @@ interface B extends Omit&lt;A, 'list'&gt; {
 let result = &lt;T&gt;{}       // 方法二
 (result as T).title = &#x27;&#x27; // 方法三
 </code></pre>
+<h2 id="导入导出">导入&amp;导出</h2>
+<pre><code class="language-ts"><span class="hljs-keyword">import</span> { f, <span class="hljs-keyword">type</span> T } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./one.ts&#x27;</span>
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { T } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./one.ts&#x27;</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> { C }
+
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> T, {G} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./one.ts&#x27;</span>
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> T, G} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./one.ts&#x27;</span>
+</code></pre>
 <h2 id="ts-的不足">ts 的不足</h2>
 <ul>
 <li>允许出现类型断言。</li>
@@ -1636,10 +1653,7 @@ let result = &lt;T&gt;{}       // 方法二
 <p>ts 的使用技巧
 配置文件
 类型保护等与修饰符（readonly）等的结合时的用法。
-readonly
 可选
-泛型
-三个修饰符的作用范围（public/private/protect）
 类型推断
 类型范围缩小
 类型兼容性：成员少的兼容成员多的。

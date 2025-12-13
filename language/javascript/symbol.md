@@ -60,22 +60,22 @@ var s4 = Symbol.for('str')
 
 ## 众所周知的 symbols
 
-|                           |                                                              |     |
-| ------------------------- | ------------------------------------------------------------ | --- |
-| Symbol.iterator           | 返回一个默认迭代器的方法。被 for...of 使用。                 |     |
-| Symbol.asyncIterator      | 返回一个默认迭代器的异步方法。被 for await of 使用.          |     |
-| Symbol.match              | 定义一个被 string.prototype.match()调用的方法。              |     |
-| Symbol.replace            | 定义一个被 String.prototype.replace()调用的方法。            |     |
-| Symbol.search             | String.prototype.search()                                    |     |
-| Symbol.split              | String.prototype.split()                                     |     |
-| Symbol.hasInstance        | instanceof()                                                 |     |
-| Symbol.isConcatSpreadable | Array.prototype.concat() 其值是 boolean.表示是否可被 concat. |     |
-| Symbol.unscoppables       | 在 with 环境中排除该对象上的指定的继承来的值。               |     |
-| Symbol.species            | 指定构造器。                                                 |     |
-| Symbol.toPrimitive        | 定义一个方法，在该对象被转换为对应的原始值时调用。           |     |
-| Symbol.toStringTag        | Object.prototype.toString()                                  |     |
-| Symbol.for(key)           |                                                              |     |
-| Symbol.keyFor(symbol)     |                                                              |     |
+|                           |                                                                                                     |     |
+| ------------------------- | --------------------------------------------------------------------------------------------------- | --- |
+| Symbol.iterator           | 返回一个默认迭代器的方法。被 for...of 使用。                                                        |     |
+| Symbol.asyncIterator      | 返回一个默认迭代器的异步方法。被 for await of 使用.                                                 |     |
+| Symbol.match              | 定义一个被 string.prototype.match()调用的方法。                                                     |     |
+| Symbol.replace            | 定义一个被 String.prototype.replace()调用的方法。                                                   |     |
+| Symbol.search             | String.prototype.search()                                                                           |     |
+| Symbol.split              | String.prototype.split()                                                                            |     |
+| Symbol.hasInstance        | instanceof()                                                                                        |     |
+| Symbol.isConcatSpreadable | Array.prototype.concat() 其值是 boolean.表示是否可被 concat.                                        |     |
+| Symbol.unscoppables       | 在 with 环境中排除该对象上的指定的继承来的值。                                                      |     |
+| Symbol.species            | 指定构造器。                                                                                        |     |
+| Symbol.toPrimitive        | 定义一个方法，在该对象被转换为对应的原始值时调用。                                                  |     |
+| Symbol.toStringTag        | Object.prototype.toString()                                                                         |     |
+| Symbol.for(key)           | 在全局注册一个以字符串 key 的 symbol 值。如果全局已经存在，则返回已经存在的；否则疮创建新的再返回。 |     |
+| Symbol.keyFor(symbol)     | 返回全局登记 symbol 时的 key.                                                                       |     |
 
 作为属性名的 symbol
 

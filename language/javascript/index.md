@@ -137,9 +137,10 @@ class ClassName {
         // ...
         return this.a
     }
-    // 设置存取描述符会使此属性放在实例对象上。
+    // 设置存取描述符会使此属性放在实例对象上。get/set方法在原型对象上。
     get k () {...}
     set k (s) {...}
+    a = 's' // 会设置在实例对象上
 }
 ```
 
@@ -163,9 +164,9 @@ class A {
     set p (v) {...}
     [methodName] () {}   // 使用属性表达式
     static s () {}       // 静态属性
-    static sa = 0       // 静态属性
+    static sa = 0        // 静态属性
 }
-class A extends B {     // 类A继承类B
+class A extends B {      // 类A继承类B
     constructor() {
         super()
         // ...
@@ -230,7 +231,8 @@ Promise.allSettled(arrP) // 当arrP都改变状态后返回结果。结果是由
 Promise.any(arrP)        // arrP中只要有一个状态为fulfilled则返回该值，触发then()。若全为rejected则返回AggregateError对象，触发catch()。
 Promise.resolve()
 Promise.reject()
-Promise.try()
+Promise.try(f, ...args)           // 接收一个方法f，根据f的返回值设置为fulfilled状态或rejected状态。
+Promise.withResolvers() // {promise, resolve, reject} 在外部设置promise的状态。
 ```
 
 ### 模拟 allSettled
@@ -387,18 +389,21 @@ for (let pi of ps) {
   // or
 ps.reduce((curP, nextP) => curP.then(() => nextP()), Promise.resolve())
 
-// 在promise作用域外改变状态
-// todo封装为一个类
-let resolveFn
-new Promise((s, j) => {
-  resolveFn = s
-  rejectFn = j
-})
-let fn = () => {
-  resolveFn && resolveFn()
+// 支持在promise作用域外改变状态
+// 自己写一个withResolvers()
+class ControlablePromise {
+  constructor() {
+    this.resolve
+    this.reject
+    this.promise = new Promise((s, j) => {
+      this.resolve = s
+      this.reject = j
+    })
+  }
 }
 
 // 多次请求共享一次请求
+// 后来与axios结合做成了请求去重
 let box = new Map()
 let reqFn = (method, url, data) => {
   let key = f(method, url, data) // 取得惟一key
@@ -411,6 +416,41 @@ let reqFn = (method, url, data) => {
     return f
   }
 }
+// aop思想中使用promise
+let wrapPromise = (pFn) => {
+  return (...args) => {
+    return pFn(...args).then((res) => {
+      // op other
+      return Promise.resolve(res)
+    }).catch((error) => {
+      // op other
+      return Promise.reject(error)
+    }).finally(() => {
+      clog('xxx')
+    })
+  }
+}
+// wrapPromise(req)(params)
+// 也可以写成class形式
+class WrapPromise {
+  constructor(pFn) {
+    this.pFn = pFn
+  }
+  run(...args) {
+    this.pFn(...args).then((res) => {
+      // op other
+      return Promise.resolve(res)
+    }).catch((error) => {
+      // op other
+      return Promise.reject(error)
+    }).finally(() => {
+      clog('xxx')
+    })
+  }
+}
+// new WrapPromise(req).run(params)
+// 一般类会有多个实例。方法可以运行多次。react团队也发现了这个情况，所以把class组件改为了方法组件。
+
 
 
 

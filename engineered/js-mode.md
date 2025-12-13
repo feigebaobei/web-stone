@@ -11,6 +11,7 @@
 
 ## CommonJS (cjs)
 
+CommonJS，适用于 Node 和 Browserify/Webpack
 每一个模块都有一个`module`对象。该对象有个属性是：`exports`/`require`  
 使用这种规范的代表： node。node 把每一个文件都做为一个模块。加载模块使用 require，该方法读取一个**文件并执行**，最后返回这个模块内部的 exports 对象。  
 使用 `module.exports/exports` 和 `require` 抛出和引入。  
@@ -20,6 +21,8 @@
 commonjs 是同步加载的。
 
 ## esm
+
+将软件包保存为 ES 模块文件，在现代浏览器中可以通过 `<script type=module>` 标签引入
 
 es6 在语言标准的层面上实现了模块功能。
 
@@ -49,9 +52,13 @@ export / export default
 
 ## Asynchronous Module Definition (AMD)
 
+异步模块定义，用于像 RequireJS 这样的模块加载器
+
 ## Common Module Definition (CMD)
 
 ## Universal Module Definition (UMD)
+
+通用模块定义，以`amd / cjs / iife`为一体。
 
 ## ES module 和 commonJS 循环引用问题
 
@@ -72,3 +79,11 @@ export / export default
 
 1. 利用变量提升+commonjs 的执行顺序。在模块的最后使用`var`定义引入的模块。
 2. 利用 js 的异步机制。在 setTimeout 中使用引入模块。
+
+## iife
+
+个自动执行的功能，适合作为`<script>`标签。（如果要为应用程序创建一个捆绑包，您可能想要使用它，因为它会使文件大小变小。）
+
+## system
+
+SystemJS 加载器格式

@@ -1302,7 +1302,32 @@ $.<span class="hljs-title function_">shadowDom</span>(<span class="hljs-string">
         }
     }
 }
-
+<span class="hljs-comment">// 把数据分段，一条龙排列。</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">arr, step = <span class="hljs-number">3</span>, allowEmpty = <span class="hljs-literal">true</span></span>) =&gt; {
+    <span class="hljs-keyword">let</span> res = [];
+    <span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">while</span> (i &lt; arr.<span class="hljs-property">length</span>) {
+        <span class="hljs-keyword">let</span> j = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">let</span> t = [];
+        <span class="hljs-keyword">while</span> (j &lt; step) {
+            <span class="hljs-keyword">if</span> (allowEmpty) {
+                t.<span class="hljs-title function_">push</span>(arr[i]);
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-keyword">if</span> (i &lt; arr.<span class="hljs-property">length</span>) {
+                    t.<span class="hljs-title function_">push</span>(arr[i]);
+                }
+            }
+            j++;
+            i++;
+        }
+        <span class="hljs-keyword">if</span> (res.<span class="hljs-property">length</span> % <span class="hljs-number">2</span>) {
+            t.<span class="hljs-title function_">reverse</span>()
+        }
+        res.<span class="hljs-title function_">push</span>(t);
+        
+    }
+    <span class="hljs-keyword">return</span> res;
+};
 
 
 </code></pre>
