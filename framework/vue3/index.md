@@ -469,7 +469,7 @@ app.mount('#root')
 
 ## [principle](/framework/vue3/principle.html)
 
-该包负责把`*.vue`的代码转换为操作 dom 的代码。操作完 dom 后由浏览器根据 dom 显示出来，中间包括大量的重绘、回流。  
+该包负责把`*.vue`的代码转换为[操作 dom](/language/javascript/opDom.html) 的代码。操作完 dom 后由浏览器根据 dom 显示出来，中间包括大量的重绘、回流。  
 在`mvvm`框架流行之间有面向 dom 开发的框架——jquery。它也是操作 dom。然后让浏览器做重绘、回流的工作。  
 把数据做成可生成 html 代码的 js 代码，然后交给浏览器运行。vue 就做了这一件事。  
 真传一名话，假传万卷书。如一个道理很庞杂，那就不用学了。它是假的。若只有一句话，那剩下的就是去实践它了。

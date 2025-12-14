@@ -2,7 +2,7 @@
 
 - 浏览器原生支持的可以自定义可复用的元素。
 - Web Components 是一套不同的技术，允许您创建可复用的定制元素（它们的功能封装在您的 js 代码之中）并且在您的 web 应用中使用它们。
-- 需要熟练 js 操作 dom 的 api
+- 需要熟练 js [操作 dom](/language/javascript/opDom.html) 的 api
 
 ## 基础知识
 

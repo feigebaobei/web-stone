@@ -4,7 +4,7 @@
 
 - 只能挂载到允许的元素上。不能单独存在。
 - 使用它与使用 html 元素相同。
-- 需要熟练 js 操作 dom 的 api.
+- 需要熟练 js [操作 dom](/language/javascript/opDom.html) 的 api.
 
 ## 简介
 

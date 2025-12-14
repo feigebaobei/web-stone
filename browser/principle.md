@@ -127,7 +127,7 @@ html 默认使用流式布局。
 - 规范编写 html/css。设置编码类型。
 - 样式写在 head 中，脚本写在 body 结束前。
 - 简化、优化 css 选择器。尽量少写嵌套。
-- 减少 js 操作 dom.
+- 减少 js [操作 dom](/language/javascript/opDom.html).
 - class 属性是性能最高的处理样式的选择器。
 - 使用 transform 做形变、位移。
 

@@ -37,12 +37,14 @@ dom.replaceChild(newDom, oldDom)
 // class
 dom.classList.remove(s)
 dom.classList.add(s)
-dom.classList.contain(s)
+dom.classList.contain(s) // 是否包含指定的类名
 dom.classList.toggle(s) // 若存在则删除，否不存在则添加。
 ```
 
 ## innerHTML & innerText & outerHTML & outerText
 
-|             | innerHTML            | innerText           | outerHTML          | outerText                                    |
-| ----------- | -------------------- | ------------------- | ------------------ | -------------------------------------------- |
+<!-- prettier-ignore-start -->
+|    | innerHTML     | innerText    | outerHTML   | outerText        |
+| ----------- | - | ---- | --- | -------------- |
 | 返回 string | 取得此 dom 内的 html | 取得此 dom 内的文本 | 取得此 dom 的 html | 取得此 dom 的文本。与 innerText 返回值相同。 |
+<!-- prettier-ignore-end -->

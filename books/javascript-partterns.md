@@ -628,7 +628,7 @@ if (document.attachEvent) {
 - 在可能的情况下使用 selector api.
 - 当在 html 容器中重复使用时，缓存重复的次数。
 
-## 操作 dom
+## [操作 dom](/language/javascript/opDom.html)
 
 - 先整理文档碎片，
 - 再一次插入到合适的父节点。

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>&#x539f;&#x7406;</title>
-        <style>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x539f;&#x7406;</title>
+            <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -11,47 +11,14 @@
  *--------------------------------------------------------------------------------------------*/
 
 .vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
 	display: none;
 }
 
-/* From extension ms-toolsai.jupyter */
-/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
-
-.alert {
-    width: auto;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-.alert > *:last-child {
-    margin-bottom: 0;
-}
-#preview > .alert:last-child {
-    /* Prevent this being set to zero by the default notebook stylesheet */
-    padding-bottom: 1em;
-}
-
-.alert-success {
-    /* Note there is no suitable color available, so we just copy "info" */
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-info {
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-warning {
-    background-color: var(--theme-warning-background);
-    color: var(--theme-warning-foreground);
-}
-.alert-danger {
-    background-color: var(--theme-error-background);
-    color: var(--theme-error-foreground);
-}
-
 </style>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
@@ -73,10 +40,106 @@
     pointer-events: none;
 }
 </style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
         
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="原理">原理</h1>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="原理">原理</h1>
 <p>把 react / react-dom 的原理合并到这个文档中。<br>
 <strong>不必学习 react 的每一个细节。我们需要知道它的关键部分。</strong></p>
 <h2 id="react-到底做了什么">react 到底做了什么</h2>
@@ -223,12 +286,12 @@
 <li>diff 基于它工作。diff 过程（render phase）是异步的。fiber 是工作单元.</li>
 <li>多个 fiber 对象组成树(workInProgress/current)</li>
 </ul>
-<h3 id="引入fiber的目的">引入fiber的目的</h3>
+<h3 id="引入-fiber-的目的">引入 fiber 的目的</h3>
 <ul>
 <li>使动画流畅</li>
 <li>加快反应速度</li>
 </ul>
-<h3 id="fiber的功能">fiber的功能</h3>
+<h3 id="fiber-的功能">fiber 的功能</h3>
 <ul>
 <li>可把工作分块，一个 fiber 对象就是一个工作单元。设置任务优先级。</li>
 <li>每一个 ReactElement 都有一个对应的 FiberNode</li>
@@ -454,7 +517,7 @@ Current 就是 fiberroot</p>
 <li>异步</li>
 <li>定义任务的优先级，工作可能停止（可以被打断）、丢弃。</li>
 <li>开始的方法，如：beginWork() / completeWork()</li>
-<li>此阶段处理 fiber。（diff在此执行）</li>
+<li>此阶段处理 fiber。（diff 在此执行）</li>
 </ul>
 </li>
 <li>commit phase (committing)
@@ -480,7 +543,7 @@ Current 就是 fiberroot</p>
 <td></td>
 <td>render phase</td>
 <td>异步</td>
-<td>操作 workInProgress/current，即diff</td>
+<td>操作 workInProgress/current，即 diff</td>
 <td></td>
 <td></td>
 </tr>
@@ -520,7 +583,7 @@ Current 就是 fiberroot</p>
 <td></td>
 <td>commit phase</td>
 <td>同步</td>
-<td>操作 dom</td>
+<td><a href="/language/javascript/opDom.html">操作dom</a></td>
 <td></td>
 <td></td>
 </tr>
@@ -528,7 +591,7 @@ Current 就是 fiberroot</p>
 <td></td>
 <td></td>
 <td>getSnapshotBeforeUpdate</td>
-<td>执行side-effect</td>
+<td>执行 side-effect</td>
 <td></td>
 <td></td>
 </tr>
@@ -568,7 +631,7 @@ Current 就是 fiberroot</p>
 </table>
 <p>调用 setState/React.render 会把对应的 FiberNode 指定为需要更新的元素。</p>
 <h3 id="render-phase">render phase</h3>
-<p>使用 effectTag 标记该节点应该如何更新。更新dom的工作在 commit 阶段做。<br>
+<p>使用 effectTag 标记该节点应该如何更新。更新 dom 的工作在 commit 阶段做。<br>
 此阶段不能执行 side-effect
 从根节点开始，然后深度优先，跳过不需要更新的节点 FiberNode，标记出需要更新的节点 FiberNode。</p>
 <ul>
@@ -923,7 +986,7 @@ flags 表示effect的编码
 <h2 id="inside-fiber-in-depth-overview-of-the-new-reconciliation-algorithm-in-react">Inside Fiber: in-depth overview of the new reconciliation algorithm in React</h2>
 <h3 id="side-effects">side-effects</h3>
 <ul>
-<li><strong>操作 dom 的方法</strong></li>
+<li><strong><a href="/language/javascript/opDom.html">操作dom</a> 的方法</strong></li>
 <li><strong>生命周期方法</strong></li>
 <li>……</li>
 </ul>
@@ -1024,7 +1087,7 @@ fiber更新后
 </li>
 <li>调用 updateHostComponent 方法，结束。</li>
 </ol>
-<h3 id="commit-phase">commit phase</h3>
+<h3 id="commit-phase-1">commit phase</h3>
 <ol>
 <li>从调用 completeRoot 方法开始。</li>
 <li>设置 FiberRootNode.finishedWork 为 null</li>
@@ -1061,7 +1124,7 @@ React.createElement('span', {id: '#id'}, string)
 </code></pre>
 <h2 id="使用配置文件控制是否使用新代码同时保持了新代码与老代码在项目中优点是迭代平滑">使用配置文件控制是否使用新代码。同时保持了新代码与老代码在项目中。优点是迭代平滑。</h2>
 
-        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
-        
-    </body>
-    </html>
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>

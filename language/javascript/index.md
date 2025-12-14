@@ -818,7 +818,7 @@ IdleDeadline {
 }
 ```
 
-# js 操作 dom
+# js [操作 dom](/language/javascript/opDom.html)
 
 # window 中常用的对象
 

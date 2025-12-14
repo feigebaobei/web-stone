@@ -181,19 +181,19 @@ react 只更新 dom
   - 同步
   - 从 commitWork()开始
 
-|     |              |                          |                                      |     |     |
-| --- | ------------ | ------------------------ | ------------------------------------ | --- | --- |
-|     | render phase | 异步                     | 操作 workInProgress/current，即 diff |     |     |
-|     |              | getDerivedStateFromProps | 被反对的生命周期方法不列出来         |     |     |
-|     |              | shouldComponentUpdate    |                                      |     |     |
-|     |              | render                   |                                      |     |     |
-|     |              |                          |                                      |     |     |
-|     | commit phase | 同步                     | 操作 dom                             |     |     |
-|     |              | getSnapshotBeforeUpdate  | 执行 side-effect                     |     |     |
-|     |              | componentDidMount        |                                      |     |     |
-|     |              | componentDidUdate        |                                      |     |     |
-|     |              | componentWillUnmount     |                                      |     |     |
-|     |              |                          |                                      |     |     |
+|     |              |                          |                                             |     |     |
+| --- | ------------ | ------------------------ | ------------------------------------------- | --- | --- |
+|     | render phase | 异步                     | 操作 workInProgress/current，即 diff        |     |     |
+|     |              | getDerivedStateFromProps | 被反对的生命周期方法不列出来                |     |     |
+|     |              | shouldComponentUpdate    |                                             |     |     |
+|     |              | render                   |                                             |     |     |
+|     |              |                          |                                             |     |     |
+|     | commit phase | 同步                     | [操作 dom](/language/javascript/opDom.html) |     |     |
+|     |              | getSnapshotBeforeUpdate  | 执行 side-effect                            |     |     |
+|     |              | componentDidMount        |                                             |     |     |
+|     |              | componentDidUdate        |                                             |     |     |
+|     |              | componentWillUnmount     |                                             |     |     |
+|     |              |                          |                                             |     |     |
 
 调用 setState/React.render 会把对应的 FiberNode 指定为需要更新的元素。
 
@@ -586,7 +586,7 @@ hooks 的状态数据是存放在对应的函数组件的 fiber.memoizedState；
 
 ### side-effects
 
-- **操作 dom 的方法**
+- **[操作 dom](/language/javascript/opDom.html) 的方法**
 - **生命周期方法**
 - ……
 

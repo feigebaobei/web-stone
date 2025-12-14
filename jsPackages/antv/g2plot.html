@@ -11,7 +11,9 @@
  *--------------------------------------------------------------------------------------------*/
 
 .vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
 	display: none;
 }
 
@@ -139,11 +141,11 @@
             <h1 id="g2plot">g2plot</h1>
 <h2 id="overview">overview</h2>
 <blockquote>
-<p>基于g2搞的。</p>
+<p>基于 g2 搞的。</p>
 </blockquote>
 <h3 id="feature">feature</h3>
 <ul>
-<li>支持方法操作dom，不支持组件。</li>
+<li>支持方法<a href="/language/javascript/opDom.html">操作dom</a>，不支持组件。</li>
 <li>feature1</li>
 <li>feature2</li>
 </ul>
@@ -151,7 +153,7 @@
 <p><code>npm i g2plot</code></p>
 <h2 id="usage">usage</h2>
 <p>同<code>./demo.md</code></p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> g2plot = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;g2plot&#x27;</span>);
+<pre><code class="language-js"><span class="hljs-keyword">const</span> g2plot = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;g2plot&#x27;</span>)
 <span class="hljs-comment">// or</span>
 <span class="hljs-comment">// import g2plot from &#x27;g2plot&#x27;;</span>
 <span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> DEMONSTRATE API</span>
@@ -215,7 +217,7 @@
 </table>
 <!-- prettier-ignore-end -->
 <h2 id="api">api</h2>
-<p>内部使用面向对象的方式编写代码。api分为基类api与子类api.</p>
+<p>内部使用面向对象的方式编写代码。api 分为基类 api 与子类 api.</p>
 <!-- prettier-ignore-start -->
 <table>
 <thead>
@@ -409,14 +411,15 @@ description</p>
 <p><code>g2plot.fn(param, [options: {a: string, b?: number}])</code>
 description</p>
 <h2 id="principle">principle</h2>
-<p>基于g2封装了一薄层。
-基于plot基类，基于若干图表。
-plot调用g2的能力。</p>
+<p>基于 g2 封装了一薄层。
+基于 plot 基类，基于若干图表。
+plot 调用 g2 的能力。</p>
 <h3 id="uml">uml</h3>
-<pre><code></code></pre>
+<pre><code>
+</code></pre>
 <h2 id="todo">todo</h2>
 <blockquote>
-<p>api之间有重叠，不好。可以设置快捷api，但是不要让多个api有重叠。
+<p>api 之间有重叠，不好。可以设置快捷 api，但是不要让多个 api 有重叠。
 未来迭代计划。
 未来迭代计划。</p>
 </blockquote>

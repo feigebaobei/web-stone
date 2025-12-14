@@ -79,15 +79,7 @@ document.cookie
 
 ```
 
-## 操作 dom
-
-```js
-element.querySelector(str)
-element.appendChild(ele)
-element.setAttribute(name, value)
-element.innerText
-element.innerHTML
-```
+## [操作 dom](/language/javascript/opDom.html)
 
 ## node
 

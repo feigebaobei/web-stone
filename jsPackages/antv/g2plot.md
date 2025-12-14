@@ -6,7 +6,7 @@
 
 ### feature
 
-- 支持方法操作 dom，不支持组件。
+- 支持方法[操作 dom](/language/javascript/opDom.html)，不支持组件。
 - feature1
 - feature2
 

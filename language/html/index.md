@@ -361,7 +361,7 @@ Array.from(dom.classList).includes('nc')
 
 # javascript
 
-常用于操作 dom.
+常用于[操作 dom](/language/javascript/opDom.html).
 可根据 class/id/tag 等得到 dom.
 可修改样式。
 详见[javascript](/language/javascript/index.html)

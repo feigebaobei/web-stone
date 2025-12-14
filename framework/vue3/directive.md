@@ -47,7 +47,7 @@ v-model.trim="k"    去空格
 
 `v-name-directtive:[arg][.modify]="value"`
 
-- 操作 dom
+- [操作 dom](/language/javascript/opDom.html)
 - 抽象跨组件逻辑
 - 一般无 dom
 - 指令名以中划线分割

@@ -290,17 +290,17 @@ fn.call(obj, p) // 应用函数
 <p>命名空间模式：</p>
 <pre><code class="language-js"><span class="hljs-keyword">var</span> myapp = myapp || {}
 myapp.<span class="hljs-property">namespace</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params">path</span>) {
-	<span class="hljs-keyword">let</span> parts = path.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>)
-	<span class="hljs-keyword">if</span> (parts[<span class="hljs-number">0</span>] === <span class="hljs-string">&#x27;myapp&#x27;</span>) {
-		parts.<span class="hljs-title function_">pop</span>()
-	}
-	<span class="hljs-keyword">let</span> parent = myapp
-	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt;parts.<span class="hljs-property">length</span>; i++) {
-		<span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> parent[parts[i]] === <span class="hljs-string">&#x27;undefined&#x27;</span>) {
-			parent[parts[i]] = {}
-		}
-		parent = parent[part[i]]
-	}
+  <span class="hljs-keyword">let</span> parts = path.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>)
+  <span class="hljs-keyword">if</span> (parts[<span class="hljs-number">0</span>] === <span class="hljs-string">&#x27;myapp&#x27;</span>) {
+    parts.<span class="hljs-title function_">pop</span>()
+  }
+  <span class="hljs-keyword">let</span> parent = myapp
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; parts.<span class="hljs-property">length</span>; i++) {
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> parent[parts[i]] === <span class="hljs-string">&#x27;undefined&#x27;</span>) {
+      parent[parts[i]] = {}
+    }
+    parent = parent[part[i]]
+  }
 }
 </code></pre>
 <p>声明依赖关系</p>
@@ -319,11 +319,11 @@ myapp.<span class="hljs-property">namespace</span> = <span class="hljs-keyword">
 私有性失效：当特权方法返回私有的对象时。返回的是该对象的引用。若在闭包外修改该对象，则闭包内也会受到影响。</p>
 <pre><code class="language-js"><span class="hljs-comment">// 接上段代码</span>
 f.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span> = (<span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
-	<span class="hljs-comment">// other code</span>
-	<span class="hljs-keyword">return</span> {
-		<span class="hljs-attr">a</span>: a,
-		<span class="hljs-attr">b</span>: b,
-	}
+  <span class="hljs-comment">// other code</span>
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">a</span>: a,
+    <span class="hljs-attr">b</span>: b,
+  }
 })()
 <span class="hljs-comment">// 闭包与原型对象结合使用，可使用所有实例拥有该功能。</span>
 </code></pre>
@@ -502,16 +502,16 @@ if (typeof Function.prototype.bind === 'undefined') {
 <h2 id="单例模式">单例模式</h2>
 <p>一个特定类只有一个实例。</p>
 <pre><code class="language-js"><span class="hljs-keyword">var</span> universe
-(<span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
-	<span class="hljs-keyword">var</span> instance
-	universe = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
-		<span class="hljs-keyword">if</span> (instance) {
-			<span class="hljs-keyword">return</span> instance
-		}
-		instance = <span class="hljs-variable language_">this</span>
-		<span class="hljs-variable language_">this</span>.<span class="hljs-property">a</span> = <span class="hljs-string">&#x27;a&#x27;</span>
-		<span class="hljs-variable language_">this</span>.<span class="hljs-property">b</span> = <span class="hljs-string">&#x27;b&#x27;</span>
-	}
+;(<span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">var</span> instance
+  universe = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">if</span> (instance) {
+      <span class="hljs-keyword">return</span> instance
+    }
+    instance = <span class="hljs-variable language_">this</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">a</span> = <span class="hljs-string">&#x27;a&#x27;</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">b</span> = <span class="hljs-string">&#x27;b&#x27;</span>
+  }
 })()
 </code></pre>
 <h2 id="多例模式">多例模式</h2>
@@ -670,7 +670,7 @@ a.publish('t')
 <li>在可能的情况下使用 selector api.</li>
 <li>当在 html 容器中重复使用时，缓存重复的次数。</li>
 </ul>
-<h2 id="操作-dom">操作 dom</h2>
+<h2 id="操作dom"><a href="/language/javascript/opDom.html">操作dom</a></h2>
 <ul>
 <li>先整理文档碎片，</li>
 <li>再一次插入到合适的父节点。</li>
