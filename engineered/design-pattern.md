@@ -1,5 +1,8 @@
 # 设计模式
 
+> 可以在大范围内使用，也可以在小范围内使用。
+> 在实际开发中，一般多种开发方式混合在一起。
+
 - 创建型
   - 工厂模式
   - 单例模式
@@ -16,12 +19,12 @@
   - 策略模式
   - 模板方法模式
   - 观察者模式
+  - 发布订阅模式
   - 迭代器模式
   - 职责链模式
   - 模块模式
   - 命令模式
   - 备忘录模式
-  - 发布订阅模式
   - 状态模式
   - 访问者模式
   - 中介模式
@@ -47,6 +50,7 @@
 
 抽象了创建具体对象的过程。就是使用工厂函数。  
 该模式就是为了创建对象。
+像工厂产出统一套件一样。
 
 ```
 function createPerson (name, age, job) {
@@ -65,6 +69,7 @@ function createPerson (name, age, job) {
 
 也叫单体模式，核心思想是确保一个类只对应一个实例。即使多次实例化。其实例结果是相同的。
 在实现中只能有一个的事物。如：一个公司只能有一个会计系统，一个超市只能有一个收银系统。
+esm 规范的模块天然支持单例模式。
 
 ```
 var Singleton = function () {
@@ -93,8 +98,11 @@ a === b
 ```
 
 store(redux/vuex/pinia)/injector
+在[util](/util/index.html) [proxy](/language/javascript/proxyReflect.html) [decorator](/language/javascript/decorator.html)中在此示例。
 
 ## 原型模式
+
+就是实例化一个类
 
 ```
 function Foo () {}
@@ -105,6 +113,7 @@ var foo = new Foo()
 ## 适配器模式
 
 把不合适的接口从一个合适的接口输出。
+常用于统一“接口”
 
 ```
 // 若
@@ -149,7 +158,7 @@ class MyClass {
 ## 代理模式
 
 用来控制访问本体对象。在模块模式的基础上开发出来的模式。先写一个单一原则的方法。再写一个控制触发该方法的方法（代理）
-是把一些开销很大的对象，延迟到真正需要它的时候才去创建执行
+是把一些开销很大的对象，延迟到真正需要它的时候才去创建执行。
 一般用于：隔离、保护、验证、阻隔、缓冲、代理等。
 
 ```
@@ -211,6 +220,8 @@ function preventDefault() {}
 
 类的嵌套。
 可利用常用的基本类。
+与依赖注入相反。
+依赖注入是单例的。桥接模式是多例的。
 
 ```
 class Base0 {}
@@ -287,6 +298,7 @@ circle.draw()
 
 策略模式可看作为 if/else 判断的另一种表现形式，在达到相同目的的同时，减少了代码量以及代码维护成本。  
 分离算法的使用、算法的实现。
+常用于表单验证、活动奖品。
 
 ```js
 // demo0
@@ -299,7 +311,7 @@ let result = realize[param] ? realize[param]() : null
 
 // demo1
 // html
-<form>
+// <form>
 // js
 document.getElementById('submit').on('click', (event) => {
   event.preventDefault()
@@ -348,6 +360,7 @@ Validator.prototype.test = (rules) => {
 模板方法模式由二部分组成，第一部分是抽象父类，第二部分是具体实现的子类。
 在子类中的方法修改父类中的方法。
 很像抽象类。
+常用于
 基本实践过程如下：
 
 ```
@@ -374,7 +387,7 @@ SaveUser.prototype.check = (name) => {
 
 ## 观察者模式
 
-也叫发布订阅模式
+常用于统一分发消息。
 
 ```
                  subject
@@ -440,10 +453,16 @@ sub.add(o0, o1)
 sub.notify()
 ```
 
+## 发布订阅模式
+
+常用于监听变化、事件传递、消息通信、流式处理。  
+[用 proxy 写的示例](/language/javascript/proxyReflect.html)
+
 ## 迭代器模式
 
 实现统一遍历接口。  
 内部迭代器
+用于遍历。
 
 ```js
 $.each(['a', 'b', 'c'], function (index, value) {
@@ -484,10 +503,15 @@ ite.next() // {value: undefined, done: true}
 消除请求的发送者与接收者的耦合。
 
 1.  发送者知道链中的第一个接收者，它向这个接收者发送该请求。
-2.  每一个接收者都对请求进行分析，然后要么处理它，要么它往下传递。
+2.  每一个接收者都对请求进行分析，然后要么处理它，要么把它往下传递。
 3.  每一个接收者只知道它在链中的下家(successor)。
 4.  如果没有任何接收者处理请求，那么请求会从链中离开。
 5.  过程很像链表。
+6.  一般最后一个是兜底的。
+
+有点像 compose / 葫芦娃救爷爷 /
+可以代替 switch。
+常用于解决方案排队。
 
 ```js
 function order500(orderType, isPay, count) {
@@ -548,9 +572,11 @@ chainOrder500.passRequest(2, true, 500) // 亲爱的用户，您中奖了20元�
 chainOrder500.passRequest(3, true, 500) // 亲爱的用户，您已抽到10元优惠卷
 chainOrder500.passRequest(1, false, 0) // 亲爱的用户，请再接再厉哦
 
-// 我优化过的
+// 我优化过的1
+let symbol = Symbol.for('chain')
 class Chain {
-  constructor(...fnList) {
+  constructor(threshold, ...fnList) {
+    this.threshold = threshold
     this._fnMap = new Map(fnList.map((item) => [item, Symbol()]))
   }
   add(fn) {
@@ -562,12 +588,10 @@ class Chain {
   get fnList() {
     return Array.from(this._fnMap.keys())
   }
-  // set fnList() {}
   passRequest(threshold, ...args) {
     let res
     for (let i = 0; i < this.fnList.length; i++) {
       res = this.fnList[i](...args)
-      console.log('sdfa', res, threshold)
       if (res === threshold) {
         break
       }
@@ -576,20 +600,26 @@ class Chain {
   }
 }
 let fn0 = (a) => {
-  clog('fn0', a)
-  return ''
+  if ((a = 1)) {
+    return 1
+  } else {
+    return symbol
+  }
 }
-let fn1 = (a, b) => {
-  clog('fn1', a, b)
+let fn1 = (a) => {
+  if ((a = 2)) {
+    return 2
+  } else {
+    return symbol
+  }
 }
 let fn2 = (a, b, c) => {
-  clog('fn2', a, b, c)
+  return 3
 }
-let c = new Chain(fn0, fn1, fn2)
-// c.add((a, b) => {clog('fn3', a, b)})
-// c.remove(fn2)
-c.passRequest('q', 1, 2, 4, 5)
+let c = new Chain(symbol, fn0, fn1, fn2)
+clog(c.passRequest(0))
 
+// 我优化过的2
 let chain = function (threshold, ...fnList) {
   this.fnList = fnList
   return (...args) => {
@@ -617,7 +647,7 @@ let fn2 = (a, b, c) => {
   clog('fn2', a, b, c)
 }
 let cf = chain(Symbol.for('chain'), fn0, fn1, fn2)
-cf('a', 'b', 'c') // 输出到fn2
+cf('a', 'b', 'c') // 输出到fn1
 ```
 
 ```js
@@ -675,6 +705,8 @@ chainFn1.passRequest() // 打印出1，2 过1秒后 会打印出3
 ## 模块模式
 
 把方法、属性分为分开的与私有的。
+像闭包。
+常用于模块化
 
 ```js
 // 闭包
@@ -733,108 +765,115 @@ class DutyChain {
 执行一个执行某些特定事情的指令。像是封装了一个方法。  
 把需要重用的逻辑封装为一个方法，再在需要的地方调用此方法。
 
-```
+```js
 // 如下代码上的四个按钮 点击事件
-var b1 = document.getElementById("button1"),
-    b2 = document.getElementById("button2"),
-    b3 = document.getElementById("button3"),
-    b4 = document.getElementById("button4");
+var b1 = document.getElementById('button1'),
+  b2 = document.getElementById('button2'),
+  b3 = document.getElementById('button3'),
+  b4 = document.getElementById('button4')
 /*
  bindEnv函数负责往按钮上面安装点击命令。点击按钮后，会调用
  函数
  */
-var bindEnv = function(button,func) {
-    button.onclick = function(){
-        func();
-    }
-};
+var bindEnv = function (button, func) {
+  button.onclick = function () {
+    func()
+  }
+}
 // 现在我们来编写具体处理业务逻辑代码
 var Todo1 = {
-    test1: function(){
-        alert("我是来做第一个测试的");
-    }
-};
+  test1: function () {
+    alert('我是来做第一个测试的')
+  },
+}
 // 实现业务中的增删改操作
 var Menu = {
-    add: function(){
-        alert("我是来处理一些增加操作的");
-    },
-    del: function(){
-        alert("我是来处理一些删除操作的");
-    },
-    update: function(){
-        alert("我是来处理一些更新操作的");
-    }
-};
+  add: function () {
+    alert('我是来处理一些增加操作的')
+  },
+  del: function () {
+    alert('我是来处理一些删除操作的')
+  },
+  update: function () {
+    alert('我是来处理一些更新操作的')
+  },
+}
 // 调用函数
-bindEnv(b1,Todo1.test1);
+bindEnv(b1, Todo1.test1)
 // 增加按钮
-bindEnv(b2,Menu.add);
+bindEnv(b2, Menu.add)
 // 删除按钮
-bindEnv(b3,Menu.del);
+bindEnv(b3, Menu.del)
 // 更改按钮
-bindEnv(b4,Menu.update);
+bindEnv(b4, Menu.update)
 ```
 
-```
+```js
 var command1 = {
-    execute: function(){
-        console.log(1);
-    }
-};
+  execute: function () {
+    console.log(1)
+  },
+}
 var command2 = {
-    execute: function(){
-        console.log(2);
-    }
-};
+  execute: function () {
+    console.log(2)
+  },
+}
 var command3 = {
-    execute: function(){
-        console.log(3);
-    }
-};
+  execute: function () {
+    console.log(3)
+  },
+}
 // 定义宏命令，command.add方法把子命令添加进宏命令对象，
 // 当调用宏命令对象的execute方法时，会迭代这一组命令对象，
 // 并且依次执行他们的execute方法。
-var command = function(){
-    return {
-        commandsList: [],
-        add: function(command){
-            this.commandsList.push(command);
-        },
-        execute: function(){
-            for(var i = 0,commands = this.commandsList.length; i < commands; i+=1) {
-                this.commandsList[i].execute();
-            }
-        }
-    }
-};
+var command = function () {
+  return {
+    commandsList: [],
+    add: function (command) {
+      this.commandsList.push(command)
+    },
+    execute: function () {
+      for (
+        var i = 0, commands = this.commandsList.length;
+        i < commands;
+        i += 1
+      ) {
+        this.commandsList[i].execute()
+      }
+    },
+  }
+}
 // 初始化宏命令
-var c = command();
-c.add(command1);
-c.add(command2);
-c.add(command3);
+var c = command() // 这是门面模式
+c.add(command1)
+c.add(command2)
+c.add(command3)
 ```
 
 ## 备忘录模式
 
 也叫缓存模式。在一个栈中保存多个状态。当需要返回前一个状态时，从栈中弹出一状态。直到栈为空。  
 与缓存相关的算法有[fifo/lru/lfu](/jsPackages/data-footstone.html)
+常用于缓存频繁计算时。
 
 ```js
 class Memo {
   constructor() {
-    this.state = new Map()
+    // 同时支持有序、无序。
+    // 复杂度支持1、n
+    this.stateKeyMap = new Map()
     this.stateKeyList = []
   }
   // 保存状态
   push(key, state) {
     this.stateKeyList.push(key)
     let KEY = Symbol.for(key)
-    this.state.set(KEY, state)
+    this.stateKeyMap.set(KEY, state)
   }
   // 查看指定状态
   peek(key) {
-    return this.state.get(Symbol.for(key))
+    return this.stateKeyMap.get(Symbol.for(key))
   }
   // 弹出最后一个状态
   pop() {
@@ -848,14 +887,14 @@ class Memo {
     let index = this.stateKeyList.findIndex((item) => item === key)
     if (index > -1) {
       this.stateKeyList.splice(index, 1)
-      this.state.delete(Symbol.for(key))
+      this.stateKeyMap.delete(Symbol.for(key))
     }
   }
   // 查看所有状态
   allState() {
     // [[k, v], [k0, v0], ...]
     return this.stateKeyList.reduce((r, c) => {
-      r.push([c, this.state.get(Symbol.for(c))])
+      r.push([c, this.stateKeyMap.get(Symbol.for(c))])
       return r
     }, [])
   }
@@ -864,24 +903,44 @@ class Memo {
 
 ## 状态模式
 
-定义一个对象。这个对象里定义了很多状态及对应的方法，再暴露一个改变状态的接口，再暴露一个调用的接口。
+定义一个对象。这个对象里定义了很多状态及对应的方法（这种对应关系有点像策略模式），再暴露一个改变状态的接口，再暴露一个调用的接口。
+每个状态下都有特定行为。
 
-```
+状态模式与其他模式的关系
+|模式|关系|区别|
+|-|-|-|
+|策略|结构相似，意图不同|策略模式选择算法，状态模式管理状态转换|
+|命令|都可封装行为|命令封装操作，状态封装状态相关行为|
+|享元|共享状态对象|享元共享对象，状态模式管理状态转换|
+|单例|状态对象可共享|单例确保唯一实例，状态模式管理状态|
+|职责链|-|职责链模式每个方法依次尝试。状态可以改变。职责链模式不能改变。|
+
+```js
+// 这个示例不对。
+// 应该体现出多种状态中相同或不同方法名的不同逻辑。
 class user {
-  constructor () {
+  constructor() {
     this.currentState = []
     this.states = {
-      move: () => {console.log('move')},
-      stop: () => {console.log('stop')},
-      speak: () => {console.log('speak')}
+      move: () => {
+        console.log('move')
+      },
+      stop: () => {
+        console.log('stop')
+      },
+      speak: () => {
+        console.log('speak')
+      },
     }
   }
-  changeStatus (...state) {
+  changeStatus(...state) {
     this.currentState = state
     return this
   }
-  goAhead () {
-    this.currentState.forEach(item => this.states[item] && this.states[item]())
+  goAhead() {
+    this.currentState.forEach(
+      (item) => this.states[item] && this.states[item]()
+    )
     return this
   }
 }
@@ -889,101 +948,81 @@ class user {
 
 ## 访问者模式
 
-在 js 这种弱类型语言里，很多方法里都不做对象的类型检测，而是只关心这些对象能做什么。  
-根据不同的访问者调用不同的方法。  
 把数据与操作数据的方法分开。  
-常用到`abc`方法。
+数据在被访问者里面。
+操作数据在访问者里面。
+因为把 2 者分开了，所以需要处理 n 个数据与 n 个操作数据的方法的逻辑。
+当被访问者集合在一起后，可以优雅地遍历对象。
+常用于数据与操作数据的逻辑分离。
 
-```
-function Chicken (name) {
-  this.name = name
-}
-Chicken.prototype.kind = 'chicken'
-Chicken.prototype.speak = function () {
-  console.log(`${this.name}: ji ji`)
-}
-function Duck (name) {
-  this.name = name
-}
-Duck.prototype.kind = 'duck'
-Duck.prototype.speak = function () {
-  console.log(`${this.name}: ga ga`)
-}
-var Visitor = {
-  speak: function (...rest) {
-    let [that, ...params] = rest
-    // console.log(that, params, this)
-    return Chicken.prototype.speak.apply(this, params)
+```ts
+class Shape {
+  constructor() {}
+  accept(visitor) {
+    return visitor.visit(this)
   }
 }
-var c = new Chicken('c')
-var d = new Duck('d')
-// console.log(d)
-d.speak = Visitor.speak
-d.speak()
+class Circle extends Shape {
+  radius: N
+  constructor(radius) {
+    super()
+    this.radius = radius
+  }
+}
+class Rectangle extends Shape {
+  width: N
+  height: N
+  constructor(width: N, height: N) {
+    super()
+    this.width = width
+    this.height = height
+  }
+}
+class ShapeCollection {
+  shapes: Shape[]
+  constructor() {
+    this.shapes = []
+  }
+  addShape(ele) {
+    this.shapes.push(ele)
+  }
+  accept(visitor) {
+    return this.shapes.map((shape) => {
+      return shape.accept(visitor)
+    })
+  }
+}
+class AreaVisitor {
+  visit(ele) {
+    let res = 0
+    switch (ele.constructor) {
+      case Rectangle:
+        res = ele.width * ele.height
+        break
+      case Circle:
+        res = ele.radius ** 2 * Math.PI
+        break
+    }
+    return res
+  }
+}
+
+let circle = new Circle(5)
+let rectangle = new Rectangle(2, 3)
+let shapeCollection = new ShapeCollection()
+shapeCollection.addShape(circle)
+shapeCollection.addShape(rectangle)
+let visitor = new AreaVisitor()
+clog(shapeCollection.accept(visitor))
 ```
 
 ## 中介模式
 
 解耦对象与对象（数据与数据）之间关系。使二者间尽可能解耦。  
-常用于多对多的关系。
+常用于多对多的关系。像发布订阅模式。
 
-```
+```js
 // demo0
-let playerDirector = (function () {
-  let players = {}, operations = {}
-  operations.addPlayer = function (player) {
-    var teamColor = player.teamColer
-    players[teamColor] = players[teamColor] || []
-    players[teamColor].push(player)
-  }
-  operations.removePlayer = function (player) {
-    var teamColor = player.teamColer
-    players[teamColor] = players[teamColor] || []
-    let index = -1
-    players.some((item, i) => {
-      if (item.name === player.name) {
-        index = i
-        return true
-      }
-    })
-    if (index !== -1) {
-      players.splice(index, 1)
-    }
-  }
-  options.playerDead = function (player) {
-    let teamPlayers = players[player.teamColor]
-    let allDead = teamPlayers.some(item => item.state)
-    if (allDead) {
-      players.forEech(item => {
-        item.color === player.color ? item.win() : item.lose()
-      })
-    }
-  }
-  let reciveMessage: function () {
-    let [msgType, ...rest] = arguments
-    options[msgType].apply(this, rest) // 这样比`options[msgType](rest)`更安全。
-  }
-  return {reciveMessage}
-})()
-class Player () {
-  constructor (name, teamColor) {
-    this.name = name
-    this.teamColor = teamColor
-    this.state = true
-  }
-  win () {
-    console.log('win')
-  }
-  lose () {
-    console.log('lose')
-  }
-  die () {
-    playerDirector.reciveMessage('playerDead', this)
-  }
-}
-
-// demo1
 class Game {
   constructor() {
     this.playerList = new Map()
@@ -1025,13 +1064,13 @@ game.operate(p0, p1, 'xxx')
 
 解释器模式(Interpreter) : 定义一种文法的表示,并定义一种解释器, 通过这个解释器类解析对应的文法内容.
 
-1. 利用解释器类解析文法中表示的想要的意图,解决并实现对应的需求.
-2. 将一些特定类型的问题, 提供一种更简单的文法表示, 来解决对应的问题.
-3. 将一些重复出现的问题,用一种简单的语言来进行表达.
+1. 利用解释器类解析文法中表示的想要的意图，解决并实现对应的需求.
+2. 将一些特定类型的问题，提供一种更简单的文法表示, 来解决对应的问题.
+3. 将一些重复出现的问题，用一种简单的语言来进行表达.
 
 ## 环形模式
 
-这是我定义的模式。在读一起开源项目时发现常这么使用。  
+这是我定义的模式。在读一些开源项目时发现常这么使用。  
 有点像环形链表。
 
 ```js
@@ -1058,7 +1097,8 @@ let fn = (cb) => {
 
 ## 惰性模式
 
-把懒函数整理为一种设计模式
+把懒函数整理为一种设计模式。
+常用于需要经过复杂的判断后得到一个东西。
 
 ```js
 // 定义
@@ -1078,6 +1118,7 @@ fa()
 该模式提供了一个可用于模块运行的环境。yui 中就使用了此模式。  
 从全量模块中取出指定的模块。  
 书上写的太繁琐了，下面我整理的简单的。
+常用于插件、扩展。
 
 ```js
 // es5
@@ -1107,6 +1148,10 @@ export default {
 
 ## 链模式
 
+常用于链式调用。
+vue3 就是使用了此模式。对 vue3 对象上执行了一个方法，并返回 vue3 对象。
+分布式操作数组的方法支持此模式。`filter/map/reduce/forEach`
+
 ```js
 class O {
   constructor() {...}
@@ -1127,7 +1172,7 @@ let o = new O()
 o.a().b().c()
 ```
 
-## 依赖注入
+## 依赖注入模式
 
 将创建对象的任务转移给其他 class，并直接使用依赖项的过程，被称为“依赖项注入”。
 有三种类型的依赖注入：
@@ -1146,13 +1191,14 @@ o.a().b().c()
 class Player{
     Weapon weapon;
     // weapon 与 Sword类紧密耦合
+    // 这不是依赖注入模式
     Player(){
       this.weapon = new Sword();
     }
     // weapon 与 sword类紧密耦合. weapon可以是sword、gun等
+    // 这是依赖注入模式
     Player(sword){
       this.weapon = sword
-
     }
     public void attack() {
         weapon.attack();

@@ -377,15 +377,17 @@ let throttle = (t) => (target, name, descriptor) => {
 time
 redux
 // 列出调用过程
-let trace = (target, name, descriptor) => {
-    let oldValue = descriptor.value
-    // clog(target, name, descriptor)
-    descriptor.value = (...p) => {
-        console.trace()
-        oldValue(...p)
-    }
-    return descriptor
-}
+// 未解决this不对的问题
+// let trace = (target, name, descriptor) => {
+//     let oldValue = descriptor.value
+//     // clog(target, name, descriptor)
+//     descriptor.value = (...p) => {
+//         console.trace()
+//         // oldValue(...p)
+//         oldValue.apply(this, p)
+//     }
+//     return descriptor
+// }
 // 单例
 function singleton(cls) {
   let instance;

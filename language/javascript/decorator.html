@@ -334,10 +334,10 @@ c.<span class="hljs-property">foo</span> = <span class="hljs-number">150</span>;
 <li>构造方法的参数装饰器。</li>
 <li>类装饰器。</li>
 </ol>
-<pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">f</span>(<span class="hljs-params">key:string</span>):any {
+<pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">f</span>(<span class="hljs-params">key: string</span>): any {
   <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;执行：&#x27;</span>, key);
-  };
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;执行：&#x27;</span>, key)
+  }
 }
 
 @<span class="hljs-title function_">f</span>(<span class="hljs-string">&#x27;类装饰器&#x27;</span>)
@@ -348,7 +348,7 @@ c.<span class="hljs-property">foo</span> = <span class="hljs-number">150</span>;
   @<span class="hljs-title function_">f</span>(<span class="hljs-string">&#x27;实例方法&#x27;</span>)
   <span class="hljs-title function_">method</span>(<span class="hljs-params"></span>) {}
 
-  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">@f(<span class="hljs-string">&#x27;构造方法参数&#x27;</span>) foo:any</span>) {}
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">@f(<span class="hljs-string">&#x27;构造方法参数&#x27;</span>) foo: any</span>) {}
 }
 </code></pre>
 <p>输出如下：
@@ -479,15 +479,17 @@ autobind
 time
 redux
 <span class="hljs-comment">// 列出调用过程</span>
-<span class="hljs-keyword">let</span> <span class="hljs-title function_">trace</span> = (<span class="hljs-params">target, name, descriptor</span>) =&gt; {
-    <span class="hljs-keyword">let</span> oldValue = descriptor.<span class="hljs-property">value</span>
-    <span class="hljs-comment">// clog(target, name, descriptor)</span>
-    descriptor.<span class="hljs-property">value</span> = <span class="hljs-function">(<span class="hljs-params">...p</span>) =&gt;</span> {
-        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">trace</span>()
-        <span class="hljs-title function_">oldValue</span>(...p)
-    }
-    <span class="hljs-keyword">return</span> descriptor
-}
+<span class="hljs-comment">// 未解决this不对的问题</span>
+<span class="hljs-comment">// let trace = (target, name, descriptor) =&gt; {</span>
+<span class="hljs-comment">//     let oldValue = descriptor.value</span>
+<span class="hljs-comment">//     // clog(target, name, descriptor)</span>
+<span class="hljs-comment">//     descriptor.value = (...p) =&gt; {</span>
+<span class="hljs-comment">//         console.trace()</span>
+<span class="hljs-comment">//         // oldValue(...p)</span>
+<span class="hljs-comment">//         oldValue.apply(this, p)</span>
+<span class="hljs-comment">//     }</span>
+<span class="hljs-comment">//     return descriptor</span>
+<span class="hljs-comment">// }</span>
 <span class="hljs-comment">// 单例</span>
 <span class="hljs-keyword">function</span> <span class="hljs-title function_">singleton</span>(<span class="hljs-params">cls</span>) {
   <span class="hljs-keyword">let</span> instance;

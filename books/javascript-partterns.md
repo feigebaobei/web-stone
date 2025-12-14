@@ -86,7 +86,7 @@ var a, b;
 (function (a, b) {...})(a, b)
 ```
 
-```
+```js
 // defind
 function fnCurry (caption) {
 	let fn = function (...a) {
@@ -148,20 +148,20 @@ fn.call(obj, p) // 应用函数
 
 命名空间模式：
 
-```
+```js
 var myapp = myapp || {}
 myapp.namespace = function (path) {
-	let parts = path.split('.')
-	if (parts[0] === 'myapp') {
-		parts.pop()
-	}
-	let parent = myapp
-	for (let i = 0; i <parts.length; i++) {
-		if (typeof parent[parts[i]] === 'undefined') {
-			parent[parts[i]] = {}
-		}
-		parent = parent[part[i]]
-	}
+  let parts = path.split('.')
+  if (parts[0] === 'myapp') {
+    parts.pop()
+  }
+  let parent = myapp
+  for (let i = 0; i < parts.length; i++) {
+    if (typeof parent[parts[i]] === 'undefined') {
+      parent[parts[i]] = {}
+    }
+    parent = parent[part[i]]
+  }
 }
 ```
 
@@ -171,7 +171,7 @@ myapp.namespace = function (path) {
 - 解析局部变量比解析全局变量快
   闭包：
 
-```
+```js
 function f () {
 	let a = 'str' // 无法被外部直接访问
 	let b = () => {...}
@@ -180,23 +180,23 @@ function f () {
 ```
 
 特权方法：可以访问私有属性的方法
-私有性失效：当特权方法返回私有的对象时。返回的是该对象的引用。若在闭包外修改该对象，则闭包内也会受动影响。
+私有性失效：当特权方法返回私有的对象时。返回的是该对象的引用。若在闭包外修改该对象，则闭包内也会受到影响。
 
-```
+```js
 // 接上段代码
 f.prototype = (function () {
-	// other code
-	return {
-		a: a,
-		b: b,
-	}
+  // other code
+  return {
+    a: a,
+    b: b,
+  }
 })()
 // 闭包与原型对象结合使用，可使用所有实例拥有该功能。
 ```
 
 揭示模式
 
-```
+```js
 (function () {
 	function a () {...}
 	function b () {...}
@@ -214,7 +214,7 @@ f.prototype = (function () {
 - 同一个包可实现多个版本的实例
 - 解决多个访问长度
 
-```
+```js
 // defind
 function Sandbox(...modules, cb) {
 	if (!(this instanceof Sandbox)) { // 当没有使用new操作符时使用new操作符
@@ -419,19 +419,19 @@ klass
 
 一个特定类只有一个实例。
 
-```
+```js
 var universe
-(function() {
-	var instance
-	universe = function () {
-		if (instance) {
-			return instance
-		}
-		instance = this
-		this.a = 'a'
-		this.b = 'b'
-	}
-	})()
+;(function () {
+  var instance
+  universe = function () {
+    if (instance) {
+      return instance
+    }
+    instance = this
+    this.a = 'a'
+    this.b = 'b'
+  }
+})()
 ```
 
 ## 多例模式
@@ -687,8 +687,8 @@ new Image().src = "https://www.temp.org"
 - 按需加载
 - 预加载
 
-# 后记
-
 ## 惰性函数会越执行越快么？
 
 不会，会在第一次执行时做若干判断，返回一个新函数。其后执行该新函数。
+
+# 后记

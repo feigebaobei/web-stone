@@ -999,7 +999,9 @@ c.<span class="hljs-title function_">add</span>(command3);
 </tr>
 </tbody>
 </table>
-<pre><code class="language-js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">user</span> {
+<pre><code class="language-js"><span class="hljs-comment">// 这个示例不对。</span>
+<span class="hljs-comment">// 应该体现出多种状态中相同或不同方法名的不同逻辑。</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">user</span> {
   <span class="hljs-title function_">constructor</span> () {
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentState</span> = []
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">states</span> = {
@@ -1019,140 +1021,120 @@ c.<span class="hljs-title function_">add</span>(command3);
 }
 </code></pre>
 <h2 id="访问者模式">访问者模式</h2>
-<p>在 js 这种弱类型语言里，很多方法里都不做对象的类型检测，而是只关心这些对象能做什么。<br>
-根据不同的访问者调用不同的方法。<br>
-把数据与操作数据的方法分开。<br>
-常用到<code>abc</code>方法。</p>
-<pre><code>function Chicken (name) {
-  this.name = name
+<p>把数据与操作数据的方法分开。<br>
+数据在被访问者里面。
+操作数据在访问者里面。
+因为把2者分开了，所以需要处理n个数据与n个操作数据的方法的逻辑。
+当被访问者集合在一起后，可以优雅地遍历对象。
+常用于数据与操作数据的逻辑分离。</p>
+<pre><code class="language-ts"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Shape</span> {
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {}
+    <span class="hljs-title function_">accept</span>(<span class="hljs-params">visitor</span>) {
+        <span class="hljs-keyword">return</span> visitor.<span class="hljs-title function_">visit</span>(<span class="hljs-variable language_">this</span>)
+    }
 }
-Chicken.prototype.kind = 'chicken'
-Chicken.prototype.speak = function () {
-  console.log(`${this.name}: ji ji`)
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Circle</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Shape</span> {
+    <span class="hljs-attr">radius</span>: N
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params">radius</span>) {
+        <span class="hljs-variable language_">super</span>()
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">radius</span> = radius
+    }
 }
-function Duck (name) {
-  this.name = name
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Rectangle</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Shape</span> {
+    <span class="hljs-attr">width</span>: N
+    <span class="hljs-attr">height</span>: N
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params">width: N, height: N</span>) {
+        <span class="hljs-variable language_">super</span>()
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">width</span> = width
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">height</span> = height
+    }
 }
-Duck.prototype.kind = 'duck'
-Duck.prototype.speak = function () {
-  console.log(`${this.name}: ga ga`)
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">ShapeCollection</span> {
+    <span class="hljs-attr">shapes</span>: <span class="hljs-title class_">Shape</span>[]
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">shapes</span> = []
+    }
+    <span class="hljs-title function_">addShape</span>(<span class="hljs-params">ele</span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">shapes</span>.<span class="hljs-title function_">push</span>(ele)
+    }
+    <span class="hljs-title function_">accept</span>(<span class="hljs-params">visitor</span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">shapes</span>.<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">shape</span> =&gt;</span> {
+            <span class="hljs-keyword">return</span> shape.<span class="hljs-title function_">accept</span>(visitor)
+        })
+    }
 }
-var Visitor = {
-  speak: function (...rest) {
-    let [that, ...params] = rest
-    // console.log(that, params, this)
-    return Chicken.prototype.speak.apply(this, params)
-  }
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">AreaVisitor</span> {
+    <span class="hljs-title function_">visit</span>(<span class="hljs-params">ele</span>) {
+        <span class="hljs-keyword">let</span> res = <span class="hljs-number">0</span>
+        <span class="hljs-keyword">switch</span> (ele.<span class="hljs-property">constructor</span>) {
+            <span class="hljs-keyword">case</span> <span class="hljs-title class_">Rectangle</span>:
+                res = ele.<span class="hljs-property">width</span> * ele.<span class="hljs-property">height</span>
+                <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-title class_">Circle</span>:
+                res = ele.<span class="hljs-property">radius</span> ** <span class="hljs-number">2</span> * <span class="hljs-title class_">Math</span>.<span class="hljs-property">PI</span>
+                <span class="hljs-keyword">break</span>;
+        }
+        <span class="hljs-keyword">return</span> res
+    }
 }
-var c = new Chicken('c')
-var d = new Duck('d')
-// console.log(d)
-d.speak = Visitor.speak
-d.speak()
+
+<span class="hljs-keyword">let</span> circle = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Circle</span>(<span class="hljs-number">5</span>)
+<span class="hljs-keyword">let</span> rectangle = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Rectangle</span>(<span class="hljs-number">2</span>, <span class="hljs-number">3</span>)
+<span class="hljs-keyword">let</span> shapeCollection = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ShapeCollection</span>()
+shapeCollection.<span class="hljs-title function_">addShape</span>(circle)
+shapeCollection.<span class="hljs-title function_">addShape</span>(rectangle)
+<span class="hljs-keyword">let</span> visitor = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AreaVisitor</span>()
+<span class="hljs-title function_">clog</span>(shapeCollection.<span class="hljs-title function_">accept</span>(visitor))
 </code></pre>
 <h2 id="中介模式">中介模式</h2>
 <p>解耦对象与对象（数据与数据）之间关系。使二者间尽可能解耦。<br>
-常用于多对多的关系。</p>
-<pre><code>// demo0
-let playerDirector = (function () {
-  let players = {}, operations = {}
-  operations.addPlayer = function (player) {
-    var teamColor = player.teamColer
-    players[teamColor] = players[teamColor] || []
-    players[teamColor].push(player)
+常用于多对多的关系。像发布订阅模式。</p>
+<pre><code class="language-js"><span class="hljs-comment">// demo0</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Game</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">playerList</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>()
   }
-  operations.removePlayer = function (player) {
-    var teamColor = player.teamColer
-    players[teamColor] = players[teamColor] || []
-    let index = -1
-    players.some((item, i) =&gt; {
-      if (item.name === player.name) {
-        index = i
-        return true
-      }
-    })
-    if (index !== -1) {
-      players.splice(index, 1)
-    }
-  }
-  options.playerDead = function (player) {
-    let teamPlayers = players[player.teamColor]
-    let allDead = teamPlayers.some(item =&gt; item.state)
-    if (allDead) {
-      players.forEech(item =&gt; {
-        item.color === player.color ? item.win() : item.lose()
-      })
-    }
-  }
-  let reciveMessage: function () {
-    let [msgType, ...rest] = arguments
-    options[msgType].apply(this, rest) // 这样比`options[msgType](rest)`更安全。
-  }
-  return {reciveMessage}
-})()
-class Player () {
-  constructor (name, teamColor) {
-    this.name = name
-    this.teamColor = teamColor
-    this.state = true
-  }
-  win () {
-    console.log('win')
-  }
-  lose () {
-    console.log('lose')
-  }
-  die () {
-    playerDirector.reciveMessage('playerDead', this)
-  }
-}
-
-// demo1
-class Game {
-  constructor() {
-    this.playerList = new Map()
-  }
-  addPlayer(...ps) {
-    ps.forEach(p =&gt; {
-      this.playerList.set(p.name, p)
+  <span class="hljs-title function_">addPlayer</span>(<span class="hljs-params">...ps</span>) {
+    ps.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">p</span> =&gt;</span> {
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">playerList</span>.<span class="hljs-title function_">set</span>(p.<span class="hljs-property">name</span>, p)
     })
   }
-  removePlayer(p) {
-    this.playerList.delete(p.name)
+  <span class="hljs-title function_">removePlayer</span>(<span class="hljs-params">p</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">playerList</span>.<span class="hljs-title function_">delete</span>(p.<span class="hljs-property">name</span>)
   }
-  operate(source, target, operation) {
-    switch(operation) {
-      case '...':
-        // source.fn0()
-        // target.fn1()
-        break
+  <span class="hljs-title function_">operate</span>(<span class="hljs-params">source, target, operation</span>) {
+    <span class="hljs-keyword">switch</span>(operation) {
+      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;...&#x27;</span>:
+        <span class="hljs-comment">// source.fn0()</span>
+        <span class="hljs-comment">// target.fn1()</span>
+        <span class="hljs-keyword">break</span>
     }
   }
 }
-class Player {
-  constructor(name, ...rest) {
-    this.name = name
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Player</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">name, ...rest</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span> = name
   }
-  fn0() {...}
-  fn1() {...}
+  <span class="hljs-title function_">fn0</span>(<span class="hljs-params"></span>) {...}
+  <span class="hljs-title function_">fn1</span>(<span class="hljs-params"></span>) {...}
 }
-const game = new Game()
-let p0 = new Player('p0')
-let p1 = new Player('p1')
-let p2 = new Player('p2')
-game.addPlayer(p0, p1, p2)
-// 某情况下触发了：
-game.operate(p0, p1, 'xxx')
+<span class="hljs-keyword">const</span> game = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Game</span>()
+<span class="hljs-keyword">let</span> p0 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Player</span>(<span class="hljs-string">&#x27;p0&#x27;</span>)
+<span class="hljs-keyword">let</span> p1 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Player</span>(<span class="hljs-string">&#x27;p1&#x27;</span>)
+<span class="hljs-keyword">let</span> p2 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Player</span>(<span class="hljs-string">&#x27;p2&#x27;</span>)
+game.<span class="hljs-title function_">addPlayer</span>(p0, p1, p2)
+<span class="hljs-comment">// 某情况下触发了：</span>
+game.<span class="hljs-title function_">operate</span>(p0, p1, <span class="hljs-string">&#x27;xxx&#x27;</span>)
 </code></pre>
 <h2 id="解释器模式">解释器模式</h2>
 <p>解释器模式(Interpreter) : 定义一种文法的表示,并定义一种解释器, 通过这个解释器类解析对应的文法内容.</p>
 <ol>
-<li>利用解释器类解析文法中表示的想要的意图,解决并实现对应的需求.</li>
-<li>将一些特定类型的问题, 提供一种更简单的文法表示, 来解决对应的问题.</li>
-<li>将一些重复出现的问题,用一种简单的语言来进行表达.</li>
+<li>利用解释器类解析文法中表示的想要的意图，解决并实现对应的需求.</li>
+<li>将一些特定类型的问题，提供一种更简单的文法表示, 来解决对应的问题.</li>
+<li>将一些重复出现的问题，用一种简单的语言来进行表达.</li>
 </ol>
 <h2 id="环形模式">环形模式</h2>
-<p>这是我定义的模式。在读一起开源项目时发现常这么使用。<br>
+<p>这是我定义的模式。在读一些开源项目时发现常这么使用。<br>
 有点像环形链表。</p>
 <pre><code class="language-js"><span class="hljs-keyword">let</span> o = {
   <span class="hljs-attr">k</span>: <span class="hljs-string">&#x27;v&#x27;</span>,
@@ -1171,7 +1153,8 @@ o.<span class="hljs-property">origin</span> = o
 }
 </code></pre>
 <h2 id="惰性模式">惰性模式</h2>
-<p>把懒函数整理为一种设计模式</p>
+<p>把懒函数整理为一种设计模式。
+常用于需要经过复杂的判断后得到一个东西。</p>
 <pre><code class="language-js"><span class="hljs-comment">// 定义</span>
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">fn</span> = (<span class="hljs-params"></span>) =&gt; {
   <span class="hljs-comment">// 若干环境判断</span>
@@ -1186,7 +1169,8 @@ o.<span class="hljs-property">origin</span> = o
 <h2 id="沙箱模式">沙箱模式</h2>
 <p>该模式提供了一个可用于模块运行的环境。yui 中就使用了此模式。<br>
 从全量模块中取出指定的模块。<br>
-书上写的太繁琐了，下面我整理的简单的。</p>
+书上写的太繁琐了，下面我整理的简单的。
+常用于插件、扩展。</p>
 <pre><code class="language-js"><span class="hljs-comment">// es5</span>
 <span class="hljs-keyword">let</span> allModules = {
   <span class="hljs-attr">a</span>: fn,
@@ -1212,6 +1196,9 @@ o.<span class="hljs-property">origin</span> = o
 }
 </code></pre>
 <h2 id="链模式">链模式</h2>
+<p>常用于链式调用。
+vue3就是使用了此模式。对vue3对象上执行了一个方法，并返回vue3对象。
+分布式操作数组的方法支持此模式。<code>filter/map/reduce/forEach</code></p>
 <pre><code class="language-js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">O</span> {
   <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {...}
   <span class="hljs-attr">a</span>: <span class="hljs-function">() =&gt;</span> {
@@ -1230,7 +1217,7 @@ o.<span class="hljs-property">origin</span> = o
 <span class="hljs-keyword">let</span> o = <span class="hljs-keyword">new</span> <span class="hljs-title function_">O</span>()
 o.<span class="hljs-title function_">a</span>().<span class="hljs-title function_">b</span>().<span class="hljs-title function_">c</span>()
 </code></pre>
-<h2 id="依赖注入">依赖注入</h2>
+<h2 id="依赖注入模式">依赖注入模式</h2>
 <p>将创建对象的任务转移给其他 class，并直接使用依赖项的过程，被称为“依赖项注入”。
 有三种类型的依赖注入：</p>
 <ul>
@@ -1244,13 +1231,14 @@ o.<span class="hljs-title function_">a</span>().<span class="hljs-title function
 <pre><code class="language-js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Player</span>{
     <span class="hljs-title class_">Weapon</span> weapon;
     <span class="hljs-comment">// weapon 与 Sword类紧密耦合</span>
+    <span class="hljs-comment">// 这不是依赖注入模式</span>
     <span class="hljs-title class_">Player</span>(){
       <span class="hljs-variable language_">this</span>.<span class="hljs-property">weapon</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Sword</span>();
     }
     <span class="hljs-comment">// weapon 与 sword类紧密耦合. weapon可以是sword、gun等</span>
+    <span class="hljs-comment">// 这是依赖注入模式</span>
     <span class="hljs-title class_">Player</span>(sword){
       <span class="hljs-variable language_">this</span>.<span class="hljs-property">weapon</span> = sword
-
     }
     public <span class="hljs-keyword">void</span> <span class="hljs-title function_">attack</span>(<span class="hljs-params"></span>) {
         weapon.<span class="hljs-title function_">attack</span>();

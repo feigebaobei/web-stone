@@ -231,40 +231,40 @@ jslint: 检测 js 代码质量的工具</li>
 <pre><code>var a, b;
 (function (a, b) {...})(a, b)
 </code></pre>
-<pre><code>// defind
-function fnCurry (caption) {
-	let fn = function (...a) {
-		let k = a.map(e =&gt; e.toString()).join(',')
-		let ele = fn.cache.find(e =&gt; {
-			return e.key === k
+<pre><code class="language-js"><span class="hljs-comment">// defind</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">fnCurry</span> (caption) {
+	<span class="hljs-keyword">let</span> fn = <span class="hljs-keyword">function</span> (<span class="hljs-params">...a</span>) {
+		<span class="hljs-keyword">let</span> k = a.<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> e.<span class="hljs-title function_">toString</span>()).<span class="hljs-title function_">join</span>(<span class="hljs-string">&#x27;,&#x27;</span>)
+		<span class="hljs-keyword">let</span> ele = fn.<span class="hljs-property">cache</span>.<span class="hljs-title function_">find</span>(<span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> {
+			<span class="hljs-keyword">return</span> e.<span class="hljs-property">key</span> === k
 		})
-		let result
-		if (ele) {
-			result = ele.value
-			return result
+		<span class="hljs-keyword">let</span> result
+		<span class="hljs-keyword">if</span> (ele) {
+			result = ele.<span class="hljs-property">value</span>
+			<span class="hljs-keyword">return</span> result
 		}
 		}
-		// 经过计算
+		<span class="hljs-comment">// 经过计算</span>
 		result = {...}
-		if (fn.cache.length &gt;= caption) {
-			fn.cache.pop()
-			fn.cache.push({
-				key: k,
-				value: result
+		<span class="hljs-keyword">if</span> (fn.<span class="hljs-property">cache</span>.<span class="hljs-property">length</span> &gt;= caption) {
+			fn.<span class="hljs-property">cache</span>.<span class="hljs-title function_">pop</span>()
+			fn.<span class="hljs-property">cache</span>.<span class="hljs-title function_">push</span>({
+				<span class="hljs-attr">key</span>: k,
+				<span class="hljs-attr">value</span>: result
 			})
 		}
-		return result
+		<span class="hljs-keyword">return</span> result
 	}
-	fn.cache = [
+	fn.<span class="hljs-property">cache</span> = [
 		\\ {key, value}
 	]
-	return fn
+	<span class="hljs-keyword">return</span> fn
 }
-// usage
-let fn = fnCurry(5)
-fn(p, q)
-fn(p, q)
-fn(p, q)
+<span class="hljs-comment">// usage</span>
+<span class="hljs-keyword">let</span> fn = <span class="hljs-title function_">fnCurry</span>(<span class="hljs-number">5</span>)
+<span class="hljs-title function_">fn</span>(p, q)
+<span class="hljs-title function_">fn</span>(p, q)
+<span class="hljs-title function_">fn</span>(p, q)
 </code></pre>
 <p>配置对象模式：</p>
 <ul>
@@ -288,15 +288,15 @@ fn.call(obj, p) // 应用函数
 </ul>
 <h1 id="no5-对象创建模式">no.5 对象创建模式</h1>
 <p>命名空间模式：</p>
-<pre><code>var myapp = myapp || {}
-myapp.namespace = function (path) {
-	let parts = path.split('.')
-	if (parts[0] === 'myapp') {
-		parts.pop()
+<pre><code class="language-js"><span class="hljs-keyword">var</span> myapp = myapp || {}
+myapp.<span class="hljs-property">namespace</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params">path</span>) {
+	<span class="hljs-keyword">let</span> parts = path.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>)
+	<span class="hljs-keyword">if</span> (parts[<span class="hljs-number">0</span>] === <span class="hljs-string">&#x27;myapp&#x27;</span>) {
+		parts.<span class="hljs-title function_">pop</span>()
 	}
-	let parent = myapp
-	for (let i = 0; i &lt;parts.length; i++) {
-		if (typeof parent[parts[i]] === 'undefined') {
+	<span class="hljs-keyword">let</span> parent = myapp
+	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt;parts.<span class="hljs-property">length</span>; i++) {
+		<span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> parent[parts[i]] === <span class="hljs-string">&#x27;undefined&#x27;</span>) {
 			parent[parts[i]] = {}
 		}
 		parent = parent[part[i]]
@@ -309,29 +309,29 @@ myapp.namespace = function (path) {
 <li>解析局部变量比解析全局变量快
 闭包：</li>
 </ul>
-<pre><code>function f () {
-	let a = 'str' // 无法被外部直接访问
-	let b = () =&gt; {...}
-	return b
+<pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">f</span> () {
+	<span class="hljs-keyword">let</span> a = <span class="hljs-string">&#x27;str&#x27;</span> <span class="hljs-comment">// 无法被外部直接访问</span>
+	<span class="hljs-keyword">let</span> <span class="hljs-title function_">b</span> = (<span class="hljs-params"></span>) =&gt; {...}
+	<span class="hljs-keyword">return</span> b
 }
 </code></pre>
 <p>特权方法：可以访问私有属性的方法
-私有性失效：当特权方法返回私有的对象时。返回的是该对象的引用。若在闭包外修改该对象，则闭包内也会受动影响。</p>
-<pre><code>// 接上段代码
-f.prototype = (function () {
-	// other code
-	return {
-		a: a,
-		b: b,
+私有性失效：当特权方法返回私有的对象时。返回的是该对象的引用。若在闭包外修改该对象，则闭包内也会受到影响。</p>
+<pre><code class="language-js"><span class="hljs-comment">// 接上段代码</span>
+f.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span> = (<span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+	<span class="hljs-comment">// other code</span>
+	<span class="hljs-keyword">return</span> {
+		<span class="hljs-attr">a</span>: a,
+		<span class="hljs-attr">b</span>: b,
 	}
 })()
-// 闭包与原型对象结合使用，可使用所有实例拥有该功能。
+<span class="hljs-comment">// 闭包与原型对象结合使用，可使用所有实例拥有该功能。</span>
 </code></pre>
 <p>揭示模式</p>
-<pre><code>(function () {
-	function a () {...}
-	function b () {...}
-	return {
+<pre><code class="language-js">(<span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+	<span class="hljs-keyword">function</span> <span class="hljs-title function_">a</span> () {...}
+	<span class="hljs-keyword">function</span> <span class="hljs-title function_">b</span> () {...}
+	<span class="hljs-keyword">return</span> {
 		a,
 		b,
 	}
@@ -344,27 +344,27 @@ f.prototype = (function () {
 <li>同一个包可实现多个版本的实例</li>
 <li>解决多个访问长度</li>
 </ul>
-<pre><code>// defind
-function Sandbox(...modules, cb) {
-	if (!(this instanceof Sandbox)) { // 当没有使用new操作符时使用new操作符
-		return new Sandbox(...modules, cb)
+<pre><code class="language-js"><span class="hljs-comment">// defind</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">Sandbox</span>(<span class="hljs-params">...modules, cb</span>) {
+	<span class="hljs-keyword">if</span> (!(<span class="hljs-variable language_">this</span> <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">Sandbox</span>)) { <span class="hljs-comment">// 当没有使用new操作符时使用new操作符</span>
+		<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Sandbox</span>(...modules, cb)
 	}
-	// 为this添加属性
-	this.a = 'a'
-	this.b = 'b'
-	for (let i = 0; i &lt; modules.length; i++) {
-		Sandbox.modules[modules[i]](this) // 使this具有指定module的功能
+	<span class="hljs-comment">// 为this添加属性</span>
+	<span class="hljs-variable language_">this</span>.<span class="hljs-property">a</span> = <span class="hljs-string">&#x27;a&#x27;</span>
+	<span class="hljs-variable language_">this</span>.<span class="hljs-property">b</span> = <span class="hljs-string">&#x27;b&#x27;</span>
+	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; modules.<span class="hljs-property">length</span>; i++) {
+		<span class="hljs-title class_">Sandbox</span>.<span class="hljs-property">modules</span>[modules[i]](<span class="hljs-variable language_">this</span>) <span class="hljs-comment">// 使this具有指定module的功能</span>
 	}
-	cb(this)
+	<span class="hljs-title function_">cb</span>(<span class="hljs-variable language_">this</span>)
 }
-Sandbox.modules = {}
-Sandbox.modules.a = function() {/*实现模块a的功能*/}
-Sandbox.modules.b = function() {/*实现模块b的功能*/}
-Sandbox.modules.c = function() {/*实现模块c的功能*/}
-// usage
-let box = {} //
-new Sandbox('a', 'b', function (box) {
-	// ...
+<span class="hljs-title class_">Sandbox</span>.<span class="hljs-property">modules</span> = {}
+<span class="hljs-title class_">Sandbox</span>.<span class="hljs-property">modules</span>.<span class="hljs-property">a</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {<span class="hljs-comment">/*实现模块a的功能*/</span>}
+<span class="hljs-title class_">Sandbox</span>.<span class="hljs-property">modules</span>.<span class="hljs-property">b</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {<span class="hljs-comment">/*实现模块b的功能*/</span>}
+<span class="hljs-title class_">Sandbox</span>.<span class="hljs-property">modules</span>.<span class="hljs-property">c</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {<span class="hljs-comment">/*实现模块c的功能*/</span>}
+<span class="hljs-comment">// usage</span>
+<span class="hljs-keyword">let</span> box = {} <span class="hljs-comment">//</span>
+<span class="hljs-keyword">new</span> <span class="hljs-title class_">Sandbox</span>(<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-keyword">function</span> (<span class="hljs-params">box</span>) {
+	<span class="hljs-comment">// ...</span>
 })
 </code></pre>
 <p>链模式</p>
@@ -501,18 +501,18 @@ if (typeof Function.prototype.bind === 'undefined') {
 <h1 id="no7-设计模式">no.7 设计模式</h1>
 <h2 id="单例模式">单例模式</h2>
 <p>一个特定类只有一个实例。</p>
-<pre><code>var universe
-(function() {
-	var instance
-	universe = function () {
-		if (instance) {
-			return instance
+<pre><code class="language-js"><span class="hljs-keyword">var</span> universe
+(<span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+	<span class="hljs-keyword">var</span> instance
+	universe = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+		<span class="hljs-keyword">if</span> (instance) {
+			<span class="hljs-keyword">return</span> instance
 		}
-		instance = this
-		this.a = 'a'
-		this.b = 'b'
+		instance = <span class="hljs-variable language_">this</span>
+		<span class="hljs-variable language_">this</span>.<span class="hljs-property">a</span> = <span class="hljs-string">&#x27;a&#x27;</span>
+		<span class="hljs-variable language_">this</span>.<span class="hljs-property">b</span> = <span class="hljs-string">&#x27;b&#x27;</span>
 	}
-	})()
+})()
 </code></pre>
 <h2 id="多例模式">多例模式</h2>
 <pre><code>var inst = new ClassName()
@@ -727,9 +727,9 @@ xhr.send() // 发送请求
 <li>按需加载</li>
 <li>预加载</li>
 </ul>
-<h1 id="后记">后记</h1>
 <h2 id="惰性函数会越执行越快么">惰性函数会越执行越快么？</h2>
 <p>不会，会在第一次执行时做若干判断，返回一个新函数。其后执行该新函数。</p>
+<h1 id="后记">后记</h1>
 
             <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
             
