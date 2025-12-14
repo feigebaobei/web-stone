@@ -228,10 +228,10 @@ document.body.appendChild(el)
 
 ## proxy & decorator
 
-|     | proxy       | decorator   |
-| --- | ----------- | ----------- |
-|     | 只逆        | 不可逆      |
-|     | 基于 target | 基于 target |
-|     |             |             |
-|     |             |             |
-|     |             |             |
+|      | proxy       | decorator   | 高阶方法 |
+| ---- | ----------- | ----------- | -------- |
+|      | 只逆        | 不可逆      |          |
+|      | 基于 target | 基于 target |          |
+| 时机 | 编译时      | 编译时      |          |
+|      |             |             |          |
+|      |             |             |          |

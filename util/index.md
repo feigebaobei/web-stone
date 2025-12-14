@@ -1189,6 +1189,135 @@ let f = (arr, step = 3, allowEmpty = true) => {
     }
     return res;
 };
+// 切换状态
+class StatusNode<T> {
+    status: StatusItem<T>
+    value: T
+    canChange: S[]
+    constructor(v: T) {
+        let {value, canChange} = this.create(v)
+        this.value = value
+        this.canChange = canChange
+    }
+    // 创建状态
+    create(v: T) {
+        return {
+            value: v,
+            canChange: []
+        }
+    }
+    setCanChange(keyArr: S[]) {
+        console.trace()
+        this.canChange.push(...keyArr)
+    }
+}
+class StatusChain<T> {
+    map: Map<S, StatusNode<T>>
+    _curStatus: null | StatusNode<T>
+    _statusMap: S
+    _curStatusKey: S
+    constructor(arr: Array<[S, T]>) {
+        this.map = new Map(arr.map(([k, v]) => {
+            return [
+                k,
+                new StatusNode(v)
+            ]
+        }))
+        this._curStatus = null
+        this._curStatusKey = ''
+        this._statusMap = null
+    }
+    // 当前状态
+    setCurStatus (k: S) {
+        this._curStatus = this.map.get(k)
+        this._curStatusKey = k
+    }
+    getCurStatus() {
+        return this._curStatus.value
+    }
+    getCurStatusKey() {
+        return this._curStatusKey
+    }
+    // 一个状态可以转换到的状态
+    canChange(k: S, targetArr: S[]) {
+        this.map.get(k).setCanChange.call(this.map.get(k), targetArr)
+    }
+    // 从当前状态切换到下一个状态
+    changeStatus(key) {
+        if (this._curStatus && this._curStatus.canChange.indexOf(key) >= 0) {
+            this.setCurStatus(key)
+            return this.getCurStatus()
+        } else {
+            throw new Error('当前状态不能切换到目标状态')
+        }
+    }
+    // 读出图谱
+    get statusMap () {
+        return this._statusMap
+    }
+    // 读取图谱
+    set statusMap (v) { // v:   a -> b -> c -> d
+        this._statusMap = v
+    }
+}
+//     开机     选择模式
+//             -> 开始
+// 开始 -> 待机 -> 运行中 -> 待机
+//         （亮灯） （结束）
+//          （选择模式）
+//         （关机）
+let startStatus = {
+    start() {
+        statusChain.changeStatus('daiJi')
+        // clog(statusChain.getCurStatus())
+    }
+}
+let daiJiStatus = {
+    light() {
+        clog('light')
+        // statusChain.changeStatus('daiJi')
+        // clog(statusChain.getCurStatus())
+    },
+    selectModule() {
+        // clog('selectModule')
+        statusChain.changeStatus('running')
+        // clog(statusChain.getCurStatus())
+    },
+    stop() {
+        // clog('stop')
+        statusChain.changeStatus('start')
+        // clog(statusChain.getCurStatus())
+    },
+}
+let runningStatus = {
+    stop2() {
+        // clog('stop2')
+        statusChain.changeStatus('daiJi')
+        // clog(statusChain.getCurStatus())
+    }
+}
+let statusChain = new StatusChain<A>([
+    ['start', startStatus],
+    ['daiJi', daiJiStatus],
+    ['running', runningStatus],
+])
+statusChain.canChange('start', ['daiJi'])
+statusChain.canChange('daiJi', ['start', 'running'])
+statusChain.canChange('running', ['daiJi'])
+
+clog('statusChain', statusChain)
+statusChain.setCurStatus('start')
+statusChain.getCurStatus().start()
+statusChain.setCurStatus('daiJi')
+statusChain.getCurStatus().light()
+// statusChain.getCurStatus().stop2()
+statusChain.getCurStatus().selectModule()
+statusChain.getCurStatus().stop2()
+
+
+
+
+
 
 
 ```

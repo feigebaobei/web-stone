@@ -1324,10 +1324,139 @@ $.<span class="hljs-title function_">shadowDom</span>(<span class="hljs-string">
             t.<span class="hljs-title function_">reverse</span>()
         }
         res.<span class="hljs-title function_">push</span>(t);
-        
+
     }
     <span class="hljs-keyword">return</span> res;
 };
+<span class="hljs-comment">// 切换状态</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">StatusNode</span>&lt;T&gt; {
+    <span class="hljs-attr">status</span>: <span class="hljs-title class_">StatusItem</span>&lt;T&gt;
+    <span class="hljs-attr">value</span>: T
+    <span class="hljs-attr">canChange</span>: S[]
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params">v: T</span>) {
+        <span class="hljs-keyword">let</span> {value, canChange} = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">create</span>(v)
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">value</span> = value
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">canChange</span> = canChange
+    }
+    <span class="hljs-comment">// 创建状态</span>
+    <span class="hljs-title function_">create</span>(<span class="hljs-params">v: T</span>) {
+        <span class="hljs-keyword">return</span> {
+            <span class="hljs-attr">value</span>: v,
+            <span class="hljs-attr">canChange</span>: []
+        }
+    }
+    <span class="hljs-title function_">setCanChange</span>(<span class="hljs-params">keyArr: S[]</span>) {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">trace</span>()
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">canChange</span>.<span class="hljs-title function_">push</span>(...keyArr)
+    }
+}
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">StatusChain</span>&lt;T&gt; {
+    <span class="hljs-attr">map</span>: <span class="hljs-title class_">Map</span>&lt;S, <span class="hljs-title class_">StatusNode</span>&lt;T&gt;&gt;
+    <span class="hljs-attr">_curStatus</span>: <span class="hljs-literal">null</span> | <span class="hljs-title class_">StatusNode</span>&lt;T&gt;
+    <span class="hljs-attr">_statusMap</span>: S
+    <span class="hljs-attr">_curStatusKey</span>: S
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params">arr: <span class="hljs-built_in">Array</span>&lt;[S, T]&gt;</span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">map</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>(arr.<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">[k, v]</span>) =&gt;</span> {
+            <span class="hljs-keyword">return</span> [
+                k,
+                <span class="hljs-keyword">new</span> <span class="hljs-title class_">StatusNode</span>(v)
+            ]
+        }))
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">_curStatus</span> = <span class="hljs-literal">null</span>
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">_curStatusKey</span> = <span class="hljs-string">&#x27;&#x27;</span>
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">_statusMap</span> = <span class="hljs-literal">null</span>
+    }
+    <span class="hljs-comment">// 当前状态</span>
+    setCurStatus (<span class="hljs-attr">k</span>: S) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">_curStatus</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">map</span>.<span class="hljs-title function_">get</span>(k)
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">_curStatusKey</span> = k
+    }
+    <span class="hljs-title function_">getCurStatus</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">_curStatus</span>.<span class="hljs-property">value</span>
+    }
+    <span class="hljs-title function_">getCurStatusKey</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">_curStatusKey</span>
+    }
+    <span class="hljs-comment">// 一个状态可以转换到的状态</span>
+    <span class="hljs-title function_">canChange</span>(<span class="hljs-params">k: S, targetArr: S[]</span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">map</span>.<span class="hljs-title function_">get</span>(k).<span class="hljs-property">setCanChange</span>.<span class="hljs-title function_">call</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">map</span>.<span class="hljs-title function_">get</span>(k), targetArr)
+    }
+    <span class="hljs-comment">// 从当前状态切换到下一个状态</span>
+    <span class="hljs-title function_">changeStatus</span>(<span class="hljs-params">key</span>) {
+        <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">_curStatus</span> &amp;&amp; <span class="hljs-variable language_">this</span>.<span class="hljs-property">_curStatus</span>.<span class="hljs-property">canChange</span>.<span class="hljs-title function_">indexOf</span>(key) &gt;= <span class="hljs-number">0</span>) {
+            <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">setCurStatus</span>(key)
+            <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getCurStatus</span>()
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&#x27;当前状态不能切换到目标状态&#x27;</span>)
+        }
+    }
+    <span class="hljs-comment">// 读出图谱</span>
+    get statusMap () {
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">_statusMap</span>
+    }
+    <span class="hljs-comment">// 读取图谱</span>
+    set statusMap (v) { <span class="hljs-comment">// v:   a -&gt; b -&gt; c -&gt; d</span>
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">_statusMap</span> = v
+    }
+}
+<span class="hljs-comment">//     开机     选择模式</span>
+<span class="hljs-comment">//             -&gt; 开始</span>
+<span class="hljs-comment">// 开始 -&gt; 待机 -&gt; 运行中 -&gt; 待机</span>
+<span class="hljs-comment">//         （亮灯） （结束）</span>
+<span class="hljs-comment">//          （选择模式）</span>
+<span class="hljs-comment">//         （关机）</span>
+<span class="hljs-keyword">let</span> startStatus = {
+    <span class="hljs-title function_">start</span>(<span class="hljs-params"></span>) {
+        statusChain.<span class="hljs-title function_">changeStatus</span>(<span class="hljs-string">&#x27;daiJi&#x27;</span>)
+        <span class="hljs-comment">// clog(statusChain.getCurStatus())</span>
+    }
+}
+<span class="hljs-keyword">let</span> daiJiStatus = {
+    <span class="hljs-title function_">light</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;light&#x27;</span>)
+        <span class="hljs-comment">// statusChain.changeStatus(&#x27;daiJi&#x27;)</span>
+        <span class="hljs-comment">// clog(statusChain.getCurStatus())</span>
+    },
+    <span class="hljs-title function_">selectModule</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-comment">// clog(&#x27;selectModule&#x27;)</span>
+        statusChain.<span class="hljs-title function_">changeStatus</span>(<span class="hljs-string">&#x27;running&#x27;</span>)
+        <span class="hljs-comment">// clog(statusChain.getCurStatus())</span>
+    },
+    <span class="hljs-title function_">stop</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-comment">// clog(&#x27;stop&#x27;)</span>
+        statusChain.<span class="hljs-title function_">changeStatus</span>(<span class="hljs-string">&#x27;start&#x27;</span>)
+        <span class="hljs-comment">// clog(statusChain.getCurStatus())</span>
+    },
+}
+<span class="hljs-keyword">let</span> runningStatus = {
+    <span class="hljs-title function_">stop2</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-comment">// clog(&#x27;stop2&#x27;)</span>
+        statusChain.<span class="hljs-title function_">changeStatus</span>(<span class="hljs-string">&#x27;daiJi&#x27;</span>)
+        <span class="hljs-comment">// clog(statusChain.getCurStatus())</span>
+    }
+}
+<span class="hljs-keyword">let</span> statusChain = <span class="hljs-keyword">new</span> <span class="hljs-title class_">StatusChain</span>&lt;A&gt;([
+    [<span class="hljs-string">&#x27;start&#x27;</span>, startStatus], 
+    [<span class="hljs-string">&#x27;daiJi&#x27;</span>, daiJiStatus],
+    [<span class="hljs-string">&#x27;running&#x27;</span>, runningStatus],
+])
+statusChain.<span class="hljs-title function_">canChange</span>(<span class="hljs-string">&#x27;start&#x27;</span>, [<span class="hljs-string">&#x27;daiJi&#x27;</span>])
+statusChain.<span class="hljs-title function_">canChange</span>(<span class="hljs-string">&#x27;daiJi&#x27;</span>, [<span class="hljs-string">&#x27;start&#x27;</span>, <span class="hljs-string">&#x27;running&#x27;</span>])
+statusChain.<span class="hljs-title function_">canChange</span>(<span class="hljs-string">&#x27;running&#x27;</span>, [<span class="hljs-string">&#x27;daiJi&#x27;</span>])
+
+<span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;statusChain&#x27;</span>, statusChain)
+statusChain.<span class="hljs-title function_">setCurStatus</span>(<span class="hljs-string">&#x27;start&#x27;</span>)
+statusChain.<span class="hljs-title function_">getCurStatus</span>().<span class="hljs-title function_">start</span>()
+statusChain.<span class="hljs-title function_">setCurStatus</span>(<span class="hljs-string">&#x27;daiJi&#x27;</span>)
+statusChain.<span class="hljs-title function_">getCurStatus</span>().<span class="hljs-title function_">light</span>()
+<span class="hljs-comment">// statusChain.getCurStatus().stop2()</span>
+statusChain.<span class="hljs-title function_">getCurStatus</span>().<span class="hljs-title function_">selectModule</span>()
+statusChain.<span class="hljs-title function_">getCurStatus</span>().<span class="hljs-title function_">stop2</span>()
+
+
+
+
+
 
 
 </code></pre>
