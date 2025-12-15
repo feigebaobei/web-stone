@@ -108,7 +108,7 @@ $ pnpm dev
 ## [编写方式](/framework/vue3/codeMethod.html)
 
 - [template]()
-  - [setup 语法糖]()
+  - [setup 语法糖](/framework/vue3/setup.html)
   - [非 setup 语法糖（defineComponent……）]()
 - [jsx/tsx]()
 - [h]()
@@ -131,7 +131,7 @@ Vue.createApp({
 // 不需要编译器
 Vue.createApp({
   render() {
-    return Vue.h('div', {}, this.hi)
+    return Vue.h('div', {}, this.hi) // 最后都转换为h方法了
   },
 })
 ```
@@ -193,8 +193,9 @@ watch: { question(nv, ov) { ... } }
 
 ### computed & watch & methods
 
-<!-- prettier-ignore-start -->
 为什么计算执行同步，watch 执行异步？
+
+<!-- prettier-ignore-start -->
 |          | computed                 | watch                                | methods           |
 | -------- | ------------------------ | ------------------------------------ | ----------------- |
 | 适用场景 | 包含响应式数据的复杂逻辑 | watch                                | methods           |
@@ -251,7 +252,7 @@ Vue.createApp({...})
 就是在父组件上使用`ref`属性。  
 然后在 js 中使用`this.$refs.xxx`或者`xxx.value`
 
-```
+```js
 <template>
   // 使用
   <div ref="root">...</div>
@@ -287,10 +288,12 @@ export default {
 v2 中只用于模板引用。到 v3 时多了响应式。  
 vue 中还好多为了兼容以前的功能、逻辑、用法。搞的乱乱的代码。
 
-|      | ref                    | :ref                                   | toRefs                           | $refs                                   | Ref |
-| ---- | ---------------------- | -------------------------------------- | -------------------------------- | --------------------------------------- | --- |
-|      | 为基本类型数据做响应式 | template 中调用 ref 后，可以模板引用。 | 把响应式对象解构为多个响应式元素 | 用于模板引用                            |     |
-| 用法 | `let a = ref(null)`    | `<div ref="rp" />`                     | `toRefs(reactiveObject)`         | `this.$refs.xxx`取得模板，得到 dom 元素 |     |
+<!-- prettier-ignore-start -->
+|      | ref    | :ref   | toRefs           | $refs   | Ref |
+| ---- | ------- | -------- | -- | --------- | --- |
+|      | 为基本类型数据做响应式 | template 中调用 ref 后，可以模板引用。 | 把响应式对象解构为多个响应式元素 | 用于模板引用            |     |
+| 用法 | `let a = ref(null)`    | `<div ref="rp" />`     | `toRefs(reactiveObject)`         | `this.$refs.xxx`取得模板，得到 dom 元素 |     |
+<!-- prettier-ignore-end -->
 
 ## [watch & watchEffect](/framework/vue3/watch&WatchEffect.html)
 

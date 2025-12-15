@@ -240,7 +240,7 @@ $ </span><span class="language-bash">pnpm create vite &lt;project-name&gt; -- --
 <ul>
 <li><a href="">template</a>
 <ul>
-<li><a href="">setup 语法糖</a></li>
+<li><a href="/framework/vue3/setup.html">setup 语法糖</a></li>
 <li><a href="">非 setup 语法糖（defineComponent……）</a></li>
 </ul>
 </li>
@@ -259,7 +259,7 @@ $ </span><span class="language-bash">pnpm create vite &lt;project-name&gt; -- --
 <span class="hljs-comment">// 不需要编译器</span>
 <span class="hljs-title class_">Vue</span>.<span class="hljs-title function_">createApp</span>({
   <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-keyword">return</span> <span class="hljs-title class_">Vue</span>.<span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;div&#x27;</span>, {}, <span class="hljs-variable language_">this</span>.<span class="hljs-property">hi</span>)
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">Vue</span>.<span class="hljs-title function_">h</span>(<span class="hljs-string">&#x27;div&#x27;</span>, {}, <span class="hljs-variable language_">this</span>.<span class="hljs-property">hi</span>) <span class="hljs-comment">// 最后都转换为h方法了</span>
   },
 })
 </code></pre>
@@ -299,8 +299,8 @@ vm.<span class="hljs-property">fullName</span>
 <pre><code class="language-js"><span class="hljs-attr">watch</span>: { <span class="hljs-title function_">question</span>(<span class="hljs-params">nv, ov</span>) { ... } }
 </code></pre>
 <h3 id="computed--watch--methods">computed &amp; watch &amp; methods</h3>
-<!-- prettier-ignore-start -->
 <p>为什么计算执行同步，watch 执行异步？</p>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -420,27 +420,27 @@ vm.<span class="hljs-property">fullName</span>
 <h2 id="模板引用">模板引用</h2>
 <p>就是在父组件上使用<code>ref</code>属性。<br>
 然后在 js 中使用<code>this.$refs.xxx</code>或者<code>xxx.value</code></p>
-<pre><code>&lt;template&gt;
-  // 使用
-  &lt;div ref=&quot;root&quot;&gt;...&lt;/div&gt;
+<pre><code class="language-js">&lt;template&gt;
+  <span class="hljs-comment">// 使用</span>
+  <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;root&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
 &lt;/template&gt;
-&lt;script&gt;
-import {ref, onMounted} form 'vue'
-export default {
-    setup() {
-        let root = ref(null) // 搞成响应式
-        onMounted(() =&gt; {
-            clog(root.value) // 获取
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+<span class="hljs-keyword">import</span> {ref, onMounted} form <span class="hljs-string">&#x27;vue&#x27;</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+    <span class="hljs-title function_">setup</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-keyword">let</span> root = <span class="hljs-title function_">ref</span>(<span class="hljs-literal">null</span>) <span class="hljs-comment">// 搞成响应式</span>
+        <span class="hljs-title function_">onMounted</span>(<span class="hljs-function">() =&gt;</span> {
+            <span class="hljs-title function_">clog</span>(root.<span class="hljs-property">value</span>) <span class="hljs-comment">// 获取</span>
         })
-        // watch() 和 watchEffect() 在 DOM 挂载或更新之前运行副作用，所以当侦听器运行时，模板引用还未被更新。
-        watchEffect(() =&gt; {
-            console.log(root.value)
+        <span class="hljs-comment">// watch() 和 watchEffect() 在 DOM 挂载或更新之前运行副作用，所以当侦听器运行时，模板引用还未被更新。</span>
+        <span class="hljs-title function_">watchEffect</span>(<span class="hljs-function">() =&gt;</span> {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(root.<span class="hljs-property">value</span>)
         }, {
-            flush: 'post' // 这将在 DOM 更新后运行副作用，确保模板引用与 DOM 保持同步，并引用正确的元素。
+            <span class="hljs-attr">flush</span>: <span class="hljs-string">&#x27;post&#x27;</span> <span class="hljs-comment">// 这将在 DOM 更新后运行副作用，确保模板引用与 DOM 保持同步，并引用正确的元素。</span>
         })
     }
 }
-&lt;/script&gt;
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span>
 </code></pre>
 <p>当 ref 值为 ref 类型时不使用<code>:</code>
 当 ref 值为函数类型时使用<code>:</code>
@@ -451,6 +451,7 @@ export default {
 <p>它们都是来自<code>reference</code>.<br>
 v2 中只用于模板引用。到 v3 时多了响应式。<br>
 vue 中还好多为了兼容以前的功能、逻辑、用法。搞的乱乱的代码。</p>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -481,6 +482,7 @@ vue 中还好多为了兼容以前的功能、逻辑、用法。搞的乱乱的�
 </tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
 <h2 id="watch--watcheffect"><a href="/framework/vue3/watch&amp;WatchEffect.html">watch &amp; watchEffect</a></h2>
 <h2 id="mixin">mixin</h2>
 <p>把可在组件中复用的部分（逻辑、功能）提取成为一个 mixin 对象。</p>
@@ -665,7 +667,7 @@ app.<span class="hljs-title function_">mount</span>(<span class="hljs-string">&#
 <h2 id="confuse"><a href="/framework/vue3/confuse.html">confuse</a></h2>
 <h2 id="title-4">title</h2>
 <h2 id="principle-1"><a href="/framework/vue3/principle.html">principle</a></h2>
-<p>该包负责把<code>*.vue</code>的代码转换为<a href="/language/javascript/opDom.html">操作dom</a> 的代码。操作完 dom 后由浏览器根据 dom 显示出来，中间包括大量的重绘、回流。<br>
+<p>该包负责把<code>*.vue</code>的代码转换为<a href="/language/javascript/opDom.html">操作 dom</a> 的代码。操作完 dom 后由浏览器根据 dom 显示出来，中间包括大量的重绘、回流。<br>
 在<code>mvvm</code>框架流行之间有面向 dom 开发的框架——jquery。它也是操作 dom。然后让浏览器做重绘、回流的工作。<br>
 把数据做成可生成 html 代码的 js 代码，然后交给浏览器运行。vue 就做了这一件事。<br>
 真传一名话，假传万卷书。如一个道理很庞杂，那就不用学了。它是假的。若只有一句话，那剩下的就是去实践它了。</p>
