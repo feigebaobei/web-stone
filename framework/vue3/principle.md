@@ -60,6 +60,55 @@ transform 中的 hoistStatic 方法会递归 ast，把不具有响应式的代�
 
 静态内容会跳过 render/patch.
 
+没有做静态提升之前
+
+```js
+export function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (
+    _openBlock(),
+    _createBlock(
+      _Fragment,
+      null,
+      [
+        _createVNode('span', null, '你好'),
+        _createVNode('div', null, _toDisplayString(_ctx.message), 1 /* TEXT */),
+      ],
+      64 /* STABLE_FRAGMENT */
+    )
+  )
+}
+```
+
+做了静态提升之后
+
+```js
+const _hoisted_1 = /*#__PURE__*/ _createVNode(
+  'span',
+  null,
+  '你好',
+  -1 /* HOISTED */
+)
+
+export function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (
+    _openBlock(),
+    _createBlock(
+      _Fragment,
+      null,
+      [
+        _hoisted_1,
+        _createVNode('div', null, _toDisplayString(_ctx.message), 1 /* TEXT */),
+      ],
+      64 /* STABLE_FRAGMENT */
+    )
+  )
+}
+
+// Check the console for the AST
+```
+
+原来就是做与闭包了。静态部分只计算一次，缓存起来结果，使用时直接拿过来用。
+
 ### generate
 
 根据环境不同（node/browser/ssr）生成不同风格的代码。
@@ -316,4 +365,10 @@ ShapeFlags 中使用位移的方式处理二进制。react 中使用直接赋值
 
 ## title
 
-## title
+## confuse
+
+vue3 采用 proxy 重写了响应式系统，因为 proxy 可以对整个对象进行监听，所以不需要深度遍历
+
+可以监听动态属性的添加
+可以监听到数组的索引和数组 length 属性
+可以监听删除属性

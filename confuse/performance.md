@@ -51,7 +51,7 @@ http2 多路复用
 
 - 图片预加载
 
-```
+```js
 function preloader() {
   if (document.images) {
     var img1 = new Image()
@@ -80,7 +80,7 @@ addLoadEvent(preloader)
 
 - 图片懒加载
 
-```
+```js
 const imgs = document.querySelectorAll('img[data-src]')
 const config = {
   rootMargin: '0px',

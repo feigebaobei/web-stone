@@ -144,13 +144,9 @@
 头部压缩</p>
 <h2 id="css">css</h2>
 <p>首次有效绘制。
-非首次有关css,使用prefetch.
-压缩css文件。
-选择器的写法
-- 少使用复杂的选择器
-- 通配符和属性选择器效率最低，需要匹配的元素最多，尽量避免使用。
-- 不要使用类选择器和ID选择器修饰元素标签，如h3#markdown-content，这样多此一举，还会降低效率。
-- 不要为了追求速度而放弃可读性与可维护性。</p>
+非首次有关 css,使用 prefetch.
+压缩 css 文件。
+选择器的写法 - 少使用复杂的选择器 - 通配符和属性选择器效率最低，需要匹配的元素最多，尽量避免使用。 - 不要使用类选择器和 ID 选择器修饰元素标签，如 h3#markdown-content，这样多此一举，还会降低效率。 - 不要为了追求速度而放弃可读性与可维护性。</p>
 <h3 id="昂贵的属性">昂贵的属性</h3>
 <table>
 <thead>
@@ -196,13 +192,13 @@
 </table>
 <h3 id="减少重排">减少重排</h3>
 <ul>
-<li>改变font-size和font-family</li>
+<li>改变 font-size 和 font-family</li>
 <li>改变元素的内外边距</li>
-<li>通过js改变css类</li>
-<li>通过js获取dom元素的位置相关属性（如width/height/left）</li>
-<li>css伪类激活</li>
+<li>通过 js 改变 css 类</li>
+<li>通过 js 获取 dom 元素的位置相关属性（如 width/height/left）</li>
+<li>css 伪类激活</li>
 <li>滚动滚动条或者改变窗口大小。</li>
-<li>使用Flex时，比使用inline-block和float时重排更快</li>
+<li>使用 Flex 时，比使用 inline-block 和 float 时重排更快</li>
 <li>硬件加速 style.left transtorm: translate</li>
 <li>不要使用 @ import</li>
 </ul>
@@ -213,65 +209,65 @@
 </ul>
 <pre><code>&lt;!-- 解决了兼容性问题 --&gt;
 @media  screen and (min-width: 1200px) {
-   img {     background-image: url('1.png');   } 
-} 
-@media  screen and (min-width: 992px) {   
-   img {     background-image: url('2.png');   } 
+   img {     background-image: url('1.png');   }
+}
+@media  screen and (min-width: 992px) {
+   img {     background-image: url('2.png');   }
 }
 </code></pre>
 <ul>
 <li>图片预加载</li>
 </ul>
-<pre><code>function preloader() {
-  if (document.images) {
-    var img1 = new Image()
-    var img2 = new Image()
-    var img3 = new Image()
-    img1.src = 'http://domain.tld/path/to/image-001.gif'
-    img2.src = 'http://domain.tld/path/to/image-002.gif'
-    img3.src = 'http://domain.tld/path/to/image-003.gif'
+<pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">preloader</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">document</span>.<span class="hljs-property">images</span>) {
+    <span class="hljs-keyword">var</span> img1 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Image</span>()
+    <span class="hljs-keyword">var</span> img2 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Image</span>()
+    <span class="hljs-keyword">var</span> img3 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Image</span>()
+    img1.<span class="hljs-property">src</span> = <span class="hljs-string">&#x27;http://domain.tld/path/to/image-001.gif&#x27;</span>
+    img2.<span class="hljs-property">src</span> = <span class="hljs-string">&#x27;http://domain.tld/path/to/image-002.gif&#x27;</span>
+    img3.<span class="hljs-property">src</span> = <span class="hljs-string">&#x27;http://domain.tld/path/to/image-003.gif&#x27;</span>
   }
 }
-function addLoadEvent(func) {
-  var oldonload = window.onload
-  if (typeof window.onload != 'function') {
-    window.onload = func
-  } else {
-    window.onload = function () {
-      if (oldonload) {
-        oldonload()
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">addLoadEvent</span>(<span class="hljs-params">func</span>) {
+  <span class="hljs-keyword">var</span> oldonload = <span class="hljs-variable language_">window</span>.<span class="hljs-property">onload</span>
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> <span class="hljs-variable language_">window</span>.<span class="hljs-property">onload</span> != <span class="hljs-string">&#x27;function&#x27;</span>) {
+    <span class="hljs-variable language_">window</span>.<span class="hljs-property">onload</span> = func
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-variable language_">window</span>.<span class="hljs-property">onload</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+      <span class="hljs-keyword">if</span> (oldonload) {
+        <span class="hljs-title function_">oldonload</span>()
       }
-      func()
+      <span class="hljs-title function_">func</span>()
     }
   }
 }
-addLoadEvent(preloader)
+<span class="hljs-title function_">addLoadEvent</span>(preloader)
 </code></pre>
 <ul>
 <li>图片懒加载</li>
 </ul>
-<pre><code>const imgs = document.querySelectorAll('img[data-src]')
-const config = {
-  rootMargin: '0px',
-  threshold: 0,
+<pre><code class="language-js"><span class="hljs-keyword">const</span> imgs = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">&#x27;img[data-src]&#x27;</span>)
+<span class="hljs-keyword">const</span> config = {
+  <span class="hljs-attr">rootMargin</span>: <span class="hljs-string">&#x27;0px&#x27;</span>,
+  <span class="hljs-attr">threshold</span>: <span class="hljs-number">0</span>,
 }
-let observer = new IntersectionObserver((entries, self) =&gt; {
-  entries.forEach((entry) =&gt; {
-    if (entry.isIntersecting) {
-      let img = entry.target
-      let src = img.dataset.src
-      if (src) {
-        img.src = src
-        img.removeAttribute('data-src')
+<span class="hljs-keyword">let</span> observer = <span class="hljs-keyword">new</span> <span class="hljs-title class_">IntersectionObserver</span>(<span class="hljs-function">(<span class="hljs-params">entries, self</span>) =&gt;</span> {
+  entries.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">entry</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (entry.<span class="hljs-property">isIntersecting</span>) {
+      <span class="hljs-keyword">let</span> img = entry.<span class="hljs-property">target</span>
+      <span class="hljs-keyword">let</span> src = img.<span class="hljs-property">dataset</span>.<span class="hljs-property">src</span>
+      <span class="hljs-keyword">if</span> (src) {
+        img.<span class="hljs-property">src</span> = src
+        img.<span class="hljs-title function_">removeAttribute</span>(<span class="hljs-string">&#x27;data-src&#x27;</span>)
       }
-      // 解除观察
-      self.unobserve(entry.target)
+      <span class="hljs-comment">// 解除观察</span>
+      self.<span class="hljs-title function_">unobserve</span>(entry.<span class="hljs-property">target</span>)
     }
   })
 }, config)
 
-imgs.forEach((image) =&gt; {
-  observer.observe(image)
+imgs.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">image</span>) =&gt;</span> {
+  observer.<span class="hljs-title function_">observe</span>(image)
 })
 </code></pre>
 <ul>
@@ -283,7 +279,7 @@ compressor 支持 JPG、PNG、SVG、GIF</li>
 </ul>
 <h3 id="字体">字体</h3>
 <ul>
-<li>preload字段防止fout</li>
+<li>preload 字段防止 fout</li>
 </ul>
 <pre><code>&lt;head&gt; ... &lt;link rel=&quot;preload&quot; as=&quot;font&quot; href=&quot;/assets/fonts/AvenirNextLTPro-Demi.otf&quot; crossorigin&gt; &lt;link rel=&quot;preload&quot; as=&quot;font&quot; href=&quot;/assets/fonts/AvenirNextLTPro-Regular.otf&quot; crossorigin&gt; ... &lt;/head&gt;
 </code></pre>
@@ -305,7 +301,7 @@ div {
 <ul>
 <li>fastdom</li>
 <li>react-window
-不用全部加载出所有的DOM节点。默认只渲染可视区域及可视区域外的一个节点，此属性可自定义设置。
+不用全部加载出所有的 DOM 节点。默认只渲染可视区域及可视区域外的一个节点，此属性可自定义设置。
 可用于处理大型数据列表。当使用在大型数据列表中，可避免因为数据的更新而导致大量的重新渲染。</li>
 <li>requestIdeCallback</li>
 <li>防抖</li>

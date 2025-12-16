@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>principle</title>
-        <style>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>principle</title>
+            <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -11,47 +11,14 @@
  *--------------------------------------------------------------------------------------------*/
 
 .vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
 	display: none;
 }
 
-/* From extension ms-toolsai.jupyter */
-/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
-
-.alert {
-    width: auto;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-.alert > *:last-child {
-    margin-bottom: 0;
-}
-#preview > .alert:last-child {
-    /* Prevent this being set to zero by the default notebook stylesheet */
-    padding-bottom: 1em;
-}
-
-.alert-success {
-    /* Note there is no suitable color available, so we just copy "info" */
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-info {
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-warning {
-    background-color: var(--theme-warning-background);
-    color: var(--theme-warning-foreground);
-}
-.alert-danger {
-    background-color: var(--theme-error-background);
-    color: var(--theme-error-foreground);
-}
-
 </style>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
@@ -73,10 +40,106 @@
     pointer-events: none;
 }
 </style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
         
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="principle">principle</h1>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="principle">principle</h1>
 <h2 id="渲染机制">渲染机制</h2>
 <p>程序员使用 vue 框架，编写 sfc 文件。vue 框架会把它们搞成 vdom。vue 框架根据 vdom 生成 dom，当 vdom 改变时 vue 框架更新 dom。</p>
 <h2 id="vue2-不能做到的事">vue2 不能做到的事</h2>
@@ -148,6 +211,27 @@
 <p>transform 中的 hoistStatic 方法会递归 ast，把不具有响应式的代码序列化为字符串。编译时不处理它们。减少编译工作量。</p>
 <p>只有静态内容可以被静态提升。</p>
 <p>静态内容会跳过 render/patch.</p>
+<p>没有做静态提升之前</p>
+<pre><code class="language-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">render</span>(<span class="hljs-params">_ctx, _cache, $props, $setup, $data, $options</span>) {
+  <span class="hljs-keyword">return</span> (<span class="hljs-title function_">_openBlock</span>(), <span class="hljs-title function_">_createBlock</span>(_Fragment, <span class="hljs-literal">null</span>, [
+    <span class="hljs-title function_">_createVNode</span>(<span class="hljs-string">&quot;span&quot;</span>, <span class="hljs-literal">null</span>, <span class="hljs-string">&quot;你好&quot;</span>),
+    <span class="hljs-title function_">_createVNode</span>(<span class="hljs-string">&quot;div&quot;</span>, <span class="hljs-literal">null</span>, <span class="hljs-title function_">_toDisplayString</span>(_ctx.<span class="hljs-property">message</span>), <span class="hljs-number">1</span> <span class="hljs-comment">/* TEXT */</span>)
+  ], <span class="hljs-number">64</span> <span class="hljs-comment">/* STABLE_FRAGMENT */</span>))
+}
+</code></pre>
+<p>做了静态提升之后</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> _hoisted_1 = <span class="hljs-comment">/*#__PURE__*/</span><span class="hljs-title function_">_createVNode</span>(<span class="hljs-string">&quot;span&quot;</span>, <span class="hljs-literal">null</span>, <span class="hljs-string">&quot;你好&quot;</span>, -<span class="hljs-number">1</span> <span class="hljs-comment">/* HOISTED */</span>)
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">render</span>(<span class="hljs-params">_ctx, _cache, $props, $setup, $data, $options</span>) {
+  <span class="hljs-keyword">return</span> (<span class="hljs-title function_">_openBlock</span>(), <span class="hljs-title function_">_createBlock</span>(_Fragment, <span class="hljs-literal">null</span>, [
+    _hoisted_1,
+    <span class="hljs-title function_">_createVNode</span>(<span class="hljs-string">&quot;div&quot;</span>, <span class="hljs-literal">null</span>, <span class="hljs-title function_">_toDisplayString</span>(_ctx.<span class="hljs-property">message</span>), <span class="hljs-number">1</span> <span class="hljs-comment">/* TEXT */</span>)
+  ], <span class="hljs-number">64</span> <span class="hljs-comment">/* STABLE_FRAGMENT */</span>))
+}
+
+<span class="hljs-comment">// Check the console for the AST</span>
+</code></pre>
+<p>原来就是做与闭包了。静态部分只计算一次，缓存起来结果，使用时直接拿过来用。</p>
 <h3 id="generate">generate</h3>
 <p>根据环境不同（node/browser/ssr）生成不同风格的代码。</p>
 <h2 id="运行时">运行时</h2>
@@ -190,21 +274,21 @@
     挂载新节点      唤醒节点
 </code></pre>
 <h2 id="自己读的源码">自己读的源码</h2>
-<p>@vue/shared里放置helper方法。<br>
-ts写的包好读一点，可以根据它的类型较快得到属性、方法。若命名规范，则更容易理解。</p>
+<p>@vue/shared 里放置 helper 方法。<br>
+ts 写的包好读一点，可以根据它的类型较快得到属性、方法。若命名规范，则更容易理解。</p>
 <h3 id="打包">打包</h3>
-<p>根据package.json中的buildOptions.formats分别打包runtime包和全量包</p>
+<p>根据 package.json 中的 buildOptions.formats 分别打包 runtime 包和全量包</p>
 <h3 id="内部方法">内部方法</h3>
 <p>各包中嵌套输出方法。</p>
 <h4 id="createapp">createApp</h4>
 <p>为应用初始化若干属性，再返回应用。
-mount()中使用了<code>isMounted</code>做为flag.</p>
-<p>ShapeFlags中使用位移的方式处理二进制。react中使用直接赋值的方式处理二进制。</p>
+mount()中使用了<code>isMounted</code>做为 flag.</p>
+<p>ShapeFlags 中使用位移的方式处理二进制。react 中使用直接赋值的方式处理二进制。</p>
 <p>创建应用的过程比较简单。嵌套调用各个方法。最后返回一个可链式调用的对象。</p>
 <h4 id="createvnode">createVNode</h4>
-<p>创建vnode，并返回。</p>
+<p>创建 vnode，并返回。</p>
 <h4 id="getexposeproxy">getExposeProxy</h4>
-<p>就是在里使用Proxy对象的。</p>
+<p>就是在里使用 Proxy 对象的。</p>
 <h4 id="publicpropertiesmap">publicPropertiesMap</h4>
 <p>定义了很多这样的方法：从指定实例中取出该实例的值。
 把这些方法封装在一个该对象中。</p>
@@ -214,30 +298,30 @@ mount()中使用了<code>isMounted</code>做为flag.</p>
 <p>宏字段</p>
 <h4 id="isreactive">isReactive()</h4>
 <p>是否是响应式。
-与isReadonly有关。
-还与ReactiveFlags.IS_REACTIVE属性值有关</p>
+与 isReadonly 有关。
+还与 ReactiveFlags.IS_REACTIVE 属性值有关</p>
 <h4 id="isreadonly">isReadonly()</h4>
-<p>判断参数的ReactiveFlags.IS_READONLY属性值</p>
+<p>判断参数的 ReactiveFlags.IS_READONLY 属性值</p>
 <h4 id="proxyrefs">proxyRefs()</h4>
-<p>这里也用到了proxy</p>
+<p>这里也用到了 proxy</p>
 <h4 id="shallowunwraphandlers">shallowUnwrapHandlers</h4>
 <h4 id="compiletofunction">compileToFunction()</h4>
 <p>利用了缓存机制。<br>
-从此方法开始执行vue的基本原理（编译、转换、生成）
+从此方法开始执行 vue 的基本原理（编译、转换、生成）
 什么时候调用？</p>
 <h4 id="compile">compile</h4>
-<p>调用baseCompile
-参数template好像是*.vue文件中的temlate部分。</p>
+<p>调用 baseCompile
+参数 template 好像是*.vue 文件中的 temlate 部分。</p>
 <h4 id="baseparse">baseParse()</h4>
 <p>是编译阶段的主要方法。</p>
 <h4 id="basecompile">baseCompile()</h4>
 <h4 id="transform">transform()</h4>
-<p>的参数ast是RootNode对象，并不是抽象语法树。<br>
+<p>的参数 ast 是 RootNode 对象，并不是抽象语法树。<br>
 按深度优先遍历转换当前元素及其子元素+静态提升。</p>
-<h4 id="generate">generate()</h4>
+<h4 id="generate-1">generate()</h4>
 <h4 id="createroot">createRoot()</h4>
-<p>返回一个RootNode对象。
-就是编译阶段结果——ast对象。</p>
+<p>返回一个 RootNode 对象。
+就是编译阶段结果——ast 对象。</p>
 <h4 id="createparsercontext">createParserContext()</h4>
 <p>返回一个对象</p>
 <h4 id="getcursor">getCursor</h4>
@@ -247,7 +331,7 @@ mount()中使用了<code>isMounted</code>做为flag.</p>
 <h4 id="parsechildren">parseChildren()</h4>
 <p>解析子元素</p>
 <h4 id="createtransformcontext">createTransformContext</h4>
-<p>把RootNode放在context对象里，再添加好多属性后返回context对象。</p>
+<p>把 RootNode 放在 context 对象里，再添加好多属性后返回 context 对象。</p>
 <h4 id="traversenode">traverseNode</h4>
 <p>转换当前元素及其子元素。<br>
 深度优先转换。<br>
@@ -255,53 +339,53 @@ mount()中使用了<code>isMounted</code>做为flag.</p>
 <h4 id="hoiststatic">hoistStatic</h4>
 <p>遍历所有子元素。提升静态元素。</p>
 <h4 id="issingleelementroot">isSingleElementRoot</h4>
-<p>参数root下是否只有一个子元素</p>
+<p>参数 root 下是否只有一个子元素</p>
 <h4 id="createcodegencontext">createCodegenContext</h4>
-<p>这是一个工厂函数，返回一个CodegenContext对象。</p>
+<p>这是一个工厂函数，返回一个 CodegenContext 对象。</p>
 <h4 id="title">title</h4>
-<h4 id="title">title</h4>
-<h4 id="title">title</h4>
-<h4 id="title">title</h4>
-<h4 id="title">title</h4>
-<h4 id="title">title</h4>
-<h4 id="title">title</h4>
-<h4 id="title">title</h4>
-<h4 id="title">title</h4>
-<h4 id="title">title</h4>
-<h4 id="title">title</h4>
-<h4 id="title">title</h4>
-<h4 id="title">title</h4>
-<h4 id="title">title</h4>
-<h4 id="title">title</h4>
-<h4 id="title">title</h4>
-<h4 id="title">title</h4>
-<h4 id="title">title</h4>
-<h4 id="title">title</h4>
-<h4 id="title">title</h4>
-<h4 id="title">title</h4>
-<h4 id="title">title</h4>
-<h4 id="title">title</h4>
-<h4 id="title">title</h4>
-<h4 id="title">title</h4>
-<h4 id="title">title</h4>
-<h4 id="title">title</h4>
-<h4 id="title">title</h4>
-<h4 id="title">title</h4>
-<h4 id="title">title</h4>
-<h4 id="title">title</h4>
-<h4 id="title">title</h4>
-<h4 id="title">title</h4>
-<h3 id="title">title</h3>
-<h3 id="title">title</h3>
-<h3 id="title">title</h3>
-<h2 id="title">title</h2>
-<h2 id="title">title</h2>
-<h2 id="title">title</h2>
-<h2 id="title">title</h2>
-<h2 id="title">title</h2>
-<h2 id="title">title</h2>
+<h4 id="title-1">title</h4>
+<h4 id="title-2">title</h4>
+<h4 id="title-3">title</h4>
+<h4 id="title-4">title</h4>
+<h4 id="title-5">title</h4>
+<h4 id="title-6">title</h4>
+<h4 id="title-7">title</h4>
+<h4 id="title-8">title</h4>
+<h4 id="title-9">title</h4>
+<h4 id="title-10">title</h4>
+<h4 id="title-11">title</h4>
+<h4 id="title-12">title</h4>
+<h4 id="title-13">title</h4>
+<h4 id="title-14">title</h4>
+<h4 id="title-15">title</h4>
+<h4 id="title-16">title</h4>
+<h4 id="title-17">title</h4>
+<h4 id="title-18">title</h4>
+<h4 id="title-19">title</h4>
+<h4 id="title-20">title</h4>
+<h4 id="title-21">title</h4>
+<h4 id="title-22">title</h4>
+<h4 id="title-23">title</h4>
+<h4 id="title-24">title</h4>
+<h4 id="title-25">title</h4>
+<h4 id="title-26">title</h4>
+<h4 id="title-27">title</h4>
+<h4 id="title-28">title</h4>
+<h4 id="title-29">title</h4>
+<h4 id="title-30">title</h4>
+<h4 id="title-31">title</h4>
+<h4 id="title-32">title</h4>
+<h3 id="title-33">title</h3>
+<h3 id="title-34">title</h3>
+<h3 id="title-35">title</h3>
+<h2 id="title-36">title</h2>
+<h2 id="title-37">title</h2>
+<h2 id="title-38">title</h2>
+<h2 id="title-39">title</h2>
+<h2 id="title-40">title</h2>
+<h2 id="title-41">title</h2>
 
-        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
-        
-    </body>
-    </html>
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>

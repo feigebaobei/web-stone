@@ -144,19 +144,20 @@ v-for 中提供唯一 key,使 vue 高效更新。
 
 把依赖包拆出来
 
-```
+```js
 export default {
   build: {
     rollupOptions: {
       output: {
-        manualChunks: { // 手动指定要分割的内容
+        manualChunks: {
+          // 手动指定要分割的内容
           'vue-vendor': ['vue', 'vue-router'],
-          'ui-library': ['element-plus']
-        }
-      }
-    }
-  }
-};
+          'ui-library': ['element-plus'],
+        },
+      },
+    },
+  },
+}
 ```
 
 ### Gzip/Brotli 压缩/压缩资源
@@ -193,29 +194,78 @@ tree-shaking 由打包器决定是否支持。
 
 ## 性能
 
-### title
-
-### title
-
 ## 总结
 
 要优化什么 & 怎么做
 以上方法都能做到优化。但是每项的优先量不同，有的立杆见影，有见效微小。
 
-| 优化点                        | 如何做（作用太小的不列出来）                                                                                                    |     |     |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | --- | --- |
-| 选择合理的架构（ssr/csr/ssg） |                                                                                                                                 |     |     |
-| 首屏加载时间                  | 路由懒加载，service work（比较难，有兼容性） > 代码分割 > 异步组件，懒加载图片 >                                                |     |     |
-| 加载速度                      | 代码分割 > Gzip / Brotli，sprite，压缩文件，cdn > 浏览器缓存，service workers> 异步加载组件、js 依赖 > 预加载 > 使用 http2 协议 |     |     |
+<!-- prettier-ignore-start -->
+| 优化点  | 如何做（作用太小的不列出来）    |     |     |
+| ----- | ------------- | --- | --- |
+| 选择合理的架构（ssr/csr/ssg） |              |     |     |
+| 首屏加载时间 | 路由懒加载，service work（比较难，有兼容性） > 代码分割 > 异步组件，懒加载图片 >           |     |     |
+| 加载速度     | 代码分割 > Gzip / Brotli，sprite，压缩文件，cdn > 浏览器缓存，service workers> 异步加载组件、js 依赖 > 预加载 > 使用 http2 协议 |     |     |
 | 打包体积（项目体积）          | 路由懒加载，代码分割，资源压缩，tree-shaking，通用资源放在 cdn+忽略指定依赖，200k 以下的图片用 base64，不使用代码地图           |     |     |
-| 开发体验                      | 统一开发规范，                                                                                                                  |     |     |
-| 用户体验                      | 虚拟列表、滚动，v-memo，懒加载图片，骨架图，所见即所得，                                                                        |     |     |
-| 运行速度（性能）              | 合适的数据结构+算法，workers，                                                                                                  |     |     |
-| 占用内存                      | 良好的数据结构，                                                                                                                |     |     |
-| 占用空间                      |                                                                                                                                 |     |     |
-| src                           |                                                                                                                                 |     |     |
-| ftp                           |                                                                                                                                 |     |     |
-| lcp                           |                                                                                                                                 |     |     |
-|                               |                                                                                                                                 |     |     |
+| 开发体验     | 统一开发规范，   |     |     |
+| 用户体验     | 虚拟列表、滚动，v-memo，懒加载图片，骨架图，所见即所得，             |     |     |
+| 运行速度（性能）              | 合适的数据结构+算法，workers，  |     |     |
+| 占用内存     | 良好的数据结构，                |     |     |
+| 占用空间     | |     |     |
+<!-- prettier-ignore-end -->
 
 ## 前端性能指标
+
+### FP(First Paint)首次绘制
+
+绘制出第一个视觉元素。
+减少 css/js 的体积。
+`<link rel="preload">`提前加载关键资源。
+
+### LCP（Largest Contentful Paint）
+
+绘制最大可见元素用时。一般要求在 2.5s 内
+优化图片等大资源的加载，使用懒加载、图片压缩、webp 格式。
+关键资源优先加载。使用`<link rel="preload">`或`<img srcset>`。
+对于动态内容，考虑使用骨架屏或占位符元素，直到 LCP 元素加载完毕。
+
+```html
+<div class="box">
+  <img
+    src="/zh-CN/docs/Web/HTML/Element/img/clock-demo-200px.png"
+    <!--
+    在1x显示器上显示
+    --
+  />
+  alt="钟表" srcset="/zh-CN/docs/Web/HTML/Element/img/clock-demo-400px.png 2x"
+  />
+  <!-- 在2x显示器上显示 -->
+</div>
+```
+
+### CLS（Cumulative Layout Shift）
+
+累计布局偏移量。会触发重绘、回流。
+避免在页面加载期间修改已渲染元素的尺寸，确保所有元素尺寸提前计算好。
+使用 height 和 width 属性为图片和 iframe 等元素指定尺寸。
+动态插入内容时，预留空间或使用 CSS 动画而非即时布局变化。
+避免使用 position: fixed;或 sticky;导致的布局偏移，除非绝对必要。
+
+```css
+/* 预先设定图片尺寸 */
+img {
+  width: 100%;
+  height: auto;
+}
+```
+
+### FMP（First Meaningful Paint）
+
+首次有效绘制。
+用户看到他们认为有意义的东西。
+被 lcp 代替了。
+
+## 测量工具
+
+使用代码拆分和异步加载减少 JavaScript 的阻塞。
+优化服务器响应时间和网络连接，使用 HTTP/2 和 CDN。
+定期进行性能审计，使用 Lighthouse、WebPageTest 等工具。

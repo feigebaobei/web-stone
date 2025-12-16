@@ -153,27 +153,27 @@
 只在需要时加载，减少首屏加载时间。
 代码分割。</p>
 <h3 id="虚拟列表滚动">虚拟列表、滚动</h3>
-<p>处理长列表时，只渲染视口内可见的元素，大幅减少dom操作。
+<p>处理长列表时，只渲染视口内可见的元素，大幅减少 dom 操作。
 vue-virtual-scroller
 vue-virtual-scroll-grid
 vueuc/VVirtualList</p>
 <h3 id="响应式优化">响应式优化</h3>
 <p>避免不必要的响应式
-shallowRef shallowReactive用于大对象。只深度监听顶层属性。
+shallowRef shallowReactive 用于大对象。只深度监听顶层属性。
 静态数据标记。markRaw(xx).
 memoize，缓存计算密集型函数的计算结果。</p>
 <h3 id="静态属性优化">静态属性优化。</h3>
 <p>在模板中标记不需要响应的静态内容。如：
 v-once 只渲染一次
-v-pre  不渲染（即直接使用）</p>
-<h3 id="合理使用v-if-v-show">合理使用v-if v-show</h3>
-<p>v-if条件渲染（控制dom是否存在）
-v-show切换显示、隐藏。（dom总是存在，是否可见）</p>
+v-pre 不渲染（即直接使用）</p>
+<h3 id="合理使用-v-if-v-show">合理使用 v-if v-show</h3>
+<p>v-if 条件渲染（控制 dom 是否存在）
+v-show 切换显示、隐藏。（dom 总是存在，是否可见）</p>
 <h3 id="缓存">缓存</h3>
-<p>keepAlive缓存组件实例，避免重复渲染。（慎用，避免内存堆积）
-使用computed的缓存性质。</p>
+<p>keepAlive 缓存组件实例，避免重复渲染。（慎用，避免内存堆积）
+使用 computed 的缓存性质。</p>
 <h3 id="避免不必要的组件抽象">避免不必要的组件抽象</h3>
-<p>组件实例比dom使用资源多。
+<p>组件实例比 dom 使用资源多。
 减少几个组件对运行没有太多影响。
 在大型列表中应该减少不必要的组件抽象。</p>
 <h3 id="请求去抖节流批量">请求去抖、节流、批量</h3>
@@ -185,13 +185,13 @@ v-show切换显示、隐藏。（dom总是存在，是否可见）</p>
 <p>检查组件层级、性能分析</p>
 <h3 id="全局错误捕获">全局错误捕获</h3>
 <pre><code class="language-js">app.<span class="hljs-property">config</span>.<span class="hljs-property">errorHandler</span> = <span class="hljs-function">(<span class="hljs-params">err, vm, info</span>) =&gt;</span> {
-  <span class="hljs-title class_">Sentry</span>.<span class="hljs-title function_">captureException</span>(err); <span class="hljs-comment">// 发送到Sentry</span>
-};
+  <span class="hljs-title class_">Sentry</span>.<span class="hljs-title function_">captureException</span>(err) <span class="hljs-comment">// 发送到Sentry</span>
+}
 </code></pre>
 <h3 id="多线程">多线程</h3>
-<p>把复杂计算移到worker线程中</p>
+<p>把复杂计算移到 worker 线程中</p>
 <pre><code class="language-js"><span class="hljs-comment">// heavyCalculation.worker.ts</span>
-self.<span class="hljs-property">onmessage</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) {
+self.<span class="hljs-property">onmessage</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params">e</span>) {
   <span class="hljs-keyword">const</span> { data, algorithm } = e.<span class="hljs-property">data</span>
   <span class="hljs-comment">// 执行CPU密集型计算</span>
   <span class="hljs-keyword">const</span> result = <span class="hljs-title function_">performComplexCalculation</span>(data, algorithm)
@@ -199,7 +199,9 @@ self.<span class="hljs-property">onmessage</span> = <span class="hljs-keyword">f
 }
 
 <span class="hljs-comment">// 父线程调用</span>
-<span class="hljs-keyword">const</span> worker = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Worker</span>(<span class="hljs-keyword">new</span> <span class="hljs-title function_">URL</span>(<span class="hljs-string">&#x27;./heavyCalculation.worker.ts&#x27;</span>, <span class="hljs-keyword">import</span>.<span class="hljs-property">meta</span>.<span class="hljs-property">url</span>))
+<span class="hljs-keyword">const</span> worker = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Worker</span>(
+  <span class="hljs-keyword">new</span> <span class="hljs-title function_">URL</span>(<span class="hljs-string">&#x27;./heavyCalculation.worker.ts&#x27;</span>, <span class="hljs-keyword">import</span>.<span class="hljs-property">meta</span>.<span class="hljs-property">url</span>)
+)
 worker.<span class="hljs-title function_">postMessage</span>({ <span class="hljs-attr">data</span>: largeDataset, <span class="hljs-attr">algorithm</span>: <span class="hljs-string">&#x27;md5&#x27;</span> })
 worker.<span class="hljs-property">onmessage</span> = <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {
   <span class="hljs-title function_">updateUI</span>(event.<span class="hljs-property">data</span>) <span class="hljs-comment">// 仅负责更新DOM</span>
@@ -209,11 +211,11 @@ worker.<span class="hljs-property">onmessage</span> = <span class="hljs-function
 <h3 id="组件化模块化">组件化、模块化</h3>
 <p>组件保持小而精。
 不能太小。不能太大。</p>
-<h3 id="避免在watch-computed中进行dom操作">避免在watch computed中进行dom操作</h3>
-<h3 id="合理使用key">合理使用key。</h3>
-<p>v-for中提供唯一key,使vue高效更新。</p>
-<h3 id="保持props稳定">保持props稳定</h3>
-<p>当组件的任一props改变时，组件就会更新。</p>
+<h3 id="避免在-watch-computed-中进行-dom-操作">避免在 watch computed 中进行 dom 操作</h3>
+<h3 id="合理使用-key">合理使用 key。</h3>
+<p>v-for 中提供唯一 key,使 vue 高效更新。</p>
+<h3 id="保持-props-稳定">保持 props 稳定</h3>
+<p>当组件的任一 props 改变时，组件就会更新。</p>
 <pre><code class="language-js">&lt;span
     v-<span class="hljs-keyword">for</span>=<span class="hljs-string">&quot;item in list&quot;</span>
     key=<span class="hljs-string">&quot;item.id&quot;</span>
@@ -221,53 +223,52 @@ worker.<span class="hljs-property">onmessage</span> = <span class="hljs-function
     :activeId=<span class="hljs-string">&quot;activeId&quot;</span>             <span class="hljs-comment">// 差 全列表会变</span>
 &gt;
 </code></pre>
-<h3 id="减少dom操作">减少dom操作</h3>
+<h3 id="减少-dom-操作">减少 dom 操作</h3>
 <h2 id="用户体验优化">用户体验优化</h2>
 <h3 id="v-clock">v-clock</h3>
-<p>隐藏未完成编译的dom模板。</p>
+<p>隐藏未完成编译的 dom 模板。</p>
 <h3 id="v-memo">v-memo</h3>
 <p>当新值与最后一次的值相同时，跳过渲染，使用上一次的渲染结果。</p>
 <h2 id="构建开发构建时">构建（开发、构建时）</h2>
 <h3 id="代码分割按需加载">代码分割、按需加载</h3>
 <p>把依赖包拆出来</p>
-<pre><code>export default {
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks: { // 手动指定要分割的内容
-          'vue-vendor': ['vue', 'vue-router'],
-          'ui-library': ['element-plus']
+<pre><code class="language-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  <span class="hljs-attr">build</span>: {
+    <span class="hljs-attr">rollupOptions</span>: {
+      <span class="hljs-attr">output</span>: {
+        <span class="hljs-attr">manualChunks</span>: { <span class="hljs-comment">// 手动指定要分割的内容</span>
+          <span class="hljs-string">&#x27;vue-vendor&#x27;</span>: [<span class="hljs-string">&#x27;vue&#x27;</span>, <span class="hljs-string">&#x27;vue-router&#x27;</span>],
+          <span class="hljs-string">&#x27;ui-library&#x27;</span>: [<span class="hljs-string">&#x27;element-plus&#x27;</span>]
         }
       }
     }
   }
 };
 </code></pre>
-<h3 id="gzipbrotli压缩压缩资源">Gzip/Brotli压缩/压缩资源</h3>
+<h3 id="gzipbrotli-压缩压缩资源">Gzip/Brotli 压缩/压缩资源</h3>
 <p>服务器配置压缩，减小传输体积。
 （超出了前端工程师的工作边界）
 用打包工具压缩资源。</p>
 <h3 id="浏览器缓存--service-workers">浏览器缓存 、 <a href="/pwa/serviceWorker.html">service workers</a></h3>
-<p>配置http缓存头，利用浏览器缓存静态资源。
+<p>配置 http 缓存头，利用浏览器缓存静态资源。
 expires / Cache-Control 可以用于非首次加载。</p>
-<h3 id="dns预解析预连接预加载">dns预解析、预连接、预加载</h3>
-<p>优化域名解析和tcp连接
+<h3 id="dns-预解析预连接预加载">dns 预解析、预连接、预加载</h3>
+<p>优化域名解析和 tcp 连接
 预加载可能需要的资源。（非首页）</p>
-<h3 id="使用cdn">使用CDN</h3>
+<h3 id="使用-cdn">使用 CDN</h3>
 <p>加速资源分发</p>
 <h3 id="图片优化">图片优化</h3>
-<p>压缩图片，使用webP格式(比jpeg小30%)，懒加载图片
-sprite图</p>
+<p>压缩图片，使用 webP 格式(比 jpeg 小 30%)，懒加载图片
+sprite 图</p>
 <h3 id="包体积tree-shaking">包体积、tree-shaking</h3>
-<p>tree-shaking由打包器决定是否支持。
-代码中需要使用组合式，（就是方法。）支持tree-shaking。使用选项式（就是对象）不支持tree-shaking。</p>
+<p>tree-shaking 由打包器决定是否支持。
+代码中需要使用组合式，（就是方法。）支持 tree-shaking。使用选项式（就是对象）不支持 tree-shaking。</p>
 <h2 id="兜底解决方案异步">兜底解决方案——异步</h2>
 <h2 id="性能">性能</h2>
-<h3 id="title">title</h3>
-<h3 id="title-1">title</h3>
 <h2 id="总结">总结</h2>
 <p>要优化什么 &amp; 怎么做
 以上方法都能做到优化。但是每项的优先量不同，有的立杆见影，有见效微小。</p>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -292,13 +293,13 @@ sprite图</p>
 </tr>
 <tr>
 <td>加载速度</td>
-<td>代码分割 &gt; Gzip / Brotli，sprite，压缩文件，cdn &gt; 浏览器缓存，service workers&gt; 异步加载组件、js依赖 &gt; 预加载 &gt; 使用http2协议</td>
+<td>代码分割 &gt; Gzip / Brotli，sprite，压缩文件，cdn &gt; 浏览器缓存，service workers&gt; 异步加载组件、js 依赖 &gt; 预加载 &gt; 使用 http2 协议</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td>打包体积（项目体积）</td>
-<td>路由懒加载，代码分割，资源压缩，tree-shaking，通用资源放在cdn+忽略指定依赖，200k以下的图片用base64，不使用代码地图</td>
+<td>路由懒加载，代码分割，资源压缩，tree-shaking，通用资源放在 cdn+忽略指定依赖，200k 以下的图片用 base64，不使用代码地图</td>
 <td></td>
 <td></td>
 </tr>
@@ -332,33 +333,46 @@ sprite图</p>
 <td></td>
 <td></td>
 </tr>
-<tr>
-<td>src</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>ftp</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>lcp</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
 <h2 id="前端性能指标">前端性能指标</h2>
+<h3 id="fpfirst-paint首次绘制">FP(First Paint)首次绘制</h3>
+<p>绘制出第一个视觉元素。
+减少css/js的体积。
+<code>&lt;link rel=&quot;preload&quot;&gt;</code>提前加载关键资源。</p>
+<h3 id="lcplargest-contentful-paint">LCP（Largest Contentful Paint）</h3>
+<p>绘制最大可见元素用时。一般要求在2.5s内
+优化图片等大资源的加载，使用懒加载、图片压缩、webp格式。
+关键资源优先加载。使用<code>&lt;link rel=&quot;preload&quot;&gt;</code>或<code>&lt;img srcset&gt;</code>。
+对于动态内容，考虑使用骨架屏或占位符元素，直到LCP元素加载完毕。</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;box&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">img</span>
+    <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/zh-CN/docs/Web/HTML/Element/img/clock-demo-200px.png&quot;</span> &lt;!<span class="hljs-attr">--</span> 在<span class="hljs-attr">1x</span>显示器上显示 <span class="hljs-attr">--</span>&gt;</span>
+    alt=&quot;钟表&quot;
+    srcset=&quot;/zh-CN/docs/Web/HTML/Element/img/clock-demo-400px.png 2x&quot; /&gt; <span class="hljs-comment">&lt;!-- 在2x显示器上显示 --&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</code></pre>
+<h3 id="clscumulative-layout-shift">CLS（Cumulative Layout Shift）</h3>
+<p>累计布局偏移量。会触发重绘、回流。
+避免在页面加载期间修改已渲染元素的尺寸，确保所有元素尺寸提前计算好。
+使用height和width属性为图片和iframe等元素指定尺寸。
+动态插入内容时，预留空间或使用CSS动画而非即时布局变化。
+避免使用position: fixed;或sticky;导致的布局偏移，除非绝对必要。</p>
+<pre><code class="language-css"><span class="hljs-comment">/* 预先设定图片尺寸 */</span>
+<span class="hljs-selector-tag">img</span> {
+  <span class="hljs-attribute">width</span>: <span class="hljs-number">100%</span>;
+  <span class="hljs-attribute">height</span>: auto;
+}
+</code></pre>
+<h3 id="fmpfirst-meaningful-paint">FMP（First Meaningful Paint）</h3>
+<p>首次有效绘制。
+用户看到他们认为有意义的东西。
+被lcp代替了。</p>
+<h2 id="测量工具">测量工具</h2>
+<p>使用代码拆分和异步加载减少JavaScript的阻塞。
+优化服务器响应时间和网络连接，使用HTTP/2和CDN。
+定期进行性能审计，使用Lighthouse、WebPageTest等工具。</p>
 
             
             
