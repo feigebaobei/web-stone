@@ -143,6 +143,8 @@ Vue.createApp({
 
 ## [组件](/framework/vue3/component.html)
 
+### [内置组件](/framework/vue3/component.html)
+
 html 中不区分大小写。vue 内部转化组件名。
 
 ### [单文件组件](/framework/vue3/sfc.html)
