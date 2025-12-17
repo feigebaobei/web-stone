@@ -52,6 +52,168 @@ vue3 是一个一库多包项目。
 3. 生成 render 方法。使用 generator 方法。对 no.2 的 ast 编译，生成 render 方法。
 4. patch
 
+我整理的
+
+1. 编译阶段。vite 使用@vite/compiler-sfc 插件（调用该包的 parse 方法）解析\*.vue 文件成为 3 个 block(template/script/style 分别生成一个 block)
+2. 渲染阶段。从 createApp 开始。会创建组件的实例，其中包括 vnode。再编译模板，再得到 render 方法，再把 render 方法封装成方法。
+3. 更新阶段。就是 patch 方法。patch 方法就是 diff 运算。vue3 的 diff 比 vue2 的 diff 要简单。
+
+### 解释阶段
+
+从 main.js 开始。这里引入了 createApp。
+
+```
+import { createApp } from 'vue'
+```
+
+```
+    vue包            runtime-dom包
+    调用createApp方法
+                    调用ensureRenderer方法
+                    调用baseCreateRenderer方法，得到一个包含render方法的对象。
+                    调用render方法，得到一个应用。
+```
+
+调用栈：
+
+1. createApp -> 创建应用实例
+2. mount -> 挂载组件
+3. setupComponent -> 设置组件
+4. finishComponentSetup -> 完成组件设置
+5. compile(template, options) -> 编译模板
+   这是一个解析器模式。
+
+### 渲染阶段
+
+从 createApp 开始。
+mountComponent -> 挂载组件。用 createComponentInstance 方法创建组件实例。
+
+```ts
+// 这是实例的类型
+const instance: ComponentInternalInstance = {
+  uid: uid++,
+  vnode,
+  type,
+  parent,
+  appContext,
+  root: null!, // to be immediately set
+  next: null,
+  subTree: null!, // will be set synchronously right after creation
+  effect: null!,
+  update: null!, // will be set synchronously right after creation
+  job: null!,
+  scope: new EffectScope(true /* detached */),
+  render: null,
+  proxy: null,
+  exposed: null,
+  exposeProxy: null,
+  withProxy: null,
+
+  provides: parent ? parent.provides : Object.create(appContext.provides),
+  ids: parent ? parent.ids : ['', 0, 0],
+  accessCache: null!,
+  renderCache: [],
+
+  // local resolved assets
+  components: null,
+  directives: null,
+
+  // resolved props and emits options
+  propsOptions: normalizePropsOptions(type, appContext),
+  emitsOptions: normalizeEmitsOptions(type, appContext),
+
+  // emit
+  emit: null!, // to be set immediately
+  emitted: null,
+
+  // props default value
+  propsDefaults: EMPTY_OBJ,
+
+  // inheritAttrs
+  inheritAttrs: type.inheritAttrs,
+
+  // state
+  ctx: EMPTY_OBJ,
+  data: EMPTY_OBJ,
+  props: EMPTY_OBJ,
+  attrs: EMPTY_OBJ,
+  slots: EMPTY_OBJ,
+  refs: EMPTY_OBJ,
+  setupState: EMPTY_OBJ,
+  setupContext: null,
+
+  // suspense related
+  suspense,
+  suspenseId: suspense ? suspense.pendingId : 0,
+  asyncDep: null,
+  asyncResolved: false,
+
+  // lifecycle hooks
+  // not using enums here because it results in computed properties
+  isMounted: false,
+  isUnmounted: false,
+  isDeactivated: false,
+  bc: null,
+  c: null,
+  bm: null,
+  m: null,
+  bu: null,
+  u: null,
+  um: null,
+  bum: null,
+  da: null,
+  a: null,
+  rtg: null,
+  rtc: null,
+  ec: null,
+  sp: null,
+}
+```
+
+setupComponent -> 设置组件。initProps 、 initSlots 等
+setupStatefulComponent
+finishComponentSetup -> 由 setup()得到 Component.render，再赋值给 Component.template
+Component.render = compile(template, finalCompilerOptions)
+compile -> 编译模板。
+registerRuntimeCompiler(compileToFunction)
+compile 方法就是 compileToFunction 方法
+compileToFunction -> 调用 compile 方法.这个方法是 compiler-dom 中的。
+返回了 render 方法。这是用 new Function()创建的。参数是 compile 方法的返回值。
+又缓存起来了。
+compile -> 直接调用 baseCompile
+baseCompile -> 这个方法在 compiler-core 中。调用了 transform 方法，返回了 generate 方法的返回值。
+由 baseParse 方法得到 ast 变量。（它不是 ast 对象）
+
+transform -> 它的参数中有 ast 变量。无返回值。
+创建转换上下文。
+静态提升
+generate -> 硬生成的 js 代码。含 vnode 树。
+
+此阶段使用缓存的地方好多。
+
+### 更新阶段
+
+从 patch 方法开始。
+patch 方法是在 createRenderer 方法中定义的。
+
+1. 如果 2 个 vnode 相同，则无操作。
+2. 如果 2 个 vnode 的 type 不同或 key 不同，则删除旧 vnode
+3. 更新节点
+
+runtime-dom 包中的 nodeOps 对象中定义了操作 vnode 的方法。其中包括由 vnode 生成 dom 的方法 createElement。
+vue 的底层是使用 document.createElement 创建 dom 的。不可能它这个方法更快。此方法的运行速度就是 vue 的性能理论峰值。
+
+### vnode 如何生成 dom
+
+createRenderer 方法的参数是 nodeOps 对象，此对应中的 createElement 方法，此方法生成创建的 dom 元素。
+在 renderer 方法的 mountElement 方法中创建 dom 元素，再挂载到 dom 树中。
+
+## 响应式
+
+### title
+
+### title
+
 ### 静态提升
 
 transform 中的 hoistStatic 方法会递归 ast，把不具有响应式的代码序列化为字符串。编译时不处理它们。减少编译工作量。
@@ -118,7 +280,7 @@ export function render(_ctx, _cache, $props, $setup, $data, $options) {
 compile 方法和 runtime-dom 包就是运行时的。
 
 createApp 方法  
-创建 vdom
+创建 vdom（也就是 vnode）
 
 ### render 函数
 
@@ -157,14 +319,16 @@ patch 就在这里执行。
     挂载新节点      唤醒节点
 ```
 
-## 自己读的源码
+# 自己读的源码
 
 @vue/shared 里放置 helper 方法。  
 ts 写的包好读一点，可以根据它的类型较快得到属性、方法。若命名规范，则更容易理解。
 
-### 打包
+## 打包
 
 根据 package.json 中的 buildOptions.formats 分别打包 runtime 包和全量包
+在 vite 的配置文件中引入并使用@vue/compiler-sfc 插件。这个插件是用于加载*.vue 文件的。
+vite 会在解析*.vue 文件时调用该插件的 parse 方法。
 
 ### 内部方法
 
@@ -688,8 +852,6 @@ export interface ComponentInternalInstance {
     |--------|
 
 ```
-
-#### title
 
 #### title
 

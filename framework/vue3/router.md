@@ -32,7 +32,16 @@
 </template>
 ```
 
-## title
+## 懒加载
+
+```
+let routes = [
+  {
+    path: '/one',
+    component: () => import('@/one.vue')
+  }
+]
+```
 
 ## title
 

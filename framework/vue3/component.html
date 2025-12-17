@@ -11,7 +11,9 @@
  *--------------------------------------------------------------------------------------------*/
 
 .vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
 	display: none;
 }
 
@@ -795,6 +797,7 @@ count.<span class="hljs-property">value</span>++
 </code></pre>
 <h2 id="内置组件">内置组件</h2>
 <h3 id="transition--transitiongroup"><a href="/framework/vue3/translate.html">Transition &amp; TransitionGroup</a></h3>
+<p>用于过滤的动画</p>
 <h3 id="transition">Transition</h3>
 <ul>
 <li><strong>它是过滤，不是动画。</strong></li>
@@ -931,7 +934,7 @@ count.<span class="hljs-property">value</span>++
 <h3 id="keepalive">KeepAlive</h3>
 <ul>
 <li>用于缓存组件。</li>
-<li>include &amp; exclude</li>
+<li>include &amp; exclude 指定组件的name</li>
 <li>max.达到最大值使用 lru 处理（最久未使用的组件被移除）。</li>
 <li>onActivated() &amp; onDeactivated()</li>
 </ul>
@@ -952,9 +955,10 @@ count.<span class="hljs-property">value</span>++
 </code></pre>
 <h3 id="teleport">Teleport</h3>
 <ul>
-<li>把指定 dom 元素放在 dom 树的其它位置。</li>
-<li>to</li>
-<li>disabled</li>
+<li>把指定 dom 元素放在 dom 树的指定的其它位置。</li>
+<li>to string 要发射到的地方。</li>
+<li>disabled boolean</li>
+<li>defer boolean 延迟到应用的其他部分渲染完于发射。</li>
 <li>可共享目标</li>
 <li>当目标元素匹配多个时，只有第一个有效。</li>
 </ul>

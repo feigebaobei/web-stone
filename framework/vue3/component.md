@@ -617,6 +617,8 @@ count.value++
 
 ### [Transition & TransitionGroup](/framework/vue3/translate.html)
 
+用于过滤的动画
+
 ### Transition
 
 - **它是过滤，不是动画。**
@@ -673,7 +675,7 @@ count.value++
 ### KeepAlive
 
 - 用于缓存组件。
-- include & exclude
+- include & exclude 指定组件的 name
 - max.达到最大值使用 lru 处理（最久未使用的组件被移除）。
 - onActivated() & onDeactivated()
 
@@ -696,9 +698,10 @@ count.value++
 
 ### Teleport
 
-- 把指定 dom 元素放在 dom 树的其它位置。
-- to
-- disabled
+- 把指定 dom 元素放在 dom 树的指定的其它位置。
+- to string 要发射到的地方。
+- disabled boolean
+- defer boolean 延迟到应用的其他部分渲染完于发射。
 - 可共享目标
 - 当目标元素匹配多个时，只有第一个有效。
 

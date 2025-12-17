@@ -207,6 +207,148 @@
 <li>生成 render 方法。使用 generator 方法。对 no.2 的 ast 编译，生成 render 方法。</li>
 <li>patch</li>
 </ol>
+<p>我整理的</p>
+<ol>
+<li>编译阶段。vite使用@vite/compiler-sfc插件（调用该包的parse方法）解析*.vue文件成为3个block(template/script/style分别生成一个block)</li>
+<li>渲染阶段。从createApp开始。会创建组件的实例，其中包括vnode。再编译模板，再得到render方法，再把render方法封装成方法。</li>
+<li>更新阶段。就是patch方法。patch方法就是diff运算。vue3的diff比vue2的diff要简单。</li>
+</ol>
+<h3 id="解释阶段">解释阶段</h3>
+<p>从main.js开始。这里引入了createApp。</p>
+<pre><code>import { createApp } from 'vue'
+</code></pre>
+<pre><code>    vue包            runtime-dom包
+    调用createApp方法
+                    调用ensureRenderer方法
+                    调用baseCreateRenderer方法，得到一个包含render方法的对象。
+                    调用render方法，得到一个应用。
+</code></pre>
+<p>调用栈：</p>
+<ol>
+<li>createApp -&gt; 创建应用实例</li>
+<li>mount -&gt; 挂载组件</li>
+<li>setupComponent -&gt; 设置组件</li>
+<li>finishComponentSetup -&gt; 完成组件设置</li>
+<li>compile(template, options) -&gt; 编译模板
+这是一个解析器模式。</li>
+</ol>
+<h3 id="渲染阶段">渲染阶段</h3>
+<p>从createApp开始。
+mountComponent   -&gt; 挂载组件。用createComponentInstance方法创建组件实例。</p>
+<pre><code class="language-ts"><span class="hljs-comment">// 这是实例的类型</span>
+<span class="hljs-keyword">const</span> <span class="hljs-attr">instance</span>: <span class="hljs-title class_">ComponentInternalInstance</span> = {
+    <span class="hljs-attr">uid</span>: uid++,
+    vnode,
+    <span class="hljs-keyword">type</span>,
+    parent,
+    appContext,
+    <span class="hljs-attr">root</span>: <span class="hljs-literal">null</span>!, <span class="hljs-comment">// to be immediately set</span>
+    <span class="hljs-attr">next</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">subTree</span>: <span class="hljs-literal">null</span>!, <span class="hljs-comment">// will be set synchronously right after creation</span>
+    <span class="hljs-attr">effect</span>: <span class="hljs-literal">null</span>!,
+    <span class="hljs-attr">update</span>: <span class="hljs-literal">null</span>!, <span class="hljs-comment">// will be set synchronously right after creation</span>
+    <span class="hljs-attr">job</span>: <span class="hljs-literal">null</span>!,
+    <span class="hljs-attr">scope</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">EffectScope</span>(<span class="hljs-literal">true</span> <span class="hljs-comment">/* detached */</span>),
+    <span class="hljs-attr">render</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">proxy</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">exposed</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">exposeProxy</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">withProxy</span>: <span class="hljs-literal">null</span>,
+
+    <span class="hljs-attr">provides</span>: parent ? parent.<span class="hljs-property">provides</span> : <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">create</span>(appContext.<span class="hljs-property">provides</span>),
+    <span class="hljs-attr">ids</span>: parent ? parent.<span class="hljs-property">ids</span> : [<span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>],
+    <span class="hljs-attr">accessCache</span>: <span class="hljs-literal">null</span>!,
+    <span class="hljs-attr">renderCache</span>: [],
+
+    <span class="hljs-comment">// local resolved assets</span>
+    <span class="hljs-attr">components</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">directives</span>: <span class="hljs-literal">null</span>,
+
+    <span class="hljs-comment">// resolved props and emits options</span>
+    <span class="hljs-attr">propsOptions</span>: <span class="hljs-title function_">normalizePropsOptions</span>(<span class="hljs-keyword">type</span>, appContext),
+    <span class="hljs-attr">emitsOptions</span>: <span class="hljs-title function_">normalizeEmitsOptions</span>(<span class="hljs-keyword">type</span>, appContext),
+
+    <span class="hljs-comment">// emit</span>
+    <span class="hljs-attr">emit</span>: <span class="hljs-literal">null</span>!, <span class="hljs-comment">// to be set immediately</span>
+    <span class="hljs-attr">emitted</span>: <span class="hljs-literal">null</span>,
+
+    <span class="hljs-comment">// props default value</span>
+    <span class="hljs-attr">propsDefaults</span>: <span class="hljs-variable constant_">EMPTY_OBJ</span>,
+
+    <span class="hljs-comment">// inheritAttrs</span>
+    <span class="hljs-attr">inheritAttrs</span>: <span class="hljs-keyword">type</span>.<span class="hljs-property">inheritAttrs</span>,
+
+    <span class="hljs-comment">// state</span>
+    <span class="hljs-attr">ctx</span>: <span class="hljs-variable constant_">EMPTY_OBJ</span>,
+    <span class="hljs-attr">data</span>: <span class="hljs-variable constant_">EMPTY_OBJ</span>,
+    <span class="hljs-attr">props</span>: <span class="hljs-variable constant_">EMPTY_OBJ</span>,
+    <span class="hljs-attr">attrs</span>: <span class="hljs-variable constant_">EMPTY_OBJ</span>,
+    <span class="hljs-attr">slots</span>: <span class="hljs-variable constant_">EMPTY_OBJ</span>,
+    <span class="hljs-attr">refs</span>: <span class="hljs-variable constant_">EMPTY_OBJ</span>,
+    <span class="hljs-attr">setupState</span>: <span class="hljs-variable constant_">EMPTY_OBJ</span>,
+    <span class="hljs-attr">setupContext</span>: <span class="hljs-literal">null</span>,
+
+    <span class="hljs-comment">// suspense related</span>
+    suspense,
+    <span class="hljs-attr">suspenseId</span>: suspense ? suspense.<span class="hljs-property">pendingId</span> : <span class="hljs-number">0</span>,
+    <span class="hljs-attr">asyncDep</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">asyncResolved</span>: <span class="hljs-literal">false</span>,
+
+    <span class="hljs-comment">// lifecycle hooks</span>
+    <span class="hljs-comment">// not using enums here because it results in computed properties</span>
+    <span class="hljs-attr">isMounted</span>: <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">isUnmounted</span>: <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">isDeactivated</span>: <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">bc</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">c</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">bm</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">m</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">bu</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">u</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">um</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">bum</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">da</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">a</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">rtg</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">rtc</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">ec</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">sp</span>: <span class="hljs-literal">null</span>,
+  }
+</code></pre>
+<p>setupComponent   -&gt; 设置组件。initProps 、 initSlots 等
+setupStatefulComponent
+finishComponentSetup -&gt; 由setup()得到Component.render，再赋值给Component.template
+Component.render = compile(template, finalCompilerOptions)
+compile -&gt; 编译模板。
+registerRuntimeCompiler(compileToFunction)
+compile方法就是compileToFunction方法
+compileToFunction -&gt;  调用compile方法.这个方法是compiler-dom中的。
+返回了render方法。这是用new Function()创建的。参数是compile方法的返回值。
+又缓存起来了。
+compile -&gt; 直接调用baseCompile
+baseCompile -&gt; 这个方法在compiler-core中。调用了transform方法，返回了generate方法的返回值。
+由baseParse方法得到ast变量。（它不是ast对象）</p>
+<p>transform -&gt; 它的参数中有ast变量。无返回值。
+创建转换上下文。
+静态提升
+generate -&gt; 硬生成的js代码。含vnode树。</p>
+<p>此阶段使用缓存的地方好多。</p>
+<h3 id="更新阶段">更新阶段</h3>
+<p>从patch方法开始。
+patch方法是在createRenderer方法中定义的。</p>
+<ol>
+<li>如果2个vnode相同，则无操作。</li>
+<li>如果2个vnode的type不同或key不同，则删除旧vnode</li>
+<li>更新节点</li>
+</ol>
+<p>runtime-dom包中的nodeOps对象中定义了操作vnode的方法。其中包括由vnode生成dom的方法createElement。
+vue的底层是使用document.createElement创建dom的。不可能它这个方法更快。此方法的运行速度就是vue的性能理论峰值。</p>
+<h3 id="vnode如何生成dom">vnode如何生成dom</h3>
+<p>createRenderer方法的参数是nodeOps对象，此对应中的createElement方法，此方法生成创建的dom元素。
+在renderer方法的mountElement方法中创建dom元素，再挂载到dom树中。</p>
+<h2 id="响应式">响应式</h2>
+<h3 id="title">title</h3>
+<h3 id="title-1">title</h3>
 <h3 id="静态提升">静态提升</h3>
 <p>transform 中的 hoistStatic 方法会递归 ast，把不具有响应式的代码序列化为字符串。编译时不处理它们。减少编译工作量。</p>
 <p>只有静态内容可以被静态提升。</p>
@@ -258,7 +400,7 @@
 <h2 id="运行时">运行时</h2>
 <p>compile 方法和 runtime-dom 包就是运行时的。</p>
 <p>createApp 方法<br>
-创建 vdom</p>
+创建 vdom（也就是vnode）</p>
 <h3 id="render-函数">render 函数</h3>
 <p>patch 就在这里执行。</p>
 <h4 id="patch">patch</h4>
@@ -294,11 +436,13 @@
         V           V
     挂载新节点      唤醒节点
 </code></pre>
-<h2 id="自己读的源码">自己读的源码</h2>
+<h1 id="自己读的源码">自己读的源码</h1>
 <p>@vue/shared 里放置 helper 方法。<br>
 ts 写的包好读一点，可以根据它的类型较快得到属性、方法。若命名规范，则更容易理解。</p>
-<h3 id="打包">打包</h3>
-<p>根据 package.json 中的 buildOptions.formats 分别打包 runtime 包和全量包</p>
+<h2 id="打包">打包</h2>
+<p>根据 package.json 中的 buildOptions.formats 分别打包 runtime 包和全量包
+在vite的配置文件中引入并使用@vue/compiler-sfc插件。这个插件是用于加载*.vue文件的。
+vite会在解析*.vue文件时调用该插件的parse方法。</p>
 <h3 id="内部方法">内部方法</h3>
 <p>各包中嵌套输出方法。</p>
 <h4 id="createapp">createApp</h4>
@@ -367,7 +511,7 @@ mount()中使用了<code>isMounted</code>做为 flag.</p>
 <pre><code class="language-ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">VNode</span>&lt;
   <span class="hljs-title class_">HostNode</span> = <span class="hljs-title class_">RendererNode</span>,
   <span class="hljs-title class_">HostElement</span> = <span class="hljs-title class_">RendererElement</span>,
-  <span class="hljs-title class_">ExtraProps</span> = { [<span class="hljs-attr">key</span>: <span class="hljs-built_in">string</span>]: <span class="hljs-built_in">any</span> },
+  <span class="hljs-title class_">ExtraProps</span> = { [<span class="hljs-attr">key</span>: <span class="hljs-built_in">string</span>]: <span class="hljs-built_in">any</span> }
 &gt; {
   <span class="hljs-comment">/**
    * <span class="hljs-doctag">@internal</span>
@@ -397,7 +541,7 @@ mount()中使用了<code>isMounted</code>做为 flag.</p>
    */</span>
   <span class="hljs-attr">slotScopeIds</span>: <span class="hljs-built_in">string</span>[] | <span class="hljs-literal">null</span>
   <span class="hljs-attr">children</span>: <span class="hljs-title class_">VNodeNormalizedChildren</span>
-  <span class="hljs-attr">component</span>: <span class="hljs-title class_">ComponentInternalInstance</span> | <span class="hljs-literal">null</span>  <span class="hljs-comment">// 这里定义了组件</span>
+  <span class="hljs-attr">component</span>: <span class="hljs-title class_">ComponentInternalInstance</span> | <span class="hljs-literal">null</span> <span class="hljs-comment">// 这里定义了组件</span>
   <span class="hljs-attr">dirs</span>: <span class="hljs-title class_">DirectiveBinding</span>[] | <span class="hljs-literal">null</span>
   <span class="hljs-attr">transition</span>: <span class="hljs-title class_">TransitionHooks</span>&lt;<span class="hljs-title class_">HostElement</span>&gt; | <span class="hljs-literal">null</span>
 
@@ -476,7 +620,7 @@ mount()中使用了<code>isMounted</code>做为 flag.</p>
    * The pending new vnode from parent updates
    * <span class="hljs-doctag">@internal</span>
    */</span>
-  <span class="hljs-attr">next</span>: <span class="hljs-title class_">VNode</span> | <span class="hljs-literal">null</span>          <span class="hljs-comment">// next / parent / rootsubTree 这些字段定义了二叉树结构</span>
+  <span class="hljs-attr">next</span>: <span class="hljs-title class_">VNode</span> | <span class="hljs-literal">null</span> <span class="hljs-comment">// next / parent / rootsubTree 这些字段定义了二叉树结构</span>
   <span class="hljs-comment">/**
    * Root vnode of this component&#x27;s own vdom tree
    */</span>
@@ -582,7 +726,7 @@ mount()中使用了<code>isMounted</code>做为 flag.</p>
   <span class="hljs-comment">// the rest are only for stateful components ---------------------------------</span>
 
   <span class="hljs-comment">// main proxy that serves as the public instance (`this`)</span>
-  <span class="hljs-attr">proxy</span>: <span class="hljs-title class_">ComponentPublicInstance</span> | <span class="hljs-literal">null</span>      <span class="hljs-comment">// 这是代理</span>
+  <span class="hljs-attr">proxy</span>: <span class="hljs-title class_">ComponentPublicInstance</span> | <span class="hljs-literal">null</span> <span class="hljs-comment">// 这是代理</span>
 
   <span class="hljs-comment">// exposed properties via expose()</span>
   <span class="hljs-attr">exposed</span>: <span class="hljs-title class_">Record</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">any</span>&gt; | <span class="hljs-literal">null</span>
@@ -763,8 +907,6 @@ mount()中使用了<code>isMounted</code>做为 flag.</p>
     |--------|
 
 </code></pre>
-<h4 id="title">title</h4>
-<h4 id="title-1">title</h4>
 <h4 id="title-2">title</h4>
 <h4 id="title-3">title</h4>
 <h4 id="title-4">title</h4>
@@ -795,14 +937,15 @@ mount()中使用了<code>isMounted</code>做为 flag.</p>
 <h4 id="title-29">title</h4>
 <h4 id="title-30">title</h4>
 <h4 id="title-31">title</h4>
-<h3 id="title-32">title</h3>
+<h4 id="title-32">title</h4>
 <h3 id="title-33">title</h3>
 <h3 id="title-34">title</h3>
-<h2 id="title-35">title</h2>
+<h3 id="title-35">title</h3>
 <h2 id="title-36">title</h2>
 <h2 id="title-37">title</h2>
 <h2 id="title-38">title</h2>
 <h2 id="title-39">title</h2>
+<h2 id="title-40">title</h2>
 <h2 id="confuse">confuse</h2>
 <p>vue3 采用 proxy 重写了响应式系统，因为 proxy 可以对整个对象进行监听，所以不需要深度遍历</p>
 <p>可以监听动态属性的添加
