@@ -85,9 +85,9 @@ cb 会在主线程中执行，所以该函数要尽可能快。若需要执行�
 |-|-|-|-|
 |IntersectionObserver(cb: ( entry: IntersectionObserverEntry, observer) =>  void, options)|||别的方法都是先写options再写cb|
 |options||||
-||root|null。默认为浏览器视口。||
+||root|null。默认为浏览器视口。|用作视口的元素。|
 ||rootMargin|0 0 0 0|用于增大或缩水根元素边框的每一侧，然后计算交叉点。|
-||threshold|`number | number[]`默认为0|当达到指定百分比时触发回调|
+||threshold|`number | number[]`默认为0|当达到指定百分比可见时触发回调。0.0-1.0之间的数值。|
 <!-- prettier-ignore-end -->
 
 <!-- prettier-ignore-start -->

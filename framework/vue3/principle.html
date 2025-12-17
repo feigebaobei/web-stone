@@ -213,20 +213,41 @@
 <p>静态内容会跳过 render/patch.</p>
 <p>没有做静态提升之前</p>
 <pre><code class="language-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">render</span>(<span class="hljs-params">_ctx, _cache, $props, $setup, $data, $options</span>) {
-  <span class="hljs-keyword">return</span> (<span class="hljs-title function_">_openBlock</span>(), <span class="hljs-title function_">_createBlock</span>(_Fragment, <span class="hljs-literal">null</span>, [
-    <span class="hljs-title function_">_createVNode</span>(<span class="hljs-string">&quot;span&quot;</span>, <span class="hljs-literal">null</span>, <span class="hljs-string">&quot;你好&quot;</span>),
-    <span class="hljs-title function_">_createVNode</span>(<span class="hljs-string">&quot;div&quot;</span>, <span class="hljs-literal">null</span>, <span class="hljs-title function_">_toDisplayString</span>(_ctx.<span class="hljs-property">message</span>), <span class="hljs-number">1</span> <span class="hljs-comment">/* TEXT */</span>)
-  ], <span class="hljs-number">64</span> <span class="hljs-comment">/* STABLE_FRAGMENT */</span>))
+  <span class="hljs-keyword">return</span> (
+    <span class="hljs-title function_">_openBlock</span>(),
+    <span class="hljs-title function_">_createBlock</span>(
+      _Fragment,
+      <span class="hljs-literal">null</span>,
+      [
+        <span class="hljs-title function_">_createVNode</span>(<span class="hljs-string">&#x27;span&#x27;</span>, <span class="hljs-literal">null</span>, <span class="hljs-string">&#x27;你好&#x27;</span>),
+        <span class="hljs-title function_">_createVNode</span>(<span class="hljs-string">&#x27;div&#x27;</span>, <span class="hljs-literal">null</span>, <span class="hljs-title function_">_toDisplayString</span>(_ctx.<span class="hljs-property">message</span>), <span class="hljs-number">1</span> <span class="hljs-comment">/* TEXT */</span>),
+      ],
+      <span class="hljs-number">64</span> <span class="hljs-comment">/* STABLE_FRAGMENT */</span>
+    )
+  )
 }
 </code></pre>
 <p>做了静态提升之后</p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> _hoisted_1 = <span class="hljs-comment">/*#__PURE__*/</span><span class="hljs-title function_">_createVNode</span>(<span class="hljs-string">&quot;span&quot;</span>, <span class="hljs-literal">null</span>, <span class="hljs-string">&quot;你好&quot;</span>, -<span class="hljs-number">1</span> <span class="hljs-comment">/* HOISTED */</span>)
+<pre><code class="language-js"><span class="hljs-keyword">const</span> _hoisted_1 = <span class="hljs-comment">/*#__PURE__*/</span> <span class="hljs-title function_">_createVNode</span>(
+  <span class="hljs-string">&#x27;span&#x27;</span>,
+  <span class="hljs-literal">null</span>,
+  <span class="hljs-string">&#x27;你好&#x27;</span>,
+  -<span class="hljs-number">1</span> <span class="hljs-comment">/* HOISTED */</span>
+)
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">render</span>(<span class="hljs-params">_ctx, _cache, $props, $setup, $data, $options</span>) {
-  <span class="hljs-keyword">return</span> (<span class="hljs-title function_">_openBlock</span>(), <span class="hljs-title function_">_createBlock</span>(_Fragment, <span class="hljs-literal">null</span>, [
-    _hoisted_1,
-    <span class="hljs-title function_">_createVNode</span>(<span class="hljs-string">&quot;div&quot;</span>, <span class="hljs-literal">null</span>, <span class="hljs-title function_">_toDisplayString</span>(_ctx.<span class="hljs-property">message</span>), <span class="hljs-number">1</span> <span class="hljs-comment">/* TEXT */</span>)
-  ], <span class="hljs-number">64</span> <span class="hljs-comment">/* STABLE_FRAGMENT */</span>))
+  <span class="hljs-keyword">return</span> (
+    <span class="hljs-title function_">_openBlock</span>(),
+    <span class="hljs-title function_">_createBlock</span>(
+      _Fragment,
+      <span class="hljs-literal">null</span>,
+      [
+        _hoisted_1,
+        <span class="hljs-title function_">_createVNode</span>(<span class="hljs-string">&#x27;div&#x27;</span>, <span class="hljs-literal">null</span>, <span class="hljs-title function_">_toDisplayString</span>(_ctx.<span class="hljs-property">message</span>), <span class="hljs-number">1</span> <span class="hljs-comment">/* TEXT */</span>),
+      ],
+      <span class="hljs-number">64</span> <span class="hljs-comment">/* STABLE_FRAGMENT */</span>
+    )
+  )
 }
 
 <span class="hljs-comment">// Check the console for the AST</span>
@@ -342,6 +363,406 @@ mount()中使用了<code>isMounted</code>做为 flag.</p>
 <p>参数 root 下是否只有一个子元素</p>
 <h4 id="createcodegencontext">createCodegenContext</h4>
 <p>这是一个工厂函数，返回一个 CodegenContext 对象。</p>
+<h2 id="数据结构">数据结构</h2>
+<pre><code class="language-ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">VNode</span>&lt;
+  <span class="hljs-title class_">HostNode</span> = <span class="hljs-title class_">RendererNode</span>,
+  <span class="hljs-title class_">HostElement</span> = <span class="hljs-title class_">RendererElement</span>,
+  <span class="hljs-title class_">ExtraProps</span> = { [<span class="hljs-attr">key</span>: <span class="hljs-built_in">string</span>]: <span class="hljs-built_in">any</span> },
+&gt; {
+  <span class="hljs-comment">/**
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  <span class="hljs-attr">__v_isVNode</span>: <span class="hljs-literal">true</span>
+
+  <span class="hljs-comment">/**
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  [<span class="hljs-title class_">ReactiveFlags</span>.<span class="hljs-property">SKIP</span>]: <span class="hljs-literal">true</span>
+
+  <span class="hljs-attr">type</span>: <span class="hljs-title class_">VNodeTypes</span>
+  <span class="hljs-attr">props</span>: (<span class="hljs-title class_">VNodeProps</span> &amp; <span class="hljs-title class_">ExtraProps</span>) | <span class="hljs-literal">null</span>
+  <span class="hljs-attr">key</span>: <span class="hljs-title class_">PropertyKey</span> | <span class="hljs-literal">null</span>
+  <span class="hljs-attr">ref</span>: <span class="hljs-title class_">VNodeNormalizedRef</span> | <span class="hljs-literal">null</span>
+  <span class="hljs-comment">/**
+   * SFC only. This is assigned on vnode creation using currentScopeId
+   * which is set alongside currentRenderingInstance.
+   */</span>
+  <span class="hljs-attr">scopeId</span>: <span class="hljs-built_in">string</span> | <span class="hljs-literal">null</span>
+  <span class="hljs-comment">/**
+   * SFC only. This is assigned to:
+   * - Slot fragment vnodes with :slotted SFC styles.
+   * - Component vnodes (during patch/hydration) so that its root node can
+   *   inherit the component&#x27;s slotScopeIds
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  <span class="hljs-attr">slotScopeIds</span>: <span class="hljs-built_in">string</span>[] | <span class="hljs-literal">null</span>
+  <span class="hljs-attr">children</span>: <span class="hljs-title class_">VNodeNormalizedChildren</span>
+  <span class="hljs-attr">component</span>: <span class="hljs-title class_">ComponentInternalInstance</span> | <span class="hljs-literal">null</span>  <span class="hljs-comment">// 这里定义了组件</span>
+  <span class="hljs-attr">dirs</span>: <span class="hljs-title class_">DirectiveBinding</span>[] | <span class="hljs-literal">null</span>
+  <span class="hljs-attr">transition</span>: <span class="hljs-title class_">TransitionHooks</span>&lt;<span class="hljs-title class_">HostElement</span>&gt; | <span class="hljs-literal">null</span>
+
+  <span class="hljs-comment">// DOM</span>
+  <span class="hljs-attr">el</span>: <span class="hljs-title class_">HostNode</span> | <span class="hljs-literal">null</span>
+  <span class="hljs-attr">placeholder</span>: <span class="hljs-title class_">HostNode</span> | <span class="hljs-literal">null</span> <span class="hljs-comment">// async component el placeholder</span>
+  <span class="hljs-attr">anchor</span>: <span class="hljs-title class_">HostNode</span> | <span class="hljs-literal">null</span> <span class="hljs-comment">// fragment anchor</span>
+  <span class="hljs-attr">target</span>: <span class="hljs-title class_">HostElement</span> | <span class="hljs-literal">null</span> <span class="hljs-comment">// teleport target</span>
+  <span class="hljs-attr">targetStart</span>: <span class="hljs-title class_">HostNode</span> | <span class="hljs-literal">null</span> <span class="hljs-comment">// teleport target start anchor</span>
+  <span class="hljs-attr">targetAnchor</span>: <span class="hljs-title class_">HostNode</span> | <span class="hljs-literal">null</span> <span class="hljs-comment">// teleport target anchor</span>
+  <span class="hljs-comment">/**
+   * number of elements contained in a static vnode
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  <span class="hljs-attr">staticCount</span>: <span class="hljs-built_in">number</span>
+
+  <span class="hljs-comment">// suspense</span>
+  <span class="hljs-attr">suspense</span>: <span class="hljs-title class_">SuspenseBoundary</span> | <span class="hljs-literal">null</span>
+  <span class="hljs-comment">/**
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  <span class="hljs-attr">ssContent</span>: <span class="hljs-title class_">VNode</span> | <span class="hljs-literal">null</span>
+  <span class="hljs-comment">/**
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  <span class="hljs-attr">ssFallback</span>: <span class="hljs-title class_">VNode</span> | <span class="hljs-literal">null</span>
+
+  <span class="hljs-comment">// optimization only</span>
+  <span class="hljs-attr">shapeFlag</span>: <span class="hljs-built_in">number</span>
+  <span class="hljs-attr">patchFlag</span>: <span class="hljs-built_in">number</span>
+  <span class="hljs-comment">/**
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  <span class="hljs-attr">dynamicProps</span>: <span class="hljs-built_in">string</span>[] | <span class="hljs-literal">null</span>
+  <span class="hljs-comment">/**
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  <span class="hljs-attr">dynamicChildren</span>: (<span class="hljs-title class_">VNode</span>[] &amp; { hasOnce?: <span class="hljs-built_in">boolean</span> }) | <span class="hljs-literal">null</span>
+
+  <span class="hljs-comment">// application root node only</span>
+  <span class="hljs-attr">appContext</span>: <span class="hljs-title class_">AppContext</span> | <span class="hljs-literal">null</span>
+
+  <span class="hljs-comment">/**
+   * <span class="hljs-doctag">@internal</span> lexical scope owner instance
+   */</span>
+  <span class="hljs-attr">ctx</span>: <span class="hljs-title class_">ComponentInternalInstance</span> | <span class="hljs-literal">null</span>
+
+  <span class="hljs-comment">/**
+   * <span class="hljs-doctag">@internal</span> attached by v-memo
+   */</span>
+  memo?: <span class="hljs-built_in">any</span>[]
+  <span class="hljs-comment">/**
+   * <span class="hljs-doctag">@internal</span> index for cleaning v-memo cache
+   */</span>
+  cacheIndex?: <span class="hljs-built_in">number</span>
+  <span class="hljs-comment">/**
+   * <span class="hljs-doctag">@internal</span> __COMPAT__ only
+   */</span>
+  isCompatRoot?: <span class="hljs-literal">true</span>
+  <span class="hljs-comment">/**
+   * <span class="hljs-doctag">@internal</span> custom element interception hook
+   */</span>
+  ce?: <span class="hljs-function">(<span class="hljs-params">instance: ComponentInternalInstance</span>) =&gt;</span> <span class="hljs-built_in">void</span>
+}
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">ComponentInternalInstance</span> {
+  <span class="hljs-attr">uid</span>: <span class="hljs-built_in">number</span>
+  <span class="hljs-attr">type</span>: <span class="hljs-title class_">ConcreteComponent</span>
+  <span class="hljs-attr">parent</span>: <span class="hljs-title class_">ComponentInternalInstance</span> | <span class="hljs-literal">null</span>
+  <span class="hljs-attr">root</span>: <span class="hljs-title class_">ComponentInternalInstance</span>
+  <span class="hljs-attr">appContext</span>: <span class="hljs-title class_">AppContext</span>
+  <span class="hljs-comment">/**
+   * Vnode representing this component in its parent&#x27;s vdom tree
+   */</span>
+  <span class="hljs-attr">vnode</span>: <span class="hljs-title class_">VNode</span>
+  <span class="hljs-comment">/**
+   * The pending new vnode from parent updates
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  <span class="hljs-attr">next</span>: <span class="hljs-title class_">VNode</span> | <span class="hljs-literal">null</span>          <span class="hljs-comment">// next / parent / rootsubTree 这些字段定义了二叉树结构</span>
+  <span class="hljs-comment">/**
+   * Root vnode of this component&#x27;s own vdom tree
+   */</span>
+  <span class="hljs-attr">subTree</span>: <span class="hljs-title class_">VNode</span>
+  <span class="hljs-comment">/**
+   * Render effect instance
+   */</span>
+  <span class="hljs-attr">effect</span>: <span class="hljs-title class_">ReactiveEffect</span>
+  <span class="hljs-comment">/**
+   * Force update render effect
+   */</span>
+  <span class="hljs-attr">update</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">void</span>
+  <span class="hljs-comment">/**
+   * Render effect job to be passed to scheduler (checks if dirty)
+   */</span>
+  <span class="hljs-attr">job</span>: <span class="hljs-title class_">SchedulerJob</span>
+  <span class="hljs-comment">/**
+   * The render function that returns vdom tree.
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  <span class="hljs-attr">render</span>: <span class="hljs-title class_">InternalRenderFunction</span> | <span class="hljs-literal">null</span>
+  <span class="hljs-comment">/**
+   * SSR render function
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  ssrRender?: <span class="hljs-title class_">Function</span> | <span class="hljs-literal">null</span>
+  <span class="hljs-comment">/**
+   * Object containing values this component provides for its descendants
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  <span class="hljs-attr">provides</span>: <span class="hljs-title class_">Data</span>
+  <span class="hljs-comment">/**
+   * for tracking useId()
+   * first element is the current boundary prefix
+   * second number is the index of the useId call within that boundary
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  <span class="hljs-attr">ids</span>: [<span class="hljs-built_in">string</span>, <span class="hljs-built_in">number</span>, <span class="hljs-built_in">number</span>]
+  <span class="hljs-comment">/**
+   * Tracking reactive effects (e.g. watchers) associated with this component
+   * so that they can be automatically stopped on component unmount
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  <span class="hljs-attr">scope</span>: <span class="hljs-title class_">EffectScope</span>
+  <span class="hljs-comment">/**
+   * cache for proxy access type to avoid hasOwnProperty calls
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  <span class="hljs-attr">accessCache</span>: <span class="hljs-title class_">Data</span> | <span class="hljs-literal">null</span>
+  <span class="hljs-comment">/**
+   * cache for render function values that rely on _ctx but won&#x27;t need updates
+   * after initialized (e.g. inline handlers)
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  <span class="hljs-attr">renderCache</span>: (<span class="hljs-title class_">Function</span> | <span class="hljs-title class_">VNode</span> | <span class="hljs-literal">undefined</span>)[]
+
+  <span class="hljs-comment">/**
+   * Resolved component registry, only for components with mixins or extends
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  <span class="hljs-attr">components</span>: <span class="hljs-title class_">Record</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-title class_">ConcreteComponent</span>&gt; | <span class="hljs-literal">null</span>
+  <span class="hljs-comment">/**
+   * Resolved directive registry, only for components with mixins or extends
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  <span class="hljs-attr">directives</span>: <span class="hljs-title class_">Record</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-title class_">Directive</span>&gt; | <span class="hljs-literal">null</span>
+  <span class="hljs-comment">/**
+   * Resolved filters registry, v2 compat only
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  filters?: <span class="hljs-title class_">Record</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-title class_">Function</span>&gt;
+  <span class="hljs-comment">/**
+   * resolved props options
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  <span class="hljs-attr">propsOptions</span>: <span class="hljs-title class_">NormalizedPropsOptions</span>
+  <span class="hljs-comment">/**
+   * resolved emits options
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  <span class="hljs-attr">emitsOptions</span>: <span class="hljs-title class_">ObjectEmitsOptions</span> | <span class="hljs-literal">null</span>
+  <span class="hljs-comment">/**
+   * resolved inheritAttrs options
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  inheritAttrs?: <span class="hljs-built_in">boolean</span>
+  <span class="hljs-comment">/**
+   * Custom Element instance (if component is created by defineCustomElement)
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  ce?: <span class="hljs-title class_">ComponentCustomElementInterface</span>
+  <span class="hljs-comment">/**
+   * is custom element? (kept only for compatibility)
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  isCE?: <span class="hljs-built_in">boolean</span>
+  <span class="hljs-comment">/**
+   * custom element specific HMR method
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  ceReload?: <span class="hljs-function">(<span class="hljs-params">newStyles?: <span class="hljs-built_in">string</span>[]</span>) =&gt;</span> <span class="hljs-built_in">void</span>
+
+  <span class="hljs-comment">// the rest are only for stateful components ---------------------------------</span>
+
+  <span class="hljs-comment">// main proxy that serves as the public instance (`this`)</span>
+  <span class="hljs-attr">proxy</span>: <span class="hljs-title class_">ComponentPublicInstance</span> | <span class="hljs-literal">null</span>      <span class="hljs-comment">// 这是代理</span>
+
+  <span class="hljs-comment">// exposed properties via expose()</span>
+  <span class="hljs-attr">exposed</span>: <span class="hljs-title class_">Record</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">any</span>&gt; | <span class="hljs-literal">null</span>
+  <span class="hljs-attr">exposeProxy</span>: <span class="hljs-title class_">Record</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">any</span>&gt; | <span class="hljs-literal">null</span>
+
+  <span class="hljs-comment">/**
+   * alternative proxy used only for runtime-compiled render functions using
+   * `with` block
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  <span class="hljs-attr">withProxy</span>: <span class="hljs-title class_">ComponentPublicInstance</span> | <span class="hljs-literal">null</span>
+  <span class="hljs-comment">/**
+   * This is the target for the public instance proxy. It also holds properties
+   * injected by user options (computed, methods etc.) and user-attached
+   * custom properties (via `this.x = ...`)
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  <span class="hljs-attr">ctx</span>: <span class="hljs-title class_">Data</span>
+
+  <span class="hljs-comment">// state</span>
+  <span class="hljs-attr">data</span>: <span class="hljs-title class_">Data</span>
+  <span class="hljs-attr">props</span>: <span class="hljs-title class_">Data</span>
+  <span class="hljs-attr">attrs</span>: <span class="hljs-title class_">Data</span>
+  <span class="hljs-attr">slots</span>: <span class="hljs-title class_">InternalSlots</span>
+  <span class="hljs-attr">refs</span>: <span class="hljs-title class_">Data</span>
+  <span class="hljs-attr">emit</span>: <span class="hljs-title class_">EmitFn</span>
+
+  <span class="hljs-comment">/**
+   * used for keeping track of .once event handlers on components
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  <span class="hljs-attr">emitted</span>: <span class="hljs-title class_">Record</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">boolean</span>&gt; | <span class="hljs-literal">null</span>
+  <span class="hljs-comment">/**
+   * used for caching the value returned from props default factory functions to
+   * avoid unnecessary watcher trigger
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  <span class="hljs-attr">propsDefaults</span>: <span class="hljs-title class_">Data</span>
+  <span class="hljs-comment">/**
+   * setup related
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  <span class="hljs-attr">setupState</span>: <span class="hljs-title class_">Data</span>
+  <span class="hljs-comment">/**
+   * devtools access to additional info
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  devtoolsRawSetupState?: <span class="hljs-built_in">any</span>
+  <span class="hljs-comment">/**
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  <span class="hljs-attr">setupContext</span>: <span class="hljs-title class_">SetupContext</span> | <span class="hljs-literal">null</span>
+
+  <span class="hljs-comment">/**
+   * suspense related
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  <span class="hljs-attr">suspense</span>: <span class="hljs-title class_">SuspenseBoundary</span> | <span class="hljs-literal">null</span>
+  <span class="hljs-comment">/**
+   * suspense pending batch id
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  <span class="hljs-attr">suspenseId</span>: <span class="hljs-built_in">number</span>
+  <span class="hljs-comment">/**
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  <span class="hljs-attr">asyncDep</span>: <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">any</span>&gt; | <span class="hljs-literal">null</span>
+  <span class="hljs-comment">/**
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  <span class="hljs-attr">asyncResolved</span>: <span class="hljs-built_in">boolean</span>
+
+  <span class="hljs-comment">// lifecycle</span>
+  <span class="hljs-attr">isMounted</span>: <span class="hljs-built_in">boolean</span>
+  <span class="hljs-attr">isUnmounted</span>: <span class="hljs-built_in">boolean</span>
+  <span class="hljs-attr">isDeactivated</span>: <span class="hljs-built_in">boolean</span>
+  <span class="hljs-comment">/**
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  [<span class="hljs-title class_">LifecycleHooks</span>.<span class="hljs-property">BEFORE_CREATE</span>]: <span class="hljs-title class_">LifecycleHook</span>
+  <span class="hljs-comment">/**
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  [<span class="hljs-title class_">LifecycleHooks</span>.<span class="hljs-property">CREATED</span>]: <span class="hljs-title class_">LifecycleHook</span>
+  <span class="hljs-comment">/**
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  [<span class="hljs-title class_">LifecycleHooks</span>.<span class="hljs-property">BEFORE_MOUNT</span>]: <span class="hljs-title class_">LifecycleHook</span>
+  <span class="hljs-comment">/**
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  [<span class="hljs-title class_">LifecycleHooks</span>.<span class="hljs-property">MOUNTED</span>]: <span class="hljs-title class_">LifecycleHook</span>
+  <span class="hljs-comment">/**
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  [<span class="hljs-title class_">LifecycleHooks</span>.<span class="hljs-property">BEFORE_UPDATE</span>]: <span class="hljs-title class_">LifecycleHook</span>
+  <span class="hljs-comment">/**
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  [<span class="hljs-title class_">LifecycleHooks</span>.<span class="hljs-property">UPDATED</span>]: <span class="hljs-title class_">LifecycleHook</span>
+  <span class="hljs-comment">/**
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  [<span class="hljs-title class_">LifecycleHooks</span>.<span class="hljs-property">BEFORE_UNMOUNT</span>]: <span class="hljs-title class_">LifecycleHook</span>
+  <span class="hljs-comment">/**
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  [<span class="hljs-title class_">LifecycleHooks</span>.<span class="hljs-property">UNMOUNTED</span>]: <span class="hljs-title class_">LifecycleHook</span>
+  <span class="hljs-comment">/**
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  [<span class="hljs-title class_">LifecycleHooks</span>.<span class="hljs-property">RENDER_TRACKED</span>]: <span class="hljs-title class_">LifecycleHook</span>
+  <span class="hljs-comment">/**
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  [<span class="hljs-title class_">LifecycleHooks</span>.<span class="hljs-property">RENDER_TRIGGERED</span>]: <span class="hljs-title class_">LifecycleHook</span>
+  <span class="hljs-comment">/**
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  [<span class="hljs-title class_">LifecycleHooks</span>.<span class="hljs-property">ACTIVATED</span>]: <span class="hljs-title class_">LifecycleHook</span>
+  <span class="hljs-comment">/**
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  [<span class="hljs-title class_">LifecycleHooks</span>.<span class="hljs-property">DEACTIVATED</span>]: <span class="hljs-title class_">LifecycleHook</span>
+  <span class="hljs-comment">/**
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  [<span class="hljs-title class_">LifecycleHooks</span>.<span class="hljs-property">ERROR_CAPTURED</span>]: <span class="hljs-title class_">LifecycleHook</span>
+  <span class="hljs-comment">/**
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  [<span class="hljs-title class_">LifecycleHooks</span>.<span class="hljs-property">SERVER_PREFETCH</span>]: <span class="hljs-title class_">LifecycleHook</span>&lt;<span class="hljs-function">() =&gt;</span> <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">unknown</span>&gt;&gt;
+
+  <span class="hljs-comment">/**
+   * For caching bound $forceUpdate on public proxy access
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  f?: <span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">void</span>
+  <span class="hljs-comment">/**
+   * For caching bound $nextTick on public proxy access
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  n?: <span class="hljs-function">() =&gt;</span> <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">void</span>&gt;
+  <span class="hljs-comment">/**
+   * `updateTeleportCssVars`
+   * For updating css vars on contained teleports
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  ut?: <span class="hljs-function">(<span class="hljs-params">vars?: Record&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">unknown</span>&gt;</span>) =&gt;</span> <span class="hljs-built_in">void</span>
+
+  <span class="hljs-comment">/**
+   * dev only. For style v-bind hydration mismatch checks
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  getCssVars?: <span class="hljs-function">() =&gt;</span> <span class="hljs-title class_">Record</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">unknown</span>&gt;
+
+  <span class="hljs-comment">/**
+   * v2 compat only, for caching mutated $options
+   * <span class="hljs-doctag">@internal</span>
+   */</span>
+  resolvedOptions?: <span class="hljs-title class_">MergedComponentOptions</span>
+}
+</code></pre>
+<p>二叉树结构</p>
+<pre><code>    root
+      ^
+      |  parent
+ |----|    ^
+ |    |    |
+ |  |--------|  next  |--------|
+ |  |  vnode | -----&gt; |  vnode |
+ |  |--------|        |--------|
+ |    |   ^
+ | subTree|
+ |    V   |parent
+ |  |--------|
+ |- |  vnode |
+    |--------|
+
+</code></pre>
 <h4 id="title">title</h4>
 <h4 id="title-1">title</h4>
 <h4 id="title-2">title</h4>
@@ -374,16 +795,20 @@ mount()中使用了<code>isMounted</code>做为 flag.</p>
 <h4 id="title-29">title</h4>
 <h4 id="title-30">title</h4>
 <h4 id="title-31">title</h4>
-<h4 id="title-32">title</h4>
+<h3 id="title-32">title</h3>
 <h3 id="title-33">title</h3>
 <h3 id="title-34">title</h3>
-<h3 id="title-35">title</h3>
+<h2 id="title-35">title</h2>
 <h2 id="title-36">title</h2>
 <h2 id="title-37">title</h2>
 <h2 id="title-38">title</h2>
 <h2 id="title-39">title</h2>
-<h2 id="title-40">title</h2>
-<h2 id="title-41">title</h2>
+<h2 id="confuse">confuse</h2>
+<p>vue3 采用 proxy 重写了响应式系统，因为 proxy 可以对整个对象进行监听，所以不需要深度遍历</p>
+<p>可以监听动态属性的添加
+可以监听到数组的索引和数组 length 属性
+可以监听删除属性</p>
+<p>仍然使用<code>Object.defineProperty</code>做响应式</p>
 
             <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
             

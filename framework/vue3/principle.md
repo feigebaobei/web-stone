@@ -283,7 +283,411 @@ ShapeFlags 中使用位移的方式处理二进制。react 中使用直接赋值
 
 这是一个工厂函数，返回一个 CodegenContext 对象。
 
-#### title
+## 数据结构
+
+```ts
+export interface VNode<
+  HostNode = RendererNode,
+  HostElement = RendererElement,
+  ExtraProps = { [key: string]: any }
+> {
+  /**
+   * @internal
+   */
+  __v_isVNode: true
+
+  /**
+   * @internal
+   */
+  [ReactiveFlags.SKIP]: true
+
+  type: VNodeTypes
+  props: (VNodeProps & ExtraProps) | null
+  key: PropertyKey | null
+  ref: VNodeNormalizedRef | null
+  /**
+   * SFC only. This is assigned on vnode creation using currentScopeId
+   * which is set alongside currentRenderingInstance.
+   */
+  scopeId: string | null
+  /**
+   * SFC only. This is assigned to:
+   * - Slot fragment vnodes with :slotted SFC styles.
+   * - Component vnodes (during patch/hydration) so that its root node can
+   *   inherit the component's slotScopeIds
+   * @internal
+   */
+  slotScopeIds: string[] | null
+  children: VNodeNormalizedChildren
+  component: ComponentInternalInstance | null // 这里定义了组件
+  dirs: DirectiveBinding[] | null
+  transition: TransitionHooks<HostElement> | null
+
+  // DOM
+  el: HostNode | null
+  placeholder: HostNode | null // async component el placeholder
+  anchor: HostNode | null // fragment anchor
+  target: HostElement | null // teleport target
+  targetStart: HostNode | null // teleport target start anchor
+  targetAnchor: HostNode | null // teleport target anchor
+  /**
+   * number of elements contained in a static vnode
+   * @internal
+   */
+  staticCount: number
+
+  // suspense
+  suspense: SuspenseBoundary | null
+  /**
+   * @internal
+   */
+  ssContent: VNode | null
+  /**
+   * @internal
+   */
+  ssFallback: VNode | null
+
+  // optimization only
+  shapeFlag: number
+  patchFlag: number
+  /**
+   * @internal
+   */
+  dynamicProps: string[] | null
+  /**
+   * @internal
+   */
+  dynamicChildren: (VNode[] & { hasOnce?: boolean }) | null
+
+  // application root node only
+  appContext: AppContext | null
+
+  /**
+   * @internal lexical scope owner instance
+   */
+  ctx: ComponentInternalInstance | null
+
+  /**
+   * @internal attached by v-memo
+   */
+  memo?: any[]
+  /**
+   * @internal index for cleaning v-memo cache
+   */
+  cacheIndex?: number
+  /**
+   * @internal __COMPAT__ only
+   */
+  isCompatRoot?: true
+  /**
+   * @internal custom element interception hook
+   */
+  ce?: (instance: ComponentInternalInstance) => void
+}
+export interface ComponentInternalInstance {
+  uid: number
+  type: ConcreteComponent
+  parent: ComponentInternalInstance | null
+  root: ComponentInternalInstance
+  appContext: AppContext
+  /**
+   * Vnode representing this component in its parent's vdom tree
+   */
+  vnode: VNode
+  /**
+   * The pending new vnode from parent updates
+   * @internal
+   */
+  next: VNode | null // next / parent / rootsubTree 这些字段定义了二叉树结构
+  /**
+   * Root vnode of this component's own vdom tree
+   */
+  subTree: VNode
+  /**
+   * Render effect instance
+   */
+  effect: ReactiveEffect
+  /**
+   * Force update render effect
+   */
+  update: () => void
+  /**
+   * Render effect job to be passed to scheduler (checks if dirty)
+   */
+  job: SchedulerJob
+  /**
+   * The render function that returns vdom tree.
+   * @internal
+   */
+  render: InternalRenderFunction | null
+  /**
+   * SSR render function
+   * @internal
+   */
+  ssrRender?: Function | null
+  /**
+   * Object containing values this component provides for its descendants
+   * @internal
+   */
+  provides: Data
+  /**
+   * for tracking useId()
+   * first element is the current boundary prefix
+   * second number is the index of the useId call within that boundary
+   * @internal
+   */
+  ids: [string, number, number]
+  /**
+   * Tracking reactive effects (e.g. watchers) associated with this component
+   * so that they can be automatically stopped on component unmount
+   * @internal
+   */
+  scope: EffectScope
+  /**
+   * cache for proxy access type to avoid hasOwnProperty calls
+   * @internal
+   */
+  accessCache: Data | null
+  /**
+   * cache for render function values that rely on _ctx but won't need updates
+   * after initialized (e.g. inline handlers)
+   * @internal
+   */
+  renderCache: (Function | VNode | undefined)[]
+
+  /**
+   * Resolved component registry, only for components with mixins or extends
+   * @internal
+   */
+  components: Record<string, ConcreteComponent> | null
+  /**
+   * Resolved directive registry, only for components with mixins or extends
+   * @internal
+   */
+  directives: Record<string, Directive> | null
+  /**
+   * Resolved filters registry, v2 compat only
+   * @internal
+   */
+  filters?: Record<string, Function>
+  /**
+   * resolved props options
+   * @internal
+   */
+  propsOptions: NormalizedPropsOptions
+  /**
+   * resolved emits options
+   * @internal
+   */
+  emitsOptions: ObjectEmitsOptions | null
+  /**
+   * resolved inheritAttrs options
+   * @internal
+   */
+  inheritAttrs?: boolean
+  /**
+   * Custom Element instance (if component is created by defineCustomElement)
+   * @internal
+   */
+  ce?: ComponentCustomElementInterface
+  /**
+   * is custom element? (kept only for compatibility)
+   * @internal
+   */
+  isCE?: boolean
+  /**
+   * custom element specific HMR method
+   * @internal
+   */
+  ceReload?: (newStyles?: string[]) => void
+
+  // the rest are only for stateful components ---------------------------------
+
+  // main proxy that serves as the public instance (`this`)
+  proxy: ComponentPublicInstance | null // 这是代理
+
+  // exposed properties via expose()
+  exposed: Record<string, any> | null
+  exposeProxy: Record<string, any> | null
+
+  /**
+   * alternative proxy used only for runtime-compiled render functions using
+   * `with` block
+   * @internal
+   */
+  withProxy: ComponentPublicInstance | null
+  /**
+   * This is the target for the public instance proxy. It also holds properties
+   * injected by user options (computed, methods etc.) and user-attached
+   * custom properties (via `this.x = ...`)
+   * @internal
+   */
+  ctx: Data
+
+  // state
+  data: Data
+  props: Data
+  attrs: Data
+  slots: InternalSlots
+  refs: Data
+  emit: EmitFn
+
+  /**
+   * used for keeping track of .once event handlers on components
+   * @internal
+   */
+  emitted: Record<string, boolean> | null
+  /**
+   * used for caching the value returned from props default factory functions to
+   * avoid unnecessary watcher trigger
+   * @internal
+   */
+  propsDefaults: Data
+  /**
+   * setup related
+   * @internal
+   */
+  setupState: Data
+  /**
+   * devtools access to additional info
+   * @internal
+   */
+  devtoolsRawSetupState?: any
+  /**
+   * @internal
+   */
+  setupContext: SetupContext | null
+
+  /**
+   * suspense related
+   * @internal
+   */
+  suspense: SuspenseBoundary | null
+  /**
+   * suspense pending batch id
+   * @internal
+   */
+  suspenseId: number
+  /**
+   * @internal
+   */
+  asyncDep: Promise<any> | null
+  /**
+   * @internal
+   */
+  asyncResolved: boolean
+
+  // lifecycle
+  isMounted: boolean
+  isUnmounted: boolean
+  isDeactivated: boolean
+  /**
+   * @internal
+   */
+  [LifecycleHooks.BEFORE_CREATE]: LifecycleHook
+  /**
+   * @internal
+   */
+  [LifecycleHooks.CREATED]: LifecycleHook
+  /**
+   * @internal
+   */
+  [LifecycleHooks.BEFORE_MOUNT]: LifecycleHook
+  /**
+   * @internal
+   */
+  [LifecycleHooks.MOUNTED]: LifecycleHook
+  /**
+   * @internal
+   */
+  [LifecycleHooks.BEFORE_UPDATE]: LifecycleHook
+  /**
+   * @internal
+   */
+  [LifecycleHooks.UPDATED]: LifecycleHook
+  /**
+   * @internal
+   */
+  [LifecycleHooks.BEFORE_UNMOUNT]: LifecycleHook
+  /**
+   * @internal
+   */
+  [LifecycleHooks.UNMOUNTED]: LifecycleHook
+  /**
+   * @internal
+   */
+  [LifecycleHooks.RENDER_TRACKED]: LifecycleHook
+  /**
+   * @internal
+   */
+  [LifecycleHooks.RENDER_TRIGGERED]: LifecycleHook
+  /**
+   * @internal
+   */
+  [LifecycleHooks.ACTIVATED]: LifecycleHook
+  /**
+   * @internal
+   */
+  [LifecycleHooks.DEACTIVATED]: LifecycleHook
+  /**
+   * @internal
+   */
+  [LifecycleHooks.ERROR_CAPTURED]: LifecycleHook
+  /**
+   * @internal
+   */
+  [LifecycleHooks.SERVER_PREFETCH]: LifecycleHook<() => Promise<unknown>>
+
+  /**
+   * For caching bound $forceUpdate on public proxy access
+   * @internal
+   */
+  f?: () => void
+  /**
+   * For caching bound $nextTick on public proxy access
+   * @internal
+   */
+  n?: () => Promise<void>
+  /**
+   * `updateTeleportCssVars`
+   * For updating css vars on contained teleports
+   * @internal
+   */
+  ut?: (vars?: Record<string, unknown>) => void
+
+  /**
+   * dev only. For style v-bind hydration mismatch checks
+   * @internal
+   */
+  getCssVars?: () => Record<string, unknown>
+
+  /**
+   * v2 compat only, for caching mutated $options
+   * @internal
+   */
+  resolvedOptions?: MergedComponentOptions
+}
+```
+
+二叉树结构
+
+```
+    root
+      ^
+      |  parent
+ |----|    ^
+ |    |    |
+ |  |--------|  next  |--------|
+ |  |  vnode | -----> |  vnode |
+ |  |--------|        |--------|
+ |    |   ^
+ | subTree|
+ |    V   |parent
+ |  |--------|
+ |- |  vnode |
+    |--------|
+
+```
 
 #### title
 
@@ -372,3 +776,5 @@ vue3 采用 proxy 重写了响应式系统，因为 proxy 可以对整个对象�
 可以监听动态属性的添加
 可以监听到数组的索引和数组 length 属性
 可以监听删除属性
+
+仍然使用`Object.defineProperty`做响应式
