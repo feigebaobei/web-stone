@@ -247,6 +247,7 @@ v-xx:arg.modify=&quot;value&quot;
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 </code></pre>
 <h3 id="computed--methods--wetch--wetcheffect">computed &amp; methods &amp; wetch &amp; wetchEffect</h3>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -325,6 +326,7 @@ v-xx:arg.modify=&quot;value&quot;
 </tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
 <h2 id="class--style">class &amp; style</h2>
 <table>
 <thead>
@@ -376,7 +378,9 @@ v-xx:arg.modify=&quot;value&quot;
 <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">:class</span>=<span class="hljs-string">&quot;[isActive ? activeClass : &#x27;&#x27;, errorClass]&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">:class</span>=<span class="hljs-string">&quot;[{ active: isActive }, errorClass]&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;foo bar active&quot;</span>&gt;</span>Hi<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">:class</span>=<span class="hljs-string">&quot;$attrs.class&quot;</span>&gt;</span>当组件内有多个直接子元素时需要明确指定哪个子元素使用props里的class<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">:class</span>=<span class="hljs-string">&quot;$attrs.class&quot;</span>&gt;</span>
+  当组件内有多个直接子元素时需要明确指定哪个子元素使用props里的class
+<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">:style</span>=<span class="hljs-string">&quot;{ color: activeColor, fontSize: fontSize + &#x27;px&#x27; }&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">:style</span>=<span class="hljs-string">&quot;styleObject&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">:style</span>=<span class="hljs-string">&quot;[baseStyles, overridingStyles]&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
@@ -389,7 +393,11 @@ v-xx:arg.modify=&quot;value&quot;
 <li>v-else-if</li>
 <li>v-show</li>
 <li>v-if + template 实现一次切换多个元素。</li>
-<li>v-if、v-for 尽量不要作用于同一个元素。</li>
+<li>v-if、v-for 不能作用于同一个元素。
+<ul>
+<li><code>&lt;template v-if=&quot;xx&quot;&gt;&lt;span v-for=&quot;xxxx&quot;&gt;&lt;/span&gt;&lt;/template&gt;</code></li>
+</ul>
+</li>
 </ul>
 <table>
 <thead>

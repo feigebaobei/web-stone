@@ -60,7 +60,11 @@ description
 
 ## principle
 
-此包的处理逻辑。
+vue2 中采用 defineProperty 来劫持整个对象，然后进行深度遍历所有属性，给每个属性添加 getter 和 setter，实现响应式
+
+```
+
+```
 
 ### uml
 

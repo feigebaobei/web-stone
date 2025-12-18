@@ -3,6 +3,7 @@
 ## 渲染机制
 
 程序员使用 vue 框架，编写 sfc 文件。vue 框架会把它们搞成 vdom。vue 框架根据 vdom 生成 dom，当 vdom 改变时 vue 框架更新 dom。
+proxy 在 vue3 中用的不多。
 
 ## vue2 不能做到的事
 
@@ -210,9 +211,39 @@ createRenderer 方法的参数是 nodeOps 对象，此对应中的 createElement
 
 ## 响应式
 
-### title
+### ref
 
-### title
+发布订阅模式
+使用 set/get 修改符处理 value/\_value
+get 时执行 dep.track()。会返回一个 link 对象。
+set 时执行 dep.trigger()。触发 notify().再触发所有 link (link.sub as ComputedRefImpl).dep.notify()
+
+看到 link 时我以为是一个链表呢。结果是一个链表的节点。
+双向链表。
+
+### dep 对象
+
+### reactive
+
+必须是对象
+使用 proxy。
+再使用 WeakMap 映射 target 和 proxy.源代码中没有删除。也不需要删除，当 target 被垃圾回收时，会自动删除。
+在 set 时会触发 dep.trigger()
+
+### computed
+
+取出 set/get 方法。
+
+### watch
+
+把监听对象处理为 getter 方法，
+基于 effect 系统。
+
+### watchEffect
+
+基于 watch 开发的
+
+### effect 系统
 
 ### 静态提升
 
