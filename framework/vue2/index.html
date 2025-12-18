@@ -281,8 +281,66 @@ description</p>
 <p><code>vue.fn(param, [options: {a: string, b?: number}])</code>
 description</p>
 <h2 id="principle">principle</h2>
-<p>vue2中采用 defineProperty来劫持整个对象，然后进行深度遍历所有属性，给每个属性添加getter和setter，实现响应式</p>
-<pre><code></code></pre>
+<p>vue2 中采用 defineProperty 来劫持整个对象，然后进行深度遍历所有属性，给每个属性添加 getter 和 setter，实现响应式</p>
+<pre><code>// 简化的响应式实现
+function defineReactive(obj, key, val) {
+  // 递归处理子对象
+  observe(val);
+  
+  Object.defineProperty(obj, key, {
+    enumerable: true,
+    configurable: true,
+    get() {
+      // 依赖收集
+      return val;
+    },
+    set(newVal) {
+      if (newVal === val) return;
+      // 触发更新
+      val = newVal;
+      // 通知视图更新
+    }
+  });
+}
+</code></pre>
+<h3 id="重写数组的pushshiftunshiftpopsplicesortreverse等方法">重写数组的push/shift/unshift/pop/splice/sort/reverse等方法</h3>
+<pre><code class="language-js">methodsToPatch.<span class="hljs-title function_">forEach</span>(<span class="hljs-keyword">function</span> (<span class="hljs-params">method</span>) {
+  <span class="hljs-comment">// 缓存原始方法</span>
+  <span class="hljs-keyword">const</span> original = arrayProto[method]
+  
+  <span class="hljs-comment">// 定义新的方法</span>
+  <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">defineProperty</span>(arrayMethods, method, {
+    <span class="hljs-attr">value</span>: <span class="hljs-keyword">function</span> <span class="hljs-title function_">mutator</span> (...args) {
+      <span class="hljs-comment">// 先调用原生方法获取结果</span>
+      <span class="hljs-keyword">const</span> result = original.<span class="hljs-title function_">apply</span>(<span class="hljs-variable language_">this</span>, args)
+      <span class="hljs-keyword">const</span> ob = <span class="hljs-variable language_">this</span>.<span class="hljs-property">__ob__</span>
+      
+      <span class="hljs-comment">// 对新增的元素进行响应式处理</span>
+      <span class="hljs-keyword">let</span> inserted
+      <span class="hljs-keyword">switch</span> (method) {
+        <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;push&#x27;</span>:
+        <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;unshift&#x27;</span>:
+          inserted = args
+          <span class="hljs-keyword">break</span>
+        <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;splice&#x27;</span>:
+          inserted = args.<span class="hljs-title function_">slice</span>(<span class="hljs-number">2</span>)
+          <span class="hljs-keyword">break</span>
+      }
+      
+      <span class="hljs-comment">// 如果有新增元素，则对它们也进行观测</span>
+      <span class="hljs-keyword">if</span> (inserted) ob.<span class="hljs-title function_">observeArray</span>(inserted)
+      
+      <span class="hljs-comment">// 通知依赖更新</span>
+      ob.<span class="hljs-property">dep</span>.<span class="hljs-title function_">notify</span>()
+      
+      <span class="hljs-keyword">return</span> result
+    },
+    <span class="hljs-attr">enumerable</span>: <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">writable</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">configurable</span>: <span class="hljs-literal">true</span>
+  })
+})
+</code></pre>
 <h3 id="uml">uml</h3>
 <pre><code>
 </code></pre>
