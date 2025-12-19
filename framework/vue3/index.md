@@ -113,14 +113,6 @@ $ pnpm dev
 - [jsx/tsx]()
 - [h]()
 
-## title
-
-## title
-
-## title
-
-## title
-
 ### 运行时 + 编译器 vs. 仅运行时
 
 ```js
@@ -165,18 +157,17 @@ vue 为每个方法方法绑定 this 为当前组件。
 
 绑定内联写法中使用`$event`表示原生事件。
 
-### 计算
+### 计算 computed
 
 计算属性的 getter 函数没有副作用，它更易于测试和理解。  
 包含响应式数据的复杂逻辑
 
 ```js
-computed: {
-    fullName: {
-        get() {...},
-        set(value) { ... }
-    }
-}
+let fullName = computed({
+  get() {...},
+  set(value) { ... }
+})
+let fullName = computed(() => {return a})
 // 设置
 vm.fullName = 'xxx'
 // 获取
@@ -189,23 +180,19 @@ vm.fullName
 可执行异步操作。  
 `vm.$watch`
 
-```js
-watch: { question(nv, ov) { ... } }
-```
-
 ### computed & watch & methods
 
 为什么计算执行同步，watch 执行异步？
 
 <!-- prettier-ignore-start -->
-|          | computed                 | watch                                | methods           |
-| -------- | ------------------------ | ------------------------------------ | ----------------- |
-| 适用场景 | 包含响应式数据的复杂逻辑 | watch                                | methods           |
-|          | 会缓存结果               | 不缓存结果                           | -                 |
-|          | 会缓存结果               | 当需要变化时执行异步或开销较大的操作 | -                 |
-| 结合使用 | computed + methods       | watch + methods                      | methods + methods |
-|          | -                        | 侦听器                               | 方法（可复用）    |
-| 相同     | 都是对象                 | 都是对象                             | 都是对象          |
+|          | computed    | watch      | methods           |
+| -------- | --------- | ------ | -- |
+| 适用场景 | 包含响应式数据的复杂逻辑 | watch      | methods           |
+|          | 会缓存结果  | 不缓存结果              | -    |
+|          | 会缓存结果  | 当需要变化时执行异步或开销较大的操作 | -    |
+| 结合使用 | computed + methods       | watch + methods         | methods + methods |
+|          | -           | 侦听器     | 方法（可复用）    |
+| 相同     | 都是对象    | 都是对象   | 都是对象          |
 <!-- prettier-ignore-end -->
 
 ## [生命周期](/framework/vue3/lifeCircle.html)
@@ -432,15 +419,17 @@ app.mount('#root')
 
 ### reactive & ref
 
-|      | reactive                     | ref                        |     |
-| ---- | ---------------------------- | -------------------------- | --- |
-| 用法 | reactive(o)                  | ref(v)                     |     |
-| 返回 |                              |                            |     |
-|      | 使用 toRefs 可解析为响应式   | -                          |     |
-|      | 让对象（object/array）响应式 | 请简单数据或引用数据响应式 |     |
-|      | 不可再次直接赋值             | 可再次直接赋值             |     |
-|      | 常用于数据对象绑定           | 常用于 dom 绑定            |     |
-|      |                              |                            |     |
+|          | reactive                     | ref                           |     |
+| -------- | ---------------------------- | ----------------------------- | --- |
+| 用法     | reactive(o)                  | ref(v)                        |     |
+| 返回     |                              |                               |     |
+|          | 使用 toRefs 可解析为响应式   | -                             |     |
+|          | 让对象（object/array）响应式 | 请简单数据或引用数据响应式    |     |
+|          | 不可再次直接赋值             | 可再次直接赋值                |     |
+|          | 常用于数据对象绑定           | 常用于 dom 绑定               |     |
+| 使用方式 | obj.k                        | xr.value                      |     |
+| 解析     | 没有响应功能                 | let {value} = xr 没有响应功能 |     |
+| 原理     | 使用 proxy                   | 使用发布订阅模式              |     |
 
 ## [nextTick]()
 
@@ -469,8 +458,6 @@ app.mount('#root')
 ## [样式](/framework/vue3/style.html)
 
 ## [confuse](/framework/vue3/confuse.html)
-
-## title
 
 ## [principle](/framework/vue3/principle.html)
 

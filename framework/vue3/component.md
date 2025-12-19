@@ -5,9 +5,6 @@
   - PascalCase
   - 支持自闭合
   - 一般用于动态组件、递归组件
-- title
-- title
-- title
 
 ## 组件模板
 
@@ -235,7 +232,7 @@ props: {
     },
     ph: {
         type: Person // 使用自定义构造函数验证。
-        // vue会使用instanceo去验证。
+        // vue会使用instanceof去验证。
     }
 }
 ```
@@ -261,7 +258,7 @@ emits: {
 <comp-name v-model:title="param" />
 
 props: {
-    title: string,
+    title: String,
 },
 emits: ['update:title']
 $emit('update:title', params)
@@ -324,19 +321,19 @@ v-bind="$attrs"
 [组件间传递数据](/framework/dataTransmit/index.html)
 
 <!-- prettier-ignore-start -->
-|            | provide                     | inject                 |                          |
-| ---------- | --------------------------- | ---------------------- | ------------------------ |
-|            | 在祖先组件中提供数据        | 在后代组件中接收数据   |                          |
-|            | 每个 provide 只提供一个数据 | 可使用数组接收多个数据 |                          |
-|            | 可提供响应式、非响应式数据  | 可接收……               |                          |
-|            | -                           | 可设置默认值           |                          |
-|            | 可设置 readonly             |                        | 一般在祖先组件中设置只读 |
-|            | 可提供对象、基本类型        | -                      |                          |
-| 在 setup   | 需要引入                    | 需要引入               |                          |
-| 不在 setup | 选项式 api                  | 选项式 api             |                          |
-|            |                             |                        |                          |
-|            |                             |                        |                          |
-|            |                             |                        |                          |
+|            | provide   | inject   |         |
+| ---------- | ------- | ---- | ------ |
+|            | 在祖先组件中提供数据        | 在后代组件中接收数据   |         |
+|            | 每个 provide 只提供一个数据 | 可使用数组接收多个数据 |         |
+|            | 可提供响应式、非响应式数据  | 可接收……   |         |
+|            | -          | 可设置默认值           |         |
+|            | 可设置 readonly |       | 一般在祖先组件中设置只读 |
+|            | 可提供对象、基本类型        | -     |         |
+| 在 setup   | 需要引入   | 需要引入   |         |
+| 不在 setup | 选项式 api | 选项式 api |         |
+|            |            |       |         |
+|            |            |       |         |
+|            |            |       |         |
 <!-- prettier-ignore-end -->
 
 ```js
@@ -366,8 +363,8 @@ app.component('comp-other', {
         setup() {
             let k = ref('str')
             let o = reactive({
-                k0: 0,
-                k1: true
+    k0: 0,
+    k1: true
             })
             let f = () => {...}
             let b = readonly(o)
@@ -402,8 +399,8 @@ Vue.component('comp-name', {
         let data = {
             props: {...},
             on: {
-                beforeEnter(el) {...},
-                afterEnter(el) {...}
+    beforeEnter(el) {...},
+    afterEnter(el) {...}
             }
         }
         return createElement('transition', data, context.children)
@@ -509,7 +506,7 @@ setup() {
 #### 为什么选项式=》组合式
 
 为了支持树摇。
-选项式无法摇下去。组合式可以做到。
+选项式无法摇下去。组合式可以做到。(好像错了)
 
 ### 参数
 
@@ -535,11 +532,10 @@ setup(props, context) {
 - 代替了生命周期 beforeCreate / created
 - 用于关注点分离。返回数据和基本的方法。
 - 在组合式 api 中使用。vue2 使用的是选项式 api.
-- vue 本来是用 setup()去实现模块化的，后来又加入语法糖。结果搞成什么都乱七八糟。
 
 ### 在 script 标签中使用 setup
 
-这就是组合式 api 的第二种写法。根本不是语法糖，一点方便都没有带给我们。
+这就是组合式 api 的第二种写法。
 
 ```js
 <script setup>
@@ -715,6 +711,9 @@ count.value++
 - pending & resolve & fallback
 - 本身不提供错误处理，可以使用 errorCaptured 事件或`onErrorCaptured()`钩子。
 - 常常与` <Transition>``<Keepalive> `结合使用。
+- 等待其后代组件（含异步组件），解析期间显示 fallback 插槽的内容。
+- 支持 async setup()
+- 支持异步组件
 
 ### component
 
@@ -779,16 +778,16 @@ count.value++
 虽然 vue 官网推荐使用`<script setup>`，但是我仍喜欢`<script>` + `setup()`。因为它模块化更好，语义更好。
 
 <!-- prettier-ignore-start -->
-|       | `<script setup>`                   | `<script>`    |      |     |
+|       | `<script setup>`  | `<script>`    |      |     |
 | ----- | ------ | -------- | ------------- | --- |
 |       | -           | 必须使用`setup(){return{...}}`       |      |     |
 | props | `let props = defineProps(['xxx'])` | `props: [...]`|      |     |
 | emits | `let emits = defineEmits(['xxx'])` | `emits: [...]`|      |     |
 | 组件  | 引入后直接在 template 中使用       | 引入后使用`components: {...}`注册    | template 中使用`$emit(...)` |     |
 |       | 直接使用`provide(key, value)`      | 在 setup 中使用`provide(key, value)` |      |     |
-|       |             | `defineComponent()`可以传递给`setup()`的参数`prop`的推导              |      |     |
-|       |             |               |      |     |
-|       |             |               |      |     |
+|       | | `defineComponent()`可以传递给`setup()`的参数`prop`的推导  |      |     |
+|       | |   |      |     |
+|       | |   |      |     |
 <!-- prettier-ignore-end -->
 
 vue 团队非要搞“语法糖”，结果搞乱了。

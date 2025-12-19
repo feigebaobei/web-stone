@@ -3,7 +3,7 @@
 <!-- prettier-ignore-start -->
 | | vue1  | vue2  | vue3 |
 | -- | -- | - | ------- |
-| 响应式    | | 对象：使用`defineProperty`劫持对象的已有属性的读取、修改操作  | 使用 proxy 拦截、使用 reflect 操作原始对象。 |
+| 响应式    | | 对象：使用`defineProperty`劫持对象的已有属性的读取、修改操作  | 在reative中使用 proxy 拦截、使用 reflect 操作原始对象。 |
 |  | 数组：劫持操作数据的 7 种方法：`push/pop/unshift/shift/splice/sort/reverse`   |   |   |
 |  | 缺点：无法劫持新添加的属性、删除已有的属性。使用数组下标直接改变数组不会触发更新。需要使用`Vue.set(obj. key, value)`实现响应式。 |   |   |
 | tres-shaking | | 不支持。   | 支持。   |
@@ -77,3 +77,8 @@ export default {
 <style>
 </style>
 ```
+
+## 如何支持 tree-shaking
+
+1. 必须使用 es6
+2.

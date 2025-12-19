@@ -2,18 +2,20 @@
 
 ## api styles
 
-|            | options api                  | composition api                                                      |
-| ---------- | ---------------------------- | -------------------------------------------------------------------- |
-|            | 选项式 api                   | 组成式 api                                                           |
-|            | 基于 composition api         | 也不知道怎么翻译成“沉浸式 api”的                                     |
-|            | 各选项会绑定到`this`上       | 使用`<script setup>`，vue 框架会把编译它。                           |
-|            |                              | 此时可以使用 setup().setup()返回的东西，会绑定到 this 对象上         |
-|            | 用于低复杂度，如：功能增强。 | 若全应用中使用 vue,则使用 composition api + sfc                      |
-| 这个功能好 | 不支持 tree shaking          | 支持 import 方式引入，即支持 tree shaking                            |
-|            |                              | vue2.7 中可以使用`@vue/composition-api`包支持 composition api 写法。 |
-|            |                              | vue3 中常用此写法，再与`<script setup>`结合使用。                    |
-|            | 不可以                       | 可以脱离 vue 框架使用。该用例被称为“组合式函数”                      |
-|            |                              |                                                                      |
+<!-- prettier-ignore-start -->
+|            | options api | composition api      |
+| ---------- | --- | ----- |
+|            | 选项式 api    | 组成式 api   |
+|            | 基于 composition api         | 也不知道怎么翻译成“沉浸式 api”的       |
+|            | 各选项会绑定到`this`上       | 使用`<script setup>`，vue 框架会把编译它。            |
+|            |               | 此时可以使用 setup().setup()返回的东西，会绑定到 this 对象上         |
+|            | 用于低复杂度，如：功能增强。 | 若全应用中使用 vue,则使用 composition api + sfc       |
+| 这个功能好 | 不支持 tree shaking          | 支持 import 方式引入，即支持 tree shaking             |
+|            |               | vue2.7 中可以使用`@vue/composition-api`包支持 composition api 写法。 |
+|            |               | vue3 中常用此写法，再与`<script setup>`结合使用。     |
+|            | 不可以        | 可以脱离 vue 框架使用。该用例被称为“组合式函数”       |
+|            |               |              |
+<!-- prettier-ignore-end -->
 
 ## options api
 
@@ -41,7 +43,7 @@
 |-|-|-|-|-|-|-|-|
 |`function createApp(rootComponet: Component, rootProps?: Object): app`|rootComponent根组件 rootProps 传入根组件的props|||||||
 |`createSSRApp(rootComp, rootProps)`||||||||
-|`app.mount(rootContainer: Element | string): ComponentPublicInstance`||||||||
+|`app.mount(rootContainer: Element \| string): ComponentPublicInstance`||||||||
 |`app.unmount(): void`||||||||
 |`app.provide()`||||||||
 |`app.component()`||||||||

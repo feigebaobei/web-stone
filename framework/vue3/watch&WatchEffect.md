@@ -17,6 +17,7 @@
 - 可以调用 methods 里的数据。
 - api watch & watchEffect 的可以一次监听多个。当被监听的数据不相关时，写在多个 watch、watchEffect 中
 - 监听器 watch 可以一次监听多个
+- 当需要监数据源改变时去执行其他逻辑时，只能使用 watch.
 
 ## watchEffect
 
@@ -29,7 +30,7 @@
 - 默认在所有的组件 update 前执行
 
 ```js
-const stop = watchEffect(() => {....})
+const stop = watchEffect(() => {....}) // 在这个方法中直接使用响应式对象
 stop() // 停止监听
 watchEffect(
   () => {

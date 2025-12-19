@@ -32,14 +32,14 @@
 </template>
 ```
 
-## 懒加载
+## 路由懒加载
 
-```
+```js
 let routes = [
   {
     path: '/one',
-    component: () => import('@/one.vue')
-  }
+    component: () => import('@/one.vue'),
+  },
 ]
 ```
 

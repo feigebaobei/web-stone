@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>vue2&amp;vue3</title>
-        <style>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>vue2&amp;vue3</title>
+            <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -11,47 +11,14 @@
  *--------------------------------------------------------------------------------------------*/
 
 .vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
 	display: none;
 }
 
-/* From extension ms-toolsai.jupyter */
-/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
-
-.alert {
-    width: auto;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-.alert > *:last-child {
-    margin-bottom: 0;
-}
-#preview > .alert:last-child {
-    /* Prevent this being set to zero by the default notebook stylesheet */
-    padding-bottom: 1em;
-}
-
-.alert-success {
-    /* Note there is no suitable color available, so we just copy "info" */
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-info {
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-warning {
-    background-color: var(--theme-warning-background);
-    color: var(--theme-warning-foreground);
-}
-.alert-danger {
-    background-color: var(--theme-error-background);
-    color: var(--theme-error-foreground);
-}
-
 </style>
-        
+            
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -72,10 +39,106 @@
     pointer-events: none;
 }
 </style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
         
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="vue2vue3">vue2&amp;vue3</h1>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="vue2vue3">vue2&amp;vue3</h1>
 <!-- prettier-ignore-start -->
 <table>
 <thead>
@@ -91,7 +154,7 @@
 <td>响应式</td>
 <td></td>
 <td>对象：使用<code>defineProperty</code>劫持对象的已有属性的读取、修改操作</td>
-<td>使用 proxy 拦截、使用 reflect 操作原始对象。</td>
+<td>在reative中使用 proxy 拦截、使用 reflect 操作原始对象。</td>
 </tr>
 <tr>
 <td></td>
@@ -176,21 +239,21 @@
 <li>如果新节点没有子节点，老节点也没有子节点，则进行文本的比对，然后设置文本内容。</li>
 <li>如果新节点有子节点，老节点也有子节点，则进行新老子节点的比对，然后进行新增、移动、删除的操作。</li>
 </ul>
-<p><img src="/framework/vue3/vue2Diff.png" alt="vue2Diff"></p>
+<p><img src="file:////framework/vue3/vue2Diff.png" alt="vue2Diff"></p>
 <h3 id="vue3-patch">vue3 patch</h3>
 <h2 id="编译模板">编译模板</h2>
 <h3 id="vue2-编译模板">vue2 编译模板</h3>
 <pre><code>
 *.vue ----&gt; ast ----&gt; render() ----&gt; vdom ----&gt; 视图
 </code></pre>
-<p><img src="/framework/vue3/vue2Compile.png" alt="vue2Compile"></p>
+<p><img src="file:////framework/vue3/vue2Compile.png" alt="vue2Compile"></p>
 <h3 id="vue3-编译模板">vue3 编译模板</h3>
 <ol>
 <li>调用 baseParse()，解析模板，返回 ast.</li>
 <li>调用 transform()，转换 ast.</li>
 <li>调用 generate()，根据 ast 生成 render 方法并返回。</li>
 </ol>
-<p><img src="/framework/vue3/vue3Compile.png" alt="vue3Compile"></p>
+<p><img src="file:////framework/vue3/vue3Compile.png" alt="vue3Compile"></p>
 <h2 id="vue2--vue3-组件模板">vue2 &amp; vue3 组件模板</h2>
 <pre><code class="language-js"><span class="hljs-comment">// vue2</span>
 <span class="hljs-comment">// 它都过时了，不再整理它了。</span>
@@ -214,8 +277,13 @@
 <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span></span>
 </code></pre>
+<h2 id="如何支持tree-shaking">如何支持tree-shaking</h2>
+<ol>
+<li>必须使用es6</li>
+<li></li>
+</ol>
 
-        
-        
-    </body>
-    </html>
+            
+            
+        </body>
+        </html>

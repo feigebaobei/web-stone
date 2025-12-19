@@ -134,3 +134,34 @@ createApp(App).directive('teleport', teleport)
 
 3.冲突
 ref 只有在组件渲染完成才注册引用信息，v-if 首次为 false 没有把元素或子组件渲染，所以没有注册引用信息。
+
+## 使用场景
+
+- 主要用于处理底层 dom 操作。
+- 实现跨组件复用的能用功能。
+
+- v-watermarker 水印
+- v-lazy 懒加载图片
+- v-permission 权限控制
+- v-copy 复制功能
+- v-longpress 长按
+- v-drag 拖拽
+- v-debounce 防抖
+- v-throttle 节流
+- v-click-outside 点击外部
+- v-resize 监听元素尺寸变化
+- v-scroll 监听滚动
+- v-touch 监听触摸
+- v-ripple 涟漪效果
+- v-tooltip 提示
+- v-image-preview 图片预览
+- v-contextmenu 右键菜单
+- v-autofocus 自动聚焦
+- v-focus 聚焦
+- v-autosize 自动高度
+- v-emoji-picker emoji 选择器
+- v-emoji 过滤表情
+- v-countdown 倒计时
+- v-countup 数字滚动
+- v-scroll-to 滚动到指定位置
+- v-scroll-lock 锁定滚动

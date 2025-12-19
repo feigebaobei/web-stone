@@ -1436,7 +1436,7 @@ $.<span class="hljs-title function_">shadowDom</span>(<span class="hljs-string">
     }
 }
 <span class="hljs-keyword">let</span> statusChain = <span class="hljs-keyword">new</span> <span class="hljs-title class_">StatusChain</span>&lt;A&gt;([
-    [<span class="hljs-string">&#x27;start&#x27;</span>, startStatus], 
+    [<span class="hljs-string">&#x27;start&#x27;</span>, startStatus],
     [<span class="hljs-string">&#x27;daiJi&#x27;</span>, daiJiStatus],
     [<span class="hljs-string">&#x27;running&#x27;</span>, runningStatus],
 ])
@@ -1452,8 +1452,45 @@ statusChain.<span class="hljs-title function_">getCurStatus</span>().<span class
 <span class="hljs-comment">// statusChain.getCurStatus().stop2()</span>
 statusChain.<span class="hljs-title function_">getCurStatus</span>().<span class="hljs-title function_">selectModule</span>()
 statusChain.<span class="hljs-title function_">getCurStatus</span>().<span class="hljs-title function_">stop2</span>()
-
-
+<span class="hljs-comment">// 共享事件</span>
+<span class="hljs-comment">// 事件bus</span>
+<span class="hljs-comment">// eventBus</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">ShareEventService</span> {
+  private <span class="hljs-attr">_map</span>: <span class="hljs-title class_">Map</span>&lt;S, <span class="hljs-title class_">Set</span>&lt;<span class="hljs-title class_">Cb</span>&gt;&gt;
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">_map</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>()
+  }
+  <span class="hljs-title function_">on</span>(<span class="hljs-params">eventName: S, cb: Cb</span>) {
+    <span class="hljs-keyword">let</span> set = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getCb</span>(eventName)
+    <span class="hljs-keyword">if</span> (set) {
+      set.<span class="hljs-title function_">add</span>(cb)
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">_map</span>.<span class="hljs-title function_">set</span>(eventName, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>([cb]))
+    }
+  }
+  <span class="hljs-title function_">off</span>(<span class="hljs-params">eventName: S, cb?: Cb</span>) {
+    <span class="hljs-keyword">let</span> set = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getCb</span>(eventName)
+    <span class="hljs-keyword">if</span> (set) {
+      <span class="hljs-keyword">if</span> (cb) {
+        set.<span class="hljs-title function_">delete</span>(cb)
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">_map</span>.<span class="hljs-title function_">delete</span>(eventName)
+      }
+    }
+  }
+  <span class="hljs-title function_">emit</span>(<span class="hljs-params">eventName: S, payload?: A</span>) {
+    <span class="hljs-keyword">let</span> set = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getCb</span>(eventName)
+    <span class="hljs-keyword">if</span> (set) {
+      <span class="hljs-keyword">let</span> arr = [...set]
+      arr.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">cb</span> =&gt;</span> {
+          <span class="hljs-title function_">cb</span>(payload)
+        })
+    }
+  }
+  private <span class="hljs-title function_">getCb</span>(<span class="hljs-params">eventName: S</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">_map</span>.<span class="hljs-title function_">get</span>(eventName)
+  }
+}
 
 
 
