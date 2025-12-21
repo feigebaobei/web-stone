@@ -32,6 +32,7 @@ ReactDOM.render(React.createElement('span', {}, 'string'), document.querySelecto
 ```shell
 npx create-react-app proj-name
 npx create-react-app proj-name --template cra-template-pwa # 创建pwa应用
+npm create vite@latest my-react-app -- --template react # react@19 创建应用
 # or
 # yarn create react-app todo-app
 cd proj-name
@@ -96,6 +97,8 @@ v17 以前的用法：
 
 - [react-18 包](/framework/react/react-18/index.html) [react-17 包](/framework/react/react-17/index.html)
 - [react-dom-18](/framework/react/react-dom-18/index.html) [react-dom-17](/framework/react/react-dom-17/index.html)
+- [react-19 包]()
+- [react-dom-19 包]()
 - 状态管理
   - React Context
   - mobx
