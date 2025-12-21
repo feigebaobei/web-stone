@@ -3,6 +3,8 @@
 ## overview
 
 > 把 css 文件中的所有 class name 和动画名打包为一个默认对象输出。然后就可以使用`url(...)`/`@imports`使用了。
+> 让打包器处理。  
+> 不是 react 的库，它支持很多 react 打包工具。
 
 ### feature
 
@@ -12,7 +14,8 @@
   - 与别的文件组合 `.a {compose: className from './style.css'}`
   - 与全局 class name 组合
   - 与预处理器一起使用
-- `:global(...)`/`:local(...)`
+- `:global(...)`全局
+- `:local(...)`局布
 -
 
 ## install
@@ -24,11 +27,11 @@
 ```js
 // 编译*.css，并在html中使用。
 // 也可以在*.css中写多个class，然后在html中使用多个类。
-// widget1.css
+// widget1.module.css
 .button {...}
 // widget1.js
 import React from 'react'
-import styles from './widget.css'
+import styles from './widget.module.css'
 class Widget1 extends React.Component {
     render() {
         return (
@@ -39,49 +42,96 @@ class Widget1 extends React.Component {
     }
 }
 export default Widget1
-// *.css中的类名会被编译为`<filename>_<classname>_<randomHash>`
+// *.module.css中的类名会被编译为`<filename>_<classname>_<randomHash>`
 // 可以使用嵌套的类名。定义时嵌套，使用时也嵌套。
-// 可以在*.css中使用其他*.css的内容。
-// util.css
+// 可以在*.module.css中使用其他*.module.css的内容。
+// util.module.css
 .grape {...}
-// widget2.css
+// widget2.module.css
 .button {
-    composes: grape from './util.css';
+    composes: grape from './util.module.css';
     ...
 }
 // css选择器中的html标签不会被编译
 // css选择器中的媒体查询不好被编译
 ```
 
-## configuration
+定义多个 class
 
-默认配置文件：`path/to/file.json`。  
-|key|description|default|enum|demo|||
-|-|-|-|-|-|-|-|
-||||||||
-||||||||
-||||||||
+```
+// styles.module.css
+.mybutton {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.primary {
+  background-color: #007bff;
+  color: white;
+}
+.secondary {
+  background-color: #6c757d;
+  color: white;
+}
+```
 
-## api
+使用多个 class
 
-`{{packageName}}.fn(param, first: string, second: boolean = true) => void`
-description
+```
+import styles from './styles.module.css';
+function MyButton() {
+    return (
+        <button className={`${styles.mybutton} ${styles.primary}`}>
+    )
+}
+```
 
-`{{packageName}}.fn(param, [options: {a: string, b?: number}])`
-description
+## composing classes
 
-## principle
+```css
+.mybutton {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
 
-此包的处理逻辑。
+.primary {
+  composes: mybutton; /* 这里继承了mybutton类的样式 */
+  background-color: #007bff;
+  color: white;
+}
 
-### uml
+.secondary {
+  composes: mybutton; /* 这里继承了mybutton类的样式 */
+  background-color: #6c757d;
+  color: white;
+}
+```
 
+## global classes
+
+全局样式的 name 是惟一的。
+全局样式与局布样式可以定义在一个文件中。
+
+```css
+:global(.myheader) {
+  padding: 10px 20px;
+  font-size: 50px;
+  color: white;
+  background-color: dodgerblue;
+}
+.myparagraph {
+  font-size: 20px;
+  color: white;
+  background-color: purple;
+}
 ```
 
 ```
-
-## todo
-
-> 未来迭代计划。
-> 未来迭代计划。
-> 未来迭代计划。
+import styles from './styles.module.css';
+...
+<div className={myheader}>...</div>
+<div className={styles.myparagraph}>...</div>
+```

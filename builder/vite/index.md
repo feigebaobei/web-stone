@@ -73,7 +73,7 @@ vite # 启动
     - useDefineForClassFields: true
 - 把`*.css`放入`<style>`内。
   - postcss
-  - css modules
+  - [css-modules](language/css/css-modules/index.html)
   - css 预处理器
 - 处理静态资源。把相对路径变为可解析的 url.
 - 支持 worker
