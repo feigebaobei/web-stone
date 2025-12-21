@@ -36,7 +36,7 @@
 
 # 预处理器
 
-## [sass](/language//sass/index.html)
+## [sass](/language/css/sass/index.html)
 
 生于 2007，最早/最成熟的 css 预处理器。
 请使用 sass 包，（node-sass 已经是旧版本了）
@@ -56,12 +56,7 @@
 
 [官网](https://www.postcss.com.cn/)
 
-## css in js
-
-- 使用 js 编写样式。
-- 可在浏览器中编译。
-- 可使用 node 在服务端打包。
-- 代表是[jss]()
+## [css-in-js](/language/css/cssInJs.html)
 
 ## [turbine]()
 

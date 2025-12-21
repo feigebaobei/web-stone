@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>css-in-js</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="css-in-js">css-in-js</h1>
+<ul>
+<li>在js文件中编写样式。</li>
+<li>在当前组件范围内的样式。</li>
+<li>基于props使用动态样式。</li>
+<li>避免class name冲突。</li>
+</ul>
+<p>需要安装包<code>styled-components</code>，可能还有别的方法。
+<code>npm i styled-components</code></p>
+<h2 id="demo">demo</h2>
+<pre><code class="language-jsx"><span class="hljs-keyword">import</span> styled <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;styled-components&#x27;</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">MyHeader</span> = styled.<span class="hljs-property">h1</span><span class="hljs-string">`
+  color: blue;
+`</span>;
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">App</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> (<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">MyHeader</span>&gt;</span>string<span class="hljs-tag">&lt;/<span class="hljs-name">MyHeader</span>&gt;</span></span>)
+}
+</code></pre>
+<p>如果没有css-in-js，则需要：</p>
+<ul>
+<li>写一个单独*.css文件。再引入到react组件文件中。</li>
+<li>写行内样式
+如果没有css-in-js，则可以收益：</li>
+<li>使用<code>styled</code>对象去创建组件。</li>
+<li>样式与组件写在一个文件中。</li>
+<li>可以使用常规的css语法。</li>
+</ul>
+<h2 id="在style中使用props">在style中使用props</h2>
+<pre><code class="language-jsx"><span class="hljs-keyword">import</span> styled <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;styled-components&#x27;</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">Button</span> = styled.<span class="hljs-property">button</span><span class="hljs-string">`
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: <span class="hljs-subst">${props =&gt; props.btntype === <span class="hljs-string">&#x27;primary&#x27;</span> ? <span class="hljs-string">&#x27;#007bff&#x27;</span> : <span class="hljs-string">&#x27;#6c757d&#x27;</span>}</span>;
+  color: white;
+  cursor: pointer;
+`</span>;
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">App</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">return</span> (
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Button</span> <span class="hljs-attr">btntype</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Primary Button<span class="hljs-tag">&lt;/<span class="hljs-name">Button</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">br</span> /&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">br</span> /&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Button</span>&gt;</span>Secondary Button<span class="hljs-tag">&lt;/<span class="hljs-name">Button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+}
+</code></pre>
+<h2 id="扩展样式">扩展样式</h2>
+<pre><code class="language-jsx"><span class="hljs-keyword">import</span> styled <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;styled-components&#x27;</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">Button</span> = styled.<span class="hljs-property">button</span><span class="hljs-string">`
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+`</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">PrimaryButton</span> = <span class="hljs-title function_">styled</span>(<span class="hljs-title class_">Button</span>)<span class="hljs-string">`
+  background-color: #007bff;
+`</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">SuccessButton</span> = <span class="hljs-title function_">styled</span>(<span class="hljs-title class_">Button</span>)<span class="hljs-string">`
+  background-color: #28a745;
+`</span>;
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">App</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">return</span> (
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">PrimaryButton</span>&gt;</span>Primary<span class="hljs-tag">&lt;/<span class="hljs-name">PrimaryButton</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">SuccessButton</span>&gt;</span>Success<span class="hljs-tag">&lt;/<span class="hljs-name">SuccessButton</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+}
+</code></pre>
+<h2 id="全局样式">全局样式</h2>
+<pre><code class="language-jsx"><span class="hljs-keyword">import</span> { createGlobalStyle } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;styled-components&#x27;</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">GlobalStyle</span> = createGlobalStyle<span class="hljs-string">`
+  h1 {
+    color: white;
+    background-color: purple;
+    font-family: Arial, sans-serif;
+  }
+
+  .myparagraph {
+    font-family: courier, monospace;
+    color: blue;
+  }
+`</span>;
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">App</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">return</span> (
+    <span class="language-xml"><span class="hljs-tag">&lt;&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">GlobalStyle</span> /&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Welcome!<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;myparagraph&quot;</span>&gt;</span>This paragraph is styled with global styles.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;/&gt;</span></span>
+  );
+}
+</code></pre>
+<ul>
+<li>可在浏览器中编译。</li>
+<li>可使用 node 在服务端打包。</li>
+<li>代表是<a href="">jss</a></li>
+</ul>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>
