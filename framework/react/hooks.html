@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>hooks</title>
-        <style>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>hooks</title>
+            <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -11,47 +11,14 @@
  *--------------------------------------------------------------------------------------------*/
 
 .vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
 	display: none;
 }
 
-/* From extension ms-toolsai.jupyter */
-/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
-
-.alert {
-    width: auto;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-.alert > *:last-child {
-    margin-bottom: 0;
-}
-#preview > .alert:last-child {
-    /* Prevent this being set to zero by the default notebook stylesheet */
-    padding-bottom: 1em;
-}
-
-.alert-success {
-    /* Note there is no suitable color available, so we just copy "info" */
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-info {
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-warning {
-    background-color: var(--theme-warning-background);
-    color: var(--theme-warning-foreground);
-}
-.alert-danger {
-    background-color: var(--theme-error-background);
-    color: var(--theme-error-foreground);
-}
-
 </style>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
@@ -73,10 +40,106 @@
     pointer-events: none;
 }
 </style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
         
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="hooks">hooks</h1>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="hooks">hooks</h1>
 <blockquote>
 <p>只能在方法组件的最顶层使用。<br>
 以'use'开头。意为只是使用，不是创建。<br>
@@ -116,10 +179,10 @@ setValue是异步的。react会打包一批setValue更新为一次更新。
 <span class="hljs-title function_">useEffect</span>(fn, ...listener = [])
 用于处理副作用
 在componentDidMount/componentDidUpdate/componentWillUnmount时触发。
-<span class="hljs-title function_">useEffect</span>(<span class="hljs-function">() =&gt;</span> {})             =&gt; componentDidMount, componentDidUpdate
-<span class="hljs-title function_">useEffect</span>(<span class="hljs-function">() =&gt;</span> {}, [])         =&gt; componentDidMount
-<span class="hljs-title function_">useEffect</span>(<span class="hljs-function">() =&gt;</span> {}, [p])        =&gt; componentDidMount, 当p改变时
-<span class="hljs-title function_">useEffect</span>(<span class="hljs-function">() =&gt;</span> {               =&gt; componentWillUnMount是执行f
+<span class="hljs-title function_">useEffect</span>(<span class="hljs-function">() =&gt;</span> {})             =&gt; 每次渲染都会执行            componentDidMount, componentDidUpdate
+<span class="hljs-title function_">useEffect</span>(<span class="hljs-function">() =&gt;</span> {}, [])         =&gt; 第一次渲染时执行            componentDidMount
+<span class="hljs-title function_">useEffect</span>(<span class="hljs-function">() =&gt;</span> {}, [p])        =&gt; 第一次渲染时和p改变时执行    componentDidMount, 当p改变时
+<span class="hljs-title function_">useEffect</span>(<span class="hljs-function">() =&gt;</span> {               =&gt;                          componentWillUnMount是执行f
     <span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params"></span>) =&gt; {}
     <span class="hljs-keyword">return</span> f
 })
@@ -331,6 +394,12 @@ useInsertionEffect(didUpdate)
     )
 }
 </span></code></pre>
+<p>使用场景：</p>
+<ul>
+<li>操作dom.</li>
+<li>触发动画</li>
+<li>与第三方库交互</li>
+</ul>
 <h2 id="api">api</h2>
 <table>
 <thead>
@@ -887,13 +956,13 @@ isShow &amp;&amp; &lt;<span class="hljs-title class_">Modal</span>&gt;
 </tr>
 </tbody>
 </table>
-<h3 id="hooks--helper方法">hooks &amp; helper方法</h3>
+<h3 id="hooks--helper-方法">hooks &amp; helper 方法</h3>
 <table>
 <thead>
 <tr>
 <th></th>
 <th>hooks</th>
-<th>helper方法</th>
+<th>helper 方法</th>
 <th></th>
 <th></th>
 </tr>
@@ -901,21 +970,21 @@ isShow &amp;&amp; &lt;<span class="hljs-title class_">Modal</span>&gt;
 <tbody>
 <tr>
 <td></td>
-<td>可实现deps改变时调用</td>
-<td>不依赖deps</td>
+<td>可实现 deps 改变时调用</td>
+<td>不依赖 deps</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td></td>
-<td>底层依赖react的hooks原理</td>
+<td>底层依赖 react 的 hooks 原理</td>
 <td>依赖方法调用</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td>何时调用</td>
-<td>deps改变时</td>
+<td>deps 改变时</td>
 <td>调用时</td>
 <td></td>
 <td></td>
@@ -970,12 +1039,16 @@ isShow &amp;&amp; &lt;<span class="hljs-title class_">Modal</span>&gt;
 }
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> useOnline
 </code></pre>
-<h3 id="title">title</h3>
-<h3 id="title">title</h3>
-<h2 id="todo">todo</h2>
+<h3 id="title-1">title</h3>
+<h3 id="title-2">title</h3>
+<h2 id="todo-1">todo</h2>
 <h3 id="hook-为什么要在顶层">Hook 为什么要在顶层</h3>
+<ul>
+<li>方法组件被执行时会执行所有方法体。</li>
+<li>hooks 内部使用链式保存数据。每个节点保存一个调用 hooks 方法的结果。get 时得到最后一个节点的结果。</li>
+</ul>
 
-        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
-        
-    </body>
-    </html>
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>

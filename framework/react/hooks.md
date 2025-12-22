@@ -40,13 +40,14 @@ flushSync(() => {
 useEffect(fn, ...listener = [])
 用于处理副作用
 在componentDidMount/componentDidUpdate/componentWillUnmount时触发。
-useEffect(() => {})             => componentDidMount, componentDidUpdate
-useEffect(() => {}, [])         => componentDidMount
-useEffect(() => {}, [p])        => componentDidMount, 当p改变时
-useEffect(() => {               => componentWillUnMount是执行f
+useEffect(() => {})             => 每次渲染都会执行            componentDidMount, componentDidUpdate
+useEffect(() => {}, [])         => 第一次渲染时执行            componentDidMount
+useEffect(() => {}, [p])        => 第一次渲染时和p改变时执行    componentDidMount, 当p改变时
+useEffect(() => {               =>                          componentWillUnMount是执行f
     let f = () => {}
     return f
 })
+总结得到useEffect在挂载时一定会执行。
 fn中不能直接使用异步方法（async/await），需要使用立即执行函数包裹异步方法。
 若fn返回一个方法则方法在御载组件前被react框架调用。
 listener指定当哪个变量变化（使用浅复制比较）时触发fn.
@@ -240,6 +241,12 @@ function C () {
     )
 }
 ```
+
+使用场景：
+
+- 操作 dom.
+- 触发动画
+- 与第三方库交互
 
 ## api
 

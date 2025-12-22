@@ -1,5 +1,6 @@
-# react中的方法式组件使用ref prop
-- 明确环境的reactElement元素，并全部暴露。
+# react 中的方法式组件使用 ref prop
+
+- 明确环境的 reactElement 元素，并全部暴露。
 - 只暴露指定的属性（包括数据、方法）
 
 ```js

@@ -11,7 +11,9 @@
  *--------------------------------------------------------------------------------------------*/
 
 .vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
 	display: none;
 }
 
@@ -169,6 +171,11 @@
 <td>redux / react-redux / mobx</td>
 <td></td>
 </tr>
+<tr>
+<td>路由跳转</td>
+<td>useLocation + useNavigate</td>
+<td></td>
+</tr>
 </tbody>
 </table>
 <h3 id="props--event">props + event</h3>
@@ -320,6 +327,50 @@ demo3</p>
 <h3 id="redux">redux</h3>
 <h3 id="react-redux">react-redux</h3>
 <h3 id="mobx">mobx</h3>
+<h3 id="路由时传递">路由时传递</h3>
+<p>在跳转路由前的组件设置要传递的数据。</p>
+<pre><code class="language-tsx"><span class="hljs-keyword">import</span> { useNavigate } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;react-router&quot;</span> <span class="hljs-comment">// react-router@7+</span>
+<span class="hljs-keyword">const</span> navigate = <span class="hljs-title function_">useNavigate</span>()
+&lt;button onClick={<span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">navigate</span>(<span class="hljs-string">&#x27;/two&#x27;</span>, {
+    <span class="hljs-attr">state</span>: {<span class="hljs-attr">message</span>: <span class="hljs-string">&#x27;hello&#x27;</span>}
+})}&gt;enter two&lt;/button&gt;
+</code></pre>
+<p>在跳转路由后的组件设置要接收数据。</p>
+<pre><code class="language-tsx"><span class="hljs-keyword">import</span> { useLocation } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;react-router&quot;</span> <span class="hljs-comment">// react-router@7+</span>
+<span class="hljs-keyword">const</span> location = <span class="hljs-title function_">useLocation</span>()
+location.<span class="hljs-property">state</span>?.<span class="hljs-property">message</span>
+</code></pre>
+<h4 id="state--urlqs">state &amp; urlQs</h4>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>state</th>
+<th>urlQs</th>
+<th>动态路由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>特点</td>
+<td>不会在地址栏中显示</td>
+<td>会出现在url中。</td>
+<td>restful风格，seo友好。</td>
+</tr>
+<tr>
+<td>使用场景</td>
+<td>临时通信，敏感数据，</td>
+<td>可分享链接，选择条件，页码，id等</td>
+<td>资源id，详情页面。</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h2 id="vue">vue</h2>
 <table>
 <thead>
@@ -403,7 +454,10 @@ demo3</p>
 <p>它是一个语法糖</p>
 <pre><code class="language-html"><span class="hljs-comment">&lt;!-- 父组件 --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">child-comp</span> <span class="hljs-attr">v-model:title</span>=<span class="hljs-string">&quot;value&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">child-comp</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">child-comp</span> <span class="hljs-attr">:title</span>=<span class="hljs-string">&quot;value&quot;</span> @<span class="hljs-attr">update:title</span>=<span class="hljs-string">&quot;$event =&gt; value = $event&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">child-comp</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">child-comp</span>
+  <span class="hljs-attr">:title</span>=<span class="hljs-string">&quot;value&quot;</span>
+  @<span class="hljs-attr">update:title</span>=<span class="hljs-string">&quot;$event =&gt; value = $event&quot;</span>
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">child-comp</span>&gt;</span>
 <span class="hljs-comment">&lt;!-- 子组件 --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
   <span class="hljs-keyword">import</span> { defineEmits } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
