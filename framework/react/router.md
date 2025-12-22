@@ -2,26 +2,26 @@
 
 ## overview
 
-> 核心是`react-router`。项目中常用到`react-router-dom`/`react-router-native`。这2个包是基于`react-router`开发的。  
-> 
-> 它是一个react的组件库、hook库、工具库（从用法上也能看出来）。
-> 
+> 核心是`react-router`。项目中常用到`react-router-dom`/`react-router-native`。这 2 个包是基于`react-router`开发的。
+>
+> 它是一个 react 的组件库、hook 库、工具库（从用法上也能看出来）。
+>
 > 用于创建类多页面应用。本质是单面应用。
-> 
+>
 > 我们把`react-router`/`react-router-dom`/`react-router-native`放在一起聊。
-> 
+>
 > > react-router 它包括核心的组件、hooks、匹配路由的算法。
-> > 
-> > react-rotuer-dom 是基于react-router的。添加了一些dom的api.
-> > 
-> > react-router-native是基于react-router的。添加了一些native的api。
-> 
-> v6 版本是匹配最符合url的路由
+> >
+> > react-rotuer-dom 是基于 react-router 的。添加了一些 dom 的 api.
+> >
+> > react-router-native 是基于 react-router 的。添加了一些 native 的 api。
+>
+> v6 版本是匹配最符合 url 的路由
 
 ### feature
 
-- 为react项目提供路由功能。
-- 同时支持c/s.
+- 为 react 项目提供路由功能。
+- 同时支持 c/s.
 - feature2
 
 ## install
@@ -33,6 +33,20 @@ npm i react-router-dom
 # or
 npm i react-router-native
 ```
+
+## react-router & react-router-dom
+
+|          | react-router                                    | react-router-dom                                               |     |
+| -------- | ----------------------------------------------- | -------------------------------------------------------------- | --- |
+|          | 基础包                                          | 基于 react-router 开发的包                                     |     |
+|          |                                                 | 增加了 dom 特有的功能（如 BrowserRouter, Link, Route, Switch） |     |
+|          |                                                 | 在 react 项目中够用                                            |     |
+| 使用场景 | 跨平台应用（web/rn/...）                        | web                                                            |     |
+|          |                                                 | spa                                                            |     |
+|          | 只提供基础的路由匹配和管理逻辑。不包含 dom 功能 |                                                                |     |
+
+在 v7 以后，react-router-dom 仅简单透传 react-router.
+所以请使用 react-router 代替 react-router-dom。
 
 ## usage
 
@@ -48,6 +62,7 @@ npm i react-router-native
 </BrowserRouter>
 
 // 导航
+import { Link } from "react-router-dom";
 <nav>
     <Link to="/">Home</Link>
     <Link to="about">About</Link>
@@ -218,7 +233,7 @@ useOutletContext 用于接收父组件分享的数据。
 <Routes>
     children
     location
-<Route> 
+<Route>
     caseSensitive
     children
     element 指定的子组件
@@ -243,7 +258,7 @@ matchRoutes 查找匹配的路由，返回一個匹配的數組
     pathname
     route
 renderMatches 渲染matchRoutes()的结果
-matchPath 
+matchPath
     params
     pathname
     pattern: {
@@ -269,6 +284,86 @@ useSearchParams(react native)
 createSearchParams
 ```
 
+## navigator 的使用
+
+```
+let navigator = useNavigator()
+navigator(path)
+navigator(`path/${id}`)
+navigator('..') // 进入上一层路由
+navigator(-1) // 返回上一个浏览记录
+navigator(1) // 进入下一个浏览记录
+navigator(path, {replace: true}) // 替换当前路由
+navigator(path, {state: {id: 1}}) // 给下一个路由传递状态数据
+navigator(path)
+```
+
+## refresh 后出现 404 的解决方案
+
+原因是 spa 只有一个 index.html，所有路由都应该指向这个文件。实际上在刷新是请求了指定路由的 html 文件，服务器找不到就返回了 404。
+
+vite 的 preview 模式
+不需要配置
+
+netlify
+在根目录下创建一个文件 netlify.toml
+
+```
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
+```
+
+vercel
+在根目录下创建一个文件 vercel.json
+
+```
+{
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
+```
+
+apache
+在 public 目录下创建一个文件 .htaccess
+
+```
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
+```
+
+nginx
+在 nginx.conf 文件中添加如下配置：
+
+```
+location / {
+  try_files $uri $uri/ /index.html;
+}
+```
+
+如何无法配置服务器，请使用 hashRouter 模式。
+
+```jsx
+// main.jsx
+import { HashRouter } from 'react-router'
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <HashRouter>
+      <App />
+    </HashRouter>
+  </StrictMode>
+)
+```
+
 ## principle
 
 此包的处理逻辑。
@@ -282,6 +377,36 @@ createSearchParams
 ## 规范
 
 - `xxx`是变量名。`getXxx`是获取数据的方法。`setXxx`是设置数据的方法。
+
+## 项目结构
+
+有人推荐这样的项目结构
+
+```
+<root>
+|-- src
+    |-- main.tsx             配置 brower router
+    |-- App.tsx              路由配置
+    |-- index.css            全局样式
+    |-- pages
+        |-- one              一个页面的目录
+            |-- index.tsx
+            |-- index.css
+            |-- components   当前页面的私有组件的目录
+    |-- components           公共组件的目录
+```
+
+這樣的結構讓每個頁面都能：
+✅ 獨立開發和維護
+✅ 避免命名衝突
+✅ 清楚的檔案組織
+✅ 容易複製或重用
+
+## 分层设计
+
+- 可以做成分层的 404 组件。
+  - 需要在特定层中使用 Outlet 组件
+  - 需要定义明确 404 组件
 
 ## todo
 
