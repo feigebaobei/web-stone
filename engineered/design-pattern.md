@@ -53,6 +53,7 @@
 该模式就是为了创建对象。
 像工厂产出统一套件一样。
 常用于创建对象。
+一般以`create`开头，或大写开头。
 
 ```
 function createPerson (name, age, job) {
@@ -65,6 +66,13 @@ function createPerson (name, age, job) {
     }
     return o
 }
+
+
+function Point(x, y) {
+	this.x = x
+	this.y = y
+}
+var p = new Point(1, 2)
 ```
 
 ## 单例模式

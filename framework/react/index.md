@@ -11,6 +11,8 @@
 > react 是运行时较重。（vue/svelte 是编译时较重）  
 > react 中使用的树就是二叉树。使用长子-兄弟表示法。  
 > 把数据结构使用的非常好。主要用到了二叉树、链表。
+> 渐进比 vue 做的好。
+> 组件名必须大写开头。
 
 ### feature
 
@@ -120,6 +122,11 @@ v17 以前的用法：
 - [react-snap](/framework/react/reactSnap.html)
 - [react-addons-pref](/framework/react/react-addons-pref.html)
 - [immutable.js](/framework/react/immutable/index.html)
+- [react compiler](/framework/react/compiler.html)
+- [react-reconciler](/framework/react/react-reconciler.html)
+- [title](/framework/react/title.html)
+- [title](/framework/react/title.html)
+- [title](/framework/react/title.html)
 - [title](/framework/react/title.html)
 - [title](/framework/react/title.html)
 - [title](/framework/react/title.html)

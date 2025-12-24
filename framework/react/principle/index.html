@@ -583,7 +583,7 @@ Current 就是 fiberroot</p>
 <td></td>
 <td>commit phase</td>
 <td>同步</td>
-<td><a href="/language/javascript/opDom.html">操作dom</a></td>
+<td><a href="/language/javascript/opDom.html">操作 dom</a></td>
 <td></td>
 <td></td>
 </tr>
@@ -986,7 +986,7 @@ flags 表示effect的编码
 <h2 id="inside-fiber-in-depth-overview-of-the-new-reconciliation-algorithm-in-react">Inside Fiber: in-depth overview of the new reconciliation algorithm in React</h2>
 <h3 id="side-effects">side-effects</h3>
 <ul>
-<li><strong><a href="/language/javascript/opDom.html">操作dom</a> 的方法</strong></li>
+<li><strong><a href="/language/javascript/opDom.html">操作 dom</a> 的方法</strong></li>
 <li><strong>生命周期方法</strong></li>
 <li>……</li>
 </ul>
@@ -1116,13 +1116,232 @@ fiber更新后
 <li><a href=""></a></li>
 <li><a href=""></a></li>
 </ul>
-<h1 id="开拓">开拓</h1>
-<h2 id="babel-开创了前端中把一种功能换一种写法的思想如">babel 开创了前端中把一种功能换一种写法的思想。如:</h2>
+<h2 id="开拓">开拓</h2>
+<h3 id="babel-开创了前端中把一种功能换一种写法的思想如">babel 开创了前端中把一种功能换一种写法的思想。如:</h3>
 <pre><code>&lt;span id=&quot;#id&quot;&gt;string&lt;/span&gt;
 =&gt;
 React.createElement('span', {id: '#id'}, string)
 </code></pre>
-<h2 id="使用配置文件控制是否使用新代码同时保持了新代码与老代码在项目中优点是迭代平滑">使用配置文件控制是否使用新代码。同时保持了新代码与老代码在项目中。优点是迭代平滑。</h2>
+<h3 id="使用配置文件控制是否使用新代码同时保持了新代码与老代码在项目中优点是迭代平滑">使用配置文件控制是否使用新代码。同时保持了新代码与老代码在项目中。优点是迭代平滑。</h3>
+<h2 id="再整理一次运行逻辑">再整理一次运行逻辑</h2>
+<pre><code class="language-js"><span class="hljs-comment">// react@19</span>
+<span class="hljs-keyword">import</span> { createRoot } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react-dom/client&#x27;</span>
+<span class="hljs-title function_">createRoot</span>(<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;root&#x27;</span>)!).<span class="hljs-title function_">render</span>(
+  <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">App</span>/&gt;</span></span>
+)
+</code></pre>
+<pre><code>react-dom包     react-reconciler包   react-dom-binding包
+  createRoot(dom)
+  检查参数
+  喂入参数 ------ createContainer() 创建并返回一个FiberRoot对象
+                  直接喂入参数，执行
+                  createFiberRoot() 创建并返回一个FiberRoot对象
+                    new FiberRootNode() 在工厂函数上挂载若干属性
+                    createHostRootFiber() 创建并返回一个Fiber对象
+                      createFiber()就是createFiberImplObject() 它是一个工厂函数。返回一个Fiber对象
+                    createCache()
+                      new AbortControllerLocal()实例化一个AbortController对象
+                    retainCache()使refCount++
+                    retainCache()使refCount++
+                    initializeUpdateQueue() 设置fiber.updateQueue
+                  registerDefaultIndicator() 重置isomorphicDefaultTransitionIndicator
+  ----------------------------------- markContainerAsRoot() 把FiberRoot对象挂载到dom上
+  ----------------------------------- listenToAllSupportedEvents() 监听挂载react的根dom上的所有支持的事件
+                                        在其他文件中已经注册了好多事件。
+                                        listenToNativeEvent() 为指定dom绑定指定事件的回调方法
+                                          addTrappedEventListener() 为指定dom绑定指定事件的回调方法
+                                            createEventListenerWrapperWithPriority() 返回一个触发事件的方法
+                                              getEventPriority() 把所有事件分成4类(DiscreteEventPriority/ContinuousEventPriority/DefaultEventPriority/IdleEventPriority)，这4类分别对应一个lane值
+                                              listenerWrapper().bind() 根据4类事件分别绑定触发此事件的方法的this
+                                                getCurrentUpdatePriority() 得到属性
+                                                setCurrentUpdatePriority() 设置属性
+                                                dispatchEvent() 触发事件
+                                            removeEventListener() 在指定dom上移除指定事件
+                                            addEventCaptureListenerWithPassiveFlag() 为指定dom上绑定指定事件
+                                            addEventCaptureListener() 为指定dom上绑定指定事件
+  ReactDOMRoot(root) 返回fiberRoot对象
+</code></pre>
+<p>Fiber对象就是FiberRoot对象。</p>
+<h3 id="reactdomroot">ReactDOMRoot</h3>
+<p>这个方法很简单。</p>
+<pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">ReactDOMRoot</span>(<span class="hljs-params">internalRoot: FiberRoot</span>) {
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">_internalRoot</span> = internalRoot;
+}
+<span class="hljs-comment">// 渲染函数</span>
+<span class="hljs-title class_">ReactDOMRoot</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">render</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+  <span class="hljs-title function_">updateContainer</span>() 更新container对象
+    <span class="hljs-title function_">requestUpdateLane</span>() 返回指定fiber对象的最高lane
+      <span class="hljs-title function_">pickArbitraryLane</span>() 取出最高lane
+        <span class="hljs-title function_">getHighestPriorityLane</span>() 取出最高lane
+    <span class="hljs-title function_">updateContainerImpl</span>() 建立查新container的逻辑
+      <span class="hljs-title function_">getContextForSubtree</span>() 得到子树中的context对象
+        <span class="hljs-title function_">getInstance</span>() 返回父组件的_reactInternals属性
+        <span class="hljs-title function_">findCurrentUnmaskedContext</span>() 返回当前组件的context对象
+          <span class="hljs-title function_">isContextProvider</span>() 是不是context的提供者
+        <span class="hljs-title function_">isLegacyContextProvider</span>() 同isContextProvider
+        <span class="hljs-title function_">processChildContext</span>() 返回当前组件的context对象
+      <span class="hljs-title function_">createUpdate</span>() 工厂函数。返回一个update对象
+      <span class="hljs-title function_">enqueueUpdate</span>() 把fiber对象添加到更新队列。还处理了子组件等。
+        <span class="hljs-title function_">isUnsafeClassRenderPhaseUpdate</span>() 是否应该在rendererPhase阶段更新
+        <span class="hljs-title function_">unsafe_markUpdateLaneFromFiberToRoot</span>() 返回<span class="hljs-title class_">FiberRoot</span>对象或<span class="hljs-literal">null</span>
+          <span class="hljs-title function_">getRootForUpdatedFiber</span>() 若需要从根组件更新，则返回<span class="hljs-title class_">FiberRoot</span>对象。否则返回<span class="hljs-literal">null</span>
+            <span class="hljs-title function_">throwIfInfiniteUpdateLoopDetected</span>() 达到最大渲染次数时重置这<span class="hljs-number">4</span>个变量nestedUpdateCount、nestedPassiveUpdateCount、rootWithNestedUpdates、rootWithPassiveNestedUpdates，并抛出错误。
+              <span class="hljs-title function_">mergeLanes</span>() 合并lane
+            <span class="hljs-comment">// detectUpdateOnUnmountedFiber() dev阶段的方法。不看它了。</span>
+          <span class="hljs-title function_">markUpdateLaneFromFiberToRoot</span>() 升级所有祖先fiber对象的childLanes
+        <span class="hljs-title function_">enqueueConcurrentClassUpdate</span>() 进入更新队列
+          <span class="hljs-title function_">enqueueUpdate</span>() 添加到concurrentQueues数组
+          <span class="hljs-title function_">getRootForUpdatedFiber</span>() 同上文
+      <span class="hljs-title function_">startUpdateTimerByLane</span>() 记录开始更新的时刻
+        <span class="hljs-title function_">isGestureRender</span>() lane是否等于指定的值
+        <span class="hljs-title function_">createTask</span>() 用<span class="hljs-variable language_">console</span>.<span class="hljs-property">createTask</span>调用方法
+        <span class="hljs-title function_">getComponentNameFromFiber</span>() 根据fiber.<span class="hljs-property">tag</span>返回组件名
+        <span class="hljs-title function_">resolveEventTimeStamp</span>() xxxx
+        <span class="hljs-title function_">resolveEventType</span>() xxxx
+        <span class="hljs-title function_">isBlockingLane</span>() lane是否等于指定的值
+          <span class="hljs-title function_">isAlreadyRendering</span>() 好像是判断是否准备去沉浸的
+        <span class="hljs-title function_">isTransitionLane</span>() lane是否等于指定的值
+      <span class="hljs-title function_">scheduleUpdateOnFiber</span>()
+        <span class="hljs-title function_">prepareFreshStack</span>() 记录了好多时刻
+          <span class="hljs-title function_">markAllLanesInOrder</span>() 定义了timeStamp
+          <span class="hljs-title function_">recordRenderTime</span>() 记录渲染时刻
+          <span class="hljs-title function_">setCurrentTrackFromLanes</span>() 设置currentTrack变量
+            <span class="hljs-title function_">getGroupNameOfHighestPriorityLane</span>() 得到lane对应的groupName
+          <span class="hljs-title function_">logSuspendedRenderPhase</span>() 打印日志
+          <span class="hljs-title function_">logInterruptedRenderPhase</span>() 打印日志
+          <span class="hljs-title function_">finalizeRender</span>()  好像是记录时刻
+          <span class="hljs-title function_">isGestureRender</span>() 同上文
+          <span class="hljs-title function_">setCurrentTrackFromLanes</span>() 同上文
+          <span class="hljs-title function_">logSuspendedWithDelayPhase</span>()
+            <span class="hljs-title function_">includesOnlyHydrationOrOffscreenLanes</span>() 返回一个颜色
+          <span class="hljs-title function_">setCurrentTrackFromLanes</span>() 同上文
+          <span class="hljs-title function_">logAnimatingPhase</span>() 打印日志
+          <span class="hljs-title function_">logGestureStart</span>() 打印日志
+          <span class="hljs-title function_">clearGestureTimers</span>() 重置时刻
+          <span class="hljs-title function_">includesBlockingLane</span>() lane是否在指定范围内
+        <span class="hljs-title function_">markRootSuspended</span>()
+          <span class="hljs-title function_">removeLanes</span>() 减去lane
+          <span class="hljs-title function_">_markRootSuspended</span>() 
+            <span class="hljs-title function_">pickArbitraryLaneIndex</span>() 返回lane前部的多少个<span class="hljs-number">0</span>
+            <span class="hljs-title function_">markSpawnedDeferredLane</span>() 
+        <span class="hljs-title function_">markRootUpdated</span>() 设置lane
+        <span class="hljs-comment">// warnAboutRenderPhaseUpdatesInDEV()</span>
+        <span class="hljs-title function_">addFiberToLanesMap</span>() 给root.<span class="hljs-property">pendingUpdatersLaneMap</span>设置fiber
+        <span class="hljs-comment">// warnIfUpdatesNotWrappedWithActDEV()</span>
+        <span class="hljs-title function_">addTransitionToLanesMap</span>() 修改root.<span class="hljs-property">transitionLanes</span>
+        <span class="hljs-title function_">markRootSuspended</span>() 
+        <span class="hljs-title function_">ensureRootIsScheduled</span>()
+          <span class="hljs-title function_">ensureScheduleIsScheduled</span>()
+            <span class="hljs-title function_">scheduleImmediateRootScheduleTask</span>()
+        <span class="hljs-title function_">resetRenderTimer</span>()
+        <span class="hljs-title function_">flushSyncWorkOnLegacyRootsOnly</span>()
+      <span class="hljs-title function_">entangleTransitions</span>()
+        <span class="hljs-title function_">isTransitionLane</span>() lane是否等于指定的值
+        <span class="hljs-title function_">intersectLanes</span>() <span class="hljs-number">2</span>个lane取&amp;
+        <span class="hljs-title function_">mergeLanes</span>() 同上文
+        <span class="hljs-title function_">markRootEntangled</span>() 标记lane
+}
+
+          
+
+
+
+<span class="hljs-comment">// 渲染函数</span>
+<span class="hljs-title class_">ReactDOMRoot</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">unmount</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {}
+</code></pre>
+<h2 id="数据结构">数据结构</h2>
+<h3 id="fiberroot">fiberRoot</h3>
+<pre><code class="language-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">NoLanes</span>: <span class="hljs-title class_">Lanes</span> = <span class="hljs-comment">/*                        */</span> <span class="hljs-number">0b0000000000000000000000000000000</span>;
+</code></pre>
+<pre><code class="language-js"><span class="hljs-attr">fiberRoot</span>: {
+  <span class="hljs-attr">tag</span>: disableLegacyMode ? <span class="hljs-title class_">ConcurrentRoot</span> : tag; <span class="hljs-comment">// 表示哪种workTag</span>
+  <span class="hljs-attr">containerInfo</span>: containerInfo;
+  <span class="hljs-attr">pendingChildren</span>: <span class="hljs-literal">null</span>;
+  <span class="hljs-attr">current</span>: <span class="hljs-literal">null</span>;
+  <span class="hljs-attr">pingCache</span>: <span class="hljs-literal">null</span>;
+  <span class="hljs-attr">timeoutHandle</span>: noTimeout;
+  <span class="hljs-attr">cancelPendingCommit</span>: <span class="hljs-literal">null</span>;
+  <span class="hljs-attr">context</span>: <span class="hljs-literal">null</span>;
+  <span class="hljs-attr">pendingContext</span>: <span class="hljs-literal">null</span>;
+  <span class="hljs-attr">next</span>: <span class="hljs-literal">null</span>;
+  <span class="hljs-attr">callbackNode</span>: <span class="hljs-literal">null</span>;
+  <span class="hljs-attr">callbackPriority</span>: <span class="hljs-title class_">NoLane</span>;
+  <span class="hljs-attr">expirationTimes</span>: <span class="hljs-title function_">createLaneMap</span>(<span class="hljs-title class_">NoTimestamp</span>);
+
+  <span class="hljs-attr">pendingLanes</span>: <span class="hljs-title class_">NoLanes</span>;
+  <span class="hljs-attr">suspendedLanes</span>: <span class="hljs-title class_">NoLanes</span>;
+  <span class="hljs-attr">pingedLanes</span>: <span class="hljs-title class_">NoLanes</span>;
+  <span class="hljs-attr">warmLanes</span>: <span class="hljs-title class_">NoLanes</span>;
+  <span class="hljs-attr">expiredLanes</span>: <span class="hljs-title class_">NoLanes</span>;
+  <span class="hljs-keyword">if</span> (enableDefaultTransitionIndicator) {
+    <span class="hljs-attr">indicatorLanes</span>: <span class="hljs-title class_">NoLanes</span>;
+  }
+  <span class="hljs-attr">errorRecoveryDisabledLanes</span>: <span class="hljs-title class_">NoLanes</span>;
+  <span class="hljs-attr">shellSuspendCounter</span>: <span class="hljs-number">0</span>;
+
+  <span class="hljs-attr">entangledLanes</span>: <span class="hljs-title class_">NoLanes</span>;
+  <span class="hljs-attr">entanglements</span>: <span class="hljs-title function_">createLaneMap</span>(<span class="hljs-title class_">NoLanes</span>);
+
+  <span class="hljs-attr">hiddenUpdates</span>: <span class="hljs-title function_">createLaneMap</span>(<span class="hljs-literal">null</span>);
+
+  <span class="hljs-attr">identifierPrefix</span>: identifierPrefix;
+  <span class="hljs-attr">onUncaughtError</span>: onUncaughtError;
+  <span class="hljs-attr">onCaughtError</span>: onCaughtError;
+  <span class="hljs-attr">onRecoverableError</span>: onRecoverableError;
+
+  <span class="hljs-keyword">if</span> (enableDefaultTransitionIndicator) {
+    <span class="hljs-attr">onDefaultTransitionIndicator</span>: onDefaultTransitionIndicator;
+    <span class="hljs-attr">pendingIndicator</span>: <span class="hljs-literal">null</span>;
+  }
+
+  <span class="hljs-attr">pooledCache</span>: <span class="hljs-literal">null</span>;
+  <span class="hljs-attr">pooledCacheLanes</span>: <span class="hljs-title class_">NoLanes</span>;
+
+  <span class="hljs-keyword">if</span> (enableSuspenseCallback) {
+    <span class="hljs-attr">hydrationCallbacks</span>: <span class="hljs-literal">null</span>;
+  }
+
+  <span class="hljs-attr">formState</span>: formState;
+
+  <span class="hljs-keyword">if</span> (enableViewTransition) {
+    <span class="hljs-attr">transitionTypes</span>: <span class="hljs-literal">null</span>;
+  }
+
+  <span class="hljs-keyword">if</span> (enableGestureTransition) {
+    <span class="hljs-attr">pendingGestures</span>: <span class="hljs-literal">null</span>;
+    <span class="hljs-attr">stoppingGestures</span>: <span class="hljs-literal">null</span>;
+    <span class="hljs-attr">gestureClone</span>: <span class="hljs-literal">null</span>;
+  }
+
+  <span class="hljs-attr">incompleteTransitions</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>();
+  <span class="hljs-keyword">if</span> (enableTransitionTracing) {
+    <span class="hljs-attr">transitionCallbacks</span>: <span class="hljs-literal">null</span>;
+    <span class="hljs-attr">transitionLanes</span>: <span class="hljs-title function_">createLaneMap</span>(<span class="hljs-literal">null</span>);
+  }
+
+  <span class="hljs-keyword">if</span> (enableProfilerTimer &amp;&amp; enableProfilerCommitHooks) {
+    <span class="hljs-attr">effectDuration</span>: -<span class="hljs-number">0</span>;
+    <span class="hljs-attr">passiveEffectDuration</span>: -<span class="hljs-number">0</span>;
+  }
+
+  <span class="hljs-keyword">if</span> (enableUpdaterTracking) {
+    <span class="hljs-attr">memoizedUpdaters</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>();
+    <span class="hljs-keyword">const</span> pendingUpdatersLaneMap = (<span class="hljs-variable language_">this</span>.<span class="hljs-property">pendingUpdatersLaneMap</span> = []);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-title class_">TotalLanes</span>; i++) {
+      pendingUpdatersLaneMap.<span class="hljs-title function_">push</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>());
+    }
+  }
+}
+</code></pre>
+<h3 id="update">update</h3>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> <span class="hljs-attr">update</span>: <span class="hljs-title class_">Update</span>&lt;mixed&gt; = {
+    lane,
+    <span class="hljs-attr">tag</span>: <span class="hljs-title class_">UpdateState</span>,
+    <span class="hljs-attr">payload</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">callback</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">next</span>: <span class="hljs-literal">null</span>,
+  };
+</code></pre>
 
             <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
             

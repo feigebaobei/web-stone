@@ -205,8 +205,11 @@ commonjs 是同步加载的。</p>
 </table>
 <p><code>import()</code> 可以支持动态引入。
 <code>import</code>是在静态分析时引入的。</p>
+<p>读代码时发现的输出default的写法。</p>
+<pre><code class="language-js"><span class="hljs-keyword">export</span> { createFilter <span class="hljs-keyword">as</span> <span class="hljs-keyword">default</span> };
+</code></pre>
 <h2 id="asynchronous-module-definition-amd">Asynchronous Module Definition (AMD)</h2>
-<p>异步模块定义，用于像RequireJS这样的模块加载器</p>
+<p>异步模块定义，用于像 RequireJS 这样的模块加载器</p>
 <h2 id="common-module-definition-cmd">Common Module Definition (CMD)</h2>
 <h2 id="universal-module-definition-umd">Universal Module Definition (UMD)</h2>
 <p>通用模块定义，以<code>amd / cjs / iife</code>为一体。</p>
@@ -272,6 +275,16 @@ commonjs 是同步加载的。</p>
 <p>个自动执行的功能，适合作为<code>&lt;script&gt;</code>标签。（如果要为应用程序创建一个捆绑包，您可能想要使用它，因为它会使文件大小变小。）</p>
 <h2 id="system">system</h2>
 <p>SystemJS 加载器格式</p>
+<h2 id="兼容cms-和-esm的一种方法">兼容cms 和 esm的一种方法</h2>
+<pre><code class="language-js"><span class="hljs-comment">// Compat for require</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">viteReactForCjs</span>(<span class="hljs-params"><span class="hljs-variable language_">this</span>: unknown, options: Options</span>): <span class="hljs-title class_">Plugin</span>[] {
+  <span class="hljs-keyword">return</span> viteReact.<span class="hljs-title function_">call</span>(<span class="hljs-variable language_">this</span>, options)
+}
+<span class="hljs-title class_">Object</span>.<span class="hljs-title function_">assign</span>(viteReactForCjs, {
+  <span class="hljs-attr">default</span>: viteReactForCjs,
+})
+<span class="hljs-keyword">export</span> { viteReactForCjs <span class="hljs-keyword">as</span> <span class="hljs-string">&#x27;module.exports&#x27;</span> }
+</code></pre>
 
             
             

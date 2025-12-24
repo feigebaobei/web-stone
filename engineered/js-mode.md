@@ -50,6 +50,12 @@ export / export default
 `import()` 可以支持动态引入。
 `import`是在静态分析时引入的。
 
+读代码时发现的输出 default 的写法。
+
+```js
+export { createFilter as default }
+```
+
 ## Asynchronous Module Definition (AMD)
 
 异步模块定义，用于像 RequireJS 这样的模块加载器
@@ -87,3 +93,16 @@ export / export default
 ## system
 
 SystemJS 加载器格式
+
+## 兼容 cms 和 esm 的一种方法
+
+```js
+// Compat for require
+function viteReactForCjs(this: unknown, options: Options): Plugin[] {
+  return viteReact.call(this, options)
+}
+Object.assign(viteReactForCjs, {
+  default: viteReactForCjs,
+})
+export { viteReactForCjs as 'module.exports' }
+```

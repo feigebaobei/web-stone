@@ -143,7 +143,7 @@
 <blockquote>
 <p>可以在大范围内使用，也可以在小范围内使用。
 在实际开发中，一般多种开发方式混合在一起。
-一共沉淀了29种设计模式。</p>
+一共沉淀了 29 种设计模式。</p>
 </blockquote>
 <ul>
 <li>创建型
@@ -201,7 +201,8 @@
 <p>抽象了创建具体对象的过程。就是使用工厂函数。<br>
 该模式就是为了创建对象。
 像工厂产出统一套件一样。
-常用于创建对象。</p>
+常用于创建对象。
+一般以<code>create</code>开头，或大写开头。</p>
 <pre><code>function createPerson (name, age, job) {
     var o = new Object()
     o.name = name
@@ -212,6 +213,13 @@
     }
     return o
 }
+
+
+function Point(x, y) {
+	this.x = x
+	this.y = y
+}
+var p = new Point(1, 2)
 </code></pre>
 <h2 id="单例模式">单例模式</h2>
 <p>也叫单体模式，核心思想是确保一个类只对应一个实例。即使多次实例化。其实例结果是相同的。

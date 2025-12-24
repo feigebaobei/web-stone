@@ -718,9 +718,9 @@ fiber更新后
 - []()
 - []()
 
-# 开拓
+## 开拓
 
-## babel 开创了前端中把一种功能换一种写法的思想。如:
+### babel 开创了前端中把一种功能换一种写法的思想。如:
 
 ```
 <span id="#id">string</span>
@@ -728,4 +728,242 @@ fiber更新后
 React.createElement('span', {id: '#id'}, string)
 ```
 
-## 使用配置文件控制是否使用新代码。同时保持了新代码与老代码在项目中。优点是迭代平滑。
+### 使用配置文件控制是否使用新代码。同时保持了新代码与老代码在项目中。优点是迭代平滑。
+
+## 再整理一次运行逻辑
+
+```js
+// react@19
+import { createRoot } from 'react-dom/client'
+createRoot(document.getElementById('root')!).render(
+  <App/>
+)
+```
+
+```
+react-dom包     react-reconciler包   react-dom-binding包
+  createRoot(dom)
+  检查参数
+  喂入参数 ------ createContainer() 创建并返回一个FiberRoot对象
+                  直接喂入参数，执行
+                  createFiberRoot() 创建并返回一个FiberRoot对象
+                    new FiberRootNode() 在工厂函数上挂载若干属性
+                    createHostRootFiber() 创建并返回一个Fiber对象
+                      createFiber()就是createFiberImplObject() 它是一个工厂函数。返回一个Fiber对象
+                    createCache()
+                      new AbortControllerLocal()实例化一个AbortController对象
+                    retainCache()使refCount++
+                    retainCache()使refCount++
+                    initializeUpdateQueue() 设置fiber.updateQueue
+                  registerDefaultIndicator() 重置isomorphicDefaultTransitionIndicator
+  ----------------------------------- markContainerAsRoot() 把FiberRoot对象挂载到dom上
+  ----------------------------------- listenToAllSupportedEvents() 监听挂载react的根dom上的所有支持的事件
+                                        在其他文件中已经注册了好多事件。
+                                        listenToNativeEvent() 为指定dom绑定指定事件的回调方法
+                                          addTrappedEventListener() 为指定dom绑定指定事件的回调方法
+                                            createEventListenerWrapperWithPriority() 返回一个触发事件的方法
+                                              getEventPriority() 把所有事件分成4类(DiscreteEventPriority/ContinuousEventPriority/DefaultEventPriority/IdleEventPriority)，这4类分别对应一个lane值
+                                              listenerWrapper().bind() 根据4类事件分别绑定触发此事件的方法的this
+                                                getCurrentUpdatePriority() 得到属性
+                                                setCurrentUpdatePriority() 设置属性
+                                                dispatchEvent() 触发事件
+                                            removeEventListener() 在指定dom上移除指定事件
+                                            addEventCaptureListenerWithPassiveFlag() 为指定dom上绑定指定事件
+                                            addEventCaptureListener() 为指定dom上绑定指定事件
+  ReactDOMRoot(root) 返回fiberRoot对象
+```
+
+Fiber 对象就是 FiberRoot 对象。
+
+### ReactDOMRoot
+
+这个方法很简单。
+
+```js
+function ReactDOMRoot(internalRoot: FiberRoot) {
+  this._internalRoot = internalRoot;
+}
+// 渲染函数
+ReactDOMRoot.prototype.render = function () {
+  updateContainer() 更新container对象
+    requestUpdateLane() 返回指定fiber对象的最高lane
+      pickArbitraryLane() 取出最高lane
+        getHighestPriorityLane() 取出最高lane
+    updateContainerImpl() 建立查新container的逻辑
+      getContextForSubtree() 得到子树中的context对象
+        getInstance() 返回父组件的_reactInternals属性
+        findCurrentUnmaskedContext() 返回当前组件的context对象
+          isContextProvider() 是不是context的提供者
+        isLegacyContextProvider() 同isContextProvider
+        processChildContext() 返回当前组件的context对象
+      createUpdate() 工厂函数。返回一个update对象
+      enqueueUpdate() 把fiber对象添加到更新队列。还处理了子组件等。
+        isUnsafeClassRenderPhaseUpdate() 是否应该在rendererPhase阶段更新
+        unsafe_markUpdateLaneFromFiberToRoot() 返回FiberRoot对象或null
+          getRootForUpdatedFiber() 若需要从根组件更新，则返回FiberRoot对象。否则返回null
+            throwIfInfiniteUpdateLoopDetected() 达到最大渲染次数时重置这4个变量nestedUpdateCount、nestedPassiveUpdateCount、rootWithNestedUpdates、rootWithPassiveNestedUpdates，并抛出错误。
+              mergeLanes() 合并lane
+            // detectUpdateOnUnmountedFiber() dev阶段的方法。不看它了。
+          markUpdateLaneFromFiberToRoot() 升级所有祖先fiber对象的childLanes
+        enqueueConcurrentClassUpdate() 进入更新队列
+          enqueueUpdate() 添加到concurrentQueues数组
+          getRootForUpdatedFiber() 同上文
+      startUpdateTimerByLane() 记录开始更新的时刻
+        isGestureRender() lane是否等于指定的值
+        createTask() 用console.createTask调用方法
+        getComponentNameFromFiber() 根据fiber.tag返回组件名
+        resolveEventTimeStamp() xxxx
+        resolveEventType() xxxx
+        isBlockingLane() lane是否等于指定的值
+          isAlreadyRendering() 好像是判断是否准备去沉浸的
+        isTransitionLane() lane是否等于指定的值
+      scheduleUpdateOnFiber()
+        prepareFreshStack() 记录了好多时刻
+          markAllLanesInOrder() 定义了timeStamp
+          recordRenderTime() 记录渲染时刻
+          setCurrentTrackFromLanes() 设置currentTrack变量
+            getGroupNameOfHighestPriorityLane() 得到lane对应的groupName
+          logSuspendedRenderPhase() 打印日志
+          logInterruptedRenderPhase() 打印日志
+          finalizeRender()  好像是记录时刻
+          isGestureRender() 同上文
+          setCurrentTrackFromLanes() 同上文
+          logSuspendedWithDelayPhase()
+            includesOnlyHydrationOrOffscreenLanes() 返回一个颜色
+          setCurrentTrackFromLanes() 同上文
+          logAnimatingPhase() 打印日志
+          logGestureStart() 打印日志
+          clearGestureTimers() 重置时刻
+          includesBlockingLane() lane是否在指定范围内
+        markRootSuspended()
+          removeLanes() 减去lane
+          _markRootSuspended()
+            pickArbitraryLaneIndex() 返回lane前部的多少个0
+            markSpawnedDeferredLane()
+        markRootUpdated() 设置lane
+        // warnAboutRenderPhaseUpdatesInDEV()
+        addFiberToLanesMap() 给root.pendingUpdatersLaneMap设置fiber
+        // warnIfUpdatesNotWrappedWithActDEV()
+        addTransitionToLanesMap() 修改root.transitionLanes
+        markRootSuspended()
+        ensureRootIsScheduled()
+          ensureScheduleIsScheduled()
+            scheduleImmediateRootScheduleTask()
+        resetRenderTimer()
+        flushSyncWorkOnLegacyRootsOnly()
+      entangleTransitions()
+        isTransitionLane() lane是否等于指定的值
+        intersectLanes() 2个lane取&
+        mergeLanes() 同上文
+        markRootEntangled() 标记lane
+}
+
+
+
+
+
+// 渲染函数
+ReactDOMRoot.prototype.unmount = function () {}
+```
+
+## 数据结构
+
+### fiberRoot
+
+```js
+export const NoLanes: Lanes = /*                        */ 0b0000000000000000000000000000000
+```
+
+```js
+fiberRoot: {
+  tag: disableLegacyMode ? ConcurrentRoot : tag // 表示哪种workTag
+  containerInfo: containerInfo
+  pendingChildren: null
+  current: null
+  pingCache: null
+  timeoutHandle: noTimeout
+  cancelPendingCommit: null
+  context: null
+  pendingContext: null
+  next: null
+  callbackNode: null
+  callbackPriority: NoLane
+  expirationTimes: createLaneMap(NoTimestamp)
+
+  pendingLanes: NoLanes
+  suspendedLanes: NoLanes
+  pingedLanes: NoLanes
+  warmLanes: NoLanes
+  expiredLanes: NoLanes
+  if (enableDefaultTransitionIndicator) {
+    indicatorLanes: NoLanes
+  }
+  errorRecoveryDisabledLanes: NoLanes
+  shellSuspendCounter: 0
+
+  entangledLanes: NoLanes
+  entanglements: createLaneMap(NoLanes)
+
+  hiddenUpdates: createLaneMap(null)
+
+  identifierPrefix: identifierPrefix
+  onUncaughtError: onUncaughtError
+  onCaughtError: onCaughtError
+  onRecoverableError: onRecoverableError
+
+  if (enableDefaultTransitionIndicator) {
+    onDefaultTransitionIndicator: onDefaultTransitionIndicator
+    pendingIndicator: null
+  }
+
+  pooledCache: null
+  pooledCacheLanes: NoLanes
+
+  if (enableSuspenseCallback) {
+    hydrationCallbacks: null
+  }
+
+  formState: formState
+
+  if (enableViewTransition) {
+    transitionTypes: null
+  }
+
+  if (enableGestureTransition) {
+    pendingGestures: null
+    stoppingGestures: null
+    gestureClone: null
+  }
+
+  incompleteTransitions: new Map()
+  if (enableTransitionTracing) {
+    transitionCallbacks: null
+    transitionLanes: createLaneMap(null)
+  }
+
+  if (enableProfilerTimer && enableProfilerCommitHooks) {
+    effectDuration: -0
+    passiveEffectDuration: -0
+  }
+
+  if (enableUpdaterTracking) {
+    memoizedUpdaters: new Set()
+    const pendingUpdatersLaneMap = (this.pendingUpdatersLaneMap = [])
+    for (let i = 0; i < TotalLanes; i++) {
+      pendingUpdatersLaneMap.push(new Set())
+    }
+  }
+}
+```
+
+### update
+
+```js
+const update: Update<mixed> = {
+  lane,
+  tag: UpdateState,
+  payload: null,
+  callback: null,
+  next: null,
+}
+```
