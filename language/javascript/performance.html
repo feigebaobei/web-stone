@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>performance</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="performance">performance</h1>
+<blockquote>
+<p>没有继承对象。
+window.performance访问主窗口中运行代码的性能信息。
+WorkerGlobalScope.performance访问worker中运行代码的性能信息。
+可用于获取当前页面中性能相关信息</p>
+</blockquote>
+<h2 id="api">api</h2>
+<pre><code class="language-js"><span class="hljs-comment">// 属性</span>
+<span class="hljs-title class_">Performance</span>.<span class="hljs-property">navigation</span>
+<span class="hljs-title class_">PerformanceNavigation</span> 对象提供了在指定的时间段里发生的操作相关信息，包括页面是加载还是刷新、发生了多少次重定向等等。<span class="hljs-title class_">Not</span> available <span class="hljs-keyword">in</span> workers.
+
+<span class="hljs-title class_">Performance</span>.<span class="hljs-property">timing</span>
+<span class="hljs-title class_">PerformanceTiming</span> 对象包含延迟相关的性能信息。<span class="hljs-title class_">Not</span> available <span class="hljs-keyword">in</span> workers.
+
+<span class="hljs-title class_">Performance</span>.<span class="hljs-property">memory</span>
+其是 <span class="hljs-title class_">Chrome</span> 添加的一个非标准扩展，这个属性提供了一个可以获取到基本内存使用情况的对象。不应该使用这个非标准的 <span class="hljs-variable constant_">API</span>。
+
+<span class="hljs-title class_">Performance</span>.<span class="hljs-property">timeOrigin</span>
+返回性能测量开始时的时间的高精度时间戳。
+
+<span class="hljs-comment">// 方法</span>
+<span class="hljs-title class_">Performance</span>.<span class="hljs-title function_">mark</span>(<span class="hljs-attr">name</span>: string， markOptions?: <span class="hljs-title class_">PerformanceMarkOptions</span>)
+根据给出 name 值，在浏览器的性能输入缓冲区中创建一个相关的timestamp
+<span class="hljs-title class_">Performance</span>.<span class="hljs-title function_">clearMarks</span>(<span class="hljs-attr">name</span>:?: string)
+将给定的 mark 从浏览器的性能输入缓冲区中移除。
+
+<span class="hljs-title class_">Performance</span>.<span class="hljs-title function_">getEntries</span>() =&gt; <span class="hljs-title class_">PerformanceEntry</span>[]
+
+<span class="hljs-title class_">Performance</span>.<span class="hljs-title function_">getEntriesByName</span>(<span class="hljs-attr">name</span>: S, type?) =&gt; <span class="hljs-title class_">PerformanceEntry</span>[]
+
+<span class="hljs-title class_">Performance</span>.<span class="hljs-title function_">clearMeasures</span>(name?: string)
+将给定的 measure 从浏览器的性能输入缓冲区中移除。
+
+<span class="hljs-title class_">Performance</span>.<span class="hljs-title function_">clearResourceTimings</span>()
+从浏览器的性能数据缓冲区中移除所有 entryType 是 <span class="hljs-string">&quot;resource&quot;</span> 的 performance entries
+
+<span class="hljs-title class_">Performance</span>.<span class="hljs-title function_">getEntriesByType</span>()
+<span class="hljs-title class_">Performance</span>.<span class="hljs-title function_">measure</span>()
+<span class="hljs-title class_">Performance</span>.<span class="hljs-title function_">now</span>()
+返回一个表示从性能测量时刻开始经过的毫秒数 <span class="hljs-title class_">DOMHighResTimeStamp</span>
+
+<span class="hljs-title class_">Performance</span>.<span class="hljs-title function_">setResourceTimingBufferSize</span>()
+<span class="hljs-title class_">Performance</span>.<span class="hljs-title function_">toJSON</span>()
+其是一个 <span class="hljs-title class_">JSON</span> 格式转化器，返回 <span class="hljs-title class_">Performance</span> 对象的 <span class="hljs-title class_">JSON</span> 对象
+
+<span class="hljs-comment">// 事件</span>
+<span class="hljs-title class_">Performance</span>.<span class="hljs-property">onresourcetimingbufferfull</span> = cb
+当浏览器的资源时间性能缓冲区已满时触发。
+</code></pre>
+<h2 id="performanceentry">PerformanceEntry</h2>
+<p>PerformanceEntry: {
+name: string,
+entryType: string,
+startTime: number,
+duration: number,
+}</p>
+
+            
+            
+        </body>
+        </html>
