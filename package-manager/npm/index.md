@@ -231,6 +231,9 @@ npm unlink <package-name> # 取消链接依赖项
 |`&&`|指定多个版本范围，安装满足多个版本范围的版本。||||
 <!-- prettier-ignore-end -->
 
+引入本地包
+"react": "file:../third/react/package/react",
+
 ### 依赖的引用方式
 
 file

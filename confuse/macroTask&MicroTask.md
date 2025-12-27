@@ -4,7 +4,7 @@
 |     | 宏任务                         | 微任务    |     |
 | --- | ----------- | ----- | --- |
 |     | 由宿主发起。       | 由 js 引擎发起。                  |     |
-|     | setTimeout, setInterval, [postMessage](/language/javascript/postMessage.html), MessageChannel, setImmediate (node 环境)                     | Promise, MutationObserver, process.nextTick （node 环境） |     |
+|     | setTimeout, setInterval, [postMessage](/language/javascript/postMessage.html), [MessageChannel](/language/javascript/messageChannel.html), setImmediate (node 环境)                     | Promise, MutationObserver, process.nextTick （node 环境） |     |
 |     | 用户交互，网络请求，定时器 setTimeout/setInterval，dom 变化（增加、删除、属性改变），跨窗口通信（如 postMessage），js 脚本 |   |     |
 |     |            |   |     |
 |     |            |   |     |

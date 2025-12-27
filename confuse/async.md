@@ -31,6 +31,6 @@ clearImmediate(immediateID)
 // 浏览器大多不支持setImmediate / clearImmediate
 ```
 
-# postMessage / MessageChannel
+# postMessage / [MessageChannel](/language/javascript/messageChannel.html)
 
 # title

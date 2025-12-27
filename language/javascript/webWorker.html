@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>overview</title>
-        <style>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>overview</title>
+            <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -11,47 +11,14 @@
  *--------------------------------------------------------------------------------------------*/
 
 .vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
 	display: none;
 }
 
-/* From extension ms-toolsai.jupyter */
-/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
-
-.alert {
-    width: auto;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-.alert > *:last-child {
-    margin-bottom: 0;
-}
-#preview > .alert:last-child {
-    /* Prevent this being set to zero by the default notebook stylesheet */
-    padding-bottom: 1em;
-}
-
-.alert-success {
-    /* Note there is no suitable color available, so we just copy "info" */
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-info {
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-warning {
-    background-color: var(--theme-warning-background);
-    color: var(--theme-warning-foreground);
-}
-.alert-danger {
-    background-color: var(--theme-error-background);
-    color: var(--theme-error-foreground);
-}
-
 </style>
-        
+            
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -72,10 +39,106 @@
     pointer-events: none;
 }
 </style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
         
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="overview">overview</h1>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="overview">overview</h1>
 <ul>
 <li>js 是单线程语言</li>
 <li>js 支持的 web worker 可以利用运行 js 的宿主环境支持的多线程功能。</li>
@@ -209,6 +272,7 @@ self.<span class="hljs-title function_">close</span>() <span class="hljs-comment
 <h1 id="messageevent">MessageEvent</h1>
 <p>消息对象<br>
 继承自 Event 对象</p>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -279,6 +343,7 @@ self.<span class="hljs-title function_">close</span>() <span class="hljs-comment
 </tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
 <h1 id="加载-worker-脚本">加载 worker 脚本</h1>
 <pre><code class="language-html"><span class="hljs-comment">&lt;!-- type的值是浏览器不认识的值 --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;worker&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;app/worker&quot;</span>&gt;</span><span class="language-javascript">
@@ -432,10 +497,27 @@ myWorker.<span class="hljs-property">port</span>.<span class="hljs-title functio
 </tr>
 </tbody>
 </table>
+<h2 id="转移数据">转移数据</h2>
+<pre><code class="language-js">worker.<span class="hljs-title function_">postMessage</span>(message, [transferList])
+<span class="hljs-attr">message</span>: any 必填
+transferList。常见的有 <span class="hljs-title class_">ArrayBuffer</span>、<span class="hljs-title class_">ImageBitmap</span>、<span class="hljs-title class_">MessagePort</span>、<span class="hljs-title class_">OffscreenCanvas</span> 等.
+</code></pre>
+<p>转移所有权不是复制，会提高性能。</p>
+<pre><code>// 主线程
+const myWorker = new Worker('worker.js');
+const buffer = new ArrayBuffer(1024); // 创建一个ArrayBuffer
+
+// 1. 发送数据 (没有转移)
+myWorker.postMessage({ data: 'Hello Worker' });
+
+// 2. 发送数据并转移所有权
+// buffer所有权转移给worker，主线程的buffer变空
+myWorker.postMessage({ bufferData: buffer }, [buffer]);
+</code></pre>
 <h1 id="todo">todo</h1>
 <h2 id="为什么多个页面会共用一个-worker-呢">为什么多个页面会共用一个 worker 呢？</h2>
 
-        
-        
-    </body>
-    </html>
+            
+            
+        </body>
+        </html>

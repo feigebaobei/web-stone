@@ -10,7 +10,7 @@
 <!-- prettier-ignore-start -->
 |     |          |            |     |
 | --- | --------- | --------- | --- |
-|     | recenciliation    | 调度器，用于处理 diff、更新视图       |     |
+|     | reconciliation    | 调度器，用于处理 diff、更新视图       |     |
 |     | root.render(...)  | 开始渲染视图        |     |
 |     | virtual dom       | 虚拟 dom            |     |
 |     | diffing algorithm | diff 算法。通过比较 current/workInProgress,得到最小变动.         |     |
@@ -37,9 +37,9 @@
 2. 同步 vdom 到 real dom。初始化时全部插入。
 3. 当组件改变时生成新 vdom
 4. 比对 2 个 vdom 的不同。再更新 dom
-   1. 使用 diff 算法比对。也叫 recencilication
+   1. 使用 diff 算法比对。也叫 reconciliation
 
-### recenciliation (也叫 diff / diffing)
+### reconciliation (也叫 diff / diffing)
 
 基于 2 个前提工作：
 
@@ -128,7 +128,7 @@ jsx 代码 => ReactElement => FiberRootNode/FiberNode
 副作用（side-effects）： 每次活动（如：改变 dom）和调用生命周期方法  
 Fiber 的 Effecttag 属性是副作用函数  
 副作用 tag  
-Current 就是 fiberroot
+Current 就是 fiberRoot
 
 FiberRootNode 下的第一个 FiberNode 是使用 FiberRootNode()创建的。
 
@@ -372,10 +372,56 @@ createRoot() {
 ReactDOMRoot
 ```
 
-## 常用对象
+## 数据结构
+
+### ReactDOMRoot
 
 ```js
-ReactElement
+{
+  _internalRoot: { // 这个对象就是FiberRootNode
+    callbackNode: null
+    callbackPriority: 0
+    cancelPendingCommit: null
+    containerInfo: div#root
+    context: null
+    current: {...} // 这个对象就是FiberNode。它是根fiberNode。
+    effectDuration: -0
+    entangledLanes: 0
+    entanglements: (31) [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    errorRecoveryDisabledLanes: 0
+    expirationTimes: (31) [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+    expiredLanes: 0
+    formState: null
+    hiddenUpdates: (31) [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]
+    identifierPrefix: ""
+    incompleteTransitions: Map(0) {size: 0}memoizedUpdaters: Set(0) {size: 0}next: null
+    onCaughtError: ƒ defaultOnCaughtError(error)
+    onRecoverableError: ƒ defaultOnRecoverableError(error)
+    onUncaughtError: ƒ defaultOnUncaughtError(error)
+    passiveEffectDuration: -0
+    pendingChildren: null
+    pendingContext: null
+    pendingLanes: 0
+    pendingUpdatersLaneMap: (31) [Set(0), Set(0), Set(0), Set(0), Set(0), Set(0), Set(0), Set(0), Set(0), Set(0), Set(0), Set(0), Set(0), Set(0), Set(0), Set(0), Set(0), Set(0), Set(0), Set(0), Set(0), Set(0), Set(0), Set(0), Set(0), Set(0), Set(0), Set(0), Set(0), Set(0), Set(0)]
+    pingCache: null
+    pingedLanes: 0
+    pooledCache: {controller: AbortController, data: Map(0), refCount: 2}pooledCacheLanes: 0
+    shellSuspendCounter: 0
+    suspendedLanes: 0
+    tag: 1
+    timeoutHandle: -1
+    warmLanes: 0
+    _debugRootType: "createRoot()"
+  }
+  // 原型对象上还有2个方法
+  render()  {} // 挂载组件
+  unmount()  {} // 卸载组件
+}
+```
+
+### ReactElement
+
+```js
 {
   "$$typeof": Symbol(react.element) // 惟一标记
   "type": "h1", // html标签 | 构造函数 | class组件名
@@ -387,11 +433,19 @@ ReactElement
   "_owner": null,
   "_store": {},
   "_self": null
-  "_source": null
+  "_source": null,
+  _debugInfo: null
+  _debugStack: Error: react-stack-top-frame at exports.jsxDEV (http://localhost:5173/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=cb245d07:248:30) at http://localhost:5173/src/main.tsx:10:69
+  _debugTask: {run: ƒ}
 }
+```
+
+### fiberNode
 
 FiberNode 也有人叫 Fiber
 总是与组件一对一。
+
+```js
 {
   "tag": 5,
   "key": null,          // key 兄弟间惟一
@@ -424,7 +478,7 @@ FiberNode 也有人叫 Fiber
   },
   "memoizedProps": null,    // 输出更新后节点需要使用的props
   "updateQueue": null,      // 更新队列。详见下文。链表结构。
-  "memoizedState": null,    // 上次渲染组件是使用的状态。初始化FiberNode节点时会赋初始值。
+  "memoizedState": null,    // 上次渲染组件时使用的状态。初始化FiberNode节点时会赋初始值。
                             // 输出更新后节点需要使用的state
                 {           // 这是一个hook对象
                   baseState,
@@ -436,11 +490,11 @@ FiberNode 也有人叫 Fiber
                 }
   "dependencies": null,
   "mode": 3,
-  "flags": 0,               // 该节点的side-effect。功能同原来的effectTag
+  "flags": 0,               // 该节点的side-effect。功能同原来的effectTag。表示要对该节点做什么。
   "subtreeFlags": 0,
   "deletions": null,
   "lanes": 0,
-  "childLanes": 0,
+  "childLanes": 0,          // lanes字段会向上传播到父节点的childLanes字段
   "alternate": null,        // 指向在另一棵树上对应的节点
   "actualDuration": 0,      //
   "actualStartTime": -1,    // 好像是开始更新的时刻，相对于根组件被创建的时间。
@@ -452,11 +506,14 @@ FiberNode 也有人叫 Fiber
   "_debugHookTypes": null,
   // effectTag: xxxxx              // 该节点的side-effect 副作用
 }
+```
 
-FiberRootNode
+### FiberRootNode
+
+```js
 {
-  "tag": 1,
-  "containerInfo": {},      // 就是createRoot的第一个参数。dom类型。
+  "tag": 1,                 // 表示哪种workTag
+  "containerInfo": {},      // 就是createRoot的第一个参数。dom类型。react应用中的容器dom.
   "pendingChildren": null,
   "current": null,          // FiberNode。它是在createRoot方法中被设置的。
   "pingCache": null,
@@ -471,12 +528,32 @@ FiberRootNode
   "pendingLanes": 0,
   "suspendedLanes": 0,
   "pingedLanes": 0,
+  warmLanes: NoLanes,
   "expiredLanes": 0,
+  indicatorLanes: NoLanes,
+  errorRecoveryDisabledLanes: NoLanes,
+  shellSuspendCounter: NoLanes,
   "mutableReadLanes": 0,
   "finishedLanes": 0,
   "entangledLanes": 0,
   "entanglements": [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+  hiddenUpdates: createLaneMap(null),
   "identifierPrefix": "",
+  onUncaughtError,
+  onCaughtError,
+  onRecoverableError,
+  onDefaultTransitionIndicator,
+  pooledCache,
+  pooledCacheLanes,
+  hydrationCallbacks,
+  formState,
+  transitionTypes,
+  pendingGestures,
+  stoppingGestures,
+  gestureClone,
+  incompleteTransitions,
+  transitionCallbacks,
+  transitionLanes,
   "mutableSourceEagerHydrationData": null,
   "effectDuration": 0,
   "passiveEffectDuration": 0,
@@ -484,19 +561,64 @@ FiberRootNode
   "pendingUpdatersLaneMap": [ {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {} ],
   "_debugRootType": "createRoot()"
 }
+```
 
+### update
+
+```js
 update = {
-  eventTime: eventTime,
+  eventTime: eventTime, // 在react@19中没看到此字段
   lane: lane,
   tag: UpdateState,
-  payload: null,
+  payload: null, // 子元素 {element}
   callback: null,
-  next: null
+  next: null,
+}
+```
+
+### hook
+
+```js
+{
+  memoizedState: null,
+  baseState: null,
+  baseQueue: null,
+  queue: null, // updateQueue
+  next: null,
 };
+```
 
-current 指向 FiberRootNode
+### updateQueue
 
+```js
+UpdateQueue<S, BasicStateAction<S>> = {
+  pending: null,
+  lanes: NoLanes,
+  dispatch: null,
+  lastRenderedReducer: basicStateReducer,
+  lastRenderedState: (initialState: any),
+};
+```
+
+### effect
+
+```js
+const effect: Effect = {
+  tag,
+  create,
+  deps,
+  inst,
+  // Circular
+  next: (null: any),
+}
+```
+
+### 数据枚举
+
+```js
 ReactWorkTags:
+作用于fiber对象的tag字段
+表示fiber的种类
 export const FunctionComponent = 0;
 export const ClassComponent = 1;
 export const IndeterminateComponent = 2; // Before we know whether it is function or class
@@ -516,9 +638,11 @@ export const SimpleMemoComponent = 15;
 export const LazyComponent = 16;
 // 还17 、 18 不在这里
 
-flags 表示effect的编码
+这些flags 表示effect的编码
+作用于fiber.lanes字段。
+表示优先级，越小越优先。
 // 使用二进制很方便判断值，以后我也可以使用它。
-export const NoFlags = /*                      */ 0b00000000000000000000000000;
+export const NoFlags = /*                      */ 0b00000000000000000000000000; // 表示该节点不需要更新。它的后代节点也就不需要遍历了。
 export const PerformedWork = /*                */ 0b00000000000000000000000001;
 // You can change the rest (and add more).
 export const Placement = /*                    */ 0b00000000000000000000000010;
@@ -580,6 +704,19 @@ export const MountPassiveDev = /*              */ 0b10000000000000000000000000;
 hooks 的状态数据是存放在对应的函数组件的 fiber.memoizedState；  
 一个函数组件上如果有多个 hook，他们会通过声明的顺序以链表的结构存储；
 
+. DOM 元素创建和替换的完整流程
+Diff 阶段: React 比较新旧虚拟 DOM 树，发现节点类型不同
+标记替换: 在 Fiber 节点上标记需要替换的副作用
+提交阶段: 在 commit 阶段执行实际的 DOM 操作
+
+DOM 替换的关键代码路径
+ReactFiberBeginWork.js: 处理虚拟 DOM 树的构建和比较
+ReactFiberCompleteWork.js: 完成节点创建和更新
+ReactFiberCommitWork.js: 执行实际的 DOM 操作
+ReactFiberConfigDOM.js: 具体的 DOM 操作实现
+
+底层使用 js[操作 dom](/language/javascript/opDom.html).的方法。
+
 # 本地笔记
 
 ## Inside Fiber: in-depth overview of the new reconciliation algorithm in React
@@ -623,7 +760,7 @@ fiber
         baseState: {count: 0},
         firstUpdate: {
             next: {
-                payload: (state, props) => {…}
+                payload: (state, props) => {…} // 子元素 {element}
             }
         },
         ...
@@ -773,7 +910,7 @@ react-dom包     react-reconciler包   react-dom-binding包
   ReactDOMRoot(root) 返回fiberRoot对象
 ```
 
-Fiber 对象就是 FiberRoot 对象。
+FiberRoot.current 是根节点的 Fiber 对象。
 
 ### ReactDOMRoot
 
@@ -806,7 +943,7 @@ ReactDOMRoot.prototype.render = function () {
             // detectUpdateOnUnmountedFiber() dev阶段的方法。不看它了。
           markUpdateLaneFromFiberToRoot() 升级所有祖先fiber对象的childLanes
         enqueueConcurrentClassUpdate() 进入更新队列
-          enqueueUpdate() 添加到concurrentQueues数组
+          enqueueUpdate() 添加到concurrentQueues数组, 并升级fiber.lanes
           getRootForUpdatedFiber() 同上文
       startUpdateTimerByLane() 记录开始更新的时刻
         isGestureRender() lane是否等于指定的值
@@ -817,7 +954,7 @@ ReactDOMRoot.prototype.render = function () {
         isBlockingLane() lane是否等于指定的值
           isAlreadyRendering() 好像是判断是否准备去沉浸的
         isTransitionLane() lane是否等于指定的值
-      scheduleUpdateOnFiber()
+      scheduleUpdateOnFiber() xxxx
         prepareFreshStack() 记录了好多时刻
           markAllLanesInOrder() 定义了timeStamp
           recordRenderTime() 记录渲染时刻
@@ -835,18 +972,20 @@ ReactDOMRoot.prototype.render = function () {
           logGestureStart() 打印日志
           clearGestureTimers() 重置时刻
           includesBlockingLane() lane是否在指定范围内
-        markRootSuspended()
+        markRootSuspended() xxxx
           removeLanes() 减去lane
           _markRootSuspended()
             pickArbitraryLaneIndex() 返回lane前部的多少个0
-            markSpawnedDeferredLane()
+            markSpawnedDeferredLane() xxxx
         markRootUpdated() 设置lane
-        // warnAboutRenderPhaseUpdatesInDEV()
+          _markRootUpdated() 标记root已经更新完了
+          throwIfInfiniteUpdateLoopDetected() 同上文
+        warnAboutRenderPhaseUpdatesInDEV() 检查数据是否正确
         addFiberToLanesMap() 给root.pendingUpdatersLaneMap设置fiber
-        // warnIfUpdatesNotWrappedWithActDEV()
-        addTransitionToLanesMap() 修改root.transitionLanes
-        markRootSuspended()
-        ensureRootIsScheduled()
+        warnIfUpdatesNotWrappedWithActDEV() 同上文
+        addTransitionToLanesMap() 给root.transitionLanes增加空Set对象
+        markRootSuspended() 同上文
+        ensureRootIsScheduled() xxxxxxxx
           ensureScheduleIsScheduled()
             scheduleImmediateRootScheduleTask()
         resetRenderTimer()
@@ -858,112 +997,229 @@ ReactDOMRoot.prototype.render = function () {
         markRootEntangled() 标记lane
 }
 
-
-
-
-
 // 渲染函数
 ReactDOMRoot.prototype.unmount = function () {}
 ```
 
-## 数据结构
+## 引入 jsx 文件
 
-### fiberRoot
+vite 使用`@vitejs/plugin-react`插件处理`*.jsx`文件
+// 自动添加的导入
+import { jsx as \_jsx } from 'react/jsx-dev-runtime'; // 开发环境
+import { jsx as \_jsx } from 'react/jsx-runtime'; // 生产环境
+
+我不知道 vite 怎么调用插件处理 jsx 的。我看到 react 项目在遇到 jsx 代码时会调用`react/src/jsx/ReactJSXElement.js`文件中的`jsxDEVImpl`方法。
+
+没有理清楚加载 jsx 文件的逻辑。知道`*.jsx`是由`@vitejs/plugin-react`处理的。调用了`jsxDEVImpl`方法。
+jsx 会被转换为调用 createElement 方法。
+
+## 渲染逻辑
+
+React 的渲染逻辑包含两个主要阶段：
+
+协调阶段（Reconciliation）：计算需要更新的内容
+提交阶段（Commit）：执行实际的 DOM 更新
+
+更新时最早调用的方法是 performWorkUntilDeadline
+
+### 转换逻辑
+
+把 jsx 代码转换成 ReactElement 对象。
+听网友说这是 babel 转换的。
+
+```
+jsxDEV() 渲染jsx方法组件
+  jsxDEVImpl()
+    检查参数
+    ReactElement() 返回一个对象
+```
+
+jsx 写法执行到生成 ReactElement 对象就结束了。
+ReactDOMRoot.render 方法的参数是 reactElement
+在 reactRootDom 对象调用 render 方法时会生成 fiber 对象。具体逻辑如下：
+
+```
+
+```
+
+### 触发条件
+
+- State 更新：组件状态发生变化
+- Props 更新：父组件传递的属性改变
+- Context 更新：上下文数据变化
+- 强制更新：手动触发更新
+
+## hooks 逻辑
+
+所有内置的 hooks 方法都使用状态模式。每种状态对应一套 hooks。在 react-reconciler 包的 ReactFiberHooks.js 文件中。
+
+### useState
+
+调用栈
 
 ```js
-export const NoLanes: Lanes = /*                        */ 0b0000000000000000000000000000000
+useState()
+  mountState()
+    mountStateImpl() 设置hook.memoizedState、hook.queue，并返回hook
+      mountWorkInProgressHook() 创建hook对象并挂载到到workInProgressHooks最后
+    dispatchSetState()
+      requestUpdateLane() 返回lane值
+      dispatchSetStateInternal()
+      startUpdateTimerByLane() 设置了几个时刻
+      // markUpdateInDevTools()
 ```
 
 ```js
-fiberRoot: {
-  tag: disableLegacyMode ? ConcurrentRoot : tag // 表示哪种workTag
-  containerInfo: containerInfo
-  pendingChildren: null
-  current: null
-  pingCache: null
-  timeoutHandle: noTimeout
-  cancelPendingCommit: null
-  context: null
-  pendingContext: null
-  next: null
-  callbackNode: null
-  callbackPriority: NoLane
-  expirationTimes: createLaneMap(NoTimestamp)
-
-  pendingLanes: NoLanes
-  suspendedLanes: NoLanes
-  pingedLanes: NoLanes
-  warmLanes: NoLanes
-  expiredLanes: NoLanes
-  if (enableDefaultTransitionIndicator) {
-    indicatorLanes: NoLanes
-  }
-  errorRecoveryDisabledLanes: NoLanes
-  shellSuspendCounter: 0
-
-  entangledLanes: NoLanes
-  entanglements: createLaneMap(NoLanes)
-
-  hiddenUpdates: createLaneMap(null)
-
-  identifierPrefix: identifierPrefix
-  onUncaughtError: onUncaughtError
-  onCaughtError: onCaughtError
-  onRecoverableError: onRecoverableError
-
-  if (enableDefaultTransitionIndicator) {
-    onDefaultTransitionIndicator: onDefaultTransitionIndicator
-    pendingIndicator: null
-  }
-
-  pooledCache: null
-  pooledCacheLanes: NoLanes
-
-  if (enableSuspenseCallback) {
-    hydrationCallbacks: null
-  }
-
-  formState: formState
-
-  if (enableViewTransition) {
-    transitionTypes: null
-  }
-
-  if (enableGestureTransition) {
-    pendingGestures: null
-    stoppingGestures: null
-    gestureClone: null
-  }
-
-  incompleteTransitions: new Map()
-  if (enableTransitionTracing) {
-    transitionCallbacks: null
-    transitionLanes: createLaneMap(null)
-  }
-
-  if (enableProfilerTimer && enableProfilerCommitHooks) {
-    effectDuration: -0
-    passiveEffectDuration: -0
-  }
-
-  if (enableUpdaterTracking) {
-    memoizedUpdaters: new Set()
-    const pendingUpdatersLaneMap = (this.pendingUpdatersLaneMap = [])
-    for (let i = 0; i < TotalLanes; i++) {
-      pendingUpdatersLaneMap.push(new Set())
-    }
-  }
-}
+useState()
+  updateState()
+    updateReducer()
+      updateWorkInProgressHook() 设置workInProgressHook.memoizedState、workInProgressHook.queue，并返回workInProgressHook
+      updateReducerImpl() 返回当前值一，dispach方法
 ```
 
-### update
+### useEffect
 
 ```js
-const update: Update<mixed> = {
-  lane,
-  tag: UpdateState,
-  payload: null,
-  callback: null,
-  next: null,
-}
+useEffect()
+  updateEffect()
+    updateEffectImpl()
+      updateWorkInProgressHook() 同上文
+      pushSimpleEffect()
+        pushEffectImpl() 设置currentlyRenderingFiber.updateQueue
 ```
+
+## 总结
+
+react 框架的本质是对 dom 增删改查。为了实现这个目标。借助了 fiber。每个 fiber 对象对应一个 dom 节点。fiber 对象保存了 dom 节点的属性。
+fiber 对象的体量不大也不小。如果我在开发中使用此逻辑，并使用比 fiber 小的对象，就会运行更快了。
+
+## scheduler
+
+在更新时发现使用到了这个包。
+它的负责调度优先级。
+React 结合优先级调度，高优先级任务（如用户输入、动画更新）可中断低优先级任务（如列表渲染），优先执行高优先级任务，执行完毕后再恢复低优先级任务，保证用户操作的及时性。
+
+## 渲染调用栈
+
+createWorkInProgress @ react-dom-client.development.js:4809
+这个方法用于创建或重用一个工作中的 Fiber 节点：
+主要功能：创建一个当前 Fiber 节点的副本，用于在渲染过程中进行工作
+实现方式：
+如果没有备用 Fiber（alternate），则创建一个新的 Fiber 节点
+如果已有备用 Fiber，则重用它并重置其属性
+设置双缓冲机制（current 和 work-in-progress 互相指向）
+
+prepareFreshStack @ react-dom-client.development.js:17282
+这个方法用于准备一个新的工作栈，通常是开始新的渲染或重新开始渲染时调用：
+主要功能：
+重置工作循环的各种全局状态
+创建根节点的 work-in-progress 副本
+初始化工作循环相关变量
+使用场景：开始新的渲染、错误恢复后重新渲染
+
+renderRootConcurrent @ react-dom-client.development.js:17495
+这个方法执行并发渲染，是 React 并发模式下的主要渲染函数：
+主要功能：
+在并发模式下渲染 Fiber 树
+可以在渲染过程中暂停，让更高优先级的任务先执行
+通过 shouldYield() 检查是否需要让出主线程
+特点：时间切片，允许中断
+
+performWorkOnRoot @ react-dom-client.development.js:16509
+这是执行根节点工作的核心函数，协调整个渲染和提交过程：
+主要功能：
+根据是否为同步渲染选择不同的渲染方式
+调用渲染函数（同步或并发）
+处理渲染后的提交阶段
+调用关系：通常由 Scheduler 调度器触发
+
+performWorkOnRootViaSchedulerTask @ react-dom-client.development.js:18964
+这是由 Scheduler 调度的任务入口点，处理通过 Scheduler 调度的并发任务：
+主要功能：
+作为 Scheduler 回调函数的入口点
+处理由 Scheduler 调度的并发渲染任务
+处理任务超时情况
+返回任务的后续处理函数（如果还有工作要做）
+特点：连接 React 渲染器和浏览器调度器
+
+performWorkUntilDeadline @ scheduler.development.js:46
+这是由 Scheduler 调度的任务入口点，处理通过 Scheduler 调度的并发任务：
+主要功能：
+作为 Scheduler 回调函数的入口点
+处理由 Scheduler 调度的并发渲染任务
+处理任务超时情况
+返回任务的后续处理函数（如果还有工作要做）
+特点：连接 React 渲染器和浏览器调度器
+
+schedulePerformWorkUntilDeadline @ scheduler.development.js:227
+这个方法用于安排 performWorkUntilDeadline 函数的执行，是调度系统的核心部分：
+主要功能：根据浏览器环境选择合适的机制来调度任务执行
+实现方式：
+在支持 setImmediate 的环境（如 Node.js）中使用 setImmediate
+在支持 MessageChannel 的浏览器中使用 MessageChannel（优先选择）
+在其他环境使用 setTimeout 作为备选
+
+exports.unstable_scheduleCallback @ scheduler.development.js:347
+这是 Scheduler 包的主要 API，用于调度一个回调函数：
+主要功能：
+根据优先级调度任务
+处理延迟任务（通过 timerQueue）
+将任务加入执行队列（taskQueue）
+在需要时调用 requestHostCallback 启动执行循环
+
+scheduleTaskForRootDuringMicrotask @ react-dom-client.development.js:18931
+这个方法在微任务期间为根节点调度任务：
+主要功能：
+检查哪些 lanes 正在被饥饿（starved），并标记为过期
+确定下一个要处理的 lanes
+如果有工作要做，安排新的回调
+如果没有工作，清理回调节点
+
+processRootScheduleInMicrotask @ react-dom-client.development.js:18847
+这个方法在微任务中处理根节点调度：
+主要功能：
+遍历所有有工作的根节点
+为每个根节点调用 scheduleTaskForRootDuringMicrotask
+从调度列表中移除没有工作的根节点
+执行同步工作（如果存在）
+
+(anonymous) @ react-dom-client.development.js:18998
+
+scheduleImmediateRootScheduleTask @ react-dom-client.development.js:18987
+这个方法用于立即调度根节点调度任务：
+主要功能：在微任务或宏任务中调度 processRootScheduleInMicrotask 函数的执行
+实现方式：根据环境支持情况，优先使用微任务（scheduleMicrotask），如果微任务不支持则使用 Scheduler 的立即回调
+用途：确保根节点的调度逻辑在当前浏览器任务结束后执行
+
+ensureRootIsScheduled @ react-dom-client.development.js:18782
+这个方法确保根节点被调度：
+主要功能：
+将根节点添加到调度列表中（firstScheduledRoot 链表）
+设置 mightHavePendingSyncWork 标志，用于快速判断是否有同步工作
+调用 ensureScheduleIsScheduled 来安排调度任务
+触发时机：当根节点接收到更新时调用
+
+scheduleUpdateOnFiber @ react-dom-client.development.js:16426
+这个方法调度 Fiber 上的更新：
+主要功能：
+检查是否在渲染或提交阶段进行更新，如果是则抛出错误
+处理在渲染过程中发生的更新（标记交错更新）
+如果根节点已经暂停并等待数据解析，标记为暂停状态
+调用 ensureRootIsScheduled 确保根节点被调度
+对于同步更新且在非并发模式下，立即刷新同步工作
+
+updateContainerImpl @ react-dom-client.development.js:23518
+这个方法是容器更新的核心实现：
+主要功能：
+创建更新对象并设置上下文
+设置更新的 payload（包含要渲染的元素）
+将更新加入 Fiber 的更新队列
+调用 scheduleUpdateOnFiber 来调度更新
+处理转换（transitions）的纠缠
+
+ReactDOMHydrationRoot.render.ReactDOMRoot.render @ react-dom-client.development.js:27902
+(anonymous) @ main.tsx:11
+
+## 参考文档
+
+https://zhuanlan.zhihu.com/p/16267859021

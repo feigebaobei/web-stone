@@ -38,7 +38,7 @@ js 的类型可分为简单类型、引用（复杂）类型。
 - 返回克隆后的对象
 - 不是 js 语言提供的能力，js 语言的运行环境提供的能力。
 
-## MessageChannel
+## [MessageChannel](/language/javascript/messageChannel.html)
 
 ```
 let f = (o) => {

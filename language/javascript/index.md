@@ -133,7 +133,7 @@ class ClassName {
         // ...
         this.a = params[0] // 会在实例对象上设置属性a
     }
-    t () {                 // 会在实例对象的原型链上的上游对象class ClassName上创建t属性。t属性的值是一个方法。方法中的this遵守作用域规则。执行`instance.t()`时this指向instance对象。
+    t () {     // 会在实例对象的原型链上的上游对象class ClassName上创建t属性。t属性的值是一个方法。方法中的this遵守作用域规则。执行`instance.t()`时this指向instance对象。
         // ...
         return this.a
     }
@@ -204,7 +204,7 @@ script 可理解为外层代码触发
 - setTimeout
 - setInterval
 - [postMessage](/language/javascript/postMessage.html)
-- MessageChannel
+- [MessageChannel](/language/javascript/messageChannel.html)
 - setImmediate (node 环境)
 
 ## 微任务，由 js 引擎发起。
@@ -340,7 +340,7 @@ window.onunhandledrejection = (event) => {
 <!-- prettier-ignore-start -->
 |      | rejectionhandled          | unhandledrejection        |
 | ---- | --------------- | ----- |
-| 环境 | window/worker             | window/worker             |
+| 环境 | window/worker | window/worker |
 |      | 当 Promise 被 reject 且执行 reject 处理器的时候，会触发 | 当 Promise 被 reject 且没有 reject 处理器的时候，会触发 |
 <!-- prettier-ignore-end -->
 
@@ -753,21 +753,23 @@ function spawn(genF) {
 
 # 位运算
 
-|        |     |                 |                                                                                                     |     |
-| ------ | --- | --------------- | --------------------------------------------------------------------------------------------------- | --- |
-| `&`    | and | 与              | 判断 2 个二进制数每个对应的位上是否都为 1,则该位为 1                                                |
-| `\|`   | or  | 或              | 判断 2 个二进制数每个对应的位上是否至少有一位为 1,则该位为 1                                        |
-| `^`    | xor | 异或            | 判断 2 个二进制数每个对应的位上是否只有一位为 1,则该位为 1 对应位上是否不同。若是则为 1，否则为 0。 |
-| `~`    | not | 取反            | 每一位都取反                                                                                        |
-| `>>`   |     | 右移            | 右边移出的去掉。左边以最左则的值填充。                                                              |
-| `<<`   |     | 左移            | （0）当移动位数大于 32 时。使用 x%32。 左边溢出的去掉。右边使用 0 补齐。                            |
-| `>>>`  |     | 无符号右移（0） | 右边移出的去掉。左边以 0 填充。                                                                     |
-| `<<=`  |     |                 |                                                                                                     |
-| `>>=`  |     |                 |                                                                                                     |
-| `>>>=` |     |                 |                                                                                                     |
-| `&=`   |     |                 |                                                                                                     |
-| `^=`   |     |                 |                                                                                                     |
-| `\|=`  |     |                 |                                                                                                     |
+<!-- prettier-ignore-start -->
+|        |     |  |          |     |
+| ------ | --- | --------------- | ------------- | --- |
+| `&`    | and | 与  | 判断 2 个二进制数每个对应的位上是否都为 1,则该位为 1   |
+| `\|`   | or  | 或  | 判断 2 个二进制数每个对应的位上是否至少有一位为 1,则该位为 1 |
+| `^`    | xor | 异或            | 判断 2 个二进制数每个对应的位上是否只有一位为 1（即：对应位上的数字互异）,则该位为 1 对应位上是否不同。若是则为 1，否则为 0。 |
+| `~`    | not | 取反            | 每一位都取反   |
+| `>>`   |     | 右移            | 右边移出的，去掉。左边以最左则的值填充。     |
+| `<<`   |     | 左移            | （0）当移动位数大于 32 时。使用 x%32。 左边溢出的去掉。右边使用 0 补齐。    |
+| `>>>`  |     | 无符号右移（0） | 右边移出的去掉。左边以 0 填充。            |
+| `<<=`  |     |     |           |
+| `>>=`  |     |     |           |
+| `>>>=` |     |     |           |
+| `&=`   |     |     |           |
+| `^=`   |     |     |           |
+| `\|=`  |     |     |           |
+<!-- prettier-ignore-end -->
 
 demo
 
@@ -786,6 +788,13 @@ demo
 - n 底
 - m 2 的幂
 
+## 使用场景
+
+- 布尔值
+- 权限
+- 颜色
+- 位掩码
+
 # [worker](/language/javascript/webWorker.html)
 
 # 线程
@@ -802,7 +811,7 @@ js 是单线程语言。但是它的宿主环境——browser 支持多线程。
 一般与 canvas 结合工作。
 
 <!-- prettier-ignore-start -->
-|             |      |     |     |
+| |      |     |     |
 | --------------- | ---------- | --- | --- |
 | `requestAnimationFrame(cb) => number`  | 在下次更新动画时调用，即在重绘前调用。 |     |     |
 | `cancelAnimationFrame(id: number) => void`    | 取消更新动画时的回调。   |     |     |

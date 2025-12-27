@@ -157,7 +157,7 @@
 <tbody>
 <tr>
 <td></td>
-<td>recenciliation</td>
+<td>reconciliation</td>
 <td>调度器，用于处理 diff、更新视图</td>
 <td></td>
 </tr>
@@ -257,11 +257,11 @@
 <li>当组件改变时生成新 vdom</li>
 <li>比对 2 个 vdom 的不同。再更新 dom
 <ol>
-<li>使用 diff 算法比对。也叫 recencilication</li>
+<li>使用 diff 算法比对。也叫 reconciliation</li>
 </ol>
 </li>
 </ol>
-<h3 id="recenciliation-也叫-diff--diffing">recenciliation (也叫 diff / diffing)</h3>
+<h3 id="reconciliation-也叫-diff--diffing">reconciliation (也叫 diff / diffing)</h3>
 <p>基于 2 个前提工作：</p>
 <ul>
 <li>
@@ -471,7 +471,7 @@
 <p>副作用（side-effects）： 每次活动（如：改变 dom）和调用生命周期方法<br>
 Fiber 的 Effecttag 属性是副作用函数<br>
 副作用 tag<br>
-Current 就是 fiberroot</p>
+Current 就是 fiberRoot</p>
 <p>FiberRootNode 下的第一个 FiberNode 是使用 FiberRootNode()创建的。</p>
 <p>工作在 commit 阶段进行<br>
 <strong>深度优先</strong></p>
@@ -785,9 +785,51 @@ newChain.<span class="hljs-title function_">appen</span>(<span class="hljs-strin
 <p>更新组件时</p>
 <pre><code>ReactDOMRoot
 </code></pre>
-<h2 id="常用对象">常用对象</h2>
-<pre><code class="language-js"><span class="hljs-title class_">ReactElement</span>
-{
+<h2 id="数据结构">数据结构</h2>
+<h3 id="reactdomroot">ReactDOMRoot</h3>
+<pre><code class="language-js">{
+  <span class="hljs-attr">_internalRoot</span>: { <span class="hljs-comment">// 这个对象就是FiberRootNode</span>
+    <span class="hljs-attr">callbackNode</span>: <span class="hljs-literal">null</span>
+    <span class="hljs-attr">callbackPriority</span>: <span class="hljs-number">0</span>
+    <span class="hljs-attr">cancelPendingCommit</span>: <span class="hljs-literal">null</span>
+    <span class="hljs-attr">containerInfo</span>: div#root
+    <span class="hljs-attr">context</span>: <span class="hljs-literal">null</span>
+    <span class="hljs-attr">current</span>: {...} <span class="hljs-comment">// 这个对象就是FiberNode。它是根fiberNode。</span>
+    <span class="hljs-attr">effectDuration</span>: -<span class="hljs-number">0</span>
+    <span class="hljs-attr">entangledLanes</span>: <span class="hljs-number">0</span>
+    <span class="hljs-attr">entanglements</span>: (<span class="hljs-number">31</span>) [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>]
+    <span class="hljs-attr">errorRecoveryDisabledLanes</span>: <span class="hljs-number">0</span>
+    <span class="hljs-attr">expirationTimes</span>: (<span class="hljs-number">31</span>) [-<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>]
+    <span class="hljs-attr">expiredLanes</span>: <span class="hljs-number">0</span>
+    <span class="hljs-attr">formState</span>: <span class="hljs-literal">null</span>
+    <span class="hljs-attr">hiddenUpdates</span>: (<span class="hljs-number">31</span>) [<span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>]
+    <span class="hljs-attr">identifierPrefix</span>: <span class="hljs-string">&quot;&quot;</span>
+    <span class="hljs-attr">incompleteTransitions</span>: <span class="hljs-title class_">Map</span>(<span class="hljs-number">0</span>) {<span class="hljs-attr">size</span>: <span class="hljs-number">0</span>}<span class="hljs-attr">memoizedUpdaters</span>: <span class="hljs-title class_">Set</span>(<span class="hljs-number">0</span>) {<span class="hljs-attr">size</span>: <span class="hljs-number">0</span>}<span class="hljs-attr">next</span>: <span class="hljs-literal">null</span>
+    <span class="hljs-attr">onCaughtError</span>: ƒ <span class="hljs-title function_">defaultOnCaughtError</span>(error)
+    <span class="hljs-attr">onRecoverableError</span>: ƒ <span class="hljs-title function_">defaultOnRecoverableError</span>(error)
+    <span class="hljs-attr">onUncaughtError</span>: ƒ <span class="hljs-title function_">defaultOnUncaughtError</span>(error)
+    <span class="hljs-attr">passiveEffectDuration</span>: -<span class="hljs-number">0</span>
+    <span class="hljs-attr">pendingChildren</span>: <span class="hljs-literal">null</span>
+    <span class="hljs-attr">pendingContext</span>: <span class="hljs-literal">null</span>
+    <span class="hljs-attr">pendingLanes</span>: <span class="hljs-number">0</span>
+    <span class="hljs-attr">pendingUpdatersLaneMap</span>: (<span class="hljs-number">31</span>) [<span class="hljs-title class_">Set</span>(<span class="hljs-number">0</span>), <span class="hljs-title class_">Set</span>(<span class="hljs-number">0</span>), <span class="hljs-title class_">Set</span>(<span class="hljs-number">0</span>), <span class="hljs-title class_">Set</span>(<span class="hljs-number">0</span>), <span class="hljs-title class_">Set</span>(<span class="hljs-number">0</span>), <span class="hljs-title class_">Set</span>(<span class="hljs-number">0</span>), <span class="hljs-title class_">Set</span>(<span class="hljs-number">0</span>), <span class="hljs-title class_">Set</span>(<span class="hljs-number">0</span>), <span class="hljs-title class_">Set</span>(<span class="hljs-number">0</span>), <span class="hljs-title class_">Set</span>(<span class="hljs-number">0</span>), <span class="hljs-title class_">Set</span>(<span class="hljs-number">0</span>), <span class="hljs-title class_">Set</span>(<span class="hljs-number">0</span>), <span class="hljs-title class_">Set</span>(<span class="hljs-number">0</span>), <span class="hljs-title class_">Set</span>(<span class="hljs-number">0</span>), <span class="hljs-title class_">Set</span>(<span class="hljs-number">0</span>), <span class="hljs-title class_">Set</span>(<span class="hljs-number">0</span>), <span class="hljs-title class_">Set</span>(<span class="hljs-number">0</span>), <span class="hljs-title class_">Set</span>(<span class="hljs-number">0</span>), <span class="hljs-title class_">Set</span>(<span class="hljs-number">0</span>), <span class="hljs-title class_">Set</span>(<span class="hljs-number">0</span>), <span class="hljs-title class_">Set</span>(<span class="hljs-number">0</span>), <span class="hljs-title class_">Set</span>(<span class="hljs-number">0</span>), <span class="hljs-title class_">Set</span>(<span class="hljs-number">0</span>), <span class="hljs-title class_">Set</span>(<span class="hljs-number">0</span>), <span class="hljs-title class_">Set</span>(<span class="hljs-number">0</span>), <span class="hljs-title class_">Set</span>(<span class="hljs-number">0</span>), <span class="hljs-title class_">Set</span>(<span class="hljs-number">0</span>), <span class="hljs-title class_">Set</span>(<span class="hljs-number">0</span>), <span class="hljs-title class_">Set</span>(<span class="hljs-number">0</span>), <span class="hljs-title class_">Set</span>(<span class="hljs-number">0</span>), <span class="hljs-title class_">Set</span>(<span class="hljs-number">0</span>)]
+    <span class="hljs-attr">pingCache</span>: <span class="hljs-literal">null</span>
+    <span class="hljs-attr">pingedLanes</span>: <span class="hljs-number">0</span>
+    <span class="hljs-attr">pooledCache</span>: {<span class="hljs-attr">controller</span>: <span class="hljs-title class_">AbortController</span>, <span class="hljs-attr">data</span>: <span class="hljs-title class_">Map</span>(<span class="hljs-number">0</span>), <span class="hljs-attr">refCount</span>: <span class="hljs-number">2</span>}<span class="hljs-attr">pooledCacheLanes</span>: <span class="hljs-number">0</span>
+    <span class="hljs-attr">shellSuspendCounter</span>: <span class="hljs-number">0</span>
+    <span class="hljs-attr">suspendedLanes</span>: <span class="hljs-number">0</span>
+    <span class="hljs-attr">tag</span>: <span class="hljs-number">1</span>
+    <span class="hljs-attr">timeoutHandle</span>: -<span class="hljs-number">1</span>
+    <span class="hljs-attr">warmLanes</span>: <span class="hljs-number">0</span>
+    <span class="hljs-attr">_debugRootType</span>: <span class="hljs-string">&quot;createRoot()&quot;</span>
+  }
+  <span class="hljs-comment">// 原型对象上还有2个方法</span>
+  <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>)  {} <span class="hljs-comment">// 挂载组件</span>
+  <span class="hljs-title function_">unmount</span>(<span class="hljs-params"></span>)  {} <span class="hljs-comment">// 卸载组件</span>
+}
+</code></pre>
+<h3 id="reactelement">ReactElement</h3>
+<pre><code class="language-js">{
   <span class="hljs-string">&quot;$$typeof&quot;</span>: <span class="hljs-title class_">Symbol</span>(react.<span class="hljs-property">element</span>) <span class="hljs-comment">// 惟一标记</span>
   <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;h1&quot;</span>, <span class="hljs-comment">// html标签 | 构造函数 | class组件名</span>
   <span class="hljs-string">&quot;key&quot;</span>: <span class="hljs-literal">null</span>,  <span class="hljs-comment">// 惟一键</span>
@@ -798,12 +840,16 @@ newChain.<span class="hljs-title function_">appen</span>(<span class="hljs-strin
   <span class="hljs-string">&quot;_owner&quot;</span>: <span class="hljs-literal">null</span>,
   <span class="hljs-string">&quot;_store&quot;</span>: {},
   <span class="hljs-string">&quot;_self&quot;</span>: <span class="hljs-literal">null</span>
-  <span class="hljs-string">&quot;_source&quot;</span>: <span class="hljs-literal">null</span>
+  <span class="hljs-string">&quot;_source&quot;</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-attr">_debugInfo</span>: <span class="hljs-literal">null</span>
+  <span class="hljs-attr">_debugStack</span>: <span class="hljs-title class_">Error</span>: react-stack-top-frame at <span class="hljs-built_in">exports</span>.<span class="hljs-property">jsxDEV</span> (<span class="hljs-attr">http</span>:<span class="hljs-comment">//localhost:5173/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=cb245d07:248:30) at http://localhost:5173/src/main.tsx:10:69</span>
+  <span class="hljs-attr">_debugTask</span>: {<span class="hljs-attr">run</span>: ƒ}
 }
-
-<span class="hljs-title class_">FiberNode</span> 也有人叫 <span class="hljs-title class_">Fiber</span>
-总是与组件一对一。
-{
+</code></pre>
+<h3 id="fibernode">fiberNode</h3>
+<p>FiberNode 也有人叫 Fiber
+总是与组件一对一。</p>
+<pre><code class="language-js">{
   <span class="hljs-string">&quot;tag&quot;</span>: <span class="hljs-number">5</span>,
   <span class="hljs-string">&quot;key&quot;</span>: <span class="hljs-literal">null</span>,          <span class="hljs-comment">// key 兄弟间惟一</span>
   <span class="hljs-string">&quot;elementType&quot;</span>: <span class="hljs-literal">null</span>,  <span class="hljs-comment">// 构造函数 | html标签 | class组件名</span>
@@ -835,7 +881,7 @@ newChain.<span class="hljs-title function_">appen</span>(<span class="hljs-strin
   },
   <span class="hljs-string">&quot;memoizedProps&quot;</span>: <span class="hljs-literal">null</span>,    <span class="hljs-comment">// 输出更新后节点需要使用的props</span>
   <span class="hljs-string">&quot;updateQueue&quot;</span>: <span class="hljs-literal">null</span>,      <span class="hljs-comment">// 更新队列。详见下文。链表结构。</span>
-  <span class="hljs-string">&quot;memoizedState&quot;</span>: <span class="hljs-literal">null</span>,    <span class="hljs-comment">// 上次渲染组件是使用的状态。初始化FiberNode节点时会赋初始值。</span>
+  <span class="hljs-string">&quot;memoizedState&quot;</span>: <span class="hljs-literal">null</span>,    <span class="hljs-comment">// 上次渲染组件时使用的状态。初始化FiberNode节点时会赋初始值。</span>
                             <span class="hljs-comment">// 输出更新后节点需要使用的state</span>
                 {           <span class="hljs-comment">// 这是一个hook对象</span>
                   baseState,
@@ -847,11 +893,11 @@ newChain.<span class="hljs-title function_">appen</span>(<span class="hljs-strin
                 }
   <span class="hljs-string">&quot;dependencies&quot;</span>: <span class="hljs-literal">null</span>,
   <span class="hljs-string">&quot;mode&quot;</span>: <span class="hljs-number">3</span>,
-  <span class="hljs-string">&quot;flags&quot;</span>: <span class="hljs-number">0</span>,               <span class="hljs-comment">// 该节点的side-effect。功能同原来的effectTag</span>
+  <span class="hljs-string">&quot;flags&quot;</span>: <span class="hljs-number">0</span>,               <span class="hljs-comment">// 该节点的side-effect。功能同原来的effectTag。表示要对该节点做什么。</span>
   <span class="hljs-string">&quot;subtreeFlags&quot;</span>: <span class="hljs-number">0</span>,
   <span class="hljs-string">&quot;deletions&quot;</span>: <span class="hljs-literal">null</span>,
   <span class="hljs-string">&quot;lanes&quot;</span>: <span class="hljs-number">0</span>,
-  <span class="hljs-string">&quot;childLanes&quot;</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-string">&quot;childLanes&quot;</span>: <span class="hljs-number">0</span>,          <span class="hljs-comment">// lanes字段会向上传播到父节点的childLanes字段</span>
   <span class="hljs-string">&quot;alternate&quot;</span>: <span class="hljs-literal">null</span>,        <span class="hljs-comment">// 指向在另一棵树上对应的节点</span>
   <span class="hljs-string">&quot;actualDuration&quot;</span>: <span class="hljs-number">0</span>,      <span class="hljs-comment">//</span>
   <span class="hljs-string">&quot;actualStartTime&quot;</span>: -<span class="hljs-number">1</span>,    <span class="hljs-comment">// 好像是开始更新的时刻，相对于根组件被创建的时间。</span>
@@ -863,11 +909,11 @@ newChain.<span class="hljs-title function_">appen</span>(<span class="hljs-strin
   <span class="hljs-string">&quot;_debugHookTypes&quot;</span>: <span class="hljs-literal">null</span>,
   <span class="hljs-comment">// effectTag: xxxxx              // 该节点的side-effect 副作用</span>
 }
-
-<span class="hljs-title class_">FiberRootNode</span>
-{
-  <span class="hljs-string">&quot;tag&quot;</span>: <span class="hljs-number">1</span>,
-  <span class="hljs-string">&quot;containerInfo&quot;</span>: {},      <span class="hljs-comment">// 就是createRoot的第一个参数。dom类型。</span>
+</code></pre>
+<h3 id="fiberrootnode">FiberRootNode</h3>
+<pre><code class="language-js">{
+  <span class="hljs-string">&quot;tag&quot;</span>: <span class="hljs-number">1</span>,                 <span class="hljs-comment">// 表示哪种workTag</span>
+  <span class="hljs-string">&quot;containerInfo&quot;</span>: {},      <span class="hljs-comment">// 就是createRoot的第一个参数。dom类型。react应用中的容器dom.</span>
   <span class="hljs-string">&quot;pendingChildren&quot;</span>: <span class="hljs-literal">null</span>,
   <span class="hljs-string">&quot;current&quot;</span>: <span class="hljs-literal">null</span>,          <span class="hljs-comment">// FiberNode。它是在createRoot方法中被设置的。</span>
   <span class="hljs-string">&quot;pingCache&quot;</span>: <span class="hljs-literal">null</span>,
@@ -882,12 +928,32 @@ newChain.<span class="hljs-title function_">appen</span>(<span class="hljs-strin
   <span class="hljs-string">&quot;pendingLanes&quot;</span>: <span class="hljs-number">0</span>,
   <span class="hljs-string">&quot;suspendedLanes&quot;</span>: <span class="hljs-number">0</span>,
   <span class="hljs-string">&quot;pingedLanes&quot;</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-attr">warmLanes</span>: <span class="hljs-title class_">NoLanes</span>,
   <span class="hljs-string">&quot;expiredLanes&quot;</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-attr">indicatorLanes</span>: <span class="hljs-title class_">NoLanes</span>,
+  <span class="hljs-attr">errorRecoveryDisabledLanes</span>: <span class="hljs-title class_">NoLanes</span>,
+  <span class="hljs-attr">shellSuspendCounter</span>: <span class="hljs-title class_">NoLanes</span>,
   <span class="hljs-string">&quot;mutableReadLanes&quot;</span>: <span class="hljs-number">0</span>,
   <span class="hljs-string">&quot;finishedLanes&quot;</span>: <span class="hljs-number">0</span>,
   <span class="hljs-string">&quot;entangledLanes&quot;</span>: <span class="hljs-number">0</span>,
   <span class="hljs-string">&quot;entanglements&quot;</span>: [ <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span> ],
+  <span class="hljs-attr">hiddenUpdates</span>: <span class="hljs-title function_">createLaneMap</span>(<span class="hljs-literal">null</span>),
   <span class="hljs-string">&quot;identifierPrefix&quot;</span>: <span class="hljs-string">&quot;&quot;</span>,
+  onUncaughtError,
+  onCaughtError,
+  onRecoverableError,
+  onDefaultTransitionIndicator,
+  pooledCache,
+  pooledCacheLanes,
+  hydrationCallbacks,
+  formState,
+  transitionTypes,
+  pendingGestures,
+  stoppingGestures,
+  gestureClone,
+  incompleteTransitions,
+  transitionCallbacks,
+  transitionLanes,
   <span class="hljs-string">&quot;mutableSourceEagerHydrationData&quot;</span>: <span class="hljs-literal">null</span>,
   <span class="hljs-string">&quot;effectDuration&quot;</span>: <span class="hljs-number">0</span>,
   <span class="hljs-string">&quot;passiveEffectDuration&quot;</span>: <span class="hljs-number">0</span>,
@@ -895,19 +961,49 @@ newChain.<span class="hljs-title function_">appen</span>(<span class="hljs-strin
   <span class="hljs-string">&quot;pendingUpdatersLaneMap&quot;</span>: [ {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {} ],
   <span class="hljs-string">&quot;_debugRootType&quot;</span>: <span class="hljs-string">&quot;createRoot()&quot;</span>
 }
-
-update = {
-  <span class="hljs-attr">eventTime</span>: eventTime,
+</code></pre>
+<h3 id="update">update</h3>
+<pre><code class="language-js">update = {
+  <span class="hljs-attr">eventTime</span>: eventTime, <span class="hljs-comment">// 在react@19中没看到此字段</span>
   <span class="hljs-attr">lane</span>: lane,
   <span class="hljs-attr">tag</span>: <span class="hljs-title class_">UpdateState</span>,
-  <span class="hljs-attr">payload</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-attr">payload</span>: <span class="hljs-literal">null</span>, <span class="hljs-comment">// 子元素 {element}</span>
   <span class="hljs-attr">callback</span>: <span class="hljs-literal">null</span>,
   <span class="hljs-attr">next</span>: <span class="hljs-literal">null</span>
 };
-
-current 指向 <span class="hljs-title class_">FiberRootNode</span>
-
-<span class="hljs-title class_">ReactWorkTags</span>:
+</code></pre>
+<h3 id="hook">hook</h3>
+<pre><code class="language-js">{
+  <span class="hljs-attr">memoizedState</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-attr">baseState</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-attr">baseQueue</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-attr">queue</span>: <span class="hljs-literal">null</span>, <span class="hljs-comment">// updateQueue</span>
+  <span class="hljs-attr">next</span>: <span class="hljs-literal">null</span>,
+};
+</code></pre>
+<h3 id="updatequeue">updateQueue</h3>
+<pre><code class="language-js"><span class="hljs-title class_">UpdateQueue</span>&lt;S, <span class="hljs-title class_">BasicStateAction</span>&lt;S&gt;&gt; = {
+  <span class="hljs-attr">pending</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-attr">lanes</span>: <span class="hljs-title class_">NoLanes</span>,
+  <span class="hljs-attr">dispatch</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-attr">lastRenderedReducer</span>: basicStateReducer,
+  <span class="hljs-attr">lastRenderedState</span>: (<span class="hljs-attr">initialState</span>: any),
+};
+</code></pre>
+<h3 id="effect">effect</h3>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> <span class="hljs-attr">effect</span>: <span class="hljs-title class_">Effect</span> = {
+  tag,
+  create,
+  deps,
+  inst,
+  <span class="hljs-comment">// Circular</span>
+  <span class="hljs-attr">next</span>: (<span class="hljs-attr">null</span>: any),
+};
+</code></pre>
+<h3 id="数据枚举">数据枚举</h3>
+<pre><code class="language-js"><span class="hljs-title class_">ReactWorkTags</span>:
+作用于fiber对象的tag字段
+表示fiber的种类
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">FunctionComponent</span> = <span class="hljs-number">0</span>;
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">ClassComponent</span> = <span class="hljs-number">1</span>;
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">IndeterminateComponent</span> = <span class="hljs-number">2</span>; <span class="hljs-comment">// Before we know whether it is function or class</span>
@@ -927,9 +1023,11 @@ current 指向 <span class="hljs-title class_">FiberRootNode</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">LazyComponent</span> = <span class="hljs-number">16</span>;
 <span class="hljs-comment">// 还17 、 18 不在这里</span>
 
-flags 表示effect的编码
+这些flags 表示effect的编码
+作用于fiber.<span class="hljs-property">lanes</span>字段。
+表示优先级，越小越优先。
 <span class="hljs-comment">// 使用二进制很方便判断值，以后我也可以使用它。</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">NoFlags</span> = <span class="hljs-comment">/*                      */</span> <span class="hljs-number">0b00000000000000000000000000</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">NoFlags</span> = <span class="hljs-comment">/*                      */</span> <span class="hljs-number">0b00000000000000000000000000</span>; <span class="hljs-comment">// 表示该节点不需要更新。它的后代节点也就不需要遍历了。</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">PerformedWork</span> = <span class="hljs-comment">/*                */</span> <span class="hljs-number">0b00000000000000000000000001</span>;
 <span class="hljs-comment">// You can change the rest (and add more).</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">Placement</span> = <span class="hljs-comment">/*                    */</span> <span class="hljs-number">0b00000000000000000000000010</span>;
@@ -982,6 +1080,16 @@ flags 表示effect的编码
 在方法组件更新时会执行完整的方法体。所以会依次执行 useState()。若把 useState()写在非顶级，则有可能不会执行全部 useState()，这样会引发<code>memoizedState</code>链出错。</p>
 <p>hooks 的状态数据是存放在对应的函数组件的 fiber.memoizedState；<br>
 一个函数组件上如果有多个 hook，他们会通过声明的顺序以链表的结构存储；</p>
+<p>. DOM 元素创建和替换的完整流程
+Diff 阶段: React 比较新旧虚拟 DOM 树，发现节点类型不同
+标记替换: 在 Fiber 节点上标记需要替换的副作用
+提交阶段: 在 commit 阶段执行实际的 DOM 操作</p>
+<p>DOM 替换的关键代码路径
+ReactFiberBeginWork.js: 处理虚拟 DOM 树的构建和比较
+ReactFiberCompleteWork.js: 完成节点创建和更新
+ReactFiberCommitWork.js: 执行实际的 DOM 操作
+ReactFiberConfigDOM.js: 具体的 DOM 操作实现</p>
+<p>底层使用js<a href="/language/javascript/opDom.html">操作 dom</a>.的方法。</p>
 <h1 id="本地笔记">本地笔记</h1>
 <h2 id="inside-fiber-in-depth-overview-of-the-new-reconciliation-algorithm-in-react">Inside Fiber: in-depth overview of the new reconciliation algorithm in React</h2>
 <h3 id="side-effects">side-effects</h3>
@@ -1016,7 +1124,7 @@ fiber
         <span class="hljs-attr">baseState</span>: {<span class="hljs-attr">count</span>: <span class="hljs-number">0</span>},
         <span class="hljs-attr">firstUpdate</span>: {
             <span class="hljs-attr">next</span>: {
-                <span class="hljs-attr">payload</span>: <span class="hljs-function">(<span class="hljs-params">state, props</span>) =&gt;</span> {…}
+                <span class="hljs-attr">payload</span>: <span class="hljs-function">(<span class="hljs-params">state, props</span>) =&gt;</span> {…} <span class="hljs-comment">// 子元素 {element}</span>
             }
         },
         ...
@@ -1161,8 +1269,8 @@ React.createElement('span', {id: '#id'}, string)
                                             addEventCaptureListener() 为指定dom上绑定指定事件
   ReactDOMRoot(root) 返回fiberRoot对象
 </code></pre>
-<p>Fiber对象就是FiberRoot对象。</p>
-<h3 id="reactdomroot">ReactDOMRoot</h3>
+<p>FiberRoot.current是根节点的Fiber 对象。</p>
+<h3 id="reactdomroot-1">ReactDOMRoot</h3>
 <p>这个方法很简单。</p>
 <pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">ReactDOMRoot</span>(<span class="hljs-params">internalRoot: FiberRoot</span>) {
   <span class="hljs-variable language_">this</span>.<span class="hljs-property">_internalRoot</span> = internalRoot;
@@ -1190,7 +1298,7 @@ React.createElement('span', {id: '#id'}, string)
             <span class="hljs-comment">// detectUpdateOnUnmountedFiber() dev阶段的方法。不看它了。</span>
           <span class="hljs-title function_">markUpdateLaneFromFiberToRoot</span>() 升级所有祖先fiber对象的childLanes
         <span class="hljs-title function_">enqueueConcurrentClassUpdate</span>() 进入更新队列
-          <span class="hljs-title function_">enqueueUpdate</span>() 添加到concurrentQueues数组
+          <span class="hljs-title function_">enqueueUpdate</span>() 添加到concurrentQueues数组, 并升级fiber.<span class="hljs-property">lanes</span>
           <span class="hljs-title function_">getRootForUpdatedFiber</span>() 同上文
       <span class="hljs-title function_">startUpdateTimerByLane</span>() 记录开始更新的时刻
         <span class="hljs-title function_">isGestureRender</span>() lane是否等于指定的值
@@ -1201,7 +1309,7 @@ React.createElement('span', {id: '#id'}, string)
         <span class="hljs-title function_">isBlockingLane</span>() lane是否等于指定的值
           <span class="hljs-title function_">isAlreadyRendering</span>() 好像是判断是否准备去沉浸的
         <span class="hljs-title function_">isTransitionLane</span>() lane是否等于指定的值
-      <span class="hljs-title function_">scheduleUpdateOnFiber</span>()
+      <span class="hljs-title function_">scheduleUpdateOnFiber</span>() xxxx
         <span class="hljs-title function_">prepareFreshStack</span>() 记录了好多时刻
           <span class="hljs-title function_">markAllLanesInOrder</span>() 定义了timeStamp
           <span class="hljs-title function_">recordRenderTime</span>() 记录渲染时刻
@@ -1219,18 +1327,20 @@ React.createElement('span', {id: '#id'}, string)
           <span class="hljs-title function_">logGestureStart</span>() 打印日志
           <span class="hljs-title function_">clearGestureTimers</span>() 重置时刻
           <span class="hljs-title function_">includesBlockingLane</span>() lane是否在指定范围内
-        <span class="hljs-title function_">markRootSuspended</span>()
+        <span class="hljs-title function_">markRootSuspended</span>() xxxx
           <span class="hljs-title function_">removeLanes</span>() 减去lane
-          <span class="hljs-title function_">_markRootSuspended</span>() 
+          <span class="hljs-title function_">_markRootSuspended</span>()
             <span class="hljs-title function_">pickArbitraryLaneIndex</span>() 返回lane前部的多少个<span class="hljs-number">0</span>
-            <span class="hljs-title function_">markSpawnedDeferredLane</span>() 
+            <span class="hljs-title function_">markSpawnedDeferredLane</span>() xxxx
         <span class="hljs-title function_">markRootUpdated</span>() 设置lane
-        <span class="hljs-comment">// warnAboutRenderPhaseUpdatesInDEV()</span>
+          <span class="hljs-title function_">_markRootUpdated</span>() 标记root已经更新完了
+          <span class="hljs-title function_">throwIfInfiniteUpdateLoopDetected</span>() 同上文
+        <span class="hljs-title function_">warnAboutRenderPhaseUpdatesInDEV</span>() 检查数据是否正确
         <span class="hljs-title function_">addFiberToLanesMap</span>() 给root.<span class="hljs-property">pendingUpdatersLaneMap</span>设置fiber
-        <span class="hljs-comment">// warnIfUpdatesNotWrappedWithActDEV()</span>
-        <span class="hljs-title function_">addTransitionToLanesMap</span>() 修改root.<span class="hljs-property">transitionLanes</span>
-        <span class="hljs-title function_">markRootSuspended</span>() 
-        <span class="hljs-title function_">ensureRootIsScheduled</span>()
+        <span class="hljs-title function_">warnIfUpdatesNotWrappedWithActDEV</span>() 同上文
+        <span class="hljs-title function_">addTransitionToLanesMap</span>() 给root.<span class="hljs-property">transitionLanes</span>增加空<span class="hljs-title class_">Set</span>对象
+        <span class="hljs-title function_">markRootSuspended</span>() 同上文
+        <span class="hljs-title function_">ensureRootIsScheduled</span>() xxxxxxxx
           <span class="hljs-title function_">ensureScheduleIsScheduled</span>()
             <span class="hljs-title function_">scheduleImmediateRootScheduleTask</span>()
         <span class="hljs-title function_">resetRenderTimer</span>()
@@ -1242,106 +1352,183 @@ React.createElement('span', {id: '#id'}, string)
         <span class="hljs-title function_">markRootEntangled</span>() 标记lane
 }
 
-          
-
-
-
 <span class="hljs-comment">// 渲染函数</span>
 <span class="hljs-title class_">ReactDOMRoot</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">unmount</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {}
 </code></pre>
-<h2 id="数据结构">数据结构</h2>
-<h3 id="fiberroot">fiberRoot</h3>
-<pre><code class="language-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">NoLanes</span>: <span class="hljs-title class_">Lanes</span> = <span class="hljs-comment">/*                        */</span> <span class="hljs-number">0b0000000000000000000000000000000</span>;
+<h2 id="引入jsx文件">引入jsx文件</h2>
+<p>vite使用<code>@vitejs/plugin-react</code>插件处理<code>*.jsx</code>文件
+// 自动添加的导入
+import { jsx as _jsx } from 'react/jsx-dev-runtime';  // 开发环境
+import { jsx as _jsx } from 'react/jsx-runtime';      // 生产环境</p>
+<p>我不知道vite怎么调用插件处理jsx的。我看到react项目在遇到jsx代码时会调用<code>react/src/jsx/ReactJSXElement.js</code>文件中的<code>jsxDEVImpl</code>方法。</p>
+<p>没有理清楚加载jsx文件的逻辑。知道<code>*.jsx</code>是由<code>@vitejs/plugin-react</code>处理的。调用了<code>jsxDEVImpl</code>方法。
+jsx会被转换为调用createElement方法。</p>
+<h2 id="渲染逻辑">渲染逻辑</h2>
+<p>React 的渲染逻辑包含两个主要阶段：</p>
+<p>协调阶段（Reconciliation）：计算需要更新的内容
+提交阶段（Commit）：执行实际的 DOM 更新</p>
+<p>更新时最早调用的方法是performWorkUntilDeadline</p>
+<h3 id="转换逻辑">转换逻辑</h3>
+<p>把jsx代码转换成ReactElement对象。
+听网友说这是babel转换的。</p>
+<pre><code>jsxDEV() 渲染jsx方法组件
+  jsxDEVImpl()
+    检查参数
+    ReactElement() 返回一个对象
 </code></pre>
-<pre><code class="language-js"><span class="hljs-attr">fiberRoot</span>: {
-  <span class="hljs-attr">tag</span>: disableLegacyMode ? <span class="hljs-title class_">ConcurrentRoot</span> : tag; <span class="hljs-comment">// 表示哪种workTag</span>
-  <span class="hljs-attr">containerInfo</span>: containerInfo;
-  <span class="hljs-attr">pendingChildren</span>: <span class="hljs-literal">null</span>;
-  <span class="hljs-attr">current</span>: <span class="hljs-literal">null</span>;
-  <span class="hljs-attr">pingCache</span>: <span class="hljs-literal">null</span>;
-  <span class="hljs-attr">timeoutHandle</span>: noTimeout;
-  <span class="hljs-attr">cancelPendingCommit</span>: <span class="hljs-literal">null</span>;
-  <span class="hljs-attr">context</span>: <span class="hljs-literal">null</span>;
-  <span class="hljs-attr">pendingContext</span>: <span class="hljs-literal">null</span>;
-  <span class="hljs-attr">next</span>: <span class="hljs-literal">null</span>;
-  <span class="hljs-attr">callbackNode</span>: <span class="hljs-literal">null</span>;
-  <span class="hljs-attr">callbackPriority</span>: <span class="hljs-title class_">NoLane</span>;
-  <span class="hljs-attr">expirationTimes</span>: <span class="hljs-title function_">createLaneMap</span>(<span class="hljs-title class_">NoTimestamp</span>);
-
-  <span class="hljs-attr">pendingLanes</span>: <span class="hljs-title class_">NoLanes</span>;
-  <span class="hljs-attr">suspendedLanes</span>: <span class="hljs-title class_">NoLanes</span>;
-  <span class="hljs-attr">pingedLanes</span>: <span class="hljs-title class_">NoLanes</span>;
-  <span class="hljs-attr">warmLanes</span>: <span class="hljs-title class_">NoLanes</span>;
-  <span class="hljs-attr">expiredLanes</span>: <span class="hljs-title class_">NoLanes</span>;
-  <span class="hljs-keyword">if</span> (enableDefaultTransitionIndicator) {
-    <span class="hljs-attr">indicatorLanes</span>: <span class="hljs-title class_">NoLanes</span>;
-  }
-  <span class="hljs-attr">errorRecoveryDisabledLanes</span>: <span class="hljs-title class_">NoLanes</span>;
-  <span class="hljs-attr">shellSuspendCounter</span>: <span class="hljs-number">0</span>;
-
-  <span class="hljs-attr">entangledLanes</span>: <span class="hljs-title class_">NoLanes</span>;
-  <span class="hljs-attr">entanglements</span>: <span class="hljs-title function_">createLaneMap</span>(<span class="hljs-title class_">NoLanes</span>);
-
-  <span class="hljs-attr">hiddenUpdates</span>: <span class="hljs-title function_">createLaneMap</span>(<span class="hljs-literal">null</span>);
-
-  <span class="hljs-attr">identifierPrefix</span>: identifierPrefix;
-  <span class="hljs-attr">onUncaughtError</span>: onUncaughtError;
-  <span class="hljs-attr">onCaughtError</span>: onCaughtError;
-  <span class="hljs-attr">onRecoverableError</span>: onRecoverableError;
-
-  <span class="hljs-keyword">if</span> (enableDefaultTransitionIndicator) {
-    <span class="hljs-attr">onDefaultTransitionIndicator</span>: onDefaultTransitionIndicator;
-    <span class="hljs-attr">pendingIndicator</span>: <span class="hljs-literal">null</span>;
-  }
-
-  <span class="hljs-attr">pooledCache</span>: <span class="hljs-literal">null</span>;
-  <span class="hljs-attr">pooledCacheLanes</span>: <span class="hljs-title class_">NoLanes</span>;
-
-  <span class="hljs-keyword">if</span> (enableSuspenseCallback) {
-    <span class="hljs-attr">hydrationCallbacks</span>: <span class="hljs-literal">null</span>;
-  }
-
-  <span class="hljs-attr">formState</span>: formState;
-
-  <span class="hljs-keyword">if</span> (enableViewTransition) {
-    <span class="hljs-attr">transitionTypes</span>: <span class="hljs-literal">null</span>;
-  }
-
-  <span class="hljs-keyword">if</span> (enableGestureTransition) {
-    <span class="hljs-attr">pendingGestures</span>: <span class="hljs-literal">null</span>;
-    <span class="hljs-attr">stoppingGestures</span>: <span class="hljs-literal">null</span>;
-    <span class="hljs-attr">gestureClone</span>: <span class="hljs-literal">null</span>;
-  }
-
-  <span class="hljs-attr">incompleteTransitions</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>();
-  <span class="hljs-keyword">if</span> (enableTransitionTracing) {
-    <span class="hljs-attr">transitionCallbacks</span>: <span class="hljs-literal">null</span>;
-    <span class="hljs-attr">transitionLanes</span>: <span class="hljs-title function_">createLaneMap</span>(<span class="hljs-literal">null</span>);
-  }
-
-  <span class="hljs-keyword">if</span> (enableProfilerTimer &amp;&amp; enableProfilerCommitHooks) {
-    <span class="hljs-attr">effectDuration</span>: -<span class="hljs-number">0</span>;
-    <span class="hljs-attr">passiveEffectDuration</span>: -<span class="hljs-number">0</span>;
-  }
-
-  <span class="hljs-keyword">if</span> (enableUpdaterTracking) {
-    <span class="hljs-attr">memoizedUpdaters</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>();
-    <span class="hljs-keyword">const</span> pendingUpdatersLaneMap = (<span class="hljs-variable language_">this</span>.<span class="hljs-property">pendingUpdatersLaneMap</span> = []);
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-title class_">TotalLanes</span>; i++) {
-      pendingUpdatersLaneMap.<span class="hljs-title function_">push</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>());
-    }
-  }
-}
+<p>jsx写法执行到生成ReactElement对象就结束了。
+ReactDOMRoot.render方法的参数是reactElement
+在reactRootDom对象调用render方法时会生成fiber对象。具体逻辑如下：</p>
+<pre><code>
 </code></pre>
-<h3 id="update">update</h3>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> <span class="hljs-attr">update</span>: <span class="hljs-title class_">Update</span>&lt;mixed&gt; = {
-    lane,
-    <span class="hljs-attr">tag</span>: <span class="hljs-title class_">UpdateState</span>,
-    <span class="hljs-attr">payload</span>: <span class="hljs-literal">null</span>,
-    <span class="hljs-attr">callback</span>: <span class="hljs-literal">null</span>,
-    <span class="hljs-attr">next</span>: <span class="hljs-literal">null</span>,
-  };
+<h3 id="触发条件">触发条件</h3>
+<ul>
+<li>State 更新：组件状态发生变化</li>
+<li>Props 更新：父组件传递的属性改变</li>
+<li>Context 更新：上下文数据变化</li>
+<li>强制更新：手动触发更新</li>
+</ul>
+<h2 id="hooks逻辑">hooks逻辑</h2>
+<p>所有内置的hooks方法都使用状态模式。每种状态对应一套hooks。在react-reconciler包的ReactFiberHooks.js文件中。</p>
+<h3 id="usestate">useState</h3>
+<p>调用栈</p>
+<pre><code class="language-js"><span class="hljs-title function_">useState</span>()
+  <span class="hljs-title function_">mountState</span>()
+    <span class="hljs-title function_">mountStateImpl</span>() 设置hook.<span class="hljs-property">memoizedState</span>、hook.<span class="hljs-property">queue</span>，并返回hook
+      <span class="hljs-title function_">mountWorkInProgressHook</span>() 创建hook对象并挂载到到workInProgressHooks最后
+    <span class="hljs-title function_">dispatchSetState</span>()
+      <span class="hljs-title function_">requestUpdateLane</span>() 返回lane值
+      <span class="hljs-title function_">dispatchSetStateInternal</span>()
+      <span class="hljs-title function_">startUpdateTimerByLane</span>() 设置了几个时刻
+      <span class="hljs-comment">// markUpdateInDevTools()</span>
 </code></pre>
+<pre><code class="language-js"><span class="hljs-title function_">useState</span>()
+  <span class="hljs-title function_">updateState</span>()
+    <span class="hljs-title function_">updateReducer</span>()
+      <span class="hljs-title function_">updateWorkInProgressHook</span>() 设置workInProgressHook.<span class="hljs-property">memoizedState</span>、workInProgressHook.<span class="hljs-property">queue</span>，并返回workInProgressHook
+      <span class="hljs-title function_">updateReducerImpl</span>() 返回当前值一，dispach方法
+</code></pre>
+<h3 id="useeffect">useEffect</h3>
+<pre><code class="language-js"><span class="hljs-title function_">useEffect</span>()
+  <span class="hljs-title function_">updateEffect</span>()
+    <span class="hljs-title function_">updateEffectImpl</span>()
+      <span class="hljs-title function_">updateWorkInProgressHook</span>() 同上文
+      <span class="hljs-title function_">pushSimpleEffect</span>()
+        <span class="hljs-title function_">pushEffectImpl</span>() 设置currentlyRenderingFiber.<span class="hljs-property">updateQueue</span>
+</code></pre>
+<h2 id="总结">总结</h2>
+<p>react框架的本质是对dom增删改查。为了实现这个目标。借助了fiber。每个fiber对象对应一个dom节点。fiber对象保存了dom节点的属性。
+fiber对象的体量不大也不小。如果我在开发中使用此逻辑，并使用比fiber小的对象，就会运行更快了。</p>
+<h2 id="scheduler">scheduler</h2>
+<p>在更新时发现使用到了这个包。
+它的负责调度优先级。
+React结合优先级调度，高优先级任务（如用户输入、动画更新）可中断低优先级任务（如列表渲染），优先执行高优先级任务，执行完毕后再恢复低优先级任务，保证用户操作的及时性。</p>
+<h2 id="渲染调用栈">渲染调用栈</h2>
+<p>createWorkInProgress	@	react-dom-client.development.js:4809
+这个方法用于创建或重用一个工作中的 Fiber 节点：
+主要功能：创建一个当前 Fiber 节点的副本，用于在渲染过程中进行工作
+实现方式：
+如果没有备用 Fiber（alternate），则创建一个新的 Fiber 节点
+如果已有备用 Fiber，则重用它并重置其属性
+设置双缓冲机制（current 和 work-in-progress 互相指向）</p>
+<p>prepareFreshStack	@	react-dom-client.development.js:17282
+这个方法用于准备一个新的工作栈，通常是开始新的渲染或重新开始渲染时调用：
+主要功能：
+重置工作循环的各种全局状态
+创建根节点的 work-in-progress 副本
+初始化工作循环相关变量
+使用场景：开始新的渲染、错误恢复后重新渲染</p>
+<p>renderRootConcurrent	@	react-dom-client.development.js:17495
+这个方法执行并发渲染，是 React 并发模式下的主要渲染函数：
+主要功能：
+在并发模式下渲染 Fiber 树
+可以在渲染过程中暂停，让更高优先级的任务先执行
+通过 shouldYield() 检查是否需要让出主线程
+特点：时间切片，允许中断</p>
+<p>performWorkOnRoot	@	react-dom-client.development.js:16509
+这是执行根节点工作的核心函数，协调整个渲染和提交过程：
+主要功能：
+根据是否为同步渲染选择不同的渲染方式
+调用渲染函数（同步或并发）
+处理渲染后的提交阶段
+调用关系：通常由 Scheduler 调度器触发</p>
+<p>performWorkOnRootViaSchedulerTask	@	react-dom-client.development.js:18964
+这是由 Scheduler 调度的任务入口点，处理通过 Scheduler 调度的并发任务：
+主要功能：
+作为 Scheduler 回调函数的入口点
+处理由 Scheduler 调度的并发渲染任务
+处理任务超时情况
+返回任务的后续处理函数（如果还有工作要做）
+特点：连接 React 渲染器和浏览器调度器</p>
+<p>performWorkUntilDeadline	@	scheduler.development.js:46
+这是由 Scheduler 调度的任务入口点，处理通过 Scheduler 调度的并发任务：
+主要功能：
+作为 Scheduler 回调函数的入口点
+处理由 Scheduler 调度的并发渲染任务
+处理任务超时情况
+返回任务的后续处理函数（如果还有工作要做）
+特点：连接 React 渲染器和浏览器调度器</p>
+<p>schedulePerformWorkUntilDeadline	@	scheduler.development.js:227
+这个方法用于安排 performWorkUntilDeadline 函数的执行，是调度系统的核心部分：
+主要功能：根据浏览器环境选择合适的机制来调度任务执行
+实现方式：
+在支持 setImmediate 的环境（如 Node.js）中使用 setImmediate
+在支持 MessageChannel 的浏览器中使用 MessageChannel（优先选择）
+在其他环境使用 setTimeout 作为备选</p>
+<p>exports.unstable_scheduleCallback	@	scheduler.development.js:347
+这是 Scheduler 包的主要 API，用于调度一个回调函数：
+主要功能：
+根据优先级调度任务
+处理延迟任务（通过 timerQueue）
+将任务加入执行队列（taskQueue）
+在需要时调用 requestHostCallback 启动执行循环</p>
+<p>scheduleTaskForRootDuringMicrotask	@	react-dom-client.development.js:18931
+这个方法在微任务期间为根节点调度任务：
+主要功能：
+检查哪些 lanes 正在被饥饿（starved），并标记为过期
+确定下一个要处理的 lanes
+如果有工作要做，安排新的回调
+如果没有工作，清理回调节点</p>
+<p>processRootScheduleInMicrotask	@	react-dom-client.development.js:18847
+这个方法在微任务中处理根节点调度：
+主要功能：
+遍历所有有工作的根节点
+为每个根节点调用 scheduleTaskForRootDuringMicrotask
+从调度列表中移除没有工作的根节点
+执行同步工作（如果存在）</p>
+<p>(anonymous)	@	react-dom-client.development.js:18998</p>
+<p>scheduleImmediateRootScheduleTask	@	react-dom-client.development.js:18987
+这个方法用于立即调度根节点调度任务：
+主要功能：在微任务或宏任务中调度 processRootScheduleInMicrotask 函数的执行
+实现方式：根据环境支持情况，优先使用微任务（scheduleMicrotask），如果微任务不支持则使用 Scheduler 的立即回调
+用途：确保根节点的调度逻辑在当前浏览器任务结束后执行</p>
+<p>ensureRootIsScheduled	@	react-dom-client.development.js:18782
+这个方法确保根节点被调度：
+主要功能：
+将根节点添加到调度列表中（firstScheduledRoot 链表）
+设置 mightHavePendingSyncWork 标志，用于快速判断是否有同步工作
+调用 ensureScheduleIsScheduled 来安排调度任务
+触发时机：当根节点接收到更新时调用</p>
+<p>scheduleUpdateOnFiber	@	react-dom-client.development.js:16426
+这个方法调度 Fiber 上的更新：
+主要功能：
+检查是否在渲染或提交阶段进行更新，如果是则抛出错误
+处理在渲染过程中发生的更新（标记交错更新）
+如果根节点已经暂停并等待数据解析，标记为暂停状态
+调用 ensureRootIsScheduled 确保根节点被调度
+对于同步更新且在非并发模式下，立即刷新同步工作</p>
+<p>updateContainerImpl	@	react-dom-client.development.js:23518
+这个方法是容器更新的核心实现：
+主要功能：
+创建更新对象并设置上下文
+设置更新的 payload（包含要渲染的元素）
+将更新加入 Fiber 的更新队列
+调用 scheduleUpdateOnFiber 来调度更新
+处理转换（transitions）的纠缠</p>
+<p>ReactDOMHydrationRoot.render.ReactDOMRoot.render	@	react-dom-client.development.js:27902
+(anonymous)	@	main.tsx:11</p>
+<h2 id="参考文档-1">参考文档</h2>
+<p><a href="https://zhuanlan.zhihu.com/p/16267859021">https://zhuanlan.zhihu.com/p/16267859021</a></p>
 
             <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
             

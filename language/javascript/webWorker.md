@@ -171,6 +171,29 @@ myWorker.port.postMessage(value)
 | 判断是否支持 | `window.Worker`                          | `window.SharedWorker`                                 |     |     |     |
 |              | `worker.postMessage(xx)`                 | 必须使用端口对象进行通信`worker.port.postMessage(xx)` |     |     |     |
 
+## 转移数据
+
+```js
+worker.postMessage(message, [transferList])
+message: any 必填
+transferList。常见的有 ArrayBuffer、ImageBitmap、MessagePort、OffscreenCanvas 等.
+```
+
+转移所有权不是复制，会提高性能。
+
+```
+// 主线程
+const myWorker = new Worker('worker.js');
+const buffer = new ArrayBuffer(1024); // 创建一个ArrayBuffer
+
+// 1. 发送数据 (没有转移)
+myWorker.postMessage({ data: 'Hello Worker' });
+
+// 2. 发送数据并转移所有权
+// buffer所有权转移给worker，主线程的buffer变空
+myWorker.postMessage({ bufferData: buffer }, [buffer]);
+```
+
 # todo
 
 ## 为什么多个页面会共用一个 worker 呢？

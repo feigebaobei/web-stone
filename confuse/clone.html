@@ -11,7 +11,9 @@
  *--------------------------------------------------------------------------------------------*/
 
 .vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
 	display: none;
 }
 
@@ -138,10 +140,10 @@
         </head>
         <body class="vscode-body vscode-light">
             <h1 id="复制">复制</h1>
-<p>js的类型可分为简单类型、引用（复杂）类型。<br>
+<p>js 的类型可分为简单类型、引用（复杂）类型。<br>
 简单类型被赋值时：创建一个相等值的数据再赋值给变量。<br>
 引用类型被赋值时：把该对象的内存地址赋值给变量。</p>
-<p>因js的（对象引用）特点。可分为</p>
+<p>因 js 的（对象引用）特点。可分为</p>
 <ul>
 <li>浅复制，只复制对象的内存地址。</li>
 <li>深复制，创建一个相等值的对象后再赋值给人变量。<br>
@@ -157,19 +159,19 @@
 <h2 id="jsonstringify--jsonparse"><code>JSON.stringify() / JSON.parse()</code></h2>
 <p>缺点：</p>
 <ul>
-<li>忽略function/undefined/正则/symbol字段。</li>
+<li>忽略 function/undefined/正则/symbol 字段。</li>
 <li>不能处理循环引用的对象。</li>
 </ul>
 <h2 id="循环递归">循环+递归</h2>
 <p>见<a href="/util/index.html">util</a></p>
 <h2 id="structureclonevalue-transfer">structureClone(value, [transfer])</h2>
 <ul>
-<li>新api，有兼容性</li>
-<li>transfer： transfer对象组成的数组</li>
+<li>新 api，有兼容性</li>
+<li>transfer： transfer 对象组成的数组</li>
 <li>返回克隆后的对象</li>
-<li>不是js语言提供的能力，js语言的运行环境提供的能力。</li>
+<li>不是 js 语言提供的能力，js 语言的运行环境提供的能力。</li>
 </ul>
-<h2 id="messagechannel">MessageChannel</h2>
+<h2 id="messagechannel"><a href="/language/javascript/messageChannel.html">MessageChannel</a></h2>
 <pre><code>let f = (o) =&gt; {
     return new Promise((s, _j) =&gt; {
         let { port1, port2 } = nwe MessageChannel()

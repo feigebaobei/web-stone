@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>MessageChannel</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="messagechannel">MessageChannel</h1>
+<blockquote>
+<p>在web worker中可用
+可以创建一个新的消息通道，并通过各自的MessagePort属性发送数据。
+2个MessagePort对象之间可以通信。1 vs 1通信。</p>
+</blockquote>
+<p>MessageChannel() 返回2个 MessagePort对象。</p>
+<p>MessageChannel.port1
+MessageChannel.port2</p>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> {port1, port2} = <span class="hljs-keyword">new</span> <span class="hljs-title class_">MessageChannel</span>();
+port1.<span class="hljs-title function_">postMessage</span>(<span class="hljs-string">&#x27;hello&#x27;</span>);
+port2.<span class="hljs-property">onmessage</span> = <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(e.<span class="hljs-property">data</span>);
+}
+port1.<span class="hljs-property">onmessage</span> = <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(e.<span class="hljs-property">data</span>);
+}
+</code></pre>
+<h1 id="messageport">MessagePort</h1>
+<blockquote>
+<p>在web worker中可用。</p>
+</blockquote>
+<h2 id="api">api</h2>
+<pre><code class="language-js"><span class="hljs-title function_">postMessage</span>(<span class="hljs-attr">message</span>: any, transferrables?: 是否转让所有权) <span class="hljs-comment">// 给另一个MessagePort对象发消息。</span>
+<span class="hljs-title function_">postMessage</span>(<span class="hljs-attr">message</span>: any, options?: {transfer}) <span class="hljs-comment">// 给另一个MessagePort对象发消息。</span>
+<span class="hljs-title function_">start</span>() <span class="hljs-comment">// 不会</span>
+<span class="hljs-title function_">close</span>() <span class="hljs-comment">// 不会</span>
+</code></pre>
+<h1 id="windowpostmessage--messageportpostmessage">window.postMessage &amp; messagePort.postMessage</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>window.postMessage</th>
+<th>messagePort.postMessage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>1 vs n。</td>
+<td>1 vs 1。</td>
+</tr>
+<tr>
+<td></td>
+<td>每次通信都有同源检测。</td>
+<td>在初始化通信时同源检测，之后都不检测。</td>
+</tr>
+<tr>
+<td></td>
+<td>可以收到所有的window.onmessage事件发来的消息。需要在handler中判断消息来源。</td>
+<td>只能收到特定messagePort发来的消息。</td>
+</tr>
+<tr>
+<td></td>
+<td>一次性的消息</td>
+<td>必需要先创建。</td>
+</tr>
+<tr>
+<td>使用场景</td>
+<td>发一次性的消息</td>
+<td>2个MessagePort之间双向通信（main page + web worker / iframe + iframe）</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h1 id="web-worker--messagechannel">web worker &amp; messageChannel</h1>
+<pre><code class="language-js"><span class="hljs-comment">// main.js</span>
+<span class="hljs-keyword">let</span> worker1 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Worker</span>(<span class="hljs-string">&#x27;worker1.js&#x27;</span>);
+<span class="hljs-keyword">let</span> worker2 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Worker</span>(<span class="hljs-string">&#x27;worker2.js&#x27;</span>);
+<span class="hljs-keyword">let</span> ms = <span class="hljs-keyword">new</span> <span class="hljs-title class_">MessageChannel</span>();
+
+<span class="hljs-comment">// 把port1和port2分配给worker1和worker2</span>
+worker1.<span class="hljs-title function_">postMessage</span>({<span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;port&#x27;</span>, <span class="hljs-attr">port</span>: ms.<span class="hljs-property">port1</span>}, [ms.<span class="hljs-property">port1</span>]);
+worker2.<span class="hljs-title function_">postMessage</span>({<span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;port&#x27;</span>, <span class="hljs-attr">port</span>: ms.<span class="hljs-property">port2</span>}, [ms.<span class="hljs-property">port2</span>]);
+
+<span class="hljs-comment">// worker1 &amp; worker2分别接收port</span>
+worker1.<span class="hljs-property">onmessage</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) {
+    <span class="hljs-keyword">if</span> (e.<span class="hljs-property">data</span>.<span class="hljs-property">name</span> === <span class="hljs-string">&#x27;port&#x27;</span>) {
+        <span class="hljs-keyword">const</span> port = e.<span class="hljs-property">data</span>.<span class="hljs-property">port</span>;
+        port.<span class="hljs-title function_">postMessage</span>(<span class="hljs-string">&#x27;hello&#x27;</span>); <span class="hljs-comment">// 给另一个port发消息。</span>
+        port.<span class="hljs-property">onmessage</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) {
+            <span class="hljs-comment">// 接收来自另一个port的消息</span>
+            <span class="hljs-comment">// e.data</span>
+        }
+    }
+}
+</code></pre>
+
+            
+            
+        </body>
+        </html>
