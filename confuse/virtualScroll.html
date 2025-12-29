@@ -18,7 +18,8 @@
 }
 
 </style>
-            
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -140,18 +141,265 @@
         <body class="vscode-body vscode-light">
             <h1 id="虚拟滚动">虚拟滚动</h1>
 <blockquote>
-<p>同一时间只渲染我们看的见的这些DOM节点的时候，浏览器需要渲染的节点就会减少了。
+<p>同一时间只渲染我们看的见的这些 DOM 节点的时候，浏览器需要渲染的节点就会减少了。
 当滚动时，滚动列表不是真正的滚动列表，而是根据滚动的位置重新渲染可见的列表元素。当滚动时间跨度足够小时，它看起来就像是在滚动一样。
-次用户滑动造成偏移量改变，我们都会根据这个偏移量去渲染新的列表元素。就像是在一帧一帧的播放动画一样，当两帧间隔足够小时，动画看起来就会很流畅，就像是在滚动一样。
-需要记录用户操作的列表的滚动总距离virtualOffset
-监听wheel事件，每个元素的高度，算出渲染区域。
-前后增加缓存区域。当滚动距离在缓存区域内时，不重新渲染。使用transform:translateY(xx)设置。</p>
+每次用户滑动造成偏移量改变，我们都会根据这个偏移量去渲染新的列表元素。就像是在一帧一帧的播放动画一样，当两帧间隔足够小时，动画看起来就会很流畅，就像是在滚动一样。
+需要记录用户操作的列表的滚动总距离 virtualOffset
+监听 wheel 事件，每个元素的高度，算出渲染区域。
+前后增加缓存区域。当滚动距离在缓存区域内时，不重新渲染。使用 transform:translateY(xx)设置。</p>
 </blockquote>
 <h2 id="代码">代码</h2>
 <pre><code class="language-js">
 </code></pre>
+<h2 id="3种实现方式">3种实现方式</h2>
+<h3 id="元素固定高度">元素固定高度</h3>
+<h3 id="元素不固定高度">元素不固定高度</h3>
+<h3 id="元素动态高度">元素动态高度</h3>
+<h2 id="我的实现方法">我的实现方法</h2>
+<ol>
+<li>以视窗内元素的平均高度为准。赋值给一个存放所有元素高度的盒子。</li>
+<li>视窗前后缓存几个元素。在缓存距离内滚动时不重新渲染。</li>
+<li>当滚动距离超过缓存距离时，重新渲染。并更新盒子中的数据。</li>
+<li>当元素高度改变时，更新盒子中对应的数据。</li>
+</ol>
+<pre><code class="language-vue">&lt;template&gt;
+  &lt;div
+    class=&quot;contain&quot; 
+    ref=&quot;containR&quot;
+    @wheel=&quot;containWheelH&quot;
+    @scroll=&quot;containScrollH&quot;
+  &gt;
+    &lt;!-- 用一个空div撑开高度 --&gt;
+    &lt;div class=&quot;scroll_placeholder&quot;
+      :style=&quot;{ height: placeholderHeightComp + 'px' }&quot;
+    &gt;&lt;/div&gt;
+    &lt;!-- 视窗 --&gt;
+    &lt;div class=&quot;scroll_view&quot;
+      ref=&quot;viewR&quot;
+      :style=&quot;{transform: getTransform}&quot;
+    &gt;
+      &lt;!-- 渲染列表 --&gt;
+      &lt;div class=&quot;scroll_item&quot;
+        v-for=&quot;(item, index) in viewListComp&quot;
+        :key=&quot;index&quot;
+        :ref=&quot;(el) =&gt; opRef(el, (item as any).id)&quot;
+      &gt;
+      {{ (item as any).content }}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
 
-            
+&lt;script setup lang=&quot;ts&quot;&gt;
+// utils
+import { ref, reactive, onMounted,computed, watchEffect, watch } from 'vue'
+// import VirtualScroll from './VirtualScroll.js'
+// components
+// import { MsButton } from 'ms-ui'
+// check
+// config
+// directives
+// data
+// hooks
+// import { useRouter } from 'vue-router'
+// type/interface
+// custom
+let clog = console.log
+
+// defineOptions
+defineOptions({
+  // name: '',
+  // inheritAttrs: false,
+})
+// directives
+let props = defineProps({
+  originList: {
+      type: Array,
+      default: () =&gt; ([])
+  },
+  startIndex: {
+    type: Number,
+    default: 0,
+  },
+  cacheCount: {
+    type: Number,
+    default: 2,
+  },
+  itemHeight: {
+    type: Number,
+    default: 100,
+  },
+  estimutedItemHeight: { // 估计每个元素的高度
+    type: Number,
+    default: 100,
+  },
+})
+// let emit = defineEmits(['eventName'])
+// inject
+// hooks
+// variable
+// let virtualScroll = new VirtualScroll()
+// ref
+let attemptR = ref()
+let containR = ref()
+let viewR = ref()
+let boxR = reactive&lt;{
+  heightList: {
+    real: boolean,
+    height: number
+  }[],
+  startIndex: number,
+  offsetH: number,
+  endIndex: number,
+  estimutedItemHeight: number,
+}&gt;({
+  heightList: [], // props.originList.map(() =&gt; props.estimutedItemHeight), // 每个item的高度
+  startIndex: props.startIndex,
+  // startIndex: 0,
+  offsetH: 0,
+  endIndex: props.startIndex,
+  estimutedItemHeight: props.estimutedItemHeight,
+})
+// computed
+let viewListComp = computed(() =&gt; {
+    return props.originList.slice(boxR.startIndex, Math.min(boxR.endIndex, props.originList.length))
+})
+let placeholderHeightComp = computed(() =&gt; {
+    return boxR.heightList.reduce((r, cur) =&gt; {
+      return r += cur.height
+    }, 0)
+})
+let visibleCountComp = computed(() =&gt; {
+  return Math.ceil(containR.value.offsetHeight / props.itemHeight)
+  // return Math.ceil(containR.value.offsetHeight / boxR.estimutedItemHeight)
+})
+let getTransform = computed(() =&gt; {
+  return `translateY(${boxR.offsetH}px)`
+})
+// method
+let init = () =&gt; {
+  // boxR.endIndex = boxR.startIndex + visibleCountComp.value + props.cacheCount
+  let count = Math.ceil(containR.value.offsetHeight / boxR.estimutedItemHeight)
+  boxR.endIndex = boxR.startIndex + count + props.cacheCount
+  checkEndIndex()
+}
+let checkEndIndex = () =&gt; {
+  return new Promise((s, j) =&gt; {
+    if (viewR.value.offsetHeight &lt; containR.value.offsetHeight) {
+      boxR.endIndex++
+      s(true)
+    } else {
+      boxR.endIndex += props.cacheCount
+      j()
+    }
+  }).then(() =&gt; {
+    checkEndIndex()
+  }).catch(() =&gt; {
+    clog('boxR.endIndex', boxR.endIndex)
+    // clog('不做事情')
+  })
+}
+let opRef = (el: any, index: number) =&gt; {
+  if (!boxR.heightList[index]?.real) {
+    boxR.heightList[index] = {
+      real: true,
+      height: el.offsetHeight,
+    }
+  }
+}
+// provide
+// eventFn
+let containWheelH = () =&gt; {
+  let scrollTop = containR.value.scrollTop
+  boxR.startIndex = 0
+  let h = 0
+  let i = 0
+  while (i &lt; boxR.heightList.length) {
+    h += boxR.heightList[i]!.height
+    if (h &gt;= scrollTop) {
+      break;
+    }
+    boxR.startIndex++
+    i++
+  }
+  boxR.endIndex = boxR.startIndex
+  let vh = containR.value.offsetHeight
+  
+  h = 0
+  i = boxR.startIndex
+  while (h &lt; vh &amp;&amp; i &lt; boxR.heightList.length) {
+    h += boxR.heightList[i]!.height
+    i++
+  }
+  boxR.endIndex = i + props.cacheCount
+  let topStartHeight = boxR.heightList.slice(0, boxR.startIndex).reduce((r, c) =&gt; {
+    r += c.height
+    return r
+  }, 0)
+  boxR.offsetH = scrollTop + (topStartHeight - scrollTop)
+}
+let containScrollH = () =&gt; {
+  clog('containScrollH')
+  setTimeout(() =&gt; {
+    containWheelH()
+  }, 50)
+  // new Promise((s, _j) =&gt; {
+  //   s(true)
+  // }).then(() =&gt; {
+  //   containWheelH()
+  // })
+
+}
+// watch
+watchEffect(() =&gt; {
+  if (props.originList.length) {
+    boxR.heightList = props.originList.map(() =&gt; ({
+      real: false,
+      height: props.estimutedItemHeight
+    }))
+  }
+})
+// lifeCircle
+onMounted(() =&gt; {
+  init()
+})
+// expose
+// defineExpose({attemptR})
+&lt;/script&gt;
+
+&lt;style lang=&quot;less&quot; scoped&gt;
+  .contain {
+    height: 100%;
+    overflow: auto;
+    position: relative;
+
+  }
+  // .view_window {
+  //   // overflow: auto;
+  //   overflow: hidden;
+  //   border: 1px solid #aaa;
+  // }
+  .scroll_placeholder {
+    position: absolute;
+    left: 0;
+    right: 0;
+  }
+  .scroll_view {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+&lt;/style&gt;
+</code></pre>
+<p>使用</p>
+<pre><code>boxR.originList.push({
+    content: 'string '.repeat(Math.random() * 10 + 5) + i,
+    id: i,
+})
+</code></pre>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
             
         </body>
         </html>
