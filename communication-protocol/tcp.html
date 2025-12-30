@@ -241,7 +241,7 @@ URG：判断紧急指针是否有效的命令<br>
 MAC 地址<br>
 数据(Data)：上层协议数据</p>
 <h1 id="工作方式">工作方式</h1>
-<p><img src="file:////communication-protocol/tcpProcess.png" alt="工作方式"></p>
+<p><img src="/communication-protocol/tcpProcess.png" alt="工作方式"></p>
 <p>建立连接<br>
 三握<br>
 建立连接是由 tcp 建立的。应用程序不需要担心如何建立。
@@ -376,6 +376,62 @@ MAC 地址<br>
 </tbody>
 </table>
 <!-- prettier-ignore-end -->
+<h1 id="丢包时发生什么">丢包时发生什么</h1>
+<ol>
+<li>丢包重传</li>
+</ol>
+<pre><code>client          server
+|       syn        |
+|-----------------&gt;| 1
+|                  |
+|     syn/ack      |
+|&lt;-----------------| 2
+|                  |
+|        ack       |
+|-----------------&gt;| 3
+|                  |
+|                  |
+</code></pre>
+<ol>
+<li>先来3次握手</li>
+<li>数据传递时，服务端每给客户端发一次数据，客户端都回复一个ack.</li>
+</ol>
+<pre><code>client          server
+|                  |
+|    push/ack      |
+|-----------------&gt;| 4
+|        ack       |
+|&lt;-----------------| 5
+|                  |
+|    push/ack      |
+|-----------------&gt;| 6
+|        ack       |
+|&lt;-----------------| 7
+|                  |
+</code></pre>
+<ol>
+<li>再做4次挥手</li>
+</ol>
+<pre><code>client          server
+|                  |
+|     fin/ack      |
+|-----------------&gt;| 8
+|                  |
+|     fin/ack      |服务端确定没有数据发送时，把fin和ack发送一起发给客户端
+|&lt;-----------------| 9
+|                  |
+|        ack       |
+|-----------------&gt;| 10
+|                  |然后各自断开连接
+</code></pre>
+<p>当 1 传送失败时，tcp会重新发送syn（<code>Retransmission</code>）。tcp尝试x次后tcp才判定连接失败。
+当 3 传送失败时，tcp会重新发送syn/ack（<code>Retransmission</code>）。因为双方要确认是否都在同一个连接上。不是就不发送数据。
+当 4 传送失败时，tcp连接不会断。程序也不会报错。
+tcp会重新发送数据（<code>Retransmission</code>）。tcp尝试时间间隔会变长。宁可慢一点，也不跳过丢失的数据。即使后续数据已经到达，tcp也不会交给应用层。tcp的兜底方式是补齐，而不是绕过它。如果有数据一直无法到达，tcp会放弃重传，最终断开连接。
+Retransmission是tcp重传数据的核心。确定数据完整性。
+tcp对待丢包是，会通过重试可保持连接稳定，确保数据舆不丢失。它是tcp作为可靠协议的核心特性之一。</p>
+<p>次后tcp才判定连接失败。
+当 7 传送失败时，tcp会重新发送数据（<code>Retransmission</code>）。tcp尝试x次后tcp才判定连接失败。</p>
 
             
             

@@ -30,12 +30,8 @@
 
 ```vue
 <template>
-  <div
-    class="contain"
-    ref="containR"
-    @wheel="containWheelH"
-    @scroll="containScrollH"
-  >
+  <!-- @wheel="containWheelH" -->
+  <div class="contain" ref="containR" @scroll="containScrollH">
     <!-- 用一个空div撑开高度 -->
     <div
       class="scroll_placeholder"
@@ -44,6 +40,7 @@
     <!-- 视窗 -->
     <div class="scroll_view" ref="viewR" :style="{ transform: getTransform }">
       <!-- 渲染列表 -->
+      <!-- todo 大小改变时 -->
       <div
         class="scroll_item"
         v-for="(item, index) in viewListComp"
@@ -70,7 +67,7 @@ import { ref, reactive, onMounted, computed, watchEffect, watch } from 'vue'
 // import { useRouter } from 'vue-router'
 // type/interface
 // custom
-let clog = console.log
+// let clog = console.log
 
 // defineOptions
 defineOptions({
@@ -83,6 +80,7 @@ let props = defineProps({
     type: Array,
     default: () => [],
   },
+  // todo
   startIndex: {
     type: Number,
     default: 0,
@@ -105,6 +103,24 @@ let props = defineProps({
 // inject
 // hooks
 // variable
+let obj = {
+  done: false,
+  averageHeight: 0,
+}
+const user = { name: 'Alice', age: 30 } // 目标对象
+// 定义一个拦截器
+const handler = {
+  get(target: { name: string; age: number }, prop: 'name') {
+    console.log(`正在读取属性: ${String(prop)}`)
+    return target[prop] // 原始访问
+  },
+}
+
+// 创建代理
+let userProxy = new Proxy(user, handler) // userProxy 的类型会被推断为 Proxy<{ name: string; age: number; }>
+
+// 使用代理
+console.log(userProxy.name)
 // let virtualScroll = new VirtualScroll()
 // ref
 let attemptR = ref()
@@ -115,17 +131,22 @@ let boxR = reactive<{
     real: boolean
     height: number
   }[]
+  // heightList: ProxyHandler<{
+  //   real: boolean,
+  //   height: number
+  // }>[],
+  // heightList: Proxy<typeof {
+  //   real: boolean,
+  //   height: number
+  // }>[],
   startIndex: number
   offsetH: number
   endIndex: number
-  estimutedItemHeight: number
 }>({
-  heightList: [], // props.originList.map(() => props.estimutedItemHeight), // 每个item的高度
+  heightList: [],
   startIndex: props.startIndex,
-  // startIndex: 0,
   offsetH: 0,
   endIndex: props.startIndex,
-  estimutedItemHeight: props.estimutedItemHeight,
 })
 // computed
 let viewListComp = computed(() => {
@@ -139,17 +160,13 @@ let placeholderHeightComp = computed(() => {
     return (r += cur.height)
   }, 0)
 })
-let visibleCountComp = computed(() => {
-  return Math.ceil(containR.value.offsetHeight / props.itemHeight)
-  // return Math.ceil(containR.value.offsetHeight / boxR.estimutedItemHeight)
-})
 let getTransform = computed(() => {
   return `translateY(${boxR.offsetH}px)`
 })
 // method
 let init = () => {
-  // boxR.endIndex = boxR.startIndex + visibleCountComp.value + props.cacheCount
-  let count = Math.ceil(containR.value.offsetHeight / boxR.estimutedItemHeight)
+  obj.averageHeight = props.estimutedItemHeight
+  let count = Math.ceil(containR.value.offsetHeight / props.estimutedItemHeight)
   boxR.endIndex = boxR.startIndex + count + props.cacheCount
   checkEndIndex()
 }
@@ -167,18 +184,41 @@ let checkEndIndex = () => {
       checkEndIndex()
     })
     .catch(() => {
-      clog('boxR.endIndex', boxR.endIndex)
       // clog('不做事情')
     })
 }
 let opRef = (el: any, index: number) => {
   if (!boxR.heightList[index]?.real) {
-    boxR.heightList[index] = {
-      real: true,
-      height: el.offsetHeight,
-    }
+    boxR.heightList[index]!.real = true
+    boxR.heightList[index]!.height = el.offsetHeight
+    opAverageHeight()
   }
 }
+let dedounceFn = (fn: Function, delay = 300) => {
+  let timer = 0
+  return (...rest: any) => {
+    if (timer) {
+      clearTimeout(timer)
+      timer = 0
+    }
+    timer = setTimeout(() => {
+      fn.apply(this, rest)
+      clearTimeout(timer)
+      timer = 0
+    }, delay)
+  }
+}
+let opAverageHeight = dedounceFn(() => {
+  if (!obj.done) {
+    setTimeout(() => {
+      opAverageHeight()
+      let arr = boxR.heightList.filter((item) => item.real)
+      let sum = arr.reduce((a, b) => (a += b.height), 0)
+      obj.averageHeight = sum / arr.length
+      obj.done = true
+    }, 50)
+  }
+})
 // provide
 // eventFn
 let containWheelH = () => {
@@ -206,31 +246,70 @@ let containWheelH = () => {
   boxR.endIndex = i + props.cacheCount
   let topStartHeight = boxR.heightList
     .slice(0, boxR.startIndex)
-    .reduce((r, c) => {
+    .reduce((r, c, index) => {
       r += c.height
       return r
     }, 0)
   boxR.offsetH = scrollTop + (topStartHeight - scrollTop)
 }
 let containScrollH = () => {
-  clog('containScrollH')
   setTimeout(() => {
     containWheelH()
   }, 50)
-  // new Promise((s, _j) => {
-  //   s(true)
-  // }).then(() => {
-  //   containWheelH()
-  // })
 }
 // watch
 watchEffect(() => {
   if (props.originList.length) {
-    boxR.heightList = props.originList.map(() => ({
-      real: false,
-      height: props.estimutedItemHeight,
-    }))
+    boxR.heightList = props.originList.map(() => {
+      let po = new Proxy(
+        {
+          real: false,
+          height: 0,
+        },
+        {
+          get(target, key) {
+            if (key === 'height') {
+              if (target.real) {
+                return Reflect.get(target, key)
+              } else {
+                return obj.averageHeight
+              }
+            }
+            return (target as any)[key]
+          },
+        }
+      )
+      return po
+    })
+
+    // let o = {
+    //   real: false,
+    //   _height: props.estimutedItemHeight,
+    // } as unknown as {
+    //   real: boolean
+    //   height: number
+    // }
+    // Object.defineProperties(o, {
+    //   height: {
+    //     get() {
+    //       if (o.real) {
+    //         return (o as any)._height
+    //       } else {
+    //         return obj.averageHeight
+    //       }
+    //     }
+    //   }
+    // })
+    // boxR.heightList = props.originList.map(() => (o))
   }
+})
+watchEffect(() => {
+  setTimeout(() => {
+    boxR.offsetH = boxR.heightList
+      .slice(0, props.startIndex)
+      .reduce((r, c) => (r += c.height), 0)
+    containR.value.scrollTop = boxR.offsetH
+  }, 50)
 })
 // lifeCircle
 onMounted(() => {
@@ -261,6 +340,7 @@ onMounted(() => {
   top: 0;
   left: 0;
   right: 0;
+  will-change: transform;
 }
 </style>
 ```
