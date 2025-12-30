@@ -30,7 +30,6 @@
 
 ```vue
 <template>
-  <!-- @wheel="containWheelH" -->
   <div class="contain" ref="containR" @scroll="containScrollH">
     <!-- 用一个空div撑开高度 -->
     <div
@@ -185,13 +184,13 @@ let checkEndIndex = () => {
     })
     .catch(() => {
       // clog('不做事情')
+      opAverageHeight()
     })
 }
 let opRef = (el: any, index: number) => {
   if (!boxR.heightList[index]?.real) {
     boxR.heightList[index]!.real = true
     boxR.heightList[index]!.height = el.offsetHeight
-    opAverageHeight()
   }
 }
 let dedounceFn = (fn: Function, delay = 300) => {

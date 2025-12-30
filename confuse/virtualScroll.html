@@ -163,7 +163,6 @@
 <li>当元素高度改变时，更新盒子中对应的数据。</li>
 </ol>
 <pre><code class="language-vue">&lt;template&gt;
-  &lt;!-- @wheel=&quot;containWheelH&quot; --&gt;
   &lt;div
     class=&quot;contain&quot; 
     ref=&quot;containR&quot;
@@ -317,13 +316,13 @@ let checkEndIndex = () =&gt; {
     checkEndIndex()
   }).catch(() =&gt; {
     // clog('不做事情')
+    opAverageHeight()
   })
 }
 let opRef = (el: any, index: number) =&gt; {
   if (!boxR.heightList[index]?.real) {
     boxR.heightList[index]!.real = true
     boxR.heightList[index]!.height = el.offsetHeight
-    opAverageHeight()
   }
 }
 let dedounceFn = (fn: Function, delay = 300) =&gt; {
@@ -469,7 +468,6 @@ onMounted(() =&gt; {
     will-change: transform;
   }
 &lt;/style&gt;
-
 </code></pre>
 <p>使用</p>
 <pre><code>boxR.originList.push({
