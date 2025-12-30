@@ -194,7 +194,7 @@ expires / Cache-Control 可以用于非首次加载。
   - compressor 支持 JPG、PNG、SVG、GIF
 - sprite 图
 - 渐进式图片。先使用压缩图，再使用高清图。
-- 响应式图片
+- [图片响应式](/confuse/imgReactive.html)。在不同尺寸的设备上使用不同的图片。
 
 ```
 <!-- 解决了兼容性问题 -->
