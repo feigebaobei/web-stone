@@ -536,26 +536,26 @@ class 可以结合<code>decorator</code>使用，构造函数不能使用<code>d
 <pre><code>let p = new Promise&lt;T&gt;((s, j) =&gt; {...})
 </code></pre>
 <h3 id="promise--cb">promise &amp; cb</h3>
-<pre><code>let f = (p, cb) =&gt; {
-  if (cb) {
-    return new Promise((s, j) =&gt; {
-      if (condition) {
-        return s(true)
-      } else {
-        return j(new Error())
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">p, cb</span>) =&gt; {
+  <span class="hljs-keyword">if</span> (cb) {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">s, j</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (condition) {
+        <span class="hljs-keyword">return</span> <span class="hljs-title function_">s</span>(<span class="hljs-literal">true</span>)
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-title function_">j</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>())
       }
     })
-  } else {
-    new Promise((s, j) =&gt; {
-      if (condition) {
-        return s(true)
-      } else {
-        return j(new Error())
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">s, j</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (condition) {
+        <span class="hljs-keyword">return</span> <span class="hljs-title function_">s</span>(<span class="hljs-literal">true</span>)
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-title function_">j</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>())
       }
-    }).then((r) =&gt; {
-      cb(null, r)
-    }).catch((e) =&gt; {
-      cb(e, null)
+    }).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">r</span>) =&gt;</span> {
+      <span class="hljs-title function_">cb</span>(<span class="hljs-literal">null</span>, r)
+    }).<span class="hljs-title function_">catch</span>(<span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+      <span class="hljs-title function_">cb</span>(e, <span class="hljs-literal">null</span>)
     })
   }
 }
@@ -596,7 +596,8 @@ ps.<span class="hljs-title function_">reduce</span>(<span class="hljs-function">
     <span class="hljs-keyword">return</span> f
   }
 }
-<span class="hljs-comment">// aop思想中使用promise</span>
+<span class="hljs-comment">// 用aop思想使用promise</span>
+<span class="hljs-comment">// 或称为pipe式使用promise</span>
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">wrapPromise</span> = (<span class="hljs-params">pFn</span>) =&gt; {
   <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> {
     <span class="hljs-keyword">return</span> <span class="hljs-title function_">pFn</span>(...args).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {

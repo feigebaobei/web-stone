@@ -352,7 +352,7 @@ let p = new Promise<T>((s, j) => {...})
 
 ### promise & cb
 
-```
+```js
 let f = (p, cb) => {
   if (cb) {
     return new Promise((s, j) => {
@@ -369,11 +369,13 @@ let f = (p, cb) => {
       } else {
         return j(new Error())
       }
-    }).then((r) => {
-      cb(null, r)
-    }).catch((e) => {
-      cb(e, null)
     })
+      .then((r) => {
+        cb(null, r)
+      })
+      .catch((e) => {
+        cb(e, null)
+      })
   }
 }
 ```
@@ -416,7 +418,8 @@ let reqFn = (method, url, data) => {
     return f
   }
 }
-// aop思想中使用promise
+// 用aop思想使用promise
+// 或称为pipe式使用promise
 let wrapPromise = (pFn) => {
   return (...args) => {
     return pFn(...args).then((res) => {
@@ -836,7 +839,7 @@ IdleDeadline {
 - [file](/language/javascript/file.html)
 - [node](/language/javascript/node.html)
 - [range](/language/javascript/range.html)
-- [selection](/language/javascript/selection.html)
+- [performance](/language/javascript/performance.html)
 - [selection](/language/javascript/selection.html)
 - [selection](/language/javascript/selection.html)
 - [selection](/language/javascript/selection.html)

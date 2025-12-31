@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>skeleton</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="skeleton">skeleton</h1>
+<h2 id="实现方式">实现方式</h2>
+<h3 id="html--css-手写适用于简单页面">html + css 手写。适用于简单页面</h3>
+<ul>
+<li>使用div/p等标签占位。再使用liner-gradient + animate实现动画。</li>
+</ul>
+<h3 id="工具插件自动生成推荐">工具、插件自动生成（推荐）</h3>
+<ul>
+<li>微信小程序已经内置骨架屏代码。可以直接使用</li>
+<li>vue/ webpack插件 vue-skeleton-webpack-plugin + ssr</li>
+</ul>
+<h3 id="组件化实现现代框架">组件化实现（现代框架）</h3>
+<ul>
+<li>创建一个骨架屏组件。</li>
+<li>加载数据时，显示骨架屏。加载完数据后，隐藏骨架屏。</li>
+</ul>
+<h4 id="具体示例">具体示例</h4>
+<pre><code>&lt;template&gt;
+    &lt;div class=&quot;skeleton-container&quot;&gt;
+        &lt;div class=&quot;skeleton-header&quot;&gt;&lt;/div&gt;
+        &lt;div class=&quot;skeleton-body&quot;&gt;&lt;/div&gt;
+        &lt;div class=&quot;skeleton-footer&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
+&lt;style&gt; 
+    .skeleton-container {...}
+    .skeleton-header {...}
+    .skeleton-body {...}
+    .skeleton-footer {...}
+&lt;/style&gt; 
+</code></pre>
+<pre><code class="language-js">&lt;loading v-<span class="hljs-keyword">if</span>=<span class="hljs-string">&quot;loadingR === 1&quot;</span>&gt;&lt;/loading&gt;
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">pageElement</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">&quot;loadingR === 2&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">pageElement</span>&gt;</span></span>
+
+<span class="hljs-keyword">let</span> loadingR = <span class="hljs-title function_">ref</span>(<span class="hljs-number">0</span>)
+<span class="hljs-comment">// 0 不显示loading 不显示数据</span>
+<span class="hljs-comment">// 1   显示loading 不显示数据</span>
+<span class="hljs-comment">// 2 不显示loading   显示数据</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">waitP</span> = (<span class="hljs-params">t = <span class="hljs-number">500</span></span>) =&gt; {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">s, j</span>) =&gt;</span> {
+        <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {<span class="hljs-title function_">s</span>({
+            <span class="hljs-attr">res</span>: {},
+            <span class="hljs-attr">flag</span>: <span class="hljs-string">&#x27;wait&#x27;</span>
+        })}, t)
+    })
+}
+
+
+<span class="hljs-title function_">onMounted</span>(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-keyword">let</span> p0 = <span class="hljs-title function_">req</span>().<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+        <span class="hljs-keyword">return</span> {
+            res,
+            <span class="hljs-attr">flag</span>: <span class="hljs-string">&#x27;req&#x27;</span>
+        }
+    }).<span class="hljs-title function_">catch</span>(<span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">resolve</span>({
+            error,
+            <span class="hljs-attr">flag</span>: <span class="hljs-string">&#x27;req&#x27;</span>
+        })
+    })
+    <span class="hljs-keyword">let</span> p1 = <span class="hljs-title function_">waitP</span>()
+    <span class="hljs-keyword">let</span> p2 = <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">race</span>([p0, p1]).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">obj: any</span>) =&gt;</span> {
+        <span class="hljs-keyword">let</span> r
+        <span class="hljs-keyword">switch</span> (obj.<span class="hljs-property">flag</span>) {
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;req&#x27;</span>:
+                <span class="hljs-keyword">if</span> (obj.<span class="hljs-property">res</span>) {
+                    r = obj.<span class="hljs-property">res</span>
+                } <span class="hljs-keyword">else</span> {
+                    r = obj.<span class="hljs-property">error</span>
+                }
+                <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;wait&#x27;</span>:
+                loadingR.<span class="hljs-property">value</span> = <span class="hljs-number">1</span>
+                r = obj.<span class="hljs-property">res</span>
+                <span class="hljs-keyword">break</span>;
+        }
+        <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;loadingR&#x27;</span>, loadingR.<span class="hljs-property">value</span>)
+        <span class="hljs-keyword">return</span> r
+    })
+    <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">all</span>([p2, p0]).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+        loadingR.<span class="hljs-property">value</span> = <span class="hljs-number">2</span>
+        res
+        <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;loadingR&#x27;</span>, loadingR.<span class="hljs-property">value</span>)
+        <span class="hljs-keyword">return</span>
+    })
+    <span class="hljs-comment">// 请求数据，开始500后并没收响应，则显示骨架屏。</span>
+    <span class="hljs-comment">// 收到数据后关闭骨架屏。</span>
+})
+</code></pre>
+
+            
+            
+        </body>
+        </html>
