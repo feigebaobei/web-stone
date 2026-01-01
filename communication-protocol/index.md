@@ -38,9 +38,7 @@ DNS 域名系统，将域名解析为 IP 地址（将百度的域名转换为服
 
 ## 运输层的逻辑
 
-[TCP](/communication-protocol/tcp.html) [UDP](/communication-protocol/udp.html)
-
-用户数据报协议
+[TCP](/communication-protocol/tcp.html) [UDP](/communication-protocol/udp.html)用户数据报协议
 
 ## 网络层的逻辑
 
