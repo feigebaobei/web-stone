@@ -190,6 +190,7 @@ self.<span class="hljs-title function_">close</span>() <span class="hljs-comment
 <li>messageerror 当数据无法序列化为字符串时触发</li>
 </ul>
 <h1 id="worker-api">worker api</h1>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -266,6 +267,7 @@ self.<span class="hljs-title function_">close</span>() <span class="hljs-comment
 </tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
 <h1 id="原型">原型</h1>
 <pre><code>EventTarget &lt;--- Worker
 </code></pre>
@@ -444,12 +446,8 @@ pollingWorker.<span class="hljs-title function_">postMessage</span>(<span class=
 </tr>
 </tbody>
 </table>
-<h1 id="共享-worker">共享 worker</h1>
-<pre><code class="language-js"><span class="hljs-keyword">let</span> myWorker = <span class="hljs-keyword">new</span> <span class="hljs-title class_">SharedWorker</span>(<span class="hljs-string">&#x27;worker.js&#x27;</span>)
-myWorker.<span class="hljs-property">port</span>.<span class="hljs-title function_">start</span>() <span class="hljs-comment">// work线程间需要通信时，需要调用start()方法。父线程调用</span>
-port.<span class="hljs-title function_">start</span>() <span class="hljs-comment">// 当前（子）线程调用</span>
-myWorker.<span class="hljs-property">port</span>.<span class="hljs-title function_">postMessage</span>(value)
-</code></pre>
+<h2 id="共享-worker"><a href="/pwa/sharedWorker.html">共享 worker</a></h2>
+<p>SharedWorker</p>
 <h2 id="专用-worke--共享-worker">专用 worke &amp; 共享 worker</h2>
 <table>
 <thead>
@@ -503,16 +501,28 @@ myWorker.<span class="hljs-property">port</span>.<span class="hljs-title functio
 transferList。常见的有 <span class="hljs-title class_">ArrayBuffer</span>、<span class="hljs-title class_">ImageBitmap</span>、<span class="hljs-title class_">MessagePort</span>、<span class="hljs-title class_">OffscreenCanvas</span> 等.
 </code></pre>
 <p>转移所有权不是复制，会提高性能。</p>
-<pre><code>// 主线程
-const myWorker = new Worker('worker.js');
-const buffer = new ArrayBuffer(1024); // 创建一个ArrayBuffer
+<pre><code class="language-js"><span class="hljs-comment">// 主线程</span>
+<span class="hljs-keyword">const</span> myWorker = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Worker</span>(<span class="hljs-string">&#x27;worker.js&#x27;</span>); <span class="hljs-comment">// url必须与创建者同源。</span>
+<span class="hljs-keyword">const</span> buffer = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayBuffer</span>(<span class="hljs-number">1024</span>); <span class="hljs-comment">// 创建一个ArrayBuffer</span>
 
-// 1. 发送数据 (没有转移)
-myWorker.postMessage({ data: 'Hello Worker' });
+<span class="hljs-comment">// 1. 发送数据 (没有转移)</span>
+myWorker.<span class="hljs-title function_">postMessage</span>({ <span class="hljs-attr">data</span>: <span class="hljs-string">&#x27;Hello Worker&#x27;</span> });
 
-// 2. 发送数据并转移所有权
-// buffer所有权转移给worker，主线程的buffer变空
-myWorker.postMessage({ bufferData: buffer }, [buffer]);
+<span class="hljs-comment">// 2. 发送数据并转移所有权</span>
+<span class="hljs-comment">// buffer所有权转移给worker，主线程的buffer变空</span>
+myWorker.<span class="hljs-title function_">postMessage</span>({ <span class="hljs-attr">bufferData</span>: buffer }, [buffer]);
+</code></pre>
+<h2 id="api">api</h2>
+<pre><code class="language-js"><span class="hljs-attr">sharedWorkder</span>: {
+  <span class="hljs-attr">onerror</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params">e</span>) {},
+  <span class="hljs-attr">port</span>: {<span class="hljs-comment">// MessagePort</span>
+    <span class="hljs-attr">onmessage</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params">e</span>) {},
+    <span class="hljs-attr">onmessageerror</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params">e</span>) {},
+    <span class="hljs-comment">// close: function () {},</span>
+    <span class="hljs-attr">start</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {},
+    <span class="hljs-attr">postMessage</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params">p</span>) {},
+  },
+}
 </code></pre>
 <h1 id="todo">todo</h1>
 <h2 id="为什么多个页面会共用一个-worker-呢">为什么多个页面会共用一个 worker 呢？</h2>

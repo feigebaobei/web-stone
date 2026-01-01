@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>SharedWorker</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="sharedworker">SharedWorker</h1>
+<blockquote>
+<p>SharedWorker 是一个多线程的 Web Worker，它可以被多个页面共享。
+在同源策略下多个页面可以连接同一个共享的 Worker。
+其生命周期独立于页面。即使所有关联的页面都关闭了，Worker 线程也不会停止。在所有页面关闭时，Worker 线程会收到一个关闭事件。
+支持同域下多个页面通信。因它们可以共享一个 Worker。
+使用场景
+多标签页面的状态同步。如同一个用户在多个标签页下登录后在其他标签页自动更新。
+实时协作工具。如文档编辑器，多个用户同时编辑同一个文档。
+交易系统。当一个页面在发生交易时，其他页面可以实时更新。
+没有close事件
+相关页面关闭时自动断开连接。
+当前设备上所有相关页面都断开连接时，SharedWorker 也会更新。</p>
+</blockquote>
+<h2 id="调试">调试</h2>
+<p><code>chrome://inspect/#workers</code></p>
+<h2 id="api">api</h2>
+<pre><code class="language-js"><span class="hljs-comment">// 构造函数</span>
+<span class="hljs-keyword">new</span> <span class="hljs-title class_">SharedWorker</span>(url) <span class="hljs-comment">// 同域的url</span>
+<span class="hljs-keyword">new</span> <span class="hljs-title class_">SharedWorker</span>(url, name?) 
+<span class="hljs-keyword">new</span> <span class="hljs-title class_">SharedWorker</span>(url, options?: {
+    type?: <span class="hljs-string">&#x27;classic&#x27;</span> | <span class="hljs-string">&#x27;module&#x27;</span> <span class="hljs-comment">// default: &#x27;classic&#x27;</span>
+    credentials?: <span class="hljs-string">&#x27;include&#x27;</span> | <span class="hljs-string">&#x27;omit&#x27;</span> | <span class="hljs-string">&#x27;same-origin&#x27;</span>, <span class="hljs-comment">// default: &#x27;omit&#x27;</span>
+    name?: string,
+    <span class="hljs-attr">sameSiteCookies</span>: <span class="hljs-string">&#x27;all&#x27;</span> | <span class="hljs-string">&#x27;none&#x27;</span> <span class="hljs-comment">// </span>
+})
+
+<span class="hljs-comment">// 事件</span>
+onconnect
+实例化时触发
+
+onerror
+onmessage
+onmessageerror
+
+<span class="hljs-comment">// 方法</span>
+<span class="hljs-title function_">start</span>() <span class="hljs-comment">// 必须执行此方法才能执行postMessage(). onmessage()稳式调用了start方法。 </span>
+<span class="hljs-comment">// 使用 addEventListener 时所需。否则由 onmessage 设置器隐式调用。</span>
+<span class="hljs-comment">// port.postMessage(message, transfer?) // </span>
+
+<span class="hljs-title function_">postMessage</span>(message, transfer?)
+
+<span class="hljs-comment">// 属性</span>
+</code></pre>
+<h2 id="demo-todo">demo todo</h2>
+<p>sharedWorker.js</p>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> clog = <span class="hljs-variable language_">console</span>.<span class="hljs-property">log</span>
+<span class="hljs-keyword">let</span> portMap = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>()
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">setPortMap</span> = (<span class="hljs-params">port</span>) =&gt; {
+    portMap.<span class="hljs-title function_">set</span>(port, <span class="hljs-title class_">Symbol</span>())
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">deletePortMap</span> = (<span class="hljs-params">port</span>) =&gt; {
+    portMap.<span class="hljs-title function_">delete</span>(port)
+}
+
+onconnect = <span class="hljs-keyword">function</span> (<span class="hljs-params">event</span>) {
+    <span class="hljs-keyword">const</span> port = event.<span class="hljs-property">ports</span>[<span class="hljs-number">0</span>];
+    <span class="hljs-title function_">setPortMap</span>(port)
+    <span class="hljs-keyword">let</span> f = <span class="hljs-keyword">function</span> (<span class="hljs-params">e</span>) {
+        <span class="hljs-keyword">switch</span> (e.<span class="hljs-property">data</span>.<span class="hljs-property">type</span>) {
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;close&#x27;</span>:
+                port.<span class="hljs-title function_">removeEventListener</span>(<span class="hljs-string">&#x27;message&#x27;</span>, f)
+                <span class="hljs-title function_">deletePortMap</span>(port)
+                <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;message&#x27;</span>:
+            <span class="hljs-attr">default</span>:
+                portMap.<span class="hljs-title function_">keys</span>().<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">portItem</span> =&gt;</span> {
+                    <span class="hljs-keyword">if</span> (portItem !== port) {
+                        portItem.<span class="hljs-title function_">postMessage</span>(e.<span class="hljs-property">data</span>.<span class="hljs-property">payload</span>)
+                    }
+                });
+                <span class="hljs-keyword">break</span>;
+        }
+    };
+    <span class="hljs-comment">//   port.onmessage = f</span>
+    port.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;message&#x27;</span>, f)
+    port.<span class="hljs-title function_">start</span>()
+};
+
+</code></pre>
+<p>page.js</p>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> clog = <span class="hljs-variable language_">console</span>.<span class="hljs-property">log</span>;
+<span class="hljs-keyword">let</span> sharedWorker = <span class="hljs-keyword">new</span> <span class="hljs-title class_">SharedWorker</span>(<span class="hljs-string">&#x27;./sharedWorker.js&#x27;</span>);
+
+sharedWorker.<span class="hljs-property">port</span>.<span class="hljs-title function_">start</span>();
+sharedWorker.<span class="hljs-property">port</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;message&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;sharedWorker.port.onmessage&#x27;</span>, e.<span class="hljs-property">data</span>);
+})
+sharedWorker.<span class="hljs-property">port</span>.<span class="hljs-title function_">postMessage</span>({<span class="hljs-attr">payload</span>: [<span class="hljs-number">2</span>, <span class="hljs-number">3</span>], <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;message&#x27;</span>});
+
+<span class="hljs-variable language_">window</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;beforeunload&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+    sharedWorker.<span class="hljs-property">port</span>.<span class="hljs-title function_">postMessage</span>({<span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;close&#x27;</span>})
+})
+</code></pre>
+<p><strong>在多个浏览器tab页面中打开同一个发消息的页面，则这些页面都会发消息。</strong>
+在连接时没有找到标记port惟一的字段。</p>
+
+            
+            
+        </body>
+        </html>

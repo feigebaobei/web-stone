@@ -56,17 +56,19 @@ importScripts('filejs.js', ...) // 无返回值
 
 # worker api
 
-| Worker |                                                      | 说明                       | 返回值                    |     |
-| ------ | ---------------------------------------------------- | -------------------------- | ------------------------- | --- |
-|        | new Worker(url, options?: {type, credentials, name}) |                            | worker 对象               |     |
-| 属性   |                                                      |                            |                           |     |
-| 方法   |                                                      |                            |                           |     |
-|        | postMessage(data)                                    | 把数值转移给 worker        |                           |     |
-|        | terminate()                                          | 停止指定的线程             |                           |     |
-| 事件   |                                                      |                            |                           |     |
-|        | onerror                                              | 当 worker 中出错是触发     |                           |     |
-|        | onmessage                                            | 当父线程传递过来信息时触发 | event.data 是传递来的数据 |     |
-|        | onmessageerror                                       | 当消息不能序列化时触发     |                           |     |
+<!-- prettier-ignore-start -->
+| Worker |          | 说明 | 返回值 |     |
+| ------ | ---------------- | ---- | -------- | --- |
+|        | new Worker(url, options?: {type, credentials, name}) |         | worker 对象               |     |
+| 属性   |                |         |        |     |
+| 方法   |                |         |        |     |
+|        | postMessage(data)                 | 把数值转移给 worker        |        |     |
+|        | terminate()    | 停止指定的线程             |        |     |
+| 事件   |                |         |        |     |
+|        | onerror        | 当 worker 中出错是触发     |        |     |
+|        | onmessage      | 当父线程传递过来信息时触发 | event.data 是传递来的数据 |     |
+|        | onmessageerror | 当消息不能序列化时触发     |        |     |
+<!-- prettier-ignore-end -->
 
 # 原型
 
@@ -153,14 +155,9 @@ pollingWorker.postMessage('init');
 |     | setTimeout()/clearTimeout()/setInterval()/clearInterval() |                     |     |
 |     |                                                           |                     |     |
 
-# 共享 worker
+## [共享 worker](/pwa/sharedWorker.html)
 
-```js
-let myWorker = new SharedWorker('worker.js')
-myWorker.port.start() // work线程间需要通信时，需要调用start()方法。父线程调用
-port.start() // 当前（子）线程调用
-myWorker.port.postMessage(value)
-```
+SharedWorker
 
 ## 专用 worke & 共享 worker
 
@@ -181,17 +178,32 @@ transferList。常见的有 ArrayBuffer、ImageBitmap、MessagePort、OffscreenC
 
 转移所有权不是复制，会提高性能。
 
-```
+```js
 // 主线程
-const myWorker = new Worker('worker.js');
-const buffer = new ArrayBuffer(1024); // 创建一个ArrayBuffer
+const myWorker = new Worker('worker.js') // url必须与创建者同源。
+const buffer = new ArrayBuffer(1024) // 创建一个ArrayBuffer
 
 // 1. 发送数据 (没有转移)
-myWorker.postMessage({ data: 'Hello Worker' });
+myWorker.postMessage({ data: 'Hello Worker' })
 
 // 2. 发送数据并转移所有权
 // buffer所有权转移给worker，主线程的buffer变空
-myWorker.postMessage({ bufferData: buffer }, [buffer]);
+myWorker.postMessage({ bufferData: buffer }, [buffer])
+```
+
+## api
+
+```js
+sharedWorkder: {
+  onerror: function (e) {},
+  port: {// MessagePort
+    onmessage: function (e) {},
+    onmessageerror: function (e) {},
+    // close: function () {},
+    start: function () {},
+    postMessage: function (p) {},
+  },
+}
 ```
 
 # todo
