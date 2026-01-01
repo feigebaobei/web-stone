@@ -141,7 +141,10 @@
         <body class="vscode-body vscode-light">
             <h1 id="跨域">跨域</h1>
 <h2 id="定义">定义</h2>
-<p>协议、域名、端口号，三者中只要有一个不同，就会跨域。</p>
+<blockquote>
+<p>协议、域名、端口号，三者中只要有一个不同，就会跨域。
+只在浏览器中发生。服务器之间不会跨域。</p>
+</blockquote>
 <h2 id="解决方案">解决方案</h2>
 <p>推荐使用 cors 方案</p>
 <h3 id="cors">cors</h3>
@@ -188,10 +191,144 @@ router.<span class="hljs-title function_">get</span>(<span class="hljs-string">&
 
 </code></pre>
 <h3 id="windowname--iframe"><a href="http://window.name">window.name</a> + iframe</h3>
+<pre><code class="language-js"><span class="hljs-keyword">var</span> proxy = <span class="hljs-keyword">function</span>(<span class="hljs-params">url, callback</span>) {
+    <span class="hljs-keyword">var</span> state = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> iframe = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&#x27;iframe&#x27;</span>);
+
+    <span class="hljs-comment">// 加载跨域页面</span>
+    iframe.<span class="hljs-property">src</span> = url;
+
+    <span class="hljs-comment">// onload事件会触发2次，第1次加载跨域页，并留存数据于window.name</span>
+    iframe.<span class="hljs-property">onload</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-keyword">if</span> (state === <span class="hljs-number">1</span>) {
+            <span class="hljs-comment">// 第2次onload(同域proxy页)成功后，读取同域window.name中数据</span>
+            <span class="hljs-title function_">callback</span>(iframe.<span class="hljs-property">contentWindow</span>.<span class="hljs-property">name</span>);
+            <span class="hljs-title function_">destoryFrame</span>();
+
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (state === <span class="hljs-number">0</span>) {
+            <span class="hljs-comment">// 第1次onload(跨域页)成功后，切换到同域代理页面</span>
+            iframe.<span class="hljs-property">contentWindow</span>.<span class="hljs-property">location</span> = <span class="hljs-string">&#x27;http://www.domain1.com/proxy.html&#x27;</span>;
+            state = <span class="hljs-number">1</span>;
+        }
+    };
+
+    <span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-title function_">appendChild</span>(iframe);
+
+    <span class="hljs-comment">// 获取数据以后销毁这个iframe，释放内存；这也保证了安全（不被其他域frame js访问）</span>
+    <span class="hljs-keyword">function</span> <span class="hljs-title function_">destoryFrame</span>(<span class="hljs-params"></span>) {
+        iframe.<span class="hljs-property">contentWindow</span>.<span class="hljs-property">document</span>.<span class="hljs-title function_">write</span>(<span class="hljs-string">&#x27;&#x27;</span>);
+        iframe.<span class="hljs-property">contentWindow</span>.<span class="hljs-title function_">close</span>();
+        <span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-title function_">removeChild</span>(iframe);
+    }
+};
+
+<span class="hljs-comment">// 请求跨域b页面数据</span>
+<span class="hljs-title function_">proxy</span>(<span class="hljs-string">&#x27;http://www.domain2.com/b.html&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params">data</span>){
+    <span class="hljs-title function_">alert</span>(data);
+});
+</code></pre>
+<pre><code class="language-js"><span class="hljs-variable language_">window</span>.<span class="hljs-property">name</span> = <span class="hljs-string">&#x27;xxxx&#x27;</span>
+</code></pre>
 <h3 id="locationhash--iframe">location.hash + iframe</h3>
+<p>只适用于同域。</p>
+<pre><code class="language-js"><span class="hljs-comment">// 父页面</span>
+iframe.<span class="hljs-property">src</span> = <span class="hljs-string">&#x27;xxx.html#k=v&#x27;</span> <span class="hljs-comment">// 改变子页面的hash</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">cb</span>(<span class="hljs-params">params</span>) {...}
+</code></pre>
+<pre><code class="language-js"><span class="hljs-comment">// 子页面</span>
+<span class="hljs-variable language_">window</span>.<span class="hljs-property">onhashchange</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">let</span> params = <span class="hljs-string">&#x27;xxx&#x27;</span>
+    <span class="hljs-variable language_">window</span>.<span class="hljs-property">parent</span>.<span class="hljs-title function_">cb</span>(params) <span class="hljs-comment">// 调用父页面在方法</span>
+}
+</code></pre>
 <h3 id="documentdomain--iframe">document.domain + iframe</h3>
+<p>只适用于主域相同的2个窗口。
+两个页面都通过js强制设置document.domain为基础主域，就实现了同域。</p>
+<pre><code class="language-js"><span class="hljs-comment">// 父窗口</span>
+<span class="hljs-variable language_">document</span>.<span class="hljs-property">domain</span> = <span class="hljs-string">&#x27;xxx.com&#x27;</span>;
+<span class="hljs-keyword">var</span> user = <span class="hljs-string">&#x27;xxx&#x27;</span>
+</code></pre>
+<pre><code class="language-js"><span class="hljs-comment">// 子窗口</span>
+<span class="hljs-variable language_">document</span>.<span class="hljs-property">domain</span> = <span class="hljs-string">&#x27;xxx.com&#x27;</span>;
+<span class="hljs-variable language_">window</span>.<span class="hljs-property">parent</span>.<span class="hljs-property">user</span>; <span class="hljs-comment">// 访问user变量</span>
+</code></pre>
 <h3 id="nginx">nginx</h3>
+<ul>
+<li>设置回馈头，同cors.</li>
+<li>同域时，不操作。</li>
+<li>反向代理。</li>
+</ul>
+<pre><code>server {
+    listen 80;
+    server_name example.com;
+    location / {
+        proxy_pass http://127.0.0.1:8080;
+        index index.html;
+        proxy_cookie_domain example.com;
+        add_header Access-Control-Allow-Origin *;
+        add_header Access-Control-Allow-Credentials true;
+        add_header Access-Control-Allow-Headers &quot;X-Requested-With,Content-Type,Accept,Origin,Authorization&quot;;
+        add_header Access-Control-Allow-Methods &quot;POST, GET, OPTIONS, DELETE, PUT&quot;;
+    }
+}
+</code></pre>
 <h3 id="websocket">WebSocket</h3>
+<p>原生websocket api。
+socket.io封闭了websocket api。</p>
+<pre><code class="language-js">&lt;script src=<span class="hljs-string">&quot;https://cdn.bootcss.com/socket.io/2.2.0/socket.io.js&quot;</span>&gt;&lt;/script&gt;
+&lt;script&gt;
+<span class="hljs-keyword">var</span> socket = <span class="hljs-title function_">io</span>(<span class="hljs-string">&#x27;http://www.domain2.com:8080&#x27;</span>);
+socket.<span class="hljs-title function_">on</span>(<span class="hljs-string">&#x27;connect&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-comment">// 监听服务端发送的消息</span>
+    socket.<span class="hljs-title function_">on</span>(<span class="hljs-string">&#x27;message&#x27;</span>, <span class="hljs-keyword">function</span> (<span class="hljs-params">msg</span>) {
+        ...
+    });
+    <span class="hljs-comment">// 监听服务端关闭</span>
+    socket.<span class="hljs-title function_">on</span>(<span class="hljs-string">&#x27;disconnect&#x27;</span>, <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {})
+})
+socket.<span class="hljs-title function_">send</span>(xxx) <span class="hljs-comment">// 发送消息给服务端</span>
+</code></pre>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> socket = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;socket.io&#x27;</span>)
+socket.<span class="hljs-title function_">listen</span>(server).<span class="hljs-title function_">on</span>(<span class="hljs-string">&#x27;connection&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params">client</span>) {
+    <span class="hljs-comment">// 监听客户端发送的消息</span>
+    client.<span class="hljs-title function_">on</span>(<span class="hljs-string">&#x27;message&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params">data</span>) {})
+    <span class="hljs-comment">// 断开处理</span>
+    client.<span class="hljs-title function_">on</span>(<span class="hljs-string">&#x27;disconnect&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params">data</span>) {})
+})
+</code></pre>
+<h3 id="中间件代理跨域">中间件代理跨域</h3>
+<p>node + vue + webpack + webpack-dev-server</p>
+<pre><code class="language-js"><span class="hljs-comment">// webpack.config.js</span>
+<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = {
+    <span class="hljs-attr">entry</span>: <span class="hljs-string">&quot;./src/index.js&quot;</span>,
+    <span class="hljs-attr">moudles</span>: {},
+    ...
+    <span class="hljs-attr">devServer</span>: {
+        <span class="hljs-attr">proxy</span>: [{
+            <span class="hljs-attr">context</span>: <span class="hljs-string">&#x27;/api&#x27;</span>,
+            <span class="hljs-attr">target</span>: <span class="hljs-string">&#x27;http://localhost:8080&#x27;</span>, <span class="hljs-comment">// 代理目标地址</span>
+            <span class="hljs-attr">changeOrigin</span>: <span class="hljs-literal">true</span>,
+            <span class="hljs-attr">secure</span>: <span class="hljs-literal">false</span>,
+            <span class="hljs-attr">cookieDomainRewrite</span>: <span class="hljs-string">&#x27;localhost&#x27;</span>
+        }]
+    }
+}
+</code></pre>
+<p>node + express + http-proxy-middleware</p>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> proxy = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;http-proxy-middleware&#x27;</span>);
+route.<span class="hljs-title function_">use</span>(<span class="hljs-string">&#x27;/&#x27;</span>, <span class="hljs-title function_">proxy</span>({
+    <span class="hljs-attr">target</span>: <span class="hljs-string">&#x27;http://localhost:8080&#x27;</span>,
+    <span class="hljs-attr">changeOrigin</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">onProxyReq</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params">proxyReq, req, res, options</span>) {
+        res.<span class="hljs-property">headers</span>[<span class="hljs-string">&#x27;Access-Control-Allow-origin&#x27;</span>] = <span class="hljs-string">&#x27;*&#x27;</span>;
+        res.<span class="hljs-property">headers</span>[<span class="hljs-string">&#x27;Access-Control-Allow-Credentials&#x27;</span>] = <span class="hljs-string">&#x27;....&#x27;</span>;
+        res.<span class="hljs-property">headers</span>[<span class="hljs-string">&#x27;Access-Control-Allow-Methods&#x27;</span>] = <span class="hljs-string">&#x27;....&#x27;</span>;
+        res.<span class="hljs-property">headers</span>[<span class="hljs-string">&#x27;Access-Control-Allow-headers&#x27;</span>] = <span class="hljs-string">&#x27;....&#x27;</span>;
+    }
+}))
+</code></pre>
+<h3 id="代理服务器">代理服务器</h3>
+<p>同nginx</p>
 
             <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
             
