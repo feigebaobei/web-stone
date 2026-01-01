@@ -58,7 +58,7 @@
 - [优化用户体验](/confuse/ux.html)
 - [骨架屏](/confuse/skeleton.html)
 - [web worker & service worker & shared worker](/confuse/worker3.html)
-- [title](/confuse/title.html)
+- [正向代理 & 反向代理](/confuse/forwardProxyReverseProxy.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
 

@@ -18,7 +18,8 @@
 }
 
 </style>
-            
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -144,15 +145,55 @@
 <h2 id="解决方案">解决方案</h2>
 <p>推荐使用 cors 方案</p>
 <h3 id="cors">cors</h3>
+<p>cross-origin resource sharing</p>
+<pre><code class="language-js"><span class="hljs-comment">// 前端正常请求</span>
+<span class="hljs-comment">// 后端设置回馈头</span>
+res.<span class="hljs-title function_">setHeader</span>(<span class="hljs-string">&#x27;Access-Control-Allow-Origin&#x27;</span>, <span class="hljs-string">&#x27;*&#x27;</span>);
+res.<span class="hljs-title function_">setHeader</span>(<span class="hljs-string">&#x27;Access-Control-Allow-Methods&#x27;</span>, <span class="hljs-string">&#x27;GET, POST, PUT, DELETE&#x27;</span>);
+res.<span class="hljs-title function_">setHeader</span>(<span class="hljs-string">&#x27;Access-Control-Allow-Headers&#x27;</span>, <span class="hljs-string">&#x27;Content-Type&#x27;</span>);
+res.<span class="hljs-title function_">setHeader</span>(<span class="hljs-string">&#x27;Access-Control-Allow-Credentials&#x27;</span>, <span class="hljs-literal">true</span>);
+</code></pre>
+<p><a href="/confuse/front&amp;end.html">front&amp;end</a></p>
 <h3 id="postmessage"><a href="/language/javascript/postMessage.html">postMessage</a></h3>
 <h3 id="jsonp">jsonp</h3>
+<p>原理：利用<code>&lt;script&gt;</code>标签没有跨域限制。</p>
+<p>具体操作：</p>
+<ol>
+<li>在script标签的src属性中添加一个callback参数。（也可以是别的参数名。要求上下文一致。）这是get请求。</li>
+<li>在客户端定义一个callback值的函数。</li>
+<li>服务端在no.1中解析出callback值。并拼凑出调用此函数的js代码。</li>
+</ol>
+<blockquote>
+<p>前端定义好一个cb方法。
+让后端给一个调用cb方法的js代码。要求给cb喂入参数。</p>
+</blockquote>
+<p>不足：只能发送get请求=</p>
+<pre><code class="language-js"><span class="hljs-comment">// 纯js</span>
+<span class="hljs-keyword">var</span> script = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&#x27;script&#x27;</span>);
+script.<span class="hljs-property">type</span> = <span class="hljs-string">&#x27;text/javascript&#x27;</span>;
+<span class="hljs-comment">// 传参一个回调函数名给后端，方便后端返回时执行这个在前端定义的回调函数</span>
+script.<span class="hljs-property">src</span> = <span class="hljs-string">&#x27;http://www.domain2.com:8080/login?user=admin&amp;callback=handleCallback&#x27;</span>;
+<span class="hljs-variable language_">document</span>.<span class="hljs-property">head</span>.<span class="hljs-title function_">appendChild</span>(script);
+<span class="hljs-comment">// 回调执行函数</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">handleCallback</span>(<span class="hljs-params">res</span>) {
+    <span class="hljs-title function_">alert</span>(<span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(res));
+}
+
+<span class="hljs-comment">// server</span>
+router.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;/xxx&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
+    <span class="hljs-keyword">let</span> fn = xxx.<span class="hljs-property">callback</span>; <span class="hljs-comment">// 这是字符串</span>
+    res.<span class="hljs-title function_">writeHead</span>(<span class="hljs-number">200</span>, {<span class="hljs-string">&#x27;Content-Type&#x27;</span>: <span class="hljs-string">&#x27;text/html;charset=utf-8&#x27;</span>})
+    res.<span class="hljs-title function_">write</span>(<span class="hljs-string">`fn(<span class="hljs-subst">${params}</span>)`</span>)
+})
+
+</code></pre>
 <h3 id="windowname--iframe"><a href="http://window.name">window.name</a> + iframe</h3>
 <h3 id="locationhash--iframe">location.hash + iframe</h3>
 <h3 id="documentdomain--iframe">document.domain + iframe</h3>
 <h3 id="nginx">nginx</h3>
 <h3 id="websocket">WebSocket</h3>
 
-            
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
             
         </body>
         </html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x6b63;&#x5411;&#x4ee3;&#x7406;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="正向代理">正向代理</h1>
+<p>正向代理是一种位于客户端和服务器之间的代理服务器。客户端将请求发送给正向代理，然后由代理服务器将请求转发给目标服务器。服务器将响应返回给代理服务器，再由代理服务器将响应转发给客户端。正向代理对客户端是透明的，客户端无需知道实际服务器的地址。</p>
+<pre><code>    client &lt;----&gt; proxy &lt;----&gt; server0
+                    |&lt;-------&gt; server1
+                    |&lt;-------&gt; server2
+                    |&lt;-------&gt; server3
+</code></pre>
+<p>使用场景</p>
+<ul>
+<li>隐藏客户端身份</li>
+<li>访问控制</li>
+<li>缓存加速</li>
+</ul>
+<h1 id="反向代理">反向代理</h1>
+<p>反向代理是一种位于服务器和客户端之间的代理服务器。客户端将请求发送给反向代理，然后由代理服务器根据一定的规则将请求转发给后端服务器。后端服务器将响应返回给代理服务器，再由代理服务器将响应转发给客户端。反向代理对客户端是透明的，客户端无需知道实际服务器的地址,只需将反向代理当作目标服务器一样发送请求就可以了。</p>
+<p>使用场景：</p>
+<ol>
+<li>web应用</li>
+<li>api网关</li>
+<li>cdn加速</li>
+</ol>
+<h1 id="相同点">相同点</h1>
+<ol>
+<li>位置和功能： 正向代理和反向代理都位于客户端和真实服务器之间，它们的主要功能都是将客户端的请求转发给服务器，然后再将服务器的响应转发给客户端。</li>
+<li>提高访问速度： 两者都能通过缓存机制提高访问速度。当客户端请求某个资源时，如果代理服务器已经缓存了该资源，就可以直接从缓存中提供，而无需再次从原始服务器获取，从而节省了时间和带宽。</li>
+</ol>
+<h1 id="不同点">不同点</h1>
+<ol>
+<li>代理对象： 正向代理是为客户端提供代理服务，即服务器不知道真正的客户端是谁。而反向代理则是为服务器提供代理服务，即客户端不知道真正的服务器是谁。</li>
+<li>架设位置： 正向代理通常是由客户端架设的，而反向代理则是由服务器架设的。</li>
+<li>用途和目的： 正向代理的主要用途是为在防火墙内的局域网客户端提供访问Internet的途径，侧重于解决访问限制问题。而反向代理的主要用途是将防火墙后面的服务器提供给Internet用户访问，其目的在于实现负载均衡、安全防护等。</li>
+<li>服务对象： 在正向代理中，服务器不知道真正的用户是谁；而在反向代理中，用户不知道真正的服务器是谁。</li>
+</ol>
+
+            
+            
+        </body>
+        </html>
