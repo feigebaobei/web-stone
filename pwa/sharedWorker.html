@@ -148,7 +148,7 @@
 多标签页面的状态同步。如同一个用户在多个标签页下登录后在其他标签页自动更新。
 实时协作工具。如文档编辑器，多个用户同时编辑同一个文档。
 交易系统。当一个页面在发生交易时，其他页面可以实时更新。
-没有close事件
+没有 close 事件
 相关页面关闭时自动断开连接。
 当前设备上所有相关页面都断开连接时，SharedWorker 也会更新。</p>
 </blockquote>
@@ -157,12 +157,12 @@
 <h2 id="api">api</h2>
 <pre><code class="language-js"><span class="hljs-comment">// 构造函数</span>
 <span class="hljs-keyword">new</span> <span class="hljs-title class_">SharedWorker</span>(url) <span class="hljs-comment">// 同域的url</span>
-<span class="hljs-keyword">new</span> <span class="hljs-title class_">SharedWorker</span>(url, name?) 
+<span class="hljs-keyword">new</span> <span class="hljs-title class_">SharedWorker</span>(url, name?)
 <span class="hljs-keyword">new</span> <span class="hljs-title class_">SharedWorker</span>(url, options?: {
     type?: <span class="hljs-string">&#x27;classic&#x27;</span> | <span class="hljs-string">&#x27;module&#x27;</span> <span class="hljs-comment">// default: &#x27;classic&#x27;</span>
     credentials?: <span class="hljs-string">&#x27;include&#x27;</span> | <span class="hljs-string">&#x27;omit&#x27;</span> | <span class="hljs-string">&#x27;same-origin&#x27;</span>, <span class="hljs-comment">// default: &#x27;omit&#x27;</span>
     name?: string,
-    <span class="hljs-attr">sameSiteCookies</span>: <span class="hljs-string">&#x27;all&#x27;</span> | <span class="hljs-string">&#x27;none&#x27;</span> <span class="hljs-comment">// </span>
+    <span class="hljs-attr">sameSiteCookies</span>: <span class="hljs-string">&#x27;all&#x27;</span> | <span class="hljs-string">&#x27;none&#x27;</span> <span class="hljs-comment">//</span>
 })
 
 <span class="hljs-comment">// 事件</span>
@@ -174,66 +174,65 @@ onmessage
 onmessageerror
 
 <span class="hljs-comment">// 方法</span>
-<span class="hljs-title function_">start</span>() <span class="hljs-comment">// 必须执行此方法才能执行postMessage(). onmessage()稳式调用了start方法。 </span>
+<span class="hljs-title function_">start</span>() <span class="hljs-comment">// 必须执行此方法才能执行postMessage(). onmessage()稳式调用了start方法。</span>
 <span class="hljs-comment">// 使用 addEventListener 时所需。否则由 onmessage 设置器隐式调用。</span>
-<span class="hljs-comment">// port.postMessage(message, transfer?) // </span>
+<span class="hljs-comment">// port.postMessage(message, transfer?) //</span>
 
 <span class="hljs-title function_">postMessage</span>(message, transfer?)
 
 <span class="hljs-comment">// 属性</span>
 </code></pre>
-<h2 id="demo-todo">demo todo</h2>
+<h2 id="demo">demo</h2>
 <p>sharedWorker.js</p>
 <pre><code class="language-js"><span class="hljs-keyword">let</span> clog = <span class="hljs-variable language_">console</span>.<span class="hljs-property">log</span>
 <span class="hljs-keyword">let</span> portMap = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>()
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">setPortMap</span> = (<span class="hljs-params">port</span>) =&gt; {
-    portMap.<span class="hljs-title function_">set</span>(port, <span class="hljs-title class_">Symbol</span>())
+  portMap.<span class="hljs-title function_">set</span>(port, <span class="hljs-title class_">Symbol</span>())
 }
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">deletePortMap</span> = (<span class="hljs-params">port</span>) =&gt; {
-    portMap.<span class="hljs-title function_">delete</span>(port)
+  portMap.<span class="hljs-title function_">delete</span>(port)
 }
 
 onconnect = <span class="hljs-keyword">function</span> (<span class="hljs-params">event</span>) {
-    <span class="hljs-keyword">const</span> port = event.<span class="hljs-property">ports</span>[<span class="hljs-number">0</span>];
-    <span class="hljs-title function_">setPortMap</span>(port)
-    <span class="hljs-keyword">let</span> f = <span class="hljs-keyword">function</span> (<span class="hljs-params">e</span>) {
-        <span class="hljs-keyword">switch</span> (e.<span class="hljs-property">data</span>.<span class="hljs-property">type</span>) {
-            <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;close&#x27;</span>:
-                port.<span class="hljs-title function_">removeEventListener</span>(<span class="hljs-string">&#x27;message&#x27;</span>, f)
-                <span class="hljs-title function_">deletePortMap</span>(port)
-                <span class="hljs-keyword">break</span>;
-            <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;message&#x27;</span>:
-            <span class="hljs-attr">default</span>:
-                portMap.<span class="hljs-title function_">keys</span>().<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">portItem</span> =&gt;</span> {
-                    <span class="hljs-keyword">if</span> (portItem !== port) {
-                        portItem.<span class="hljs-title function_">postMessage</span>(e.<span class="hljs-property">data</span>.<span class="hljs-property">payload</span>)
-                    }
-                });
-                <span class="hljs-keyword">break</span>;
-        }
-    };
-    <span class="hljs-comment">//   port.onmessage = f</span>
-    port.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;message&#x27;</span>, f)
-    port.<span class="hljs-title function_">start</span>()
-};
-
+  <span class="hljs-keyword">const</span> port = event.<span class="hljs-property">ports</span>[<span class="hljs-number">0</span>]
+  <span class="hljs-title function_">setPortMap</span>(port)
+  <span class="hljs-keyword">let</span> f = <span class="hljs-keyword">function</span> (<span class="hljs-params">e</span>) {
+    <span class="hljs-keyword">switch</span> (e.<span class="hljs-property">data</span>.<span class="hljs-property">type</span>) {
+      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;close&#x27;</span>:
+        port.<span class="hljs-title function_">removeEventListener</span>(<span class="hljs-string">&#x27;message&#x27;</span>, f)
+        <span class="hljs-title function_">deletePortMap</span>(port)
+        <span class="hljs-keyword">break</span>
+      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;message&#x27;</span>:
+      <span class="hljs-attr">default</span>:
+        portMap.<span class="hljs-title function_">keys</span>().<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">portItem</span>) =&gt;</span> {
+          <span class="hljs-keyword">if</span> (portItem !== port) {
+            portItem.<span class="hljs-title function_">postMessage</span>(e.<span class="hljs-property">data</span>.<span class="hljs-property">payload</span>)
+          }
+        })
+        <span class="hljs-keyword">break</span>
+    }
+  }
+  <span class="hljs-comment">//   port.onmessage = f</span>
+  port.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;message&#x27;</span>, f)
+  port.<span class="hljs-title function_">start</span>()
+}
 </code></pre>
 <p>page.js</p>
-<pre><code class="language-js"><span class="hljs-keyword">let</span> clog = <span class="hljs-variable language_">console</span>.<span class="hljs-property">log</span>;
-<span class="hljs-keyword">let</span> sharedWorker = <span class="hljs-keyword">new</span> <span class="hljs-title class_">SharedWorker</span>(<span class="hljs-string">&#x27;./sharedWorker.js&#x27;</span>);
+<pre><code class="language-js"><span class="hljs-keyword">let</span> clog = <span class="hljs-variable language_">console</span>.<span class="hljs-property">log</span>
+<span class="hljs-keyword">let</span> sharedWorker = <span class="hljs-keyword">new</span> <span class="hljs-title class_">SharedWorker</span>(<span class="hljs-string">&#x27;./sharedWorker.js&#x27;</span>)
 
-sharedWorker.<span class="hljs-property">port</span>.<span class="hljs-title function_">start</span>();
+sharedWorker.<span class="hljs-property">port</span>.<span class="hljs-title function_">start</span>()
 sharedWorker.<span class="hljs-property">port</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;message&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-    <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;sharedWorker.port.onmessage&#x27;</span>, e.<span class="hljs-property">data</span>);
+  <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;sharedWorker.port.onmessage&#x27;</span>, e.<span class="hljs-property">data</span>)
 })
-sharedWorker.<span class="hljs-property">port</span>.<span class="hljs-title function_">postMessage</span>({<span class="hljs-attr">payload</span>: [<span class="hljs-number">2</span>, <span class="hljs-number">3</span>], <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;message&#x27;</span>});
+sharedWorker.<span class="hljs-property">port</span>.<span class="hljs-title function_">postMessage</span>({ <span class="hljs-attr">payload</span>: [<span class="hljs-number">2</span>, <span class="hljs-number">3</span>], <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;message&#x27;</span> })
 
 <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;beforeunload&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
-    sharedWorker.<span class="hljs-property">port</span>.<span class="hljs-title function_">postMessage</span>({<span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;close&#x27;</span>})
+  sharedWorker.<span class="hljs-property">port</span>.<span class="hljs-title function_">postMessage</span>({ <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;close&#x27;</span> })
 })
 </code></pre>
-<p><strong>在多个浏览器tab页面中打开同一个发消息的页面，则这些页面都会发消息。</strong>
-在连接时没有找到标记port惟一的字段。</p>
+<p><strong>在多个浏览器 tab 页面中打开同一个发消息的页面，则这些页面都会发消息。</strong>
+在连接时没有找到标记 port 惟一的字段。</p>
 
             
             

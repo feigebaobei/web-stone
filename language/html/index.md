@@ -831,6 +831,8 @@ worker 之间使用消息传递数据（交接数据管理权）。
 
 # server-sent 事件
 
+[EventSource](/language/javascript/eventSource.html)
+
 指的是网页自动从服务器获得更新。
 以前也可能做到这一点，前提是网页不得不询问是否有可用的更新。通过 Server-Sent 事件，更新能够自动到达。
 

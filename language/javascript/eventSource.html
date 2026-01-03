@@ -18,7 +18,8 @@
 }
 
 </style>
-            
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -139,11 +140,51 @@
         </head>
         <body class="vscode-body vscode-light">
             <h1 id="eventsource">EventSource</h1>
+<blockquote>
 <p>web 内容与服务器发送事件通信的接口。
-一个 EventSourcer 实例会对 http 服务器开启一个持久化的连接。以<code>text/event-stream</code>格式发送事件。<br>
-使用<code>EventSource.close()</code>关闭。</p>
+一个 EventSourcer 实例会对 http 服务器开启一个持久化的连接。直到使用<code>EventSource.close()</code>关闭。以<code>text/event-stream</code>格式发送事件。
+由客户端发起，建立一个客户端与服务端的持久的连接。然后由服务器向客户端发送事件。
+客户端调用close方法，然后服务端接收到close事件。
+服务端接收到close事件后服务端关闭链接。
+像是建立一次连接多次传递数据。
+由服务端发送数据。断开链接
+当客户端断开链接后，服务端会断开链接。
+浏览器对断开的连接有内置的自动重连机制。（当非主动断开时，浏览器会自动重连。）
+长连接，可以减小频繁请求开销。
+只适用于传递文本。
+支持自定义事件。
+当不指定event时，默认为<code>message</code><br>
+最后一行必须是<code>\n\n</code>结尾。用它来分割消息。</p>
+</blockquote>
+<h2 id="数据结构">数据结构</h2>
+<p>传输的是文本。
+每行以<code>\n</code>结尾
+最后一行以<code>\n\n</code>结尾</p>
+<pre><code>data   // 
+event  // 事件类型。默认为message
+id     // 每条数据的惟一编号
+retry  // 当时间间隔到期或网线连接错误时。指定浏览器重新发起连接的时间间隔。
+</code></pre>
+<h3 id="服务端的回馈头">服务端的回馈头</h3>
+<pre><code>'Content-Type': 'text/event-stream',
+'Cache-Control': 'no-cache',
+'Connection': 'keep-alive'
+</code></pre>
+<h2 id="uml">uml</h2>
+<pre><code class="language-js">    client           server
+    <span class="hljs-title function_">close</span>()
+</code></pre>
+<h2 id="使用场景">使用场景：</h2>
+<ul>
+<li>社交媒体状态更新</li>
+<li>新闻推送</li>
+<li>推送消息</li>
+<li>长任务更新进度</li>
+</ul>
 <h2 id="构造函数">构造函数</h2>
+<p>EventSource的原型是EventTarget。所以可以使用addEventListener()添加事件监听。</p>
 <pre><code class="language-js"><span class="hljs-keyword">let</span> sse = <span class="hljs-keyword">new</span> <span class="hljs-title class_">EventSource</span>(url, configuration)
+<span class="hljs-comment">// 用于处理来自指定url的服务器发送事件。</span>
 <span class="hljs-attr">configuration</span>: {
   <span class="hljs-attr">withCredentials</span>: <span class="hljs-title class_">Boolean</span> <span class="hljs-comment">// default false</span>
   <span class="hljs-comment">// cors是否包含credentials</span>
@@ -186,44 +227,57 @@
 </tr>
 </tbody>
 </table>
-<h2 id="事件">事件</h2>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>error</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>message</td>
-<td>收到数据时触发</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>open</td>
-<td>打开连接时触发</td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
+<h2 id="api">api</h2>
+<pre><code class="language-js"><span class="hljs-title class_">EventSource</span>(url, configuration)
+<span class="hljs-comment">// 用于处理来自指定url的服务器发送事件。</span>
+
+<span class="hljs-comment">// 属性</span>
+readyState 连接状态
+  <span class="hljs-number">0</span> 链接中
+  <span class="hljs-number">1</span> 打开
+  <span class="hljs-number">2</span> 关闭
+
+url 构建函数的url
+
+withCredentials <span class="hljs-comment">// boolean</span>
+<span class="hljs-comment">// 是否可以使用cors cookie. 默认为false</span>
+
+<span class="hljs-comment">// 方法</span>
+<span class="hljs-title function_">close</span>() <span class="hljs-comment">// 关闭连接</span>
+
+<span class="hljs-comment">// 事件</span>
+error <span class="hljs-comment">// 当事件源的连接未能打开时触发</span>
+message <span class="hljs-comment">// 当事件源接收到消息时触发</span>
+open <span class="hljs-comment">// 当事件源连接打开时触发</span>
+</code></pre>
 <h2 id="设置自定义事件">设置自定义事件</h2>
 <pre><code>sse.addEventListener('notice', (e) =&gt; {
   clog('e', e)
 })
 </code></pre>
+<h2 id="tips">tips</h2>
+<p>这种写法不太好用。</p>
+<pre><code class="language-js">res.<span class="hljs-title function_">write</span>(<span class="hljs-string">&#x27;event: update\n&#x27;</span>)
+res.<span class="hljs-title function_">write</span>(<span class="hljs-string">&#x27;data: {&#x27;</span> + <span class="hljs-string">&#x27;\n&#x27;</span>) <span class="hljs-comment">// data写成从行不太好用。因客户端不太好解析为对象。</span>
+res.<span class="hljs-title function_">write</span>(<span class="hljs-string">&#x27;data: k: 2&#x27;</span> + <span class="hljs-string">&#x27;\n&#x27;</span>)
+res.<span class="hljs-title function_">write</span>(<span class="hljs-string">&#x27;data: }&#x27;</span> + <span class="hljs-string">&#x27;\n\n&#x27;</span>)
+res.<span class="hljs-title function_">end</span>()
+</code></pre>
+<p>这种写法好用</p>
+<pre><code class="language-js">res.<span class="hljs-title function_">write</span>(<span class="hljs-string">&#x27;event: update\n&#x27;</span>)
+res.<span class="hljs-title function_">write</span>(<span class="hljs-string">`data: <span class="hljs-subst">${<span class="hljs-built_in">JSON</span>.stringify({k: <span class="hljs-number">2</span>})}</span>\n\n`</span>) <span class="hljs-comment">// 这样客户端就好解析为对象了。</span>
+res.<span class="hljs-title function_">end</span>()
+</code></pre>
+<h2 id="服务端代码">服务端代码</h2>
+<pre><code class="language-js">需要使用
+res.<span class="hljs-title function_">write</span>(xxx) <span class="hljs-comment">// 写4行数据。</span>
+res.<span class="hljs-title function_">end</span>()
+发送数据
+</code></pre>
+<p>不要使用
+res.send() // 表示write和end</p>
 
-            
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
             
         </body>
         </html>

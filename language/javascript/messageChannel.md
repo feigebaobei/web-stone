@@ -35,15 +35,17 @@ close() // 不会
 
 # window.postMessage & messagePort.postMessage
 
-|          | window.postMessage                                                              | messagePort.postMessage                                                   |
-| -------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
-|          | 1 vs n。                                                                        | 1 vs 1。                                                                  |
-|          | 每次通信都有同源检测。                                                          | 在初始化通信时同源检测，之后都不检测。                                    |
-|          | 可以收到所有的 window.onmessage 事件发来的消息。需要在 handler 中判断消息来源。 | 只能收到特定 messagePort 发来的消息。                                     |
-|          | 一次性的消息                                                                    | 必需要先创建。                                                            |
-| 使用场景 | 发一次性的消息                                                                  | 2 个 MessagePort 之间双向通信（main page + web worker / iframe + iframe） |
-|          |                                                                                 |                                                                           |
-|          |                                                                                 |                                                                           |
+<!-- prettier-ignore-start -->
+|          | window.postMessage   | messagePort.postMessage       | worker.postMessage / sharedWorker.port.postMessage |||
+| -------- | ---------------------------- | ----- |-|-|-|
+|          | 1 vs n。              | 1 vs 1。        |1 vs 1| 1 vs 1||
+|          | 每次通信都有同源检测。  | 在初始化通信时同源检测，之后都不检测。  ||||
+|          | 可以收到所有的 window.onmessage 事件发来的消息。需要在 handler 中判断消息来源。 | 只能收到特定 messagePort 发来的消息。2个port在哪2个主体，就能使哪2个主体通信。|worker与父线程之间通信|worker与父线程之间通信||
+|          | 一次性的消息          | 必需要先创建。  ||||
+| 使用场景 | 发一次性的消息        | 2 个 MessagePort 之间双向通信（main page + web worker / iframe + iframe） ||||
+|          |     | ||||
+|          |     | ||||
+<!-- prettier-ignore-end -->
 
 # web worker & messageChannel
 

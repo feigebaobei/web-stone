@@ -47,7 +47,7 @@ postMessage(message, transfer?)
 // 属性
 ```
 
-## demo todo
+## demo
 
 sharedWorker.js
 
