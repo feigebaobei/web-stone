@@ -6,15 +6,17 @@
 
 ## 基础知识
 
-|                                                 |                                          |                                                 |     |     |
-| ----------------------------------------------- | ---------------------------------------- | ----------------------------------------------- | --- | --- |
-| template                                        | html 的一种标签                          |                                                 |     |     |
-| slot                                            | html 的一种标签                          |                                                 |     |     |
-| window.customElements.define('custom-tag', Xxx) | 定义自定义标签                           |                                                 |     |     |
-| Element.attachShadow({...})                     | 挂载并返回一个 shadowDOM                 |                                                 |     |     |
-| cloneNode(boolean)                              | 返回复制的 dom。boolean 表示是否深复制。 | `document.querySelector('#id').cloneNode(true)` |     |     |
-| HTMLElement                                     | 一个底层对象                             |                                                 |     |     |
-| Shadow DOM                                      | 影子 dom                                 |                                                 |     |     |
+<!-- prettier-ignore-start -->
+|      |          |     |     |     |
+| --- | ------------------ | ------------- | --- | --- |
+| template        | html 的一种标签   |   |     |     |
+| slot            | html 的一种标签      |     |     |     |
+| window.customElements.define('custom-tag', Xxx) | 定义自定义标签       |     |     |     |
+| Element.attachShadow({...}) | 挂载并返回一个 shadowDOM     |     |     |     |
+| cloneNode(boolean)          | 返回复制的 dom。boolean 表示是否深复制。 | `document.querySelector('#id').cloneNode(true)` |     |     |
+| HTMLElement     | 一个底层对象         |     |     |     |
+| Shadow DOM      | 影子 dom |     |     |     |
+<!-- prettier-ignore-end -->
 
 ## 一般使用过程
 
@@ -47,16 +49,18 @@
 
 ## customElements
 
-window.customElements => CustomElementRegistry
+window.customElements() => CustomElementRegistry
 
 ## CustomElementRegistry
 
-| CustomElementRegistry                                 |                                                          |                |     |     |
-| ----------------------------------------------------- | -------------------------------------------------------- | -------------- | --- | --- |
-| define(name, constructor, options:{extends: tagName}) | 定义一个自定义元素                                       | 不会用 options |     |     |
-| get()                                                 | 返回指定自定义元素的构造函数，若未自定义则返回 undefined |                |     |     |
-| upgrade(root)                                         | 将更新节点子树中所有包含阴影的自定义元素                 |                |     |     |
-| whenDefined(custom-tag-name)                          | 返回`Promise<undefined>`                                 |                |     |     |
+<!-- prettier-ignore-start -->
+| CustomElementRegistry |      |    |     |     |
+| --------- | ------------ | -------------- | --- | --- |
+| define(name, constructor, options:{extends: tagName}) | 定义一个自定义元素       | 不会用 options |     |     |
+| get()     | 返回指定自定义元素的构造函数，若未自定义则返回 undefined |    |     |     |
+| upgrade(root)         | 将更新节点子树中所有包含阴影的自定义元素     |    |     |     |
+| whenDefined(custom-tag-name)      | 返回`Promise<undefined>` |    |     |     |
+<!-- prettier-ignore-end -->
 
 ## [THMLElement](/language/html/HTMLElement.html)
 
@@ -132,9 +136,11 @@ document.body.appendChild(document.querySelector('#myTemp').content)
 
 各自独立。没包含关系。
 
-|     | web components                 | template/slot | custom-tag       | shadowDOM     |
-| --- | ------------------------------ | ------------- | ---------------- | ------------- |
+<!-- prettier-ignore-start -->
+|     | web components     | template/slot | custom-tag       | shadowDOM     |
+| --- | -------- | ------------- | ---------------- | ------------- |
 |     | web 组件。自定义 html 的统称。 | 模板、插槽    | 自定义 html 标签 | 影子 dom 元素 |
+<!-- prettier-ignore-end -->
 
 ## [template](/language/html/template.html)
 

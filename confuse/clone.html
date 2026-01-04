@@ -172,14 +172,20 @@
 <li>不是 js 语言提供的能力，js 语言的运行环境提供的能力。</li>
 </ul>
 <h2 id="messagechannel"><a href="/language/javascript/messageChannel.html">MessageChannel</a></h2>
-<pre><code>let f = (o) =&gt; {
-    return new Promise((s, _j) =&gt; {
-        let { port1, port2 } = nwe MessageChannel()
-        port1.postMessage(o)
-        port2.onmessage = e =&gt; s(e.data)
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">o</span>) =&gt; {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">s, _j</span>) =&gt;</span> {
+        <span class="hljs-keyword">let</span> { port1, port2 } = <span class="hljs-keyword">new</span> <span class="hljs-title class_">MessageChannel</span>()
+        port1.<span class="hljs-title function_">postMessage</span>(o)
+        port2.<span class="hljs-property">onmessage</span> = <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> <span class="hljs-title function_">s</span>(e.<span class="hljs-property">data</span>)
     })
 }
+<span class="hljs-keyword">let</span> a
+<span class="hljs-title function_">f</span>(o).<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">r</span> =&gt;</span> {
+  a = r
+})
 </code></pre>
+<p>可以用于循环对象。
+深复制。</p>
 <h2 id="jqueryextend">jQuery.extend()</h2>
 <pre><code>$.extend(deepCopy, target, object1, [objectN])
 $.extend(true, {}, o)

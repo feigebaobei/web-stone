@@ -51,7 +51,7 @@ composedPath() 是 Event 接口的一个方法，当对象数组调用该侦听�
 `hostDom.attachShadow({mode: 'close'})` 影子宿主的 shadowRoot 为 null
 
 ```
-hostDom.shadowRoot.querySelectoAll('id') // 影子元素中的指定dom元素
+hostDom.shadowRoot.querySelectoAll('id') // 得到影子元素中的指定dom元素
 ```
 
 ## 为 shadow dom 设置样式
@@ -64,10 +64,10 @@ hostDom.shadowRoot.querySelectoAll('id') // 影子元素中的指定dom元素
 
 ### 使用 css 样式
 
-```
+```js
 let sheet = new CSSStyleSheet()
-sheet.replaceSync("span {color: red;}")
-let shadow = host.attachShadow({mode: 'open'})
+sheet.replaceSync('span {color: red;}')
+let shadow = host.attachShadow({ mode: 'open' })
 shadow.adoptedStyleSheets = [sheet]
 let span = document.createElement('span')
 span.textContent = 'str'
@@ -78,7 +78,7 @@ shadow.appendChild(span)
 
 ### 使用 template 添加样式
 
-```
+```js
 <template id="id">
   <style>
     span {
@@ -97,35 +97,34 @@ shadow.appendChild(template.content)
 
 ## shadow dom & 自定义元素
 
-```
+```js
 class FilledCircle extends HTMLElement {
   constructor() {
-    super();
+    super()
   }
   connectedCallback() {
     // 创建一个影子根
     // 自定义元素自身是影子宿主
-    const shadow = this.attachShadow({ mode: "open" });
+    const shadow = this.attachShadow({ mode: 'open' })
 
     // 创建内部实现
-    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
     const circle = document.createElementNS(
-      "http://www.w3.org/2000/svg",
-      "circle",
-    );
-    circle.setAttribute("cx", "50");
-    circle.setAttribute("cy", "50");
-    circle.setAttribute("r", "50");
-    circle.setAttribute("fill", this.getAttribute("color"));
-    svg.appendChild(circle);
+      'http://www.w3.org/2000/svg',
+      'circle'
+    )
+    circle.setAttribute('cx', '50')
+    circle.setAttribute('cy', '50')
+    circle.setAttribute('r', '50')
+    circle.setAttribute('fill', this.getAttribute('color'))
+    svg.appendChild(circle)
 
-    shadow.appendChild(svg);
+    shadow.appendChild(svg)
   }
 }
-customElements.define("filled-circle", FilledCircle);
+customElements.define('filled-circle', FilledCircle)
 
-
-<filled-circle color="blue"></filled-circle>
+;<filled-circle color="blue"></filled-circle>
 ```
 
 ## ShadowRoot api
