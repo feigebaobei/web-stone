@@ -8,7 +8,7 @@
 
 ## [EventSource](/language/javascript/eventSource.html)
 
-## WebSocket
+## [WebSocket](/browser/websocket.html)
 
 ## xhr/ajax && eventSource && websocket
 

@@ -219,7 +219,7 @@
 </tbody>
 </table>
 <!-- prettier-ignore-end -->
-<p><img src="file:////communication-protocol/tcpHeader.png" alt="tcp头部"></p>
+<p><img src="/communication-protocol/tcpHeader.png" alt="tcp头部"></p>
 <p>源端口(Source Port)<br>
 目的端口(Desination Port)<br>
 序列号(Sequence Number)【数据包的序号】<br>
@@ -241,11 +241,11 @@ URG：判断紧急指针是否有效的命令<br>
 MAC 地址<br>
 数据(Data)：上层协议数据</p>
 <h1 id="工作方式">工作方式</h1>
-<p><img src="file:////communication-protocol/tcpProcess.png" alt="工作方式"></p>
+<p><img src="/communication-protocol/tcpProcess.png" alt="工作方式"></p>
 <p>建立连接<br>
 三握<br>
 建立连接是由 tcp 建立的。应用程序不需要担心如何建立。
-<img src="file:////communication-protocol/tcp3.png" alt="三次握手"></p>
+<img src="/communication-protocol/tcp3.png" alt="三次握手"></p>
 <ol>
 <li>客户端发送 syn=1 seq=x 报文给服务器端，进入 SYN_SEND 状态。(SYN 报文段不能携带数据，但消耗一个序号)</li>
 <li>服务端收到 syn 报文后回应一个 syn seq=y ack（ack=x+1）报文，进入 SYN_RECV 状态。</li>
@@ -262,7 +262,7 @@ MAC 地址<br>
 <li>一段时间后，接收到这个文件结束符的应用进程将调用 close 关闭它的套接字。这使得它的 tcp 也发送一个 fin.</li>
 <li>接收这个最终 fin 的原发送端 tcp 确认这个 fin.</li>
 </ol>
-<p><img src="file:////communication-protocol/4bye.png" alt="四挥"></p>
+<p><img src="/communication-protocol/4bye.png" alt="四挥"></p>
 <h2 id="tcpip-的工作过程">tcp/ip 的工作过程</h2>
 <ol>
 <li>在源主机上，应用层将一串应用数据流传送给传输层。</li>

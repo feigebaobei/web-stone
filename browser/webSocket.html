@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>websocket</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="websocket">websocket</h1>
+<blockquote>
+<p>双工通信
+建立在tcp协议上。
+没有同源的限制。
+ws协议 wss协议</p>
+</blockquote>
+<h2 id="使用场景">使用场景</h2>
+<ul>
+<li>客户端定时更新数据</li>
+<li>长转询</li>
+</ul>
+<h2 id="传递的数据类型">传递的数据类型</h2>
+<ul>
+<li>USVString</li>
+<li>ArrayBuffer</li>
+<li>Blob</li>
+<li>ArrayBufferView</li>
+</ul>
+<h2 id="协议">协议</h2>
+<p>请求头</p>
+<pre><code>GET / HTTP/1.1                  使用了get方式
+Host: localhost:8080
+Origin: http://127.0.0.1:3000
+Connection: Upgrade             需要升级
+Upgrade: websocket              升级为websocket
+Sec-WebSocket-Version: 13       使用的websocket版本。如果服务端不支持此版本，则回馈头中用Sec-WebSocket-Version表示服务端支持的版本。
+Sec-WebSocket-Key: w4v7O6xFTi36lq3RNcgctw==
+</code></pre>
+<p>ws协议是基于http协议升级的。ws协议仍使用了http中的字段，如：host/cookie/origin。正常运行三握四挥。</p>
+<h2 id="api">api</h2>
+<p>它的原型是EventTarget。所有可以使用addEventListener()方法监听的事件：（open, message, error, close）。</p>
+<pre><code class="language-js"><span class="hljs-comment">// 构造函数</span>
+<span class="hljs-keyword">let</span> ws = <span class="hljs-keyword">new</span> <span class="hljs-title class_">WebSocket</span>(url)
+<span class="hljs-comment">// 属性</span>
+ws.<span class="hljs-property">binaryType</span>     <span class="hljs-comment">// 连接使用的二进制数据类型。可以用于指定收到的消息的数据类型</span>
+    <span class="hljs-comment">// &quot;blob&quot; | &quot;arraybuffer&quot; | &quot;text&quot;</span>
+ws.<span class="hljs-property">bufferedAmount</span> <span class="hljs-comment">// 队列中的字节数</span>
+ws.<span class="hljs-property">extensions</span>     <span class="hljs-comment">// 服务器选择的扩展</span>
+ws.<span class="hljs-property">protocol</span>       <span class="hljs-comment">// 服务器选择的子协议</span>
+ws.<span class="hljs-property">readyState</span>     <span class="hljs-comment">// 当前连接的状态</span>
+    <span class="hljs-comment">// 0: 表示连接正在建立 CONNECTING</span>
+    <span class="hljs-comment">// 1: 表示连接功能    OPEN</span>
+    <span class="hljs-comment">// 2: 表示连接下在关闭 CLOSING</span>
+    <span class="hljs-comment">// 3: 表示连接已经关闭 CLOSED</span>
+ws.<span class="hljs-property">url</span>            <span class="hljs-comment">// 连接的绝对url</span>
+<span class="hljs-comment">// 方法</span>
+ws.<span class="hljs-title function_">close</span>([code,  [reason]]) <span class="hljs-comment">// 断开</span>
+    <span class="hljs-comment">// code 关闭的原因。</span>
+    <span class="hljs-comment">// reason 关闭的原因。</span>
+ws.<span class="hljs-title function_">send</span>()  <span class="hljs-comment">// 发送数据</span>
+<span class="hljs-comment">// 事件</span>
+<span class="hljs-comment">// 可以使用addEventListener() 添加事件监听器。</span>
+ws.<span class="hljs-property">close</span>    <span class="hljs-comment">// 关闭时触发</span>
+ws.<span class="hljs-property">error</span>    <span class="hljs-comment">// </span>
+ws.<span class="hljs-property">open</span>     <span class="hljs-comment">// </span>
+ws.<span class="hljs-property">message</span>  <span class="hljs-comment">// </span>
+</code></pre>
+<h2 id="websocket--ws--socketio--express-ws">websocket &amp; ws &amp; <a href="http://socket.io">socket.io</a> &amp; express-ws</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>websocket</th>
+<th>ws</th>
+<th><a href="http://socket.io">socket.io</a></th>
+<th>express-ws</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>浏览器自带</td>
+<td>一个node.js包</td>
+<td>封装了websocket</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>不需要单独监听一个端口。使用框架启动的端口即可。</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="close状态码列表">close状态码列表</h2>
+<p>使用CloseEvent.code访问</p>
+<table>
+<thead>
+<tr>
+<th>状态码</th>
+<th>名称</th>
+<th>描述</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0-999</td>
+<td></td>
+<td>保留字段。未使用。</td>
+<td></td>
+</tr>
+<tr>
+<td>1000</td>
+<td>CLOSE_NORMAL</td>
+<td>正常关闭；无论为何目的而创建，该链接都已成功完成任务。</td>
+<td></td>
+</tr>
+<tr>
+<td>1001</td>
+<td>CLOSE_GOING_AWAY</td>
+<td>终端离开，可能因为服务端错误，也可能因为浏览器正从打开连接的页面跳转离开。</td>
+<td></td>
+</tr>
+<tr>
+<td>1002</td>
+<td>CLOSE_PROTOCOL_ERROR</td>
+<td>由于协议错误而中断连接。</td>
+<td></td>
+</tr>
+<tr>
+<td>1003</td>
+<td>CLOSE_UNSUPPORTED</td>
+<td>由于接收到不允许的数据类型而断开连接 (如仅接收文本数据的终端接收到了二进制数据).</td>
+<td></td>
+</tr>
+<tr>
+<td>1004</td>
+<td></td>
+<td>保留。 其意义可能会在未来定义。</td>
+<td></td>
+</tr>
+<tr>
+<td>1005</td>
+<td>CLOSE_NO_STATUS</td>
+<td>保留。表示没有收到预期的状态码。</td>
+<td></td>
+</tr>
+<tr>
+<td>1006</td>
+<td>CLOSE_ABNORMAL</td>
+<td>保留。用于期望收到状态码时连接非正常关闭 (也就是说，没有发送关闭帧).</td>
+<td></td>
+</tr>
+<tr>
+<td>1007</td>
+<td>Unsupported Data</td>
+<td>由于收到了格式不符的数据而断开连接 (如文本消息中包含了非 UTF-8 数据).</td>
+<td></td>
+</tr>
+<tr>
+<td>1008</td>
+<td>Policy Violation</td>
+<td>由于收到不符合约定的数据而断开连接。这是一个通用状态码，用于不适合使用 1003 和 1009 状态码的场景。</td>
+<td></td>
+</tr>
+<tr>
+<td>1009</td>
+<td>CLOSE_TOO_LARGE</td>
+<td>由于收到过大的数据帧而断开连接。</td>
+<td></td>
+</tr>
+<tr>
+<td>1010</td>
+<td>Missing Extension</td>
+<td>客户端期望服务器商定一个或多个拓展，但服务器没有处理，因此客户端断开连接。</td>
+<td></td>
+</tr>
+<tr>
+<td>1011</td>
+<td>Internal Error</td>
+<td>客户端由于遇到没有预料的情况阻止其完成请求，因此服务端断开连接。</td>
+<td></td>
+</tr>
+<tr>
+<td>1012</td>
+<td>Service Restart</td>
+<td>服务器由于重启而断开连接。</td>
+<td></td>
+</tr>
+<tr>
+<td>1013</td>
+<td>Try Again Later</td>
+<td>服务器由于临时原因断开连接，如服务器过载因此断开一部分客户端连接。</td>
+<td></td>
+</tr>
+<tr>
+<td>1014</td>
+<td></td>
+<td>由 WebSocket 标准保留以便未来使用。</td>
+<td></td>
+</tr>
+<tr>
+<td>1015</td>
+<td>TLS Handshake</td>
+<td>保留。 表示连接由于无法完成 TLS 握手而关闭 (例如无法验证服务器证书).</td>
+<td></td>
+</tr>
+<tr>
+<td>1016-1999</td>
+<td></td>
+<td>由 WebSocket 标准保留以便未来使用。</td>
+<td></td>
+</tr>
+<tr>
+<td>2000-2999</td>
+<td></td>
+<td>由 WebSocket 拓展保留使用。</td>
+<td></td>
+</tr>
+<tr>
+<td>3000-3999</td>
+<td></td>
+<td>可以由库或框架使用.? 不应由应用使用。可以在 IANA 注册，先到先得。</td>
+<td></td>
+</tr>
+<tr>
+<td>4000-4999</td>
+<td></td>
+<td>可以由应用使用。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>CloseEvent.reason string 关闭的原因
+CloseEvent.wasClean boolean 连接是否关闭</p>
+<h2 id="demo">demo</h2>
+<h3 id="server">server</h3>
+<p>express框架</p>
+<pre><code class="language-js"><span class="hljs-comment">// &lt;root&gt;/bin/www 文件</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title class_">WebSocket</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;ws&#x27;</span>)
+<span class="hljs-keyword">let</span> wss = <span class="hljs-keyword">new</span> <span class="hljs-title class_">WebSocket</span>.<span class="hljs-title class_">Server</span>({<span class="hljs-attr">port</span>: <span class="hljs-number">8080</span>})
+wss.<span class="hljs-title function_">on</span>(<span class="hljs-string">&#x27;connection&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">ws</span>) =&gt;</span> {
+  <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;linked wss&#x27;</span>)
+  ws.<span class="hljs-title function_">on</span>(<span class="hljs-string">&#x27;message&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">msg</span>) =&gt;</span> {
+    <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;message&#x27;</span>, msg)
+    ws.<span class="hljs-title function_">send</span>(<span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>({
+      msg
+    }))
+  })
+  ws.<span class="hljs-title function_">on</span>(<span class="hljs-string">&#x27;close&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">...p</span>) =&gt;</span> {
+    <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;close&#x27;</span>, p)
+  })
+  <span class="hljs-comment">// ws.send(&#x27;hi&#x27;)</span>
+})
+<span class="hljs-comment">// 其他代码是express框架的代码。</span>
+<span class="hljs-comment">// express服务监听3000端口</span>
+<span class="hljs-comment">// websocket服务监听8080端口</span>
+</code></pre>
+<h3 id="client">client</h3>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> socket = <span class="hljs-keyword">new</span> <span class="hljs-title class_">WebSocket</span>(<span class="hljs-string">&#x27;ws://localhost:8080&#x27;</span>);
+socket.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;open&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {
+    <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;open&#x27;</span>, event);
+    socket.<span class="hljs-title function_">send</span>(<span class="hljs-string">&#x27;hello&#x27;</span>);
+});
+socket.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;error&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {
+    <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;error&#x27;</span>, event);
+    <span class="hljs-comment">// socket.send(&#x27;hello&#x27;);</span>
+});
+socket.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;message&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {
+    <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;message&#x27;</span>, event);
+});
+socket.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;close&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {
+    <span class="hljs-title function_">clog</span>(<span class="hljs-string">&#x27;close&#x27;</span>, event);
+});
+</code></pre>
+<h2 id="ws包的官网"><a href="https://github.com/websockets/ws/blob/HEAD/doc/ws.md">ws包的官网</a></h2>
+
+            
+            
+        </body>
+        </html>

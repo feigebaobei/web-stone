@@ -9,7 +9,7 @@
 <!-- prettier-ignore-start -->
 | osi      | 主要的分层 | 说明 | 代表协议 | 传输对象       |
 | ------------ | -- | ---- | ------------ | ------ |
-| 应用层 表达层 会话层 | 应用层 |  | [HTTP](/communication-protocol/http.html) [HTTPS](/communication-protocol/https.html) FTP SMTP DNS Telnet POP3 SNMP NFS | 报文 message       |
+| 应用层 表达层 会话层 | 应用层 |  | [HTTP](/communication-protocol/http.html) [HTTPS](/communication-protocol/https.html) FTP SMTP DNS Telnet POP3 SNMP NFS [WebSocket](/browser/webSocket.html) | 报文 message       |
 | 运输层   | 运输层 |  | [TCP](/communication-protocol/tcp.html) [UDP](/communication-protocol/udp.html)  | tcp 报文段 segment udp 数据报 datagram |
 | 网络层   | 网络层 |  | [IP](/communication-protocol/ip.html) ICMP ARP  | 分组、数据包 packet    |
 | 数据链路层 物理层    | 网络接口层 |  | PPP Etherent  | 帧 frame       |
