@@ -56,7 +56,7 @@ vue3 是一个一库多包项目。
 我整理的
 
 1. 编译阶段。vite 使用@vite/compiler-sfc 插件（调用该包的 parse 方法）解析\*.vue 文件成为 3 个 block(template/script/style 分别生成一个 block)
-2. 渲染阶段。从 createApp 开始。会创建组件的实例，其中包括 vnode。再编译模板，再得到 render 方法，再把 render 方法封装成方法。
+2. 渲染阶段。从 createApp 开始。会创建组件的实例（组件实例就是一个对象），其中包括 vnode。再编译模板，再得到 render 方法，再把 render 方法封装成方法。
 3. 更新阶段。就是 patch 方法。patch 方法就是 diff 运算。vue3 的 diff 比 vue2 的 diff 要简单。
 
 ### 解释阶段
@@ -88,6 +88,8 @@ import { createApp } from 'vue'
 
 从 createApp 开始。
 mountComponent -> 挂载组件。用 createComponentInstance 方法创建组件实例。
+
+#### 组件实例
 
 ```ts
 // 这是实例的类型
@@ -202,7 +204,7 @@ patch 方法是在 createRenderer 方法中定义的。
 3. 更新节点
 
 runtime-dom 包中的 nodeOps 对象中定义了操作 vnode 的方法。其中包括由 vnode 生成 dom 的方法 createElement。
-vue 的底层是使用 document.createElement 创建 dom 的。不可能它这个方法更快。此方法的运行速度就是 vue 的性能理论峰值。
+vue 的底层是使用 document.createElement 创建 dom 的。不可能比这个方法更快。此方法的运行速度就是 vue 的性能理论峰值。
 
 ### vnode 如何生成 dom
 
@@ -300,7 +302,7 @@ export function render(_ctx, _cache, $props, $setup, $data, $options) {
 // Check the console for the AST
 ```
 
-原来就是做与闭包了。静态部分只计算一次，缓存起来结果，使用时直接拿过来用。
+原来就是做了闭包。静态部分只计算一次，缓存起来结果，使用时直接拿过来用。
 
 ### generate
 

@@ -806,8 +806,8 @@ fiber更新后
 全局变量 nextUnitOfWork 表示在 workInProgress 树上下一个需要工作的 FiberNode。  
 若此变量为空，则完成所有工作。
 
-1. 当执行 setState 时，会在该组件对应的 FiberNode 的 uqdateQueue 中添加工作。
-2. 进入 render 阶段。
+1. 当执行 setState 时，会在该组件对应的 FiberNode 的 uqdateQueue 中添加工作。设置 lanes 字段。
+2. 进入 render 阶段。（render phase）
 3. 调用 renderRoot 方法。从 HostRoot(它是一个 FiberNode)开始，会跳过完成工作的 FiberNode，直到未完成工作的 FiberNode.
 4. 调用 createWorkInProgress 方法，根据 ReactElement 创建 workInProgress.（可能没有此步）
 5. 调用 beginWork 方法。根据 type 分别调用相应的方法。如`updateClassComponent() 、 updateFunctionComponent()`。会创建并挂载组件的实例或更新实例。
@@ -817,7 +817,7 @@ fiber更新后
    3. 使用新 state 调用 getDerivedStateFromProps 方法。
    4. 执行 shouldComponentUpdate 方法。若返回 false，则跳过整个渲染处理（包括该组件的 render 方法及其子组件的 render 方法）。否则执行更新。
    5. 调用 UNSAFE_componentWillUpdate（） deprecated
-   6. 添加一个触发 componentDidUpdate()的 effect 在 render 阶段中是添加。实际执行在 commit 阶段。
+   6. 添加一个触发 componentDidUpdate()的 effect。 在 render 阶段中是添加，实际执行在 commit 阶段。
 7. 更新实例的 state/props。 为执行 render 方法做准备。
 8. 执行 finishClassComponent 方法。react 会调用 render 方法，得到新组件实例，再执行 diffing 运算。
    1. 执行 createWorkInProgress 方法，根据新的 ReactElement 对象得到替补节点（它是 FiberNode）
@@ -1090,12 +1090,12 @@ useEffect()
 
 ## 总结
 
-react 框架的本质是对 dom 增删改查。为了实现这个目标。借助了 fiber。每个 fiber 对象对应一个 dom 节点。fiber 对象保存了 dom 节点的属性。
+react 框架的本质是对 dom 增删改查。为了实现这个目标。借助了 fiber。每个 fiber 对象对应一个组件的 dom 节点。fiber 对象保存了 dom 节点的属性。
 fiber 对象的体量不大也不小。如果我在开发中使用此逻辑，并使用比 fiber 小的对象，就会运行更快了。
 
 ## scheduler
 
-在更新时发现使用到了这个包。
+我在读到组件的更新阶段时发现使用了这个包。
 它的负责调度优先级。
 React 结合优先级调度，高优先级任务（如用户输入、动画更新）可中断低优先级任务（如列表渲染），优先执行高优先级任务，执行完毕后再恢复低优先级任务，保证用户操作的及时性。
 

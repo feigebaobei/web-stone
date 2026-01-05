@@ -142,7 +142,7 @@
             <h1 id="principle">principle</h1>
 <h2 id="渲染机制">渲染机制</h2>
 <p>程序员使用 vue 框架，编写 sfc 文件。vue 框架会把它们搞成 vdom。vue 框架根据 vdom 生成 dom，当 vdom 改变时 vue 框架更新 dom。
-proxy在vue3中用的不多。</p>
+proxy 在 vue3 中用的不多。</p>
 <h2 id="vue2-不能做到的事">vue2 不能做到的事</h2>
 <ul>
 <li>在 data 中不声明的对象、属性，不能响应式。</li>
@@ -211,7 +211,7 @@ proxy在vue3中用的不多。</p>
 <p>我整理的</p>
 <ol>
 <li>编译阶段。vite 使用@vite/compiler-sfc 插件（调用该包的 parse 方法）解析*.vue 文件成为 3 个 block(template/script/style 分别生成一个 block)</li>
-<li>渲染阶段。从 createApp 开始。会创建组件的实例，其中包括 vnode。再编译模板，再得到 render 方法，再把 render 方法封装成方法。</li>
+<li>渲染阶段。从 createApp 开始。会创建组件的实例（组件实例就是一个对象），其中包括 vnode。再编译模板，再得到 render 方法，再把 render 方法封装成方法。</li>
 <li>更新阶段。就是 patch 方法。patch 方法就是 diff 运算。vue3 的 diff 比 vue2 的 diff 要简单。</li>
 </ol>
 <h3 id="解释阶段">解释阶段</h3>
@@ -236,6 +236,7 @@ proxy在vue3中用的不多。</p>
 <h3 id="渲染阶段">渲染阶段</h3>
 <p>从 createApp 开始。
 mountComponent -&gt; 挂载组件。用 createComponentInstance 方法创建组件实例。</p>
+<h4 id="组件实例">组件实例</h4>
 <pre><code class="language-ts"><span class="hljs-comment">// 这是实例的类型</span>
 <span class="hljs-keyword">const</span> <span class="hljs-attr">instance</span>: <span class="hljs-title class_">ComponentInternalInstance</span> = {
   <span class="hljs-attr">uid</span>: uid++,
@@ -343,32 +344,32 @@ patch 方法是在 createRenderer 方法中定义的。</p>
 <li>更新节点</li>
 </ol>
 <p>runtime-dom 包中的 nodeOps 对象中定义了操作 vnode 的方法。其中包括由 vnode 生成 dom 的方法 createElement。
-vue 的底层是使用 document.createElement 创建 dom 的。不可能它这个方法更快。此方法的运行速度就是 vue 的性能理论峰值。</p>
+vue 的底层是使用 document.createElement 创建 dom 的。不可能比这个方法更快。此方法的运行速度就是 vue 的性能理论峰值。</p>
 <h3 id="vnode-如何生成-dom">vnode 如何生成 dom</h3>
 <p>createRenderer 方法的参数是 nodeOps 对象，此对应中的 createElement 方法，此方法生成创建的 dom 元素。
 在 renderer 方法的 mountElement 方法中创建 dom 元素，再挂载到 dom 树中。</p>
 <h2 id="响应式">响应式</h2>
 <h3 id="ref">ref</h3>
 <p>发布订阅模式
-使用set/get修改符处理value/_value
-get时执行dep.track()。会返回一个link对象。
-set时执行dep.trigger()。触发notify().再触发所有link (link.sub as ComputedRefImpl).dep.notify()</p>
-<p>看到link时我以为是一个链表呢。结果是一个链表的节点。
+使用 set/get 修改符处理 value/_value
+get 时执行 dep.track()。会返回一个 link 对象。
+set 时执行 dep.trigger()。触发 notify().再触发所有 link (link.sub as ComputedRefImpl).dep.notify()</p>
+<p>看到 link 时我以为是一个链表呢。结果是一个链表的节点。
 双向链表。</p>
-<h3 id="dep对象">dep对象</h3>
+<h3 id="dep-对象">dep 对象</h3>
 <h3 id="reactive">reactive</h3>
 <p>必须是对象
-使用proxy。
-再使用WeakMap映射target和proxy.源代码中没有删除。也不需要删除，当target被垃圾回收时，会自动删除。
-在set时会触发dep.trigger()</p>
+使用 proxy。
+再使用 WeakMap 映射 target 和 proxy.源代码中没有删除。也不需要删除，当 target 被垃圾回收时，会自动删除。
+在 set 时会触发 dep.trigger()</p>
 <h3 id="computed">computed</h3>
-<p>取出set/get方法。</p>
+<p>取出 set/get 方法。</p>
 <h3 id="watch">watch</h3>
-<p>把监听对象处理为getter方法，
-基于effect系统。</p>
+<p>把监听对象处理为 getter 方法，
+基于 effect 系统。</p>
 <h3 id="watcheffect">watchEffect</h3>
-<p>基于watch开发的</p>
-<h3 id="effect系统">effect系统</h3>
+<p>基于 watch 开发的</p>
+<h3 id="effect-系统">effect 系统</h3>
 <h3 id="静态提升">静态提升</h3>
 <p>transform 中的 hoistStatic 方法会递归 ast，把不具有响应式的代码序列化为字符串。编译时不处理它们。减少编译工作量。</p>
 <p>只有静态内容可以被静态提升。</p>
@@ -414,7 +415,7 @@ set时执行dep.trigger()。触发notify().再触发所有link (link.sub as Comp
 
 <span class="hljs-comment">// Check the console for the AST</span>
 </code></pre>
-<p>原来就是做与闭包了。静态部分只计算一次，缓存起来结果，使用时直接拿过来用。</p>
+<p>原来就是做了闭包。静态部分只计算一次，缓存起来结果，使用时直接拿过来用。</p>
 <h3 id="generate">generate</h3>
 <p>根据环境不同（node/browser/ssr）生成不同风格的代码。</p>
 <h2 id="运行时">运行时</h2>

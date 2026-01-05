@@ -414,14 +414,27 @@ imgs.<span class="hljs-title function_">forEach</span>(<span class="hljs-functio
 </tbody>
 </table>
 <!-- prettier-ignore-end -->
+<p>懒加载。路由懒加载、图片懒加载、组件懒加载、代码懒加载。
+压缩。
+缓存。
+tree-shaking
+开发规范
+良好的数据结构与算法</p>
 <h2 id="前端性能指标">前端性能指标</h2>
-<h3 id="fpfirst-paint首次绘制">FP(First Paint)首次绘制</h3>
-<p>绘制出第一个视觉元素。
-减少 css/js 的体积。
-<code>&lt;link rel=&quot;preload&quot;&gt;</code>提前加载关键资源。</p>
+<ul>
+<li>fcp/lcp 影响内容呈现给用户的体验。对页面跳出率影响最大。</li>
+<li>fid/inp/tti，影响用户与网页交互的体验。对功能置换率和网页留存率影响较大。</li>
+</ul>
+<h3 id="fpfirst-paint首次绘制-或者-fcpfirst-contentful-paint-首次内容绘制">FP(First Paint)首次绘制 或者 FCP(First Contentful Paint) 首次内容绘制</h3>
+<p>首次内容绘制。
+衡量从网页开始加载到网页任何部分呈现在屏幕上所用的时间。</p>
+<p>减少 css/js 的体积。
+<code>&lt;link rel=&quot;preload&quot;&gt;</code>提前加载关键资源。
+应该优化首屏加载时间。</p>
 <h3 id="lcplargest-contentful-paint">LCP（Largest Contentful Paint）</h3>
 <p>绘制最大可见元素用时。一般要求在 2.5s 内
-优化图片等大资源的加载，使用懒加载、图片压缩、webp 格式。
+衡量从用户首次与您的网站互动（点击链接、点按按钮或使用由 JavaScript 提供支持的自定义控件）到浏览器实际能够响应该互动的时间</p>
+<p>优化图片等大资源的加载，使用懒加载、图片压缩、webp 格式。
 关键资源优先加载。使用<code>&lt;link rel=&quot;preload&quot;&gt;</code>或<code>&lt;img srcset&gt;</code>。
 对于动态内容，考虑使用骨架屏或占位符元素，直到 LCP 元素加载完毕。</p>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;box&quot;</span>&gt;</span>
@@ -436,9 +449,18 @@ imgs.<span class="hljs-title function_">forEach</span>(<span class="hljs-functio
   <span class="hljs-comment">&lt;!-- 在2x显示器上显示 --&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 </code></pre>
+<h3 id="fidfirst-input-delay">FID（First Input Delay）</h3>
+<p>首次输入延迟，衡量从用户首次与您的网站互动（点击链接、点按按钮或使用由 JavaScript 提供支持的自定义控件）到浏览器实际能够响应该互动的时间</p>
+<h3 id="inpinteraction-to-next-paint">INP(Interaction to Next Paint)</h3>
+<p>衡量与网页进行每次点按、点击或键盘交互的延迟时间，并根据互动次数选择该网页最差的互动延迟时间（或接近最高延迟时间）作为单个代表性值，以描述网页的整体响应速度</p>
+<h3 id="ttitime-to-interactive-可交互时间">TTI(time to interactive) 可交互时间</h3>
+<p>衡量的是从网页开始加载到视觉呈现、其初始脚本（若有）已加载且能够快速可靠地响应用户输入的时间</p>
+<h3 id="tbttotal-blocking-time-总阻塞时间">TBT(total blocking time) 总阻塞时间</h3>
+<p>测量 FCP 和 TTI 之间的总时间，在此期间，主线程处于屏蔽状态的时间够长，足以阻止输入响应</p>
 <h3 id="clscumulative-layout-shift">CLS（Cumulative Layout Shift）</h3>
 <p>累计布局偏移量。会触发重绘、回流。
-避免在页面加载期间修改已渲染元素的尺寸，确保所有元素尺寸提前计算好。
+衡量从页面开始加载到其生命周期状态更改为隐藏之间发生的所有意外布局偏移的累计得分</p>
+<p>避免在页面加载期间修改已渲染元素的尺寸，确保所有元素尺寸提前计算好。
 使用 height 和 width 属性为图片和 iframe 等元素指定尺寸。
 动态插入内容时，预留空间或使用 CSS 动画而非即时布局变化。
 避免使用 position: fixed;或 sticky;导致的布局偏移，除非绝对必要。</p>

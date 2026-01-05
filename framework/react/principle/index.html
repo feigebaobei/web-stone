@@ -969,8 +969,8 @@ newChain.<span class="hljs-title function_">appen</span>(<span class="hljs-strin
   <span class="hljs-attr">tag</span>: <span class="hljs-title class_">UpdateState</span>,
   <span class="hljs-attr">payload</span>: <span class="hljs-literal">null</span>, <span class="hljs-comment">// 子元素 {element}</span>
   <span class="hljs-attr">callback</span>: <span class="hljs-literal">null</span>,
-  <span class="hljs-attr">next</span>: <span class="hljs-literal">null</span>
-};
+  <span class="hljs-attr">next</span>: <span class="hljs-literal">null</span>,
+}
 </code></pre>
 <h3 id="hook">hook</h3>
 <pre><code class="language-js">{
@@ -998,7 +998,7 @@ newChain.<span class="hljs-title function_">appen</span>(<span class="hljs-strin
   inst,
   <span class="hljs-comment">// Circular</span>
   <span class="hljs-attr">next</span>: (<span class="hljs-attr">null</span>: any),
-};
+}
 </code></pre>
 <h3 id="数据枚举">数据枚举</h3>
 <pre><code class="language-js"><span class="hljs-title class_">ReactWorkTags</span>:
@@ -1089,7 +1089,7 @@ ReactFiberBeginWork.js: 处理虚拟 DOM 树的构建和比较
 ReactFiberCompleteWork.js: 完成节点创建和更新
 ReactFiberCommitWork.js: 执行实际的 DOM 操作
 ReactFiberConfigDOM.js: 具体的 DOM 操作实现</p>
-<p>底层使用js<a href="/language/javascript/opDom.html">操作 dom</a>.的方法。</p>
+<p>底层使用 js<a href="/language/javascript/opDom.html">操作 dom</a>.的方法。</p>
 <h1 id="本地笔记">本地笔记</h1>
 <h2 id="inside-fiber-in-depth-overview-of-the-new-reconciliation-algorithm-in-react">Inside Fiber: in-depth overview of the new reconciliation algorithm in React</h2>
 <h3 id="side-effects">side-effects</h3>
@@ -1169,8 +1169,8 @@ fiber更新后
 <p>全局变量 nextUnitOfWork 表示在 workInProgress 树上下一个需要工作的 FiberNode。<br>
 若此变量为空，则完成所有工作。</p>
 <ol>
-<li>当执行 setState 时，会在该组件对应的 FiberNode 的 uqdateQueue 中添加工作。</li>
-<li>进入 render 阶段。</li>
+<li>当执行 setState 时，会在该组件对应的 FiberNode 的 uqdateQueue 中添加工作。设置lanes字段。</li>
+<li>进入 render 阶段。（render phase）</li>
 <li>调用 renderRoot 方法。从 HostRoot(它是一个 FiberNode)开始，会跳过完成工作的 FiberNode，直到未完成工作的 FiberNode.</li>
 <li>调用 createWorkInProgress 方法，根据 ReactElement 创建 workInProgress.（可能没有此步）</li>
 <li>调用 beginWork 方法。根据 type 分别调用相应的方法。如<code>updateClassComponent() 、 updateFunctionComponent()</code>。会创建并挂载组件的实例或更新实例。</li>
@@ -1269,7 +1269,7 @@ React.createElement('span', {id: '#id'}, string)
                                             addEventCaptureListener() 为指定dom上绑定指定事件
   ReactDOMRoot(root) 返回fiberRoot对象
 </code></pre>
-<p>FiberRoot.current是根节点的Fiber 对象。</p>
+<p>FiberRoot.current 是根节点的 Fiber 对象。</p>
 <h3 id="reactdomroot-1">ReactDOMRoot</h3>
 <p>这个方法很简单。</p>
 <pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">ReactDOMRoot</span>(<span class="hljs-params">internalRoot: FiberRoot</span>) {
@@ -1355,30 +1355,30 @@ React.createElement('span', {id: '#id'}, string)
 <span class="hljs-comment">// 渲染函数</span>
 <span class="hljs-title class_">ReactDOMRoot</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">unmount</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {}
 </code></pre>
-<h2 id="引入jsx文件">引入jsx文件</h2>
-<p>vite使用<code>@vitejs/plugin-react</code>插件处理<code>*.jsx</code>文件
+<h2 id="引入-jsx-文件">引入 jsx 文件</h2>
+<p>vite 使用<code>@vitejs/plugin-react</code>插件处理<code>*.jsx</code>文件
 // 自动添加的导入
-import { jsx as _jsx } from 'react/jsx-dev-runtime';  // 开发环境
-import { jsx as _jsx } from 'react/jsx-runtime';      // 生产环境</p>
-<p>我不知道vite怎么调用插件处理jsx的。我看到react项目在遇到jsx代码时会调用<code>react/src/jsx/ReactJSXElement.js</code>文件中的<code>jsxDEVImpl</code>方法。</p>
-<p>没有理清楚加载jsx文件的逻辑。知道<code>*.jsx</code>是由<code>@vitejs/plugin-react</code>处理的。调用了<code>jsxDEVImpl</code>方法。
-jsx会被转换为调用createElement方法。</p>
+import { jsx as _jsx } from 'react/jsx-dev-runtime'; // 开发环境
+import { jsx as _jsx } from 'react/jsx-runtime'; // 生产环境</p>
+<p>我不知道 vite 怎么调用插件处理 jsx 的。我看到 react 项目在遇到 jsx 代码时会调用<code>react/src/jsx/ReactJSXElement.js</code>文件中的<code>jsxDEVImpl</code>方法。</p>
+<p>没有理清楚加载 jsx 文件的逻辑。知道<code>*.jsx</code>是由<code>@vitejs/plugin-react</code>处理的。调用了<code>jsxDEVImpl</code>方法。
+jsx 会被转换为调用 createElement 方法。</p>
 <h2 id="渲染逻辑">渲染逻辑</h2>
 <p>React 的渲染逻辑包含两个主要阶段：</p>
 <p>协调阶段（Reconciliation）：计算需要更新的内容
 提交阶段（Commit）：执行实际的 DOM 更新</p>
-<p>更新时最早调用的方法是performWorkUntilDeadline</p>
+<p>更新时最早调用的方法是 performWorkUntilDeadline</p>
 <h3 id="转换逻辑">转换逻辑</h3>
-<p>把jsx代码转换成ReactElement对象。
-听网友说这是babel转换的。</p>
+<p>把 jsx 代码转换成 ReactElement 对象。
+听网友说这是 babel 转换的。</p>
 <pre><code>jsxDEV() 渲染jsx方法组件
   jsxDEVImpl()
     检查参数
     ReactElement() 返回一个对象
 </code></pre>
-<p>jsx写法执行到生成ReactElement对象就结束了。
-ReactDOMRoot.render方法的参数是reactElement
-在reactRootDom对象调用render方法时会生成fiber对象。具体逻辑如下：</p>
+<p>jsx 写法执行到生成 ReactElement 对象就结束了。
+ReactDOMRoot.render 方法的参数是 reactElement
+在 reactRootDom 对象调用 render 方法时会生成 fiber 对象。具体逻辑如下：</p>
 <pre><code>
 </code></pre>
 <h3 id="触发条件">触发条件</h3>
@@ -1388,8 +1388,8 @@ ReactDOMRoot.render方法的参数是reactElement
 <li>Context 更新：上下文数据变化</li>
 <li>强制更新：手动触发更新</li>
 </ul>
-<h2 id="hooks逻辑">hooks逻辑</h2>
-<p>所有内置的hooks方法都使用状态模式。每种状态对应一套hooks。在react-reconciler包的ReactFiberHooks.js文件中。</p>
+<h2 id="hooks-逻辑">hooks 逻辑</h2>
+<p>所有内置的 hooks 方法都使用状态模式。每种状态对应一套 hooks。在 react-reconciler 包的 ReactFiberHooks.js 文件中。</p>
 <h3 id="usestate">useState</h3>
 <p>调用栈</p>
 <pre><code class="language-js"><span class="hljs-title function_">useState</span>()
@@ -1417,42 +1417,42 @@ ReactDOMRoot.render方法的参数是reactElement
         <span class="hljs-title function_">pushEffectImpl</span>() 设置currentlyRenderingFiber.<span class="hljs-property">updateQueue</span>
 </code></pre>
 <h2 id="总结">总结</h2>
-<p>react框架的本质是对dom增删改查。为了实现这个目标。借助了fiber。每个fiber对象对应一个dom节点。fiber对象保存了dom节点的属性。
-fiber对象的体量不大也不小。如果我在开发中使用此逻辑，并使用比fiber小的对象，就会运行更快了。</p>
+<p>react 框架的本质是对 dom 增删改查。为了实现这个目标。借助了 fiber。每个 fiber 对象对应一个 dom 节点。fiber 对象保存了 dom 节点的属性。
+fiber 对象的体量不大也不小。如果我在开发中使用此逻辑，并使用比 fiber 小的对象，就会运行更快了。</p>
 <h2 id="scheduler">scheduler</h2>
 <p>在更新时发现使用到了这个包。
 它的负责调度优先级。
-React结合优先级调度，高优先级任务（如用户输入、动画更新）可中断低优先级任务（如列表渲染），优先执行高优先级任务，执行完毕后再恢复低优先级任务，保证用户操作的及时性。</p>
+React 结合优先级调度，高优先级任务（如用户输入、动画更新）可中断低优先级任务（如列表渲染），优先执行高优先级任务，执行完毕后再恢复低优先级任务，保证用户操作的及时性。</p>
 <h2 id="渲染调用栈">渲染调用栈</h2>
-<p>createWorkInProgress	@	react-dom-client.development.js:4809
+<p>createWorkInProgress @ react-dom-client.development.js:4809
 这个方法用于创建或重用一个工作中的 Fiber 节点：
 主要功能：创建一个当前 Fiber 节点的副本，用于在渲染过程中进行工作
 实现方式：
 如果没有备用 Fiber（alternate），则创建一个新的 Fiber 节点
 如果已有备用 Fiber，则重用它并重置其属性
 设置双缓冲机制（current 和 work-in-progress 互相指向）</p>
-<p>prepareFreshStack	@	react-dom-client.development.js:17282
+<p>prepareFreshStack @ react-dom-client.development.js:17282
 这个方法用于准备一个新的工作栈，通常是开始新的渲染或重新开始渲染时调用：
 主要功能：
 重置工作循环的各种全局状态
 创建根节点的 work-in-progress 副本
 初始化工作循环相关变量
 使用场景：开始新的渲染、错误恢复后重新渲染</p>
-<p>renderRootConcurrent	@	react-dom-client.development.js:17495
+<p>renderRootConcurrent @ react-dom-client.development.js:17495
 这个方法执行并发渲染，是 React 并发模式下的主要渲染函数：
 主要功能：
 在并发模式下渲染 Fiber 树
 可以在渲染过程中暂停，让更高优先级的任务先执行
 通过 shouldYield() 检查是否需要让出主线程
 特点：时间切片，允许中断</p>
-<p>performWorkOnRoot	@	react-dom-client.development.js:16509
+<p>performWorkOnRoot @ react-dom-client.development.js:16509
 这是执行根节点工作的核心函数，协调整个渲染和提交过程：
 主要功能：
 根据是否为同步渲染选择不同的渲染方式
 调用渲染函数（同步或并发）
 处理渲染后的提交阶段
 调用关系：通常由 Scheduler 调度器触发</p>
-<p>performWorkOnRootViaSchedulerTask	@	react-dom-client.development.js:18964
+<p>performWorkOnRootViaSchedulerTask @ react-dom-client.development.js:18964
 这是由 Scheduler 调度的任务入口点，处理通过 Scheduler 调度的并发任务：
 主要功能：
 作为 Scheduler 回调函数的入口点
@@ -1460,7 +1460,7 @@ React结合优先级调度，高优先级任务（如用户输入、动画更新
 处理任务超时情况
 返回任务的后续处理函数（如果还有工作要做）
 特点：连接 React 渲染器和浏览器调度器</p>
-<p>performWorkUntilDeadline	@	scheduler.development.js:46
+<p>performWorkUntilDeadline @ scheduler.development.js:46
 这是由 Scheduler 调度的任务入口点，处理通过 Scheduler 调度的并发任务：
 主要功能：
 作为 Scheduler 回调函数的入口点
@@ -1468,48 +1468,48 @@ React结合优先级调度，高优先级任务（如用户输入、动画更新
 处理任务超时情况
 返回任务的后续处理函数（如果还有工作要做）
 特点：连接 React 渲染器和浏览器调度器</p>
-<p>schedulePerformWorkUntilDeadline	@	scheduler.development.js:227
+<p>schedulePerformWorkUntilDeadline @ scheduler.development.js:227
 这个方法用于安排 performWorkUntilDeadline 函数的执行，是调度系统的核心部分：
 主要功能：根据浏览器环境选择合适的机制来调度任务执行
 实现方式：
 在支持 setImmediate 的环境（如 Node.js）中使用 setImmediate
 在支持 MessageChannel 的浏览器中使用 MessageChannel（优先选择）
 在其他环境使用 setTimeout 作为备选</p>
-<p>exports.unstable_scheduleCallback	@	scheduler.development.js:347
+<p>exports.unstable_scheduleCallback @ scheduler.development.js:347
 这是 Scheduler 包的主要 API，用于调度一个回调函数：
 主要功能：
 根据优先级调度任务
 处理延迟任务（通过 timerQueue）
 将任务加入执行队列（taskQueue）
 在需要时调用 requestHostCallback 启动执行循环</p>
-<p>scheduleTaskForRootDuringMicrotask	@	react-dom-client.development.js:18931
+<p>scheduleTaskForRootDuringMicrotask @ react-dom-client.development.js:18931
 这个方法在微任务期间为根节点调度任务：
 主要功能：
 检查哪些 lanes 正在被饥饿（starved），并标记为过期
 确定下一个要处理的 lanes
 如果有工作要做，安排新的回调
 如果没有工作，清理回调节点</p>
-<p>processRootScheduleInMicrotask	@	react-dom-client.development.js:18847
+<p>processRootScheduleInMicrotask @ react-dom-client.development.js:18847
 这个方法在微任务中处理根节点调度：
 主要功能：
 遍历所有有工作的根节点
 为每个根节点调用 scheduleTaskForRootDuringMicrotask
 从调度列表中移除没有工作的根节点
 执行同步工作（如果存在）</p>
-<p>(anonymous)	@	react-dom-client.development.js:18998</p>
-<p>scheduleImmediateRootScheduleTask	@	react-dom-client.development.js:18987
+<p>(anonymous) @ react-dom-client.development.js:18998</p>
+<p>scheduleImmediateRootScheduleTask @ react-dom-client.development.js:18987
 这个方法用于立即调度根节点调度任务：
 主要功能：在微任务或宏任务中调度 processRootScheduleInMicrotask 函数的执行
 实现方式：根据环境支持情况，优先使用微任务（scheduleMicrotask），如果微任务不支持则使用 Scheduler 的立即回调
 用途：确保根节点的调度逻辑在当前浏览器任务结束后执行</p>
-<p>ensureRootIsScheduled	@	react-dom-client.development.js:18782
+<p>ensureRootIsScheduled @ react-dom-client.development.js:18782
 这个方法确保根节点被调度：
 主要功能：
 将根节点添加到调度列表中（firstScheduledRoot 链表）
 设置 mightHavePendingSyncWork 标志，用于快速判断是否有同步工作
 调用 ensureScheduleIsScheduled 来安排调度任务
 触发时机：当根节点接收到更新时调用</p>
-<p>scheduleUpdateOnFiber	@	react-dom-client.development.js:16426
+<p>scheduleUpdateOnFiber @ react-dom-client.development.js:16426
 这个方法调度 Fiber 上的更新：
 主要功能：
 检查是否在渲染或提交阶段进行更新，如果是则抛出错误
@@ -1517,7 +1517,7 @@ React结合优先级调度，高优先级任务（如用户输入、动画更新
 如果根节点已经暂停并等待数据解析，标记为暂停状态
 调用 ensureRootIsScheduled 确保根节点被调度
 对于同步更新且在非并发模式下，立即刷新同步工作</p>
-<p>updateContainerImpl	@	react-dom-client.development.js:23518
+<p>updateContainerImpl @ react-dom-client.development.js:23518
 这个方法是容器更新的核心实现：
 主要功能：
 创建更新对象并设置上下文
@@ -1525,8 +1525,8 @@ React结合优先级调度，高优先级任务（如用户输入、动画更新
 将更新加入 Fiber 的更新队列
 调用 scheduleUpdateOnFiber 来调度更新
 处理转换（transitions）的纠缠</p>
-<p>ReactDOMHydrationRoot.render.ReactDOMRoot.render	@	react-dom-client.development.js:27902
-(anonymous)	@	main.tsx:11</p>
+<p>ReactDOMHydrationRoot.render.ReactDOMRoot.render @ react-dom-client.development.js:27902
+(anonymous) @ main.tsx:11</p>
 <h2 id="参考文档-1">参考文档</h2>
 <p><a href="https://zhuanlan.zhihu.com/p/16267859021">https://zhuanlan.zhihu.com/p/16267859021</a></p>
 
