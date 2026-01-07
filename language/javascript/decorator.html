@@ -148,7 +148,7 @@
 <li>有点像高阶函数、代理。</li>
 <li>修饰什么就应该返回一个什么。用于替换目标。如果不返回，则不替换目标。不返回值的装饰器方法常用于副作用方法。</li>
 <li>编译时运行。</li>
-<li>无法取消。若要取消，请使用 proxy.</li>
+<li>无法取消。若要取消，请使用 <code>let { proxy, revoke } = Proxy.revocable(target, handler)</code></li>
 <li>多个装饰方法作用于一个目标时。由内向外执行。</li>
 <li>装饰器是在编辑阶段运行的。它的本质是编译时执行的函数。</li>
 <li>装饰器方法可以用 function 定义，也可以用 let、var、const 定义.</li>
@@ -260,16 +260,16 @@ p.<span class="hljs-property">skills</span> = <span class="hljs-function">() =&g
 </ul>
 <h2 id="类装饰器">类装饰器</h2>
 <p>当装饰器应用于类时，实际上应用于类的构造方法。返回的是类的构造函数。</p>
-<pre><code>type ClassDecorator = &lt;TFunction extends Function&gt;
-  (target: TFunction) =&gt; TFunction | void;
+<pre><code class="language-ts"><span class="hljs-keyword">type</span> <span class="hljs-title class_">ClassDecorator</span> = &lt;<span class="hljs-title class_">TFunction</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Function</span>&gt;
+  <span class="hljs-function">(<span class="hljs-params">target: TFunction</span>) =&gt;</span> <span class="hljs-title class_">TFunction</span> | <span class="hljs-built_in">void</span>;
 </code></pre>
 <h2 id="方法装饰器">方法装饰器</h2>
 <p>返回的是 descriptor</p>
-<pre><code>type MethodDecorator = &lt;T&gt;(
-  target: Object,
-  propertyKey: string|symbol,
+<pre><code class="language-ts"><span class="hljs-keyword">type</span> <span class="hljs-title class_">MethodDecorator</span> = &lt;T&gt;<span class="hljs-function">(<span class="hljs-params">
+  target: <span class="hljs-built_in">Object</span>,
+  propertyKey: <span class="hljs-built_in">string</span>|<span class="hljs-built_in">symbol</span>,
   descriptor: TypedPropertyDescriptor&lt;T&gt;
-) =&gt; TypedPropertyDescriptor&lt;T&gt; | void;
+</span>) =&gt;</span> <span class="hljs-title class_">TypedPropertyDescriptor</span>&lt;T&gt; | <span class="hljs-built_in">void</span>;
 </code></pre>
 <h2 id="属性装饰器">属性装饰器</h2>
 <pre><code class="language-ts"><span class="hljs-keyword">type</span> <span class="hljs-title class_">PropertyDecorator</span> = <span class="hljs-function">(<span class="hljs-params">target: <span class="hljs-built_in">Object</span>, propertyKey: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">symbol</span></span>) =&gt;</span> <span class="hljs-built_in">void</span>
@@ -356,7 +356,7 @@ c.<span class="hljs-property">foo</span> = <span class="hljs-number">150</span>;
 执行： 静态方法
 执行： 构造方法参数
 执行： 类装饰器</p>
-<p>同一级装饰器的执行顺序，是按照它们的代码顺序。但是，参数装饰器的执行总是早于方法装饰器。</p>
+<p>同一级装饰器的执行顺序，是按照它们的代码顺序。但是，参数装饰器的执行总是早于方法装饰器。 // 这里好像错了。</p>
 <pre><code>function f(key:string):any {
   return function () {
     console.log('执行：', key);

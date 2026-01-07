@@ -153,6 +153,7 @@ friend.forEach(item => {
 ## 装饰器模式
 
 常用于封装已经有的类或其方法或其属性或其参数。
+不能装饰方法。
 
 ```
 let dfn = () => {
@@ -175,9 +176,9 @@ class MyClass {
 是把一些开销很大的对象，延迟到真正需要它的时候才去创建执行。
 常用于：隔离、保护、验证、阻隔、缓冲、代理等。
 
-```
+```js
 class User {
-  constructor (name, age) {
+  constructor(name, age) {
     this.name = name
     this.age = age
   }
@@ -190,18 +191,18 @@ var handler = {
   construct: (target, args, newTarget) => {
     console.log(target, args, newTarget)
     if (200 < args[1]) {
-      return {error: new Error('age is invalid')}
+      return { error: new Error('age is invalid') }
     } else {
       var a = Array.prototype.slice.call(args, 0)
       return new target(...a)
     }
-  }
+  },
 }
 var proxy = new Proxy(User, handler)
 var u = new proxy('u', 33)
-let {proxy: p, revoke} = Proxy.revocable(User, handler)
+let { proxy: P, revoke } = Proxy.revocable(User, handler)
 revoke() // 解除代理
-var a = new p('a', 23) // Uncaught TypeError: Cannot perform 'construct' on a proxy that has been revoked
+var a = new P('a', 23) // Uncaught TypeError: Cannot perform 'construct' on a proxy that has been revoked
 ```
 
 ## 外观模式（门面模式）
@@ -211,7 +212,7 @@ var a = new p('a', 23) // Uncaught TypeError: Cannot perform 'construct' on a pr
 `compose`方法就是一种体现。
 常用于把一推方法放在一起执行。
 
-```
+```js
 // demo0
 function a () {...}
 function b () {...}
@@ -229,6 +230,47 @@ function stopEvent () {
 }
 function stopPropagation() {}
 function preventDefault() {}
+
+// demo2
+// 同步，对参数做相关处理
+let f = (p, ...fnList) => {
+    return [...fnList, () => {}].reduce((prev, cur) => {
+        prev(p);
+        return cur
+    });
+}
+// 同步，对前面方法的返回值做相关处理
+let f = (p, ...fnList) => {
+  return [...fnList, () => {}].reduce((prev, cur) => {
+    return cur(p)
+  }, p)
+}
+// 异步，对参数做相关处理
+let f = (p, ...fnList) => {
+  let _fn = (i = 0) => {
+    return Promise.resolve(fnList[i](p)).then(() => {
+      if (i >= fnList.length - 1) {
+        return
+      } else {
+        return _fn(i + 1)
+      }
+    })
+  }
+  return _fn()
+}
+// 异步，对前面方法的返回值做相关处理
+let f = (p, ...fnList) => {
+    let fn = (i, p) => {
+        return p.then(res => {
+            if (i >= fnList.length - 1) {
+                return res
+            } else {
+                return fn(i + 1, Promise.resolve(fnList[i + 1](res)))
+            }
+        })
+    }
+    return fn(0, Promise.resolve(fnList[0](p)))
+}
 ```
 
 ## 桥接模式
@@ -237,12 +279,13 @@ function preventDefault() {}
 可利用常用的基本类。
 与依赖注入相反。
 依赖注入是单例的。桥接模式是多例的。
+常用于多个维度时。
 
-```
+```js
 class Base0 {}
 class Base1 {}
 class Super {
-  constructor () {
+  constructor() {
     this.base0 = new Base0()
     this.base1 = new Base1()
   }
@@ -254,16 +297,16 @@ class Super {
 把多个命令（或方法）组合起来。可追加命令，再依次执行。
 与门面模式类似。
 
-```
+```js
 class MacroCommand {
-  constructor () {
+  constructor() {
     this.commandList = []
   }
-  add (fn) {
+  add(fn) {
     this.commandList.push(fn)
   }
-  execute () {
-    this.commandList.forEach(cb => cb())
+  execute() {
+    this.commandList.forEach((cb) => cb())
   }
 }
 let macroCommand = new MacroCommand()
@@ -280,8 +323,8 @@ macroCommand.execute()
 当需要很多具有若干相同属性与不同属性的对象时，可以使用享元模式。  
 // 该模式下的实例是共享的一个对象。
 
-```
-function Circle (color) {
+```js
+function Circle(color) {
   this.color = color
   this.x
   this.y
@@ -301,7 +344,7 @@ let shapeFactory = (function () {
         store[color] = new Circle(color)
       }
       return store[color]
-    }
+    },
   }
 })()
 let circle0 = shapeFactory.getCircle('red')
@@ -313,7 +356,7 @@ circle.draw()
 
 策略模式可看作为 if/else 判断的另一种表现形式，在达到相同目的的同时，减少了代码量以及代码维护成本。  
 分离算法的使用、算法的实现。
-常用于表单验证、活动奖品。
+常用于表单验证(一个策略对应一种验证规则)、活动奖品。
 
 ```js
 // demo0
@@ -378,8 +421,8 @@ Validator.prototype.test = (rules) => {
 常用于
 基本实践过程如下：
 
-```
-function SaveData () {}
+```js
+function SaveData() {}
 SaveData.prototype.check = () => {
   console.log('check data format')
 }
@@ -389,7 +432,7 @@ SaveData.prototype.store = () => {
 SaveData.prototype.feedback = () => {
   console.log('success save')
 }
-function SaveUser () {}
+function SaveUser() {}
 SaveUser.prototype = new SaveData()
 SaveUser.prototype.check = (name) => {
   if (typeof name === 'string') {
@@ -401,6 +444,11 @@ SaveUser.prototype.check = (name) => {
 ```
 
 ## 观察者模式
+
+常用于监听变化、事件传递、消息通信、流式处理。  
+[用 proxy 写的示例](/language/javascript/proxyReflect.html)
+
+## 发布订阅模式
 
 常用于统一分发消息。
 
@@ -422,7 +470,7 @@ SaveUser.prototype.check = (name) => {
 function Public () {
   this.subs = new Map()
   this.addSub = (item) => { // 添加订阅者
-    this.subs.set(item, Simple())
+    this.subs.set(item, Symbol())
   }
   this.removeSub = (item) => {
     this.subs.delete(item)
@@ -444,7 +492,7 @@ class Subject {
   }
   add(...observer) {
     observer.forEach(item => {
-      this.observers.set(item, Simple())
+      this.observers.set(item, Symbol())
     })
   }
   remove(observer) {
@@ -467,11 +515,6 @@ let sub = new Subject()
 sub.add(o0, o1)
 sub.notify()
 ```
-
-## 发布订阅模式
-
-常用于监听变化、事件传递、消息通信、流式处理。  
-[用 proxy 写的示例](/language/javascript/proxyReflect.html)
 
 ## 迭代器模式
 
@@ -527,6 +570,7 @@ ite.next() // {value: undefined, done: true}
 有点像 compose / 葫芦娃救爷爷 /
 可以代替 switch。
 常用于解决方案排队。
+在每个链的节点方法内判断是否满足条件，满足则处理，否则将请求传递给下一个节点。
 
 ```js
 function order500(orderType, isPay, count) {
@@ -608,6 +652,9 @@ class Chain {
     for (let i = 0; i < this.fnList.length; i++) {
       res = this.fnList[i](...args)
       if (res === threshold) {
+        // 是否命中。若等于threshold，则表示没命中，去继续执行下一个函数
+        // go on
+      } else {
         break
       }
     }
@@ -643,6 +690,7 @@ let chain = function (threshold, ...fnList) {
     for (let i = 0; i < this.fnList.length; i++) {
       res = this.fnList[i](...args)
       if (res === threshold) {
+        // 是否命中。若等于threshold，则表示没命中，去继续执行下一个函数
         // go on
       } else {
         break
@@ -870,7 +918,7 @@ c.add(command3)
 
 也叫缓存模式。在一个栈中保存多个状态。当需要返回前一个状态时，从栈中弹出一状态。直到栈为空。  
 与缓存相关的算法有[fifo/lru/lfu](/jsPackages/data-footstone.html)
-常用于缓存频繁计算时。
+常用于缓存频繁计算时，返回上一步。
 
 ```js
 class Memo {
@@ -878,11 +926,11 @@ class Memo {
     // 同时支持有序、无序。
     // 复杂度支持1、n
     this.stateKeyMap = new Map()
-    this.stateKeyList = []
+    // this.stateKeyList = []
   }
   // 保存状态
   push(key, state) {
-    this.stateKeyList.push(key)
+    // this.stateKeyList.push(key)
     let KEY = Symbol.for(key)
     this.stateKeyMap.set(KEY, state)
   }
@@ -892,26 +940,23 @@ class Memo {
   }
   // 弹出最后一个状态
   pop() {
-    let lastKey = this.stateKeyList.pop()
+    let arr = Array.from(this.stateKeyMap.keys())
+    let lastKey = arr[arr.length - 1]
     let state = this.peek(lastKey)
     this.delState(lastKey)
     return state
   }
   // 删除指定的状态
   delState(key) {
-    let index = this.stateKeyList.findIndex((item) => item === key)
-    if (index > -1) {
-      this.stateKeyList.splice(index, 1)
-      this.stateKeyMap.delete(Symbol.for(key))
-    }
+    // let index = this.stateKeyList.findIndex((item) => item === key)
+    // if (index > -1) {
+    //   this.stateKeyList.splice(index, 1)
+    // }
+    this.stateKeyMap.delete(Symbol.for(key))
   }
   // 查看所有状态
   allState() {
-    // [[k, v], [k0, v0], ...]
-    return this.stateKeyList.reduce((r, c) => {
-      r.push([c, this.stateKeyMap.get(Symbol.for(c))])
-      return r
-    }, [])
+    return Array.from(this.stateKeyMap.values())
   }
 }
 ```
@@ -1035,21 +1080,22 @@ clog(shapeCollection.accept(visitor))
 ## 中介模式
 
 解耦对象与对象（数据与数据）之间关系。使二者间尽可能解耦。  
-常用于多对多的关系。像发布订阅模式。
+常用于多对多的关系，中心化系统，实时通信。像发布订阅模式。
+中介会和所有实体有联系。各实体之间无联系。
 
 ```js
 // demo0
 class Game {
   constructor() {
-    this.playerList = new Map()
+    this.playerMap = new Map()
   }
   addPlayer(...ps) {
     ps.forEach(p => {
-      this.playerList.set(p.name, p)
+      this.playerMap.set(p.name, p)
     })
   }
   removePlayer(p) {
-    this.playerList.delete(p.name)
+    this.playerMap.delete(p.name)
   }
   operate(source, target, operation) {
     switch(operation) {
@@ -1074,6 +1120,35 @@ let p2 = new Player('p2')
 game.addPlayer(p0, p1, p2)
 // 某情况下触发了：
 game.operate(p0, p1, 'xxx')
+
+// demo2
+class Player {
+  constructor(mediator) {
+    this.mediator = mediator
+  }
+  f0() {
+    this.mediator.notify('a')
+  }
+  f1() {
+    this.mediator.notify('b')
+  }
+  f2() {...}
+  f3() {...}
+}
+class Mediator {
+  constructor() {
+    this.p1 = new Player(this)
+    this.p2 = new Player(this)
+  }
+  notify(player, action) {
+    switch (action) {
+      case 'xxx':
+        // 请p1/p2做xx
+        break;
+      // ....
+    }
+  }
+}
 ```
 
 ## 解释器模式

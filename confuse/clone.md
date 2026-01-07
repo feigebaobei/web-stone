@@ -40,15 +40,22 @@ js 的类型可分为简单类型、引用（复杂）类型。
 
 ## [MessageChannel](/language/javascript/messageChannel.html)
 
-```
+```js
 let f = (o) => {
-    return new Promise((s, _j) => {
-        let { port1, port2 } = nwe MessageChannel()
-        port1.postMessage(o)
-        port2.onmessage = e => s(e.data)
-    })
+  return new Promise((s, _j) => {
+    let { port1, port2 } = new MessageChannel()
+    port1.postMessage(o)
+    port2.onmessage = (e) => s(e.data)
+  })
 }
+let a
+f(o).then((r) => {
+  a = r
+})
 ```
+
+可以用于循环对象。
+深复制。
 
 ## jQuery.extend()
 

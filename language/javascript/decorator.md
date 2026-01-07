@@ -7,7 +7,7 @@
 - 有点像高阶函数、代理。
 - 修饰什么就应该返回一个什么。用于替换目标。如果不返回，则不替换目标。不返回值的装饰器方法常用于副作用方法。
 - 编译时运行。
-- 无法取消。若要取消，请使用 proxy.
+- 无法取消。若要取消，请使用 `let { proxy, revoke } = Proxy.revocable(target, handler)`
 - 多个装饰方法作用于一个目标时。由内向外执行。
 - 装饰器是在编辑阶段运行的。它的本质是编译时执行的函数。
 - 装饰器方法可以用 function 定义，也可以用 let、var、const 定义.
@@ -121,21 +121,22 @@ class C {...}
 
 当装饰器应用于类时，实际上应用于类的构造方法。返回的是类的构造函数。
 
-```
-type ClassDecorator = <TFunction extends Function>
-  (target: TFunction) => TFunction | void;
+```ts
+type ClassDecorator = <TFunction extends Function>(
+  target: TFunction
+) => TFunction | void
 ```
 
 ## 方法装饰器
 
 返回的是 descriptor
 
-```
+```ts
 type MethodDecorator = <T>(
   target: Object,
-  propertyKey: string|symbol,
+  propertyKey: string | symbol,
   descriptor: TypedPropertyDescriptor<T>
-) => TypedPropertyDescriptor<T> | void;
+) => TypedPropertyDescriptor<T> | void
 ```
 
 ## 属性装饰器
@@ -239,7 +240,7 @@ class C {
 执行： 构造方法参数
 执行： 类装饰器
 
-同一级装饰器的执行顺序，是按照它们的代码顺序。但是，参数装饰器的执行总是早于方法装饰器。
+同一级装饰器的执行顺序，是按照它们的代码顺序。但是，参数装饰器的执行总是早于方法装饰器。 // 这里好像错了。
 
 ```
 function f(key:string):any {

@@ -49,6 +49,8 @@ let fn = (jqObj, eventName, cb) => {
 
 ### 取得 dom 元素绑定的事件
 
+原生 js 没法得到。
+
 ```
 $._data(domElement, 'events') // array
 ```
