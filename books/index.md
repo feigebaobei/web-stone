@@ -15,6 +15,9 @@
   - [《低代码引擎技术白皮书》](/books/lcEbook.html)
   - [《pattern: backends for frontend》](/books/bff.html)
   - [《编写可维护的 javascript》](/books/maintainableJavascript.html)
+  - [《Eloquent_JavaScript》](/books/Eloquent_JavaScript.pdf)
+  - [hellogithub](https://hellogithub.com/)
+  - [github](https://github.com/)
 - [《logic》](/books/logic.html)
 - [《盐铁论》](/books/title.html)
 - [《止学》](/books/zhixue.html)
@@ -44,9 +47,7 @@
 - [《韬晦术》](/books/taoHuiShu.html)
 - [《了凡四训》](/books/liaofansixun.html)
 - [《俞净意公遇灶神记》](/books/yujingyigongyuzaoshenji.html)
-- it
-- [《Eloquent_JavaScript》](/books/Eloquent_JavaScript.pdf)
-- [《妙法莲华经文句》](/books/title.html)
+- [《妙法莲华经》](/books/miaofalianhuajing/index.html)
 - [《title》](/books/title.html)
 - 略
   - [《棋经十三篇》](/books/qijingshisanpian.html)
