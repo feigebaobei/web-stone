@@ -18,8 +18,8 @@ null 不能成为键名。
 | clear()          | 删除所有 kv        |    |    |
 | keys()           | 返回一个 iterator 对象，其值为 key。             | 常与 for...of 一起使用           |    |
 | values()         | 返回一个 iterator 对象，其值为 value。           | 常与 for...of 一起使用           |    |
-| entries()        | 返回一个 iterator 对象，其值为[key, value]       | 常与 for...of 一起使用           | for (let [key, value] of map.entries() {...} |
-| forEach(callback(item, index, arr)[, thisArg]) |        |    |
+| entries()        | 返回一个 iterator 对象，其值为[key, value]       | 常与 for...of 一起使用           | for (let [key, value] of map.entries()) {...} |
+| forEach(callback(value, key, map)[, thisArg]) |        |    |
 <!-- prettier-ignore-end -->
 
 **Map => Array**

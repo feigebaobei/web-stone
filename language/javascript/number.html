@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>number</title>
-        <style>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>number</title>
+            <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -11,47 +11,14 @@
  *--------------------------------------------------------------------------------------------*/
 
 .vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
 	display: none;
 }
 
-/* From extension ms-toolsai.jupyter */
-/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
-
-.alert {
-    width: auto;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-.alert > *:last-child {
-    margin-bottom: 0;
-}
-#preview > .alert:last-child {
-    /* Prevent this being set to zero by the default notebook stylesheet */
-    padding-bottom: 1em;
-}
-
-.alert-success {
-    /* Note there is no suitable color available, so we just copy "info" */
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-info {
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-warning {
-    background-color: var(--theme-warning-background);
-    color: var(--theme-warning-foreground);
-}
-.alert-danger {
-    background-color: var(--theme-error-background);
-    color: var(--theme-error-foreground);
-}
-
 </style>
-        
+            
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -72,10 +39,106 @@
     pointer-events: none;
 }
 </style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
         
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="number">number</h1>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="number">number</h1>
 <p>JavaScript 内部使用 64 位浮点数（国际标准 IEEE 754）表示数值。
 IEEE 754 规定第一位是符号位，0 表示正数，1 表示负数。所以会有两种零，+0 是符号位为 0 时的零值，-0 是符号位为 1 时的零值。实际编程中，判断一个值是+0 还是-0 非常麻烦，因为它们是相等的。</p>
 <h2 id="语法">语法</h2>
@@ -129,7 +192,7 @@ b instanceof Number // false
 <tr>
 <td>Number.MIN_VALUE</td>
 <td>最小正数</td>
-<td></td>
+<td>5e-324</td>
 <td></td>
 <td></td>
 </tr>
@@ -270,11 +333,11 @@ b instanceof Number // false
 </table>
 <!-- prettier-ignore-end -->
 <h2 id="number--string">Number &amp; String</h2>
-<pre><code class="language-js"><span class="hljs-comment">// string =&gt; number  </span>
-<span class="hljs-comment">// 把字符串转换为数字。若可以转换则调用`parseInt`/`parseFloat`。否则返回`NaN`.  </span>
+<pre><code class="language-js"><span class="hljs-comment">// string =&gt; number</span>
+<span class="hljs-comment">// 把字符串转换为数字。若可以转换则调用`parseInt`/`parseFloat`。否则返回`NaN`.</span>
 <span class="hljs-title class_">Number</span>(str)
 
-<span class="hljs-comment">// 转换第一个无效字符前的字符串  </span>
+<span class="hljs-comment">// 转换第一个无效字符前的字符串</span>
 <span class="hljs-built_in">parseInt</span>(str)
 <span class="hljs-built_in">parseFloat</span>(str)
 </code></pre>
@@ -286,7 +349,7 @@ n + <span class="hljs-string">&#x27;&#x27;</span>
 <h3 id="处理过多小数">处理过多小数</h3>
 <p>Number(n.toFixed(4))</p>
 
-        
-        
-    </body>
-    </html>
+            
+            
+        </body>
+        </html>

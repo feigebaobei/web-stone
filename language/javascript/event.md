@@ -53,6 +53,8 @@ Event: {
 
 # CustomEvent 对象
 
+自定义事件
+
 ```js
 let ev = new CustomEvent('second', { detail: 'params' })
 // detail 可以是任务数据、方法

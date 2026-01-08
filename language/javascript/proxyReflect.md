@@ -116,7 +116,7 @@ class Observable {
   constructor(o) {
     this.proxyObj = new Proxy(o, {
       get: (target, key, receiver) => {
-        return Reflect.get(target, key)
+        return Reflect.get(target, key) // 使用Reflect.get()是为了防止死循环
       },
       set: (target, key, value, receiver) => {
         Reflect.set(target, key, value)

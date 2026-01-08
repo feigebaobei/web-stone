@@ -1147,10 +1147,10 @@ class MySql {
 // export default MySql;
 window.MySql = MySql
 // 单例模式
-let singleton = (className, params) => {
+let singleton = (className, ...params) => {
     let instance = null
     let init = () => {
-        instance = new className(params)
+        instance = new className(...params)
         return instance
     }
     return {
@@ -1350,6 +1350,12 @@ class ShareEventService {
   private getCb(eventName: S) {
     return this._map.get(eventName)
   }
+}
+let bindEvent = (dom, eventName, h) => {
+  dom.addEventListener(eventName, h)
+}
+let unBindEvent = (dom, eventName, h) => {
+  dom.removeEventListener(eventName, h)
 }
 
 

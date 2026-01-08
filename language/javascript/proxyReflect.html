@@ -237,7 +237,7 @@ Reflect.setPrototypeOf(target, prototype)
   <span class="hljs-title function_">constructor</span>(<span class="hljs-params">o</span>) {
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">proxyObj</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Proxy</span>(o, {
       <span class="hljs-attr">get</span>: <span class="hljs-function">(<span class="hljs-params">target, key, receiver</span>) =&gt;</span> {
-        <span class="hljs-keyword">return</span> <span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">get</span>(target, key)
+        <span class="hljs-keyword">return</span> <span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">get</span>(target, key) <span class="hljs-comment">// 使用Reflect.get()是为了防止死循环</span>
       },
       <span class="hljs-attr">set</span>: <span class="hljs-function">(<span class="hljs-params">target, key, value, receiver</span>) =&gt;</span> {
         <span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">set</span>(target, key, value)

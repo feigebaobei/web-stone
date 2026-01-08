@@ -18,7 +18,7 @@ date: {
     constructor,
     prototype,
     getDate(), // 返回一个月中的当前日期。
-    getDay(), // 返回星期几。星期日是第一个星期。
+    getDay(), // 返回星期几。星期日是第一个星期。周日时返回0，周一时返回1
     getMonth(), // 返回第几个月份。从0开始数。
     getFullYear(), // 返回4位数字的年份。
     getHours(),  // 返回小时数（0-23）
@@ -36,7 +36,7 @@ date: {
     getUTCSeconds(),
     getUTCMilliseconds(),
     parse(dateString)(),
-    setDate(number), // number 数字 必填  设置date对象中的日期。
+    setDate(number), // number 数字 必填  设置date对象中的日期。 // 从1开始
     setMonth(number),
     setFullYear(number),
     setHours(number), // [0, 23]

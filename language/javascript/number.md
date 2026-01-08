@@ -22,7 +22,7 @@ b instanceof Number // false
 | Number.MAX_SAFE_INTEGER  | 最大安全数                 | 2^53 - 1              |     |     |
 | Number.MAX_VALUE         | 最大正数                   |                       |     |     |
 | Number.MIN_SAFE_INTEGER  | 最小安全数                 | -(2^53 - 1)           |     |     |
-| Number.MIN_VALUE         | 最小正数                   |                       |     |     |
+| Number.MIN_VALUE         | 最小正数                   | 5e-324                |     |     |
 | Number.NaN               |                            |                       |     |     |
 | Number.NEGATIVE_INFINITY | 负无穷大                   |                       |     |     |
 | Number.POSITIVE_INFINITY | 正无穷大                    |                     |     |     |

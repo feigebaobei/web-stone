@@ -293,12 +293,14 @@ Array.from(obj, mapFn, thisArg) <=> Array.from(obj).map(mapFn, thisArg)
 
 ### 常用操作方法比较
 
-|        | unshift            | shift                | pop                    | push         | splice                    |
-| ------ | ------------------ | -------------------- | ---------------------- | ------------ | ------------------------- |
-| 逻辑   | 在头部添加若干元素 | 删除数组的第一个元素 | 删除数组的最后一个元素 | 追加若干元素 | 替换指定部分              |
-| 参数   | items...           | -                    | -                      | items...?    | start, howmany, items...? |
+<!-- prettier-ignore-start -->
+|        | unshift | shift       | pop  | push         | splice  |
+| ------ | -- | -------- | ---------- | ------------ | ------------- |
+| 逻辑   | 在头部添加若干元素 | 删除数组的第一个元素 | 删除数组的最后一个元素 | 追加若干元素 | 替换指定部分     |
+| 参数   | items...  | -  | -    | items...?    | start, howmany, items...? |
 | 返回值 | 数组新长度         | 返回被删除元素       | 返回被删除元素         | 数组新长度   | 被删除的元素组成的数组    |
-| 添加的 | 返回新长度         |                      |                        |              |                           |
-| 删除的 | 返回被删除元素     |                      |                        |              |                           |
+| 添加的 | 返回新长度         |    |      |     |         |
+| 删除的 | 返回被删除元素     |    |      |     |         |
+<!-- prettier-ignore-end -->
 
 ## [TypedArray](/language/javascript/typedArray.html)

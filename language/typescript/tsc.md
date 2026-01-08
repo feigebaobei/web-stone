@@ -159,6 +159,13 @@ tsc app.ts utils.ts --target esnext --outfile index.js
 |--useDefineForClassFields|||||||
 |--useUnknownInCatchVariables|||||||
 
+## tsc & babel
+
+|     | tsc                  | babel                |     |
+| --- | -------------------- | -------------------- | --- |
+|     | 可以生成\*.d.ts 文件 | 不会生成\*.d.ts 文件 |     |
+|     |                      |                      |     |
+
 ## todo
 
 > 未来迭代计划。

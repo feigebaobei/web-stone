@@ -1286,10 +1286,10 @@ $.<span class="hljs-title function_">shadowDom</span>(<span class="hljs-string">
 <span class="hljs-comment">// export default MySql;</span>
 <span class="hljs-variable language_">window</span>.<span class="hljs-property">MySql</span> = <span class="hljs-title class_">MySql</span>
 <span class="hljs-comment">// 单例模式</span>
-<span class="hljs-keyword">let</span> <span class="hljs-title function_">singleton</span> = (<span class="hljs-params">className, params</span>) =&gt; {
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">singleton</span> = (<span class="hljs-params">className, ...params</span>) =&gt; {
     <span class="hljs-keyword">let</span> instance = <span class="hljs-literal">null</span>
     <span class="hljs-keyword">let</span> <span class="hljs-title function_">init</span> = (<span class="hljs-params"></span>) =&gt; {
-        instance = <span class="hljs-keyword">new</span> <span class="hljs-title function_">className</span>(params)
+        instance = <span class="hljs-keyword">new</span> <span class="hljs-title function_">className</span>(...params)
         <span class="hljs-keyword">return</span> instance
     }
     <span class="hljs-keyword">return</span> {
@@ -1489,6 +1489,12 @@ statusChain.<span class="hljs-title function_">getCurStatus</span>().<span class
   private <span class="hljs-title function_">getCb</span>(<span class="hljs-params">eventName: S</span>) {
     <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">_map</span>.<span class="hljs-title function_">get</span>(eventName)
   }
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">bindEvent</span> = (<span class="hljs-params">dom, eventName, h</span>) =&gt; {
+  dom.<span class="hljs-title function_">addEventListener</span>(eventName, h)
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">unBindEvent</span> = (<span class="hljs-params">dom, eventName, h</span>) =&gt; {
+  dom.<span class="hljs-title function_">removeEventListener</span>(eventName, h)
 }
 
 

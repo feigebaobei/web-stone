@@ -31,6 +31,8 @@
 | String#endsWith(searchString[, length])               | searchString 是搜索的字符串。length 指定 String 的尾部下标 | 返回 String 的指定尾部是否以 searchString 结束  |            |
 | String.fromCharCode(...num)    | num 0~65535(0xffff)之间的代表示 utf-16 代码单元的数字      | 返回该数字对应的字母。     |            |
 | String.fromCodePoint(...num)   |        | 返回使用指定的代码点序列创建的字符串            |            |
+| String#codePointAt(index)  | | 方法返回一个非负整数，该整数是从给定索引开始的字符的 Unicode 码位值。请注意，索引仍然基于 UTF-16 码元，而不是 Unicode 码位。  |
+| String#chartCodeAt(index)  | | 方法返回一个整数，表示给定索引处的 UTF-16 码元，其值介于 0 和 65535 之间。  |
 | String#includes(searchString[, position])             |        | 返回 boolean。表示 String 中是否包含 searchString。从 position 开始搜索。      |
 |   |
 | String#indexOf(searchString[, index])                 |        | 从指定的下标开始搜索 searchString。若存在则返回第一次出现的下标，否则返回-1.   |            |
@@ -51,7 +53,7 @@
 | `String#split([separator[,limit]])`                   | separator 分割符 limit 数组的长度   | 按指定分割符、数组长度分割 String 为数组。      |            |
 | String#startsWith(searchString[, position])           |        | 是否以 searchString 开头   | 参数不能是正则表达式           |
 | `String#substring(startIndex, [endIndex])`            |        | 返回指定下标范围的字符串   |            |
-| `String#toLocalLowerCase([locale])`                   |        | 返回指定语言环境的小写格式的字符串              |            |
+| `String#toLocaleLowerCase([locale])`                   |        | 返回指定语言环境的小写格式的字符串              |            |
 | `String#toLocaleUpperCase([locale])`                  |        | 返回指定语言环境的大写格式的字符串              |            |
 | `String#toLowerCase([locale])` |        | 返回指定语言环境的小写格式的字符串              |            |
 | `String#toUpperCase([locale])` |        | 返回指定语言环境的小写格式的字符串              |            |

@@ -33,7 +33,7 @@ start() // 不会
 close() // 不会
 ```
 
-# window.postMessage & messagePort.postMessage
+# window.postMessage & messagePort.postMessage & worker.postMessage
 
 <!-- prettier-ignore-start -->
 |          | window.postMessage   | messagePort.postMessage       | worker.postMessage / sharedWorker.port.postMessage |||
