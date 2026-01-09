@@ -72,6 +72,7 @@ console.log(arr[index]) // 'a'
 3. 不支持遍历
 
 只有 3 个方法
+
 **WeakSet.prototype.add(obj)** 为 WeakSet 对象指定添加的对象。  
 **WeakSet.prototype.delete(obj)** 返回是否删除指定的对象。  
 **WeakSet.prototype.has(obj)** 返回是否存在指定的对象。  

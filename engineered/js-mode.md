@@ -56,6 +56,12 @@ export / export default
 export { createFilter as default }
 ```
 
+`import()` 可以支持动态引入。
+`import`是在静态分析时引入的。
+
+`import()` 可以支持动态引入。
+`import`是在静态分析时引入的。
+
 ## Asynchronous Module Definition (AMD)
 
 异步模块定义，用于像 RequireJS 这样的模块加载器
@@ -68,7 +74,21 @@ export { createFilter as default }
 
 ## ES module 和 commonJS 循环引用问题
 
+<<<<<<< Updated upstream
 因 esm、commonjs 对待文件(模式)的方式不同。
+=======
+|esm|commonjs||
+|-|-|-|
+|在内存中缓存该文件，再使用到该的地方指向文件。|执行该模块后返回一个对象。||
+|进入文件后把文件在 Module Map 中标记为 fetching。解析完成为获取该文件的 Module Record.|执行了少返回多少||
+|循环引用不出问题|循环引用可能出问题||
+|动态只读|复制后返回||
+|单例|多例||
+|一般只使用，不改变|||
+|_.mjs 只能用 import 引入| _.cjs||
+|多次引入时，使用指向该模块的引用。|多次引入时，只运行第一次，并缓存在内存中，返回多次第一次运行的结果，除非删除缓存中的结果。||
+
+> > > > > > > Stashed changes
 
 | esm                                                                                    | commonjs                                                                                   |     |
 | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ | --- |

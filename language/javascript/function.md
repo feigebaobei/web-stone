@@ -23,6 +23,13 @@ new Function(...args, body)
 
 ## 箭头函数
 
+<<<<<<< Updated upstream
+
 箭头函数里面没有自己的 this.
 不能使用 yield。（也就不能使用 generator）
 不能使用 abc 改变 this.
+=======
+箭头函数里面没有自己的 this.
+不能使用 yield。（也就不能使用 generator）
+
+> > > > > > > Stashed changes

@@ -29,7 +29,41 @@
     <!-- <script nomodule="false"> -->
     <script type="module" >
         let clog = console.log
+<<<<<<< Updated upstream
         
+=======
+        let createThrottleFn = (fn, t = 250, first = false) => {
+            let prev = Number.MAX_SAFE_INTEGER
+            let doing = false
+            let timerId = 0
+            return (...rest) => {
+                if (!doing) {
+                    doing = true
+                    prev = new Date().getTime()
+                }
+                let now = new Date().getTime()
+                if (now - prev > t) {
+                    fn(...rest)
+                    // prev = now
+                    timerId = setTimeout(() => {
+                        prev = 0
+                        doing = false
+                        clearTimeout(timerId)
+                        timerId = 0
+                    }, t)
+                }
+            }
+        }
+
+        let f = createThrottleFn((t) => {
+            clog('a', t)
+        }, 1000)
+        Array.from(document.querySelectorAll('div')).forEach(domEle => {
+            domEle.addEventListener('mouseover', (event) => {
+                f(event.target)
+            })
+        })
+>>>>>>> Stashed changes
     </script>
 </body>
 </html>
