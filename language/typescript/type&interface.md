@@ -47,6 +47,8 @@ type c = {
 }
 ```
 
+# 区别
+
 | interface                                   | type                     |
 | ------------------------------------------- | ------------------------ |
 | 定义数据结构                                | 定义数据结构             |
@@ -57,3 +59,23 @@ type c = {
 | -                                           | 定义类型的别名           |
 | 扩展接口`interface A extends B`             | 扩展类型`type A = B & C` |
 | 扩展类`interface A extends ClassName {...}` | -                        |
+
+# 互相转化
+
+```ts
+type T = {
+  // 定义type
+  a: string
+}
+interface Y {
+  // 定义interface
+  b: number
+}
+interface G extends T {
+  b: string
+}
+interface C extends T {
+  // type => interface
+}
+type U = G // interface => type
+```

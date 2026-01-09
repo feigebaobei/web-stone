@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>hippy</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="hippy">hippy</h1>
+<table>
+<thead>
+<tr>
+<th>技术</th>
+<th>渲染方式</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>h5</td>
+<td>webview</td>
+<td></td>
+</tr>
+<tr>
+<td>rn</td>
+<td>harmony+shandowtree</td>
+<td></td>
+</tr>
+<tr>
+<td>hippy</td>
+<td>native ui</td>
+<td></td>
+</tr>
+<tr>
+<td>flutter</td>
+<td>自渲染引擎</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="功能">功能</h2>
+<p>以vue开发为例。在hippy中调用hippy-vue-next对vue代码做映射，将vdom更新转换为原生ui指令，通过bridge下发给原生，由原生渲染器绘制。
+兼容dom/bom。
+支持调用原生能力和原生性能。</p>
+<h2 id="核心原理">核心原理</h2>
+<p>三线程架构</p>
+<pre><code>        js thread ---|
+            |        |
+      bridge|        |bridge
+            V        |
+        ui thread    |
+            |        |
+      bridge|    |---|
+            V    V
+        native thread
+
+</code></pre>
+<h3 id="js线程">js线程</h3>
+<p>运行业务逻辑，组件生命周期、状态计算，事件处理。
+脱离ui渲染职责，避免计算阻塞界面。
+运行vue/react等框架。</p>
+<h3 id="ui渲染线程">ui渲染线程</h3>
+<p>平台主线程（android ui thread / ios main thread）
+接收虚拟dom差异数据，执行界面绘制。
+与js线程分离，即使复杂计算也能保持流畅帧率。</p>
+<h3 id="原生能力线程">原生能力线程</h3>
+<p>负责耗时操作：网络请求、文件读写、传感器数据。
+封装平台原生api为js可调用接口。
+异步通信、避免阻塞主线程。</p>
+<h3 id="bridge">bridge</h3>
+<p>异步消息传递枢纽。
+支持请求-响应模式和promise化调用。
+内置错误处理、超时控制，保证可靠性。
+核心价值：保持web开发效率的同时，通过多线程并行处理获得原生性能，复杂业务场景下也能保持流畅交互。</p>
+<h2 id="不足">不足</h2>
+<ul>
+<li>样式。
+<ul>
+<li>flex布局出错。</li>
+<li>文本不换行。</li>
+<li>不支持grid</li>
+<li>不支持gap</li>
+<li>img必须设置w/h</li>
+<li>跨端异常导致样式无法统一。</li>
+</ul>
+</li>
+<li>线程&amp;时序问题。jsbridge cb延迟。事件回调顺序不稳定。</li>
+<li>无法解析url，只能使用src.</li>
+<li>文本只有写在span标签内才能生效。</li>
+<li>调试
+<ul>
+<li>js断点无法看到真实的渲染树。</li>
+<li>必须使用真机调试。</li>
+<li>ios debug包必须通过xcode编译。</li>
+</ul>
+</li>
+<li>一套代码无法在多端运行。实际需要写多套业务逻辑；
+<ul>
+<li>sdk回调参数格式不一致，参数名也可能不一致。</li>
+<li>同一事件，hippy适配层在android、ios上方案不同。</li>
+</ul>
+</li>
+</ul>
+<h2 id="总结">总结</h2>
+<p>在web开发效率与原生性能之间找到了平衡点。核心价值在于：</p>
+<ul>
+<li>架构创新：三线程分离+异步bridge通信。</li>
+<li>开发体验：保留前端框架开发模式，降低学习成本。</li>
+<li>性能表现：原生渲染突破webview限制。</li>
+<li>扩展性：模块化设计支持业务定制化需求。</li>
+</ul>
+<h2 id="后记">后记</h2>
+<p>它的竞品有weex/rn/flutter/uniapp等。它们的初衷都是写一套代码可以在多端运行。实际上都没有完全达到目标。
+hippy的作者把视图层与逻辑层分别在2个线程中处理。像这种处理方式有微信小程序等。而且这2个产品都是腾讯的产品，我怀疑是同一批人写的。
+做1 vs n的产品本质是搞个适配器。这个适配器是用解析器模式写的。由一套代码生成多套适应特定环境的代码。</p>
+
+            
+            
+        </body>
+        </html>

@@ -2,7 +2,7 @@
 - [mcp](/ai/mcp/index.html)
 - [n8n](/ai/n8n/index.html)
 - [agent](/ai/agent.md)
-- [title](/ai/title.md)
+- [skills](/ai/skills.md)
 - [title](/ai/title.md)
 - [title](/ai/title.md)
 - [title](/ai/title.md)

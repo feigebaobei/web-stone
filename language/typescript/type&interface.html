@@ -225,6 +225,7 @@
   [key <span class="hljs-keyword">in</span> B]: <span class="hljs-built_in">boolean</span>
 }
 </code></pre>
+<h1 id="区别">区别</h1>
 <table>
 <thead>
 <tr>
@@ -267,6 +268,20 @@
 </tr>
 </tbody>
 </table>
+<h1 id="互相转化">互相转化</h1>
+<pre><code class="language-ts"><span class="hljs-keyword">type</span> T = { <span class="hljs-comment">// 定义type</span>
+    <span class="hljs-attr">a</span>: <span class="hljs-built_in">string</span>
+}
+<span class="hljs-keyword">interface</span> Y { <span class="hljs-comment">// 定义interface</span>
+  <span class="hljs-attr">b</span>: <span class="hljs-built_in">number</span>
+}
+<span class="hljs-keyword">interface</span> G <span class="hljs-keyword">extends</span> T {
+    <span class="hljs-attr">b</span>: <span class="hljs-built_in">string</span>
+}
+<span class="hljs-keyword">interface</span> C <span class="hljs-keyword">extends</span> T { <span class="hljs-comment">// type =&gt; interface</span>
+}
+<span class="hljs-keyword">type</span> U = G <span class="hljs-comment">// interface =&gt; type</span>
+</code></pre>
 
             
             
