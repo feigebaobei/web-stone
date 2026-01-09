@@ -237,15 +237,7 @@ Reflect.setPrototypeOf(target, prototype)
   <span class="hljs-title function_">constructor</span>(<span class="hljs-params">o</span>) {
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">proxyObj</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Proxy</span>(o, {
       <span class="hljs-attr">get</span>: <span class="hljs-function">(<span class="hljs-params">target, key, receiver</span>) =&gt;</span> {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
         <span class="hljs-keyword">return</span> <span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">get</span>(target, key) <span class="hljs-comment">// 使用Reflect.get()是为了防止死循环</span>
-=======
-        <span class="hljs-keyword">return</span> <span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">get</span>(target, key)
->>>>>>> Stashed changes
-=======
-        <span class="hljs-keyword">return</span> <span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">get</span>(target, key)
->>>>>>> Stashed changes
       },
       <span class="hljs-attr">set</span>: <span class="hljs-function">(<span class="hljs-params">target, key, value, receiver</span>) =&gt;</span> {
         <span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">set</span>(target, key, value)
@@ -286,8 +278,6 @@ o.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;
 </code></pre>
 <h3 id="链式操作">链式操作</h3>
 <pre><code class="language-js"><span class="hljs-keyword">var</span> pipe = <span class="hljs-keyword">function</span> (<span class="hljs-params">value</span>) {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
   <span class="hljs-keyword">var</span> funcStack = []
   <span class="hljs-keyword">var</span> oproxy = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Proxy</span>(
     {},
@@ -301,28 +291,9 @@ o.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;
         funcStack.<span class="hljs-title function_">push</span>(<span class="hljs-variable language_">window</span>[fnName])
         <span class="hljs-keyword">return</span> oproxy
       },
-=======
-=======
->>>>>>> Stashed changes
-  <span class="hljs-keyword">var</span> funcStack = [];
-  <span class="hljs-keyword">var</span> oproxy = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Proxy</span>({} , {
-    get : <span class="hljs-keyword">function</span> (<span class="hljs-params">pipeObject, fnName</span>) {
-      <span class="hljs-keyword">if</span> (fnName === <span class="hljs-string">&#x27;get&#x27;</span>) {
-        <span class="hljs-keyword">return</span> funcStack.<span class="hljs-title function_">reduce</span>(<span class="hljs-keyword">function</span> (<span class="hljs-params">val, fn</span>) {
-          <span class="hljs-keyword">return</span> <span class="hljs-title function_">fn</span>(val);
-        },value);
-      }
-      funcStack.<span class="hljs-title function_">push</span>(<span class="hljs-variable language_">window</span>[fnName]);
-      <span class="hljs-keyword">return</span> oproxy;
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
     }
   )
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
   <span class="hljs-keyword">return</span> oproxy
 }
 
@@ -351,37 +322,9 @@ o.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;
         <span class="hljs-keyword">return</span> el
       }
     },
-=======
-  <span class="hljs-keyword">return</span> oproxy;
-}
-
-<span class="hljs-keyword">var</span> <span class="hljs-title function_">double</span> = n =&gt; n * <span class="hljs-number">2</span>;
-<span class="hljs-keyword">var</span> <span class="hljs-title function_">pow</span>    = n =&gt; n * n;
-<span class="hljs-keyword">var</span> <span class="hljs-title function_">reverseInt</span> = n =&gt; n.<span class="hljs-title function_">toString</span>().<span class="hljs-title function_">split</span>(<span class="hljs-string">&quot;&quot;</span>).<span class="hljs-title function_">reverse</span>().<span class="hljs-title function_">join</span>(<span class="hljs-string">&quot;&quot;</span>) | <span class="hljs-number">0</span>;
-
-<span class="hljs-title function_">pipe</span>(<span class="hljs-number">3</span>).<span class="hljs-property">double</span>.<span class="hljs-property">pow</span>.<span class="hljs-property">reverseInt</span>.<span class="hljs-property">get</span>; <span class="hljs-comment">// 63</span>
-</code></pre>
-<h3 id="生成各种-dom-节点">生成各种 DOM 节点</h3>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> dom = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Proxy</span>({}, {
-  <span class="hljs-title function_">get</span>(<span class="hljs-params">target, property</span>) {
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span>(<span class="hljs-params">attrs = {}, ...children</span>) {
-      <span class="hljs-keyword">const</span> el = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(property);
-      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> prop <span class="hljs-keyword">of</span> <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">keys</span>(attrs)) {
-        el.<span class="hljs-title function_">setAttribute</span>(prop, attrs[prop]);
-      }
-      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> child <span class="hljs-keyword">of</span> children) {
-        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> child === <span class="hljs-string">&#x27;string&#x27;</span>) {
-          child = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createTextNode</span>(child);
-        }
-        el.<span class="hljs-title function_">appendChild</span>(child);
-      }
-      <span class="hljs-keyword">return</span> el;
-    }
->>>>>>> Stashed changes
   }
 )
 
-<<<<<<< Updated upstream
 <span class="hljs-keyword">const</span> el = dom.<span class="hljs-title function_">div</span>(
   {},
   <span class="hljs-string">&#x27;Hello, my name is &#x27;</span>,
@@ -392,68 +335,11 @@ o.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;
     dom.<span class="hljs-title function_">li</span>({}, <span class="hljs-string">&#x27;The web&#x27;</span>),
     dom.<span class="hljs-title function_">li</span>({}, <span class="hljs-string">&#x27;Food&#x27;</span>),
     dom.<span class="hljs-title function_">li</span>({}, <span class="hljs-string">&quot;…actually that&#x27;s it&quot;</span>)
-=======
-<span class="hljs-keyword">const</span> el = dom.<span class="hljs-title function_">div</span>({},
-  <span class="hljs-string">&#x27;Hello, my name is &#x27;</span>,
-  dom.<span class="hljs-title function_">a</span>({<span class="hljs-attr">href</span>: <span class="hljs-string">&#x27;//example.com&#x27;</span>}, <span class="hljs-string">&#x27;Mark&#x27;</span>),
-  <span class="hljs-string">&#x27;. I like:&#x27;</span>,
-  dom.<span class="hljs-title function_">ul</span>({},
-    dom.<span class="hljs-title function_">li</span>({}, <span class="hljs-string">&#x27;The web&#x27;</span>),
-    dom.<span class="hljs-title function_">li</span>({}, <span class="hljs-string">&#x27;Food&#x27;</span>),
-    dom.<span class="hljs-title function_">li</span>({}, <span class="hljs-string">&#x27;…actually that\&#x27;s it&#x27;</span>)
->>>>>>> Stashed changes
   )
 )
 
-<<<<<<< Updated upstream
 <span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-title function_">appendChild</span>(el)
-=======
-<span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-title function_">appendChild</span>(el);
->>>>>>> Stashed changes
 </code></pre>
-=======
-  <span class="hljs-keyword">return</span> oproxy;
-}
-
-<span class="hljs-keyword">var</span> <span class="hljs-title function_">double</span> = n =&gt; n * <span class="hljs-number">2</span>;
-<span class="hljs-keyword">var</span> <span class="hljs-title function_">pow</span>    = n =&gt; n * n;
-<span class="hljs-keyword">var</span> <span class="hljs-title function_">reverseInt</span> = n =&gt; n.<span class="hljs-title function_">toString</span>().<span class="hljs-title function_">split</span>(<span class="hljs-string">&quot;&quot;</span>).<span class="hljs-title function_">reverse</span>().<span class="hljs-title function_">join</span>(<span class="hljs-string">&quot;&quot;</span>) | <span class="hljs-number">0</span>;
-
-<span class="hljs-title function_">pipe</span>(<span class="hljs-number">3</span>).<span class="hljs-property">double</span>.<span class="hljs-property">pow</span>.<span class="hljs-property">reverseInt</span>.<span class="hljs-property">get</span>; <span class="hljs-comment">// 63</span>
-</code></pre>
-<h3 id="生成各种-dom-节点">生成各种 DOM 节点</h3>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> dom = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Proxy</span>({}, {
-  <span class="hljs-title function_">get</span>(<span class="hljs-params">target, property</span>) {
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span>(<span class="hljs-params">attrs = {}, ...children</span>) {
-      <span class="hljs-keyword">const</span> el = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(property);
-      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> prop <span class="hljs-keyword">of</span> <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">keys</span>(attrs)) {
-        el.<span class="hljs-title function_">setAttribute</span>(prop, attrs[prop]);
-      }
-      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> child <span class="hljs-keyword">of</span> children) {
-        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> child === <span class="hljs-string">&#x27;string&#x27;</span>) {
-          child = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createTextNode</span>(child);
-        }
-        el.<span class="hljs-title function_">appendChild</span>(child);
-      }
-      <span class="hljs-keyword">return</span> el;
-    }
-  }
-});
-
-<span class="hljs-keyword">const</span> el = dom.<span class="hljs-title function_">div</span>({},
-  <span class="hljs-string">&#x27;Hello, my name is &#x27;</span>,
-  dom.<span class="hljs-title function_">a</span>({<span class="hljs-attr">href</span>: <span class="hljs-string">&#x27;//example.com&#x27;</span>}, <span class="hljs-string">&#x27;Mark&#x27;</span>),
-  <span class="hljs-string">&#x27;. I like:&#x27;</span>,
-  dom.<span class="hljs-title function_">ul</span>({},
-    dom.<span class="hljs-title function_">li</span>({}, <span class="hljs-string">&#x27;The web&#x27;</span>),
-    dom.<span class="hljs-title function_">li</span>({}, <span class="hljs-string">&#x27;Food&#x27;</span>),
-    dom.<span class="hljs-title function_">li</span>({}, <span class="hljs-string">&#x27;…actually that\&#x27;s it&#x27;</span>)
-  )
-);
-
-<span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-title function_">appendChild</span>(el);
-</code></pre>
->>>>>>> Stashed changes
 <h2 id="proxy--decorator">proxy &amp; decorator</h2>
 <table>
 <thead>
@@ -461,13 +347,7 @@ o.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;
 <th></th>
 <th>proxy</th>
 <th>decorator</th>
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 <th>高阶方法</th>
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 </tr>
 </thead>
 <tbody>
@@ -475,8 +355,6 @@ o.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;
 <td></td>
 <td>只逆</td>
 <td>不可逆</td>
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 <td></td>
 </tr>
 <tr>
@@ -489,47 +367,19 @@ o.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;
 <td>时机</td>
 <td>编译时</td>
 <td>编译时</td>
-=======
-=======
->>>>>>> Stashed changes
-</tr>
-<tr>
-<td></td>
-<td>基于target</td>
-<td>基于target</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td></td>
 <td></td>
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 <td></td>
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 </tr>
 <tr>
 <td></td>
 <td></td>
 <td></td>
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 <td></td>
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 </tr>
 </tbody>
 </table>

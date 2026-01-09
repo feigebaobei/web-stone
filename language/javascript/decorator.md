@@ -53,10 +53,7 @@ class A {
 function testable(target) {
     // target.isTestable = true
     target.prototype.isTestable = true
-<<<<<<< Updated upstream
     target.prototype.fn = () => {...}
-=======
->>>>>>> Stashed changes
     // 修饰class时，操作的是原型对象，即构建函数。
 }
 @testable
@@ -145,15 +142,7 @@ type MethodDecorator = <T>(
 ## 属性装饰器
 
 ```ts
-<<<<<<< Updated upstream
 type PropertyDecorator = (target: Object, propertyKey: string | symbol) => void
-=======
-type PropertyDecorator =
-  (
-    target: Object,
-    propertyKey: string|symbol
-  ) => void;
->>>>>>> Stashed changes
 ```
 
 ## 存取器装饰器
@@ -388,7 +377,6 @@ let throttle = (t) => (target, name, descriptor) => {
 
 time
 redux
-<<<<<<< Updated upstream
 // 列出调用过程
 // 未解决this不对的问题
 // let trace = (target, name, descriptor) => {
@@ -401,18 +389,6 @@ redux
 //     }
 //     return descriptor
 // }
-=======
-
-let trace = (target, name, descriptor) => {
-    let oldValue = descriptor.value
-    // clog(target, name, descriptor)
-    descriptor.value = (...p) => {
-        console.trace()
-        oldValue(...p)
-    }
-    return descriptor
-}
->>>>>>> Stashed changes
 // 单例
 function singleton(cls) {
   let instance;

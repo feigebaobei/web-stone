@@ -116,11 +116,7 @@ class Observable {
   constructor(o) {
     this.proxyObj = new Proxy(o, {
       get: (target, key, receiver) => {
-<<<<<<< Updated upstream
         return Reflect.get(target, key) // 使用Reflect.get()是为了防止死循环
-=======
-        return Reflect.get(target, key)
->>>>>>> Stashed changes
       },
       set: (target, key, value, receiver) => {
         Reflect.set(target, key, value)
@@ -193,7 +189,6 @@ pipe(3).double.pow.reverseInt.get // 63
 ### 生成各种 DOM 节点
 
 ```js
-<<<<<<< Updated upstream
 const dom = new Proxy(
   {},
   {
@@ -202,18 +197,6 @@ const dom = new Proxy(
         const el = document.createElement(property)
         for (let prop of Object.keys(attrs)) {
           el.setAttribute(prop, attrs[prop])
-=======
-const dom = new Proxy({}, {
-  get(target, property) {
-    return function(attrs = {}, ...children) {
-      const el = document.createElement(property);
-      for (let prop of Object.keys(attrs)) {
-        el.setAttribute(prop, attrs[prop]);
-      }
-      for (let child of children) {
-        if (typeof child === 'string') {
-          child = document.createTextNode(child);
->>>>>>> Stashed changes
         }
         for (let child of children) {
           if (typeof child === 'string') {
@@ -245,8 +228,6 @@ document.body.appendChild(el)
 
 ## proxy & decorator
 
-<<<<<<< Updated upstream
-
 |      | proxy       | decorator   | 高阶方法 |
 | ---- | ----------- | ----------- | -------- |
 |      | 只逆        | 不可逆      |          |
@@ -254,14 +235,3 @@ document.body.appendChild(el)
 | 时机 | 编译时      | 编译时      |          |
 |      |             |             |          |
 |      |             |             |          |
-
-=======
-|| proxy | decorator |
-|-|-|-|
-||只逆|不可逆|
-||基于 target|基于 target|
-||||
-||||
-||||
-
-> > > > > > > Stashed changes
