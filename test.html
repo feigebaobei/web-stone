@@ -6,64 +6,356 @@
     <title>Document</title>
 </head>
 <body>
-    <p title="str abhsdf s d se dsfesefsf">ssss</p>
-    <div class="one">
-        <div class="two" onclick="clickTwoH">
-            <button id="button">button</button>
-        </div>
-    </div>
-    <div>
-        <p>radio</p>
-        <input type="radio" name="h" value="one">one
-        <input type="radio" name="h" value="two">two
-        <input type="radio" name="h" value="three">three
-
-    </div>
-    <!-- include ts-browser -->
-    <!-- <script type="text/javascript" src="https://unpkg.com/ts-browser"></script> -->
-
-<!-- include your TypeScript file -->
-<!-- <script type="text/typescript" src="your/typescript/file.ts"></script> -->
-    <!-- <script type="text/typescript"> -->
-        <!-- <script> -->
-    <!-- <script nomodule="false"> -->
+    <!-- <p>我们合作一次。</p> -->
     <script type="module" >
         let clog = console.log
-<<<<<<< Updated upstream
+        // 工具方法
+        let sum = (arr) => {
+            return arr.reduce((r, c) => {
+                return r += c
+            }, 0)
+        }
         
-=======
-        let createThrottleFn = (fn, t = 250, first = false) => {
-            let prev = Number.MAX_SAFE_INTEGER
-            let doing = false
-            let timerId = 0
-            return (...rest) => {
-                if (!doing) {
-                    doing = true
-                    prev = new Date().getTime()
+        let isReverseStr = (s) => {
+            let bool = true
+            if (!s) { // ''
+                bool = false
+            } else {
+                let arr = s.split('')
+                for (let i = 0; i < arr.length / 2; i++) {
+                    if (arr[i] === arr[arr.length - 1 - i]) {} else {
+                        bool = false
+                        break;
+                    }
                 }
-                let now = new Date().getTime()
-                if (now - prev > t) {
-                    fn(...rest)
-                    // prev = now
-                    timerId = setTimeout(() => {
-                        prev = 0
-                        doing = false
-                        clearTimeout(timerId)
-                        timerId = 0
-                    }, t)
+            }
+            return bool
+        }
+        // clog(isReverseStr(''))
+        // clog(isReverseStr('a'))
+        // clog(isReverseStr('ab'))
+        // clog(isReverseStr('abc'))
+        // clog(isReverseStr('aba'))
+        // clog(isReverseStr('abba'))
+        // clog(isReverseStr('abbac'))
+
+
+        let arr = [
+            {
+                bookId: 'bookId',
+                borrowCount: 0,
+            },
+            {
+                bookId: 'bookId',
+                borrowCount: 3,
+            },
+            {
+                bookId: 'bookId',
+                borrowCount: 6,
+            },
+            {
+                bookId: 'bookId',
+                borrowCount: 2,
+            },
+            {
+                bookId: 'bookId',
+                borrowCount: 1,
+            },
+        ]
+        class Queue {
+            constructor(priority) {
+                this._arr = []
+                this.priority = priority
+            }
+            enqueue(o) {
+                switch (this._arr.length) {
+                    case 0:
+                        this._arr.push(o)
+                        break;
+                    default:
+                        let index = this._arr.findIndex(item => item[this.priority] < o[this.priority])
+                        if (index > -1) {
+                            this._arr.splice(index, 0, o)
+                        } else {
+                            this._arr.push(o)
+                        }
+                        break;
+                }
+            }
+            dequeue() {
+                return this._arr.shift()
+            }
+        }
+        let findF = (arr, k) => {
+            // queue 优先队列
+            // map   数量对对象的映射
+            // arr   只记录最多的
+
+            let a = []
+            let q = new Queue('borrowCount')
+            arr.forEach(item => q.enqueue(item))
+            let i = 0
+            while (i < k && i < arr.length) {
+                a.push(q.dequeue())
+                i++
+            }
+            return a
+        }
+        // clog(findF(arr, 7))
+        // clog(findF(arr, 3))
+        // clog(findF(arr, 0))
+        // clog(findF(arr, -1))
+
+
+        let getSum = (arr) => {
+            if (!arr.length) {return 0}
+            let sum = arr[0]
+            let max = arr[0]
+            for(let i = 1; i < arr.length; i++) {
+                // 决定当前元素是并入前面的子数组，还是重新开始
+                sum = Math.max(sum + arr[i], arr[i])
+                max = Math.max(sum, max)
+                // max = Math.max(max, Math.max(sum + arr[i], arr[i]))
+            }
+            return max
+        }
+        getSum = (arr) => {
+            if (!arr.length) {
+                return []
+            }
+            let start = 0
+            let end = start + 1
+            let sum = arr[0]
+            let max = arr[0]
+            for(let i = 1; i < arr.length; i++) {
+                if (sum + arr[i] < arr[i]) { // 非连续
+                    sum = arr[i]
+                    start = i
+                    end = i + 1
+                } else { // 连续
+                    sum += arr[i]
+                    if (max < sum) {
+                        end = i + 1
+                        max = sum
+                    }
+                }
+            }
+            return arr.slice(start, end)
+            // return max
+        }
+        // clog(getSum([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
+
+
+
+        let f = (arr, sum) => {
+            let r = 0
+            let s = 0
+            for (let i = 0; i < arr.length; i++) {
+                for (let j = i; j < arr.length; j++) {
+                    if (s + arr[j] <= sum) {
+                        s += arr[j]
+                    }
+                    if (s === sum) {
+                        r++
+                        break;
+                    }
+                }
+            }
+            return r
+        }
+        // f([10, 5, 2, 1], 10)
+
+
+        let res = []
+        f = (arr, state = []) => {
+            if (state.length === arr.length) {
+                res.push([...state])
+                return
+            } else {
+                arr.forEach(item => {
+                    if (!state.includes(item)) {
+                        state.push(item)
+                        f(arr, state)
+                        state.pop()
+                    }
+                })
+            }
+        }
+        // clog(f([1,2,3]), res)
+
+
+        // 子集和
+        f = (arr, target, state = []) => {
+            if (sum(state) === target) {
+                res.push([...state])
+                return
+            } else {
+                arr.forEach(item => {
+                    let s = sum(state)
+                    if (s < target) {
+                        state.push(item)
+                        f(arr, target, state)
+                        state.pop()
+                    }
+                })
+            }
+        }
+        // f([3,4,5], 9)
+        // clog(res)
+
+
+        f = (n, choices, state = [0]) => {
+            if (state[state.length - 1] === n) {
+                res.push([...state])
+            } else {
+                for(let item of choices) {
+                    let t = state[state.length - 1] + item
+                    if (t <= n) {
+                        state.push(t)
+                        f(n, choices, state)
+                        state.pop()
+                    // } else if (n < t) {
+                        // ;
+                    }
                 }
             }
         }
+        // f(4, [3])
+        // clog(res)
 
-        let f = createThrottleFn((t) => {
-            clog('a', t)
-        }, 1000)
-        Array.from(document.querySelectorAll('div')).forEach(domEle => {
-            domEle.addEventListener('mouseover', (event) => {
-                f(event.target)
-            })
-        })
->>>>>>> Stashed changes
+
+        let map = new Map()
+        map.set(1, 1)
+        map.set(2, 2)
+        f = (n) => {
+            if (n <= 2) {
+                let t = map.get(n)
+                // clog(t, n, map)
+                return t
+            } else {
+                let t = f(n - 2) + f(n - 1)
+                map.set(n, t)
+                return t
+            }
+        }
+        // clog(f(6))
+
+
+        f = (coins, amt) => {
+            let t = 0
+            let a = []
+            while (t < amt) {
+                for (let i = 0; i < coins.length; i++) {
+                    if (coins[i] <= (amt - t)) {
+                        t += coins[i]
+                        a.push(coins[i])
+                        break;
+                    }
+                }
+            }
+            return a.length || -1
+        }
+        // clog(f([5,1], 4))
+
+        arr = []
+        f = (coins, amt, state = []) => {
+            if (sum(state) === amt) {
+                let t = state.reduce((r, c) => {
+                    return r *= c
+                }, 1)
+                if (!arr.includes(t)) {
+                    arr.push(t)
+                    res.push([...state])
+                    return
+                } else {
+                    return
+                }
+            } else {
+                for (let i = 0; i < coins.length; i++) {
+                    state.push(coins[i])
+                    if (sum(state) <= amt) {
+                        f(coins, amt, state)
+                    }  
+                    state.pop()
+                }
+            }
+        }
+        // let deuniqe = (arr) => {
+        //     let map = new Map()
+        //     arr.forEach(item => {
+        //         let obj = {}
+        //         item.forEach(subItem => {
+        //             if (obj[subItem] === undefined) {
+
+        //             }
+        //             subItem
+        //         })
+        //     })
+        // }
+        // clog(f([1,5,10], 18), res, arr)
+
+
+
+        class Item {
+            constructor(w, v) {
+                this.weight = w
+                this.value = v
+                this.vw = v / w
+            }
+        }
+        f = (w, v, c) => {
+            let items = w.map((a, i) => new Item(a, v[i]))
+            items.sort((a, b) => b.vw - a.vw)
+            let resValue = 0
+            let restW = c
+            let res = []
+            for (let item of items) {
+                if (item.weight <= restW) {
+                    res.push(item)
+                    restW -= item.weight
+                    if (!restW) {
+                        break
+                    }
+                } else {
+                    let wt = (item.weight - restW) / item.weight
+                    let vt = item.value * wt / item.weight
+                    res.push({
+                        value: restW * item.vw,
+                        weight: restW,
+                        vw: item.vw,
+                    })
+                    break;
+                }
+            }
+            return res
+        }
+        // clog(f([20, 40, 10, 30, 50], [120, 210, 50, 150, 240], 120))
+        // clog(f([20, 40, 10, 30, 50], [120, 210, 50, 150, 240], 50))
+
+
+
+
+
+        f = (arr) => {
+            let res = []
+            for (let i = 0; i < arr.length - 1; i++) {
+                for (let j = i; j < arr.length; j++) {
+                    let w = j - i
+                    let h = Math.min(arr[i], arr[j])
+                    let s = w * h
+                    res.push(s)
+                }
+            }
+            // return res
+            return Math.max(...res)
+        }
+        clog(f([3, 8, 5, 2, 7, 7, 3, 4]))
+
+
+
+
+
+
     </script>
 </body>
 </html>

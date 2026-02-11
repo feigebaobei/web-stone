@@ -1,0 +1,1842 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>hello algo</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="hello-algo">hello algo</h1>
+<blockquote>
+<p>面试是被问到背包问题。我没答上来，面试官没给机会。我着急了。把基本的算法都复习了。</p>
+</blockquote>
+<h1 id="第0章-前言">第0章 前言</h1>
+<h1 id="第1章-初识算法">第1章 初识算法</h1>
+<p>算法：是在有限时间内解决特定问题的一组指令或操作步骤。有以下特性：</p>
+<ul>
+<li>问题是明确的，含清晰的输入与输出。</li>
+<li>具有可行性，能够在有限步骤、时间和内存空间下完成。</li>
+<li>各步骤有确定的含义，在相同的输入和运行条件下，输出始终相同。</li>
+</ul>
+<p>数据结构：是组织和存储数据的方式，涵盖数据内容（盒子）、数据之间关系（指针）和数据操作方法（方法）。具有以下设计目标：</p>
+<ul>
+<li>空间占用尽量小，以节省计算机内存。</li>
+<li>数据操作尽可以快速，涵盖数据访问、添加、删除、更新等。</li>
+<li>提供简洁的数据表示和逻辑信息，以便算法高效运行。
+设计数据结构是一个充满权衡的过程。</li>
+</ul>
+<h1 id="第2章-复杂度分析">第2章 复杂度分析</h1>
+<p>复杂度分析能够体现算法运行所需时间和空间资源与输入数据规模之间的关系。它描述了随着输入数据规模的增加、算法执行所需时间和空间的增长趋势。
+时间资源对应时间复杂度
+空间资源对应空间复杂度
+输入数据规模的增加反映了算法运行效率与输入数据规模之间的关系。
+时间和空间的增长趋势反映了增长的快慢。</p>
+<h2 id="迭代">迭代</h2>
+<p>for循环，适合预告知道迭代次数。
+while，适合判断条件。
+嵌套循环</p>
+<h2 id="递归">递归</h2>
+<p>递归：传入更小或更简单的参数，直到“终止条件”再逐层返回。</p>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">n</span>) =&gt; {
+    <span class="hljs-keyword">if</span> (n === <span class="hljs-number">1</span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> n + <span class="hljs-title function_">f</span>(n - <span class="hljs-number">1</span>)
+    }
+}
+</code></pre>
+<p>遇到终止条件就是递转归时。
+递：问题越来越简单。
+归：返回到上一层。
+尾递归可以减少占用内存空间。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>迭代</th>
+<th>递归</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>实现方式</td>
+<td>循环</td>
+<td>函数调用自身</td>
+<td></td>
+</tr>
+<tr>
+<td>时间效率</td>
+<td>效率高（无函数调用）</td>
+<td>每次调用函数都有开销</td>
+<td>实际开发中基本无差别，所以不考虑区别。</td>
+</tr>
+<tr>
+<td>内存使用</td>
+<td>固定大小内存</td>
+<td>可能占用大量栈空间</td>
+<td></td>
+</tr>
+<tr>
+<td>乱用问题</td>
+<td>适用于简单问题</td>
+<td>适用于要问题分解</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="时间复杂度">时间复杂度</h2>
+<ul>
+<li>确定运行平台</li>
+<li>评估各种操作所需时间。如：+需要1ns，*需要10ns，print()需要5ns等。</li>
+<li>所有的计算操作。</li>
+</ul>
+<h2 id="时间增长趋势">时间增长趋势</h2>
+<h2 id="函数渐近上界">函数渐近上界</h2>
+<p>操作次数 T(n)
+T(n)=O(f(n))  不会</p>
+<p>时间复杂度由T(n)中最高阶的项来决定。当n趋于无穷大时，最高阶的项将发挥主导作用，其他项可以忽略。</p>
+<p>常见类型
+O(1) &lt; O(log n) &lt; O(n) &lt; O(n log n) &lt; O(n^2) &lt; O(2^n) &lt; O(n!)
+常数阶  对数阶      线性阶  线性对数阶     平方阶    指数阶  阶乘阶<br>
+每轮减小一半 循环    常出现在嵌套   嵌套循环
+循环中，2层
+分别是O(n)、
+O(log n)</p>
+<p>最差时间复杂度 O
+最佳时间复杂度 Ω
+平均时间复杂度 Θ</p>
+<p>空间复杂度
+一般只关注最差空间复杂度：最差输入数据为准或以算法运行中峰值内存为准。
+O(1) &lt; O(log n) &lt; O(n) &lt; O(n^2) &lt; O(2^n)
+常数阶  对数阶      线性阶  平方阶    指数阶
+数组、链表、 二维列表
+栈、队列</p>
+<h1 id="第3章-数据结构">第3章 数据结构</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>线性</td>
+<td></td>
+<td>数组、链表、栈、队列、哈希表</td>
+<td></td>
+</tr>
+<tr>
+<td>非线性</td>
+<td>树形</td>
+<td>树、堆、哈希</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>网状</td>
+<td>图</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>在算法程序运行时，正在处理的数据主要存储在内存中。
+存储数组的内存空间是连续的。
+存储链表的内存空间是分散的。</p>
+<h1 id="第4章-数组与链表">第4章 数组与链表</h1>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> arr = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Array</span>(<span class="hljs-number">5</span>).<span class="hljs-title function_">fill</span>(<span class="hljs-number">0</span>) <span class="hljs-comment">// 初始化数组</span>
+arr[<span class="hljs-number">2</span>] <span class="hljs-comment">// 访问元素。本质是内存地址的偏移量。</span>
+arr.<span class="hljs-title function_">split</span>(index, len, item) <span class="hljs-comment">// 插入元素</span>
+arr.<span class="hljs-title function_">split</span>(index, len) <span class="hljs-comment">// 删除len个元素</span>
+arr.<span class="hljs-title function_">forEach</span>(...) <span class="hljs-comment">// 遍历数组</span>
+arr.<span class="hljs-title function_">find</span>(...) <span class="hljs-comment">// 查找元素</span>
+arr.<span class="hljs-title function_">sort</span>(...) <span class="hljs-comment">// 排序</span>
+</code></pre>
+<p>数组的优点</p>
+<ul>
+<li>空间效率高</li>
+<li>支持任一访问</li>
+<li>缓存局部性
+数组的缺点</li>
+<li>插入与删除效率低</li>
+<li>长度不可变（js语言的数组可变）</li>
+<li>空间浪费
+数组的应用</li>
+<li>任一访问</li>
+<li>排序&amp;搜索</li>
+<li>查找表</li>
+<li>机器学习</li>
+<li>实现其他数据结构</li>
+</ul>
+<pre><code class="language-js"><span class="hljs-comment">// 初始化链表</span>
+<span class="hljs-keyword">let</span> n0 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Node</span>()
+n0.<span class="hljs-property">next</span> = n1
+<span class="hljs-comment">// 插入节点</span>
+<span class="hljs-comment">// 删除节点</span>
+<span class="hljs-comment">// 访问节点 access</span>
+<span class="hljs-comment">// 查找节点 find</span>
+</code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>数组</th>
+<th>链表</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>存储方式</td>
+<td>连续内存空间</td>
+<td>分散内存空间</td>
+<td></td>
+</tr>
+<tr>
+<td>容量扩展</td>
+<td>长度不可变</td>
+<td>可灵活扩展</td>
+<td></td>
+</tr>
+<tr>
+<td>内存效率</td>
+<td>元素占用内存少，但可能浪费空间</td>
+<td>元素占用内存多</td>
+<td></td>
+</tr>
+<tr>
+<td>访问元素</td>
+<td>O(1)</td>
+<td>O(n)</td>
+<td></td>
+</tr>
+<tr>
+<td>添加元素</td>
+<td>O(n)</td>
+<td>O(1)</td>
+<td></td>
+</tr>
+<tr>
+<td>删除元素</td>
+<td>O(n)</td>
+<td>O(1)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>常见链表</p>
+<ul>
+<li>单向链表</li>
+<li>环形链表</li>
+<li>双向链表</li>
+</ul>
+<p>链表的典型应用</p>
+<ul>
+<li>栈&amp;队列</li>
+<li>哈希表</li>
+<li>图</li>
+<li>高级数据结构：红黑树、b树、</li>
+<li>浏览器历史</li>
+<li>lru</li>
+<li>时间片轮转调度算法</li>
+<li>数据缓冲区</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>硬盘</th>
+<th>内存</th>
+<th>缓存</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>用途</td>
+<td>长期存储数据，包括操作系统、程序、文件等。</td>
+<td>临时存储当前运行的程序和正在处理的数据</td>
+<td>存储经常访问的数据和指令，减少cpu访问内存的次数。</td>
+</tr>
+<tr>
+<td>易失性</td>
+<td>断电后数据不会丢失</td>
+<td>断电后数据会丢失</td>
+<td>断电后数据会丢失</td>
+</tr>
+<tr>
+<td>容量</td>
+<td>较大。tb级别</td>
+<td>较小。gb级别</td>
+<td>非常小，mb级别</td>
+</tr>
+<tr>
+<td>速度</td>
+<td>较慢，x00-x000mb/s</td>
+<td>较快，x0gb/s</td>
+<td>非常快，x0-x00gb/s</td>
+</tr>
+<tr>
+<td>价格</td>
+<td>较便宜，0.x-x元/bg</td>
+<td>较贵，x0-x00元/bg</td>
+<td>非常贵，随cpu打包计价</td>
+</tr>
+</tbody>
+</table>
+<h2 id="数据结构的缓存效率">数据结构的缓存效率</h2>
+<p>缓存会采取以下数据加载机制：</p>
+<ul>
+<li>缓存行</li>
+<li>预取机制</li>
+<li>空间局部性</li>
+<li>时间局部性</li>
+</ul>
+<h1 id="第5章-栈与队列">第5章 栈与队列</h1>
+<h2 id="栈先入后出的逻辑">栈：先入后出的逻辑</h2>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+<th>时间复杂度</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>push()</td>
+<td>入栈</td>
+<td>O(1)</td>
+<td></td>
+</tr>
+<tr>
+<td>pop()</td>
+<td>出栈</td>
+<td>O(1)</td>
+<td></td>
+</tr>
+<tr>
+<td>peek()</td>
+<td>访问栈顶元素</td>
+<td>O(1)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>栈的应用</p>
+<ul>
+<li>浏览器的后退&amp;前进</li>
+<li>软件的撤销与反撤销</li>
+<li>程序内存管理</li>
+</ul>
+<h2 id="队列先入先出的线性">队列：先入先出的线性</h2>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>描述</th>
+<th>时间复杂度</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>push()</td>
+<td>元素入队</td>
+<td>O(1)</td>
+<td></td>
+</tr>
+<tr>
+<td>pop()</td>
+<td>队首出队</td>
+<td>O(1)</td>
+<td></td>
+</tr>
+<tr>
+<td>peek()</td>
+<td>访问队首元素</td>
+<td>O(1)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="双向队列">双向队列</h2>
+<p>pushFirst()
+popFirst()
+pushLast()
+popLast()
+peekFirst()
+peekLast()</p>
+<h1 id="第6章-哈希表">第6章 哈希表</h1>
+<p>添加、删除、查询的时间复杂度都是O(1)</p>
+<pre><code class="language-js">index = <span class="hljs-title function_">hash</span>(key) % capacity
+</code></pre>
+<h2 id="哈希冲突哈希方法的返回值相同">哈希冲突：哈希方法的返回值相同。</h2>
+<p>解决方案：</p>
+<ul>
+<li>扩容哈希表</li>
+<li>链式地址。（哈希表的元素是链表。）</li>
+<li>开放寻址（也叫线性探测）。（当哈希表中指定位置存在元素时向后线性遍历。）</li>
+</ul>
+<h2 id="哈希算法">哈希算法</h2>
+<p>决定了碰撞因子。</p>
+<p>目标：</p>
+<ul>
+<li>确定性</li>
+<li>效率高</li>
+<li>均匀分布</li>
+</ul>
+<p>应用：</p>
+<ul>
+<li>密码存储</li>
+<li>数据完整性检查</li>
+<li>应用在密码学上
+<ul>
+<li>单向性。无法通过哈希值推出原数据。</li>
+<li>抗碰撞性。很难找到相同哈希值的2个不同原数据。</li>
+<li>雪崩效应。微小不同的2个原数据对应的哈希值显著不同。</li>
+</ul>
+</li>
+</ul>
+<p>设计哈希算法</p>
+<ul>
+<li>加法哈希。每个字母的ascii码相加。以和为哈希值。</li>
+<li>乘法哈希。每轮乘一个常数，再求ascii码的和。</li>
+<li>异或哈希。每个元素通过异或操作得到一个哈希值。</li>
+<li>旋转哈希。</li>
+</ul>
+<p>常见的哈希算法：</p>
+<ul>
+<li>md5&amp;sha-1.已多次被成功攻击。在安全方面被弃用。</li>
+<li>sha-2.最安全的哈希算法。</li>
+<li>sha-3。开销比sha-2低。</li>
+</ul>
+<h1 id="第7章-树">第7章 树</h1>
+<p>完美二叉树（也称满二叉树，所有层的节点都被填满。）反映了自然界中常见的细胞分裂现象。
+完全二叉树仅允许最底层节点未填满，并且最底层从左到右依次连续填充。
+完满二叉树，所有节点都有0或2个节点。
+平衡二叉树，左右子树的高度差不超过1.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>完美二叉树（最佳结构）</th>
+<th>链表（最差结构）</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第i层的节点数量</td>
+<td>2^(i-1)</td>
+<td>1</td>
+<td></td>
+</tr>
+<tr>
+<td>高度为h的树的叶子节点数量</td>
+<td>2^h</td>
+<td>1</td>
+<td></td>
+</tr>
+<tr>
+<td>高度为h的树的节点总数</td>
+<td>2^(h+1)-1</td>
+<td>h+1</td>
+<td></td>
+</tr>
+<tr>
+<td>节点总数为n的树的高度</td>
+<td>log2(n+1)-1</td>
+<td>n-1</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="二叉树的遍历">二叉树的遍历</h2>
+<ul>
+<li>层序遍历，广度优先遍历（bfs）</li>
+<li>前序遍历，都是深度优先遍历（dfs）,即：先走到头，再回溯继续。</li>
+<li>中序遍历</li>
+<li>后序遍历</li>
+</ul>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">node, cb</span>) =&gt; {
+    <span class="hljs-keyword">let</span> queue = [node]
+    <span class="hljs-keyword">while</span> (queue.<span class="hljs-property">length</span>) {
+        <span class="hljs-keyword">let</span> t = queue.<span class="hljs-title function_">shift</span>()
+        <span class="hljs-title function_">cb</span>(t)
+        <span class="hljs-keyword">if</span> (t.<span class="hljs-property">left</span>) {queue.<span class="hljs-title function_">push</span>(t.<span class="hljs-property">left</span>)}
+        <span class="hljs-keyword">if</span> (t.<span class="hljs-property">right</span>) {queue.<span class="hljs-title function_">push</span>(t.<span class="hljs-property">right</span>)}
+    }
+}
+<span class="hljs-comment">// 时间复杂度 O(n)</span>
+<span class="hljs-comment">// 空间复杂度 O(n)</span>
+
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">preOrder</span> = (<span class="hljs-params">node, cb</span>) =&gt; {
+    <span class="hljs-keyword">if</span> (!node) {
+        <span class="hljs-keyword">return</span>
+    }
+    <span class="hljs-title function_">cb</span>(node)
+    <span class="hljs-title function_">preOrder</span>(node.<span class="hljs-property">left</span>)
+    <span class="hljs-title function_">preOrder</span>(node.<span class="hljs-property">right</span>)
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">inOrder</span> = (<span class="hljs-params">node, cb</span>) =&gt; {
+    <span class="hljs-keyword">if</span> (!node) {
+        <span class="hljs-keyword">return</span>
+    }
+    <span class="hljs-title function_">inOrder</span>(node.<span class="hljs-property">left</span>)
+    <span class="hljs-title function_">cb</span>(node)
+    <span class="hljs-title function_">inOrder</span>(node.<span class="hljs-property">right</span>)
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">postOrder</span> = (<span class="hljs-params">node, cb</span>) =&gt; {
+    <span class="hljs-keyword">if</span> (!node) {
+        <span class="hljs-keyword">return</span>
+    }
+    <span class="hljs-title function_">postOrder</span>(node.<span class="hljs-property">left</span>)
+    <span class="hljs-title function_">postOrder</span>(node.<span class="hljs-property">right</span>)
+    <span class="hljs-title function_">cb</span>(node)
+}
+<span class="hljs-comment">// 时间复杂度 O(n)</span>
+<span class="hljs-comment">// 空间复杂度 O(n)</span>
+</code></pre>
+<h2 id="二叉搜索树">二叉搜索树</h2>
+<p>二叉搜索树的条件：</p>
+<ul>
+<li>左子树的节点的值 &lt; 当前节点的值 &lt; 右子树的节点的值</li>
+<li>不允许节点重复</li>
+</ul>
+<pre><code class="language-js"><span class="hljs-comment">// 查找节点</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">search</span> = (<span class="hljs-params">v</span>) =&gt; {
+    <span class="hljs-keyword">let</span> cur = <span class="hljs-variable language_">this</span>.<span class="hljs-property">root</span>
+    <span class="hljs-keyword">while</span> (cur) {
+        <span class="hljs-keyword">if</span> (cur.<span class="hljs-property">value</span> === v) {
+            <span class="hljs-keyword">break</span>;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (cur.<span class="hljs-property">value</span> &lt; v) {
+            cur = cur.<span class="hljs-property">left</span>
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (v &lt; cur.<span class="hljs-property">value</span>) {
+            cur = cur.<span class="hljs-property">right</span>
+        } <span class="hljs-keyword">else</span> {
+            cur = <span class="hljs-literal">null</span>
+            <span class="hljs-keyword">break</span>;
+        }
+    }
+    <span class="hljs-keyword">return</span> cur
+}
+<span class="hljs-comment">// 插入节点</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">insert</span> = (<span class="hljs-params">v</span>) =&gt; {
+    <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">root</span>) {
+        <span class="hljs-keyword">let</span> cur = <span class="hljs-variable language_">this</span>.<span class="hljs-property">root</span>
+        <span class="hljs-keyword">let</span> pre
+        <span class="hljs-keyword">while</span> (cur) {
+            <span class="hljs-keyword">if</span> (cur.<span class="hljs-property">value</span> === v) {
+                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&#x27;节点值不能重复&#x27;</span>)
+            } <span class="hljs-keyword">else</span> {
+                pre = cur
+                <span class="hljs-keyword">if</span> (cur.<span class="hljs-property">value</span> &lt; v) {
+                    cur = cur.<span class="hljs-property">right</span>
+                } <span class="hljs-keyword">else</span> {
+                    cur = cur.<span class="hljs-property">left</span>
+                }
+            }
+        }
+        <span class="hljs-keyword">let</span> node = <span class="hljs-title function_">createNode</span>(v)
+        <span class="hljs-keyword">if</span> (pre.<span class="hljs-property">value</span> &lt; v) {
+            pre.<span class="hljs-property">right</span> = node
+        } <span class="hljs-keyword">else</span> {
+            pre.<span class="hljs-property">left</span> = node
+        }
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">root</span> = <span class="hljs-title function_">createNode</span>(v)
+        <span class="hljs-keyword">return</span>
+    }
+}
+<span class="hljs-comment">// 时间复杂度 O(log n)</span>
+<span class="hljs-comment">// 删除节点</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">remove</span> = (<span class="hljs-params">v</span>) =&gt; {
+    <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">root</span>) {
+        <span class="hljs-keyword">let</span> cur = <span class="hljs-variable language_">this</span>.<span class="hljs-property">root</span>
+        <span class="hljs-keyword">let</span> pre
+        <span class="hljs-keyword">while</span> (cur) {
+            <span class="hljs-keyword">if</span> (cur.<span class="hljs-property">value</span> === v) {
+                <span class="hljs-keyword">break</span>;
+            }
+            pre = cur
+            <span class="hljs-keyword">if</span> (cur.<span class="hljs-property">value</span> &lt; v) {
+                cur = cur.<span class="hljs-property">right</span>
+            } <span class="hljs-keyword">else</span> {
+                cur = cur.<span class="hljs-property">left</span>
+            }
+        }
+        <span class="hljs-keyword">if</span> (cur) { <span class="hljs-comment">// 找到</span>
+            <span class="hljs-keyword">if</span> (cur.<span class="hljs-property">left</span> &amp;&amp; cur.<span class="hljs-property">right</span>) {
+                <span class="hljs-comment">// 2个节点</span>
+                <span class="hljs-keyword">let</span> r = cur
+                <span class="hljs-keyword">let</span> t = cur.<span class="hljs-property">right</span>
+                <span class="hljs-keyword">let</span> tp
+                <span class="hljs-keyword">while</span> (t.<span class="hljs-property">left</span>) {
+                    tp = t
+                    t = t.<span class="hljs-property">left</span>
+                }
+                <span class="hljs-comment">// cur.value = t.value // 这里采用只处理值的方式。也可以移到节点。</span>
+                <span class="hljs-keyword">if</span> (pre.<span class="hljs-property">left</span> === cur) {
+                    pre.<span class="hljs-property">left</span> = t
+                    t.<span class="hljs-property">left</span> = cur.<span class="hljs-property">left</span>
+                    t.<span class="hljs-property">right</span> = cur.<span class="hljs-property">right</span>
+                } <span class="hljs-keyword">else</span> {
+                    pre.<span class="hljs-property">right</span> = t
+                    t.<span class="hljs-property">left</span> = cur.<span class="hljs-property">left</span>
+                    t.<span class="hljs-property">right</span> = cur.<span class="hljs-property">right</span>
+                }
+                tp.<span class="hljs-property">left</span> = <span class="hljs-literal">null</span>
+                <span class="hljs-keyword">return</span> r
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-comment">// 0或1</span>
+                <span class="hljs-keyword">let</span> child = cur.<span class="hljs-property">left</span> || cur.<span class="hljs-property">right</span> <span class="hljs-comment">// node | null</span>
+                <span class="hljs-keyword">if</span> (cur === <span class="hljs-variable language_">this</span>.<span class="hljs-property">root</span>) {
+                    <span class="hljs-comment">// return cur</span>
+                    <span class="hljs-variable language_">this</span>.<span class="hljs-property">root</span> = child
+                } <span class="hljs-keyword">else</span> {
+                    <span class="hljs-keyword">if</span> (pre.<span class="hljs-property">left</span> === cur) {
+                        pre.<span class="hljs-property">left</span> = child
+                    } <span class="hljs-keyword">else</span> {
+                        pre.<span class="hljs-property">right</span> = child
+                    }
+                }
+                <span class="hljs-keyword">return</span> cur
+            }
+        } <span class="hljs-keyword">else</span> { <span class="hljs-comment">// 没找到</span>
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>
+        }
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>
+    }
+}
+</code></pre>
+<p>在二叉搜索树上使用中序遍历时，是递增的。复杂度是O(n).</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>无序数组</th>
+<th>二叉搜索树</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>查找元素</td>
+<td>O(n)</td>
+<td>O(log n)</td>
+<td></td>
+</tr>
+<tr>
+<td>插入元素</td>
+<td>O(1)</td>
+<td>O(log n)</td>
+<td></td>
+</tr>
+<tr>
+<td>删除元素</td>
+<td>O(n)</td>
+<td>O(log n)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>二叉搜索树的常见应用</p>
+<ul>
+<li>用作系统的多级索引，可以实现高效查找、插入、删除操作。</li>
+<li>作为其他搜索算法的底层数据结构。</li>
+<li>用于存储数据流，以保持其有序状态。</li>
+</ul>
+<h2 id="avl树平衡二叉搜索树">avl树（平衡二叉搜索树）</h2>
+<p>为了解决二叉搜索树成为链表的极端情况。可以使各种操作（查、增、删）的时间复杂度保持在O(logn)级别。</p>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">createNode</span> = (<span class="hljs-params">v</span>) =&gt; {
+    <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">value</span>: v,
+        <span class="hljs-attr">left</span>: <span class="hljs-literal">null</span>,
+        <span class="hljs-attr">right</span>: <span class="hljs-literal">null</span>,
+        <span class="hljs-attr">height</span>: <span class="hljs-number">0</span>,
+    }
+}
+</code></pre>
+<p>叶子节点的高度为0.空节点的高度为-1.</p>
+<pre><code class="language-js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">AVLTree</span> {
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">root</span> = <span class="hljs-literal">null</span>
+    }
+    <span class="hljs-title function_">height</span>(<span class="hljs-params">node</span>) {
+        <span class="hljs-keyword">return</span> node === <span class="hljs-literal">null</span> ? -<span class="hljs-number">1</span> : node.<span class="hljs-property">height</span>
+    }
+    <span class="hljs-title function_">updateHeight</span>(<span class="hljs-params">node</span>) {
+        node.<span class="hljs-property">height</span> = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">max</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">height</span>(node.<span class="hljs-property">left</span>), <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">height</span>(node.<span class="hljs-property">right</span>)) + <span class="hljs-number">1</span>
+    }
+    <span class="hljs-title function_">balanceFactor</span>(<span class="hljs-params">node</span>) {
+        <span class="hljs-keyword">if</span> (node) {
+            <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">height</span>(node.<span class="hljs-property">left</span>) - <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">height</span>(node.<span class="hljs-property">right</span>)
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
+        }
+    }
+    <span class="hljs-comment">// 向右旋转</span>
+    <span class="hljs-comment">//         N</span>
+    <span class="hljs-comment">//     N</span>
+    <span class="hljs-comment">// N</span>
+    <span class="hljs-title function_">rightRotate</span>(<span class="hljs-params">node</span>) {}
+    <span class="hljs-comment">// 向左旋转</span>
+    <span class="hljs-comment">// N</span>
+    <span class="hljs-comment">//     N</span>
+    <span class="hljs-comment">//         N</span>
+    <span class="hljs-title function_">leftRotate</span>(<span class="hljs-params">node</span>) {}
+    <span class="hljs-comment">// 先左旋再右旋</span>
+    <span class="hljs-comment">//         N</span>
+    <span class="hljs-comment">// N</span>
+    <span class="hljs-comment">//     N</span>
+    <span class="hljs-comment">// 先右旋再左旋</span>
+    <span class="hljs-comment">// N</span>
+    <span class="hljs-comment">//         N</span>
+    <span class="hljs-comment">//     N</span>
+    <span class="hljs-comment">// 旋转</span>
+    <span class="hljs-title function_">rotate</span>(<span class="hljs-params">node</span>) {
+        <span class="hljs-keyword">let</span> balanceFactor = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">balanceFactor</span>(node)
+        <span class="hljs-keyword">if</span> (balanceFactor &gt; <span class="hljs-number">1</span>) { <span class="hljs-comment">// 左偏树</span>
+
+        }
+        <span class="hljs-keyword">if</span> (balanceFactor &lt; -<span class="hljs-number">1</span>) { <span class="hljs-comment">// 右偏树</span>
+
+        }
+        <span class="hljs-keyword">return</span> node
+    }
+    <span class="hljs-comment">// 插入节点</span>
+    <span class="hljs-title function_">insert</span>(<span class="hljs-params"></span>) {}
+    <span class="hljs-comment">// 删除节点</span>
+    <span class="hljs-title function_">remove</span>(<span class="hljs-params">v</span>) {}
+}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>失衡节点的平衡因子</th>
+<th>子节点的平衡因子</th>
+<th>应采用的旋转方法</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&gt;1</td>
+<td>&gt;=0</td>
+<td>右旋</td>
+<td></td>
+</tr>
+<tr>
+<td>&gt;1</td>
+<td>&lt;0</td>
+<td>先左旋后右旋</td>
+<td></td>
+</tr>
+<tr>
+<td>&lt;-1</td>
+<td>&lt;=0</td>
+<td>左旋</td>
+<td></td>
+</tr>
+<tr>
+<td>&lt;-1</td>
+<td>&gt;0</td>
+<td>先右旋再左旋</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>avl树的典型应用：</p>
+<ul>
+<li>组织和存储大型数据，适用于高频查找、低频增删的场景。</li>
+<li>用于构建数据库中的索引系统</li>
+<li>基于平衡二叉树开发的红黑树的平衡条件更宽松，插入与删除的旋转操作更少，节点增删操作的平均效率更高。</li>
+</ul>
+<h1 id="第8章-堆">第8章 堆</h1>
+<p>堆是完全二叉树。
+小顶堆：任意节点的值 &lt;= 其子节点的值
+大顶堆：任意节点的值 &gt;= 其子节点的值</p>
+<h1 id="第9章-图">第9章 图</h1>
+<p>图是非线性数据结构，由顶点(vertex)和边(edge)组成。图的表示方式：邻接矩阵、邻接表。</p>
+<ul>
+<li>线性关系用链表</li>
+<li>分治关系用树</li>
+<li>网络关系用图</li>
+</ul>
+<p>无向图：也就是双向连接关系。
+有向图：由一边指向别一边，反之不通。
+从一个顶点出发可以到达其他任意顶点是连通图，反之是非连通图。
+有权图：边具有权重属性。
+度：表示一个顶点拥有边数。入度表示指向该节点的边，出度表示从该顶点指出的边。</p>
+<pre><code>    1----5----4
+    |\  /     |
+    | \/      |
+    3--2-------
+</code></pre>
+<h2 id="邻接矩阵">邻接矩阵</h2>
+<p>若矩阵<code>Vi</code>与<code>Vj</code>连通，则用<code>M[i, j] = 1</code>表示，反之用<code>M[i, j] = 0</code>表示。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>-</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>-</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+<td>1</td>
+<td>-</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>4</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>-</td>
+<td>1</td>
+</tr>
+<tr>
+<td>5</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>顶点不能与自身连接，所以对角线无意义。</li>
+<li>关于对角线对称。</li>
+<li>若把1/0改为权重值，就是有权图了。</li>
+</ul>
+<p>时间复杂度：O(1)
+空间复杂度：O(n^2)</p>
+<h2 id="邻接表">邻接表</h2>
+<p>用n个链表表示图。第i个链表表示第i个节点相连的顶点。</p>
+<pre><code>1-2-3-5
+2-1-2-4-5
+3-1-2
+4-2-5
+5-1-2-4
+</code></pre>
+<p>O(n)        O(log n)             O(1)
+链表 ------&gt; avl树或红黑树 ------&gt; 哈希表</p>
+<table>
+<thead>
+<tr>
+<th>常见的图</th>
+<th>顶点</th>
+<th>边</th>
+<th>图计算问题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>社交网络</td>
+<td>用户</td>
+<td>好友关系</td>
+<td>潜在好友推荐</td>
+</tr>
+<tr>
+<td>地铁线路</td>
+<td>站点</td>
+<td>站点间的连通性</td>
+<td>最短路线推荐</td>
+</tr>
+<tr>
+<td>太阳系</td>
+<td>星体</td>
+<td>星体间的万有引力作用</td>
+<td>行星轨道计算</td>
+</tr>
+</tbody>
+</table>
+<pre><code>class GraphAdjMat {
+    constructor(vertices, edges) {
+        this.vertices = []
+        this.adjMat = []
+        for (let v of vertices) {
+            this.addVertex(v)
+        }
+        for (let e of edges) {
+            this.addEdges(e[0], e[1])
+        }
+    }
+    size() {
+        return this.vertices.length
+    }
+    addVertex(v) {
+
+    }
+    addEdges() {}
+}
+</code></pre>
+<p>广度优先遍历是一种由近及远的遍历方式。
+深度优先遍历是一种优先走到底、无路可走再回头的遍历方式。</p>
+<h1 id="第10章-搜索">第10章 搜索</h1>
+<p>二分查找，是一种基于分治策略的高效搜索算法。它利用数据的有序性，每轮缩小一半搜索范围。直到找到目标或搜索区间为空为止。</p>
+<ul>
+<li>适用于有序数据。</li>
+<li>仅适用于数组。不适用于链式数据。</li>
+<li>小数据量下，线性查找性能更佳。</li>
+</ul>
+<p>把线性查找改变为哈希查找可以降低算法的时间复杂度。</p>
+<h2 id="自适应搜索">自适应搜索</h2>
+<p>用于在特定数据结构中快速检索目标元素。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>线性搜索</th>
+<th>二分查找</th>
+<th>树查找</th>
+<th>哈希查找</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>查找元素</td>
+<td>O(n)</td>
+<td>O(log n)</td>
+<td>O(log n)</td>
+<td>O(1)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>插入元素</td>
+<td>O(1)</td>
+<td>O(n)</td>
+<td>O(log n)</td>
+<td>O(1)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>删除元素</td>
+<td>O(n)</td>
+<td>O(n)</td>
+<td>O(log n)</td>
+<td>O(1)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>额外空间</td>
+<td>O(1)</td>
+<td>O(1)</td>
+<td>O(n)</td>
+<td>O(n)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>数据预处理</td>
+<td>/</td>
+<td>排序O(nlogn)</td>
+<td>建树O(nlogn)</td>
+<td>建哈希表O(n)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>数据是否有序</td>
+<td>无序</td>
+<td>有序</td>
+<td>有序</td>
+<td>无序</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h1 id="第11章-排序">第11章 排序</h1>
+<p>理想排序算法：运行快、原地、稳定、自适应、能用性好。</p>
+<h2 id="选择排序">选择排序</h2>
+<p>在未排序区间内找到最小元素的下标，与下标为i的元素交换。</p>
+<pre><code>let f = (arr) =&gt; {
+    for (let i = 0; i &lt; arr.length - 1; i++) {
+        let k = i
+        for (let j = i + 1; j &lt; arr.length; j++) {
+            if (arr[j] &lt; arr[k]) {
+                k = j
+            }
+        }
+        [arr[k], arr[i]] = [arr[i], arr[k]]
+    }
+}
+</code></pre>
+<p>时间复杂度 O(n^2)
+空间复杂度 O(1)   原地排序</p>
+<h2 id="冒泡排序">冒泡排序</h2>
+<p>冒泡过程示意：
+413152
+131425
+113245
+112345
+每一轮都会的无序区间内最大元素排序。</p>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">arr</span>) =&gt; {
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = arr.<span class="hljs-property">length</span> - <span class="hljs-number">1</span>; i &gt; <span class="hljs-number">0</span> i++) {
+        <span class="hljs-keyword">let</span> flag = <span class="hljs-literal">false</span> <span class="hljs-comment">// 表示未排序区间是否已经有序</span>
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> j = <span class="hljs-number">0</span>; j &lt; i; j++) {
+            <span class="hljs-keyword">if</span> (arr[j] &gt; arr[j + <span class="hljs-number">1</span>]) {
+                [arr[j], arr[j + <span class="hljs-number">1</span>]] = [arr[j + <span class="hljs-number">1</span>], arr[j]]
+                flag = <span class="hljs-literal">true</span>
+            }
+        }
+        <span class="hljs-keyword">if</span> (!flag) {
+            <span class="hljs-keyword">break</span>;
+        }
+    }
+}
+</code></pre>
+<p>时间复杂度 O(n^2)
+空间复杂度 O(1)   原地排序</p>
+<h2 id="插入排序">插入排序</h2>
+<ol>
+<li>设第一个元素已经完成排序。</li>
+<li>依次把未排序的元素插入到已经排序区间的正确位置。</li>
+</ol>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">arr</span>) =&gt; {
+    <span class="hljs-keyword">if</span> (arr.<span class="hljs-property">length</span> &lt;= <span class="hljs-number">1</span>) {
+        <span class="hljs-keyword">return</span>
+    }
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">1</span>; i &lt; arr.<span class="hljs-property">length</span>; i++) {
+        <span class="hljs-keyword">let</span> cur = arr[i]
+        <span class="hljs-comment">// 找到有序区间的合适位置</span>
+        <span class="hljs-keyword">let</span> j = i - <span class="hljs-number">1</span>
+        <span class="hljs-keyword">while</span> (j &gt;= <span class="hljs-number">0</span>) {
+            <span class="hljs-keyword">if</span> (cur &lt; arr[j]) {
+                arr[j + <span class="hljs-number">1</span>] = arr[j]
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-keyword">break</span>;
+            }
+            j--
+        }
+        arr[j + <span class="hljs-number">1</span>] = cur
+    }
+}
+</code></pre>
+<p>时间复杂度 O(n^2)
+空间复杂度 O(1)   原地排序</p>
+<h2 id="快速排序">快速排序</h2>
+<p>哨兵划分的实质是将一个较长的排序问题简化为2个较短数组的排序问题。</p>
+<ul>
+<li>以数组最左端元素为基准数（也可以是其他位置），初始化2个指针i/j，分别指向最左端、最右端。</li>
+<li>基于数组设置一个循环，每轮向右移动i，找到一个比不基准数小的元素；向左移动j，找到一个比基准数大的元素；再交换；直到ij交叉时停止。</li>
+<li>把基准数交换到2个子数组的交界线。</li>
+</ul>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">swap</span> = (<span class="hljs-params">arr, i, j</span>) =&gt; {
+    <span class="hljs-keyword">let</span> t = arr[i]
+    arr[i] = arr[j]
+    arr[j] = t
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">_f</span> = (<span class="hljs-params">arr, left, right</span>) =&gt; {
+    <span class="hljs-comment">// 以arr[left]为基准数</span>
+    <span class="hljs-keyword">let</span> i = left, j = right;
+    <span class="hljs-keyword">while</span> (i &lt; j) {
+        <span class="hljs-keyword">while</span> (i &lt; j &amp;&amp; arr[j] &gt;= arr[left]) {
+            j -= <span class="hljs-number">1</span> <span class="hljs-comment">// 从右向左，找到第一个小于基准数的元素</span>
+        }
+        <span class="hljs-keyword">while</span> (i &lt; j &amp;&amp; arr[i] &lt;= arr[left]) {
+            i += <span class="hljs-number">1</span> <span class="hljs-comment">// 从左向向，找到第一个大于基准数的元素</span>
+        }
+        <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">swap</span>(arr, i, j)
+    }
+    <span class="hljs-title function_">swap</span>(arr, i, left) <span class="hljs-comment">// 把基准数交换到2个子数组的交界线。</span>
+    <span class="hljs-keyword">return</span> i
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">arr, left = <span class="hljs-number">0</span>, right = arr.length</span>) =&gt; {
+    <span class="hljs-keyword">if</span> (left &gt;= right) {
+        <span class="hljs-keyword">return</span>
+    }
+    <span class="hljs-keyword">let</span> pivot = <span class="hljs-title function_">_f</span>(arr, left, right) <span class="hljs-comment">// 哨兵划分</span>
+    <span class="hljs-title function_">f</span>(arr, left, pivot - <span class="hljs-number">1</span>)
+    <span class="hljs-title function_">f</span>(arr, pivot - <span class="hljs-number">1</span>, right)
+}
+</code></pre>
+<p>时间复杂度 O(nlogn)
+空间复杂度 O(n)   原地排序</p>
+<blockquote>
+<p>用遍历的思维解决现实问题
+数据结构我已经会了，它是整理数据的。
+在这种结构下满足特定规律。利用这种规律去解决现实问题，应该被叫做“技巧”。算不上“算法”。</p>
+</blockquote>
+<p>优化基准数</p>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">medianThree</span> = (<span class="hljs-params">arr, leftIndex, midIndex, rightIndex</span>) =&gt; {
+    <span class="hljs-keyword">let</span> l = arr[leftIndex], m = arr[midIndex], r = arr[rightIndex]
+    <span class="hljs-comment">// m在中间</span>
+    <span class="hljs-keyword">if</span> ((l &lt;= m &amp;&amp; m &lt;= r) || (r &lt;= m &amp;&amp; m &lt;= l)) {
+        <span class="hljs-keyword">return</span> midIndex
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> ((m &lt;= l &amp;&amp; l &lt;= r) || (r &lt;= l &amp;&amp; l &lt;= m)) {
+        <span class="hljs-comment">// l在中间</span>
+        <span class="hljs-keyword">return</span> leftIndex
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-comment">// r在中间</span>
+        <span class="hljs-keyword">return</span> rightIndex
+    }
+}
+</code></pre>
+<h2 id="归并排序">归并排序</h2>
+<p>先分到数组只有一个元素再合并在一起。</p>
+<h2 id="链表排序">链表排序</h2>
+<p>可以将链表排序任务的空间复杂度优化到O(1)</p>
+<h2 id="堆排序">堆排序</h2>
+<h2 id="桶排序">桶排序</h2>
+<p>处理大数据量时表现很好。</p>
+<ol>
+<li>创建若干桶。按大小分别放入这些桶。</li>
+<li>分别排序各桶内数据。（可以在针对性事务上把容量多的桶分开，把空桶删除，把容量小的桶合并。）</li>
+<li>多个桶的数组依次合并到一个数组中。</li>
+</ol>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">arr, n = <span class="hljs-number">2</span></span>) =&gt; {
+    <span class="hljs-keyword">let</span> k = arr.<span class="hljs-property">length</span> / n
+    <span class="hljs-keyword">let</span> a = []
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; k; i++) {
+        a.<span class="hljs-title function_">push</span>([])
+    }
+    <span class="hljs-comment">// ...</span>
+}
+</code></pre>
+<h2 id="计数排序">计数排序</h2>
+<p>通过统计元素数量来实现排序。常用于整数数组。
+实质是桶排序。</p>
+<ol>
+<li>以非负数为下标缓存出现的次数。</li>
+<li>根据出现次数填入数组</li>
+</ol>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">arr</span>) =&gt; {
+    <span class="hljs-keyword">let</span> min = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">min</span>(...arr)
+    <span class="hljs-keyword">let</span> max = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">max</span>(...arr)
+    <span class="hljs-keyword">let</span> a = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Array</span>(max - min + <span class="hljs-number">1</span>).<span class="hljs-title function_">fill</span>(<span class="hljs-number">0</span>)
+    arr.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> {
+        a[item - min]++
+    })
+    <span class="hljs-keyword">let</span> r = []
+    a.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">item, index</span>) =&gt;</span> {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; item; i++) {
+            r.<span class="hljs-title function_">push</span>(index + min)
+        }
+    })
+}
+</code></pre>
+<h2 id="基数排序">基数排序</h2>
+<p>适用于大数据量排序。
+不会</p>
+<h1 id="第12章-分治">第12章 分治</h1>
+<p>难题被逐层拆解，每一次拆解都使它变得更简单。
+分而治之提示了一个重要事实：从简单做起，一切都不再复杂。</p>
+<ul>
+<li>分：递归地把原问题分解为若干子问题，直到方便解决为止。</li>
+<li>治：把子问题的解合并成为原问题的解。</li>
+</ul>
+<h2 id="汉诺塔问题">汉诺塔问题</h2>
+<p>给定三根柱子，记为 A、B 和 C 。起始状态下，柱子 A 上套着 𝑛 个圆盘，它们从上到下按照从小到大
+的顺序排列。我们的任务是要把这 𝑛 个圆盘移到柱子 C 上，并保持它们的原有顺序不变（如图 12‑10
+所示）。在移动圆盘的过程中，需要遵守以下规则。</p>
+<ol>
+<li>圆盘只能从一根柱子顶部拿出，从另一根柱子顶部放入。</li>
+<li>每次只能移动一个圆盘。</li>
+<li>小圆盘必须时刻位于大圆盘之上。</li>
+</ol>
+<p>当n=1时，f(1)=1
+当n=2时，f(2)=2f(1)+1=3
+当n=3时，f(3)基于f(2)和f(1)完成。f(3)=2f(2)+1=7
+当n=4时，f(4)=2f(3)+1=15</p>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">n</span>) =&gt; {
+    <span class="hljs-keyword">if</span> (n = <span class="hljs-number">1</span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-title function_">f</span>(n - <span class="hljs-number">1</span>) * <span class="hljs-number">2</span> + <span class="hljs-number">1</span>
+    }
+}
+</code></pre>
+<h1 id="第13章-回溯">第13章 回溯</h1>
+<p>从初始状态出发，暴力搜索所有可能的解决方案，当遇到正确的解时记录，直到尝试完所有解决方案。</p>
+<h2 id="回溯算法">回溯算法</h2>
+<h3 id="dfs">dfs</h3>
+<p>给定一棵二叉树，搜索并记录所有值为 7 的节点，请返回节点列表。</p>
+<pre><code>let arr = []
+let f = (node, arr) =&gt; {
+    if (node) {
+        if (node.value === 7) {
+            arr.push(node)
+        }
+        f(node.left)
+        f(node.right)
+    } else {
+        return
+    }
+}
+f(root, arr)
+</code></pre>
+<p>当算法运行中遇到某个状态无法继续前进或无法得到满足时，撤销上一步的选择，退回到之前的状态并尝试其他可能的解决方案。</p>
+<h3 id="在二叉树中搜索所有值为-7-的节点请返回根节点到这些节点的路径">在二叉树中搜索所有值为 7 的节点，请返回根节点到这些节点的路径。</h3>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">node, path, res</span>) =&gt; {
+    <span class="hljs-keyword">if</span> (node) {
+        path.<span class="hljs-title function_">push</span>(node)
+        <span class="hljs-keyword">if</span> (node.<span class="hljs-property">value</span> === <span class="hljs-number">7</span>) {
+            res.<span class="hljs-title function_">push</span>([...path])
+        }
+        <span class="hljs-title function_">f</span>(node.<span class="hljs-property">left</span>, path, res)
+        <span class="hljs-title function_">f</span>(node.<span class="hljs-property">right</span>, path, res)
+        path.<span class="hljs-title function_">pop</span>()
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span>
+    }
+}
+<span class="hljs-keyword">let</span> res = []
+<span class="hljs-title function_">f</span>(root, [], res)
+</code></pre>
+<h3 id="剪枝-这是回溯算法的重点"><strong>剪枝</strong> 这是回溯算法的重点</h3>
+<p>复杂的回溯问题一般有多个约束条件，这些约束条件被称为“剪枝”。
+在二叉树中搜索所有值为 7 的节点，请返回根节点到这些节点的路径，并要求路径中不包含值为 3 的
+节点。</p>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">node, path, res</span>) =&gt; {
+    <span class="hljs-keyword">if</span> (!node || node.<span class="hljs-property">value</span> === <span class="hljs-number">3</span>) { <span class="hljs-comment">// 可以把这个判断条件抽象为一个返回boolean的方法。</span>
+        <span class="hljs-keyword">return</span>
+    } <span class="hljs-keyword">else</span> {
+        path.<span class="hljs-title function_">push</span>(node)
+        <span class="hljs-keyword">if</span> (node.<span class="hljs-property">value</span> === <span class="hljs-number">7</span>) {
+            res.<span class="hljs-title function_">push</span>([...path])
+        }
+        <span class="hljs-title function_">f</span>(node.<span class="hljs-property">left</span>, path, res)
+        <span class="hljs-title function_">f</span>(node.<span class="hljs-property">right</span>, path, res)
+        path.<span class="hljs-title function_">pop</span>()
+    }
+}
+</code></pre>
+<blockquote>
+<p>我发现作用在非线性结构（树、图）上使用回溯算法。不知道在线性结构（数组、链表）上能不能使用回溯算法。</p>
+</blockquote>
+<h2 id="例题">例题</h2>
+<p>全排列问题：给定一个集合，求出其所有可能的排列组合。</p>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">arr, state = []</span>) =&gt; {
+    <span class="hljs-keyword">if</span> (state.<span class="hljs-property">length</span> === arr.<span class="hljs-property">length</span>) {
+        res.<span class="hljs-title function_">push</span>([...state])
+        <span class="hljs-keyword">return</span>
+    } <span class="hljs-keyword">else</span> {
+        arr.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> {
+            <span class="hljs-keyword">if</span> (!state.<span class="hljs-title function_">includes</span>(item)) {
+                state.<span class="hljs-title function_">push</span>(item)
+                <span class="hljs-title function_">f</span>(arr, state)
+                state.<span class="hljs-title function_">pop</span>()
+            }
+        })
+    }
+}
+</code></pre>
+<blockquote>
+<p>循环时初始化为[]。和arr.push(x) &amp; arr.pop()相同效果。
+把现实问题转换为代码问题，再用代码实现。</p>
+</blockquote>
+<p>给定一个正整数数组 nums 和一个目标正整数 target ，请找出所有可能的组合，使得组合中的元素
+和等于 target 。给定数组无重复元素，每个元素可以被选取多次。请以列表形式返回这些组合，列
+表中不应包含重复组合。</p>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">arr, target, state = []</span>) =&gt; {
+    <span class="hljs-keyword">if</span> (<span class="hljs-title function_">sum</span>(state) === target) {
+        res.<span class="hljs-title function_">push</span>([...state])
+        <span class="hljs-keyword">return</span>
+    } <span class="hljs-keyword">else</span> {
+        arr.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> {
+            <span class="hljs-keyword">let</span> s = <span class="hljs-title function_">sum</span>(state)
+            <span class="hljs-keyword">if</span> (s &lt; target) {
+                state.<span class="hljs-title function_">push</span>(item)
+                <span class="hljs-title function_">f</span>(arr, target, state)
+                state.<span class="hljs-title function_">pop</span>()
+            }
+            <span class="hljs-keyword">if</span> (s &gt; target) {
+                <span class="hljs-keyword">break</span>
+            }
+        })
+    }
+}
+</code></pre>
+<p>汉诺塔问题：给定三根柱子和一系列大小不同的圆盘，要求将所有圆盘从一根柱子移动到另一根柱子，</p>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">move</span> = (<span class="hljs-params">a, c</span>) =&gt; {
+    c.<span class="hljs-title function_">unshift</span>(a.<span class="hljs-title function_">shift</span>())
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">_f</span> = (<span class="hljs-params">n, a, b, c</span>) =&gt; {
+    <span class="hljs-keyword">if</span> (n === <span class="hljs-number">1</span>) {
+        <span class="hljs-title function_">move</span>(a, c)
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-title function_">_f</span>(n - <span class="hljs-number">1</span>, a, c, b)
+        <span class="hljs-title function_">move</span>(a, c)
+        <span class="hljs-title function_">_f</span>(n - <span class="hljs-number">1</span>, b, a, c)
+    }
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">a = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>], b = [], c = []</span>) =&gt; {
+    <span class="hljs-keyword">let</span> n = a.<span class="hljs-property">length</span>
+    <span class="hljs-title function_">_f</span>(n, a, b, c)
+}
+<span class="hljs-comment">// n=1 a-c</span>
+<span class="hljs-comment">// n=2 1a-b,2a-c,1b-c</span>
+<span class="hljs-comment">// n=3 1a-c,2a-b,1c-b,3a-c,1b-1,2b-c,1a-c</span>
+<span class="hljs-comment">// n=4 </span>
+<span class="hljs-comment">// f(n, a, b, c) // 把n个盘子从a借助b移到c</span>
+<span class="hljs-comment">// f(1, a, b, c) a-c</span>
+<span class="hljs-comment">// f(2, a, b, c) {</span>
+<span class="hljs-comment">//     f(1, a, c, b)</span>
+<span class="hljs-comment">//     move(a, c)</span>
+<span class="hljs-comment">//     f(1, b, a, c)</span>
+<span class="hljs-comment">// }</span>
+<span class="hljs-comment">// 要想 4a-c, 先要 前3在b</span>
+<span class="hljs-comment">//            要想 前3在b</span>
+</code></pre>
+<blockquote>
+<p>必须全对。</p>
+</blockquote>
+<p>𝑛 皇后：在 𝑛 × 𝑛 的棋盘上放置 𝑛 个皇后，使得它们互不攻击。</p>
+<pre><code class="language-js"><span class="hljs-comment">// todo</span>
+<span class="hljs-keyword">let</span> state = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Array</span>(n).<span class="hljs-title function_">fill</span>([])
+</code></pre>
+<p>数独：在 9 × 9 的网格中填入数字 1 ~ 9 ，使得每行、每列和每个 3 × 3 子网格中的数字不重复。</p>
+<pre><code>todo
+</code></pre>
+<p>图着色问题：给定一个无向图，用最少的颜色给图的每个顶点着色，使得相邻顶点颜色不同。</p>
+<pre><code>todo
+</code></pre>
+<h2 id="常见数据结构的回溯操作">常见数据结构的回溯操作</h2>
+<pre><code class="language-js">arr.<span class="hljs-title function_">push</span>(x)
+arr.<span class="hljs-title function_">pop</span>()
+
+stack.<span class="hljs-title function_">push</span>()
+stack.<span class="hljs-title function_">pop</span>()
+
+<span class="hljs-comment">// 队列不能回溯</span>
+<span class="hljs-comment">// queue.enqueue()</span>
+<span class="hljs-comment">// queue.dequeue()</span>
+
+chain.<span class="hljs-title function_">append</span>()
+chain.<span class="hljs-title function_">removeAt</span>(chain.<span class="hljs-title function_">size</span>() - <span class="hljs-number">1</span>)
+
+set.<span class="hljs-title function_">add</span>(x)
+set.<span class="hljs-title function_">delete</span>(x)
+
+map.<span class="hljs-title function_">set</span>(k, v)
+map.<span class="hljs-title function_">delete</span>(k)
+
+tree.<span class="hljs-title function_">append</span>(v)
+tree.<span class="hljs-title function_">remove</span>(v)
+
+arr[i] = <span class="hljs-literal">true</span>
+arr[i] = <span class="hljs-literal">false</span>
+
+n++
+n--
+n+a
+n-a
+n*a
+n/a
+...
+</code></pre>
+<p>只要是正负操作就都算回溯操作</p>
+<h1 id="第14章-动态规划">第14章 动态规划</h1>
+<p>一种重要的算法范式，把一个问题分解为一系列更小的问题，并通过存储子问题的解来避免重复计算。</p>
+<blockquote>
+<p>用dp数组存储子问题的解。
+从小问题开始解决。
+不需要递归。
+需要初始状态，状态转换方法(即：递推公式)</p>
+</blockquote>
+<p>给定一个共有 𝑛 阶的楼梯，你每步可以上 1 阶或者 2 阶，请问有多少种方案可以爬到楼顶？</p>
+<pre><code class="language-js"><span class="hljs-comment">// 暴力搜索</span>
+<span class="hljs-keyword">let</span> map = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>()
+map.<span class="hljs-title function_">set</span>(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>)
+map.<span class="hljs-title function_">set</span>(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>)
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">n</span>) =&gt; {
+    <span class="hljs-keyword">if</span> (n &lt;= <span class="hljs-number">2</span>) {
+        <span class="hljs-keyword">return</span> map.<span class="hljs-title function_">get</span>(n)
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">let</span> t = <span class="hljs-title function_">f</span>(n - <span class="hljs-number">2</span>) + <span class="hljs-title function_">f</span>(n - <span class="hljs-number">1</span>)
+        map.<span class="hljs-title function_">set</span>(n, t)
+        <span class="hljs-keyword">return</span> t
+    }
+}
+<span class="hljs-comment">// 用回溯方法解决</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">n, choices, state = [<span class="hljs-number">0</span>]</span>) =&gt; {
+    <span class="hljs-keyword">if</span> (state[state.<span class="hljs-property">length</span> - <span class="hljs-number">1</span>] === n) {
+        res.<span class="hljs-title function_">push</span>([...state])
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> item <span class="hljs-keyword">of</span> choices) {
+            <span class="hljs-keyword">let</span> t = state[state.<span class="hljs-property">length</span> - <span class="hljs-number">1</span>] + item
+            <span class="hljs-keyword">if</span> (t &lt;= n) {
+                state.<span class="hljs-title function_">push</span>(t)
+                <span class="hljs-title function_">f</span>(n, choices, state)
+                state.<span class="hljs-title function_">pop</span>()
+            }
+        }
+    }
+}
+<span class="hljs-comment">// 动态规划</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">n</span>) =&gt; {
+    <span class="hljs-keyword">if</span> (n === <span class="hljs-number">1</span> || n === <span class="hljs-number">2</span>) {<span class="hljs-keyword">return</span> n}
+    <span class="hljs-keyword">let</span> dp = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Array</span>(n + <span class="hljs-number">1</span>).<span class="hljs-title function_">fill</span>(-<span class="hljs-number">1</span>)
+    <span class="hljs-comment">// 需要初始状态</span>
+    dp[<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>
+    dp[<span class="hljs-number">2</span>] = <span class="hljs-number">2</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">3</span>; i &lt;= n; i++) {
+        <span class="hljs-comment">// 状态转换方法</span>
+        dp[i] = dp[i - <span class="hljs-number">2</span>] + dp[i - <span class="hljs-number">1</span>]
+    }
+    <span class="hljs-keyword">return</span> dp[n]
+}
+<span class="hljs-comment">// 优化空间复杂度</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">n</span>) =&gt; {
+    <span class="hljs-keyword">if</span> (n === <span class="hljs-number">1</span> || n === <span class="hljs-number">2</span>) {
+        <span class="hljs-keyword">return</span> n
+    }
+    <span class="hljs-keyword">let</span> a = <span class="hljs-number">1</span>
+    <span class="hljs-keyword">let</span> b = <span class="hljs-number">2</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">3</span>; i &lt;= n; i++) {
+        [a, b] = [b, a + b]
+    }
+    <span class="hljs-keyword">return</span> b
+}
+</code></pre>
+<h2 id="最优子结构">最优子结构</h2>
+<p>原问题的最优解是从子问题的最优解构建得来的。
+dp[1] = cost[1] dp[2] = cost[2]
+dp[i] = min(dp[i - 1], dp[i - 2]) + cost[i]</p>
+<h2 id="无后效性">无后效性</h2>
+<p>给定一个状态，它的未来发展只与当前状态有关，而与过去经历的所有状态无关。</p>
+<p>给定一个共有 𝑛 阶的楼梯，你每步可以上 1 阶或者 2 阶，但不能连续两轮跳 1 阶，请问有多少种方案可以爬到楼顶？</p>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">n</span>) =&gt; {
+    <span class="hljs-keyword">if</span> (n === <span class="hljs-number">1</span> || n === <span class="hljs-number">2</span>) {
+        <span class="hljs-keyword">return</span> n
+    }
+    <span class="hljs-keyword">let</span> dp = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Array</span>(n + <span class="hljs-number">1</span>).<span class="hljs-title function_">fill</span>([<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>])
+    <span class="hljs-comment">// 初始状态</span>
+    dp[<span class="hljs-number">1</span>][<span class="hljs-number">1</span>] = <span class="hljs-number">1</span> <span class="hljs-comment">// 处于第阶并且上一轮跳了j阶</span>
+    dp[<span class="hljs-number">1</span>][<span class="hljs-number">2</span>] = <span class="hljs-number">0</span>
+    dp[<span class="hljs-number">2</span>][<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>
+    dp[<span class="hljs-number">2</span>][<span class="hljs-number">2</span>] = <span class="hljs-number">1</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">3</span>; i &lt;= n; i++) {
+        dp[i][<span class="hljs-number">1</span>] = dp[i - <span class="hljs-number">1</span>][<span class="hljs-number">2</span>]
+        dp[i][<span class="hljs-number">2</span>] = dp[i - <span class="hljs-number">2</span>][<span class="hljs-number">1</span>] + dp[i - <span class="hljs-number">2</span>][<span class="hljs-number">2</span>]
+    }
+    <span class="hljs-keyword">return</span> dp[n][<span class="hljs-number">1</span>] + dp[n][<span class="hljs-number">2</span>]
+}
+</code></pre>
+<p>给定一个共有 𝑛 阶的楼梯，你每步可以上 1 阶或者 2 阶。规定当爬到第 𝑖 阶时，系统自动会在第 2𝑖
+阶上放上障碍物，之后所有轮都不允许跳到第 2𝑖 阶上。
+这是“有后效性”的问题。难以用“动态规划”解决。可以使用启发式搜索、遗传算法、强化学习等解决。</p>
+<h2 id="动态规划的解题思路">动态规划的解题思路</h2>
+<ol>
+<li>判断一个问题是不是动态规划问题。</li>
+<li>如何入手解决动态规范问题。</li>
+</ol>
+<p>回溯问题通常满足“决策树模型”。
+动态规划问题会在回溯问题上会增加、减少一些限制。如：</p>
+<ul>
+<li>最大、最小，</li>
+<li>能使用列表、矩阵、树表示。</li>
+<li>为找出所有可能的解决方案。</li>
+<li>有明显的排列组合特征。</li>
+</ul>
+<h3 id="求解步骤">求解步骤</h3>
+<p>给定一个 𝑛 × 𝑚 的二维网格 grid ，网格中的每个单元格包含一个非负整数，表示该单元格的代价。机器人以左上角单元格为起始点，每次只能向下或者向右移动一步，直至到达右下角单元格。请返回从左上角到右下角的最小代价和。</p>
+<ol>
+<li>第一步，思考每轮决策，定义状态，从而得到dp表。</li>
+<li>找出最优子结构，进而推导出状态转移方程。</li>
+<li>第三步，确定边界条件和状态转移顺序。</li>
+</ol>
+<blockquote>
+<p>初始化dp表，设置初始值。
+填满dp表。
+在dp表中取出符合题意的值。</p>
+</blockquote>
+<pre><code class="language-js"><span class="hljs-comment">// dp[i, j] = min(dp[i-1, j], dp[i, j-1]) grid[i, j]</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">grid</span>) =&gt; {
+    <span class="hljs-keyword">let</span> n = grid.<span class="hljs-property">length</span>;
+    <span class="hljs-keyword">let</span> m = grid[<span class="hljs-number">0</span>].<span class="hljs-property">length</span>;
+    <span class="hljs-keyword">let</span> dp = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Array</span>({<span class="hljs-attr">length</span>: n}, <span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Array</span>({<span class="hljs-attr">length</span>: m}, <span class="hljs-function">() =&gt;</span> (<span class="hljs-number">0</span>))
+    })
+    dp[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] = grid[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>]
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) {
+        dp[i][<span class="hljs-number">0</span>] = grid[i - <span class="hljs-number">1</span>][<span class="hljs-number">0</span>] + grid[i][<span class="hljs-number">0</span>]
+    }
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">1</span>; i &lt;= m; i++) {
+        dp[<span class="hljs-number">0</span>][i] = grid[<span class="hljs-number">0</span>][i  -<span class="hljs-number">1</span>] = grid[<span class="hljs-number">0</span>][i]
+    }
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">1</span>; i &lt; n; i++) {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> j = <span class="hljs-number">1</span>; i &lt; m; j++) {
+            dp[i][j] = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">min</span>(grid[i - <span class="hljs-number">1</span>][j], grid[i][j - <span class="hljs-number">1</span>]) + grid[i][j]
+        }
+    }
+    <span class="hljs-keyword">return</span> dp[n - <span class="hljs-number">1</span>][m - <span class="hljs-number">1</span>]
+}
+</code></pre>
+<h2 id="0-1背包问题">0-1背包问题</h2>
+<p>给定 𝑛 个物品，第 𝑖 个物品的重量为 𝑤𝑔𝑡[𝑖 − 1]、价值为 𝑣𝑎𝑙[𝑖 − 1] ，和一个容纳重量为 𝑐𝑎𝑝 的背包。每个物品只能选择一次，问在限定背包容量下能放入物品的最大价值。</p>
+<pre><code class="language-js"><span class="hljs-comment">// dp表内表示此时的最大价值</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">w, v, cap</span>) =&gt; {
+    <span class="hljs-keyword">let</span> n = w.<span class="hljs-property">length</span>
+    <span class="hljs-comment">// 初始化</span>
+    <span class="hljs-keyword">let</span> dp = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Array</span>(cap + <span class="hljs-number">1</span>).<span class="hljs-title function_">fill</span>(<span class="hljs-number">0</span>).<span class="hljs-title function_">map</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Array</span>(n + <span class="hljs-number">1</span>).<span class="hljs-title function_">fill</span>(<span class="hljs-number">0</span>))
+    <span class="hljs-comment">// 能不能放进入 &lt;=&gt; 不放与放的最大值</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> c = <span class="hljs-number">1</span>; c &lt;= cap; c++) {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) {
+            <span class="hljs-comment">// 不会</span>
+            <span class="hljs-comment">// if (w[i] &gt; c) {</span>
+            <span class="hljs-comment">//     dp[c][i] = d[c][i - 1]</span>
+            <span class="hljs-comment">// } else {</span>
+            <span class="hljs-comment">//     dp[c][i] = Math.max(</span>
+            <span class="hljs-comment">//         dp[c][i - 1],</span>
+            <span class="hljs-comment">//         dp[c][i - 1] + v[i - 1]</span>
+            <span class="hljs-comment">//     )</span>
+            <span class="hljs-comment">// }</span>
+        }
+    }
+}
+</code></pre>
+<h2 id="完全背包问题">完全背包问题</h2>
+<p>给定 𝑛 个物品，第 𝑖 个物品的重量为 𝑤𝑔𝑡[𝑖 − 1]、价值为 𝑣𝑎𝑙[𝑖 − 1] ，和一个容纳重量为 𝑐𝑎𝑝 的背包。每个物品可以重复选取，问在限定背包容量下能放入物品的最大价值。</p>
+<h2 id="多重背包问题">多重背包问题</h2>
+<p>给定 𝑛 种硬币，第 𝑖 种硬币的面值为 𝑐𝑜𝑖𝑛𝑠[𝑖 − 1] ，目标金额为 𝑎𝑚𝑡 ，每种硬币可以重复选取，问能够凑出目标金额的最少硬币数量。如果无法凑出目标金额，则返回 −1 。</p>
+<pre><code class="language-js"><span class="hljs-comment">// dp[i][j] 表示 第i次拿j号硬币时对应的硬币数量</span>
+<span class="hljs-comment">// dp[0]</span>
+<span class="hljs-comment">// dp[i] = min(dp[i - 1]) + 1</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params"></span>) =&gt; {}
+
+<span class="hljs-comment">// 这是我写的</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">coins, amt</span>) =&gt; {
+    <span class="hljs-keyword">let</span> t = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">let</span> a = []
+    <span class="hljs-keyword">while</span> (t &lt; amt) {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; coins.<span class="hljs-property">length</span>; i++) {
+            <span class="hljs-keyword">if</span> (coins[i] &lt;= (amt - t)) {
+                t += coins[i]
+                a.<span class="hljs-title function_">push</span>(coins[i])
+                <span class="hljs-keyword">break</span>;
+            }
+        }
+    }
+    <span class="hljs-keyword">return</span> a.<span class="hljs-property">length</span> || -<span class="hljs-number">1</span>
+}
+
+
+<span class="hljs-comment">// 求硬币和的组合数</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">coins, amt, state = []</span>) =&gt; {
+    <span class="hljs-keyword">if</span> (<span class="hljs-title function_">sum</span>(state) === amt) {
+        <span class="hljs-keyword">let</span> t = state.<span class="hljs-title function_">reduce</span>(<span class="hljs-function">(<span class="hljs-params">r, c</span>) =&gt;</span> {
+            <span class="hljs-keyword">return</span> r *= c
+        }, <span class="hljs-number">1</span>)
+        <span class="hljs-keyword">if</span> (!unique.<span class="hljs-title function_">includes</span>(t)) {
+            unique.<span class="hljs-title function_">push</span>(t)
+            res.<span class="hljs-title function_">push</span>([...state])
+            <span class="hljs-keyword">return</span>
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">return</span>
+        }
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; coins.<span class="hljs-property">length</span>; i++) {
+            state.<span class="hljs-title function_">push</span>(coins[i])
+            <span class="hljs-keyword">if</span> (<span class="hljs-title function_">sum</span>(state) &lt; amt) {
+                <span class="hljs-title function_">f</span>(coins, amt, state)
+            }
+            state.<span class="hljs-title function_">pop</span>()
+        }
+    }
+}
+</code></pre>
+<h2 id="编辑距离">编辑距离</h2>
+<p>输入两个字符串 𝑠 和 𝑡 ，返回将 𝑠 转换为 𝑡 所需的最少编辑步数。你可以在一个字符串中进行三种编辑操作：插入一个字符、删除一个字符、将字符替换为任意一个字符。</p>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">s, t</span>) =&gt; {
+    <span class="hljs-keyword">let</span> n = s.<span class="hljs-property">length</span>;
+    <span class="hljs-keyword">let</span> m = t.<span class="hljs-property">length</span>;
+    <span class="hljs-keyword">let</span> dp = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Array</span>(n + <span class="hljs-number">1</span>).<span class="hljs-title function_">fill</span>(<span class="hljs-number">0</span>).<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Array</span>(m + <span class="hljs-number">1</span>).<span class="hljs-title function_">fill</span>(<span class="hljs-number">0</span>))
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) {
+        dp[i][<span class="hljs-number">0</span>] = <span class="hljs-number">0</span>
+    }
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt;= m; i++) {
+        dp[<span class="hljs-number">0</span>][i] = i
+    }
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> j = <span class="hljs-number">1</span>; j &lt;= m; j++) {
+            <span class="hljs-keyword">if</span> (s.<span class="hljs-title function_">chatAt</span>(i - <span class="hljs-number">1</span>) === t.<span class="hljs-title function_">chatAt</span>(j - <span class="hljs-number">1</span>)) {
+                <span class="hljs-comment">// 若相同</span>
+                dp[i][j] = dp[i - <span class="hljs-number">1</span>][j - <span class="hljs-number">1</span>]
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-comment">// 若不相同，则需要一次编辑（插入、删除、替换）</span>
+                dp[i][j] = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">min</span>(dp[i][j - <span class="hljs-number">1</span>], dp[i - <span class="hljs-number">1</span>][j], dp[i - <span class="hljs-number">1</span>][j - <span class="hljs-number">1</span>]) + <span class="hljs-number">1</span>
+            }
+        }
+    }
+    <span class="hljs-keyword">return</span> dp[n][m]
+}
+</code></pre>
+<ul>
+<li>不考虑时间时，所有动态规划问题都可以使用回溯（暴力搜索）求解，但递归树中有大量重叠子问题。通过引入记忆列表，可以存储所有计算过的子问题。保证重叠子问题只计算一次。</li>
+<li>动态规划是一种从底到顶的递推式解决方案。如同“填写表格”一样。</li>
+<li>子问题分解是一种能用的算法思路，在分治、动态规划、回溯中具有不同的性质。</li>
+<li>动态规划有3个特性：重叠子问题、最优子结构、无后效性。</li>
+<li>原问题的最优解可以从子问题的最优解中得到。</li>
+<li>有后效性无法用动态规划解决。</li>
+</ul>
+<h1 id="第15章-贪心">第15章 贪心</h1>
+<p>贪心算法（greedy algorithm）常用于解决优化问题的算法。基本思想是在每个决策时选择最优解决。多次叠加局部最优解，得到全局最优解。</p>
+<p>给定 𝑛 种硬币，第 𝑖 种硬币的面值为 𝑐𝑜𝑖𝑛𝑠[𝑖 − 1] ，目标金额为 𝑎𝑚𝑡 ，每种硬币可以重复选取，问能够凑出目标金额的最少硬币数量。如果无法凑出目标金额，则返回 −1 。</p>
+<pre><code class="language-js"><span class="hljs-comment">// 参考 多重背包问题</span>
+<span class="hljs-number">98</span> - <span class="hljs-number">50</span> = <span class="hljs-number">48</span>
+<span class="hljs-number">98</span> - <span class="hljs-number">49</span> = <span class="hljs-number">49</span>
+<span class="hljs-number">98</span> - <span class="hljs-number">1</span>  = <span class="hljs-number">97</span>
+</code></pre>
+<p>贪心算法不能总是得到最优解决，可以得到近似最优解。动态规划可以得到最优解。</p>
+<p>给定 𝑛 个物品，第 𝑖 个物品的重量为 𝑤𝑔𝑡[𝑖 − 1]、价值为 𝑣𝑎𝑙[𝑖 − 1] ，和一个容量为 𝑐𝑎𝑝 的背包。每个物品只能选择一次，但可以选择物品的一部分，价值根据选择的重量比例计算，问在限定背包容量下背包中物品的最大价值。</p>
+<pre><code class="language-js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Item</span> {
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params">w, v</span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">weight</span> = w
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">value</span> = v
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">vw</span> = v / w
+    }
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">w, v, c</span>) =&gt; {
+    <span class="hljs-keyword">let</span> items = w.<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">a, i</span>) =&gt;</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Item</span>(a, v[i]))
+    items.<span class="hljs-title function_">sort</span>(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> b.<span class="hljs-property">vw</span> - a.<span class="hljs-property">vw</span>)
+    <span class="hljs-keyword">let</span> resValue = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">let</span> restW = c
+    <span class="hljs-keyword">let</span> res = []
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> item <span class="hljs-keyword">of</span> items) {
+        <span class="hljs-keyword">if</span> (item.<span class="hljs-property">weight</span> &lt;= restW) {
+            res.<span class="hljs-title function_">push</span>(item)
+            restW -= item.<span class="hljs-property">weight</span>
+            <span class="hljs-keyword">if</span> (!restW) {
+                <span class="hljs-keyword">break</span>
+            }
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">let</span> wt = (item.<span class="hljs-property">weight</span> - restW) / item.<span class="hljs-property">weight</span>
+            <span class="hljs-keyword">let</span> vt = item.<span class="hljs-property">value</span> * wt / item.<span class="hljs-property">weight</span>
+            res.<span class="hljs-title function_">push</span>({
+                <span class="hljs-attr">value</span>: restW * item.<span class="hljs-property">vw</span>,
+                <span class="hljs-attr">weight</span>: restW,
+                <span class="hljs-attr">vw</span>: item.<span class="hljs-property">vw</span>,
+            })
+            <span class="hljs-keyword">break</span>;
+        }
+    }
+    <span class="hljs-keyword">return</span> res
+}
+</code></pre>
+<p>输入一个数组 ℎ𝑡 ，其中的每个元素代表一个垂直隔板的高度。数组中的任意两个隔板，以及它们之间的空间可以组成一个容器。
+容器的容量等于高度和宽度的乘积（面积），其中高度由较短的隔板决定，宽度是两个隔板的数组索引之差。请在数组中选择两个隔板，使得组成的容器的容量最大，返回最大容量。</p>
+<pre><code class="language-js"><span class="hljs-comment">// 暴力</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">arr</span>) =&gt; {
+    <span class="hljs-keyword">let</span> res = []
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; arr.<span class="hljs-property">length</span> - <span class="hljs-number">1</span>; i++) {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> j = i; j &lt; arr.<span class="hljs-property">length</span>; j++) {
+            <span class="hljs-keyword">let</span> w = j - i
+            <span class="hljs-keyword">let</span> h = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">min</span>(arr[i], arr[j])
+            <span class="hljs-keyword">let</span> s = w * h
+            res.<span class="hljs-title function_">push</span>(s)
+        }
+    }
+    <span class="hljs-comment">// let res = 0</span>
+    <span class="hljs-comment">// res = Math.max(res, w * h)</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">max</span>(...res)
+}
+<span class="hljs-comment">// 动态规划</span>
+<span class="hljs-comment">// dp[i][j] 第i&amp;j柱子形成的面积</span>
+<span class="hljs-comment">// dp[0][0] = 0</span>
+
+<span class="hljs-comment">// 贪心</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">ht</span>) =&gt; {
+    <span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">let</span> j = ht.<span class="hljs-property">length</span> - <span class="hljs-number">1</span>
+    <span class="hljs-keyword">let</span> res = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">while</span> (i &lt; j) {
+        res = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">max</span>(res, (j - i) * <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">min</span>(ht[i], ht[j]))
+        <span class="hljs-keyword">if</span> (ht[i] &gt; ht[j]) {
+            j--
+        } <span class="hljs-keyword">else</span> {
+            i++
+        }
+    }
+}
+</code></pre>
+<h2 id="最大切分乘积问题">最大切分乘积问题</h2>
+<p>给定一个正整数 𝑛 ，将其切分为至少两个正整数的和，求切分后所有整数的乘积最大是多少。</p>
+<pre><code class="language-js"><span class="hljs-comment">// 只想到了分成2个正整数的解决方案。</span>
+<span class="hljs-comment">// 没看懂作者解决方案。</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">n</span>) =&gt; {
+    <span class="hljs-keyword">let</span> res = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">let</span> a = <span class="hljs-number">1</span>
+    <span class="hljs-keyword">let</span> p = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">floor</span>(n / <span class="hljs-number">2</span>)
+    <span class="hljs-keyword">while</span>(a &lt; p) {
+        res = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">max</span>(res, a * (n - a))
+        a++
+    }
+    <span class="hljs-keyword">return</span> res
+}
+</code></pre>
+<h1 id="第16章-附录">第16章 附录</h1>
+
+            
+            
+        </body>
+        </html>

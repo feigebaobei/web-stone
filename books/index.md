@@ -18,6 +18,7 @@
   - [《Eloquent_JavaScript》](/books/Eloquent_JavaScript.pdf)
   - [hellogithub](https://hellogithub.com/)
   - [github](https://github.com/)
+  - [hello algo](https://github.com/krahets/hello-algo/releases) [笔记](/books/helloAlgo.html)
 - [《logic》](/books/logic.html)
 - [《盐铁论》](/books/title.html)
 - [《止学》](/books/zhixue.html)
@@ -60,6 +61,7 @@
   - [创世纪图书馆](http://libgen.is) http://libgen.rs https://libgen.re/ https://llhlf.com/
   - [pdfdrive](https://www.pdfdrive.com/)
   - [文件格式转换](https://convertio.co/zh/)
+  - [压缩](https://www.compress2go.com)
   - [文件格式转换 aconvert.com](https://aconvert.com)
   - [PDF Drive](https://www.pdfdrive.com/)
   - [书格（擅长古文）](https://www.shuge.org/)
@@ -133,7 +135,6 @@
 - [生活](https://www.gapminder.org/dollar-street)
 - [alternativeto 代替品](https://alternativeto.net/)
 - [检查病毒](https://www.virustotal.com/gui/home/upload)
-- [文件类型转换](https://www.aconvert.com/image/)
 - [图片网站](https://www.pexels.com/zh-cn/)
 - [解决方案](https://www.wikihow.com/Main-Page)
 - [解决方案 zh](https://zh.wikihow.com/%E9%A6%96%E9%A1%B5)

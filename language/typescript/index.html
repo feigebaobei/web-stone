@@ -554,8 +554,8 @@ ts 做了什么？</p>
 </tr>
 <tr>
 <td>含义</td>
-<td>判断v是否是Type类型</td>
-<td>告诉ts,v一定Type类型</td>
+<td>判断 v 是否是 Type 类型</td>
+<td>告诉 ts,v 一定 Type 类型</td>
 </tr>
 <tr>
 <td>运行时间</td>
@@ -947,7 +947,6 @@ ts 做了什么？</p>
 </code></pre>
 <h3 id="自定义的操作类型的工具方法">自定义的操作类型的工具方法</h3>
 <pre><code class="language-ts"><span class="hljs-title class_">Falsy</span>
-
 </code></pre>
 <h2 id="class">class</h2>
 <pre><code class="language-ts"><span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">B</span> {
@@ -1150,8 +1149,8 @@ ts 做了什么？</p>
 </code></pre>
 <p>方法与泛型结合使用</p>
 <pre><code class="language-ts"><span class="hljs-comment">// defined</span>
-            这里指定会用到的泛型
-                    这是使用指定的泛型
+这里指定会用到的泛型
+这是使用指定的泛型
 <span class="hljs-keyword">function</span> fn&lt;T&gt;(<span class="hljs-attr">arr</span>: T[]): T | <span class="hljs-literal">undefined</span> {
   <span class="hljs-keyword">return</span> arr[<span class="hljs-number">0</span>]
 }
@@ -1475,8 +1474,8 @@ let result = &lt;T&gt;{}       // 方法二
 <h3 id="外部命名空间">外部命名空间</h3>
 <h2 id="declaration"><a href="/language/typescript/declaration.html">Declaration</a></h2>
 <p>声明文件就是<code>*.d.ts</code>文件。
-编译ts文件的工作可以生成此文件。比如tsc就能生成此文件。
-感觉声明文件是给vscode使用的。</p>
+编译 ts 文件的工作可以生成此文件。比如 tsc 就能生成此文件。
+感觉声明文件是给 vscode 使用的。</p>
 <h2 id="使用-ts-写一个项目">使用 ts 写一个项目</h2>
 <p>ts 是一种 js 的方言。以前使用 js 怎么写项目，现在使用 ts 就怎么写项目。区别在于写一些 ts 特有的东西。如：配置文件。<br>
 <a href="/typescript/demo.html">demo for ts</a></p>
@@ -1616,13 +1615,13 @@ let result = &lt;T&gt;{}       // 方法二
 <span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { T } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./one.ts&#x27;</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> { C }
 
-<span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> T, {G} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./one.ts&#x27;</span>
-<span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> T, G} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./one.ts&#x27;</span>
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> T, { G } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./one.ts&#x27;</span>
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> T, G } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./one.ts&#x27;</span>
 </code></pre>
 <h2 id="ts-的不足">ts 的不足</h2>
 <ul>
 <li>允许出现类型断言。</li>
-<li>允许出来 any 类型。</li>
+<li>允许出来 any 类型。从实际开发来看，做到不使用any太麻烦。ts要做类型判断，又做不完整，就好尴尬。ts允许any、unknown出现就是对类型的妥协。</li>
 <li>有时过于严格，有时可忽略类型错误。
 <ul>
 <li>var as unknown as T</li>
