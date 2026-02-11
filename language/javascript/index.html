@@ -262,6 +262,7 @@ prop#method。如：<code>Promise#then</code>。</p>
 <p>this 指向运行时（不是定义时）的上下文环境变量。</p>
 <h3 id="abc">abc</h3>
 <p>即<code>apply / bind / call</code>。<code>abc</code>是作者起的名字。</p>
+<!-- prettier-ignore-start -->
 <table>
 <thead>
 <tr>
@@ -292,6 +293,7 @@ prop#method。如：<code>Promise#then</code>。</p>
 </tr>
 </tbody>
 </table>
+<!-- prettier-ignore-end -->
 <pre><code class="language-js"><span class="hljs-comment">// 待测试</span>
 <span class="hljs-title class_">Function</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">mockBind</span> = <span class="hljs-function">(<span class="hljs-params">otherthis, ...args</span>) =&gt;</span> {
   <span class="hljs-keyword">let</span> self = <span class="hljs-variable language_">this</span>
@@ -419,7 +421,8 @@ class 可以结合<code>decorator</code>使用，构造函数不能使用<code>d
 <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">any</span>(arrP)        <span class="hljs-comment">// arrP中只要有一个状态为fulfilled则返回该值，触发then()。若全为rejected则返回AggregateError对象，触发catch()。</span>
 <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">resolve</span>()
 <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">reject</span>()
-<span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">try</span>(f, ...args)           <span class="hljs-comment">// 接收一个方法f，根据f的返回值设置为fulfilled状态或rejected状态。</span>
+<span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">try</span>(f, ...args)           <span class="hljs-comment">// 接收一个方法f，根据f的返回值设置为fulfilled状态或rejected状态。throw new Error(&#x27;xxx&#x27;) 会触发catch.其他返回值触发then.</span>
+<span class="hljs-comment">// 作用：把同步方法转换为异步并使用catch捕获。</span>
 <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">withResolvers</span>() <span class="hljs-comment">// {promise, resolve, reject} 在外部设置promise的状态。</span>
 </code></pre>
 <h3 id="模拟-allsettled">模拟 allSettled</h3>
@@ -552,11 +555,13 @@ class 可以结合<code>decorator</code>使用，构造函数不能使用<code>d
       } <span class="hljs-keyword">else</span> {
         <span class="hljs-keyword">return</span> <span class="hljs-title function_">j</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>())
       }
-    }).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">r</span>) =&gt;</span> {
-      <span class="hljs-title function_">cb</span>(<span class="hljs-literal">null</span>, r)
-    }).<span class="hljs-title function_">catch</span>(<span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-      <span class="hljs-title function_">cb</span>(e, <span class="hljs-literal">null</span>)
     })
+      .<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">r</span>) =&gt;</span> {
+        <span class="hljs-title function_">cb</span>(<span class="hljs-literal">null</span>, r)
+      })
+      .<span class="hljs-title function_">catch</span>(<span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+        <span class="hljs-title function_">cb</span>(e, <span class="hljs-literal">null</span>)
+      })
   }
 }
 </code></pre>
