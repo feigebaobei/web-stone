@@ -141,8 +141,8 @@
         <body class="vscode-body vscode-light">
             <h1 id="principle">principle</h1>
 <h2 id="渲染机制">渲染机制</h2>
-<p>程序员使用 vue 框架，编写 sfc 文件。vue 框架会把它们搞成 vdom。vue 框架根据 vdom 生成 dom，当 vdom 改变时 vue 框架更新 dom。
-proxy 在 vue3 中用的不多。</p>
+<p>程序员使用 vue 框架，编写 sfc 文件。vue 框架会把它们搞成 vdom，再根据 vdom 生成 dom，当 vdom 改变时 vue 框架更新 dom。
+proxy 在 vue3 中用的不多。vue2-&gt;vue3时核心代码变动不多。项目工程结构变化在大。</p>
 <h2 id="vue2-不能做到的事">vue2 不能做到的事</h2>
 <ul>
 <li>在 data 中不声明的对象、属性，不能响应式。</li>
@@ -158,7 +158,7 @@ proxy 在 vue3 中用的不多。</p>
 <p>vue3 是一个一库多包项目。</p>
 <pre><code>|-- packages
     |-- reactivity          // 响应式api。如：toRef/reactive/Effect/computed/watch.与框架无关，可以独立构建。
-    |-- runtime-core        // 平台无关的运行时核心代码。包括虚拟dom渲染、组件实现和JavaScript API。可以使用这个包针对特定平台构建高价运行时（即定制渲染器）。
+    |-- runtime-core        // 平台无关的运行时核心代码。包括虚拟dom渲染、组件实现和JavaScript API。可以使用这个包针对特定平台构建高性能运行时（即定制渲染器）。
     |-- runtime-dom         // 针对浏览器的运行时。包括对原生DOM API、属性（attributes）、特性（properties）、事件回调的处理。
     |-- runtime-test        // 用于测试的轻量级运行时。可以在任何JavaScript环境使用，因为它最终只会呈现JavaScript对象形式的渲染树，其可以用来断言正确的渲染输出。另外还提供用于序列化树、触发事件和记录更新期间执行的实际节点操作的实用工具。
     |-- server-renderer     // 服务端渲染相关。
