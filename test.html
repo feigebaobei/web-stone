@@ -349,7 +349,985 @@
             // return res
             return Math.max(...res)
         }
-        clog(f([3, 8, 5, 2, 7, 7, 3, 4]))
+        // clog(f([3, 8, 5, 2, 7, 7, 3, 4]))
+
+
+        f = (n) => {
+            let m
+            let res = []
+            while(n > 10) {
+                m = n % 10
+                res.unshift(m)
+                n = Math.floor(n / 10)
+            }
+            res.unshift(n)
+            return res
+        }
+        // clog(f(23440))
+
+
+
+        f = (a, b, c) => {
+            let arr = [a, b, c].sort((a, b) => a - b)
+            return arr
+        }
+        // clog(f(3,8,2))
+
+
+        f = (a, b, c) => {
+            return ((a + b + c) / 3).toFixed(3)
+        }
+        // clog(f(1,2,3))
+
+
+
+        f = (n) => {
+            let dp = new Array(n + 1)
+            dp[0] = 0
+            dp[1] = 1
+            for (let i = 2; i <= n; i++) {
+                dp[i] = dp[i - 1] * i
+            }
+            clog(dp)
+            return dp.reduce((r, c) => {
+                return r += c
+            }, 0)
+        }
+        // clog(f(4))
+
+
+
+
+        f = () => {
+            let res = []
+            for (let i = 123; i < 328; i++) {
+                // i, 2 * i, 3 * i
+                // if (3 * i < 999)
+                let set = new Set()
+                String(i).split('').forEach(item => {
+                    set.add(item)
+                })
+                String(2 * i).split('').forEach(item => {
+                    set.add(item)
+                })
+                String(3 * i).split('').forEach(item => {
+                    set.add(item)
+                })
+                if (set.size === 9) {
+                    res.push([i, 2 * i, 3 * i])
+                }
+            }
+            return res
+        }
+        // clog(f())
+
+
+
+        f = (n, k) => {
+            let res = new Array(n + 1).fill(false)
+            // 0 off 1 on
+            let i = 1
+            while (i <= k) {
+                for (let j = i; j <= n; j+=j) {
+                    res[j] = !res[j]
+                }
+                i++
+            }
+            clog(res)
+            return res.map((item, index) => {
+                if (item) {
+                    return index
+                }
+            }).filter(item => item)
+        }
+        // clog(f(7, 3))
+
+
+
+        f = (n) => {
+            // 用2个dp表处理
+            // 9 7 5 3 1
+            let dpa = Array.from({length: n}, (item, index) => 2 * index + 1).reverse()
+            let dpb = new Array(n).fill(0).map((item, index) => index)
+            let res = []
+            for (let i = 0; i < n; i++) {
+                res.push(' '.repeat(dpb[i]) + '#'.repeat(dpa[i]))
+            }
+            return res
+        }
+        // clog(f(5))
+
+
+
+        f = (n) => {
+            if (n === 1) {
+                return [[1]]
+            } else {
+                let i = 0, x = 0, y = 0
+                let arr = Array.from({length: n}, () => Array.from({length: n}).fill(0))
+                let rotate = 1
+                while(i < n * n && rotate <= n / 2) {
+                    x = rotate - 1
+                    y = rotate - 1
+                    while (x < n - rotate) {
+                        arr[x][y] = ++i
+                        x++
+                    }
+                    while (y < n - rotate) {
+                        arr[x][y] = ++i
+                        y++
+                    }
+                    while (x >= rotate) {
+                        arr[x][y] = ++i
+                        x--
+                    }
+                    while (y >= rotate) {
+                        arr[x][y] = ++i
+                        y--
+                    }
+                    rotate++
+                }
+                if (n % 2) {
+                    arr[x+1][y+1] = n * n
+                }
+                return arr
+            }
+        }
+        // clog(f(4))
+        // clog(f(6))
+        // clog(f(5))
+        // clog(f(7))
+        // clog(f(1))
+        // clog(f(2))
+        
+
+
+
+        f = (n, m) => {
+            if (n === 1 && m === 1) {
+                return [[1]]
+            } else {
+                let i = 0, x = 0, y = 0, rotate = 1
+                let rotateCount = Math.floor(Math.min(n, m) / 2)
+                let big = Math.max(n, m)
+                let arr = Array.from({length: n}, () => Array.from({length: m}, () => 0))
+                while(i < n * m && rotate <= rotateCount) {
+                    x = rotate - 1
+                    y = rotate - 1
+                    while (x < n - rotate) {
+                        arr[x][y] = ++i
+                        x++
+                    }
+                    while (y < m - rotate) {
+                        arr[x][y] = ++i
+                        y++
+                    }
+                    while (x >= rotate) {
+                        arr[x][y] = ++i
+                        x--
+                    }
+                    while (y >= rotate) {
+                        arr[x][y] = ++i
+                        y--
+                    }
+                    rotate++
+                }
+                if (n === 1 || m === 1) {
+                } else {
+                    x++
+                    y++
+                }
+                if (n > m) {
+                    let k = 0
+                    while (k < big - (rotate - 1) * 2) {
+                        arr[x][y] = ++i
+                        x++
+                        k++
+                    }
+                } else if (n < m) {
+                    let k = 0
+                    while (k < big - (rotate - 1) * 2) {
+                        arr[x][y] = ++i
+                        y++
+                        k++
+                    }
+                }
+                return arr
+            }
+        }
+        // clog(f(2, 3))
+        // clog(f(4, 4))
+        // clog(f(5, 5))
+        // clog(f(5, 7))
+        // clog(f(1, 1))
+        // clog(f(8, 3))
+        // clog(f(1, 5))
+        // clog(f(8, 1))
+
+
+
+        f = (s) => {
+            let t = s.split('').reverse().join('')
+            clog(t)
+            return t === s
+        }
+        // clog(f('str'))
+        // clog(f('sts'))
+        // clog(f('stts'))
+
+
+
+
+        f = (s) => {
+            let arr = s.split('')
+            let res = true
+            if (arr.length % 2) {
+                arr.splice(Math.floor(arr.length / 2), 1)
+            }
+            for (let i = 0; i < Math.floor(arr.length / 2); i++) {
+                if (arr[i] !== arr[arr.length - 1 - i]) {
+                    res = false
+                    break;
+                }
+            }
+            return res
+        }
+        // clog(f('str'))
+        // clog(f('sts'))
+        // clog(f('stts'))
+
+
+
+
+        f = (n) => {
+            let i = 1 // 几位数
+            let t = n
+            while (t > 10) {
+                t = t / 10
+                i++
+            }
+            let res = 0
+            for (let p = n - (i * 9); p < n;) {
+                let pOrigin = p
+                let sumNumber = 0
+                while (p > 1) {
+                    sumNumber += Math.floor(p % 10)
+                    p /= 10
+                }
+                p = pOrigin
+                if (p + sumNumber === n) {
+                    res = p
+                    break;
+                } else {
+                    p++
+                }
+            }
+            return res
+        }
+        // clog(f(216))
+        // clog(f(2005))
+        // clog(f(121))
+
+
+
+        f = (...arr) => {
+            let res = []
+            let diff = Number.MAX_SAFE_INTEGER
+            for (let i = 0; i < arr.length - 1; i++) {
+                for (let j = i+1; j < arr.length; j++) {
+                    let t = Math.abs(arr[i] - arr[j])
+                    if (diff > t) {
+                        diff = t
+                        res = [arr[i], arr[j]]
+                    }
+                }
+            }
+            return res
+        }
+        // clog(f(1,10,8,5,6,0,9))
+
+
+        f = (s) => {
+            let dp = Array.from({length: s.length}, () => 0)
+            if (s.charAt(0) === 'O') {
+                dp[0] = 1
+            } else {
+                dp[0] = 0
+            }
+            for (let i = 1; i < s.length; i++) {
+                if (s.charAt(i) === 'O') {
+                    dp[i] = dp[i - 1] + 1
+                } else {
+                    dp[i] = 0
+                }
+            }
+            return dp.reduce((r, c) => r += c, 0)
+        }
+        // clog(f('OOXXOXXOOO'))
+
+
+        
+        map = new Map([
+            ['C', 12.01],
+            ['H', 1.008],
+            ['O', 16.00],
+            ['N', 14.01],
+            // ...
+        ])
+        f = (s) => {
+            let reg = /[A-Z]\d*/g
+            let arr = s.match(reg)
+            let obj = {}
+            arr.forEach(item => {
+                let k = item.slice(0, 1)
+                let n = Number(item.slice(1)) || 1
+                if (Object.keys(obj).includes(k)) {
+                    obj[k] += n
+                } else {
+                    obj[k] = n
+                }                
+            })
+            return Object.entries(obj) // [[k, v], ...]
+            .reduce((r, [k, v]) => {
+                r += map.get(k) * v
+                return r
+            }, 0)
+        }
+        // clog(f('C6H5OH'))
+
+
+
+        f = (n) => {
+            let s = ''
+            for (let i = 1; i <= n; i++) {
+                s += String(i)
+            }
+            let map = new Map([
+                ['0', 0],
+                ['1', 0],
+                ['2', 0],
+                ['3', 0],
+                ['4', 0],
+                ['5', 0],
+                ['6', 0],
+                ['7', 0],
+                ['8', 0],
+                ['9', 0],
+            ])
+            for (let i = 0; i < s.length; i++) {
+                let t = map.get(s.charAt(i))
+                map.set(s.charAt(i), ++t)
+            }
+            return map
+        }
+        // clog(f(100))
+
+
+
+f = (...arr) => {
+    let m = arr.length
+    let n = arr[0].length
+    let res = ''
+    // m个长度为n的dna序列
+    for (let j = 0; j < n; j++) {
+        let o = new Map([
+            ['A', 0],
+            ['C', 0],
+            ['G', 0],
+            ['T', 0],
+        ])
+        for (let i = 0; i < m; i++) {
+            let t = o.get(arr[i][j])
+            o.set(arr[i][j], ++t)
+        }
+        let max = Math.max(o.get('A'), o.get('C'), o.get('G'), o.get('T'))
+        if (o.get('A') === max) {
+            res += 'A'
+        } else if (o.get('C') === max) {
+            res += 'C'
+        } else if (o.get('G') === max) {
+            res += 'G'
+        } else if (o.get('T') === max) {
+            res += 'T'
+        }
+    }
+    return res
+}
+// clog(f('TATGAТАС',
+// 'TAAGCТАС',
+// 'AAAGATCC',
+// 'TGAGATAС',
+// 'TAAGATGT'))
+
+
+
+
+f = (s, t) => {
+    if (s.length < t.length) {
+        let dp = [] // 保存第i个字母在t串中的下标
+        for (let i = 0; i < s.length; i++) {
+            for (let j = (dp[i - 1] || -1) + 1; j < t.length; j++) {
+                if (s.charAt(i) === t.charAt(j)) {
+                    dp[i] = j
+                    break
+                }
+            }
+        }
+        return dp.length === s.length
+    } else {
+        return false
+    }
+}
+// clog(f('bce', 'abcde'))
+
+
+
+
+// for (let i = 0; ;i++) {
+//     debugger
+//     clog(i)
+// }
+// 不停
+// 死循环
+
+
+
+
+
+f = (n, k, m) => {
+    let arr = []
+    for (let i = 1; i <= n; i++) {
+        arr.push(i)
+    }
+    let i = 0
+    let j = n - 1
+    let res = []
+    while (arr.length) {
+        i += k
+        let _i = i % arr.length
+        j -= m
+        while (j < 0) {
+            j += arr.length
+        }
+        let _j = j % arr.length
+        if (_i === _j) {
+            res.push(...arr.splice(_i, 1))
+        } else {
+            res.push(...arr.splice(_i, 1))
+            if (_i < _j) {
+                _j--
+            }
+            res.push(...arr.splice(_j, 1))
+        }
+    }
+    return res
+}
+// clog(f(10, 4, 3))
+
+
+
+
+arr = []
+let init = (r, c) => {
+    arr = Array.from({length: r}, () => Array.from({length: c}, () => 0))
+    let t = 0
+    for (let i = 0; i < r; i++) {
+        for (let j = 0; j < c; j++) {
+            arr[i][j] = ++t
+        }
+    }
+}
+// clog(init(3, 5), arr)
+
+
+
+
+
+arr = [
+    [['H', 'V'], ['V'], ['H'], ['V']],
+    [['H'], ['H', 'V'], ['H', 'V'], ['V']],
+    [[], ['H', 'V'], [], ['V']],
+    [[], ['H'], ['H'], []],
+]
+f = (n, state) => {
+    let res = []
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+            for (let k = Math.max(i, j) + 1; k < n; k++) { // 延长到k
+                let boolArr = []
+                // 上
+                let t = j
+                let pointArr = []
+                while (t < k) {
+                    pointArr.push(arr[i][t])
+                    t++
+                }
+                if (pointArr.every(p => p.includes('H'))) {
+                    boolArr.push(true)
+                } else {
+                    boolArr.push(false)
+                }
+                // 下
+                t = j
+                pointArr = []
+                while (t < k) {
+                    pointArr.push(arr[k][t])
+                    t++
+                }
+                if (pointArr.every(p => p.includes('H'))) {
+                    boolArr.push(true)
+                } else {
+                    boolArr.push(false)
+                }
+                // 左
+                t = i
+                pointArr = []
+                while (t < k) {
+                    pointArr.push(arr[t][j])
+                    t++
+                }
+                if (pointArr.every(p => p.includes('V'))) {
+                    boolArr.push(true)
+                } else {
+                    boolArr.push(false)
+                }
+                // 右
+                t = i
+                pointArr = []
+                while (t < k) {
+                    pointArr.push(arr[t][k])
+                    t++
+                }
+                if (pointArr.every(p => p.includes('V'))) {
+                    boolArr.push(true)
+                } else {
+                    boolArr.push(false)
+                }
+                // 总
+                if (boolArr.every(item => item)) {
+                    res.push([[i, j], k])
+                }
+            }
+        }
+    }
+    return res
+}
+// clog(f(4))
+
+
+
+
+
+f = (arr = [
+    // [a, b, c]
+]) => {
+    // 阈值设为 8 * 60min
+    let dp = Array.from({length: arr.length}, () => []) // 0 清醒   1 睡眠
+    let i = 1
+    for (let j = 0; j < arr.length; j++) {
+        let tArr = []
+        let t = 0
+        while (t < arr[j][0]) {
+            tArr.push(0)
+            t++
+        }
+        t = 0
+        while (t < arr[j][1]) {
+            tArr.push(1)
+            t++
+        }
+        dp[j] = tArr.slice(arr[j][2] - 1)
+    }
+    let j = 0
+    let tArr = []
+    while (j < dp.length) {
+        tArr.push(dp[j].length)
+        j++
+    }
+    i = Math.min(...tArr)
+    while (i < 8 * 60 + 1) {
+        let k = 0
+        while (k < arr.length) {
+            let length = dp[k].length
+            if (length <= i) {
+                switch (dp[k][length - 1]) {
+                    case 0: // 要睡觉
+                        let activeCount = 0
+                        let sleepCount = 0
+                        for (let j = 0; j < arr.length; j++) {
+                            switch (dp[j][i - 1]) {
+                                case 0:
+                                    activeCount++
+                                    break;
+                                case 1:
+                                    sleepCount++
+                                    break
+                            }
+                        }
+                        if (sleepCount > activeCount) {
+                            dp[k].push(...Array.from({length: arr[k][1]}, () => 1))
+                        } else {
+                            dp[k].push(...Array.from({length: arr[k][0]}, () => 0))
+                        }
+                        break;
+                    case 1: // 要清醒
+                        dp[k].push(...(Array.from({length: arr[k][0]}, () => 0)))
+                        break;
+                }
+            }
+            k++
+        }
+        let sleepCount = 0
+        for (let j = 0; j < dp.length; j++) {
+            switch(dp[j][dp[j].length - 1]) {
+                case 1:
+                    sleepCount++
+                    break;
+            }
+        }
+        if (!sleepCount) {
+            return i
+        }
+        i++ // 可以取最短的dp[i]
+    }
+    return -1
+}
+// clog(f([[2,4,1], [1,5,2], [1,4,3]]))
+
+
+
+
+f = (str) => {
+    let reg = /\b[a-zA-Z]+\b/g
+    let arr = str.match(reg)
+    let set = new Set(arr)
+    return [...set].sort((a, b) => {
+        a = a.toUpperCase()
+        b = b.toUpperCase()
+        let r = 0
+        for (let i = 0; i < Math.min(a.length, b.length); i++) {
+            r = a.charCodeAt(i) - b.charCodeAt(i)
+            if (r !== 0) {
+                break
+            }
+        }
+        if (r === 0 && a.length !== b.length) {
+            r = a.length - b.length
+        }
+        return r
+    })
+}
+// clog(f('Two blondes were going to Disneyland when they came to a fork in the road. The sign read: "Disneyland Left."'))
+
+
+
+
+
+f = (n) => {
+    let dp = []
+    let i = 1
+    while (dp.length < n) {
+        if (!(i % 2) || !(i % 3) || !(i % 5)) {
+            dp.push(i)
+        }
+        i++
+    }
+    clog('dp', dp)
+    return dp[n - 1]
+}
+// clog(f(1500))
+
+
+
+f = (arr) => {
+    // 最长文件名的长度
+    // 每m个文件名就换行
+    // let maxLengthFileName = ''
+    // let fileNameArr = arr.map(item => item.length)
+    let m = 0
+    let maxCol = 60 // 题目中没有。书中的示例代码中有。
+    arr.forEach(item => {
+        m = Math.max(m, item.length)
+    })
+    let col, row
+    col = Math.floor((maxCol - m) / (m + 2))
+    row = Math.ceil(arr.length / col)
+    let res = ''
+    for (let i = 0; i < row; i++) {
+        for (let j = 0; j < col; j++) {
+            let t = arr[i + row * j]
+            if (t) {
+                t += ' '.repeat(m - t.length)
+                if (j === col - 1) {
+                    res += t + '\n'
+                } else {
+                    res += t + '  '
+                }
+            }
+        }
+    }
+    return res
+}
+// clog(f('Alice Chris Jan Marsha Ruben Bobby Cindy Jody Mike Shirley Buffy Danny Keith Mr.French Sissy Carol Greg Lori Peter'.split(' ')))
+
+
+
+
+f = (
+    arr // 一行一个元素
+) => {
+    // 少了洗数据
+    let wordArr = arr.map(item => {
+        return item.split(' ')
+    })
+    let rowMaxLength = Math.max(...wordArr.map(item => item.length))
+    let dp = Array.from({length: arr.length}, () => [])
+    for (let i = 0; i < rowMaxLength; i++) {
+        let tArr = []
+        for (let j = 0; j < arr.length; j++) {
+            if (wordArr[j][i]) {
+                tArr.push(wordArr[j][i])
+            }
+        }
+        // 这列单词的最大长度
+        let wordMaxLength =  Math.max(...tArr.map(item => item.length))
+        for (let j = 0; j < arr.length; j++) {
+            if (wordArr[j][i]) {
+                dp[j].push(wordArr[j][i] + ' '.repeat(wordMaxLength - wordArr[j][i].length))
+            } else {
+                dp[j].push(' '.repeat(wordMaxLength))
+            }
+        }
+    }
+    clog('dp', dp)
+    let res = ''
+    for (let i = 0; i < dp.length; i++) {
+        res += dp[i].join(' ') + '\n'
+    }
+    return res
+}
+// clog(f(['start: integer: // begins here', 
+// 'stop: integer; // ends here', 
+// 's: string;', 
+// 'c: char; // temp']))
+
+
+
+
+f = (arr, safe = 0, p) => {
+    // 0
+    // loop
+    // 1000
+    let pArr = arr.map(item => item)
+    for (let i = 0; i < 1000; i++) {
+        let t = []
+        for (let j = 0; j < arr.length - 1; j++) {
+            t.push(Math.abs(arr[j] - arr[j + 1]))
+        }
+        t.push(Math.abs(arr[arr.length - 1] - arr[0]))
+        clog(t)
+        if (t.every(item => item === 0)) {
+            return 0
+        }
+        if (t.every((item, index) => item === pArr[index])) {
+            return 'loop'
+        }
+        arr = t
+    }
+    return 1000
+}
+// clog(f([8, 11, 2, 7]))
+
+
+
+
+f = (n) => {
+    let arr = []
+    for (let i = 1; i < n + 1; i++) {
+        arr.push(i)
+    }
+    while (arr.length) {
+        let p = arr.shift()
+        let t = arr.shift()
+        if (t) {
+            arr.push(t)
+        }
+    }
+}
+// f(20)
+
+
+
+
+f = (arr) => {
+    // 按x正序排列
+    // 奇数时找到中位点
+    // 偶数时找到2个中位点之间的点
+    arr.sort((a, b) => (a.x - b.x))
+    let x
+    if (arr.length % 2) {
+        let t = Math.floor(arr.length / 2)
+        x = arr[t].x
+    } else {
+        let t = Math.floor(arr.length / 2)
+        x = (arr[t].x + arr[t - 1].x) / 2
+    }
+    // 判断是否对称
+    for (let i = 0; i < arr.length / 2; i++) {
+        if (
+            Math.abs(arr[i].x - x) !== Math.abs(arr[arr.length - 1 - i].x - x)
+            || arr[i].y !== arr[arr.length - 1 - i].y
+        ) {
+            return false
+        }
+    }
+    return true
+}
+// clog(f([{x: -2, y: 5},
+//     {x: 0, y: 0},
+//     {x: 2, y: 3},
+//     {x: 4, y: 0},
+//     {x: 6, y: 5},
+// ]))
+// clog(f([
+//     {x: 0, y: 4},
+//     {x: 0, y: 0},
+//     {x: 2, y: 3},
+//     {x: 4, y: 0},
+// ]))
+
+
+
+
+
+f = (map0, map1) => {
+    let res = ''
+    let arrOld = Array.from(map0.keys())
+    let arrNew = Array.from(map1.keys())
+    let addArr = []
+    let modifyArr = []
+    let deleteArr = []
+    for (let i = 0; i < arrOld.length; i++) {
+        // 从旧到新
+        if (arrNew.includes(arrOld[i])) { // 仍存在
+            // 是否修改
+            if (map1.get(arrOld[i]) === map0.get(arrOld[i])) {
+                // null
+            } else {
+                modifyArr.push(arrOld[i])
+            }
+        } else { // 不存在，即已删除
+            deleteArr.push(arrOld[i])
+        }
+    }
+    for (let i = 0; i < arrNew.length; i++) {
+        // 从新到旧
+        if (!arrOld.includes(arrNew[i])) { // 旧的不包含，即增加
+            addArr.push(arrNew[i])
+        }
+    }
+    if (addArr.length) {
+        res += '+'
+        res += addArr.join(',')
+        res += ';'
+    }
+    if (deleteArr.length) {
+        res += '-'
+        res += deleteArr.join(',')
+        res += ';'
+    }
+    if (modifyArr.length) {
+        res += '*'
+        res += modifyArr.join(',')
+        res += ';'
+    }
+    return res
+}
+// clog(f(new Map([
+//     ['a', 3],
+//     ['b', 4],
+//     ['c', 10],
+//     ['f', 6],
+// ]), new Map([
+//     ['a', 3],
+//     ['c', 5],
+//     ['d', 10],
+//     ['ee', 4],
+// ])))
+
+
+
+
+
+f = (n) => {
+    let map = new Map([
+        [0, 1],
+        [1, 1],
+    ])
+    let getFib = (n) => {
+        if ([0, 1].includes(n)) {
+            return map.get(n)
+        } else {
+            if (map.get(n)) {
+                return map.get(n)
+            } else {
+                let t = getFib(n - 1) + getFib(n - 2)
+                map.set(n, t)
+                return t
+            }
+        }
+    }
+    let i = 0
+    let c = String(getFib(i))
+    while (!c.startsWith(String(n))) {
+        i++
+        clog(i)
+        c = String(getFib(i))
+    }
+    return Number(c)
+}
+// clog(f(12))
+
+
+
+f = () => {
+    // let arr = [1,2,3]
+    let arr = []
+    let fn = (i, opF, p = undefined) => {
+        if (i < arr.length) {
+            return Promise.resolve(opF(arr[i])).then(res => {
+                i++
+                return fn(i, opF, res)
+            })
+        } else {
+            return Promise.resolve(p)
+        }
+    }
+    return fn(0, clog)
+}
+// f().then(r => {
+//     clog(r)
+// })
+
+
+
+
+
+f = (arr, opFn) => {
+  let _f = (i, opFn, p) => {
+    if (i < arr.length) {
+      return Promise.resolve(opFn(arr[i])).then((res) => {
+        i++
+        return _f(i, opFn, res)
+      })
+    } else {
+      return Promise.resolve(p)
+    }
+  }
+  return _f(0, opFn)
+}
+clog(f([1,2,2,3], clog))
+
 
 
 

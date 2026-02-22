@@ -12,7 +12,7 @@
 - [sort](https://github.com/feigebaobei/simple/blob/master/packages/data-footstone/src/order.ts)
 - [循环](/dsa/circulation.html)
 - [递归](/dsa/recursion.html)
-- [动态规划](/dsa/temp.html)
+- [动态规划](/dsa/dynamicProgramming.html)
 - [贪心算法](/dsa/temp.html)
 - [基本算法](/dsa/basic.html)
 - [tree](/dsa/tree.html)

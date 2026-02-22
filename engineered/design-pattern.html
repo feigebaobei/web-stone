@@ -203,51 +203,51 @@
 像工厂产出统一套件一样。
 常用于创建对象。
 一般以<code>create</code>开头，或大写开头。</p>
-<pre><code>function createPerson (name, age, job) {
-    var o = new Object()
-    o.name = name
-    o.age = age
-    o.job = job
-    o.sayName = function () {
-        console.log(this.name)
+<pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">createPerson</span> (name, age, job) {
+    <span class="hljs-keyword">var</span> o = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>()
+    o.<span class="hljs-property">name</span> = name
+    o.<span class="hljs-property">age</span> = age
+    o.<span class="hljs-property">job</span> = job
+    o.<span class="hljs-property">sayName</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span>)
     }
-    return o
+    <span class="hljs-keyword">return</span> o
 }
 
 
-function Point(x, y) {
-	this.x = x
-	this.y = y
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">Point</span>(<span class="hljs-params">x, y</span>) {
+	<span class="hljs-variable language_">this</span>.<span class="hljs-property">x</span> = x
+	<span class="hljs-variable language_">this</span>.<span class="hljs-property">y</span> = y
 }
-var p = new Point(1, 2)
+<span class="hljs-keyword">var</span> p = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Point</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)
 </code></pre>
 <h2 id="单例模式">单例模式</h2>
 <p>也叫单体模式，核心思想是确保一个类只对应一个实例。即使多次实例化。其实例结果是相同的。
 在实现中只能有一个的事物。如：一个公司只能有一个会计系统，一个超市只能有一个收银系统。
 esm 规范的模块天然支持单例模式。
 常用于单一实例。</p>
-<pre><code>var Singleton = function () {
-    let instance = null
-    function init () {
-        var o = Object.create(null)
-        o.name = 'top'
-        o.admin = true
-        o.sayHi = () =&gt; {
-            console.log('hi')
+<pre><code class="language-js"><span class="hljs-keyword">var</span> <span class="hljs-title class_">Singleton</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">let</span> instance = <span class="hljs-literal">null</span>
+    <span class="hljs-keyword">function</span> <span class="hljs-title function_">init</span> () {
+        <span class="hljs-keyword">var</span> o = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">create</span>(<span class="hljs-literal">null</span>)
+        o.<span class="hljs-property">name</span> = <span class="hljs-string">&#x27;top&#x27;</span>
+        o.<span class="hljs-property">admin</span> = <span class="hljs-literal">true</span>
+        o.<span class="hljs-property">sayHi</span> = <span class="hljs-function">() =&gt;</span> {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;hi&#x27;</span>)
         }
-        return o
+        <span class="hljs-keyword">return</span> o
     }
-    return {
-        getInstance: function () {
-            if (!instance) {
-                instance = init()
+    <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">getInstance</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+            <span class="hljs-keyword">if</span> (!instance) {
+                instance = <span class="hljs-title function_">init</span>()
             }
-            return instance
+            <span class="hljs-keyword">return</span> instance
         }
     }
 }()
-var a = Singleton.getInstance()
-var b = Singleton.getInstance()
+<span class="hljs-keyword">var</span> a = <span class="hljs-title class_">Singleton</span>.<span class="hljs-title function_">getInstance</span>()
+<span class="hljs-keyword">var</span> b = <span class="hljs-title class_">Singleton</span>.<span class="hljs-title function_">getInstance</span>()
 a === b
 </code></pre>
 <p>store(redux/vuex/pinia)/injector
@@ -262,49 +262,50 @@ var foo = new Foo()
 <h2 id="适配器模式">适配器模式</h2>
 <p>把不合适的接口从一个合适的接口输出。
 常用于统一“接口”。实现 1 对接 n 或 n 对接 1.</p>
-<pre><code>// 若
-var hong = {
-  say: () =&gt; {
-    console.log('hi')
+<pre><code class="language-js"><span class="hljs-comment">// 若</span>
+<span class="hljs-keyword">var</span> hong = {
+  <span class="hljs-attr">say</span>: <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;hi&#x27;</span>)
   }
 }
-var ming = {
-  speak: () =&gt; {
-    console.log('hi')
+<span class="hljs-keyword">var</span> ming = {
+  <span class="hljs-attr">speak</span>: <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;hi&#x27;</span>)
   }
 }
-var mingAdapter = {
-  say: ming.speak
+<span class="hljs-keyword">var</span> mingAdapter = {
+  <span class="hljs-attr">say</span>: ming.<span class="hljs-property">speak</span>
 }
-// 则可以这样使用
-var friend = [hong, mingAdapter]
-friend.forEach(item =&gt; {
-  console.log(item)
-  item.say()
+<span class="hljs-comment">// 则可以这样使用</span>
+<span class="hljs-keyword">var</span> friend = [hong, mingAdapter]
+friend.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(item)
+  item.<span class="hljs-title function_">say</span>()
 })
 </code></pre>
 <h2 id="装饰器模式">装饰器模式</h2>
 <p>常用于封装已经有的类或其方法或其属性或其参数。
 不能装饰方法。</p>
-<pre><code>let dfn = () =&gt; {
-  //
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">dfn</span> = (<span class="hljs-params"></span>) =&gt; {
+  <span class="hljs-comment">//</span>
 }
-class MyClass {
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">MyClass</span> {
 }
-// use
+<span class="hljs-comment">// use</span>
 @dfn
-class MyClass {
-  constructor () {}
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">MyClass</span> {
+  <span class="hljs-title function_">constructor</span> () {}
   fire () {}
 }
-// es5方法，会修改原来的属性。
+<span class="hljs-comment">// es5方法，会修改原来的属性。</span>
 </code></pre>
 <h2 id="代理模式">代理模式</h2>
-<p>用来控制访问本体对象。在模块模式的基础上开发出来的模式。先写一个单一原则的方法。再写一个控制触发该方法的方法（代理）
+<p>用来控制访问本体对象。在模块模式的基础上开发出来的模式。
+先写一个单一原则的方法。再写一个控制触发该方法的方法（代理）
 是把一些开销很大的对象，延迟到真正需要它的时候才去创建执行。
 常用于：隔离、保护、验证、阻隔、缓冲、代理等。</p>
 <pre><code class="language-js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span> {
-  <span class="hljs-title function_">constructor</span> (name, age) {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">name, age</span>) {
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span> = name
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">age</span> = age
   }
@@ -317,16 +318,16 @@ class MyClass {
   <span class="hljs-attr">construct</span>: <span class="hljs-function">(<span class="hljs-params">target, args, newTarget</span>) =&gt;</span> {
     <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(target, args, newTarget)
     <span class="hljs-keyword">if</span> (<span class="hljs-number">200</span> &lt; args[<span class="hljs-number">1</span>]) {
-      <span class="hljs-keyword">return</span> {<span class="hljs-attr">error</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&#x27;age is invalid&#x27;</span>)}
+      <span class="hljs-keyword">return</span> { <span class="hljs-attr">error</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&#x27;age is invalid&#x27;</span>) }
     } <span class="hljs-keyword">else</span> {
       <span class="hljs-keyword">var</span> a = <span class="hljs-title class_">Array</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">slice</span>.<span class="hljs-title function_">call</span>(args, <span class="hljs-number">0</span>)
       <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title function_">target</span>(...a)
     }
-  }
+  },
 }
 <span class="hljs-keyword">var</span> proxy = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Proxy</span>(<span class="hljs-title class_">User</span>, handler)
 <span class="hljs-keyword">var</span> u = <span class="hljs-keyword">new</span> <span class="hljs-title function_">proxy</span>(<span class="hljs-string">&#x27;u&#x27;</span>, <span class="hljs-number">33</span>)
-<span class="hljs-keyword">let</span> {<span class="hljs-attr">proxy</span>: P, revoke} = <span class="hljs-title class_">Proxy</span>.<span class="hljs-title function_">revocable</span>(<span class="hljs-title class_">User</span>, handler)
+<span class="hljs-keyword">let</span> { <span class="hljs-attr">proxy</span>: P, revoke } = <span class="hljs-title class_">Proxy</span>.<span class="hljs-title function_">revocable</span>(<span class="hljs-title class_">User</span>, handler)
 <span class="hljs-title function_">revoke</span>() <span class="hljs-comment">// 解除代理</span>
 <span class="hljs-keyword">var</span> a = <span class="hljs-keyword">new</span> <span class="hljs-title function_">P</span>(<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-number">23</span>) <span class="hljs-comment">// Uncaught TypeError: Cannot perform &#x27;construct&#x27; on a proxy that has been revoked</span>
 </code></pre>
@@ -356,15 +357,13 @@ class MyClass {
 <span class="hljs-comment">// demo2</span>
 <span class="hljs-comment">// 同步，对参数做相关处理</span>
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">p, ...fnList</span>) =&gt; {
-    <span class="hljs-keyword">return</span> [...fnList, <span class="hljs-function">() =&gt;</span> {}].<span class="hljs-title function_">reduce</span>(<span class="hljs-function">(<span class="hljs-params">prev, cur</span>) =&gt;</span> {
-        <span class="hljs-title function_">prev</span>(p);
-        <span class="hljs-keyword">return</span> cur
-    });
+    <span class="hljs-comment">// 处理p</span>
+    fnList.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">fn</span> =&gt;</span> <span class="hljs-title function_">fn</span>(p))
 }
 <span class="hljs-comment">// 同步，对前面方法的返回值做相关处理</span>
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">p, ...fnList</span>) =&gt; {
-  <span class="hljs-keyword">return</span> [...fnList, <span class="hljs-function">() =&gt;</span> {}].<span class="hljs-title function_">reduce</span>(<span class="hljs-function">(<span class="hljs-params">prev, cur</span>) =&gt;</span> {
-    <span class="hljs-keyword">return</span> <span class="hljs-title function_">cur</span>(p)
+  <span class="hljs-keyword">return</span> [...fnList].<span class="hljs-title function_">reduce</span>(<span class="hljs-function">(<span class="hljs-params">prev, cur</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-title function_">cur</span>(prev)
   }, p)
 }
 <span class="hljs-comment">// 异步，对参数做相关处理</span>
@@ -372,7 +371,7 @@ class MyClass {
   <span class="hljs-keyword">let</span> <span class="hljs-title function_">_fn</span> = (<span class="hljs-params">i = <span class="hljs-number">0</span></span>) =&gt; {
     <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">resolve</span>(fnList[i](p)).<span class="hljs-title function_">then</span>(<span class="hljs-function">() =&gt;</span> {
       <span class="hljs-keyword">if</span> (i &gt;= fnList.<span class="hljs-property">length</span> - <span class="hljs-number">1</span>) {
-        <span class="hljs-keyword">return</span> 
+        <span class="hljs-keyword">return</span>
       } <span class="hljs-keyword">else</span> {
         <span class="hljs-keyword">return</span> <span class="hljs-title function_">_fn</span>(i + <span class="hljs-number">1</span>)
       }
@@ -393,6 +392,21 @@ class MyClass {
     }
     <span class="hljs-keyword">return</span> <span class="hljs-title function_">fn</span>(<span class="hljs-number">0</span>, <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">resolve</span>(fnList[<span class="hljs-number">0</span>](p)))
 }
+<span class="hljs-comment">// 上面是 1个数据n个方法</span>
+<span class="hljs-comment">// n个数据1个方法</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">arr, opFn</span>) =&gt; {
+  <span class="hljs-keyword">let</span> <span class="hljs-title function_">_f</span> = (<span class="hljs-params">i, opFn, p</span>) =&gt; {
+    <span class="hljs-keyword">if</span> (i &lt; arr.<span class="hljs-property">length</span>) {
+      <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">resolve</span>(<span class="hljs-title function_">opFn</span>(arr[i])).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+        i++
+        <span class="hljs-keyword">return</span> <span class="hljs-title function_">_f</span>(i, opFn, res)
+      })
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">resolve</span>(p)
+    }
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-title function_">_f</span>(<span class="hljs-number">0</span>, opFn)
+}
 </code></pre>
 <h2 id="桥接模式">桥接模式</h2>
 <p>类的嵌套。
@@ -403,7 +417,7 @@ class MyClass {
 <pre><code class="language-js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Base0</span> {}
 <span class="hljs-keyword">class</span> <span class="hljs-title class_">Base1</span> {}
 <span class="hljs-keyword">class</span> <span class="hljs-title class_">Super</span> {
-  <span class="hljs-title function_">constructor</span> () {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">base0</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Base0</span>()
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">base1</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Base1</span>()
   }
@@ -412,15 +426,16 @@ class MyClass {
 <h2 id="组合模式">组合模式</h2>
 <p>把多个命令（或方法）组合起来。可追加命令，再依次执行。
 与门面模式类似。</p>
-<pre><code class="language-js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MacroCommand</span> {
-  <span class="hljs-title function_">constructor</span> () {
+<pre><code class="language-js"><span class="hljs-comment">// todo 这个类与外观模式中的4个方法结合可以搞出一个工具类。</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">MacroCommand</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">commandList</span> = []
   }
-  add (fn) {
+  <span class="hljs-title function_">add</span>(<span class="hljs-params">fn</span>) {
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">commandList</span>.<span class="hljs-title function_">push</span>(fn)
   }
-  execute () {
-    <span class="hljs-variable language_">this</span>.<span class="hljs-property">commandList</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">cb</span> =&gt;</span> <span class="hljs-title function_">cb</span>())
+  <span class="hljs-title function_">execute</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">commandList</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">cb</span>) =&gt;</span> <span class="hljs-title function_">cb</span>())
   }
 }
 <span class="hljs-keyword">let</span> macroCommand = <span class="hljs-keyword">new</span> <span class="hljs-title class_">MacroCommand</span>()
@@ -434,7 +449,7 @@ macroCommand.<span class="hljs-title function_">execute</span>()
 当需要类的实例需要某些属性时，保持相同属性不变，改变不同属性为希望的属性。再返回该实例。<br>
 当需要很多具有若干相同属性与不同属性的对象时，可以使用享元模式。<br>
 // 该模式下的实例是共享的一个对象。</p>
-<pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">Circle</span> (color) {
+<pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">Circle</span>(<span class="hljs-params">color</span>) {
   <span class="hljs-variable language_">this</span>.<span class="hljs-property">color</span> = color
   <span class="hljs-variable language_">this</span>.<span class="hljs-property">x</span>
   <span class="hljs-variable language_">this</span>.<span class="hljs-property">y</span>
@@ -454,7 +469,7 @@ macroCommand.<span class="hljs-title function_">execute</span>()
         store[color] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Circle</span>(color)
       }
       <span class="hljs-keyword">return</span> store[color]
-    }
+    },
   }
 })()
 <span class="hljs-keyword">let</span> circle0 = shapeFactory.<span class="hljs-title function_">getCircle</span>(<span class="hljs-string">&#x27;red&#x27;</span>)
@@ -524,7 +539,7 @@ circle.<span class="hljs-title function_">draw</span>()
 很像抽象类。
 常用于
 基本实践过程如下：</p>
-<pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">SaveData</span> () {}
+<pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">SaveData</span>(<span class="hljs-params"></span>) {}
 <span class="hljs-title class_">SaveData</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">check</span> = <span class="hljs-function">() =&gt;</span> {
   <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;check data format&#x27;</span>)
 }
@@ -534,7 +549,7 @@ circle.<span class="hljs-title function_">draw</span>()
 <span class="hljs-title class_">SaveData</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">feedback</span> = <span class="hljs-function">() =&gt;</span> {
   <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;success save&#x27;</span>)
 }
-<span class="hljs-keyword">function</span> <span class="hljs-title function_">SaveUser</span> () {}
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">SaveUser</span>(<span class="hljs-params"></span>) {}
 <span class="hljs-title class_">SaveUser</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">SaveData</span>()
 <span class="hljs-title class_">SaveUser</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">check</span> = <span class="hljs-function">(<span class="hljs-params">name</span>) =&gt;</span> {
   <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> name === <span class="hljs-string">&#x27;string&#x27;</span>) {
@@ -731,7 +746,8 @@ chainOrder500.<span class="hljs-title function_">passRequest</span>(<span class=
     <span class="hljs-keyword">let</span> res
     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-variable language_">this</span>.<span class="hljs-property">fnList</span>.<span class="hljs-property">length</span>; i++) {
       res = <span class="hljs-variable language_">this</span>.<span class="hljs-property">fnList</span>[i](...args)
-      <span class="hljs-keyword">if</span> (res === threshold) { <span class="hljs-comment">// 是否命中。若等于threshold，则表示没命中，去继续执行下一个函数</span>
+      <span class="hljs-keyword">if</span> (res === threshold) {
+        <span class="hljs-comment">// 是否命中。若等于threshold，则表示没命中，去继续执行下一个函数</span>
         <span class="hljs-comment">// go on</span>
       } <span class="hljs-keyword">else</span> {
         <span class="hljs-keyword">break</span>
@@ -768,7 +784,8 @@ chainOrder500.<span class="hljs-title function_">passRequest</span>(<span class=
     <span class="hljs-keyword">let</span> res = <span class="hljs-literal">null</span>
     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-variable language_">this</span>.<span class="hljs-property">fnList</span>.<span class="hljs-property">length</span>; i++) {
       res = <span class="hljs-variable language_">this</span>.<span class="hljs-property">fnList</span>[i](...args)
-      <span class="hljs-keyword">if</span> (res === threshold) { <span class="hljs-comment">// 是否命中。若等于threshold，则表示没命中，去继续执行下一个函数</span>
+      <span class="hljs-keyword">if</span> (res === threshold) {
+        <span class="hljs-comment">// 是否命中。若等于threshold，则表示没命中，去继续执行下一个函数</span>
         <span class="hljs-comment">// go on</span>
       } <span class="hljs-keyword">else</span> {
         <span class="hljs-keyword">break</span>

@@ -55,22 +55,21 @@
 常用于创建对象。
 一般以`create`开头，或大写开头。
 
-```
-function createPerson (name, age, job) {
-    var o = new Object()
-    o.name = name
-    o.age = age
-    o.job = job
-    o.sayName = function () {
-        console.log(this.name)
-    }
-    return o
+```js
+function createPerson(name, age, job) {
+  var o = new Object()
+  o.name = name
+  o.age = age
+  o.job = job
+  o.sayName = function () {
+    console.log(this.name)
+  }
+  return o
 }
 
-
 function Point(x, y) {
-	this.x = x
-	this.y = y
+  this.x = x
+  this.y = y
 }
 var p = new Point(1, 2)
 ```
@@ -82,27 +81,27 @@ var p = new Point(1, 2)
 esm 规范的模块天然支持单例模式。
 常用于单一实例。
 
-```
-var Singleton = function () {
-    let instance = null
-    function init () {
-        var o = Object.create(null)
-        o.name = 'top'
-        o.admin = true
-        o.sayHi = () => {
-            console.log('hi')
-        }
-        return o
+```js
+var Singleton = (function () {
+  let instance = null
+  function init() {
+    var o = Object.create(null)
+    o.name = 'top'
+    o.admin = true
+    o.sayHi = () => {
+      console.log('hi')
     }
-    return {
-        getInstance: function () {
-            if (!instance) {
-                instance = init()
-            }
-            return instance
-        }
-    }
-}()
+    return o
+  }
+  return {
+    getInstance: function () {
+      if (!instance) {
+        instance = init()
+      }
+      return instance
+    },
+  }
+})()
 var a = Singleton.getInstance()
 var b = Singleton.getInstance()
 a === b
@@ -127,24 +126,24 @@ var foo = new Foo()
 把不合适的接口从一个合适的接口输出。
 常用于统一“接口”。实现 1 对接 n 或 n 对接 1.
 
-```
+```js
 // 若
 var hong = {
   say: () => {
     console.log('hi')
-  }
+  },
 }
 var ming = {
   speak: () => {
     console.log('hi')
-  }
+  },
 }
 var mingAdapter = {
-  say: ming.speak
+  say: ming.speak,
 }
 // 则可以这样使用
 var friend = [hong, mingAdapter]
-friend.forEach(item => {
+friend.forEach((item) => {
   console.log(item)
   item.say()
 })
@@ -155,24 +154,24 @@ friend.forEach(item => {
 常用于封装已经有的类或其方法或其属性或其参数。
 不能装饰方法。
 
-```
+```js
 let dfn = () => {
   //
 }
-class MyClass {
-}
+class MyClass {}
 // use
 @dfn
 class MyClass {
-  constructor () {}
-  fire () {}
+  constructor() {}
+  fire() {}
 }
 // es5方法，会修改原来的属性。
 ```
 
 ## 代理模式
 
-用来控制访问本体对象。在模块模式的基础上开发出来的模式。先写一个单一原则的方法。再写一个控制触发该方法的方法（代理）
+用来控制访问本体对象。在模块模式的基础上开发出来的模式。
+先写一个单一原则的方法。再写一个控制触发该方法的方法（代理）
 是把一些开销很大的对象，延迟到真正需要它的时候才去创建执行。
 常用于：隔离、保护、验证、阻隔、缓冲、代理等。
 
@@ -234,15 +233,13 @@ function preventDefault() {}
 // demo2
 // 同步，对参数做相关处理
 let f = (p, ...fnList) => {
-    return [...fnList, () => {}].reduce((prev, cur) => {
-        prev(p);
-        return cur
-    });
+    // 处理p
+    fnList.forEach(fn => fn(p))
 }
 // 同步，对前面方法的返回值做相关处理
 let f = (p, ...fnList) => {
-  return [...fnList, () => {}].reduce((prev, cur) => {
-    return cur(p)
+  return [...fnList].reduce((prev, cur) => {
+    return cur(prev)
   }, p)
 }
 // 异步，对参数做相关处理
@@ -271,6 +268,21 @@ let f = (p, ...fnList) => {
     }
     return fn(0, Promise.resolve(fnList[0](p)))
 }
+// 上面是 1个数据n个方法
+// n个数据1个方法
+let f = (arr, opFn) => {
+  let _f = (i, opFn, p) => {
+    if (i < arr.length) {
+      return Promise.resolve(opFn(arr[i])).then((res) => {
+        i++
+        return _f(i, opFn, res)
+      })
+    } else {
+      return Promise.resolve(p)
+    }
+  }
+  return _f(0, opFn)
+}
 ```
 
 ## 桥接模式
@@ -298,6 +310,7 @@ class Super {
 与门面模式类似。
 
 ```js
+// todo 这个类与外观模式中的4个方法结合可以搞出一个工具类。
 class MacroCommand {
   constructor() {
     this.commandList = []

@@ -2,7 +2,7 @@
         <html>
         <head>
             <meta charset="UTF-8">
-            <title></title>
+            <title>&#x52a8;&#x6001;&#x89c4;&#x5212;&#xff08;&#x82f1;&#x8bed;&#xff1a;Dynamic programming&#xff0c;&#x7b80;&#x79f0;DP&#xff09;</title>
             <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -138,53 +138,42 @@
         
         </head>
         <body class="vscode-body vscode-light">
-            <ul>
-<li><a href="https://www.npmjs.com/package/data-footstone">data-footstone</a>
-<ul>
-<li>stack</li>
-<li>queue</li>
-<li>chain</li>
-<li>hashMap</li>
-<li>binaryTree
-<ul>
-<li>bst</li>
-<li>redBlockTree</li>
-<li>splayTree</li>
-<li>B-tree</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="/coursera/dsa/temp.html">temp</a></li>
-<li><a href="https://github.com/feigebaobei/simple/blob/master/packages/data-footstone/src/order.ts">sort</a></li>
-<li><a href="/dsa/circulation.html">循环</a></li>
-<li><a href="/dsa/recursion.html">递归</a></li>
-<li><a href="/dsa/dynamicProgramming.html">动态规划</a></li>
-<li><a href="/dsa/temp.html">贪心算法</a></li>
-<li><a href="/dsa/basic.html">基本算法</a></li>
-<li><a href="/dsa/tree.html">tree</a></li>
-<li><a href="/dsa/bfs&amp;dfs.html">bfs&amp;dfs</a></li>
-<li><a href="/dsa/temp.html">temp</a></li>
-<li><a href="/dsa/temp.html">temp</a></li>
-<li><a href="/dsa/temp.html">temp</a></li>
-<li>title</li>
-<li>title</li>
-<li>title</li>
-<li>title</li>
-</ul>
-<p>空间复杂度、时间复杂度
-Big-O 表示算法在数据量 n 变大时，算法运行时间的复杂度。</p>
-<p>O(1)
-总是不变，一般不会出现。</p>
-<p>O(logn)
-很好。</p>
-<p>O(n)
-大多数情况下可以接受。</p>
-<p>O(nlogn)
-这就是你使用高效排序设定的。</p>
-<p>O(n^2)
-需要优化
-空间复杂度、时间复杂度可以解决什么？</p>
+            <h1 id="动态规划英语dynamic-programming简称dp">动态规划（英语：Dynamic programming，简称DP）</h1>
+<p>动态规划在查找有很多重叠子问题的情况的最优解时有效。它将问题重新组合成子问题。为了避免多次解决这些子问题，它们的结果都逐渐被计算并被保存，从简单的问题直到整个问题都被解决。因此，动态规划保存递归时的结果，因而不会在解决同样的问题时花费不必要的时间。
+动态规划只能应用于有最优子结构的问题。最优子结构的意思是局部最优解能决定全局最优解</p>
+<h2 id="核心思想与要素">核心思想与要素</h2>
+<p>分而治之：将原问题拆解为多个子问题，逐个求解。
+记忆化存储：保存已解决的子问题答案，避免重复计算，用空间换时间。
+三个基本条件：
+最优子结构：大问题的最优解可以由小问题的最优解组合而成。
+重叠子问题：递归过程中子问题会被反复计算。
+无后效性：某阶段的状态一旦确定，之后决策与如何达到此状态无关。
+状态转移方程：定义子问题之间递推关系的数学表达式。</p>
+<h2 id="动态规划的解题步骤">动态规划的解题步骤</h2>
+<p>定义状态：明确 (dp[i]) 或 (dp[i][j]) 的含义（例如：前 (i) 个物品的最大价值）。
+找出状态转移方程：寻找小问题与大问题之间的逻辑关系，如：(dp[i]=max(dp[i-1],dp[i-2]+value))。
+确定初始状态与边界条件：明确最小子问题的解。
+确定计算顺序：通常为自底向上（从基础解到最终解）。</p>
+<h2 id="常见应用">常见应用</h2>
+<p>背包问题（0/1背包、完全背包）。
+最长公共子序列 (LCS)。
+最短路径问题 (Dijkstra, Floyd-Warshall)。
+斐波那契数列。</p>
+<h2 id="常见问题">常见问题</h2>
+<p>上阶梯</p>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">n</span>) =&gt; {
+    <span class="hljs-keyword">if</span> (n &lt;= <span class="hljs-number">0</span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>
+    }
+    <span class="hljs-keyword">let</span> dp = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>]
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">3</span>; i &lt; n; i++) {
+        dp[i] = dp[i - <span class="hljs-number">1</span>] + dp[i - <span class="hljs-number">2</span>]
+    }
+    <span class="hljs-keyword">return</span> dp[n]
+}
+</code></pre>
+<h2 id="title">title</h2>
+<h2 id="title-1">title</h2>
 
             
             
