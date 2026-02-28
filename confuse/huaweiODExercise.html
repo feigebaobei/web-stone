@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script type="module" >
+        let clog = console.log
+        // 工具方法
+        let sum = (arr) => {
+            return arr.reduce((r, c) => {
+                return r += c
+            }, 0)
+        }
+        let f
+        
+        
+f = (n, ...polygonList) => {
+    let pointList = []
+    polygonList.forEach((line) => {
+        let pList = line.split(' ')
+        for (let i = 0; i < pList.length; i += 2) {
+            pointList.push([Number(pList[i]), Number(pList[i + 1])])
+        }
+    })
+    // 找到最小的点
+    let minPoint = []
+    let t = []
+    pointList.find
+    pointList.sort((a, b) => {
+        let d = a[0] - b[0]
+        if (d === 0) {
+            return a[1] - b[1]
+        } else {
+            return d
+        }
+    })
+    minPoint = pointList[0]
+    // 再找逆时针方向的向量
+    // 计算三个点的位置
+    let calcPosition = (a, b, o) => {
+        let d = (o[0] - a[0]) * (o[1] - b[1]) - (o[0] - b[0]) * (o[1] - a[1])
+        let s = Math.sign(d)
+        return s
+    }
+    let unorderRes = [minPoint]
+    // let tag = [minPoint[0] + minPoint[1]]
+    let tag = [minPoint[0] * pointList.length + minPoint[1]]
+    for (let i = 0; i < pointList.length - 1; i++) {
+        let j = i + 1
+        let a = 0
+        while (a < pointList.length) {
+            if (pointList.every(p => {
+                if (
+                    (p[0] === pointList[i][0] && p[1] === pointList[i][1])
+                    || (p[0] === pointList[j % pointList.length][0] && p[1] === pointList[j % pointList.length][1])
+                ) {
+                    return true
+                } else {
+                    return calcPosition(pointList[i], pointList[j % pointList.length], p) < 0
+                }
+            })) {
+                let k = j % pointList.length
+                let t = pointList[k][0] * pointList.length + pointList[k][1]
+                if (tag.includes(t)) {
+                    tag.push(pointList[i][0] * pointList.length + pointList[i][1])
+                    unorderRes.push(pointList[i])
+                } else {
+                    tag.push(t)
+                    unorderRes.push(pointList[k])
+                }
+            }
+            j++
+            a++
+        }
+
+    }
+    // 排序
+    let res = []
+    let tArr = unorderRes.sort((a, b) => {
+        return a[0] - b[0]
+    })
+    tArr.forEach(item => {
+        if (item[1] <= item[0]) {
+            res.push(item)
+        }
+    })
+    tArr.reverse().forEach(item => {
+        if (item[1] > item[0]) {
+            res.push(item)
+        }
+    })
+    return res
+}
+// clog(f(
+//     2,
+//     '0 2 0 0 2 0 2 2',
+//     '1 4 1 1 3 1 3 4',
+// ))
+// res = [[0, 0], [2, 0], [3, 1], [3, 4], [1, 4], [0, 2]]
+// clog(res.reduce((r, c) => {
+//     r += c.join(' ') + ' '
+//     return r
+// }, '').slice(0, -1)
+// )
+
+
+
+
+f = (str) => {
+    // let reg = /[+-*\/\(\)\[\]\{\}]/g
+    // let reg = /[\+\-\*\/]/g
+    // let reg = /[\+-]/g
+    let reg = /[\+\-\*\/\(\)\[\]\{\}]/g
+    let numberList = str.split(reg).filter(item => item).map(item => parseInt(item))
+    let signList = str.match(reg).map(item => {
+        let r = item
+        switch (item ) {
+            case '[':
+            case '{':
+                r = '('
+                break;
+            case ']':
+            case '}':
+                r = ')'
+                break;
+        }
+        return r
+    })
+
+    // 栈
+    let numberStack = []
+    let signStack = []
+    let j = 0
+    for (let i = 0; i < numberList.length; i++) {
+        numberStack.push(numberList[i])
+        switch (signList[j]) {
+            case '(':
+                signStack.push(signList[j])
+                j++
+                break;
+            case ')':
+                numberStack.pop()
+                break;
+        }
+    }
+    let res = 0
+    return res
+}
+// clog(f('3+2*{1+2*[-4/(8-6)+7]}'))
+
+
+
+
+f = (arr, n) => {
+    let arr0 = arr.filter(item => item < 4) // [0, 1,2,3]
+    let arr1 = arr.filter(item => item > 3) // [4, 5, 6, 7]
+    let res = []
+    switch (n) {
+        case 1:
+            arr0.forEach(item => {
+                res.push([item])
+            })
+            arr1.forEach(item => {
+                res.push([item])
+            })
+            break;
+        case 2:
+
+            break;
+        case 4:
+            break;
+        case 8:
+            break;
+    }
+    return res
+}
+
+
+
+f = (range, count, data) => {
+    let first = data[0]
+    // 处理数据边界
+    let startIndex
+    if (range[0] < first[0]) {
+        startIndex = 0
+    } else {
+        startIndex = data.findIndex(item => {
+            return (item[0] <= range[0] && range[0] <= item[1])
+        })
+    }
+    let endIndex
+    if (data[data.length - 1][1] < range[1]) {
+        endIndex = data.length - 1
+    } else {
+        endIndex = data.findIndex(item => {
+            return (item[0] <= range[1] && range[1] <= item[1])
+        })
+    }
+    let resArr = []
+    for (let i = startIndex; i <= endIndex; i++) {
+        if (i === startIndex) {
+            let t = Math.max(data[i][0], range[0])
+            let n = data[i][1] - t + 1
+            let j = 0;
+            while (j < n) {
+                resArr.push([t, data[i][2]])
+                t++
+                j++
+            }
+        } else if (i === endIndex) {
+            let end = Math.min(data[i][1], range[1])
+            let n = end - data[i][0] + 1
+            let j = 0
+            let t = data[i][0]
+            while (j < n) {
+                resArr.push([t, data[i][2]])
+                t++
+                j++
+            }
+        } else {
+            let n = data[i][1] - data[i][0] + 1
+            let j = 0
+            let t = data[i][0]
+            while (j < n) {
+                resArr.push([t, data[i][2]])
+                t++
+                j++
+            }
+        }
+    }
+    let res = resArr.reduce((r, c) => {
+        // c: [ms, kpi]
+        r += `${c[0]},${c[1]}\n`
+        return r
+    }, '')
+    return res
+}
+// clog(f([202411231010,202411231013], 4, [
+//     [202411231000,202411231010,11],
+//     [202411231011,202411231012,10],
+//     [202411231013,202411231020,16],
+//     [202411231021,202411231028,17],
+// ]))
+
+
+
+
+f = (n, m, deadList, k) => {
+    let treeArr = Array.from({length: n}, () => 0) // 0 活 1 死
+    deadList.forEach(i => {
+        treeArr[i - 1] = 1
+    })
+    let max = 0
+    let dp = [] // 
+    // dp[i] // 表示前i个坑有多少死树
+    // dp[0] = 0
+    // dp[1]
+    for (let i = 0; i < treeArr.length; i++) {
+        dp.push((dp[i - 1] || 0) + treeArr[i])
+    }
+    let left = 0
+    for (let right = 0; right < treeArr.length; right++) {
+        let d = dp[right] - dp[left]
+        while (k < dp[right] - (dp[left - 1] || 0)) {
+            left++
+        }
+        max = Math.max(max, right - left + 1)
+    }
+    
+
+
+    // // 初始化滑动窗口的左右边界
+    // let left = 0;
+    // // let max = 0; // 用于存储最大连续成活区域的长度
+    // let sumLeft = 0; // 滑动窗口左边界的未成活树数量
+    // let sumRight = 0; // 滑动窗口右边界的未成活树数量
+
+    // // 遍历所有的树，right代表滑动窗口的右边界
+    // for (let right = 0; right < treeArr.length; right++) {
+    //     sumRight += treeArr[right]; // 更新右边界的未成活树数量
+        
+    //     // 如果窗口内的未成活树数量大于可以补种的数量
+    //     while (sumRight - sumLeft > k) {
+    //         sumLeft += treeArr[left]; // 缩小窗口，左边界右移
+    //         left++;
+    //     }
+        
+    //     // 更新最大成活区域的长度
+    //     max = Math.max(max, right - left + 1);
+    // }
+
+    return max
+}
+// clog(f(5, 2, [2, 4], 1))
+
+
+
+f = (arr, k) => {
+    let tArr = [...arr]
+    tArr.sort((a, b) => a - b)
+    let middle
+    if (tArr.length % 2) {
+        let mIndex = Math.floor(tArr.length / 2)
+        middle = tArr[mIndex]
+    } else {
+        let t = tArr.length / 2
+        middle = (tArr[t] + tArr[t - 1]) / 2
+    }
+    let res
+    let dMin = Number.MAX_SAFE_INTEGER
+    for (let i = 0; i <= arr.length - k; i++) {
+        let dt = Math.abs(sum(arr.slice(i, i + k)) - middle)
+        if (dt <= dMin) {
+            dMin = dt
+            res = i
+        }
+    }
+    return res
+}
+// clog(f([50, 50, 2, 3], 2))
+
+
+let arrHasValue = (arr, value) => {
+    return arr.some(item => {
+        if (Array.isArray(item)) {
+            return arrHasValue(item, value)
+        } else {
+            return item === value
+        }
+    })
+}
+f = (arr, state) => {
+    if (arrHasValue(arr, 1)) {
+        let choices = []
+        arr.forEach((row, r) => {
+            row.forEach((col, c) => {
+                if (col === 1) {
+                    choices.push([r, c])
+                }
+            })
+        })
+        for (let item of choices) {
+            state.push(item)
+            let tArr = []
+            // 1 -》 0
+            let [r, c] = item
+            // 8个方向
+            // 上
+            for (let i = r; i >= 0; i--) {
+                if (arr[i][c] === 1) {
+                    arr[i][c] = 0
+                    tArr.push([i, c])
+                }
+            }
+            // 右
+            for (let i = r; i < arr[0].length; i++) {
+                if (arr[r][i] === 1) {
+                    arr[r][i] = 0
+                    tArr.push([r, i])
+                }
+            }
+            // 下
+            for (let i = r; i < arr.length; i++) {
+                if (arr[i][c] === 1) {
+                    arr[i][c] = 0
+                    tArr.push([i, c])
+                }
+            }
+            // 左
+            for (let i = c; i >= 0; i--) {
+                if (arr[r][i] === 1) {
+                    arr[r][i] = 0
+                    tArr.push([r, i])
+                }
+            }
+            // 右上
+            for (let i = r, j = c; i >= 0 && j < arr[0].length; i--, j++) {
+                if (arr[i][j] === 1) {
+                    arr[i][j] = 0
+                    tArr.push([i, j])
+                }
+            }
+            // 右下
+            for (let i = r, j = c; i < arr.length && j < arr[0].length ; i++, j++) {
+                if (arr[i][j] === 1) {
+                    arr[i][j] = 0
+                    tArr.push([i, j])
+                }
+            }
+            // 左上
+            for (let i = r, j = c; i >= 0 && j >= 0; i--, j--) {
+                if (arr[i][j] === 1) {
+                    arr[i][j] = 0
+                    tArr.push([i, j])
+                }
+            }
+            // 左下
+            for (let i = r, j = c; i < arr.length && j >= 0; i++, j--) {
+                if (arr[i][j] === 1) {
+                    arr[i][j] = 0
+                    tArr.push([i, j])
+                }
+            }
+            f(arr, state)
+            // 0 -》 1
+            tArr.forEach(item => {
+                let [i, j] = item
+                arr[i][j] = 1
+            })
+            state.pop()
+        }
+    } else {
+        res.push([...state])
+    }
+    // let copyArr = arr.map(row => {
+    //     return [...row]
+    // })
+    // fn(copyArr)
+}
+// Math.min(res.map(arr => arr.length))
+// clog(f([
+//     [1, 1, 0, 0,],
+//     [0, 0, 0, 1,],
+//     [0, 0, 1, 1,],
+//     [1, 1, 1, 1,],
+// ], []), res)
+
+
+
+f = (str) => {
+    let arr = str.split(' ')
+    // 1 缺勤不超过一次；
+    let absentCount = 0
+    arr.forEach(item => {
+        if (item === 'absent') {
+            absentCount++
+        }
+    })
+    if (absentCount > 1) {
+        clog(false)
+        return false
+    }
+    // 2 没有连续的迟到/早退；
+    for (let i = 0; i < arr.length - 2; i++) {
+        if (arr.slice(i, i + 2).every(item => ['late', 'leaveearly'].includes(item))) {
+            clog(false)
+            return false
+        }
+    }
+    // 3 任意连续7次考勤，缺勤/迟到/早退不超过3次。
+    for (let i = 0; i <= arr.length - 7; i++) {
+        let count = 0
+        arr.slice(i, i + 7).forEach(item => {
+            if (['absent', 'late', 'leaveearly'].includes(item)) {
+                count++
+            }
+        })
+        if (count > 3) {
+            clog(false)
+            return false
+        }
+    }
+    clog(true)
+    return true
+}
+// f('present')
+// f('present absent present present leaveearly present absent')
+
+
+
+// f = (arr) => {
+//     for (let i = 0; i <= arr.length - 2; i++) {
+//         clog(arr.slice(i, i + 2))
+//     }
+// }
+// f([1,2,3,4,5,6,7,8,9])
+
+
+
+let hufmanTree = (arr) => {
+    let createNode = (v) => {
+        return {
+            left: null,
+            value: v,
+            right: null,
+        }
+    }
+    let merge = (nodeA, nodeB) => {
+        return {
+            left: nodeA, 
+            value: nodeA.value + nodeB.value,
+            right: nodeB,
+        }
+    }
+    arr = arr.map(item => {
+        return createNode(item)
+    })
+    let res = null
+    while (arr.length > 1) {
+        arr.sort((a, b) => a.value - b.value)
+        let nodeA = arr.shift()
+        let nodeB = arr.shift()
+        let nodeC = merge(nodeA, nodeB)
+        arr.push(nodeC)
+    }
+    res = arr[0]
+    return res
+}
+f = hufmanTree
+// clog(f([1, 2, 2, 3, 7]))
+
+
+
+
+f = (arr) => {
+    let createTree = (arr) => {
+        let createNode = (v) => ({
+            left: null,
+            value: v,
+            right: null,
+            height: 0,
+        })
+        let merge = (nodeA, nodeB) => {
+            let left
+            let right
+            if (nodeA.height <= nodeB.height) {
+                left = nodeA
+                right = nodeB
+            } else {
+                left = nodeB
+                right = nodeA
+            }
+            return {
+                left,
+                right,
+                value: nodeA.value + nodeB.value,
+                height: Math.max(nodeA.height, nodeB.height) + 1,
+            }
+        }
+        arr = arr.map(item => (createNode(item)))
+        let tree
+        while (arr.length > 1) {
+            arr.sort((a, b) => {
+                let vp = a.value - b.value
+                if (vp) {
+                    return vp
+                } else {
+                    return a.height - b.height
+                }
+            })
+            let nodeSmall = arr.shift()
+            let nodeBig = arr.shift()
+            let nodeNew = merge(nodeSmall, nodeBig)
+            arr.unshift(nodeNew)
+        }
+        tree = arr[0]
+        return tree
+    }
+    let root = createTree([...arr])
+    // 遍历
+    let fn = (node, opFn) => {
+        if (node) {
+            fn(node.left, opFn)
+            opFn(node.value)
+            fn(node.right, opFn)
+        }
+    }
+    fn(root, clog)
+}
+// f([5, 15, 40, 30, 10])
+
+
+
+f = (str) => {
+    // str => arr
+    let arr = str.split('\n').map(row => {
+        return row.split(' ')
+    })
+    if (arr.length === 1 && arr[0].length === 1) {
+        if (arr[0][0] === 'O') {
+            spaceArr.push([0, 0])
+        }
+    } else {
+    // 找到单入口
+    let enterArr = []
+    // for (let i = 0; i < arr.length; i++) {
+    //     arr[i][00]
+    //     // for (let )
+    // }
+    let isEnter = (i, j) => {
+        switch (b) {
+            case 1:
+                if (arr[i][j] === 'O'
+                    && arr[i][j - 1]
+                    && arr[i][j - 1] === 'X'
+                ) {
+
+                } else {
+                    return false
+                }
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+        }
+        if (
+            arr[i][j] === 'O'
+            // 4个方向
+            && arr[i - 1] && arr[i - 1][j] // 存在
+            && arr[i - 1][j] === 'X'
+            && arr[i][j + 1] // 存在
+            && arr[i][j + 1] === 'X'
+            && arr[i + 1] && arr[i + 1][j] // 存在
+            && arr[i + 1][j] === 'X'
+            && arr[i][j - 1] // 存在
+            && arr[i][j - 1] === 'X'
+        ) {
+            return true
+        } else {
+            return false
+        }
+    }
+    let border = []
+    // isEnter = () => {}
+    let i = 0, j = 0
+    while (j < arr[0].length) {
+        border.push([i, j])
+        j++
+    }
+    j--
+    i++
+    while (i < arr.length) {
+        border.push([i, j])
+        i++
+    }
+    i--
+    j--
+    while (j >= 0) {
+        border.push([i, j])
+        j--
+    }
+    j++
+    i--
+    while (i >= 1) {
+        border.push([i, j])
+        i--
+    }
+    // i++
+    for (let i = 1; i < border.length - 1; i++) {
+        let [r, c] = border[i]
+        let next = border[i + 1]
+        let pre = border[i - 1]
+        if (arr[r][c] === 'O' 
+            && arr[next[0]][next[1]] === 'X'
+            && arr[pre[0]][pre[1]] === 'X'
+        ) {
+            enterArr.push([...border[i]])
+        }
+    }
+    if (arr[border[0][0]][border[0][1]] === 'O'
+        && arr[border[1][0]][border[1][1]] === 'X'
+        && arr[border[border.length - 1][0]][border[border.length  -1][1]] === 'X'
+    ) {
+        enterArr.push([...border[0]])
+    }
+    if (
+        arr[border[border.length - 1][0]][border[border.length - 1][1]] === 'O'
+        && arr[border[border.length - 2][0]][border[border.length - 2][1]] === 'X'
+        && arr[border[0][0]][border[0][1]] === 'X'
+    ) {
+        enterArr.push([...border[border.length - 1]])
+    }
+    // bfs
+    let bfs = (i, j) => {
+        let queue = [[i, j]]
+        // 惟一
+        let tag = Array.from({length: arr.length}, () => Array.from({length: arr[0].length}, () => 0))
+        // 0 未探索 1 可访问 2 已处理
+        let state = []
+        while (queue.length) {
+            let t = queue.shift()
+            let [i, j] = t
+            tag[i][j] = 2
+            state.push([i, j])
+            // 4个方向
+            if (
+                arr[i - 1] && arr[i - 1][j]
+                && arr[i - 1][j] === 'O'
+                && tag[i - 1][j] === 0
+            ) {
+                tag[i - 1][j] = 1
+                queue.push([i - 1, j])
+            }
+            if (
+                arr[i][j + 1] // 存在
+                && arr[i][j + 1] === 'O'
+                && tag[i][j + 1] === 0
+            ) {
+                tag[i][j + 1] = 1
+                queue.push([i, j + 1])
+            }
+            if (arr[i + 1] && arr[i + 1][j]
+                && arr[i + 1][j] === 'O'
+                && tag[i + 1][j] === 0
+            ) {
+                tag[i + 1][j] = 1
+                queue.push([i + 1, j])
+            }
+            if (
+                arr[i][j - 1] // 存在
+                && arr[i][j - 1] === 'O'
+                && tag[i][j - 1] === 0
+            ) {
+                tag[i][j - 1] = 1
+                queue.push([i, j - 1])
+            }
+        }
+        return state
+    }
+    // 循环
+    let res = []
+    let enterArrStart = enterArr.map(item => item[0])
+    let enterArrEnd = enterArr.map(item => item[1])
+    enterArr.forEach(enter => {
+        let state = bfs(enter[0], enter[1])
+        let enterCount = 0
+        for (let i = 0; i < state.length; i++) {
+            if (enterArr.find(item => item[0] === state[i][0] && item[1] === state[i][1])) {
+                enterCount++
+                if (enterCount > 1) {
+                    break;
+                }
+            }
+        }
+        if (enterCount === 1) {
+            res.push([...state])
+        }
+    })
+    let log = ''
+    switch (res.length) {
+        case 0:
+            log = 'NULL'
+            break;
+        case 1:
+            log = res[0][0].join(' ') + ' ' + res[0].length
+            break;
+        default:
+            log = Math.max(...res.map(state => state.length))
+            break;
+    }
+    clog(log)
+    return res
+}
+}
+// clog(f(`X X X X
+// X O O X
+// X O O X
+// X O X X`))
+// clog(f(`X X X X X
+// O O O O X
+// X O O O X
+// X O X X O`))
+// clog(f(`X X X X
+// X O O O
+// X O O O
+// X O O X
+// X X X X`))
+// clog(f(`X X X X
+// X O O O
+// X X X X
+// X O O O
+// X X X X`))
+
+
+
+f = (goal, arr) => {
+    let unAct = [] // 不能到达且小于goal
+    let act = [] // 可以到达
+    // 全排列
+    let tRes = []
+    let allOrder = (choices, state) => {
+        if (state.length === choices.length) {
+            tRes.push([...state])
+        } else {
+            choices.forEach(item => {
+                if (!state.includes(item)) {
+                    state.push(item)
+                    allOrder(choices, state)
+                    state.pop()
+                }
+            })
+        }
+    }
+    let curPosition = (arr) => {
+        return arr.reduce((r, c, i) => {
+            let t = i % 2 ? -c : c
+            return r += t
+        }, 0)
+    }
+    allOrder(arr, [])
+    tRes.forEach((orderArr) => {
+        let t = curPosition(orderArr)
+        switch (Math.sign(t - goal)) {
+            case 0:
+                act.push([...orderArr])
+                break;
+            case 1:
+                break;
+            case -1:
+                unAct.push([...orderArr])
+                break;
+        }
+    })
+    
+    if (act.length) {
+        // act排序
+        act.sort((a, b) => {
+            let res = 0
+            for (let i = 0; i < a.length; i++) {
+                let t = b[i] - a[i]
+                if (t) {
+                    res = t    
+                    break;
+                }
+            }
+            return res
+        })
+        res = act[0].join(' ')
+    } else {
+        unAct.sort((a, b) => {
+            let res = 0
+            for (let i = 0; i < a.length; i++) {
+                let t = b[i] - a[i]
+                if (t) {
+                    res = t
+                    break;
+                }
+            }
+            return res
+        })
+        res = unAct[0].join(' ')
+    }
+    return res
+}
+// clog(f(5, [1,2,6]))
+
+
+
+f = (str, commandStr) => {
+    let res = str
+    let commandArr = commandStr.split('\n').map(str => {
+        // str com x
+        return str.split(' ')
+    })
+    let p = 0
+    let tStr = ''
+    let tP = p
+    for (let i = 0; i < commandArr.length; i++) {
+        let c = commandArr[i]
+        switch (commandArr[i][0]) {
+            case 'FORWARD':
+                p += Number(c[1])
+                p = Math.min(p, res.length)
+                break;
+            case 'BACKWARD':
+                p -= Number(c[1])
+                p = Math.max(0, p)
+                break;
+            case 'SEARCH-FORWARD':
+                tP = res.slice(0, p).includes(c[1])
+                if (tP !== -1) {
+                    p = tP
+                }
+                break;
+            case 'SEARCH-BACKWARD':
+                tP = res.slice(p).indexOf(c[1])
+                if (tP !== -1) {
+                    p = p + tP
+                }
+                break;
+            case 'INSERT':
+                res = res.slice(0, p) + c[1] + res.slice(p)
+                p += c[1].length
+                break;
+            case 'REPLACE':
+                if (res.length >= p + c[1].length) {
+                    res = res.slice(0, p) + c[1]
+                } else {
+                    res = res.slice(0, p) + c[1] + res.slice(p + c[1].length)
+                }
+                break;
+            case 'DELETE':
+                res = res.slice(0, p) + res.slice(p + Number(c[1]))
+                break;
+        }
+    }
+    return res
+}
+// clog(f('ello', 'INSERT h'))
+// clog(f('hllo', `FORWARD 1
+// INSERT e`))
+// clog(f('hell', `FORWARD 1000
+// INSERT o`))
+// clog(f('hello', 'REPLACE HELLO'))
+// clog(f('hello', 'REPLACE HELLO_WORLD'))
+// clog(f('hell', `FORWARD 1000
+// REPLACE O`))
+
+
+
+f = (m, arr) => {
+    if (m < 0
+        || m > 10
+        || arr.length <= 0
+        || 100 < arr.length
+    ) {
+        return [[]]
+    }
+    arr = arr.map(subArr => {
+        subArr = [...new Set(subArr)]
+        // subArr = 
+        subArr.sort((a, b) => a - b)
+        return subArr
+    })
+    let intersection = (a, b) => {
+        let t = a.filter(item => b.includes(item))
+        // clog(t)
+        return t
+    }
+    let union = (a, b) => {
+        return [...new Set([...a, ...b])]
+    }
+    let check = () => {
+        for (let i = 0; i < arr.length - 1; i++) {
+            for (let j = i + 1; j < arr.length; j++) {
+                if (intersection(arr[i], arr[j]).length >= 2) {
+                    return [i, j]
+                }
+            }
+        }
+        return []
+    }
+    let merge = (i, j) => {
+        let min = Math.min(i, j)
+        let max = Math.max(i, j)
+        arr[min] = union(arr[min], arr[max]).sort((a, b) => a - b)
+        arr.splice(max, 1)
+    }
+    let flag = check()
+    while (flag.length) {
+        merge(flag[0], flag[1])
+        flag = check()
+    }
+    return arr
+}
+// clog(f(4, [
+//     [4],
+//     [2,3,2],
+//     [1,2],
+//     [5],
+// ]))
+// clog(f(3, [
+//     [2,3,1,1,],
+//     [4,3,2],
+//     [5]
+// ]))
+// clog(f(6, [
+//     [10],
+//     [4,2,1],
+//     [9],
+//     [3,6,9,2],
+//     [6,3,4],
+//     [8],
+// ]))
+// clog(f(11, []))
+
+
+f = (t, arr) => {
+    let dp = ['R']
+    let o = {
+        B: 'R',
+        R: 'B',
+    }
+    // let box = []
+    // if (dp.length) {}
+    let strReverse = (str) => {
+        let r = ''
+        for (let i = 0; i < str.length; i++) {
+            r += o[str.charAt(i)]
+        }
+        return r
+    }
+    for (let i = 1; i <= arr.length; i++) {
+        // arr[i] // n, k
+        let t = strReverse(dp[i - 1]) +  dp[i - 1]
+        dp.push(t)
+    }
+
+    let get = (i) => {
+        if (i < dp.length) {
+            return dp[i]
+        } else {
+            let t= get(dp[i - 1])
+            t = strReverse(t) + t
+            dp.push(t)
+            return t
+        }
+    }
+    for (let i = 0; i < arr.length; i++) {
+        let str = get(arr[i][0] - 1)
+        clog(str.charAt(arr[i][1]))
+    }
+    return dp
+}
+f = (t, arr) => {
+    let box = [
+        'R',
+        'BR',
+        // 'RBBR',
+        // 'BRRBRBBR',
+        // 'RBBRBRRBBRRBRBBR',
+    ]
+    let nList = [1n]
+    for (let j = 1; j <= Math.max(...arr.map(arr => arr[0])); j++) {
+        nList.push(nList[j - 1] * 2n)
+    }
+    for (let i = 0; i <arr.length; i++) {
+        let n = arr[i][0] - 1
+        let k = BigInt(arr[i][1])
+        clog(nList, k)
+        while (box.length - 1 < n) {
+            let t = nList[n - 1]
+            if (t <= k) {
+                k = k - t
+                n--
+            } else {
+                let t = nList[n - 2]
+                if (t <= k) {
+                    k = k - t
+                    n--
+                } else {
+                    n--
+                }
+            }
+        }
+        clog(box[n][k])
+    }
+}
+clog(f(5, [
+    [1, 0],
+    [2, 1],
+    [3, 2],
+    [4, 6],
+    [5, 8],
+]))
+clog(f(1, [[64, 73709551616]])) // R
+// clog(f(1, [[5, 14]]))
+// clog(f(1, [[6, 20]]))
+// clog(f(1, [[5, 8]]))
+// clog(f(1, [[3, 2]]))
+// clog(f(1, [[4, 6]]))
+
+// var a = 2n
+// var b = a + a
+// // var b = 1 << a
+// var c = a * 3n
+// clog(a, b, c)
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>
