@@ -20,6 +20,8 @@
   - [github](https://github.com/)
   - [hello algo](https://github.com/krahets/hello-algo/releases) [笔记](/books/helloAlgo.html)
   - [算法导论](https://jingyuexing.github.io/Ebook/Algorithm/%E7%AE%97%E6%B3%95%E5%AF%BC%E8%AE%BA.pdf) [笔记](/books/introductionToAlgorithms.html)
+  - [算法导论](https://jingyuexing.github.io/Ebook/Algorithm/%E7%AE%97%E6%B3%95%E5%AF%BC%E8%AE%BA.pdf) [笔记](/books/introductionToAlgorithms.html)
+  - [算法竞赛入门经典](/books/suanfajinsairumenjingdian.html)
 - [《logic》](/books/logic.html)
 - [《盐铁论》](/books/title.html)
 - [《止学》](/books/zhixue.html)
