@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>BigInt</title>
-        <style>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>BigInt</title>
+            <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -11,47 +11,14 @@
  *--------------------------------------------------------------------------------------------*/
 
 .vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only] {
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
 	display: none;
 }
 
-/* From extension ms-toolsai.jupyter */
-/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
-
-.alert {
-    width: auto;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-.alert > *:last-child {
-    margin-bottom: 0;
-}
-#preview > .alert:last-child {
-    /* Prevent this being set to zero by the default notebook stylesheet */
-    padding-bottom: 1em;
-}
-
-.alert-success {
-    /* Note there is no suitable color available, so we just copy "info" */
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-info {
-    background-color: var(--theme-info-background);
-    color: var(--theme-info-foreground);
-}
-.alert-warning {
-    background-color: var(--theme-warning-background);
-    color: var(--theme-warning-foreground);
-}
-.alert-danger {
-    background-color: var(--theme-error-background);
-    color: var(--theme-error-foreground);
-}
-
 </style>
-        
+            
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
 <style>
@@ -72,10 +39,106 @@
     pointer-events: none;
 }
 </style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
         
-    </head>
-    <body class="vscode-body vscode-light">
-        <h1 id="bigint">BigInt</h1>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="bigint">BigInt</h1>
 <ul>
 <li>可表示任意大的数字</li>
 <li>使用“整数字面量后面加<code>n</code>”的方法表示。</li>
@@ -84,12 +147,12 @@
 <li>遇到小数会取整数部分。（只能是整数）</li>
 <li>与<code>Number</code>宽松相等。</li>
 <li>与<code>Number</code>可以比较。</li>
-<li>操作bigint时不是常数时间，不能用于密码学。</li>
+<li>操作 bigint 时不是常数时间，不能用于密码学。</li>
 <li>不适用于<code>JSON.stringify()</code>。请使用下文的<code>BigInt.prototype.toJSON()</code>.</li>
 <li>可以使用<code>+</code>/<code>-</code>/<code>*</code>/<code>/</code>/<code>**</code>/<code>%</code>。</li>
 <li>可以使用除<code>&gt;&gt;&gt;</code>以外的全部位运算。如：<code>&amp;</code>/<code>|</code>/<code>^</code>/<code>~</code>/<code>&gt;&gt;</code>/<code>&lt;&lt;</code></li>
 </ul>
-<p>typeof 1n === 'bigint'          // true
+<p>typeof 1n === 'bigint' // true
 typeof BigInt('1') === 'bigint' // true</p>
 <h2 id="api">api</h2>
 <table>
@@ -103,7 +166,7 @@ typeof BigInt('1') === 'bigint' // true</p>
 <tbody>
 <tr>
 <td>BigInt(n)</td>
-<td>返回一个bigint对象</td>
+<td>返回一个 bigint 对象</td>
 <td></td>
 </tr>
 <tr>
@@ -118,12 +181,12 @@ typeof BigInt('1') === 'bigint' // true</p>
 </tr>
 <tr>
 <td>BigInt#valueOf()</td>
-<td>返回bigint对象的原始值</td>
+<td>返回 bigint 对象的原始值</td>
 <td></td>
 </tr>
 <tr>
 <td>BigInt#toString([radix])</td>
-<td>返回bigint的字符串。无<code>n</code></td>
+<td>返回 bigint 的radix进制的字符串。无<code>n</code></td>
 <td>radix 基数</td>
 </tr>
 <tr>
@@ -143,13 +206,13 @@ typeof BigInt('1') === 'bigint' // true</p>
 <span class="hljs-title class_">Number</span>(bi.<span class="hljs-title function_">toString</span>())
 <span class="hljs-comment">// 适用于[-2^52, 2^52 - 1]的整数。</span>
 </code></pre>
-<h2 id="封装一个tojson">封装一个toJSON()</h2>
+<h2 id="封装一个-tojson">封装一个 toJSON()</h2>
 <pre><code>BigInt.prototype.toJSON = function () {
     return this.toString()
 }
 </code></pre>
 
-        
-        
-    </body>
-    </html>
+            
+            
+        </body>
+        </html>

@@ -578,7 +578,8 @@ avl 树的典型应用：
 
 ## 邻接矩阵
 
-若矩阵`Vi`与`Vj`连通，则用`M[i, j] = 1`表示，反之用`M[i, j] = 0`表示。
+若矩阵`Vi`与`Vj`连通，则用`M[i, j] = 1`表示，反之用`M[i, j] = 0`表示。本质是二维数组。
+关于从左上角到右下角的对角线对称。
 
 |     | 1   | 2   | 3   | 4   | 5   |
 | --- | --- | --- | --- | --- | --- |
@@ -598,6 +599,8 @@ avl 树的典型应用：
 ## 邻接表
 
 用 n 个链表表示图。第 i 个链表表示第 i 个节点相连的顶点。
+可以在数组、map、链表中放链表。
+用邻接表（哈希表）的时间效率、空间效率最优。
 
 ```
 1-2-3-5
@@ -616,25 +619,120 @@ O(n) O(log n) O(1)
 | 地铁线路 | 站点 | 站点间的连通性       | 最短路线推荐 |
 | 太阳系   | 星体 | 星体间的万有引力作用 | 行星轨道计算 |
 
-```
+```js
+// 我写的，与原文逻辑相同。
+class Chain {}
+class GraphNode {
+  constructor() {}
+  is(node) {}
+}
 class GraphAdjMat {
-    constructor(vertices, edges) {
-        this.vertices = []
-        this.adjMat = []
-        for (let v of vertices) {
-            this.addVertex(v)
-        }
-        for (let e of edges) {
-            this.addEdges(e[0], e[1])
-        }
+  constructor(vertices, edges) {
+    // 初始化邻接表、邻接矩阵、邻接map.
+    this.vertices = [] // 所有点组成的数组
+    // this.adjMat = [] // 邻接矩阵
+    // this.adjArr = [] // 邻接表
+    // this.adjChain = new Chain()
+    this.adjMap = new Map() // 邻接map
+    for (let v of vertices) {
+      this.addVertex(v)
     }
-    size() {
-        return this.vertices.length
+    for (let e of edges) {
+      this.addEdges(e[0], e[1])
     }
-    addVertex(v) {
+  }
+  size() {
+    return this.vertices.length
+  }
+  // 添加点
+  addVertex(v) {
+    this.vertices.push(v)
+    // let tArr = Array.from({length: this.size()}, () => 0)
+    // tArr[0] = v
+    // this.adjMat.push(tArr)
+    // this.adjMat.forEach(arr => arr.push(0))
 
+    // this.adjArr.push(new Chain(v))
+
+    this.adjMap.set(v, [])
+  }
+  // 添加边
+  addEdge(v0, v1) {
+    // 无向图
+    if (this.adjMap.has(v0) && this.adjMap.has(v1) && !v0.is(v1)) {
+      this.adjMap.get(v0).push(v1)
+      this.adjMap.get(v1).push(v0)
     }
-    addEdges() {}
+  }
+  // 删除点
+  removeEdge(v) {
+    if (this.adjMat.has(v)) {
+      this.adjMap.delete(v)
+      this.adjMap.forEach((arr, key, map) => {
+        let index = arr.findIndex((item) => item.is(v))
+        arr.splice(index, 1)
+      })
+    }
+  }
+  // 删除边
+  removeVertex(v0, v1) {
+    if (this.adjMap.has(v0) && this.adjMap.has(v1)) {
+      let index = this.adjMap.get(v0).findIndex((v) => v.is(v1))
+      this.adjMap.get(v0).splice(index, 1)
+      index = this.adjMap.get(v1).findIndex((v) => v.is(v0))
+      this.adjMap.get(v1).splice(index, 1)
+    }
+  }
+  // 打印图
+  print() {
+    clog(this.vertices)
+    this.adjMap.forEach((value) => {
+      clog(value)
+    })
+  }
+  // 是否邻接
+  isAdj(v0, v1) {
+    // 无向图需要判断1个方向
+    if (this.adjMap.has(v0) && this.adjMap.has(v1)) {
+      return this.adjMap.get(v0).some((v) => v.is(v1))
+    }
+    // 有向图需要判断2个方向
+  }
+  // 广度优先
+  bfs(v, fn) {
+    let queue = [v]
+    let tag = new Map()
+    // 不存在 未搜索
+    // 1 可访问
+    // 2 已处理
+    tag.set(v, 1)
+    while (queue.length) {
+      let t = queue.shift()
+      fn(t)
+      tag.set(t, 2)
+      this.adjMap.get(t).forEach((item) => {
+        if (tag.has(item)) {
+        } else {
+          tag.set(item, 1)
+          queue.push(item)
+        }
+      })
+    }
+  }
+  // 深度优先
+  dfs(v, fn) {
+    let tagMap = new Map()
+    let f = (v, fn) => {
+      fn(v)
+      tagMap.set(v, 1)
+      this.adjMap.get(v).forEach((itemV) => {
+        if (!this.map.has(itemV)) {
+          f(itemV, fn)
+        }
+      })
+    }
+    f(v, fn)
+  }
 }
 ```
 
@@ -982,7 +1080,7 @@ let f = (node, path, res) => {
 
 ## 例题
 
-全排列问题：给定一个集合，求出其所有可能的排列组合。
+全排列问题：给定一个集合，求出其所有可能的排列。
 
 ```js
 let f = (arr, state = []) => {
@@ -1009,23 +1107,31 @@ let f = (arr, state = []) => {
 表中不应包含重复组合。
 
 ```js
+let t = []
 let f = (arr, target, state = []) => {
-    if (sum(state) === target) {
-        res.push([...state])
-        return
-    } else {
-        arr.forEach(item => {
-            let s = sum(state)
-            if (s < target) {
-                state.push(item)
-                f(arr, target, state)
-                state.pop()
-            }
-            if (s > target) {
-                break
-            }
-        })
+  if (sum(state) === target) {
+    // 可以在这里剪枝 1
+    let p = state.reduce((r, c) => {
+      r *= c
+      return r
+    }, 1)
+    if (!t.includes(p)) {
+      // 利用积相等去重
+      t.push(p)
+      res.push([...state])
     }
+    return
+  } else {
+    arr.forEach((item) => {
+      let s = sum(state)
+      // 可以在这里剪枝 2
+      if (s < target) {
+        state.push(item)
+        f(arr, target, state)
+        state.pop()
+      }
+    })
+  }
 }
 ```
 
@@ -1109,8 +1215,9 @@ map.delete(k)
 tree.append(v)
 tree.remove(v)
 
-arr[i] = true
-arr[i] = false
+let preValue = arr[i]
+arr[i] = newValue
+arr[i] = preValue
 
 n++
 n--
@@ -1301,11 +1408,61 @@ let f = (w, v, cap) => {
     }
   }
 }
+// 我会用贪心算法求解
+let f = (wList, vList, cap) => {
+  let vpList = []
+  wList.forEach((w, index) => {
+    vpList.push({
+      w: w,
+      v: vList[index],
+      vp: vList[index] / w,
+    })
+  })
+  vpList.sort((a, b) => b.vp - a.vp)
+  let box = []
+  let resetCap = cap
+  for (let i = 0; i < vpList.length; i++) {
+    if (vpList[i].w <= resetCap) {
+      box.push(vpList[i])
+      resetCap -= vpList[i].w
+    } else {
+      break
+    }
+  }
+  return box
+}
 ```
 
 ## 完全背包问题
 
 给定 𝑛 个物品，第 𝑖 个物品的重量为 𝑤𝑔𝑡[𝑖 − 1]、价值为 𝑣𝑎𝑙[𝑖 − 1] ，和一个容纳重量为 𝑐𝑎𝑝 的背包。每个物品可以重复选取，问在限定背包容量下能放入物品的最大价值。
+
+```js
+// 贪心解法
+let f = (wList, vList, cap) => {
+  let vpList = []
+  wList.forEach((w, i) => {
+    vpList.push({
+      w: w,
+      v: vList[i],
+      vp: vList[i] / w,
+    })
+  })
+  vpList.sort((a, b) => b.vp - a.vp)
+  let resetCap = cap
+  let box = []
+  while (resetCap < vpList[vpList.length - 1].w) {
+    for (let i = 0; i < vpList.length; i++) {
+      if (vpList[i].w <= resetCap) {
+        box.push(vpList[i])
+        resetCap -= vpList[i].w
+        break
+      }
+    }
+  }
+  return box
+}
+```
 
 ## 多重背包问题
 
@@ -1319,18 +1476,18 @@ let f = () => {}
 
 // 这是我写的
 let f = (coins, amt) => {
-  let t = 0
-  let a = []
-  while (t < amt) {
+  let sum = 0
+  let box = []
+  while (sum < amt) {
     for (let i = 0; i < coins.length; i++) {
-      if (coins[i] <= amt - t) {
-        t += coins[i]
-        a.push(coins[i])
+      if (coins[i] <= amt - sum) {
+        sum += coins[i]
+        box.push(coins[i])
         break
       }
     }
   }
-  return a.length || -1
+  return box.length || -1
 }
 
 // 求硬币和的组合数
