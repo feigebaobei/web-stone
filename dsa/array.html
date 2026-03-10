@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x4ece;&#x6307;&#x5b9a;&#x4f4d;&#x7f6e;&#x5f00;&#x59cb;&#x5faa;&#x73af;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <blockquote>
+<p>常用的操作</p>
+</blockquote>
+<h2 id="从指定位置开始循环">从指定位置开始循环</h2>
+<pre><code class="language-js"><span class="hljs-comment">// 从k开始，循环n次</span>
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = arr.<span class="hljs-property">length</span> + k; i &lt; n; i++) {
+    arr[i % arr.<span class="hljs-property">length</span>] <span class="hljs-comment">// 当前值</span>
+    arr[(i - <span class="hljs-number">1</span>) % arr.<span class="hljs-property">length</span>] <span class="hljs-comment">// 前一个值</span>
+    arr[(i + <span class="hljs-number">1</span>) % arr.<span class="hljs-property">length</span>] <span class="hljs-comment">// 后一个值</span>
+}
+<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>;
+<span class="hljs-keyword">let</span> index = arr.<span class="hljs-property">length</span> + k
+<span class="hljs-keyword">while</span> (i &lt; n) {
+    arr[i % arr.<span class="hljs-property">length</span>]
+    i++
+    index++
+}
+arr[i]
+<span class="hljs-comment">// 返回第i个元素</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">arr, i</span>) =&gt; {
+    <span class="hljs-keyword">return</span> arr[i % arr.<span class="hljs-property">length</span>]
+} 
+</code></pre>
+<h2 id="排列">排列</h2>
+<p>使用回溯</p>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> res = []
+<span class="hljs-comment">// 全排列</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">choices, state = []</span>) =&gt; {
+    <span class="hljs-keyword">if</span> (state.<span class="hljs-property">length</span> === choices.<span class="hljs-property">length</span>) {
+        res.<span class="hljs-title function_">push</span>([...state])
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; choices.<span class="hljs-property">length</span>; i++) {
+            <span class="hljs-keyword">if</span> (!state.<span class="hljs-title function_">includes</span>(choices[i])) {
+                state.<span class="hljs-title function_">push</span>(choices[i])
+                <span class="hljs-title function_">f</span>(choices, state)
+                state.<span class="hljs-title function_">pop</span>()
+            }
+        }
+    }
+}
+<span class="hljs-comment">// choices中排n个</span>
+f = <span class="hljs-function">(<span class="hljs-params">choices, n, state = []</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (state.<span class="hljs-property">length</span> === <span class="hljs-number">2</span>) {
+        res.<span class="hljs-title function_">push</span>([...state])
+    } <span class="hljs-keyword">else</span> {
+        choices.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> {
+            state.<span class="hljs-title function_">push</span>(item)
+            <span class="hljs-title function_">f</span>(choices.<span class="hljs-title function_">filter</span>(<span class="hljs-function"><span class="hljs-params">ele</span> =&gt;</span> ele !== item), n, state) <span class="hljs-comment">// 也可以限制不包含 !includes    </span>
+            state.<span class="hljs-title function_">pop</span>()
+        })
+    }
+}
+</code></pre>
+<h2 id="组合">组合</h2>
+<pre><code class="language-js">f = <span class="hljs-function">(<span class="hljs-params">choices, n, state = []</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (state.<span class="hljs-property">length</span> === n) {
+        res.<span class="hljs-title function_">push</span>([...state])
+    } <span class="hljs-keyword">else</span> {
+        choices.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> {
+            <span class="hljs-keyword">if</span> (!state.<span class="hljs-title function_">includes</span>(item)) {
+                state.<span class="hljs-title function_">push</span>(item)
+                <span class="hljs-title function_">f</span>(choices, n, state)
+                state.<span class="hljs-title function_">pop</span>()
+            }
+        })
+    }
+}
+</code></pre>
+<h2 id="并集">并集</h2>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">a, b</span>) =&gt; {
+    <span class="hljs-keyword">return</span> [...<span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>([...a, ...b])]
+}
+</code></pre>
+<h2 id="交集">交集</h2>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">a, b</span>) =&gt; {
+    <span class="hljs-keyword">return</span> a.<span class="hljs-title function_">filter</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> {
+        <span class="hljs-keyword">return</span> b.<span class="hljs-title function_">includes</span>(item)
+    })
+}
+</code></pre>
+<h2 id="去重">去重</h2>
+<pre><code class="language-js"><span class="hljs-comment">// 第一种。</span>
+<span class="hljs-comment">// 适用于多个数组内和相等</span>
+<span class="hljs-comment">// 组合去重</span>
+<span class="hljs-keyword">let</span> productList = []
+<span class="hljs-keyword">let</span> product = arr.<span class="hljs-title function_">reduce</span>(<span class="hljs-function">(<span class="hljs-params">r, c</span>) =&gt;</span> (r *= c), <span class="hljs-number">1</span>)
+<span class="hljs-keyword">if</span> (productList.<span class="hljs-title function_">includes</span>(product)) {
+    productList.<span class="hljs-title function_">push</span>(product)
+    <span class="hljs-title function_">opFn</span>(arr)
+}
+
+<span class="hljs-comment">// 第二种</span>
+<span class="hljs-comment">// 排列去重</span>
+<span class="hljs-keyword">let</span> arrList = [[], [], [], ...]
+<span class="hljs-keyword">let</span> productList = arrList.<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">arr</span> =&gt;</span> {
+    <span class="hljs-keyword">let</span> r = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; arr.<span class="hljs-property">length</span>; i++) {
+        r += arr[i] * (arr.<span class="hljs-property">length</span> - i)
+    }
+    <span class="hljs-keyword">return</span> r        
+})
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = productList.<span class="hljs-property">length</span> - <span class="hljs-number">2</span>; i &gt;= <span class="hljs-number">0</span>; i--) {
+    <span class="hljs-keyword">if</span> (productList.<span class="hljs-title function_">slice</span>(i + <span class="hljs-number">1</span>).<span class="hljs-title function_">includes</span>(productList[i])) {
+        productList.<span class="hljs-title function_">split</span>(i, <span class="hljs-number">1</span>)
+    }
+}
+</code></pre>
+<h2 id="数组是否相等">数组是否相等</h2>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">aArr, bArr</span>) =&gt; {
+    <span class="hljs-keyword">if</span> (aArr.<span class="hljs-property">length</span> !== bArr.<span class="hljs-property">length</span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>
+    }  <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">let</span> newAArr = [...aArr]
+        <span class="hljs-keyword">let</span> newBArr = [...bArr]
+        newAArr.<span class="hljs-title function_">sort</span>(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a - b)
+        newBArr.<span class="hljs-title function_">sort</span>(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a - b)
+        <span class="hljs-keyword">return</span> newAArr.<span class="hljs-title function_">every</span>(<span class="hljs-function">(<span class="hljs-params">item, index</span>) =&gt;</span> item === newBBrr[index])
+    }
+}
+</code></pre>
+<h2 id="等分切割">等分/切割</h2>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">arr, len</span>) =&gt; {
+    <span class="hljs-keyword">let</span> res = []
+    <span class="hljs-keyword">while</span> (arr.<span class="hljs-property">length</span>) {
+        res.<span class="hljs-title function_">push</span>(arr.<span class="hljs-title function_">splice</span>(<span class="hljs-number">0</span>, len))
+    }
+    <span class="hljs-keyword">return</span> res
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">arr, len</span>) =&gt; {
+    <span class="hljs-keyword">let</span> res = []
+    <span class="hljs-keyword">while</span> (arr.<span class="hljs-property">length</span>) {
+        res.<span class="hljs-title function_">push</span>(arr.<span class="hljs-title function_">splice</span>(-len))
+    }
+    <span class="hljs-keyword">return</span> res
+}
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">arr, spliceIndexArr</span>) =&gt; {
+    <span class="hljs-keyword">let</span> res = []
+    <span class="hljs-keyword">let</span> pre = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; spliceIndexArr.<span class="hljs-property">length</span>; i++) {
+        res.<span class="hljs-title function_">push</span>([...arr.<span class="hljs-title function_">slice</span>(pre, spliceIndexArr[i])])
+        pre = i
+    }
+    res.<span class="hljs-title function_">push</span>([...arr.<span class="hljs-title function_">slice</span>(spliceIndexArr[spliceIndexArr.<span class="hljs-property">length</span> - <span class="hljs-number">1</span>])])
+}
+</code></pre>
+<h2 id="是否有序">是否有序</h2>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">arr</span>) =&gt; {
+    <span class="hljs-keyword">let</span> order = <span class="hljs-literal">true</span>
+    <span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">while</span> (i &lt; arr.<span class="hljs-property">length</span> - <span class="hljs-number">1</span>) {
+        <span class="hljs-keyword">if</span> (arr[i] &gt; arr[i + <span class="hljs-number">1</span>]) {
+            order = <span class="hljs-literal">false</span>
+            <span class="hljs-keyword">break</span>;
+        }
+        i++
+    }
+    <span class="hljs-keyword">return</span> order
+}
+</code></pre>
+<h2 id="字符串字典排序">字符串字典排序</h2>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">arr</span>) =&gt; {
+    <span class="hljs-keyword">return</span> arr.<span class="hljs-title function_">sort</span>(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> {
+        <span class="hljs-keyword">let</span> min = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">min</span>(a.<span class="hljs-property">length</span>, b.<span class="hljs-property">length</span>)
+        <span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>
+        <span class="hljs-keyword">while</span> (i &lt; len) {
+            <span class="hljs-keyword">if</span> (a.<span class="hljs-title function_">charCodeAt</span>(i) !== b.<span class="hljs-title function_">charCodeAt</span>(i)) {
+                <span class="hljs-keyword">break</span>;
+            }
+            i++
+        }
+        <span class="hljs-keyword">if</span> (i &lt; len) {
+            <span class="hljs-keyword">return</span> a.<span class="hljs-title function_">charCodeAt</span>(i) - b.<span class="hljs-title function_">charCodeAt</span>(i)
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">return</span> a.<span class="hljs-property">length</span> - b.<span class="hljs-property">length</span>
+        }
+    })
+
+}
+</code></pre>
+<h2 id="flat">flat</h2>
+<pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">arr, res = []</span>) =&gt; {
+    arr.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> {
+        <span class="hljs-keyword">if</span> (<span class="hljs-title class_">Array</span>.<span class="hljs-title function_">isArray</span>(item)) {
+            <span class="hljs-title function_">f</span>(item, res)
+        } <span class="hljs-keyword">else</span> {
+            res.<span class="hljs-title function_">push</span>(item)
+        }
+    })
+    <span class="hljs-keyword">return</span> res
+}
+</code></pre>
+<h2 id="title">title</h2>
+<pre><code class="language-js"></code></pre>
+<h2 id="title-1">title</h2>
+<pre><code class="language-js"></code></pre>
+<h2 id="title-2">title</h2>
+<pre><code class="language-js"></code></pre>
+<h2 id="title-3">title</h2>
+<pre><code class="language-js"></code></pre>
+
+            
+            
+        </body>
+        </html>

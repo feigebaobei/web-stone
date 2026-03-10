@@ -792,7 +792,6 @@ f = (s, t) => {
 
 
 // for (let i = 0; ;i++) {
-//     debugger
 //     clog(i)
 // }
 // 不停
@@ -2078,25 +2077,2045 @@ f = (vertexList, edgeList) => {
 }
 // clog(f())
 
+f = (s1, s2) => {
+    let obj = {
+        '3': 4,
+        '4': 4, // 1
+        '5': 4,
+        '6': 4, // 3
+        '7': 4,
+        '8': 4, // 5
+        '9': 4,
+        '10': 4, // 7
+        'J': 4,
+        'Q': 4, // 9
+        'K': 4,
+        'A': 4, // 11
+        '2': 4, // 12
+        'B': 2,
+        'C': 2,
+    }
+    let arr = [...s1.split('-'), ...s2.split('-')]
+    arr.forEach((v) => {
+        obj[v]--
+    })
+    let keys = Object.keys(obj).slice(0, 13) // [3,4,5,6,...,K,A]
+    let i = 0
+    let j = 0
+    let res = []
+    let zeroIndex = []
+    for (let i = 0; i < keys.length; i++) {
+        if (obj[keys[i]] === 0) {
+            zeroIndex.push(i)
+        }
+    }
+    let pre = 0
+    for (let i = 0; i < zeroIndex.length; i++) {
+        if (zeroIndex[i] - pre >= 5) {
+            res.push([pre, zeroIndex[i]])
+        }
+        pre = zeroIndex[i] + 1
+    }
+    if (keys.length - pre >= 5) {
+        res.push([pre, keys.length])
+    }
+    res.sort((a, b) => {
+        let t =  (b[1]-b[0]) - (a[1]-a[0])
+        if (t) {
+            return t
+        } else {
+            return b[1] - a[1]
+        }
+    })
+    if (res.length) {
+        let resPai = []
+        i = res[0][0]
+        while (i < res[0][1]) {
+            resPai.push(keys[i])
+            i++
+        }
+        return resPai.join('-')
+    } else {
+        return 'no-chain'
+    }
+}
+// clog(f('3-3-3-3-4-4-5-5-6-7-8-9-10-J-Q-K-A', '4-5-6-7-8-8-8'))
+// clog(f('3-3-3-3-8-8-8-8', 'K-K-K-K'))
 
 
+f = (arr, res = []) => {
+    arr.forEach(item => {
+        if (Array.isArray(item)) {
+            f(item, res)
+        } else {
+            res.push(item)
+        }
+    })
+    return res
+}
+// clog(f([[[[1,2,3],4,5],6]]))
+
+f = (itemStr, priceStr) => {
+    let itemArr = itemStr.split(' ')
+    let priceArr = priceStr.split('\n').map(str => {
+        return str.split(' ')
+    })
+    let res= 0
+    for (let i = 0; i < itemArr.length; i++) {
+        for (let j =  0; j  < priceArr.length - 1; j++) {
+            res += Math.max(0, priceArr[i][j+1] - priceArr[i][j]) * itemArr[i]
+        }
+    }
+    return res
+}
+// clog(f('4 5 6', `1 2 3
+// 4 3 2
+// 1 5 2`))
+
+// [...'assdfa'].forEach(item => clog(item))
+
+f = (s1, s2, k) => {
+    k = Number(k)
+    let obj = {}
+    s1.split('').forEach(c => {
+        obj[c] = obj[c] ? obj[c]++ : 1
+    })
+    let total = [...Object.values(obj)].reduce((r, c) => r += c, 0)
+    let i = 0
+    while (i < k) {
+        if (obj[s2[i]] > 0) {
+            total--
+        }
+        obj[s2[i]]--
+        i++
+    }
+    i = 0
+    let mini = -1
+    while (i < s2.length - k) {
+        if (obj[s2[i]] > 0) {
+            total++
+        }
+        obj[s2[i]]++
+        if (obj[s2[i + k]] > 0) {
+            total--
+        }
+        obj[s2[i + k]]--
+        if (!total) {
+            mini = i
+        }
+        i++
+    }
+    return mini
+}
+// clog(f('ab', 'aabcd', '1'))
+// clog(f('abc', 'dfs', '10'))
+
+// 好像是错的。我没看明白第三条规则。
+f = (ct, bookStr) => {
+    let ctArr = ct.split(' ').map(item => Number(item))
+    let book = bookStr.split('\n').map(str => {
+        return str.split(' ').map(item => Number(item))
+    })
+    let find = (n) => {
+        for (let i = 0; i < book.length; i++) {
+            for (let j = 0; j < book[0].length; j++) {
+                if (book[i][j] === n) {
+                    return [i ,j]
+                }
+            }
+        }
+    }
+    return ctArr.map(n => {
+        return find(n)
+    }).reduce((r, c) => {
+        r += `${c[0]} ${c[1]} `
+        return r 
+    }, '').slice(0, -1)
+}
+
+f = (mapStr) => {
+    let map =mapStr.split('\n').map(str => {
+        return str.split(',').map(str => Number(str))
+    }) // [][]
+    // let tag = new Array(map.length).fill()
+    let tag = Array.from({length: map.length}, () => Array.from({length: map[0].length}, () => 0))
+    let end = map[map.length - 1][map[0].length - 1]
+    let endRow = map.length - 1
+    let endCol = map[0].length - 1
+    let pathList = []
+    let restOil = 100
+    let link = (i, j) => {
+        let queue = []
+        let r
+        let c
+        // 4
+        r = i - 1
+        c = j
+        if (
+            map[r] 
+            // && [-1] 
+            && map[r][c] //
+            && tag[r][c] !== 2
+        ) {
+            queue.push([r, c])
+        }
+        r = i
+        c = j + 1
+        if (
+            map[r] 
+            && map[r][c]
+            && tag[r][c] !== 2
+        ) {
+            queue.push([r, c])
+        }
+        r = i + 1
+        c = j
+        if (
+            map[r] 
+            && map[r][c]
+            && tag[r][c] !== 2
+        ) {
+            queue.push([r, c])
+        }
+        r = i
+        c = j - 1
+        if (
+            map[r] 
+            && map[r][c]
+            && tag[r][c] !== 2
+        ) {
+            queue.push([r, c])
+        }
+        return queue
+    }
+    let _f = (choices, state) => {
+        for (let item of choices) {
+            let [i, j] = item
+            let preTag = tag[i][j]
+            if (map[i][j] === -1) {
+                state.push(item)
+                restOil = 100
+                tag[i][j] = 2
+                if (i === endRow && j === endCol) {
+                    pathList.push([...state])
+                } else {
+                    _f(link(i, j), state)
+                }
+                tag[i][j] = preTag
+                restOil += map[i][j]
+                state.pop()
+            } else if (map[i][j] <= restOil) {
+                state.push(item)
+                restOil -= map[i][j]
+                tag[i][j] = 2
+                if (i === endRow && j === endCol) {
+                    pathList.push([...state])
+                } else {
+                    _f(link(i, j), state)
+                }
+                tag[i][j] = preTag
+                restOil += map[i][j]
+                state.pop()
+            }
+            if (map[i][j] <= restOil) {
+            }
+        }
+    }
+    // tag[0][0] = 1
+    _f([[0, 0]], [])
+    // clog(pathList)
+    // 到-1 、 end
+    let calcDist = (path) => {
+        let oil = 0
+        let i = 0
+        while (i < path.length) {
+            if (map[path[i][0]][path[i][1]] !== -1) {
+                oil += map[path[i][0]][path[i][1]]
+            } else {
+                break;
+            }
+            i++
+        }
+        return oil
+    }
+    let t = pathList.map(path => calcDist(path)).sort((a, b) => a - b)
+    if (t.length) {
+        return t[0]
+    } else {
+        return -1
+    }
+}
+// clog(f(`10,30
+// 20,40`))
+// clog(f(`10,30,30,20
+// 30,30,-1,10
+// 0,20,20,40
+// 10,-1,30,40`))
+// clog(f(`10,0,30,-1,10
+// 30,0,20,0,20
+// 10,0,10,0,30
+// 10,-1,30,0,10`))
+// clog(f(`10,30,30,20
+// 30,30,20,10
+// 10,20,10,40
+// 10,20,30,40`))
 
 
+f = (k, mapStr) => {
+    k = Number(k)
+    let map = mapStr.split('\n').map(str => str.split(' ').map(item => Number(item)))
+    let highDescList = [...map].map((subArr, i) => subArr.map((item, j) => {
+        return {
+            high: item,
+            i, j,
+        }
+    })).flat(2).sort((a, b) => b.high - a.high)
+    let set = new Set()
+    highDescList = highDescList.filter((item) => {
+        if (set.has(item.high)) {
+            return false
+        } else {
+            set.add(item.high)
+            return true
+        }
+    })
+    let path = []
+    let high = 0
+    // let toStr = (i, j) => {
+    //     return `${i}+${j}`
+    // }
+    let getShortestPath = (endI, endJ) => {
+        // let distMap = new Map()
+        // let predMap = new Map()
+        // distMap.set(toStr(0, 0), 0)
+        // predMap.set(toStr(0, 0), null)
+        let distMetrix = Array.from({length: map.length}, () => Array.from({length: map[0].length}, () => 0))
+        let predMetrix = Array.from({length: map.length}, () => Array.from({length: map[0].length}, () => null))
+        let tag = Array.from({length: map.length}, () => Array.from({length: map[0].length}, () => 0))
+        let shortDist = 0, shortPath = []
+        // 三态
+        let queue = []
+        queue.push([0, 0])
+        tag[0][0] = 2
+        while (queue.length) {
+            let [curI, curJ] = queue.shift()
+            // let curDist = distMap.get(toStr(curI, curJ))
+            let curDist = distMetrix[curI][curJ]
+            // 取得邻点
+            let arr = bfs(curI, curJ, tag) // 此点的邻点
+            arr.forEach(item => {
+                tag[item[0]][item[1]] = 2
+                // distMap.set(toStr(item[0], item[1]), curDist + 1)
+                // predMap.set(toStr(item[0], item[1]), toStr(curI, curJ))
+                distMetrix[item[0]][item[1]] = curDist + 1
+                predMetrix[item[0]][item[1]] = [curI, curJ]
+                if (item[0] === endI && item[1] === endJ) {
+                    shortDist = curDist + 1
+                }
+                queue.push(item)
+            })
+        }
+        if (shortDist) {
+            shortPath = [[endI, endJ]]
+            let curPoint = predMetrix[endI][endJ]
+            while (curPoint[0] !== 0 || curPoint[1] !== 0) {
+                shortPath.unshift(curPoint)
+                curPoint = predMetrix[curPoint[0]][curPoint[1]]
+            }
+            shortPath.unshift([0, 0])
+        }
+        // clog(1111, shortDist, shortPath)
+        // return {distMap, predMap}
+        // return {distMetrix, predMetrix}
+        return {shortDist, shortPath}
+    }
+    let bfs = (curI, curJ, tag) => {
+        let state = []
+        let i = curI, j = curJ
+        // 4
+        let r = i - 1 , c = j 
+        if (
+            map[r] && map[r][c] !== undefined
+            && tag[r][c] === 0
+            && Math.abs(map[r][c] - map[curI][curJ]) <= k
+        ) {
+            tag[r][c] = 1
+            state.push([r, c])
+        }
+        r = i
+        c = j + 1
+        if (
+            map[r] && map[r][c] !== undefined
+            && tag[r][c] === 0
+            && Math.abs(map[r][c] - map[curI][curJ]) <= k
+        ) {
+            tag[r][c] = 1
+            state.push([r, c])
+        }
+        r = i + 1
+        c = j
+        if (
+            map[r] && map[r][c] !== undefined
+            && tag[r][c] === 0
+            && Math.abs(map[r][c] - map[curI][curJ]) <= k
+        ) {
+            tag[r][c] = 1
+            state.push([r, c])
+        }
+        r = i
+        c = j - 1
+        if (
+            map[r] && map[r][c] !== undefined
+            && tag[r][c] === 0
+            && Math.abs(map[r][c] - map[curI][curJ]) <= k
+        ) {
+            tag[r][c] = 1
+            state.push([r, c])
+        }
+        return state
+    }
+    // let {distMap, predMap} = getShortestPath()
 
+    let i = 0
+    while (i < highDescList.length) {
+        // clog(highDescList[i].i, highDescList[i].j)
+        // let o = getShortestPath(highDescList[i].i, highDescList[i].j)
+        // clog(o)
+        // let _path = getShortestPath(highDescList[i].i, highDescList[i].j)
+        // if (_path.length) {
+        //     path = _path
+        //     break;
+        // }
+        let {shortDist, shortPath} = getShortestPath(highDescList[i].i, highDescList[i].j)
+        if (shortDist) {
+            path = shortPath
+            break;
+        }
+        i++
+    }
+    if (path.length) {
+        let last = path[path.length - 1]
+        // clog(path)
+        clog(map[last[0]][last[1]], path.length - 1)
+    } else {
+        clog(0, 0)
+    }
+    
+}
+// clog(f('1', `0 1 2 0
+// 1 0 0 0
+// 1 0 1 2
+// 1 3 1 0
+// 0 0 0 9`))
+// clog(f('3', `0 0 0 0
+// 0 0 0 0
+// 0 9 0 0
+// 0 0 0 0
+// 0 0 0 9`))
 
+f = (s1, s2) => {
+    let arr1 = s1.split('')
+    let arr2 = s2.split('')
+    let result = ''
+    let i = 0
+    while (i < s1.length) {
+        if (s1[i] === '1' || s2[i] === '1') {
+            result += '1'
+        }
+        i++
+    }
+    // str 与 s2 的或操作的结果
+    let calc = (arr) => {
+        let i = 0
+        let t = ''
+        while (i < arr.length) {
+            if (arr[i] === '1' || arr2[i] === '1') {
+                t += '1'
+            }
+            i++
+        }
+        return t
+    }
+    let count = 0
+    for (let i = 0; i < arr1.length; i++) {
+        for (let j = i + 1; j < arr1.length; j++) {
+            [arr1[i], arr1[j]] = [arr1[j], arr1[i]]
+            if (calc(arr1) !== result) {
+                count++
+            }
+            [arr1[i], arr1[j]] = [arr1[j], arr1[i]]
+        }
+    }
+    return count
+}
+// clog(f('010', '110'))
+// clog(f('011011', '110110'))
 
+f = (arr) => {
+    let mTime = 0
+    let aTime = 0
+    arr.forEach(group => {
+        // group // [[], [], [], []]
+        group.sort((a, b) => b[1] - a[1])
+        mTime = group[0][0]
+        aTime = group[0][1]
+        for (let i = 1; i < group.length; i++) {
+            mTime += group[i][0]
+            aTime = Math.max(aTime, group[i + 1][0] + group[i + 1][1])
+        }
+        clog(mTime + aTime)
+    })
+}
 
+f = (sum, str) => {
+    let arr = str.split(' ')
+    let total = arr.reduce((r, c) => r += c, 0)
+    let max = Math.max(...arr)
+    let min = Math.floor(sum / arr.length)
+    let res = arr.map(item => {
+        // item - min
+        if (item <= min) {
+            return 0
+        } else {
+            return item - min
+        }
+    })
+    while (max - min > 1) {
+        let cap = Math.floor((max + min) / 2)
+        let remain = total
+        let tArr = arr.map(item => {
+            let t = cap < item ? item - cap : 0
+            remain -= t
+            return t
+        })
+        if (remain > sum) {
+            max = cap
+        } else if (remain < sum) {
+            min = cap
+            res = tArr
+        } else {
+            res = tArr
+            break;
+        }
+    }
+    return res
+}
 
+f= (taskStr, disStr) => {
+    let taskMap = new Map(taskStr.split('\n').map(str => {
+        let t = str.split(' ') // [package1, A, B]
+        return [t[0], [t[1], t[2]]]
+    }))
+    let disMap = new Map(disStr.split('\n').map(str => {
+        let t = str.split(' ')
+        return [t[2], [t[0], t[1]]]
+    }))
+    let res = []
+    // let count = 0
+    // let taskMapKeys = 
+    for (let key of taskMap.keys()) {
+        // taskMap.get(key) // [A, B]
+        if (disMap.has(key)) {
+            let a1 = taskMap.get(key)
+            let a2 = disMap.get(key)
+            if (a2.includes(a1[0]) && a2.includes(a1[1]) && a1[0] !== a1[1]) {
+                // count++
+                res.push(key)
+            }
+        }
+    }
+    return res
+}
+// clog(f(`package1 A C
+// package2 A C
+// package3 B C
+// package4 A C
+// `, `A B package1
+// A C package2`))
 
+f = (inputStr, outputStr) => {
+    let inputArr = inputStr.split(',')
+    let outputArr = outputStr.split(',')
+    let i = 0
+    let j = 0
+    let tong = []
+    let res = []
+    while (i <= inputArr.length && j < outputArr.length) {
+        if (tong[0] === outputArr[j]) {
+            res.push('L')
+            tong.shift()
+            j++
+        } else if (tong[tong.length - 1] === outputArr[j]) {
+            res.push('R')
+            tong.pop()
+            j++
+        } else {
+            tong.push(inputArr[i])
+            i++
+        }
+    }
+    if (tong.length) {
+        return 'NO'
+    } else {
+        return res.join('')
+    }
+}
+// clog(f('4,5,6,7,0,1,2', '6,4,0,1,2,5,7'))
+// clog(f('4,5,6,7,0,1,2', '6,0,5,1,2,4,7'))
 
+f = (str) => {
+    let rangeArr = str.split('\n').map(item => {
+        let [a, b] = item.split(' ')
+        return [Number(a), Number(b)]
+    }) // [][]
+    let res = []
+    let intersection = []
+    let getIntersection = (i, j, k, l) => {
+        let s = Math.max(i, k)
+        let e = Math.min(j, l)
+        if (s <= e) {
+            return [s, e]
+        } else {
+            return []
+        }
+    }
+    // 交集
+    let intersectionList = []
+    for (let i = 0; i < rangeArr.length - 1; i++) {
+        for (let j = i + 1; j < rangeArr.length; j++) {
+            let t = getIntersection(rangeArr[i][0], rangeArr[i][1], rangeArr[j][0], rangeArr[j][1])
+            if (t.length) {
+                intersectionList.push(t)
+            }
+        }
+    }
+    // 并集
+    if (intersectionList.length) {
+        let range = [...intersectionList[0]]
+        for (let i = 1; i < intersectionList.length; i++) {
+            if (intersectionList[i][0] <= range[1]) {
+                range[1] = Math.max(intersectionList[i][1], range[1])
+            } else {
+                res.push([range[0], range[1]])
+                range[0] = intersectionList[i][0]
+                range[1] = intersectionList[i][1]
+            }
+        }
+        res.push([...range])
+    }
+    if (res.length) {
+        res.forEach(item => {
+            clog(item[0], item[1])
+        })
+    } else {
+        clog('None')
+    }
+    return res
+}
+// clog(f(`0 3
+// 1 3
+// 3 5
+// 3 6`))
+// clog(f(`0 3
+// 1 4
+// 4 7
+// 5 8`))
+// clog(f(`1 2
+// 3 4`))
 
+f = (aStr, bStr) => {
+    let aArr = aStr.split(' ').map(item => Number(item))
+    let bArr = bStr.split(' ').map(item => Number(item))
+    let catArr = []
+    for (let i = 0; i < bArr.length; i++) {
+        let t = []
+        for (let j = 0; j < aArr.length; j++) {
+            if (bArr[i] < aArr[j]) {
+                t.push(aArr[j])
+            }
+        }
+        catArr.push([...t])
+    }
+    let hasZero = false
+    for (let i = 0; i < catArr.length; i++) {
+        if (!catArr[i].length) {
+            hasZero = true
+            break
+        }
+    }
+    if (hasZero) {
+        return 0
+    } else {
+        catArr.sort((a, b) => a.length - b.length)
+        let set = new Set()
+        catArr = catArr.map(arr => {
+            let i = 0
+            let tArr = []
+            while (i < arr.length) {
+                if (!set.has(arr[i])) {
+                    tArr.push(arr[i])
+                    set.add(arr[i])
+                }
+                i++
+            }
+            return tArr
+        })
+        
+        return catArr.reduce((r, c) => {
+            r *= c.length
+            return r
+        }, 1)
+    }
+}
+// clog(f('11 8 20', '10 13 7'))
+// clog(f('11 12 20', '10 13 7'))
+f = (aStr, bStr) => {
+    let aArr = aStr.split(' ').map(item => Number(item))
+    let bArr = bStr.split(' ').map(item => Number(item))
+    let res = []
+    let _f = (choices, index, state) => {
+        if (state.length === choices.length) {
+            res.push([...state])
+        } else {
+            for (let item of choices) {
+                if (item > bArr[index] && !state.includes(item)) {
+                    state.push(item)
+                    _f(choices, index + 1, state)
+                    state.pop()
+                }
+            }
+        }
+    }
+    _f(aArr, 0, [])
+    return res
+}
+// clog(f('11 8 20', '10 13 7'))
+// clog(f('11 12 20', '10 13 7'))
 
+f = (k, str) => {
+    k = Number(k)
+    let arr = str.split(' ')
+    let i = 0, j = 0
+    let obj = {}
+    let res = 0
+    while (i < arr.length && j < arr.length) {
+        let c = arr[j]
+        obj[c] = obj[c] ? obj[c] + 1 : 1
+        if (obj[c] >= k) {
+            res += arr.length - j
+            obj[arr[i]]--
+            i++
+            obj[c]--
+            // j--
+        } else {
+            // obj[c]--
+            j++
+        }
+        // j++
+    }
+    return res
+}
+// clog(f('3', '1 2 3 1 2 3 1'))
+// clog(f('2', '1 2 3 1 2 3 1'))
 
+f = (str, m) => {
+    m = Number(m)
+    let arr = str.split(' ').map(item => Number(item))
+    let min = Math.max(0, Math.min(...arr) - 1)
+    let sum = (arr) => {
+        return arr.reduce((r, c) => {
+            return r += c
+        }, 0)
+    }
+    let res = []
+    let unique = []
+    let _f = (choices, state) => {
+        for (let item of choices) {
+            state.push(item)
+            let s = sum(state)
+            if (s < m - min) {
+                _f(choices, state)
+            } else if (s <= m) {
+                let product = state.reduce((r, c) => r *= c, 1)
+                if (unique.includes(product)) {} else {
+                    res.push([...state])
+                    unique.push(product)
+                }
+            }
+            state.pop()
+        }
+    }
+    _f(arr, [])
+    clog(res.length)
+    return res
+}
+// clog(f('2', '5'))
+// clog(f('2 3', '5'))
 
+f = (s, n, count, strList) => {
+    s = Number(s)
+    n = Number(n)
+    count = Number(count)
+    let i = 0
+    let arr = Array.from({length: n}, () => [])
+    while (i < count) {
+        let tArr = strList[i].split(' ').map(str => Number(str))
+        arr[tArr[0]].push(tArr)
+        i++
+    }
+    let res = []
+    let sum = (arr) => {
+        return arr.reduce((r, c) => {
+            return r += c[2]
+        }, 0)
+    }
+    let _f = (choices, index, state) => {
+        if (index === choices.length) {
+            let st = sum(state)
+            if (st <= s) {
+                res.push([...state])
+            }
+        } else {
+            choices[index].forEach(item => {
+                state.push(item)
+                if (index < choices.length) {
+                    _f(choices, index + 1, state)
+                }
+                state.pop()
+            })
+        }
+    }
+    _f(arr, 0, [])
+    let t = res.map(subArr => {
+        return Math.min(...subArr.map(item => item[1]))
+    }).sort((a, b) => {
+        return b - a
+    })
+    if (t.length) {
+        clog(t[0])
+    } else {
+        clog(-1)
+    }
 
+}
+// f('500', '3', '6', ['0 80 100', '0 90 200', '1 50 50', '1 70 210', '2 50 100', '2 60 150'])
 
+f = (count, str, n) => {
+    count = Number(count)
+    n = Number(n)
+    let arr = str.split(' ').map(item => Number(item)).sort((a, b) => a - b)
+    let treeCount = 0
+    let maxStep = Math.floor((arr[arr.length - 1] - arr[0]) / (n - 1))
+    // while (treeCount < n) {
+    //     treeCount++
+    // }
+    let youStep = maxStep
+    let step = maxStep
+    let res = []
+    while (step >= 0) {
+        let i = 0, j = 0
+        treeCount = 1
+        res.push(arr[i])
+        while (j < arr.length) {
+            if (arr[j] < arr[i] + step) {
+                j++
+            } else {
+                treeCount++
+                res.push(arr[j])
+                i = j
+            }
+        }
+        if (n <= treeCount) {
+            youStep = step
+            break
+        }
+        step--
+    }
+    clog(res)
+    return youStep
+}
+// clog(f('7', '1 5 3 6 10 7 13', '3'))
 
+f = (str1, str2) => {
+    let price = str1.split(' ').map(item => Number(item))
+    let day = str2.split(' ').map(item => Number(item))
+    let maxDay = day[day.length -1]
+    let dp = Array.from({length: maxDay}, () => 0) // 全是0
+    let i = 1;
+    while (i <= maxDay) {
+        if (day.includes(i)) {
+            let t1 = dp[i - 1] + price[0]
+            let t2 = (i >= 3 ? dp[i - 3] : 0) + price[1]
+            let t3 = (i >= 7 ? dp[i - 7] : 0) + price[2]
+            let t4 = (i >= 30 ? dp[i - 30] : 0) + price[3]
+            dp[i] = Math.min(t1, t2, t3, t4)
+        } else [
+            dp[i] = dp[i - 1]
+        ]
+        i++
+    }
+    // clog(dp)
+    return dp[maxDay]
+}
+// clog(f('5 14 30 100', '1 3 5 20 21 200 202 230'))
 
+f = (numberStr, disStr) => {
+    let map = new Map([
+        [0, ['a', 'b', 'c']],
+        [1, ['d', 'e', 'f']],
+        [2, ['g', 'h', 'i']],
+        [3, ['j', 'k', 'l']],
+        [4, ['m', 'n', 'o']],
+        [5, ['p', 'q', 'r']],
+        [6, ['s', 't']],
+        [7, ['u', 'v']],
+        [8, ['w', 'x']],
+        [9, ['y', 'z']],
+    ])
+    let nums = numberStr.split('').map(item => Number(item))
+    let disList = disStr.split('')
+    let arr = []
+    for (let n of nums) {
+        arr.push(map.get(n))
+    }
+    let res = []
+    let _f = (choices, index, state) => {
+        if (state.length === choices.length) {
+            if (disList.every(item => state.includes(item))) {} else {
+                res.push([...state])
+            }
+        } else {
+            choices[index].forEach(str => {
+                state.push(str)
+                if (index < choices.length) {
+                    _f(choices, index + 1, state)
+                }
+                state.pop()
+            })
+        }
+    }
+    _f(arr, 0, [])
+    clog(res)
+    return res.reduce((r, c) => {
+        r += c.join('') + ','
+        return r
+    }, '')
+}
+// clog(f('78', 'ux'))
+// clog(f('78', 'x'))
+
+f = (n, strList) => {
+    let arr = strList.map(str => {
+        return str.split(' ').map(item => Number(item))
+    }).filter(arr => arr[3] === 0)
+    let gui = []
+    let jian = []
+    arr.forEach(item => {
+        if (item[2] >= 100) {
+            gui.push(item)
+        } else {
+            jian.push(item)
+        }
+    })
+    gui.sort((a, b) => {
+        let t = a[0] - b[0]
+        if (t) {
+            return t
+        } else {
+            return b[1] - a[1]
+        }
+    }).forEach(item => {
+        clog(item[0], item[1], item[2])
+    })
+    for (let i = jian.length - 1; i >= 0; i--) {
+        let j = 0
+        while (j < i) {
+            if (jian[j][0] === jian[i][0]) {
+                jian[j][1] += jian[i][1]
+                jian.splice(i, 1)
+            }
+            j++
+        }
+    }
+    for (let item of jian) {
+        if (item[1] >= 100) {
+            item[1] = Math.ceil(item[1] * 0.9)
+        }
+    }
+    jian.sort((a, b) => {
+        let t = a[0] - b[0]
+        if (t) {
+            return t
+        } else {
+            return b[1] - a[1]
+        }
+    })
+    // clog()
+    for (let item of jian) {
+        clog(item[0], item[1], item[2])
+    }
+}
+// clog(f(1, ['1 200 90 0', '2 30 101 0']))
+// clog(f(1, ['1 10 90 0', '1 5 90 0', '2 8 120 0']))
+// clog(f(1, ['1 5 80 0', '2 3 120 0', '3 2 90 1', '4 10 150 2']))
+
+f = (n) => {
+    n = Number(n)
+    let queue = []
+    if (n > 1) {
+        queue.push(n)
+        let count = 0
+        let nodeCount = 1
+        while (queue.length) {
+            let a = queue.shift()
+            if (a % 2) {
+                let big = Math.ceil(a / 2)
+                let small = Math.floor(a / 2)
+                if (small === 1) {
+                } else {
+                    queue.push(small, big)
+                }
+                count++
+                nodeCount++
+            } else {
+                let t = a / 2
+                if (t === 1) {} else {
+                    queue.push(t)
+                }
+                count++
+                nodeCount++
+            }
+        }
+        clog(count, nodeCount)
+    } else {
+        clog(0, 1)
+    }
+}
+// clog('1')
+// clog(f('11'))
+
+f = (regListStr, descStr) => {
+    let getNext = (c) => {
+        let arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+        let curI = arr.findIndex(item => item === c)
+        return arr[(curI + 1) % arr.length]
+    }
+    let descArr = descStr.split('')
+    let regList = regListStr.split(',').sort((a, b) => {
+        let minLen = Math.min(a.length, b.length)
+        let flag = 0
+        let i = 0
+        while (i < minLen) {
+            if (a.charCodeAt(i) !== b.charCodeAt(i)) {
+                flag = a.charCodeAt(i) - b.charCodeAt(i)
+                break;
+            }
+            i++
+        }
+        let maxLen = Math.max(a.length, b.length)
+        if (i < maxLen) {
+            return a.length - b.length
+        } else {
+            return flag
+        }
+    })
+    let res = []
+    let check = (regStr) => {
+    }
+    let genAllCase = (regStr) => {
+        let choices = []
+        regStr.split('').forEach((item, index) => {
+            switch (item) {
+                case '?':
+                    let _i = descArr.findIndex(item => ['*', '?'].includes(item))
+                    for (let i = 1; i < _i - 1; i++) {
+                        choices.push(descStr[i])
+                    }
+                    break
+                case '*':
+                    let pre = regStr[index - 1] || ''
+                    let tStr = getNext(pre)
+                    let t = [tStr]
+                    // choices.push(tStr)
+                    for (let i = 0; i < 14; i++) {
+                        tStr += getNext(tStr[tStr.length - 1])
+                        // choices.push(tStr)
+                        t.push(tStr)
+                    }
+                    choices.push(t)
+                    break;
+                default:
+                    choices.push([item])
+                    break;
+            }
+        })
+        // return choices
+
+        let allCase = []
+        let _f = (choices, index, state) => {
+            // let s = state.join('')
+            // if (s.length >= 15) {
+            //     allCase.push(s)
+            // } else {
+            // }
+            choices[index].forEach(item => {
+                state.push(item)
+                let s = state.join('')
+                if (s.length >= 15) {
+                    s = s.slice(0, 15)
+                    if (!allCase.includes(s)) {
+                        allCase.push(s.slice(0, 15))
+                    }
+                } else if (index < choices.length - 1) {
+                    _f(choices, index + 1, state)
+                }
+                state.pop()
+            })
+        }
+        _f(choices, 0, [])
+        return allCase
+    }
+    regList.forEach(regStr => {
+        if (genAllCase(regStr).some(item => item === descStr)) {
+            res.push(regStr)
+        }
+    })
+    if (res.length) {
+        clog(res.join(','))
+    } else {
+        clog('null')
+    }
+}
+// f('1234567,1234567*', '123456789012345')
+// f('123?????????345,123????*????345', '123456789012345')
+
+f = (n, m, mStr, productStrList) => {
+    n = Number(n)
+    m = Number(m)
+    let mList = mStr.split(' ').map(item => Number(item))
+    let productList = productStrList.split('\n').map(row => {
+        return row.split(' ').map(item => Number(item))
+    })
+    let res = []
+    productList.sort((a, b) => {
+        // let t = a[mList[i]]
+        // mList[0]
+        // a[mList[0]] - b
+        let flag = 0
+        for (let i = 0; i < mList.length; i++) {
+            if (a[i] === b[i]) {
+                // i++
+            } else {
+                if (mList[i] > 0) {
+                    flag = b[i] - a[i]
+                } else {
+                    flag = a[i] - b[i]
+                }
+                break;
+            }
+        }
+        return flag
+    })
+    productList.forEach(item => {
+        // clog(item[0])
+        clog(item.join(' '))
+    })
+    return productList
+}
+// f('4', '3', '1 -1 1', `2 2 2
+// 2 3 3
+// 4 4 4
+// 4 4 5`)
+
+f = (n, k, l, initArr, commandArr)=> {
+    n = Number(n)
+    k = Number(k)
+    l = Number(l)
+    initArr = initArr.split(' ').map(item => Number(item))
+    commandArr = commandArr.map(str => {
+        let t = str.split(' ')
+        return [t[0], Number(t[1]) - 1, Number(t[2])]
+    })
+    // let state = []
+    let res = []
+    commandArr.forEach(command => {
+        switch (command[0]) {
+            case 'Query':
+                let sum = Number.MAX_SAFE_INTEGER
+                for (let i = command[1]; i < command[2] - 1; i++) {
+                    let s = initArr[i] + initArr[i + 1]
+                    sum = Math.min(s, sum)
+                }
+                clog(initArr.join(' '))
+                // clog(sum)
+                res.push(sum)
+                break;
+            case 'Add':
+                initArr[command[1]] += command[2]
+                break;
+            case 'Sub':
+                initArr[command[1]] -= command[2]
+                initArr[command[1]] = Math.max(initArr[command[1]], 0)
+                break;
+        }
+    })
+    clog(res)
+}
+// f('5', '2', '3', '1 2 2 3 3', ['Query 1 3', 'Add 3 6', 'Query 2 4'])
+
+f = (monthCarCount,monthCarList, carList) => {
+    monthCarCount = Number(monthCarCount)
+    let carMap = new Map()
+    let strToNumber = (str) => {
+        let [h, m] = str.split(':').map(item => Number(item))
+        return h * 60 + m
+    }
+    let zhongWu = [strToNumber('11:30'), strToNumber('13:30')]
+    carList.forEach(row => {
+        let tArr = row.split(' ')
+        if (monthCarList.includes(tArr[1])) {
+        } else {
+            if (carMap.has(tArr[1])) { // 是否已经存在
+                let o = carMap.get(tArr[1])
+                switch (tArr[2]) {
+                    case 'enter':
+                        o.enter = strToNumber(tArr[0])
+                        break;
+                    case 'leave':
+                        o.leave = strToNumber(tArr[0])
+                        break;
+                }
+            } else { // 不存在
+                switch (tArr[2]) {
+                    case 'enter':
+                        carMap.set(tArr[1], {
+                            enter: strToNumber(tArr[0]),
+                            pai: tArr[1],
+                        })
+                        break;
+                    case 'leave':
+                        carMap.set(tArr[1], {
+                            leave: strToNumber(tArr[0]),
+                            pai: tArr[1],
+                        })
+                        break;
+                }
+            }
+        }
+    })
+    let res = 0
+    let getCoverRange = (start, end) => {
+        let s = Math.max(start, zhongWu[0])
+        let e = Math.min(end, zhongWu[1])
+        if (s < e) {
+            return [s, e]
+        } else {
+            return []
+        }
+    }
+    let tArr = Array.from(carMap.values()).map(item => {
+        let coverRange = getCoverRange(item.enter, item.leave)
+        let time = 0
+        if (coverRange.length) {
+            time = item.leave - item.enter - (coverRange[1] - coverRange[0])
+        } else {
+            time = item.leave - item.enter
+        }
+        let t = Math.min(Math.floor(time / 30) * 1, 15)
+        return t
+    })
+    clog(tArr.reduce((r, c) => r += c, 0))
+}
+// f('1', ['A12345'], ['01:28 A12345 enter', '01:59 A12345 leave'])
+// f('0', [], ['08:00 A12346 enter', '11:20 A12345 enter', '11:30 A12346 leave', '12:00 A12345 leave'])
+
+f = (n, t, k, calories) => {
+    let res = []
+    let sum = (arr) => {
+        return arr.reduce((r, c) => r += c, 0)
+    }
+    let product = (arr) => {
+        return arr.reduce((r, c) => r *= c, 1)
+    }
+    let uniqueProduct = []
+    let _f = (choices, state, unique) => {
+        choices.forEach(item => {
+            if (!unique.includes(item)) {
+                state.push(calories[item])
+                unique.push(item)
+                if (state.length === k && sum(state) === t) {
+                    let p = [...state].sort((a, b) => a - b).join('')
+                    if (uniqueProduct.includes(p)) {
+                    } else {
+                        res.push([...state])
+                        uniqueProduct.push(p)
+                    }
+                } else {
+                    _f(choices, state, unique)
+                }
+                unique.pop()
+                state.pop()
+            }
+        })
+    }
+    _f(Array.from(calories.keys()), [], [])
+    clog(res)
+}
+// f(5, 6, 3, [1, 2, 3, 4, 5])
+// f(7, 7, 3, [0, 1, 2, 3, 4, 5, 6])
+
+f = (m, n, x, y, catList) => {
+    let tArr = catList.map(row => {
+        return row.split(' ').map(item => Number(item)) // [10, 3] // 收益率 风险等级
+    })
+    catList = tArr.filter(arr => arr[1] <= x)
+    let rest = m
+    let unique = []
+    let _f = (choices, state) => {
+        if (state.length === choices.length || rest <= 0) {
+            let t = [...state].sort((a, b) => a.index - b.index).map(item => item.index).join('')
+            if (unique.includes(t)) {
+            } else {
+                res.push([...state])
+                unique.push(t)
+            }
+        } else {
+            choices.forEach((item, index) => {
+                if (state.map(item => item.index).every((item) => item !== index)) {
+                    let t = Math.min(y, rest)
+                    state.push({
+                        index,
+                        money: t,
+                        earningRate: item[0],
+                    })
+                    rest -= t
+                    _f(choices, state)
+                    rest += t
+                    state.pop()
+                }
+            })
+        }
+    }
+    _f(catList, [])
+    clog(res)
+    let t = res.map(arr => {
+        return Math.round(arr.reduce((r, c) => {
+            r += c.money * c.earningRate / 100
+            return r
+        }, 0))
+    }).sort((a, b) => b - a)[0]
+    clog(t)
+    return t
+}
+// f(100, 7, 5, 10, [
+//     '10 3',
+//     '15 5',
+//     '14 3',
+//     '20 7',
+//     '18 6',
+//     '17 4',
+//     '30 9',
+// ])
+// f(100, 5, 6, 20, [
+//     '10 5',
+//     '12 7',
+//     '16 6',
+//     '5 3',
+//     '5 4',
+// ])
+
+f = (strList) => {
+    let arr = strList.map(str => {
+        let vIndex = []
+        let rIndex = []
+        let cIndex = []
+        let bIndex = []
+        str = str.toUpperCase()
+        str = str.split(' ').join('')
+        for (let i = 0; i < str.length; i++) {
+            switch (str[i]) {
+                case 'V':
+                    vIndex.push(i)
+                    break;
+                case 'R':
+                    rIndex.push(i)
+                    break;
+                case 'B':
+                    bIndex.push(i)
+                    break;
+                case 'C':
+                    cIndex.push(i)
+                    break;
+            }
+        }
+        // if (vIndex.length >= 2 || rIndex.length >= 2 || cIndex.length >= 2 || bIndex .length >= 2) {
+        if (vIndex.length === 1 && rIndex.length === 1 && cIndex.length === 1 && [1, 0].includes(bIndex.length)) {
+            // return 
+            vIndex = vIndex[0]
+            rIndex = rIndex[0]
+            cIndex = cIndex[0]
+            // bIndex = bIndex[0]
+            let indexArr = [vIndex, rIndex, cIndex]
+            if (bIndex.length) {
+                indexArr.push(bIndex[0])
+            }
+            indexArr.sort((a, b) => a - b)
+            let strArr = []
+            for (let i = 0; i < indexArr.length - 1; i++) {
+                strArr.push(str.slice(indexArr[i], indexArr[i + 1]))
+            }
+            strArr.push(str.slice(indexArr[indexArr.length - 1]))
+            let settleStr = ''
+            for (let i = 0; i < strArr.length; i++) {
+                if (strArr[i].startsWith('V')) {
+                    [strArr[0], strArr[i]] = [strArr[i], strArr[0]]
+                }
+                if (strArr[i].startsWith('R')) {
+                    [strArr[1], strArr[i]] = [strArr[i], strArr[1]]
+                }
+                if (strArr[i].startsWith('C')) {
+                    [strArr[2], strArr[i]] = [strArr[i], strArr[2]]
+                }
+                if (strArr[i].startsWith('B')) {
+                    [strArr[3], strArr[i]] = [strArr[i], strArr[3]]
+                }
+            }
+            for (let i = 0; i < strArr.length; i++) {
+                let first = strArr[i].slice(0, 1)
+                let last = strArr[i].slice(1).padStart(3, '0')
+                strArr[i] = first + last
+            }
+            settleStr = strArr.join('')
+            return settleStr
+        } else {
+            return ''
+        }
+    })
+    arr = arr.filter(item => item)
+    arr = [...new Set(arr)]
+    arr.sort((a, b) => {
+        let min = Math.min(a.length, b.length)
+        let t = 0
+        for (let i = 0; i < min; i++) {
+            if (a[i] !== b[i]) {
+                t = b.charCodeAt(i) - a.charCodeAt(i)
+                break;
+            }
+        }
+        if (t) {
+            return t
+        } else {
+            return b.length - a.length
+        }
+    })
+
+    clog(arr)
+}
+// f(['v02 R20c1B 02',
+// 'Vv02R1 c1',
+// 'v2R20B 12c01',
+// 'v2R20c01B12aB',
+// 'v2 b002R2 0c0 1',
+// 'v 0 2c101R20',
+// 'v23B23R1',
+// ])
+
+f = (n, mList) => {
+    // let arr = Array.from({length: n}, () => [])
+    // mList.map(item)
+    mList.sort((a, b) => b - a)
+    let obj = {}
+    for (let i = 0; i < n; i++) {
+        obj[i] = {
+            arr: [],
+            sum: 0,
+        }
+    }
+    let getMinObj = () => {
+        return Array.from(Object.values(obj)).sort((a, b) => a.sum - b.sum)[0]
+    }
+    for (let i = 0; i < mList.length; i++) {
+        let o = getMinObj()
+        o.arr.push(mList[i])
+        o.sum += mList[i]
+    }
+    clog(Array.from(Object.values(obj)).sort((a, b) => b.sum - a.sum)[0].sum)
+}
+// f(2, [6, 2, 7, 7, 3, 2 ,1, 9, 3, 11, 4])
+
+f = (str) => {
+    let cmArr = [...new Set(str.split(',').map(item => {
+        return item.split('<_')
+    }).flat(2))].map(item => {
+        return {
+            cm: item,
+            prev: [],
+        }
+    })
+    // clog(cmArr)
+    let chainArr = str.split(',').map(item => {
+        return item.split('<_')
+    })
+    // let head = {
+    //     cm: cmArr[0],
+    //     prev: [],
+    // }
+    let getCmObj = (key) => {
+        return cmArr.find(o => o.cm === key)
+    }
+    chainArr.forEach(arr => {
+        // arr[0] arr[1]
+        getCmObj(arr[1]).prev.push(getCmObj(arr[0]))
+    })
+    let count = 0
+    // clog(cmArr)
+    let rangArr = []
+    let unique = []
+    // for ()
+    let _f = (choices, state) => {
+        choices.forEach(item => {
+            if (state.includes(item.cm)) {
+                // let p = [...state].sort((a, b) => {
+                //     let min = Math.min(a.length, b.length)
+                //     let flag = 0
+                //     for (let i = 0; i < min; i++) {
+                //         if (a.charCodeAt(i) !== b.charCodeAt(i)) {
+                //             flag = a.charCodeAt(i) - b.charCodeAt(i)
+                //             break;
+                //         }
+                //     }
+                //     if (flag) {
+                //         return flag
+                //     } else {
+                //         return a.length - b.length
+                //     }
+                // }).join('')
+                // if (!unique.includes(p)) {
+                //     rangArr.push([...state])
+                //     unique.push(p)
+                // }
+                // rangArr.push([...state])
+                let index = state.findIndex(ele => ele === item.cm)
+                rangArr.push(state.slice(index))
+            } else {
+                state.push(item.cm)
+                _f(item.prev, state)
+                state.pop()
+            }
+        })
+    }
+    // _f(chainArr[0].prev, [chainArr[0].cm])
+    cmArr.forEach(item => {
+        _f(item.prev, [item.cm])
+    })
+    // clog(rangArr)
+    let res = [...new Set(rangArr.flat(2))]
+    clog(res.length)
+}
+// f('CM5<_CM3,CM4<_CM5,CM6<_CM4,CM6<_CM1,CM5<_CM6')
+
+f = (str) => {
+    let arr = str.split(' ')
+    let count = 0
+    let getDiff = (a, b) => {
+        let sa = parseInt(a, 10).toString(2)
+        let sb = parseInt(b, 10).toString(2)
+        let max = Math.max(sa.length, sb.length)
+        sa = sa.padStart(max, '0')
+        sb = sb.padStart(max, '0')
+        let res = ''
+        for (let i = 0; i < max; i++) {
+            if (sa[i] !== sb[i]) {
+                res += '1'
+            } else {
+                res += '0'
+            }
+        }
+        return res
+    }
+    let getSimular = (a, b) => {
+        let sa = parseInt(a, 10).toString(2)
+        let sb = parseInt(b, 10).toString(2)
+        let max = Math.max(a.length, b.length)
+        sa = sa.padStart(max, '0')
+        sb = sb.padStart(max, '0')
+        let res = ''
+        for (let i = 0; i < max; i++ ) {
+            if (sa[i] === '1' && sb[i] === '1') {
+                res += '1'
+            } else {
+                res += '0'
+            }
+        }
+        return res
+    }
+    for (let i = 0; i < arr.length - 1; i++) {
+        for (let j = i + 1; j < arr.length; j++) {
+            let diffValue = getDiff(arr[i], arr[j])
+            let simularValue = getSimular(arr[i], arr[j])
+            if (parseInt(diffValue, 2) > parseInt(simularValue, 2)) {
+                count++
+            }
+        }
+    }
+    clog(count)
+}
+// f('3 5 2 8 4')
+// f('4 3 5 2')
+
+f = (str, strList) => {
+    let map = strList
+    let tag = Array.from({length: strList.length}, () => Array.from({length: strList[0].length}, () => 0))
+    let res = []
+    let bfs = (i, j) => {
+        let tag = Array.from({length: strList.length}, () => Array.from({length: strList[0].length}, () => 0))
+        let around = (i, j) => {
+            let state = []
+            // 4
+            let r = i - 1, c = j
+            if (map[r] && map[r][c] !== undefined
+                && tag[r][c] === 0
+                // && map[r][c]
+            ) {
+                state.push([r, c])
+            }
+            r = i
+            c = j + 1
+            if (map[r] && map[r][c] !== undefined
+                && tag[r][c] === 0
+            ) {
+                state.push([r, c])
+            }
+            r = i + 1
+            c = j
+            if (map[r] && map[r][c] !== undefined
+                && tag[r][c] === 0
+                // && map[r][c]
+            ) {
+                state.push([r, c])
+            }
+            r = i
+            c = j - 1
+            if (map[r] && map[r][c] !== undefined
+                && tag[r][c] === 0
+                // && map[r][c]
+            ) {
+                state.push([r, c])
+            }
+            return state
+        }
+        let queue = []
+        queue.push([i, j])
+        let state = []
+        let res = []
+        let _f = (choices, index, state) => {
+            if (index === str.length) {
+                res.push([...state])
+            } else {
+                choices.forEach(item => {
+                    if (map[item[0]][item[1]] === str[index]) {
+                        let pre = tag[item[0]][item[1]]
+                        state.push(item)
+                        tag[item[0]][item[1]] = 2
+                        _f(around(item[0], item[1]), index + 1, state)
+                        tag[item[0]][item[1]] = pre
+                        state.pop()
+                    }
+                })
+            }
+        }
+        _f(queue, 0, [])
+        if (res.length) {
+            return [i, j]
+        } else {
+            return []
+        }
+    }
+    for (let i = 0; i < map.length; i++) {
+        for (let j = 0; j < map[0].length; j++) {
+            let position = bfs(i, j)
+            if (position.length) {
+                res = position
+                break
+            }
+        }
+    }
+    // clog(res)
+    if (res.length) {
+        clog(res[0] + 1, res[1] + 1)
+    } else {
+        clog('NO')
+    }
+}
+// f('HELLOWORLD', ['CPUCY', 'EKLQH', 'CHELL', 'LROWO', 'DGRBC'])
+// f('HELLOWORLD', ['CPUCY', 'wolle', 'ordOo', 'EKLQo', 'PGRBC'])
+
+f = (strList) => {
+    let pointList = strList.map(str => {
+        let arr = str.split(' ')
+        let t = []
+        for (let i = 0; i <arr.length; i += 2) {
+            t.push([arr[i], arr[i + 1]])
+        }
+        return t
+    }).flat(1)
+    let borderPointSet = new Set()
+    pointList.sort((a, b) => a[0] - b[0])
+    // clog(pointList)
+    let cross = (p0, p1, p2) => {
+        let [[x1, y1], [x2, y2], [x0, y0]] = [p0, p1, p2]
+        return (x1 - x0) * (y2 - y0) - (y1 - y0) * (x2 - x0)
+    }
+    for (let i = 0; i < pointList.length - 1; i++) {
+        let k = 0
+        let j = i + 1
+        while (k < pointList.length) {
+            j = (j + pointList.length) % pointList.length
+            let p0 = pointList[i]
+            let p1 = pointList[j]
+            if (pointList.every((p, index) => {
+                if ([i, j].includes(index)) {
+                    return true
+                } else {
+                    return cross(p0, p1, p) > 0
+                }
+            })) {
+                borderPointSet.add(`${p0[0]},${p0[1]}`)
+                borderPointSet.add(`${p1[0]},${p1[1]}`)
+            }
+            k++
+            j++
+        }
+    }
+    // clog(borderPointSet)
+    let res = []
+    Array.from([...borderPointSet]).forEach(item => {
+        res.push(item.split(',').map(item => Number(item)))
+    })
+    // clog(res)
+    res.sort((a, b) => {
+        let t = a[0] - b[0]
+        if (t) {
+            return t
+        } else {
+            return a[1] - b[1]
+        }
+    })
+    let leftBottom = res[0]
+    let resStr = ''
+    for (let i = 0; i < res.length; i++) {
+        if (leftBottom[0] + res[i][0] >= leftBottom[1] + res[i][1]) {
+            // clog(res[i][0])
+            resStr += `${res[i][0]} ${res[i][1]} `
+        }
+    }
+    for (let i = res.length - 1; i >= 0; i--) {
+        if (leftBottom[0] + res[i][0] < leftBottom[1] + res[i][1]) {
+            resStr += `${res[i][0]} ${res[i][1]} `
+        }
+    }
+    clog(resStr.slice(0, -1))
+}
+// f(['0 2 0 0 2 0 2 2', '1 4 1 1 3 1 3 4'])
+// f(['0 2 0 0 2 0 2 2', '3 5 3 2 4 2 4 5'])
+
+f = (kouList, zhuList) => {
+    let scheme = []
+    let unique = []
+    let _f = (choices, count, state) => {
+        if (state.length === count) {
+            scheme.push([...state])
+        } else {
+            choices.forEach(index => {
+                if (!unique.includes(index)) {
+                    state.push(zhuList[index])
+                    unique.push(index)
+                    _f(choices, count, state)
+                    unique.pop()
+                    state.pop()
+                }
+            })
+        }
+    }
+    _f(Array.from(zhuList.keys()), kouList.length - 2, [])
+    // clog(scheme)
+    let queKouList = scheme.map(arr => {
+        let ba = kouList[0]
+        let t = []
+        for (let i = 1; i < kouList.length - 1; i++) {
+            t.push(arr[i - 1] - (ba - kouList[i])) // 正数表示缺口，负数表示浪费的
+        }
+        return {
+            arr: t,
+            queKou: t.reduce((r, c) => {
+                if (c <= 0) {
+                    r += Math.abs(c)
+                } else {
+                    r += 0
+                }
+                return r
+            }, 0),
+            yu: t.reduce((r, c) => {
+                if (c >= 0) {
+                    r += c
+                } else {
+                    r += 0
+                }
+                return r
+            }, 0),
+            use: arr.reduce((r, c) => r += c, 0),
+        }
+    })
+    let langFeiList = []
+    let buZuList = []
+    // clog(queKouList)
+    queKouList.sort((a, b) => {
+        let t= a.queKou - b.queKou
+        if (t) {
+            return t
+        } else {
+            return a.use - b.use
+        }
+    })
+    // clog(queKouList)
+    clog(queKouList[0].use)
+}
+// f([8, 0, 8], [7, 6])
+// f([10, 3, 0, 2, 10], [4, s8, 6, 4, 5, 6])
+// f([10, 3, 0, 2, 10], [4, 13, 6, 12, 5, 8, 10])
+
+// 10 9 8 7 6 5 4 3 2 1
+// 10 1 8 2 6  // 27
+// 9 2 7 3 5   // 28
+// 10 7 6 3 2 // 28
+// 9 8 5 4 1  // 27
+f= (str) => {
+    let arr = str.split(' ').map(item => Number(item)).sort((a, b) => {
+        return b - a
+    })
+    let a = []
+    let b = []
+    let aObj = {
+        arr: [],
+        sum: 0,
+    }
+    let bObj = {
+        arr: [],
+        sum: 0,
+    }
+    let sum  = (arr) => {
+        return arr.reduce((r, c) => r += c, 0)
+    }
+    let getMin = () => {
+        if (aObj.sum > bObj.sum) {
+            return bObj
+        } else {
+            return aObj
+        }
+    }
+    for (let i = 0; i < arr.length; i++) {
+        let mo = getMin()
+        mo.arr.push(arr[i])
+        mo.sum += arr[i]
+    }
+    clog(Math.abs(aObj.sum - bObj.sum))
+}
+// f('1 2 3 4 5 6 7 8 9 10')
+// f('500 700 0 0')
+
+f = (str, k) => {
+    let i = 0
+    let j = 0
+    let statics = {
+        0: 0,
+        1: 0,
+        2: 0,
+        3: 0,
+        4: 0,
+        5: 0,
+        6: 0,
+        7: 0,
+        8: 0,
+        9: 0,
+        'a': 0,
+    }
+    let nums = Array.from({length: 10}, () => 0) // [10 个 0]
+    let charCount = 0
+    let numReg = /\d/
+    let charReg = /[a-z]/
+    let subStrCount = 0
+    let res = []
+    while (j < str.length) {
+        if (numReg.test(str[j])) {
+            nums[Number(str[j])]++
+        } else {
+            charCount++
+        }
+        while (nums.every(item => item >= 1) && charCount >= k) {
+            // subStrCount++
+            if (charCount === k) {
+                subStrCount++
+                res.push(str.slice(i, j + 1))
+            }
+            if (numReg.test(str[i])) {
+                nums[Number(str[i])]--
+            } else {
+                charCount--
+            }
+            i++
+        }
+        j++
+    }
+    clog(subStrCount)
+    // clog(res)
+}
+// f('a0123456789aa', 1)
+// f('aa01234a5678901234aa', 1)
+
+f = (str) => {
+    let signArr = []
+    let strArr = []
+    let i = 0, j = 0
+    let res = ''
+    let typeMap = new Map([
+        ['Integer', 0],
+        ['String', 1,],
+        ['Compose', 2],
+    ])
+    let encodeStr = (str) => {
+        let [a, b, c] = str.split(',')
+        // Integer->0；String->1；Compose->2，
+        // let type = typeMap.has(b)
+        if (typeMap.has(b)) {
+            return `${a}#${typeMap.get(b)}#${c.length}#${c}`
+        } else {
+            return ''
+        }
+    }
+    let getSubItem = (i, j) => {
+        let res = []
+        while (strArr.length) {
+            let item = strArr[strArr.length - 1]
+            if (i < item.start) {
+                res.unshift(strArr.pop())
+            } else {
+                break
+            }
+        }
+        return res
+    }
+    while (j < str.length) {
+        switch (str[j]) {
+            case '[':
+                signArr.push(j)
+                break;
+            case ']':
+                let i = signArr.pop()
+                let subItemList = getSubItem(i, j)
+                if (subItemList.length) {
+                    strArr.push({
+                        mt: encodeStr(str.slice(i + 1, subItemList[0].start) + subItemList.reduce((r, c) => r += c.mt, '')),
+                        start: i,
+                    })
+                } else {
+                    strArr.push({
+                        mt: encodeStr(str.slice(i + 1, j)),
+                        start: i,
+                    })
+                }
+                if (!signArr.length) {
+                    res += strArr.pop().mt
+                }                
+                break;
+        }
+        j++
+    }
+    clog(res)
+}
+// f('[1,String,I am Mary],[2,Integer,23],[3,Long,100000],[4,Compose,[1,String,I am Kitty],[2,Integer,44]]')
+f = (str) => {
+    // let reg = /\d+#\d+#\d+#[a-z0-9A-Z\s]*[^\d+#]/g
+    // let res = reg.exec(str)
+    // let arr = str.split('#')
+    let map = new Map([
+        ['0', 'Integer'],
+        ['1', 'String'],
+        ['2', 'Compose'],
+    ])
+    let rest = ''
+    let res = []
+    // let _f = () => {}
+    // for (let i = 0; i < arr.length; i += 4) {
+    //     rest = arr[i + 3].slice(arr[i + 2])
+    //     res += `[${arr[i]},${map.get(arr[i + 1])},`
+    //     f(`${arr[i + 3].slice(0, arr[i + 2])}`)
+    // }
+    let i = 0
+    let count = 0
+    let step = 0
+    let t = ''
+    // let subF = (mt) => {
+    //     if (mt.includes('#')) {
+    //         startFn(mt)
+    //     } else {
+    //         return mt
+    //     }
+    // }
+    // // let arr = []
+    // let pre = 0
+    // let splitFn = (step, i, j, k) => {
+    //     let len = str.slice(j + 1, k)
+    //     let origin = subFn(str.slice(k + 1, k + 1 + len))
+    //     res.push(`[${str.slice(step, i)},${map.get(str.slice(i + 1, j))},${origin}]`)
+    //     return k + 1 + len
+    // }
+    // i = 0
+    // let startFn = (str) => {
+    //     while (i < str.length) {
+    //         let indexArr = []
+    //         while (indexArr.length < 3) {
+    //             if (str[i] === '#') {
+    //                 indexArr.push(i)
+    //             }
+    //             i++
+    //         }
+    //         i = splitFn(indexArr[0], indexArr[1], indexArr[2])
+    //     }
+    // }
+    // startFn(str)
+    let splitFn = (mt) => {
+        let i = 0
+        while (i < mt.length) {
+            let indexArr = []
+            while (indexArr.length < 3 && i < mt.length) {
+                if (mt[i] === '#') {
+                    indexArr.push(i)
+                }
+                i++
+            }
+            if (indexArr.length === 3) {
+                res.push([...indexArr])
+            }
+        }
+    }
+    splitFn(str)
+
+    
+    clog(res)
+}
+// f('1#1#9#I am Mary2#0#2#234#2#25#1#1#10#I am Kitty2#0#2#44')
+f('2#0#2#234#2#25#1#1#10#I am Kitty2#0#2#44')
+// 1#1#9#I am Mary
+// 2#0#2#23
+// 4#2#25#
+//        1#1#10#I am Kitty2#0#2#44
+// 1#1#9#I am Mary
+// 2#0#2#23
+// 4#2#25#1#1#10#I am Kitty2#0#2#44
+
+// [1,String,I am Mary],[2,Integer,23],[3,Long,100000],[4,Compose,[1,String,I am Kitty],[2,Integer,44]]
+
+// 1,String,I am Kitty
     </script>
 </body>
 </html>

@@ -23,7 +23,38 @@
 | 满二叉树   | 非子节点的节点都是 2 度。                    |     |     |
 | 完全二叉树 | 非最后一层为满二叉树，最后一层从左到右分布。 |     |     |
 
-## title
+## hafman tree
+
+```js
+let createTree = (arr) => {
+  let createNode = (v) => {
+    return {
+      left: null,
+      value: v,
+      right: null,
+    }
+  }
+  let merge = (aNode, bNode) => {
+    let cNode = createNode(aNode.value + bNode.value)
+    if (aNode.value <= bNode.value) {
+      cNode.left = aNode
+      cNode.right = bNode
+    } else {
+      cNode.left = bNode
+      cNode.right = aNode
+    }
+    return cNode
+  }
+  while (arr.length > 1) {
+    arr.sort((a, b) => a - b)
+    let aNode = arr.shift()
+    let bNode = arr.shift()
+    let cNode = merge(aNode, bNode)
+    arr.unshift(cNode)
+  }
+  return { root: arr[0] }
+}
+```
 
 ## title
 

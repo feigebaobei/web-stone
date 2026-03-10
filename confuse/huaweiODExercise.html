@@ -1074,6 +1074,774 @@ clog(f(1, [[64, 73709551616]])) // R
 
 
 
+f = (arr, k, target) => {
+    let res = []
+    let sum = (arr) => {
+        return arr.reduce((r, c) => (r += c), 0)
+    }
+    let productList = []
+    let fn = (choices, state) => {
+        if (state.length === k 
+            && sum(state) === target 
+        ) {
+            let product = state.reduce((r, c) => {
+                return r *= c
+            }, 1)
+            if (!productList.includes(product)) {
+                res.push([...state])
+                productList.push(product)
+            }
+        } else {
+            choices.forEach((item, index) => {
+                state.push(item)
+                fn(choices.slice(index + 1), state)
+                state.pop()
+            })
+        }
+    }
+    fn(arr, [])
+    return res
+}
+// clog(f([-1, 0, 1, 2, -1, -4], 3, 0))
+
+
+
+f = (arr) => {
+    let res = []
+    let resIncludes = (i, j) => {
+        return res.some(arr => {
+            return arr.some(item => item[0] === i && item[1]===j)
+        })
+    }
+    let bfs = (i, j) => {
+        let tagArr = Array.from({length: arr.length}, () => Array.from({length: arr[0].length}, () => 0))
+        let queue = [[i ,j]]
+        let state = []
+        while (queue.length) {
+            let [i, j] = queue.shift()
+            tagArr[i][j] = 2
+            state.push([i, j])
+            let r, c
+            // 4方向
+            r = i
+            c = j + 1
+            if (
+                arr[r][c]
+                && tagArr[r][c] === 0
+                && Math.abs(arr[r][c] - arr[i][j]) <= 1
+            ) {
+                tagArr[r][c] = 1
+                queue.push([r, c])
+            }
+            r = i + 1
+            c = j
+            if (
+                arr[r] && arr[r][c]
+                && tagArr[r][c] === 0
+                && Math.abs(arr[r][c] - arr[i][j]) <= 1
+            ) {
+                tagArr[r][c] = 1
+                queue.push([r, c])
+            }
+            r = i
+            c = j - 1
+            if (
+                arr[r][c]
+                && tagArr[r][c] === 0
+                && Math.abs(arr[r][c] - arr[i][j]) <= 1
+            ) {
+                tagArr[r][c] = 1
+                queue.push([r, c])
+            }
+            r = i - 1
+            c = j
+            if (
+                arr[r] && arr[r][c]
+                && tagArr[r][c] === 0
+                && Math.abs(arr[r][c] - arr[i][j]) <= 1
+            ) {
+                tagArr[r][c] = 1
+                queue.push([r, c])
+            }
+        }
+        return state
+    }
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j <arr[0].length; j++) {
+            if (!resIncludes(i, j)) {
+                let state = bfs(i, j)
+                res.push([...state])
+            }
+        }
+    }
+    // res
+    return Math.max(...res.map(item => item.length))
+    // return 
+}
+// clog(f([
+//     [1, 2, 5, 2],
+//     [2, 4, 4, 5],
+//     [3, 5, 7, 1],
+//     [4, 6, 2, 4],
+// ]))
+
+
+
+f = (m, n, i, j, l, k) => {
+    let arr = Array.from({length: m}, () => Array.from({length: n}, () => 2))
+    arr[i][j] = 1
+    arr[l][k] = 1
+    let time = -1
+    let queue = [
+        [i ,j], [l, k]
+    ]
+    let bfs = () => {
+        let tagArr = Array.from({length: m}, () => Array.from({length: n}, () => 0))
+        let state = []
+        let len = queue.length
+        for (let p = 0; p < len; p++) {
+            let [i, j] = queue.shift()
+            tagArr[i][j] = 2
+            arr[i][j] = 1
+            // state.push([i, j])
+            // 4
+            let r = i - 1
+            let c = j
+            if (
+                arr[r] && arr[r][c]
+                && tagArr[r][c] === 0
+                && arr[r][c] === 2
+            ) {
+                tagArr[r][c] = 1
+                queue.push([r, c])
+            }
+            r = i
+            c = j + 1
+            if (
+                arr[r][c]
+                && tagArr[r][c] === 0
+                && arr[r][c] === 2
+            ) {
+                tagArr[r][c] = 1
+                queue.push([r, c])
+            }
+            r = i + 1
+            c = j
+            if (
+                arr[r] && arr[r][c]
+                && tagArr[r][c] === 0
+                && arr[r][c] === 2
+            ) {
+                tagArr[r][c] = 1
+                queue.push([r, c])
+            }
+            r = i
+            c = j - 1
+            if (
+                arr[r][c]
+                && tagArr[r][c] === 0
+                && arr[r][c] === 2
+            ) {
+                tagArr[r][c] = 1
+                queue.push([r, c])
+            }
+            // time++
+        }
+        return state
+    }
+    let all1 = () => {
+        let t = arr.some(subArr => {
+            return subArr.some(item => item === 2)
+        })
+        return !t
+    }
+    // bfs()
+    while (!all1()) {
+        // let state = bfs()
+        bfs()
+        time++
+    }
+    return time
+}
+// clog(f(4,4,0,0,3,3))
+
+
+
+f = (n, m) => {
+    let nArr = []
+    let mArr = []
+    let t = n.split(' ')
+    for (let i = 0; i < t.length; i += 2) {
+        nArr.push([Number(t[i]), Number(t[i + 1])])
+    }
+    t = m.split(' ')
+    for (let i = 0; i < t.length; i += 2) {
+        mArr.push([Number(t[i]), Number(t[i + 1])])
+    }
+    nArr.sort((a, b) => a[0] - b[0])
+    let res = Array.from({length: mArr.length}, () => [])
+    let last = (t) => {
+        let index = -1
+        for (let i = mArr.length - 1; i >= 0; i--) {
+            if (mArr[i][0] <= t && t < mArr[i][1]) {
+                index = i
+            }
+        }
+        return index
+    }
+    nArr.forEach(message => {
+        let index = last(message[0])
+        if (index >= 0) {
+            res[index].push(message[1])
+        }
+    })
+    // 输出
+    res.forEach(item => {
+        if (item.length) {
+            clog(item.join(' '))
+        } else {
+            clog('-1')
+        }
+    })
+}
+// clog(f('2 22 1 11 4 44 5 55 3 33', '1 7 2 3'))
+// clog(f('5 64 11 64 9 97', "9 11 4 9"))
+
+
+f = (metrix) => {
+    let n = metrix.length
+    let m = Math.max(...metrix.map(arr => arr.length))
+    let newMetrix = Array.from({length: m}, () => Array.from({length: n}, () => ' '))
+    for (let i = n - 1; i >= 0; i--) {
+        for (let j = 0; j < m; j++) {
+            newMetrix[j][n - 1 - i] = metrix[i][j] || ' '
+        }
+    }
+    return newMetrix
+}
+// clog(f(f([
+//     [1,2,3,4,5],
+//     ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',],
+//     ['一', '地', '在', '要', '工', '上', '是'],
+// ])))
+
+
+f = (choices, state = []) => {
+    if (state.length === choices.length) {
+        res.push([...state])
+    } else {
+        for (let i = 0; i < choices.length; i++) {
+            if (!state.includes(choices[i])) {
+                state.push(choices[i])
+                f(choices, state)
+                state.pop()
+            }
+        }
+    }
+}
+f = (choices, n, state = []) => {
+    if (state.length === n) {
+        res.push([...state])
+    } else {
+        choices.forEach(item => {
+            state.push(item)
+            f(choices.filter(ele => ele !== item), n, state)
+            state.pop()
+        })
+    }
+}
+// f([1,2,3, 4], 3, [])
+// clog('res', res)
+// clog(f([1,2,3]), res)
+// 全组合
+f = (choices, n, state = []) => {
+    if (state.length === n) {
+        res.push([...state])
+    } else {
+        choices.forEach(item => {
+            if (!state.includes(item)) {
+                state.push(item)
+                f(choices, n, state)
+                state.pop()
+            }
+        })
+    }
+}
+// clog(f([1,2,3], 2), res)
+
+
+f = (arr, target) => {
+    let res = []
+    let _f = (arr) => {
+        for (let i = 0; i < arr.length - 1; i++) {
+            for (let j = i + 1; j < arr.length; j++) {
+                if (arr[i] + arr[j] === target) {
+                    // res = [i, j]
+                    return [i, j]
+                }
+            }
+        }
+    }
+    res = _f(arr)
+    clog([arr[res[0]], arr[res[1]]])
+    return res
+}
+// clog(f([1, 4, 5, 2, 2], 7))
+// clog(f([-1, 2, 4, 9, 6,], 8))
+
+
+f = (str) => {
+    let avg = str.length /4
+    let obj = {
+        A: 0,
+        S: 0,
+        D: 0,
+        W: 0,
+    }
+    let rest = 0 // 多出来的字母总和
+    for (let c of str) {
+        obj[c]++
+    }
+    for (let k of Object.keys(obj)) {
+        let d = obj[k] - avg
+        if (d > 0) {
+            obj[k] = d
+            rest += d
+        } else {
+            obj[k] = d
+        }
+    }
+    let res = []
+    if (!rest) {
+        return res
+    }
+    // 滑动窗口
+    let i = 0, j= 0
+    let minLen = str.length + 1
+    // while (j < str.length) {
+    //     let c = str.charAt(j)
+    //     if (obj[c]-- > 0) {
+    //         // obj[c]--
+    //         rest--
+    //     }
+    //     while (!rest) {
+    //         // minLen = Math.min(minLen, j - i +1)
+    //         // res.push([i, j])
+    //         if (j - i + 1 < minLen) {
+    //             minLen = j - i + 1
+    //             res.push([i, j])
+    //         }
+    //         c = str.charAt(i)
+    //         if (obj[c]++ >= 0) {
+    //             // obj[c]++
+    //             rest++
+    //         }
+    //         i++
+    //     }
+    //     j++
+    // }
+
+    while (j < str.length) {
+        let c = str.charAt(j)
+        if (obj[c] > 0) {
+            rest--
+        }
+        obj[c]--
+        while (!rest) {
+            // minLen = Math.min(minLen, j - i + 1)
+            if (j - i + 1 < minLen) {
+                minLen = j - i + 1
+                res.push([i, j])
+            }
+            c = str.charAt(i)
+            if (obj[c] >= 0) {
+                rest++
+            }
+            obj[c]++
+            i++
+        }
+        j++
+    }
+    clog(minLen)
+    return res
+}
+// clog(f('WWWWAAAASSSS'))
+// clog(f('WASDAASD'))
+// clog(f('AAAA'))
+
+
+
+f= (quanList, valueList) => {
+    let daZhe = (i, p) => {
+        let next = 0
+        let count = 0
+        switch (i) {
+            case 0:
+                count = Math.min(Math.floor(p / 100), quanList[0])
+                next = p - count * 10
+                break;
+            case 1:
+                next = Math.floor(p * 0.92)
+                count  =1
+                break;
+            case 2:
+                next = p - 5 * quanList[2]
+                count = quanList[2]
+                break;
+        }
+        return [next, count]
+    }
+    for (let i = 0; i < valueList.length; i++) {
+        let moneyNext = valueList[i]
+        let count = 0
+        for (let j = 0; j < quanList.length; j++) {
+            let [one, oneCount] = daZhe(j, valueList[i])
+            for (let k = 0; k < quanList.length; k++) {
+                if (k !== j) {
+                    let [two, twoCount] = daZhe(k, one)
+                    if (two < moneyNext) {
+                        moneyNext = two
+                        count = oneCount + twoCount
+                    }
+                }
+            }
+
+        }
+        clog(moneyNext, count)
+    }
+}
+// clog(f([3,2,5], [100, 200, 400]))
+// clog(f([3,2,5], [100]))
+
+// 未测试
+f = (str) => {
+    let arr = str.split('\n').map(str => str.split(',')).map(arr => {
+        return {
+            count: arr[0],
+            time: Number(arr[1]),
+            distance: Number(arr[2]),
+            realSet: arr[3],
+            registrySet: arr[4],
+        }
+    })
+    // 不应该排序
+    // .sort((a, b) => {
+    //     return a.time - b.time
+    // })
+    let check = (obj) => {
+        return obj.realSet === obj.registrySet
+    }
+    let set = new Set()
+    for (let i = 0; i < arr.length  - 1; i++) {
+        if (check(arr[i])) {
+            set.add(i)
+        }
+        if (Math.abs(arr[i].time - arr[i + 1].time) < 60
+        && Math.abs(arr[i].distance - arr[i + 1].distance) < 5) {
+            set.add(i)
+            set.add(i + 1)
+        }
+    }
+    check(arr[arr.length - 1])
+    return (Array.from(set).reduce((r, c) => {
+        return r += `${c.count},${c.time},${c.distance},${c.realSet},${c.registrySet};`
+    }, '').slice(0, -1))
+}
+// let set = new Set()
+// set.add(1)
+// set.add(1)
+// set.add(2)
+// set.forEach((v, v2, set) => {
+//     clog(v, v2, set)
+// })
+// for (let a of set) {
+//     clog(a)
+// }
+// clog([...set])
+
+f = (str) => {
+    let arr = str.split(' ').sort((a, b) => b - a)
+    let group = [
+        [],
+        [],
+        [],
+        [],
+        [],
+    ]
+    let push = (arr) => {
+        // 最多4个一组
+        while (arr.length) {
+            let t = arr.splice(0, 4)
+            switch (t.length) {
+                case 4:
+                    group[0].push({
+                        pai: [...t],
+                    })
+                    break;
+                case 3:
+                    group[2].push({
+                        pai: [...t],
+                    })
+                    break;
+                case 2:
+                    group[3].push({
+                        pai: [...t]
+                    })
+                    break;
+                case 1:
+                    group[4].push({
+                        pai: [...t]
+                    })
+                    break;
+            }
+        }
+    }
+    let i = 0, j = 1
+    while (i < arr.length) {
+        while (arr[i] === arr[j]) {
+            j++
+        }
+        push(arr.slice(i, j))
+        i = j
+        j++
+    }
+    // 3 =》 3+2
+    let g1 = group[1]
+    let g2 = group[2]
+    let g3 = group[3]
+    let g4 = group[4]
+    i = 0
+    j = g3.length - 1
+    // 3 + 2 => hulu
+    while (i < g2.length && j >= 0) {
+        g1.push({
+            pai: [...g2[i].pai],
+            two: [...g3[j].pai],
+        })
+        g3.splice(j, 1)
+        g2.splice(i, 1)
+        j--
+    }
+    // 3 + 3 => hulu
+    i = 0
+    j = g2.length - 1
+    while (i < j) {
+        g1.push({
+            pai: [...g2[i].pai],
+            two: [...g2[j].pai.slice(0, 2)],
+        })
+        g4.push([...g2[j].pai.slice(2)])
+        g2.splice(j, 1)
+        g2.splice(i, 1)
+        j--
+    }
+    g4.sort((a, b) => {
+        return b.pai[0] - a.pai[0]
+    })
+    let resStrArr = group.map((arr, index) => {
+        if (arr.length) {
+            switch (index) {
+                case 1:
+                    return arr.reduce((r, c) => {
+                        r += c.pai.join(' ') + ' ' + c.two.join(' ') + ' '
+                        return r
+                    }, '').slice(0, -1)
+                default:
+                    return arr.reduce((r, c) => {
+                        r += c.pai.join(' ') + ' '
+                        return r
+                    }, '').slice(0, -1)
+            }
+        } else {
+            return ''
+        }
+    }).filter(item => item)
+    return resStrArr.join(' ')
+
+}
+// clog(f('1 3 3 3 2 1 5'))
+// clog(f('4 4 2 1 2 1 3 3 3 4'))
+// 	我的代码输出是 4 4 4 1 1 3 3 3 2 2
+// 	题目的输出是   4 4 4 3 3 2 2 1 1 3
+
+
+f = (n) => {
+    let bn = BigInt(n)
+    let bitStr = bn.toString(2)
+    // let i = bitStr.length - 7
+    let res = []
+    let bitToHex = (bit) => {
+        let hexStr = parseInt(bit, 2).toString(16)
+        if (hexStr.length === 1) {
+            hexStr = '0' + hexStr
+        }
+        hexStr = hexStr.toUpperCase()
+        return hexStr
+    }
+    while (bitStr.length > 7) {
+        res.push(bitToHex('1' + bitStr.slice(-7)))
+        bitStr = bitStr.slice(0, -7)
+    }
+    if (bitStr.length >= 0) {
+        res.push(bitToHex(bitStr))
+    }
+    clog(res.join(''))
+    return res
+}
+// clog(f(0))
+// clog(f(100))
+// clog(f(1000))
+
+f = (str) => {
+    let reg = /[a-zA-Z]/
+    let arr = str.split('').filter((item) => {
+        if (reg.test(item)) {
+            return true
+        } else {
+            return false
+        }
+    }).map(item => item.toLowerCase())
+    // let 
+    let i = 0
+    let j = 1
+    let res = []
+    while (i < arr.length) {
+        j = i + 1
+        let count = 0
+        while (arr[i] === arr[j]) {
+            count++
+            j++
+        }
+        if (count) {
+            res.push([arr[i], j - i])
+            i = j
+        } else {
+            while (j < arr.length) {
+                if (arr[j] === arr[i]) {
+                    count++
+                }
+                j++
+            }
+            res.push([arr[i], count])
+            i++
+        }
+    }
+    res.sort((a, b) => {
+        let t = b[1] - a[1]
+        if (t) {
+            return t
+        } else {
+            return a[0].charCodeAt(0) - b[0].charCodeAt(0)
+        }
+    })
+    return res.reduce((r, c) => {
+        r += `${c[0]}${c[1]}`
+        return r
+    }, '')
+}
+// clog(f('bAaAcBb'))
+
+
+f = (str) => {
+    let commandArr = str.split('\n')
+    let queue = []
+    let sort = () => {
+        queue.sort((a, b) => a - b)
+    }
+    let isOrder = () => {
+        let i = 0
+        let order = true
+        while(i < queue.length - 1) {
+            if (queue[i] < queue[i + 1]) {
+
+            } else {
+                order = false
+                break;
+            }
+            i++
+        }
+        return order
+    }
+    let count = 0
+    commandArr.forEach(command => {
+        let tArr = command.split(' ')
+        switch(tArr[0]) {
+            case 'head':
+                queue.unshift(tArr[2])
+                break;
+            case 'tail':
+                queue.push(tArr[2])
+                break;
+            case 'remove':
+                if (isOrder()) {
+                    sort()
+                    count++
+                }
+                break;
+        }
+    })
+    return count
+}
+// clog(f(`head add 1
+// tail add 2
+// remove
+// head add 3
+// tail add 4
+// head add 5
+// remove
+// remove
+// remove
+// remove`))
+
+f = (str) => {
+    let arr = str.split(' ').sort((a, b) => {
+        let t = b.length - a.length
+        if (t) {
+            return t
+        } else {
+            let len = Math.min(a.length, b.length)
+            let i = 0
+            while (i < len) {
+                if (a.charCodeAt(i) !== b.charCodeAt(i)) {
+                    break;
+                }
+                i++
+            }
+            if (i === len) {
+                return b.length - a.length
+            } else {
+                return b.charCodeAt(i) - a.charCodeAt(i)
+            }
+        }
+    })
+    let res = []
+    let isExist = (i) => {
+        let j = arr[i].length - 1
+        while (j >= 1) {
+            if (!arr.includes(arr[i].slice(0, j))) {
+                return false
+            }
+            j--
+        }
+        return true
+    }
+    let i = 0
+    while (i < arr.length) {
+        if (isExist(i)) {
+            res.push(arr[i])
+            break;
+        }
+        i++
+    }
+    if (res.length) {
+        return res[0]
+    } else {
+        return ''
+    }
+}
+// clog(f('h he hel hell hello'))
+// clog(f('b ereddred bw bww bwwl bwwlm bwwln'))
+
 
 
 
