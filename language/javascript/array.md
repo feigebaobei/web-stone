@@ -231,7 +231,7 @@ end 结束复制的下标
 
     console.log([1, 2, 3, 4, 5].copyWithin(-2, -3, -1)); // [1, 2, 3, 3, 4]
 
-**includes(value, start)** 数组中是否包含给定的值。
+**includes(value, start)** 返回该数组是否包含给定的值。
 
     arr.includes('3') // true,
     arr.includes(9) // false,
@@ -273,6 +273,9 @@ Array.from(obj, mapFn, thisArg) <=> Array.from(obj).map(mapFn, thisArg)
 
 **Array.flat([deep])** 按指定深度拼接元素为一维数组。返回该数组。
 
+    deep默认为1
+    以当前数组为0层。
+    把deep层及以前的压平。
     const arr1 = [0, 1, 2, [3, 4]];
     console.log(arr1.flat()); // [0, 1, 2, 3, 4]
 

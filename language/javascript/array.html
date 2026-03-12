@@ -375,7 +375,10 @@ Array.from({length: 5}, (item, index) =&gt; index) // [0, 1, 2, 3, 4]
 <pre><code>Array.of('a', 3, 2, 'b', 'c') // ['a', 3, 2, 'b', 'c']
 </code></pre>
 <p><strong>Array.flat([deep])</strong> 按指定深度拼接元素为一维数组。返回该数组。</p>
-<pre><code>const arr1 = [0, 1, 2, [3, 4]];
+<pre><code>deep默认为1
+以当前数组为0层。
+把deep层及以前的压平。
+const arr1 = [0, 1, 2, [3, 4]];
 console.log(arr1.flat()); // [0, 1, 2, 3, 4]
 </code></pre>
 <p><strong>Array.prototype.toReversed() =&gt; Array</strong>

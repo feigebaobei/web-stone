@@ -92,11 +92,13 @@ this 指向运行时（不是定义时）的上下文环境变量。
 
 即`apply / bind / call`。`abc`是作者起的名字。
 
-|       |                                     | 执行时间     | 参数                                         |
-| ----- | ----------------------------------- | ------------ | -------------------------------------------- |
+<!-- prettier-ignore-start -->
+|       |                                     | 执行时间     | 参数    |
+| ----- | ----------------------------------- | ------------ | ------------------ |
 | apply | fn.apply(otherThis, arrOfArgs)      | 立即执行     | 数组                                         |
 | call  | fn.call(otherThis, arg0, arg1, ...) | 立即执行     | 多个参数                                     |
 | bind  | fn.bind(otherThis, arg0, arg1, ...) | 返回一个方法 | 执行 bind 的参数追加上执行返回的方法时的参数 |
+<!-- prettier-ignore-end -->
 
 ```js
 // 待测试
@@ -231,7 +233,8 @@ Promise.allSettled(arrP) // 当arrP都改变状态后返回结果。结果是由
 Promise.any(arrP)        // arrP中只要有一个状态为fulfilled则返回该值，触发then()。若全为rejected则返回AggregateError对象，触发catch()。
 Promise.resolve()
 Promise.reject()
-Promise.try(f, ...args)           // 接收一个方法f，根据f的返回值设置为fulfilled状态或rejected状态。
+Promise.try(f, ...args)           // 接收一个方法f，根据f的返回值设置为fulfilled状态或rejected状态。throw new Error('xxx') 会触发catch.其他返回值触发then.
+// 作用：把同步方法转换为异步并使用catch捕获。
 Promise.withResolvers() // {promise, resolve, reject} 在外部设置promise的状态。
 ```
 
@@ -385,8 +388,10 @@ let f = (p, cb) => {
 ```js
 // 串行执行promise数组
 let ps = [...]
-for (let pi of ps) {
-  await pi()
+let f = async (ps) => {
+  for (let pi of ps) {
+    await pi()
+  }
 }
   // or
 ps.reduce((curP, nextP) => curP.then(() => nextP()), Promise.resolve())
@@ -452,12 +457,7 @@ class WrapPromise {
   }
 }
 // new WrapPromise(req).run(params)
-// 一般类会有多个实例。方法可以运行多次。react团队也发现了这个情况，所以把class组件改为了方法组件。
-
-
-
-
-
+// 一般类会用于创建多个实例。方法用于运行多次。react团队也发现了这个情况，所以把class组件改为了方法组件。
 ```
 
 ### promise & async
@@ -743,6 +743,7 @@ function spawn(genF) {
 
 ### async & promise
 
+<!-- prettier-ignore-start -->
 |     | async                                             | promise                    |                      |
 | --- | ------------------------------------------------- | -------------------------- | -------------------- |
 |     | 基于 promise.                                     | js 的底层语法              |                      |
@@ -751,6 +752,7 @@ function spawn(genF) {
 |     | 语法糖                                            | 更本质                     |                      |
 |     | 需要与 try/catch 结合使用才能处理错误             | 可使用 then/catch 处理错误 | 因此我更喜欢 promise |
 |     | 若能保证返回 fulfilled 状态。可以使用 async/await |                            |                      |
+<!-- prettier-ignore-end -->
 
 # [decorator](/language/javascript/decorator.html)
 
@@ -761,9 +763,9 @@ function spawn(genF) {
 | ------ | --- | --------------- | ------------- | --- |
 | `&`    | and | 与  | 判断 2 个二进制数每个对应的位上是否都为 1,则该位为 1   |
 | `\|`   | or  | 或  | 判断 2 个二进制数每个对应的位上是否至少有一位为 1,则该位为 1 |
-| `^`    | xor | 异或            | 判断 2 个二进制数每个对应的位上是否只有一位为 1（即：对应位上的数字互异）,则该位为 1 对应位上是否不同。若是则为 1，否则为 0。 |
+| `^`    | xor | 异或            | 判断 2 个二进制数每个对应的位上是否只有一位为 1（即：对应位上的数字互异）,则该位为 1 。对应位上数字若不同则为 1，否则为 0。 |
 | `~`    | not | 取反            | 每一位都取反   |
-| `>>`   |     | 右移            | 右边移出的，去掉。左边以最左则的值填充。     |
+| `>>`   |     | 右移            | 右边移出的，去掉。左边以最左则的值填充。最左侧的值不变，用0填充左侧其他值。     |
 | `<<`   |     | 左移            | （0）当移动位数大于 32 时。使用 x%32。 左边溢出的去掉。右边使用 0 补齐。    |
 | `>>>`  |     | 无符号右移（0） | 右边移出的去掉。左边以 0 填充。            |
 | `<<=`  |     |     |           |
@@ -787,7 +789,7 @@ demo
 
 - 是否为奇数 `let isOdd = n => !!(n & 1)`
 - 位运算，是否为偶数 `let isEven = n => !isOdd(n)`
-- 乘以 2^n `1 << n`
+- 乘以 2^n `1 << n` // 把 1 左移 n 位
 - n 底
 - m 2 的幂
 

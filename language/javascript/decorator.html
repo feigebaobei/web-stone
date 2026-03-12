@@ -226,7 +226,7 @@
     <span class="hljs-comment">//     configurable,</span>
     <span class="hljs-comment">//     writable</span>
     <span class="hljs-comment">// }</span>
-    description.<span class="hljs-property">wriable</span> = <span class="hljs-literal">false</span>
+    description.<span class="hljs-property">writable</span> = <span class="hljs-literal">false</span>
 }
 <span class="hljs-keyword">class</span> <span class="hljs-title class_">P</span> {
     @readonly
@@ -300,6 +300,7 @@ TypeScript 不允许对同一个属性的存取器（getter 和 setter）使用�
       originalSet.<span class="hljs-title function_">call</span>(<span class="hljs-variable language_">this</span>, val);
     };
   }
+  <span class="hljs-keyword">return</span> descriptor
 }
 
 <span class="hljs-keyword">class</span> <span class="hljs-title class_">C</span> {
@@ -358,24 +359,24 @@ c.<span class="hljs-property">foo</span> = <span class="hljs-number">150</span>;
 执行： 构造方法参数
 执行： 类装饰器</p>
 <p>同一级装饰器的执行顺序，是按照它们的代码顺序。但是，参数装饰器的执行总是早于方法装饰器。 // 这里好像错了。</p>
-<pre><code>function f(key:string):any {
-  return function () {
-    console.log('执行：', key);
+<pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">f</span>(<span class="hljs-params">key:string</span>):any {
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;执行：&#x27;</span>, key);
   };
 }
 
-class C {
-  @f('方法1')
-  m1(@f('参数1') foo:any) {}
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">C</span> {
+  @<span class="hljs-title function_">f</span>(<span class="hljs-string">&#x27;方法1&#x27;</span>)
+  <span class="hljs-title function_">m1</span>(<span class="hljs-params">@f(<span class="hljs-string">&#x27;参数1&#x27;</span>) foo:any</span>) {}
 
-  @f('属性1')
-  p1: number;
+  @<span class="hljs-title function_">f</span>(<span class="hljs-string">&#x27;属性1&#x27;</span>)
+  <span class="hljs-attr">p1</span>: number;
 
-  @f('方法2')
-  m2(@f('参数2') foo:any) {}
+  @<span class="hljs-title function_">f</span>(<span class="hljs-string">&#x27;方法2&#x27;</span>)
+  <span class="hljs-title function_">m2</span>(<span class="hljs-params">@f(<span class="hljs-string">&#x27;参数2&#x27;</span>) foo:any</span>) {}
 
-  @f('属性2')
-  p2: number;
+  @<span class="hljs-title function_">f</span>(<span class="hljs-string">&#x27;属性2&#x27;</span>)
+  <span class="hljs-attr">p2</span>: number;
 }
 </code></pre>
 <p>此示例，输出如下：
@@ -387,47 +388,47 @@ class C {
 执行： 属性 2
 实例装饰器的执行顺序，完全是按照代码顺序的。但是，同一个方法的参数装饰器，总是早于该方法的方法装饰器执行。</p>
 <p>如果同一个方法或属性有多个装饰器，那么装饰器将顺序加载、逆序执行。</p>
-<pre><code>function f(key:string):any {
-  console.log('加载：', key);
-  return function () {
-    console.log('执行：', key);
+<pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">f</span>(<span class="hljs-params">key:string</span>):any {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;加载：&#x27;</span>, key);
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;执行：&#x27;</span>, key);
   };
 }
 
-class C {
-  @f('A')
-  @f('B')
-  @f('C')
-  m1() {}
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">C</span> {
+  @<span class="hljs-title function_">f</span>(<span class="hljs-string">&#x27;A&#x27;</span>)
+  @<span class="hljs-title function_">f</span>(<span class="hljs-string">&#x27;B&#x27;</span>)
+  @<span class="hljs-title function_">f</span>(<span class="hljs-string">&#x27;C&#x27;</span>)
+  <span class="hljs-title function_">m1</span>(<span class="hljs-params"></span>) {}
 }
-// 加载： A
-// 加载： B
-// 加载： C
-// 执行： C
-// 执行： B
-// 执行： A
+<span class="hljs-comment">// 加载： A</span>
+<span class="hljs-comment">// 加载： B</span>
+<span class="hljs-comment">// 加载： C</span>
+<span class="hljs-comment">// 执行： C</span>
+<span class="hljs-comment">// 执行： B</span>
+<span class="hljs-comment">// 执行： A</span>
 </code></pre>
 <p>如果同一个方法有多个参数，那么参数也是顺序加载、逆序执行。</p>
-<pre><code>function f(key:string):any {
-  console.log('加载：', key);
-  return function () {
-    console.log('执行：', key);
+<pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">f</span>(<span class="hljs-params">key:string</span>):any {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;加载：&#x27;</span>, key);
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;执行：&#x27;</span>, key);
   };
 }
 
-class C {
-  method(
-    @f('A') a:any,
-    @f('B') b:any,
-    @f('C') c:any,
-  ) {}
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">C</span> {
+  <span class="hljs-title function_">method</span>(<span class="hljs-params">
+    @f(<span class="hljs-string">&#x27;A&#x27;</span>) a:any,
+    @f(<span class="hljs-string">&#x27;B&#x27;</span>) b:any,
+    @f(<span class="hljs-string">&#x27;C&#x27;</span>) c:any,
+  </span>) {}
 }
-// 加载： A
-// 加载： B
-// 加载： C
-// 执行： C
-// 执行： B
-// 执行： A
+<span class="hljs-comment">// 加载： A</span>
+<span class="hljs-comment">// 加载： B</span>
+<span class="hljs-comment">// 加载： C</span>
+<span class="hljs-comment">// 执行： C</span>
+<span class="hljs-comment">// 执行： B</span>
+<span class="hljs-comment">// 执行： A</span>
 </code></pre>
 <h2 id="多个装饰器的合成">多个装饰器的合成</h2>
 <pre><code>@f @g x

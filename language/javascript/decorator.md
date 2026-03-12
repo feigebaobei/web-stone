@@ -84,7 +84,7 @@ function readonly (target, name, description) {
     //     configurable,
     //     writable
     // }
-    description.wriable = false
+    description.writable = false
 }
 class P {
     @readonly
@@ -175,6 +175,7 @@ function validator(
       originalSet.call(this, val);
     };
   }
+  return descriptor
 }
 
 class C {
@@ -242,25 +243,25 @@ class C {
 
 同一级装饰器的执行顺序，是按照它们的代码顺序。但是，参数装饰器的执行总是早于方法装饰器。 // 这里好像错了。
 
-```
-function f(key:string):any {
+```js
+function f(key: string): any {
   return function () {
-    console.log('执行：', key);
-  };
+    console.log('执行：', key)
+  }
 }
 
 class C {
   @f('方法1')
-  m1(@f('参数1') foo:any) {}
+  m1(@f('参数1') foo: any) {}
 
   @f('属性1')
-  p1: number;
+  p1: number
 
   @f('方法2')
-  m2(@f('参数2') foo:any) {}
+  m2(@f('参数2') foo: any) {}
 
   @f('属性2')
-  p2: number;
+  p2: number
 }
 ```
 
@@ -275,12 +276,12 @@ class C {
 
 如果同一个方法或属性有多个装饰器，那么装饰器将顺序加载、逆序执行。
 
-```
-function f(key:string):any {
-  console.log('加载：', key);
+```js
+function f(key: string): any {
+  console.log('加载：', key)
   return function () {
-    console.log('执行：', key);
-  };
+    console.log('执行：', key)
+  }
 }
 
 class C {
@@ -299,20 +300,16 @@ class C {
 
 如果同一个方法有多个参数，那么参数也是顺序加载、逆序执行。
 
-```
-function f(key:string):any {
-  console.log('加载：', key);
+```js
+function f(key: string): any {
+  console.log('加载：', key)
   return function () {
-    console.log('执行：', key);
-  };
+    console.log('执行：', key)
+  }
 }
 
 class C {
-  method(
-    @f('A') a:any,
-    @f('B') b:any,
-    @f('C') c:any,
-  ) {}
+  method(@f('A') a: any, @f('B') b: any, @f('C') c: any) {}
 }
 // 加载： A
 // 加载： B

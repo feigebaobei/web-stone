@@ -2783,6 +2783,447 @@ let f = (vertexList, edgeList) => {
 
 图中的最短路径 Dijkstra's
 
+欧拉回路
+要求除起点和终点外其他点必须是偶数度。在七桥问题中 4 个点的都是奇点（奇数度）
+
+```js
+// C---|
+// | / |
+// A---D
+// | \ |
+// B---|
+let f = () => {
+  // 构建图
+  // let Oa = { key: 'A', next: [], }
+  // let Ob = { key: 'B', next: [], }
+  // let Oc = { key: 'C', next: [], }
+  // let Od = { key: 'D', next: [], }
+  // Oa.next.push(Oc, Od, Ob)
+  let map = new Map([
+    // ['A', {A: [], B: ['a', 'b'], C: ['c', 'd'], D: ['e']}],
+    ['A', { a: 'C', b: 'C', c: 'D', e: 'B', f: 'B' }],
+    ['B', { e: 'A', f: 'A', g: 'D' }],
+    ['C', { a: 'A', b: 'A', d: 'D' }],
+    ['D', { c: 'A', d: 'C', g: 'B' }],
+  ])
+  let res = []
+  let _f = (choices, state) => {
+    if (state.length === 7) {
+      res.push([...state])
+    }
+    choices.forEach((address) => {
+      let routes = Array.from(Object.keys(map.get(address)))
+      routes.forEach((routeItem) => {
+        let tArr = state.map((item) => item.route)
+        clog(tArr)
+        if (!tArr.includes(routeItem)) {
+          state.push({
+            address,
+            route: routeItem,
+          })
+          _f([map.get(address)[routeItem]], state)
+          state.pop()
+        }
+      })
+    })
+  }
+  _f(Array.from(map.keys()), [])
+  clog(res)
+}
+```
+
+单词
+输入 n(n≤100000)个单词,是否可以把所有这些单词排成一个序列,使得每个单词
+的第一个字母和上一个单词的最后一个字母相同(例如 acm、malform、mouse)。每个单
+词最多包含 1000 个小写字母。输入中可以有重复单词。
+
+```js
+let f = (wordArr) => {
+  let res = []
+  let i = 0
+  let j = 1
+  while (i < wordArr.length) {
+    let last = wordArr[i][wordArr[i].length - 1]
+    j = i + 1
+    while (j < wordArr.length) {
+      if (last === wordArr[j][0]) {
+        break
+      } else {
+        j++
+      }
+    }
+    if (j < wordArr.length) {
+      ;[wordArr[i + 1], wordArr[j]] = [wordArr[j], wordArr[i + 1]]
+      i++
+    } else {
+      i = j // 用于停止循环
+    }
+  }
+  return res
+}
+```
+
+看图写树
+你的任务是将多叉树转化为括号表示法。如图 6-16 所示,每个结点用除了“-”、“|”和空格的其他字符表示,每个非叶结点的正下方总会有一个“|”字符,然后下方是一排“-”字符,恰好覆盖所有子结点的上方。单独的一行“#”为数据结束标记。
+
+```js
+let f = (str) => {
+  let groupArr = str
+    .split('#')
+    .filter((group) => !!group)
+    .map((group) => {
+      return group
+        .split('\n')
+        .filter((row) => !!row)
+        .map((row) => {
+          return row.split('')
+        })
+    })
+  groupArr.forEach((group) => {
+    let rootPosition = []
+    for (let i = 0; i < group.length; i++) {
+      for (let j = 0; j < group[0].length; j++) {
+        if (/[A-Z]/.test(group[i][j])) {
+          rootPosition = [i, j]
+          break
+        }
+      }
+      if (rootPosition.length) {
+        break
+      }
+    }
+    let root = {
+      position: rootPosition,
+      sub: [],
+    }
+    let queue = [root]
+    let getSub = (i, j) => {
+      let state = []
+      if (group[i + 1] && group[i + 1][j] === '|') {
+        let left = j
+        let right = j
+        while (left > 0) {
+          if (group[i + 2][left - 1] === '-') {
+            left--
+          } else {
+            break
+          }
+        }
+        while (right < group[i + 2].length - 1) {
+          if (group[i + 2][right + 1] === '-') {
+            right++
+          } else {
+            break
+          }
+        }
+        let k = left
+        while (k <= right) {
+          if (/[A-Z]/.test(group[i + 3][k])) {
+            state.push([i + 3, k])
+          }
+          k++
+        }
+      }
+      return state
+    }
+    while (queue.length) {
+      let point = queue.shift()
+      let arr = getSub(point.position[0], point.position[1])
+      arr.forEach((item) => {
+        let t = {
+          position: [...item],
+          sub: [],
+        }
+        point.sub.push(t)
+        queue.push(t)
+      })
+    }
+    let _f = (node) => {
+      if (node) {
+        node.sub.map((subNode) => {
+          return _f(subNode)
+        })
+        return `${group[node.position[0]][node.position[1]]}(${node.sub
+          .map((subNode) => {
+            return _f(subNode)
+          })
+          .join('')})`
+      } else {
+        return ''
+      }
+    }
+    clog(`(${_f(root)})`)
+  })
+}
+f(`    A
+    |
+--------
+B  C   D
+   |   |
+ ----- -
+ E   F G
+#
+E
+|
+----
+F G
+#`)
+```
+
+雕塑
+某雕塑由 n(≤50) 个边平行于坐标轴的长方体组成。每个长方体用 6 个整数 xo, yox,y, z 表示(均为 1~500 的整数),其中 x 为长方体的顶点中 x 坐标的最小值,x 表示长方体在 x 方向的总长度。其他 4 个值类似定义。你的任务是统计这个雕像的体积和表面积。注意,雕塑内部可能会有密闭的空间,其体积应计算在总体积中,但从“外部”看不见的面不应计入表面积。雕塑可能会由多个连通块组成。
+提示是说用 floodFill 解决。用空气的内表面积就是雕塑的外表面积。空气的内体积就是雕塑的外体积。用离散化解决。
+
+```js
+let f = () => {}
+```
+
+自组合
+有 n(n≤40000)种边上带标号的正方形。每条边上的标号要么为一个大写字母后面跟
+着一个加号或减号,要么为数字 00。当且仅当两条边的字母相同且符号相反时,两条边能
+拼在一起(00 不能和任何边拼在一起,包括另一条标号为 00 的边)。
+假设输入的每种正方形都有无穷多种,而且可以旋转和翻转,你的任务是判断能否组
+成一个无限大的结构。每条边要么悬空(不和任何边相邻),要么和一个上述可拼接的边
+相邻。如图 6-17 (a)所示是 3 个正方形,图 6-17 (b)所示边是它们组成的一个合法结构
+(但大小有限)。
+分析：
+由“判断是否可以出现重复的正方形”升级为“以正方形边为点（a+~z+，a-~z-，共 52 个）以正方形为边的有向图，若此图有环，则有解。”
+
+```js
+let f = () => {}
+```
+
+系统依赖(System Dependencies, ACM/ICPC World Finals 1997, UVa506)
+软件组件之间可能会有依赖关系,例如,TELNET 和 FTP 都依赖于 TCP/IP。你的任务是模拟安装和卸载软件组件的过程。首先是一些 DEPEND 指令,说明软件之间的依赖关系(保证不存在循环依赖),然后是一些 INSTALL、REMOVE 和 LIST 指令,如表 6-1 所示。
+
+> DEPEND item1 item2 [item3 ...] iteml 依赖组件 item2, item3, ...
+> INSTALL iteml 安装 iteml 和它的依赖(已安装过的不用重新安装)
+> REMOVE item1 卸载 item1 和它的依赖(如果某组件还被其他显式安装的组件所依赖,则不能卸载这个组件)
+> LIST 输出所有已安装组件
+> 在 INSTALL 指令中提到的组件称为显式安装,这些组件必须用 REMOVE 指令显式删除。同样地,被这些显式安装组件所直接或间接依赖的其他组件也不能在 REMOVE 指令中删除。每行指令包含不超过 80 个字符,所有组件名称都是大小写敏感的。指令名称均为大写字母。
+
+```js
+let f = (commandList) => {
+  let installed = []
+  let group = []
+  let allNode = []
+  let createNode = (v) => {
+    return {
+      key: v,
+      // dep: dep,
+      // depes: depes,
+      // dep: new Set(),
+      // depes: new Set(),
+      dep: [],
+      depes: [],
+    }
+  }
+  let opDep = (a, b) => {
+    // a.dep.add(b.key)
+    // b.depes.add(a.key)
+    a.dep.push(b)
+    b.depes.push(a)
+  }
+  let getList = () => {
+    let tag = new Set()
+    let queue = group.map((item) => item)
+    while (queue.length) {
+      let node = queue.shift()
+      tag.add(node.key)
+      // [...node.dep]
+      node.dep.forEach((item) => {
+        if (tag.has(item.key)) {
+        } else {
+          queue.push(item)
+        }
+      })
+    }
+    return [...tag]
+  }
+  let find = (key) => {
+    let queue = group.map((item) => item)
+    while (queue.length) {
+      let node = queue.shift()
+      if (node.key === key) {
+        return node
+      }
+    }
+    return undefined
+  }
+  commandList.forEach((command) => {
+    let [com, ...rest] = command.split(' ')
+    switch (com) {
+      case 'DEPEND':
+        // 不会
+        break
+      case 'INSTALL':
+        if (installed.includes(rest[0])) {
+          clog('已经显示安装')
+        } else {
+          installed.push(rest[0])
+        }
+        break
+      case 'REMOVE':
+        break
+      case 'LIST':
+        clog(getList())
+        break
+    }
+  })
+}
+```
+
+战场(Paintball, UVa 11853)
+有一个 1000×1000 的正方形战场,战场西南角的坐标为(0,0),西北角的坐标为 (0,1000)。战场上有 n(0≤ ヵ ≤1000)个敌人,第个敌人的坐标为(xay),攻击范围为 r。为了避开敌人的攻击,在任意时刻,你与每个敌人的距离都必须严格大于它的攻击范围。你的任务是从战场的西边(x−0 的某个点)进入,东边(x=1000 的某个点)离开。如果有多个位置可以进/出,你应当求出最靠北的位置。输入每个敌人的 xi、yi、 ri 输出进入战场和离开战场的坐标。
+
+```js
+let f = (pointArr) => {
+  // 是否存在解
+  let res = []
+  let tag = []
+  let getDist = (i, j, l, k) => {
+    return Math.sqrt(Math.pow(i - l, 2) + Math.pow(j - k, 2))
+  }
+  let _f = (choices, state) => {
+    // if () {
+    //   res.push([...state])
+    // } else {
+    // }
+    choices.forEach((point) => {
+      let t = point[0] + point[1]
+      if (!tag.includes(t)) {
+        state.push(point)
+        tag.push(t)
+        let jin = pointArr.filter((item) => {
+          return (
+            !tag.includes(item[0] + item[1]) &&
+            getDist(point[0], point[1], item[0], item[1]) <= point[2] + item[2]
+          )
+        })
+        if (jin.length) {
+          _f(jin, state)
+        } else {
+          res.push([...state])
+        }
+        tag.pop()
+        state.pop()
+      }
+    })
+  }
+  _f(pointArr, [])
+  res.forEach((arr) => {
+    arr.sort((a, b) => a[1] - b[1])
+  })
+  let zongArr = res.filter((arr) => {
+    return (
+      arr[0][1] - arr[0][2] <= 0 &&
+      arr[arr.length - 1][1] + arr[arr.length - 1][2] >= 1000
+    )
+  })
+  if (zongArr.length) {
+    clog('不能通过')
+  } else {
+    // let leftArr = res.filter(arr => {
+    //   arr.
+    // })
+    let rangeArr = pointArr
+      .filter((point) => {
+        return point[0] - point[2] <= 0
+      })
+      .map((point) => {
+        // point[1]
+        let y = Math.sqrt(point[2] * point[2] - point[0] * point[0])
+        return [point[1] - y, point[1] + y]
+      })
+      .sort((a, b) => {
+        return a[0] - b[0]
+      })
+    for (let i = rangeArr.length; i > 0; i--) {
+      let start = Math.max(rangeArr[i][0], rangeArr[i - 1][0])
+      let end = Math.min(rangeArr[i][1], rangeArr[i - 1][1])
+      if (start <= end) {
+        // 相交
+        rangeArr[i - 1][0] = Math.min(rangeArr[i][0], rangeArr[i - 1][0])
+        rangeArr[i - 1][1] = Math.max(rangeArr[i][1], rangeArr[i - 1][1])
+        rangeArr.splice(i, 1)
+      }
+    }
+    let borderPointArr = rangeArr.flat(1)
+    let resArr = []
+    for (let i = borderPointArr.length - 1; i >= 0; i--) {
+      if (borderPointArr[i] <= 1000) {
+        resArr.push(borderPointArr[i])
+        break
+      }
+    }
+    rangeArr = pointArr
+      .filter((point) => {
+        return point[0] + point[2] >= 1000
+      })
+      .map((point) => {
+        let y = Math.sqrt(point[2] * point[2] - point[0] * point[0])
+        return [point[1] - y, point[1] + y]
+      })
+      .sort((a, b) => {
+        return a[0] - b[0]
+      })
+    for (let i = rangeArr.length - 1; i > 0; i--) {
+      let s = Math.max(rangeArr[i][0], rangeArr[i - 1][0])
+      let e = Math.max(rangeArr[i][1], rangeArr[i - 1][1])
+      if (s <= e) {
+        rangeArr[i - 1][0] = Math.min(rangeArr[i][0], rangeArr[i - 1][0])
+        rangeArr[i - 1][1] = Math.max(rangeArr[i][1], rangeArr[i - 1][1])
+        rangeArr.splice(i, 1)
+      }
+    }
+    borderPointArr = rangeArr.flat(1)
+    for (let i = borderPointArr.length - 1; i >= 0; i--) {
+      if (borderPointArr[i] <= 1000) {
+        resArr.push(borderPointArr[i])
+        break
+      }
+    }
+    clog(resArr)
+  }
+  // 与左边相交的圆
+  // 与右边相交的圆
+}
+```
+
+平衡的括号(Parentheses Balance, UVa 673)
+输入一个包含“0”和“□”的括号序列,判断是否合法。具体规则如下:
+
+> ■ 空串合法。
+> □ 如果 A 和 B 都合法,则 AB 合法。
+> □ 如果 A 合法则(A)和[A]都合法。
+
+```js
+let f = (str) => {
+  let signArr = []
+  let i = 0
+  while (i < str.length) {
+    switch (str[i]) {
+      case '(':
+      case '[':
+        signArr.push(str[i])
+        break
+      case ')':
+      case ']':
+        signArr.pop()
+        break
+    }
+    i++
+  }
+  return !signArr.length
+}
+```
+
+s 树，没看懂。
+
+```js
+let f = () => {}
+```
+
 ```js
 let f = () => {}
 ```
@@ -2815,7 +3256,7 @@ let f = () => {}
 
 ### title
 
-## 第 7 章 数据结构基础
+## 第 7 章 暴力求解法
 
 # 第 3 部分 竞赛篇
 
