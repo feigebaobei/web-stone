@@ -23,7 +23,7 @@ typeof BigInt('1') === 'bigint' // true
 | BigInt.asIntN(width, bigint)  | 静态方法将 BigInt 值转换为一个 -2width-1 与 2width-1-1 之间的有符号整数。 |                 |
 | BigInt.asUintN(width, bigint) | 静态方法将 BigInt 转换为一个 0 和 2width-1 之间的无符号整数。             |                 |
 | BigInt#valueOf()              | 返回 bigint 对象的原始值                                                  |                 |
-| BigInt#toString([radix])      | 返回 bigint 的字符串。无`n`                                               | radix 基数      |
+| BigInt#toString([radix])      | 返回 bigint 的 radix 进制的字符串。无`n`                                  | radix 基数      |
 | BigInt#toLocaleString         | 返回此数字的 language-sensitive 形式的字符串。                            | locales options |
 
 ## Number & BigInt

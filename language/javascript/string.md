@@ -24,14 +24,14 @@
 | api       | 参数       | 说明                |            |||
 | ------- | ------------------- | ---------- | ----------------- | --- | -------- |
 | String#@@iterator() |        | 返回新的 iterator 对象    |            |
-| String#charAt(index)   | index: 0 ~ string.length - 1   | 返回指定索引的字符         |            |
-| String#charCodeAt(index)       | index  | 返回指定索引的字符的编码单元表示                |            |
-| String#codePointAt(pos)        | pos 编码元素的位置          | 返回一个 Unicode 编码点值的非负整数             |            |
 | String#concat(...str)  |        | 返回把若干 str 合并后的新字符串                 | 性能不如`+`/`+=`   |
 | String#endsWith(searchString[, length])               | searchString 是搜索的字符串。length 指定 String 的尾部下标 | 返回 String 的指定尾部是否以 searchString 结束  |            |
-| String.fromCharCode(...num)    | num 0~65535(0xffff)之间的代表示 utf-16 代码单元的数字      | 返回该数字对应的字母。     |            |
+| String#charAt(index)   | index: 0 ~ string.length - 1   | 返回指定索引的字符         |            |
+| String#charCodeAt(index)       | index  | 返回指定索引的字符的编码单元表示                |            |
 | String.fromCodePoint(...num)   |        | 返回使用指定的代码点序列创建的字符串            |            |
+| String#codePointAt(pos)        | pos 编码元素的位置          | 返回一个 Unicode 编码点值的非负整数             |            |
 | String#codePointAt(index)  | | 方法返回一个非负整数，该整数是从给定索引开始的字符的 Unicode 码位值。请注意，索引仍然基于 UTF-16 码元，而不是 Unicode 码位。  |
+| String.fromCharCode(...num)    | num 0~65535(0xffff)之间的代表示 utf-16 代码单元的数字      | 返回该数字对应的字母。     |            |
 | String#chartCodeAt(index)  | | 方法返回一个整数，表示给定索引处的 UTF-16 码元，其值介于 0 和 65535 之间。  |
 | String#includes(searchString[, position])             |        | 返回 boolean。表示 String 中是否包含 searchString。从 position 开始搜索。      |
 |   |
@@ -42,8 +42,8 @@
 | 详见[正则表达式](/regexp/index.html)                  |
 | String#matchAll(regexpg)       | regexpg 全局匹配的正则表达式        | 返回一个包含所有匹配正则表达式和分组捕获结果的遍历器。  |            |
 | String#normalize([form])       | form 正规形式 'NFC' / 'NFD' / 'NFKC' / 'NFKD'              | 返回按指定形式正规化的字符串                    |            |
-| String#padEnd(targetLength, [padString])              |        | 返回一个新字符串，基于 String，添加 padString 到 targetLength                  |            |
-| String#padStart(targetLength, [padString])            |        |     |            |
+| String#padEnd(targetLength, [padString])              |        | 返回一个新字符串。在string后面添加若干padString,最终长度达到targetLength   |            |
+| String#padStart(targetLength, [padString])            |        | 返回一个新字符串。在string前面添加若干padString,最终长度达到targetLength   |            |
 | String.raw             |        |     |            |
 | String#repeat(count)   | count 重复次数 0 ~ +infinity        | 返回重复指定次数的新字符串 |            |
 | `String#replace(regexp\|substr, newSubStr\|function)` | regexp 正则表达式 substr 字符串 newSubStr 字符串。         | 替换                       | 详见下文   |

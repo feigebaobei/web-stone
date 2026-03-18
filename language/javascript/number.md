@@ -19,7 +19,7 @@ b instanceof Number // false
 |                          |                            |                       |     |     |
 | ------------------------ | -------------------------- | --------------------- | --- | --- |
 | Number.EPSILON           | 2 个可表示数之间的最小间隔 | 2.220446049250313e-16 |     |     |
-| Number.MAX_SAFE_INTEGER  | 最大安全数                 | 2^53 - 1              |     |     |
+| Number.MAX_SAFE_INTEGER  | 最大安全数                 | **2^53 - 1**              |     |     |
 | Number.MAX_VALUE         | 最大正数                   |                       |     |     |
 | Number.MIN_SAFE_INTEGER  | 最小安全数                 | -(2^53 - 1)           |     |     |
 | Number.MIN_VALUE         | 最小正数                   | 5e-324                |     |     |
@@ -32,7 +32,7 @@ b instanceof Number // false
 | Number.isInteger(number)    |  返回是否是整数 |   |||
 | Number.isSafeInteger(value)    |  返回是否是安全数。(-(2^53 - 1), 2^53 - 1) |   |||
 | Number.parseFloat(string)    |  把参数转化为小数。若无法转换则返回 NaN |   |||
-| Number.parseInt(string, [radix])    | radix 字符串的基数。默认值不是 10.把参数转化为整数。向下取整。或 NaN.
+| Number.parseInt(string, [radix])    | radix 字符串的基数。默认值是 10.把参数转化为整数。向下取整。或 NaN.
   |   |||
 | Number#toExponential(fractionDigits)    |  fractionDigits 小数位数。默认使用尽可能多的小数，以保证精度。返回转换为指数形式的字符串 | 发现不可在浏览器中直接运行。可能需要babel处理。  |||
 | Number#toFixed(digits)    |   digits 小数位数。[0, 20]。不在此范围的，默认为 0.

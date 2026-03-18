@@ -49,6 +49,8 @@
 - 若 ReactElement 的 type 不同（fiberNode 的 type 来自 ReactElement 对象的 type），则使用新组件及其后代元素。
   - 会触发 unmount 生命周期方法
 - 当 type 相同、属性不同时，更新当前元素，保留其他后代元素。
+- 列表用 key 复用节点。
+- 只同层对比，不跨层。
 
 ## what is react fiber
 
@@ -694,7 +696,7 @@ export const MountPassiveDev = /*              */ 0b10000000000000000000000000;
 为什么不能在条件语句或循环中使用 Hook？
 
 从实现来看，每次 hook 的执行，都是从索引为 0 即第一个 hook 开始执行。也是依靠索引记录当前操作的 Hook，假如使用条件语句或者循环，那么 hook 执行的顺序可能与我们在数组中存放的顺序不一致，就会乱掉。因此不能在条件语句或循环中使用 Hook。
-我看源码得到的结果是：各个状态组件一个链表，每个状态是一个节点。最后一个节点是当前状态。
+我看源码得到的结果是：各个状态组成一个链表，每个状态是一个节点。最后一个节点是当前状态。
 
 方法组件中使用`memoizedState`属性保存 state。
 `FiberNode.memoizedState`  
@@ -809,8 +811,8 @@ fiber更新后
 1. 当执行 setState 时，会在该组件对应的 FiberNode 的 uqdateQueue 中添加工作。设置 lanes 字段。
 2. 进入 render 阶段。（render phase）
 3. 调用 renderRoot 方法。从 HostRoot(它是一个 FiberNode)开始，会跳过完成工作的 FiberNode，直到未完成工作的 FiberNode.
-4. 调用 createWorkInProgress 方法，根据 ReactElement 创建 workInProgress.（可能没有此步）
-5. 调用 beginWork 方法。根据 type 分别调用相应的方法。如`updateClassComponent() 、 updateFunctionComponent()`。会创建并挂载组件的实例或更新实例。
+4. 调用 createWorkInProgress 方法，根据 ReactElement 创建 workInProgress 树.
+5. 调用 beginWork 方法。根据 type 分别调用相应的方法。如`updateClassComponent() 、 updateFunctionComponent()`。后面会创建并挂载组件的 fiberNode 节点或更新 fiberNode 节点。
 6. 调用 updateClassInstance 方法，去更新组件。然后依次调用：
    1. UNSAFE_componentWillReceiveProps() deprecated
    2. 执行 updateQueue 里的方法。会得到新的 state
@@ -819,8 +821,8 @@ fiber更新后
    5. 调用 UNSAFE_componentWillUpdate（） deprecated
    6. 添加一个触发 componentDidUpdate()的 effect。 在 render 阶段中是添加，实际执行在 commit 阶段。
 7. 更新实例的 state/props。 为执行 render 方法做准备。
-8. 执行 finishClassComponent 方法。react 会调用 render 方法，得到新组件实例，再执行 diffing 运算。
-   1. 执行 createWorkInProgress 方法，根据新的 ReactElement 对象得到替补节点（它是 FiberNode）
+8. 执行 finishClassComponent 方法。react 会调用 render 方法，得到新组件的 fiberNode 节点，然后执行 diffing 运算。
+   1. 执行 createWorkInProgress 方法，根据新的 ReactElement 对象得到替补节点（它是 FiberNode）（就是 workInProgress 树中的节点）
    2. 在 FiberNode.pendingProps 的数据会作用于子组件。
    3. 子组件中使用 memoizedProps
    4. 为 nextUnitOfWork 赋值。 其中的处理逻辑同上。
@@ -843,6 +845,24 @@ fiber更新后
 使用`renderRoot()`从`HostRoot`FiberNode 开始工作（这是 render 阶段）。  
 使用`createWorkInProgress()`创建一个该 FiberNode 的替补节点。更新操作都在这个替补节点上工作。
 
+### 我整理的口述
+
+> 由 jsx 生成 fiberNode 树，它就是虚拟 dom.
+> 根据 fiberNode 生成 dom 树。(使用 createElement 方法。)
+> 当调用 setState 时会改变状态，（这时会触发更新渲染 dom。）react 会在当前组件的 fiberNode 对象的 updateQueue 中添加工作，设置 lanes 字段的值。
+> (调用 reanderRoot 方法，)从 HostRoot 对象开始，跳过所有完成工作的 fiberNode,直到未完成工作的 FiberNode。
+> 调用 createWorkInProgress 方法，去创建 workInProgress 树，即创建组件的 fiberNode 或更新组件的 fiberNode。
+> 更新组件实例的 state（及给子组件传入新的 props）,为执行当前组件的 render 方法做准备。
+> 调用 render 方法得到组件新 fiberNode 节点（即替补节点）。
+> 给子组件传入更新后的 props.同上文逻辑，也执行更新操作。
+> 得到完整的 workInProgress 树后，全局范围内使用它。然后执行 diff 运算。底层和 js 操作 dom 的 api 完成更新 dom.
+
+### fiberNode 的好处
+
+- 阻止了频繁变动 dom 时做无用计算。
+- 把工作粒度处理到组件级别。
+- 多次变更 fiber 对象时，在最后一次变更时更新 dom.
+
 ### [The how and why on React’s usage of linked list in Fiber to walk the component’s tree](https://medium.com/react-in-depth/the-how-and-why-on-reacts-usage-of-linked-list-in-fiber-67f1014d0eb7)
 
 # 参考文档
@@ -854,6 +874,18 @@ fiber更新后
 - []()
 - []()
 - []()
+
+## 使用到的知识点
+
+双缓存：current/workInProgress
+建立 dom 与数据对象的关系
+以一个数据对象代替一个 dom 块。
+链式处理更新：update 对象。
+用二进制方式处理优先级。
+中心化收集所有组件的生命周期方法。再统一调用。
+把多次变动处理为多次更新 fiber 对象一次更新 dom.
+创建一个从 jsx 到 dom 的机制。周边生态成员可以使用从 jsx 对接 react.
+状态管理工具与 react 无关。可以与任何前端框架合作。
 
 ## 开拓
 
@@ -1042,12 +1074,26 @@ ReactDOMRoot.render 方法的参数是 reactElement
 
 ```
 
-### 触发条件
+### 更新组件的触发条件
 
 - State 更新：组件状态发生变化
 - Props 更新：父组件传递的属性改变
 - Context 更新：上下文数据变化
 - 强制更新：手动触发更新
+
+### 父子组件的更新顺序
+
+深度优先。由外向里执行。
+
+1. 父组件，触发更新
+1. 父组件，render
+1. 子组件，render
+1. 子组件，更新完成
+1. 父组件，更新完成
+
+父组件先更新，子组件再更新。
+子组件先挂载，父组件再挂载。
+子组件先卸载，父组件再卸载。
 
 ## hooks 逻辑
 

@@ -50,7 +50,7 @@
   | Math.tan(x)      |           |                                                                         |     |
   | Math.tanh(x)     |           |                                                                         |     |
   | Math.trunc(x)    |           | 舍去 x 的小数部分并返回。不改变 x。                                     |     |
-  | Math.sinh(x)     |           |                                                                         |     |
+  | Math.pow(x, y)   |           | x^y                                                                     |     |
   | Math.sinh(x)     |           |                                                                         |     |
   | Math.sinh(x)     |           |                                                                         |     |
   | Math.sinh(x)     |           |                                                                         |     |

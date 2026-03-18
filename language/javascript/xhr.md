@@ -61,6 +61,8 @@ let reqFn = (url, method, options = {headers: {}, body: {}, responseType = 'text
 
 ## api
 
+<!-- prettier-ignore-start -->
+
 | xhr 对象的属性                             |                                                                                                                              |                                                  |                                                                      |      |
 | ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ | -------------------------------------------------------------------- | ---- |
 | readyState                                 | 代表请求的状态码                                                                                                             | number                                           |                                                                      | 只读 |
@@ -101,6 +103,8 @@ let reqFn = (url, method, options = {headers: {}, body: {}, responseType = 'text
 | progress                                   |                                                                                                                              |                                                  |                                                                      |      |
 | timeout                                    |                                                                                                                              |                                                  |                                                                      |      |
 
+<!-- prettier-ignore-start -->
+
 | readyState 的值 | 状态             | 说明                                 |     |     |
 | --------------- | ---------------- | ------------------------------------ | --- | --- |
 | 0               | UNSENT           | 未执行 open()                        |     |     |
@@ -112,12 +116,12 @@ let reqFn = (url, method, options = {headers: {}, body: {}, responseType = 'text
 ## 生命周期
 
 ```
-1. 实例化                        ---> xhr对象。readyState=0
+1. 实例化  ---> xhr对象。readyState=0
 2. xhr.open()                   ---> readyState=1
 3. xhr.setRequestHeader(k, v)   ---> 设置请求头
 4. xhr.send()                   ---> readyState=2
-5. xxxx                         ---> readyState=3  responseText已经有些数据
-6. xxxx                         ---> readyState=4  下载完成
+5. xxxx   ---> readyState=3  responseText已经有些数据
+6. xxxx   ---> readyState=4  下载完成
 ```
 
 # todo
