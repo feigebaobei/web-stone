@@ -1036,7 +1036,7 @@ import type { default as T, G } from './one.ts'
 ## ts 的不足
 
 - 允许出现类型断言。
-- 允许出来 any 类型。
+- 允许出来 any 类型。从实际开发来看，做到不使用 any 太麻烦。ts 要做类型判断，又做不完整，就好尴尬。ts 允许 any、unknown 出现就是对类型的妥协。
 - 有时过于严格，有时可忽略类型错误。
   - var as unknown as T
 - 静态类型分析，不知道真实的数据传递。

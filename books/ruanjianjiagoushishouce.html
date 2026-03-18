@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x8f6f;&#x4ef6;&#x67b6;&#x6784;&#x5e08;&#x624b;&#x518c;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="软件架构师手册">软件架构师手册</h1>
+<h2 id="前言">前言</h2>
+<blockquote>
+<p>本书的目的：帮助软件开发人员过滤为软件架构师。帮助现有架构师进步。
+了解架构师的工作内容、职位责任。同时具备技术与非技术的能力；具备知识的广度与深度。</p>
+</blockquote>
+<h2 id="1-软件架构的含义">1 软件架构的含义</h2>
+<h3 id="isoiecieee-42010-标准定义">ISO/IEC/IEEE 42010 标准定义</h3>
+<ul>
+<li>软件架构是软件系统最基本的组成部分软件系统。</li>
+<li>软件系统处于一个特定的环境中，它的架构也要考虑其所运行的环境。</li>
+<li>架构描述对架构进行了文档化的记录，并向利益想着者传达了特定的架构是如何满足特定系统的需求。</li>
+<li>架构视图是从架构描述中创建出来的。每个视图涵盖了利益相关者的一个或多个关注点。</li>
+</ul>
+<h3 id="软件架构只关注重要的东西">软件架构只关注重要的东西</h3>
+<p>由对系统的质量、寿命和有用性至关重要的结构和组件构成。</p>
+<h3 id="定义满足需求的解决方案">定义满足需求的解决方案</h3>
+<p>软件力求满足所有功能性、非功能性、技术性和操作性的需求。与包括领域专家、业务分析师、产品负责人和最终用户在内的利益相关者密切合作，可以让需求被识别和理解。软件架构则定义满足这些需求的解决方案。</p>
+<h3 id="管理变更">管理变更。</h3>
+<p>变更可分为以下类别：</p>
+<ul>
+<li>局限于单个元素。</li>
+<li>涉及一组元素，但不需要架构调整。</li>
+<li>需要架构调整。</li>
+</ul>
+<p>不要害怕变更，正面变更，做出调整。
+有时在当设计好解决方案变更就来了；有时开发一半时变更来了；有时部署后变更来了。</p>
+<h3 id="提供可重用模型">提供可重用模型</h3>
+<p><strong>当一个软件架构被重用时，从原始架构设计中获得的经验同样可以用于其他软件系统。</strong></p>
+<h3 id="实施实现约束">实施实现约束</h3>
+<ul>
+<li>使开发人员完成目标。</li>
+<li>预防开发时犯错误。</li>
+</ul>
+<h3 id="改进成本和工作评估">改进成本和工作评估</h3>
+<p>软件架构师提供信息（如：完工时间、成本）使项目经理正确规划资源并监控进度。常用方法：</p>
+<ul>
+<li>自顶向下：从最终的可交付成果和目标出发，再分解为更小的工作组合。</li>
+<li>自底向上：从特定的任务出发。组合到工作组合中。</li>
+</ul>
+<h3 id="培训团队成员">培训团队成员</h3>
+<p>软件系统的维护阶段是软件项目中耗时最长，成本最高的阶段。</p>
+<blockquote>
+<p><strong>开发者维护软件，架构师维护开发者。</strong></p>
+</blockquote>
+<h3 id="软件架构不是银弹">软件架构不是银弹</h3>
+<blockquote>
+<p>软件架构是所有已知问题的折中解决方案。</p>
+</blockquote>
+<h3 id="软件架构是技术领导者">软件架构是技术领导者</h3>
+<h3 id="软件架构师需要履行多种职责">软件架构师需要履行多种职责</h3>
+<ul>
+<li>必须对软件架构设计、架构模式以及最佳实践有着深刻的理解。</li>
+<li>应当预见可能出现的问题并设计出解决方案。如：降低风险并评估不同的解决方案。选出最合适的解决方案。</li>
+<li>对技术有深度有广度。了解使用过、没有使用过的技术。</li>
+</ul>
+<p>理想情况下，软件架构师具有雄厚的知识，了解一个问题的解决方案并且能权衡各方案的利弊。对于软件架构师而言，理解一个解决方案为什么不能用与理解其为什么能用同样重要。</p>
+<h3 id="软件架构师需要掌握的知识">软件架构师需要掌握的知识</h3>
+<ul>
+<li>非技术性
+<ul>
+<li>发挥领导作用</li>
+<li>协助项目管理，包括成本和工作量评估。</li>
+<li>指导团队成员。</li>
+<li>协助选择团队成员。</li>
+<li>理解业务领域</li>
+<li>参与需求的收集和分析</li>
+<li>与各技术性、非技术性的干系人沟通。</li>
+<li>对未来的产品有清晰的愿景。</li>
+</ul>
+</li>
+<li>技术性
+<ul>
+<li>理解非功能性需求以及质量属性。</li>
+<li>能够有效地设计软件架构</li>
+<li>理解软件开发的模式和最佳实践。</li>
+<li>对软件架构模式及其优缺点有着深入理解，知道如何取舍。</li>
+<li>了解如何处理横切关注点</li>
+<li>确保满足性能与安全性需求。</li>
+<li>能够对软件架构进行记录和审查</li>
+<li>理解devops及其部署流程</li>
+<li>了解如何集成并使用遗留程序。</li>
+<li>能够设计适应变化和随时间演化的软件架构。</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-组织中的软件架构">2 组织中的软件架构</h2>
+<h3 id="软件架构师的类型">软件架构师的类型</h3>
+<p>一个组织里可能有多个架构师
+企业架构师</p>
+<ul>
+<li>合作者：与各方干系人合作。</li>
+<li>职责：
+<ul>
+<li>负责一个组件总体的技术解决方案和战略方向。</li>
+<li>了解组织的市场、客户、产品、业务领域、需求和技术。</li>
+<li>给其他架构师和开发人员提供指导、建议和技术方向的引领。</li>
+</ul>
+</li>
+</ul>
+<p>解决方案架构师</p>
+<ul>
+<li>职责
+<ul>
+<li>将需求转换为一个可行的架构。</li>
+</ul>
+</li>
+<li>与业务分析人员、产品负责人合作。</li>
+</ul>
+<p>应用架构师</p>
+<ul>
+<li>负责应用的架构å</li>
+<li>确保应用可以满足需求。</li>
+<li>作为技术人员、非技术人员之间联络人。</li>
+</ul>
+<p>数据架构师、信息架构师</p>
+<ul>
+<li>负责设计、部署和管理组织的数据架构。</li>
+<li>使组织的数据被正确的人在正确的时间、地方访问。</li>
+</ul>
+<p>基础设施架构师</p>
+<ul>
+<li>致力于组织的基础架构设计和实现。</li>
+<li>使基础设施环境满足组织的业务目标需求，</li>
+<li>提供硬件、网络、操作系统和软件解决方案。
+<ul>
+<li>服务器</li>
+<li>网络单元</li>
+<li>存储系统</li>
+<li>设施</li>
+</ul>
+</li>
+</ul>
+<p>信息安全架构师</p>
+<ul>
+<li>负责组织中的计算机和网络安全。</li>
+<li>构建、监督和维护安全方面的实现。</li>
+</ul>
+<p>云架构师
+拥有负责云架构的组织能够更好地利用云技术带来的便利。</p>
+<ul>
+<li>选择最契合需求的去供应商和模型（saas/paas/iaas）</li>
+<li>负责云的管理，创建管理准则和规程。</li>
+</ul>
+<h3 id="软件开发方法">软件开发方法</h3>
+<p>瀑布模型</p>
+<ul>
+<li>需求 -&gt; 设计 -&gt; 实现 -&gt; 验证 -&gt; 维护</li>
+<li>缺点：
+<ul>
+<li>直到编码完成才会开始测试</li>
+<li>直到项目结束，用户才能看到软件的可运行版本。</li>
+<li>仅凭需求文档，用户较难想象产品的样子。</li>
+</ul>
+</li>
+</ul>
+<p>敏捷开发</p>
+<pre><code>    需求 -&gt; 设计与分析 -&gt; 实现
+     ^                  |
+     |                  V
+    评估、优化 &lt;- 产品质量评估、验收测试
+</code></pre>
+<p>适应而非预测变化</p>
+<p>每日站会</p>
+<ul>
+<li>说的内容
+<ul>
+<li>我昨天完成了什么</li>
+<li>我今天要做什么</li>
+<li>在工作中面临着哪些困难</li>
+</ul>
+</li>
+<li>优点
+<ul>
+<li>每个人都了解团队的任务</li>
+<li>整个团队共同解决困难</li>
+<li>使团队团结</li>
+</ul>
+</li>
+</ul>
+<h3 id="项目管理">项目管理</h3>
+<ul>
+<li>重视评估
+<blockquote>
+<p>我需要加强评估准确性。</p>
+</blockquote>
+</li>
+<li>做一个现实主义者</li>
+<li>考虑团队和环境因素</li>
+<li>项目计划的变更</li>
+</ul>
+<h3 id="让项目如期进行">让项目如期进行</h3>
+<ul>
+<li>加班</li>
+<li>删减内容</li>
+<li>增加人力</li>
+<li>重新分配资源
+<ul>
+<li>让合适的人做合适的工作。</li>
+</ul>
+</li>
+<li>找出问题所在。针对问题设计解决方案</li>
+<li>尽早行动</li>
+</ul>
+<h3 id="职场关系">职场关系</h3>
+<ul>
+<li>解决组织的目标</li>
+<li>解决他人的担忧</li>
+<li>帮助他人达成目标</li>
+<li>适时妥协</li>
+<li>注意文件差异</li>
+</ul>
+<h3 id="软件风险管理">软件风险管理</h3>
+<ul>
+<li>功能必风险</li>
+<li>技术性风险</li>
+<li>人员风险</li>
+<li>财务风险。roi难以满足。</li>
+<li>法律风险</li>
+<li>管理风险</li>
+</ul>
+<h4 id="风险规避">风险规避</h4>
+<p>以某种方式消除风险。
+不使用不熟悉的语言、技术等</p>
+<h4 id="风险转移">风险转移</h4>
+<p>把一些功能给分包商。</p>
+<h4 id="风险缓解">风险缓解</h4>
+<p>降低风险发生的可能性。
+解决风险。</p>
+<h4 id="风险接受">风险接受</h4>
+<h3 id="配置管理">配置管理</h3>
+<h4 id="变更管理">变更管理</h4>
+<p>变更控制委员会（ccb）</p>
+<ul>
+<li>让ccb全权审查所有变更。</li>
+<li>由开发人员全权决定所有变更。</li>
+<li>no.1 no.2 达到平衡。</li>
+</ul>
+<h3 id="组织的核心资产">组织的核心资产</h3>
+<ul>
+<li>需求分析</li>
+<li>领域模型和分析</li>
+<li>软件架构设计</li>
+<li>测试计划和测试用例</li>
+<li>工作计划、时间表、预算</li>
+<li>流程、方法、工具</li>
+<li>员工的学识、技能和经验</li>
+<li>用户指南和技术文档</li>
+</ul>
+<h2 id="3-理解领域">3 理解领域</h2>
+<h3 id="培养商业智慧">培养商业智慧</h3>
+<p>设计软件架构是必须同时考虑业务、用户和软件系统。</p>
+<ul>
+<li>熟悉基本的业务主题</li>
+<li>了解所在组织的业务</li>
+</ul>
+<h3 id="领域驱动设计">领域驱动设计</h3>
+<blockquote>
+<p>需要从专业的书籍中学习。</p>
+</blockquote>
+<p>通用语言：对讨论时的标的物的一致称谓。</p>
+<ul>
+<li>实体、值对象、聚合</li>
+<li>领域可分为多个子领域</li>
+<li>有界上下文</li>
+</ul>
+<h3 id="需求工程">需求工程</h3>
+<ul>
+<li>业务需求</li>
+<li>功能性需求</li>
+<li>非功能性需求</li>
+<li>约束</li>
+</ul>
+<h3 id="需求抽取">需求抽取</h3>
+<ul>
+<li>访谈</li>
+<li>需求研讨会</li>
+<li>头脑风暴</li>
+<li>观察</li>
+<li>焦点小组</li>
+<li>调查问卷</li>
+<li>文档分析</li>
+<li>原型（即:mvp）</li>
+<li>逆向工程</li>
+</ul>
+<h2 id="4-软件质量属性">4 软件质量属性</h2>
+<h3 id="质量属性">质量属性</h3>
+<ul>
+<li>是软件系统的非功能性属性。</li>
+<li>它应用是可测量、可测试的。</li>
+<li>描述软件系统质量和度量系统适用性的基准。</li>
+<li>软件系统由质量属性的组合构成，它们被 满足的程序反映了软件的整体质量。</li>
+<li>有些软件质量属性互相影响。</li>
+</ul>
+<blockquote>
+<p>解决方案就在众多质量属性之间达到平衡。</p>
+</blockquote>
+<h4 id="测试质量属性">测试质量属性</h4>
+<ul>
+<li>手动测试软件的可用性</li>
+<li>为性能测试建立基准并使用工具进行测试</li>
+<li>执行代码审查和计算代码度量以测试其可维护性</li>
+<li>执行自动化单元测试以确保系统按预期运行</li>
+</ul>
+<h3 id="可维护性">可维护性</h3>
+<ul>
+<li>当软件生效后再对其进行更改。</li>
+<li>可维护性会影响软件系统进行逆向工程的难易程序。</li>
+</ul>
+<h4 id="软件维护的类型">软件维护的类型</h4>
+<ul>
+<li>改正性维护
+<ul>
+<li>缺陷的程度可分为：危险、高、中、低</li>
+</ul>
+</li>
+<li>完善性维护</li>
+<li>适应性维护</li>
+<li>预防性维护</li>
+</ul>
+<h4 id="可修改性">可修改性</h4>
+<h4 id="可扩展性和灵活性">可扩展性和灵活性</h4>
+<h4 id="可维护性的设计">可维护性的设计</h4>
+<ul>
+<li>减小规模</li>
+<li>提高内聚性</li>
+<li>降低耦合性</li>
+</ul>
+<h4 id="可维护性的度量">可维护性的度量</h4>
+<ul>
+<li>代码行数 loc</li>
+<li>圈复杂度
+<ul>
+<li>CC = E - N + 2P</li>
+<li>CC 圈复杂度</li>
+<li>E  图的边数</li>
+<li>N  图的节点数</li>
+<li>P  图中连通部分的数量</li>
+</ul>
+</li>
+<li>继承树的深度 dit</li>
+</ul>
+<h3 id="易用性">易用性</h3>
+<h4 id="有吸引力的视觉设计">有吸引力的视觉设计</h4>
+<ul>
+<li>web应用程序
+<ul>
+<li>重视可读性</li>
+<li>确保所有页面的布局都是经过深思熟虑的。</li>
+<li>避免过多文字，保持内容简洁。</li>
+<li>确保导航和菜单不会过于复杂。</li>
+<li>所有链接可用</li>
+<li>提供工具提示。</li>
+<li>整个应用程序中保持颜色、图标、字体、标题、术语一致。</li>
+<li>在用户必须等待时显示进度指示器。</li>
+</ul>
+</li>
+<li>windows桌面应用程序
+<ul>
+<li>设计适当的控件间距</li>
+<li>根据所包含的内容适当地调整窗口和控件</li>
+<li>注意窗口大小改变时内容会被截断。</li>
+<li>内容在任何窗口大小时都可以使用。</li>
+<li>为每个控件和控件组添加标签。</li>
+<li>定义快捷键。</li>
+<li>分配访问键。</li>
+<li>确保窗口标题、控件、标签和内容大小写正确。</li>
+<li>提供有用的工具提示</li>
+<li>整个应用程序中保持颜色、图标、字体、标题、术语一致。</li>
+<li>为长时间任务提供进度指示器。</li>
+</ul>
+</li>
+</ul>
+<h4 id="良好的帮助系统">良好的帮助系统</h4>
+<ul>
+<li>为不同身份的用户</li>
+<li>在线帮助、官服</li>
+<li>产品手册、教程</li>
+<li>常见问题</li>
+<li>工具提示</li>
+<li>知识库、</li>
+<li>论坛</li>
+<li>培训事件</li>
+<li>优秀作品</li>
+</ul>
+<h3 id="可用性">可用性</h3>
+<pre><code>            MTBF
+可用性 = -------------
+          MTBF+MTTR
+MTBF: 平均故障间隔时间
+MTTR: 平均修复时间
+
+        成功请求次数
+可用性 = -------
+        总请求次数
+</code></pre>
+<h4 id="故障检测">故障检测</h4>
+<ul>
+<li>ping/echo reply</li>
+<li>心跳</li>
+<li>时间戳</li>
+<li>表决。如：三模冗余</li>
+<li>可用性测试、可用性检查</li>
+<li>状态监测</li>
+<li>自测</li>
+</ul>
+<h4 id="故障恢复">故障恢复</h4>
+<ul>
+<li>异常处理</li>
+<li>重试策略</li>
+<li>不同程序的冗余</li>
+<li>回滚</li>
+<li>优雅降级</li>
+<li>忽略故障行为</li>
+</ul>
+<h4 id="故障预防">故障预防</h4>
+<ul>
+<li>从服务中删除</li>
+<li>事务</li>
+<li>增加能力集</li>
+<li>导常预防</li>
+</ul>
+<h3 id="可移植性">可移植性</h3>
+<ul>
+<li>适应性</li>
+<li>可安装性</li>
+<li>可替换性</li>
+<li>国际化与本地化
+<ul>
+<li>将标题、消息、工具提示以及其他内容翻译成另外一种语言</li>
+<li>确保翻译后用户界面能够正常地容纳文字</li>
+<li>即使是使用同一种语言的国家，可能需要重写一些内容，避免出现错误或误解。</li>
+<li>文本是从左到右还是从右到左。</li>
+<li>电话号码的差异。</li>
+<li>重量、尺寸的差异。</li>
+<li>不同的日期、时间格式。</li>
+<li>时差。</li>
+<li>数字的格式。</li>
+<li>货币流通上的差异。</li>
+<li>法律要求。</li>
+</ul>
+</li>
+<li>维护可移植性</li>
+</ul>
+<h3 id="互用性">互用性</h3>
+<ul>
+<li>一个软件系统能够交换和使用另一个软件系统的信息的程度。</li>
+</ul>
+<h3 id="可测试性">可测试性</h3>
+<h4 id="可控性">可控性</h4>
+<p>被测试组件状态的可控制程度。</p>
+<h4 id="可观察性">可观察性</h4>
+<ul>
+<li>输入、输出</li>
+<li>当前状态</li>
+</ul>
+<h4 id="可隔离性">可隔离性</h4>
+<p>单测组成部分</p>
+<h4 id="自动测试性">自动测试性</h4>
+<p>创建或执行自动化测试的能力。</p>
+<h4 id="软件的复杂性">软件的复杂性</h4>
+<ul>
+<li>结构复杂性</li>
+<li>行为复杂性</li>
+</ul>
+<h2 id="5-设计软件架构">5 设计软件架构</h2>
+<p>4种常见过程：</p>
+<ul>
+<li>属性驱动设计</li>
+<li>微软的架构和设计技术</li>
+<li>以架构为中心的设计方法</li>
+<li>架构开发方法</li>
+</ul>
+<h3 id="软件架构设计">软件架构设计</h3>
+<ul>
+<li>为满足功能需求、质量属性和约束做出决策。</li>
+<li>是一个创造性的过程。软件架构师利用自己的创造性为复杂的问题提出解决方案。这可能是软件项目中最有趣和最有价值的部分了。</li>
+<li>设计术语：结构、元素、系统、子系统、模块、组件</li>
+<li>逃避设计决策可能导致技术债务。
+<ul>
+<li>技术债务：由于当时做出的或者没有做出的决策导致后来需要耗费额外的工作成本和精力。</li>
+<li>不全是坏事。有时会为了眼前的利益付出一些代价。</li>
+</ul>
+</li>
+</ul>
+<h3 id="自顶向下方法和自底向上方法">自顶向下方法和自底向上方法</h3>
+<ul>
+<li>自顶向下方法
+<ul>
+<li>从整个系统的最高层开始，从上到下进行分解。</li>
+<li>优点
+<ul>
+<li>是一种设计和分解的系统化方法。</li>
+<li>适合分工</li>
+</ul>
+</li>
+<li>缺点
+<ul>
+<li>大量预告设计</li>
+</ul>
+</li>
+<li>适用条件
+<ul>
+<li>项目规模大、复杂。</li>
+<li>是为组织设计的。</li>
+<li>一个项目多个合作团队</li>
+<li>充分理解领域</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>自底向上方法
+<ul>
+<li>从解决方案所需要的组件开始，逐步向上设计直到较高的抽象级别。</li>
+<li>优点
+<ul>
+<li>简单。只关注独立的部分，并且一个迭代中只构建需要的部分。</li>
+<li>无大量预先设计。</li>
+<li>促进代码重用。</li>
+</ul>
+</li>
+<li>缺点
+<ul>
+<li>低估了变更的代码。</li>
+<li>较差的可维护性。</li>
+<li>设计缺陷可能不会在早期被发现。</li>
+</ul>
+</li>
+<li>适用条件
+<ul>
+<li>项目规模小、简单</li>
+<li>不是为组织设计的</li>
+<li>只有一个开发团队</li>
+<li>未充分理解</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="架构驱动">架构驱动</h3>
+<ul>
+<li>是指需要为软件系统做出的、在架构方面具有重要意义的考虑。</li>
+<li>它们驱动和指导软件架构的设计</li>
+</ul>
+<h4 id="设计目标">设计目标</h4>
+<h4 id="主要功能需求-primary-functional-requirements">主要功能需求 primary functional requirements</h4>
+<h4 id="质量属性场景">质量属性场景</h4>
+<h4 id="约束">约束</h4>
+<p>如：必须使用特定的语言、在特定的环境。</p>
+<h4 id="架构关注点">架构关注点</h4>
+<p>是软件架构师的兴趣所在。</p>
+<h3 id="利用设计原则和现有的解决方案">利用设计原则和现有的解决方案</h3>
+<p>架构设计原则和解决方案有时被称为设计概念。是用于设计软件架构的基本构建模块。</p>
+<ul>
+<li>选择一个设计概念。可以使用的设计概念包括软件架构模式、参加架构、策略和外部开发的软件。</li>
+<li>软件架构模式</li>
+<li>参考架构
+<ul>
+<li>最适用于特定领域的架构的模板。</li>
+<li>根据需要重构参考架构</li>
+<li>创建自己的参加架构。</li>
+</ul>
+</li>
+</ul>
+<h4 id="策略">策略</h4>
+<p>专注于单个质量属性的解决方案。</p>
+<h4 id="外部开发的软件">外部开发的软件</h4>
+<ul>
+<li>购买或构建？
+<ul>
+<li>了解试图解决的问题，以该问题的范围。</li>
+<li>研究外部开发的软件能否解决该问题。</li>
+</ul>
+</li>
+<li>研究外部软件
+<ul>
+<li>是否解决了设计问题</li>
+<li>是否可以接受成本</li>
+<li>软件附带的许可证类型是否与项目的需求兼容。</li>
+<li>是否易用。团队有没有可以使用该软件的资源。</li>
+<li>能否与项目中的其他技术集成。</li>
+<li>是否成熟，是否提供稳定的版本。</li>
+<li>是否提供了可能需要的技术支持。（有偿支持、开发社区）</li>
+<li>是否知名，是否可以轻松地雇用熟悉它的员工。</li>
+</ul>
+</li>
+</ul>
+<h3 id="记录软件架构设计">记录软件架构设计</h3>
+<p>绘制架构设计。若不能画出草图，则说明不理解这块。需要认真考虑。
+记录设计依据（解释在软件架构设计期间做此决策的原因、合理性）可以用于</p>
+<ul>
+<li>设计评估</li>
+<li>设计验证</li>
+<li>设计知识传递</li>
+<li>设计沟通</li>
+<li>设计维护</li>
+<li>设计文档</li>
+<li>设计重用</li>
+</ul>
+<h3 id="使用系统化方法进行软件架构设计">使用系统化方法进行软件架构设计</h3>
+<h4 id="架构分析">架构分析</h4>
+<p>识别架构试图解决的问题。</p>
+<h4 id="架构合成">架构合成</h4>
+<p>设计解决方案。</p>
+<h4 id="架构评估">架构评估</h4>
+<p>评估解决方案，以确保它们解决了预期问题。</p>
+<h4 id="架构设计是一个迭代的过程">架构设计是一个迭代的过程</h4>
+<h4 id="选择架构设计过程">选择架构设计过程</h4>
+<h3 id="属性驱动设计-add">属性驱动设计 ADD</h3>
+<ul>
+<li>是迭代的</li>
+<li>有组织的</li>
+<li>循序渐进的</li>
+</ul>
+<h4 id="8个步骤">8个步骤</h4>
+<ul>
+<li>步骤1 检查输入信息</li>
+<li>步骤2 建立迭代目标并选择迭代中要考虑的输入</li>
+<li>步骤3 选择系统的一个或多个元素进行细化</li>
+<li>步骤4 在迭代中选择一个或多个满足输入的设计概念</li>
+<li>步骤5 实例化架构元素，分配职责并定义接口</li>
+<li>步骤6 绘制草图并记录设计决策</li>
+<li>步骤7 分析当前设计，审查迭代目标和设计目标</li>
+<li>步骤8 在必要时进行迭代。（从No.2开始）</li>
+</ul>
+<h3 id="微软的架构和设计技术">微软的架构和设计技术</h3>
+<ul>
+<li>步骤1 确定架构目标</li>
+<li>步骤2 确定关键场景
+<ul>
+<li>最重要的场景</li>
+<li>场景可以是一个问题、一个架构方面重要的用例、一个功能和质量属性的交叉点。</li>
+</ul>
+</li>
+<li>步骤3 创建应用程序概览
+<ul>
+<li>确定应用程序类型
+<ul>
+<li>网页</li>
+<li>移动软件</li>
+<li>服务</li>
+<li>windows桌面应用程序</li>
+</ul>
+</li>
+<li>确定部署结束
+<ul>
+<li>特定政策</li>
+<li>基础设施</li>
+<li>目标环境</li>
+</ul>
+</li>
+<li>确定架构设计风格(也叫架构模式)</li>
+<li>确定相关技术
+<ul>
+<li>选择应用程序基础设施</li>
+<li>工作流</li>
+<li>数据访问</li>
+<li>数据库服务器</li>
+<li>开发工具</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>步骤4 识别关键问题</li>
+<li>步骤5 定义候选解决方案</li>
+</ul>
+<h3 id="以架构为中心的设计方法-acdm">以架构为中心的设计方法 ACDM</h3>
+<p>architecture development method
+为企业架构设计的逐步进行的软件架构设计方法。</p>
+<h3 id="跟踪软件架构设计的进度">跟踪软件架构设计的进度</h3>
+<p>使用待办事项跟踪架构设计进度
+确定待办事项的优先级，DIVE标准。</p>
+<ul>
+<li><strong>依赖关系</strong> dependencies</li>
+<li><strong>风险保障</strong> insure against risks</li>
+<li><strong>业务价值</strong> business value</li>
+<li><strong>预估工作量</strong> estimated effort
+动态变化的架构待办事项</li>
+</ul>
+<h2 id="6-软件开发原则与实践">6 软件开发原则与实践</h2>
+<h3 id="title">title</h3>
+<h3 id="title-1">title</h3>
+<h3 id="title-2">title</h3>
+<h3 id="title-3">title</h3>
+<h3 id="title-4">title</h3>
+<h3 id="title-5">title</h3>
+<h3 id="title-6">title</h3>
+<h3 id="title-7">title</h3>
+<h3 id="title-8">title</h3>
+<h2 id="7-软件构架模式">7 软件构架模式</h2>
+<h2 id="8-现代应用程序架构设计">8 现代应用程序架构设计</h2>
+<h2 id="9-横切关注点">9 横切关注点</h2>
+<h2 id="10-性能注意事项">10 性能注意事项</h2>
+<h2 id="11-安全性注意事项">11 安全性注意事项</h2>
+<h2 id="12-软件架构的文档化和评审">12 软件架构的文档化和评审</h2>
+<h2 id="13-devops和软件架构">13 devops和软件架构</h2>
+<h2 id="14-遗留应用架构设计">14 遗留应用架构设计</h2>
+<h2 id="15-软件架构师的软技能">15 软件架构师的软技能</h2>
+<h2 id="16-演进架构">16 演进架构</h2>
+<h2 id="17-成为更好的软件架构师">17 成为更好的软件架构师</h2>
+<h2 id="todo">todo</h2>
+<p>《软件架构实践，第2版å》（Software Architecture in Practice, 2nd Edition）
+《设计模式：可复用面向对象软件的基础》（Design Patterns: Elements of Reusable Object-Oriented Software）
+《领域驱动设计：软件核心复杂性应对之道》（Domain-Driven Design: Tackling Complexity in the Heart of Software）
+《设计软件架构：实用方法》（Designing Software Architectures, A Practical Approach）
+《代码大全，第2版》（Code Complete , 2nd Edition）
+《来源于五种工业方法的软件架构设计通用模型》（A general model of software archetecture design derived from five industrial approaches）
+《程序员修炼之道》（The Pragmatic Programmer）
+《人月神话》（）
+《用于将系统分解成模块的标准》（On the Criteria to Be Used in Decomposing Systems into Modules）
+《面向对象的软件改造》（Object Oriented Software Construction）</p>
+
+            
+            
+        </body>
+        </html>

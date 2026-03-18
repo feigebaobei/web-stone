@@ -277,6 +277,7 @@ let f = (startI, startJ, endI, endJ) => {
   tag[startI][startJ] = 2
   // distMetrix[startI][startJ] = 0
   // predMetrix[startI][startJ] = null
+  //   得到相邻点
   let bfs = (curI, curJ, tag) => {
     let state = []
     // 4
@@ -313,9 +314,10 @@ let f = (startI, startJ, endI, endJ) => {
   }
   while (queue.length) {
     let [curI, curJ] = queue.shift()
-    let arr = bfs(curI, curJ, tag)
+    let arr = bfs(curI, curJ, tag) // 广度优先探索
     let curDist = distMetrix[curI][curJ]
     arr.forEach((item) => {
+      // 到相邻点的距离加1
       tag[item[0]][item[1]] = 2
       distMetrix[item[0]][item[1]] = curDist + 1
       predMetrix[item[0]][item[1]] = [curI, curJ]
