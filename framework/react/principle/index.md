@@ -73,6 +73,23 @@
 - 使用 createFiberFromTypeAndProps 创建 FiberNode
 - 二叉树结构。child/sibling/return
 
+```
+  ^
+  |父元素
+  |return
+  |
+|---------| 后节点|---------|
+|fiberNode| ---> |fiberNode|
+|---------|      |---------|
+  |
+  |child
+  |第一个子元素
+  V
+|---------|
+|fiberNode|
+|---------|
+```
+
 ### new reconciler (fiber 出现后)
 
 - 它是一个工作单元

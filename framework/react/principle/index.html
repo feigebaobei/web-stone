@@ -280,7 +280,7 @@
 <p>当 type 相同、属性不同时，更新当前元素，保留其他后代元素。</p>
 </li>
 <li>
-<p>列表用key复用节点。</p>
+<p>列表用 key 复用节点。</p>
 </li>
 <li>
 <p>只同层对比，不跨层。</p>
@@ -307,6 +307,21 @@
 <li>使用 createFiberFromTypeAndProps 创建 FiberNode</li>
 <li>二叉树结构。child/sibling/return</li>
 </ul>
+<pre><code>  ^
+  |父元素
+  |return 
+  |
+|---------| 后节点|---------|
+|fiberNode| ---&gt; |fiberNode|
+|---------|      |---------|
+  |
+  |child
+  |第一个子元素
+  V
+|---------|
+|fiberNode|
+|---------|
+</code></pre>
 <h3 id="new-reconciler-fiber-出现后">new reconciler (fiber 出现后)</h3>
 <ul>
 <li>它是一个工作单元</li>
@@ -1179,7 +1194,7 @@ fiber更新后
 <li>进入 render 阶段。（render phase）</li>
 <li>调用 renderRoot 方法。从 HostRoot(它是一个 FiberNode)开始，会跳过完成工作的 FiberNode，直到未完成工作的 FiberNode.</li>
 <li>调用 createWorkInProgress 方法，根据 ReactElement 创建 workInProgress 树.</li>
-<li>调用 beginWork 方法。根据 type 分别调用相应的方法。如<code>updateClassComponent() 、 updateFunctionComponent()</code>。后面会创建并挂载组件的fiberNode节点或更新fiberNode节点。</li>
+<li>调用 beginWork 方法。根据 type 分别调用相应的方法。如<code>updateClassComponent() 、 updateFunctionComponent()</code>。后面会创建并挂载组件的 fiberNode 节点或更新 fiberNode 节点。</li>
 <li>调用 updateClassInstance 方法，去更新组件。然后依次调用：
 <ol>
 <li>UNSAFE_componentWillReceiveProps() deprecated</li>
@@ -1191,9 +1206,9 @@ fiber更新后
 </ol>
 </li>
 <li>更新实例的 state/props。 为执行 render 方法做准备。</li>
-<li>执行 finishClassComponent 方法。react 会调用 render 方法，得到新组件的fiberNode节点，然后执行 diffing 运算。
+<li>执行 finishClassComponent 方法。react 会调用 render 方法，得到新组件的 fiberNode 节点，然后执行 diffing 运算。
 <ol>
-<li>执行 createWorkInProgress 方法，根据新的 ReactElement 对象得到替补节点（它是 FiberNode）（就是workInProgress树中的节点）</li>
+<li>执行 createWorkInProgress 方法，根据新的 ReactElement 对象得到替补节点（它是 FiberNode）（就是 workInProgress 树中的节点）</li>
 <li>在 FiberNode.pendingProps 的数据会作用于子组件。</li>
 <li>子组件中使用 memoizedProps</li>
 <li>为 nextUnitOfWork 赋值。 其中的处理逻辑同上。</li>
@@ -1221,21 +1236,21 @@ fiber更新后
 使用<code>createWorkInProgress()</code>创建一个该 FiberNode 的替补节点。更新操作都在这个替补节点上工作。</p>
 <h3 id="我整理的口述">我整理的口述</h3>
 <blockquote>
-<p>由jsx生成fiberNode树，它就是虚拟dom.
-根据fiberNode生成dom树。(使用createElement方法。)
-当调用setState时会改变状态，（这时会触发更新渲染dom。）react会在当前组件的fiberNode对象的updateQueue中添加工作，设置lanes字段的值。
-(调用reanderRoot方法，)从HostRoot对象开始，跳过所有完成工作的fiberNode,直到未完成工作的FiberNode。
-调用createWorkInProgress方法，去创建workInProgress树，即创建组件的fiberNode或更新组件的fiberNode。
-更新组件实例的state（及给子组件传入新的props）,为执行当前组件的render方法做准备。
-调用render方法得到组件新fiberNode节点（即替补节点）。
-给子组件传入更新后的props.同上文逻辑，也执行更新操作。
-得到完整的workInProgress树后，全局范围内使用它。然后执行diff运算。底层和js操作dom的api完成更新dom.</p>
+<p>由 jsx 生成 fiberNode 树，它就是虚拟 dom.
+根据 fiberNode 生成 dom 树。(使用 createElement 方法。)
+当调用 setState 时会改变状态，（这时会触发更新渲染 dom。）react 会在当前组件的 fiberNode 对象的 updateQueue 中添加工作，设置 lanes 字段的值。
+(调用 reanderRoot 方法，)从 HostRoot 对象开始，跳过所有完成工作的 fiberNode,直到未完成工作的 FiberNode。
+调用 createWorkInProgress 方法，去创建 workInProgress 树，即创建组件的 fiberNode 或更新组件的 fiberNode。
+更新组件实例的 state（及给子组件传入新的 props）,为执行当前组件的 render 方法做准备。
+调用 render 方法得到组件新 fiberNode 节点（即替补节点）。
+给子组件传入更新后的 props.同上文逻辑，也执行更新操作。
+得到完整的 workInProgress 树后，全局范围内使用它。然后执行 diff 运算。底层和 js 操作 dom 的 api 完成更新 dom.</p>
 </blockquote>
-<h3 id="fibernode的好处">fiberNode的好处</h3>
+<h3 id="fibernode-的好处">fiberNode 的好处</h3>
 <ul>
-<li>阻止了频繁变动dom时做无用计算。</li>
+<li>阻止了频繁变动 dom 时做无用计算。</li>
 <li>把工作粒度处理到组件级别。</li>
-<li>多次变更fiber对象时，在最后一次变更时更新dom.</li>
+<li>多次变更 fiber 对象时，在最后一次变更时更新 dom.</li>
 </ul>
 <h3 id="the-how-and-why-on-reacts-usage-of-linked-list-in-fiber-to-walk-the-components-tree"><a href="https://medium.com/react-in-depth/the-how-and-why-on-reacts-usage-of-linked-list-in-fiber-67f1014d0eb7">The how and why on React’s usage of linked list in Fiber to walk the component’s tree</a></h3>
 <h1 id="参考文档">参考文档</h1>
@@ -1250,14 +1265,14 @@ fiber更新后
 </ul>
 <h2 id="使用到的知识点">使用到的知识点</h2>
 <p>双缓存：current/workInProgress
-建立dom与数据对象的关系
-以一个数据对象代替一个dom块。
-链式处理更新：update对象。
+建立 dom 与数据对象的关系
+以一个数据对象代替一个 dom 块。
+链式处理更新：update 对象。
 用二进制方式处理优先级。
 中心化收集所有组件的生命周期方法。再统一调用。
-把多次变动处理为多次更新fiber对象一次更新dom.
-创建一个从jsx到dom的机制。周边生态成员可以使用从jsx对接react.
-状态管理工具与react无关。可以与任何前端框架合作。</p>
+把多次变动处理为多次更新 fiber 对象一次更新 dom.
+创建一个从 jsx 到 dom 的机制。周边生态成员可以使用从 jsx 对接 react.
+状态管理工具与 react 无关。可以与任何前端框架合作。</p>
 <h2 id="开拓">开拓</h2>
 <h3 id="babel-开创了前端中把一种功能换一种写法的思想如">babel 开创了前端中把一种功能换一种写法的思想。如:</h3>
 <pre><code>&lt;span id=&quot;#id&quot;&gt;string&lt;/span&gt;

@@ -275,7 +275,7 @@ location.state?.message
 
 - 无响应式
 
-```
+```js
 <!-- 祖先组件 -->
 provide('name', value)
 
@@ -283,7 +283,7 @@ provide('name', value)
 let value = inject('name', defaultValue?)
 ```
 
-```
+```js
 let v1 = reactive({k: 2})
 provide('name', v1)
 provide('name', ref(100))

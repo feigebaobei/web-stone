@@ -145,7 +145,7 @@
 当滚动时，滚动列表不是真正的滚动列表，而是根据滚动的位置重新渲染可见的列表元素。当滚动时间跨度足够小时，它看起来就像是在滚动一样。
 每次用户滑动造成偏移量改变，我们都会根据这个偏移量去渲染新的列表元素。就像是在一帧一帧的播放动画一样，当两帧间隔足够小时，动画看起来就会很流畅，就像是在滚动一样。
 需要记录用户操作的列表的滚动总距离 virtualOffset
-监听 wheel 事件，每个元素的高度，算出渲染区域。
+监听 wheel 事件，根据每个元素的高度，算出渲染区域。
 前后增加缓存区域。当滚动距离在缓存区域内时，不重新渲染。使用 transform:translateY(xx)设置。</p>
 </blockquote>
 <h2 id="代码">代码</h2>
@@ -163,28 +163,23 @@
 <li>当元素高度改变时，更新盒子中对应的数据。</li>
 </ol>
 <pre><code class="language-vue">&lt;template&gt;
-  &lt;div
-    class=&quot;contain&quot; 
-    ref=&quot;containR&quot;
-    @scroll=&quot;containScrollH&quot;
-  &gt;
+  &lt;div class=&quot;contain&quot; ref=&quot;containR&quot; @scroll=&quot;containScrollH&quot;&gt;
     &lt;!-- 用一个空div撑开高度 --&gt;
-    &lt;div class=&quot;scroll_placeholder&quot;
+    &lt;div
+      class=&quot;scroll_placeholder&quot;
       :style=&quot;{ height: placeholderHeightComp + 'px' }&quot;
     &gt;&lt;/div&gt;
     &lt;!-- 视窗 --&gt;
-    &lt;div class=&quot;scroll_view&quot;
-      ref=&quot;viewR&quot;
-      :style=&quot;{transform: getTransform}&quot;
-    &gt;
+    &lt;div class=&quot;scroll_view&quot; ref=&quot;viewR&quot; :style=&quot;{ transform: getTransform }&quot;&gt;
       &lt;!-- 渲染列表 --&gt;
-       &lt;!-- todo 大小改变时 --&gt;
-      &lt;div class=&quot;scroll_item&quot;
+      &lt;!-- todo 大小改变时 --&gt;
+      &lt;div
+        class=&quot;scroll_item&quot;
         v-for=&quot;(item, index) in viewListComp&quot;
         :key=&quot;index&quot;
         :ref=&quot;(el) =&gt; opRef(el, (item as any).id)&quot;
       &gt;
-      {{ (item as any).content }}
+        {{ (item as any).content }}
       &lt;/div&gt;
     &lt;/div&gt;
   &lt;/div&gt;
@@ -192,7 +187,7 @@
 
 &lt;script setup lang=&quot;ts&quot;&gt;
 // utils
-import { ref, reactive, onMounted,computed, watchEffect, watch } from 'vue'
+import { ref, reactive, onMounted, computed, watchEffect, watch } from 'vue'
 // import VirtualScroll from './VirtualScroll.js'
 // components
 // import { MsButton } from 'ms-ui'
@@ -214,8 +209,8 @@ defineOptions({
 // directives
 let props = defineProps({
   originList: {
-      type: Array,
-      default: () =&gt; ([])
+    type: Array,
+    default: () =&gt; [],
   },
   // todo
   startIndex: {
@@ -230,7 +225,8 @@ let props = defineProps({
     type: Number,
     default: 100,
   },
-  estimutedItemHeight: { // 估计每个元素的高度
+  estimutedItemHeight: {
+    // 估计每个元素的高度
     type: Number,
     default: 100,
   },
@@ -241,22 +237,22 @@ let props = defineProps({
 // variable
 let obj = {
   done: false,
-  averageHeight: 0
+  averageHeight: 0,
 }
-const user = { name: 'Alice', age: 30 }; // 目标对象
+const user = { name: 'Alice', age: 30 } // 目标对象
 // 定义一个拦截器
 const handler = {
-    get(target: {name: string, age: number}, prop: 'name') {
-        console.log(`正在读取属性: ${String(prop)}`);
-        return target[prop]; // 原始访问
-    }
-};
+  get(target: { name: string; age: number }, prop: 'name') {
+    console.log(`正在读取属性: ${String(prop)}`)
+    return target[prop] // 原始访问
+  },
+}
 
 // 创建代理
-let userProxy = new Proxy(user, handler); // userProxy 的类型会被推断为 Proxy&lt;{ name: string; age: number; }&gt;
+let userProxy = new Proxy(user, handler) // userProxy 的类型会被推断为 Proxy&lt;{ name: string; age: number; }&gt;
 
 // 使用代理
-console.log(userProxy.name);
+console.log(userProxy.name)
 // let virtualScroll = new VirtualScroll()
 // ref
 let attemptR = ref()
@@ -264,9 +260,9 @@ let containR = ref()
 let viewR = ref()
 let boxR = reactive&lt;{
   heightList: {
-    real: boolean,
+    real: boolean
     height: number
-  }[],
+  }[]
   // heightList: ProxyHandler&lt;{
   //   real: boolean,
   //   height: number
@@ -275,9 +271,9 @@ let boxR = reactive&lt;{
   //   real: boolean,
   //   height: number
   // }&gt;[],
-  startIndex: number,
-  offsetH: number,
-  endIndex: number,
+  startIndex: number
+  offsetH: number
+  endIndex: number
 }&gt;({
   heightList: [],
   startIndex: props.startIndex,
@@ -286,12 +282,15 @@ let boxR = reactive&lt;{
 })
 // computed
 let viewListComp = computed(() =&gt; {
-    return props.originList.slice(boxR.startIndex, Math.min(boxR.endIndex, props.originList.length))
+  return props.originList.slice(
+    boxR.startIndex,
+    Math.min(boxR.endIndex, props.originList.length)
+  )
 })
 let placeholderHeightComp = computed(() =&gt; {
-    return boxR.heightList.reduce((r, cur) =&gt; {
-      return r += cur.height
-    }, 0)
+  return boxR.heightList.reduce((r, cur) =&gt; {
+    return (r += cur.height)
+  }, 0)
 })
 let getTransform = computed(() =&gt; {
   return `translateY(${boxR.offsetH}px)`
@@ -312,12 +311,14 @@ let checkEndIndex = () =&gt; {
       boxR.endIndex += props.cacheCount
       j()
     }
-  }).then(() =&gt; {
-    checkEndIndex()
-  }).catch(() =&gt; {
-    // clog('不做事情')
-    opAverageHeight()
   })
+    .then(() =&gt; {
+      checkEndIndex()
+    })
+    .catch(() =&gt; {
+      // clog('不做事情')
+      opAverageHeight()
+    })
 }
 let opRef = (el: any, index: number) =&gt; {
   if (!boxR.heightList[index]?.real) {
@@ -343,7 +344,7 @@ let opAverageHeight = dedounceFn(() =&gt; {
   if (!obj.done) {
     setTimeout(() =&gt; {
       opAverageHeight()
-      let arr = boxR.heightList.filter(item =&gt; item.real)
+      let arr = boxR.heightList.filter((item) =&gt; item.real)
       let sum = arr.reduce((a, b) =&gt; (a += b.height), 0)
       obj.averageHeight = sum / arr.length
       obj.done = true
@@ -360,14 +361,14 @@ let containWheelH = () =&gt; {
   while (i &lt; boxR.heightList.length) {
     h += boxR.heightList[i]!.height
     if (h &gt;= scrollTop) {
-      break;
+      break
     }
     boxR.startIndex++
     i++
   }
   boxR.endIndex = boxR.startIndex
   let vh = containR.value.offsetHeight
-  
+
   h = 0
   i = boxR.startIndex
   while (h &lt; vh &amp;&amp; i &lt; boxR.heightList.length) {
@@ -375,10 +376,12 @@ let containWheelH = () =&gt; {
     i++
   }
   boxR.endIndex = i + props.cacheCount
-  let topStartHeight = boxR.heightList.slice(0, boxR.startIndex).reduce((r, c, index) =&gt; {
-    r += c.height
-    return r
-  }, 0)
+  let topStartHeight = boxR.heightList
+    .slice(0, boxR.startIndex)
+    .reduce((r, c, index) =&gt; {
+      r += c.height
+      return r
+    }, 0)
   boxR.offsetH = scrollTop + (topStartHeight - scrollTop)
 }
 let containScrollH = () =&gt; {
@@ -390,21 +393,24 @@ let containScrollH = () =&gt; {
 watchEffect(() =&gt; {
   if (props.originList.length) {
     boxR.heightList = props.originList.map(() =&gt; {
-      let po = new Proxy({
-        real: false,
-        height: 0,
-      }, {
-        get(target, key) {
-          if (key === 'height') {
-            if (target.real) {
-              return Reflect.get(target, key)
-            } else {
-              return obj.averageHeight
+      let po = new Proxy(
+        {
+          real: false,
+          height: 0,
+        },
+        {
+          get(target, key) {
+            if (key === 'height') {
+              if (target.real) {
+                return Reflect.get(target, key)
+              } else {
+                return obj.averageHeight
+              }
             }
-          }
-          return (target as any)[key]
+            return (target as any)[key]
+          },
         }
-      })
+      )
       return po
     })
 
@@ -431,7 +437,9 @@ watchEffect(() =&gt; {
 })
 watchEffect(() =&gt; {
   setTimeout(() =&gt; {
-    boxR.offsetH = boxR.heightList.slice(0, props.startIndex).reduce((r, c) =&gt; (r += c.height), 0)
+    boxR.offsetH = boxR.heightList
+      .slice(0, props.startIndex)
+      .reduce((r, c) =&gt; (r += c.height), 0)
     containR.value.scrollTop = boxR.offsetH
   }, 50)
 })
@@ -444,29 +452,28 @@ onMounted(() =&gt; {
 &lt;/script&gt;
 
 &lt;style lang=&quot;less&quot; scoped&gt;
-  .contain {
-    height: 100%;
-    overflow: auto;
-    position: relative;
-
-  }
-  // .view_window {
-  //   // overflow: auto;
-  //   overflow: hidden;
-  //   border: 1px solid #aaa;
-  // }
-  .scroll_placeholder {
-    position: absolute;
-    left: 0;
-    right: 0;
-  }
-  .scroll_view {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    will-change: transform;
-  }
+.contain {
+  height: 100%;
+  overflow: auto;
+  position: relative;
+}
+// .view_window {
+//   // overflow: auto;
+//   overflow: hidden;
+//   border: 1px solid #aaa;
+// }
+.scroll_placeholder {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+.scroll_view {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  will-change: transform;
+}
 &lt;/style&gt;
 </code></pre>
 <p>使用</p>
