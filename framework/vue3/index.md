@@ -268,8 +268,13 @@ export default {
 当 ref 值为 ref 类型时不使用`:`
 当 ref 值为函数类型时使用`:`
 函数的参数是引用的 do 元素
-在 v-for 中使用时 ref 的值是数组。  
+在 v-for 中使用时 ref 的值是数组。 ref 与 v-for 结合使用时 ref 对象的值是列表元素组成的数组。
 也可以透传给子元素。
+
+```js
+<div v-for="item in arr" :key="item.id" :ref="(dom) => {domListF.push(dom)}">...</div>
+let domListR = ref([])
+```
 
 ### ref & :ref & toRefs & $refs & $Ref
 

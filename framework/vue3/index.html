@@ -247,10 +247,6 @@ $ </span><span class="language-bash">pnpm create vite &lt;project-name&gt; -- --
 <li><a href="">jsx/tsx</a></li>
 <li><a href="">h</a></li>
 </ul>
-<h2 id="title">title</h2>
-<h2 id="title-1">title</h2>
-<h2 id="title-2">title</h2>
-<h2 id="title-3">title</h2>
 <h3 id="运行时--编译器-vs-仅运行时">运行时 + 编译器 vs. 仅运行时</h3>
 <pre><code class="language-js"><span class="hljs-comment">// 需要编译器</span>
 <span class="hljs-title class_">Vue</span>.<span class="hljs-title function_">createApp</span>({
@@ -279,15 +275,14 @@ $ </span><span class="language-bash">pnpm create vite &lt;project-name&gt; -- --
 不要使用箭头函数。否则会引发 this 不正确的问题。</p>
 <h4 id="参数">参数</h4>
 <p>绑定内联写法中使用<code>$event</code>表示原生事件。</p>
-<h3 id="计算">计算</h3>
+<h3 id="计算-computed">计算 computed</h3>
 <p>计算属性的 getter 函数没有副作用，它更易于测试和理解。<br>
 包含响应式数据的复杂逻辑</p>
-<pre><code class="language-js"><span class="hljs-attr">computed</span>: {
-    <span class="hljs-attr">fullName</span>: {
-        <span class="hljs-title function_">get</span>(<span class="hljs-params"></span>) {...},
-        <span class="hljs-title function_">set</span>(<span class="hljs-params">value</span>) { ... }
-    }
-}
+<pre><code class="language-js"><span class="hljs-keyword">let</span> fullName = <span class="hljs-title function_">computed</span>({
+  <span class="hljs-title function_">get</span>(<span class="hljs-params"></span>) {...},
+  <span class="hljs-title function_">set</span>(<span class="hljs-params">value</span>) { ... }
+})
+<span class="hljs-keyword">let</span> fullName = <span class="hljs-title function_">computed</span>(<span class="hljs-function">() =&gt;</span> {<span class="hljs-keyword">return</span> a})
 <span class="hljs-comment">// 设置</span>
 vm.<span class="hljs-property">fullName</span> = <span class="hljs-string">&#x27;xxx&#x27;</span>
 <span class="hljs-comment">// 获取</span>
@@ -297,8 +292,6 @@ vm.<span class="hljs-property">fullName</span>
 <p>当指定数据改变时执行。<br>
 可执行异步操作。<br>
 <code>vm.$watch</code></p>
-<pre><code class="language-js"><span class="hljs-attr">watch</span>: { <span class="hljs-title function_">question</span>(<span class="hljs-params">nv, ov</span>) { ... } }
-</code></pre>
 <h3 id="computed--watch--methods">computed &amp; watch &amp; methods</h3>
 <p>为什么计算执行同步，watch 执行异步？</p>
 <!-- prettier-ignore-start -->
@@ -446,8 +439,11 @@ vm.<span class="hljs-property">fullName</span>
 <p>当 ref 值为 ref 类型时不使用<code>:</code>
 当 ref 值为函数类型时使用<code>:</code>
 函数的参数是引用的 do 元素
-在 v-for 中使用时 ref 的值是数组。<br>
+在 v-for 中使用时 ref 的值是数组。  ref 与 v-for 结合使用时 ref 对象的值是列表元素组成的数组。
 也可以透传给子元素。</p>
+<pre><code class="language-js">&lt;div v-<span class="hljs-keyword">for</span>=<span class="hljs-string">&quot;item in arr&quot;</span> :key=<span class="hljs-string">&quot;item.id&quot;</span> :ref=<span class="hljs-string">&quot;(dom) =&gt; {domListF.push(dom)}&quot;</span>&gt;...&lt;/div&gt;
+<span class="hljs-keyword">let</span> domListR = <span class="hljs-title function_">ref</span>([])
+</code></pre>
 <h3 id="ref--ref--torefs--refs--ref">ref &amp; :ref &amp; toRefs &amp; $refs &amp; $Ref</h3>
 <p>它们都是来自<code>reference</code>.<br>
 v2 中只用于模板引用。到 v3 时多了响应式。<br>
@@ -658,7 +654,7 @@ app.<span class="hljs-title function_">mount</span>(<span class="hljs-string">&#
 </tr>
 <tr>
 <td>原理</td>
-<td>使用proxy</td>
+<td>使用 proxy</td>
 <td>使用发布订阅模式</td>
 <td></td>
 </tr>
@@ -678,7 +674,6 @@ app.<span class="hljs-title function_">mount</span>(<span class="hljs-string">&#
 <h2 id="三种写法-template--render-function--jsx"><a href="/framework/vue3/format.html">三种写法 template / render function / jsx</a></h2>
 <h2 id="样式"><a href="/framework/vue3/style.html">样式</a></h2>
 <h2 id="confuse"><a href="/framework/vue3/confuse.html">confuse</a></h2>
-<h2 id="title-4">title</h2>
 <h2 id="principle-1"><a href="/framework/vue3/principle.html">principle</a></h2>
 <p>该包负责把<code>*.vue</code>的代码转换为<a href="/language/javascript/opDom.html">操作 dom</a> 的代码。操作完 dom 后由浏览器根据 dom 显示出来，中间包括大量的重绘、回流。<br>
 在<code>mvvm</code>框架流行之间有面向 dom 开发的框架——jquery。它也是操作 dom。然后让浏览器做重绘、回流的工作。<br>
