@@ -6,6 +6,7 @@ document.createElement('tag')
 // 查
 // 节点的访问关系都是属性。而节点的操作都是函数（方法）。
 document.querySelector(p)
+document.querySelectorAll(p)
 document.getElementById(id)
 document.getElementByClassName(className)
 document.getElementByTagName(tagName) // eg h1

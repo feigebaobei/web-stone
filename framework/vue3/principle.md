@@ -2,8 +2,8 @@
 
 ## 渲染机制
 
-程序员使用 vue 框架，编写 sfc 文件。vue 框架会把它们搞成 vdom。vue 框架根据 vdom 生成 dom，当 vdom 改变时 vue 框架更新 dom。
-proxy 在 vue3 中用的不多。
+程序员使用 vue 框架，编写 sfc 文件。vue 框架会把它们搞成 vdom，再根据 vdom 生成 dom，当 vdom 改变时 vue 框架更新 dom。
+proxy 在 vue3 中用的不多。vue2->vue3 时核心代码变动不多。项目工程结构变化在大。
 
 ## vue2 不能做到的事
 
@@ -23,7 +23,7 @@ vue3 是一个一库多包项目。
 ```
 |-- packages
     |-- reactivity          // 响应式api。如：toRef/reactive/Effect/computed/watch.与框架无关，可以独立构建。
-    |-- runtime-core        // 平台无关的运行时核心代码。包括虚拟dom渲染、组件实现和JavaScript API。可以使用这个包针对特定平台构建高价运行时（即定制渲染器）。
+    |-- runtime-core        // 平台无关的运行时核心代码。包括虚拟dom渲染、组件实现和JavaScript API。可以使用这个包针对特定平台构建高性能运行时（即定制渲染器）。
     |-- runtime-dom         // 针对浏览器的运行时。包括对原生DOM API、属性（attributes）、特性（properties）、事件回调的处理。
     |-- runtime-test        // 用于测试的轻量级运行时。可以在任何JavaScript环境使用，因为它最终只会呈现JavaScript对象形式的渲染树，其可以用来断言正确的渲染输出。另外还提供用于序列化树、触发事件和记录更新期间执行的实际节点操作的实用工具。
     |-- server-renderer     // 服务端渲染相关。
@@ -56,8 +56,18 @@ vue3 是一个一库多包项目。
 我整理的
 
 1. 编译阶段。vite 使用@vite/compiler-sfc 插件（调用该包的 parse 方法）解析\*.vue 文件成为 3 个 block(template/script/style 分别生成一个 block)
-2. 渲染阶段。从 createApp 开始。会创建组件的实例（组件实例就是一个对象），其中包括 vnode。再编译模板，再得到 render 方法，再把 render 方法封装成方法。
-3. 更新阶段。就是 patch 方法。patch 方法就是 diff 运算。vue3 的 diff 比 vue2 的 diff 要简单。
+   1. template -> 编译成 render 函数。此函数返回 h 方法的的返回值。h 方法是 createVNode 的别称。h 方法返回的就是 vnode
+   2. script -> 生成 setup 方法。提供生命周期方法、响应式数据。（在这里劫持响应式）
+   3. style -> 编译成 css，运行时插入到 head 标签中。
+   4. 3 者合并成一个 js 模块
+2. 当运行 render 方法时（会产生 vnode 对象）会调用 get 方法。get 方法内会触发 dep.track 方法。
+3. vue 底层根据 vnode 树使用 js 操作 dom 的 api 生成 dom.
+4. 当触发 set 方法时会执行 render 方法，生成新的 vnode.经过 diff 运算后更新 dom.
+
+5. 渲染阶段。从 createApp 开始。会创建组件的实例（组件实例就是一个对象），其中包括 vnode。再编译模板，再得到 render 方法，再把 render 方法封装成方法。(同 1.4)
+6. 更新阶段。就是 patch 方法。patch 方法就是 diff 运算。vue3 的 diff 比 vue2 的 diff 要简单。
+
+> 编译阶段。vite 使用@vite/compiler-sfc 插件（调用该包的 parse 方法）解析\*.vue 文件成为 3 个 block(template/script/style 分别生成一个 block)
 
 ### 解释阶段
 
@@ -198,10 +208,12 @@ generate -> 硬生成的 js 代码。含 vnode 树。
 
 从 patch 方法开始。
 patch 方法是在 createRenderer 方法中定义的。
+同级比较，深度优先。先序遍历。
+vue 底层使用 js 操作 dom 元素的 api 操作 dom。
 
-1. 如果 2 个 vnode 相同，则无操作。
-2. 如果 2 个 vnode 的 type 不同或 key 不同，则删除旧 vnode
-3. 更新节点
+1. 如果 2 个 vnode 相同（即同一个对象），则无操作。
+2. 如果 2 个 vnode 的 type 不同或 key 不同，则删除旧 vnode，并添加新 vnode。
+3. 相同，则更新该 vnode 的属性。（如:props/class/style/attrs）
 
 runtime-dom 包中的 nodeOps 对象中定义了操作 vnode 的方法。其中包括由 vnode 生成 dom 的方法 createElement。
 vue 的底层是使用 document.createElement 创建 dom 的。不可能比这个方法更快。此方法的运行速度就是 vue 的性能理论峰值。
@@ -212,6 +224,8 @@ createRenderer 方法的参数是 nodeOps 对象，此对应中的 createElement
 在 renderer 方法的 mountElement 方法中创建 dom 元素，再挂载到 dom 树中。
 
 ## 响应式
+
+>
 
 ### ref
 

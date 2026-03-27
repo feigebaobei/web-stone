@@ -59,6 +59,10 @@
 - [骨架屏](/confuse/skeleton.html)
 - [web worker & service worker & shared worker](/confuse/worker3.html)
 - [正向代理 & 反向代理](/confuse/forwardProxyReverseProxy.html)
+- [考架构师](/confuse/kaoJianGouShi.html)
+- [title](/confuse/title.html)
+- [title](/confuse/title.html)
+- [title](/confuse/title.html)
 - [title](/confuse/title.html)
 - [title](/confuse/title.html)
 

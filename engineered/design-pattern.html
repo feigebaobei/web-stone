@@ -203,21 +203,20 @@
 像工厂产出统一套件一样。
 常用于创建对象。
 一般以<code>create</code>开头，或大写开头。</p>
-<pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">createPerson</span> (name, age, job) {
-    <span class="hljs-keyword">var</span> o = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>()
-    o.<span class="hljs-property">name</span> = name
-    o.<span class="hljs-property">age</span> = age
-    o.<span class="hljs-property">job</span> = job
-    o.<span class="hljs-property">sayName</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
-        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span>)
-    }
-    <span class="hljs-keyword">return</span> o
+<pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">createPerson</span>(<span class="hljs-params">name, age, job</span>) {
+  <span class="hljs-keyword">var</span> o = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>()
+  o.<span class="hljs-property">name</span> = name
+  o.<span class="hljs-property">age</span> = age
+  o.<span class="hljs-property">job</span> = job
+  o.<span class="hljs-property">sayName</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span>)
+  }
+  <span class="hljs-keyword">return</span> o
 }
 
-
 <span class="hljs-keyword">function</span> <span class="hljs-title function_">Point</span>(<span class="hljs-params">x, y</span>) {
-	<span class="hljs-variable language_">this</span>.<span class="hljs-property">x</span> = x
-	<span class="hljs-variable language_">this</span>.<span class="hljs-property">y</span> = y
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">x</span> = x
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">y</span> = y
 }
 <span class="hljs-keyword">var</span> p = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Point</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)
 </code></pre>
@@ -226,26 +225,26 @@
 在实现中只能有一个的事物。如：一个公司只能有一个会计系统，一个超市只能有一个收银系统。
 esm 规范的模块天然支持单例模式。
 常用于单一实例。</p>
-<pre><code class="language-js"><span class="hljs-keyword">var</span> <span class="hljs-title class_">Singleton</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
-    <span class="hljs-keyword">let</span> instance = <span class="hljs-literal">null</span>
-    <span class="hljs-keyword">function</span> <span class="hljs-title function_">init</span> () {
-        <span class="hljs-keyword">var</span> o = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">create</span>(<span class="hljs-literal">null</span>)
-        o.<span class="hljs-property">name</span> = <span class="hljs-string">&#x27;top&#x27;</span>
-        o.<span class="hljs-property">admin</span> = <span class="hljs-literal">true</span>
-        o.<span class="hljs-property">sayHi</span> = <span class="hljs-function">() =&gt;</span> {
-            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;hi&#x27;</span>)
-        }
-        <span class="hljs-keyword">return</span> o
+<pre><code class="language-js"><span class="hljs-keyword">var</span> <span class="hljs-title class_">Singleton</span> = (<span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">let</span> instance = <span class="hljs-literal">null</span>
+  <span class="hljs-keyword">function</span> <span class="hljs-title function_">init</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">var</span> o = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">create</span>(<span class="hljs-literal">null</span>)
+    o.<span class="hljs-property">name</span> = <span class="hljs-string">&#x27;top&#x27;</span>
+    o.<span class="hljs-property">admin</span> = <span class="hljs-literal">true</span>
+    o.<span class="hljs-property">sayHi</span> = <span class="hljs-function">() =&gt;</span> {
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;hi&#x27;</span>)
     }
-    <span class="hljs-keyword">return</span> {
-        <span class="hljs-attr">getInstance</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
-            <span class="hljs-keyword">if</span> (!instance) {
-                instance = <span class="hljs-title function_">init</span>()
-            }
-            <span class="hljs-keyword">return</span> instance
-        }
-    }
-}()
+    <span class="hljs-keyword">return</span> o
+  }
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">getInstance</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+      <span class="hljs-keyword">if</span> (!instance) {
+        instance = <span class="hljs-title function_">init</span>()
+      }
+      <span class="hljs-keyword">return</span> instance
+    },
+  }
+})()
 <span class="hljs-keyword">var</span> a = <span class="hljs-title class_">Singleton</span>.<span class="hljs-title function_">getInstance</span>()
 <span class="hljs-keyword">var</span> b = <span class="hljs-title class_">Singleton</span>.<span class="hljs-title function_">getInstance</span>()
 a === b
@@ -266,19 +265,19 @@ var foo = new Foo()
 <span class="hljs-keyword">var</span> hong = {
   <span class="hljs-attr">say</span>: <span class="hljs-function">() =&gt;</span> {
     <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;hi&#x27;</span>)
-  }
+  },
 }
 <span class="hljs-keyword">var</span> ming = {
   <span class="hljs-attr">speak</span>: <span class="hljs-function">() =&gt;</span> {
     <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;hi&#x27;</span>)
-  }
+  },
 }
 <span class="hljs-keyword">var</span> mingAdapter = {
-  <span class="hljs-attr">say</span>: ming.<span class="hljs-property">speak</span>
+  <span class="hljs-attr">say</span>: ming.<span class="hljs-property">speak</span>,
 }
 <span class="hljs-comment">// 则可以这样使用</span>
 <span class="hljs-keyword">var</span> friend = [hong, mingAdapter]
-friend.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> {
+friend.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">item</span>) =&gt;</span> {
   <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(item)
   item.<span class="hljs-title function_">say</span>()
 })
@@ -289,13 +288,12 @@ friend.<span class="hljs-title function_">forEach</span>(<span class="hljs-funct
 <pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">dfn</span> = (<span class="hljs-params"></span>) =&gt; {
   <span class="hljs-comment">//</span>
 }
-<span class="hljs-keyword">class</span> <span class="hljs-title class_">MyClass</span> {
-}
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">MyClass</span> {}
 <span class="hljs-comment">// use</span>
 @dfn
 <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyClass</span> {
-  <span class="hljs-title function_">constructor</span> () {}
-  fire () {}
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {}
+  <span class="hljs-title function_">fire</span>(<span class="hljs-params"></span>) {}
 }
 <span class="hljs-comment">// es5方法，会修改原来的属性。</span>
 </code></pre>
@@ -1369,7 +1367,9 @@ o.<span class="hljs-title function_">a</span>().<span class="hljs-title function
 <li>扩展应用程序变得更加容易。</li>
 <li>帮助实现松耦合，这在应用编程中很重要。</li>
 </ul>
+<h2 id="边车模式">边车模式</h2>
 <h2 id="总结">总结</h2>
+<h2 id="总结-1">总结</h2>
 <p>在实际运行中常会用于多种设计模式，也会用到设计模式的变种。</p>
 
             <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
