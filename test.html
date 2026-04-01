@@ -2297,10 +2297,54 @@ f = (n) => {
     }
     return b
 }
+f = (n) => {
+    if (n < 0 || (n > 0 && n % 10 === 0)) {
+        return false
+    }
+    let t = 0
+    while (t < Math.floor(n / 10)) {
+        t = t * 10 + n % 10
+        n = Math.floor(n / 10)
+    }
+    return t === n || t === Math.floor(n / 10)
+}
 // clog(f(121))
 // clog(f(1221))
 // clog(f(123))
 // clog(f(123421))
+// clog(f(10))
+// clog(f(110))
+// clog(f(0))
+// clog(f(-12))
+class Stack {
+    constructor() {
+        this.map = new Map()
+        this.list = []
+    }
+    push(v) {
+        this.list.push(v)
+    }
+    pop() {
+        let v = this.list.pop()
+        return v
+    }
+    peek() {
+        return this.list[this.list.length - 1]
+    }
+}
+let s = new Stack()
+s.push(1)
+s.push(2)
+s.push(4)
+clog(s.pop())
+clog(s.pop())
+clog(s.peek())
+clog(s.peek())
+clog(s.peek())
+clog(s.pop())
+clog(s.pop())
+clog(s.pop())
+clog(s)
 
 f = (arr, k) => {
     let res = []
