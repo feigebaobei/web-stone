@@ -3224,12 +3224,125 @@ s 树，没看懂。
 let f = () => {}
 ```
 
-```js
-let f = () => {}
-```
+二叉树重建(Tree Recovery, ULM 1997, UVa 536)
+输入一棵二叉树的先序遍历和中序遍历序列,输出后序遍历序列,如图 6-20 所示。
+DBACEGF ABCDEFG
+BCAD CBAD
+样例输入 样例输出
+ACBFGED
+CDAB
 
 ```js
-let f = () => {}
+不会
+let f = (preOrder, midOrder) => {
+  let postOrder = []
+  return postOrder
+}
+```
+
+骑士的移动(Knight Moves, UVa 439)
+输入标准 8\*8 国际象棋棋盘上的两个格子(列用 ah 表示,行用 1~8 表示),求马最
+少需要多少步从起点跳到终点。例如从 al 到 b2 需要 4 步。马的移动方式如图 6-21 所示。
+
+```js
+let f = (startPoint, endPoint) => {
+  let obj = {
+    a: 0,
+    b: 1,
+    c: 2,
+    d: 3,
+    e: 4,
+    f: 5,
+    g: 6,
+    h: 7,
+    0: 'a',
+    1: 'b',
+    2: 'c',
+    3: 'd',
+    4: 'e',
+    5: 'f',
+    6: 'g',
+    7: 'h',
+  }
+  let stepCount = 0
+  endPoint = [obj[endPoint[0]], Number(endPoint[1] - 1)]
+  let queen = [[obj[startPoint[0]], Number(startPoint[1]) - 1]]
+  let isIncludeEnd = (queen) => {
+    return queen.some((item) => {
+      return endPoint[0] === item[0] && endPoint[1] === item[1]
+    })
+  }
+  let tag = Array.from({ length: 8 }, () => Array.from({ length: 8 }, () => 0))
+  let getNeighbour = (point) => {
+    let state = []
+    let i = point[0]
+    let j = point[1]
+    let c, r
+    r = i + 2
+    c = j + 1
+    if (r < 8 && c < 8 && tag[r][c] === 0) {
+      tag[r][c] = 1
+      state.push([r, c])
+    }
+    r = i + 1
+    c = j + 2
+    if (r < 8 && c < 8 && tag[r][c] === 0) {
+      tag[r][c] = 1
+      state.push([r, c])
+    }
+    r = i - 1
+    c = j + 2
+    if (r > -1 && c < 8 && tag[r][c] === 0) {
+      tag[r][c] = 1
+      state.push([r, c])
+    }
+    r = i - 2
+    c = j + 1
+    if (r > -1 && c < 8 && tag[r][c] === 0) {
+      tag[r][c] = 1
+      state.push([r, c])
+    }
+    r = i - 2
+    c = j - 1
+    if (r > -1 && c > -1 && tag[r][c] === 0) {
+      tag[r][c] = 1
+      state.push([r, c])
+    }
+    r = i - 1
+    c = j - 2
+    if (r > -1 && c > -1 && tag[r][c] === 0) {
+      tag[r][c] = 1
+      state.push([r, c])
+    }
+    r = i + 1
+    c = j - 2
+    if (r < 8 && c > -1 && tag[r][c] === 0) {
+      tag[r][c] = 1
+      state.push([r, c])
+    }
+    r = i + 2
+    c = j - 1
+    if (r < 8 && c > -1 && tag[r][c] === 0) {
+      tag[r][c] = 1
+      state.push([r, c])
+    }
+    return state
+  }
+  while (queen.length) {
+    if (isIncludeEnd(queen)) {
+      break
+    } else {
+      let len = queen.length
+      for (let i = 0; i < len; i++) {
+        let point = queen.shift()
+        queen.push(...getNeighbour(point))
+      }
+    }
+    stepCount++
+  }
+  return stepCount
+}
+clog(f(['a', 1], ['b', 2]))
 ```
 
 ```js
