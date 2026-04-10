@@ -130,7 +130,78 @@
             return stepCount
         }
         // clog(f(['a', 1], ['b', 2]))
-
+f = (map, k) => {
+    let stepCount = 0
+    let start = [0, 0]
+    let end = [map.length - 1, map[0].length - 1]
+    let queen = [[...start]]
+    let tag = Array.from({length: map.length}, () => Array.from({length: map[0].length}, () => 0))
+    let isAriveEnd = (arr) => {
+        return arr.some(item => item[0] === end[0] && item[1] === end[1])
+    }
+    let getNeighbour = (point) => {
+        let state = []
+        let [i, j] = point
+        let r, c
+        // 4方
+        r = i + 1
+        c = j
+        if (r < map.length
+            && (map[i][j] === 1 ? map[r][c] === 0 : true)
+            && tag[r][c] === 0
+        ) {
+            state.push([r, c])
+            tag[r][c] = 1
+        }
+        r = i
+        c = j - 1
+        if (c > -1
+            && (map[i][j] === 1 ? map[r][c] === 0 : true)
+            && tag[r][c] === 0
+        ) {
+            state.push([r, c])
+            tag[r][c] = 1
+        }
+        r = i - 1
+        c = j
+        if (r > -1
+            && (map[i][j] === 1 ? map[r][c] === 0 : true)
+            && tag[r][c] === 0
+        ) {
+            state.push([r, c])
+            && tag[r][c] === 0
+        }
+        r = i
+        c = j + 1
+        if (c < map[0].length
+            && (map[i][j] === 1 ? map[r][c] === 0 : true)
+            && tag[r][c] === 0
+        ) {
+            state.push([r, c])
+            && tag[r][c] === 0
+        }
+        return state
+    }
+    while (queen.length) {
+        if (isAriveEnd(queen)) {
+            break
+        } else {
+            let len = queen.length
+            for (let i = 0; i < len; i++) {
+                let point = queen.shift()
+                queen.push(...getNeighbour(point))
+            }
+            stepCount++
+        }
+    }
+    return stepCount
+}
+clog(f([
+    [0, 1, 1, 0, 0, 0],
+    [0, 0, 1, 0, 1, 1],
+    [0, 1, 1, 1, 1, 0],
+    [0, 1, 1, 1, 0, 0],
+], 1))
 
 
 

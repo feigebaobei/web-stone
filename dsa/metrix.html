@@ -142,7 +142,12 @@
 <p>常用的操作</p>
 </blockquote>
 <h2 id="环">环</h2>
-<pre><code class="language-js"><span class="hljs-keyword">if</span> (n === <span class="hljs-number">1</span> &amp;&amp; m === <span class="hljs-number">1</span>) {
+<pre><code class="language-js"><span class="hljs-comment">// ------&gt;</span>
+<span class="hljs-comment">// ^     |</span>
+<span class="hljs-comment">// |     |</span>
+<span class="hljs-comment">// |     |</span>
+<span class="hljs-comment">// &lt;-----V</span>
+<span class="hljs-keyword">if</span> (n === <span class="hljs-number">1</span> &amp;&amp; m === <span class="hljs-number">1</span>) {
   arr[n][m]
 } <span class="hljs-keyword">else</span> {
   <span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>,
@@ -208,10 +213,11 @@
 }
 </code></pre>
 <h2 id="bfs">bfs</h2>
-<p>创建一个等空间的标记对象。
-把一个点入队列。
-循环到队列为空。
-处理每个元素+更新标记+把标记为 0 的入队列</p>
+<p>创建一个空间相等的标记对象。
+把起点入队列。
+根据队列中的元素找到相邻元素
+处理每个元素+更新标记+把标记为 0 的入队列
+循环到队列为空。</p>
 <p>不会用到递归</p>
 <pre><code class="language-js"><span class="hljs-keyword">let</span> <span class="hljs-title function_">bfs</span> = (<span class="hljs-params">i, j</span>) =&gt; {
   <span class="hljs-keyword">let</span> queue = [[i, j]]
@@ -292,6 +298,7 @@
       queue.<span class="hljs-title function_">push</span>([i - <span class="hljs-number">1</span>, j + <span class="hljs-number">1</span>])
     }
   }
+  <span class="hljs-comment">// 和上面的while一样。写重了。</span>
   <span class="hljs-keyword">while</span> (queue.<span class="hljs-property">length</span>) {
     <span class="hljs-keyword">let</span> [i, j] = queue.<span class="hljs-title function_">shift</span>()
     tag[i][j] = <span class="hljs-number">2</span>
@@ -310,6 +317,7 @@
     }
     <span class="hljs-comment">// 其他方向的点</span>
   }
+  <span class="hljs-comment">// 每圈一步</span>
   <span class="hljs-keyword">let</span> len = queue.<span class="hljs-property">length</span>
   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; len; i++) {
     <span class="hljs-keyword">let</span> [i, j] = queue.<span class="hljs-title function_">shift</span>()
@@ -322,21 +330,24 @@
 </code></pre>
 <h2 id="暴力">暴力</h2>
 <pre><code class="language-js"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; arr.<span class="hljs-property">length</span>; i++) {
+  <span class="hljs-comment">// 从0开始</span>
   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> j = <span class="hljs-number">0</span>; j &lt; arr.<span class="hljs-property">length</span>; j++) {}
+  <span class="hljs-comment">// 从i+1开始</span>
   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> j = i + <span class="hljs-number">1</span>; j &lt; arr.<span class="hljs-property">length</span>; j++) {}
 }
 </code></pre>
 <h2 id="排序">排序</h2>
 <pre><code class="language-js">metrix.<span class="hljs-title function_">sort</span>(<span class="hljs-function">(<span class="hljs-params">aArr, bArr</span>) =&gt;</span> {
   <span class="hljs-keyword">let</span> res = <span class="hljs-number">0</span>
+  <span class="hljs-comment">// 判断2个数组的大小</span>
   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; aArr.<span class="hljs-property">length</span>; i++) {
     <span class="hljs-keyword">let</span> t = aArr[i] - bArr[i]
-    <span class="hljs-keyword">if</span> (t) {
+    <span class="hljs-keyword">if</span> (t) { <span class="hljs-comment">// 不等于0就是判断出大小了</span>
       res = t
       <span class="hljs-keyword">break</span>
     }
   }
-  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
+  <span class="hljs-keyword">return</span> res
 })
 </code></pre>
 <h2 id="去重">去重</h2>
@@ -369,9 +380,11 @@ arr.<span class="hljs-title function_">forEach</span>(<span class="hljs-function
 <pre><code class="language-js"><span class="hljs-keyword">let</span> map = [[], []]
 <span class="hljs-comment">// 求2点之间最短距离</span>
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">f</span> = (<span class="hljs-params">startI, startJ, endI, endJ</span>) =&gt; {
+  <span class="hljs-comment">// 保存从起点到所有点的距离</span>
   <span class="hljs-keyword">let</span> distMetrix = <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">from</span>({ <span class="hljs-attr">length</span>: map.<span class="hljs-property">length</span> }, <span class="hljs-function">() =&gt;</span>
     <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">from</span>({ <span class="hljs-attr">length</span>: map[<span class="hljs-number">0</span>].<span class="hljs-property">length</span> }, <span class="hljs-function">() =&gt;</span> <span class="hljs-number">0</span>)
   )
+  <span class="hljs-comment">// 保存到该点前的点</span>
   <span class="hljs-keyword">let</span> predMetrix = <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">from</span>({ <span class="hljs-attr">length</span>: map.<span class="hljs-property">length</span> }, <span class="hljs-function">() =&gt;</span>
     <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">from</span>({ <span class="hljs-attr">length</span>: map[<span class="hljs-number">0</span>].<span class="hljs-property">length</span> }, <span class="hljs-function">() =&gt;</span> <span class="hljs-literal">null</span>)
   )
@@ -384,7 +397,7 @@ arr.<span class="hljs-title function_">forEach</span>(<span class="hljs-function
   tag[startI][startJ] = <span class="hljs-number">2</span>
   <span class="hljs-comment">// distMetrix[startI][startJ] = 0</span>
   <span class="hljs-comment">// predMetrix[startI][startJ] = null</span>
-    <span class="hljs-comment">//   得到相邻点</span>
+  <span class="hljs-comment">//   得到相邻点</span>
   <span class="hljs-keyword">let</span> <span class="hljs-title function_">bfs</span> = (<span class="hljs-params">curI, curJ, tag</span>) =&gt; {
     <span class="hljs-keyword">let</span> state = []
     <span class="hljs-comment">// 4</span>
@@ -421,12 +434,13 @@ arr.<span class="hljs-title function_">forEach</span>(<span class="hljs-function
   }
   <span class="hljs-keyword">while</span> (queue.<span class="hljs-property">length</span>) {
     <span class="hljs-keyword">let</span> [curI, curJ] = queue.<span class="hljs-title function_">shift</span>()
-    <span class="hljs-keyword">let</span> arr = <span class="hljs-title function_">bfs</span>(curI, curJ, tag) <span class="hljs-comment">// 广度优先探索</span>
+    <span class="hljs-keyword">let</span> arr = <span class="hljs-title function_">bfs</span>(curI, curJ, tag) <span class="hljs-comment">// 广度优先探索当前点的相邻点</span>
     <span class="hljs-keyword">let</span> curDist = distMetrix[curI][curJ]
-    arr.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">item</span>) =&gt;</span> { <span class="hljs-comment">// 到相邻点的距离加1</span>
+    arr.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">item</span>) =&gt;</span> {
+      <span class="hljs-comment">// 到相邻点的距离加1</span>
       tag[item[<span class="hljs-number">0</span>]][item[<span class="hljs-number">1</span>]] = <span class="hljs-number">2</span>
-      distMetrix[item[<span class="hljs-number">0</span>]][item[<span class="hljs-number">1</span>]] = curDist + <span class="hljs-number">1</span>
-      predMetrix[item[<span class="hljs-number">0</span>]][item[<span class="hljs-number">1</span>]] = [curI, curJ]
+      distMetrix[item[<span class="hljs-number">0</span>]][item[<span class="hljs-number">1</span>]] = curDist + <span class="hljs-number">1</span> <span class="hljs-comment">// 距离+1</span>
+      predMetrix[item[<span class="hljs-number">0</span>]][item[<span class="hljs-number">1</span>]] = [curI, curJ] <span class="hljs-comment">// 相邻点的前面的点是当前点</span>
       <span class="hljs-keyword">if</span> (item[<span class="hljs-number">0</span>] === endI &amp;&amp; item[<span class="hljs-number">1</span>] === endJ) {
         shortestDist = curDist + <span class="hljs-number">1</span>
       }
@@ -440,7 +454,7 @@ arr.<span class="hljs-title function_">forEach</span>(<span class="hljs-function
       shortestPath.<span class="hljs-title function_">unshift</span>(curPoint)
       curPoint = predMetrix[curPoint[<span class="hljs-number">0</span>]][curPoint[<span class="hljs-number">1</span>]]
     }
-    shortPath.<span class="hljs-title function_">unshift</span>([startI, startJ])
+    shortestPath.<span class="hljs-title function_">unshift</span>([startI, startJ]) <span class="hljs-comment">// 放入起点</span>
   }
   <span class="hljs-keyword">return</span> { shortestDist, shortestPath }
 }
