@@ -149,14 +149,14 @@ let f = (aArr, bArr) => {
 let f = (arr, len) => {
   let res = []
   while (arr.length) {
-    res.push(arr.splice(0, len))
+    res.push(arr.splice(0, len)) // 从头开始
   }
   return res
 }
 let f = (arr, len) => {
   let res = []
   while (arr.length) {
-    res.push(arr.splice(-len))
+    res.push(arr.splice(-len)) // 从尾开始
   }
   return res
 }

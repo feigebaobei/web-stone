@@ -3,6 +3,11 @@
 ## 环
 
 ```js
+// ------>
+// ^     |
+// |     |
+// |     |
+// <-----V
 if (n === 1 && m === 1) {
   arr[n][m]
 } else {
@@ -83,10 +88,11 @@ for (let i = r, j = c; i >= 0, j < arr[0].length; i--, j++) {
 
 ## bfs
 
-创建一个等空间的标记对象。
-把一个点入队列。
-循环到队列为空。
+创建一个空间相等的标记对象。
+把起点入队列。
+根据队列中的元素找到相邻元素
 处理每个元素+更新标记+把标记为 0 的入队列
+循环到队列为空。
 
 不会用到递归
 
@@ -170,6 +176,7 @@ let bfs = (i, j) => {
       queue.push([i - 1, j + 1])
     }
   }
+  // 和上面的while一样。写重了。
   while (queue.length) {
     let [i, j] = queue.shift()
     tag[i][j] = 2
@@ -188,6 +195,7 @@ let bfs = (i, j) => {
     }
     // 其他方向的点
   }
+  // 每圈一步
   let len = queue.length
   for (let i = 0; i < len; i++) {
     let [i, j] = queue.shift()
@@ -203,7 +211,9 @@ let bfs = (i, j) => {
 
 ```js
 for (let i = 0; i < arr.length; i++) {
+  // 从0开始
   for (let j = 0; j < arr.length; j++) {}
+  // 从i+1开始
   for (let j = i + 1; j < arr.length; j++) {}
 }
 ```
@@ -213,14 +223,16 @@ for (let i = 0; i < arr.length; i++) {
 ```js
 metrix.sort((aArr, bArr) => {
   let res = 0
+  // 判断2个数组的大小
   for (let i = 0; i < aArr.length; i++) {
     let t = aArr[i] - bArr[i]
     if (t) {
+      // 不等于0就是判断出大小了
       res = t
       break
     }
   }
-  return 0
+  return res
 })
 ```
 
@@ -262,9 +274,11 @@ let f = (metrix) => {
 let map = [[], []]
 // 求2点之间最短距离
 let f = (startI, startJ, endI, endJ) => {
+  // 保存从起点到所有点的距离
   let distMetrix = Array.from({ length: map.length }, () =>
     Array.from({ length: map[0].length }, () => 0)
   )
+  // 保存到该点前的点
   let predMetrix = Array.from({ length: map.length }, () =>
     Array.from({ length: map[0].length }, () => null)
   )
@@ -314,13 +328,13 @@ let f = (startI, startJ, endI, endJ) => {
   }
   while (queue.length) {
     let [curI, curJ] = queue.shift()
-    let arr = bfs(curI, curJ, tag) // 广度优先探索
+    let arr = bfs(curI, curJ, tag) // 广度优先探索当前点的相邻点
     let curDist = distMetrix[curI][curJ]
     arr.forEach((item) => {
       // 到相邻点的距离加1
       tag[item[0]][item[1]] = 2
-      distMetrix[item[0]][item[1]] = curDist + 1
-      predMetrix[item[0]][item[1]] = [curI, curJ]
+      distMetrix[item[0]][item[1]] = curDist + 1 // 距离+1
+      predMetrix[item[0]][item[1]] = [curI, curJ] // 相邻点的前面的点是当前点
       if (item[0] === endI && item[1] === endJ) {
         shortestDist = curDist + 1
       }
@@ -334,7 +348,7 @@ let f = (startI, startJ, endI, endJ) => {
       shortestPath.unshift(curPoint)
       curPoint = predMetrix[curPoint[0]][curPoint[1]]
     }
-    shortPath.unshift([startI, startJ])
+    shortestPath.unshift([startI, startJ]) // 放入起点
   }
   return { shortestDist, shortestPath }
 }

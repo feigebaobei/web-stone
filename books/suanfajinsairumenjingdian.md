@@ -3345,8 +3345,93 @@ let f = (startPoint, endPoint) => {
 clog(f(['a', 1], ['b', 2]))
 ```
 
+巡逻机器人(Patrol Robot, ACM/ICPC Hanoi 2006, UVa1600)
+机器人要从一个 m\*n(1≤m, n≤20)网格的左上角(1,1)走到右下角(mn)。网格中的一
+些格子是空地(用 0 表示),其他格子是障碍(用 1 表示)。机器人每次可以往 4 个方向
+走一格,但不能连续地穿越 k (0≤≤20)个障碍,求最短路长度。
+
 ```js
-let f = () => {}
+let f = (map, k) => {
+  let stepCount = 0
+  let start = [0, 0]
+  let end = [map.length - 1, map[0].length - 1]
+  let queen = [[...start]]
+  let tag = Array.from({ length: map.length }, () =>
+    Array.from({ length: map[0].length }, () => 0)
+  )
+  let isAriveEnd = (arr) => {
+    return arr.some((item) => item[0] === end[0] && item[1] === end[1])
+  }
+  let getNeighbour = (point) => {
+    let state = []
+    let [i, j] = point
+    let r, c
+    // 4方
+    r = i + 1
+    c = j
+    if (
+      r < map.length &&
+      (map[i][j] === 1 ? map[r][c] === 0 : true) &&
+      tag[r][c] === 0
+    ) {
+      state.push([r, c])
+      tag[r][c] = 1
+    }
+    r = i
+    c = j - 1
+    if (
+      c > -1 &&
+      (map[i][j] === 1 ? map[r][c] === 0 : true) &&
+      tag[r][c] === 0
+    ) {
+      state.push([r, c])
+      tag[r][c] = 1
+    }
+    r = i - 1
+    c = j
+    if (
+      r > -1 &&
+      (map[i][j] === 1 ? map[r][c] === 0 : true) &&
+      tag[r][c] === 0
+    ) {
+      state.push([r, c]) && tag[r][c] === 0
+    }
+    r = i
+    c = j + 1
+    if (
+      c < map[0].length &&
+      (map[i][j] === 1 ? map[r][c] === 0 : true) &&
+      tag[r][c] === 0
+    ) {
+      state.push([r, c]) && tag[r][c] === 0
+    }
+    return state
+  }
+  while (queen.length) {
+    if (isAriveEnd(queen)) {
+      break
+    } else {
+      let len = queen.length
+      for (let i = 0; i < len; i++) {
+        let point = queen.shift()
+        queen.push(...getNeighbour(point))
+      }
+      stepCount++
+    }
+  }
+  return stepCount
+}
+clog(
+  f(
+    [
+      [0, 1, 1, 0, 0, 0],
+      [0, 0, 1, 0, 1, 1],
+      [0, 1, 1, 1, 1, 0],
+      [0, 1, 1, 1, 0, 0],
+    ],
+    1
+  )
+)
 ```
 
 ```js

@@ -25,6 +25,9 @@
 
 ## hafman tree
 
+父节点的值是子节点的值的和。
+左子节点的值 <= 右子节点的值
+
 ```js
 let createTree = (arr) => {
   let createNode = (v) => {
