@@ -3434,20 +3434,368 @@ clog(
 )
 ```
 
-```js
-let f = () => {}
-```
+修改天平(Equilibrium Mobile, NWERC 2008, UVa12166)
+给一个深度不超过 16 的二叉树,代表一个天平。每根杆都悬挂在中间,每个秤花的重
+量已知。至少修改多少个秤花的重量才能让天平平衡?
 
 ```js
-let f = () => {}
+// 未测试
+let f = (tree) => {
+  let count = 0
+  let sum = 0
+  let childSum = (node) => {
+    if (node.left || node.right) {
+      // 非叶子
+      childSum(node.left)
+      childSum(node.right)
+    } else {
+      sum += node.value
+    }
+    return sum
+  }
+  let f = (node) => {
+    if (!node.left && !node.right) {
+      // 叶子节点是平衡的
+      return
+    } else {
+      f(node.left)
+      f(node.right)
+      let l = childSum(node.left)
+      sum = 0
+      let r = childSum(node.right)
+      sum = 0
+      if (l !== r) {
+        count++
+      }
+    }
+  }
+  return count
+}
 ```
 
-```js
-let f = () => {}
-```
+Petri 网模拟
+不理解
+空间结构
+不理解
+牌游戏("Accordian" Patience, UVa 127)
+把 52 张牌从左到右排好,每张牌自成一个牌堆(pile)。当某张牌与它左边那张牌或
+者左边第 3 张牌“match”(花色 suit 或者点数 rank 相同)时,就把这张牌移到那张牌上面。
+移动之后还要查看是否可以进行其他移动。只有位于牌堆顶部的牌才能移动或者参与
+match。当牌堆之间出现空隙时要立刻把右边的所有牌堆左移一格来填补空隙。如果有多张
+牌可以移动,先移动最左边的那张牌;如果既可以移一格也可以移 3 格时,移 3 格。按顺
+序输入 52 张牌,输出最后的牌堆数以及各牌堆的牌数。
 
 ```js
-let f = () => {}
+// 未测试
+let f = (paiList) => {
+  // paiList: {
+  //     rank: 1, // 1-13
+  //     suit: 'red', // 'red'/'black'/'fang'/'mei'
+  // }[][]
+  let check = (paiList) => {
+    for (let i = 1; i < paiList.length; i++) {
+      let j = i - 3
+      let stackI = paiList[i]
+      let stackJ = paiList[j]
+      // [顶.....底]
+      if (
+        j > -1 &&
+        (stackI[0].suit === stackJ[0].suit || stackI[0].rank === stackJ[0].rank)
+      ) {
+        return {
+          index: i,
+          target: j,
+        }
+      } else {
+        j = i - 1
+        stackJ = paiList[j]
+        if (
+          j > -1 &&
+          (stackI[0].suit === stackJ[0].suit ||
+            stackI[0].rank === stackJ[0].rank)
+        ) {
+          return {
+            index: i,
+            target: j,
+          }
+        }
+      }
+    }
+  }
+  let move = (cur) => {
+    paiList[cur.target].unshift(paiList[cur.index].shift())
+    if (paiList[cur.index].length) {
+    } else {
+      paiList.splice(cur.index, 1)
+    }
+  }
+  let cur
+  do {
+    cur = check()
+    if (cur) {
+      move(cur)
+    }
+  } while (cur)
+  return paiList
+}
+```
+
+10-20-30 游戏(10-20-30, ACM/ICPC World Finals 1996, UVa246)
+有一种纸牌游戏叫做 10-20-30。游戏使用除大王和小王之外的 52 张牌,J、Q、K 的面
+值是 10,A 的面值是 1,其他牌的面值等于它的点数。
+把 52 张牌叠放在一起放在手里,然后从最上面开始依次拿出 7 张牌从左到右摆成一条
+直线放在桌子上,每一张牌代表一个牌堆。每次取出手中最上面的一张牌,从左至右依次
+放在各个牌堆的最上面。当往最右边的牌堆放了一张牌以后,重新往最左边的牌堆上放牌。
+如果当某张牌放在某个牌堆上后,
+牌堆的最上面两张和最下面一张牌的和等于 10、20 或者 30,这 3 张牌将会从牌堆中拿走,然后按顺序放回手中并压在最下面。
+如果没有出现这种情况,将会检查最上面一张和最下面两张牌的和是否为 10、20 或者 30,解决方法类似。
+如果仍然没有出现这种情况,最后检查最上面的 3 张牌的和,并用类似的方法处理。
+例如,如果某一牌堆中的牌从上到下依次是 5、9、7、3,那么放上 6 以后的布局如图 6-27 所示。
+如果放的不是 6,而是 Q,对应的情况如图 6-28 所示。
+如果某次操作后某牌堆中没有剩下一张牌,那么将该牌堆便永远地清除掉,并把它右
+边的所有牌堆顺次往左移。
+如果所有牌堆都清除了,游戏胜利结束;
+如果手里没有牌了,游戏以失败告终;
+有时游戏永远无法结束,这时则称游戏出现循环。
+给出 52 张牌最开始在手中的顺序,请模拟这个游戏并计算出游戏结果。
+
+```js
+// 未测试
+let f = (paiList) => {
+  // paiList: {
+  // rank: 1,
+  // suit: 'mei',
+  // }[]
+  let stackList = Array.from({ length: 7 }, () => [])
+  // stackList.length = 0
+  // paiList.length = 0
+  // loop
+  let statusMap = new Map()
+  statusMap.set(paiList.map((item) => item.rank).join(','), 1)
+  let checkMap = () => {
+    return statusMap.has(paiList.map((item) => item.rank).join(','))
+  }
+  let check = () => {
+    if (stackList.length || paiList.length || checkMap()) {
+      return true
+    } else {
+      return false
+    }
+  }
+  let curIndex = 0
+  let fang = (pai) => {
+    stackList[curIndex].unshift(pai)
+  }
+  let sumArr = [10, 20, 30]
+  let getPaiIndex = () => {
+    let stack = stackList[curIndex]
+    let i, j, k
+    if (stack.length >= 3) {
+      i = 0
+      j = stack.length - 1
+      k = stack.length - 2
+      if (sumArr.includes(stack[i].rank + stack[j].rank + stack[k].rank)) {
+        return [i, j, k]
+      } else {
+        j = 1
+        k = stack.length - 1
+        if (sumArr.includes(stack[i].rank + stack[j].rank + stack[k].rank)) {
+          return [i, j, k]
+        } else {
+          j = 1
+          k = 2
+          if (sumArr.includes(stack[i].rank + stack[j].rank + stack[k].rank)) {
+            return [i, j, k]
+          } else {
+            return []
+          }
+        }
+      }
+    } else {
+      return []
+    }
+  }
+  let remove = () => {
+    let paiIndexArr = getPaiIndex()
+    let stack = stackList[curIndex]
+    if (paiIndexArr.length) {
+      paiList.push(
+        ...[
+          stack.splice(paiIndexArr[2], 1),
+          stack.splice(paiIndexArr[1], 1),
+          stack.splice(paiIndexArr[0], 1),
+        ].reverse()
+      )
+    } else {
+      // null
+    }
+  }
+  let delEmpty = () => {
+    if (stackList[curIndex].length) {
+    } else {
+      stackList.splice(curIndex, 1)
+      curIndex--
+    }
+  }
+  while (check()) {
+    fang()
+    remove()
+    delEmpty()
+    curIndex++
+    curIndex = curIndex % stackList.length
+  }
+  return paiList
+}
+```
+
+树重建
+不会
+筛子难题(A Dicey Problem, ACM/ICPC World Finals 1999, UVa810)
+图 6-30 (a)是一个迷宫,图 6-30 (b)是一个筛子。你的任务是把筛子放在起点(筛
+子顶面和正面的数字由输入给定),经过若干次滚动以后回到起点。
+每次到达一个新格子时,格子上的数字必须和与它接触的筛子上的数字相同,除非到达
+的格子上画着五星(此时,与它接触的筛子上的数字可以任意)。输入一个 R 和 C 行 (1≤
+R, C≤10)的迷宫、起点坐标以及顶面、正面的数字,输出一条可行的路径。
+
+```js
+//   3
+// 1265
+//   4
+let f = (map, start, topNumber, frontNumber) => {
+  let se = {
+    top: topNumber,
+    bottom: 7 - topNumber,
+    left: 0, //topNumber <= 3 ? ,
+    right: 0,
+    front: frontNumber,
+    end: 7 - frontNumber,
+  }
+  let tArr = []
+  for (let i = 1; i < 7; i++) {
+    if ([se.top, se.bottom, se.front, se.end].includes(i)) {
+    } else {
+      tArr.push(i)
+    }
+  }
+  if (topNumber <= 3) {
+    // 左大 右小
+    se.left = tArr[1]
+    se.right = tArr[0]
+  } else {
+    se.left = tArr[0]
+    se.right = tArr[1]
+  }
+  // map: [
+  //     [1,2,3,'*',3],
+  //     [1,2,3,'*',3],
+  //     [1,2,3,'*',3],
+  // ]
+  let seLeft = () => {
+    ;[se.top, se.right, se.bottom, se.left] = [
+      se.right,
+      se.bottom,
+      se.left,
+      se.top,
+    ]
+  }
+  let seRight = () => {
+    ;[se.top, se.right, se.bottom, se.left] = [
+      se.left,
+      se.top,
+      se.right,
+      se.bottom,
+    ]
+  }
+  let seFront = () => {
+    ;[se.top, se.end, se.bottom, se.front] = [
+      se.end,
+      se.bottom,
+      se.front,
+      se.top,
+    ]
+  }
+  let seEnd = () => {
+    ;[se.top, se.end, se.bottom, se.front] = [
+      se.front,
+      se,
+      bottom,
+      se.end,
+      se.top,
+    ]
+  }
+  let res = []
+  let _f = (choice, status) => {
+    for (let i = 0; i < choice.length; i++) {
+      if (choice[i]) {
+        status.push([...choice[i]])
+        switch (i) {
+          case 0:
+            if (choice[i][0] === se.right || choice[i][0] === '*') {
+              seRight()
+            }
+          case 1:
+            if (choice[i][0] === se.front || choice[i][0] === '*') {
+              seFront()
+            }
+          case 2:
+            if (choice[i][0] === se.left || choice[i][0] === '*') {
+              seLeft()
+            }
+          case 3:
+            if (choice[i][0] === se.end || choice[i][0] === '*') {
+              seEnd()
+            }
+        }
+        if (choice[i][0] === start[0] && choice[i][1] === start[1]) {
+          res.push([...status])
+          break
+        } else {
+          _f(getNeighbour(choice[i][0], choice[i][1]), status)
+        }
+        status.pop()
+      }
+    }
+  }
+  let [i, j] = start
+  let getNeighbour = (i, j) => {
+    let r, c
+    r = i
+    c = j + 1
+    let status = []
+    // 4方
+    if (r >= 0 && r <= map.length - 1 && j >= 0 && j <= map[0].length - 1) {
+      status.push([r, c])
+    } else {
+      status.push()
+    }
+    r = i + 1
+    c = j
+    if (r >= 0 && r <= map.length - 1 && j >= 0 && j <= map[0].length - 1) {
+      status.push([r, c])
+    } else {
+      status.push()
+    }
+    r = i
+    c = j - 1
+    if (r >= 0 && r <= map.length - 1 && j >= 0 && j <= map[0].length - 1) {
+      status.push([r, c])
+    } else {
+      status.push()
+    }
+    r = i - 1
+    c = j
+    if (r >= 0 && r <= map.length - 1 && j >= 0 && j <= map[0].length - 1) {
+      status.push([r, c])
+    } else {
+      status.push()
+    }
+    return status // 右 下 左 上
+    // 右 前 左 后
+  }
+  let choice = []
+  _f(getNeighbour(start[0], start[1]), [])
+  return res
+}
 ```
 
 ### title

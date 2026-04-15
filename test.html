@@ -203,8 +203,204 @@ clog(f([
     [0, 1, 1, 1, 0, 0],
 ], 1))
 
-
-
+f = (tree) => {
+    let count = 0
+    let sum = 0
+    let childSum = (node) => {
+        if (node.left || node.right) { // 非叶子
+            childSum(node.left)
+            childSum(node.right)
+        } else {
+            sum += node.value
+        }
+        return sum
+    }
+    let f = (node) => {
+        if (!node.left && !node.right) {
+            // 叶子节点是平衡的
+            return
+        } else {
+            f(node.left)
+            f(node.right)
+            let l = childSum(node.left)
+            sum = 0
+            let r = childSum(node.right)
+            sum = 0
+            if (l !== r) {
+                count++
+            }
+        }
+    }
+    return count
+}
+f = (paiList) => {
+    // paiList: {
+    //     rank: 1, // 1-13
+    //     suit: 'red', // 'red'/'black'/'fang'/'mei'
+    // }[][]
+    let check = (paiList) => {
+        for (let i = 1; i < paiList.length; i++) {
+            let j = i - 3
+            let stackI = paiList[i]
+            let stackJ = paiList[j]
+            // [顶.....底]
+            if (
+                j > -1 &&
+                (stackI[0].suit === stackJ[0].suit
+                || stackI[0].rank === stackJ[0].rank)
+            ) {
+                return {
+                    index: i,
+                    target: j
+                }
+            } else {
+                j = i - 1
+                stackJ = paiList[j]
+                if (
+                    j > -1
+                    && (stackI[0].suit === stackJ[0].suit
+                    || stackI[0].rank === stackJ[0].rank)
+                ) {
+                    return {
+                        index: i,
+                        target: j
+                    }
+                }
+            }
+        }
+    }
+    let move = (cur) => {
+        paiList[cur.target].unshift(paiList[cur.index].shift())
+        if (paiList[cur.index].length) {} else {
+            paiList.splice(cur.index, 1)
+        }
+    }
+    let cur
+    do {
+        cur = check()
+        if (cur) {
+            move(cur)
+        }
+    } while (cur)
+    return paiList
+}
+f = (map, start, topNumber, frontNumber) => {
+    let se = {
+        top: topNumber,
+        bottom: 7 - topNumber,
+        left: 0, //topNumber <= 3 ? ,
+        right: 0,
+        front: frontNumber,
+        end: 7 - frontNumber,
+    }
+    let tArr = []
+    for (let i = 1; i < 7; i++) {
+        if ([se.top,
+            se.bottom,
+            se.front,
+            se.end,
+        ].includes(i)) {} else {
+            tArr.push(i)
+        }
+    }
+    if (topNumber <= 3) {
+        // 左大 右小
+        se.left = tArr[1]
+        se.right = tArr[0]
+    } else {
+        se.left = tArr[0]
+        se.right = tArr[1]
+    }
+    // map: [
+    //     [1,2,3,'*',3],
+    //     [1,2,3,'*',3],
+    //     [1,2,3,'*',3],
+    // ]
+    let seLeft = () => {
+        [se.top, se.right, se.bottom, se.left] = [se.right, se.bottom, se.left, se.top]
+    }
+    let seRight = () => {
+        [se.top, se.right, se.bottom, se.left] = [se.left, se.top, se.right, se.bottom]
+    }
+    let seFront = () => {
+        [se.top, se.end, se.bottom, se.front] = [se.end, se.bottom, se.front, se.top]
+    }
+    let seEnd = () => {
+        [se.top, se.end, se.bottom, se.front] = [se.front, se,bottom, se.end, se.top]
+    }
+    let res = []
+    let _f = (choice, status) => {
+        for (let i = 0; i < choice.length; i++) {
+            if (choice[i]) {
+                status.push([...choice[i]])
+                switch (i) {
+                    case 0:
+                        if (choice[i][0] === se.right || choice[i][0] === '*') {
+                            seRight()
+                        }
+                    case 1:
+                        if (choice[i][0] === se.front || choice[i][0] === '*') {
+                            seFront()
+                        }
+                    case 2:
+                        if (choice[i][0] === se.left || choice[i][0] === '*') {
+                            seLeft()
+                        }
+                    case 3:
+                        if (choice[i][0] === se.end || choice[i][0] === '*') {
+                            seEnd()
+                        }
+                }
+                if (choice[i][0] === start[0] && choice[i][1] === start[1]) {
+                    res.push([...status])
+                    break
+                } else {
+                    _f(getNeighbour(choice[i][0], choice[i][1]), status)
+                }
+                status.pop()
+            }
+        }
+    }
+    let [i, j] = start
+    let getNeighbour = (i, j) => {
+        let r,c
+        r = i
+        c = j + 1
+        let status = []
+        // 4方
+        if (r >= 0 && r <= map.length - 1
+            && j >= 0 && j <= map[0].length - 1
+        ) {
+            status.push([r, c])
+        } else { status.push()}
+        r = i + 1
+        c = j
+        if (r >= 0 && r <= map.length - 1
+            && j >= 0 && j <= map[0].length - 1
+        ) {
+            status.push([r, c])
+        } else { status.push()}
+        r = i
+        c = j - 1
+        if (r >= 0 && r <= map.length - 1
+            && j >= 0 && j <= map[0].length - 1
+        ) {
+            status.push([r, c])
+        } else { status.push()}
+        r = i - 1
+        c = j
+        if (r >= 0 && r <= map.length - 1
+            && j >= 0 && j <= map[0].length - 1
+        ) {
+            status.push([r, c])
+        } else { status.push()}
+        return status // 右 下 左 上
+        // 右 前 左 后
+    }
+    let choice = []
+    _f(getNeighbour(start[0], start[1]), [])
+    return res
+}
 
 
     </script>
