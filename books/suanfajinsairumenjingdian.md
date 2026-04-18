@@ -3798,6 +3798,150 @@ let f = (map, start, topNumber, frontNumber) => {
 }
 ```
 
+电子表格计算器(Spreadsheet Calculator, ACM/ICPC World Finals 1992,UVa215)
+在一个 R 行 C 列(R≤20, C≤10)的电子表格中,行编号为 A~T,列编号为 0~9。按
+照行优先顺序输入电子表格的各个单元格。每个单元格可能是整数(可能是负数)或者引
+用了其他单元格的表达式(只包含非负整数、单元格名称和加减号,没有括号)。表达式
+保证以单元格名称开头,内部不含空白字符,且最多包含 75 个字符。
+尽量计算出所有表达式的值,然后输出各个单元格的值(计算结果保证为绝对值不超
+过 10000 的整数)。如果某些单元格循环引用,在表格之后输出(仍按行优先顺序),如
+图 6-31 所示。
+
+```js
+let f = (r, c, valueList) => {
+  let metrix = []
+  let t
+  t = valueList.splice(0, c)
+  while (t.length) {
+    metrix.push([...t])
+    t = valueList.splice(0, c)
+  }
+  let isExp = (v) => {
+    let reg = /[a-zA-Z]/g
+    return reg.test(v)
+  }
+  let rMap = new Map([
+    ['A', 0],
+    ['B', 1],
+    ['C', 2],
+    ['D', 3],
+    ['E', 4],
+    ['F', 5],
+    ['G', 6],
+    ['H', 7],
+    ['I', 8],
+    ['J', 9],
+    ['K', 10],
+    ['L', 11],
+    ['M', 12],
+    ['N', 13],
+    ['O', 14],
+    ['P', 15],
+    ['Q', 16],
+    ['R', 17],
+    ['S', 18],
+    ['T', 19],
+  ])
+  let calc = (i, j) => {
+    if (isExp(metrix[i][j])) {
+      let r = /[\+\-]/g
+      let arr = metrix[i][j].split(/[\+\-]/)
+      let signList = metrix[i][j].match(r) // null | [xx]
+      let valueList = arr.map((item) => {
+        if (isExp(item)) {
+          let [r, c] = item.split('')
+          return (metrix[rMap.get(r)][Number(c)] = calc(rMap.get(r), Number(c)))
+        } else {
+          return Number(item)
+        }
+      })
+      return valueList.reduce((r, c, i) => {
+        switch (signList[i - 1]) {
+          case '+':
+            r += c
+            break
+          case '-':
+            r -= c
+            break
+        }
+        return r
+      })
+    } else {
+      return Number(metrix[i][j])
+    }
+  }
+  for (let i = 0; i < metrix.length; i++) {
+    for (let j = 0; j < metrix[0].length; j++) {
+      metrix[i][j] = calc(i, j)
+    }
+  }
+  return metrix
+}
+// clog(f(2, 2, ['A1+B1', '5', '3', 'B0-A1']))
+```
+
+检查员的难题(Inspector's Dilemma, ACM/ICPC Dhaka 2007, UVa12118)
+某国家有 V (≤1000)个城市,每两个城市之间都有一条双向道路直接相连,长度为
+T。你的任务是找一条最短的道路(起点和终点任意),使得该道路经过 E 条指定的边。
+例如,若 V=5, E=3, T−1,指定的 3 条边为 1-2、1-3 和 4-5,则最优道路为 3-1-2-4-5,
+长度为 4\*1=4。
+
+```js
+let f = () => {}
+```
+
+```js
+let f = () => {}
+```
+
+```js
+let f = () => {}
+```
+
+```js
+let f = () => {}
+```
+
+```js
+let f = () => {}
+```
+
+```js
+let f = () => {}
+```
+
+```js
+let f = () => {}
+```
+
+```js
+let f = () => {}
+```
+
+```js
+let f = () => {}
+```
+
+```js
+let f = () => {}
+```
+
+```js
+let f = () => {}
+```
+
+```js
+let f = () => {}
+```
+
+```js
+let f = () => {}
+```
+
+```js
+let f = () => {}
+```
+
 ### title
 
 ### title

@@ -196,12 +196,12 @@ f = (map, k) => {
     }
     return stepCount
 }
-clog(f([
-    [0, 1, 1, 0, 0, 0],
-    [0, 0, 1, 0, 1, 1],
-    [0, 1, 1, 1, 1, 0],
-    [0, 1, 1, 1, 0, 0],
-], 1))
+// clog(f([
+//     [0, 1, 1, 0, 0, 0],
+//     [0, 0, 1, 0, 1, 1],
+//     [0, 1, 1, 1, 1, 0],
+//     [0, 1, 1, 1, 0, 0],
+// ], 1))
 
 f = (tree) => {
     let count = 0
@@ -401,6 +401,148 @@ f = (map, start, topNumber, frontNumber) => {
     _f(getNeighbour(start[0], start[1]), [])
     return res
 }
+f = (r, c, valueList) => {
+    let metrix = []
+    let t
+    t = valueList.splice(0, c)
+    while (t.length) {
+        metrix.push([...t])
+        t = valueList.splice(0, c)
+    }
+    let isExp = (v) => {
+        let reg = /[a-zA-Z]/g
+        return reg.test(v)
+    }
+    let rMap = new Map([
+        ['A', 0],
+        ['B', 1],
+        ['C', 2],
+        ['D', 3],
+        ['E', 4],
+        ['F', 5],
+        ['G', 6],
+        ['H', 7],
+        ['I', 8],
+        ['J', 9],
+        ['K', 10],
+        ['L', 11],
+        ['M', 12],
+        ['N', 13],
+        ['O', 14],
+        ['P', 15],
+        ['Q', 16],
+        ['R', 17],
+        ['S', 18],
+        ['T', 19],
+    ])
+    let calc = (i, j) => {
+        if (isExp(metrix[i][j])) {
+            let r = /[\+\-]/g
+            let arr = metrix[i][j].split(/[\+\-]/)
+            let signList = metrix[i][j].match(r) // null | [xx]
+            let valueList = arr.map(item => {
+                if (isExp(item)) {
+                    let [r, c] = item.split('')
+                    return metrix[rMap.get(r)][Number(c)] = calc(rMap.get(r), Number(c))
+                } else {
+                    return Number(item)
+                }
+            })
+            return valueList.reduce((r, c, i) => {
+                switch (signList[i - 1]) {
+                    case '+':
+                        r += c
+                        break;
+                    case '-':
+                        r -= c
+                        break;
+                }
+                return r
+            })
+        } else {
+            return Number(metrix[i][j])
+        }
+    }
+    for (let i = 0; i < metrix.length; i++) {
+        for (let j = 0; j < metrix[0].length; j++) {
+            metrix[i][j] = calc(i, j)
+        }
+    }
+    return metrix
+}
+// clog(f(2, 2, ['A1+B1', '5', '3', 'B0-A1']))
+let spliceByItem = (arr, f) => {
+    let index = arr.findIndex(item => f(item))
+    if (index >= 0) {
+        return arr.splice(index, 1)[0]
+    } else {
+        return
+    }
+}
+f = (e, v, t, edgeList) => {
+    let res = []
+    let arr = edgeList.map(item => item.split('-').map((subItem => Number(subItem))))
+    let cur = arr.shift()
+    let queue = [...cur]
+    let line = [[...cur]]
+    let ele
+    while (arr.length) {
+        let flag = 0
+        ele = spliceByItem(arr, (item) => item[0] === queue[0])
+        if (ele) {
+            line.unshift([ele[1], ele[0]])
+            queue[0] = ele[1]
+            flag++
+        } else {
+            ele = spliceByItem(arr, (item) => item[1] === queue[0])
+            if (ele) {
+                line.unshift([ele[0], ele[1]])
+                queue[0] = ele[0]
+                flag++
+            }
+        }
+        ele = spliceByItem(arr, (item) => item[0] === queue[1])
+        if (ele) {
+            line.push([ele[0], ele[1]])
+            queue[1] = ele[1]
+            flag++
+        } else {
+            ele = spliceByItem(arr, (item) => item[1] === queue[1])
+            if (ele) {
+                line.push([ele[1], ele[0]])
+                queue[1] = ele[0]
+                flag++
+            }
+        }
+        if (flag > 0) {
+        } else {
+            res.push([...line])
+            cur = arr.shift()
+            if (arr.length) {
+                queue = [...cur]
+                line = [[...cur]]
+            } else {
+                res.push([[...cur]])
+            }
+            break
+        }
+    }
+    // res.push([...line])
+    // let path = res.reduce((r, c) => {
+    //     Array.from(new Set(c.flat(1))).join('-')
+    // }, res[0])
+    let path = [...res[0]]
+    for (let i = 1; i < res.length; i++) {
+        path.push(...res[i])
+    }
+    clog(path)
+    let p = path.reduce((r, c) => {
+        r += `-${c[1]}`
+        return r
+    }, path[0][0])
+    return {path: p, distence: (path.length - 1) * t}
+}
+clog(f(3, 5, 1, ['1-2', '1-3', '4-5']))
 
 
     </script>
