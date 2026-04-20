@@ -3887,66 +3887,140 @@ T。你的任务是找一条最短的道路(起点和终点任意),使得该道�
 长度为 4\*1=4。
 
 ```js
-let f = () => {}
+let f = (e, v, t, edgeList) => {
+  let res = []
+  let arr = edgeList.map((item) =>
+    item.split('-').map((subItem) => Number(subItem))
+  )
+  let cur = arr.shift()
+  let queue = [...cur]
+  let line = [[...cur]]
+  let ele
+  // 找出可以连起来的边
+  while (arr.length) {
+    let flag = 0
+    ele = spliceByItem(arr, (item) => item[0] === queue[0])
+    if (ele) {
+      line.unshift([ele[1], ele[0]])
+      queue[0] = ele[1]
+      flag++
+    } else {
+      ele = spliceByItem(arr, (item) => item[1] === queue[0])
+      if (ele) {
+        line.unshift([ele[0], ele[1]])
+        queue[0] = ele[0]
+        flag++
+      }
+    }
+    ele = spliceByItem(arr, (item) => item[0] === queue[1])
+    if (ele) {
+      line.push([ele[0], ele[1]])
+      queue[1] = ele[1]
+      flag++
+    } else {
+      ele = spliceByItem(arr, (item) => item[1] === queue[1])
+      if (ele) {
+        line.push([ele[1], ele[0]])
+        queue[1] = ele[0]
+        flag++
+      }
+    }
+    if (flag > 0) {
+    } else {
+      res.push([...line])
+      cur = arr.shift()
+      if (arr.length) {
+        queue = [...cur]
+        line = [[...cur]]
+      } else {
+        res.push([[...cur]])
+      }
+      break
+    }
+  }
+  clog(res)
+  let path = []
+  let i = 0
+  while (i < res.length - 1) {
+    path.push(...res[i])
+    path.push([res[i][res[i].length - 1][1], res[i + 1][0][0]])
+    i++
+  }
+  path.push(...res[i])
+  clog(path)
+  let p = path.reduce((r, c) => {
+    return (r += `-${c[1]}`)
+  }, path[0][0])
+  return { path: p, distence: path.length * t }
+}
+clog(f(3, 5, 1, ['1-2', '1-3', '4-5']))
 ```
-
-```js
-let f = () => {}
-```
-
-```js
-let f = () => {}
-```
-
-```js
-let f = () => {}
-```
-
-```js
-let f = () => {}
-```
-
-```js
-let f = () => {}
-```
-
-```js
-let f = () => {}
-```
-
-```js
-let f = () => {}
-```
-
-```js
-let f = () => {}
-```
-
-```js
-let f = () => {}
-```
-
-```js
-let f = () => {}
-```
-
-```js
-let f = () => {}
-```
-
-```js
-let f = () => {}
-```
-
-```js
-let f = () => {}
-```
-
-### title
-
-### title
 
 ## 第 7 章 暴力求解法
+
+输入正整数 n,按从小到大的顺序输出所有形如 abcdelfghij =n 的表达式,其中 aj 恰
+好为数字 0~9 的一个排列(可以有前导 0), 2≤n≤79。
+样例输入:
+62
+样例输出:
+79546 / 01283 = 62
+94736 / 01528 = 62
+
+```js
+let f = () => {}
+```
+
+```js
+let f = () => {}
+```
+
+```js
+let f = () => {}
+```
+
+```js
+let f = () => {}
+```
+
+```js
+let f = () => {}
+```
+
+```js
+let f = () => {}
+```
+
+```js
+let f = () => {}
+```
+
+```js
+let f = () => {}
+```
+
+```js
+let f = () => {}
+```
+
+```js
+let f = () => {}
+```
+
+```js
+let f = () => {}
+```
+
+```js
+let f = () => {}
+```
+
+```js
+let f = () => {}
+```
+
+### title
+
+### title
 
 # 第 3 部分 竞赛篇
 
