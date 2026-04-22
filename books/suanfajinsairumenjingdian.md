@@ -3967,8 +3967,120 @@ clog(f(3, 5, 1, ['1-2', '1-3', '4-5']))
 94736 / 01528 = 62
 
 ```js
-let f = () => {}
+// 用时大约2s
+let f = (n) => {
+  let [a, b, c, d, e] = [0, 0, 0, 0, 0]
+  let [f, g, h, i, j] = [0, 0, 0, 0, 0]
+  let res = []
+  while (a < 10) {
+    b = 0
+    while (b < 10) {
+      if (a == b) {
+        b++
+        continue
+      } else {
+        c = 0
+        while (c < 10) {
+          if ([b, a].includes(c)) {
+            c++
+            continue
+          } else {
+            d = 0
+            while (d < 10) {
+              if ([a, b, c].includes(d)) {
+                d++
+                continue
+              } else {
+                e = 0
+                while (e < 10) {
+                  if ([a, b, c, d].includes(e)) {
+                    e++
+                    continue
+                  } else {
+                    f = 0
+                    while (f < 10) {
+                      if ([a, b, c, d, e].includes(f)) {
+                        f++
+                        continue
+                      } else {
+                        g = 0
+                        while (g < 10) {
+                          if ([a, b, c, d, e, f].includes(g)) {
+                            g++
+                            continue
+                          } else {
+                            h = 0
+                            while (h < 10) {
+                              if ([a, b, c, d, e, f, g].includes(h)) {
+                                h++
+                                continue
+                              } else {
+                                i = 0
+                                while (i < 10) {
+                                  if ([a, b, c, d, e, f, g, h].includes(i)) {
+                                    i++
+                                    continue
+                                  } else {
+                                    j = 0
+                                    while (j < 10) {
+                                      if (
+                                        [a, b, c, d, e, f, g, h, i].includes(j)
+                                      ) {
+                                        j++
+                                        continue
+                                      } else {
+                                        let [t0, t1] = [
+                                          a * 10000 +
+                                            b * 1000 +
+                                            c * 100 +
+                                            d * 10 +
+                                            e,
+                                          f * 10000 +
+                                            g * 1000 +
+                                            h * 100 +
+                                            i * 10 +
+                                            j,
+                                        ]
+                                        if (t0 / t1 === n) {
+                                          res.push([t0, t1])
+                                        }
+                                        j++
+                                      }
+                                    }
+                                    i++
+                                  }
+                                }
+                                h++
+                              }
+                            }
+                            g++
+                          }
+                        }
+                        f++
+                      }
+                    }
+                  }
+                  e++
+                }
+              }
+              d++
+            }
+          }
+          c++
+        }
+      }
+      b++
+    }
+    a++
+  }
+  return res
+}
+clog(f(62))
 ```
+
+最大乘积(Maximum Product, UVa 11059)
+输入”个元素组成的序列 S,你需要找出一个乘积最大的连续子序列。如果这个最大的
+乘积不是正数,应输出 0(表示无解)。1≤n≤18, -10≤S≤10。
 
 ```js
 let f = () => {}
