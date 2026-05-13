@@ -101,7 +101,6 @@
     前台界面、服务
         ^
         |
-        |
         V
     数据库
 ```
@@ -1408,7 +1407,7 @@ rest 的设计不只是要适用于互联网环境，而是一个普遍的设计
 目的是为了让不同的软件或者应用程序在任何网络环境下都可以进行信息互相传递。
 微服务对外是 rest api 形式暴露给调用者，
 restful 是对遵循 rest 设计思想同时满足设计约束的一类架构设计或应用程序的编程。
-rest: Representational state transfer 表述怀状态转换
+rest: Representational state transfer 表述状态转换
 
 - 资源 resource
   - REST 是以资源为中心构建
@@ -2596,13 +2595,18 @@ RTSAD 设计方法使用任务架构图来显示系统分解为并发任务的�
   - 为专用网络，采用存储协议而不是网络协议连接服务器和存储单元。
   - SAN 交换机允许或禁止主机访问存储。
   - SAN 可以让服务器集群共享同一存储。
-  - 常见的 SAN 协议 - 光纤通道协议 Fiber Channel Protocol FCP - Internel 小型计算机系统接口 iSCSI - 以太网光纤通道 Fiber Channel over Ethernet FCoE - 基于光纤通道的非易失性内存标准 Non-Volatile Memory Express over Fiber Channel
-    ||NAS|SAN||
-    |-|-|-|-|
-    ||集中管理存储|集中管理存储||
-    ||供多主机（服务器）共享存储|供多主机（服务器）共享存储||
-    ||基于以太网|使用以太网和光纤通道||
-    ||注重易用性、易管理性、可扩展性和更低的总拥有成本|注重高性能和低延迟||
+  - 常见的 SAN 协议
+    - 光纤通道协议 Fiber Channel Protocol FCP
+    - Internel 小型计算机系统接口 iSCSI
+    - 以太网光纤通道 Fiber Channel over Ethernet FCoE
+    - 基于光纤通道的非易失性内存标准 Non-Volatile Memory Express over Fiber Channel
+
+|     | NAS                                              | SAN                        |     |
+| --- | ------------------------------------------------ | -------------------------- | --- |
+|     | 集中管理存储                                     | 集中管理存储               |     |
+|     | 供多主机（服务器）共享存储                       | 供多主机（服务器）共享存储 |     |
+|     | 基于以太网                                       | 使用以太网和光纤通道       |     |
+|     | 注重易用性、易管理性、可扩展性和更低的总拥有成本 | 注重高性能和低延迟         |     |
 
 #### 软件定义网络架构
 
