@@ -102,7 +102,7 @@ Non-Relational Not Only SQL NoSQL
 基于体系结构的软件设计 Architecture-Based Software Design ABSD
 Domain Specific Software Architecture DSSA
 质量属性场景 Quality Attribute Scenario
-Scenarios-based Architecture Analysis Method SAAM
+基于场景的架构分析方法 Scenarios-based Architecture Analysis Method SAAM
 Architecture Tradeoff Analysis Method ATAM
 the Cost Benefit Analysis Method CBAM
 SAEM
@@ -112,7 +112,6 @@ SASAM
 ALRRA
 层次分析法 Analytical Hierarchy Process AHP
 COSMIC+UML
-ATAM
 软件可靠性 Software Reliability
 平均失效前时间 Mean Time To Failure MTTF
 平均恢复前时间 Mean Time To Restoration MTTR
@@ -351,6 +350,7 @@ C 反击
 批处理层 Batch Layer
 速度层 Speed Layer
 服务层 Serving Layer
+位示图 Bitmap
 
 # 公式
 

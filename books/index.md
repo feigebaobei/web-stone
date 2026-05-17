@@ -134,7 +134,7 @@
 - [yale](https://oyc.yale.edu/)
 - [可汗学院](https://www.khanacademy.org/)
 - [pixabay](https://pixabay.com/)
-- [fdfd](https://www.canva.com/zh_cn/)
+- [canva](https://www.canva.com/zh_cn/)
 - [生活](https://www.gapminder.org/dollar-street)
 - [alternativeto 代替品](https://alternativeto.net/)
 - [检查病毒](https://www.virustotal.com/gui/home/upload)
