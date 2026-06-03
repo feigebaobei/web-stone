@@ -1,0 +1,23 @@
+# 系统架构设计师教程
+
+- [第 7 章 系统架构设计基础知识](/books/xitongjiagoushisshejishijiaocheng/no7.html)
+-
+- [第 5 章 软件工程基础知识](/books/xitongjiagoushisshejishijiaocheng/no7.html)
+- [第 6 章 数据库设计基础知识](/books/xitongjiagoushisshejishijiaocheng/no7.html)
+- [第 3 章 信息系统基础知识](/books/xitongjiagoushisshejishijiaocheng/no7.html)
+- [第 12 章 信息系统架构设计理念与实践](/books/xitongjiagoushisshejishijiaocheng/no7.html)
+- [第 13 章 层次式架构设计理论与实践](/books/xitongjiagoushisshejishijiaocheng/no7.html)
+- [第 14 章 云原生架构设计理论与实践](/books/xitongjiagoushisshejishijiaocheng/no7.html)
+- [第 15 章 面向服务架构设计理论与实践](/books/xitongjiagoushisshejishijiaocheng/no7.html)
+- [第 16 章 嵌入式系统架构设计理论与实践](/books/xitongjiagoushisshejishijiaocheng/no7.html)
+- [第 17 章 通信系统架构设计理论与实践](/books/xitongjiagoushisshejishijiaocheng/no7.html)
+- [第 18 章 安全架构设计理论与实践](/books/xitongjiagoushisshejishijiaocheng/no7.html)
+- [第 19 章 大数据架构设计理论与实践](/books/xitongjiagoushisshejishijiaocheng/no7.html)
+- [第 4 章 信息安全技术基础知识](/books/xitongjiagoushisshejishijiaocheng/no7.html)
+- [第 1 章 绪论](/books/xitongjiagoushisshejishijiaocheng/no7.html)
+- [第 2 章 计算机系统基础知识](/books/xitongjiagoushisshejishijiaocheng/no7.html)
+- [第 8 章 系统质量属性与架构评估](/books/xitongjiagoushisshejishijiaocheng/no7.html)
+- [第 9 章 软件可靠性基础知识](/books/xitongjiagoushisshejishijiaocheng/no7.html)
+- [第 10 章 软件架构的演化和维护](/books/xitongjiagoushisshejishijiaocheng/no7.html)
+- [第 11 章 未来信息综合技术](/books/xitongjiagoushisshejishijiaocheng/no7.html)
+- [第 20 章 系统架构设计师论文写作要点](/books/xitongjiagoushisshejishijiaocheng/no7.html)

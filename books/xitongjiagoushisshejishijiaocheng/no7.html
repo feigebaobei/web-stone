@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title></title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <blockquote>
+<p>知识要点</p>
+</blockquote>
+<p>软件体系结构设计由2个层次组成：
+数据设计，体现在传统系统中的数据构件和面向对象系统中的类的定义。
+体系结构设计关注软件构件的结构、属性和交互作用。</p>
+<p>软件架构设计的生命周期</p>
+<ol>
+<li>需求分析阶段
+<ul>
+<li>目标是问题空间与解空间的可追踪性和可转换性。主要关注2个问题：</li>
+<li>如何根据需求模型构建sa模型。采用use case图描述需求的方法，由use case图到sa模型的转换。一般用于记法分析和经验规则。</li>
+<li>如何保证模型转换的可追踪性。通过表格或 use case map等来维护。</li>
+</ul>
+</li>
+<li>设计阶段
+<ul>
+<li>sa模型的描述</li>
+<li>sa模型的设计与分析方法</li>
+<li>sa设计经验总结与复用</li>
+</ul>
+</li>
+<li>实现阶段
+<ul>
+<li>研究基于sa的开发过程支持</li>
+<li>寻求从sa向实现过渡的途径</li>
+<li>研究基于sa的测试技术</li>
+</ul>
+</li>
+<li>构件组装阶段
+<ul>
+<li>如何支持可复用构件的互联。</li>
+<li>在组装过程中，如何检测并消除体系结构失配问题。</li>
+</ul>
+</li>
+<li>部署阶段。作用如下：
+<ul>
+<li>提供高层的体系结构视图来描述部署阶段软硬件模型。</li>
+<li>基于sa模型可以分析部署方案的质量属性，从而选择合适的部署方案。</li>
+</ul>
+</li>
+<li>后开发阶段
+<ul>
+<li>主要围绕维护、演化、复用等方面来进行。主要包括：</li>
+<li>动态软件体系结构
+<ul>
+<li>软件运行时导致的内部体系结构改变。</li>
+<li>软件系统外部的请求对软件进行的重配置。</li>
+</ul>
+</li>
+<li>体系结构恢复与重建
+<ul>
+<li>手工体系结构重建</li>
+<li>工具支持的手工体系结构重建</li>
+<li>通过查询语言来自动建立聚集</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>架构设计师的重要性
+软件架构设计是降低成本、改进质量、按时和按需交付产品的关键因素。</p>
+<ol>
+<li>架构设计能够满足系统的品质
+<ul>
+<li>软件系统的功能性是软件架构设计师通过组成体系架构的多种元素之间的交互作用来支持的。架构设计用于实现系统的品质。</li>
+</ul>
+</li>
+<li>架构设计使受益人达成一致的目标
+<ul>
+<li>体系架构的设计过程需要确保架构设计被清楚传达与理解，一个被有效传达的体系架构使得涉众们可以辩论、决议和权衡，反复讨论，最终达成共识。</li>
+</ul>
+</li>
+<li>架构设计能够支持计划编制过程
+<ul>
+<li>架构设计能够确定组件之间的依赖关系，直接支持项目计划与项目管理的活动。</li>
+<li>架构设计师能够协助估算项目成本。</li>
+<li>架构设计师支持技术风险的管理，包括制定每个风险的优先次序，以及确定一个恰当的风险缓解策略。</li>
+</ul>
+</li>
+<li>架构设计对系统开发的指导性
+<ul>
+<li>架构设计的主要目标是确保体系结构能够为系统的设计人员、实现人员所承担的工作提供可靠的框架。</li>
+<li>架构设计师必须定义恰当的标准和指导方针，它们会引导设计人员、实现人员的工作。</li>
+</ul>
+</li>
+<li>架构设计能够有效的管理复杂性
+<ul>
+<li>架构设计通过构件与构件之间关系，描述了一个抽象的系统，因而提供了一个高层次的复杂的管理的方法。</li>
+</ul>
+</li>
+<li>架构设计为复用奠定基础
+<ul>
+<li>一个体系结构的建立可以支持大粒度的资源复用。</li>
+</ul>
+</li>
+<li>架构设计能够降低维护费用
+<ul>
+<li>架构设计师需要确保结合了恰当的系统维护机制，在建立体系结构时考虑系统的适应性和可扩充性。</li>
+</ul>
+</li>
+<li>架构设计能够支持冲突分析
+<ul>
+<li>一个软件架构确定了主要的构件和它们之间的交互作用，两个构件之间的依赖性以及这些组件对需求的可追溯性。改变一个组件的影响可以在依靠它的其他组件上分析出来。</li>
+</ul>
+</li>
+</ol>
+<p>基于架构的软件开发方法
+Architecture-based Software Design ABSD
+3个基础：</p>
+<ul>
+<li>功能的分解</li>
+<li>通过选择体系结构风格来实现质量需求和商业需求。</li>
+<li>软件模板的使用。</li>
+</ul>
+<p>基于体系结构的开发模型</p>
+<ol>
+<li>体系结构需求</li>
+<li>体系结构设计</li>
+<li>体系结构文档化</li>
+<li>体系结构复审</li>
+<li>体系结构实现</li>
+<li>体系结构演化</li>
+</ol>
+<p>体系结构需求</p>
+<ul>
+<li>需求过程主要是获取用户需求，标识系统中所要用到的构件。</li>
+</ul>
+<ol>
+<li>需求获取
+<ul>
+<li>体系结构需求一般来自3个方面：系统的质量目标、系统的商业目标、系统的开发人员的商业目标。</li>
+</ul>
+</li>
+<li>标识构件
+<ul>
+<li>生成类图</li>
+<li>把类图分组</li>
+<li>把类打包成构件</li>
+</ul>
+</li>
+<li>架构需求评审
+<ul>
+<li>对体系结构的需求及相关构件进行评审。评审内容包括：</li>
+<li>获取的需求是否真实反映用户的要求。</li>
+<li>类的分组是否合理</li>
+<li>构件合并是否合理</li>
+</ul>
+</li>
+</ol>
+<p>体系结构设计</p>
+<ul>
+<li>体系结构设计是一个迭代的过程</li>
+</ul>
+<ol>
+<li>提出软件体系结构模型。
+<ul>
+<li>在建立体系结构初期，首先要选择一个合适的体系结构风格。在此风格的基础上，开发人员通过体系结构模型，可以获得关于体系结构属性的理解。</li>
+</ul>
+</li>
+<li>把已标识的构件映射到软件体系结构中</li>
+<li>分析构件之间的相互作用</li>
+<li>产生软件体系结构</li>
+<li>设计评审</li>
+</ol>
+<p>体系结构文档化</p>
+<ul>
+<li>会产出2个文档：</li>
+<li>体系结构规格说明</li>
+<li>测试体系结构需求的质量设计说明书
+体系结构复审</li>
+<li>体系结构的设计、文档化、复审是一个迭代的过程。</li>
+<li>通常人们根据架构设计，搭建一个可运行的最小化系统用于评估和测试体系结构是否满足需求，是否存在可识别的技术和协作风险。</li>
+<li>审查的目的是标识潜在的风险，及早发现体系结构设计中的错误。
+体系结构实现</li>
+<li>分析与设计</li>
+<li>构件实现</li>
+<li>构件组装</li>
+<li>系统测试
+体系结构演化</li>
+<li>使用系统演化步骤去修改应用，以满足新的需求。</li>
+<li>需求变化归类</li>
+<li>制订体系结构演化计划</li>
+<li>修改、增加或删除构件</li>
+<li>更新构件和相互作用</li>
+<li>构件组装与测试</li>
+<li>技术评审</li>
+</ul>
+<p>软件架构风格
+描述某一特定应用领域中系统组织方式的惯用模式。
+数据流体系结构风格</p>
+<ul>
+<li>批处理体系结构风格
+<ul>
+<li>每个处理步骤是一个单独的程序，每一步必须在前一步结束后才能开始，并且数据必须是完整的。数据以整体方式传递。构件中独立的应用程序，连接件是某种类型的媒介。连接件定义了相应的数据流，表达拓扑结构。</li>
+</ul>
+</li>
+<li>
+<h2 id="管道过滤器体系结构风格">管道/过滤器体系结构风格</h2>
+</li>
+</ul>
+<p>调用/返回体系结构风格</p>
+<ul>
+<li>主程序/子程序风格</li>
+<li>面向对象体系结构风格</li>
+<li>层次式体系结构风格</li>
+<li>客户端/服务器体系结构风格
+以数据为中心体系结构风格</li>
+<li>仓库体系结构风格</li>
+<li>黑板体系结构风格
+虚拟机体系结构风格</li>
+<li>解释器体系结构风格</li>
+<li>规则系统体系结构风格
+独立构件体系结构风格</li>
+<li>进程通信体系结构风格</li>
+<li>事件驱动体系结构风格</li>
+</ul>
+<p>软件架构复用</p>
+
+            
+            
+        </body>
+        </html>
