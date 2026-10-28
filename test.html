@@ -774,7 +774,34 @@ f = (n) => {
 // clog(Math.sqrt(7))
 // clog(Math.sqrt(10))
 
-
+let box = []
+f = (p) => {
+    box.push(p) // 入队列
+    order() // 排序
+    let t = excu() // 执行
+    // t.next()
+    // t.next()
+    while (box.length) {
+        t.next()
+    }
+}
+let order = () => {
+    let last = box.last()
+    let i = 0
+    while (i < box.length - 1) {
+        if (box[i].level <= last.level && last.level < box[i + 1].level) {
+            [box[i], box[box.length - 1]] = [box[box.length - 1], box[i]]
+            break
+        }
+        i++
+    }
+}
+function * excu () {
+    let first = box.shift()
+    while (first) {
+        yield first()
+    }
+}
 
 
 
