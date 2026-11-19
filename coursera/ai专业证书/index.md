@@ -1,0 +1,8 @@
+- ai fundamentals
+- ai for brainstorming and planning
+- ai for research and insights
+- ai for writing and communicating
+- ai for content creation
+- ai for data analysis
+- ai for app building
+- ai for app deployment
